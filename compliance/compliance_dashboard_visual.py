@@ -7,9 +7,10 @@
 #     /tools, /docs, /governance, /assets, /visuals, and /voice.
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
-from pathlib import Path
 import base64
+from pathlib import Path
+
+import streamlit as st
 
 st.set_page_config(page_title="Lucas Compliance Visual Dashboard", layout="wide")
 st.title("🛡️ Lucas AGI — Visual Compliance Review Dashboard")

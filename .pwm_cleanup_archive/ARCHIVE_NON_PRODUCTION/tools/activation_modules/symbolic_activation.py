@@ -6,7 +6,6 @@ Total Functions: 125
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -200,7 +199,7 @@ class SymbolicEntityActivator:
 
     def activate_all(self):
         """Activate all symbolic entities"""
-        logger.info(f"Starting symbolic entity activation...")
+        logger.info("Starting symbolic entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -208,12 +207,14 @@ class SymbolicEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(SYMBOLIC_CLASS_ENTITIES) + len(SYMBOLIC_FUNCTION_ENTITIES)
+            "total": len(SYMBOLIC_CLASS_ENTITIES) + len(SYMBOLIC_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -221,7 +222,7 @@ class SymbolicEntityActivator:
         for module_path, class_name in SYMBOLIC_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -246,7 +247,9 @@ class SymbolicEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -254,7 +257,7 @@ class SymbolicEntityActivator:
         for module_path, func_name in SYMBOLIC_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -271,20 +274,23 @@ class SymbolicEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

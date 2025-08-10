@@ -13,6 +13,7 @@ Integration Date: 2025-05-31T07:55:28.188827
 📅 UPDATED     : 2025-05-07
 """
 
+
 class CristaOptimizer:
     """
     Simulates mitochondrial-like fusion, fission, and detachment events
@@ -64,5 +65,5 @@ class CristaOptimizer:
             "active_nodes": self.network.count_nodes(),
             "fission_zones": self.network.flagged_zones("error_spike"),
             "fusion_candidates": self.network.flagged_zones("underload"),
-            "entropy_balance": self.network.entropy_index()
+            "entropy_balance": self.network.entropy_index(),
         }

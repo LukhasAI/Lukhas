@@ -49,36 +49,37 @@ IDEA: Implement ethical drift prediction with ML forecasting
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
-import pandas as pd
-import numpy as np
-from datetime import datetime, timezone, timedelta
 import asyncio
-import json
-from pathlib import Path
 import sys
-from collections import defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+from ethics.sentinel.ethical_drift_sentinel import (
+    EscalationTier,
+    EthicalDriftSentinel,
+)
 
 # Add parent directory to path
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from ethics.sentinel.ethical_drift_sentinel import (
-    EthicalDriftSentinel, EscalationTier, ViolationType
-)
 
 # Page configuration
 st.set_page_config(
     page_title="ΛGOVERNOR - Ethical Sentinel",
     page_icon="⚖️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
 # Custom CSS for ethical theme
-st.markdown("""
+st.markdown(
+    """
 <style>
     .main { padding-top: 0rem; }
 
@@ -129,50 +130,52 @@ st.markdown("""
         font-size: 1.2rem !important;
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 
 @st.cache_resource
 def initialize_sentinel():
     """Initialize the ethical drift sentinel."""
     sentinel = EthicalDriftSentinel(
-        monitoring_interval=0.5,
-        violation_retention=1000,
-        state_history_size=100
+        monitoring_interval=0.5, violation_retention=1000, state_history_size=100
     )
     return sentinel
 
 
 def create_risk_gauge(risk_score: float) -> go.Figure:
     """Create risk gauge visualization."""
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=risk_score * 100,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={'text': "System Ethical Risk", 'font': {'size': 24}},
-        number={'suffix': "%", 'font': {'size': 40}},
-        gauge={
-            'axis': {'range': [None, 100], 'tickwidth': 1},
-            'bar': {'color': "darkblue"},
-            'steps': [
-                {'range': [0, 30], 'color': "rgba(76,175,80,0.3)"},
-                {'range': [30, 50], 'color': "rgba(255,193,7,0.3)"},
-                {'range': [50, 70], 'color': "rgba(255,87,34,0.3)"},
-                {'range': [70, 100], 'color': "rgba(233,30,99,0.3)"}
-            ],
-            'threshold': {
-                'line': {'color': "red", 'width': 4},
-                'thickness': 0.75,
-                'value': 75
-            }
-        }
-    ))
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number+delta",
+            value=risk_score * 100,
+            domain={"x": [0, 1], "y": [0, 1]},
+            title={"text": "System Ethical Risk", "font": {"size": 24}},
+            number={"suffix": "%", "font": {"size": 40}},
+            gauge={
+                "axis": {"range": [None, 100], "tickwidth": 1},
+                "bar": {"color": "darkblue"},
+                "steps": [
+                    {"range": [0, 30], "color": "rgba(76,175,80,0.3)"},
+                    {"range": [30, 50], "color": "rgba(255,193,7,0.3)"},
+                    {"range": [50, 70], "color": "rgba(255,87,34,0.3)"},
+                    {"range": [70, 100], "color": "rgba(233,30,99,0.3)"},
+                ],
+                "threshold": {
+                    "line": {"color": "red", "width": 4},
+                    "thickness": 0.75,
+                    "value": 75,
+                },
+            },
+        )
+    )
 
     fig.update_layout(
         height=300,
-        margin=dict(l=20, r=20, t=60, b=20),
+        margin={"l": 20, "r": 20, "t": 60, "b": 20},
         paper_bgcolor="rgba(0,0,0,0)",
-        font={'color': "white", 'size': 16}
+        font={"color": "white", "size": 16},
     )
 
     return fig
@@ -184,54 +187,58 @@ def create_violation_timeline(violations: list) -> go.Figure:
         fig = go.Figure()
         fig.add_annotation(
             text="No violations detected",
-            xref="paper", yref="paper",
-            x=0.5, y=0.5,
+            xref="paper",
+            yref="paper",
+            x=0.5,
+            y=0.5,
             showarrow=False,
-            font=dict(size=20, color="gray")
+            font={"size": 20, "color": "gray"},
         )
     else:
         # Process violations into dataframe
         df_data = []
         for v in violations:
-            df_data.append({
-                'timestamp': v.timestamp,
-                'severity': v.severity.value,
-                'type': v.violation_type.value,
-                'symbol': v.symbol_id[:8],
-                'risk': v.risk_score
-            })
+            df_data.append(
+                {
+                    "timestamp": v.timestamp,
+                    "severity": v.severity.value,
+                    "type": v.violation_type.value,
+                    "symbol": v.symbol_id[:8],
+                    "risk": v.risk_score,
+                }
+            )
 
         df = pd.DataFrame(df_data)
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
 
         # Color mapping
         severity_colors = {
-            'NOTICE': '#2196F3',
-            'WARNING': '#FFC107',
-            'CRITICAL': '#FF5722',
-            'CASCADE_LOCK': '#E91E63'
+            "NOTICE": "#2196F3",
+            "WARNING": "#FFC107",
+            "CRITICAL": "#FF5722",
+            "CASCADE_LOCK": "#E91E63",
         }
 
         fig = px.scatter(
             df,
-            x='timestamp',
-            y='type',
-            color='severity',
-            size='risk',
-            hover_data=['symbol', 'risk'],
+            x="timestamp",
+            y="type",
+            color="severity",
+            size="risk",
+            hover_data=["symbol", "risk"],
             color_discrete_map=severity_colors,
-            title="Violation Timeline"
+            title="Violation Timeline",
         )
 
-        fig.update_traces(marker=dict(sizemode='diameter', sizeref=0.05))
+        fig.update_traces(marker={"sizemode": "diameter", "sizeref": 0.05})
 
     fig.update_layout(
         height=400,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0.1)",
-        font={'color': "white"},
-        xaxis={'showgrid': True, 'gridcolor': 'rgba(255,255,255,0.1)'},
-        yaxis={'showgrid': True, 'gridcolor': 'rgba(255,255,255,0.1)'}
+        font={"color": "white"},
+        xaxis={"showgrid": True, "gridcolor": "rgba(255,255,255,0.1)"},
+        yaxis={"showgrid": True, "gridcolor": "rgba(255,255,255,0.1)"},
     )
 
     return fig
@@ -244,25 +251,32 @@ def create_symbol_health_charts(symbol_states: dict) -> go.Figure:
 
     # Create subplots
     fig = make_subplots(
-        rows=2, cols=3,
+        rows=2,
+        cols=3,
         subplot_titles=(
-            'Coherence Score', 'Emotional Stability', 'Contradiction Level',
-            'Memory Alignment', 'Drift Velocity', 'GLYPH Entropy'
+            "Coherence Score",
+            "Emotional Stability",
+            "Contradiction Level",
+            "Memory Alignment",
+            "Drift Velocity",
+            "GLYPH Entropy",
         ),
-        specs=[[{'type': 'bar'}, {'type': 'bar'}, {'type': 'bar'}],
-               [{'type': 'bar'}, {'type': 'bar'}, {'type': 'bar'}]]
+        specs=[
+            [{"type": "bar"}, {"type": "bar"}, {"type": "bar"}],
+            [{"type": "bar"}, {"type": "bar"}, {"type": "bar"}],
+        ],
     )
 
     symbols = list(symbol_states.keys())[:10]  # Limit to 10 symbols
 
     # Add traces
     metrics = [
-        ('coherence_score', 1, 1),
-        ('emotional_stability', 1, 2),
-        ('contradiction_level', 1, 3),
-        ('memory_phase_alignment', 2, 1),
-        ('drift_velocity', 2, 2),
-        ('glyph_entropy', 2, 3)
+        ("coherence_score", 1, 1),
+        ("emotional_stability", 1, 2),
+        ("contradiction_level", 1, 3),
+        ("memory_phase_alignment", 2, 1),
+        ("drift_velocity", 2, 2),
+        ("glyph_entropy", 2, 3),
     ]
 
     for metric, row, col in metrics:
@@ -272,22 +286,23 @@ def create_symbol_health_charts(symbol_states: dict) -> go.Figure:
             go.Bar(
                 x=[s[:8] for s in symbols],
                 y=values,
-                name=metric.replace('_', ' ').title(),
-                showlegend=False
+                name=metric.replace("_", " ").title(),
+                showlegend=False,
             ),
-            row=row, col=col
+            row=row,
+            col=col,
         )
 
     fig.update_layout(
         height=600,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0.1)",
-        font={'color': "white", 'size': 12}
+        font={"color": "white", "size": 12},
     )
 
     # Update axes
     fig.update_xaxes(showgrid=False)
-    fig.update_yaxes(showgrid=True, gridcolor='rgba(255,255,255,0.1)')
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,0.1)")
 
     return fig
 
@@ -298,7 +313,7 @@ def format_violation(violation) -> str:
         EscalationTier.NOTICE: "ℹ️",
         EscalationTier.WARNING: "⚠️",
         EscalationTier.CRITICAL: "🚨",
-        EscalationTier.CASCADE_LOCK: "🔒"
+        EscalationTier.CASCADE_LOCK: "🔒",
     }
 
     emoji = severity_emoji.get(violation.severity, "❓")
@@ -352,11 +367,11 @@ async def main():
         thresholds = {}
         for key, default in sentinel.thresholds.items():
             thresholds[key] = st.slider(
-                key.replace('_', ' ').title(),
+                key.replace("_", " ").title(),
                 min_value=0.0,
                 max_value=1.0,
                 value=default,
-                step=0.05
+                step=0.05,
             )
 
         if st.button("Update Thresholds", use_container_width=True):
@@ -369,10 +384,12 @@ async def main():
         st.header("🚨 Emergency Controls")
         st.markdown("**⚠️ Use with caution**")
 
-        if st.button("🛑 EMERGENCY FREEZE",
-                    use_container_width=True,
-                    key="emergency_freeze",
-                    help="Freeze all symbolic operations"):
+        if st.button(
+            "🛑 EMERGENCY FREEZE",
+            use_container_width=True,
+            key="emergency_freeze",
+            help="Freeze all symbolic operations",
+        ):
             st.error("EMERGENCY FREEZE ACTIVATED")
             # Would trigger actual system freeze
 
@@ -394,28 +411,22 @@ async def main():
                     <h3>System Risk</h3>
                     <h1>{status['system_risk']:.1%}</h1>
                     </div>""",
-                    unsafe_allow_html=True
+                    unsafe_allow_html=True,
                 )
 
             with col2:
-                st.metric(
-                    "Active Symbols",
-                    status['active_symbols'],
-                    delta=None
-                )
+                st.metric("Active Symbols", status["active_symbols"], delta=None)
 
             with col3:
                 st.metric(
                     "Total Violations",
-                    status['total_violations'],
-                    delta=status['critical_violations']
+                    status["total_violations"],
+                    delta=status["critical_violations"],
                 )
 
             with col4:
                 st.metric(
-                    "Recent Interventions",
-                    status['recent_interventions'],
-                    delta=None
+                    "Recent Interventions", status["recent_interventions"], delta=None
                 )
 
             st.divider()
@@ -424,7 +435,7 @@ async def main():
             col_left, col_right = st.columns([1, 2])
 
             with col_left:
-                risk_fig = create_risk_gauge(status['system_risk'])
+                risk_fig = create_risk_gauge(status["system_risk"])
                 st.plotly_chart(risk_fig, use_container_width=True)
 
             with col_right:
@@ -434,10 +445,7 @@ async def main():
                 recent_violations = list(sentinel.violation_log)[-5:]
                 if recent_violations:
                     for violation in reversed(recent_violations):
-                        st.markdown(
-                            format_violation(violation),
-                            unsafe_allow_html=True
-                        )
+                        st.markdown(format_violation(violation), unsafe_allow_html=True)
                 else:
                     st.info("No recent violations")
 
@@ -462,20 +470,22 @@ async def main():
             if recent_interventions:
                 intervention_data = []
                 for intervention in recent_interventions:
-                    intervention_data.append({
-                        'Time': intervention.timestamp,
-                        'Type': intervention.action_type,
-                        'Symbol': intervention.target_symbol[:12],
-                        'Status': intervention.status,
-                        'Result': str(intervention.result)[:50] if intervention.result else 'N/A'
-                    })
+                    intervention_data.append(
+                        {
+                            "Time": intervention.timestamp,
+                            "Type": intervention.action_type,
+                            "Symbol": intervention.target_symbol[:12],
+                            "Status": intervention.status,
+                            "Result": (
+                                str(intervention.result)[:50]
+                                if intervention.result
+                                else "N/A"
+                            ),
+                        }
+                    )
 
                 df = pd.DataFrame(intervention_data)
-                st.dataframe(
-                    df,
-                    use_container_width=True,
-                    hide_index=True
-                )
+                st.dataframe(df, use_container_width=True, hide_index=True)
             else:
                 st.info("No recent interventions")
 

@@ -1,4 +1,3 @@
 """
 Base_Oscillator Module
 """
-

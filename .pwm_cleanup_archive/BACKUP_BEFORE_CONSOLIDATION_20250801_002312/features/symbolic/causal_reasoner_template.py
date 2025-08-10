@@ -18,19 +18,20 @@ create symbolic nodes from this template.
 - **`#LUKHAS_PARAM: <name>:<type> = <default>`**: Defines a parameter of the node.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict
+
 
 class CausalReasonerTemplate:
     """
     #LUKHAS_NODE_TYPE: causal_reasoner
     """
 
-    #LUKHAS_PARAM: confidence_threshold:float = 0.7
+    # LUKHAS_PARAM: confidence_threshold:float = 0.7
     def __init__(self, confidence_threshold: float = 0.7):
         self.confidence_threshold = confidence_threshold
 
-    #LUKHAS_INPUT: input_data:Dict[str, Any]
-    #LUKHAS_OUTPUT: reasoning_result:Dict[str, Any]
+    # LUKHAS_INPUT: input_data:Dict[str, Any]
+    # LUKHAS_OUTPUT: reasoning_result:Dict[str, Any]
     def reason(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Performs causal reasoning on the input data.
@@ -42,6 +43,6 @@ class CausalReasonerTemplate:
             "reasoning_path": [
                 "B was observed.",
                 "A was observed before B.",
-                "A is a known cause of B."
-            ]
+                "A is a known cause of B.",
+            ],
         }

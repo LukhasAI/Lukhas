@@ -1,0 +1,35 @@
+from typing import Any, Dict, Optional
+from lukhas_pwm.flags.ff import Flags
+from lukhas_pwm.migration.legacy_store import LegacyStore
+from lukhas_pwm.dna.interfaces import HelixMemory, DNAWriteReceipt
+
+
+def write_memory_dual(
+    *,
+    legacy: LegacyStore,
+    dna: HelixMemory,
+    key: str,
+    value: Any,
+    version: int,
+    strength: float = 0.5,
+    meta: Optional[Dict] = None,
+) -> Dict[str, Any]:
+    """
+    Single entrypoint for writes during migration.
+    - If FLAG_DNA_DUAL_WRITE=false: write legacy only
+    - If true: write legacy + DNA (idempotent on version)
+    Returns a dict summary for audit.
+    """
+    meta = meta or {}
+    wrote_legacy = legacy.write(
+        key, value, version=version, strength=strength, meta=meta
+    )
+    dna_receipt: Optional[DNAWriteReceipt] = None
+    if Flags.get("DNA_DUAL_WRITE", default=False):
+        dna_receipt = dna.write(
+            key, value, version=version, strength=strength, meta=meta
+        )
+    return {
+        "legacy_upserted": wrote_legacy,
+        "dna": (dna_receipt.__dict__ if dna_receipt else None),
+    }

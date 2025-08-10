@@ -23,19 +23,18 @@
 """
 
 import asyncio
-from typing import Dict, Any, Optional
-import structlog
+from typing import Any, Dict
+
+from consciousness.reflection.unified_memory_manager import (
+    EnhancedMemoryManager,
+)
+
+# Existing systems to integrate with
+from core.integration.connectivity_engine import ConnectivityEngine
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold
 from memory.systems.attention_memory_layer import create_attention_orchestrator
-
-# Existing systems to integrate with
-from core.integration.connectivity_engine import ConnectivityEngine
-from core.integration_hub import UnifiedIntegration
-from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
-
-from core.common import get_logger
 
 
 class EnhancedMemoryIntegration:
@@ -50,7 +49,7 @@ class EnhancedMemoryIntegration:
             embedding_dim=1024,
             enable_attention=True,
             enable_continuous_learning=True,
-            enable_conscience=True
+            enable_conscience=True,
         )
 
         self.attention_orchestrator = create_attention_orchestrator(
@@ -58,7 +57,7 @@ class EnhancedMemoryIntegration:
             num_heads=8,
             enable_temporal=True,
             enable_hierarchical=True,
-            enable_cross_modal=True
+            enable_cross_modal=True,
         )
 
         logger.info("Enhanced memory integration initialized")
@@ -79,9 +78,7 @@ class EnhancedMemoryIntegration:
 
             # Store in hybrid memory
             memory_id = await self.hybrid_memory.fold_in_with_embedding(
-                data=data,
-                tags=tags,
-                text_content=text_content
+                data=data, tags=tags, text_content=text_content
             )
 
             # Update importance based on category
@@ -92,16 +89,10 @@ class EnhancedMemoryIntegration:
             )
 
             logger.info(
-                "Memory processed via enhanced system",
-                memory_id=memory_id,
-                tags=tags
+                "Memory processed via enhanced system", memory_id=memory_id, tags=tags
             )
 
-            return {
-                "memory_id": memory_id,
-                "status": "stored",
-                "method": "hybrid_fold"
-            }
+            return {"memory_id": memory_id, "status": "stored", "method": "hybrid_fold"}
 
         # Replace method
         engine._process_memory = enhanced_process_memory
@@ -111,6 +102,7 @@ class EnhancedMemoryIntegration:
         """
         Enhance existing quantum memory manager with attention mechanisms.
         """
+
         # Add attention-based search to quantum manager
         async def quantum_semantic_search(query: str, top_k: int = 10):
             """Search quantum memories using attention"""
@@ -122,24 +114,19 @@ class EnhancedMemoryIntegration:
                     "content": fold_data.get("content", ""),
                     "embedding": fold_data.get("embedding"),
                     "quantum_state": fold_data.get("quantum_state"),
-                    "tags": fold_data.get("tags", [])
+                    "tags": fold_data.get("tags", []),
                 }
                 memories.append(memory_item)
 
             # Use attention orchestrator for relevance scoring
             relevance_scores = self.attention_orchestrator.compute_memory_relevance(
-                query=query,
-                memories=memories,
-                mode="hierarchical"
+                query=query, memories=memories, mode="hierarchical"
             )
 
             # Return top results
             results = []
             for idx, score in relevance_scores[:top_k]:
-                results.append({
-                    "memory": memories[idx],
-                    "relevance_score": score
-                })
+                results.append({"memory": memories[idx], "relevance_score": score})
 
             return results
 
@@ -151,6 +138,7 @@ class EnhancedMemoryIntegration:
         """
         Create unified interface for all memory operations.
         """
+
         class UnifiedMemoryInterface:
             def __init__(self, integration):
                 self.integration = integration
@@ -166,9 +154,7 @@ class EnhancedMemoryIntegration:
 
                 # Store with embeddings
                 memory_id = await self.hybrid_memory.fold_in_with_embedding(
-                    data=data,
-                    tags=tags,
-                    **kwargs
+                    data=data, tags=tags, **kwargs
                 )
 
                 return memory_id
@@ -177,17 +163,13 @@ class EnhancedMemoryIntegration:
                 """Recall memories using various strategies"""
                 if mode == "semantic":
                     return await self.hybrid_memory.fold_out_semantic(
-                        query=query,
-                        top_k=10,
-                        use_attention=True
+                        query=query, top_k=10, use_attention=True
                     )
                 elif mode == "temporal":
                     # Use temporal attention
                     memories = await self._get_all_memories()
                     relevance = self.attention.compute_memory_relevance(
-                        query=query,
-                        memories=memories,
-                        mode="temporal"
+                        query=query, memories=memories, mode="temporal"
                     )
                     return relevance[:10]
                 elif mode == "causal":
@@ -206,7 +188,7 @@ class EnhancedMemoryIntegration:
                 connectivity_info = {
                     "total_connections": len(self.hybrid_memory.causal_graph),
                     "tag_clusters": self._analyze_tag_clusters(),
-                    "attention_patterns": self._analyze_attention_patterns()
+                    "attention_patterns": self._analyze_attention_patterns(),
                 }
 
                 stats["connectivity"] = connectivity_info
@@ -275,9 +257,21 @@ async def main():
 
     # Example: Store various types of memories
     memories = [
-        {"type": "experience", "content": "Learned new optimization technique", "category": "learning"},
-        {"type": "insight", "content": "Pattern recognition improves with attention", "category": "consciousness"},
-        {"type": "task", "content": "Complete memory system integration", "category": "development"}
+        {
+            "type": "experience",
+            "content": "Learned new optimization technique",
+            "category": "learning",
+        },
+        {
+            "type": "insight",
+            "content": "Pattern recognition improves with attention",
+            "category": "consciousness",
+        },
+        {
+            "type": "task",
+            "content": "Complete memory system integration",
+            "category": "development",
+        },
     ]
 
     memory_ids = []
@@ -300,7 +294,7 @@ async def main():
             cause_id=memory_ids[0],
             effect_id=memory_ids[1],
             strength=0.8,
-            evidence=["Learning led to insight"]
+            evidence=["Learning led to insight"],
         )
         logger.info("Causal link created between memories")
 

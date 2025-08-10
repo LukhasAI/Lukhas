@@ -3,27 +3,35 @@ Integration tests for Symbiotic Swarm state management and resource efficiency
 Tests TODO 134, 135, and 136 implementations
 """
 
-import asyncio
 import json
 import os
-import pytest
+import sys
 import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-import sys
+import pytest
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
+from core.core_utilities_analyzer import ResourceEfficiencyAnalyzer
 from core.event_sourcing import (
-    EventStore, AIAgentAggregate, EventReplayService, get_global_event_store
+    AIAgentAggregate,
+    EventReplayService,
+    EventStore,
+)
+from core.practical_optimizations import (
+    AdaptiveCache,
+    ComputationReuse,
+    ObjectPool,
+    ResourceManager,
+    deserialize_swarm_message,
+    optimize_swarm_communication,
 )
 from memory.distributed_state_manager import (
-    DistributedStateManager, MultiNodeStateManager, StateType
-)
-from core.core_utilities_analyzer import ResourceEfficiencyAnalyzer
-from core.practical_optimizations import (
-    ResourceManager, AdaptiveCache, ObjectPool, ComputationReuse,
-    optimize_swarm_communication, deserialize_swarm_message
+    DistributedStateManager,
+    MultiNodeStateManager,
+    StateType,
 )
 
 
@@ -32,7 +40,7 @@ class TestEventSourcingIntegration:
 
     def test_event_store_persistence(self):
         """Test that events are persisted correctly"""
-        with tempfile.NamedTemporaryFile(suffix='.db', delete=False) as f:
+        with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
             db_path = f.name
 
         try:
@@ -165,7 +173,7 @@ class TestDistributedStateManager:
                 "snapshot-node",
                 num_shards=4,
                 event_store=EventStore(f"{tmpdir}/events.db"),
-                snapshot_interval=5
+                snapshot_interval=5,
             )
 
             # Add enough events to trigger snapshot
@@ -181,7 +189,7 @@ class TestDistributedStateManager:
             manager2 = DistributedStateManager(
                 "snapshot-node",
                 num_shards=4,
-                event_store=EventStore(f"{tmpdir}/events.db")
+                event_store=EventStore(f"{tmpdir}/events.db"),
             )
 
             # Verify data recovered
@@ -195,11 +203,13 @@ class TestDistributedStateManager:
 
     def test_multi_node_coordination(self):
         """Test multi-node state management"""
-        manager = MultiNodeStateManager([
-            {"node_id": "node-001", "num_shards": 4},
-            {"node_id": "node-002", "num_shards": 4},
-            {"node_id": "node-003", "num_shards": 4},
-        ])
+        manager = MultiNodeStateManager(
+            [
+                {"node_id": "node-001", "num_shards": 4},
+                {"node_id": "node-002", "num_shards": 4},
+                {"node_id": "node-003", "num_shards": 4},
+            ]
+        )
 
         # Set values across nodes
         for i in range(30):
@@ -244,10 +254,7 @@ class TestResourceEfficiencyAnalyzer:
 
     def test_resource_monitoring(self):
         """Test basic resource monitoring"""
-        analyzer = ResourceEfficiencyAnalyzer(
-            sample_interval=0.1,
-            history_size=100
-        )
+        analyzer = ResourceEfficiencyAnalyzer(sample_interval=0.1, history_size=100)
 
         analyzer.start_monitoring()
 
@@ -267,10 +274,7 @@ class TestResourceEfficiencyAnalyzer:
 
     def test_efficiency_analysis(self):
         """Test efficiency analysis and recommendations"""
-        analyzer = ResourceEfficiencyAnalyzer(
-            sample_interval=0.1,
-            history_size=100
-        )
+        analyzer = ResourceEfficiencyAnalyzer(sample_interval=0.1, history_size=100)
 
         analyzer.start_monitoring()
 
@@ -313,12 +317,10 @@ class TestResourceEfficiencyAnalyzer:
         if memory_trend and memory_trend.trend_direction == "increasing":
             # Should have memory-related bottleneck or recommendation
             memory_bottlenecks = [
-                b for b in report.bottlenecks
-                if "memory" in b["type"].lower()
+                b for b in report.bottlenecks if "memory" in b["type"].lower()
             ]
             memory_recommendations = [
-                r for r in report.recommendations
-                if "memory" in r["category"].lower()
+                r for r in report.recommendations if "memory" in r["category"].lower()
             ]
             assert len(memory_bottlenecks) > 0 or len(memory_recommendations) > 0
 
@@ -357,6 +359,7 @@ class TestPracticalOptimizations:
 
     def test_object_pooling(self):
         """Test object pooling efficiency"""
+
         class TestObject:
             def __init__(self):
                 self.data = [0] * 1000
@@ -365,7 +368,7 @@ class TestPracticalOptimizations:
         pool = ObjectPool(
             factory=TestObject,
             max_size=10,
-            reset_fn=lambda obj: setattr(obj, 'data', [0] * 1000)
+            reset_fn=lambda obj: setattr(obj, "data", [0] * 1000),
         )
 
         # Measure allocation time
@@ -435,11 +438,10 @@ class TestPracticalOptimizations:
             assert restored == payload
 
             # Check compression for large payloads
-            import json
             json_size = len(json.dumps(payload).encode())
             if json_size > 1024:
                 # Should be compressed
-                assert optimized[0] == ord('Z')
+                assert optimized[0] == ord("Z")
                 assert len(optimized) < json_size
 
     def test_resource_manager_integration(self):
@@ -455,15 +457,13 @@ class TestPracticalOptimizations:
         result1 = manager.optimize_computation(
             "square_100",
             lambda: compute_square(100),
-            {"deterministic": True, "cache_ttl": 60}
+            {"deterministic": True, "cache_ttl": 60},
         )
 
         # Second computation - should use cache
         start = time.time()
         result2 = manager.optimize_computation(
-            "square_100",
-            lambda: compute_square(100),
-            {"deterministic": True}
+            "square_100", lambda: compute_square(100), {"deterministic": True}
         )
         elapsed = time.time() - start
 
@@ -490,9 +490,7 @@ class TestFullSystemIntegration:
         # Initialize all components
         event_store = EventStore()
         state_manager = DistributedStateManager(
-            "integration-node",
-            num_shards=4,
-            event_store=event_store
+            "integration-node", num_shards=4, event_store=event_store
         )
         resource_manager = ResourceManager()
         analyzer = ResourceEfficiencyAnalyzer()
@@ -513,21 +511,19 @@ class TestFullSystemIntegration:
             state_manager.set(
                 f"task_state_{task_id}",
                 {"status": "processing", "progress": 0},
-                StateType.HOT
+                StateType.HOT,
             )
 
             # Simulate processing with optimization
             result = resource_manager.optimize_computation(
-                f"task_computation_{task_id}",
-                lambda: i * i,
-                {"deterministic": True}
+                f"task_computation_{task_id}", lambda: i * i, {"deterministic": True}
             )
 
             # Update state
             state_manager.set(
                 f"task_state_{task_id}",
                 {"status": "completed", "result": result},
-                StateType.WARM
+                StateType.WARM,
             )
 
             # Complete task
@@ -563,10 +559,7 @@ class TestFullSystemIntegration:
 
             # Phase 1: Create initial state
             store1 = EventStore(db_path)
-            manager1 = DistributedStateManager(
-                "recovery-node",
-                event_store=store1
-            )
+            manager1 = DistributedStateManager("recovery-node", event_store=store1)
 
             # Create agent and state
             agent1 = AIAgentAggregate("agent-recovery", store1)
@@ -583,10 +576,7 @@ class TestFullSystemIntegration:
 
             # Phase 2: Recovery
             store2 = EventStore(db_path)
-            manager2 = DistributedStateManager(
-                "recovery-node",
-                event_store=store2
-            )
+            manager2 = DistributedStateManager("recovery-node", event_store=store2)
 
             # Recover agent state
             agent2 = AIAgentAggregate("agent-recovery", store2)

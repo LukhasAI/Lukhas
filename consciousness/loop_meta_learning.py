@@ -6,14 +6,16 @@ This is an INTENTIONAL circular dependency that creates emergent learning capabi
 """
 # intentional_cycle: Learning → Dream → Creativity → Memory → Learning
 
-from typing import Dict, Any, Optional, List
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 
 # These imports form an intentional cycle for meta-learning
-from learning.learning_gateway import get_learning_gateway, LearningRequest
-from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
+from learning.learning_gateway import LearningRequest, get_learning_gateway
+
 from creativity.core import CreativityEngine
 from memory.core import MemoryCore
 
@@ -21,6 +23,7 @@ from memory.core import MemoryCore
 @dataclass
 class MetaLearningCycle:
     """Represents one cycle of the meta-learning loop"""
+
     cycle_id: str
     learning_input: Dict[str, Any]
     dream_synthesis: Optional[Dict[str, Any]] = None
@@ -55,10 +58,12 @@ class MetaLearningLoop:
         self.active_cycles: Dict[str, MetaLearningCycle] = {}
         self._lock = asyncio.Lock()
 
-    async def execute_cycle(self,
-                          agent_id: str,
-                          initial_data: Dict[str, Any],
-                          cycle_params: Optional[Dict[str, Any]] = None) -> MetaLearningCycle:
+    async def execute_cycle(
+        self,
+        agent_id: str,
+        initial_data: Dict[str, Any],
+        cycle_params: Optional[Dict[str, Any]] = None,
+    ) -> MetaLearningCycle:
         """
         Execute one complete meta-learning cycle.
 
@@ -82,25 +87,37 @@ class MetaLearningLoop:
                 agent_id=agent_id,
                 operation="meta_learn",
                 data=initial_data,
-                context={"cycle_type": "meta_learning"}
+                context={"cycle_type": "meta_learning"},
             )
-            learning_result = await self.learning.process_learning_request(learning_request)
+            learning_result = await self.learning.process_learning_request(
+                learning_request
+            )
 
             # Stage 2: Dream - Synthesize new possibilities from learned patterns
             dream_seed = {
                 "learning_output": learning_result.result,
                 "meta_context": "exploratory_synthesis",
-                "creativity_level": cycle_params.get("creativity_level", 0.7) if cycle_params else 0.7
+                "creativity_level": (
+                    cycle_params.get("creativity_level", 0.7) if cycle_params else 0.7
+                ),
             }
-            cycle.dream_synthesis = await self.dream_engine.synthesize(agent_id, dream_seed)
+            cycle.dream_synthesis = await self.dream_engine.synthesize(
+                agent_id, dream_seed
+            )
 
             # Stage 3: Creativity - Generate novel outputs from dreams
             creative_input = {
                 "dream_data": cycle.dream_synthesis,
                 "learning_context": learning_result.result,
-                "innovation_mode": cycle_params.get("innovation_mode", "balanced") if cycle_params else "balanced"
+                "innovation_mode": (
+                    cycle_params.get("innovation_mode", "balanced")
+                    if cycle_params
+                    else "balanced"
+                ),
             }
-            cycle.creative_output = await self.creativity.generate(agent_id, creative_input)
+            cycle.creative_output = await self.creativity.generate(
+                agent_id, creative_input
+            )
 
             # Stage 4: Memory - Consolidate entire cycle into memory
             memory_package = {
@@ -111,10 +128,12 @@ class MetaLearningLoop:
                 "metadata": {
                     "cycle_type": "meta_learning",
                     "timestamp": cycle.timestamp.isoformat(),
-                    "agent_id": agent_id
-                }
+                    "agent_id": agent_id,
+                },
             }
-            cycle.memory_consolidation = await self.memory.consolidate_meta_learning(memory_package)
+            cycle.memory_consolidation = await self.memory.consolidate_meta_learning(
+                memory_package
+            )
 
             # The cycle completes and feeds back into learning for the next iteration
             # This creates the emergent capability to learn from imagined experiences
@@ -125,10 +144,9 @@ class MetaLearningLoop:
             async with self._lock:
                 self.active_cycles.pop(cycle_id, None)
 
-    async def run_continuous_cycles(self,
-                                  agent_id: str,
-                                  num_cycles: int = 5,
-                                  cycle_delay: float = 1.0) -> List[MetaLearningCycle]:
+    async def run_continuous_cycles(
+        self, agent_id: str, num_cycles: int = 5, cycle_delay: float = 1.0
+    ) -> List[MetaLearningCycle]:
         """
         Run multiple meta-learning cycles, each building on the previous.
 
@@ -144,13 +162,10 @@ class MetaLearningLoop:
                 initial_data = {
                     "previous_cycle": previous_output,
                     "cycle_number": i + 1,
-                    "continuation": True
+                    "continuation": True,
                 }
             else:
-                initial_data = {
-                    "cycle_number": 1,
-                    "initialization": True
-                }
+                initial_data = {"cycle_number": 1, "initialization": True}
 
             cycle = await self.execute_cycle(agent_id, initial_data)
             cycles.append(cycle)
@@ -179,7 +194,7 @@ class MetaLearningLoop:
             "emergent_patterns": [],
             "creative_breakthroughs": [],
             "learning_efficiency": 0.0,
-            "dream_coherence": 0.0
+            "dream_coherence": 0.0,
         }
 
         # Analyze patterns across cycles
@@ -222,8 +237,4 @@ def get_meta_learning_loop() -> MetaLearningLoop:
 # imagination and synthesis, similar to how humans learn from
 # mental simulations and creative exploration.
 
-__all__ = [
-    'MetaLearningLoop',
-    'MetaLearningCycle',
-    'get_meta_learning_loop'
-]
+__all__ = ["MetaLearningLoop", "MetaLearningCycle", "get_meta_learning_loop"]

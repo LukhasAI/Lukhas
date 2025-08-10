@@ -4,11 +4,11 @@ Final Orchestrator Cleanup - Phase 2C-5
 Clean up remaining demo files, duplicates, and utilities
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def final_orchestrator_cleanup(dry_run=True):
     """Final cleanup of remaining orchestrator files"""
@@ -16,15 +16,15 @@ def final_orchestrator_cleanup(dry_run=True):
     # Files to clean up
     cleanup_files = [
         "./examples/orchestration/demo_agent_orchestration.py",  # Demo file
-        "./orchestration/swarm_orchestration_adapter.py",       # Duplicate swarm
-        "./core/swarm_identity_orchestrator.py",               # Duplicate swarm
-        "./quantum/dast_orchestrator.py"                       # Duplicate DAST
+        "./orchestration/swarm_orchestration_adapter.py",  # Duplicate swarm
+        "./core/swarm_identity_orchestrator.py",  # Duplicate swarm
+        "./quantum/dast_orchestrator.py",  # Duplicate DAST
     ]
 
-    print(f"\\n🧹 FINAL ORCHESTRATOR CLEANUP")
+    print("\\n🧹 FINAL ORCHESTRATOR CLEANUP")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Files to clean up: {len(cleanup_files)}")
     print(f"{'='*60}")
 
@@ -37,9 +37,11 @@ def final_orchestrator_cleanup(dry_run=True):
         reason = ""
         if "demo" in file_path:
             reason = "(demo file)"
-        elif "swarm" in file_path and "adapter" in file_path:
-            reason = "(swarm duplicate)"
-        elif "swarm_identity" in file_path:
+        elif (
+            "swarm" in file_path
+            and "adapter" in file_path
+            or "swarm_identity" in file_path
+        ):
             reason = "(swarm duplicate)"
         elif "quantum/dast" in file_path:
             reason = "(DAST duplicate)"
@@ -78,21 +80,25 @@ def final_orchestrator_cleanup(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error cleaning up {file_path}: {e}")
 
-    print(f"\\n📊 Final cleanup complete!")
+    print("\\n📊 Final cleanup complete!")
     print(f"   Files cleaned up: {archived_count}")
     print(f"   Reduction: {archived_count} files eliminated")
     return archived_count
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Final orchestrator cleanup')
-    parser.add_argument('--execute', action='store_true', help='Execute cleanup (default: dry run)')
+    parser = argparse.ArgumentParser(description="Final orchestrator cleanup")
+    parser.add_argument(
+        "--execute", action="store_true", help="Execute cleanup (default: dry run)"
+    )
     args = parser.parse_args()
 
     result = final_orchestrator_cleanup(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/final_orchestrator_cleanup.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/final_orchestrator_cleanup.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

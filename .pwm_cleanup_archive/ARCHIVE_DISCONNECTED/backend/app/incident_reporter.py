@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : incident_reporter.py                           │
@@ -16,16 +14,20 @@ from datetime import datetime
 
 incident_reports = []
 
+
 def detect_suspicious_activity(event: dict):
     """
     Analyze an event for symbolic signs of risk.
     Example: unusual Tier changes, rapid logins, vault access spikes.
     """
     if event.get("action") == "TIER_UPGRADE" and event.get("tier_change") > 1:
-        report_incident(user_id=event["user_id"], reason="⚠️ Unusual rapid tier escalation")
+        report_incident(
+            user_id=event["user_id"], reason="⚠️ Unusual rapid tier escalation"
+        )
 
     if event.get("action") == "VAULT_DOWNLOAD" and event.get("downloads") > 10:
         report_incident(user_id=event["user_id"], reason="⚠️ Excessive vault downloads")
+
 
 def report_incident(user_id: int, reason: str):
     """
@@ -34,10 +36,11 @@ def report_incident(user_id: int, reason: str):
     incident = {
         "timestamp": str(datetime.utcnow()),
         "user_id": user_id,
-        "reason": reason
+        "reason": reason,
     }
     incident_reports.append(incident)
     print(f"🚨 Incident reported: {incident}")
+
 
 def get_all_incidents():
     """

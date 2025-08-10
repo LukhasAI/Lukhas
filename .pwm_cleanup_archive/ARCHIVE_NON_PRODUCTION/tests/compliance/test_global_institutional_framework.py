@@ -4,25 +4,21 @@ Tests for Global Institutional Compliance Framework
 ΛTAG: test_global_compliance
 """
 
+from typing import Any, Dict
+
 import pytest
-from datetime import datetime, timezone
-from typing import Dict, List, Any
 
 from orchestration_src.brain.GlobalInstitutionalFramework import (
-    GlobalInstitutionalModule,
-    GlobalInstitutionalInput,
-    GlobalInstitutionalOutput,
-    GlobalInstitutionalReasoner,
+    ComplianceLevel,
+    DataCategory,
     GlobalComplianceConfig,
     GlobalConsentData,
+    GlobalInstitutionalInput,
+    GlobalInstitutionalModule,
+    GlobalInstitutionalOutput,
     InstitutionalProcessingRecord,
     Jurisdiction,
-    ComplianceLevel,
     LegalBasis,
-    DataCategory,
-    RegulationType,
-    global_timestamp,
-    institutional_audit_log
 )
 
 
@@ -31,33 +27,35 @@ class MockGlobalReasoner:
 
     def process(self, inputs: GlobalInstitutionalInput) -> Dict[str, Any]:
         """Mock processing"""
-        return {
-            "status": "processed",
-            "compliance_score": 0.85,
-            "data_quality": 0.95
-        }
+        return {"status": "processed", "compliance_score": 0.85, "data_quality": 0.95}
 
-    def explain_decision(self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]) -> str:
+    def explain_decision(
+        self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]
+    ) -> str:
         """Mock explanation"""
         return "Decision based on institutional compliance requirements across all applicable jurisdictions."
 
-    def assess_bias(self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]) -> Dict[str, Any]:
+    def assess_bias(
+        self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Mock bias assessment"""
         return {
             "bias_detected": False,
             "fairness_score": 0.96,
             "demographic_parity": True,
-            "equalized_odds": True
+            "equalized_odds": True,
         }
 
-    def validate_compliance(self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    def validate_compliance(
+        self, inputs: GlobalInstitutionalInput, results: Dict[str, Any]
+    ) -> Dict[str, Dict[str, Any]]:
         """Mock compliance validation"""
         compliance = {}
         for jurisdiction in inputs.applicable_jurisdictions:
             compliance[jurisdiction.value] = {
                 "compliant": True,
                 "score": 0.9,
-                "issues": []
+                "issues": [],
             }
         return compliance
 
@@ -72,7 +70,12 @@ class TestGlobalModule(GlobalInstitutionalModule):
     def _get_module_type(self) -> str:
         return "test_global_module"
 
-    def _evaluate_jurisdictional_compliance(self, jurisdiction: Jurisdiction, result: Dict[str, Any], inputs: GlobalInstitutionalInput) -> float:
+    def _evaluate_jurisdictional_compliance(
+        self,
+        jurisdiction: Jurisdiction,
+        result: Dict[str, Any],
+        inputs: GlobalInstitutionalInput,
+    ) -> float:
         """Evaluate compliance for specific jurisdiction"""
         base_score = 85.0
 
@@ -124,7 +127,7 @@ class TestGlobalComplianceConfig:
         config = GlobalComplianceConfig(
             healthcare_mode=True,
             phi_protection=True,
-            primary_jurisdiction=Jurisdiction.US
+            primary_jurisdiction=Jurisdiction.US,
         )
 
         assert config.healthcare_mode is True
@@ -134,9 +137,7 @@ class TestGlobalComplianceConfig:
     def test_financial_config(self):
         """Test financial-specific configuration"""
         config = GlobalComplianceConfig(
-            financial_mode=True,
-            sox_compliance=True,
-            pci_dss_compliance=True
+            financial_mode=True, sox_compliance=True, pci_dss_compliance=True
         )
 
         assert config.financial_mode is True
@@ -158,7 +159,7 @@ class TestGlobalConsentData:
             opt_out_available=True,  # US requirement
             do_not_sell=False,  # CCPA
             withdrawal_possible=True,  # EU requirement
-            cross_border_consent=True
+            cross_border_consent=True,
         )
 
         assert len(consent.jurisdictions) == 3
@@ -176,7 +177,7 @@ class TestGlobalConsentData:
             legal_basis=LegalBasis.BUSINESS_PURPOSE,
             consent_given=True,
             opt_out_available=True,
-            do_not_sell=True  # User opted out of data sale
+            do_not_sell=True,  # User opted out of data sale
         )
 
         assert consent.do_not_sell is True
@@ -192,10 +193,14 @@ class TestInstitutionalProcessingRecord:
             purposes=["global_analytics"],
             legal_basis=LegalBasis.LEGITIMATE_INTERESTS,
             data_categories=[DataCategory.PERSONAL_DATA, DataCategory.BEHAVIORAL_DATA],
-            applicable_jurisdictions=[Jurisdiction.EU, Jurisdiction.US, Jurisdiction.UK],
+            applicable_jurisdictions=[
+                Jurisdiction.EU,
+                Jurisdiction.US,
+                Jurisdiction.UK,
+            ],
             cross_border_transfers=["US", "UK"],
             adequacy_decisions=["UK", "CH"],
-            security_classification="CONFIDENTIAL"
+            security_classification="CONFIDENTIAL",
         )
 
         assert len(record.applicable_jurisdictions) == 3
@@ -211,7 +216,7 @@ class TestInstitutionalProcessingRecord:
             data_categories=[DataCategory.HEALTH_DATA],
             applicable_jurisdictions=[Jurisdiction.US],
             healthcare_phi=True,
-            security_classification="HIGHLY_CONFIDENTIAL"
+            security_classification="HIGHLY_CONFIDENTIAL",
         )
 
         assert record.healthcare_phi is True
@@ -239,7 +244,7 @@ class TestGlobalInstitutionalModule:
             legal_basis=LegalBasis.CONTRACT,
             consent_given=True,
             opt_out_available=True,
-            withdrawal_possible=True
+            withdrawal_possible=True,
         )
 
         processing_record = InstitutionalProcessingRecord(
@@ -248,7 +253,7 @@ class TestGlobalInstitutionalModule:
             data_categories=[DataCategory.PERSONAL_DATA],
             applicable_jurisdictions=[Jurisdiction.EU, Jurisdiction.US],
             cross_border_transfers=["US"],
-            adequacy_decisions=["EU_SCCs"]
+            adequacy_decisions=["EU_SCCs"],
         )
 
         return GlobalInstitutionalInput(
@@ -259,7 +264,7 @@ class TestGlobalInstitutionalModule:
             applicable_jurisdictions=[Jurisdiction.EU, Jurisdiction.US],
             data_minimization_applied=True,
             encryption_applied=True,
-            context_data={"purpose": "testing"}
+            context_data={"purpose": "testing"},
         )
 
     def test_module_initialization(self, test_module):
@@ -279,7 +284,7 @@ class TestGlobalInstitutionalModule:
         assert "US" in output.compliance_scores
         assert output.overall_compliance_level in [
             ComplianceLevel.FULL_COMPLIANCE,
-            ComplianceLevel.SUBSTANTIAL_COMPLIANCE
+            ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
         ]
 
         # Check jurisdictional compliance
@@ -308,14 +313,14 @@ class TestGlobalInstitutionalModule:
             purposes=["marketing"],
             legal_basis=LegalBasis.CONSENT,
             consent_given=False,  # No consent for consent-based processing
-            withdrawal_possible=True
+            withdrawal_possible=True,
         )
 
         processing_record = InstitutionalProcessingRecord(
             purposes=["marketing"],
             legal_basis=LegalBasis.CONSENT,
             data_categories=[DataCategory.PERSONAL_DATA],
-            applicable_jurisdictions=[Jurisdiction.EU]
+            applicable_jurisdictions=[Jurisdiction.EU],
         )
 
         invalid_input = GlobalInstitutionalInput(
@@ -323,7 +328,7 @@ class TestGlobalInstitutionalModule:
             consent=consent,
             processing_record=processing_record,
             primary_jurisdiction=Jurisdiction.EU,
-            applicable_jurisdictions=[Jurisdiction.EU]
+            applicable_jurisdictions=[Jurisdiction.EU],
         )
 
         with pytest.raises(ValueError, match="Institutional compliance violation"):
@@ -348,14 +353,14 @@ class TestJurisdictionalCompliance:
             purposes=["analytics"],
             legal_basis=LegalBasis.CONSENT,
             consent_given=True,
-            withdrawal_possible=True
+            withdrawal_possible=True,
         )
 
         record = InstitutionalProcessingRecord(
             purposes=["analytics"],
             legal_basis=LegalBasis.CONSENT,
             data_categories=[DataCategory.PERSONAL_DATA],
-            applicable_jurisdictions=[Jurisdiction.EU]
+            applicable_jurisdictions=[Jurisdiction.EU],
         )
 
         input_data = GlobalInstitutionalInput(
@@ -364,7 +369,7 @@ class TestJurisdictionalCompliance:
             processing_record=record,
             primary_jurisdiction=Jurisdiction.EU,
             applicable_jurisdictions=[Jurisdiction.EU],
-            data_minimization_applied=True  # EU requirement
+            data_minimization_applied=True,  # EU requirement
         )
 
         output = test_module(input_data)
@@ -381,14 +386,14 @@ class TestJurisdictionalCompliance:
             legal_basis=LegalBasis.BUSINESS_PURPOSE,
             consent_given=True,
             opt_out_available=True,  # CCPA requirement
-            do_not_sell=False  # User has not opted out
+            do_not_sell=False,  # User has not opted out
         )
 
         record = InstitutionalProcessingRecord(
             purposes=["service_provision"],
             legal_basis=LegalBasis.BUSINESS_PURPOSE,
             data_categories=[DataCategory.PERSONAL_DATA],
-            applicable_jurisdictions=[Jurisdiction.US]
+            applicable_jurisdictions=[Jurisdiction.US],
         )
 
         input_data = GlobalInstitutionalInput(
@@ -396,7 +401,7 @@ class TestJurisdictionalCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.US,
-            applicable_jurisdictions=[Jurisdiction.US]
+            applicable_jurisdictions=[Jurisdiction.US],
         )
 
         output = test_module(input_data)
@@ -411,7 +416,7 @@ class TestJurisdictionalCompliance:
             jurisdictions=[Jurisdiction.CN],
             purposes=["service_provision"],
             legal_basis=LegalBasis.CONSENT,
-            consent_given=True
+            consent_given=True,
         )
 
         record = InstitutionalProcessingRecord(
@@ -419,7 +424,7 @@ class TestJurisdictionalCompliance:
             legal_basis=LegalBasis.CONSENT,
             data_categories=[DataCategory.PERSONAL_DATA],
             applicable_jurisdictions=[Jurisdiction.CN],
-            cross_border_transfers=[]  # No cross-border transfers for China
+            cross_border_transfers=[],  # No cross-border transfers for China
         )
 
         input_data = GlobalInstitutionalInput(
@@ -427,7 +432,7 @@ class TestJurisdictionalCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.CN,
-            applicable_jurisdictions=[Jurisdiction.CN]
+            applicable_jurisdictions=[Jurisdiction.CN],
         )
 
         output = test_module(input_data)
@@ -454,7 +459,7 @@ class TestCrossBorderCompliance:
             purposes=["global_service"],
             legal_basis=LegalBasis.CONTRACT,
             consent_given=True,
-            cross_border_consent=True
+            cross_border_consent=True,
         )
 
         record = InstitutionalProcessingRecord(
@@ -463,7 +468,7 @@ class TestCrossBorderCompliance:
             data_categories=[DataCategory.PERSONAL_DATA],
             applicable_jurisdictions=[Jurisdiction.EU],
             cross_border_transfers=["UK", "CH"],  # Countries with EU adequacy
-            adequacy_decisions=["UK", "CH"]
+            adequacy_decisions=["UK", "CH"],
         )
 
         input_data = GlobalInstitutionalInput(
@@ -471,7 +476,7 @@ class TestCrossBorderCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.EU,
-            applicable_jurisdictions=[Jurisdiction.EU]
+            applicable_jurisdictions=[Jurisdiction.EU],
         )
 
         output = test_module(input_data)
@@ -486,7 +491,7 @@ class TestCrossBorderCompliance:
             purposes=["global_service"],
             legal_basis=LegalBasis.CONTRACT,
             consent_given=True,
-            cross_border_consent=False  # No consent for cross-border
+            cross_border_consent=False,  # No consent for cross-border
         )
 
         record = InstitutionalProcessingRecord(
@@ -494,7 +499,7 @@ class TestCrossBorderCompliance:
             legal_basis=LegalBasis.CONTRACT,
             data_categories=[DataCategory.PERSONAL_DATA],
             applicable_jurisdictions=[Jurisdiction.EU],
-            cross_border_transfers=["US"]  # Transfer without consent
+            cross_border_transfers=["US"],  # Transfer without consent
         )
 
         input_data = GlobalInstitutionalInput(
@@ -502,7 +507,7 @@ class TestCrossBorderCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.EU,
-            applicable_jurisdictions=[Jurisdiction.EU]
+            applicable_jurisdictions=[Jurisdiction.EU],
         )
 
         output = test_module(input_data)
@@ -515,10 +520,7 @@ class TestSectorSpecificCompliance:
 
     def test_healthcare_compliance(self):
         """Test healthcare-specific compliance (HIPAA)"""
-        config = GlobalComplianceConfig(
-            healthcare_mode=True,
-            phi_protection=True
-        )
+        config = GlobalComplianceConfig(healthcare_mode=True, phi_protection=True)
 
         reasoner = MockGlobalReasoner()
         module = TestGlobalModule(reasoner, config)
@@ -528,7 +530,7 @@ class TestSectorSpecificCompliance:
             jurisdictions=[Jurisdiction.US],
             purposes=["treatment", "payment", "operations"],
             legal_basis=LegalBasis.VITAL_INTERESTS,
-            consent_given=True
+            consent_given=True,
         )
 
         record = InstitutionalProcessingRecord(
@@ -537,7 +539,7 @@ class TestSectorSpecificCompliance:
             data_categories=[DataCategory.HEALTH_DATA],
             applicable_jurisdictions=[Jurisdiction.US],
             healthcare_phi=True,
-            security_classification="HIGHLY_CONFIDENTIAL"
+            security_classification="HIGHLY_CONFIDENTIAL",
         )
 
         input_data = GlobalInstitutionalInput(
@@ -545,23 +547,21 @@ class TestSectorSpecificCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.US,
-            applicable_jurisdictions=[Jurisdiction.US]
+            applicable_jurisdictions=[Jurisdiction.US],
         )
 
         output = module(input_data)
 
         assert output.overall_compliance_level in [
             ComplianceLevel.FULL_COMPLIANCE,
-            ComplianceLevel.SUBSTANTIAL_COMPLIANCE
+            ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
         ]
         assert output.security_classification == "HIGHLY_CONFIDENTIAL"
 
     def test_financial_compliance(self):
         """Test financial-specific compliance (SOX, PCI-DSS)"""
         config = GlobalComplianceConfig(
-            financial_mode=True,
-            sox_compliance=True,
-            pci_dss_compliance=True
+            financial_mode=True, sox_compliance=True, pci_dss_compliance=True
         )
 
         reasoner = MockGlobalReasoner()
@@ -572,7 +572,7 @@ class TestSectorSpecificCompliance:
             jurisdictions=[Jurisdiction.US],
             purposes=["payment_processing", "fraud_detection"],
             legal_basis=LegalBasis.CONTRACT,
-            consent_given=True
+            consent_given=True,
         )
 
         record = InstitutionalProcessingRecord(
@@ -581,7 +581,7 @@ class TestSectorSpecificCompliance:
             data_categories=[DataCategory.FINANCIAL_DATA],
             applicable_jurisdictions=[Jurisdiction.US],
             financial_pii=True,
-            security_classification="HIGHLY_CONFIDENTIAL"
+            security_classification="HIGHLY_CONFIDENTIAL",
         )
 
         input_data = GlobalInstitutionalInput(
@@ -589,14 +589,14 @@ class TestSectorSpecificCompliance:
             consent=consent,
             processing_record=record,
             primary_jurisdiction=Jurisdiction.US,
-            applicable_jurisdictions=[Jurisdiction.US]
+            applicable_jurisdictions=[Jurisdiction.US],
         )
 
         output = module(input_data)
 
         assert output.overall_compliance_level in [
             ComplianceLevel.FULL_COMPLIANCE,
-            ComplianceLevel.SUBSTANTIAL_COMPLIANCE
+            ComplianceLevel.SUBSTANTIAL_COMPLIANCE,
         ]
         assert output.institutional_certification["enterprise_grade"] is True
         assert output.institutional_certification["government_ready"] is True
@@ -614,8 +614,8 @@ class TestGlobalIntegration:
                 Jurisdiction.EU,
                 Jurisdiction.US,
                 Jurisdiction.UK,
-                Jurisdiction.CA
-            ]
+                Jurisdiction.CA,
+            ],
         )
 
         reasoner = MockGlobalReasoner()
@@ -624,14 +624,19 @@ class TestGlobalIntegration:
         # Create complex multi-jurisdiction scenario
         consent = GlobalConsentData(
             data_subject_id="global_customer_001",
-            jurisdictions=[Jurisdiction.EU, Jurisdiction.US, Jurisdiction.UK, Jurisdiction.CA],
+            jurisdictions=[
+                Jurisdiction.EU,
+                Jurisdiction.US,
+                Jurisdiction.UK,
+                Jurisdiction.CA,
+            ],
             purposes=["global_service_delivery", "analytics", "personalization"],
             legal_basis=LegalBasis.CONTRACT,
             consent_given=True,
             opt_out_available=True,  # US requirement
             do_not_sell=False,  # CCPA
             withdrawal_possible=True,  # EU requirement
-            cross_border_consent=True
+            cross_border_consent=True,
         )
 
         record = InstitutionalProcessingRecord(
@@ -640,17 +645,17 @@ class TestGlobalIntegration:
             data_categories=[
                 DataCategory.PERSONAL_DATA,
                 DataCategory.BEHAVIORAL_DATA,
-                DataCategory.LOCATION_DATA
+                DataCategory.LOCATION_DATA,
             ],
             applicable_jurisdictions=[
                 Jurisdiction.EU,
                 Jurisdiction.US,
                 Jurisdiction.UK,
-                Jurisdiction.CA
+                Jurisdiction.CA,
             ],
             cross_border_transfers=["US", "UK", "CA"],
             adequacy_decisions=["UK", "CA"],
-            security_classification="CONFIDENTIAL"
+            security_classification="CONFIDENTIAL",
         )
 
         input_data = GlobalInstitutionalInput(
@@ -662,7 +667,7 @@ class TestGlobalIntegration:
                 Jurisdiction.EU,
                 Jurisdiction.US,
                 Jurisdiction.UK,
-                Jurisdiction.CA
+                Jurisdiction.CA,
             ],
             data_minimization_applied=True,
             pseudonymization_applied=True,
@@ -670,8 +675,8 @@ class TestGlobalIntegration:
             context_data={
                 "service": "global_platform",
                 "user_location": "EU",
-                "processing_location": "distributed"
-            }
+                "processing_location": "distributed",
+            },
         )
 
         output = module(input_data)
@@ -688,7 +693,9 @@ class TestGlobalIntegration:
 
         # Verify institutional certification
         assert output.institutional_certification["standards_met"] == [
-            "ISO27001", "SOC2_Type2", "Multi_Jurisdictional"
+            "ISO27001",
+            "SOC2_Type2",
+            "Multi_Jurisdictional",
         ]
         assert output.institutional_certification["audit_ready"] is True
 

@@ -8,12 +8,12 @@ This test validates the integration of memory/systems/trauma_lock.py
 with memory/core/unified_memory_orchestrator.py following the hub pattern.
 """
 
-import sys
 import os
-import unittest
-import tempfile
 import shutil
-from unittest.mock import Mock, patch
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
 
 # Add project root to path for testing
 project_root = os.path.dirname(os.path.abspath(__file__))
@@ -218,8 +218,8 @@ def run_trauma_lock_integration_tests():
     print("\n" + "=" * 70)
     if result.wasSuccessful():
         print("✅ ALL TRAUMA LOCK INTEGRATION TESTS PASSED!")
-        print(f"✅ Agent 1 Task 14 Priority Score: 25.5 points")
-        print(f"✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
+        print("✅ Agent 1 Task 14 Priority Score: 25.5 points")
+        print("✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
     else:
         print("❌ Some tests failed:")
         for failure in result.failures:

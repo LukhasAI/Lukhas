@@ -6,17 +6,24 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 
-from core.utils import SystemStatus # ΛSHARED: System status enumeration
-from core.helpers import get_utc_timestamp # ΛUTIL: UTC timestamp utility
+import structlog
+
+from core.helpers import get_utc_timestamp  # ΛUTIL: UTC timestamp utility
+from core.utils import SystemStatus  # ΛSHARED: System status enumeration
 
 # ΛTRACE: Initializing logger for diagnostic payloads
 log = structlog.get_logger(__name__)
 
+
 # ΛUTIL
-def create_diagnostic_payload(component_id: str, status: SystemStatus, message: str, additional_data: Optional[Dict] = None) -> Dict:
+def create_diagnostic_payload(
+    component_id: str,
+    status: SystemStatus,
+    message: str,
+    additional_data: Optional[Dict] = None,
+) -> Dict:
     """
     Creates a standardized diagnostic payload for LUKHAS components.
     # ΛNOTE: This utility helps in creating consistent diagnostic messages across the system.
@@ -24,16 +31,19 @@ def create_diagnostic_payload(component_id: str, status: SystemStatus, message: 
     # ΛECHO: Reflects the state of a component for diagnostic purposes.
     """
     # ΛTRACE: Creating diagnostic payload
-    log.debug("Creating diagnostic payload", component_id=component_id, status=status.value)
+    log.debug(
+        "Creating diagnostic payload", component_id=component_id, status=status.value
+    )
     payload = {
         "lukhas_diagnostic_version": "1.0",
-        "timestamp_utc": get_utc_timestamp(), # ΛUTIL (from core.helpers)
+        "timestamp_utc": get_utc_timestamp(),  # ΛUTIL (from core.helpers)
         "component_id": component_id,
-        "status": status.value, # ΛSHARED (enum from core.common)
+        "status": status.value,  # ΛSHARED (enum from core.common)
         "message": message,
-        "data": additional_data or {}
+        "data": additional_data or {},
     }
     return payload
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: diagnostic_payloads.py

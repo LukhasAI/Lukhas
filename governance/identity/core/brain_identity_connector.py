@@ -5,6 +5,8 @@ Advanced: brain_identity_connector.py
 Integration Date: 2025-05-31T07:55:28.094841
 """
 
+import logging
+
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                  LUCΛS :: Brain Identity Connector                          │
@@ -27,11 +29,9 @@ Integration Date: 2025-05-31T07:55:28.094841
     • Emotional context preservation during identity transitions
 """
 
-from core.common import get_logger
-import time
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 # Set up logging
 logger = logging.getLogger("brain_identity")
@@ -43,7 +43,10 @@ logger.setLevel(logging.INFO)
 
 # Try to import required modules
 try:
-    from .vault.lukhas_id import AccessTier, ConsentLevel, LucasID, LucasIDRegistry
+    from .vault.lukhas_id import (
+        AccessTier,
+        LucasID,
+    )
     from .vault.memory_identity import MemoryAccessPolicy, MemoryOperation
 
     ID_IMPORTS_AVAILABLE = True
@@ -407,7 +410,7 @@ class BrainIdentityConnector:
         else:
             logger.warning(f"{log_msg}, reason={reason}")
 
-    def get_access_logs(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_access_logs(self, limit: int = 100) -> list[dict[str, Any]]:
         """
         Get recent memory access logs.
 
@@ -452,8 +455,8 @@ class MemoryIdentityIntegration:
         logger.info("Memory Identity Integration initialized")
 
     def encrypt_memory_content(
-        self, key: str, content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Encrypt memory content for secure storage.
 
@@ -477,8 +480,8 @@ class MemoryIdentityIntegration:
         return content
 
     def decrypt_memory_content(
-        self, key: str, content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Decrypt memory content for access.
 
@@ -594,7 +597,7 @@ class MemoryIdentityIntegration:
                     )
 
                 if hasattr(mm, "forget") or hasattr(mm, "delete"):
-                    forget_method = getattr(mm, "forget", None) or getattr(mm, "delete")
+                    forget_method = getattr(mm, "forget", None) or mm.delete
                     wrapped = self.connector.wrap_memory_function(
                         forget_method, MemoryOperation.DELETE
                     )
@@ -610,7 +613,7 @@ class MemoryIdentityIntegration:
         except Exception as e:
             logger.error(f"Error applying memory security wrappers: {e}")
 
-    def notify_memory_removal(self, memory_keys: List[str]) -> bool:
+    def notify_memory_removal(self, memory_keys: list[str]) -> bool:
         """
         Notify the identity system of memory removal.
 
@@ -626,7 +629,7 @@ class MemoryIdentityIntegration:
 
         return True
 
-    def get_access_metrics(self) -> Dict[str, Any]:
+    def get_access_metrics(self) -> dict[str, Any]:
         """
         Get memory access metrics.
 
@@ -635,7 +638,7 @@ class MemoryIdentityIntegration:
         """
         return self.access_metrics
 
-    def get_access_logs(self, limit: int = 100) -> List[Dict[str, Any]]:
+    def get_access_logs(self, limit: int = 100) -> list[dict[str, Any]]:
         """
         Get memory access logs.
 

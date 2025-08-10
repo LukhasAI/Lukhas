@@ -16,8 +16,9 @@
 """
 
 # Module imports
+from typing import Any, Dict
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -40,9 +41,8 @@ MODULE_NAME = "quantum consciousness integration"
 
 import asyncio
 import sys
-from typing import Dict, List, Optional, Any, Union
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 # Add parent directories for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -50,10 +50,10 @@ sys.path.append(str(Path(__file__).parent.parent))
 # Import consciousness module if available
 try:
     from consciousness.consciousness_service import (
-        ElevatedConsciousnessModule,
-        ConsciousnessLevel,
-        QualiaType,
         ConsciousExperience,
+        ConsciousnessLevel,
+        ElevatedConsciousnessModule,
+        QualiaType,
     )
 
     CONSCIOUSNESS_AVAILABLE = True

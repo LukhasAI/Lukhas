@@ -17,35 +17,45 @@ capabilities for bio-oscillator aware documentation.
 import asyncio
 import json
 import logging
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List, Optional
 import sys
-import os
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
 # Add ΛEasyDoc plugin to path
 WORKSPACE_ROOT = Path("/Users/A_G_I/LUKHAS_REBIRTH_Workspace")
-LAMBDA_EASYDOC_PATH = WORKSPACE_ROOT / "commercial_platforms" / "lukhas_store" / "plugins" / "lambda_easydoc"
+LAMBDA_EASYDOC_PATH = (
+    WORKSPACE_ROOT
+    / "commercial_platforms"
+    / "lukhas_store"
+    / "plugins"
+    / "lambda_easydoc"
+)
 
 sys.path.insert(0, str(LAMBDA_EASYDOC_PATH / "src"))
 
 try:
-    from content_generation_engine.enhanced_doc_generator import EnhancedDocumentationGenerator
-    from content_generation_engine.system_doc_generator import SystemDocumentationGenerator
-    from system_monitor.change_detector import SystemChangeDetector
+    from content_generation_engine.enhanced_doc_generator import (
+        EnhancedDocumentationGenerator,
+    )
+    from content_generation_engine.system_doc_generator import (
+        SystemDocumentationGenerator,
+    )
     from notification_engine.update_prompts import IntelligentUpdateTrigger
+    from system_monitor.change_detector import SystemChangeDetector
+
     LAMBDA_EASYDOC_AVAILABLE = True
     logger.info("✅ ΛEasyDoc plugin successfully imported")
 except ImportError as e:
     logger.warning(f"⚠️ ΛEasyDoc plugin import failed: {e}")
     LAMBDA_EASYDOC_AVAILABLE = False
+
 
 class EnhancedLUKHASDocumentationOrchestrator:
     """
@@ -103,18 +113,20 @@ class EnhancedLUKHASDocumentationOrchestrator:
 
         # 4. Generate content for each section with ΛEasyDoc intelligence
         for section_id, section_info in doc_structure.items():
-            logger.info(f"📝 Generating intelligent content for: {section_info['title']}")
+            logger.info(
+                f"📝 Generating intelligent content for: {section_info['title']}"
+            )
 
             section_dir = self.output_dir / section_id
             section_dir.mkdir(exist_ok=True)
 
-            for filename in section_info['files']:
+            for filename in section_info["files"]:
                 content = await self._generate_intelligent_content(
                     section_id, filename, section_info
                 )
 
                 file_path = section_dir / filename
-                file_path.write_text(content, encoding='utf-8')
+                file_path.write_text(content, encoding="utf-8")
                 logger.info(f"  ✅ Generated: {filename}")
 
         # 5. Generate master documentation index with ΛEasyDoc navigation
@@ -137,8 +149,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "README.md",
                     "ECOSYSTEM_ARCHITECTURE.md",
                     "GETTING_STARTED.md",
-                    "BIO_OSCILLATOR_INTEGRATION.md"
-                ]
+                    "BIO_OSCILLATOR_INTEGRATION.md",
+                ],
             },
             "commercial_platforms": {
                 "title": "Commercial Platforms",
@@ -148,8 +160,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "PLATFORM_OVERVIEW.md",
                     "DEPLOYMENT_GUIDE.md",
                     "INTEGRATION_API.md",
-                    "LAMBDA_EASYDOC_INTEGRATION.md"
-                ]
+                    "LAMBDA_EASYDOC_INTEGRATION.md",
+                ],
             },
             "plugin_system": {
                 "title": "Intelligent Plugin System",
@@ -159,8 +171,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "PLUGIN_DEVELOPMENT_GUIDE.md",
                     "SDK_REFERENCE.md",
                     "PLUGIN_CATALOG.md",
-                    "INTELLIGENT_DOCUMENTATION.md"
-                ]
+                    "INTELLIGENT_DOCUMENTATION.md",
+                ],
             },
             "integrated_plugins": {
                 "title": "Integrated Intelligence Plugins",
@@ -170,8 +182,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "HEALTH_ADVISOR_DOCS.md",
                     "LAMBDA_EASYDOC_DOCS.md",
                     "LAMBDA_DOC_DOCS.md",
-                    "PLUGIN_INTELLIGENCE_ANALYSIS.md"
-                ]
+                    "PLUGIN_INTELLIGENCE_ANALYSIS.md",
+                ],
             },
             "sdk_components": {
                 "title": "Intelligent SDK Architecture",
@@ -181,8 +193,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "SDK_ARCHITECTURE.md",
                     "PLATFORM_BRIDGE_API.md",
                     "SDK_INTEGRATION.md",
-                    "BIO_OSCILLATOR_SDK.md"
-                ]
+                    "BIO_OSCILLATOR_SDK.md",
+                ],
             },
             "marketplace": {
                 "title": "Intelligent Marketplace",
@@ -192,8 +204,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "MARKETPLACE_GUIDE.md",
                     "REVENUE_MODEL.md",
                     "DEVELOPER_ONBOARDING.md",
-                    "INTELLIGENT_RECOMMENDATIONS.md"
-                ]
+                    "INTELLIGENT_RECOMMENDATIONS.md",
+                ],
             },
             "testing_validation": {
                 "title": "Intelligent Testing Framework",
@@ -203,8 +215,8 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "TESTING_FRAMEWORK.md",
                     "VALIDATION_PROCEDURES.md",
                     "QUALITY_STANDARDS.md",
-                    "INTELLIGENT_TESTING.md"
-                ]
+                    "INTELLIGENT_TESTING.md",
+                ],
             },
             "deployment_operations": {
                 "title": "Bio-Oscillator Aware Operations",
@@ -214,9 +226,9 @@ class EnhancedLUKHASDocumentationOrchestrator:
                     "DEPLOYMENT_ORCHESTRATOR.md",
                     "OPERATIONS_GUIDE.md",
                     "MONITORING.md",
-                    "BIO_OSCILLATOR_OPERATIONS.md"
-                ]
-            }
+                    "BIO_OSCILLATOR_OPERATIONS.md",
+                ],
+            },
         }
 
     async def _generate_intelligent_content(
@@ -233,9 +245,7 @@ class EnhancedLUKHASDocumentationOrchestrator:
         else:
             # Use ΛEasyDoc's system generator for other sections
             return await self.system_generator.generate_documentation(
-                content_type=section_id,
-                filename=filename,
-                bio_oscillator_aware=True
+                content_type=section_id, filename=filename, bio_oscillator_aware=True
             )
 
     async def _generate_bio_oscillator_ecosystem_content(self, filename: str) -> str:
@@ -623,7 +633,7 @@ Based on your profile and current bio-oscillator state:
 """
 
         index_path = self.output_dir / "INDEX.md"
-        index_path.write_text(index_content, encoding='utf-8')
+        index_path.write_text(index_content, encoding="utf-8")
 
     async def _generate_bio_oscillator_metrics(self):
         """Generate bio-oscillator optimized metrics."""
@@ -635,7 +645,7 @@ Based on your profile and current bio-oscillator state:
                 "intelligence_level": "advanced_bio_oscillator",
                 "total_sections": 8,
                 "enhanced_files": 24,
-                "bio_optimized_content": True
+                "bio_optimized_content": True,
             },
             "bio_oscillator_optimization": {
                 "circadian_awareness": True,
@@ -646,8 +656,8 @@ Based on your profile and current bio-oscillator state:
                     "high_energy": ["09:00-11:00", "14:00-16:00"],
                     "creative": ["14:00-16:00", "19:00-21:00"],
                     "analytical": ["09:00-12:00"],
-                    "integration": ["16:00-18:00", "20:00-22:00"]
-                }
+                    "integration": ["16:00-18:00", "20:00-22:00"],
+                },
             },
             "intelligence_features": {
                 "real_time_updates": True,
@@ -655,19 +665,19 @@ Based on your profile and current bio-oscillator state:
                 "contextual_examples": True,
                 "predictive_content": True,
                 "change_detection": True,
-                "auto_documentation": True
+                "auto_documentation": True,
             },
             "quality_metrics": {
                 "documentation_accuracy": 97.3,
                 "user_satisfaction": 94.1,
                 "bio_optimization_improvement": 34.2,
                 "learning_efficiency_gain": 41.7,
-                "support_ticket_reduction": 54.3
-            }
+                "support_ticket_reduction": 54.3,
+            },
         }
 
         metrics_path = self.output_dir / "bio_oscillator_metrics.json"
-        metrics_path.write_text(json.dumps(metrics, indent=2), encoding='utf-8')
+        metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
 
         # Also create human-readable metrics
         readable_metrics = f"""# Bio-Oscillator Enhanced Documentation Metrics
@@ -705,7 +715,7 @@ Based on your profile and current bio-oscillator state:
 """
 
         readable_path = self.output_dir / "METRICS.md"
-        readable_path.write_text(readable_metrics, encoding='utf-8')
+        readable_path.write_text(readable_metrics, encoding="utf-8")
 
     async def _generate_basic_documentation(self):
         """Fallback basic documentation generation."""
@@ -737,7 +747,7 @@ To enable ΛEasyDoc enhanced documentation:
 """
 
         basic_path = self.output_dir / "README.md"
-        basic_path.write_text(basic_content, encoding='utf-8')
+        basic_path.write_text(basic_content, encoding="utf-8")
 
 
 async def main():

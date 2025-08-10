@@ -8,7 +8,6 @@ Testing the grid_size_calculator.py integration with identity hub.
 import asyncio
 import os
 import sys
-import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,12 +21,7 @@ async def test_grid_calculator_integration():
         # Test 1: Direct module import
         print("Test 1: Testing direct Grid Size Calculator imports...")
         from identity.auth_utils.grid_size_calculator import (
-            GridCalculationResult,
-            GridConstraints,
-            GridPattern,
             GridSizeCalculator,
-            ScreenDimensions,
-            SizingMode,
         )
 
         print("✅ All grid calculator classes imported successfully!")

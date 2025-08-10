@@ -13,13 +13,16 @@
 # ===============================================================
 
 import logging
+from datetime import datetime
+
+from utils.logging import log_event
+
 from core.common.emotional_state import get_tone
 from core.common.event_bus import subscribe
-from utils.logging import log_event
-from datetime import datetime
 
 # Initialize logger
 logger = logging.getLogger(__name__)
+
 
 def speak(message: str):
     if not isinstance(message, str) or len(message.strip()) == 0:
@@ -33,12 +36,16 @@ def speak(message: str):
     # TODO: Route to appropriate voice engine based on tier or emotion index
     print(f"🗣️ [{tone}] {message}")  # Keep UI output
     timestamp = datetime.utcnow().isoformat()
-    log_event("lukhas_voice", {
-        "tone": tone,
-        "message": message,
-        "source": "lukhas_voice_agent",
-        "timestamp": timestamp
-    })
+    log_event(
+        "lukhas_voice",
+        {
+            "tone": tone,
+            "message": message,
+            "source": "lukhas_voice_agent",
+            "timestamp": timestamp,
+        },
+    )
+
 
 # 🔄 Auto-response to emotional events
 subscribe("emotion_shift", lambda data: speak(data.get("phrase", "I'm shifting...")))

@@ -7,26 +7,31 @@ providing a centralized system for extending memory operations.
 """
 
 import time
-from core.common import get_logger
-from typing import Dict, List, Optional, Set, Tuple
-from enum import IntEnum
 from collections import defaultdict
 from dataclasses import dataclass
+from enum import IntEnum
+from typing import Dict, List, Optional, Set
 
-from .base import MemoryHook, MemoryItem, HookExecutionError
+from core.common import get_logger
+
+from .base import HookExecutionError, MemoryHook, MemoryItem
 
 logger = get_logger(__name__)
 
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from core.common import LukhasError
+
+
 class HookRegistrationError(LukhasError):
     """Raised when hook registration fails"""
+
     pass
 
 
 class HookPriority(IntEnum):
     """Priority levels for hook execution order"""
-    CRITICAL = 0    # Executed first
+
+    CRITICAL = 0  # Executed first
     HIGH = 10
     NORMAL = 50
     LOW = 90
@@ -36,6 +41,7 @@ class HookPriority(IntEnum):
 @dataclass
 class RegisteredHook:
     """Container for registered hook information"""
+
     hook: MemoryHook
     priority: HookPriority
     tags: Set[str]
@@ -58,8 +64,9 @@ class HookRegistry:
     safe execution with error handling, timeouts, and circuit breakers.
     """
 
-    def __init__(self, max_hooks_per_priority: int = 10,
-                 global_timeout_seconds: float = 30.0):
+    def __init__(
+        self, max_hooks_per_priority: int = 10, global_timeout_seconds: float = 30.0
+    ):
         """Initialize hook registry
 
         Args:
@@ -79,19 +86,22 @@ class HookRegistry:
 
         # Performance monitoring
         self._execution_metrics = {
-            'total_executions': 0,
-            'successful_executions': 0,
-            'failed_executions': 0,
-            'timeout_count': 0,
-            'circuit_breaker_trips': 0
+            "total_executions": 0,
+            "successful_executions": 0,
+            "failed_executions": 0,
+            "timeout_count": 0,
+            "circuit_breaker_trips": 0,
         }
 
-    def register_hook(self, hook: MemoryHook,
-                     priority: HookPriority = HookPriority.NORMAL,
-                     tags: Optional[Set[str]] = None,
-                     max_retries: int = 3,
-                     timeout_seconds: float = 5.0,
-                     fail_on_error: bool = False) -> None:
+    def register_hook(
+        self,
+        hook: MemoryHook,
+        priority: HookPriority = HookPriority.NORMAL,
+        tags: Optional[Set[str]] = None,
+        max_retries: int = 3,
+        timeout_seconds: float = 5.0,
+        fail_on_error: bool = False,
+    ) -> None:
         """Register a new memory hook
 
         Args:
@@ -123,7 +133,7 @@ class HookRegistry:
             tags=tags or set(),
             max_retries=max_retries,
             timeout_seconds=timeout_seconds,
-            fail_on_error=fail_on_error
+            fail_on_error=fail_on_error,
         )
 
         # Register
@@ -157,8 +167,9 @@ class HookRegistry:
 
         return False
 
-    def execute_before_store(self, item: MemoryItem,
-                           tags: Optional[Set[str]] = None) -> MemoryItem:
+    def execute_before_store(
+        self, item: MemoryItem, tags: Optional[Set[str]] = None
+    ) -> MemoryItem:
         """Execute all before_store hooks in priority order
 
         Args:
@@ -171,10 +182,11 @@ class HookRegistry:
         Raises:
             HookExecutionError: If a critical hook fails
         """
-        return self._execute_hooks('before_store', item, tags)
+        return self._execute_hooks("before_store", item, tags)
 
-    def execute_after_recall(self, item: MemoryItem,
-                           tags: Optional[Set[str]] = None) -> MemoryItem:
+    def execute_after_recall(
+        self, item: MemoryItem, tags: Optional[Set[str]] = None
+    ) -> MemoryItem:
         """Execute all after_recall hooks in priority order
 
         Args:
@@ -187,10 +199,11 @@ class HookRegistry:
         Raises:
             HookExecutionError: If a critical hook fails
         """
-        return self._execute_hooks('after_recall', item, tags)
+        return self._execute_hooks("after_recall", item, tags)
 
-    def _execute_hooks(self, operation: str, item: MemoryItem,
-                      tags: Optional[Set[str]] = None) -> MemoryItem:
+    def _execute_hooks(
+        self, operation: str, item: MemoryItem, tags: Optional[Set[str]] = None
+    ) -> MemoryItem:
         """Execute hooks for given operation
 
         Args:
@@ -202,7 +215,7 @@ class HookRegistry:
             Processed memory item
         """
         start_time = time.time()
-        self._execution_metrics['total_executions'] += 1
+        self._execution_metrics["total_executions"] += 1
 
         # Collect hooks to execute
         hooks_to_execute = self._collect_hooks(tags)
@@ -215,8 +228,10 @@ class HookRegistry:
             for registered in hooks_to_execute:
                 # Check global timeout
                 if time.time() - start_time > self._global_timeout:
-                    logger.warning(f"Global timeout reached after {executed_count} hooks")
-                    self._execution_metrics['timeout_count'] += 1
+                    logger.warning(
+                        f"Global timeout reached after {executed_count} hooks"
+                    )
+                    self._execution_metrics["timeout_count"] += 1
                     break
 
                 # Check circuit breaker
@@ -235,16 +250,16 @@ class HookRegistry:
                 except HookExecutionError as e:
                     if registered.fail_on_error:
                         logger.error(f"Critical hook {hook_name} failed: {e}")
-                        self._execution_metrics['failed_executions'] += 1
+                        self._execution_metrics["failed_executions"] += 1
                         raise
                     else:
                         logger.warning(f"Hook {hook_name} failed (non-critical): {e}")
                         self._record_failure(hook_name)
 
-            self._execution_metrics['successful_executions'] += 1
+            self._execution_metrics["successful_executions"] += 1
 
-        except Exception as e:
-            self._execution_metrics['failed_executions'] += 1
+        except Exception:
+            self._execution_metrics["failed_executions"] += 1
             raise
 
         finally:
@@ -279,8 +294,9 @@ class HookRegistry:
 
         return hooks_to_execute
 
-    def _execute_single_hook(self, registered: RegisteredHook,
-                           operation: str, item: MemoryItem) -> MemoryItem:
+    def _execute_single_hook(
+        self, registered: RegisteredHook, operation: str, item: MemoryItem
+    ) -> MemoryItem:
         """Execute a single hook with retry and timeout
 
         Args:
@@ -302,7 +318,7 @@ class HookRegistry:
                 start_time = time.time()
 
                 # Execute hook operation
-                if operation == 'before_store':
+                if operation == "before_store":
                     result = hook.before_store(item)
                 else:  # after_recall
                     result = hook.after_recall(item)
@@ -361,7 +377,7 @@ class HookRegistry:
 
         if self._failed_hooks[hook_name] >= self._circuit_breaker_threshold:
             self._disabled_hooks.add(hook_name)
-            self._execution_metrics['circuit_breaker_trips'] += 1
+            self._execution_metrics["circuit_breaker_trips"] += 1
             logger.warning(f"Circuit breaker tripped for hook: {hook_name}")
 
     def reset_circuit_breaker(self, hook_name: Optional[str] = None) -> None:
@@ -393,13 +409,13 @@ class HookRegistry:
                 hook_name = hook.get_hook_name()
 
                 hooks_info[hook_name] = {
-                    'version': hook.get_hook_version(),
-                    'priority': registered.priority.name,
-                    'tags': list(registered.tags),
-                    'enabled': hook.is_enabled(),
-                    'circuit_broken': hook_name in self._disabled_hooks,
-                    'failure_count': self._failed_hooks.get(hook_name, 0),
-                    'metrics': hook.get_metrics()
+                    "version": hook.get_hook_version(),
+                    "priority": registered.priority.name,
+                    "tags": list(registered.tags),
+                    "enabled": hook.is_enabled(),
+                    "circuit_broken": hook_name in self._disabled_hooks,
+                    "failure_count": self._failed_hooks.get(hook_name, 0),
+                    "metrics": hook.get_metrics(),
                 }
 
         return hooks_info
@@ -412,19 +428,20 @@ class HookRegistry:
         """
         total_hooks = sum(len(hooks) for hooks in self._hooks.values())
         enabled_hooks = sum(
-            1 for hooks in self._hooks.values()
-            for reg in hooks if reg.hook.is_enabled()
+            1
+            for hooks in self._hooks.values()
+            for reg in hooks
+            if reg.hook.is_enabled()
         )
 
         return {
-            'total_hooks': total_hooks,
-            'enabled_hooks': enabled_hooks,
-            'disabled_by_circuit_breaker': len(self._disabled_hooks),
-            'execution_metrics': self._execution_metrics.copy(),
-            'hooks_by_priority': {
-                priority.name: len(hooks)
-                for priority, hooks in self._hooks.items()
-            }
+            "total_hooks": total_hooks,
+            "enabled_hooks": enabled_hooks,
+            "disabled_by_circuit_breaker": len(self._disabled_hooks),
+            "execution_metrics": self._execution_metrics.copy(),
+            "hooks_by_priority": {
+                priority.name: len(hooks) for priority, hooks in self._hooks.items()
+            },
         }
 
     def enable_circuit_breaker(self) -> None:

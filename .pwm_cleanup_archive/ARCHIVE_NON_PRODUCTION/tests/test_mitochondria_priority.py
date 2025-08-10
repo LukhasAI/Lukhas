@@ -1,5 +1,5 @@
-from core.integrated_system import DistributedAISystem
 from bio.mitochondria_model import MitochondriaModel
+from core.integrated_system import DistributedAISystem
 
 
 def test_task_priority_score():

@@ -20,14 +20,15 @@ Transforms raw point cloud + kinetic movement into symbolic fields,
 classifies emotional states based on field disruption, and logs collapses.
 """
 
-import numpy as np
 import datetime
 import uuid
 
+import numpy as np
+
 # === CONFIGURABLE THRESHOLDS === #
 MOVEMENT_VARIANCE_THRESHOLD = 0.8  # Above this = chaotic movement
-STILLNESS_THRESHOLD = 0.1           # Below this = meditative / sleep
-RIPPLE_RATE_THRESHOLD = 0.25        # Moderate, calm energy
+STILLNESS_THRESHOLD = 0.1  # Below this = meditative / sleep
+RIPPLE_RATE_THRESHOLD = 0.25  # Moderate, calm energy
 
 
 # === Symbolic Emotion Mapper === #
@@ -38,16 +39,12 @@ def interpret_emotional_state(point_cloud_series):
     Returns symbolic emotional label and collapse metadata.
     """
     if len(point_cloud_series) < 2:
-        return {
-            "symbol": "❔", 
-            "state": "insufficient data", 
-            "collapse": None
-        }
+        return {"symbol": "❔", "state": "insufficient data", "collapse": None}
 
     # Compute variance in point cloud distances between frames
     variances = []
     for i in range(1, len(point_cloud_series)):
-        prev = point_cloud_series[i-1]
+        prev = point_cloud_series[i - 1]
         curr = point_cloud_series[i]
         displacement = np.linalg.norm(curr - prev, axis=1)
         var = np.var(displacement)
@@ -56,28 +53,20 @@ def interpret_emotional_state(point_cloud_series):
     avg_var = np.mean(variances)
 
     if avg_var < STILLNESS_THRESHOLD:
-        return {
-            "symbol": "🫧",
-            "state": "meditative_stillness",
-            "collapse": None
-        }
+        return {"symbol": "🫧", "state": "meditative_stillness", "collapse": None}
     elif avg_var < RIPPLE_RATE_THRESHOLD:
-        return {
-            "symbol": "🌊",
-            "state": "flow_state",
-            "collapse": None
-        }
+        return {"symbol": "🌊", "state": "flow_state", "collapse": None}
     elif avg_var < MOVEMENT_VARIANCE_THRESHOLD:
         return {
             "symbol": "💢",
             "state": "emotional_disruption",
-            "collapse": generate_collapse_hash(avg_var)
+            "collapse": generate_collapse_hash(avg_var),
         }
     else:
         return {
             "symbol": "⚡",
             "state": "overload / panic",
-            "collapse": generate_collapse_hash(avg_var)
+            "collapse": generate_collapse_hash(avg_var),
         }
 
 
@@ -91,7 +80,7 @@ def generate_collapse_hash(signal_strength):
         "collapse_id": collapse_id,
         "strength": round(signal_strength, 4),
         "timestamp": timestamp,
-        "field_signature": f"field@{signal_strength:.3f}"
+        "field_signature": f"field@{signal_strength:.3f}",
     }
 
 

@@ -19,10 +19,11 @@ Integration Date: 2025-05-31T07:55:27.757398
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-import unittest
+import importlib.util
 import os
 import sys
-import importlib.util
+import unittest
+
 
 def discover_and_run_tests(directory="."):
     print(f"🧪 Scanning {directory} for test_*.py files...\n")
@@ -44,6 +45,7 @@ def discover_and_run_tests(directory="."):
     print("\n🚀 Running all collected tests...\n")
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     return result
+
 
 if __name__ == "__main__":
     trace_dir = os.path.dirname(__file__)

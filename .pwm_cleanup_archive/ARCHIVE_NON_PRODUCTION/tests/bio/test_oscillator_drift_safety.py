@@ -1,6 +1,8 @@
-import unittest
 import asyncio
+import unittest
+
 from core.bio_systems.bio_oscillator import MoodOscillator, OscillationType
+
 
 class TestOscillatorDriftSafety(unittest.IsolatedAsyncioTestCase):
 
@@ -10,9 +12,12 @@ class TestOscillatorDriftSafety(unittest.IsolatedAsyncioTestCase):
         """
         mood_oscillator = MoodOscillator(simulate_trauma_lock=True)
         mood_oscillator.update_mood(0.0, 0.9)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         self.assertEqual(mood_oscillator.mood_state, "trauma_lock")
-        self.assertEqual(mood_oscillator.target_frequency, mood_oscillator._get_default_frequency(OscillationType.DELTA))
+        self.assertEqual(
+            mood_oscillator.target_frequency,
+            mood_oscillator._get_default_frequency(OscillationType.DELTA),
+        )
 
     async def test_mood_phase_transitions(self):
         """
@@ -20,19 +25,28 @@ class TestOscillatorDriftSafety(unittest.IsolatedAsyncioTestCase):
         """
         mood_oscillator = MoodOscillator()
         mood_oscillator.update_mood(0.6, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         self.assertEqual(mood_oscillator.mood_state, "elated")
-        self.assertEqual(mood_oscillator.target_frequency, mood_oscillator._get_default_frequency(OscillationType.GAMMA))
+        self.assertEqual(
+            mood_oscillator.target_frequency,
+            mood_oscillator._get_default_frequency(OscillationType.GAMMA),
+        )
 
         mood_oscillator.update_mood(-0.6, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         self.assertEqual(mood_oscillator.mood_state, "depressed")
-        self.assertEqual(mood_oscillator.target_frequency, mood_oscillator._get_default_frequency(OscillationType.THETA))
+        self.assertEqual(
+            mood_oscillator.target_frequency,
+            mood_oscillator._get_default_frequency(OscillationType.THETA),
+        )
 
         mood_oscillator.update_mood(0.0, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         self.assertEqual(mood_oscillator.mood_state, "neutral")
-        self.assertEqual(mood_oscillator.target_frequency, mood_oscillator._get_default_frequency(OscillationType.ALPHA))
+        self.assertEqual(
+            mood_oscillator.target_frequency,
+            mood_oscillator._get_default_frequency(OscillationType.ALPHA),
+        )
 
     async def test_bio_loop_recognition(self):
         """
@@ -41,13 +55,14 @@ class TestOscillatorDriftSafety(unittest.IsolatedAsyncioTestCase):
         """
         mood_oscillator = MoodOscillator()
         mood_oscillator.update_mood(0.6, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         mood_oscillator.update_mood(0.6, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         mood_oscillator.update_mood(0.6, 0.0)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         # In the future, this should trigger a bio loop recognition event.
         self.assertEqual(mood_oscillator.mood_state, "elated")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

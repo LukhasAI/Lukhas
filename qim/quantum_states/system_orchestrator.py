@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -111,8 +110,11 @@ class QuantumAGISystem:
         # Initialize quantum voice enhancer for enhanced communication
         try:
             # Note: Voice and Bio components may not be available in all configurations
-            from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
             from learning.systems.voice_duet import VoiceIntegrator
+
+            from bio.systems.orchestration.bio_orchestrator import (
+                BioOrchestrator,
+            )
 
             bio_orchestrator = BioOrchestrator()
             voice_integrator = VoiceIntegrator()
@@ -209,7 +211,7 @@ class QuantumAGISystem:
         try:
             await self.dream_adapter.start_dream_cycle(duration_minutes)
             return True
-        except Exception as e:
+        except Exception:
             # Log error but don't crash system
             return False
 
@@ -226,7 +228,7 @@ class QuantumAGISystem:
         try:
             await self.dream_adapter.stop_dream_cycle()
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def get_dream_adapter_status(self) -> dict:

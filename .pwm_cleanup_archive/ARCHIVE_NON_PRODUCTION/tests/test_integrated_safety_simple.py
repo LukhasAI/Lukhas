@@ -5,16 +5,19 @@ Simplified test for integrated safety system that works with available modules
 
 import asyncio
 import json
-from datetime import datetime
-import sys
 import os
+import sys
+from datetime import datetime
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import only what we have implemented
+from bio.symbolic.fallback_systems import (
+    BioSymbolicFallbackManager,
+    FallbackLevel,
+)
 from memory.systems.memory_safety_features import MemorySafetySystem
-from bio.symbolic.fallback_systems import BioSymbolicFallbackManager, FallbackLevel
 
 
 async def test_integrated_safety():
@@ -25,11 +28,8 @@ async def test_integrated_safety():
     test_results = {
         "test_id": f"integrated_safety_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
         "timestamp": datetime.now().isoformat(),
-        "system_info": {
-            "python_version": sys.version,
-            "platform": sys.platform
-        },
-        "test_results": {}
+        "system_info": {"python_version": sys.version, "platform": sys.platform},
+        "test_results": {},
     }
 
     # Test 1: Memory Safety System
@@ -49,30 +49,33 @@ async def test_integrated_safety():
         {
             "name": "Valid memory",
             "data": {"content": "LUKHAS is learning about safety"},
-            "expected": True
+            "expected": True,
         },
         {
             "name": "Hallucination attempt",
             "data": {"content": "LUKHAS is not an AGI system"},
-            "expected": False
+            "expected": False,
         },
         {
             "name": "Future memory",
-            "data": {"content": "Event from 2030", "timestamp": datetime(2030, 1, 1).replace(tzinfo=datetime.now().astimezone().tzinfo)},
-            "expected": False
-        }
+            "data": {
+                "content": "Event from 2030",
+                "timestamp": datetime(2030, 1, 1).replace(
+                    tzinfo=datetime.now().astimezone().tzinfo
+                ),
+            },
+            "expected": False,
+        },
     ]
 
     hallucination_results = []
     for test in test_memories:
-        is_valid, error = await memory_safety.prevent_hallucination(
-            test["data"], {}
-        )
+        is_valid, error = await memory_safety.prevent_hallucination(test["data"], {})
         result = {
             "test": test["name"],
             "passed": is_valid == test["expected"],
             "is_valid": is_valid,
-            "error": error
+            "error": error,
         }
         hallucination_results.append(result)
         print(f"   ✓ {test['name']}: {'✅ PASS' if result['passed'] else '❌ FAIL'}")
@@ -88,17 +91,12 @@ async def test_integrated_safety():
     drift_results = []
     for i in range(5):
         embedding = np.random.rand(128)
-        drift_score = memory_safety.track_drift(
-            "test_tag",
-            embedding,
-            {"iteration": i}
-        )
-        drift_results.append({
-            "iteration": i,
-            "drift_score": float(drift_score)
-        })
+        drift_score = memory_safety.track_drift("test_tag", embedding, {"iteration": i})
+        drift_results.append({"iteration": i, "drift_score": float(drift_score)})
 
-    print(f"   ✓ Average drift: {np.mean([d['drift_score'] for d in drift_results]):.3f}")
+    print(
+        f"   ✓ Average drift: {np.mean([d['drift_score'] for d in drift_results]):.3f}"
+    )
     test_results["test_results"]["drift_tracking"] = drift_results
 
     # Test 2: Bio-Symbolic Fallback System
@@ -115,18 +113,18 @@ async def test_integrated_safety():
         {
             "component": "preprocessing",
             "level": FallbackLevel.MINIMAL,
-            "reason": "Minor performance degradation"
+            "reason": "Minor performance degradation",
         },
         {
             "component": "thresholds",
             "level": FallbackLevel.MODERATE,
-            "reason": "Accuracy below threshold"
+            "reason": "Accuracy below threshold",
         },
         {
             "component": "orchestrator",
             "level": FallbackLevel.SEVERE,
-            "reason": "Critical system failure"
-        }
+            "reason": "Critical system failure",
+        },
     ]
 
     for scenario in test_scenarios:
@@ -134,18 +132,20 @@ async def test_integrated_safety():
             scenario["component"],
             Exception(scenario["reason"]),
             {"test": True},
-            f"test_{scenario['component']}"
+            f"test_{scenario['component']}",
         )
 
         fallback_result = {
             "component": scenario["component"],
             "level": scenario["level"].value,
             "success": result is not None,
-            "has_coherence_metrics": "coherence_metrics" in result if result else False
+            "has_coherence_metrics": "coherence_metrics" in result if result else False,
         }
         fallback_results.append(fallback_result)
 
-        print(f"   ✓ {scenario['component']} fallback: {'✅ SUCCESS' if fallback_result['success'] else '❌ FAIL'}")
+        print(
+            f"   ✓ {scenario['component']} fallback: {'✅ SUCCESS' if fallback_result['success'] else '❌ FAIL'}"
+        )
 
     test_results["test_results"]["fallback_system"] = fallback_results
 
@@ -157,14 +157,20 @@ async def test_integrated_safety():
 
     print(f"   ✓ Monitored tags: {safety_report['drift_analysis']['monitored_tags']}")
     print(f"   ✓ Average drift: {safety_report['drift_analysis']['average_drift']:.3f}")
-    print(f"   ✓ Reality anchors: {safety_report['hallucination_prevention']['reality_anchors']}")
-    print(f"   ✓ Contradictions caught: {safety_report['hallucination_prevention']['contradictions_caught']}")
+    print(
+        f"   ✓ Reality anchors: {safety_report['hallucination_prevention']['reality_anchors']}"
+    )
+    print(
+        f"   ✓ Contradictions caught: {safety_report['hallucination_prevention']['contradictions_caught']}"
+    )
 
     test_results["test_results"]["safety_report"] = {
-        "monitored_tags": safety_report['drift_analysis']['monitored_tags'],
-        "average_drift": safety_report['drift_analysis']['average_drift'],
-        "reality_anchors": safety_report['hallucination_prevention']['reality_anchors'],
-        "contradictions_caught": safety_report['hallucination_prevention']['contradictions_caught']
+        "monitored_tags": safety_report["drift_analysis"]["monitored_tags"],
+        "average_drift": safety_report["drift_analysis"]["average_drift"],
+        "reality_anchors": safety_report["hallucination_prevention"]["reality_anchors"],
+        "contradictions_caught": safety_report["hallucination_prevention"][
+            "contradictions_caught"
+        ],
     }
 
     # Test 4: Circuit Breaker Simulation
@@ -176,13 +182,10 @@ async def test_integrated_safety():
 
     print("   Simulating multiple failures...")
     for i in range(6):
-        fallback_manager.circuit_breakers['test_component']['failures'] = i
+        fallback_manager.circuit_breakers["test_component"]["failures"] = i
         is_tripped = i >= 5  # Threshold is 5
 
-        circuit_breaker_results.append({
-            "failure_count": i,
-            "is_tripped": is_tripped
-        })
+        circuit_breaker_results.append({"failure_count": i, "is_tripped": is_tripped})
 
         print(f"   Failure {i+1}: Circuit breaker {'OPEN' if is_tripped else 'CLOSED'}")
 
@@ -195,11 +198,12 @@ async def test_integrated_safety():
     performance_results = {
         "memory_safety_operations": 0,
         "fallback_activations": 0,
-        "total_test_duration": 0
+        "total_test_duration": 0,
     }
 
     # Time memory safety operations
     import time
+
     start_time = time.time()
 
     for i in range(100):
@@ -212,8 +216,8 @@ async def test_integrated_safety():
     print(f"   ✓ Memory safety ops/sec: {100/memory_time:.1f}")
     print(f"   ✓ Average time per op: {memory_time/100*1000:.2f}ms")
 
-    performance_results["ops_per_second"] = 100/memory_time
-    performance_results["avg_time_per_op_ms"] = memory_time/100*1000
+    performance_results["ops_per_second"] = 100 / memory_time
+    performance_results["avg_time_per_op_ms"] = memory_time / 100 * 1000
     performance_results["total_test_duration"] = time.time() - start_time
 
     test_results["test_results"]["performance"] = performance_results
@@ -222,28 +226,34 @@ async def test_integrated_safety():
     print("\n\n📊 TEST SUMMARY")
     print("=" * 80)
 
-    total_tests = sum([
-        len(hallucination_results),
-        len(fallback_results),
-        len(circuit_breaker_results),
-        1  # safety report
-    ])
+    total_tests = sum(
+        [
+            len(hallucination_results),
+            len(fallback_results),
+            len(circuit_breaker_results),
+            1,  # safety report
+        ]
+    )
 
-    passed_tests = sum([
-        sum(1 for r in hallucination_results if r.get("passed", False)),
-        sum(1 for r in fallback_results if r["success"]),
-        len(circuit_breaker_results),  # All circuit breaker tests pass by design
-        1  # safety report always passes
-    ])
+    passed_tests = sum(
+        [
+            sum(1 for r in hallucination_results if r.get("passed", False)),
+            sum(1 for r in fallback_results if r["success"]),
+            len(circuit_breaker_results),  # All circuit breaker tests pass by design
+            1,  # safety report always passes
+        ]
+    )
 
     test_results["summary"] = {
         "total_tests": total_tests,
         "passed_tests": passed_tests,
         "success_rate": passed_tests / total_tests if total_tests > 0 else 0,
-        "test_duration": datetime.now().isoformat()
+        "test_duration": datetime.now().isoformat(),
     }
 
-    print(f"\n✅ Tests Passed: {passed_tests}/{total_tests} ({test_results['summary']['success_rate']:.1%})")
+    print(
+        f"\n✅ Tests Passed: {passed_tests}/{total_tests} ({test_results['summary']['success_rate']:.1%})"
+    )
 
     return test_results
 
@@ -259,13 +269,14 @@ async def main():
 
         # Save test results
         results_file = f"benchmarks/integrated_safety_test_{timestamp}.json"
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(results, f, indent=2)
 
         print(f"\n\n📁 Results saved to: {results_file}")
 
         # Also save the test script for reference
         import shutil
+
         test_copy = f"benchmarks/integrated_safety_test_script_{timestamp}.py"
         shutil.copy(__file__, test_copy)
         print(f"📁 Test script saved to: {test_copy}")
@@ -275,6 +286,7 @@ async def main():
     except Exception as e:
         print(f"\n\n❌ ERROR: {e}")
         import traceback
+
         traceback.print_exc()
 
 

@@ -2,10 +2,10 @@
 
 import asyncio
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
 
 from core.colonies.base_colony import BaseColony
-from ethics.meg_bridge import create_meg_bridge, MEGPolicyBridge
+from ethics.meg_bridge import MEGPolicyBridge, create_meg_bridge
 from ethics.policy_engines.base import Decision, RiskLevel
 
 logger = logging.getLogger(__name__)
@@ -33,9 +33,9 @@ class GovernanceColony(BaseColony):
             "risk_flags": evaluation.risk_flags,
         }
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
-        logger.info(
-            f"GovernanceColony {self.colony_id} reviewing scenario {task_id}"
-        )
+    async def execute_task(
+        self, task_id: str, task_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        logger.info(f"GovernanceColony {self.colony_id} reviewing scenario {task_id}")
         evaluation = self.review_scenario(task_data)
         return {"status": "completed", "task_id": task_id, "evaluation": evaluation}

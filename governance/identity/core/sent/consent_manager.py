@@ -13,8 +13,9 @@ Features:
 - ΛTRACE integration
 """
 
-from .symbolic_scopes import SymbolicScopesManager
 from .consent_history import ConsentHistoryManager
+from .symbolic_scopes import SymbolicScopesManager
+
 
 class LambdaConsentManager:
     """Manage user consent and permissions with symbolic representation"""
@@ -32,24 +33,31 @@ class LambdaConsentManager:
         self.active_consents = {}
         self.policy_versions = {}
 
-    def collect_consent(self, user_id: str, consent_scope: str, metadata: dict = None) -> dict:
+    def collect_consent(
+        self, user_id: str, consent_scope: str, metadata: dict = None
+    ) -> dict:
         """Collect user consent for specific scope with tier validation"""
         # Validate user tier permissions
         if self.tier_manager:
             user_tier = self.tier_manager.get_user_tier(user_id)
             if not self._validate_tier_consent_access(user_tier, consent_scope):
-                return {"success": False, "error": "Insufficient tier for consent scope"}
+                return {
+                    "success": False,
+                    "error": "Insufficient tier for consent scope",
+                }
 
         # Validate scope requirements
-        scope_requirements = self.scopes_manager.get_scope_requirements(consent_scope, user_tier)
+        scope_requirements = self.scopes_manager.get_scope_requirements(
+            consent_scope, user_tier
+        )
 
         # Create consent record
         consent_data = {
-            'scope': consent_scope,
-            'granted': True,
-            'timestamp': metadata.get('timestamp') if metadata else None,
-            'user_tier': user_tier,
-            'scope_requirements': scope_requirements
+            "scope": consent_scope,
+            "granted": True,
+            "timestamp": metadata.get("timestamp") if metadata else None,
+            "user_tier": user_tier,
+            "scope_requirements": scope_requirements,
         }
 
         # Store active consent
@@ -59,7 +67,7 @@ class LambdaConsentManager:
 
         # Record in immutable history
         history_hash = self.history_manager.record_consent_event(
-            user_id, 'granted', {consent_scope: consent_data}, metadata or {}
+            user_id, "granted", {consent_scope: consent_data}, metadata or {}
         )
 
         # Generate symbolic representation
@@ -69,7 +77,7 @@ class LambdaConsentManager:
             "success": True,
             "consent_hash": history_hash,
             "symbolic_representation": symbolic_consent,
-            "active_scopes": list(self.active_consents.get(user_id, {}).keys())
+            "active_scopes": list(self.active_consents.get(user_id, {}).keys()),
         }
 
     def validate_consent(self, user_id: str, action_type: str) -> bool:
@@ -89,7 +97,7 @@ class LambdaConsentManager:
             return False
 
         consent_data = user_consents[required_scope]
-        return consent_data.get('granted', False)
+        return consent_data.get("granted", False)
 
     def revoke_consent(self, user_id: str, consent_scope: str) -> dict:
         """Revoke user consent for specific scope"""
@@ -107,9 +115,9 @@ class LambdaConsentManager:
         del self.active_consents[user_id][consent_scope]
 
         # Record revocation in history
-        metadata = {'revocation_reason': 'user_request'}
+        metadata = {"revocation_reason": "user_request"}
         history_hash = self.history_manager.record_consent_event(
-            user_id, 'revoked', {consent_scope: {'granted': False}}, metadata
+            user_id, "revoked", {consent_scope: {"granted": False}}, metadata
         )
 
         # Generate updated symbolic representation
@@ -119,13 +127,13 @@ class LambdaConsentManager:
             "success": True,
             "revocation_hash": history_hash,
             "symbolic_representation": symbolic_consent,
-            "remaining_scopes": list(self.active_consents.get(user_id, {}).keys())
+            "remaining_scopes": list(self.active_consents.get(user_id, {}).keys()),
         }
 
     def get_consent_status(self, user_id: str) -> dict:
         """Get comprehensive consent status for user"""
         active_consents = self.active_consents.get(user_id, {})
-        consent_history = self.history_manager.get_consent_timeline(user_id)
+        self.history_manager.get_consent_timeline(user_id)
         symbolic_status = self.get_symbolic_consent_status(user_id)
         symbolic_history = self.history_manager.get_symbolic_consent_history(user_id)
 
@@ -136,7 +144,9 @@ class LambdaConsentManager:
             "symbolic_representation": symbolic_status,
             "symbolic_history": symbolic_history,
             "history_integrity": self.history_manager.verify_consent_chain(user_id),
-            "last_updated": max([c.get('timestamp', '') for c in active_consents.values()], default='')
+            "last_updated": max(
+                [c.get("timestamp", "") for c in active_consents.values()], default=""
+            ),
         }
 
     def get_symbolic_consent_status(self, user_id: str) -> str:
@@ -156,17 +166,17 @@ class LambdaConsentManager:
     def _map_action_to_scope(self, action_type: str) -> str:
         """Map action type to required consent scope"""
         action_scope_map = {
-            'replay_session': 'replay',
-            'access_memory': 'memory',
-            'biometric_auth': 'biometric',
-            'location_tracking': 'location',
-            'audio_processing': 'audio',
-            'analytics_processing': 'analytics',
-            'third_party_integration': 'integration'
+            "replay_session": "replay",
+            "access_memory": "memory",
+            "biometric_auth": "biometric",
+            "location_tracking": "location",
+            "audio_processing": "audio",
+            "analytics_processing": "analytics",
+            "third_party_integration": "integration",
         }
         return action_scope_map.get(action_type)
 
     def _is_scope_revocable(self, consent_scope: str) -> bool:
         """Check if consent scope can be revoked"""
-        non_revocable_scopes = ['basic_interaction', 'essential_functions']
+        non_revocable_scopes = ["basic_interaction", "essential_functions"]
         return consent_scope not in non_revocable_scopes

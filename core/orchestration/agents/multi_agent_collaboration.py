@@ -5,15 +5,9 @@ Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
 
-from typing import Dict, Any, Optional
 import logging
-import numpy as np
-import requests
-from io import BytesIO
-import base64
-from typing import List
-from typing import Optional
-from typing import Any
+import time
+from typing import Any, Optional
 
 
 class MultiAgentCollaboration:
@@ -29,7 +23,9 @@ class MultiAgentCollaboration:
         self.tasks = {}  # Active tasks
         self.messages = []  # Communication history
 
-    def register_agent(self, agent_id: str, capabilities: List[str], endpoint: str) -> bool:
+    def register_agent(
+        self, agent_id: str, capabilities: list[str], endpoint: str
+    ) -> bool:
         """Register a new agent for collaboration."""
         if agent_id in self.agents:
             self.logger.warning(f"Agent {agent_id} is already registered")
@@ -42,18 +38,22 @@ class MultiAgentCollaboration:
             "status": "available",
             "current_task": None,
             "registered_at": time.time(),
-            "last_active": time.time()
+            "last_active": time.time(),
         }
 
-        self.logger.info(f"Registered agent {agent_id} with capabilities: {capabilities}")
+        self.logger.info(
+            f"Registered agent {agent_id} with capabilities: {capabilities}"
+        )
         return True
 
-    def create_task(self,
-                   title: str,
-                   description: str,
-                   required_capabilities: List[str],
-                   data: Dict[str, Any],
-                   callback: Optional[Callable] = None) -> str:
+    def create_task(
+        self,
+        title: str,
+        description: str,
+        required_capabilities: list[str],
+        data: dict[str, Any],
+        callback: Optional[Callable] = None,
+    ) -> str:
         """Create a new collaborative task."""
         task_id = str(uuid.uuid4())
 
@@ -68,7 +68,7 @@ class MultiAgentCollaboration:
             "assigned_agents": [],
             "progress": 0.0,
             "result": None,
-            "callback": callback
+            "callback": callback,
         }
 
         self.tasks[task_id] = task
@@ -79,11 +79,13 @@ class MultiAgentCollaboration:
 
         return task_id
 
-    def send_message(self,
-                    from_agent: str,
-                    to_agent: str,
-                    message: str,
-                    task_id: Optional[str] = None) -> str:
+    def send_message(
+        self,
+        from_agent: str,
+        to_agent: str,
+        message: str,
+        task_id: Optional[str] = None,
+    ) -> str:
         """Send a message between agents."""
         message_id = str(uuid.uuid4())
 
@@ -94,7 +96,7 @@ class MultiAgentCollaboration:
             "content": message,
             "task_id": task_id,
             "timestamp": time.time(),
-            "read": False
+            "read": False,
         }
 
         self.messages.append(message_obj)
@@ -104,7 +106,9 @@ class MultiAgentCollaboration:
 
         return message_id
 
-    def update_task_progress(self, task_id: str, agent_id: str, progress: float) -> bool:
+    def update_task_progress(
+        self, task_id: str, agent_id: str, progress: float
+    ) -> bool:
         """Update the progress of a task."""
         if task_id not in self.tasks:
             self.logger.warning(f"Task {task_id} not found")
@@ -132,7 +136,9 @@ class MultiAgentCollaboration:
 
         return True
 
-    def complete_task(self, task_id: str, agent_id: str, result: Dict[str, Any]) -> bool:
+    def complete_task(
+        self, task_id: str, agent_id: str, result: dict[str, Any]
+    ) -> bool:
         """Mark a task as completed with results."""
         if task_id not in self.tasks:
             self.logger.warning(f"Task {task_id} not found")
@@ -200,10 +206,7 @@ class MultiAgentCollaboration:
 
         # Update task
         task["status"] = "in_progress"
-        task["assigned_agents"].append({
-            "id": agent_id,
-            "assigned_at": time.time()
-        })
+        task["assigned_agents"].append({"id": agent_id, "assigned_at": time.time()})
 
         self.logger.info(f"Assigned task {task_id} to agent {agent_id}")
 
@@ -225,13 +228,9 @@ class MultiAgentCollaboration:
                 self.agents[agent_id]["current_task"] = None
 
         self.logger.info(f"Task {task_id} marked as completed")
+
+
 EOF
 
 # Voice Synthesis
-cat > lukhas_agi/packages/voice/src/synthesis.py << 'EOF'
-from typing import Dict, Any, Optional
-import logging
-import numpy as np
-import requests
-from io import BytesIO
-import base64
+cat > lukhas_agi / packages / voice / src / synthesis.py << "EOF"

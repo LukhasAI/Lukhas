@@ -4,26 +4,33 @@
 """
 
 import asyncio
-import time
-import numpy as np
+import json
+import os
 import random
 import string
+import time
 from datetime import datetime, timezone
-import psutil
-import os
-import json
 
-from memory.systems.memory_safety_features import MemorySafetySystem, SafeMemoryFold
+import numpy as np
+import psutil
+
 from memory.core import create_hybrid_memory_fold
+from memory.systems.colony_swarm_integration import (
+    ColonyRole,
+    SwarmConsensusManager,
+)
 from memory.systems.integration_adapters import MemorySafetyIntegration
-from memory.systems.colony_swarm_integration import SwarmConsensusManager, ColonyRole
+from memory.systems.memory_safety_features import (
+    MemorySafetySystem,
+    SafeMemoryFold,
+)
 
 
 async def run_stress_test():
     """Run comprehensive stress test with proper error handling"""
 
     print("🔥 LUKHAS MEMORY SYSTEM - STRESS TEST")
-    print("="*60)
+    print("=" * 60)
 
     # Initialize
     print("\n🔧 Initializing systems...")
@@ -41,8 +48,13 @@ async def run_stress_test():
     # Set up swarm with enough colonies
     swarm = SwarmConsensusManager(integration, min_colonies=3)
     for i in range(5):
-        role = [ColonyRole.VALIDATOR, ColonyRole.WITNESS, ColonyRole.ARBITER,
-                ColonyRole.SPECIALIST, ColonyRole.VALIDATOR][i]
+        role = [
+            ColonyRole.VALIDATOR,
+            ColonyRole.WITNESS,
+            ColonyRole.ARBITER,
+            ColonyRole.SPECIALIST,
+            ColonyRole.VALIDATOR,
+        ][i]
         swarm.register_colony(f"colony_{i}", role)
 
     print("✅ Systems initialized")
@@ -54,7 +66,7 @@ async def run_stress_test():
         "drift": {"count": 0, "calibrations": 0, "time": 0},
         "consensus": {"count": 0, "successful": 0, "time": 0},
         "concurrent": {"stores": 0, "retrievals": 0, "time": 0},
-        "memory_usage": {}
+        "memory_usage": {},
     }
 
     # TEST 1: Storage Performance
@@ -68,7 +80,7 @@ async def run_stress_test():
                 "content": content,
                 "type": random.choice(["knowledge", "experience", "observation"]),
                 "index": i,
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             }
 
             if i % 2 == 0:
@@ -76,7 +88,7 @@ async def run_stress_test():
                 await memory_system.fold_in_with_embedding(
                     data=memory_data,
                     tags=["stress_test", f"batch_{i//100}"],
-                    text_content=content
+                    text_content=content,
                 )
             else:
                 # Safe storage
@@ -85,7 +97,7 @@ async def run_stress_test():
 
             results["storage"]["count"] += 1
 
-        except Exception as e:
+        except Exception:
             results["storage"]["errors"] += 1
 
     results["storage"]["time"] = time.time() - start
@@ -113,12 +125,11 @@ async def run_stress_test():
             else:
                 # Multi-tag query
                 mems = await memory_system.fold_out_by_tags(
-                    ["stress_test", f"batch_{i % 10}"],
-                    max_items=5
+                    ["stress_test", f"batch_{i % 10}"], max_items=5
                 )
                 results["retrieval"]["count"] += len(mems)
 
-        except Exception as e:
+        except Exception:
             results["retrieval"]["errors"] += 1
 
     results["retrieval"]["time"] = time.time() - start
@@ -141,17 +152,14 @@ async def run_stress_test():
             drifted = drifted / (np.linalg.norm(drifted) + 1e-8)
 
             drift_result = await integration.drift.track_module_usage(
-                "learning",
-                "drift_test",
-                drifted,
-                {"iteration": i}
+                "learning", "drift_test", drifted, {"iteration": i}
             )
 
             results["drift"]["count"] += 1
             if drift_result["needs_calibration"]:
                 results["drift"]["calibrations"] += 1
 
-        except Exception as e:
+        except Exception:
             pass
 
     results["drift"]["time"] = time.time() - start
@@ -169,7 +177,7 @@ async def run_stress_test():
             memory_data = {
                 "content": f"Consensus test {i}",
                 "type": "consensus_test",
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             }
 
             # Add some invalid memories
@@ -179,20 +187,22 @@ async def run_stress_test():
             mem_id = await swarm.distributed_memory_storage(
                 memory_data=memory_data,
                 tags=["consensus"],
-                proposing_colony=f"colony_{i % 5}"
+                proposing_colony=f"colony_{i % 5}",
             )
 
             results["consensus"]["count"] += 1
             if mem_id is not None:
                 results["consensus"]["successful"] += 1
 
-        except Exception as e:
+        except Exception:
             pass
 
     results["consensus"]["time"] = time.time() - start
 
     if results["consensus"]["count"] > 0:
-        success_rate = results["consensus"]["successful"] / results["consensus"]["count"] * 100
+        success_rate = (
+            results["consensus"]["successful"] / results["consensus"]["count"] * 100
+        )
         consensus_rate = results["consensus"]["count"] / results["consensus"]["time"]
         print(f"  ✓ Consensus validations: {results['consensus']['count']}")
         print(f"  ✓ Success rate: {success_rate:.1f}%")
@@ -210,7 +220,7 @@ async def run_stress_test():
                 await memory_system.fold_in_with_embedding(
                     data={"content": f"Concurrent store {count}"},
                     tags=["concurrent"],
-                    text_content=f"Concurrent store {count}"
+                    text_content=f"Concurrent store {count}",
                 )
                 results["concurrent"]["stores"] += 1
                 count += 1
@@ -228,11 +238,7 @@ async def run_stress_test():
             await asyncio.sleep(0.02)
 
     # Run workers
-    await asyncio.gather(
-        store_worker(),
-        retrieve_worker(),
-        return_exceptions=True
-    )
+    await asyncio.gather(store_worker(), retrieve_worker(), return_exceptions=True)
 
     results["concurrent"]["time"] = time.time() - start
     total_ops = results["concurrent"]["stores"] + results["concurrent"]["retrievals"]
@@ -240,7 +246,9 @@ async def run_stress_test():
 
     print(f"  ✓ Total operations: {total_ops}")
     print(f"  ✓ Rate: {ops_rate:.1f} operations/second")
-    print(f"  ✓ Stores: {results['concurrent']['stores']}, Retrievals: {results['concurrent']['retrievals']}")
+    print(
+        f"  ✓ Stores: {results['concurrent']['stores']}, Retrievals: {results['concurrent']['retrievals']}"
+    )
 
     # Memory Usage
     print("\n6️⃣ MEMORY USAGE...")
@@ -256,7 +264,7 @@ async def run_stress_test():
         "total_memories": stats["total_items"],
         "unique_tags": len(memory_system.tag_registry),
         "vector_cache": stats["vector_stats"]["cache_size"],
-        "bytes_per_memory": memory_mb * 1024 * 1024 / max(stats["total_items"], 1)
+        "bytes_per_memory": memory_mb * 1024 * 1024 / max(stats["total_items"], 1),
     }
 
     print(f"  ✓ Process memory: {memory_mb:.1f} MB")
@@ -265,42 +273,60 @@ async def run_stress_test():
 
     # Final Report
     print("\n📊 STRESS TEST SUMMARY")
-    print("="*60)
+    print("=" * 60)
 
     print("\nPerformance Metrics:")
-    print(f"  • Storage: {results['storage']['count'] / results['storage']['time']:.1f} memories/sec")
+    print(
+        f"  • Storage: {results['storage']['count'] / results['storage']['time']:.1f} memories/sec"
+    )
     print(f"  • Retrieval: {100 / results['retrieval']['time']:.1f} queries/sec")
-    print(f"  • Drift tracking: {results['drift']['count'] / results['drift']['time']:.1f} measurements/sec")
+    print(
+        f"  • Drift tracking: {results['drift']['count'] / results['drift']['time']:.1f} measurements/sec"
+    )
 
     if results["consensus"]["count"] > 0:
-        print(f"  • Consensus: {results['consensus']['successful'] / results['consensus']['count'] * 100:.1f}% success")
+        print(
+            f"  • Consensus: {results['consensus']['successful'] / results['consensus']['count'] * 100:.1f}% success"
+        )
 
     print(f"  • Concurrent: {ops_rate:.1f} ops/sec")
 
     print("\nSystem Health:")
     print(f"  • Average drift: {safety_report['drift_analysis']['average_drift']:.3f}")
     print(f"  • Max drift: {safety_report['drift_analysis']['max_drift']:.3f}")
-    print(f"  • Integrity score: {safety_report['verifold_status']['average_integrity']:.3f}")
-    print(f"  • Quarantined: {safety_report['quarantine_status']['memories_in_quarantine']}")
+    print(
+        f"  • Integrity score: {safety_report['verifold_status']['average_integrity']:.3f}"
+    )
+    print(
+        f"  • Quarantined: {safety_report['quarantine_status']['memories_in_quarantine']}"
+    )
 
     print("\nCapacity:")
     print(f"  • Memories stored: {stats['total_items']}")
-    print(f"  • Memory efficiency: {results['memory_usage']['bytes_per_memory']:.0f} bytes/memory")
-    print(f"  • Estimated capacity: ~{int(1000 * 1024 * 1024 / results['memory_usage']['bytes_per_memory'])} memories per GB")
+    print(
+        f"  • Memory efficiency: {results['memory_usage']['bytes_per_memory']:.0f} bytes/memory"
+    )
+    print(
+        f"  • Estimated capacity: ~{int(1000 * 1024 * 1024 / results['memory_usage']['bytes_per_memory'])} memories per GB"
+    )
 
     # Save results
     with open("stress_test_results_final.json", "w") as f:
-        json.dump({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "results": results,
-            "system_stats": {
-                "total_memories": stats["total_items"],
-                "unique_tags": len(memory_system.tag_registry),
-                "vector_cache": stats["vector_stats"]["cache_size"],
-                "drift_metrics": safety_report["drift_analysis"],
-                "verifold_status": safety_report["verifold_status"]
-            }
-        }, f, indent=2)
+        json.dump(
+            {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "results": results,
+                "system_stats": {
+                    "total_memories": stats["total_items"],
+                    "unique_tags": len(memory_system.tag_registry),
+                    "vector_cache": stats["vector_stats"]["cache_size"],
+                    "drift_metrics": safety_report["drift_analysis"],
+                    "verifold_status": safety_report["verifold_status"],
+                },
+            },
+            f,
+            indent=2,
+        )
 
     print("\n✅ STRESS TEST COMPLETE!")
     print("📁 Results saved to stress_test_results_final.json")

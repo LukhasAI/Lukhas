@@ -16,6 +16,7 @@ from pathlib import Path
 
 ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json")
 
+
 def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     """
     Detects ethics drift based on decision alignment scores.
@@ -27,7 +28,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     Returns:
         dict: Drift detection summary.
     """
-    drift_count = sum(1 for d in decision_data if d["alignment_score"] < ethical_threshold)
+    drift_count = sum(
+        1 for d in decision_data if d["alignment_score"] < ethical_threshold
+    )
     total_decisions = len(decision_data)
     drift_ratio = drift_count / total_decisions if total_decisions else 0
 
@@ -39,8 +42,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
         "timestamp": datetime.utcnow().isoformat(),
         "drift_ratio": drift_ratio,
         "status": status,
-        "ethical_threshold": ethical_threshold
+        "ethical_threshold": ethical_threshold,
     }
+
 
 def log_ethics_event(event_data):
     """

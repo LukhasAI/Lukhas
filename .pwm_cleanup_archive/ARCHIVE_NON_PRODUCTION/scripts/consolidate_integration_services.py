@@ -4,11 +4,11 @@ Integration Services Consolidator - Phase 2C-4
 Consolidate 2 integration services files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_integration_services(dry_run=True):
     """Consolidate integration services orchestrators"""
@@ -16,15 +16,15 @@ def consolidate_integration_services(dry_run=True):
     # Integration services files
     integration_files = [
         "./orchestration/integration/human_in_the_loop_orchestrator.py",
-        "./orchestration/integration/vendor_sync_orchestrator.py"
+        "./orchestration/integration/vendor_sync_orchestrator.py",
     ]
 
     primary_file = "./orchestration/integration/human_in_the_loop_orchestrator.py"  # More comprehensive
 
-    print(f"\\n🔗 INTEGRATION SERVICES CONSOLIDATION")
+    print("\\n🔗 INTEGRATION SERVICES CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(integration_files)}")
     print(f"{'='*60}")
@@ -74,22 +74,30 @@ def consolidate_integration_services(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 Integration services consolidation complete!")
+    print("\\n📊 Integration services consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
     return archived_count
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate integration services orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate integration services orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     result = consolidate_integration_services(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_integration_services.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_integration_services.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

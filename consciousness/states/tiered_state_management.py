@@ -25,27 +25,32 @@
 """
 
 import asyncio
-import json
-from core.common import get_logger
 import time
 import uuid
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 from threading import RLock
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+
+from core.common import get_logger
 
 # Import dependencies
 try:
-    from .event_sourcing import Event, EventStore, Aggregate
     from .actor_system import ActorState as ActorSystemState
-    from .lightweight_concurrency import LightweightActor, MemoryEfficientScheduler
+    from .event_sourcing import Aggregate, Event, EventStore
+    from .lightweight_concurrency import (
+        LightweightActor,
+        MemoryEfficientScheduler,
+    )
+
     DEPENDENCIES_AVAILABLE = True
 except ImportError:
     DEPENDENCIES_AVAILABLE = False
     # Define minimal interfaces for testing
     from dataclasses import dataclass as dc
+
     @dc
     class Event:
         event_id: str
@@ -57,19 +62,24 @@ except ImportError:
         version: int
         correlation_id: Optional[str] = None
 
+
 logger = get_logger(__name__)
 
 
 class StateType(Enum):
     """Types of state in the tiered system"""
-    GLOBAL_PERSISTENT = "global_persistent"    # Event-sourced, durable
-    LOCAL_EPHEMERAL = "local_ephemeral"       # Actor-local, in-memory
-    CACHED_DERIVED = "cached_derived"         # Computed from events, cached
-    REPLICATED_SHARED = "replicated_shared"   # Shared across actors, eventually consistent
+
+    GLOBAL_PERSISTENT = "global_persistent"  # Event-sourced, durable
+    LOCAL_EPHEMERAL = "local_ephemeral"  # Actor-local, in-memory
+    CACHED_DERIVED = "cached_derived"  # Computed from events, cached
+    REPLICATED_SHARED = (
+        "replicated_shared"  # Shared across actors, eventually consistent
+    )
 
 
 class ConsistencyLevel(Enum):
     """Consistency guarantees for state operations"""
+
     EVENTUAL = "eventual"
     STRONG = "strong"
     CAUSAL = "causal"
@@ -79,6 +89,7 @@ class ConsistencyLevel(Enum):
 @dataclass
 class StateSnapshot:
     """Point-in-time snapshot of state"""
+
     snapshot_id: str
     aggregate_id: str
     version: int
@@ -93,7 +104,7 @@ class StateSnapshot:
             "version": self.version,
             "state_data": self.state_data,
             "timestamp": self.timestamp,
-            "state_type": self.state_type.value
+            "state_type": self.state_type.value,
         }
 
 
@@ -101,7 +112,9 @@ class StateAggregator(ABC):
     """Abstract base for state aggregation strategies"""
 
     @abstractmethod
-    def aggregate(self, events: List[Event], initial_state: Dict[str, Any]) -> Dict[str, Any]:
+    def aggregate(
+        self, events: List[Event], initial_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Aggregate events into state"""
         pass
 
@@ -114,7 +127,9 @@ class StateAggregator(ABC):
 class DefaultStateAggregator(StateAggregator):
     """Default aggregation strategy applying events sequentially"""
 
-    def aggregate(self, events: List[Event], initial_state: Dict[str, Any]) -> Dict[str, Any]:
+    def aggregate(
+        self, events: List[Event], initial_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -135,7 +150,12 @@ class DefaultStateAggregator(StateAggregator):
         return state
 
     def can_handle(self, event_type: str) -> bool:
-        return event_type in ["state_updated", "field_set", "field_deleted", "state_reset"]
+        return event_type in [
+            "state_updated",
+            "field_set",
+            "field_deleted",
+            "state_reset",
+        ]
 
 
 class TieredStateManager:
@@ -151,7 +171,7 @@ class TieredStateManager:
         self,
         event_store: Optional[Any] = None,
         cache_ttl_seconds: int = 300,
-        snapshot_interval: int = 100
+        snapshot_interval: int = 100,
     ):
         self.event_store = event_store
         self.cache_ttl = cache_ttl_seconds
@@ -178,7 +198,7 @@ class TieredStateManager:
             "cache_hits": 0,
             "cache_misses": 0,
             "events_processed": 0,
-            "snapshots_created": 0
+            "snapshots_created": 0,
         }
 
     def register_aggregator(self, aggregator: StateAggregator) -> None:
@@ -190,7 +210,7 @@ class TieredStateManager:
         aggregate_id: str,
         state_type: StateType = StateType.GLOBAL_PERSISTENT,
         consistency: ConsistencyLevel = ConsistencyLevel.EVENTUAL,
-        version: Optional[int] = None
+        version: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
         Retrieve state for an aggregate with specified consistency level.
@@ -216,7 +236,9 @@ class TieredStateManager:
 
         # For persistent state, reconstruct from events
         if self.event_store and state_type == StateType.GLOBAL_PERSISTENT:
-            return await self._reconstruct_from_events(aggregate_id, version, consistency)
+            return await self._reconstruct_from_events(
+                aggregate_id, version, consistency
+            )
 
         return {}
 
@@ -226,7 +248,7 @@ class TieredStateManager:
         updates: Dict[str, Any],
         state_type: StateType = StateType.GLOBAL_PERSISTENT,
         event_type: str = "state_updated",
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> bool:
         """
         Update state with the specified changes.
@@ -258,7 +280,7 @@ class TieredStateManager:
                 data=updates,
                 metadata=metadata or {},
                 timestamp=time.time(),
-                version=self._get_next_version(aggregate_id)
+                version=self._get_next_version(aggregate_id),
             )
 
             success = await self._store_event(event)
@@ -291,7 +313,7 @@ class TieredStateManager:
                 version=version,
                 state_data=state,
                 timestamp=time.time(),
-                state_type=StateType.GLOBAL_PERSISTENT
+                state_type=StateType.GLOBAL_PERSISTENT,
             )
 
             self.snapshots[aggregate_id] = snapshot
@@ -301,31 +323,32 @@ class TieredStateManager:
         return snapshot
 
     async def sync_actor_state(
-        self,
-        actor: Any,
-        sync_direction: str = "bidirectional"
+        self, actor: Any, sync_direction: str = "bidirectional"
     ) -> None:
         """
         Synchronize state between actor and persistent store.
         sync_direction: "to_persistent", "from_persistent", "bidirectional"
         """
-        actor_id = getattr(actor, 'actor_id', str(actor))
+        actor_id = getattr(actor, "actor_id", str(actor))
 
         if sync_direction in ["from_persistent", "bidirectional"]:
             # Load persistent state into actor
             persistent_state = await self.get_state(
-                actor_id,
-                StateType.GLOBAL_PERSISTENT
+                actor_id, StateType.GLOBAL_PERSISTENT
             )
 
-            if hasattr(actor, 'state'):
+            if hasattr(actor, "state"):
                 actor.state.update(persistent_state)
             else:
                 self.local_states[actor_id] = persistent_state.copy()
 
         if sync_direction in ["to_persistent", "bidirectional"]:
             # Save actor state to persistent store
-            actor_state = getattr(actor, 'state', {}) if hasattr(actor, 'state') else self.local_states.get(actor_id, {})
+            actor_state = (
+                getattr(actor, "state", {})
+                if hasattr(actor, "state")
+                else self.local_states.get(actor_id, {})
+            )
 
             if actor_state:
                 await self.update_state(
@@ -333,31 +356,24 @@ class TieredStateManager:
                     actor_state,
                     StateType.GLOBAL_PERSISTENT,
                     event_type="actor_state_sync",
-                    metadata={"sync_time": time.time()}
+                    metadata={"sync_time": time.time()},
                 )
 
     def subscribe_to_replicated_state(
-        self,
-        aggregate_id: str,
-        callback: Callable[[str, Dict[str, Any]], None]
+        self, aggregate_id: str, callback: Callable[[str, Dict[str, Any]], None]
     ) -> None:
         """Subscribe to changes in replicated state"""
         self.replication_subscribers[aggregate_id].add(callback)
 
     def unsubscribe_from_replicated_state(
-        self,
-        aggregate_id: str,
-        callback: Callable[[str, Dict[str, Any]], None]
+        self, aggregate_id: str, callback: Callable[[str, Dict[str, Any]], None]
     ) -> None:
         """Unsubscribe from replicated state changes"""
         if aggregate_id in self.replication_subscribers:
             self.replication_subscribers[aggregate_id].discard(callback)
 
     async def _reconstruct_from_events(
-        self,
-        aggregate_id: str,
-        version: Optional[int],
-        consistency: ConsistencyLevel
+        self, aggregate_id: str, version: Optional[int], consistency: ConsistencyLevel
     ) -> Dict[str, Any]:
         """Reconstruct state from event history"""
         if not self.event_store:
@@ -374,11 +390,9 @@ class TieredStateManager:
                 start_version = snapshot.version
 
         # Get events since snapshot
-        if hasattr(self.event_store, 'get_events'):
+        if hasattr(self.event_store, "get_events"):
             events = self.event_store.get_events(
-                aggregate_id,
-                start_version=start_version,
-                end_version=version
+                aggregate_id, start_version=start_version, end_version=version
             )
         else:
             events = []
@@ -403,7 +417,7 @@ class TieredStateManager:
             return False
 
         try:
-            if hasattr(self.event_store, 'append'):
+            if hasattr(self.event_store, "append"):
                 self.event_store.append(event)
             else:
                 # Fallback for different event store interface
@@ -428,9 +442,7 @@ class TieredStateManager:
             await self.create_snapshot(aggregate_id)
 
     async def _notify_replication_subscribers(
-        self,
-        aggregate_id: str,
-        updates: Dict[str, Any]
+        self, aggregate_id: str, updates: Dict[str, Any]
     ) -> None:
         """Notify subscribers of replicated state changes"""
         subscribers = self.replication_subscribers.get(aggregate_id, set()).copy()
@@ -459,7 +471,7 @@ class TieredStateManager:
                 "cached_states": len(self.state_cache),
                 "snapshots": len(self.snapshots),
                 "replicated_states": len(self.replicated_state),
-                "total_events": sum(self._event_counter.values())
+                "total_events": sum(self._event_counter.values()),
             }
 
 
@@ -475,13 +487,10 @@ class StateCoordinator:
         self._sync_tasks: Dict[str, asyncio.Task] = {}
 
     async def register_actor(
-        self,
-        actor: Any,
-        aggregate_id: Optional[str] = None,
-        auto_sync: bool = True
+        self, actor: Any, aggregate_id: Optional[str] = None, auto_sync: bool = True
     ) -> str:
         """Register an actor with the state coordinator"""
-        actor_id = getattr(actor, 'actor_id', str(actor))
+        actor_id = getattr(actor, "actor_id", str(actor))
 
         if not aggregate_id:
             aggregate_id = actor_id
@@ -506,10 +515,7 @@ class StateCoordinator:
             while actor_id in self.actor_states:
                 try:
                     # Sync to persistent store
-                    await self.state_manager.sync_actor_state(
-                        actor_id,
-                        "to_persistent"
-                    )
+                    await self.state_manager.sync_actor_state(actor_id, "to_persistent")
                     await asyncio.sleep(interval_seconds)
                 except asyncio.CancelledError:
                     break
@@ -529,7 +535,7 @@ class StateCoordinator:
         self,
         actor_ids: List[str],
         updates: Dict[str, Dict[str, Any]],
-        consistency: ConsistencyLevel = ConsistencyLevel.STRONG
+        consistency: ConsistencyLevel = ConsistencyLevel.STRONG,
     ) -> bool:
         """
         Coordinate a transaction across multiple actors with consistency guarantees.
@@ -544,18 +550,14 @@ class StateCoordinator:
                 if actor_id in updates:
                     aggregate_id = self.actor_states.get(actor_id, actor_id)
                     result = await self.state_manager.update_state(
-                        aggregate_id,
-                        updates[actor_id],
-                        StateType.GLOBAL_PERSISTENT
+                        aggregate_id, updates[actor_id], StateType.GLOBAL_PERSISTENT
                     )
                     results.append(result)
 
             return all(results)
 
     async def _two_phase_commit(
-        self,
-        actor_ids: List[str],
-        updates: Dict[str, Dict[str, Any]]
+        self, actor_ids: List[str], updates: Dict[str, Dict[str, Any]]
     ) -> bool:
         """Implement two-phase commit for strong consistency"""
         # Phase 1: Prepare
@@ -577,7 +579,7 @@ class StateCoordinator:
                 aggregate_id,
                 updates[actor_id],
                 StateType.GLOBAL_PERSISTENT,
-                metadata={"transaction": "two_phase_commit"}
+                metadata={"transaction": "two_phase_commit"},
             )
 
         return True
@@ -587,7 +589,9 @@ class StateCoordinator:
 class CounterAggregator(StateAggregator):
     """Aggregator for counter-based state"""
 
-    def aggregate(self, events: List[Event], initial_state: Dict[str, Any]) -> Dict[str, Any]:
+    def aggregate(
+        self, events: List[Event], initial_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -608,7 +612,9 @@ class CounterAggregator(StateAggregator):
 class MetricsAggregator(StateAggregator):
     """Aggregator for metrics and statistics"""
 
-    def aggregate(self, events: List[Event], initial_state: Dict[str, Any]) -> Dict[str, Any]:
+    def aggregate(
+        self, events: List[Event], initial_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         state = initial_state.copy()
 
         for event in events:
@@ -618,13 +624,16 @@ class MetricsAggregator(StateAggregator):
 
                 if metric_name:
                     metrics = state.setdefault("metrics", {})
-                    metric_data = metrics.setdefault(metric_name, {
-                        "count": 0,
-                        "sum": 0,
-                        "min": float('inf'),
-                        "max": float('-inf'),
-                        "values": []
-                    })
+                    metric_data = metrics.setdefault(
+                        metric_name,
+                        {
+                            "count": 0,
+                            "sum": 0,
+                            "min": float("inf"),
+                            "max": float("-inf"),
+                            "values": [],
+                        },
+                    )
 
                     metric_data["count"] += 1
                     metric_data["sum"] += value

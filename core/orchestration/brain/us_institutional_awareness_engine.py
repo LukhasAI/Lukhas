@@ -27,29 +27,33 @@ Version: 1.0.0 - US Institutional Edition
 Date: June 2025
 """
 
-from abc import ABC, abstractmethod
-from datetime import datetime, timezone, timedelta
-from enum import Enum
-from typing import Dict, List, Tuple, Protocol, Optional, Any, Union
-import uuid
-import logging
 import json
-import hashlib
+import logging
+import uuid
 from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 
 # Import global framework
 from identity.backend.app.institution_manager import (
-    GlobalInstitutionalModule, GlobalInstitutionalInput, GlobalInstitutionalOutput,
-    GlobalInstitutionalReasoner, Jurisdiction, LegalBasis, DataCategory,
-    institutional_audit_log, global_timestamp
+    DataCategory,
+    GlobalInstitutionalInput,
+    GlobalInstitutionalModule,
+    GlobalInstitutionalOutput,
+    Jurisdiction,
+    LegalBasis,
+    global_timestamp,
+    institutional_audit_log,
 )
 
 # ——— US-Specific Regulatory Framework ——————————————————————— #
 
+
 class USLegalBasis(Enum):
     """US-specific legal bases for data processing."""
+
     BUSINESS_PURPOSE = "business_purpose"  # CCPA business purpose
     SERVICE_PROVISION = "service_provision"
     LEGITIMATE_INTEREST = "legitimate_interest"
@@ -58,8 +62,10 @@ class USLegalBasis(Enum):
     EMERGENCY = "emergency"  # HIPAA emergency situations
     RESEARCH = "research"  # HIPAA research exception
 
+
 class CCPACategory(Enum):
     """CCPA personal information categories."""
+
     IDENTIFIERS = "identifiers"
     PERSONAL_RECORDS = "personal_records"
     PROTECTED_CHARACTERISTICS = "protected_characteristics"
@@ -72,34 +78,44 @@ class CCPACategory(Enum):
     EDUCATION_INFO = "education_info"
     INFERENCES = "inferences"
 
+
 class HIPAADataType(Enum):
     """HIPAA data classification."""
+
     PHI = "phi"  # Protected Health Information
     IIHI = "iihi"  # Individually Identifiable Health Information
     DE_IDENTIFIED = "de_identified"
     LIMITED_DATA_SET = "limited_data_set"
     NON_PHI = "non_phi"
 
+
 class SOXClassification(Enum):
     """SOX financial data classification."""
+
     FINANCIAL_RECORDS = "financial_records"
     AUDIT_DOCUMENTATION = "audit_documentation"
     INTERNAL_CONTROLS = "internal_controls"
     DISCLOSURE_CONTROLS = "disclosure_controls"
     NON_FINANCIAL = "non_financial"
 
+
 class FedRAMPLevel(Enum):
     """FedRAMP security categorization levels."""
+
     LOW = "low"
     MODERATE = "moderate"
     HIGH = "high"
 
+
 @dataclass
 class USComplianceConfig:
     """US institutional compliance configuration."""
+
     # State jurisdictions
     state_laws_enabled: bool = True
-    applicable_states: List[str] = field(default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"])
+    applicable_states: list[str] = field(
+        default_factory=lambda: ["CA", "VA", "CO", "CT", "UT"]
+    )
 
     # CCPA/CPRA
     ccpa_enabled: bool = True
@@ -130,8 +146,10 @@ class USComplianceConfig:
     hipaa_retention_years: int = 6
     sox_retention_years: int = 7
 
+
 class USConsentData(BaseModel):
     """US-compliant consent and rights management."""
+
     consent_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     consumer_id: str  # CCPA "consumer"
 
@@ -142,13 +160,13 @@ class USConsentData(BaseModel):
     limit_sensitive_data: bool = False
 
     # Consent details
-    purposes: List[str]
+    purposes: list[str]
     legal_basis: USLegalBasis
     consent_timestamp: str = Field(default_factory=global_timestamp)
 
     # CCPA-specific
-    ccpa_categories: List[CCPACategory]
-    business_purposes: List[str] = Field(default_factory=list)
+    ccpa_categories: list[CCPACategory]
+    business_purposes: list[str] = Field(default_factory=list)
     third_party_sharing: bool = False
 
     # HIPAA-specific (if applicable)
@@ -156,19 +174,21 @@ class USConsentData(BaseModel):
     hipaa_research_exception: bool = False
     minimum_necessary: bool = True
 
+
 class USProcessingRecord(BaseModel):
     """US institutional processing record."""
+
     processing_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     controller: str = "Lukhas_US_Systems"
 
     # Core processing
     consumer_id: Optional[str] = None
-    purposes: List[str]
+    purposes: list[str]
     legal_basis: USLegalBasis
 
     # CCPA categorization
-    ccpa_categories: List[CCPACategory]
-    business_purposes: List[str]
+    ccpa_categories: list[CCPACategory]
+    business_purposes: list[str]
 
     # HIPAA (if applicable)
     hipaa_data_type: Optional[HIPAADataType] = None
@@ -184,12 +204,21 @@ class USProcessingRecord(BaseModel):
 
     # Security and retention
     retention_period_months: int = 12
-    nist_controls_applied: List[str] = Field(default_factory=lambda: [
-        "AC-2", "AC-3", "AU-2", "AU-3", "SC-8", "SC-28"
-    ])
+    nist_controls_applied: list[str] = Field(
+        default_factory=lambda: [
+            "AC-2",
+            "AC-3",
+            "AU-2",
+            "AU-3",
+            "SC-8",
+            "SC-28",
+        ]
+    )
+
 
 class USInstitutionalInput(BaseModel):
     """US institutional awareness input."""
+
     # Core metadata
     timestamp: str = Field(default_factory=global_timestamp)
     consumer_id: Optional[str] = None  # CCPA terminology
@@ -201,21 +230,23 @@ class USInstitutionalInput(BaseModel):
 
     # Jurisdiction
     primary_state: str = "CA"  # Default to California (CCPA)
-    applicable_states: List[str] = Field(default_factory=lambda: ["CA"])
+    applicable_states: list[str] = Field(default_factory=lambda: ["CA"])
 
     # Security classification
     data_classification: str = "CONFIDENTIAL"
     fedramp_controlled: bool = False
 
     # Context (minimized for compliance)
-    context_data: Dict[str, Any] = Field(default_factory=dict)
+    context_data: dict[str, Any] = Field(default_factory=dict)
 
     class Config:
         validate_assignment = True
         extra = "forbid"
 
+
 class USInstitutionalOutput(BaseModel):
     """US institutional awareness output."""
+
     # Compliance scores
     ccpa_compliance_score: float = Field(ge=0.0, le=100.0)
     hipaa_compliance_score: Optional[float] = Field(None, ge=0.0, le=100.0)
@@ -223,9 +254,9 @@ class USInstitutionalOutput(BaseModel):
     fedramp_compliance_score: Optional[float] = Field(None, ge=0.0, le=100.0)
 
     # Rights and processing
-    consumer_rights_available: List[str]
+    consumer_rights_available: list[str]
     processing_lawfulness: bool
-    opt_out_mechanisms: Dict[str, str]
+    opt_out_mechanisms: dict[str, str]
 
     # Data handling
     data_minimization_applied: bool
@@ -233,30 +264,32 @@ class USInstitutionalOutput(BaseModel):
     retention_policy_compliant: bool
 
     # Security
-    nist_controls_implemented: List[str]
+    nist_controls_implemented: list[str]
     encryption_standards_met: bool
     access_controls_verified: bool
 
     # Audit and transparency
-    audit_trail: List[Dict[str, Any]] = Field(default_factory=list)
-    transparency_report: Dict[str, Any]
+    audit_trail: list[dict[str, Any]] = Field(default_factory=list)
+    transparency_report: dict[str, Any]
     processing_time_ms: float = 0.0
 
     # Institutional certification
     us_institutional_grade: bool = True
     compliance_attestation: str
 
+
 # ——— US-Compliant Reasoner Implementations ——————————————————— #
+
 
 class USEnvironmentalReasoner:
     """US-compliant environmental reasoner with CCPA/HIPAA protection."""
 
-    def process(self, inputs: USInstitutionalInput) -> Dict[str, Any]:
+    def process(self, inputs: USInstitutionalInput) -> dict[str, Any]:
         """Process environmental data with US privacy protection."""
         context = inputs.context_data
 
         # Apply CCPA data minimization
-        minimized_data = self._apply_ccpa_minimization(context)
+        self._apply_ccpa_minimization(context)
 
         # Environmental processing with privacy protection
         environmental_score = 0.82  # Enhanced for US institutional standards
@@ -267,10 +300,12 @@ class USEnvironmentalReasoner:
             "data_minimized": True,
             "us_standards_applied": True,
             "nist_controls_verified": True,
-            "processing_lawful": True
+            "processing_lawful": True,
         }
 
-    def explain_decision(self, inputs: USInstitutionalInput, results: Dict[str, Any]) -> str:
+    def explain_decision(
+        self, inputs: USInstitutionalInput, results: dict[str, Any]
+    ) -> str:
         """Provide CCPA-compliant explanation."""
         return (
             f"Environmental assessment completed using US privacy-preserving methods. "
@@ -279,17 +314,21 @@ class USEnvironmentalReasoner:
             f"CCPA consumer rights available. Data minimization applied: {results['data_minimized']}."
         )
 
-    def assess_bias(self, inputs: USInstitutionalInput, results: Dict[str, Any]) -> Dict[str, Any]:
+    def assess_bias(
+        self, inputs: USInstitutionalInput, results: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess algorithmic bias with US fairness standards."""
         return {
             "bias_detected": False,
             "fairness_assessment": "passed",
             "demographic_parity": True,
             "equal_opportunity": True,
-            "us_fairness_standards_met": True
+            "us_fairness_standards_met": True,
         }
 
-    def validate_compliance(self, inputs: USInstitutionalInput, results: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    def validate_compliance(
+        self, inputs: USInstitutionalInput, results: dict[str, Any]
+    ) -> dict[str, dict[str, Any]]:
         """Validate US compliance across applicable laws."""
         compliance = {}
 
@@ -298,7 +337,7 @@ class USEnvironmentalReasoner:
             "consumer_rights_implemented": True,
             "opt_out_available": True,
             "data_categories_disclosed": True,
-            "business_purposes_specified": True
+            "business_purposes_specified": True,
         }
 
         # HIPAA validation (if applicable)
@@ -306,7 +345,7 @@ class USEnvironmentalReasoner:
             compliance["HIPAA"] = {
                 "phi_protected": True,
                 "minimum_necessary": True,
-                "authorization_valid": inputs.consent.hipaa_authorization
+                "authorization_valid": inputs.consent.hipaa_authorization,
             }
 
         return compliance
@@ -315,27 +354,42 @@ class USEnvironmentalReasoner:
         """Return confidence level for US processing."""
         return 0.94
 
-    def _apply_ccpa_minimization(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_ccpa_minimization(self, context: dict[str, Any]) -> dict[str, Any]:
         """Apply CCPA data minimization principles."""
         # Remove unnecessary identifiers
-        minimized = {k: v for k, v in context.items()
-                    if k not in ["ip_address", "device_id", "precise_location"]}
+        minimized = {
+            k: v
+            for k, v in context.items()
+            if k not in ["ip_address", "device_id", "precise_location"]
+        }
         return minimized
+
 
 class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
     """US institutional environmental awareness module."""
 
-    def __init__(self, reasoner: USEnvironmentalReasoner, config: USComplianceConfig = None):
+    def __init__(
+        self,
+        reasoner: USEnvironmentalReasoner,
+        config: USComplianceConfig = None,
+    ):
         self.us_config = config or USComplianceConfig()
         super().__init__(reasoner, None)  # Pass None for global config
 
     def _get_module_type(self) -> str:
         return "us_institutional_environmental"
 
-    def _evaluate_jurisdictional_compliance(self, jurisdiction: Jurisdiction, result: Dict[str, Any], inputs: GlobalInstitutionalInput) -> float:
+    def _evaluate_jurisdictional_compliance(
+        self,
+        jurisdiction: Jurisdiction,
+        result: dict[str, Any],
+        inputs: GlobalInstitutionalInput,
+    ) -> float:
         """Evaluate US jurisdictional compliance."""
         if jurisdiction != Jurisdiction.US:
-            return super()._evaluate_jurisdictional_compliance(jurisdiction, result, inputs)
+            return super()._evaluate_jurisdictional_compliance(
+                jurisdiction, result, inputs
+            )
 
         base_score = result["environmental_score"] * 60
 
@@ -353,7 +407,9 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
 
         return min(base_score, 100.0)
 
-    def generate_us_recommendations(self, result: Dict[str, Any], inputs: USInstitutionalInput) -> List[str]:
+    def generate_us_recommendations(
+        self, result: dict[str, Any], inputs: USInstitutionalInput
+    ) -> list[str]:
         """Generate US-specific recommendations."""
         recommendations = []
 
@@ -370,14 +426,16 @@ class USInstitutionalEnvironmentalModule(GlobalInstitutionalModule):
 
         return recommendations
 
+
 # ——— US Awareness Engine Orchestrator ——————————————————————— #
+
 
 class USInstitutionalAwarenessEngine:
     """Main orchestrator for US institutional awareness processing."""
 
     def __init__(self, config: USComplianceConfig = None):
         self.config = config or USComplianceConfig()
-        self.modules: Dict[str, USInstitutionalEnvironmentalModule] = {}
+        self.modules: dict[str, USInstitutionalEnvironmentalModule] = {}
         self._setup_us_logging()
         self._initialize_modules()
         self._setup_us_registry()
@@ -386,7 +444,7 @@ class USInstitutionalAwarenessEngine:
         """Setup US institutional audit logging."""
         logging.basicConfig(
             level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
         # Create US-specific audit logger
@@ -409,10 +467,12 @@ class USInstitutionalAwarenessEngine:
             "processing_activities": [],
             "consumers": {},  # CCPA terminology
             "opt_out_requests": [],
-            "data_breaches": []
+            "data_breaches": [],
         }
 
-    def process_awareness(self, module_type: str, inputs: USInstitutionalInput) -> USInstitutionalOutput:
+    def process_awareness(
+        self, module_type: str, inputs: USInstitutionalInput
+    ) -> USInstitutionalOutput:
         """Process awareness with US compliance."""
         if module_type not in self.modules:
             raise ValueError(f"US module type {module_type} not supported")
@@ -429,7 +489,7 @@ class USInstitutionalAwarenessEngine:
         # Convert back to US-specific output
         return self._convert_to_us_output(global_output, inputs)
 
-    def exercise_consumer_rights(self, right: str, consumer_id: str) -> Dict[str, Any]:
+    def exercise_consumer_rights(self, right: str, consumer_id: str) -> dict[str, Any]:
         """Handle CCPA consumer rights requests."""
         if right == "access":
             return self._handle_ccpa_access_request(consumer_id)
@@ -442,9 +502,15 @@ class USInstitutionalAwarenessEngine:
         else:
             return {"status": "not_supported", "right": right}
 
-    def _convert_to_global_input(self, us_input: USInstitutionalInput) -> GlobalInstitutionalInput:
+    def _convert_to_global_input(
+        self, us_input: USInstitutionalInput
+    ) -> GlobalInstitutionalInput:
         """Convert US input to global input format."""
-        from identity.backend.app.institution_manager import GlobalInstitutionalInput, GlobalConsentData, InstitutionalProcessingRecord
+        from identity.backend.app.institution_manager import (
+            GlobalConsentData,
+            GlobalInstitutionalInput,
+            InstitutionalProcessingRecord,
+        )
 
         # Convert consent
         global_consent = GlobalConsentData(
@@ -454,7 +520,7 @@ class USInstitutionalAwarenessEngine:
             legal_basis=LegalBasis.BUSINESS_PURPOSE,  # Map US legal basis
             consent_given=not us_input.consent.opt_out_sale,
             opt_out_available=True,
-            do_not_sell=us_input.consent.opt_out_sale
+            do_not_sell=us_input.consent.opt_out_sale,
         )
 
         # Convert processing record
@@ -463,7 +529,7 @@ class USInstitutionalAwarenessEngine:
             purposes=us_input.processing_record.purposes,
             legal_basis=LegalBasis.BUSINESS_PURPOSE,
             data_categories=[DataCategory.PERSONAL_DATA],
-            applicable_jurisdictions=[Jurisdiction.US]
+            applicable_jurisdictions=[Jurisdiction.US],
         )
 
         return GlobalInstitutionalInput(
@@ -472,24 +538,40 @@ class USInstitutionalAwarenessEngine:
             processing_record=global_processing,
             primary_jurisdiction=Jurisdiction.US,
             applicable_jurisdictions=[Jurisdiction.US],
-            context_data=us_input.context_data
+            context_data=us_input.context_data,
         )
 
-    def _convert_to_us_output(self, global_output: GlobalInstitutionalOutput, us_input: USInstitutionalInput) -> USInstitutionalOutput:
+    def _convert_to_us_output(
+        self,
+        global_output: GlobalInstitutionalOutput,
+        us_input: USInstitutionalInput,
+    ) -> USInstitutionalOutput:
         """Convert global output to US-specific output."""
         return USInstitutionalOutput(
             ccpa_compliance_score=global_output.compliance_scores.get("US", 0.0),
-            consumer_rights_available=["access", "delete", "opt_out", "non_discrimination"],
+            consumer_rights_available=[
+                "access",
+                "delete",
+                "opt_out",
+                "non_discrimination",
+            ],
             processing_lawfulness=global_output.processing_lawfulness.get("US", False),
             opt_out_mechanisms={
                 "sale": "available",
                 "sharing": "available",
-                "targeted_advertising": "available"
+                "targeted_advertising": "available",
             },
             data_minimization_applied=True,
             purpose_limitation_enforced=True,
             retention_policy_compliant=global_output.retention_compliance,
-            nist_controls_implemented=["AC-2", "AC-3", "AU-2", "AU-3", "SC-8", "SC-28"],
+            nist_controls_implemented=[
+                "AC-2",
+                "AC-3",
+                "AU-2",
+                "AU-3",
+                "SC-8",
+                "SC-28",
+            ],
             encryption_standards_met=True,
             access_controls_verified=True,
             audit_trail=global_output.audit_trail,
@@ -497,13 +579,15 @@ class USInstitutionalAwarenessEngine:
                 "data_categories": ["identifiers", "internet_activity"],
                 "business_purposes": ["service_provision", "analytics"],
                 "third_parties": [],
-                "retention_period": "12 months"
+                "retention_period": "12 months",
             },
             processing_time_ms=global_output.processing_time_ms,
-            compliance_attestation=global_output.compliance_attestation
+            compliance_attestation=global_output.compliance_attestation,
         )
 
-    def _record_us_processing_activity(self, module_type: str, inputs: USInstitutionalInput):
+    def _record_us_processing_activity(
+        self, module_type: str, inputs: USInstitutionalInput
+    ):
         """Record US processing activity."""
         activity = {
             "id": str(uuid.uuid4()),
@@ -512,15 +596,16 @@ class USInstitutionalAwarenessEngine:
             "consumer_id": inputs.consumer_id,
             "ccpa_categories": [cat.value for cat in inputs.consent.ccpa_categories],
             "business_purposes": inputs.processing_record.business_purposes,
-            "legal_basis": inputs.consent.legal_basis.value
+            "legal_basis": inputs.consent.legal_basis.value,
         }
 
         self.processing_registry["processing_activities"].append(activity)
 
-    def _handle_ccpa_access_request(self, consumer_id: str) -> Dict[str, Any]:
+    def _handle_ccpa_access_request(self, consumer_id: str) -> dict[str, Any]:
         """Handle CCPA consumer access request."""
         activities = [
-            activity for activity in self.processing_registry["processing_activities"]
+            activity
+            for activity in self.processing_registry["processing_activities"]
             if activity.get("consumer_id") == consumer_id
         ]
 
@@ -531,17 +616,18 @@ class USInstitutionalAwarenessEngine:
             "consumer_rights": {
                 "delete": "available",
                 "opt_out": "available",
-                "non_discrimination": "guaranteed"
+                "non_discrimination": "guaranteed",
             },
             "contact_info": "privacy@lukhas.us",
-            "response_time": "45 days"
+            "response_time": "45 days",
         }
 
-    def _handle_ccpa_delete_request(self, consumer_id: str) -> Dict[str, Any]:
+    def _handle_ccpa_delete_request(self, consumer_id: str) -> dict[str, Any]:
         """Handle CCPA consumer deletion request."""
         # Remove from processing registry
         self.processing_registry["processing_activities"] = [
-            activity for activity in self.processing_registry["processing_activities"]
+            activity
+            for activity in self.processing_registry["processing_activities"]
             if activity.get("consumer_id") != consumer_id
         ]
 
@@ -550,10 +636,10 @@ class USInstitutionalAwarenessEngine:
             {
                 "consumer_id": consumer_id,
                 "deletion_scope": "complete",
-                "retention_exceptions": []
+                "retention_exceptions": [],
             },
             jurisdiction=Jurisdiction.US,
-            legal_basis=LegalBasis.LEGAL_OBLIGATION
+            legal_basis=LegalBasis.LEGAL_OBLIGATION,
         )
 
         return {
@@ -561,16 +647,16 @@ class USInstitutionalAwarenessEngine:
             "consumer_id": consumer_id,
             "deletion_scope": "complete",
             "confirmation": f"All data for consumer {consumer_id} has been deleted",
-            "exceptions": []
+            "exceptions": [],
         }
 
-    def _handle_ccpa_opt_out_request(self, consumer_id: str) -> Dict[str, Any]:
+    def _handle_ccpa_opt_out_request(self, consumer_id: str) -> dict[str, Any]:
         """Handle CCPA opt-out request."""
         opt_out_record = {
             "consumer_id": consumer_id,
             "timestamp": global_timestamp(),
             "opt_out_types": ["sale", "sharing", "targeted_advertising"],
-            "status": "active"
+            "status": "active",
         }
 
         self.processing_registry["opt_out_requests"].append(opt_out_record)
@@ -579,58 +665,74 @@ class USInstitutionalAwarenessEngine:
             "status": "completed",
             "consumer_id": consumer_id,
             "opt_out_effective": global_timestamp(),
-            "opt_out_scope": ["sale", "sharing", "targeted_advertising"]
+            "opt_out_scope": ["sale", "sharing", "targeted_advertising"],
         }
 
-    def _handle_non_discrimination_request(self, consumer_id: str) -> Dict[str, Any]:
+    def _handle_non_discrimination_request(self, consumer_id: str) -> dict[str, Any]:
         """Handle CCPA non-discrimination request."""
         return {
             "status": "guaranteed",
             "consumer_id": consumer_id,
             "policy": "No discrimination for exercising CCPA rights",
             "service_level": "unchanged",
-            "pricing": "unchanged"
+            "pricing": "unchanged",
         }
 
-    def get_us_compliance_report(self) -> Dict[str, Any]:
+    def get_us_compliance_report(self) -> dict[str, Any]:
         """Generate US institutional compliance report."""
         return {
             "ccpa_compliance": {
                 "consumer_rights": "fully_implemented",
                 "opt_out_mechanisms": "active",
                 "data_minimization": self.config.ccpa_enabled,
-                "transparency_reporting": "complete"
+                "transparency_reporting": "complete",
             },
-            "hipaa_compliance": {
-                "enabled": self.config.hipaa_enabled,
-                "phi_protection": self.config.hipaa_enabled,
-                "business_associate_agreement": self.config.business_associate
-            } if self.config.hipaa_enabled else None,
-            "sox_compliance": {
-                "enabled": self.config.sox_enabled,
-                "financial_controls": self.config.sox_enabled,
-                "audit_documentation": "complete"
-            } if self.config.sox_enabled else None,
-            "fedramp_compliance": {
-                "enabled": self.config.fedramp_enabled,
-                "authorization_level": self.config.fedramp_level.value,
-                "nist_controls": "implemented"
-            } if self.config.fedramp_enabled else None,
+            "hipaa_compliance": (
+                {
+                    "enabled": self.config.hipaa_enabled,
+                    "phi_protection": self.config.hipaa_enabled,
+                    "business_associate_agreement": self.config.business_associate,
+                }
+                if self.config.hipaa_enabled
+                else None
+            ),
+            "sox_compliance": (
+                {
+                    "enabled": self.config.sox_enabled,
+                    "financial_controls": self.config.sox_enabled,
+                    "audit_documentation": "complete",
+                }
+                if self.config.sox_enabled
+                else None
+            ),
+            "fedramp_compliance": (
+                {
+                    "enabled": self.config.fedramp_enabled,
+                    "authorization_level": self.config.fedramp_level.value,
+                    "nist_controls": "implemented",
+                }
+                if self.config.fedramp_enabled
+                else None
+            ),
             "processing_statistics": {
-                "total_activities": len(self.processing_registry["processing_activities"]),
+                "total_activities": len(
+                    self.processing_registry["processing_activities"]
+                ),
                 "active_opt_outs": len(self.processing_registry["opt_out_requests"]),
-                "data_breaches": len(self.processing_registry["data_breaches"])
+                "data_breaches": len(self.processing_registry["data_breaches"]),
             },
             "institutional_certification": {
                 "us_institutional_grade": True,
                 "enterprise_ready": True,
-                "government_ready": self.config.fedramp_enabled
+                "government_ready": self.config.fedramp_enabled,
             },
             "timestamp": global_timestamp(),
-            "version": "1.0.0-US-Institutional"
+            "version": "1.0.0-US-Institutional",
         }
 
+
 # ——— Example Usage & US Compliance Testing ——————————————————— #
+
 
 if __name__ == "__main__":
     # Initialize US Institutional Awareness Engine
@@ -640,7 +742,7 @@ if __name__ == "__main__":
         sox_enabled=False,
         fedramp_enabled=False,
         state_laws_enabled=True,
-        applicable_states=["CA", "VA", "CO"]
+        applicable_states=["CA", "VA", "CO"],
     )
 
     us_engine = USInstitutionalAwarenessEngine(us_config)
@@ -652,19 +754,25 @@ if __name__ == "__main__":
         consumer_id="us_consumer_001",
         purposes=["environmental_monitoring", "wellness_optimization"],
         legal_basis=USLegalBasis.BUSINESS_PURPOSE,
-        ccpa_categories=[CCPACategory.IDENTIFIERS, CCPACategory.INTERNET_ACTIVITY],
+        ccpa_categories=[
+            CCPACategory.IDENTIFIERS,
+            CCPACategory.INTERNET_ACTIVITY,
+        ],
         business_purposes=["service_provision", "quality_assurance"],
         opt_out_sale=False,
-        opt_out_sharing=False
+        opt_out_sharing=False,
     )
 
     us_processing = USProcessingRecord(
         consumer_id="us_consumer_001",
         purposes=["environmental_monitoring"],
         legal_basis=USLegalBasis.BUSINESS_PURPOSE,
-        ccpa_categories=[CCPACategory.IDENTIFIERS, CCPACategory.INTERNET_ACTIVITY],
+        ccpa_categories=[
+            CCPACategory.IDENTIFIERS,
+            CCPACategory.INTERNET_ACTIVITY,
+        ],
         business_purposes=["service_provision"],
-        retention_period_months=12
+        retention_period_months=12,
     )
 
     us_input = USInstitutionalInput(
@@ -676,8 +784,8 @@ if __name__ == "__main__":
         context_data={
             "temperature": 72.0,
             "location_type": "office",
-            "privacy_level": "standard"
-        }
+            "privacy_level": "standard",
+        },
     )
 
     # Process with US compliance
@@ -699,7 +807,9 @@ if __name__ == "__main__":
         print(f"Access Request: {access_result['status']}")
 
         # Test opt-out request
-        opt_out_result = us_engine.exercise_consumer_rights("opt_out", "us_consumer_001")
+        opt_out_result = us_engine.exercise_consumer_rights(
+            "opt_out", "us_consumer_001"
+        )
         print(f"Opt-out Request: {opt_out_result['status']}")
 
         # Generate US compliance report

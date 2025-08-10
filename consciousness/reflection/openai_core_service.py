@@ -30,20 +30,20 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import os
-import json
 import asyncio
-import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, Optional, List, Union, AsyncIterator, Callable
-from dataclasses import dataclass, asdict
-from enum import Enum
 import hashlib
-from pathlib import Path
+import json
+import logging
+import os
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, Optional, Union
 
 # Try to import from core.common if available
 try:
     from core.common import get_logger
+
     logger = get_logger("ΛTRACE.bridge.openai_core")
 except ImportError:
     logger = logging.getLogger("ΛTRACE.bridge.openai_core")
@@ -51,18 +51,22 @@ except ImportError:
 # Mock imports for when OpenAI is not available
 try:
     from openai import AsyncOpenAI, OpenAI
+
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
+
     # Mock classes for development
     class AsyncOpenAI:
         pass
+
     class OpenAI:
         pass
 
 
 class OpenAICapability(Enum):
     """Available OpenAI capabilities."""
+
     TEXT_GENERATION = "text_generation"
     IMAGE_GENERATION = "image_generation"
     AUDIO_GENERATION = "audio_generation"
@@ -75,6 +79,7 @@ class OpenAICapability(Enum):
 
 class ModelType(Enum):
     """Model types for different tasks."""
+
     REASONING = "reasoning"
     CREATIVE = "creative"
     FAST = "fast"
@@ -89,6 +94,7 @@ class ModelType(Enum):
 @dataclass
 class OpenAIRequest:
     """Standardized OpenAI request format."""
+
     module: str
     capability: OpenAICapability
     data: Dict[str, Any]
@@ -102,6 +108,7 @@ class OpenAIRequest:
 @dataclass
 class OpenAIResponse:
     """Standardized OpenAI response format."""
+
     request_id: str
     module: str
     capability: OpenAICapability
@@ -121,27 +128,31 @@ class OpenAICoreService:
 
     # Model configurations
     MODELS = {
-        ModelType.REASONING: 'gpt-4-turbo-preview',
-        ModelType.CREATIVE: 'gpt-4',
-        ModelType.FAST: 'gpt-3.5-turbo',
-        ModelType.VISION: 'gpt-4-vision-preview',
-        ModelType.EMBEDDING: 'text-embedding-3-large',
-        ModelType.TTS: 'tts-1-hd',
-        ModelType.WHISPER: 'whisper-1',
-        ModelType.DALLE: 'dall-e-3',
-        ModelType.MODERATION: 'text-moderation-latest'
+        ModelType.REASONING: "gpt-4-turbo-preview",
+        ModelType.CREATIVE: "gpt-4",
+        ModelType.FAST: "gpt-3.5-turbo",
+        ModelType.VISION: "gpt-4-vision-preview",
+        ModelType.EMBEDDING: "text-embedding-3-large",
+        ModelType.TTS: "tts-1-hd",
+        ModelType.WHISPER: "whisper-1",
+        ModelType.DALLE: "dall-e-3",
+        ModelType.MODERATION: "text-moderation-latest",
     }
 
     # Capability to models mapping
     CAPABILITY_MODELS = {
-        OpenAICapability.TEXT_GENERATION: [ModelType.REASONING, ModelType.CREATIVE, ModelType.FAST],
+        OpenAICapability.TEXT_GENERATION: [
+            ModelType.REASONING,
+            ModelType.CREATIVE,
+            ModelType.FAST,
+        ],
         OpenAICapability.IMAGE_GENERATION: [ModelType.DALLE],
         OpenAICapability.AUDIO_GENERATION: [ModelType.TTS],
         OpenAICapability.AUDIO_TRANSCRIPTION: [ModelType.WHISPER],
         OpenAICapability.EMBEDDINGS: [ModelType.EMBEDDING],
         OpenAICapability.VISION: [ModelType.VISION],
         OpenAICapability.FUNCTION_CALLING: [ModelType.REASONING, ModelType.FAST],
-        OpenAICapability.MODERATION: [ModelType.MODERATION]
+        OpenAICapability.MODERATION: [ModelType.MODERATION],
     }
 
     def __init__(self, api_key: Optional[str] = None):
@@ -151,7 +162,7 @@ class OpenAICoreService:
         Args:
             api_key: Optional API key. If not provided, uses environment variable.
         """
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         self.mock_mode = not OPENAI_AVAILABLE or not self.api_key
 
         if self.mock_mode:
@@ -163,14 +174,14 @@ class OpenAICoreService:
 
         # Usage tracking
         self.usage_stats = {
-            'total_requests': 0,
-            'successful_requests': 0,
-            'failed_requests': 0,
-            'fallback_requests': 0,
-            'tokens_used': 0,
-            'cost_estimate': 0.0,
-            'by_module': {},
-            'by_capability': {}
+            "total_requests": 0,
+            "successful_requests": 0,
+            "failed_requests": 0,
+            "fallback_requests": 0,
+            "tokens_used": 0,
+            "cost_estimate": 0.0,
+            "by_module": {},
+            "by_capability": {},
         }
 
         # Cache for responses
@@ -198,8 +209,8 @@ class OpenAICoreService:
         logger.info(f"Processing request {request_id} from {request.module}")
 
         # Update stats
-        self.usage_stats['total_requests'] += 1
-        self._update_module_stats(request.module, 'requests')
+        self.usage_stats["total_requests"] += 1
+        self._update_module_stats(request.module, "requests")
 
         try:
             # Check cache
@@ -224,7 +235,9 @@ class OpenAICoreService:
             response.request_id = request_id
             response.module = request.module
             response.capability = request.capability
-            response.latency_ms = int((datetime.utcnow() - start_time).total_seconds() * 1000)
+            response.latency_ms = int(
+                (datetime.utcnow() - start_time).total_seconds() * 1000
+            )
 
             # Cache successful responses
             if response.success and cache_key:
@@ -232,14 +245,14 @@ class OpenAICoreService:
 
             # Update stats
             if response.success:
-                self.usage_stats['successful_requests'] += 1
-                self._update_module_stats(request.module, 'successful')
+                self.usage_stats["successful_requests"] += 1
+                self._update_module_stats(request.module, "successful")
             else:
-                self.usage_stats['failed_requests'] += 1
-                self._update_module_stats(request.module, 'failed')
+                self.usage_stats["failed_requests"] += 1
+                self._update_module_stats(request.module, "failed")
 
             if response.fallback_used:
-                self.usage_stats['fallback_requests'] += 1
+                self.usage_stats["fallback_requests"] += 1
 
             return response
 
@@ -251,7 +264,7 @@ class OpenAICoreService:
                 capability=request.capability,
                 success=False,
                 error=str(e),
-                latency_ms=int((datetime.utcnow() - start_time).total_seconds() * 1000)
+                latency_ms=int((datetime.utcnow() - start_time).total_seconds() * 1000),
             )
 
     async def _process_real_request(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -264,7 +277,7 @@ class OpenAICoreService:
             OpenAICapability.EMBEDDINGS: self._handle_embeddings,
             OpenAICapability.VISION: self._handle_vision,
             OpenAICapability.FUNCTION_CALLING: self._handle_function_calling,
-            OpenAICapability.MODERATION: self._handle_moderation
+            OpenAICapability.MODERATION: self._handle_moderation,
         }
 
         handler = capability_handlers.get(request.capability)
@@ -274,7 +287,7 @@ class OpenAICoreService:
                 module=request.module,
                 capability=request.capability,
                 success=False,
-                error=f"Unsupported capability: {request.capability}"
+                error=f"Unsupported capability: {request.capability}",
             )
 
         return await handler(request)
@@ -286,32 +299,32 @@ class OpenAICoreService:
             model = self._select_model(request)
 
             # Prepare messages
-            messages = request.data.get('messages', [])
-            if isinstance(request.data.get('prompt'), str):
-                messages = [{"role": "user", "content": request.data['prompt']}]
+            messages = request.data.get("messages", [])
+            if isinstance(request.data.get("prompt"), str):
+                messages = [{"role": "user", "content": request.data["prompt"]}]
 
             # Make API call
             response = await self.async_client.chat.completions.create(
                 model=self.MODELS[model],
                 messages=messages,
-                temperature=request.data.get('temperature', 0.7),
-                max_tokens=request.data.get('max_tokens', 2000),
-                stream=request.data.get('stream', False)
+                temperature=request.data.get("temperature", 0.7),
+                max_tokens=request.data.get("max_tokens", 2000),
+                stream=request.data.get("stream", False),
             )
 
             # Handle streaming
-            if request.data.get('stream', False):
+            if request.data.get("stream", False):
                 return OpenAIResponse(
                     request_id="",
                     module=request.module,
                     capability=request.capability,
                     success=True,
-                    data=response  # Return stream directly
+                    data=response,  # Return stream directly
                 )
 
             # Extract response
             result = response.model_dump()
-            content = result['choices'][0]['message']['content']
+            content = result["choices"][0]["message"]["content"]
 
             return OpenAIResponse(
                 request_id="",
@@ -319,11 +332,11 @@ class OpenAICoreService:
                 capability=request.capability,
                 success=True,
                 data={
-                    'content': content,
-                    'finish_reason': result['choices'][0]['finish_reason'],
-                    'model': result['model']
+                    "content": content,
+                    "finish_reason": result["choices"][0]["finish_reason"],
+                    "model": result["model"],
                 },
-                usage=result.get('usage')
+                usage=result.get("usage"),
             )
 
         except Exception as e:
@@ -336,27 +349,35 @@ class OpenAICoreService:
         try:
             response = await self.async_client.images.generate(
                 model=self.MODELS[ModelType.DALLE],
-                prompt=request.data['prompt'],
-                size=request.data.get('size', '1024x1024'),
-                quality=request.data.get('quality', 'standard'),
-                n=request.data.get('n', 1),
-                response_format=request.data.get('response_format', 'url')
+                prompt=request.data["prompt"],
+                size=request.data.get("size", "1024x1024"),
+                quality=request.data.get("quality", "standard"),
+                n=request.data.get("n", 1),
+                response_format=request.data.get("response_format", "url"),
             )
 
             images = []
             for image in response.data:
-                images.append({
-                    'url': image.url if hasattr(image, 'url') else None,
-                    'b64_json': image.b64_json if hasattr(image, 'b64_json') else None,
-                    'revised_prompt': image.revised_prompt if hasattr(image, 'revised_prompt') else None
-                })
+                images.append(
+                    {
+                        "url": image.url if hasattr(image, "url") else None,
+                        "b64_json": (
+                            image.b64_json if hasattr(image, "b64_json") else None
+                        ),
+                        "revised_prompt": (
+                            image.revised_prompt
+                            if hasattr(image, "revised_prompt")
+                            else None
+                        ),
+                    }
+                )
 
             return OpenAIResponse(
                 request_id="",
                 module=request.module,
                 capability=request.capability,
                 success=True,
-                data={'images': images}
+                data={"images": images},
             )
 
         except Exception as e:
@@ -368,42 +389,44 @@ class OpenAICoreService:
         try:
             response = await self.async_client.audio.speech.create(
                 model=self.MODELS[ModelType.TTS],
-                voice=request.data.get('voice', 'nova'),
-                input=request.data['text'],
-                speed=request.data.get('speed', 1.0)
+                voice=request.data.get("voice", "nova"),
+                input=request.data["text"],
+                speed=request.data.get("speed", 1.0),
             )
 
             # Save or return audio data
-            if 'output_path' in request.data:
-                response.stream_to_file(request.data['output_path'])
-                data = {'path': request.data['output_path']}
+            if "output_path" in request.data:
+                response.stream_to_file(request.data["output_path"])
+                data = {"path": request.data["output_path"]}
             else:
                 # Return bytes for in-memory handling
                 audio_bytes = response.content
-                data = {'audio_bytes': audio_bytes}
+                data = {"audio_bytes": audio_bytes}
 
             return OpenAIResponse(
                 request_id="",
                 module=request.module,
                 capability=request.capability,
                 success=True,
-                data=data
+                data=data,
             )
 
         except Exception as e:
             logger.error(f"Audio generation error: {e}")
             return await self._process_mock_request(request)
 
-    async def _handle_audio_transcription(self, request: OpenAIRequest) -> OpenAIResponse:
+    async def _handle_audio_transcription(
+        self, request: OpenAIRequest
+    ) -> OpenAIResponse:
         """Handle audio transcription (Whisper) requests."""
         try:
             # Open audio file
-            audio_file = request.data['audio_file']
-            with open(audio_file, 'rb') as f:
+            audio_file = request.data["audio_file"]
+            with open(audio_file, "rb") as f:
                 response = await self.async_client.audio.transcriptions.create(
                     model=self.MODELS[ModelType.WHISPER],
                     file=f,
-                    language=request.data.get('language')
+                    language=request.data.get("language"),
                 )
 
             return OpenAIResponse(
@@ -411,10 +434,7 @@ class OpenAICoreService:
                 module=request.module,
                 capability=request.capability,
                 success=True,
-                data={
-                    'text': response.text,
-                    'language': request.data.get('language')
-                }
+                data={"text": response.text, "language": request.data.get("language")},
             )
 
         except Exception as e:
@@ -425,8 +445,7 @@ class OpenAICoreService:
         """Handle embedding generation requests."""
         try:
             response = await self.async_client.embeddings.create(
-                model=self.MODELS[ModelType.EMBEDDING],
-                input=request.data['input']
+                model=self.MODELS[ModelType.EMBEDDING], input=request.data["input"]
             )
 
             embeddings = [e.embedding for e in response.data]
@@ -436,11 +455,10 @@ class OpenAICoreService:
                 module=request.module,
                 capability=request.capability,
                 success=True,
-                data={
-                    'embeddings': embeddings,
-                    'model': response.model
-                },
-                usage=response.usage.model_dump() if hasattr(response, 'usage') else None
+                data={"embeddings": embeddings, "model": response.model},
+                usage=(
+                    response.usage.model_dump() if hasattr(response, "usage") else None
+                ),
             )
 
         except Exception as e:
@@ -450,34 +468,44 @@ class OpenAICoreService:
     async def _handle_vision(self, request: OpenAIRequest) -> OpenAIResponse:
         """Handle vision (image understanding) requests."""
         try:
-            messages = request.data.get('messages', [])
+            messages = request.data.get("messages", [])
 
             # Ensure image is properly formatted
-            if 'image_url' in request.data:
-                messages.append({
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": request.data.get('prompt', 'What is in this image?')},
-                        {"type": "image_url", "image_url": {"url": request.data['image_url']}}
-                    ]
-                })
+            if "image_url" in request.data:
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": request.data.get(
+                                    "prompt", "What is in this image?"
+                                ),
+                            },
+                            {
+                                "type": "image_url",
+                                "image_url": {"url": request.data["image_url"]},
+                            },
+                        ],
+                    }
+                )
 
             response = await self.async_client.chat.completions.create(
                 model=self.MODELS[ModelType.VISION],
                 messages=messages,
-                max_tokens=request.data.get('max_tokens', 1000)
+                max_tokens=request.data.get("max_tokens", 1000),
             )
 
             result = response.model_dump()
-            content = result['choices'][0]['message']['content']
+            content = result["choices"][0]["message"]["content"]
 
             return OpenAIResponse(
                 request_id="",
                 module=request.module,
                 capability=request.capability,
                 success=True,
-                data={'analysis': content},
-                usage=result.get('usage')
+                data={"analysis": content},
+                usage=result.get("usage"),
             )
 
         except Exception as e:
@@ -491,14 +519,14 @@ class OpenAICoreService:
 
             response = await self.async_client.chat.completions.create(
                 model=self.MODELS[model],
-                messages=request.data['messages'],
-                functions=request.data.get('functions', []),
-                function_call=request.data.get('function_call', 'auto'),
-                temperature=request.data.get('temperature', 0.7)
+                messages=request.data["messages"],
+                functions=request.data.get("functions", []),
+                function_call=request.data.get("function_call", "auto"),
+                temperature=request.data.get("temperature", 0.7),
             )
 
             result = response.model_dump()
-            message = result['choices'][0]['message']
+            message = result["choices"][0]["message"]
 
             return OpenAIResponse(
                 request_id="",
@@ -506,10 +534,10 @@ class OpenAICoreService:
                 capability=request.capability,
                 success=True,
                 data={
-                    'content': message.get('content'),
-                    'function_call': message.get('function_call')
+                    "content": message.get("content"),
+                    "function_call": message.get("function_call"),
                 },
-                usage=result.get('usage')
+                usage=result.get("usage"),
             )
 
         except Exception as e:
@@ -520,7 +548,7 @@ class OpenAICoreService:
         """Handle content moderation requests."""
         try:
             response = await self.async_client.moderations.create(
-                input=request.data['input']
+                input=request.data["input"]
             )
 
             result = response.model_dump()
@@ -531,10 +559,10 @@ class OpenAICoreService:
                 capability=request.capability,
                 success=True,
                 data={
-                    'flagged': result['results'][0]['flagged'],
-                    'categories': result['results'][0]['categories'],
-                    'scores': result['results'][0]['category_scores']
-                }
+                    "flagged": result["results"][0]["flagged"],
+                    "categories": result["results"][0]["categories"],
+                    "scores": result["results"][0]["category_scores"],
+                },
             )
 
         except Exception as e:
@@ -553,7 +581,7 @@ class OpenAICoreService:
         # Default selections based on capability
         defaults = {
             OpenAICapability.TEXT_GENERATION: ModelType.FAST,
-            OpenAICapability.FUNCTION_CALLING: ModelType.REASONING
+            OpenAICapability.FUNCTION_CALLING: ModelType.REASONING,
         }
 
         return defaults.get(request.capability, ModelType.FAST)
@@ -561,20 +589,27 @@ class OpenAICoreService:
     def _generate_request_id(self, request: OpenAIRequest) -> str:
         """Generate unique request ID."""
         timestamp = datetime.utcnow().isoformat()
-        data_hash = hashlib.md5(json.dumps(asdict(request), sort_keys=True).encode()).hexdigest()[:8]
+        data_hash = hashlib.md5(
+            json.dumps(asdict(request), sort_keys=True).encode()
+        ).hexdigest()[:8]
         return f"{request.module}_{timestamp}_{data_hash}"
 
     def _get_cache_key(self, request: OpenAIRequest) -> Optional[str]:
         """Generate cache key for request."""
         # Only cache certain capabilities
-        if request.capability not in [OpenAICapability.TEXT_GENERATION, OpenAICapability.EMBEDDINGS]:
+        if request.capability not in [
+            OpenAICapability.TEXT_GENERATION,
+            OpenAICapability.EMBEDDINGS,
+        ]:
             return None
 
         # Create stable key from request data
         key_data = {
-            'capability': request.capability.value,
-            'data': request.data,
-            'model_preference': request.model_preference.value if request.model_preference else None
+            "capability": request.capability.value,
+            "data": request.data,
+            "model_preference": (
+                request.model_preference.value if request.model_preference else None
+            ),
         }
 
         return hashlib.md5(json.dumps(key_data, sort_keys=True).encode()).hexdigest()
@@ -587,32 +622,29 @@ class OpenAICoreService:
 
     def _update_module_stats(self, module: str, stat_type: str):
         """Update usage statistics for module."""
-        if module not in self.usage_stats['by_module']:
-            self.usage_stats['by_module'][module] = {
-                'requests': 0,
-                'successful': 0,
-                'failed': 0,
-                'tokens': 0,
-                'cost': 0.0
+        if module not in self.usage_stats["by_module"]:
+            self.usage_stats["by_module"][module] = {
+                "requests": 0,
+                "successful": 0,
+                "failed": 0,
+                "tokens": 0,
+                "cost": 0.0,
             }
 
-        if stat_type == 'requests':
-            self.usage_stats['by_module'][module]['requests'] += 1
-        elif stat_type == 'successful':
-            self.usage_stats['by_module'][module]['successful'] += 1
-        elif stat_type == 'failed':
-            self.usage_stats['by_module'][module]['failed'] += 1
+        if stat_type == "requests":
+            self.usage_stats["by_module"][module]["requests"] += 1
+        elif stat_type == "successful":
+            self.usage_stats["by_module"][module]["successful"] += 1
+        elif stat_type == "failed":
+            self.usage_stats["by_module"][module]["failed"] += 1
 
     def get_usage_report(self) -> Dict[str, Any]:
         """Get comprehensive usage report."""
         return {
-            'summary': self.usage_stats,
-            'by_module': self.usage_stats['by_module'],
-            'cache_stats': {
-                'size': len(self.cache),
-                'hit_rate': 'Not implemented'
-            },
-            'timestamp': datetime.utcnow().isoformat()
+            "summary": self.usage_stats,
+            "by_module": self.usage_stats["by_module"],
+            "cache_stats": {"size": len(self.cache), "hit_rate": "Not implemented"},
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
 
@@ -637,7 +669,7 @@ class OpenAIMockProvider:
             OpenAICapability.EMBEDDINGS: self._mock_embeddings,
             OpenAICapability.VISION: self._mock_vision,
             OpenAICapability.FUNCTION_CALLING: self._mock_function_calling,
-            OpenAICapability.MODERATION: self._mock_moderation
+            OpenAICapability.MODERATION: self._mock_moderation,
         }
 
         handler = handlers.get(request.capability)
@@ -650,23 +682,22 @@ class OpenAIMockProvider:
             capability=request.capability,
             success=False,
             error="Mock handler not implemented",
-            fallback_used=True
+            fallback_used=True,
         )
 
     async def _mock_text_generation(self, request: OpenAIRequest) -> OpenAIResponse:
         """Mock text generation response."""
         # Module-specific mock responses
         module_responses = {
-            'dream': "In this dream, you find yourself in a surreal landscape where thoughts become visible...",
-            'memory': "The memory folds reveal patterns of interconnected experiences...",
-            'consciousness': "Awareness fluctuates between different states of perception...",
-            'reasoning': "Analysis suggests multiple pathways to the solution...",
-            'emotion': "The emotional resonance indicates a complex interplay of feelings..."
+            "dream": "In this dream, you find yourself in a surreal landscape where thoughts become visible...",
+            "memory": "The memory folds reveal patterns of interconnected experiences...",
+            "consciousness": "Awareness fluctuates between different states of perception...",
+            "reasoning": "Analysis suggests multiple pathways to the solution...",
+            "emotion": "The emotional resonance indicates a complex interplay of feelings...",
         }
 
         content = module_responses.get(
-            request.module,
-            "This is a mock response for development purposes."
+            request.module, "This is a mock response for development purposes."
         )
 
         return OpenAIResponse(
@@ -674,8 +705,8 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={'content': content},
-            fallback_used=True
+            data={"content": content},
+            fallback_used=True,
         )
 
     async def _mock_image_generation(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -686,12 +717,14 @@ class OpenAIMockProvider:
             capability=request.capability,
             success=True,
             data={
-                'images': [{
-                    'url': 'mock://image/placeholder.png',
-                    'revised_prompt': request.data.get('prompt', 'Mock image')
-                }]
+                "images": [
+                    {
+                        "url": "mock://image/placeholder.png",
+                        "revised_prompt": request.data.get("prompt", "Mock image"),
+                    }
+                ]
             },
-            fallback_used=True
+            fallback_used=True,
         )
 
     async def _mock_audio_generation(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -701,8 +734,8 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={'path': 'mock://audio/placeholder.mp3'},
-            fallback_used=True
+            data={"path": "mock://audio/placeholder.mp3"},
+            fallback_used=True,
         )
 
     async def _mock_audio_transcription(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -712,14 +745,15 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={'text': 'This is a mock transcription of the audio file.'},
-            fallback_used=True
+            data={"text": "This is a mock transcription of the audio file."},
+            fallback_used=True,
         )
 
     async def _mock_embeddings(self, request: OpenAIRequest) -> OpenAIResponse:
         """Mock embedding generation response."""
         # Generate random embeddings
         import random
+
         embedding_dim = 1536  # OpenAI embedding dimension
         mock_embedding = [random.random() for _ in range(embedding_dim)]
 
@@ -728,8 +762,8 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={'embeddings': [mock_embedding]},
-            fallback_used=True
+            data={"embeddings": [mock_embedding]},
+            fallback_used=True,
         )
 
     async def _mock_vision(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -739,8 +773,10 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={'analysis': 'The image appears to contain abstract patterns and colors.'},
-            fallback_used=True
+            data={
+                "analysis": "The image appears to contain abstract patterns and colors."
+            },
+            fallback_used=True,
         )
 
     async def _mock_function_calling(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -751,13 +787,13 @@ class OpenAIMockProvider:
             capability=request.capability,
             success=True,
             data={
-                'content': 'I will call the appropriate function.',
-                'function_call': {
-                    'name': 'mock_function',
-                    'arguments': '{"param": "value"}'
-                }
+                "content": "I will call the appropriate function.",
+                "function_call": {
+                    "name": "mock_function",
+                    "arguments": '{"param": "value"}',
+                },
             },
-            fallback_used=True
+            fallback_used=True,
         )
 
     async def _mock_moderation(self, request: OpenAIRequest) -> OpenAIResponse:
@@ -767,12 +803,8 @@ class OpenAIMockProvider:
             module=request.module,
             capability=request.capability,
             success=True,
-            data={
-                'flagged': False,
-                'categories': {},
-                'scores': {}
-            },
-            fallback_used=True
+            data={"flagged": False, "categories": {}, "scores": {}},
+            fallback_used=True,
         )
 
     def _load_mock_responses(self) -> Dict[str, Any]:
@@ -785,11 +817,7 @@ class RateLimiter:
     """Simple rate limiter for API calls."""
 
     def __init__(self):
-        self.limits = {
-            'per_minute': 60,
-            'per_hour': 1000,
-            'per_day': 10000
-        }
+        self.limits = {"per_minute": 60, "per_hour": 1000, "per_day": 10000}
         self.requests = []
 
     async def check_rate_limit(self, request: OpenAIRequest):
@@ -808,11 +836,11 @@ class RateLimiter:
         hour_count = sum(1 for r in self.requests if r > hour_ago)
         day_count = len(self.requests)
 
-        if minute_count >= self.limits['per_minute']:
+        if minute_count >= self.limits["per_minute"]:
             await asyncio.sleep(60 - (now - minute_ago).seconds)
-        elif hour_count >= self.limits['per_hour']:
+        elif hour_count >= self.limits["per_hour"]:
             raise Exception("Hourly rate limit exceeded")
-        elif day_count >= self.limits['per_day']:
+        elif day_count >= self.limits["per_day"]:
             raise Exception("Daily rate limit exceeded")
 
         # Record request
@@ -821,42 +849,36 @@ class RateLimiter:
 
 # Convenience functions for modules
 async def generate_text(
-    module: str,
-    prompt: str,
-    model_type: ModelType = ModelType.FAST,
-    **kwargs
+    module: str, prompt: str, model_type: ModelType = ModelType.FAST, **kwargs
 ) -> str:
     """Convenience function for text generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
         module=module,
         capability=OpenAICapability.TEXT_GENERATION,
-        data={'prompt': prompt, **kwargs},
-        model_preference=model_type
+        data={"prompt": prompt, **kwargs},
+        model_preference=model_type,
     )
     response = await service.process_request(request)
     if response.success:
-        return response.data['content']
+        return response.data["content"]
     else:
         raise Exception(f"Text generation failed: {response.error}")
 
 
 async def generate_image(
-    module: str,
-    prompt: str,
-    size: str = "1024x1024",
-    **kwargs
+    module: str, prompt: str, size: str = "1024x1024", **kwargs
 ) -> Dict[str, Any]:
     """Convenience function for image generation."""
     service = OpenAICoreService()
     request = OpenAIRequest(
         module=module,
         capability=OpenAICapability.IMAGE_GENERATION,
-        data={'prompt': prompt, 'size': size, **kwargs}
+        data={"prompt": prompt, "size": size, **kwargs},
     )
     response = await service.process_request(request)
     if response.success:
-        return response.data['images'][0]
+        return response.data["images"][0]
     else:
         raise Exception(f"Image generation failed: {response.error}")
 
@@ -866,22 +888,20 @@ async def generate_audio(
     text: str,
     voice: str = "nova",
     output_path: Optional[str] = None,
-    **kwargs
+    **kwargs,
 ) -> Union[str, bytes]:
     """Convenience function for audio generation."""
     service = OpenAICoreService()
-    data = {'text': text, 'voice': voice, **kwargs}
+    data = {"text": text, "voice": voice, **kwargs}
     if output_path:
-        data['output_path'] = output_path
+        data["output_path"] = output_path
 
     request = OpenAIRequest(
-        module=module,
-        capability=OpenAICapability.AUDIO_GENERATION,
-        data=data
+        module=module, capability=OpenAICapability.AUDIO_GENERATION, data=data
     )
     response = await service.process_request(request)
     if response.success:
-        return response.data.get('path') or response.data.get('audio_bytes')
+        return response.data.get("path") or response.data.get("audio_bytes")
     else:
         raise Exception(f"Audio generation failed: {response.error}")
 
@@ -895,8 +915,8 @@ async def demo():
     text_request = OpenAIRequest(
         module="demo",
         capability=OpenAICapability.TEXT_GENERATION,
-        data={'prompt': "Describe a dream about flying"},
-        model_preference=ModelType.CREATIVE
+        data={"prompt": "Describe a dream about flying"},
+        model_preference=ModelType.CREATIVE,
     )
 
     response = await service.process_request(text_request)

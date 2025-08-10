@@ -5,12 +5,13 @@ Unused Files Analyzer
 Analyzes the codebase to identify files that are not imported or referenced anywhere.
 """
 
+import ast
+import json
 import os
 import re
-import json
 from pathlib import Path
-from typing import Set, Dict, List, Tuple
-import ast
+from typing import Dict, List, Set
+
 
 class UnusedFilesAnalyzer:
     def __init__(self, root_path: str):
@@ -19,13 +20,28 @@ class UnusedFilesAnalyzer:
         self.imports_graph: Dict[str, Set[str]] = {}
         self.file_references: Dict[str, Set[str]] = {}
         self.excluded_dirs = {
-            '__pycache__', '.git', '.pytest_cache', 'node_modules',
-            'venv', 'env', '.venv', 'dist', 'build', 'htmlcov',
-            '.mypy_cache', '.ruff_cache'
+            "__pycache__",
+            ".git",
+            ".pytest_cache",
+            "node_modules",
+            "venv",
+            "env",
+            ".venv",
+            "dist",
+            "build",
+            "htmlcov",
+            ".mypy_cache",
+            ".ruff_cache",
         }
         self.excluded_patterns = {
-            'test_', '_test.py', 'conftest.py', 'setup.py',
-            '__main__.py', 'example_', 'demo_', 'sample_'
+            "test_",
+            "_test.py",
+            "conftest.py",
+            "setup.py",
+            "__main__.py",
+            "example_",
+            "demo_",
+            "sample_",
         }
 
     def analyze(self) -> Dict[str, any]:
@@ -46,7 +62,7 @@ class UnusedFilesAnalyzer:
             "total_files": len(self.python_files),
             "unused_files": unused_files,
             "connectivity": connectivity,
-            "import_statistics": self._get_import_statistics()
+            "import_statistics": self._get_import_statistics(),
         }
 
     def _collect_python_files(self):
@@ -58,7 +74,7 @@ class UnusedFilesAnalyzer:
             root_path = Path(root)
 
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     file_path = root_path / file
                     # Skip excluded patterns
                     if not any(pattern in file for pattern in self.excluded_patterns):
@@ -68,7 +84,7 @@ class UnusedFilesAnalyzer:
         """Analyze imports in all Python files"""
         for file_path in self.python_files:
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
 
                 # Parse AST to find imports
@@ -113,8 +129,8 @@ class UnusedFilesAnalyzer:
 
         # Match import statements
         import_patterns = [
-            r'^\s*import\s+(\S+)',
-            r'^\s*from\s+(\S+)\s+import',
+            r"^\s*import\s+(\S+)",
+            r"^\s*from\s+(\S+)\s+import",
         ]
 
         for pattern in import_patterns:
@@ -129,30 +145,30 @@ class UnusedFilesAnalyzer:
     def _resolve_import(self, module_name: str, from_file: Path) -> str:
         """Resolve an import to a file path"""
         # Handle relative imports
-        if module_name.startswith('.'):
-            level = len(module_name) - len(module_name.lstrip('.'))
-            module_parts = module_name.lstrip('.').split('.')
+        if module_name.startswith("."):
+            level = len(module_name) - len(module_name.lstrip("."))
+            module_parts = module_name.lstrip(".").split(".")
 
             current_dir = from_file.parent
             for _ in range(level - 1):
                 current_dir = current_dir.parent
 
             if module_parts[0]:
-                potential_path = current_dir / '/'.join(module_parts)
+                potential_path = current_dir / "/".join(module_parts)
             else:
                 potential_path = current_dir
         else:
             # Absolute import
-            module_parts = module_name.split('.')
-            potential_path = self.root_path / '/'.join(module_parts)
+            module_parts = module_name.split(".")
+            potential_path = self.root_path / "/".join(module_parts)
 
         # Check for .py file
-        py_file = potential_path.with_suffix('.py')
+        py_file = potential_path.with_suffix(".py")
         if py_file in self.python_files:
             return str(py_file)
 
         # Check for __init__.py in directory
-        init_file = potential_path / '__init__.py'
+        init_file = potential_path / "__init__.py"
         if init_file in self.python_files:
             return str(init_file)
 
@@ -186,8 +202,14 @@ class UnusedFilesAnalyzer:
 
         # Entry points that shouldn't be considered unused
         entry_points = {
-            'main.py', 'app.py', 'run.py', 'manage.py',
-            'cli.py', 'server.py', 'api.py', 'wsgi.py'
+            "main.py",
+            "app.py",
+            "run.py",
+            "manage.py",
+            "cli.py",
+            "server.py",
+            "api.py",
+            "wsgi.py",
         }
 
         unused_files = []
@@ -207,12 +229,14 @@ class UnusedFilesAnalyzer:
             rel_path = file_path.relative_to(self.root_path)
             size = file_path.stat().st_size
 
-            unused_files.append({
-                "path": str(rel_path),
-                "size_bytes": size,
-                "size_human": self._format_size(size),
-                "directory": str(rel_path.parent)
-            })
+            unused_files.append(
+                {
+                    "path": str(rel_path),
+                    "size_bytes": size,
+                    "size_human": self._format_size(size),
+                    "directory": str(rel_path.parent),
+                }
+            )
 
         # Sort by directory and then by name
         unused_files.sort(key=lambda x: x["path"])
@@ -223,8 +247,13 @@ class UnusedFilesAnalyzer:
         """Analyze system connectivity"""
         # Identify key system hubs
         hub_patterns = [
-            '*hub.py', '*_hub.py', '*orchestrator*.py', '*bridge*.py',
-            '*coordinator*.py', '*manager*.py', '*engine*.py'
+            "*hub.py",
+            "*_hub.py",
+            "*orchestrator*.py",
+            "*bridge*.py",
+            "*coordinator*.py",
+            "*manager*.py",
+            "*engine*.py",
         ]
 
         hubs = []
@@ -235,16 +264,22 @@ class UnusedFilesAnalyzer:
 
                     # Count incoming and outgoing connections
                     file_str = str(file_path)
-                    incoming = sum(1 for imports in self.imports_graph.values() if file_str in imports)
+                    incoming = sum(
+                        1
+                        for imports in self.imports_graph.values()
+                        if file_str in imports
+                    )
                     outgoing = len(self.imports_graph.get(file_str, set()))
 
-                    hubs.append({
-                        "path": str(rel_path),
-                        "type": self._identify_hub_type(file_path.name),
-                        "incoming_connections": incoming,
-                        "outgoing_connections": outgoing,
-                        "total_connections": incoming + outgoing
-                    })
+                    hubs.append(
+                        {
+                            "path": str(rel_path),
+                            "type": self._identify_hub_type(file_path.name),
+                            "incoming_connections": incoming,
+                            "outgoing_connections": outgoing,
+                            "total_connections": incoming + outgoing,
+                        }
+                    )
 
         # Sort by total connections
         hubs.sort(key=lambda x: x["total_connections"], reverse=True)
@@ -253,7 +288,9 @@ class UnusedFilesAnalyzer:
         isolated = []
         for file_path in self.python_files:
             file_str = str(file_path)
-            incoming = sum(1 for imports in self.imports_graph.values() if file_str in imports)
+            incoming = sum(
+                1 for imports in self.imports_graph.values() if file_str in imports
+            )
             outgoing = len(self.imports_graph.get(file_str, set()))
 
             if incoming == 0 and outgoing == 0:
@@ -263,26 +300,33 @@ class UnusedFilesAnalyzer:
         return {
             "key_hubs": hubs[:20],  # Top 20 most connected
             "isolated_files": isolated,
-            "total_connections": sum(len(imports) for imports in self.imports_graph.values()),
-            "average_connections": sum(len(imports) for imports in self.imports_graph.values()) / len(self.python_files) if self.python_files else 0
+            "total_connections": sum(
+                len(imports) for imports in self.imports_graph.values()
+            ),
+            "average_connections": (
+                sum(len(imports) for imports in self.imports_graph.values())
+                / len(self.python_files)
+                if self.python_files
+                else 0
+            ),
         }
 
     def _identify_hub_type(self, filename: str) -> str:
         """Identify the type of hub based on filename"""
-        if 'orchestrator' in filename:
-            return 'orchestrator'
-        elif 'hub' in filename:
-            return 'hub'
-        elif 'bridge' in filename:
-            return 'bridge'
-        elif 'coordinator' in filename:
-            return 'coordinator'
-        elif 'manager' in filename:
-            return 'manager'
-        elif 'engine' in filename:
-            return 'engine'
+        if "orchestrator" in filename:
+            return "orchestrator"
+        elif "hub" in filename:
+            return "hub"
+        elif "bridge" in filename:
+            return "bridge"
+        elif "coordinator" in filename:
+            return "coordinator"
+        elif "manager" in filename:
+            return "manager"
+        elif "engine" in filename:
+            return "engine"
         else:
-            return 'other'
+            return "other"
 
     def _get_import_statistics(self) -> Dict[str, any]:
         """Get statistics about imports"""
@@ -293,7 +337,7 @@ class UnusedFilesAnalyzer:
         # Count module imports
         module_counts = {}
         for imp in all_imports:
-            module = Path(imp).parts[0] if Path(imp).parts else 'root'
+            module = Path(imp).parts[0] if Path(imp).parts else "root"
             module_counts[module] = module_counts.get(module, 0) + 1
 
         # Sort by count
@@ -303,16 +347,19 @@ class UnusedFilesAnalyzer:
             "total_imports": len(all_imports),
             "unique_imports": len(set(all_imports)),
             "most_imported_modules": sorted_modules[:10],
-            "files_with_no_imports": sum(1 for imports in self.imports_graph.values() if not imports)
+            "files_with_no_imports": sum(
+                1 for imports in self.imports_graph.values() if not imports
+            ),
         }
 
     def _format_size(self, size_bytes: int) -> str:
         """Format file size in human readable format"""
-        for unit in ['B', 'KB', 'MB', 'GB']:
+        for unit in ["B", "KB", "MB", "GB"]:
             if size_bytes < 1024.0:
                 return f"{size_bytes:.1f} {unit}"
             size_bytes /= 1024.0
         return f"{size_bytes:.1f} TB"
+
 
 def main():
     # Get repository root
@@ -322,29 +369,36 @@ def main():
     results = analyzer.analyze()
 
     # Save results
-    output_file = repo_root / 'analysis-tools' / 'unused_files_report.json'
-    with open(output_file, 'w') as f:
+    output_file = repo_root / "analysis-tools" / "unused_files_report.json"
+    with open(output_file, "w") as f:
         json.dump(results, f, indent=2)
 
     # Print summary
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📋 UNUSED FILES ANALYSIS SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print(f"Total Python files analyzed: {results['total_files']}")
     print(f"Unused files found: {len(results['unused_files'])}")
-    print(f"Isolated files (no connections): {len(results['connectivity']['isolated_files'])}")
+    print(
+        f"Isolated files (no connections): {len(results['connectivity']['isolated_files'])}"
+    )
     print(f"Total connections: {results['connectivity']['total_connections']}")
-    print(f"Average connections per file: {results['connectivity']['average_connections']:.2f}")
+    print(
+        f"Average connections per file: {results['connectivity']['average_connections']:.2f}"
+    )
 
     print("\n🚫 TOP UNUSED FILES:")
-    for file in results['unused_files'][:10]:
+    for file in results["unused_files"][:10]:
         print(f"  - {file['path']} ({file['size_human']})")
 
     print("\n🔗 TOP CONNECTED HUBS:")
-    for hub in results['connectivity']['key_hubs'][:10]:
-        print(f"  - {hub['path']} ({hub['type']}) - {hub['total_connections']} connections")
+    for hub in results["connectivity"]["key_hubs"][:10]:
+        print(
+            f"  - {hub['path']} ({hub['type']}) - {hub['total_connections']} connections"
+        )
 
     print(f"\n✅ Full report saved to: {output_file}")
+
 
 if __name__ == "__main__":
     main()

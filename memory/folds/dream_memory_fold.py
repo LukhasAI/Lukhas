@@ -17,11 +17,12 @@ introspective content with symbolic annotation.
 """
 
 import json
-from core.common import get_logger
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Callable
-from dataclasses import dataclass, field, asdict
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -97,7 +98,9 @@ class DreamMemoryFold:
         # Initialize drift tracker integration
         self.drift_tracker_available = False
         try:
-            from oneiric.oneiric_core.utils.drift_tracker import SymbolicDriftTracker
+            from oneiric.oneiric_core.utils.drift_tracker import (
+                SymbolicDriftTracker,
+            )
 
             self.drift_tracker = SymbolicDriftTracker()
             self.drift_tracker_available = True
@@ -278,7 +281,7 @@ class DreamMemoryFold:
             return None
 
         try:
-            with open(snapshot_file, "r") as f:
+            with open(snapshot_file) as f:
                 data = json.load(f)
 
             snapshot = DreamSnapshot.from_dict(data)

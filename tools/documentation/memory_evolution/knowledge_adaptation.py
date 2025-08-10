@@ -3,19 +3,19 @@ Knowledge Adaptation System for DocuTutor.
 Handles the evolution and adaptation of knowledge over time.
 """
 
-from typing import Dict, List, Optional
-import numpy as np
-from scipy.spatial import distance
 from datetime import datetime
+from typing import Optional
+
 
 class KnowledgeNode:
-    def __init__(self, content: str, metadata: Dict):
+
+    def __init__(self, content: str, metadata: dict):
         self.content = content
         self.metadata = metadata
         self.confidence = 1.0
         self.last_accessed = datetime.now()
         self.access_count = 0
-        self.relationships: Dict[str, float] = {}  # node_id -> relationship_strength
+        self.relationships: dict[str, float] = {}  # node_id -> relationship_strength
 
     def access(self):
         """Update access statistics for this node."""
@@ -30,12 +30,14 @@ class KnowledgeNode:
         """Add or update a relationship with another node."""
         self.relationships[node_id] = max(0.0, min(1.0, strength))
 
+
 class KnowledgeGraph:
+
     def __init__(self):
-        self.nodes: Dict[str, KnowledgeNode] = {}
+        self.nodes: dict[str, KnowledgeNode] = {}
         self.embedding_model = None  # Placeholder for embedding model
 
-    def add_node(self, node_id: str, content: str, metadata: Dict) -> KnowledgeNode:
+    def add_node(self, node_id: str, content: str, metadata: dict) -> KnowledgeNode:
         """Add a new knowledge node to the graph."""
         node = KnowledgeNode(content, metadata)
         self.nodes[node_id] = node
@@ -45,7 +47,9 @@ class KnowledgeGraph:
         """Retrieve a node by its ID."""
         return self.nodes.get(node_id)
 
-    def update_relationships(self, node_id: str, related_ids: List[str], strengths: List[float]):
+    def update_relationships(
+        self, node_id: str, related_ids: list[str], strengths: list[float]
+    ):
         """Update relationships for a node with related nodes."""
         if node_id not in self.nodes:
             raise KeyError(f"Node {node_id} does not exist")
@@ -55,19 +59,21 @@ class KnowledgeGraph:
             if related_id in self.nodes:
                 node.add_relationship(related_id, strength)
 
+
 class KnowledgeAdaptation:
+
     def __init__(self):
         self.knowledge_graph = KnowledgeGraph()
         self.decay_rate = 0.1
         self.update_threshold = 0.5
 
-    def add_knowledge(self, content: str, metadata: Dict) -> str:
+    def add_knowledge(self, content: str, metadata: dict) -> str:
         """Add new knowledge to the system."""
         node_id = f"node_{len(self.knowledge_graph.nodes)}"
         self.knowledge_graph.add_node(node_id, content, metadata)
         return node_id
 
-    def update_knowledge(self, node_id: str, new_content: str, new_metadata: Dict):
+    def update_knowledge(self, node_id: str, new_content: str, new_metadata: dict):
         """Update existing knowledge based on new information."""
         node = self.knowledge_graph.get_node(node_id)
         if node is None:
@@ -89,7 +95,7 @@ class KnowledgeAdaptation:
             decay = self.decay_rate * time_diff
             node.update_confidence(node.confidence * (1 - decay))
 
-    def get_related_knowledge(self, node_id: str, threshold: float = 0.5) -> List[str]:
+    def get_related_knowledge(self, node_id: str, threshold: float = 0.5) -> list[str]:
         """Get related knowledge nodes above a relationship strength threshold."""
         node = self.knowledge_graph.get_node(node_id)
         if node is None:

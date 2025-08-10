@@ -42,22 +42,21 @@
 """
 
 import asyncio
-import numpy as np
-import time
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
-from uuid import uuid4
-from collections import deque
 import math
+import time
+from collections import deque
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from uuid import uuid4
 
-import structlog
+import numpy as np
 
 # Import LUKHAS components
 try:
-    from memory.hippocampal.hippocampal_buffer import EpisodicMemory
     from memory.consolidation.consolidation_orchestrator import SleepStage
+    from memory.hippocampal.hippocampal_buffer import EpisodicMemory
+
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
@@ -67,36 +66,37 @@ except ImportError as e:
     class EpisodicMemory:
         pass
 
-from core.common import get_logger
-
 
 class RippleType(Enum):
     """Types of sharp-wave ripples"""
-    SINGLE = "single"           # Isolated ripple
-    DOUBLET = "doublet"         # Two ripples in succession
-    TRIPLET = "triplet"         # Three ripples
-    BURST = "burst"             # Multiple ripples
-    COMPLEX = "complex"         # Complex multi-frequency
+
+    SINGLE = "single"  # Isolated ripple
+    DOUBLET = "doublet"  # Two ripples in succession
+    TRIPLET = "triplet"  # Three ripples
+    BURST = "burst"  # Multiple ripples
+    COMPLEX = "complex"  # Complex multi-frequency
 
 
 class ReplayDirection(Enum):
     """Direction of memory replay"""
-    FORWARD = "forward"         # Temporal order
-    REVERSE = "reverse"         # Reverse order
+
+    FORWARD = "forward"  # Temporal order
+    REVERSE = "reverse"  # Reverse order
     BIDIRECTIONAL = "bidirectional"  # Both directions
-    RANDOM = "random"           # Random access
+    RANDOM = "random"  # Random access
 
 
 @dataclass
 class Ripple:
     """Individual sharp-wave ripple event"""
+
     ripple_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: float = field(default_factory=time.time)
 
     # Ripple characteristics
-    frequency: float = 180.0    # Hz (140-200 range)
-    amplitude: float = 1.0      # Normalized amplitude
-    duration: float = 0.1       # seconds (50-150ms typical)
+    frequency: float = 180.0  # Hz (140-200 range)
+    amplitude: float = 1.0  # Normalized amplitude
+    duration: float = 0.1  # seconds (50-150ms typical)
 
     # Ripple type and complexity
     ripple_type: RippleType = RippleType.SINGLE
@@ -118,12 +118,13 @@ class Ripple:
     def calculate_power(self) -> float:
         """Calculate ripple power"""
         # Power proportional to amplitude squared and duration
-        return self.amplitude ** 2 * self.duration * self.frequency / 180.0
+        return self.amplitude**2 * self.duration * self.frequency / 180.0
 
 
 @dataclass
 class RippleSequence:
     """Sequence of related ripples"""
+
     sequence_id: str = field(default_factory=lambda: str(uuid4()))
     ripples: List[Ripple] = field(default_factory=list)
 
@@ -162,7 +163,7 @@ class RippleGenerator:
         enable_coupling: bool = True,
         enable_sequences: bool = True,
         max_sequence_length: int = 5,
-        replay_speed_factor: float = 10.0
+        replay_speed_factor: float = 10.0,
     ):
         self.base_frequency = base_frequency
         self.frequency_range = frequency_range
@@ -208,7 +209,7 @@ class RippleGenerator:
             "RippleGenerator initialized",
             base_frequency=base_frequency,
             ripple_rate=ripple_rate,
-            coupling=enable_coupling
+            coupling=enable_coupling,
         )
 
     async def start(self):
@@ -234,14 +235,14 @@ class RippleGenerator:
         logger.info(
             "RippleGenerator stopped",
             total_ripples=self.total_ripples,
-            successful_transfers=self.successful_transfers
+            successful_transfers=self.successful_transfers,
         )
 
     async def generate_ripple(
         self,
         memory_sequence: List[str],
         ripple_type: Optional[RippleType] = None,
-        force_generation: bool = False
+        force_generation: bool = False,
     ) -> Optional[Ripple]:
         """
         Generate a sharp-wave ripple event.
@@ -272,7 +273,7 @@ class RippleGenerator:
             replay_direction=self._select_replay_direction(),
             replay_speed=self.replay_speed_factor * np.random.uniform(0.8, 1.2),
             slow_wave_phase=self.slow_wave_phase,
-            coupling_strength=self._calculate_coupling_strength()
+            coupling_strength=self._calculate_coupling_strength(),
         )
 
         # Calculate complexity
@@ -294,7 +295,7 @@ class RippleGenerator:
             "Ripple generated",
             ripple_id=ripple.ripple_id[:8],
             frequency=frequency,
-            memories=len(memory_sequence)
+            memories=len(memory_sequence),
         )
 
         return ripple
@@ -302,19 +303,17 @@ class RippleGenerator:
     async def generate_ripple_sequence(
         self,
         memory_sequences: List[List[str]],
-        inter_ripple_interval: Optional[float] = None
+        inter_ripple_interval: Optional[float] = None,
     ) -> RippleSequence:
         """
         Generate a sequence of related ripples.
         Used for complex memory replay patterns.
         """
 
-        sequence = RippleSequence(
-            inter_ripple_interval=inter_ripple_interval or 0.5
-        )
+        sequence = RippleSequence(inter_ripple_interval=inter_ripple_interval or 0.5)
 
         # Limit sequence length
-        sequences_to_use = memory_sequences[:self.max_sequence_length]
+        sequences_to_use = memory_sequences[: self.max_sequence_length]
 
         for i, mem_seq in enumerate(sequences_to_use):
             # Vary ripple types in sequence
@@ -327,9 +326,7 @@ class RippleGenerator:
 
             # Generate ripple
             ripple = await self.generate_ripple(
-                memory_sequence=mem_seq,
-                ripple_type=ripple_type,
-                force_generation=True
+                memory_sequence=mem_seq, ripple_type=ripple_type, force_generation=True
             )
 
             if ripple:
@@ -352,7 +349,7 @@ class RippleGenerator:
             "Ripple sequence generated",
             sequence_id=sequence.sequence_id[:8],
             ripple_count=len(sequence.ripples),
-            unique_memories=len(sequence.unique_memories)
+            unique_memories=len(sequence.unique_memories),
         )
 
         return sequence
@@ -417,7 +414,9 @@ class RippleGenerator:
         base_amplitude = 1.0
 
         # Higher amplitude for priority memories
-        priority_count = sum(1 for mid in memory_sequence if mid in self.priority_memories)
+        priority_count = sum(
+            1 for mid in memory_sequence if mid in self.priority_memories
+        )
         importance_factor = 1.0 + (priority_count / max(len(memory_sequence), 1)) * 0.5
 
         # Add noise
@@ -433,7 +432,7 @@ class RippleGenerator:
             RippleType.DOUBLET: 0.15,
             RippleType.TRIPLET: 0.20,
             RippleType.BURST: 0.25,
-            RippleType.COMPLEX: 0.30
+            RippleType.COMPLEX: 0.30,
         }
 
         base = base_durations.get(ripple_type, 0.1)
@@ -462,7 +461,7 @@ class RippleGenerator:
             RippleType.DOUBLET: 0.4,
             RippleType.TRIPLET: 0.6,
             RippleType.BURST: 0.8,
-            RippleType.COMPLEX: 1.0
+            RippleType.COMPLEX: 1.0,
         }
 
         base_complexity = type_complexity.get(ripple.ripple_type, 0.5)
@@ -476,7 +475,8 @@ class RippleGenerator:
         # Combined complexity
         return np.clip(
             base_complexity * 0.5 + sequence_factor * 0.3 + freq_deviation * 0.2,
-            0.0, 1.0
+            0.0,
+            1.0,
         )
 
     async def _generation_loop(self):
@@ -491,23 +491,37 @@ class RippleGenerator:
 
                 # Select memories for replay
                 if self.available_memories:
-                    num_memories = np.random.randint(1, min(5, len(self.available_memories)))
+                    num_memories = np.random.randint(
+                        1, min(5, len(self.available_memories))
+                    )
 
                     # Prioritize important memories
                     if self.priority_memories:
                         priority_mems = [
-                            m for m in self.available_memories
-                            if hasattr(m, 'memory_id') and m.memory_id in self.priority_memories
+                            m
+                            for m in self.available_memories
+                            if hasattr(m, "memory_id")
+                            and m.memory_id in self.priority_memories
                         ]
                         if priority_mems:
-                            selected = np.random.choice(priority_mems, size=min(num_memories, len(priority_mems)), replace=False)
+                            selected = np.random.choice(
+                                priority_mems,
+                                size=min(num_memories, len(priority_mems)),
+                                replace=False,
+                            )
                         else:
-                            selected = np.random.choice(self.available_memories, size=num_memories, replace=False)
+                            selected = np.random.choice(
+                                self.available_memories,
+                                size=num_memories,
+                                replace=False,
+                            )
                     else:
-                        selected = np.random.choice(self.available_memories, size=num_memories, replace=False)
+                        selected = np.random.choice(
+                            self.available_memories, size=num_memories, replace=False
+                        )
 
                     memory_ids = [
-                        m.memory_id if hasattr(m, 'memory_id') else str(i)
+                        m.memory_id if hasattr(m, "memory_id") else str(i)
                         for i, m in enumerate(selected)
                     ]
 
@@ -550,7 +564,7 @@ class RippleGenerator:
             "successful_transfers": self.successful_transfers,
             "sequence_count": self.sequence_count,
             "slow_wave_phase": self.slow_wave_phase,
-            "buffer_size": len(self.ripple_buffer)
+            "buffer_size": len(self.ripple_buffer),
         }
 
         # Recent ripple statistics
@@ -564,7 +578,9 @@ class RippleGenerator:
             # Type distribution
             type_counts = {}
             for r in recent:
-                type_counts[r.ripple_type.value] = type_counts.get(r.ripple_type.value, 0) + 1
+                type_counts[r.ripple_type.value] = (
+                    type_counts.get(r.ripple_type.value, 0) + 1
+                )
             metrics["ripple_types"] = type_counts
 
         return metrics
@@ -578,7 +594,7 @@ async def demonstrate_ripple_generator():
         base_frequency=180.0,
         ripple_rate=5.0,  # Higher for demo
         enable_coupling=True,
-        enable_sequences=True
+        enable_sequences=True,
     )
 
     await generator.start()
@@ -591,10 +607,14 @@ async def demonstrate_ripple_generator():
 
     # Register callbacks
     async def on_ripple(ripple):
-        print(f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories")
+        print(
+            f"Ripple: {ripple.frequency:.1f}Hz, {len(ripple.memory_sequence)} memories"
+        )
 
     async def on_sequence(sequence):
-        print(f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories)} unique memories")
+        print(
+            f"Sequence completed: {len(sequence.ripples)} ripples, {len(sequence.unique_memories)} unique memories"
+        )
 
     generator.register_ripple_callback(on_ripple)
     generator.register_sequence_callback(on_sequence)
@@ -605,8 +625,7 @@ async def demonstrate_ripple_generator():
     # Single ripple
     print("--- Generating Single Ripple ---")
     ripple = await generator.generate_ripple(
-        memory_sequence=test_memories[:3],
-        ripple_type=RippleType.SINGLE
+        memory_sequence=test_memories[:3], ripple_type=RippleType.SINGLE
     )
     if ripple:
         print(f"Generated: {ripple.ripple_id[:8]}...")
@@ -615,9 +634,7 @@ async def demonstrate_ripple_generator():
 
     # Ripple sequence
     print("\n--- Generating Ripple Sequence ---")
-    sequences = [
-        test_memories[i:i+3] for i in range(0, 9, 3)
-    ]
+    sequences = [test_memories[i : i + 3] for i in range(0, 9, 3)]
     sequence = await generator.generate_ripple_sequence(sequences)
     print(f"Sequence duration: {sequence.total_duration:.2f}s")
 

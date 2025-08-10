@@ -35,52 +35,68 @@ to create a cohesive AGI experience.
 """
 
 import asyncio
-import logging
 import json
-import time
-from typing import Dict, List, Optional, Any, Union, Tuple, Callable
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from enum import Enum
-import uuid
+import logging
 import threading
-from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
+import time
+import uuid
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
 
 # Import core components
 try:
-    from consciousness.core_consciousness.consciousness_integrator import ConsciousnessIntegrator, ConsciousnessEvent, IntegrationPriority
-    from core.neural_architectures.neural_integrator import NeuralIntegrator, NeuralContext, NeuralMode
-    from memory.enhanced_memory_manager import EnhancedMemoryManager
-    from voice.processor import VoiceProcessor
-    from personas.persona_manager import PersonaManager
+    from consciousness.core_consciousness.consciousness_integrator import (
+        ConsciousnessEvent,
+        ConsciousnessIntegrator,
+        IntegrationPriority,
+    )
     from core.identity.identity_manager import IdentityManager
-    from creativity.emotion.brain_integration_emotion_engine import EmotionEngine
+    from core.neural_architectures.neural_integrator import (
+        NeuralContext,
+        NeuralIntegrator,
+        NeuralMode,
+    )
+    from creativity.emotion.brain_integration_emotion_engine import (
+        EmotionEngine,
+    )
+    from memory.enhanced_memory_manager import EnhancedMemoryManager
+    from personas.persona_manager import PersonaManager
+    from voice.processor import VoiceProcessor
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
 
 logger = logging.getLogger("system")
 
+
 class SystemState(Enum):
     """System operational states"""
-    INITIALIZING = "initializing"   # System startup
-    ACTIVE = "active"              # Fully operational
-    LEARNING = "learning"          # Focused learning mode
-    INTEGRATING = "integrating"    # Integrating new components
-    MAINTENANCE = "maintenance"    # System maintenance
-    SHUTDOWN = "shutdown"          # System shutdown
+
+    INITIALIZING = "initializing"  # System startup
+    ACTIVE = "active"  # Fully operational
+    LEARNING = "learning"  # Focused learning mode
+    INTEGRATING = "integrating"  # Integrating new components
+    MAINTENANCE = "maintenance"  # System maintenance
+    SHUTDOWN = "shutdown"  # System shutdown
+
 
 class IntegrationLevel(Enum):
     """Levels of system integration"""
-    BASIC = "basic"               # Basic functionality
-    ENHANCED = "enhanced"         # Enhanced features
-    FULL = "full"                # Full integration
-    QUANTUM = "quantum"          # Quantum-enhanced
+
+    BASIC = "basic"  # Basic functionality
+    ENHANCED = "enhanced"  # Enhanced features
+    FULL = "full"  # Full integration
+    QUANTUM = "quantum"  # Quantum-enhanced
+
 
 @dataclass
 class SystemRequest:
     """Represents a system request or command"""
+
     id: str
     timestamp: datetime
     request_type: str
@@ -89,9 +105,11 @@ class SystemRequest:
     priority: IntegrationPriority
     callback: Optional[Callable] = None
 
+
 @dataclass
 class SystemResponse:
     """Represents a system response"""
+
     request_id: str
     timestamp: datetime
     success: bool
@@ -99,9 +117,11 @@ class SystemResponse:
     error: Optional[str] = None
     processing_time: Optional[float] = None
 
+
 @dataclass
 class SystemContext:
     """Complete system context for operations"""
+
     user_id: str
     session_id: str
     system_state: SystemState
@@ -110,6 +130,7 @@ class SystemContext:
     component_states: Dict[str, Dict[str, Any]]
     global_context: Dict[str, Any]
     performance_metrics: Dict[str, float]
+
 
 class SystemCoordinator:
     """
@@ -162,25 +183,25 @@ class SystemCoordinator:
                 "max_concurrent_requests": 10,
                 "request_timeout": 30.0,
                 "response_cache_size": 1000,
-                "health_check_interval": 5.0
+                "health_check_interval": 5.0,
             },
             "integration": {
                 "consciousness_priority": "critical",
                 "neural_priority": "high",
                 "memory_priority": "critical",
                 "voice_priority": "high",
-                "personality_priority": "medium"
+                "personality_priority": "medium",
             },
             "performance": {
                 "enable_monitoring": True,
                 "metrics_interval": 1.0,
-                "performance_threshold": 0.8
-            }
+                "performance_threshold": 0.8,
+            },
         }
 
         if config_path and Path(config_path).exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     user_config = json.load(f)
                 default_config.update(user_config)
             except Exception as e:
@@ -194,19 +215,26 @@ class SystemCoordinator:
 
         try:
             # Initialize consciousness integrator
-            from consciousness.core_consciousness.consciousness_integrator import ConsciousnessIntegrator
+            from consciousness.core_consciousness.consciousness_integrator import (
+                ConsciousnessIntegrator,
+            )
+
             self.consciousness_integrator = ConsciousnessIntegrator()
             self.active_components["consciousness"] = True
             logger.info("Consciousness integrator initialized")
 
             # Initialize neural integrator
-            from core.neural_architectures.neural_integrator import NeuralIntegrator
+            from core.neural_architectures.neural_integrator import (
+                NeuralIntegrator,
+            )
+
             self.neural_integrator = NeuralIntegrator()
             self.active_components["neural"] = True
             logger.info("Neural integrator initialized")
 
             # Initialize memory manager
             from memory.enhanced_memory_manager import EnhancedMemoryManager
+
             self.memory_manager = EnhancedMemoryManager()
             self.active_components["memory"] = True
             logger.info("Memory manager initialized")
@@ -218,6 +246,7 @@ class SystemCoordinator:
 
             # Initialize persona manager
             from personas.persona_manager import PersonaManager
+
             self.persona_manager = PersonaManager()
             self.active_components["personality"] = True
             logger.info("Persona manager initialized")
@@ -251,8 +280,7 @@ class SystemCoordinator:
         """Start monitoring all system components"""
         # Start monitoring thread
         self.processing_thread = threading.Thread(
-            target=self._component_monitoring_loop,
-            daemon=True
+            target=self._component_monitoring_loop, daemon=True
         )
         self.processing_thread.start()
 
@@ -299,10 +327,7 @@ class SystemCoordinator:
         # Collect requests from queue
         for _ in range(self.config["system"]["max_concurrent_requests"]):
             try:
-                request = await asyncio.wait_for(
-                    self.request_queue.get(),
-                    timeout=0.01
-                )
+                request = await asyncio.wait_for(self.request_queue.get(), timeout=0.01)
                 requests.append(request)
             except asyncio.TimeoutError:
                 break
@@ -327,7 +352,7 @@ class SystemCoordinator:
                     timestamp=datetime.now(),
                     success=True,
                     data=result,
-                    processing_time=time.time() - start_time
+                    processing_time=time.time() - start_time,
                 )
             else:
                 response = SystemResponse(
@@ -336,7 +361,7 @@ class SystemCoordinator:
                     success=False,
                     data={},
                     error=f"No handler for request type: {request.request_type}",
-                    processing_time=time.time() - start_time
+                    processing_time=time.time() - start_time,
                 )
 
             # Cache response
@@ -358,7 +383,7 @@ class SystemCoordinator:
                 success=False,
                 data={},
                 error=str(e),
-                processing_time=time.time() - start_time
+                processing_time=time.time() - start_time,
             )
 
             logger.error(f"Error processing request {request.id}: {e}")
@@ -376,7 +401,7 @@ class SystemCoordinator:
             "neural_process": self._handle_neural_process,
             "consciousness_event": self._handle_consciousness_event,
             "system_status": self._handle_system_status,
-            "component_health": self._handle_component_health
+            "component_health": self._handle_component_health,
         }
 
         return handlers.get(request_type)
@@ -392,7 +417,7 @@ class SystemCoordinator:
             memory_type=memory_data.get("type", "episodic"),
             priority=memory_data.get("priority", "medium"),
             emotional_context=memory_data.get("emotional_context", {}),
-            associations=memory_data.get("associations", [])
+            associations=memory_data.get("associations", []),
         )
 
         return {"memory_id": memory_id, "status": "stored"}
@@ -407,9 +432,7 @@ class SystemCoordinator:
         limit = request.data.get("limit", 10)
 
         memories = await self.memory_manager.retrieve_memories(
-            query=query,
-            memory_type=memory_type,
-            limit=limit
+            query=query, memory_type=memory_type, limit=limit
         )
 
         return {"memories": memories, "count": len(memories)}
@@ -440,8 +463,7 @@ class SystemCoordinator:
         voice_characteristics = request.data.get("voice_characteristics", {})
 
         audio_data = await self.voice_processor.text_to_speech(
-            text=text,
-            voice_characteristics=voice_characteristics
+            text=text, voice_characteristics=voice_characteristics
         )
 
         return {"audio_data": audio_data, "duration": len(audio_data)}
@@ -482,14 +504,16 @@ class SystemCoordinator:
             output_dimensions=context_data.get("output_dimensions", (128,)),
             processing_parameters=context_data.get("parameters", {}),
             memory_context=context_data.get("memory_context", {}),
-            emotional_context=context_data.get("emotional_context", {})
+            emotional_context=context_data.get("emotional_context", {}),
         )
 
         result = await self.neural_integrator.process_input(input_data, context)
 
         return {"neural_result": result}
 
-    async def _handle_consciousness_event(self, request: SystemRequest) -> Dict[str, Any]:
+    async def _handle_consciousness_event(
+        self, request: SystemRequest
+    ) -> Dict[str, Any]:
         """Handle consciousness event request"""
         if not self.consciousness_integrator:
             raise Exception("Consciousness integrator not available")
@@ -501,7 +525,7 @@ class SystemCoordinator:
             event_type=event_data.get("event_type"),
             source_module=event_data.get("source_module"),
             data=event_data.get("data", {}),
-            priority=IntegrationPriority(event_data.get("priority", "medium"))
+            priority=IntegrationPriority(event_data.get("priority", "medium")),
         )
 
         success = await self.consciousness_integrator.submit_event(event)
@@ -552,10 +576,9 @@ class SystemCoordinator:
             for pattern in patterns:
                 # Submit to neural integrator for learning
                 if self.neural_integrator:
-                    await self.neural_integrator.processing_queue.put({
-                        'type': 'pattern',
-                        'data': pattern
-                    })
+                    await self.neural_integrator.processing_queue.put(
+                        {"type": "pattern", "data": pattern}
+                    )
 
     async def _coordinate_voice_personality(self):
         """Coordinate voice and personality systems"""
@@ -564,10 +587,16 @@ class SystemCoordinator:
             current_persona = await self.persona_manager.get_current_persona()
 
             if current_persona and self.voice_processor:
-                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
+                voice_characteristics = (
+                    await self.persona_manager.get_voice_characteristics(
+                        current_persona
+                    )
+                )
 
                 # Update voice processor with personality characteristics
-                await self.voice_processor.update_voice_characteristics(voice_characteristics)
+                await self.voice_processor.update_voice_characteristics(
+                    voice_characteristics
+                )
 
     async def _coordinate_consciousness(self):
         """Coordinate consciousness with all components"""
@@ -580,7 +609,7 @@ class SystemCoordinator:
             event_type="system_status_update",
             source_module="system_coordinator",
             data=system_status,
-            priority=IntegrationPriority.MEDIUM
+            priority=IntegrationPriority.MEDIUM,
         )
 
         await self.consciousness_integrator.submit_event(event)
@@ -589,7 +618,9 @@ class SystemCoordinator:
         """Update system context with current state"""
         # Update component states
         for component_name in self.active_components.keys():
-            self.component_states[component_name] = await self._get_component_state(component_name)
+            self.component_states[component_name] = await self._get_component_state(
+                component_name
+            )
 
     async def _get_component_state(self, component_name: str) -> Dict[str, Any]:
         """Get current state of a component"""
@@ -599,7 +630,10 @@ class SystemCoordinator:
             elif component_name == "neural" and self.neural_integrator:
                 return await self.neural_integrator.get_neural_status()
             elif component_name == "memory" and self.memory_manager:
-                return {"status": "active", "memory_count": len(self.memory_manager.memories)}
+                return {
+                    "status": "active",
+                    "memory_count": len(self.memory_manager.memories),
+                }
             elif component_name == "voice" and self.voice_processor:
                 return {"status": "active", "voice_ready": True}
             elif component_name == "personality" and self.persona_manager:
@@ -615,7 +649,9 @@ class SystemCoordinator:
             health = await self._check_component_health(component_name)
 
             if not health["healthy"]:
-                logger.warning(f"Component {component_name} health check failed: {health['error']}")
+                logger.warning(
+                    f"Component {component_name} health check failed: {health['error']}"
+                )
 
                 # Trigger recovery if needed
                 await self._trigger_component_recovery(component_name)
@@ -629,11 +665,14 @@ class SystemCoordinator:
             elif component_name == "neural" and self.neural_integrator:
                 status = await self.neural_integrator.get_neural_status()
                 return {"healthy": True, "status": status}
-            elif component_name == "memory" and self.memory_manager:
-                return {"healthy": True, "status": "active"}
-            elif component_name == "voice" and self.voice_processor:
-                return {"healthy": True, "status": "active"}
-            elif component_name == "personality" and self.persona_manager:
+            elif (
+                component_name == "memory"
+                and self.memory_manager
+                or component_name == "voice"
+                and self.voice_processor
+                or component_name == "personality"
+                and self.persona_manager
+            ):
                 return {"healthy": True, "status": "active"}
             else:
                 return {"healthy": False, "error": "Component not available"}
@@ -704,7 +743,7 @@ class SystemCoordinator:
             "component_states": self.component_states,
             "uptime": (datetime.now() - self.start_time).total_seconds(),
             "queue_size": self.request_queue.qsize(),
-            "cache_size": len(self.response_cache)
+            "cache_size": len(self.response_cache),
         }
 
     async def shutdown(self):
@@ -744,8 +783,10 @@ class SystemCoordinator:
 
         logger.info(f"Component {component_name} registered successfully")
 
+
 # Global instance for easy access
 system_coordinator: Optional[SystemCoordinator] = None
+
 
 async def get_system_coordinator() -> SystemCoordinator:
     """Get or create the global system coordinator instance"""
@@ -754,6 +795,7 @@ async def get_system_coordinator() -> SystemCoordinator:
         system_coordinator = SystemCoordinator()
         await system_coordinator.initialize_system()
     return system_coordinator
+
 
 if __name__ == "__main__":
     # Test the system coordinator
@@ -768,7 +810,7 @@ if __name__ == "__main__":
             request_type="system_status",
             source="test",
             data={},
-            priority=IntegrationPriority.MEDIUM
+            priority=IntegrationPriority.MEDIUM,
         )
 
         # Submit request
@@ -781,7 +823,9 @@ if __name__ == "__main__":
         # Get response
         response = await coordinator.get_response(request_id)
         if response:
-            logger.info(f"Response: {json.dumps(asdict(response), indent=2, default=str)}")
+            logger.info(
+                f"Response: {json.dumps(asdict(response), indent=2, default=str)}"
+            )
 
         # Get system status
         status = await coordinator.get_system_status()

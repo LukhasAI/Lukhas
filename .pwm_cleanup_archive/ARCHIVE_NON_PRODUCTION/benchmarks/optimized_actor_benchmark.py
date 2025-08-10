@@ -174,7 +174,7 @@ def run_optimized_benchmark(num_actors=500, num_messages=50000):
     # Save results
     with open("optimized_actor_benchmark_results.json", "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\n💾 Results saved to: optimized_actor_benchmark_results.json")
+    print("\n💾 Results saved to: optimized_actor_benchmark_results.json")
 
     return results
 
@@ -210,7 +210,7 @@ if __name__ == "__main__":
         time.sleep(1)
 
     # Final summary
-    print(f"\n🏆 FINAL RESULTS")
+    print("\n🏆 FINAL RESULTS")
     print("=" * 50)
     print(f"Best Throughput Achieved: {best_overall:,.0f} messages/sec")
 

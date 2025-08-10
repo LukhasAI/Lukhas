@@ -23,11 +23,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import numpy as np
-import logging
-from typing import Dict, Any, Tuple, Optional, List
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 import structlog
 
 logger = structlog.get_logger("ΛTRACE.bio.quantum_coherence")
@@ -36,6 +36,7 @@ logger = structlog.get_logger("ΛTRACE.bio.quantum_coherence")
 @dataclass
 class QuantumState:
     """Quantum state representation for coherence calculations."""
+
     amplitude: float = 1.0
     phase: float = 0.0
     entropy: float = 0.0
@@ -76,15 +77,10 @@ class QuantumCoherenceEnhancer:
             "Quantum coherence enhancer initialized",
             base_coherence=base_coherence,
             coherence_cap=self.coherence_cap,
-            boost_factor=self.quantum_boost_factor
+            boost_factor=self.quantum_boost_factor,
         )
 
-    def z_collapse(
-        self,
-        A_t: float,
-        theta_t: float,
-        delta_S_t: float
-    ) -> float:
+    def z_collapse(self, A_t: float, theta_t: float, delta_S_t: float) -> float:
         """
         VIVOX quantum collapse function for coherence enhancement.
 
@@ -104,7 +100,7 @@ class QuantumCoherenceEnhancer:
         phase_coherence = np.abs(phase_sum)
 
         # Entropy window: Gaussian envelope based on entropy change
-        entropy_window = np.exp(-delta_S_t**2 / (2 * self.entropy_window_width**2))
+        entropy_window = np.exp(-(delta_S_t**2) / (2 * self.entropy_window_width**2))
 
         # Quantum collapse calculation
         z_t = A_t * phase_coherence * entropy_window
@@ -116,17 +112,13 @@ class QuantumCoherenceEnhancer:
             entropy_change=delta_S_t,
             phase_coherence=phase_coherence,
             entropy_window=entropy_window,
-            z_collapse=z_t
+            z_collapse=z_t,
         )
 
         return z_t
 
     def drift_score(
-        self,
-        theta_A: float,
-        theta_B: float,
-        delta_S_A: float,
-        delta_S_B: float
+        self, theta_A: float, theta_B: float, delta_S_A: float, delta_S_B: float
     ) -> float:
         """
         Calculate drift score between two quantum states.
@@ -157,7 +149,7 @@ class QuantumCoherenceEnhancer:
         self,
         current_coherence: float,
         bio_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
     ) -> Tuple[float, Dict[str, Any]]:
         """
         Enhance bio-symbolic coherence using quantum collapse.
@@ -180,7 +172,7 @@ class QuantumCoherenceEnhancer:
             amplitude=amplitude,
             phase=phase,
             entropy=entropy_change,
-            coherence=current_coherence
+            coherence=current_coherence,
         )
         self.quantum_states.append(quantum_state)
 
@@ -192,8 +184,7 @@ class QuantumCoherenceEnhancer:
 
         # Apply enhancement with cap
         enhanced_coherence = min(
-            current_coherence * enhancement_factor,
-            self.coherence_cap
+            current_coherence * enhancement_factor, self.coherence_cap
         )
 
         # Calculate drift if we have history
@@ -201,8 +192,7 @@ class QuantumCoherenceEnhancer:
         if len(self.quantum_states) >= 2:
             prev_state = self.quantum_states[-2]
             drift_score = self.drift_score(
-                prev_state.phase, phase,
-                prev_state.entropy, entropy_change
+                prev_state.phase, phase, prev_state.entropy, entropy_change
             )
 
         # Phase alignment bonus
@@ -215,18 +205,18 @@ class QuantumCoherenceEnhancer:
 
         # Record enhancement
         enhancement_details = {
-            'original_coherence': current_coherence,
-            'enhanced_coherence': enhanced_coherence,
-            'enhancement_factor': enhancement_factor,
-            'z_collapse_value': z_value,
-            'quantum_state': {
-                'amplitude': amplitude,
-                'phase': phase,
-                'entropy_change': entropy_change
+            "original_coherence": current_coherence,
+            "enhanced_coherence": enhanced_coherence,
+            "enhancement_factor": enhancement_factor,
+            "z_collapse_value": z_value,
+            "quantum_state": {
+                "amplitude": amplitude,
+                "phase": phase,
+                "entropy_change": entropy_change,
             },
-            'drift_score': drift_score,
-            'phase_alignment': phase_alignment,
-            'timestamp': datetime.utcnow().isoformat()
+            "drift_score": drift_score,
+            "phase_alignment": phase_alignment,
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         self.enhancement_history.append(enhancement_details)
@@ -237,7 +227,7 @@ class QuantumCoherenceEnhancer:
             enhanced=f"{enhanced_coherence:.2%}",
             improvement=f"{(enhanced_coherence/current_coherence - 1)*100:.1f}%",
             z_value=z_value,
-            drift_score=drift_score
+            drift_score=drift_score,
         )
 
         return enhanced_coherence, enhancement_details
@@ -249,15 +239,17 @@ class QuantumCoherenceEnhancer:
         Maps biological signals to amplitude [0, 1].
         """
         # Normalize heart rate to amplitude
-        heart_rate = bio_data.get('heart_rate', 70)
+        heart_rate = bio_data.get("heart_rate", 70)
         hr_normalized = (heart_rate - 40) / 160  # 40-200 bpm range
 
         # Normalize temperature contribution
-        temperature = bio_data.get('temperature', 37.0)
+        temperature = bio_data.get("temperature", 37.0)
         temp_normalized = 1.0 - abs(temperature - 37.0) / 2.0  # Deviation from normal
 
         # Combine with weights
-        amplitude = 0.7 * np.clip(hr_normalized, 0, 1) + 0.3 * np.clip(temp_normalized, 0, 1)
+        amplitude = 0.7 * np.clip(hr_normalized, 0, 1) + 0.3 * np.clip(
+            temp_normalized, 0, 1
+        )
 
         return amplitude
 
@@ -268,12 +260,12 @@ class QuantumCoherenceEnhancer:
         Maps biological rhythms to phase angle.
         """
         # Use timestamp for circadian phase
-        timestamp = bio_data.get('timestamp', datetime.utcnow())
+        timestamp = bio_data.get("timestamp", datetime.utcnow())
         hour = timestamp.hour + timestamp.minute / 60
         circadian_phase = 2 * np.pi * hour / 24  # 24-hour cycle
 
         # Heart rate variability contributes to phase
-        hrv = bio_data.get('heart_rate_variability', 50)
+        hrv = bio_data.get("heart_rate_variability", 50)
         hrv_phase = np.pi * hrv / 100  # HRV typically 0-100ms
 
         # Combine phases
@@ -291,18 +283,18 @@ class QuantumCoherenceEnhancer:
         metrics = []
 
         # Heart rate variability
-        if 'heart_rate_variability' in bio_data:
-            hrv = bio_data['heart_rate_variability']
+        if "heart_rate_variability" in bio_data:
+            hrv = bio_data["heart_rate_variability"]
             metrics.append(hrv / 100)  # Normalize to ~[0, 1]
 
         # Temperature fluctuation
-        if 'temperature_variance' in bio_data:
-            temp_var = bio_data['temperature_variance']
+        if "temperature_variance" in bio_data:
+            temp_var = bio_data["temperature_variance"]
             metrics.append(temp_var)
 
         # Stress indicators
-        if 'stress_level' in bio_data:
-            stress = bio_data['stress_level']
+        if "stress_level" in bio_data:
+            stress = bio_data["stress_level"]
             metrics.append(stress / 10)  # Assume 0-10 scale
 
         # Average entropy change
@@ -321,15 +313,14 @@ class QuantumCoherenceEnhancer:
         Returns alignment score [0, 1].
         """
         # Check alignment with key harmonic phases
-        harmonic_phases = [0, np.pi/2, np.pi, 3*np.pi/2]
+        harmonic_phases = [0, np.pi / 2, np.pi, 3 * np.pi / 2]
 
         min_distance = min(
-            min(abs(phase - hp), 2*np.pi - abs(phase - hp))
-            for hp in harmonic_phases
+            min(abs(phase - hp), 2 * np.pi - abs(phase - hp)) for hp in harmonic_phases
         )
 
         # Convert distance to alignment score
-        alignment = 1.0 - (min_distance / (np.pi/2))
+        alignment = 1.0 - (min_distance / (np.pi / 2))
 
         return np.clip(alignment, 0, 1)
 
@@ -337,31 +328,32 @@ class QuantumCoherenceEnhancer:
         """Get summary of quantum enhancement performance."""
         if not self.enhancement_history:
             return {
-                'total_enhancements': 0,
-                'average_improvement': 0.0,
-                'best_coherence': self.base_coherence,
-                'average_drift': 0.0
+                "total_enhancements": 0,
+                "average_improvement": 0.0,
+                "best_coherence": self.base_coherence,
+                "average_drift": 0.0,
             }
 
         improvements = [
-            (e['enhanced_coherence'] / e['original_coherence'] - 1) * 100
+            (e["enhanced_coherence"] / e["original_coherence"] - 1) * 100
             for e in self.enhancement_history
         ]
 
-        coherences = [e['enhanced_coherence'] for e in self.enhancement_history]
-        drifts = [e['drift_score'] for e in self.enhancement_history if e['drift_score'] > 0]
+        coherences = [e["enhanced_coherence"] for e in self.enhancement_history]
+        drifts = [
+            e["drift_score"] for e in self.enhancement_history if e["drift_score"] > 0
+        ]
 
         return {
-            'total_enhancements': len(self.enhancement_history),
-            'average_improvement': np.mean(improvements),
-            'best_coherence': max(coherences),
-            'worst_coherence': min(coherences),
-            'average_coherence': np.mean(coherences),
-            'average_drift': np.mean(drifts) if drifts else 0.0,
-            'phase_alignments': [
-                e['phase_alignment']
-                for e in self.enhancement_history[-10:]  # Last 10
-            ]
+            "total_enhancements": len(self.enhancement_history),
+            "average_improvement": np.mean(improvements),
+            "best_coherence": max(coherences),
+            "worst_coherence": min(coherences),
+            "average_coherence": np.mean(coherences),
+            "average_drift": np.mean(drifts) if drifts else 0.0,
+            "phase_alignments": [
+                e["phase_alignment"] for e in self.enhancement_history[-10:]  # Last 10
+            ],
         }
 
 

@@ -10,14 +10,10 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import json
-import jsonschema
-from pathlib import Path
-from typing import Dict, List, Any, Tuple, Optional
-import hashlib
 import time
 from datetime import datetime
-import statistics
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
 
 # TODO: Import when modules are implemented
 # from collapse_verifier import verify_collapse_signature
@@ -56,9 +52,9 @@ class LedgerAuditor:
                 "signature": {"type": "string", "pattern": "^[a-fA-F0-9]+$"},
                 "public_key": {"type": "string", "pattern": "^[a-fA-F0-9]+$"},
                 "verified": {"type": "boolean"},
-                "metadata": {"type": "object"}
+                "metadata": {"type": "object"},
             },
-            "additionalProperties": False
+            "additionalProperties": False,
         }
 
     def audit_full_ledger(self) -> Dict[str, Any]:
@@ -82,7 +78,7 @@ class LedgerAuditor:
             "chain_breaks": [],
             "entropy_analysis": {},
             "performance_metrics": {},
-            "recommendations": []
+            "recommendations": [],
         }
 
         # TODO: Implement comprehensive audit
@@ -114,7 +110,9 @@ class LedgerAuditor:
         # TODO: Implement batch signature verification
         pass
 
-    def analyze_temporal_consistency(self, records: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze_temporal_consistency(
+        self, records: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """
         Analyze temporal consistency of timestamps.
 
@@ -127,7 +125,9 @@ class LedgerAuditor:
         # TODO: Implement temporal analysis
         pass
 
-    def detect_duplicate_hashes(self, records: List[Dict[str, Any]]) -> List[Tuple[int, int, str]]:
+    def detect_duplicate_hashes(
+        self, records: List[Dict[str, Any]]
+    ) -> List[Tuple[int, int, str]]:
         """
         Detect duplicate hashes in the ledger.
 
@@ -168,13 +168,15 @@ class LedgerAuditor:
             "invalid_json_lines": 0,
             "total_lines": 0,
             "file_hash": None,
-            "last_modified": None
+            "last_modified": None,
         }
 
         # TODO: Implement integrity checking
         return integrity_report
 
-    def generate_forensic_report(self, suspicious_records: List[int] = None) -> Dict[str, Any]:
+    def generate_forensic_report(
+        self, suspicious_records: List[int] = None
+    ) -> Dict[str, Any]:
         """
         Generate detailed forensic analysis report.
 
@@ -187,7 +189,9 @@ class LedgerAuditor:
         # TODO: Implement forensic analysis
         pass
 
-    def repair_ledger(self, backup_path: str = None, dry_run: bool = True) -> Dict[str, Any]:
+    def repair_ledger(
+        self, backup_path: str = None, dry_run: bool = True
+    ) -> Dict[str, Any]:
         """
         Attempt to repair corrupted ledger entries.
 
@@ -275,7 +279,7 @@ class ComplianceChecker:
         self.standards = {
             "quantum_measurement": self._get_quantum_standards(),
             "cryptographic": self._get_crypto_standards(),
-            "temporal": self._get_temporal_standards()
+            "temporal": self._get_temporal_standards(),
         }
 
     def _get_quantum_standards(self) -> Dict[str, Any]:

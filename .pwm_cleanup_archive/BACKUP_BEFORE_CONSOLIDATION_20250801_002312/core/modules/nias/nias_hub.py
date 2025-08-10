@@ -3,12 +3,13 @@ NIAS Hub
 Central coordination for NIAS (Non-Intrusive Ad System) components
 """
 
-from typing import Dict, Any, Optional, List
 import asyncio
 import logging
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
+
 
 class NIASHub:
     """Central hub for NIAS system coordination"""
@@ -44,7 +45,7 @@ class NIASHub:
             ("nias_core", "NIASCore"),
             ("symbolic_matcher", "SymbolicMatcher"),
             ("consent_filter", "ConsentFilter"),
-            ("dream_recorder", "DreamRecorder")
+            ("dream_recorder", "DreamRecorder"),
         ]
 
         for service_name, class_name in services:
@@ -53,7 +54,7 @@ class NIASHub:
                 cls = getattr(module, class_name)
 
                 # Pass dream bridge to NIASCore if available
-                if service_name == "nias_core" and hasattr(self, 'dream_bridge'):
+                if service_name == "nias_core" and hasattr(self, "dream_bridge"):
                     instance = cls(dream_bridge=self.dream_bridge)
                 else:
                     instance = cls()
@@ -68,12 +69,14 @@ class NIASHub:
         services = [
             ("message_processor", "NIASMessageProcessor"),
             ("delivery_tracker", "DeliveryTracker"),
-            ("feedback_processor", "FeedbackProcessor")
+            ("feedback_processor", "FeedbackProcessor"),
         ]
 
         for service_name, class_name in services:
             try:
-                module = __import__(f"core.modules.nias.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"core.modules.nias.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -85,6 +88,7 @@ class NIASHub:
         """Register cross-system bridge services"""
         try:
             from dream.core.nias_dream_bridge import get_nias_dream_bridge
+
             self.dream_bridge = get_nias_dream_bridge()
             self.register_service("dream_bridge", self.dream_bridge)
             logger.debug("Registered NIAS-Dream bridge")
@@ -95,19 +99,30 @@ class NIASHub:
         """Register services with global service discovery"""
         try:
             from core.service_discovery import get_service_discovery
+
             discovery = get_service_discovery()
 
             # Register key services globally for cross-hub access
             key_services = [
-                "nias_core", "symbolic_matcher", "dream_recorder", "consent_filter",
-                "message_processor", "delivery_tracker", "feedback_processor", "dream_bridge"
+                "nias_core",
+                "symbolic_matcher",
+                "dream_recorder",
+                "consent_filter",
+                "message_processor",
+                "delivery_tracker",
+                "feedback_processor",
+                "dream_bridge",
             ]
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "nias")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "nias"
+                    )
 
-            logger.debug(f"Registered {len(key_services)} NIAS services with global discovery")
+            logger.debug(
+                f"Registered {len(key_services)} NIAS services with global discovery"
+            )
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -126,18 +141,20 @@ class NIASHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_symbolic_message(self, message: Dict[str, Any], user_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_symbolic_message(
+        self, message: Dict[str, Any], user_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process a symbolic message through NIAS system"""
 
         nias_core = self.get_service("nias_core")
-        if nias_core and hasattr(nias_core, 'push_symbolic_message'):
+        if nias_core and hasattr(nias_core, "push_symbolic_message"):
             try:
                 result = await nias_core.push_symbolic_message(message, user_context)
                 return {
                     "message_processed": True,
                     "result": result,
                     "timestamp": datetime.now().isoformat(),
-                    "processed_by": "nias_core"
+                    "processed_by": "nias_core",
                 }
             except Exception as e:
                 logger.error(f"NIAS core processing error: {e}")
@@ -145,14 +162,20 @@ class NIASHub:
 
         return {"error": "NIAS core not available"}
 
-    async def process_event(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append(result)
             except Exception as e:
                 logger.error(f"NIAS handler error for {event_type}: {e}")
@@ -166,7 +189,7 @@ class NIASHub:
 
         for name, service in self.services.items():
             try:
-                if hasattr(service, 'health_check'):
+                if hasattr(service, "health_check"):
                     health["services"][name] = await service.health_check()
                 else:
                     health["services"][name] = {"status": "active"}
@@ -176,8 +199,10 @@ class NIASHub:
 
         return health
 
+
 # Singleton instance
 _nias_hub_instance = None
+
 
 def get_nias_hub() -> NIASHub:
     """Get or create the NIAS hub instance"""

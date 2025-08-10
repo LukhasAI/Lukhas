@@ -6,14 +6,13 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 VS Code Language & Status Bar Diagnostic Tool
 Helps diagnose issues with language detection and status bar display
 """
 
 import json
-import os
 from pathlib import Path
+
 
 def check_vscode_config():
     """Check VS Code configuration for language and status bar settings"""
@@ -26,7 +25,7 @@ def check_vscode_config():
     if workspace_settings.exists():
         print("✅ Workspace settings found")
         try:
-            with open(workspace_settings, 'r') as f:
+            with open(workspace_settings) as f:
                 settings = json.load(f)
 
             # Check key settings
@@ -35,7 +34,7 @@ def check_vscode_config():
                 "files.associations",
                 "workbench.statusBar.visible",
                 "editor.formatOnSave",
-                "editor.defaultFormatter"
+                "editor.defaultFormatter",
             ]
 
             print("\n📋 Key Settings:")
@@ -56,7 +55,7 @@ def check_vscode_config():
         "Prettier": "esbenp.prettier-vscode",
         "Python": "ms-python.python",
         "Pylance": "ms-python.vscode-pylance",
-        "Error Lens": "usernamehw.errorlens"
+        "Error Lens": "usernamehw.errorlens",
     }
 
     for name, ext_id in required_extensions.items():
@@ -66,7 +65,7 @@ def check_vscode_config():
     print("\n🗣️ Language Associations Configured:")
     if workspace_settings.exists():
         try:
-            with open(workspace_settings, 'r') as f:
+            with open(workspace_settings) as f:
                 settings = json.load(f)
 
             if "files.associations" in settings:
@@ -74,7 +73,7 @@ def check_vscode_config():
                     print(f"  {pattern} → {lang}")
             else:
                 print("  ❌ No file associations configured")
-        except:
+        except BaseException:
             print("  ❌ Could not read associations")
 
     print("\n🎯 Quick Fixes:")
@@ -90,8 +89,8 @@ def check_vscode_config():
     print("3. Click language mode to change it")
     print("4. Try formatting with Cmd+Shift+P → 'Format Document'")
 
+
 if __name__ == "__main__":
     check_vscode_config()
-
 
 # Λ Systems 2025 www.lukhas.ai

@@ -4,14 +4,15 @@ Identity System Events Module
 Provides event types and publishers for the identity system.
 """
 
-from enum import Enum
-from dataclasses import dataclass
-from typing import Any, Dict, Optional
 import time
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any
 
 
 class IdentityEventType(Enum):
     """Types of identity system events"""
+
     USER_LOGIN = "user_login"
     USER_LOGOUT = "user_logout"
     TIER_CHANGE = "tier_change"
@@ -27,11 +28,12 @@ class IdentityEventType(Enum):
 @dataclass
 class IdentityEvent:
     """Identity system event"""
+
     event_type: IdentityEventType
     user_id: str
     timestamp: float = None
-    metadata: Dict[str, Any] = None
-    
+    metadata: dict[str, Any] = None
+
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = time.time()
@@ -41,25 +43,25 @@ class IdentityEvent:
 
 class IdentityEventPublisher:
     """Publisher for identity events"""
-    
+
     def __init__(self):
         self.subscribers = []
         self.event_history = []
-    
+
     def publish(self, event: IdentityEvent):
         """Publish an event to all subscribers"""
         self.event_history.append(event)
         for subscriber in self.subscribers:
             try:
                 subscriber(event)
-            except Exception as e:
+            except Exception:
                 # Log but don't fail
                 pass
-    
+
     def subscribe(self, handler):
         """Subscribe to events"""
         self.subscribers.append(handler)
-    
+
     def unsubscribe(self, handler):
         """Unsubscribe from events"""
         if handler in self.subscribers:
@@ -72,17 +74,13 @@ _publisher = IdentityEventPublisher()
 
 def publish_event(event_type: IdentityEventType, user_id: str, **metadata):
     """Convenience function to publish events"""
-    event = IdentityEvent(
-        event_type=event_type,
-        user_id=user_id,
-        metadata=metadata
-    )
+    event = IdentityEvent(event_type=event_type, user_id=user_id, metadata=metadata)
     _publisher.publish(event)
 
 
 __all__ = [
-    'IdentityEventType',
-    'IdentityEvent',
-    'IdentityEventPublisher',
-    'publish_event'
+    "IdentityEventType",
+    "IdentityEvent",
+    "IdentityEventPublisher",
+    "publish_event",
 ]

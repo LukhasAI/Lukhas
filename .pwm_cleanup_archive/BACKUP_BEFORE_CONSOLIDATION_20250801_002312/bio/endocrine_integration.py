@@ -44,8 +44,8 @@
 """
 
 import logging
-from typing import Any, Dict, Optional, Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Any, Callable, Dict
 
 from core.bio_systems import BioSimulationController, HormoneType
 
@@ -55,6 +55,7 @@ logger = logging.getLogger("endocrine_integration")
 @dataclass
 class HormoneModulation:
     """Defines how a hormone affects a system parameter."""
+
     hormone: HormoneType
     parameter: str
     effect_curve: Callable[[float], float]  # Maps hormone level to parameter modifier
@@ -78,158 +79,162 @@ class EndocrineIntegration:
         """Setup default hormone-parameter modulations."""
 
         # Consciousness modulations
-        self.modulations['consciousness'] = [
+        self.modulations["consciousness"] = [
             HormoneModulation(
                 HormoneType.ACETYLCHOLINE,
-                'attention_span',
+                "attention_span",
                 lambda x: 0.5 + 0.5 * x,  # Linear increase
-                "Acetylcholine enhances attention span"
+                "Acetylcholine enhances attention span",
             ),
             HormoneModulation(
                 HormoneType.CORTISOL,
-                'awareness_breadth',
+                "awareness_breadth",
                 lambda x: 1.0 - 0.3 * max(0, x - 0.5),  # Narrowing under stress
-                "High cortisol narrows awareness to threats"
+                "High cortisol narrows awareness to threats",
             ),
             HormoneModulation(
                 HormoneType.MELATONIN,
-                'consciousness_level',
+                "consciousness_level",
                 lambda x: 1.0 - 0.7 * x,  # Decreases with melatonin
-                "Melatonin reduces consciousness for rest"
+                "Melatonin reduces consciousness for rest",
             ),
         ]
 
         # Emotion modulations
-        self.modulations['emotion'] = [
+        self.modulations["emotion"] = [
             HormoneModulation(
                 HormoneType.SEROTONIN,
-                'mood_baseline',
+                "mood_baseline",
                 lambda x: 0.3 + 0.7 * x,  # Positive correlation
-                "Serotonin elevates mood baseline"
+                "Serotonin elevates mood baseline",
             ),
             HormoneModulation(
                 HormoneType.DOPAMINE,
-                'reward_sensitivity',
+                "reward_sensitivity",
                 lambda x: 0.4 + 0.6 * x,  # Enhanced reward processing
-                "Dopamine increases reward sensitivity"
+                "Dopamine increases reward sensitivity",
             ),
             HormoneModulation(
                 HormoneType.OXYTOCIN,
-                'empathy_level',
+                "empathy_level",
                 lambda x: 0.3 + 0.7 * x,  # Social bonding enhancement
-                "Oxytocin enhances empathetic responses"
+                "Oxytocin enhances empathetic responses",
             ),
             HormoneModulation(
                 HormoneType.CORTISOL,
-                'anxiety_threshold',
+                "anxiety_threshold",
                 lambda x: 1.0 - 0.5 * x,  # Lower threshold with stress
-                "Cortisol lowers anxiety threshold"
+                "Cortisol lowers anxiety threshold",
             ),
         ]
 
         # Memory modulations
-        self.modulations['memory'] = [
+        self.modulations["memory"] = [
             HormoneModulation(
                 HormoneType.ACETYLCHOLINE,
-                'encoding_strength',
+                "encoding_strength",
                 lambda x: 0.5 + 0.5 * x,  # Better encoding with ACh
-                "Acetylcholine enhances memory encoding"
+                "Acetylcholine enhances memory encoding",
             ),
             HormoneModulation(
                 HormoneType.CORTISOL,
-                'consolidation_priority',
+                "consolidation_priority",
                 lambda x: 0.3 + 0.7 * min(0.5, x),  # Moderate stress helps
-                "Moderate cortisol prioritizes important memories"
+                "Moderate cortisol prioritizes important memories",
             ),
             HormoneModulation(
                 HormoneType.MELATONIN,
-                'consolidation_rate',
+                "consolidation_rate",
                 lambda x: 0.3 + 0.7 * x,  # Sleep enhances consolidation
-                "Melatonin promotes memory consolidation during rest"
+                "Melatonin promotes memory consolidation during rest",
             ),
         ]
 
         # Decision-making modulations
-        self.modulations['decision'] = [
+        self.modulations["decision"] = [
             HormoneModulation(
                 HormoneType.DOPAMINE,
-                'risk_tolerance',
+                "risk_tolerance",
                 lambda x: 0.3 + 0.4 * x,  # Moderate increase in risk-taking
-                "Dopamine increases risk tolerance"
+                "Dopamine increases risk tolerance",
             ),
             HormoneModulation(
                 HormoneType.SEROTONIN,
-                'patience_factor',
+                "patience_factor",
                 lambda x: 0.4 + 0.6 * x,  # Better long-term thinking
-                "Serotonin enhances patience and planning"
+                "Serotonin enhances patience and planning",
             ),
             HormoneModulation(
                 HormoneType.ADRENALINE,
-                'decision_speed',
+                "decision_speed",
                 lambda x: 1.0 + 2.0 * x,  # Faster decisions under pressure
-                "Adrenaline accelerates decision-making"
+                "Adrenaline accelerates decision-making",
             ),
             HormoneModulation(
                 HormoneType.GABA,
-                'deliberation_depth',
+                "deliberation_depth",
                 lambda x: 0.5 + 0.5 * x,  # More careful consideration
-                "GABA promotes thoughtful deliberation"
+                "GABA promotes thoughtful deliberation",
             ),
         ]
 
         # Learning modulations
-        self.modulations['learning'] = [
+        self.modulations["learning"] = [
             HormoneModulation(
                 HormoneType.DOPAMINE,
-                'learning_rate',
+                "learning_rate",
                 lambda x: 0.5 + 0.5 * x,  # Reinforcement learning boost
-                "Dopamine enhances learning from rewards"
+                "Dopamine enhances learning from rewards",
             ),
             HormoneModulation(
                 HormoneType.ACETYLCHOLINE,
-                'pattern_recognition',
+                "pattern_recognition",
                 lambda x: 0.6 + 0.4 * x,  # Better pattern detection
-                "Acetylcholine improves pattern recognition"
+                "Acetylcholine improves pattern recognition",
             ),
             HormoneModulation(
                 HormoneType.CORTISOL,
-                'error_sensitivity',
+                "error_sensitivity",
                 lambda x: 0.5 + 0.5 * min(0.7, x),  # Heightened error detection
-                "Moderate cortisol increases error sensitivity"
+                "Moderate cortisol increases error sensitivity",
             ),
         ]
 
         # Dream modulations
-        self.modulations['dream'] = [
+        self.modulations["dream"] = [
             HormoneModulation(
                 HormoneType.MELATONIN,
-                'dream_intensity',
+                "dream_intensity",
                 lambda x: 0.2 + 0.8 * x,  # More vivid dreams
-                "Melatonin intensifies dream experiences"
+                "Melatonin intensifies dream experiences",
             ),
             HormoneModulation(
                 HormoneType.DOPAMINE,
-                'dream_creativity',
+                "dream_creativity",
                 lambda x: 0.4 + 0.6 * x,  # Creative dream content
-                "Dopamine enhances dream creativity"
+                "Dopamine enhances dream creativity",
             ),
             HormoneModulation(
                 HormoneType.CORTISOL,
-                'nightmare_probability',
+                "nightmare_probability",
                 lambda x: 0.1 + 0.4 * max(0, x - 0.5),  # Stress dreams
-                "High cortisol increases nightmare probability"
+                "High cortisol increases nightmare probability",
             ),
         ]
 
     def _register_callbacks(self):
         """Register callbacks for endocrine state changes."""
-        states = ['stress_high', 'focus_high', 'creativity_high',
-                 'rest_needed', 'optimal_performance']
+        states = [
+            "stress_high",
+            "focus_high",
+            "creativity_high",
+            "rest_needed",
+            "optimal_performance",
+        ]
 
         for state in states:
             self.bio_controller.register_state_callback(
-                state,
-                lambda hormones, s=state: self._handle_state_change(s, hormones)
+                state, lambda hormones, s=state: self._handle_state_change(s, hormones)
             )
 
     def _handle_state_change(self, state: str, hormones: Dict[str, float]):
@@ -237,11 +242,13 @@ class EndocrineIntegration:
         logger.info(f"Endocrine state change: {state}")
 
         # State-specific responses
-        if state == 'stress_high':
-            logger.warning("High stress detected - initiating stress response protocols")
-        elif state == 'rest_needed':
+        if state == "stress_high":
+            logger.warning(
+                "High stress detected - initiating stress response protocols"
+            )
+        elif state == "rest_needed":
             logger.info("Rest cycle needed - preparing for maintenance mode")
-        elif state == 'optimal_performance':
+        elif state == "optimal_performance":
             logger.info("Optimal performance state - maximizing processing capacity")
 
     def get_modulation_factor(self, system: str, parameter: str) -> float:
@@ -283,29 +290,29 @@ class EndocrineIntegration:
         action_suggestions = self.bio_controller.suggest_action()
 
         recommendations = {
-            'cognitive_state': cognitive_state,
-            'suggested_actions': action_suggestions['suggestions'],
-            'modulation_factors': {}
+            "cognitive_state": cognitive_state,
+            "suggested_actions": action_suggestions["suggestions"],
+            "modulation_factors": {},
         }
 
         # Get all modulation factors for the system
         if system in self.modulations:
             for mod in self.modulations[system]:
                 factor = self.get_modulation_factor(system, mod.parameter)
-                recommendations['modulation_factors'][mod.parameter] = {
-                    'factor': factor,
-                    'description': mod.description
+                recommendations["modulation_factors"][mod.parameter] = {
+                    "factor": factor,
+                    "description": mod.description,
                 }
 
         # System-specific recommendations
-        if system == 'consciousness' and cognitive_state['alertness'] < 0.3:
-            recommendations['specific_action'] = 'reduce_processing_load'
-        elif system == 'emotion' and cognitive_state['stress_level'] > 0.7:
-            recommendations['specific_action'] = 'activate_calming_protocols'
-        elif system == 'memory' and cognitive_state['alertness'] < 0.4:
-            recommendations['specific_action'] = 'prioritize_consolidation'
-        elif system == 'learning' and cognitive_state['motivation'] > 0.7:
-            recommendations['specific_action'] = 'increase_exploration'
+        if system == "consciousness" and cognitive_state["alertness"] < 0.3:
+            recommendations["specific_action"] = "reduce_processing_load"
+        elif system == "emotion" and cognitive_state["stress_level"] > 0.7:
+            recommendations["specific_action"] = "activate_calming_protocols"
+        elif system == "memory" and cognitive_state["alertness"] < 0.4:
+            recommendations["specific_action"] = "prioritize_consolidation"
+        elif system == "learning" and cognitive_state["motivation"] > 0.7:
+            recommendations["specific_action"] = "increase_exploration"
 
         return recommendations
 
@@ -321,78 +328,78 @@ class EndocrineIntegration:
         logger.info(f"System feedback from {system}: {event_type} (intensity: {value})")
 
         # Map system events to hormone stimuli
-        if event_type == 'success' or event_type == 'goal_achieved':
-            self.bio_controller.inject_stimulus('reward', value)
-        elif event_type == 'failure' or event_type == 'error':
-            self.bio_controller.inject_stimulus('stress', value * 0.5)
-        elif event_type == 'social_interaction':
-            self.bio_controller.inject_stimulus('social_positive', value)
-        elif event_type == 'discovery' or event_type == 'learning':
-            self.bio_controller.inject_stimulus('reward', value * 0.7)
-            self.bio_controller.inject_stimulus('focus_demand', value * 0.3)
-        elif event_type == 'overload':
-            self.bio_controller.inject_stimulus('stress', value)
-        elif event_type == 'maintenance_needed':
-            self.bio_controller.inject_stimulus('rest', value)
+        if event_type == "success" or event_type == "goal_achieved":
+            self.bio_controller.inject_stimulus("reward", value)
+        elif event_type == "failure" or event_type == "error":
+            self.bio_controller.inject_stimulus("stress", value * 0.5)
+        elif event_type == "social_interaction":
+            self.bio_controller.inject_stimulus("social_positive", value)
+        elif event_type == "discovery" or event_type == "learning":
+            self.bio_controller.inject_stimulus("reward", value * 0.7)
+            self.bio_controller.inject_stimulus("focus_demand", value * 0.3)
+        elif event_type == "overload":
+            self.bio_controller.inject_stimulus("stress", value)
+        elif event_type == "maintenance_needed":
+            self.bio_controller.inject_stimulus("rest", value)
 
     def get_daily_rhythm_phase(self) -> Dict[str, Any]:
         """Get current phase in the daily rhythm cycle."""
         cognitive_state = self.bio_controller.get_cognitive_state()
-        phase = cognitive_state['circadian_phase']
+        phase = cognitive_state["circadian_phase"]
 
         # Determine phase name and characteristics
         if 6 <= phase < 9:
             phase_name = "morning_activation"
             characteristics = {
-                'optimal_tasks': ['planning', 'complex_analysis'],
-                'energy_level': 'rising',
-                'recommended_load': 0.7
+                "optimal_tasks": ["planning", "complex_analysis"],
+                "energy_level": "rising",
+                "recommended_load": 0.7,
             }
         elif 9 <= phase < 12:
             phase_name = "peak_performance"
             characteristics = {
-                'optimal_tasks': ['critical_thinking', 'problem_solving'],
-                'energy_level': 'peak',
-                'recommended_load': 1.0
+                "optimal_tasks": ["critical_thinking", "problem_solving"],
+                "energy_level": "peak",
+                "recommended_load": 1.0,
             }
         elif 12 <= phase < 14:
             phase_name = "midday_dip"
             characteristics = {
-                'optimal_tasks': ['routine_tasks', 'social_interaction'],
-                'energy_level': 'moderate',
-                'recommended_load': 0.6
+                "optimal_tasks": ["routine_tasks", "social_interaction"],
+                "energy_level": "moderate",
+                "recommended_load": 0.6,
             }
         elif 14 <= phase < 18:
             phase_name = "afternoon_focus"
             characteristics = {
-                'optimal_tasks': ['detail_work', 'revision'],
-                'energy_level': 'stable',
-                'recommended_load': 0.8
+                "optimal_tasks": ["detail_work", "revision"],
+                "energy_level": "stable",
+                "recommended_load": 0.8,
             }
         elif 18 <= phase < 22:
             phase_name = "evening_wind_down"
             characteristics = {
-                'optimal_tasks': ['reflection', 'planning'],
-                'energy_level': 'declining',
-                'recommended_load': 0.5
+                "optimal_tasks": ["reflection", "planning"],
+                "energy_level": "declining",
+                "recommended_load": 0.5,
             }
         else:  # 22-6
             phase_name = "rest_cycle"
             characteristics = {
-                'optimal_tasks': ['memory_consolidation', 'maintenance'],
-                'energy_level': 'low',
-                'recommended_load': 0.2
+                "optimal_tasks": ["memory_consolidation", "maintenance"],
+                "energy_level": "low",
+                "recommended_load": 0.2,
             }
 
         return {
-            'phase': phase,
-            'phase_name': phase_name,
-            'characteristics': characteristics,
-            'hormone_profile': {
-                'cortisol': cognitive_state['stress_level'],
-                'melatonin': 1.0 - cognitive_state['alertness'],
-                'dopamine': cognitive_state['motivation']
-            }
+            "phase": phase,
+            "phase_name": phase_name,
+            "characteristics": characteristics,
+            "hormone_profile": {
+                "cortisol": cognitive_state["stress_level"],
+                "melatonin": 1.0 - cognitive_state["alertness"],
+                "dopamine": cognitive_state["motivation"],
+            },
         }
 
 

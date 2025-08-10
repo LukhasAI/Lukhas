@@ -1,5 +1,6 @@
 import random
 
+
 class DreamReflectionLoop:
     """
     A simple class to reflect a dream symbol.

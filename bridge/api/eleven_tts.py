@@ -5,12 +5,13 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: eleven_tts.py
 Advanced: eleven_tts.py
 Integration Date: 2025-05-31T07:55:28.337770
 """
+
+import logging
 
 #!/usr/bin/env python3
 """
@@ -18,15 +19,17 @@ ElevenLabs Text-to-Speech CLI interface for Lukhas
 Uses the existing elevenlabs_client.py for speech synthesis
 """
 
+import argparse
+import asyncio
 import os
 import sys
-import argparse
-from core.common import get_logger
-import asyncio
 from pathlib import Path
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
 logger = logging.getLogger("eleven_tts")
 
 # Make sure we can import the ElevenLabsClient
@@ -37,10 +40,12 @@ sys.path.append(str(CURRENT_DIR / "integrations" / "elevenlabs"))
 # Import the client
 try:
     from integrations.elevenlabs.elevenlabs_client import ElevenLabsClient
+
     logger.info("Successfully imported ElevenLabsClient")
 except ImportError as e:
     logger.error(f"Failed to import ElevenLabsClient: {e}")
     sys.exit(1)
+
 
 async def generate_speech(text, voice_id=None, output_path=None, play=True):
     """Generate speech using ElevenLabs API through existing client"""
@@ -65,6 +70,7 @@ async def generate_speech(text, voice_id=None, output_path=None, play=True):
         # Copy to output path if specified
         if output_path and result.get("audio_path"):
             import shutil
+
             try:
                 shutil.copy2(result["audio_path"], output_path)
                 logger.info(f"Audio saved to: {output_path}")
@@ -84,8 +90,9 @@ async def generate_speech(text, voice_id=None, output_path=None, play=True):
         return False
     finally:
         # Clean up
-        if 'client' in locals():
+        if "client" in locals():
             await client.close()
+
 
 def main():
     """Main function to parse arguments and run speech generation"""
@@ -94,7 +101,9 @@ def main():
     parser.add_argument("--text-file", help="File containing text to convert")
     parser.add_argument("--output", help="Output audio file path")
     parser.add_argument("--voice", help="Voice ID to use")
-    parser.add_argument("--play", action="store_true", help="Play audio after generation")
+    parser.add_argument(
+        "--play", action="store_true", help="Play audio after generation"
+    )
 
     args = parser.parse_args()
 
@@ -103,7 +112,7 @@ def main():
         text = args.text
     elif args.text_file:
         try:
-            with open(args.text_file, "r") as f:
+            with open(args.text_file) as f:
                 text = f.read()
             logger.info(f"Read text from file: {args.text_file}")
         except Exception as e:
@@ -114,14 +123,14 @@ def main():
         return 1
 
     # Run async function
-    success = asyncio.run(generate_speech(
-        text,
-        voice_id=args.voice,
-        output_path=args.output,
-        play=args.play
-    ))
+    success = asyncio.run(
+        generate_speech(
+            text, voice_id=args.voice, output_path=args.output, play=args.play
+        )
+    )
 
     return 0 if success else 1
+
 
 if __name__ == "__main__":
     sys.exit(main())

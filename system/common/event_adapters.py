@@ -4,32 +4,33 @@ Event Adapters for LUKHAS Modules
 Adapts existing module communication to use event bus.
 """
 
-from typing import Dict, Any
 import logging
-from .event_bus import event_bus, EventTypes, Event
+from typing import Any, Dict
+
+from .event_bus import Event, EventTypes, event_bus
 
 logger = logging.getLogger(__name__)
 
 
 class ConsciousnessEventAdapter:
     """Adapter for consciousness module events"""
-    
+
     def __init__(self, consciousness_module):
         self.module = consciousness_module
         self._register_handlers()
-    
+
     def _register_handlers(self):
         """Register event handlers"""
         event_bus.subscribe(
             EventTypes.MODULE_INITIALIZED,
             self._on_module_initialized
         )
-    
+
     def _on_module_initialized(self, event: Event):
         """Handle module initialization events"""
         if event.source_module != 'consciousness':
             logger.info(f"Consciousness aware of {event.source_module} initialization")
-    
+
     async def emit_awareness_changed(self, new_state: Dict[str, Any]):
         """Emit awareness changed event"""
         await event_bus.publish(Event(
@@ -41,11 +42,11 @@ class ConsciousnessEventAdapter:
 
 class MemoryEventAdapter:
     """Adapter for memory module events"""
-    
+
     def __init__(self, memory_module):
         self.module = memory_module
         self._register_handlers()
-    
+
     def _register_handlers(self):
         """Register event handlers"""
         event_bus.subscribe(
@@ -53,12 +54,12 @@ class MemoryEventAdapter:
             self._on_memory_stored,
             is_async=True
         )
-    
+
     async def _on_memory_stored(self, event: Event):
         """Handle memory stored events"""
         # Could trigger related operations
         pass
-    
+
     async def emit_fold_created(self, fold_id: str, fold_data: Dict[str, Any]):
         """Emit fold created event"""
         await event_bus.publish(Event(
@@ -70,23 +71,23 @@ class MemoryEventAdapter:
 
 class OrchestrationEventAdapter:
     """Adapter for orchestration module events"""
-    
+
     def __init__(self, orchestration_module):
         self.module = orchestration_module
         self._register_handlers()
-    
+
     def _register_handlers(self):
         """Register event handlers"""
         event_bus.subscribe(
             EventTypes.TASK_COMPLETED,
             self._on_task_completed
         )
-    
+
     def _on_task_completed(self, event: Event):
         """Handle task completion events"""
         task_id = event.payload.get('task_id')
         logger.info(f"Task {task_id} completed, updating orchestration state")
-    
+
     async def emit_workflow_triggered(self, workflow_id: str):
         """Emit workflow triggered event"""
         await event_bus.publish(Event(

@@ -1,7 +1,8 @@
 import json
 import logging
 import math
-from typing import Dict, Iterable, Mapping, Sequence
+from collections.abc import Iterable, Mapping, Sequence
+from typing import Dict
 
 logger = logging.getLogger(__name__)
 

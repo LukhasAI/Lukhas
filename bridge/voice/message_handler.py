@@ -17,20 +17,24 @@
 
 import queue
 import threading
-from core.common import get_logger
-from typing import Dict, Any, Optional, Callable
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Callable
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 @dataclass
 class VoiceMessage:
     """Represents a voice system message"""
+
     content: str
     priority: int
     timestamp: datetime = datetime.now()
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
+
 
 class VoiceMessageHandler:
     """Handles voice message queues and routing"""
@@ -54,8 +58,7 @@ class VoiceMessageHandler:
         if not self.is_running:
             self.is_running = True
             self._worker_thread = threading.Thread(
-                target=self._process_messages,
-                daemon=True
+                target=self._process_messages, daemon=True
             )
             self._worker_thread.start()
             logger.info("Voice message handler started")
@@ -66,12 +69,16 @@ class VoiceMessageHandler:
         if self._worker_thread:
             self._worker_thread.join(timeout=1.0)
 
-    def enqueue_input(self, text: str, priority: int = 5, metadata: Dict[str, Any] = None):
+    def enqueue_input(
+        self, text: str, priority: int = 5, metadata: dict[str, Any] = None
+    ):
         """Add an input message to the queue"""
         message = VoiceMessage(text, priority, metadata=metadata or {})
         self.input_queue.put((priority, message))
 
-    def enqueue_output(self, text: str, priority: int = 5, metadata: Dict[str, Any] = None):
+    def enqueue_output(
+        self, text: str, priority: int = 5, metadata: dict[str, Any] = None
+    ):
         """Add an output message to the queue"""
         message = VoiceMessage(text, priority, metadata=metadata or {})
         self.output_queue.put((priority, message))
@@ -112,6 +119,7 @@ class VoiceMessageHandler:
 
             except Exception as e:
                 logger.error(f"Message processing error: {e}")
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

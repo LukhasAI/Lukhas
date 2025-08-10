@@ -34,22 +34,18 @@ VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
 SYMBOLIC TAGS: ΛVOICE, ΛCONTEXT, ΛMODULAR, ΛCOMPLIANCE, ΛSAFETY
 """
 
-import asyncio
 import datetime
-import hashlib
 import time
-from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
-
-import structlog
+from typing import Any, Optional
 
 # Initialize structured logger
-from core.common import get_logger
 
 
 class EmotionState(Enum):
     """Emotional states for voice modulation"""
+
     HAPPINESS = "happiness"
     SADNESS = "sadness"
     ANGER = "anger"
@@ -60,6 +56,7 @@ class EmotionState(Enum):
 
 class UrgencyLevel(Enum):
     """Urgency levels for context analysis"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -69,21 +66,23 @@ class UrgencyLevel(Enum):
 @dataclass
 class ContextAnalysis:
     """Results of comprehensive context analysis"""
+
     intent: str = "unknown"
     sentiment: float = 0.5  # 0-1 scale
     emotion: EmotionState = EmotionState.NEUTRAL
     urgency: UrgencyLevel = UrgencyLevel.MEDIUM
     formality: float = 0.5  # 0-1 scale
     confidence: float = 0.5  # 0-1 scale
-    time_context: Dict[str, Any] = field(default_factory=dict)
-    location_context: Dict[str, Any] = field(default_factory=dict)
-    device_context: Dict[str, Any] = field(default_factory=dict)
-    historical_context: Dict[str, Any] = field(default_factory=dict)
+    time_context: dict[str, Any] = field(default_factory=dict)
+    location_context: dict[str, Any] = field(default_factory=dict)
+    device_context: dict[str, Any] = field(default_factory=dict)
+    historical_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class VoiceParameters:
     """Voice synthesis parameters"""
+
     pitch: float = 1.0
     speed: float = 1.0
     energy: float = 1.0
@@ -102,19 +101,34 @@ class ContextAnalyzer:
     def __init__(self):
         """Initialize context analyzer with analysis components"""
         self.emotion_patterns = {
-            "happiness": ["happy", "excited", "joy", "great", "awesome", "love"],
+            "happiness": [
+                "happy",
+                "excited",
+                "joy",
+                "great",
+                "awesome",
+                "love",
+            ],
             "sadness": ["sad", "disappointed", "upset", "down", "depressed"],
             "anger": ["angry", "mad", "frustrated", "annoyed", "furious"],
             "fear": ["scared", "afraid", "worried", "anxious", "concerned"],
-            "surprise": ["wow", "amazing", "incredible", "unexpected", "shocking"]
+            "surprise": [
+                "wow",
+                "amazing",
+                "incredible",
+                "unexpected",
+                "shocking",
+            ],
         }
 
         logger.info("ΛVOICE: Context analyzer initialized")
 
-    async def analyze(self,
-                     user_input: str,
-                     metadata: Dict[str, Any],
-                     memory: List[Dict[str, Any]] = None) -> ContextAnalysis:
+    async def analyze(
+        self,
+        user_input: str,
+        metadata: dict[str, Any],
+        memory: list[dict[str, Any]] = None,
+    ) -> ContextAnalysis:
         """
         Analyze context from multiple sources
 
@@ -132,13 +146,11 @@ class ContextAnalyzer:
         # Temporal context analysis
         time_context = self._analyze_time_context(
             metadata.get("timestamp", time.time()),
-            metadata.get("timezone", "UTC")
+            metadata.get("timezone", "UTC"),
         )
 
         # Device context analysis
-        device_context = self._analyze_device_context(
-            metadata.get("device_info", {})
-        )
+        device_context = self._analyze_device_context(metadata.get("device_info", {}))
 
         # Historical context from memory
         historical_context = self._analyze_memory(memory, nlp_analysis["intent"])
@@ -161,18 +173,20 @@ class ContextAnalyzer:
             confidence=confidence,
             time_context=time_context,
             device_context=device_context,
-            historical_context=historical_context
+            historical_context=historical_context,
         )
 
-        logger.debug("ΛVOICE: Context analysis completed",
-                    intent=context.intent,
-                    emotion=context.emotion.value,
-                    urgency=context.urgency.value,
-                    confidence=context.confidence)
+        logger.debug(
+            "ΛVOICE: Context analysis completed",
+            intent=context.intent,
+            emotion=context.emotion.value,
+            urgency=context.urgency.value,
+            confidence=context.confidence,
+        )
 
         return context
 
-    async def _analyze_text(self, text: str) -> Dict[str, Any]:
+    async def _analyze_text(self, text: str) -> dict[str, Any]:
         """Analyze text for intent, sentiment, and emotion"""
         text_lower = text.lower()
 
@@ -194,8 +208,22 @@ class ContextAnalyzer:
                 break
 
         # Simple sentiment analysis
-        positive_words = ["good", "great", "awesome", "love", "happy", "excellent"]
-        negative_words = ["bad", "terrible", "awful", "hate", "sad", "horrible"]
+        positive_words = [
+            "good",
+            "great",
+            "awesome",
+            "love",
+            "happy",
+            "excellent",
+        ]
+        negative_words = [
+            "bad",
+            "terrible",
+            "awful",
+            "hate",
+            "sad",
+            "horrible",
+        ]
 
         positive_count = sum(1 for word in positive_words if word in text_lower)
         negative_count = sum(1 for word in negative_words if word in text_lower)
@@ -213,10 +241,10 @@ class ContextAnalyzer:
             "intent": intent,
             "sentiment": sentiment,
             "emotion": detected_emotion,
-            "confidence": 0.7  # Simplified confidence
+            "confidence": 0.7,  # Simplified confidence
         }
 
-    def _analyze_time_context(self, timestamp: float, timezone: str) -> Dict[str, Any]:
+    def _analyze_time_context(self, timestamp: float, timezone: str) -> dict[str, Any]:
         """Analyze temporal context"""
         dt = datetime.datetime.fromtimestamp(timestamp)
         hour = dt.hour
@@ -228,41 +256,48 @@ class ContextAnalyzer:
             "is_evening": 18 <= hour < 22,
             "is_late_night": hour >= 22 or hour < 6,
             "is_weekend": dt.weekday() >= 5,
-            "timezone": timezone
+            "timezone": timezone,
         }
 
-    def _analyze_device_context(self, device_info: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_device_context(self, device_info: dict[str, Any]) -> dict[str, Any]:
         """Analyze device context"""
         return {
             "device_type": device_info.get("type", "unknown"),
             "battery_level": device_info.get("battery_level", 100),
             "is_low_battery": device_info.get("battery_level", 100) < 20,
-            "connectivity": device_info.get("connectivity", "good")
+            "connectivity": device_info.get("connectivity", "good"),
         }
 
-    def _analyze_memory(self, memory: List[Dict[str, Any]], current_intent: str) -> Dict[str, Any]:
+    def _analyze_memory(
+        self, memory: list[dict[str, Any]], current_intent: str
+    ) -> dict[str, Any]:
         """Analyze historical interaction patterns"""
         if not memory:
-            return {"familiarity": 0.1, "patterns": {}, "related_interactions": []}
+            return {
+                "familiarity": 0.1,
+                "patterns": {},
+                "related_interactions": [],
+            }
 
         familiarity = min(1.0, len(memory) / 100)  # 0-1 scale
 
         # Find related past interactions
         related_interactions = [
-            m for m in memory
-            if m.get("context", {}).get("intent") == current_intent
+            m for m in memory if m.get("context", {}).get("intent") == current_intent
         ]
 
         return {
             "familiarity": familiarity,
             "patterns": {},
-            "related_interactions": related_interactions[:5]
+            "related_interactions": related_interactions[:5],
         }
 
-    def _determine_urgency(self,
-                          nlp_analysis: Dict[str, Any],
-                          time_context: Dict[str, Any],
-                          device_context: Dict[str, Any]) -> UrgencyLevel:
+    def _determine_urgency(
+        self,
+        nlp_analysis: dict[str, Any],
+        time_context: dict[str, Any],
+        device_context: dict[str, Any],
+    ) -> UrgencyLevel:
         """Determine urgency level of interaction"""
         urgency_score = 0.0
 
@@ -292,9 +327,9 @@ class ContextAnalyzer:
         else:
             return UrgencyLevel.LOW
 
-    def _determine_formality(self,
-                           nlp_analysis: Dict[str, Any],
-                           historical_context: Dict[str, Any]) -> float:
+    def _determine_formality(
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
+    ) -> float:
         """Determine appropriate formality level"""
         formality = 0.5  # Start with medium formality
 
@@ -304,9 +339,9 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _calculate_confidence(self,
-                            nlp_analysis: Dict[str, Any],
-                            historical_context: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, nlp_analysis: dict[str, Any], historical_context: dict[str, Any]
+    ) -> float:
         """Calculate confidence in context understanding"""
         confidence = nlp_analysis.get("confidence", 0.5)
 
@@ -329,19 +364,27 @@ class VoiceModulator:
     emotion, urgency, formality, and temporal factors.
     """
 
-    def __init__(self, settings: Dict[str, Any] = None):
+    def __init__(self, settings: dict[str, Any] = None):
         """Initialize voice modulator with configuration"""
         if settings is None:
             settings = {}
 
         self.default_voice = settings.get("default_voice", "neutral")
         self.emotion_mapping = {
-            EmotionState.HAPPINESS: {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
+            EmotionState.HAPPINESS: {
+                "pitch": 1.1,
+                "speed": 1.05,
+                "energy": 1.2,
+            },
             EmotionState.SADNESS: {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
             EmotionState.ANGER: {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
             EmotionState.FEAR: {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
-            EmotionState.SURPRISE: {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
-            EmotionState.NEUTRAL: {"pitch": 1.0, "speed": 1.0, "energy": 1.0}
+            EmotionState.SURPRISE: {
+                "pitch": 1.15,
+                "speed": 1.0,
+                "energy": 1.2,
+            },
+            EmotionState.NEUTRAL: {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
         }
 
         logger.info("ΛVOICE: Voice modulator initialized")
@@ -356,8 +399,9 @@ class VoiceModulator:
         - Maintains natural voice parameter ranges
         """
         # Start with base emotion parameters
-        base_params = self.emotion_mapping.get(context.emotion,
-                                             self.emotion_mapping[EmotionState.NEUTRAL]).copy()
+        base_params = self.emotion_mapping.get(
+            context.emotion, self.emotion_mapping[EmotionState.NEUTRAL]
+        ).copy()
 
         # Apply urgency adjustments
         if context.urgency == UrgencyLevel.CRITICAL:
@@ -395,14 +439,16 @@ class VoiceModulator:
             speed=base_params["speed"],
             energy=base_params["energy"],
             voice_id=self._select_voice(context),
-            emotion=context.emotion.value
+            emotion=context.emotion.value,
         )
 
-        logger.debug("ΛVOICE: Parameters determined",
-                    pitch=voice_params.pitch,
-                    speed=voice_params.speed,
-                    energy=voice_params.energy,
-                    emotion=voice_params.emotion)
+        logger.debug(
+            "ΛVOICE: Parameters determined",
+            pitch=voice_params.pitch,
+            speed=voice_params.speed,
+            energy=voice_params.energy,
+            emotion=voice_params.emotion,
+        )
 
         return voice_params
 
@@ -427,18 +473,19 @@ class MemoryManager:
 
     def __init__(self, max_memories: int = 1000):
         """Initialize memory manager"""
-        self.memories: Dict[str, List[Dict[str, Any]]] = {}
+        self.memories: dict[str, list[dict[str, Any]]] = {}
         self.max_memories = max_memories
 
-        logger.info("ΛVOICE: Memory manager initialized",
-                   max_memories=max_memories)
+        logger.info("ΛVOICE: Memory manager initialized", max_memories=max_memories)
 
-    def store_interaction(self,
-                         user_id: str,
-                         user_input: str,
-                         context: ContextAnalysis,
-                         response: str,
-                         timestamp: datetime.datetime):
+    def store_interaction(
+        self,
+        user_id: str,
+        user_input: str,
+        context: ContextAnalysis,
+        response: str,
+        timestamp: datetime.datetime,
+    ):
         """Store an interaction in memory"""
         if user_id not in self.memories:
             self.memories[user_id] = []
@@ -450,11 +497,11 @@ class MemoryManager:
                 "emotion": context.emotion.value,
                 "urgency": context.urgency.value,
                 "formality": context.formality,
-                "confidence": context.confidence
+                "confidence": context.confidence,
             },
             "response": response,
             "timestamp": timestamp,
-            "importance": self._calculate_importance(context)
+            "importance": self._calculate_importance(context),
         }
 
         self.memories[user_id].append(memory)
@@ -464,16 +511,18 @@ class MemoryManager:
             self.memories[user_id] = sorted(
                 self.memories[user_id],
                 key=lambda x: x["importance"],
-                reverse=True
-            )[:self.max_memories]
+                reverse=True,
+            )[: self.max_memories]
 
-        logger.debug("ΛVOICE: Interaction stored",
-                    user_id=user_id,
-                    importance=memory["importance"])
+        logger.debug(
+            "ΛVOICE: Interaction stored",
+            user_id=user_id,
+            importance=memory["importance"],
+        )
 
-    def get_relevant_memories(self,
-                             user_id: str,
-                             limit: int = 20) -> List[Dict[str, Any]]:
+    def get_relevant_memories(
+        self, user_id: str, limit: int = 20
+    ) -> list[dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -482,7 +531,7 @@ class MemoryManager:
         sorted_memories = sorted(
             self.memories[user_id],
             key=lambda x: (x["timestamp"].timestamp(), x["importance"]),
-            reverse=True
+            reverse=True,
         )
 
         return sorted_memories[:limit]
@@ -492,7 +541,11 @@ class MemoryManager:
         importance = 0.5
 
         # Important emotional states
-        if context.emotion in [EmotionState.HAPPINESS, EmotionState.ANGER, EmotionState.FEAR]:
+        if context.emotion in [
+            EmotionState.HAPPINESS,
+            EmotionState.ANGER,
+            EmotionState.FEAR,
+        ]:
             importance += 0.2
 
         # High urgency matters
@@ -514,7 +567,7 @@ class ContextAwareVoiceSystem:
     and generates appropriate voice responses with full context awareness.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         """Initialize the complete voice system"""
         if config is None:
             config = {}
@@ -527,13 +580,15 @@ class ContextAwareVoiceSystem:
         self.enable_memory = config.get("enable_memory", True)
         self.enable_adaptation = config.get("enable_adaptation", True)
 
-        logger.info("ΛVOICE: Context-aware voice system initialized",
-                   enable_memory=self.enable_memory,
-                   enable_adaptation=self.enable_adaptation)
+        logger.info(
+            "ΛVOICE: Context-aware voice system initialized",
+            enable_memory=self.enable_memory,
+            enable_adaptation=self.enable_adaptation,
+        )
 
-    async def process_input(self,
-                           user_input: str,
-                           metadata: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_input(
+        self, user_input: str, metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process user input and generate context-aware voice response
 
@@ -566,7 +621,7 @@ class ContextAwareVoiceSystem:
                 user_input=user_input,
                 context=context,
                 response=response_content,
-                timestamp=datetime.datetime.now()
+                timestamp=datetime.datetime.now(),
             )
 
         result = {
@@ -576,28 +631,30 @@ class ContextAwareVoiceSystem:
                 "speed": voice_params.speed,
                 "energy": voice_params.energy,
                 "voice_id": voice_params.voice_id,
-                "emotion": voice_params.emotion
+                "emotion": voice_params.emotion,
             },
             "context_analysis": {
                 "intent": context.intent,
                 "emotion": context.emotion.value,
                 "urgency": context.urgency.value,
                 "formality": context.formality,
-                "confidence": context.confidence
-            }
+                "confidence": context.confidence,
+            },
         }
 
-        logger.info("ΛVOICE: Input processed",
-                   user_id=user_id,
-                   intent=context.intent,
-                   emotion=context.emotion.value,
-                   confidence=context.confidence)
+        logger.info(
+            "ΛVOICE: Input processed",
+            user_id=user_id,
+            intent=context.intent,
+            emotion=context.emotion.value,
+            confidence=context.confidence,
+        )
 
         return result
 
-    async def _generate_response(self,
-                               user_input: str,
-                               context: ContextAnalysis) -> str:
+    async def _generate_response(
+        self, user_input: str, context: ContextAnalysis
+    ) -> str:
         """Generate response content based on input and context"""
         # Placeholder implementation - in production would use LLM
         if context.intent == "help_request":
@@ -614,7 +671,7 @@ class ContextAwareVoiceSystem:
         else:
             return "Thank you for sharing that with me. How can I assist you further?"
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         return {
             "context_analyzer": {
@@ -622,17 +679,19 @@ class ContextAwareVoiceSystem:
             },
             "voice_modulator": {
                 "default_voice": self.voice_modulator.default_voice,
-                "emotion_mappings": len(self.voice_modulator.emotion_mapping)
+                "emotion_mappings": len(self.voice_modulator.emotion_mapping),
             },
             "memory_manager": {
                 "total_users": len(self.memory_manager.memories),
                 "max_memories": self.memory_manager.max_memories,
-                "total_memories": sum(len(memories) for memories in self.memory_manager.memories.values())
+                "total_memories": sum(
+                    len(memories) for memories in self.memory_manager.memories.values()
+                ),
             },
             "configuration": {
                 "enable_memory": self.enable_memory,
-                "enable_adaptation": self.enable_adaptation
-            }
+                "enable_adaptation": self.enable_adaptation,
+            },
         }
 
 
@@ -640,7 +699,7 @@ class ContextAwareVoiceSystem:
 _voice_system: Optional[ContextAwareVoiceSystem] = None
 
 
-def get_voice_system(config: Dict[str, Any] = None) -> ContextAwareVoiceSystem:
+def get_voice_system(config: dict[str, Any] = None) -> ContextAwareVoiceSystem:
     """Get the global context-aware voice system instance"""
     global _voice_system
     if _voice_system is None:

@@ -5,8 +5,6 @@ Advanced: dream_export_streamlit.py
 Integration Date: 2025-05-31T07:55:30.537549
 """
 
-
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                LUCΛS DREAM EXPORT DASHBOARD — STREAMLIT MODULE               │
@@ -18,9 +16,10 @@ Symbolic Dream Exporter for LUCΛS — filters by tier, tags, emoji, or narratio
 intent and allows selective exporting to a .jsonl file.
 """
 
-import streamlit as st
 import json
 from pathlib import Path
+
+import streamlit as st
 
 DATA_PATH = Path("core/sample_payloads/sample_payload_batch_dreams.json")
 EXPORT_PATH = Path("exports/filtered_dreams_export.jsonl")
@@ -45,11 +44,14 @@ tiers = sorted({d.get("tier") for d in dreams if "tier" in d})
 selected_tiers = st.sidebar.multiselect("Filter by Tier", tiers)
 selected_tags = st.sidebar.multiselect("Filter by Tags", all_tags)
 selected_emojis = st.sidebar.multiselect("Filter by Emoji", all_emojis)
-filter_voice = st.sidebar.checkbox("Only dreams marked for narration (suggest_voice)", value=True)
+filter_voice = st.sidebar.checkbox(
+    "Only dreams marked for narration (suggest_voice)", value=True
+)
 
 # Apply filters
 filtered = [
-    d for d in dreams
+    d
+    for d in dreams
     if (not selected_tiers or d.get("tier") in selected_tiers)
     and (not selected_tags or any(tag in d.get("tags", []) for tag in selected_tags))
     and (not selected_emojis or d.get("emoji") in selected_emojis)

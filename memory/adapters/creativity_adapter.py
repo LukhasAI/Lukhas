@@ -45,7 +45,7 @@ from typing import Any, Dict, Optional
 from ..systems.emotional_memory_manager import EmotionalModulator
 
 # Export for backward compatibility
-__all__ = ['EmotionalModulator', 'CreativityMemoryAdapter', 'get_emotional_modulator']
+__all__ = ["EmotionalModulator", "CreativityMemoryAdapter", "get_emotional_modulator"]
 
 
 class CreativityMemoryAdapter:
@@ -58,7 +58,9 @@ class CreativityMemoryAdapter:
         """Get emotional modulator for dream delivery."""
         return self.emotional_modulator
 
-    def store_creative_memory(self, content: Dict[str, Any], metadata: Optional[Dict] = None) -> str:
+    def store_creative_memory(
+        self, content: Dict[str, Any], metadata: Optional[Dict] = None
+    ) -> str:
         """Store a creative memory (dream, inspiration, etc)."""
         # Implementation would connect to main memory system
         pass

@@ -8,7 +8,9 @@ try:
     from interfaces.api.v1.common.errors import APIError
 except ImportError:
     # Create placeholder if the module doesn't exist
+
     class APIError(Exception):
+
         def __init__(self, message: str, status_code: int = 500):
             self.message = message
             self.status_code = status_code
@@ -21,7 +23,7 @@ from interfaces.api.v1.rest.routers import (
     process_router,
     tasks_router,
 )
-from orchestration.symbolic_kernel_bus import kernel_bus
+
 from orchestration_src.dast.api import API_PREFIX
 
 app = FastAPI(

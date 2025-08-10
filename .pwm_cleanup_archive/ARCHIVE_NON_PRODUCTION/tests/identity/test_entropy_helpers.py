@@ -1,5 +1,7 @@
 import unittest
+
 from identity.utils.entropy_helpers import EntropyCalculator
+
 
 class TestEntropyHelpers(unittest.TestCase):
     def setUp(self):
@@ -16,4 +18,3 @@ class TestEntropyHelpers(unittest.TestCase):
         self.assertIn("shannon_entropy", result)
         self.assertIn("pattern_entropy", result)
         self.assertIn("is_random", result)
-

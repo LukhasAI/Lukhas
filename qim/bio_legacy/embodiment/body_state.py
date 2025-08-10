@@ -1,10 +1,11 @@
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from typing import Dict
 
 
 @dataclass
 class ProprioceptiveState:
     """Simple proprioceptive state holder."""
+
     joint_positions: Dict[str, float] = field(default_factory=dict)
     acceleration: float = 0.0
     battery_level: float = 1.0

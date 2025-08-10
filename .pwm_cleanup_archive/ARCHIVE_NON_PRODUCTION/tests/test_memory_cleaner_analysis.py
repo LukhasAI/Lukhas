@@ -4,26 +4,26 @@ Test for memory_cleaner analysis implementation.
 Tests the memory fragmentation analysis functionality.
 """
 
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import json
-from datetime import datetime
+
 
 def test_memory_analysis():
     """Test the memory analysis implementation."""
 
     # Import the memory cleaner
-    from orchestration.monitoring.sub_agents.memory_cleaner import MemoryCleaner
+    from orchestration.monitoring.sub_agents.memory_cleaner import (
+        MemoryCleaner,
+    )
 
     # Create test instance
     cleaner = MemoryCleaner(
         parent_id="test_parent_001",
-        task_data={
-            "memory_issue": "high_fragmentation",
-            "severity": "medium"
-        }
+        task_data={"memory_issue": "high_fragmentation", "severity": "medium"},
     )
 
     # Run analysis
@@ -39,30 +39,44 @@ def test_memory_analysis():
         "redundant_memories",
         "optimization_potential",
         "memory_stats",
-        "segment_stats"
+        "segment_stats",
     ]
 
     for field in required_fields:
         assert field in result, f"Missing required field: {field}"
 
     # Validate data types
-    assert isinstance(result["fragmentation_level"], float), "fragmentation_level should be float"
-    assert isinstance(result["corrupted_segments"], list), "corrupted_segments should be list"
-    assert isinstance(result["redundant_memories"], list), "redundant_memories should be list"
-    assert isinstance(result["optimization_potential"], float), "optimization_potential should be float"
+    assert isinstance(
+        result["fragmentation_level"], float
+    ), "fragmentation_level should be float"
+    assert isinstance(
+        result["corrupted_segments"], list
+    ), "corrupted_segments should be list"
+    assert isinstance(
+        result["redundant_memories"], list
+    ), "redundant_memories should be list"
+    assert isinstance(
+        result["optimization_potential"], float
+    ), "optimization_potential should be float"
     assert isinstance(result["memory_stats"], dict), "memory_stats should be dict"
     assert isinstance(result["segment_stats"], dict), "segment_stats should be dict"
 
     # Validate ranges
-    assert 0 <= result["fragmentation_level"] <= 1, "fragmentation_level should be between 0 and 1"
-    assert 0 <= result["optimization_potential"] <= 1, "optimization_potential should be between 0 and 1"
+    assert (
+        0 <= result["fragmentation_level"] <= 1
+    ), "fragmentation_level should be between 0 and 1"
+    assert (
+        0 <= result["optimization_potential"] <= 1
+    ), "optimization_potential should be between 0 and 1"
 
     # Validate memory stats
     mem_stats = result["memory_stats"]
     assert mem_stats["total_mb"] > 0, "Total memory should be positive"
     assert mem_stats["used_mb"] >= 0, "Used memory should be non-negative"
     assert mem_stats["available_mb"] >= 0, "Available memory should be non-negative"
-    assert 0 <= mem_stats["percent_used"] <= 100, "Percent used should be between 0 and 100"
+    assert (
+        0 <= mem_stats["percent_used"] <= 100
+    ), "Percent used should be between 0 and 100"
 
     # Validate segment stats
     seg_stats = result["segment_stats"]
@@ -72,7 +86,11 @@ def test_memory_analysis():
     assert seg_stats["healthy_count"] >= 0, "Healthy count should be non-negative"
 
     # Validate segment count consistency
-    total = seg_stats["corrupted_count"] + seg_stats["redundant_count"] + seg_stats["healthy_count"]
+    total = (
+        seg_stats["corrupted_count"]
+        + seg_stats["redundant_count"]
+        + seg_stats["healthy_count"]
+    )
     assert total == seg_stats["total_segments"], "Segment counts should sum to total"
 
     print("✅ Memory analysis test passed!")
@@ -93,5 +111,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)

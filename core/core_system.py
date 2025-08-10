@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS Core - Main AGI System Entry Point
@@ -10,8 +9,8 @@ and managing the flow of consciousness through the system.
 """
 
 import logging
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,7 @@ class LukhasCore:
             "consciousness_level": 0.0,
             "emotional_state": "neutral",
             "memory_folds": [],
-            "active_processes": []
+            "active_processes": [],
         }
         self._initialize_core_systems()
 
@@ -42,6 +41,7 @@ class LukhasCore:
         try:
             # Initialize plugin registry
             from .plugin_registry import PluginRegistry
+
             self.plugin_registry = PluginRegistry()
 
             logger.info("LUKHAS Core initialized successfully")
@@ -51,7 +51,7 @@ class LukhasCore:
             logger.error(f"Failed to initialize LUKHAS Core: {e}")
             raise
 
-    async def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process input through the LUKHAS consciousness pipeline.
 
@@ -69,18 +69,18 @@ class LukhasCore:
             "content": f"Processing: {input_data.get('input', 'No input')}",
             "timestamp": datetime.now().isoformat(),
             "consciousness_level": self.state["consciousness_level"],
-            "emotional_state": self.state["emotional_state"]
+            "emotional_state": self.state["emotional_state"],
         }
 
         return response
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current system status."""
         return {
             "initialized": self.initialized,
             "modules": list(self.modules.keys()),
             "state": self.state,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
 

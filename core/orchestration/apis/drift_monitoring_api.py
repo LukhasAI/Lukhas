@@ -58,18 +58,14 @@ SYMBOLIC TAGS: ΛDRIFT, ΛMONITORING, ΛANOMALY, ΛPERFORMANCE, ΛALERTS
 """
 
 import asyncio
-import hashlib
-import json
 import statistics
 import time
-from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Optional
 from uuid import uuid4
-import math
 
 import structlog
 
@@ -79,48 +75,53 @@ logger = structlog.get_logger("lukhas.drift_monitoring")
 
 class DriftType(Enum):
     """Types of drift that can be detected"""
-    PERFORMANCE = "performance"        # Response time, throughput changes
-    ACCURACY = "accuracy"             # Model accuracy degradation
-    BEHAVIORAL = "behavioral"         # Behavioral pattern changes
-    DISTRIBUTION = "distribution"     # Output distribution changes
-    MEMORY = "memory"                # Memory access patterns
-    REASONING = "reasoning"           # Reasoning quality changes
-    ETHICAL = "ethical"              # Ethical decision consistency
-    CREATIVE = "creative"            # Creative output quality
-    SYSTEM = "system"                # General system health
+
+    PERFORMANCE = "performance"  # Response time, throughput changes
+    ACCURACY = "accuracy"  # Model accuracy degradation
+    BEHAVIORAL = "behavioral"  # Behavioral pattern changes
+    DISTRIBUTION = "distribution"  # Output distribution changes
+    MEMORY = "memory"  # Memory access patterns
+    REASONING = "reasoning"  # Reasoning quality changes
+    ETHICAL = "ethical"  # Ethical decision consistency
+    CREATIVE = "creative"  # Creative output quality
+    SYSTEM = "system"  # General system health
 
 
 class DriftSeverity(Enum):
     """Severity levels for drift alerts"""
-    CRITICAL = "critical"    # Immediate action required
-    HIGH = "high"           # Action required soon
-    MEDIUM = "medium"       # Monitor closely
-    LOW = "low"            # Informational
-    INFO = "info"          # Baseline information
+
+    CRITICAL = "critical"  # Immediate action required
+    HIGH = "high"  # Action required soon
+    MEDIUM = "medium"  # Monitor closely
+    LOW = "low"  # Informational
+    INFO = "info"  # Baseline information
 
 
 class AlertChannel(Enum):
     """Alert notification channels"""
-    LOG = "log"              # Log file only
-    EMAIL = "email"          # Email notification
-    SLACK = "slack"          # Slack message
-    WEBHOOK = "webhook"      # HTTP webhook
-    DASHBOARD = "dashboard"   # Dashboard alert
-    SMS = "sms"             # SMS notification
+
+    LOG = "log"  # Log file only
+    EMAIL = "email"  # Email notification
+    SLACK = "slack"  # Slack message
+    WEBHOOK = "webhook"  # HTTP webhook
+    DASHBOARD = "dashboard"  # Dashboard alert
+    SMS = "sms"  # SMS notification
 
 
 @dataclass
 class MetricDataPoint:
     """Individual metric measurement"""
+
     timestamp: datetime
     value: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     source: str = "unknown"
 
 
 @dataclass
 class DriftAlert:
     """Drift detection alert"""
+
     alert_id: str = field(default_factory=lambda: str(uuid4()))
     drift_type: DriftType = DriftType.PERFORMANCE
     severity: DriftSeverity = DriftSeverity.MEDIUM
@@ -130,7 +131,7 @@ class DriftAlert:
     deviation_percent: float = 0.0
     threshold_breached: float = 0.0
     message: str = ""
-    recommendations: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     created_at: datetime = field(default_factory=lambda: datetime.now())
     acknowledged: bool = False
     resolved: bool = False
@@ -139,6 +140,7 @@ class DriftAlert:
 @dataclass
 class MonitoringConfig:
     """Configuration for drift monitoring"""
+
     metric_name: str
     drift_type: DriftType
     collection_interval_seconds: int = 60
@@ -147,7 +149,9 @@ class MonitoringConfig:
     critical_threshold_percent: float = 25.0
     baseline_window_hours: int = 24  # Hours for baseline calculation
     enable_alerts: bool = True
-    alert_channels: List[AlertChannel] = field(default_factory=lambda: [AlertChannel.LOG])
+    alert_channels: list[AlertChannel] = field(
+        default_factory=lambda: [AlertChannel.LOG]
+    )
     statistical_test: str = "zscore"  # zscore, ks_test, moving_average
 
 
@@ -155,7 +159,7 @@ class StatisticalAnalyzer:
     """Statistical analysis engine for drift detection"""
 
     @staticmethod
-    def calculate_zscore(values: List[float], current_value: float) -> float:
+    def calculate_zscore(values: list[float], current_value: float) -> float:
         """Calculate Z-score for current value against historical values"""
         if len(values) < 2:
             return 0.0
@@ -166,12 +170,16 @@ class StatisticalAnalyzer:
             if stdev == 0:
                 return 0.0
             return (current_value - mean) / stdev
-        except (ValueError, ZeroDivisionError, statistics.StatisticsError) as e:
+        except (
+            ValueError,
+            ZeroDivisionError,
+            statistics.StatisticsError,
+        ) as e:
             logger.warning(f"Failed to calculate z-score: {e}")
             return 0.0
 
     @staticmethod
-    def detect_trend(values: List[float]) -> Tuple[str, float]:
+    def detect_trend(values: list[float]) -> tuple[str, float]:
         """Detect trend direction and strength"""
         if len(values) < 3:
             return "stable", 0.0
@@ -200,7 +208,7 @@ class StatisticalAnalyzer:
             return "decreasing", slope
 
     @staticmethod
-    def kolmogorov_smirnov_test(baseline: List[float], current: List[float]) -> float:
+    def kolmogorov_smirnov_test(baseline: list[float], current: list[float]) -> float:
         """Simplified K-S test for distribution change"""
         if len(baseline) == 0 or len(current) == 0:
             return 0.0
@@ -216,8 +224,12 @@ class StatisticalAnalyzer:
 
         for value in all_values:
             # Calculate empirical CDFs
-            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(baseline_sorted)
-            current_cdf = sum(1 for x in current_sorted if x <= value) / len(current_sorted)
+            baseline_cdf = sum(1 for x in baseline_sorted if x <= value) / len(
+                baseline_sorted
+            )
+            current_cdf = sum(1 for x in current_sorted if x <= value) / len(
+                current_sorted
+            )
 
             diff = abs(baseline_cdf - current_cdf)
             max_diff = max(max_diff, diff)
@@ -225,7 +237,7 @@ class StatisticalAnalyzer:
         return max_diff
 
     @staticmethod
-    def moving_average_deviation(values: List[float], window_size: int = 10) -> float:
+    def moving_average_deviation(values: list[float], window_size: int = 10) -> float:
         """Calculate deviation from moving average"""
         if len(values) < window_size:
             return 0.0
@@ -253,20 +265,22 @@ class MetricCollector:
         - Thread-safe for concurrent metric collection
         """
         self.max_history_hours = max_history_hours
-        self.metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
+        self.metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=10000))
         self.last_cleanup = datetime.now()
 
-    async def collect_metric(self,
-                           metric_name: str,
-                           value: float,
-                           source: str = "unknown",
-                           metadata: Optional[Dict[str, Any]] = None):
+    async def collect_metric(
+        self,
+        metric_name: str,
+        value: float,
+        source: str = "unknown",
+        metadata: Optional[dict[str, Any]] = None,
+    ):
         """Collect a metric data point"""
         data_point = MetricDataPoint(
             timestamp=datetime.now(),
             value=value,
             source=source,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         self.metrics[metric_name].append(data_point)
@@ -275,24 +289,24 @@ class MetricCollector:
         if (datetime.now() - self.last_cleanup).total_seconds() > 3600:  # Every hour
             await self._cleanup_old_metrics()
 
-    def get_recent_values(self,
-                         metric_name: str,
-                         hours: int = 24) -> List[float]:
+    def get_recent_values(self, metric_name: str, hours: int = 24) -> list[float]:
         """Get recent metric values within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
         recent_points = [
-            point for point in self.metrics[metric_name]
+            point
+            for point in self.metrics[metric_name]
             if point.timestamp >= cutoff_time
         ]
         return [point.value for point in recent_points]
 
-    def get_metric_history(self,
-                          metric_name: str,
-                          hours: int = 24) -> List[MetricDataPoint]:
+    def get_metric_history(
+        self, metric_name: str, hours: int = 24
+    ) -> list[MetricDataPoint]:
         """Get complete metric history within time window"""
         cutoff_time = datetime.now() - timedelta(hours=hours)
         return [
-            point for point in self.metrics[metric_name]
+            point
+            for point in self.metrics[metric_name]
             if point.timestamp >= cutoff_time
         ]
 
@@ -300,7 +314,7 @@ class MetricCollector:
         """Remove old metric data points to prevent memory growth"""
         cutoff_time = datetime.now() - timedelta(hours=self.max_history_hours)
 
-        for metric_name, points in self.metrics.items():
+        for _metric_name, points in self.metrics.items():
             # Remove old points
             while points and points[0].timestamp < cutoff_time:
                 points.popleft()
@@ -323,11 +337,12 @@ class DriftDetector:
         self.baseline_std: Optional[float] = None
 
         # Alert management
-        self.active_alerts: Dict[str, DriftAlert] = {}
+        self.active_alerts: dict[str, DriftAlert] = {}
         self.alert_history: deque = deque(maxlen=1000)
 
-    async def detect_drift(self,
-                          metric_collector: MetricCollector) -> Optional[DriftAlert]:
+    async def detect_drift(
+        self, metric_collector: MetricCollector
+    ) -> Optional[DriftAlert]:
         """
         Detect drift in metrics and generate alerts if necessary
 
@@ -339,8 +354,7 @@ class DriftDetector:
         """
         # Get recent metric values
         recent_values = metric_collector.get_recent_values(
-            self.config.metric_name,
-            hours=1  # Last hour for current analysis
+            self.config.metric_name, hours=1  # Last hour for current analysis
         )
 
         if not recent_values:
@@ -362,7 +376,7 @@ class DriftDetector:
         if self.config.statistical_test == "zscore":
             baseline_values = metric_collector.get_recent_values(
                 self.config.metric_name,
-                hours=self.config.baseline_window_hours
+                hours=self.config.baseline_window_hours,
             )
 
             if len(baseline_values) > 10:
@@ -372,15 +386,19 @@ class DriftDetector:
                 # Z-score > 2 indicates significant deviation
                 if abs(zscore) > 2:
                     drift_detected = True
-                    deviation_percent = abs(current_value - self.current_baseline) / self.current_baseline * 100
+                    deviation_percent = (
+                        abs(current_value - self.current_baseline)
+                        / self.current_baseline
+                        * 100
+                    )
 
         elif self.config.statistical_test == "ks_test":
             baseline_values = metric_collector.get_recent_values(
                 self.config.metric_name,
-                hours=self.config.baseline_window_hours
+                hours=self.config.baseline_window_hours,
             )
 
-            current_window = recent_values[-min(len(recent_values), 20):]
+            current_window = recent_values[-min(len(recent_values), 20) :]
 
             if len(baseline_values) > 10 and len(current_window) > 5:
                 ks_statistic = self.analyzer.kolmogorov_smirnov_test(
@@ -395,8 +413,7 @@ class DriftDetector:
 
         elif self.config.statistical_test == "moving_average":
             all_values = metric_collector.get_recent_values(
-                self.config.metric_name,
-                hours=24
+                self.config.metric_name, hours=24
             )
 
             if len(all_values) > self.config.window_size:
@@ -413,7 +430,7 @@ class DriftDetector:
             return await self._generate_alert(
                 current_value=current_value,
                 deviation_percent=deviation_percent,
-                confidence_score=confidence_score
+                confidence_score=confidence_score,
             )
 
         return None
@@ -427,7 +444,7 @@ class DriftDetector:
         if hours_since_baseline >= self.config.baseline_window_hours:
             baseline_values = metric_collector.get_recent_values(
                 self.config.metric_name,
-                hours=self.config.baseline_window_hours
+                hours=self.config.baseline_window_hours,
             )
 
             if len(baseline_values) > 10:
@@ -440,15 +457,19 @@ class DriftDetector:
 
                 self.last_baseline_calculation = datetime.now()
 
-                logger.info("ΛDRIFT: Baseline updated",
-                           metric=self.config.metric_name,
-                           baseline=self.current_baseline,
-                           std=self.baseline_std)
+                logger.info(
+                    "ΛDRIFT: Baseline updated",
+                    metric=self.config.metric_name,
+                    baseline=self.current_baseline,
+                    std=self.baseline_std,
+                )
 
-    async def _generate_alert(self,
-                            current_value: float,
-                            deviation_percent: float,
-                            confidence_score: float) -> DriftAlert:
+    async def _generate_alert(
+        self,
+        current_value: float,
+        deviation_percent: float,
+        confidence_score: float,
+    ) -> DriftAlert:
         """Generate drift alert with recommendations"""
 
         # Determine severity
@@ -465,7 +486,13 @@ class DriftDetector:
         recommendations = self._generate_recommendations(severity, deviation_percent)
 
         # Create alert message
-        message = f"Drift detected in {self.config.metric_name}: " " + "f"{deviation_percent:.1f}% deviation from baseline " " + "f"(confidence: {confidence_score:.2f})"
+        message = (
+            f"Drift detected in {self.config.metric_name}: "
+            " + "
+            f"{deviation_percent:.1f}% deviation from baseline "
+            " + "
+            f"(confidence: {confidence_score:.2f})"
+        )
 
         alert = DriftAlert(
             drift_type=self.config.drift_type,
@@ -476,72 +503,86 @@ class DriftDetector:
             deviation_percent=deviation_percent,
             threshold_breached=self.config.threshold_percent,
             message=message,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
         # Store alert
         self.active_alerts[alert.alert_id] = alert
         self.alert_history.append(alert)
 
-        logger.warning("ΛDRIFT: Alert generated",
-                      alert_id=alert.alert_id,
-                      metric=self.config.metric_name,
-                      severity=severity.value,
-                      deviation=f"{deviation_percent:.1f}%")
+        logger.warning(
+            "ΛDRIFT: Alert generated",
+            alert_id=alert.alert_id,
+            metric=self.config.metric_name,
+            severity=severity.value,
+            deviation=f"{deviation_percent:.1f}%",
+        )
 
         return alert
 
-    def _generate_recommendations(self,
-                                severity: DriftSeverity,
-                                deviation_percent: float) -> List[str]:
+    def _generate_recommendations(
+        self, severity: DriftSeverity, deviation_percent: float
+    ) -> list[str]:
         """Generate actionable recommendations based on drift"""
         recommendations = []
 
         if self.config.drift_type == DriftType.PERFORMANCE:
             if severity in [DriftSeverity.CRITICAL, DriftSeverity.HIGH]:
-                recommendations.extend([
-                    "Investigate system resource usage (CPU, memory)",
-                    "Check for network latency issues",
-                    "Review recent code deployments",
-                    "Scale system resources if needed"
-                ])
+                recommendations.extend(
+                    [
+                        "Investigate system resource usage (CPU, memory)",
+                        "Check for network latency issues",
+                        "Review recent code deployments",
+                        "Scale system resources if needed",
+                    ]
+                )
             else:
-                recommendations.extend([
-                    "Monitor performance trends",
-                    "Review system configuration",
-                    "Consider optimization opportunities"
-                ])
+                recommendations.extend(
+                    [
+                        "Monitor performance trends",
+                        "Review system configuration",
+                        "Consider optimization opportunities",
+                    ]
+                )
 
         elif self.config.drift_type == DriftType.ACCURACY:
             if severity in [DriftSeverity.CRITICAL, DriftSeverity.HIGH]:
-                recommendations.extend([
-                    "Investigate data quality issues",
-                    "Check model inputs for distribution changes",
-                    "Consider model retraining",
-                    "Review feature engineering pipeline"
-                ])
+                recommendations.extend(
+                    [
+                        "Investigate data quality issues",
+                        "Check model inputs for distribution changes",
+                        "Consider model retraining",
+                        "Review feature engineering pipeline",
+                    ]
+                )
             else:
-                recommendations.extend([
-                    "Monitor accuracy trends closely",
-                    "Collect additional training data",
-                    "Review model hyperparameters"
-                ])
+                recommendations.extend(
+                    [
+                        "Monitor accuracy trends closely",
+                        "Collect additional training data",
+                        "Review model hyperparameters",
+                    ]
+                )
 
         elif self.config.drift_type == DriftType.BEHAVIORAL:
-            recommendations.extend([
-                "Analyze user interaction patterns",
-                "Review system behavior logs",
-                "Check for external factors affecting behavior",
-                "Consider adaptive response adjustments"
-            ])
+            recommendations.extend(
+                [
+                    "Analyze user interaction patterns",
+                    "Review system behavior logs",
+                    "Check for external factors affecting behavior",
+                    "Consider adaptive response adjustments",
+                ]
+            )
 
         elif self.config.drift_type == DriftType.MEMORY:
-            recommendations.extend([
-                "Investigate memory access patterns",
-                "Check for memory leaks or inefficiencies",
-                "Review memory management configuration",
-                "Consider memory optimization strategies"
-            ])
+            recommendations.extend(
+                [
+                    "Investigate memory access patterns",
+                    "Check for memory leaks or inefficiencies",
+                    "Review memory management configuration",
+                    "Consider memory optimization strategies",
+                ]
+            )
 
         # Add general recommendations
         if severity == DriftSeverity.CRITICAL:
@@ -556,29 +597,29 @@ class AlertManager:
 
     def __init__(self):
         """Initialize alert manager"""
-        self.notification_handlers: Dict[AlertChannel, Callable] = {
+        self.notification_handlers: dict[AlertChannel, Callable] = {
             AlertChannel.LOG: self._log_alert,
             AlertChannel.EMAIL: self._send_email_alert,
             AlertChannel.SLACK: self._send_slack_alert,
             AlertChannel.WEBHOOK: self._send_webhook_alert,
             AlertChannel.DASHBOARD: self._update_dashboard_alert,
-            AlertChannel.SMS: self._send_sms_alert
+            AlertChannel.SMS: self._send_sms_alert,
         }
 
         # Alert management
-        self.alert_suppression: Dict[str, datetime] = {}
-        self.escalation_rules: List[Dict[str, Any]] = []
+        self.alert_suppression: dict[str, datetime] = {}
+        self.escalation_rules: list[dict[str, Any]] = []
 
-    async def process_alert(self,
-                           alert: DriftAlert,
-                           channels: List[AlertChannel]):
+    async def process_alert(self, alert: DriftAlert, channels: list[AlertChannel]):
         """Process and send alert through specified channels"""
 
         # Check for alert suppression
         suppression_key = f"{alert.drift_type.value}_{alert.metric_name}"
         if suppression_key in self.alert_suppression:
             last_alert = self.alert_suppression[suppression_key]
-            if (datetime.now() - last_alert).total_seconds() < 300:  # 5 minute suppression
+            if (
+                datetime.now() - last_alert
+            ).total_seconds() < 300:  # 5 minute suppression
                 return
 
         # Send through all configured channels
@@ -588,30 +629,36 @@ class AlertManager:
                 if handler:
                     await handler(alert)
             except Exception as e:
-                logger.error("ΛDRIFT: Alert notification failed",
-                           channel=channel.value,
-                           alert_id=alert.alert_id,
-                           error=str(e))
+                logger.error(
+                    "ΛDRIFT: Alert notification failed",
+                    channel=channel.value,
+                    alert_id=alert.alert_id,
+                    error=str(e),
+                )
 
         # Update suppression tracking
         self.alert_suppression[suppression_key] = datetime.now()
 
-        logger.info("ΛDRIFT: Alert processed",
-                   alert_id=alert.alert_id,
-                   channels=[c.value for c in channels])
+        logger.info(
+            "ΛDRIFT: Alert processed",
+            alert_id=alert.alert_id,
+            channels=[c.value for c in channels],
+        )
 
     async def _log_alert(self, alert: DriftAlert):
         """Log alert to structured log"""
-        logger.warning("ΛDRIFT_ALERT",
-                      alert_id=alert.alert_id,
-                      severity=alert.severity.value,
-                      drift_type=alert.drift_type.value,
-                      metric=alert.metric_name,
-                      current_value=alert.current_value,
-                      baseline_value=alert.baseline_value,
-                      deviation_percent=alert.deviation_percent,
-                      message=alert.message,
-                      recommendations=alert.recommendations)
+        logger.warning(
+            "ΛDRIFT_ALERT",
+            alert_id=alert.alert_id,
+            severity=alert.severity.value,
+            drift_type=alert.drift_type.value,
+            metric=alert.metric_name,
+            current_value=alert.current_value,
+            baseline_value=alert.baseline_value,
+            deviation_percent=alert.deviation_percent,
+            message=alert.message,
+            recommendations=alert.recommendations,
+        )
 
     async def _send_email_alert(self, alert: DriftAlert):
         """Send email alert (placeholder)"""
@@ -659,16 +706,16 @@ class DriftMonitoringAPI:
         self.alert_manager = AlertManager()
 
         # Monitoring configuration
-        self.monitoring_configs: Dict[str, MonitoringConfig] = {}
-        self.drift_detectors: Dict[str, DriftDetector] = {}
+        self.monitoring_configs: dict[str, MonitoringConfig] = {}
+        self.drift_detectors: dict[str, DriftDetector] = {}
 
         # API state
-        self.active_monitors: Set[str] = set()
+        self.active_monitors: set[str] = set()
         self.monitoring_stats = {
             "total_metrics_collected": 0,
             "total_alerts_generated": 0,
             "active_monitors": 0,
-            "last_analysis_time": None
+            "last_analysis_time": None,
         }
 
         # Background tasks
@@ -676,8 +723,10 @@ class DriftMonitoringAPI:
         self._monitoring_task = None
         self._cleanup_task = None
 
-        logger.info("ΛDRIFT: Monitoring API initialized",
-                   max_history_hours=max_history_hours)
+        logger.info(
+            "ΛDRIFT: Monitoring API initialized",
+            max_history_hours=max_history_hours,
+        )
 
     async def start_monitoring(self):
         """Start drift monitoring background tasks"""
@@ -708,17 +757,21 @@ class DriftMonitoringAPI:
 
         self.monitoring_stats["active_monitors"] = len(self.active_monitors)
 
-        logger.info("ΛDRIFT: Metric registered",
-                   metric=config.metric_name,
-                   drift_type=config.drift_type.value,
-                   threshold=config.threshold_percent)
+        logger.info(
+            "ΛDRIFT: Metric registered",
+            metric=config.metric_name,
+            drift_type=config.drift_type.value,
+            threshold=config.threshold_percent,
+        )
 
-    async def collect_metric(self,
-                           metric_name: str,
-                           value: float,
-                           drift_type: DriftType = DriftType.PERFORMANCE,
-                           source: str = "unknown",
-                           metadata: Optional[Dict[str, Any]] = None):
+    async def collect_metric(
+        self,
+        metric_name: str,
+        value: float,
+        drift_type: DriftType = DriftType.PERFORMANCE,
+        source: str = "unknown",
+        metadata: Optional[dict[str, Any]] = None,
+    ):
         """
         Collect a metric value for drift analysis
 
@@ -732,7 +785,7 @@ class DriftMonitoringAPI:
             metric_name=metric_name,
             value=value,
             source=source,
-            metadata=metadata
+            metadata=metadata,
         )
 
         self.monitoring_stats["total_metrics_collected"] += 1
@@ -744,9 +797,9 @@ class DriftMonitoringAPI:
             if config.collection_interval_seconds < 60:  # Real-time threshold
                 await self._analyze_metric(metric_key)
 
-    async def analyze_metric_drift(self,
-                                  metric_name: str,
-                                  drift_type: DriftType = DriftType.PERFORMANCE) -> Optional[DriftAlert]:
+    async def analyze_metric_drift(
+        self, metric_name: str, drift_type: DriftType = DriftType.PERFORMANCE
+    ) -> Optional[DriftAlert]:
         """Manually trigger drift analysis for a specific metric"""
         metric_key = f"{drift_type.value}_{metric_name}"
 
@@ -755,9 +808,9 @@ class DriftMonitoringAPI:
 
         return await self._analyze_metric(metric_key)
 
-    async def get_metric_summary(self,
-                               metric_name: str,
-                               hours: int = 24) -> Dict[str, Any]:
+    async def get_metric_summary(
+        self, metric_name: str, hours: int = 24
+    ) -> dict[str, Any]:
         """Get summary statistics for a metric"""
         values = self.metric_collector.get_recent_values(metric_name, hours)
 
@@ -773,7 +826,7 @@ class DriftMonitoringAPI:
             "min_value": min(values),
             "max_value": max(values),
             "mean_value": statistics.mean(values),
-            "median_value": statistics.median(values)
+            "median_value": statistics.median(values),
         }
 
         try:
@@ -786,13 +839,14 @@ class DriftMonitoringAPI:
         trend_direction, trend_strength = StatisticalAnalyzer.detect_trend(values)
         summary["trend"] = {
             "direction": trend_direction,
-            "strength": trend_strength
+            "strength": trend_strength,
         }
 
         return summary
 
-    async def get_active_alerts(self,
-                              severity: Optional[DriftSeverity] = None) -> List[DriftAlert]:
+    async def get_active_alerts(
+        self, severity: Optional[DriftSeverity] = None
+    ) -> list[DriftAlert]:
         """Get currently active alerts"""
         active_alerts = []
 
@@ -840,7 +894,9 @@ class DriftMonitoringAPI:
                 self.monitoring_stats["last_analysis_time"] = datetime.now()
 
                 # Adaptive sleep based on analysis time
-                sleep_time = max(30, 60 - analysis_time)  # At least 30s, adjust for analysis time
+                sleep_time = max(
+                    30, 60 - analysis_time
+                )  # At least 30s, adjust for analysis time
                 await asyncio.sleep(sleep_time)
 
             except Exception as e:
@@ -866,9 +922,11 @@ class DriftMonitoringAPI:
             return alert
 
         except Exception as e:
-            logger.error("ΛDRIFT: Metric analysis failed",
-                        metric_key=metric_key,
-                        error=str(e))
+            logger.error(
+                "ΛDRIFT: Metric analysis failed",
+                metric_key=metric_key,
+                error=str(e),
+            )
             return None
 
     async def _cleanup_loop(self):
@@ -880,7 +938,8 @@ class DriftMonitoringAPI:
 
                 for detector in self.drift_detectors.values():
                     resolved_alerts = [
-                        alert_id for alert_id, alert in detector.active_alerts.items()
+                        alert_id
+                        for alert_id, alert in detector.active_alerts.items()
                         if alert.resolved and alert.created_at < cutoff_time
                     ]
 
@@ -893,12 +952,14 @@ class DriftMonitoringAPI:
                 logger.error("ΛDRIFT: Cleanup loop error", error=str(e))
                 await asyncio.sleep(3600)
 
-    def get_monitoring_status(self) -> Dict[str, Any]:
+    def get_monitoring_status(self) -> dict[str, Any]:
         """Get comprehensive monitoring status"""
         # Count active alerts synchronously
         active_alerts_count = 0
         for detector in self.drift_detectors.values():
-            active_alerts_count += len([a for a in detector.active_alerts.values() if not a.resolved])
+            active_alerts_count += len(
+                [a for a in detector.active_alerts.values() if not a.resolved]
+            )
 
         return {
             "api_version": "v1.0.0",
@@ -908,7 +969,7 @@ class DriftMonitoringAPI:
             "monitored_metrics": list(self.monitoring_configs.keys()),
             "active_alerts": active_alerts_count,
             "supported_drift_types": [dt.value for dt in DriftType],
-            "supported_alert_channels": [ac.value for ac in AlertChannel]
+            "supported_alert_channels": [ac.value for ac in AlertChannel],
         }
 
 

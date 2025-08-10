@@ -22,17 +22,18 @@ USAGE:
     python3 voice_narration_player.py
 """
 
-import os
 import json
+import os
 
 QUEUE_PATH = "core/logs/narration_queue.jsonl"
+
 
 def play_voice_queue():
     if not os.path.exists(QUEUE_PATH):
         print(" No narration queue found.")
         return
 
-    with open(QUEUE_PATH, "r") as f:
+    with open(QUEUE_PATH) as f:
         lines = [json.loads(line) for line in f if line.strip()]
 
     if not lines:
@@ -54,6 +55,7 @@ def play_voice_queue():
 
     print(f"* Narrated {total} symbolic dreams from queue.")
     print(" Narration queue sourced from voice.voice_narrator.py\n")
+
 
 if __name__ == "__main__":
     play_voice_queue()

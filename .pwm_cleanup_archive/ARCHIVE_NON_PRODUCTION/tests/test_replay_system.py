@@ -6,28 +6,24 @@ Comprehensive tests for temporal indexing, sequence creation, replay sessions,
 and multi-modal memory traversal capabilities.
 """
 
-import pytest
-import asyncio
-import json
-import uuid
 from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
+
+import pytest
 
 # Import the replay system
 from memory.core_memory.replay_system import (
     MemoryReplayer,
-    ReplaySequence,
-    MemorySnapshot,
-    ReplayMode,
     ReplayDirection,
+    ReplayMode,
     ReplayQuality,
     TemporalIndex,
-    get_memory_replayer,
     create_sequence,
-    start_session,
+    get_memory_replayer,
     get_next,
-    get_replayer_status
+    get_replayer_status,
+    start_session,
 )
+
 
 class TestTemporalIndex:
     """Test suite for TemporalIndex functionality."""
@@ -39,7 +35,7 @@ class TestTemporalIndex:
             "2025-01-01T10:00:00",
             "2025-01-01T11:00:00",
             "2025-01-01T12:00:00",
-            "2025-01-01T13:00:00"
+            "2025-01-01T13:00:00",
         ]
         self.test_memory_ids = ["mem_001", "mem_002", "mem_003", "mem_004"]
 
@@ -47,43 +43,51 @@ class TestTemporalIndex:
         """Test adding memories to temporal index."""
         # Add memory with timestamp
         result = self.temporal_index.add_memory_timestamp(
-            self.test_memory_ids[0],
-            self.test_timestamps[0]
+            self.test_memory_ids[0], self.test_timestamps[0]
         )
 
         assert result is True
         assert self.test_timestamps[0] in self.temporal_index.time_index
-        assert self.test_memory_ids[0] in self.temporal_index.time_index[self.test_timestamps[0]]
-        assert self.temporal_index.reverse_index[self.test_memory_ids[0]] == self.test_timestamps[0]
+        assert (
+            self.test_memory_ids[0]
+            in self.temporal_index.time_index[self.test_timestamps[0]]
+        )
+        assert (
+            self.temporal_index.reverse_index[self.test_memory_ids[0]]
+            == self.test_timestamps[0]
+        )
 
     def test_add_memory_with_causal_predecessors(self):
         """Test adding memory with causal relationships."""
         # Add first memory
         self.temporal_index.add_memory_timestamp(
-            self.test_memory_ids[0],
-            self.test_timestamps[0]
+            self.test_memory_ids[0], self.test_timestamps[0]
         )
 
         # Add second memory with causal predecessor
         result = self.temporal_index.add_memory_timestamp(
             self.test_memory_ids[1],
             self.test_timestamps[1],
-            causal_predecessors=[self.test_memory_ids[0]]
+            causal_predecessors=[self.test_memory_ids[0]],
         )
 
         assert result is True
-        assert self.test_memory_ids[1] in self.temporal_index.causal_chains[self.test_memory_ids[0]]
+        assert (
+            self.test_memory_ids[1]
+            in self.temporal_index.causal_chains[self.test_memory_ids[0]]
+        )
 
     def test_get_memories_in_range(self):
         """Test retrieving memories within time range."""
         # Add multiple memories
-        for i, (memory_id, timestamp) in enumerate(zip(self.test_memory_ids, self.test_timestamps)):
+        for i, (memory_id, timestamp) in enumerate(
+            zip(self.test_memory_ids, self.test_timestamps)
+        ):
             self.temporal_index.add_memory_timestamp(memory_id, timestamp)
 
         # Get memories in middle range
         memories = self.temporal_index.get_memories_in_range(
-            self.test_timestamps[1],
-            self.test_timestamps[2]
+            self.test_timestamps[1], self.test_timestamps[2]
         )
 
         assert len(memories) == 2
@@ -93,16 +97,18 @@ class TestTemporalIndex:
     def test_get_causal_sequence(self):
         """Test retrieving causal sequence from root memory."""
         # Build causal chain: mem_001 -> mem_002 -> mem_003
-        self.temporal_index.add_memory_timestamp(self.test_memory_ids[0], self.test_timestamps[0])
+        self.temporal_index.add_memory_timestamp(
+            self.test_memory_ids[0], self.test_timestamps[0]
+        )
         self.temporal_index.add_memory_timestamp(
             self.test_memory_ids[1],
             self.test_timestamps[1],
-            causal_predecessors=[self.test_memory_ids[0]]
+            causal_predecessors=[self.test_memory_ids[0]],
         )
         self.temporal_index.add_memory_timestamp(
             self.test_memory_ids[2],
             self.test_timestamps[2],
-            causal_predecessors=[self.test_memory_ids[1]]
+            causal_predecessors=[self.test_memory_ids[1]],
         )
 
         # Get causal sequence
@@ -119,16 +125,20 @@ class TestTemporalIndex:
         base_time = datetime(2025, 1, 1, 12, 0, 0)
         timestamps = [
             (base_time - timedelta(minutes=30)).isoformat(),  # 30 min before
-            base_time.isoformat(),                            # target time
+            base_time.isoformat(),  # target time
             (base_time + timedelta(minutes=20)).isoformat(),  # 20 min after
-            (base_time + timedelta(hours=2)).isoformat()      # 2 hours after (outside window)
+            (
+                base_time + timedelta(hours=2)
+            ).isoformat(),  # 2 hours after (outside window)
         ]
 
         for memory_id, timestamp in zip(self.test_memory_ids, timestamps):
             self.temporal_index.add_memory_timestamp(memory_id, timestamp)
 
         # Find neighbors within 60-minute window
-        neighbors = self.temporal_index.find_temporal_neighbors(self.test_memory_ids[1], 60)
+        neighbors = self.temporal_index.find_temporal_neighbors(
+            self.test_memory_ids[1], 60
+        )
 
         assert len(neighbors) == 2  # Should include memories 0 and 2, but not 3
         assert self.test_memory_ids[0] in neighbors
@@ -139,8 +149,7 @@ class TestTemporalIndex:
         """Test operations on empty index."""
         # Test getting memories in range on empty index
         memories = self.temporal_index.get_memories_in_range(
-            "2025-01-01T10:00:00",
-            "2025-01-01T12:00:00"
+            "2025-01-01T10:00:00", "2025-01-01T12:00:00"
         )
         assert memories == []
 
@@ -152,6 +161,7 @@ class TestTemporalIndex:
         neighbors = self.temporal_index.find_temporal_neighbors("non_existent")
         assert neighbors == []
 
+
 class TestMemoryReplayer:
     """Test suite for main MemoryReplayer functionality."""
 
@@ -160,7 +170,7 @@ class TestMemoryReplayer:
         self.config = {
             "max_active_sessions": 5,
             "default_playback_speed": 1.0,
-            "cache_size_limit": 50
+            "cache_size_limit": 50,
         }
         self.replayer = MemoryReplayer(self.config)
         self.test_memory_ids = ["mem_001", "mem_002", "mem_003", "mem_004"]
@@ -180,7 +190,7 @@ class TestMemoryReplayer:
             self.test_memory_ids,
             ReplayMode.CHRONOLOGICAL,
             ReplayDirection.FORWARD,
-            ReplayQuality.STANDARD
+            ReplayQuality.STANDARD,
         )
 
         assert sequence_id is not None
@@ -204,14 +214,13 @@ class TestMemoryReplayer:
             ReplayMode.EMOTIONAL,
             ReplayMode.CAUSAL,
             ReplayMode.SYMBOLIC,
-            ReplayMode.ASSOCIATIVE
+            ReplayMode.ASSOCIATIVE,
         ]
 
         created_sequences = []
         for mode in modes:
             sequence_id = self.replayer.create_replay_sequence(
-                self.test_memory_ids,
-                mode
+                self.test_memory_ids, mode
             )
             assert sequence_id is not None
             created_sequences.append(sequence_id)
@@ -229,8 +238,7 @@ class TestMemoryReplayer:
 
         for direction in directions:
             sequence_id = self.replayer.create_replay_sequence(
-                self.test_memory_ids,
-                direction=direction
+                self.test_memory_ids, direction=direction
             )
 
             sequence = self.replayer.sequence_cache[sequence_id]
@@ -252,7 +260,7 @@ class TestMemoryReplayer:
             sequence_id,
             playback_speed=2.0,
             loop_mode=True,
-            filters={"min_emotional_intensity": 0.5}
+            filters={"min_emotional_intensity": 0.5},
         )
 
         assert session_id is not None
@@ -394,8 +402,7 @@ class TestMemoryReplayer:
 
         # Create associative sequence
         sequence_id = self.replayer.create_associative_sequence(
-            self.test_memory_ids[0],
-            max_associations=10
+            self.test_memory_ids[0], max_associations=10
         )
 
         assert sequence_id is not None
@@ -483,6 +490,7 @@ class TestMemoryReplayer:
         assert config["default_playback_speed"] == 1.0
         assert config["cache_size_limit"] == 50
 
+
 class TestReplayModes:
     """Test different replay modes and their behaviors."""
 
@@ -494,8 +502,7 @@ class TestReplayModes:
     def test_chronological_mode(self):
         """Test chronological replay mode."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            ReplayMode.CHRONOLOGICAL
+            self.memory_ids, ReplayMode.CHRONOLOGICAL
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
@@ -508,8 +515,7 @@ class TestReplayModes:
     def test_emotional_mode(self):
         """Test emotional replay mode."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            ReplayMode.EMOTIONAL
+            self.memory_ids, ReplayMode.EMOTIONAL
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
@@ -519,8 +525,7 @@ class TestReplayModes:
     def test_causal_mode(self):
         """Test causal replay mode."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            ReplayMode.CAUSAL
+            self.memory_ids, ReplayMode.CAUSAL
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
@@ -529,8 +534,7 @@ class TestReplayModes:
     def test_symbolic_mode(self):
         """Test symbolic replay mode."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            ReplayMode.SYMBOLIC
+            self.memory_ids, ReplayMode.SYMBOLIC
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
@@ -539,12 +543,12 @@ class TestReplayModes:
     def test_associative_mode(self):
         """Test associative replay mode."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            ReplayMode.ASSOCIATIVE
+            self.memory_ids, ReplayMode.ASSOCIATIVE
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
         assert sequence.replay_mode == ReplayMode.ASSOCIATIVE
+
 
 class TestReplayDirections:
     """Test different replay directions."""
@@ -557,8 +561,7 @@ class TestReplayDirections:
     def test_forward_direction(self):
         """Test forward replay direction."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            direction=ReplayDirection.FORWARD
+            self.memory_ids, direction=ReplayDirection.FORWARD
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
@@ -567,12 +570,12 @@ class TestReplayDirections:
     def test_backward_direction(self):
         """Test backward replay direction."""
         sequence_id = self.replayer.create_replay_sequence(
-            self.memory_ids,
-            direction=ReplayDirection.BACKWARD
+            self.memory_ids, direction=ReplayDirection.BACKWARD
         )
 
         sequence = self.replayer.sequence_cache[sequence_id]
         assert sequence.direction == ReplayDirection.BACKWARD
+
 
 class TestReplayQuality:
     """Test different replay quality levels."""
@@ -588,19 +591,19 @@ class TestReplayQuality:
             ReplayQuality.HIGH_FIDELITY,
             ReplayQuality.STANDARD,
             ReplayQuality.COMPRESSED,
-            ReplayQuality.SUMMARY
+            ReplayQuality.SUMMARY,
         ]
 
         for quality in qualities:
             sequence_id = self.replayer.create_replay_sequence(
-                self.memory_ids,
-                quality=quality
+                self.memory_ids, quality=quality
             )
 
             sequence = self.replayer.sequence_cache[sequence_id]
             # Quality should be reflected in snapshots
             for snapshot in sequence.snapshots:
                 assert snapshot.replay_quality == quality
+
 
 class TestModuleLevelInterface:
     """Test module-level interface functions."""
@@ -609,6 +612,7 @@ class TestModuleLevelInterface:
         """Setup test fixtures."""
         # Reset the default replayer
         from memory.core_memory.replay_system import default_memory_replayer
+
         default_memory_replayer.__init__()
 
         self.memory_ids = ["mem_001", "mem_002", "mem_003"]
@@ -660,6 +664,7 @@ class TestModuleLevelInterface:
         assert "system_status" in status
         assert "module_version" in status
 
+
 class TestSessionFilters:
     """Test replay session filtering capabilities."""
 
@@ -672,8 +677,7 @@ class TestSessionFilters:
         """Test filtering by emotional intensity."""
         sequence_id = self.replayer.create_replay_sequence(self.memory_ids)
         session_id = self.replayer.start_replay_session(
-            sequence_id,
-            filters={"min_emotional_intensity": 0.7}
+            sequence_id, filters={"min_emotional_intensity": 0.7}
         )
 
         # Get memory - should be filtered based on emotional intensity
@@ -685,8 +689,7 @@ class TestSessionFilters:
         """Test filtering by symbolic weight."""
         sequence_id = self.replayer.create_replay_sequence(self.memory_ids)
         session_id = self.replayer.start_replay_session(
-            sequence_id,
-            filters={"min_symbolic_weight": 0.6}
+            sequence_id, filters={"min_symbolic_weight": 0.6}
         )
 
         memory = self.replayer.get_next_memory(session_id)
@@ -700,6 +703,7 @@ class TestSessionFilters:
         memory = self.replayer.get_next_memory(session_id)
         assert memory is not None
         # Content should not be filtered
+
 
 class TestErrorHandling:
     """Test error handling and edge cases."""
@@ -749,6 +753,7 @@ class TestErrorHandling:
         assert session.last_accessed != initial_access
         assert session.access_count == initial_count + 1
 
+
 class TestPerformanceAndScaling:
     """Test performance characteristics and scaling behavior."""
 
@@ -791,7 +796,7 @@ class TestPerformanceAndScaling:
         modes_and_expected_coherence = [
             (ReplayMode.CHRONOLOGICAL, 0.9),
             (ReplayMode.ASSOCIATIVE, 0.7),
-            (ReplayMode.EMOTIONAL, 0.8)
+            (ReplayMode.EMOTIONAL, 0.8),
         ]
 
         for mode, expected_min_coherence in modes_and_expected_coherence:
@@ -801,20 +806,25 @@ class TestPerformanceAndScaling:
             # Coherence should be reasonable for the mode
             assert sequence.coherence_score >= expected_min_coherence - 0.2
 
+
 # Test fixtures and utilities
 @pytest.fixture
 def memory_replayer():
     """Fixture providing a fresh MemoryReplayer instance."""
-    return MemoryReplayer({
-        "max_active_sessions": 10,
-        "default_playback_speed": 1.0,
-        "cache_size_limit": 100
-    })
+    return MemoryReplayer(
+        {
+            "max_active_sessions": 10,
+            "default_playback_speed": 1.0,
+            "cache_size_limit": 100,
+        }
+    )
+
 
 @pytest.fixture
 def sample_memory_sequence():
     """Fixture providing sample memory sequence."""
     return ["memory_001", "memory_002", "memory_003", "memory_004", "memory_005"]
+
 
 # Integration tests
 class TestReplaySystemIntegration:
@@ -827,15 +837,13 @@ class TestReplaySystemIntegration:
             sample_memory_sequence,
             ReplayMode.CHRONOLOGICAL,
             ReplayDirection.FORWARD,
-            ReplayQuality.HIGH_FIDELITY
+            ReplayQuality.HIGH_FIDELITY,
         )
         assert sequence_id is not None
 
         # 2. Start replay session
         session_id = memory_replayer.start_replay_session(
-            sequence_id,
-            playback_speed=1.5,
-            loop_mode=False
+            sequence_id, playback_speed=1.5, loop_mode=False
         )
         assert session_id is not None
 
@@ -865,7 +873,7 @@ class TestReplaySystemIntegration:
         timestamps = [
             "2025-01-01T10:00:00",
             "2025-01-01T11:00:00",
-            "2025-01-01T12:00:00"
+            "2025-01-01T12:00:00",
         ]
 
         # Add memories to temporal index
@@ -906,6 +914,7 @@ class TestReplaySystemIntegration:
         sequence = memory_replayer.sequence_cache[sequence_id]
         assert sequence.replay_mode == ReplayMode.ASSOCIATIVE
         # Should include neighbors but not distant memories
+
 
 if __name__ == "__main__":
     # Run the tests

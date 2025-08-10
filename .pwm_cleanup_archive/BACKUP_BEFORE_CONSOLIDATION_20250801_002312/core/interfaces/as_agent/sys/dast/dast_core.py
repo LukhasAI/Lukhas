@@ -22,22 +22,24 @@ DESCRIPTION:
 """
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
-from core.interfaces.as_agent.utils.constants import SYMBOLIC_TIERS, DEFAULT_COOLDOWN_SECONDS, SEED_TAG_VOCAB, SYMBOLIC_THRESHOLDS
-from core.interfaces.as_agent.utils.symbolic_utils import tier_label, summarize_emotion_vector
 
 symbolic_tag_store = set()
+
 
 def get_current_tags():
     """Returns the current active symbolic tags."""
     return list(symbolic_tag_store)
 
+
 def add_tag(tag):
     """Adds a symbolic tag to the store."""
     symbolic_tag_store.add(tag)
 
+
 def remove_tag(tag):
     """Removes a symbolic tag from the store."""
     symbolic_tag_store.discard(tag)
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

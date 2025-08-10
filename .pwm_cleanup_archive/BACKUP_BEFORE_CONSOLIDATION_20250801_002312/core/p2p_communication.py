@@ -18,23 +18,22 @@
 """
 
 import asyncio
-import hashlib
 import json
 import logging
-import socket
+import random
 import time
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
-import random
 
 logger = logging.getLogger(__name__)
 
 
 class PeerStatus(Enum):
     """Peer connection states"""
+
     CONNECTING = "connecting"
     CONNECTED = "connected"
     DISCONNECTED = "disconnected"
@@ -43,6 +42,7 @@ class PeerStatus(Enum):
 
 class MessageType(Enum):
     """P2P message types"""
+
     HANDSHAKE = "handshake"
     HEARTBEAT = "heartbeat"
     DATA = "data"
@@ -54,6 +54,7 @@ class MessageType(Enum):
 @dataclass
 class PeerInfo:
     """Information about a peer in the network"""
+
     peer_id: str
     address: str
     port: int
@@ -72,13 +73,14 @@ class PeerInfo:
             "last_seen": self.last_seen,
             "capabilities": list(self.capabilities),
             "latency_ms": self.latency_ms,
-            "reliability_score": self.reliability_score
+            "reliability_score": self.reliability_score,
         }
 
 
 @dataclass
 class P2PMessage:
     """P2P network message"""
+
     message_id: str
     sender_id: str
     recipient_id: Optional[str]  # None for broadcast
@@ -96,14 +98,14 @@ class P2PMessage:
             "message_type": self.message_type.value,
             "payload": self.payload,
             "timestamp": self.timestamp,
-            "ttl": self.ttl
+            "ttl": self.ttl,
         }
-        return json.dumps(data).encode('utf-8')
+        return json.dumps(data).encode("utf-8")
 
     @classmethod
-    def from_bytes(cls, data: bytes) -> 'P2PMessage':
+    def from_bytes(cls, data: bytes) -> "P2PMessage":
         """Deserialize message from bytes"""
-        msg_dict = json.loads(data.decode('utf-8'))
+        msg_dict = json.loads(data.decode("utf-8"))
         return cls(
             message_id=msg_dict["message_id"],
             sender_id=msg_dict["sender_id"],
@@ -111,7 +113,7 @@ class P2PMessage:
             message_type=MessageType(msg_dict["message_type"]),
             payload=msg_dict["payload"],
             timestamp=msg_dict["timestamp"],
-            ttl=msg_dict.get("ttl", 5)
+            ttl=msg_dict.get("ttl", 5),
         )
 
 
@@ -126,7 +128,7 @@ class P2PNode:
         node_id: str,
         host: str = "127.0.0.1",
         port: int = 0,  # 0 = auto-assign
-        capabilities: Optional[Set[str]] = None
+        capabilities: Optional[Set[str]] = None,
     ):
         self.node_id = node_id
         self.host = host
@@ -135,7 +137,9 @@ class P2PNode:
 
         # Peer management
         self.peers: Dict[str, PeerInfo] = {}
-        self.connections: Dict[str, Tuple[asyncio.StreamReader, asyncio.StreamWriter]] = {}
+        self.connections: Dict[
+            str, Tuple[asyncio.StreamReader, asyncio.StreamWriter]
+        ] = {}
 
         # Message handling
         self.message_handlers: Dict[MessageType, List[Callable]] = defaultdict(list)
@@ -155,7 +159,7 @@ class P2PNode:
             "messages_sent": 0,
             "messages_received": 0,
             "bytes_sent": 0,
-            "bytes_received": 0
+            "bytes_received": 0,
         }
 
     async def start(self) -> None:
@@ -165,9 +169,7 @@ class P2PNode:
 
         # Start server
         self._server = await asyncio.start_server(
-            self._handle_connection,
-            self.host,
-            self.port
+            self._handle_connection, self.host, self.port
         )
 
         # Get actual port if auto-assigned
@@ -216,11 +218,8 @@ class P2PNode:
                 sender_id=self.node_id,
                 recipient_id=None,
                 message_type=MessageType.HANDSHAKE,
-                payload={
-                    "capabilities": list(self.capabilities),
-                    "port": self.port
-                },
-                timestamp=time.time()
+                payload={"capabilities": list(self.capabilities), "port": self.port},
+                timestamp=time.time(),
             )
 
             await self._send_message(writer, handshake_msg)
@@ -240,7 +239,7 @@ class P2PNode:
                     port=response.payload["port"],
                     status=PeerStatus.CONNECTED,
                     last_seen=time.time(),
-                    capabilities=set(response.payload["capabilities"])
+                    capabilities=set(response.payload["capabilities"]),
                 )
 
                 # Start message handler for this connection
@@ -255,10 +254,7 @@ class P2PNode:
         return None
 
     async def send_to_peer(
-        self,
-        peer_id: str,
-        payload: Any,
-        require_ack: bool = False
+        self, peer_id: str, payload: Any, require_ack: bool = False
     ) -> bool:
         """
         Send data directly to a specific peer.
@@ -278,7 +274,7 @@ class P2PNode:
             recipient_id=peer_id,
             message_type=MessageType.DATA,
             payload=payload,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         # Setup ACK handling if required
@@ -316,7 +312,7 @@ class P2PNode:
             recipient_id=None,
             message_type=MessageType.DATA,
             payload=payload,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         sent_count = 0
@@ -346,20 +342,16 @@ class P2PNode:
 
                 # Request peer list
                 await self.send_to_peer(
-                    peer_id,
-                    {"request": "peer_list"},
-                    require_ack=False
+                    peer_id, {"request": "peer_list"}, require_ack=False
                 )
 
         return discovered
 
     async def _handle_connection(
-        self,
-        reader: asyncio.StreamReader,
-        writer: asyncio.StreamWriter
+        self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter
     ) -> None:
         """Handle incoming peer connection"""
-        peer_address = writer.get_extra_info('peername')
+        peer_address = writer.get_extra_info("peername")
         logger.debug(f"New connection from {peer_address}")
 
         try:
@@ -376,9 +368,9 @@ class P2PNode:
                     message_type=MessageType.HANDSHAKE,
                     payload={
                         "capabilities": list(self.capabilities),
-                        "port": self.port
+                        "port": self.port,
                     },
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 )
 
                 await self._send_message(writer, response)
@@ -393,7 +385,7 @@ class P2PNode:
                     port=message.payload["port"],
                     status=PeerStatus.CONNECTED,
                     last_seen=time.time(),
-                    capabilities=set(message.payload["capabilities"])
+                    capabilities=set(message.payload["capabilities"]),
                 )
 
                 # Handle messages from this peer
@@ -406,9 +398,7 @@ class P2PNode:
             await writer.wait_closed()
 
     async def _handle_peer_messages(
-        self,
-        peer_id: str,
-        reader: asyncio.StreamReader
+        self, peer_id: str, reader: asyncio.StreamReader
     ) -> None:
         """Handle messages from a connected peer"""
         while self._running and peer_id in self.connections:
@@ -446,9 +436,7 @@ class P2PNode:
                     else:
                         # Route to recipient
                         await self._route_message(
-                            message.recipient_id,
-                            message.payload,
-                            exclude=peer_id
+                            message.recipient_id, message.payload, exclude=peer_id
                         )
 
                 elif message.message_type == MessageType.ACK:
@@ -477,14 +465,12 @@ class P2PNode:
             self.peers[peer_id].status = PeerStatus.DISCONNECTED
 
     async def _send_message(
-        self,
-        writer: asyncio.StreamWriter,
-        message: P2PMessage
+        self, writer: asyncio.StreamWriter, message: P2PMessage
     ) -> bool:
         """Send a message to a peer"""
         try:
             data = message.to_bytes()
-            writer.write(len(data).to_bytes(4, 'big'))
+            writer.write(len(data).to_bytes(4, "big"))
             writer.write(data)
             await writer.drain()
 
@@ -496,14 +482,13 @@ class P2PNode:
             return False
 
     async def _receive_message(
-        self,
-        reader: asyncio.StreamReader
+        self, reader: asyncio.StreamReader
     ) -> Optional[P2PMessage]:
         """Receive a message from a peer"""
         try:
             # Read message length
             length_bytes = await reader.readexactly(4)
-            length = int.from_bytes(length_bytes, 'big')
+            length = int.from_bytes(length_bytes, "big")
 
             # Read message data
             data = await reader.readexactly(length)
@@ -525,7 +510,7 @@ class P2PNode:
                 recipient_id=message.sender_id,
                 message_type=MessageType.ACK,
                 payload={"message_id": message.message_id},
-                timestamp=time.time()
+                timestamp=time.time(),
             )
 
             if message.sender_id in self.connections:
@@ -559,7 +544,7 @@ class P2PNode:
         destination: str,
         payload: Any,
         next_hop: Optional[str] = None,
-        exclude: Optional[str] = None
+        exclude: Optional[str] = None,
     ) -> bool:
         """Route a message to destination via next hop"""
         if destination in self.connections and destination != exclude:
@@ -579,7 +564,7 @@ class P2PNode:
                 message_type=MessageType.DATA,
                 payload=payload,
                 timestamp=time.time(),
-                ttl=5
+                ttl=5,
             )
 
             _, writer = self.connections[next_hop]
@@ -597,7 +582,7 @@ class P2PNode:
                     recipient_id=None,
                     message_type=MessageType.HEARTBEAT,
                     payload={},
-                    timestamp=time.time()
+                    timestamp=time.time(),
                 )
 
                 for peer_id, (_, writer) in list(self.connections.items()):
@@ -641,13 +626,13 @@ class P2PNode:
     def get_network_stats(self) -> Dict[str, Any]:
         """Get network statistics"""
         connected_peers = [
-            p for p in self.peers.values()
-            if p.status == PeerStatus.CONNECTED
+            p for p in self.peers.values() if p.status == PeerStatus.CONNECTED
         ]
 
         avg_latency = (
             sum(p.latency_ms for p in connected_peers) / len(connected_peers)
-            if connected_peers else 0
+            if connected_peers
+            else 0
         )
 
         return {
@@ -658,7 +643,7 @@ class P2PNode:
             "messages_sent": self.stats["messages_sent"],
             "messages_received": self.stats["messages_received"],
             "bytes_sent": self.stats["bytes_sent"],
-            "bytes_received": self.stats["bytes_received"]
+            "bytes_received": self.stats["bytes_received"],
         }
 
 
@@ -673,7 +658,7 @@ async def create_p2p_network(num_nodes: int = 5) -> List[P2PNode]:
     for i in range(num_nodes):
         node = P2PNode(
             node_id=f"node_{i}",
-            capabilities={"compute", "storage"} if i % 2 == 0 else {"relay"}
+            capabilities={"compute", "storage"} if i % 2 == 0 else {"relay"},
         )
         await node.start()
         nodes.append(node)

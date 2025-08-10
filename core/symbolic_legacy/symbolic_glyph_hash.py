@@ -8,12 +8,11 @@ Provides symbolic glyph hashing and entropy delta computation.
 from __future__ import annotations
 
 import hashlib
-from typing import Optional
-
 
 # ΛTAG: glyph_hash
 
-def compute_glyph_hash(glyph: str, salt: Optional[str] = None) -> str:
+
+def compute_glyph_hash(glyph: str, salt: str | None = None) -> str:
     """Return SHA-256 hash for the given glyph with optional salt."""
     text = (salt or "") + glyph
     return hashlib.sha256(text.encode("utf-8")).hexdigest()

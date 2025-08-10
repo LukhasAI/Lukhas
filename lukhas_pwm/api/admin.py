@@ -3,7 +3,7 @@ import json
 import os
 import time
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
@@ -39,26 +39,30 @@ def _badge(txt, bg, fg):
 
 def _sparkline(points, width=180, height=32, pad=4):
     """Inline SVG sparkline for a list of numeric 'y' values."""
-    if not points: 
+    if not points:
         return f"<svg width='{width}' height='{height}'></svg>"
     ys = [p for p in points if isinstance(p, (int, float))]
-    if not ys: 
+    if not ys:
         return f"<svg width='{width}' height='{height}'></svg>"
     y_min, y_max = min(ys), max(ys)
     y_span = (y_max - y_min) or 1.0
     n = len(ys)
-    xs = [pad + i * ((width - 2*pad) / max(1, n-1)) for i in range(n)]
-    def map_y(y): 
+    xs = [pad + i * ((width - 2 * pad) / max(1, n - 1)) for i in range(n)]
+
+    def map_y(y):
         # invert y for svg
-        return pad + (height - 2*pad) * (1 - ((y - y_min) / y_span))
+        return pad + (height - 2 * pad) * (1 - ((y - y_min) / y_span))
+
     pts = " ".join(f"{xs[i]:.1f},{map_y(ys[i]):.1f}" for i in range(n))
     last = ys[-1]
-    return (f"<svg width='{width}' height='{height}' aria-label='sparkline'>"
-            f"<polyline fill='none' stroke='#0a3da8' stroke-width='2' points='{pts}'/>"
-            f"<text x='{width-4}' y='{height-4}' text-anchor='end' font-size='10' fill='#333'>{last:.0f} ms</text></svg>")
+    return (
+        f"<svg width='{width}' height='{height}' aria-label='sparkline'>"
+        f"<polyline fill='none' stroke='#0a3da8' stroke-width='2' points='{pts}'/>"
+        f"<text x='{width-4}' y='{height-4}' text-anchor='end' font-size='10' fill='#333'>{last:.0f} ms</text></svg>"
+    )
 
 
-def _series(endpoint: str, hours: int = 24) -> List[float]:
+def _series(endpoint: str, hours: int = 24) -> list[float]:
     """Fetch performance series data for an endpoint."""
     try:
         # Read directly from file for server-side access
@@ -70,12 +74,12 @@ def _series(endpoint: str, hours: int = 24) -> List[float]:
             for line in p.open("r", encoding="utf-8"):
                 try:
                     row = json.loads(line)
-                    if now_ms - int(row.get("ts", 0)) > win: 
+                    if now_ms - int(row.get("ts", 0)) > win:
                         continue
                     v = (row.get("p95") or {}).get(endpoint)
-                    if isinstance(v, (int, float)): 
+                    if isinstance(v, (int, float)):
                         out.append(v)
-                except Exception: 
+                except Exception:
                     continue
         return out[-60:]  # last 60 points
     except Exception:
@@ -107,15 +111,15 @@ def _page(title: str, body: str) -> str:
 @router.get("", response_class=HTMLResponse, dependencies=[Depends(require_api_key)])
 def admin_index(request: Request):
     _require_enabled()
-    
+
     # Parse hours from query params
     try:
         hours = int(request.query_params.get("hours", "24"))
-        if hours not in (24, 168): 
+        if hours not in (24, 168):
             hours = 24
     except Exception:
         hours = 24
-    
+
     modes = summarize_safety_modes()
     tools = summarize_tools()
     tot_tools = sum(v["count"] for v in tools.values()) if tools else 0
@@ -148,18 +152,19 @@ def admin_index(request: Request):
     for name, s in tools.items():
         body += (
             f"<tr><td><code>{html.escape(name)}</code></td><td>{s['count']}</td>"
-            f"<td class='ok'>{s['ok']}</td><td class='err'>{s['error']}</td><td>{s['p95_ms'] or '-'}</td></tr>")
+            f"<td class='ok'>{s['ok']}</td><td class='err'>{s['error']}</td><td>{s['p95_ms'] or '-'}</td></tr>"
+        )
     body += f"""</table>
         <div class="muted">Total calls: {tot_tools}</div>
       </div>
     </div>
     """
-    
+
     # Performance section with sparklines
     s_health = _series("health", hours)
     s_tools = _series("tools", hours)
     s_openapi = _series("openapi", hours)
-    
+
     body += f"""
     <div class="card" style="margin-top:16px">
       <h2>Performance (p95)</h2>
@@ -186,34 +191,33 @@ def admin_index(request: Request):
     "/incidents", response_class=HTMLResponse, dependencies=[Depends(require_api_key)]
 )
 def admin_incidents(
-    tool: Optional[str] = Query(None), 
-    since_hours: int = Query(168, ge=1, le=24*30)
+    tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)
 ):
     _require_enabled()
     rows = recent_incidents(limit=2000)
-    
+
     # Filter by tool and time window
     now = time.time()
     out = []
     for r in rows:
         ts = (r.get("ts_ms") or r.get("ts") or 0) / (1000 if r.get("ts_ms") else 1)
-        if now - ts > since_hours * 3600: 
+        if now - ts > since_hours * 3600:
             continue
         if tool and str(r.get("tool", "")).lower() != tool.lower():
             continue
         out.append(r)
-    
+
     # Render filtered table with filter bar
-    body = f"<h1>Incidents</h1>"
+    body = "<h1>Incidents</h1>"
     body += f"<div class='muted'>Filters: since <b>{since_hours}h</b>"
     if tool:
         body += f" · tool <b>{html.escape(tool)}</b>"
     body += " — "
-    body += f"<a href='/admin/incidents?since_hours=24'>24h</a> · "
-    body += f"<a href='/admin/incidents?since_hours=168'>7d</a> · "
-    body += f"<a href='/admin/incidents'>Clear filters</a>"
+    body += "<a href='/admin/incidents?since_hours=24'>24h</a> · "
+    body += "<a href='/admin/incidents?since_hours=168'>7d</a> · "
+    body += "<a href='/admin/incidents'>Clear filters</a>"
     body += "</div>"
-    
+
     body += "<div class='card' style='margin-top:12px'><table><tr><th>When</th><th>Audit</th><th>Tool</th><th>Reason</th></tr>"
     for r in out:
         tsd = r.get("ts_ms") or r.get("ts")
@@ -239,7 +243,8 @@ def admin_tools():
         body += (
             f"<tr><td>{r.get('ts')}</td><td><code>{html.escape(r.get('tool','-'))}</code></td>"
             f"<td>{html.escape(r.get('status','-'))}</td><td>{r.get('duration_ms','-')}</td>"
-            f"<td><code>{html.escape((r.get('args_summary') or '')[:120])}</code></td></tr>")
+            f"<td><code>{html.escape((r.get('args_summary') or '')[:120])}</code></td></tr>"
+        )
     body += "</table></div>"
     body += (
         "<div class='card' style='margin-top:16px'><h2>Summary (24h)</h2><pre>"
@@ -258,23 +263,22 @@ def admin_tools():
     dependencies=[Depends(require_api_key)],
 )
 def incidents_csv(
-    tool: Optional[str] = Query(None), 
-    since_hours: int = Query(168, ge=1, le=24*30)
+    tool: Optional[str] = Query(None), since_hours: int = Query(168, ge=1, le=24 * 30)
 ):
     _require_enabled()
     rows = recent_incidents(limit=5000)
-    
+
     # Apply same filters as HTML view
     now = time.time()
     flt = []
     for r in rows:
         ts = (r.get("ts_ms") or r.get("ts") or 0) / (1000 if r.get("ts_ms") else 1)
-        if now - ts > since_hours * 3600: 
+        if now - ts > since_hours * 3600:
             continue
         if tool and str(r.get("tool", "")).lower() != tool.lower():
             continue
         flt.append(r)
-    
+
     cols = ["ts", "audit_id", "tool", "reason"]
     out = [",".join(cols)]
     for r in flt:

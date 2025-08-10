@@ -9,7 +9,6 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-from core.common import get_logger
 from typing import Any, Dict, Optional
 
 from memory.emotional import EmotionalMemory, EmotionVector

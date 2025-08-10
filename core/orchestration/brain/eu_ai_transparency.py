@@ -16,19 +16,17 @@ Features:
 """
 
 import json
+import logging
 import time
 import uuid
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
-import logging
+from typing import Any, Optional
 
 # Configure transparency logging
 transparency_logger = logging.getLogger("EU.AI.Transparency")
-transparency_handler = logging.FileHandler('ai_decisions_trace.log')
-transparency_formatter = logging.Formatter(
-    '%(asctime)s [TRANSPARENCY] %(message)s'
-)
+transparency_handler = logging.FileHandler("ai_decisions_trace.log")
+transparency_formatter = logging.Formatter("%(asctime)s [TRANSPARENCY] %(message)s")
 transparency_handler.setFormatter(transparency_formatter)
 transparency_logger.addHandler(transparency_handler)
 transparency_logger.setLevel(logging.INFO)
@@ -36,6 +34,7 @@ transparency_logger.setLevel(logging.INFO)
 
 class DecisionType(Enum):
     """Types of AI decisions for transparency tracking"""
+
     CONTENT_GENERATION = "content_generation"
     EMOTIONAL_ANALYSIS = "emotional_analysis"
     MEMORY_STORAGE = "memory_storage"
@@ -47,11 +46,12 @@ class DecisionType(Enum):
 
 class InfluenceLevel(Enum):
     """Levels of input data influence on decisions"""
-    CRITICAL = "critical"      # Decision heavily depends on this data
-    SIGNIFICANT = "significant" # Important factor in decision
-    MODERATE = "moderate"      # Some influence on decision
-    MINIMAL = "minimal"        # Little influence on decision
-    NONE = "none"             # No influence on decision
+
+    CRITICAL = "critical"  # Decision heavily depends on this data
+    SIGNIFICANT = "significant"  # Important factor in decision
+    MODERATE = "moderate"  # Some influence on decision
+    MINIMAL = "minimal"  # Little influence on decision
+    NONE = "none"  # No influence on decision
 
 
 class DecisionTrace:
@@ -60,8 +60,13 @@ class DecisionTrace:
     Tracks reasoning, alternatives, and data influence
     """
 
-    def __init__(self, decision_id: str, decision_type: DecisionType,
-                 user_input: str = None, context: Dict[str, Any] = None):
+    def __init__(
+        self,
+        decision_id: str,
+        decision_type: DecisionType,
+        user_input: str = None,
+        context: dict[str, Any] = None,
+    ):
         self.decision_id = decision_id
         self.decision_type = decision_type
         self.timestamp = datetime.now().isoformat()
@@ -81,66 +86,87 @@ class DecisionTrace:
         self.confidence_score = 0.0
         self.confidence_explanation = ""
 
-    def add_reasoning_step(self, step: str, evidence: Dict[str, Any] = None,
-                          weight: float = 1.0):
+    def add_reasoning_step(
+        self, step: str, evidence: dict[str, Any] = None, weight: float = 1.0
+    ):
         """Add a reasoning step with evidence and weight"""
-        self.reasoning_steps.append({
-            "step": step,
-            "evidence": evidence or {},
-            "weight": weight,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.reasoning_steps.append(
+            {
+                "step": step,
+                "evidence": evidence or {},
+                "weight": weight,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
-    def add_data_influence(self, data_type: str, data_value: Any,
-                          influence_level: InfluenceLevel,
-                          explanation: str):
+    def add_data_influence(
+        self,
+        data_type: str,
+        data_value: Any,
+        influence_level: InfluenceLevel,
+        explanation: str,
+    ):
         """Track how specific data influenced the decision"""
-        self.data_influences.append({
-            "data_type": data_type,
-            "data_value": str(data_value)[:200],  # Truncate for privacy
-            "influence_level": influence_level.value,
-            "explanation": explanation,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.data_influences.append(
+            {
+                "data_type": data_type,
+                "data_value": str(data_value)[:200],  # Truncate for privacy
+                "influence_level": influence_level.value,
+                "explanation": explanation,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
-    def add_alternative_considered(self, alternative: str, reason_rejected: str,
-                                 confidence_if_chosen: float = 0.0):
+    def add_alternative_considered(
+        self,
+        alternative: str,
+        reason_rejected: str,
+        confidence_if_chosen: float = 0.0,
+    ):
         """Log alternatives that were considered but rejected"""
-        self.alternatives_considered.append({
-            "alternative": alternative,
-            "reason_rejected": reason_rejected,
-            "confidence_if_chosen": confidence_if_chosen,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.alternatives_considered.append(
+            {
+                "alternative": alternative,
+                "reason_rejected": reason_rejected,
+                "confidence_if_chosen": confidence_if_chosen,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
     def add_confidence_factor(self, factor: str, impact: float, explanation: str):
         """Add factor that influenced confidence score"""
-        self.confidence_factors.append({
-            "factor": factor,
-            "impact": impact,  # -1.0 to 1.0
-            "explanation": explanation
-        })
+        self.confidence_factors.append(
+            {
+                "factor": factor,
+                "impact": impact,  # -1.0 to 1.0
+                "explanation": explanation,
+            }
+        )
 
     def add_safety_check(self, check_type: str, result: bool, details: str):
         """Log safety and ethical checks performed"""
-        self.safety_checks.append({
-            "check_type": check_type,
-            "passed": result,
-            "details": details,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.safety_checks.append(
+            {
+                "check_type": check_type,
+                "passed": result,
+                "details": details,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
-    def add_bias_consideration(self, bias_type: str, mitigation: str,
-                             confidence_in_mitigation: float):
+    def add_bias_consideration(
+        self, bias_type: str, mitigation: str, confidence_in_mitigation: float
+    ):
         """Log bias considerations and mitigations"""
-        self.bias_considerations.append({
-            "bias_type": bias_type,
-            "mitigation": mitigation,
-            "confidence_in_mitigation": confidence_in_mitigation
-        })
+        self.bias_considerations.append(
+            {
+                "bias_type": bias_type,
+                "mitigation": mitigation,
+                "confidence_in_mitigation": confidence_in_mitigation,
+            }
+        )
 
-    def finalize_decision(self, decision: Any, confidence: float,
-                         explanation: str):
+    def finalize_decision(self, decision: Any, confidence: float, explanation: str):
         """Finalize the decision with confidence and explanation"""
         self.final_decision = str(decision)[:500]  # Truncate for storage
         self.confidence_score = confidence
@@ -155,16 +181,18 @@ class DecisionTrace:
             "decision_id": self.decision_id,
             "decision_type": self.decision_type.value,
             "timestamp": self.timestamp,
-            "user_input_length": len(self.user_input) if self.user_input else 0,
+            "user_input_length": (len(self.user_input) if self.user_input else 0),
             "reasoning_steps_count": len(self.reasoning_steps),
             "alternatives_considered_count": len(self.alternatives_considered),
             "final_confidence": self.confidence_score,
-            "safety_checks_passed": sum(1 for check in self.safety_checks if check["passed"])
+            "safety_checks_passed": sum(
+                1 for check in self.safety_checks if check["passed"]
+            ),
         }
 
         transparency_logger.info(f"DECISION_TRACE: {json.dumps(trace_summary)}")
 
-    def get_user_explanation(self) -> Dict[str, Any]:
+    def get_user_explanation(self) -> dict[str, Any]:
         """Generate user-friendly explanation of the decision"""
         return {
             "decision_id": self.decision_id,
@@ -172,32 +200,46 @@ class DecisionTrace:
             "confidence": {
                 "score": round(self.confidence_score, 2),
                 "explanation": self.confidence_explanation,
-                "factors": self.confidence_factors
+                "factors": self.confidence_factors,
             },
             "reasoning": {
-                "key_steps": [step["step"] for step in self.reasoning_steps[-3:]],  # Last 3 steps
-                "primary_evidence": [step["evidence"] for step in self.reasoning_steps if step["weight"] > 0.7]
+                "key_steps": [
+                    step["step"] for step in self.reasoning_steps[-3:]
+                ],  # Last 3 steps
+                "primary_evidence": [
+                    step["evidence"]
+                    for step in self.reasoning_steps
+                    if step["weight"] > 0.7
+                ],
             },
             "data_usage": {
-                "critical_factors": [inf for inf in self.data_influences
-                                   if inf["influence_level"] == "critical"],
-                "significant_factors": [inf for inf in self.data_influences
-                                      if inf["influence_level"] == "significant"]
+                "critical_factors": [
+                    inf
+                    for inf in self.data_influences
+                    if inf["influence_level"] == "critical"
+                ],
+                "significant_factors": [
+                    inf
+                    for inf in self.data_influences
+                    if inf["influence_level"] == "significant"
+                ],
             },
             "alternatives": {
                 "considered": len(self.alternatives_considered),
-                "why_rejected": [alt["reason_rejected"] for alt in self.alternatives_considered[:3]]
+                "why_rejected": [
+                    alt["reason_rejected"] for alt in self.alternatives_considered[:3]
+                ],
             },
             "safety": {
                 "checks_performed": len(self.safety_checks),
                 "all_passed": all(check["passed"] for check in self.safety_checks),
-                "bias_mitigations": len(self.bias_considerations)
+                "bias_mitigations": len(self.bias_considerations),
             },
             "compliance": {
                 "eu_ai_act_compliant": True,
                 "transparency_level": "high",
-                "audit_trail_available": True
-            }
+                "audit_trail_available": True,
+            },
         }
 
 
@@ -212,9 +254,12 @@ class TransparencyOrchestrator:
         self.completed_traces = []
         self.max_completed_traces = 1000  # Keep last 1000 for audit
 
-    def start_decision_trace(self, decision_type: DecisionType,
-                           user_input: str = None,
-                           context: Dict[str, Any] = None) -> str:
+    def start_decision_trace(
+        self,
+        decision_type: DecisionType,
+        user_input: str = None,
+        context: dict[str, Any] = None,
+    ) -> str:
         """Start a new decision trace and return trace ID"""
         trace_id = f"{decision_type.value}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
 
@@ -227,8 +272,9 @@ class TransparencyOrchestrator:
         """Get active decision trace by ID"""
         return self.active_traces.get(trace_id)
 
-    def complete_trace(self, trace_id: str, decision: Any,
-                      confidence: float, explanation: str) -> Dict[str, Any]:
+    def complete_trace(
+        self, trace_id: str, decision: Any, confidence: float, explanation: str
+    ) -> dict[str, Any]:
         """Complete a decision trace and return user explanation"""
         if trace_id not in self.active_traces:
             return {"error": "Trace not found"}
@@ -239,14 +285,14 @@ class TransparencyOrchestrator:
         # Move to completed traces
         self.completed_traces.append(trace)
         if len(self.completed_traces) > self.max_completed_traces:
-            self.completed_traces = self.completed_traces[-self.max_completed_traces:]
+            self.completed_traces = self.completed_traces[-self.max_completed_traces :]
 
         # Remove from active
         del self.active_traces[trace_id]
 
         return trace.get_user_explanation()
 
-    def get_transparency_summary(self) -> Dict[str, Any]:
+    def get_transparency_summary(self) -> dict[str, Any]:
         """Get summary of transparency system status"""
         return {
             "active_decisions": len(self.active_traces),
@@ -258,12 +304,16 @@ class TransparencyOrchestrator:
                 "Alternative consideration logging",
                 "Confidence score explanations",
                 "Safety and bias checks",
-                "Complete audit trail"
+                "Complete audit trail",
             ],
-            "last_24h_decisions": len([
-                trace for trace in self.completed_traces
-                if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days == 0
-            ])
+            "last_24h_decisions": len(
+                [
+                    trace
+                    for trace in self.completed_traces
+                    if (datetime.now() - datetime.fromisoformat(trace.timestamp)).days
+                    == 0
+                ]
+            ),
         }
 
 
@@ -271,13 +321,16 @@ class TransparencyOrchestrator:
 transparency_orchestrator = TransparencyOrchestrator()
 
 
-def create_transparent_decision(decision_type: DecisionType,
-                              user_input: str = None,
-                              context: Dict[str, Any] = None):
+def create_transparent_decision(
+    decision_type: DecisionType,
+    user_input: str = None,
+    context: dict[str, Any] = None,
+):
     """
     Decorator factory for creating transparent AI decisions
     Usage: @create_transparent_decision(DecisionType.CONTENT_GENERATION)
     """
+
     def decorator(func):
         async def wrapper(*args, **kwargs):
             # Start decision trace
@@ -287,22 +340,22 @@ def create_transparent_decision(decision_type: DecisionType,
 
             try:
                 # Add trace_id to function arguments
-                if 'trace_id' not in kwargs:
-                    kwargs['trace_id'] = trace_id
+                if "trace_id" not in kwargs:
+                    kwargs["trace_id"] = trace_id
 
                 # Execute function
                 result = await func(*args, **kwargs)
 
                 # If result has transparency data, complete trace
-                if isinstance(result, dict) and 'transparency' in result:
-                    transparency_data = result['transparency']
+                if isinstance(result, dict) and "transparency" in result:
+                    transparency_data = result["transparency"]
                     explanation = transparency_orchestrator.complete_trace(
                         trace_id,
-                        result.get('content', 'Decision completed'),
-                        result.get('confidence', 0.5),
-                        transparency_data.get('explanation', 'Decision completed')
+                        result.get("content", "Decision completed"),
+                        result.get("confidence", 0.5),
+                        transparency_data.get("explanation", "Decision completed"),
                     )
-                    result['transparency_explanation'] = explanation
+                    result["transparency_explanation"] = explanation
 
                 return result
 
@@ -312,21 +365,26 @@ def create_transparent_decision(decision_type: DecisionType,
                     trace_id,
                     f"Error: {str(e)}",
                     0.0,
-                    f"Error occurred during processing: {str(e)}"
+                    f"Error occurred during processing: {str(e)}",
                 )
 
                 return {
                     "error": str(e),
                     "transparency_explanation": error_explanation,
-                    "eu_compliance": "Error fully disclosed for transparency"
+                    "eu_compliance": "Error fully disclosed for transparency",
                 }
 
         return wrapper
+
     return decorator
 
 
 # Example usage functions for integration
-async def example_transparent_content_generation(user_prompt: str, trace_id: str = None):
+
+
+async def example_transparent_content_generation(
+    user_prompt: str, trace_id: str = None
+):
     """Example of transparent content generation with full reasoning trace"""
 
     if not trace_id:
@@ -340,47 +398,51 @@ async def example_transparent_content_generation(user_prompt: str, trace_id: str
     trace.add_reasoning_step(
         "Analyzing user input for content requirements",
         {"input_length": len(user_prompt), "language": "detected_english"},
-        weight=0.9
+        weight=0.9,
     )
 
     trace.add_data_influence(
-        "user_prompt", user_prompt, InfluenceLevel.CRITICAL,
-        "User prompt directly determines content topic and style"
+        "user_prompt",
+        user_prompt,
+        InfluenceLevel.CRITICAL,
+        "User prompt directly determines content topic and style",
     )
 
     # Step 2: Consider alternatives
     trace.add_alternative_considered(
         "Brief response",
         "User seems to want detailed explanation based on complexity of question",
-        confidence_if_chosen=0.3
+        confidence_if_chosen=0.3,
     )
 
     trace.add_alternative_considered(
         "Technical jargon heavy response",
         "User language suggests preference for accessible explanation",
-        confidence_if_chosen=0.4
+        confidence_if_chosen=0.4,
     )
 
     # Step 3: Safety checks
     trace.add_safety_check(
-        "Content safety", True,
-        "No harmful, biased, or inappropriate content detected in request"
+        "Content safety",
+        True,
+        "No harmful, biased, or inappropriate content detected in request",
     )
 
     trace.add_safety_check(
-        "Privacy check", True,
-        "No personal data requested or exposed in response"
+        "Privacy check",
+        True,
+        "No personal data requested or exposed in response",
     )
 
     # Step 4: Confidence factors
     trace.add_confidence_factor(
-        "Domain knowledge", 0.8,
-        "High confidence in subject matter knowledge"
+        "Domain knowledge", 0.8, "High confidence in subject matter knowledge"
     )
 
     trace.add_confidence_factor(
-        "User intent clarity", 0.7,
-        "User intent is reasonably clear from prompt"
+        "User intent clarity",
+        0.7,
+        "User intent is reasonably clear from prompt",
     )
 
     # Step 5: Bias considerations
@@ -396,7 +458,7 @@ async def example_transparent_content_generation(user_prompt: str, trace_id: str
         "confidence": 0.75,
         "transparency": {
             "explanation": "Content generated using transparent reasoning with safety checks"
-        }
+        },
     }
 
 
@@ -414,7 +476,6 @@ from brain.eu_ai_transparency import (
     create_transparent_decision
 )
 """,
-
         "process_input_enhancement": """
 # In CognitiveEngine.process_input method, add:
 
@@ -477,7 +538,6 @@ async def process_input(self, user_input: str, context: Optional[Dict] = None,
             eu_ai_act_compliant=True
         )
 """,
-
         "symphony_integration": """
 # In MultiBrainSymphony, add transparency to conduct_symphony:
 
@@ -500,7 +560,7 @@ async def conduct_symphony(self, input_data: Dict[str, Any], trace_id: str = Non
             )
 
     # ... existing symphony logic ...
-"""
+""",
     }
 
     return integration_guide
@@ -524,6 +584,8 @@ if __name__ == "__main__":
         print(json.dumps(result.get("transparency_explanation", {}), indent=2))
 
         print("\n📈 System Summary:")
-        print(json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2))
+        print(
+            json.dumps(transparency_orchestrator.get_transparency_summary(), indent=2)
+        )
 
     asyncio.run(demo())

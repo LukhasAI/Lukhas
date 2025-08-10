@@ -3,14 +3,12 @@ Biometric Engine - Advanced biometric processing for SEEDRA
 Handles facial recognition, voice prints, and other biometric data
 """
 
-import asyncio
+import base64
 import hashlib
 import logging
-import numpy as np
-from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass
 from datetime import datetime
-import base64
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 

@@ -5,28 +5,28 @@
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
 
+import asyncio
+import functools
 import gc
+import logging
 import os
 import sys
-import time
-import psutil
 import threading
-import functools
-import asyncio
-from typing import Any, Dict, List, Optional, Union, Callable, Tuple
-from dataclasses import dataclass, field
-from contextlib import contextmanager
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
-from queue import Queue, Empty
-import logging
+import time
 import tracemalloc
-from collections import deque, defaultdict
-import weakref
+from collections import deque
+from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager, suppress
+from dataclasses import dataclass, field
+from typing import Any, Callable, Optional
+
+import psutil
 
 
 @dataclass
 class PerformanceMetrics:
     """Performance metrics data structure."""
+
     cpu_percent: float = 0.0
     memory_usage: int = 0  # bytes
     memory_percent: float = 0.0
@@ -38,30 +38,31 @@ class PerformanceMetrics:
     open_files: int = 0
     timestamp: float = field(default_factory=time.time)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
-            'cpu_percent': self.cpu_percent,
-            'memory_usage': self.memory_usage,
-            'memory_percent': self.memory_percent,
-            'disk_io_read': self.disk_io_read,
-            'disk_io_write': self.disk_io_write,
-            'network_sent': self.network_sent,
-            'network_recv': self.network_recv,
-            'thread_count': self.thread_count,
-            'open_files': self.open_files,
-            'timestamp': self.timestamp
+            "cpu_percent": self.cpu_percent,
+            "memory_usage": self.memory_usage,
+            "memory_percent": self.memory_percent,
+            "disk_io_read": self.disk_io_read,
+            "disk_io_write": self.disk_io_write,
+            "network_sent": self.network_sent,
+            "network_recv": self.network_recv,
+            "thread_count": self.thread_count,
+            "open_files": self.open_files,
+            "timestamp": self.timestamp,
         }
 
 
 @dataclass
 class FunctionProfile:
     """Function profiling data."""
+
     name: str
     call_count: int = 0
     total_time: float = 0.0
     avg_time: float = 0.0
-    min_time: float = float('inf')
+    min_time: float = float("inf")
     max_time: float = 0.0
     last_called: Optional[float] = None
 
@@ -74,16 +75,16 @@ class FunctionProfile:
         self.max_time = max(self.max_time, execution_time)
         self.last_called = time.time()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
-            'name': self.name,
-            'call_count': self.call_count,
-            'total_time': self.total_time,
-            'avg_time': self.avg_time,
-            'min_time': self.min_time if self.min_time != float('inf') else 0.0,
-            'max_time': self.max_time,
-            'last_called': self.last_called
+            "name": self.name,
+            "call_count": self.call_count,
+            "total_time": self.total_time,
+            "avg_time": self.avg_time,
+            "min_time": (self.min_time if self.min_time != float("inf") else 0.0),
+            "max_time": self.max_time,
+            "last_called": self.last_called,
         }
 
 
@@ -138,7 +139,7 @@ class SystemMonitor:
             # I/O stats (handle macOS compatibility)
             disk_io_read = disk_io_write = 0
             try:
-                if hasattr(self.process, 'io_counters'):
+                if hasattr(self.process, "io_counters"):
                     io_counters = self.process.io_counters()
                     disk_io_read = io_counters.read_bytes
                     disk_io_write = io_counters.write_bytes
@@ -167,14 +168,14 @@ class SystemMonitor:
                 network_sent=network_sent,
                 network_recv=network_recv,
                 thread_count=thread_count,
-                open_files=open_files
+                open_files=open_files,
             )
 
         except Exception as e:
             logging.error(f"Error getting system metrics: {e}")
             return PerformanceMetrics()
 
-    def get_metrics_history(self) -> List[PerformanceMetrics]:
+    def get_metrics_history(self) -> list[PerformanceMetrics]:
         """Get historical metrics."""
         return list(self.metrics_history)
 
@@ -221,7 +222,7 @@ class FunctionProfiler:
     """Function execution profiling."""
 
     def __init__(self):
-        self.profiles: Dict[str, FunctionProfile] = {}
+        self.profiles: dict[str, FunctionProfile] = {}
         self._enabled = True
 
     def enable(self):
@@ -280,11 +281,13 @@ class FunctionProfiler:
 
         return wrapper
 
-    def get_profiles(self) -> Dict[str, FunctionProfile]:
+    def get_profiles(self) -> dict[str, FunctionProfile]:
         """Get all function profiles."""
         return self.profiles.copy()
 
-    def get_top_functions(self, n: int = 10, sort_by: str = 'total_time') -> List[FunctionProfile]:
+    def get_top_functions(
+        self, n: int = 10, sort_by: str = "total_time"
+    ) -> list[FunctionProfile]:
         """Get top N functions by specified metric."""
         profiles = list(self.profiles.values())
         profiles.sort(key=lambda p: getattr(p, sort_by, 0), reverse=True)
@@ -299,7 +302,7 @@ class MemoryProfiler:
     """Memory usage profiling."""
 
     def __init__(self):
-        self.snapshots: List[Tuple[str, Any]] = []
+        self.snapshots: list[tuple[str, Any]] = []
         self._enabled = False
 
     def start(self):
@@ -322,24 +325,28 @@ class MemoryProfiler:
         snapshot = tracemalloc.take_snapshot()
         self.snapshots.append((description, snapshot))
 
-    def get_top_stats(self, snapshot_index: int = -1, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_top_stats(
+        self, snapshot_index: int = -1, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Get top memory allocation statistics."""
         if not self.snapshots:
             return []
 
         _, snapshot = self.snapshots[snapshot_index]
-        top_stats = snapshot.statistics('lineno')[:limit]
+        top_stats = snapshot.statistics("lineno")[:limit]
 
         return [
             {
-                'filename': stat.traceback.format()[0],
-                'size': stat.size,
-                'count': stat.count
+                "filename": stat.traceback.format()[0],
+                "size": stat.size,
+                "count": stat.count,
             }
             for stat in top_stats
         ]
 
-    def compare_snapshots(self, index1: int = 0, index2: int = -1) -> List[Dict[str, Any]]:
+    def compare_snapshots(
+        self, index1: int = 0, index2: int = -1
+    ) -> list[dict[str, Any]]:
         """Compare two memory snapshots."""
         if len(self.snapshots) < 2:
             return []
@@ -347,13 +354,13 @@ class MemoryProfiler:
         _, snapshot1 = self.snapshots[index1]
         _, snapshot2 = self.snapshots[index2]
 
-        top_stats = snapshot2.compare_to(snapshot1, 'lineno')[:10]
+        top_stats = snapshot2.compare_to(snapshot1, "lineno")[:10]
 
         return [
             {
-                'filename': stat.traceback.format()[0],
-                'size_diff': stat.size_diff,
-                'count_diff': stat.count_diff
+                "filename": stat.traceback.format()[0],
+                "size_diff": stat.size_diff,
+                "count_diff": stat.count_diff,
             }
             for stat in top_stats
         ]
@@ -365,7 +372,7 @@ class CacheManager:
     def __init__(self, max_size: int = 1000, default_ttl: int = 3600):
         self.max_size = max_size
         self.default_ttl = default_ttl
-        self._cache: Dict[str, Tuple[Any, float]] = {}
+        self._cache: dict[str, tuple[Any, float]] = {}
         self._access_order: deque = deque()
         self._lock = threading.RLock()
 
@@ -380,17 +387,13 @@ class CacheManager:
             # Check if expired
             if time.time() > expires_at:
                 del self._cache[key]
-                try:
+                with suppress(ValueError):
                     self._access_order.remove(key)
-                except ValueError:
-                    pass
                 return default
 
             # Update access order
-            try:
+            with suppress(ValueError):
                 self._access_order.remove(key)
-            except ValueError:
-                pass
             self._access_order.append(key)
 
             return value
@@ -403,10 +406,8 @@ class CacheManager:
 
             # Remove if exists
             if key in self._cache:
-                try:
+                with suppress(ValueError):
                     self._access_order.remove(key)
-                except ValueError:
-                    pass
 
             # Check size limit
             if len(self._cache) >= self.max_size and key not in self._cache:
@@ -425,10 +426,8 @@ class CacheManager:
         with self._lock:
             if key in self._cache:
                 del self._cache[key]
-                try:
+                with suppress(ValueError):
                     self._access_order.remove(key)
-                except ValueError:
-                    pass
                 return True
             return False
 
@@ -443,25 +442,24 @@ class CacheManager:
         with self._lock:
             current_time = time.time()
             expired_keys = [
-                key for key, (_, expires_at) in self._cache.items()
+                key
+                for key, (_, expires_at) in self._cache.items()
                 if current_time > expires_at
             ]
 
             for key in expired_keys:
                 del self._cache[key]
-                try:
+                with suppress(ValueError):
                     self._access_order.remove(key)
-                except ValueError:
-                    pass
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         with self._lock:
             return {
-                'size': len(self._cache),
-                'max_size': self.max_size,
-                'hit_ratio': 0.0,  # Would need hit/miss tracking
-                'expired_count': 0  # Would need tracking
+                "size": len(self._cache),
+                "max_size": self.max_size,
+                "hit_ratio": 0.0,  # Would need hit/miss tracking
+                "expired_count": 0,  # Would need tracking
             }
 
 
@@ -502,7 +500,7 @@ class AsyncTaskManager:
     """Async task management utilities."""
 
     def __init__(self):
-        self.tasks: Dict[str, asyncio.Task] = {}
+        self.tasks: dict[str, asyncio.Task] = {}
         self._lock = asyncio.Lock()
 
     async def create_task(self, coro, name: Optional[str] = None) -> str:
@@ -543,25 +541,27 @@ class AsyncTaskManager:
         """Remove completed tasks."""
         async with self._lock:
             completed_tasks = [
-                task_id for task_id, task in self.tasks.items()
-                if task.done()
+                task_id for task_id, task in self.tasks.items() if task.done()
             ]
 
             for task_id in completed_tasks:
                 del self.tasks[task_id]
 
-    async def get_task_status(self) -> Dict[str, str]:
+    async def get_task_status(self) -> dict[str, str]:
         """Get status of all tasks."""
         async with self._lock:
             return {
-                task_id: 'completed' if task.done() else 'running'
+                task_id: "completed" if task.done() else "running"
                 for task_id, task in self.tasks.items()
             }
 
 
 # Performance decorators
+
+
 def timed(func: Callable) -> Callable:
     """Decorator to time function execution."""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         start_time = time.perf_counter()
@@ -578,10 +578,12 @@ def timed(func: Callable) -> Callable:
 
 def memory_limit(max_mb: int):
     """Decorator to limit function memory usage."""
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            # This is a simplified version - real implementation would need more sophisticated memory monitoring
+            # This is a simplified version - real implementation would need more
+            # sophisticated memory monitoring
             process = psutil.Process()
             initial_memory = process.memory_info().rss
 
@@ -592,7 +594,9 @@ def memory_limit(max_mb: int):
                 memory_used_mb = (final_memory - initial_memory) / 1024 / 1024
 
                 if memory_used_mb > max_mb:
-                    logging.warning(f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)")
+                    logging.warning(
+                        f"{func.__name__} used {memory_used_mb:.1f}MB (limit: {max_mb}MB)"
+                    )
 
                 return result
             except MemoryError:
@@ -600,6 +604,7 @@ def memory_limit(max_mb: int):
                 raise
 
         return wrapper
+
     return decorator
 
 
@@ -618,8 +623,10 @@ def performance_context(description: str = "Operation"):
         execution_time = end_time - start_time
         memory_delta = end_memory - start_memory
 
-        logging.info(f"{description} completed in {execution_time:.4f}s, "
-                    f"memory delta: {memory_delta / 1024 / 1024:.1f}MB")
+        logging.info(
+            f"{description} completed in {execution_time:.4f}s, "
+            f"memory delta: {memory_delta / 1024 / 1024:.1f}MB"
+        )
 
 
 # Global instances
@@ -629,18 +636,19 @@ memory_profiler = MemoryProfiler()
 cache_manager = CacheManager()
 thread_pool_manager = ThreadPoolManager()
 
-
 # Utility functions
-def get_system_info() -> Dict[str, Any]:
+
+
+def get_system_info() -> dict[str, Any]:
     """Get comprehensive system information."""
     return {
-        'platform': sys.platform,
-        'python_version': sys.version,
-        'cpu_count': os.cpu_count(),
-        'memory_total': psutil.virtual_memory().total,
-        'disk_usage': psutil.disk_usage('/').total,
-        'pid': os.getpid(),
-        'thread_count': threading.active_count()
+        "platform": sys.platform,
+        "python_version": sys.version,
+        "cpu_count": os.cpu_count(),
+        "memory_total": psutil.virtual_memory().total,
+        "disk_usage": psutil.disk_usage("/").total,
+        "pid": os.getpid(),
+        "thread_count": threading.active_count(),
     }
 
 

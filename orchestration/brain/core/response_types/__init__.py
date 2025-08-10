@@ -1,4 +1,3 @@
 """
 Response_Types Module
 """
-

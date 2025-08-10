@@ -17,20 +17,21 @@ ENHANCEMENT: Added professional structure while preserving ALL original logic
 """
 
 import asyncio
+import hashlib
 import logging
 import uuid
-import hashlib
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Optional
+
+from .attention.quantum_attention import QuantumInspiredAttention
+from .compliance.ethical_engine import ComplianceEngine
 
 # Import our organized components
 from .core.capability_levels import AGICapabilityLevel
 from .core.response_types import AGIResponse
-from .attention.quantum_attention import QuantumInspiredAttention
+from .metacognition.orchestrator import MetaCognitiveOrchestrator
 from .reasoning.causal_reasoning import CausalReasoningModule
 from .reasoning.symbolic_reasoning import SymbolicEngine
-from .metacognition.orchestrator import MetaCognitiveOrchestrator
-from .compliance.ethical_engine import ComplianceEngine
 
 # Configure logging
 logger = logging.getLogger("EnhancedAGI")
@@ -52,7 +53,7 @@ class EnhancedAGIBot:
     ALL METHODS PRESERVED: This contains 100% of your original AI logic
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Enhanced AI Bot with quantum-biological components (ORIGINAL LOGIC)"""
         logger.info(
             "🧠 Initializing Enhanced AI Bot - True AI System with Quantum-Biological Architecture"
@@ -95,11 +96,11 @@ class EnhancedAGIBot:
             f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
         )
 
-    def _generate_safe_response(self, compliance_result: Dict) -> str:
+    def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails (ORIGINAL LOGIC)"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: Dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history (ORIGINAL LOGIC)"""
         self.conversation_history.append(
             {
@@ -122,14 +123,17 @@ class EnhancedAGIBot:
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
-        self, input_data: Dict, agi_response: AGIResponse, orchestration_result: Dict
+        self,
+        input_data: dict,
+        agi_response: AGIResponse,
+        orchestration_result: dict,
     ):
         """Perform continuous learning updates (ORIGINAL LOGIC)"""
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
-            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[
-                :16
-            ]
+            pattern_key = hashlib.sha256(
+                input_data.get("text", "").encode()
+            ).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
@@ -144,7 +148,7 @@ class EnhancedAGIBot:
                 )
                 del self.learning_memory[oldest_key]
 
-    def get_agi_status(self) -> Dict:
+    def get_agi_status(self) -> dict:
         """Get comprehensive AI system status (ORIGINAL LOGIC)"""
         return {
             "session_id": self.session_id,
@@ -162,7 +166,7 @@ class EnhancedAGIBot:
     async def process_input(
         self,
         user_input: str,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
         user_id: Optional[str] = None,
     ) -> AGIResponse:
         """
@@ -238,7 +242,8 @@ class EnhancedAGIBot:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence:.2f}, Level: {agi_response.capability_level.value}"
+                f"✅ Response generated - Confidence: {agi_response.confidence: .2f},
+                Level: {agi_response.capability_level.value}"
             )
 
             return agi_response
@@ -266,7 +271,7 @@ class EnhancedAGIBot:
             return error_response
 
     async def _generate_response_content(
-        self, orchestration_result: Dict, input_data: Dict
+        self, orchestration_result: dict, input_data: dict
     ) -> str:
         """Generate response content based on orchestration results (ORIGINAL LOGIC)"""
         # Extract insights from different reasoning components
@@ -315,7 +320,7 @@ class EnhancedAGIBot:
 
         return " ".join(response_parts)
 
-    async def demonstrate_agi_capabilities(self) -> Dict:
+    async def demonstrate_agi_capabilities(self) -> dict:
         """Demonstrate AI capabilities with comprehensive examples (ORIGINAL LOGIC)"""
         logger.info("🎭 Demonstrating AI Capabilities")
 
@@ -340,28 +345,23 @@ class EnhancedAGIBot:
             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?"
         )
         demonstrations.append(
-            {
-                "test": "complex_reasoning",
-                "input": "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
-                "response": complex_reasoning_test.content,
-                "confidence": complex_reasoning_test.confidence,
-                "reasoning_steps": len(complex_reasoning_test.reasoning_path),
-            }
-        )
+            {"test": "complex_reasoning",
+             "input":
+             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
+             "response": complex_reasoning_test.content,
+             "confidence": complex_reasoning_test.confidence,
+             "reasoning_steps": len(complex_reasoning_test.reasoning_path), })
 
         # Test 3: Creative Problem Solving
         creative_test = await self.process_input(
             "Design a novel solution for helping people collaborate more effectively in remote work environments."
         )
         demonstrations.append(
-            {
-                "test": "creative_problem_solving",
-                "input": "Design a novel solution for helping people collaborate more effectively in remote work environments.",
-                "response": creative_test.content,
-                "confidence": creative_test.confidence,
-                "ethical_compliance": creative_test.ethical_compliance["is_compliant"],
-            }
-        )
+            {"test": "creative_problem_solving",
+             "input":
+             "Design a novel solution for helping people collaborate more effectively in remote work environments.",
+             "response": creative_test.content, "confidence": creative_test.confidence,
+             "ethical_compliance": creative_test.ethical_compliance["is_compliant"], })
 
         return {
             "demonstration_timestamp": datetime.now().isoformat(),
@@ -383,6 +383,8 @@ class EnhancedAGIBot:
 
 
 # Main execution for testing (ORIGINAL LOGIC)
+
+
 async def main():
     """Main function for testing Enhanced AI Bot (ORIGINAL LOGIC)"""
     try:
@@ -414,7 +416,7 @@ async def main():
             print(f"🤖 Response: {demo['response'][:100]}...")
             print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
 
-        print(f"\n📈 Overall Performance:")
+        print("\n📈 Overall Performance:")
         perf = demo_results["overall_performance"]
         print(f"   Average Confidence: {perf['average_confidence']:.2f}")
         print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
@@ -433,7 +435,6 @@ if __name__ == "__main__":
     print("🧠 Enhanced AI Bot - True Artificial General Intelligence")
     print("=" * 60)
     asyncio.run(main())
-
 
 """
 FOOTER DOCUMENTATION:

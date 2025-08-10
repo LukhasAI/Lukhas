@@ -37,8 +37,9 @@ Integration Date: 2025-05-31T07:55:28.108413
 
 import json
 import os
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 from orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG
@@ -56,7 +57,7 @@ def export_traits():
     data = {
         "node": NODE_ID,
         "timestamp": datetime.utcnow().isoformat() + "Z",
-        "traits": traits
+        "traits": traits,
     }
     with open(os.path.join(TRAIT_SYNC_FOLDER, TRAIT_FILE_NAME), "w") as f:
         json.dump(data, f, indent=2)
@@ -68,7 +69,7 @@ def load_all_traits():
     profiles = []
     for file in os.listdir(TRAIT_SYNC_FOLDER):
         if file.endswith("_traits.json"):
-            with open(os.path.join(TRAIT_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(TRAIT_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 profiles.append(data)
     return profiles

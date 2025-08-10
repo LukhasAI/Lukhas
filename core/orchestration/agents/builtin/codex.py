@@ -3,10 +3,15 @@
 ΛTAG: builtin_codex_agent
 """
 
-from typing import List
-
-from ..interfaces.agent_interface import AgentInterface, AgentMetadata, AgentStatus, AgentCapability, AgentContext
+from ..interfaces.agent_interface import (
+    AgentCapability,
+    AgentContext,
+    AgentInterface,
+    AgentMetadata,
+    AgentStatus,
+)
 from ..interfaces.orchestration_protocol import TaskDefinition, TaskResult
+
 
 class Codex(AgentInterface):
     """Codex agent for general purpose queries."""
@@ -15,7 +20,7 @@ class Codex(AgentInterface):
         self.metadata = AgentMetadata(
             agent_id="codex",
             name="Codex Agent",
-            capabilities=[AgentCapability.GENERAL_QUERY]
+            capabilities=[AgentCapability.GENERAL_QUERY],
         )
         self.status = AgentStatus.READY
         self.context = None
@@ -29,28 +34,29 @@ class Codex(AgentInterface):
         return TaskResult(
             task_id=task.task_id,
             status="success",
-            result_data={"response": response}
+            result_data={"response": response},
         )
 
     def respond(self, query: str) -> str:
         # CodexAgent basic logic
         parsed = self.parse_query(query)
-        response = f"[Codex] Interpreted as: {parsed['intent']}, executed placeholder task."
+        response = (
+            f"[Codex] Interpreted as: {parsed['intent']}, executed placeholder task."
+        )
         return response
 
     def parse_query(self, query: str) -> dict:
         # Simple intent parsing
-        if "doctor" in query and "hospital" in query:
+        if (
+            "doctor" in query
+            and "hospital" in query
+            or "car" in query
+            and "road" in query
+        ):
             return {"intent": "analogy"}
-        elif "car" in query and "road" in query:
-            return {"intent": "analogy"}
-        elif "color" in query and "sky" in query:
+        elif "color" in query and "sky" in query or "sound" in query and "dog" in query:
             return {"intent": "question"}
-        elif "sound" in query and "dog" in query:
-            return {"intent": "question"}
-        elif "sad child" in query:
-            return {"intent": "decoupling"}
-        elif "happy child" in query:
+        elif "sad child" in query or "happy child" in query:
             return {"intent": "decoupling"}
         else:
             return {"intent": "unknown"}

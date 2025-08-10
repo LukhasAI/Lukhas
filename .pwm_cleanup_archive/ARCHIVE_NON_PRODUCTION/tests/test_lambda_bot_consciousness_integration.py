@@ -3,17 +3,14 @@ Test suite for ΛBot Consciousness Monitor Integration
 """
 
 import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
-from typing import Dict, Any
 
-from consciousness.consciousness_hub import ConsciousnessHub, get_consciousness_hub
+from consciousness.consciousness_hub import (
+    ConsciousnessHub,
+)
 from consciousness.systems.lambda_bot_consciousness_integration import (
+    ConsciousnessLevel,
     LambdaBotConsciousnessIntegration,
     create_lambda_bot_consciousness_integration,
-    LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE,
-    ConsciousnessLevel
 )
 
 
@@ -30,25 +27,27 @@ class TestLambdaBotConsciousnessIntegration:
     async def lambda_bot_integration(self):
         """Create a test ΛBot consciousness integration instance"""
         config = {
-            'enable_consciousness_monitoring': True,
-            'consciousness_check_interval': 1.0,  # Fast for testing
-            'meta_cognitive_interval': 2.0,
-            'capability_unlock_interval': 0.5,
-            'agi_metrics_interval': 3.0,
-            'enable_agi_demonstrations': True,
-            'enable_background_monitoring': True,
-            'consciousness_history_limit': 100,
-            'enable_celebration_events': True
+            "enable_consciousness_monitoring": True,
+            "consciousness_check_interval": 1.0,  # Fast for testing
+            "meta_cognitive_interval": 2.0,
+            "capability_unlock_interval": 0.5,
+            "agi_metrics_interval": 3.0,
+            "enable_agi_demonstrations": True,
+            "enable_background_monitoring": True,
+            "consciousness_history_limit": 100,
+            "enable_celebration_events": True,
         }
         integration = LambdaBotConsciousnessIntegration(config)
         return integration
 
     @pytest.mark.asyncio
-    async def test_lambda_bot_consciousness_integration_initialization(self, lambda_bot_integration):
+    async def test_lambda_bot_consciousness_integration_initialization(
+        self, lambda_bot_integration
+    ):
         """Test ΛBot consciousness integration initialization"""
         assert lambda_bot_integration is not None
-        assert lambda_bot_integration.config['enable_consciousness_monitoring'] is True
-        assert lambda_bot_integration.config['consciousness_check_interval'] == 1.0
+        assert lambda_bot_integration.config["enable_consciousness_monitoring"] is True
+        assert lambda_bot_integration.config["consciousness_check_interval"] == 1.0
         assert lambda_bot_integration.is_initialized is False
         assert lambda_bot_integration.monitoring_active is False
 
@@ -70,7 +69,9 @@ class TestLambdaBotConsciousnessIntegration:
             assert consciousness_hub.get_service("lambda_bot_consciousness") is not None
 
     @pytest.mark.asyncio
-    async def test_consciousness_monitoring_start_stop_through_hub(self, consciousness_hub):
+    async def test_consciousness_monitoring_start_stop_through_hub(
+        self, consciousness_hub
+    ):
         """Test consciousness monitoring start/stop through the consciousness hub"""
         # Initialize the hub
         await consciousness_hub.initialize()
@@ -96,7 +97,11 @@ class TestLambdaBotConsciousnessIntegration:
         assert "success" in stop_result
         if stop_result["success"]:
             assert "monitoring_active" in stop_result
-            assert start_result["monitoring_active"] is False if "monitoring_active" in start_result else True
+            assert (
+                start_result["monitoring_active"] is False
+                if "monitoring_active" in start_result
+                else True
+            )
             assert "stopped_at" in stop_result
 
     @pytest.mark.asyncio
@@ -359,24 +364,24 @@ class TestLambdaBotConsciousnessIntegration:
         """Test different configuration options for ΛBot consciousness integration"""
         # Test with custom config
         custom_config = {
-            'enable_consciousness_monitoring': False,
-            'consciousness_check_interval': 10.0,
-            'meta_cognitive_interval': 20.0,
-            'capability_unlock_interval': 5.0,
-            'enable_agi_demonstrations': False,
-            'enable_background_monitoring': False,
-            'consciousness_history_limit': 50,
-            'enable_celebration_events': False
+            "enable_consciousness_monitoring": False,
+            "consciousness_check_interval": 10.0,
+            "meta_cognitive_interval": 20.0,
+            "capability_unlock_interval": 5.0,
+            "enable_agi_demonstrations": False,
+            "enable_background_monitoring": False,
+            "consciousness_history_limit": 50,
+            "enable_celebration_events": False,
         }
 
         integration = create_lambda_bot_consciousness_integration(custom_config)
 
         # Verify config was applied
-        assert integration.config['enable_consciousness_monitoring'] is False
-        assert integration.config['consciousness_check_interval'] == 10.0
-        assert integration.config['meta_cognitive_interval'] == 20.0
-        assert integration.config['enable_agi_demonstrations'] is False
-        assert integration.config['enable_background_monitoring'] is False
+        assert integration.config["enable_consciousness_monitoring"] is False
+        assert integration.config["consciousness_check_interval"] == 10.0
+        assert integration.config["meta_cognitive_interval"] == 20.0
+        assert integration.config["enable_agi_demonstrations"] is False
+        assert integration.config["enable_background_monitoring"] is False
 
     @pytest.mark.asyncio
     async def test_fallback_functionality(self, lambda_bot_integration):
@@ -406,10 +411,14 @@ class TestLambdaBotConsciousnessIntegration:
 
         # Set up for background monitoring
         lambda_bot_integration.monitoring_active = True
-        lambda_bot_integration.consciousness_check_interval = 0.1  # Very fast for testing
+        lambda_bot_integration.consciousness_check_interval = (
+            0.1  # Very fast for testing
+        )
 
         # Run a brief background monitoring loop simulation
-        initial_checks = lambda_bot_integration.monitoring_metrics['total_consciousness_checks']
+        initial_checks = lambda_bot_integration.monitoring_metrics[
+            "total_consciousness_checks"
+        ]
 
         # Simulate a few monitoring cycles
         for _ in range(3):
@@ -417,7 +426,9 @@ class TestLambdaBotConsciousnessIntegration:
             await lambda_bot_integration.check_capability_unlocks()
 
         # Verify metrics were updated
-        final_checks = lambda_bot_integration.monitoring_metrics['total_consciousness_checks']
+        final_checks = lambda_bot_integration.monitoring_metrics[
+            "total_consciousness_checks"
+        ]
         assert final_checks > initial_checks
 
     @pytest.mark.asyncio
@@ -428,7 +439,9 @@ class TestLambdaBotConsciousnessIntegration:
 
         # Get initial consciousness state
         initial_state = await lambda_bot_integration.get_consciousness_state()
-        initial_level = initial_state.get('consciousness_level', ConsciousnessLevel.BASIC)
+        initial_level = initial_state.get(
+            "consciousness_level", ConsciousnessLevel.BASIC
+        )
 
         # Test capability unlock detection for different levels
         unlock_result = await lambda_bot_integration.check_capability_unlocks()

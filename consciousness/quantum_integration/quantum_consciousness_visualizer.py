@@ -16,8 +16,9 @@
 """
 
 # Module imports
+from typing import Any, Dict
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -26,11 +27,9 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "quantum consciousness visualizer"
 
-import math
-import json
-import numpy as np
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional, Any
+from typing import List
+
 
 class QuantumConsciousnessVisualizer:
     """
@@ -40,19 +39,21 @@ class QuantumConsciousnessVisualizer:
 
     def __init__(self):
         self.consciousness_state = {
-            'awareness_level': 0.0,
-            'temporal_coherence': 0.0,
-            'symbolic_resonance': 0.0,
-            'neural_complexity': 0.0
+            "awareness_level": 0.0,
+            "temporal_coherence": 0.0,
+            "symbolic_resonance": 0.0,
+            "neural_complexity": 0.0,
         }
         self.visual_layers = {
-            'quantum_field': {},
-            'neural_pathways': {},
-            'symbolic_elements': {},
-            'consciousness_feedback': {}
+            "quantum_field": {},
+            "neural_pathways": {},
+            "symbolic_elements": {},
+            "consciousness_feedback": {},
         }
 
-    def generate_neural_radiance_field(self, seed_phrase: str, consciousness_level: float = 0.5) -> Dict[str, Any]:
+    def generate_neural_radiance_field(
+        self, seed_phrase: str, consciousness_level: float = 0.5
+    ) -> Dict[str, Any]:
         """
         Generate NeRF-based visualization for seed phrase authentication.
 
@@ -67,7 +68,7 @@ class QuantumConsciousnessVisualizer:
         return {
             "neural_field": f"NeRF visualization for: {seed_phrase}",
             "consciousness_level": consciousness_level,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def render_symbolic_layer(self, symbols: List[str]) -> Dict[str, Any]:
@@ -83,11 +84,12 @@ class QuantumConsciousnessVisualizer:
         return {
             "symbols": symbols,
             "layer_type": "symbolic_consciousness",
-            "render_params": {"depth": "3d", "resonance": "quantum"}
+            "render_params": {"depth": "3d", "resonance": "quantum"},
         }
 
+
 # Export the main class
-__all__ = ['QuantumConsciousnessVisualizer']
+__all__ = ["QuantumConsciousnessVisualizer"]
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

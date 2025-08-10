@@ -18,16 +18,15 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Optional
-
 # Dummy user database for placeholder
 _USER_TIERS = {
     "user_001_test": 1,
     "user_002_dev": 2,
     "user_003_power": 3,
     "user_004_admin": 4,
-    "default_user_sid": 1 # Default for unknown SIDs
+    "default_user_sid": 1,  # Default for unknown SIDs
 }
+
 
 def get_user_tier(user_sid: str) -> int:
     """
@@ -40,29 +39,33 @@ def get_user_tier(user_sid: str) -> int:
         return 1
     return tier
 
+
 def set_user_tier(user_sid: str, tier: int) -> bool:
     """
     Sets or updates the access tier for a given user SID.
     Returns True if successful, False otherwise.
     """
-    if not isinstance(tier, int) or tier < 0: # Assuming tiers are non-negative integers
+    if (
+        not isinstance(tier, int) or tier < 0
+    ):  # Assuming tiers are non-negative integers
         print(f"SeedraRegistry: Invalid tier '{tier}' for SID '{user_sid}'.")
         return False
     _USER_TIERS[user_sid] = tier
     print(f"SeedraRegistry: Tier for SID '{user_sid}' set to {tier}.")
     return True
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print(f"Tier for user_001_test: {get_user_tier('user_001_test')}")
     print(f"Tier for unknown_user: {get_user_tier('unknown_user_sid')}")
 
     set_user_tier("new_user_sid", 2)
     print(f"Tier for new_user_sid: {get_user_tier('new_user_sid')}")
 
-    set_user_tier("user_001_test", 5) # Update existing user
+    set_user_tier("user_001_test", 5)  # Update existing user
     print(f"Updated tier for user_001_test: {get_user_tier('user_001_test')}")
 
-    set_user_tier("invalid_tier_user", -1) # Try to set invalid tier
+    set_user_tier("invalid_tier_user", -1)  # Try to set invalid tier
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

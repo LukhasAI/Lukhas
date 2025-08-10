@@ -17,15 +17,12 @@ Date: 2025-06-05
 Version: 2.0.0
 """
 
-import os
 import json
-import hashlib
-import mimetypes
-from pathlib import Path
-from typing import Dict, List, Any, Set, Tuple, Optional
+from collections import defaultdict
 from datetime import datetime
-from collections import defaultdict, Counter
-import re
+from pathlib import Path
+from typing import Any, Optional
+
 
 class ComprehensiveCoreAuditor:
     """Complete audit system for all core components in lukhas workspace"""
@@ -43,38 +40,286 @@ class ComprehensiveCoreAuditor:
             "test_glossary_workspace/core",
             "legacy_core",
             "old_core",
-            "backup_core"
+            "backup_core",
         ]
 
         # Comprehensive category mapping with keywords
         self.category_keywords = {
-            "bio": ["bio", "biological", "organic", "cellular", "dna", "rna", "protein", "enzyme", "metabolic", "bio_core", "BIO_SYMBOLIC", "bio_symbolic", "oscillator", "rhythm"],
-            "quantum": ["quantum", "quantum_core", "quantum_processing", "entanglement", "superposition", "coherence", "decoherence", "qbit", "quantum_state"],
-            "brain": ["brain", "neural", "neuron", "cognitive", "consciousness", "mind", "cortex", "hippocampus", "amygdala", "synapse", "dendrite"],
-            "memory": ["memory", "memory_learning", "memory_systems", "storage", "cache", "buffer", "recall", "retention", "consolidation"],
-            "voice": ["voice", "voice_systems", "speech", "audio", "sound", "phoneme", "prosody", "intonation", "vocal", "tts", "stt"],
-            "vision": ["vision", "visual", "image", "video", "camera", "cv", "opencv", "sight", "ocr", "recognition"],
-            "interface": ["interface", "ui", "gui", "web", "html", "css", "javascript", "react", "vue", "mobile", "api"],
-            "integration": ["integration", "unified", "orchestrator", "coordinator", "mediator", "bridge", "adapter", "connector"],
-            "enhancement": ["enhancement", "optimization", "agi_enhancement", "improvement", "boost", "amplify", "augment"],
-            "learning": ["learning", "meta_learning", "adaptive", "ml", "ai", "training", "model", "algorithm", "pattern"],
-            "security": ["security", "auth", "encryption", "ssl", "tls", "crypto", "hash", "key", "certificate", "firewall"],
-            "network": ["network", "communication", "protocol", "tcp", "udp", "http", "https", "socket", "connection"],
-            "data": ["data", "database", "db", "sql", "nosql", "persistence", "storage", "file", "json", "xml", "csv"],
-            "config": ["config", "settings", "environment", "env", "configuration", "parameters", "options", "preferences"],
-            "utils": ["utils", "utilities", "helpers", "common", "shared", "tools", "functions", "library"],
-            "tests": ["test", "tests", "testing", "spec", "unittest", "pytest", "mock", "fixture", "benchmark"],
-            "docs": ["docs", "documentation", "readme", "manual", "guide", "tutorial", "help", "reference"],
-            "deployment": ["deployment", "deploy", "build", "docker", "container", "k8s", "kubernetes", "ci", "cd"],
-            "monitoring": ["monitoring", "metrics", "logging", "telemetry", "health", "status", "alert", "dashboard"],
-            "dreams": ["dream", "dreams", "dream_engine", "subconscious", "imagination", "creativity"],
-            "symbolic": ["symbolic", "symbol", "symbolic_ai", "symbolic-core", "logic", "reasoning", "knowledge"],
-            "agent": ["agent", "autonomous", "intelligent", "bot", "assistant", "actor"],
-            "identity": ["identity", "persona", "self", "ego", "personality", "character"],
-            "ethics": ["ethics", "ethical", "moral", "values", "principles", "responsibility"],
+            "bio": [
+                "bio",
+                "biological",
+                "organic",
+                "cellular",
+                "dna",
+                "rna",
+                "protein",
+                "enzyme",
+                "metabolic",
+                "bio_core",
+                "BIO_SYMBOLIC",
+                "bio_symbolic",
+                "oscillator",
+                "rhythm",
+            ],
+            "quantum": [
+                "quantum",
+                "quantum_core",
+                "quantum_processing",
+                "entanglement",
+                "superposition",
+                "coherence",
+                "decoherence",
+                "qbit",
+                "quantum_state",
+            ],
+            "brain": [
+                "brain",
+                "neural",
+                "neuron",
+                "cognitive",
+                "consciousness",
+                "mind",
+                "cortex",
+                "hippocampus",
+                "amygdala",
+                "synapse",
+                "dendrite",
+            ],
+            "memory": [
+                "memory",
+                "memory_learning",
+                "memory_systems",
+                "storage",
+                "cache",
+                "buffer",
+                "recall",
+                "retention",
+                "consolidation",
+            ],
+            "voice": [
+                "voice",
+                "voice_systems",
+                "speech",
+                "audio",
+                "sound",
+                "phoneme",
+                "prosody",
+                "intonation",
+                "vocal",
+                "tts",
+                "stt",
+            ],
+            "vision": [
+                "vision",
+                "visual",
+                "image",
+                "video",
+                "camera",
+                "cv",
+                "opencv",
+                "sight",
+                "ocr",
+                "recognition",
+            ],
+            "interface": [
+                "interface",
+                "ui",
+                "gui",
+                "web",
+                "html",
+                "css",
+                "javascript",
+                "react",
+                "vue",
+                "mobile",
+                "api",
+            ],
+            "integration": [
+                "integration",
+                "unified",
+                "orchestrator",
+                "coordinator",
+                "mediator",
+                "bridge",
+                "adapter",
+                "connector",
+            ],
+            "enhancement": [
+                "enhancement",
+                "optimization",
+                "agi_enhancement",
+                "improvement",
+                "boost",
+                "amplify",
+                "augment",
+            ],
+            "learning": [
+                "learning",
+                "meta_learning",
+                "adaptive",
+                "ml",
+                "ai",
+                "training",
+                "model",
+                "algorithm",
+                "pattern",
+            ],
+            "security": [
+                "security",
+                "auth",
+                "encryption",
+                "ssl",
+                "tls",
+                "crypto",
+                "hash",
+                "key",
+                "certificate",
+                "firewall",
+            ],
+            "network": [
+                "network",
+                "communication",
+                "protocol",
+                "tcp",
+                "udp",
+                "http",
+                "https",
+                "socket",
+                "connection",
+            ],
+            "data": [
+                "data",
+                "database",
+                "db",
+                "sql",
+                "nosql",
+                "persistence",
+                "storage",
+                "file",
+                "json",
+                "xml",
+                "csv",
+            ],
+            "config": [
+                "config",
+                "settings",
+                "environment",
+                "env",
+                "configuration",
+                "parameters",
+                "options",
+                "preferences",
+            ],
+            "utils": [
+                "utils",
+                "utilities",
+                "helpers",
+                "common",
+                "shared",
+                "tools",
+                "functions",
+                "library",
+            ],
+            "tests": [
+                "test",
+                "tests",
+                "testing",
+                "spec",
+                "unittest",
+                "pytest",
+                "mock",
+                "fixture",
+                "benchmark",
+            ],
+            "docs": [
+                "docs",
+                "documentation",
+                "readme",
+                "manual",
+                "guide",
+                "tutorial",
+                "help",
+                "reference",
+            ],
+            "deployment": [
+                "deployment",
+                "deploy",
+                "build",
+                "docker",
+                "container",
+                "k8s",
+                "kubernetes",
+                "ci",
+                "cd",
+            ],
+            "monitoring": [
+                "monitoring",
+                "metrics",
+                "logging",
+                "telemetry",
+                "health",
+                "status",
+                "alert",
+                "dashboard",
+            ],
+            "dreams": [
+                "dream",
+                "dreams",
+                "dream_engine",
+                "subconscious",
+                "imagination",
+                "creativity",
+            ],
+            "symbolic": [
+                "symbolic",
+                "symbol",
+                "symbolic_ai",
+                "symbolic-core",
+                "logic",
+                "reasoning",
+                "knowledge",
+            ],
+            "agent": [
+                "agent",
+                "autonomous",
+                "intelligent",
+                "bot",
+                "assistant",
+                "actor",
+            ],
+            "identity": [
+                "identity",
+                "persona",
+                "self",
+                "ego",
+                "personality",
+                "character",
+            ],
+            "ethics": [
+                "ethics",
+                "ethical",
+                "moral",
+                "values",
+                "principles",
+                "responsibility",
+            ],
             "safety": ["safety", "safe", "secure", "protection", "guard", "validation"],
-            "processing": ["processing", "processor", "engine", "handler", "pipeline", "workflow"],
-            "diagnostic": ["diagnostic", "diagnosis", "debug", "troubleshoot", "analysis", "inspection"]
+            "processing": [
+                "processing",
+                "processor",
+                "engine",
+                "handler",
+                "pipeline",
+                "workflow",
+            ],
+            "diagnostic": [
+                "diagnostic",
+                "diagnosis",
+                "debug",
+                "troubleshoot",
+                "analysis",
+                "inspection",
+            ],
         }
 
         # File type patterns
@@ -87,7 +332,7 @@ class ComprehensiveCoreAuditor:
             "data": [".csv", ".xml", ".sql", ".db", ".sqlite", ".parquet"],
             "image": [".png", ".jpg", ".jpeg", ".gif", ".svg", ".bmp", ".ico"],
             "shell": [".sh", ".bash", ".zsh", ".fish", ".bat", ".ps1"],
-            "other": []  # Will be populated with unmatched extensions
+            "other": [],  # Will be populated with unmatched extensions
         }
 
         self.audit_results = {
@@ -99,10 +344,10 @@ class ComprehensiveCoreAuditor:
             "category_stats": defaultdict(int),
             "directory_stats": defaultdict(dict),
             "potential_issues": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
-    def scan_all_core_directories(self) -> Dict[str, Any]:
+    def scan_all_core_directories(self) -> dict[str, Any]:
         """Comprehensively scan all core directories"""
         print("🔍 COMPREHENSIVE CORE DIRECTORY AUDIT")
         print("=" * 50)
@@ -130,7 +375,9 @@ class ComprehensiveCoreAuditor:
                     # Categorize file
                     category = self._categorize_file(item)
                     if category:
-                        self.audit_results["categorized_files"][category].append(str(item))
+                        self.audit_results["categorized_files"][category].append(
+                            str(item)
+                        )
                         self.audit_results["category_stats"][category] += 1
                     else:
                         self.audit_results["unclassified_files"].append(str(item))
@@ -142,14 +389,16 @@ class ComprehensiveCoreAuditor:
             self.audit_results["directories_scanned"].append(dir_name)
             self.audit_results["directory_stats"][dir_name] = {
                 "total_files": len(files_in_dir),
-                "path": str(directory)
+                "path": str(directory),
             }
 
             print(f"   ✅ Found {len(files_in_dir)} files")
 
         except Exception as e:
             print(f"   ❌ Error scanning {directory}: {e}")
-            self.audit_results["potential_issues"].append(f"Error scanning {directory}: {e}")
+            self.audit_results["potential_issues"].append(
+                f"Error scanning {directory}: {e}"
+            )
 
     def _categorize_file(self, file_path: Path) -> Optional[str]:
         """Categorize a file based on its path and content"""
@@ -180,25 +429,38 @@ class ComprehensiveCoreAuditor:
     def _should_skip_file(self, file_path: Path) -> bool:
         """Check if file should be skipped"""
         skip_patterns = [
-            ".DS_Store", "__pycache__", "*.pyc", "*.pyo", ".git",
-            ".vscode", ".pytest_cache", "node_modules", "*.egg-info",
-            ".coverage", "htmlcov", ".env", "venv", ".venv"
+            ".DS_Store",
+            "__pycache__",
+            "*.pyc",
+            "*.pyo",
+            ".git",
+            ".vscode",
+            ".pytest_cache",
+            "node_modules",
+            "*.egg-info",
+            ".coverage",
+            "htmlcov",
+            ".env",
+            "venv",
+            ".venv",
         ]
 
         file_name = file_path.name
         file_str = str(file_path)
 
         for pattern in skip_patterns:
-            if pattern.startswith("*") and file_name.endswith(pattern[1:]):
-                return True
-            elif pattern.startswith(".") and file_name == pattern:
-                return True
-            elif pattern in file_str:
+            if (
+                pattern.startswith("*")
+                and file_name.endswith(pattern[1:])
+                or pattern.startswith(".")
+                and file_name == pattern
+                or pattern in file_str
+            ):
                 return True
 
         return False
 
-    def analyze_unclassified_components(self) -> Dict[str, Any]:
+    def analyze_unclassified_components(self) -> dict[str, Any]:
         """Deep analysis of unclassified components"""
         print("\n🔬 ANALYZING UNCLASSIFIED COMPONENTS")
         print("=" * 40)
@@ -208,7 +470,7 @@ class ComprehensiveCoreAuditor:
             "by_directory": defaultdict(list),
             "by_file_type": defaultdict(list),
             "potential_categories": defaultdict(list),
-            "unique_patterns": []
+            "unique_patterns": [],
         }
 
         for file_path in self.audit_results["unclassified_files"]:
@@ -225,15 +487,25 @@ class ComprehensiveCoreAuditor:
             # Try to infer potential category from filename/path
             potential_category = self._infer_category_from_filename(path_obj)
             if potential_category:
-                unclassified_analysis["potential_categories"][potential_category].append(file_path)
+                unclassified_analysis["potential_categories"][
+                    potential_category
+                ].append(file_path)
 
         # Find unique patterns in unclassified files
-        patterns = self._find_filename_patterns(self.audit_results["unclassified_files"])
+        patterns = self._find_filename_patterns(
+            self.audit_results["unclassified_files"]
+        )
         unclassified_analysis["unique_patterns"] = patterns
 
-        print(f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}")
-        print(f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories")
-        print(f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified")
+        print(
+            f"📊 Total unclassified files: {unclassified_analysis['total_unclassified']}"
+        )
+        print(
+            f"📁 Spread across {len(unclassified_analysis['by_directory'])} directories"
+        )
+        print(
+            f"🏷️  {len(unclassified_analysis['potential_categories'])} potential categories identified"
+        )
 
         return unclassified_analysis
 
@@ -250,7 +522,7 @@ class ComprehensiveCoreAuditor:
             "data": ["data_", "model_", "schema", "migration"],
             "interface": ["ui_", "view_", "component", "widget"],
             "monitoring": ["log", "metric", "monitor", "health"],
-            "security": ["auth", "token", "key", "cert", "encrypt"]
+            "security": ["auth", "token", "key", "cert", "encrypt"],
         }
 
         for category, patterns in inference_patterns.items():
@@ -260,7 +532,7 @@ class ComprehensiveCoreAuditor:
 
         return None
 
-    def _find_filename_patterns(self, file_paths: List[str]) -> List[str]:
+    def _find_filename_patterns(self, file_paths: list[str]) -> list[str]:
         """Find common filename patterns in unclassified files"""
         patterns = []
 
@@ -332,7 +604,7 @@ class ComprehensiveCoreAuditor:
             else:
                 report += f"| `{dir_name}` | ❌ Not Found | 0 | N/A |\n"
 
-        report += f"""
+        report += """
 ---
 
 ## 📋 CATEGORIZED COMPONENTS
@@ -341,23 +613,27 @@ class ComprehensiveCoreAuditor:
 """
 
         # Sort categories by file count
-        sorted_categories = sorted(self.audit_results['category_stats'].items(),
-                                 key=lambda x: x[1], reverse=True)
+        sorted_categories = sorted(
+            self.audit_results["category_stats"].items(),
+            key=lambda x: x[1],
+            reverse=True,
+        )
 
         for category, count in sorted_categories:
-            percentage = (count / max(self.audit_results['total_files'], 1)) * 100
+            percentage = (count / max(self.audit_results["total_files"], 1)) * 100
             report += f"- **{category.title()}:** {count} files ({percentage:.1f}%)\n"
 
-        report += f"""
+        report += """
 ### 📄 By File Type
 """
 
         # Sort file types by count
-        sorted_file_types = sorted(self.audit_results['file_types'].items(),
-                                 key=lambda x: x[1], reverse=True)
+        sorted_file_types = sorted(
+            self.audit_results["file_types"].items(), key=lambda x: x[1], reverse=True
+        )
 
         for file_type, count in sorted_file_types:
-            percentage = (count / max(self.audit_results['total_files'], 1)) * 100
+            percentage = (count / max(self.audit_results["total_files"], 1)) * 100
             report += f"- **{file_type.title()}:** {count} files ({percentage:.1f}%)\n"
 
         report += f"""
@@ -373,25 +649,30 @@ class ComprehensiveCoreAuditor:
 ### 📁 Unclassified by Directory
 """
 
-        for directory, files in sorted(unclassified_analysis['by_directory'].items(),
-                                     key=lambda x: len(x[1]), reverse=True):
+        for directory, files in sorted(
+            unclassified_analysis["by_directory"].items(),
+            key=lambda x: len(x[1]),
+            reverse=True,
+        ):
             report += f"- **`{directory}`:** {len(files)} files\n"
 
-        if unclassified_analysis['potential_categories']:
-            report += f"""
+        if unclassified_analysis["potential_categories"]:
+            report += """
 ### 🔍 Potential Categories for Unclassified Files
 """
-            for category, files in unclassified_analysis['potential_categories'].items():
+            for category, files in unclassified_analysis[
+                "potential_categories"
+            ].items():
                 report += f"- **{category.title()}:** {len(files)} files\n"
 
-        if unclassified_analysis['unique_patterns']:
-            report += f"""
+        if unclassified_analysis["unique_patterns"]:
+            report += """
 ### 🔄 Common Patterns in Unclassified Files
 """
-            for pattern in unclassified_analysis['unique_patterns']:
+            for pattern in unclassified_analysis["unique_patterns"]:
                 report += f"- {pattern}\n"
 
-        report += f"""
+        report += """
 ---
 
 ## 🚨 DETAILED UNCLASSIFIED FILES LIST
@@ -400,7 +681,7 @@ class ComprehensiveCoreAuditor:
 """
 
         # Group unclassified files by directory for better organization
-        for directory, files in sorted(unclassified_analysis['by_directory'].items()):
+        for directory, files in sorted(unclassified_analysis["by_directory"].items()):
             report += f"""
 #### Directory: `{directory}`
 """
@@ -411,7 +692,7 @@ class ComprehensiveCoreAuditor:
         # Generate recommendations
         recommendations = self._generate_recommendations(unclassified_analysis)
 
-        report += f"""
+        report += """
 ---
 
 ## 💡 RECOMMENDATIONS
@@ -422,7 +703,7 @@ class ComprehensiveCoreAuditor:
         for rec in recommendations:
             report += f"- {rec}\n"
 
-        report += f"""
+        report += """
 ---
 
 ## 🔧 DETAILED CATEGORY BREAKDOWN
@@ -430,7 +711,7 @@ class ComprehensiveCoreAuditor:
 ### Complete File Listings by Category
 """
 
-        for category, files in sorted(self.audit_results['categorized_files'].items()):
+        for category, files in sorted(self.audit_results["categorized_files"].items()):
             report += f"""
 #### {category.title()} ({len(files)} files)
 <details>
@@ -462,39 +743,55 @@ class ComprehensiveCoreAuditor:
 
         return report
 
-    def _generate_recommendations(self, unclassified_analysis: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(
+        self, unclassified_analysis: dict[str, Any]
+    ) -> list[str]:
         """Generate actionable recommendations based on audit results"""
         recommendations = []
 
-        total_files = self.audit_results['total_files']
-        unclassified_count = unclassified_analysis['total_unclassified']
+        total_files = self.audit_results["total_files"]
+        unclassified_count = unclassified_analysis["total_unclassified"]
 
         if unclassified_count > 0:
             percentage = (unclassified_count / total_files) * 100
-            recommendations.append(f"Review {unclassified_count} unclassified files ({percentage:.1f}% of total)")
+            recommendations.append(
+                f"Review {unclassified_count} unclassified files ({percentage:.1f}% of total)"
+            )
 
-        if unclassified_analysis['potential_categories']:
-            recommendations.append("Consider creating new categories for identified patterns")
+        if unclassified_analysis["potential_categories"]:
+            recommendations.append(
+                "Consider creating new categories for identified patterns"
+            )
 
         # Check for directories with many files
-        for dir_name, stats in self.audit_results['directory_stats'].items():
-            if stats['total_files'] > 50:
-                recommendations.append(f"Consider organizing `{dir_name}` directory ({stats['total_files']} files)")
+        for dir_name, stats in self.audit_results["directory_stats"].items():
+            if stats["total_files"] > 50:
+                recommendations.append(
+                    f"Consider organizing `{dir_name}` directory ({stats['total_files']} files)"
+                )
 
         # Check for dominant file types
-        python_files = self.audit_results['file_types'].get('python', 0)
+        python_files = self.audit_results["file_types"].get("python", 0)
         if python_files > total_files * 0.7:
-            recommendations.append("High Python file concentration - consider modular organization")
+            recommendations.append(
+                "High Python file concentration - consider modular organization"
+            )
 
-        if len(self.audit_results['categorized_files']) < 5:
-            recommendations.append("Consider expanding categorization system for better organization")
+        if len(self.audit_results["categorized_files"]) < 5:
+            recommendations.append(
+                "Consider expanding categorization system for better organization"
+            )
 
-        recommendations.append("Implement automated categorization for future file additions")
-        recommendations.append("Create cleanup scripts for empty directories and obsolete files")
+        recommendations.append(
+            "Implement automated categorization for future file additions"
+        )
+        recommendations.append(
+            "Create cleanup scripts for empty directories and obsolete files"
+        )
 
         return recommendations
 
-    def execute_comprehensive_audit(self) -> Dict[str, Any]:
+    def execute_comprehensive_audit(self) -> dict[str, Any]:
         """Execute complete audit process"""
         print("🚀 STARTING COMPREHENSIVE CORE AUDIT")
         print("=" * 45)
@@ -506,13 +803,15 @@ class ComprehensiveCoreAuditor:
         report = self.generate_comprehensive_report()
 
         # Save report
-        report_path = self.workspace_root / f"COMPREHENSIVE_CORE_AUDIT_{self.audit_timestamp}.md"
-        with open(report_path, 'w', encoding='utf-8') as f:
+        report_path = (
+            self.workspace_root / f"COMPREHENSIVE_CORE_AUDIT_{self.audit_timestamp}.md"
+        )
+        with open(report_path, "w", encoding="utf-8") as f:
             f.write(report)
 
         # Save detailed JSON results
         json_path = self.workspace_root / f"core_audit_data_{self.audit_timestamp}.json"
-        with open(json_path, 'w', encoding='utf-8') as f:
+        with open(json_path, "w", encoding="utf-8") as f:
             # Convert defaultdict to regular dict for JSON serialization
             json_results = {
                 "directories_scanned": results["directories_scanned"],
@@ -527,8 +826,8 @@ class ComprehensiveCoreAuditor:
                 "audit_metadata": {
                     "timestamp": self.audit_timestamp,
                     "workspace_root": str(self.workspace_root),
-                    "auditor_version": "2.0.0"
-                }
+                    "auditor_version": "2.0.0",
+                },
             }
             json.dump(json_results, f, indent=2, default=str)
 
@@ -541,8 +840,9 @@ class ComprehensiveCoreAuditor:
             "report_path": str(report_path),
             "json_path": str(json_path),
             "total_files": results["total_files"],
-            "unclassified_count": len(results["unclassified_files"])
+            "unclassified_count": len(results["unclassified_files"]),
         }
+
 
 def main():
     """Execute comprehensive core audit"""
@@ -560,8 +860,8 @@ def main():
 
     return lukhasuditor
 
+
 if __name__ == "__main__":
     main()
-
 
 # Λ Systems 2025 www.lukhas.ai

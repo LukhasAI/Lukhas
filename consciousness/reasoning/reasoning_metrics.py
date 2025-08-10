@@ -3,14 +3,14 @@ Reasoning Metrics
 Comprehensive metrics for measuring reasoning performance and quality
 """
 
-from core.common import get_logger
-import numpy as np
-from typing import List, Dict, Any, Optional, Tuple, Set
-from datetime import datetime, timedelta
 from collections import defaultdict
-import json
-import asyncio
 from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List
+
+import numpy as np
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -18,6 +18,7 @@ logger = get_logger(__name__)
 @dataclass
 class ReasoningMetrics:
     """Container for various reasoning metrics"""
+
     logic_drift: float = 0.0
     recall_efficiency: float = 0.0
     coherence_score: float = 0.0
@@ -44,13 +45,15 @@ class ReasoningMetricsCalculator:
             "temporal_consistency": 0.10,
             "conclusion_stability": 0.15,
             "path_optimality": 0.15,
-            "confidence_calibration": 0.10
+            "confidence_calibration": 0.10,
         }
 
-    async def calculate_all_metrics(self,
-                                   reasoning_trace: Dict[str, Any],
-                                   memory_context: Dict[str, Any] = None,
-                                   previous_traces: List[Dict[str, Any]] = None) -> ReasoningMetrics:
+    async def calculate_all_metrics(
+        self,
+        reasoning_trace: Dict[str, Any],
+        memory_context: Dict[str, Any] = None,
+        previous_traces: List[Dict[str, Any]] = None,
+    ) -> ReasoningMetrics:
         """
         Calculate all reasoning metrics
 
@@ -66,26 +69,36 @@ class ReasoningMetricsCalculator:
 
         # Calculate individual metrics
         if previous_traces:
-            metrics.logic_drift = self._calculate_logic_drift(previous_traces[-1], reasoning_trace)
-            metrics.temporal_consistency = self._calculate_temporal_consistency(previous_traces, reasoning_trace)
-            metrics.conclusion_stability = self._calculate_conclusion_stability(previous_traces)
+            metrics.logic_drift = self._calculate_logic_drift(
+                previous_traces[-1], reasoning_trace
+            )
+            metrics.temporal_consistency = self._calculate_temporal_consistency(
+                previous_traces, reasoning_trace
+            )
+            metrics.conclusion_stability = self._calculate_conclusion_stability(
+                previous_traces
+            )
 
         if memory_context:
             metrics.recall_efficiency = self._calculate_recall_efficiency(
                 memory_context.get("invoked_memories", []),
-                memory_context.get("optimal_memories", [])
+                memory_context.get("optimal_memories", []),
             )
 
         metrics.coherence_score = self._calculate_coherence_score(reasoning_trace)
-        metrics.strategy_effectiveness = self._calculate_strategy_effectiveness(reasoning_trace)
+        metrics.strategy_effectiveness = self._calculate_strategy_effectiveness(
+            reasoning_trace
+        )
         metrics.path_optimality = self._calculate_path_optimality(reasoning_trace)
-        metrics.confidence_calibration = self._calculate_confidence_calibration(reasoning_trace)
+        metrics.confidence_calibration = self._calculate_confidence_calibration(
+            reasoning_trace
+        )
 
         # Add metadata
         metrics.metadata = {
             "calculated_at": datetime.now().isoformat(),
             "trace_id": reasoning_trace.get("id", "unknown"),
-            "overall_score": self._calculate_overall_score(metrics)
+            "overall_score": self._calculate_overall_score(metrics),
         }
 
         # Store in history
@@ -93,7 +106,9 @@ class ReasoningMetricsCalculator:
 
         return metrics
 
-    def _calculate_logic_drift(self, previous_trace: Dict[str, Any], current_trace: Dict[str, Any]) -> float:
+    def _calculate_logic_drift(
+        self, previous_trace: Dict[str, Any], current_trace: Dict[str, Any]
+    ) -> float:
         """
         Calculate drift between consecutive reasoning traces
 
@@ -110,7 +125,9 @@ class ReasoningMetricsCalculator:
         if prev_strategies or curr_strategies:
             strategy_overlap = len(prev_strategies & curr_strategies)
             strategy_union = len(prev_strategies | curr_strategies)
-            strategy_drift = 1.0 - (strategy_overlap / strategy_union if strategy_union > 0 else 0)
+            strategy_drift = 1.0 - (
+                strategy_overlap / strategy_union if strategy_union > 0 else 0
+            )
             drift_factors.append(strategy_drift)
 
         # Confidence drift
@@ -134,9 +151,11 @@ class ReasoningMetricsCalculator:
 
         return sum(drift_factors) / len(drift_factors) if drift_factors else 0.0
 
-    def _calculate_recall_efficiency(self,
-                                   invoked_memories: List[Dict[str, Any]],
-                                   optimal_memories: List[Dict[str, Any]]) -> float:
+    def _calculate_recall_efficiency(
+        self,
+        invoked_memories: List[Dict[str, Any]],
+        optimal_memories: List[Dict[str, Any]],
+    ) -> float:
         """
         Calculate memory recall efficiency
 
@@ -152,7 +171,11 @@ class ReasoningMetricsCalculator:
             return 0.5  # No optimal memories defined
 
         # Precision: What fraction of invoked memories were relevant?
-        precision = len(invoked_keys & optimal_keys) / len(invoked_keys) if invoked_keys else 0.0
+        precision = (
+            len(invoked_keys & optimal_keys) / len(invoked_keys)
+            if invoked_keys
+            else 0.0
+        )
 
         # Recall: What fraction of relevant memories were invoked?
         recall = len(invoked_keys & optimal_keys) / len(optimal_keys)
@@ -164,7 +187,11 @@ class ReasoningMetricsCalculator:
             f1_score = 0.0
 
         # Also consider efficiency - penalize for invoking too many memories
-        efficiency_penalty = min(len(invoked_memories) / (2 * len(optimal_memories)), 1.0) if optimal_memories else 0.5
+        efficiency_penalty = (
+            min(len(invoked_memories) / (2 * len(optimal_memories)), 1.0)
+            if optimal_memories
+            else 0.5
+        )
 
         return f1_score * (2.0 - efficiency_penalty)
 
@@ -185,7 +212,10 @@ class ReasoningMetricsCalculator:
         confidences = [step.get("confidence", 0.0) for step in reasoning_path]
         if len(confidences) > 1:
             # Check for wild confidence swings
-            conf_diffs = [abs(confidences[i] - confidences[i-1]) for i in range(1, len(confidences))]
+            conf_diffs = [
+                abs(confidences[i] - confidences[i - 1])
+                for i in range(1, len(confidences))
+            ]
             avg_conf_diff = sum(conf_diffs) / len(conf_diffs)
             conf_consistency = 1.0 - min(avg_conf_diff, 1.0)
             coherence_factors.append(conf_consistency)
@@ -197,7 +227,11 @@ class ReasoningMetricsCalculator:
             coherence_factors.append(0.7)
         else:
             # Diverse strategies indicate good adaptability
-            strategy_diversity = len(set(strategies_used)) / len(strategies_used) if strategies_used else 0
+            strategy_diversity = (
+                len(set(strategies_used)) / len(strategies_used)
+                if strategies_used
+                else 0
+            )
             coherence_factors.append(min(strategy_diversity * 2, 1.0))
 
         # Conclusion alignment
@@ -210,9 +244,15 @@ class ReasoningMetricsCalculator:
             else:
                 coherence_factors.append(0.5)
 
-        return sum(coherence_factors) / len(coherence_factors) if coherence_factors else 0.0
+        return (
+            sum(coherence_factors) / len(coherence_factors)
+            if coherence_factors
+            else 0.0
+        )
 
-    def _calculate_strategy_effectiveness(self, reasoning_trace: Dict[str, Any]) -> Dict[str, float]:
+    def _calculate_strategy_effectiveness(
+        self, reasoning_trace: Dict[str, Any]
+    ) -> Dict[str, float]:
         """
         Calculate effectiveness of each reasoning strategy used
         """
@@ -232,9 +272,9 @@ class ReasoningMetricsCalculator:
 
         return effectiveness
 
-    def _calculate_temporal_consistency(self,
-                                      previous_traces: List[Dict[str, Any]],
-                                      current_trace: Dict[str, Any]) -> float:
+    def _calculate_temporal_consistency(
+        self, previous_traces: List[Dict[str, Any]], current_trace: Dict[str, Any]
+    ) -> float:
         """
         Calculate consistency over time
 
@@ -258,7 +298,9 @@ class ReasoningMetricsCalculator:
         consistency = 1.0 - (unique_conclusions - 1) / total_conclusions
 
         # Also check confidence stability
-        confidences = [trace.get("overall_confidence", 0.5) for trace in previous_traces[-5:]]
+        confidences = [
+            trace.get("overall_confidence", 0.5) for trace in previous_traces[-5:]
+        ]
         confidences.append(current_trace.get("overall_confidence", 0.5))
 
         if len(confidences) > 1:
@@ -278,8 +320,11 @@ class ReasoningMetricsCalculator:
         conclusions = [str(trace.get("conclusion", "")) for trace in traces[-10:]]
 
         # Count conclusion changes
-        changes = sum(1 for i in range(1, len(conclusions))
-                     if conclusions[i] != conclusions[i-1])
+        changes = sum(
+            1
+            for i in range(1, len(conclusions))
+            if conclusions[i] != conclusions[i - 1]
+        )
 
         # Normalize by number of traces
         stability = 1.0 - (changes / (len(conclusions) - 1))
@@ -314,12 +359,16 @@ class ReasoningMetricsCalculator:
 
         # Bonus for monotonically increasing confidence
         confidences = [step.get("confidence", 0.0) for step in path]
-        if all(confidences[i] >= confidences[i-1] for i in range(1, len(confidences))):
+        if all(
+            confidences[i] >= confidences[i - 1] for i in range(1, len(confidences))
+        ):
             optimality = min(optimality * 1.1, 1.0)
 
         return optimality
 
-    def _calculate_confidence_calibration(self, reasoning_trace: Dict[str, Any]) -> float:
+    def _calculate_confidence_calibration(
+        self, reasoning_trace: Dict[str, Any]
+    ) -> float:
         """
         Calculate how well calibrated the confidence scores are
 
@@ -361,11 +410,12 @@ class ReasoningMetricsCalculator:
             "temporal_consistency": metrics.temporal_consistency,
             "conclusion_stability": metrics.conclusion_stability,
             "path_optimality": metrics.path_optimality,
-            "confidence_calibration": metrics.confidence_calibration
+            "confidence_calibration": metrics.confidence_calibration,
         }
 
-        weighted_sum = sum(scores[metric] * weight
-                          for metric, weight in self.metric_weights.items())
+        weighted_sum = sum(
+            scores[metric] * weight for metric, weight in self.metric_weights.items()
+        )
 
         return weighted_sum
 
@@ -385,8 +435,12 @@ class ReasoningMetricsCalculator:
             "temporal_consistency": [m.temporal_consistency for m in recent_metrics],
             "conclusion_stability": [m.conclusion_stability for m in recent_metrics],
             "path_optimality": [m.path_optimality for m in recent_metrics],
-            "confidence_calibration": [m.confidence_calibration for m in recent_metrics],
-            "overall_score": [m.metadata.get("overall_score", 0) for m in recent_metrics]
+            "confidence_calibration": [
+                m.confidence_calibration for m in recent_metrics
+            ],
+            "overall_score": [
+                m.metadata.get("overall_score", 0) for m in recent_metrics
+            ],
         }
 
         return trends
@@ -398,7 +452,9 @@ class ReasoningMetricsCalculator:
         self.baseline_metrics = metrics
         logger.info("Baseline metrics set")
 
-    def compare_to_baseline(self, current_metrics: ReasoningMetrics) -> Dict[str, float]:
+    def compare_to_baseline(
+        self, current_metrics: ReasoningMetrics
+    ) -> Dict[str, float]:
         """
         Compare current metrics to baseline
         """
@@ -406,9 +462,15 @@ class ReasoningMetricsCalculator:
             return {}
 
         comparison = {}
-        for metric in ["logic_drift", "recall_efficiency", "coherence_score",
-                      "temporal_consistency", "conclusion_stability",
-                      "path_optimality", "confidence_calibration"]:
+        for metric in [
+            "logic_drift",
+            "recall_efficiency",
+            "coherence_score",
+            "temporal_consistency",
+            "conclusion_stability",
+            "path_optimality",
+            "confidence_calibration",
+        ]:
             baseline_val = getattr(self.baseline_metrics, metric)
             current_val = getattr(current_metrics, metric)
 
@@ -433,8 +495,10 @@ def get_metrics_calculator() -> ReasoningMetricsCalculator:
 
 
 # Backward compatibility functions
-#LUKHAS_TAG: reasoning_metric
-def logic_drift_index(previous_trace: Dict[str, Any], current_trace: Dict[str, Any]) -> float:
+# LUKHAS_TAG: reasoning_metric
+def logic_drift_index(
+    previous_trace: Dict[str, Any], current_trace: Dict[str, Any]
+) -> float:
     """
     Calculates a drift index between two reasoning traces.
     """
@@ -442,9 +506,10 @@ def logic_drift_index(previous_trace: Dict[str, Any], current_trace: Dict[str, A
     return calculator._calculate_logic_drift(previous_trace, current_trace)
 
 
-#LUKHAS_TAG: reasoning_metric
-def recall_efficiency_score(invoked_memories: List[Dict[str, Any]],
-                          optimal_memories: List[Dict[str, Any]]) -> float:
+# LUKHAS_TAG: reasoning_metric
+def recall_efficiency_score(
+    invoked_memories: List[Dict[str, Any]], optimal_memories: List[Dict[str, Any]]
+) -> float:
     """
     Calculates a recall efficiency score.
     """

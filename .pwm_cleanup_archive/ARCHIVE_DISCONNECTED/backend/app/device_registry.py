@@ -9,10 +9,11 @@
 """
 
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 DEVICE_REGISTRY_PATH = Path("device_registry.jsonl")
+
 
 def register_device(user_id: int, device_fingerprint: str, app_type: str = "universal"):
     """
@@ -22,7 +23,7 @@ def register_device(user_id: int, device_fingerprint: str, app_type: str = "univ
         "timestamp": str(datetime.utcnow()),
         "user_id": user_id,
         "device_fingerprint": device_fingerprint,
-        "app_type": app_type
+        "app_type": app_type,
     }
 
     DEVICE_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -32,13 +33,14 @@ def register_device(user_id: int, device_fingerprint: str, app_type: str = "univ
     print(f"🖥️ Device registered: {entry}")
     return entry
 
+
 def get_user_devices(user_id: int):
     """
     Retrieve all symbolic devices linked to a specific LucasID user.
     """
     devices = []
     if DEVICE_REGISTRY_PATH.exists():
-        with open(DEVICE_REGISTRY_PATH, "r") as f:
+        with open(DEVICE_REGISTRY_PATH) as f:
             for line in f:
                 try:
                     entry = json.loads(line.strip())

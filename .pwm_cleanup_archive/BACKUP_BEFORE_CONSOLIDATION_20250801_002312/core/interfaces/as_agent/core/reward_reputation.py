@@ -19,59 +19,53 @@ DEPENDENCIES:
 - lukhas_affiliate_log.py for recording bonuses
 """
 {
-  "token_name": "LUX",
-  "token_symbol": "🪙",
-  "token_description": "Symbolic credit used by LUKHAS Agent to unlock features, actions, and widgets.",
-  "tiers": {
-    "0": {
-      "access": "Minimal symbolic features",
-      "daily_limit": 5,
-      "notes": "Can preview but not activate checkout or dream logic."
+    "token_name": "LUX",
+    "token_symbol": "🪙",
+    "token_description": "Symbolic credit used by LUKHAS Agent to unlock features, actions, and widgets.",
+    "tiers": {
+        "0": {
+            "access": "Minimal symbolic features",
+            "daily_limit": 5,
+            "notes": "Can preview but not activate checkout or dream logic.",
+        },
+        "1": {"access": "Basic interactions and tracking", "daily_limit": 10},
+        "3": {
+            "access": "Travel widgets, dream recall, dining logic",
+            "daily_limit": 25,
+            "bonus_multiplier": 1.2,
+        },
+        "5": {
+            "access": "Full agent handoff, premium matching, override privileges",
+            "daily_limit": 100,
+            "bonus_multiplier": 2.0,
+            "extra": "Can receive symbolic rebates, affiliate revenue, and instant sync authority.",
+        },
     },
-    "1": {
-      "access": "Basic interactions and tracking",
-      "daily_limit": 10
+    "usage_pricing": {
+        "dream_scheduler": 2.0,
+        "travel_widget": 4.5,
+        "reflective_prompt": 1.0,
+        "real_time_api_ping": 3.0,
+        "vendor_checkout": 5.0,
+        "agent_override": 6.5,
     },
-    "3": {
-      "access": "Travel widgets, dream recall, dining logic",
-      "daily_limit": 25,
-      "bonus_multiplier": 1.2
+    "ethics_overrides": {
+        "carbon_high": {
+            "warning": "⚠️ High carbon impact. Symbolic penalty applied.",
+            "cost_multiplier": 1.5,
+        },
+        "local_supplier": {
+            "badge": "💚 Local supplier. Ethical rebate applied.",
+            "cost_multiplier": 0.8,
+        },
     },
-    "5": {
-      "access": "Full agent handoff, premium matching, override privileges",
-      "daily_limit": 100,
-      "bonus_multiplier": 2.0,
-      "extra": "Can receive symbolic rebates, affiliate revenue, and instant sync authority."
-    }
-  },
-  "usage_pricing": {
-    "dream_scheduler": 2.0,
-    "travel_widget": 4.5,
-    "reflective_prompt": 1.0,
-    "real_time_api_ping": 3.0,
-    "vendor_checkout": 5.0,
-    "agent_override": 6.5
-  },
-  "ethics_overrides": {
-    "carbon_high": {
-      "warning": "⚠️ High carbon impact. Symbolic penalty applied.",
-      "cost_multiplier": 1.5
+    "reward_mechanics": {
+        "weekly_bonus": {"if_unused_tokens": "carryover", "limit": 10},
+        "ethics_bonus": {
+            "actions": ["delayed_booking", "green_delivery"],
+            "reward": 2.5,
+        },
     },
-    "local_supplier": {
-      "badge": "💚 Local supplier. Ethical rebate applied.",
-      "cost_multiplier": 0.8
-    }
-  },
-  "reward_mechanics": {
-    "weekly_bonus": {
-      "if_unused_tokens": "carryover",
-      "limit": 10
-    },
-    "ethics_bonus": {
-      "actions": ["delayed_booking", "green_delivery"],
-      "reward": 2.5
-    }
-  }
 }
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_reward_reputation.py)

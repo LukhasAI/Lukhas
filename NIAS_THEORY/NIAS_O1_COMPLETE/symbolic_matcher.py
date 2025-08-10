@@ -9,6 +9,7 @@ Author: You
 
 from . import trace_logger
 
+
 def matches(msg, user_context):
     msg_tags = msg.get("tags", [])
     msg_emotion = msg.get("emotion", "neutral")

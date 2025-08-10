@@ -30,9 +30,11 @@ AGI components, ensuring seamless communication and coordination between
 consciousness, neural processing, memory, voice, and personality systems.
 """
 
+# Initialize logger for ΛTRACE using structlog
+
+
 import structlog
 
-# Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.integration")
 logger.info("ΛTRACE: Initializing core.integration package.")
 
@@ -40,37 +42,42 @@ logger.info("ΛTRACE: Initializing core.integration package.")
 # Ensure system_coordinator.py is robust and defines these symbols clearly.
 try:
     from .system_coordinator import (
-        SystemCoordinator,
-        SystemState,
         IntegrationLevel,
+        SystemContext,
+        SystemCoordinator,
         SystemRequest,
         SystemResponse,
-        SystemContext,
-        get_system_coordinator
+        SystemState,
+        get_system_coordinator,
     )
+
     logger.debug("Successfully imported components from .system_coordinator.")
 except ImportError as e:
-    logger.error("Failed to import from .system_coordinator. Integration package might be non-functional.", error=str(e), exc_info=True)
+    logger.error(
+        "Failed to import from .system_coordinator. Integration package might be non-functional.",
+        error=str(e),
+        exc_info=True,
+    )
     # Define fallbacks so __all__ doesn't break, but this is a critical failure.
-    # ΛCAUTION: Critical import failed. Integration capabilities will be severely hampered.
-    SystemCoordinator = None # type: ignore
-    SystemState = None # type: ignore
-    IntegrationLevel = None # type: ignore
-    SystemRequest = None # type: ignore
-    SystemResponse = None # type: ignore
-    SystemContext = None # type: ignore
-    get_system_coordinator = None # type: ignore
-
+    # ΛCAUTION: Critical import failed. Integration capabilities will be
+    # severely hampered.
+    SystemCoordinator = None  # type: ignore
+    SystemState = None  # type: ignore
+    IntegrationLevel = None  # type: ignore
+    SystemRequest = None  # type: ignore
+    SystemResponse = None  # type: ignore
+    SystemContext = None  # type: ignore
+    get_system_coordinator = None  # type: ignore
 
 # ΛEXPOSE: Public interface of the integration package.
 __all__ = [
-    'SystemCoordinator',
-    'SystemState',
-    'IntegrationLevel',
-    'SystemRequest',
-    'SystemResponse',
-    'SystemContext',
-    'get_system_coordinator'
+    "SystemCoordinator",
+    "SystemState",
+    "IntegrationLevel",
+    "SystemRequest",
+    "SystemResponse",
+    "SystemContext",
+    "get_system_coordinator",
 ]
 
 logger.info("ΛTRACE: core.integration package initialized.", exports=__all__)

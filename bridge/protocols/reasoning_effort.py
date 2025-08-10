@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
 # ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝
 # ██║     ██║   ██║██║  ███╗███████║███████║███████╗
@@ -28,12 +29,10 @@ from __future__ import annotations
 # across the LUKHAS system. Its auto-generated nature (from OpenAPI by Stainless)
 # suggests it plays a role in API contracts or system-wide type consistency.
 
-
 #TAG:bridge
 #TAG:protocols
 #TAG:neuroplastic
 #TAG:colony
-
 
 Defines a type alias for specifying the level of reasoning effort.
 
@@ -45,15 +44,15 @@ throughout the LUKHAS system.
 # Original Stainless generation comment:
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-
 from typing import Optional
+
 from typing_extensions import Literal, TypeAlias
 
-import structlog
-
 # Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing reasoning_effort.py module (TypeAlias definition).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing reasoning_effort.py module (TypeAlias definition).",
+    module_path=__file__,
+)
 
 __all__ = ["ReasoningEffort"]
 
@@ -62,7 +61,10 @@ __all__ = ["ReasoningEffort"]
 # resources or depth for a reasoning task into discrete levels (low, medium, high).
 # This allows components to request or specify the intensity of reasoning required.
 ReasoningEffort: TypeAlias = Optional[Literal["low", "medium", "high"]]
-logger.debug("ReasoningEffort TypeAlias defined.", definition='Optional[Literal["low", "medium", "high"]]') # Removed manual ΛTRACE
+logger.debug(
+    "ReasoningEffort TypeAlias defined.",
+    definition='Optional[Literal["low", "medium", "high"]]',
+)  # Removed manual ΛTRACE
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Reasoning Effort Type Definition

@@ -16,26 +16,28 @@ Features:
 """
 
 import asyncio
+import io
 import time
 import traceback
-import io
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Callable, Tuple
+from datetime import datetime
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
+
+from dream.core import DreamType, LUKHASDreamModule
+from modules.bio.core import LUKHASBioModule
+from modules.vision.core import LUKHASVisionModule, VisionProvider
+from modules.voice.core import LUKHASVoiceModule, VoiceEmotion, VoiceProvider
 from PIL import Image
 
-from core.module_registry import get_registry, ModuleStatus, ModulePriority
 from core.common.base_module import SymbolicLogger
-from dream.core import LUKHASDreamModule, DreamType
-from modules.voice.core import LUKHASVoiceModule, VoiceProvider, VoiceEmotion
-from modules.bio.core import LUKHASBioModule, BiometricType
+from core.module_registry import ModulePriority, ModuleStatus, get_registry
 from memory.core import LUKHASMemoryModule
-from modules.vision.core import LUKHASVisionModule, VisionProvider
 
 
 class TestResult(Enum):
     """Test execution results."""
+
     PASS = "pass"
     FAIL = "fail"
     SKIP = "skip"
@@ -44,6 +46,7 @@ class TestResult(Enum):
 
 class TestSeverity(Enum):
     """Test failure severity levels."""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -54,6 +57,7 @@ class TestSeverity(Enum):
 @dataclass
 class TestCase:
     """Individual test case definition."""
+
     name: str
     description: str
     test_function: Callable
@@ -66,6 +70,7 @@ class TestCase:
 @dataclass
 class TestRun:
     """Test execution result."""
+
     test_case: TestCase
     result: TestResult
     start_time: datetime
@@ -90,11 +95,11 @@ class LUKHASIntegrationTester:
     def _create_test_image(self) -> io.BytesIO:
         """Create a valid test image for vision module testing."""
         # Create a simple test image
-        image = Image.new('RGB', (100, 100), color='red')
+        image = Image.new("RGB", (100, 100), color="red")
 
         # Save to BytesIO buffer
         image_buffer = io.BytesIO()
-        image.save(image_buffer, format='JPEG')
+        image.save(image_buffer, format="JPEG")
         image_buffer.seek(0)
 
         return image_buffer
@@ -108,7 +113,7 @@ class LUKHASIntegrationTester:
             await self.registry.register_module(
                 name="memory",
                 module_class=LUKHASMemoryModule,
-                priority=ModulePriority.CRITICAL
+                priority=ModulePriority.CRITICAL,
             )
             await self.registry.start_module("memory")
             await self.logger.symbolic("🧠 Memory module loaded")
@@ -117,7 +122,7 @@ class LUKHASIntegrationTester:
             await self.registry.register_module(
                 name="dream",
                 module_class=LUKHASDreamModule,
-                priority=ModulePriority.MEDIUM
+                priority=ModulePriority.MEDIUM,
             )
             await self.registry.start_module("dream")
             await self.logger.symbolic("🌙 Dream module loaded")
@@ -126,16 +131,14 @@ class LUKHASIntegrationTester:
             await self.registry.register_module(
                 name="voice",
                 module_class=LUKHASVoiceModule,
-                priority=ModulePriority.MEDIUM
+                priority=ModulePriority.MEDIUM,
             )
             await self.registry.start_module("voice")
             await self.logger.symbolic("🗣️ Voice module loaded")
 
             # Register Bio module
             await self.registry.register_module(
-                name="bio",
-                module_class=LUKHASBioModule,
-                priority=ModulePriority.MEDIUM
+                name="bio", module_class=LUKHASBioModule, priority=ModulePriority.MEDIUM
             )
             await self.registry.start_module("bio")
             await self.logger.symbolic("🫀 Bio module loaded")
@@ -144,12 +147,14 @@ class LUKHASIntegrationTester:
             await self.registry.register_module(
                 name="vision",
                 module_class=LUKHASVisionModule,
-                priority=ModulePriority.MEDIUM
+                priority=ModulePriority.MEDIUM,
             )
             await self.registry.start_module("vision")
             await self.logger.symbolic("👁️ Vision module loaded")
 
-            await self.logger.info("✅ All core modules successfully registered and started")
+            await self.logger.info(
+                "✅ All core modules successfully registered and started"
+            )
             return True
 
         except Exception as e:
@@ -172,121 +177,129 @@ class LUKHASIntegrationTester:
         """Register all integration test cases."""
 
         # Module Lifecycle Tests
-        self.test_cases.extend([
-            TestCase(
-                name="test_module_registration",
-                description="Test module registration and discovery",
-                test_function=self._test_module_registration,
-                severity=TestSeverity.CRITICAL,
-                tags=["lifecycle", "registry"]
-            ),
-            TestCase(
-                name="test_module_startup_sequence",
-                description="Test proper module startup sequence with dependencies",
-                test_function=self._test_module_startup_sequence,
-                severity=TestSeverity.CRITICAL,
-                tags=["lifecycle", "startup"]
-            ),
-            TestCase(
-                name="test_module_health_monitoring",
-                description="Test module health monitoring and reporting",
-                test_function=self._test_module_health_monitoring,
-                severity=TestSeverity.HIGH,
-                tags=["health", "monitoring"]
-            ),
-        ])
+        self.test_cases.extend(
+            [
+                TestCase(
+                    name="test_module_registration",
+                    description="Test module registration and discovery",
+                    test_function=self._test_module_registration,
+                    severity=TestSeverity.CRITICAL,
+                    tags=["lifecycle", "registry"],
+                ),
+                TestCase(
+                    name="test_module_startup_sequence",
+                    description="Test proper module startup sequence with dependencies",
+                    test_function=self._test_module_startup_sequence,
+                    severity=TestSeverity.CRITICAL,
+                    tags=["lifecycle", "startup"],
+                ),
+                TestCase(
+                    name="test_module_health_monitoring",
+                    description="Test module health monitoring and reporting",
+                    test_function=self._test_module_health_monitoring,
+                    severity=TestSeverity.HIGH,
+                    tags=["health", "monitoring"],
+                ),
+            ]
+        )
 
         # Core Module Integration Tests
-        self.test_cases.extend([
-            TestCase(
-                name="test_dream_module_integration",
-                description="Test Dream module functionality and integration",
-                test_function=self._test_dream_module_integration,
-                severity=TestSeverity.HIGH,
-                dependencies=["dream"],
-                tags=["dream", "integration"]
-            ),
-            TestCase(
-                name="test_voice_module_integration",
-                description="Test Voice module functionality and integration",
-                test_function=self._test_voice_module_integration,
-                severity=TestSeverity.HIGH,
-                dependencies=["voice"],
-                tags=["voice", "integration"]
-            ),
-            TestCase(
-                name="test_bio_module_integration",
-                description="Test Bio module functionality and integration",
-                test_function=self._test_bio_module_integration,
-                severity=TestSeverity.HIGH,
-                dependencies=["bio"],
-                tags=["bio", "integration"]
-            ),
-            TestCase(
-                name="test_vision_module_integration",
-                description="Test Vision module functionality and integration",
-                test_function=self._test_vision_module_integration,
-                severity=TestSeverity.HIGH,
-                dependencies=["vision"],
-                tags=["vision", "integration"]
-            ),
-        ])
+        self.test_cases.extend(
+            [
+                TestCase(
+                    name="test_dream_module_integration",
+                    description="Test Dream module functionality and integration",
+                    test_function=self._test_dream_module_integration,
+                    severity=TestSeverity.HIGH,
+                    dependencies=["dream"],
+                    tags=["dream", "integration"],
+                ),
+                TestCase(
+                    name="test_voice_module_integration",
+                    description="Test Voice module functionality and integration",
+                    test_function=self._test_voice_module_integration,
+                    severity=TestSeverity.HIGH,
+                    dependencies=["voice"],
+                    tags=["voice", "integration"],
+                ),
+                TestCase(
+                    name="test_bio_module_integration",
+                    description="Test Bio module functionality and integration",
+                    test_function=self._test_bio_module_integration,
+                    severity=TestSeverity.HIGH,
+                    dependencies=["bio"],
+                    tags=["bio", "integration"],
+                ),
+                TestCase(
+                    name="test_vision_module_integration",
+                    description="Test Vision module functionality and integration",
+                    test_function=self._test_vision_module_integration,
+                    severity=TestSeverity.HIGH,
+                    dependencies=["vision"],
+                    tags=["vision", "integration"],
+                ),
+            ]
+        )
 
         # Inter-Module Communication Tests
-        self.test_cases.extend([
-            TestCase(
-                name="test_dream_voice_integration",
-                description="Test Dream and Voice module interaction",
-                test_function=self._test_dream_voice_integration,
-                severity=TestSeverity.MEDIUM,
-                dependencies=["dream", "voice"],
-                tags=["integration", "dream", "voice"]
-            ),
-            TestCase(
-                name="test_bio_voice_integration",
-                description="Test Bio and Voice module emotional state integration",
-                test_function=self._test_bio_voice_integration,
-                severity=TestSeverity.MEDIUM,
-                dependencies=["bio", "voice"],
-                tags=["integration", "bio", "voice"]
-            ),
-            TestCase(
-                name="test_vision_dream_integration",
-                description="Test Vision and Dream module symbolic processing",
-                test_function=self._test_vision_dream_integration,
-                severity=TestSeverity.MEDIUM,
-                dependencies=["vision", "dream"],
-                tags=["integration", "vision", "dream"]
-            ),
-        ])
+        self.test_cases.extend(
+            [
+                TestCase(
+                    name="test_dream_voice_integration",
+                    description="Test Dream and Voice module interaction",
+                    test_function=self._test_dream_voice_integration,
+                    severity=TestSeverity.MEDIUM,
+                    dependencies=["dream", "voice"],
+                    tags=["integration", "dream", "voice"],
+                ),
+                TestCase(
+                    name="test_bio_voice_integration",
+                    description="Test Bio and Voice module emotional state integration",
+                    test_function=self._test_bio_voice_integration,
+                    severity=TestSeverity.MEDIUM,
+                    dependencies=["bio", "voice"],
+                    tags=["integration", "bio", "voice"],
+                ),
+                TestCase(
+                    name="test_vision_dream_integration",
+                    description="Test Vision and Dream module symbolic processing",
+                    test_function=self._test_vision_dream_integration,
+                    severity=TestSeverity.MEDIUM,
+                    dependencies=["vision", "dream"],
+                    tags=["integration", "vision", "dream"],
+                ),
+            ]
+        )
 
         # Performance and Load Tests
-        self.test_cases.extend([
-            TestCase(
-                name="test_system_performance_baseline",
-                description="Establish performance baseline for all modules",
-                test_function=self._test_system_performance_baseline,
-                severity=TestSeverity.INFO,
-                timeout=60,
-                tags=["performance", "baseline"]
-            ),
-            TestCase(
-                name="test_concurrent_module_operations",
-                description="Test concurrent operations across multiple modules",
-                test_function=self._test_concurrent_module_operations,
-                severity=TestSeverity.MEDIUM,
-                timeout=90,
-                tags=["performance", "concurrency"]
-            ),
-            TestCase(
-                name="test_module_stress_testing",
-                description="Stress test module under high load",
-                test_function=self._test_module_stress_testing,
-                severity=TestSeverity.LOW,
-                timeout=120,
-                tags=["performance", "stress"]
-            ),
-        ])
+        self.test_cases.extend(
+            [
+                TestCase(
+                    name="test_system_performance_baseline",
+                    description="Establish performance baseline for all modules",
+                    test_function=self._test_system_performance_baseline,
+                    severity=TestSeverity.INFO,
+                    timeout=60,
+                    tags=["performance", "baseline"],
+                ),
+                TestCase(
+                    name="test_concurrent_module_operations",
+                    description="Test concurrent operations across multiple modules",
+                    test_function=self._test_concurrent_module_operations,
+                    severity=TestSeverity.MEDIUM,
+                    timeout=90,
+                    tags=["performance", "concurrency"],
+                ),
+                TestCase(
+                    name="test_module_stress_testing",
+                    description="Stress test module under high load",
+                    test_function=self._test_module_stress_testing,
+                    severity=TestSeverity.LOW,
+                    timeout=120,
+                    tags=["performance", "stress"],
+                ),
+            ]
+        )
 
     async def run_all_tests(self, tags: Optional[List[str]] = None) -> Dict[str, Any]:
         """Run all integration tests."""
@@ -301,15 +314,16 @@ class LUKHASIntegrationTester:
                 "status": "error",
                 "message": "Failed to setup core modules",
                 "tests_run": 0,
-                "success_rate": 0.0
+                "success_rate": 0.0,
             }
 
         try:
             # Filter tests by tags if specified
             tests_to_run = self.test_cases
             if tags:
-                tests_to_run = [tc for tc in self.test_cases
-                               if any(tag in tc.tags for tag in tags)]
+                tests_to_run = [
+                    tc for tc in self.test_cases if any(tag in tc.tags for tag in tags)
+                ]
 
             self.test_results = []
             start_time = time.time()
@@ -324,7 +338,9 @@ class LUKHASIntegrationTester:
             # Generate test report
             report = await self._generate_test_report(total_time)
 
-            await self.logger.info(f"Integration testing completed in {total_time:.2f}s")
+            await self.logger.info(
+                f"Integration testing completed in {total_time:.2f}s"
+            )
             await self.logger.symbolic("🔮 Constellation testing sequence complete")
 
             return report
@@ -349,14 +365,11 @@ class LUKHASIntegrationTester:
                         start_time=start_time,
                         end_time=datetime.now(),
                         duration=0.0,
-                        error_message=f"Missing dependency: {dep}"
+                        error_message=f"Missing dependency: {dep}",
                     )
 
             # Run test with timeout
-            await asyncio.wait_for(
-                test_case.test_function(),
-                timeout=test_case.timeout
-            )
+            await asyncio.wait_for(test_case.test_function(), timeout=test_case.timeout)
 
             end_time = datetime.now()
             duration = (end_time - start_time).total_seconds()
@@ -368,7 +381,7 @@ class LUKHASIntegrationTester:
                 result=TestResult.PASS,
                 start_time=start_time,
                 end_time=end_time,
-                duration=duration
+                duration=duration,
             )
 
         except asyncio.TimeoutError:
@@ -384,7 +397,7 @@ class LUKHASIntegrationTester:
                 start_time=start_time,
                 end_time=end_time,
                 duration=duration,
-                error_message=error_msg
+                error_message=error_msg,
             )
 
         except Exception as e:
@@ -400,7 +413,7 @@ class LUKHASIntegrationTester:
                 start_time=start_time,
                 end_time=end_time,
                 duration=duration,
-                error_message=error_msg
+                error_message=error_msg,
             )
 
     async def _generate_test_report(self, total_time: float) -> Dict[str, Any]:
@@ -412,46 +425,61 @@ class LUKHASIntegrationTester:
         skipped = sum(1 for r in self.test_results if r.result == TestResult.SKIP)
 
         # Calculate performance metrics
-        avg_duration = sum(r.duration for r in self.test_results) / total_tests if total_tests > 0 else 0
-        slowest_test = max(self.test_results, key=lambda r: r.duration) if self.test_results else None
+        avg_duration = (
+            sum(r.duration for r in self.test_results) / total_tests
+            if total_tests > 0
+            else 0
+        )
+        slowest_test = (
+            max(self.test_results, key=lambda r: r.duration)
+            if self.test_results
+            else None
+        )
 
         # Categorize failures by severity
-        critical_failures = [r for r in self.test_results
-                           if r.result in [TestResult.FAIL, TestResult.ERROR]
-                           and r.test_case.severity == TestSeverity.CRITICAL]
+        critical_failures = [
+            r
+            for r in self.test_results
+            if r.result in [TestResult.FAIL, TestResult.ERROR]
+            and r.test_case.severity == TestSeverity.CRITICAL
+        ]
 
         report = {
-            'summary': {
-                'total_tests': total_tests,
-                'passed': passed,
-                'failed': failed,
-                'errors': errors,
-                'skipped': skipped,
-                'success_rate': (passed / total_tests * 100) if total_tests > 0 else 0,
-                'total_duration': total_time,
-                'average_test_duration': avg_duration
+            "summary": {
+                "total_tests": total_tests,
+                "passed": passed,
+                "failed": failed,
+                "errors": errors,
+                "skipped": skipped,
+                "success_rate": (passed / total_tests * 100) if total_tests > 0 else 0,
+                "total_duration": total_time,
+                "average_test_duration": avg_duration,
             },
-            'performance': {
-                'slowest_test': {
-                    'name': slowest_test.test_case.name,
-                    'duration': slowest_test.duration
-                } if slowest_test else None,
-                'total_runtime': total_time
-            },
-            'failures': {
-                'critical': len(critical_failures),
-                'details': [
+            "performance": {
+                "slowest_test": (
                     {
-                        'test': r.test_case.name,
-                        'severity': r.test_case.severity.value,
-                        'error': r.error_message,
-                        'duration': r.duration
+                        "name": slowest_test.test_case.name,
+                        "duration": slowest_test.duration,
+                    }
+                    if slowest_test
+                    else None
+                ),
+                "total_runtime": total_time,
+            },
+            "failures": {
+                "critical": len(critical_failures),
+                "details": [
+                    {
+                        "test": r.test_case.name,
+                        "severity": r.test_case.severity.value,
+                        "error": r.error_message,
+                        "duration": r.duration,
                     }
                     for r in self.test_results
                     if r.result in [TestResult.FAIL, TestResult.ERROR]
-                ]
+                ],
             },
-            'system_health': await self.registry.get_system_health()
+            "system_health": await self.registry.get_system_health(),
         }
 
         return report
@@ -499,7 +527,9 @@ class LUKHASIntegrationTester:
                 assert success, f"Failed to start module: {module_name}"
 
                 # Verify module is running
-                assert module_info.status == ModuleStatus.RUNNING, f"Module {module_name} not running"
+                assert (
+                    module_info.status == ModuleStatus.RUNNING
+                ), f"Module {module_name} not running"
 
     async def _test_module_health_monitoring(self):
         """Test module health monitoring and reporting."""
@@ -508,17 +538,17 @@ class LUKHASIntegrationTester:
         assert system_health is not None, "System health check failed"
 
         # Verify health structure
-        assert 'overall_status' in system_health
-        assert 'total_modules' in system_health
-        assert 'running_modules' in system_health
-        assert 'modules' in system_health
+        assert "overall_status" in system_health
+        assert "total_modules" in system_health
+        assert "running_modules" in system_health
+        assert "modules" in system_health
 
         # Test individual module health
         for module_name in self.registry._modules:
             health = await self.registry.get_module_health(module_name)
             if health:
-                assert 'status' in health
-                assert 'uptime' in health
+                assert "status" in health
+                assert "uptime" in health
 
     async def _test_dream_module_integration(self):
         """Test Dream module functionality."""
@@ -529,7 +559,7 @@ class LUKHASIntegrationTester:
         request = {
             "type": "generate_dream",
             "dream_type": DreamType.CREATIVE.value,
-            "emotion_vector": {"joy": 0.7, "calm": 0.8}
+            "emotion_vector": {"joy": 0.7, "calm": 0.8},
         }
 
         result = await self.registry.route_request("dream", request)
@@ -546,7 +576,7 @@ class LUKHASIntegrationTester:
             "type": "synthesize",
             "text": "Hello, this is a test of the Lukhas voice system.",
             "emotion": VoiceEmotion.NEUTRAL.value,
-            "provider": VoiceProvider.MOCK.value
+            "provider": VoiceProvider.MOCK.value,
         }
 
         result = await self.registry.route_request("voice", request)
@@ -559,9 +589,7 @@ class LUKHASIntegrationTester:
             return
 
         # Test biometric health snapshot request
-        request = {
-            "type": "health_snapshot"
-        }
+        request = {"type": "health_snapshot"}
 
         result = await self.registry.route_request("bio", request)
         assert result is not None, "Bio module request failed"
@@ -579,7 +607,7 @@ class LUKHASIntegrationTester:
         request = {
             "type": "analyze_image",
             "provider": VisionProvider.MOCK.value,
-            "image_data": test_image
+            "image_data": test_image,
         }
 
         result = await self.registry.route_request("vision", request)
@@ -588,14 +616,17 @@ class LUKHASIntegrationTester:
 
     async def _test_dream_voice_integration(self):
         """Test Dream and Voice module interaction."""
-        if "dream" not in self.registry._modules or "voice" not in self.registry._modules:
+        if (
+            "dream" not in self.registry._modules
+            or "voice" not in self.registry._modules
+        ):
             return
 
         # Test dream narration
         dream_request = {
             "type": "generate_dream",
             "dream_type": DreamType.CREATIVE.value,
-            "suggest_voice": True
+            "suggest_voice": True,
         }
 
         dream_result = await self.registry.route_request("dream", dream_request)
@@ -605,7 +636,7 @@ class LUKHASIntegrationTester:
             voice_request = {
                 "type": "synthesize",
                 "text": dream_result.get("voice_suggestion", "Test narration"),
-                "emotion": VoiceEmotion.CALM.value
+                "emotion": VoiceEmotion.CALM.value,
             }
 
             voice_result = await self.registry.route_request("voice", voice_request)
@@ -617,9 +648,7 @@ class LUKHASIntegrationTester:
             return
 
         # Test emotional state detection and voice adaptation
-        bio_request = {
-            "type": "get_emotional_state"
-        }
+        bio_request = {"type": "get_emotional_state"}
 
         bio_result = await self.registry.route_request("bio", bio_request)
         if bio_result and "emotional_state" in bio_result:
@@ -628,7 +657,7 @@ class LUKHASIntegrationTester:
             voice_request = {
                 "type": "synthesize",
                 "text": "Testing emotional voice adaptation",
-                "emotion": emotion_state.get("primary_emotion", "neutral")
+                "emotion": emotion_state.get("primary_emotion", "neutral"),
             }
 
             voice_result = await self.registry.route_request("voice", voice_request)
@@ -636,7 +665,10 @@ class LUKHASIntegrationTester:
 
     async def _test_vision_dream_integration(self):
         """Test Vision and Dream symbolic processing."""
-        if "vision" not in self.registry._modules or "dream" not in self.registry._modules:
+        if (
+            "vision" not in self.registry._modules
+            or "dream" not in self.registry._modules
+        ):
             return
 
         # Create proper test image data
@@ -646,7 +678,7 @@ class LUKHASIntegrationTester:
         vision_request = {
             "type": "analyze_image",
             "image_data": test_image,
-            "analysis_type": "symbolic"
+            "analysis_type": "symbolic",
         }
 
         vision_result = await self.registry.route_request("vision", vision_request)
@@ -655,7 +687,7 @@ class LUKHASIntegrationTester:
             dream_request = {
                 "type": "generate_dream",
                 "dream_type": DreamType.PATTERN.value,
-                "visual_inspiration": vision_result["symbolic_elements"]
+                "visual_inspiration": vision_result["symbolic_elements"],
             }
 
             dream_result = await self.registry.route_request("dream", dream_request)
@@ -675,7 +707,11 @@ class LUKHASIntegrationTester:
                 response_time = time.time() - start_time
                 performance_data[module_name] = {
                     "health_check_time": response_time,
-                    "status": "healthy" if health and health.get("healthy", False) else "unhealthy"
+                    "status": (
+                        "healthy"
+                        if health and health.get("healthy", False)
+                        else "unhealthy"
+                    ),
                 }
 
         # Store baseline for comparison
@@ -704,7 +740,9 @@ class LUKHASIntegrationTester:
 
             # Verify all requests completed successfully
             for i, result in enumerate(results):
-                assert not isinstance(result, Exception), f"Concurrent request {i} failed: {result}"
+                assert not isinstance(
+                    result, Exception
+                ), f"Concurrent request {i} failed: {result}"
 
     async def _test_module_stress_testing(self):
         """Stress test modules under load."""
@@ -712,7 +750,11 @@ class LUKHASIntegrationTester:
         stress_requests = 50
         concurrent_limit = 10
 
-        for module_name in ["dream", "voice", "bio"]:  # TODO: Add "vision" back when fixed
+        for module_name in [
+            "dream",
+            "voice",
+            "bio",
+        ]:  # TODO: Add "vision" back when fixed
             if module_name not in self.registry._modules:
                 continue
 
@@ -722,8 +764,7 @@ class LUKHASIntegrationTester:
             async def stress_request():
                 async with semaphore:
                     return await self.registry.route_request(
-                        module_name,
-                        {"type": "health_check", "stress_test": True}
+                        module_name, {"type": "health_check", "stress_test": True}
                     )
 
             # Send stress requests
@@ -734,7 +775,9 @@ class LUKHASIntegrationTester:
             failures = sum(1 for r in results if isinstance(r, Exception))
             failure_rate = failures / len(results)
 
-            assert failure_rate < 0.1, f"Module {module_name} failure rate too high: {failure_rate:.2%}"
+            assert (
+                failure_rate < 0.1
+            ), f"Module {module_name} failure rate too high: {failure_rate:.2%}"
 
 
 # Integration Test Runner
@@ -754,7 +797,6 @@ async def run_performance_benchmarks() -> Dict[str, Any]:
 # Main execution block
 if __name__ == "__main__":
     import sys
-    import json
 
     async def main():
         """Main function to run integration tests."""
@@ -768,7 +810,7 @@ if __name__ == "__main__":
             # Print summary
             print("\n📊 TEST SUMMARY")
             print("-" * 30)
-            summary = report['summary']
+            summary = report["summary"]
             print(f"Total Tests: {summary['total_tests']}")
             print(f"Passed: {summary['passed']} ✅")
             print(f"Failed: {summary['failed']} ❌")
@@ -778,10 +820,10 @@ if __name__ == "__main__":
             print(f"Total Duration: {summary['total_duration']:.2f}s")
 
             # Print failures if any
-            if report['failures']['details']:
+            if report["failures"]["details"]:
                 print("\n💥 FAILURES")
                 print("-" * 30)
-                for failure in report['failures']['details']:
+                for failure in report["failures"]["details"]:
                     print(f"❌ {failure['test']} ({failure['severity']})")
                     print(f"   Error: {failure['error']}")
                     print(f"   Duration: {failure['duration']:.2f}s")
@@ -789,12 +831,14 @@ if __name__ == "__main__":
             # Print system health
             print("\n🏥 SYSTEM HEALTH")
             print("-" * 30)
-            health = report['system_health']
+            health = report["system_health"]
             print(f"Overall Status: {health['overall_status']}")
-            print(f"Running Modules: {health['running_modules']}/{health['total_modules']}")
+            print(
+                f"Running Modules: {health['running_modules']}/{health['total_modules']}"
+            )
 
             # Exit with appropriate code
-            if summary['failed'] > 0 or summary['errors'] > 0:
+            if summary["failed"] > 0 or summary["errors"] > 0:
                 sys.exit(1)
             else:
                 print("\n🎉 All tests passed!")

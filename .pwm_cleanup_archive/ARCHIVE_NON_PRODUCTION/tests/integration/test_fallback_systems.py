@@ -1,9 +1,9 @@
 """Tests for fallback systems across critical path components."""
 
-import pytest
-from unittest.mock import patch, MagicMock
-import sys
 import importlib
+from unittest.mock import patch
+
+import pytest
 
 
 class TestConfigFallbacks:
@@ -12,31 +12,34 @@ class TestConfigFallbacks:
     def test_config_fallback_mode(self):
         """Test that config fallback mode works."""
         # Import fallback settings directly
-        from config.fallback_settings import get_fallback_settings, validate_fallback_config
+        from config.fallback_settings import (
+            get_fallback_settings,
+            validate_fallback_config,
+        )
 
         fallback_settings = get_fallback_settings()
 
         assert fallback_settings.FALLBACK_MODE is True
         assert fallback_settings.DATABASE_URL is not None
-        assert fallback_settings.LOG_LEVEL == 'WARNING'  # Conservative default
+        assert fallback_settings.LOG_LEVEL == "WARNING"  # Conservative default
 
         # Test validation
         status = validate_fallback_config(fallback_settings)
-        assert status['fallback_mode'] is True
-        assert 'openai_configured' in status
+        assert status["fallback_mode"] is True
+        assert "openai_configured" in status
 
     def test_config_normal_to_fallback_transition(self):
         """Test transition from normal to fallback config."""
         try:
-            from config import settings, fallback_mode
+            from config import fallback_mode, settings
 
             # Should work with either normal or fallback mode
-            assert hasattr(settings, 'DATABASE_URL')
+            assert hasattr(settings, "DATABASE_URL")
             assert isinstance(fallback_mode, bool)
 
             # If in fallback mode, should have fallback indicator
             if fallback_mode:
-                assert getattr(settings, 'FALLBACK_MODE', False) is True
+                assert getattr(settings, "FALLBACK_MODE", False) is True
 
         except ImportError:
             pytest.skip("Config system not available")
@@ -59,7 +62,7 @@ class TestMemoryFallbacks:
             # Fallback mode - should be None
             assert MemoryManager is None
 
-    @patch('lukhas.memory.basic.MemoryEntry')
+    @patch("lukhas.memory.basic.MemoryEntry")
     def test_memory_fallback_behavior(self, mock_memory_entry):
         """Test memory system behavior when components fail."""
         # Simulate import failure
@@ -68,7 +71,6 @@ class TestMemoryFallbacks:
         # Should handle gracefully
         try:
             # Re-import to trigger fallback
-            import memory
             importlib.reload(lukhas.memory)
 
             # Should not raise exception
@@ -78,7 +80,7 @@ class TestMemoryFallbacks:
 
     def test_memory_degraded_functionality(self):
         """Test that memory can operate in degraded mode."""
-        from memory import memory_manager, remember, recall
+        from memory import memory_manager, recall, remember
 
         if memory_manager is not None and remember is not None:
             # Normal operation
@@ -110,7 +112,7 @@ class TestEthicsFallbacks:
 
     def test_ethics_graceful_degradation(self):
         """Test ethics system graceful degradation."""
-        from ethics import default_registry, Decision, RiskLevel
+        from ethics import Decision, RiskLevel, default_registry
 
         if default_registry is not None and Decision is not None:
             # Normal mode - can make decisions
@@ -122,13 +124,13 @@ class TestEthicsFallbacks:
             assert Decision is None
             assert RiskLevel is None
 
-    @patch('lukhas.ethics.policy_engines.base.EthicsPolicy')
+    @patch("lukhas.ethics.policy_engines.base.EthicsPolicy")
     def test_ethics_policy_failure_recovery(self, mock_policy):
         """Test recovery when ethics policies fail."""
         # Simulate policy failure
         mock_policy.side_effect = Exception("Policy engine failed")
 
-        from ethics import PolicyRegistry, Decision, EthicsEvaluation
+        from ethics import Decision, PolicyRegistry
 
         if PolicyRegistry is not None:
             registry = PolicyRegistry()
@@ -146,7 +148,7 @@ class TestCoreFallbacks:
 
     def test_core_plugin_system_failure_recovery(self):
         """Test core plugin system handles failures gracefully."""
-        from core import PluginRegistry, Plugin, PluginType
+        from core import PluginRegistry, PluginType
 
         registry = PluginRegistry()
 
@@ -160,8 +162,8 @@ class TestCoreFallbacks:
 
     def test_core_entry_point_failure_recovery(self):
         """Test that core system handles entry point failures."""
-        from core.plugin_registry import PluginRegistry
         from core import PluginType
+        from core.plugin_registry import PluginRegistry
 
         # Should initialize even if entry points fail
         registry = PluginRegistry()
@@ -183,48 +185,67 @@ class TestSystemIntegrationFallbacks:
         # Check each component's availability
         try:
             from config import settings
-            components_status['config'] = 'normal' if not getattr(settings, 'FALLBACK_MODE', False) else 'fallback'
+
+            components_status["config"] = (
+                "normal"
+                if not getattr(settings, "FALLBACK_MODE", False)
+                else "fallback"
+            )
         except:
-            components_status['config'] = 'failed'
+            components_status["config"] = "failed"
 
         try:
             from memory import MemoryManager
-            components_status['memory'] = 'normal' if MemoryManager is not None else 'fallback'
+
+            components_status["memory"] = (
+                "normal" if MemoryManager is not None else "fallback"
+            )
         except:
-            components_status['memory'] = 'failed'
+            components_status["memory"] = "failed"
 
         try:
             from ethics import EthicsPolicy
-            components_status['ethics'] = 'normal' if EthicsPolicy is not None else 'fallback'
+
+            components_status["ethics"] = (
+                "normal" if EthicsPolicy is not None else "fallback"
+            )
         except:
-            components_status['ethics'] = 'failed'
+            components_status["ethics"] = "failed"
 
         try:
             from core import PluginRegistry
-            components_status['core'] = 'normal' if PluginRegistry is not None else 'fallback'
+
+            components_status["core"] = (
+                "normal" if PluginRegistry is not None else "fallback"
+            )
         except:
-            components_status['core'] = 'failed'
+            components_status["core"] = "failed"
 
         # System should have at least some components working
         working_components = [
-            status for status in components_status.values()
-            if status in ['normal', 'fallback']
+            status
+            for status in components_status.values()
+            if status in ["normal", "fallback"]
         ]
 
-        assert len(working_components) > 0, f"No components working: {components_status}"
+        assert (
+            len(working_components) > 0
+        ), f"No components working: {components_status}"
 
         # At least core should be working for minimal functionality
-        assert components_status.get('core') in ['normal', 'fallback'], \
-            "Core component must be available for system operation"
+        assert components_status.get("core") in [
+            "normal",
+            "fallback",
+        ], "Core component must be available for system operation"
 
     def test_cascade_failure_prevention(self):
         """Test that failure in one component doesn't cascade to others."""
         # Import each component separately to test isolation
         component_imports = [
-            ('config', 'lukhas.config'),
-            ('memory', 'lukhas.memory'),
-            ('ethics', 'lukhas.ethics'),
-            ('core', 'lukhas.core')
+            ("config", "lukhas.config"),
+            ("memory", "lukhas.memory"),
+            ("ethics", "lukhas.ethics"),
+            ("core", "lukhas.core"),
         ]
 
         import_results = {}
@@ -232,14 +253,13 @@ class TestSystemIntegrationFallbacks:
         for name, module_name in component_imports:
             try:
                 importlib.import_module(module_name)
-                import_results[name] = 'success'
+                import_results[name] = "success"
             except Exception as e:
-                import_results[name] = f'failed: {str(e)}'
+                import_results[name] = f"failed: {str(e)}"
 
         # At least some components should import successfully
         successful_imports = [
-            name for name, result in import_results.items()
-            if result == 'success'
+            name for name, result in import_results.items() if result == "success"
         ]
 
         assert len(successful_imports) > 0, f"All imports failed: {import_results}"
@@ -251,46 +271,52 @@ class TestSystemIntegrationFallbacks:
         # Test minimal config functionality
         try:
             from config import settings
-            minimal_functions['config_access'] = hasattr(settings, 'DATABASE_URL')
+
+            minimal_functions["config_access"] = hasattr(settings, "DATABASE_URL")
         except:
-            minimal_functions['config_access'] = False
+            minimal_functions["config_access"] = False
 
         # Test minimal memory functionality
         try:
             from memory import MemoryManager
+
             if MemoryManager is not None:
                 manager = MemoryManager()
-                minimal_functions['memory_basic'] = hasattr(manager, 'remember')
+                minimal_functions["memory_basic"] = hasattr(manager, "remember")
             else:
-                minimal_functions['memory_basic'] = False
+                minimal_functions["memory_basic"] = False
         except:
-            minimal_functions['memory_basic'] = False
+            minimal_functions["memory_basic"] = False
 
         # Test minimal ethics functionality
         try:
             from ethics import Decision
+
             if Decision is not None:
                 decision = Decision("test", {})
-                minimal_functions['ethics_basic'] = hasattr(decision, 'action')
+                minimal_functions["ethics_basic"] = hasattr(decision, "action")
             else:
-                minimal_functions['ethics_basic'] = False
+                minimal_functions["ethics_basic"] = False
         except:
-            minimal_functions['ethics_basic'] = False
+            minimal_functions["ethics_basic"] = False
 
         # Test minimal core functionality
         try:
             from core import PluginRegistry
+
             if PluginRegistry is not None:
                 registry = PluginRegistry()
-                minimal_functions['core_basic'] = hasattr(registry, 'list_plugins')
+                minimal_functions["core_basic"] = hasattr(registry, "list_plugins")
             else:
-                minimal_functions['core_basic'] = False
+                minimal_functions["core_basic"] = False
         except:
-            minimal_functions['core_basic'] = False
+            minimal_functions["core_basic"] = False
 
         # System should provide at least basic functionality
         working_functions = sum(minimal_functions.values())
-        assert working_functions > 0, f"No minimal functionality available: {minimal_functions}"
+        assert (
+            working_functions > 0
+        ), f"No minimal functionality available: {minimal_functions}"
 
     def test_fallback_mode_indicators(self):
         """Test that fallback modes are properly indicated."""
@@ -299,28 +325,32 @@ class TestSystemIntegrationFallbacks:
         # Check config fallback indicator
         try:
             from config import fallback_mode
-            fallback_indicators['config'] = fallback_mode
+
+            fallback_indicators["config"] = fallback_mode
         except:
-            fallback_indicators['config'] = 'unknown'
+            fallback_indicators["config"] = "unknown"
 
         # Check memory fallback indicator
         try:
             from memory import MemoryManager
-            fallback_indicators['memory'] = MemoryManager is None
+
+            fallback_indicators["memory"] = MemoryManager is None
         except:
-            fallback_indicators['memory'] = 'unknown'
+            fallback_indicators["memory"] = "unknown"
 
         # Check ethics fallback indicator
         try:
             from ethics import EthicsPolicy
-            fallback_indicators['ethics'] = EthicsPolicy is None
+
+            fallback_indicators["ethics"] = EthicsPolicy is None
         except:
-            fallback_indicators['ethics'] = 'unknown'
+            fallback_indicators["ethics"] = "unknown"
 
         # Should be able to determine fallback status
         known_statuses = [
-            indicator for indicator in fallback_indicators.values()
-            if indicator != 'unknown'
+            indicator
+            for indicator in fallback_indicators.values()
+            if indicator != "unknown"
         ]
 
         assert len(known_statuses) > 0, "Cannot determine any component fallback status"

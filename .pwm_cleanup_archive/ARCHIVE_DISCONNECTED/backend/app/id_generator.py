@@ -11,12 +11,13 @@
 import random
 import string
 
+
 def generate_lukhas_id(entity_type="USR", org_name=None):
     """
     Generate a symbolic Lukhas_ID code like:
     Lukhas_ID#USR-OPENAI-8124-GR9X
     """
-    suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
+    suffix = "".join(random.choices(string.ascii_uppercase + string.digits, k=4))
     random_number = random.randint(1000, 9999)
 
     code = f"Lukhas_ID#{entity_type}"
@@ -26,12 +27,14 @@ def generate_lukhas_id(entity_type="USR", org_name=None):
     code += f"-{random_number}-{suffix}"
     return code
 
+
 def generate_username_slug(full_name):
     """
     Create a URL-safe slug for personalized user page:
     'John Smith' -> 'johnsmith'
     """
     return full_name.strip().lower().replace(" ", "")
+
 
 def assign_badge(tier):
     """
@@ -43,11 +46,14 @@ def assign_badge(tier):
         2: "🔵 TIER 2 — Supporter",
         3: "🟣 TIER 3 — Contributor",
         4: "🔴 TIER 4 — Arbiter",
-        5: "✨ TIER 5 — Architect"
+        5: "✨ TIER 5 — Architect",
     }
     return badges.get(tier, "❔ Unknown Tier")
 
-def generate_full_identity(name, entity_type="USR", org_name="LUKHAS", tier=0, signature="🧠"):
+
+def generate_full_identity(
+    name, entity_type="USR", org_name="LUKHAS", tier=0, signature="🧠"
+):
     """
     Generate a full symbolic identity block.
     """
@@ -61,6 +67,6 @@ def generate_full_identity(name, entity_type="USR", org_name="LUKHAS", tier=0, s
         "slug": slug,
         "tier": tier,
         "badge": badge,
-        "symbolic_signature": signature
+        "symbolic_signature": signature,
     }
     return identity

@@ -22,22 +22,22 @@
 
 import os
 import time
-from typing import Optional, Dict, Any
 from datetime import datetime, timezone
+from typing import Any, Optional
 
-from fastapi import Request, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import JWTError, jwt
 import structlog
+from fastapi import HTTPException, Request, status
+from fastapi.security import HTTPBearer
+from jose import JWTError, jwt
 
 # Import centralized decorators and tier system
-from core.decorators import core_tier_required, TierLevel
 
 # Import validators
 try:
     from interfaces.api.v1.common.validators import validate_api_key
 except ImportError:
     # Fallback if validators not available
+
     def validate_api_key(api_key: str) -> bool:
         """Basic API key validation."""
         return len(api_key) >= 32
@@ -139,7 +139,7 @@ class AuthMiddleware:
                 detail="Authentication error",
             )
 
-    async def authenticate_request(self, request: Request) -> Dict[str, Any]:
+    async def authenticate_request(self, request: Request) -> dict[str, Any]:
         """Authenticate the incoming request.
 
         Returns:
@@ -163,7 +163,7 @@ class AuthMiddleware:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    async def validate_jwt_token(self, token: str) -> Dict[str, Any]:
+    async def validate_jwt_token(self, token: str) -> dict[str, Any]:
         """Validate JWT token and extract user information."""
         try:
             payload = jwt.decode(token, self.secret_key, algorithms=[self.algorithm])
@@ -192,7 +192,7 @@ class AuthMiddleware:
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-    async def validate_api_key(self, api_key: str) -> Dict[str, Any]:
+    async def validate_api_key(self, api_key: str) -> dict[str, Any]:
         """Validate API key and extract associated information."""
         # Use the validator to check API key format
         if not validate_api_key(api_key):
@@ -217,7 +217,8 @@ class AuthMiddleware:
             tier_level = 0
 
         return {
-            "user_id": f"api_user_{api_key[-8:]}",  # Extract last 8 chars as user identifier
+            # Extract last 8 chars as user identifier
+            "user_id": f"api_user_{api_key[-8:]}",
             "tier_level": tier_level,
             "auth_method": "api_key",
         }
@@ -228,7 +229,7 @@ auth_middleware = AuthMiddleware()
 
 
 def create_access_token(
-    data: Dict[str, Any], expires_delta: Optional[int] = None
+    data: dict[str, Any], expires_delta: Optional[int] = None
 ) -> str:
     """Create a JWT access token.
 
@@ -255,7 +256,7 @@ def create_access_token(
 
 
 @lukhas_tier_required(level=1)
-def get_current_user(request: Request) -> Dict[str, Any]:
+def get_current_user(request: Request) -> dict[str, Any]:
     """Get current authenticated user from request.
 
     Args:
@@ -266,7 +267,8 @@ def get_current_user(request: Request) -> Dict[str, Any]:
     """
     if not hasattr(request.state, "user_id"):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
         )
 
     return {

@@ -5,17 +5,17 @@ Consciousness Chat API
 RESTful API for natural language consciousness interaction.
 """
 
-from fastapi import FastAPI, HTTPException, Body
+import uuid
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, List, Dict, Any
-from datetime import datetime
-import asyncio
-import uuid
 
 from consciousness.interfaces.natural_language_interface import (
+    ConversationManager,
     NaturalLanguageConsciousnessInterface,
-    ConversationManager
 )
 from core.common import get_logger
 
@@ -48,7 +48,7 @@ class ChatRequest(BaseModel):
     message: str = Field(..., description="User message to process")
     session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
     user_id: Optional[str] = Field(None, description="User identifier")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -65,7 +65,7 @@ class ChatResponse(BaseModel):
     session_id: str = Field(..., description="Session ID for future requests")
     timestamp: datetime = Field(default_factory=datetime.now)
     metadata: Optional[Dict[str, Any]] = Field(None, description="Additional response metadata")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -101,23 +101,23 @@ class SystemStatus(BaseModel):
 async def startup_event():
     """Initialize the consciousness interface on startup"""
     global nl_interface, conversation_manager
-    
+
     logger.info("Starting Consciousness Chat API...")
-    
+
     # Initialize interface
     nl_interface = NaturalLanguageConsciousnessInterface(config={
         "enable_emotions": True,
         "formality_level": "friendly",
         "max_response_length": 500
     })
-    
+
     # Initialize with mock services for demo
     # In production, these would be real service connections
     await _setup_mock_services()
-    
+
     await nl_interface.initialize()
     conversation_manager = ConversationManager(nl_interface)
-    
+
     logger.info("Consciousness Chat API started successfully")
 
 
@@ -131,9 +131,10 @@ async def shutdown_event():
 
 async def _setup_mock_services():
     """Setup mock services for demo - replace with real services in production"""
-    from unittest.mock import Mock, AsyncMock
+    from unittest.mock import AsyncMock, Mock
+
     from core.interfaces.dependency_injection import register_service
-    
+
     # Basic mock services for demo
     mock_consciousness = Mock()
     mock_consciousness.assess_awareness = AsyncMock(return_value={
@@ -145,7 +146,7 @@ async def _setup_mock_services():
         "confidence": 0.9,
         "reasoning": ["Best outcome", "Aligns with goals"]
     })
-    
+
     register_service("consciousness_service", mock_consciousness)
 
 
@@ -179,17 +180,17 @@ async def chat(request: ChatRequest):
     try:
         if not nl_interface or not nl_interface.operational:
             raise HTTPException(status_code=503, detail="Consciousness interface not available")
-        
+
         # Process the message
         response_text = await nl_interface.process_input(
             request.message,
             session_id=request.session_id,
             user_id=request.user_id
         )
-        
+
         # Get or create session ID
         session_id = request.session_id or f"session_{uuid.uuid4().hex[:8]}"
-        
+
         # Get metadata if available
         metadata = None
         if session_id in nl_interface.active_sessions:
@@ -200,13 +201,13 @@ async def chat(request: ChatRequest):
                     "intent": last_turn.get("intent"),
                     "turn_number": len(context.turns)
                 }
-        
+
         return ChatResponse(
             response=response_text,
             session_id=session_id,
             metadata=metadata
         )
-        
+
     except Exception as e:
         logger.error(f"Error processing chat request: {e}")
         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
@@ -217,7 +218,7 @@ async def get_sessions():
     """Get information about all active sessions"""
     if not nl_interface:
         raise HTTPException(status_code=503, detail="Service not initialized")
-    
+
     sessions = []
     for session_id, context in nl_interface.active_sessions.items():
         if context.turns:
@@ -229,7 +230,7 @@ async def get_sessions():
                 last_active=context.turns[-1]["timestamp"],
                 topics=context.topics[:5]  # First 5 topics
             ))
-    
+
     return sessions
 
 
@@ -238,12 +239,12 @@ async def get_session_history(session_id: str):
     """Get conversation history for a specific session"""
     if not nl_interface:
         raise HTTPException(status_code=503, detail="Service not initialized")
-    
+
     if session_id not in nl_interface.active_sessions:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     context = nl_interface.active_sessions[session_id]
-    
+
     return {
         "session_id": session_id,
         "user_id": context.user_id,
@@ -266,17 +267,17 @@ async def end_session(session_id: str):
     """End a conversation session"""
     if not nl_interface:
         raise HTTPException(status_code=503, detail="Service not initialized")
-    
+
     if session_id not in nl_interface.active_sessions:
         raise HTTPException(status_code=404, detail="Session not found")
-    
+
     # Get session info before deletion
     context = nl_interface.active_sessions[session_id]
     turn_count = len(context.turns)
-    
+
     # Delete session
     del nl_interface.active_sessions[session_id]
-    
+
     return {
         "message": "Session ended successfully",
         "session_id": session_id,
@@ -289,13 +290,13 @@ async def get_status():
     """Get system status and health information"""
     if not nl_interface:
         raise HTTPException(status_code=503, detail="Service not initialized")
-    
+
     status = await nl_interface.get_status()
-    
+
     # Calculate uptime (simplified)
     import time
     uptime = time.time() - startup_time if 'startup_time' in globals() else 0
-    
+
     return SystemStatus(
         operational=status["operational"],
         active_sessions=status["active_sessions"],
@@ -313,7 +314,7 @@ async def submit_feedback(
 ):
     """Submit feedback for a conversation"""
     logger.info(f"Feedback received for session {session_id}: rating={rating}")
-    
+
     # In production, this would store feedback for analysis
     return {
         "message": "Thank you for your feedback!",
@@ -337,10 +338,10 @@ startup_time = None
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     # Store startup time
     startup_time = time.time()
-    
+
     # Run the API
     uvicorn.run(
         app,

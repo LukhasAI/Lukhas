@@ -3,18 +3,16 @@
 Test script for attention-based memory mechanisms
 """
 
-import numpy as np
-from datetime import datetime, timezone, timedelta
-import sys
 import os
+import sys
+from datetime import datetime, timedelta, timezone
+
+import numpy as np
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from memory.systems.attention_memory_layer import (
-    create_attention_orchestrator,
-    AttentionConfig
-)
+from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 
 def test_multi_head_attention():
@@ -24,17 +22,17 @@ def test_multi_head_attention():
 
     # Create orchestrator
     orchestrator = create_attention_orchestrator(
-        hidden_dim=256,  # Smaller for demo
-        num_heads=4
+        hidden_dim=256, num_heads=4  # Smaller for demo
     )
 
     # Create sample memories
     memories = []
     for i in range(10):
         memory = {
-            "content": f"Memory {i}: " + ["Important task", "Random thought", "Key insight"][i % 3],
+            "content": f"Memory {i}: "
+            + ["Important task", "Random thought", "Key insight"][i % 3],
             "embedding": np.random.randn(256),
-            "tags": ["work", "personal", "insight"][i % 3]
+            "tags": ["work", "personal", "insight"][i % 3],
         }
         memories.append(memory)
 
@@ -43,25 +41,27 @@ def test_multi_head_attention():
 
     # Compute relevance
     relevance_scores = orchestrator.compute_memory_relevance(
-        query=query,
-        memories=memories,
-        mode="multi_head"
+        query=query, memories=memories, mode="multi_head"
     )
 
     print(f"Query: '{query}'")
-    print(f"\nTop 5 relevant memories:")
+    print("\nTop 5 relevant memories:")
     for idx, score in relevance_scores[:5]:
-        print(f"  Memory {idx}: {memories[idx]['content'][:50]}... (score: {score:.4f})")
+        print(
+            f"  Memory {idx}: {memories[idx]['content'][:50]}... (score: {score:.4f})"
+        )
 
     # Explain attention
     attention_weights = np.array([score for _, score in relevance_scores])
     explanation = orchestrator.explain_attention(attention_weights, memories)
 
-    print(f"\nAttention Analysis:")
+    print("\nAttention Analysis:")
     print(f"  Focus Score: {explanation['focus_score']:.2f}")
     print(f"  Entropy: {explanation['attention_entropy']:.2f}")
-    print(f"  Distribution - Max: {explanation['attention_distribution']['max']:.4f}, "
-          f"Min: {explanation['attention_distribution']['min']:.4f}")
+    print(
+        f"  Distribution - Max: {explanation['attention_distribution']['max']:.4f}, "
+        f"Min: {explanation['attention_distribution']['min']:.4f}"
+    )
 
 
 def test_temporal_attention():
@@ -80,7 +80,7 @@ def test_temporal_attention():
         ("Yesterday", timedelta(days=1)),
         ("Last week", timedelta(weeks=1)),
         ("Last month", timedelta(days=30)),
-        ("6 months ago", timedelta(days=180))
+        ("6 months ago", timedelta(days=180)),
     ]
 
     for i, (desc, delta) in enumerate(time_descriptions):
@@ -88,7 +88,7 @@ def test_temporal_attention():
             "content": f"Event from {desc}: Meeting about project X",
             "embedding": np.random.randn(256),
             "timestamp": now - delta,
-            "tags": ["meeting", "project"]
+            "tags": ["meeting", "project"],
         }
         memories.append(memory)
 
@@ -97,18 +97,17 @@ def test_temporal_attention():
     context = {"query_time": now}
 
     relevance_scores = orchestrator.compute_memory_relevance(
-        query=query,
-        memories=memories,
-        mode="temporal",
-        context=context
+        query=query, memories=memories, mode="temporal", context=context
     )
 
     print(f"Query: '{query}' (current time)")
-    print(f"\nTemporal relevance ranking:")
+    print("\nTemporal relevance ranking:")
     for idx, score in relevance_scores:
-        time_ago = (now - memories[idx]['timestamp']).total_seconds() / 3600
-        print(f"  {memories[idx]['content'][:40]}... "
-              f"({time_ago:.1f} hours ago, score: {score:.4f})")
+        time_ago = (now - memories[idx]["timestamp"]).total_seconds() / 3600
+        print(
+            f"  {memories[idx]['content'][:40]}... "
+            f"({time_ago:.1f} hours ago, score: {score:.4f})"
+        )
 
 
 def test_hierarchical_attention():
@@ -128,23 +127,21 @@ def test_hierarchical_attention():
             "content": f"{category} Phase {i//4 + 1}: Task detail {i}",
             "embedding": np.random.randn(256),
             "tags": [category.lower()],
-            "level": "detail" if i % 2 == 0 else "summary"
+            "level": "detail" if i % 2 == 0 else "summary",
         }
         memories.append(memory)
 
     query = "Overall project progress"
 
     relevance_scores = orchestrator.compute_memory_relevance(
-        query=query,
-        memories=memories,
-        mode="hierarchical"
+        query=query, memories=memories, mode="hierarchical"
     )
 
     print(f"Query: '{query}'")
-    print(f"\nHierarchical attention results:")
+    print("\nHierarchical attention results:")
     print("Top memories across different scales:")
     for idx, score in relevance_scores[:8]:
-        level = memories[idx]['level']
+        level = memories[idx]["level"]
         print(f"  [{level:7s}] {memories[idx]['content'][:40]}... (score: {score:.4f})")
 
 
@@ -165,7 +162,7 @@ def test_cross_modal_attention():
             "content": f"Memory {i}: {modality} content",
             "embedding": np.random.randn(256),
             "modality": modality,
-            "tags": [modality]
+            "tags": [modality],
         }
         memories.append(memory)
 
@@ -174,24 +171,23 @@ def test_cross_modal_attention():
         "modalities": {
             "text": np.random.randn(256),
             "image": np.random.randn(256),
-            "audio": np.random.randn(256)
+            "audio": np.random.randn(256),
         }
     }
 
     query = "Find visual information"
 
     relevance_scores = orchestrator.compute_memory_relevance(
-        query=query,
-        memories=memories,
-        mode="cross_modal",
-        context=context
+        query=query, memories=memories, mode="cross_modal", context=context
     )
 
     print(f"Query: '{query}'")
-    print(f"\nCross-modal attention results:")
+    print("\nCross-modal attention results:")
     for idx, score in relevance_scores[:5]:
-        print(f"  {memories[idx]['content']} [modality: {memories[idx]['modality']}] "
-              f"(score: {score:.4f})")
+        print(
+            f"  {memories[idx]['content']} [modality: {memories[idx]['modality']}] "
+            f"(score: {score:.4f})"
+        )
 
 
 def run_performance_test():
@@ -199,10 +195,7 @@ def run_performance_test():
     print("\n\n⚡ Performance Test")
     print("-" * 50)
 
-    orchestrator = create_attention_orchestrator(
-        hidden_dim=512,
-        num_heads=8
-    )
+    orchestrator = create_attention_orchestrator(hidden_dim=512, num_heads=8)
 
     # Create large memory set
     num_memories = 1000
@@ -214,7 +207,7 @@ def run_performance_test():
             "content": f"Memory {i}",
             "embedding": np.random.randn(512),
             "tags": [f"tag_{i % 20}"],
-            "timestamp": datetime.now(timezone.utc) - timedelta(hours=i)
+            "timestamp": datetime.now(timezone.utc) - timedelta(hours=i),
         }
         memories.append(memory)
 
@@ -232,7 +225,7 @@ def run_performance_test():
             query=query_embedding,
             memories=memories,
             mode=mode,
-            context={"query_time": datetime.now(timezone.utc)}
+            context={"query_time": datetime.now(timezone.utc)},
         )
 
         elapsed = (time.time() - start) * 1000
@@ -245,9 +238,9 @@ def run_performance_test():
 
 def main():
     """Run all attention tests"""
-    print("="*70)
+    print("=" * 70)
     print("🧬 LUKHAS AI - ATTENTION MEMORY LAYER TEST SUITE")
-    print("="*70)
+    print("=" * 70)
 
     test_multi_head_attention()
     test_temporal_attention()

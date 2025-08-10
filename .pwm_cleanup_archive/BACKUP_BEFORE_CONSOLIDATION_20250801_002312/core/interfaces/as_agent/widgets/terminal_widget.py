@@ -5,8 +5,6 @@ Advanced: terminal_widget.py
 Integration Date: 2025-05-31T07:55:30.480264
 """
 
-
-
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE        : lukhas_terminal_widget.py                                  ║
@@ -20,6 +18,7 @@ DEPENDENCIES:
 - lukhas_memory_folds.py
 - lukhas_emotion_log.py
 """
+
 
 def render_terminal_widget(title, content, style="box"):
     """
@@ -41,10 +40,12 @@ def render_terminal_widget(title, content, style="box"):
     else:
         return f"\n{title}\n{content}\n"
 
+
 # Example function for DST updates
 def show_dst_status(vendor, status, tracking_id):
     content = f"Vendor: {vendor}\nStatus: {status}\nTracking ID: {tracking_id}"
     return render_terminal_widget("DST Tracker", content)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_terminal_widget.py)

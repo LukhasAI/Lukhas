@@ -4,34 +4,34 @@ Unified module for ethical, consent-aware symbolic message delivery.
 Integrates with Dream system for deferred processing and quantum consciousness.
 """
 
-from typing import Dict, Any, List, Optional
 import logging
+from typing import Any
 
 # Import legacy functions that other modules might expect
 from core.interfaces.as_agent.sys.nias.dream_recorder import record_dream_message
 from core.interfaces.as_agent.sys.nias.narration_controller import (
     fetch_narration_entries,
+    filter_narration_queue,
     load_user_settings,
-    filter_narration_queue
 )
 
 # Re-export for backward compatibility
 __all__ = [
-    'record_dream_message',
-    'fetch_narration_entries',
-    'load_user_settings',
-    'filter_narration_queue',
-    'narrate_dreams',
-    'NIASCore',
-    'SymbolicMatcher',
-    'ConsentFilter',
-    'DreamRecorder'
+    "record_dream_message",
+    "fetch_narration_entries",
+    "load_user_settings",
+    "filter_narration_queue",
+    "narrate_dreams",
+    "NIASCore",
+    "SymbolicMatcher",
+    "ConsentFilter",
+    "DreamRecorder",
 ]
 
 logger = logging.getLogger(__name__)
 
 
-def narrate_dreams(dreams: List[Dict[str, Any]]) -> None:
+def narrate_dreams(dreams: list[dict[str, Any]]) -> None:
     """
     Narrate dreams using the NIAS voice system.
     This is a compatibility wrapper for the dream voice pipeline.
@@ -59,25 +59,34 @@ class NIASCore:
         if self.dream_bridge:
             self._setup_dream_integration()
 
-    async def push_symbolic_message(self, message: Dict[str, Any], user_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def push_symbolic_message(
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Main entry point for symbolic message delivery.
         Routes through consent, emotional, and symbolic filters.
         """
-        user_id = user_context.get("user_id", "unknown_user")
+        user_context.get("user_id", "unknown_user")
 
         # Step 1: Consent filter
         if not self.consent_filter.is_allowed(user_context, message):
             return {"status": "blocked", "reason": "consent_filter"}
 
         # Step 2: Symbolic matching (now with OpenAI enhancement)
-        match_result = await self.symbolic_matcher.match_message_to_context(message, user_context)
+        match_result = await self.symbolic_matcher.match_message_to_context(
+            message, user_context
+        )
 
         # Step 3: Route based on match decision
         if match_result["decision"] == "defer":
             # Defer to dream processing
-            dream_entry = await self.dream_recorder.record_dream_message(message, user_context)
-            return {"status": "deferred_to_dream", "dream_id": dream_entry["dream_id"]}
+            dream_entry = await self.dream_recorder.record_dream_message(
+                message, user_context
+            )
+            return {
+                "status": "deferred_to_dream",
+                "dream_id": dream_entry["dream_id"],
+            }
 
         return {"status": match_result["decision"], "match_data": match_result}
 
@@ -86,27 +95,34 @@ class NIASCore:
         # Register NIAS events with dream system
         try:
             import asyncio
+
             asyncio.create_task(
-                self.dream_bridge.register_nias_events({
-                    "message_deferred": self._handle_dream_message,
-                    "symbolic_match": self._handle_dream_symbols
-                })
+                self.dream_bridge.register_nias_events(
+                    {
+                        "message_deferred": self._handle_dream_message,
+                        "symbolic_match": self._handle_dream_symbols,
+                    }
+                )
             )
             logger.debug("NIAS dream integration setup completed")
         except Exception as e:
             logger.warning(f"Failed to setup dream integration: {e}")
 
-    async def _handle_dream_message(self, message_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _handle_dream_message(
+        self, message_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle dream message processing"""
         if self.dream_bridge:
             return await self.dream_bridge.handle_message_deferral(message_data)
         return {"status": "no_bridge"}
 
-    async def _handle_dream_symbols(self, symbol_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _handle_dream_symbols(
+        self, symbol_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle dream symbol processing"""
         # Update symbolic matcher with dream-processed symbols
-        if hasattr(self.symbolic_matcher, 'update_symbols'):
-            self.symbolic_matcher.update_symbols(symbol_data.get('symbols', []))
+        if hasattr(self.symbolic_matcher, "update_symbols"):
+            self.symbolic_matcher.update_symbols(symbol_data.get("symbols", []))
         return {"status": "symbols_updated"}
 
 
@@ -116,7 +132,9 @@ class SymbolicMatcher:
     def __init__(self, openai_client=None):
         self.openai = openai_client
 
-    async def match_message_to_context(self, message: Dict[str, Any], user_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def match_message_to_context(
+        self, message: dict[str, Any], user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Match symbolic message to user context using AI when available.
         """
@@ -124,22 +142,26 @@ class SymbolicMatcher:
         result = {
             "decision": "show",
             "score": 0.75,
-            "matched_tags": ["focus", "light"]
+            "matched_tags": ["focus", "light"],
         }
 
         # Enhance with OpenAI if available
         if self.openai:
             try:
                 import json
+
                 response = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": "Analyze symbolic message alignment with user context"
-                    }, {
-                        "role": "user",
-                        "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(user_context)}"
-                    }]
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "Analyze symbolic message alignment with user context",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(user_context)}",
+                        },
+                    ],
                 )
                 # Parse AI insights
                 ai_analysis = response.choices[0].message.content
@@ -157,7 +179,7 @@ class SymbolicMatcher:
 class ConsentFilter:
     """Consent-aware filtering for NIAS messages"""
 
-    def is_allowed(self, user_context: Dict[str, Any], message: Dict[str, Any]) -> bool:
+    def is_allowed(self, user_context: dict[str, Any], message: dict[str, Any]) -> bool:
         """Check if message delivery is consented"""
         # Check tier-based permissions
         user_tier = user_context.get("tier", 0)
@@ -179,7 +201,9 @@ class DreamRecorder:
     def __init__(self):
         self.dream_queue = []
 
-    async def record_dream_message(self, message: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+    async def record_dream_message(
+        self, message: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Record message for later dream processing"""
         import datetime
 
@@ -188,7 +212,7 @@ class DreamRecorder:
             "message": message,
             "context": context,
             "recorded_at": datetime.datetime.now().isoformat(),
-            "status": "pending"
+            "status": "pending",
         }
 
         self.dream_queue.append(dream_entry)
@@ -196,9 +220,9 @@ class DreamRecorder:
         return {
             "success": True,
             "dream_id": dream_entry["dream_id"],
-            "message": "Saved for your dreams 🌙"
+            "message": "Saved for your dreams 🌙",
         }
 
-    def get_pending_dreams(self) -> List[Dict[str, Any]]:
+    def get_pending_dreams(self) -> list[dict[str, Any]]:
         """Get all pending dream messages"""
         return [d for d in self.dream_queue if d["status"] == "pending"]

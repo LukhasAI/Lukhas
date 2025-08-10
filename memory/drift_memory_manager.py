@@ -11,11 +11,12 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timezone, timedelta
 import json
-import numpy as np
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 from .base_manager import BaseMemoryManager
 
@@ -32,7 +33,9 @@ class DriftMemoryManager(BaseMemoryManager):
     - Temporal drift tracking
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None):
+    def __init__(
+        self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None
+    ):
         """Initialize drift memory manager."""
         super().__init__(config, base_path)
 
@@ -43,7 +46,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "correction_strength": 0.3,
             "history_window": 10,
             "analysis_interval": timedelta(hours=1),
-            **self.config.get("drift", {})
+            **self.config.get("drift", {}),
         }
 
         # Drift tracking
@@ -52,12 +55,16 @@ class DriftMemoryManager(BaseMemoryManager):
         self.reference_states: Dict[str, Dict[str, Any]] = {}
         self.drift_patterns: Dict[str, Any] = {}
 
-        self.logger.info("DriftMemoryManager initialized",
-                        drift_config=self.drift_config)
+        self.logger.info(
+            "DriftMemoryManager initialized", drift_config=self.drift_config
+        )
 
-    async def store(self, memory_data: Dict[str, Any],
-                   memory_id: Optional[str] = None,
-                   metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def store(
+        self,
+        memory_data: Dict[str, Any],
+        memory_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Store memory with drift baseline establishment.
 
@@ -75,15 +82,17 @@ class DriftMemoryManager(BaseMemoryManager):
             self.reference_states[memory_id] = {
                 "symbolic": symbolic_state,
                 "timestamp": datetime.now(timezone.utc),
-                "data_hash": self._compute_data_hash(memory_data)
+                "data_hash": self._compute_data_hash(memory_data),
             }
 
             # Initialize drift tracking
             self.drift_states[memory_id] = {
                 "current_state": symbolic_state.copy(),
                 "drift_magnitude": 0.0,
-                "drift_vector": np.zeros(len(symbolic_state.get("vector", []))).tolist(),
-                "last_checked": datetime.now(timezone.utc)
+                "drift_vector": np.zeros(
+                    len(symbolic_state.get("vector", []))
+                ).tolist(),
+                "last_checked": datetime.now(timezone.utc),
             }
 
             self.drift_history[memory_id] = []
@@ -94,9 +103,9 @@ class DriftMemoryManager(BaseMemoryManager):
                 "drift_tracking": {
                     "enabled": True,
                     "baseline_established": True,
-                    "drift_magnitude": 0.0
+                    "drift_magnitude": 0.0,
                 },
-                "created_at": datetime.now(timezone.utc).isoformat()
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }
 
             # Package memory with drift data
@@ -106,8 +115,8 @@ class DriftMemoryManager(BaseMemoryManager):
                 "drift": {
                     "reference_state": symbolic_state,
                     "current_state": symbolic_state.copy(),
-                    "history": []
-                }
+                    "history": [],
+                },
             }
 
             # Save to disk
@@ -116,28 +125,28 @@ class DriftMemoryManager(BaseMemoryManager):
             # Update index
             self._update_index(memory_id, enhanced_metadata)
 
-            self.logger.info("Drift memory stored with baseline",
-                           memory_id=memory_id,
-                           symbolic_dimensions=len(symbolic_state.get("vector", [])))
+            self.logger.info(
+                "Drift memory stored with baseline",
+                memory_id=memory_id,
+                symbolic_dimensions=len(symbolic_state.get("vector", [])),
+            )
 
             return {
                 "status": "success",
                 "memory_id": memory_id,
                 "drift_baseline_established": True,
-                "initial_state": symbolic_state
+                "initial_state": symbolic_state,
             }
 
         except Exception as e:
-            self.logger.error("Failed to store drift memory",
-                            memory_id=memory_id, error=str(e))
-            return {
-                "status": "error",
-                "memory_id": memory_id,
-                "error": str(e)
-            }
+            self.logger.error(
+                "Failed to store drift memory", memory_id=memory_id, error=str(e)
+            )
+            return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def retrieve(self, memory_id: str,
-                      context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def retrieve(
+        self, memory_id: str, context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Retrieve memory with drift analysis.
 
@@ -151,21 +160,28 @@ class DriftMemoryManager(BaseMemoryManager):
             drift_info = await self._analyze_drift(memory_id)
 
             # Apply drift correction if needed
-            if drift_info["drift_detected"] and context and context.get("apply_correction", False):
+            if (
+                drift_info["drift_detected"]
+                and context
+                and context.get("apply_correction", False)
+            ):
                 corrected_data = self._apply_drift_correction(
-                    memory_package["data"],
-                    drift_info
+                    memory_package["data"], drift_info
                 )
             else:
                 corrected_data = memory_package["data"]
 
             # Update drift state
             if memory_id in self.drift_states:
-                self.drift_states[memory_id]["last_checked"] = datetime.now(timezone.utc)
+                self.drift_states[memory_id]["last_checked"] = datetime.now(
+                    timezone.utc
+                )
 
-            self.logger.info("Drift memory retrieved",
-                           memory_id=memory_id,
-                           drift_magnitude=drift_info.get("magnitude", 0))
+            self.logger.info(
+                "Drift memory retrieved",
+                memory_id=memory_id,
+                drift_magnitude=drift_info.get("magnitude", 0),
+            )
 
             return {
                 "status": "success",
@@ -173,28 +189,24 @@ class DriftMemoryManager(BaseMemoryManager):
                 "metadata": {
                     **memory_package["metadata"],
                     "drift_info": drift_info,
-                    "correction_applied": drift_info["drift_detected"] and context and context.get("apply_correction", False)
-                }
+                    "correction_applied": drift_info["drift_detected"]
+                    and context
+                    and context.get("apply_correction", False),
+                },
             }
 
         except FileNotFoundError:
             self.logger.error("Memory not found", memory_id=memory_id)
-            return {
-                "status": "error",
-                "error": f"Memory not found: {memory_id}"
-            }
+            return {"status": "error", "error": f"Memory not found: {memory_id}"}
         except Exception as e:
-            self.logger.error("Failed to retrieve drift memory",
-                            memory_id=memory_id, error=str(e))
-            return {
-                "status": "error",
-                "memory_id": memory_id,
-                "error": str(e)
-            }
+            self.logger.error(
+                "Failed to retrieve drift memory", memory_id=memory_id, error=str(e)
+            )
+            return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def update(self, memory_id: str,
-                    updates: Dict[str, Any],
-                    merge: bool = True) -> Dict[str, Any]:
+    async def update(
+        self, memory_id: str, updates: Dict[str, Any], merge: bool = True
+    ) -> Dict[str, Any]:
         """Update memory with drift tracking."""
         try:
             # Retrieve current state
@@ -214,8 +226,7 @@ class DriftMemoryManager(BaseMemoryManager):
             # Calculate drift from reference
             if memory_id in self.reference_states:
                 drift_vector = self._calculate_drift_vector(
-                    self.reference_states[memory_id]["symbolic"],
-                    new_symbolic_state
+                    self.reference_states[memory_id]["symbolic"], new_symbolic_state
                 )
                 drift_magnitude = np.linalg.norm(drift_vector)
 
@@ -224,41 +235,47 @@ class DriftMemoryManager(BaseMemoryManager):
                     "current_state": new_symbolic_state,
                     "drift_magnitude": drift_magnitude,
                     "drift_vector": drift_vector.tolist(),
-                    "last_checked": datetime.now(timezone.utc)
+                    "last_checked": datetime.now(timezone.utc),
                 }
 
                 # Record drift event
-                self._record_drift_event(memory_id, {
-                    "timestamp": datetime.now(timezone.utc),
-                    "magnitude": drift_magnitude,
-                    "vector": drift_vector.tolist(),
-                    "trigger": "update"
-                })
+                self._record_drift_event(
+                    memory_id,
+                    {
+                        "timestamp": datetime.now(timezone.utc),
+                        "magnitude": drift_magnitude,
+                        "vector": drift_vector.tolist(),
+                        "trigger": "update",
+                    },
+                )
 
             # Store updated memory
             result = await self.store(
                 updated_data,
                 memory_id,
-                {**current["metadata"], "updated_at": datetime.now(timezone.utc).isoformat()}
+                {
+                    **current["metadata"],
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                },
             )
 
-            self.logger.info("Drift memory updated",
-                           memory_id=memory_id,
-                           drift_change=drift_magnitude if memory_id in self.reference_states else 0)
+            self.logger.info(
+                "Drift memory updated",
+                memory_id=memory_id,
+                drift_change=(
+                    drift_magnitude if memory_id in self.reference_states else 0
+                ),
+            )
 
             return result
 
         except Exception as e:
-            self.logger.error("Failed to update drift memory",
-                            memory_id=memory_id, error=str(e))
-            return {
-                "status": "error",
-                "memory_id": memory_id,
-                "error": str(e)
-            }
+            self.logger.error(
+                "Failed to update drift memory", memory_id=memory_id, error=str(e)
+            )
+            return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def delete(self, memory_id: str,
-                    soft_delete: bool = True) -> Dict[str, Any]:
+    async def delete(self, memory_id: str, soft_delete: bool = True) -> Dict[str, Any]:
         """Delete memory with drift cleanup."""
         try:
             # Clean up drift tracking
@@ -273,7 +290,9 @@ class DriftMemoryManager(BaseMemoryManager):
                 # Mark as deleted in index
                 if memory_id in self._memory_index:
                     self._memory_index[memory_id]["deleted"] = True
-                    self._memory_index[memory_id]["deleted_at"] = datetime.now(timezone.utc).isoformat()
+                    self._memory_index[memory_id]["deleted_at"] = datetime.now(
+                        timezone.utc
+                    ).isoformat()
                     self._save_index()
             else:
                 # Remove from disk
@@ -286,23 +305,21 @@ class DriftMemoryManager(BaseMemoryManager):
                     del self._memory_index[memory_id]
                     self._save_index()
 
-            self.logger.info("Drift memory deleted",
-                           memory_id=memory_id,
-                           soft_delete=soft_delete)
+            self.logger.info(
+                "Drift memory deleted", memory_id=memory_id, soft_delete=soft_delete
+            )
 
             return {"status": "success"}
 
         except Exception as e:
-            self.logger.error("Failed to delete drift memory",
-                            memory_id=memory_id, error=str(e))
-            return {
-                "status": "error",
-                "memory_id": memory_id,
-                "error": str(e)
-            }
+            self.logger.error(
+                "Failed to delete drift memory", memory_id=memory_id, error=str(e)
+            )
+            return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
-    async def search(self, criteria: Dict[str, Any],
-                    limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    async def search(
+        self, criteria: Dict[str, Any], limit: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
         """
         Search memories with drift-aware filtering.
 
@@ -311,7 +328,7 @@ class DriftMemoryManager(BaseMemoryManager):
         results = []
 
         # Extract drift-specific criteria
-        max_drift = criteria.pop("max_drift", float('inf'))
+        max_drift = criteria.pop("max_drift", float("inf"))
         min_drift = criteria.pop("min_drift", 0.0)
         drift_pattern = criteria.pop("drift_pattern", None)
 
@@ -330,8 +347,7 @@ class DriftMemoryManager(BaseMemoryManager):
             # Check drift pattern if specified
             if drift_pattern and memory_id in self.drift_patterns:
                 if not self._matches_drift_pattern(
-                    self.drift_patterns[memory_id],
-                    drift_pattern
+                    self.drift_patterns[memory_id], drift_pattern
                 ):
                     continue
 
@@ -339,15 +355,20 @@ class DriftMemoryManager(BaseMemoryManager):
             try:
                 memory_data = self._load_from_disk(memory_id)
                 if self._matches_criteria(memory_data["data"], criteria):
-                    results.append({
-                        "memory_id": memory_id,
-                        "data": memory_data["data"],
-                        "drift_magnitude": drift_magnitude,
-                        "metadata": index_data
-                    })
+                    results.append(
+                        {
+                            "memory_id": memory_id,
+                            "data": memory_data["data"],
+                            "drift_magnitude": drift_magnitude,
+                            "metadata": index_data,
+                        }
+                    )
             except Exception as e:
-                self.logger.warning("Failed to load memory during search",
-                                  memory_id=memory_id, error=str(e))
+                self.logger.warning(
+                    "Failed to load memory during search",
+                    memory_id=memory_id,
+                    error=str(e),
+                )
 
         # Sort by drift magnitude if no specific order requested
         results.sort(key=lambda x: x["drift_magnitude"])
@@ -368,7 +389,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "average_drift": 0.0,
             "max_drift": 0.0,
             "drift_distribution": {},
-            "common_patterns": []
+            "common_patterns": [],
         }
 
         total_drift = 0.0
@@ -392,7 +413,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 "minimal": sum(1 for d in drift_magnitudes if d < 0.1),
                 "low": sum(1 for d in drift_magnitudes if 0.1 <= d < 0.3),
                 "moderate": sum(1 for d in drift_magnitudes if 0.3 <= d < 0.5),
-                "high": sum(1 for d in drift_magnitudes if d >= 0.5)
+                "high": sum(1 for d in drift_magnitudes if d >= 0.5),
             }
 
         # Identify common patterns
@@ -405,7 +426,7 @@ class DriftMemoryManager(BaseMemoryManager):
         if memory_id not in self.drift_history:
             return {
                 "status": "error",
-                "error": f"No drift history found for memory: {memory_id}"
+                "error": f"No drift history found for memory: {memory_id}",
             }
 
         history = self.drift_history[memory_id]
@@ -422,8 +443,8 @@ class DriftMemoryManager(BaseMemoryManager):
                     "average_magnitude": np.mean(magnitudes),
                     "max_magnitude": max(magnitudes),
                     "min_magnitude": min(magnitudes),
-                    "trend": self._calculate_drift_trend(history)
-                }
+                    "trend": self._calculate_drift_trend(history),
+                },
             }
         else:
             return {
@@ -432,12 +453,13 @@ class DriftMemoryManager(BaseMemoryManager):
                 "drift_history": [],
                 "statistics": {
                     "total_events": 0,
-                    "message": "No drift events recorded"
-                }
+                    "message": "No drift events recorded",
+                },
             }
 
-    async def correct_drift(self, memory_id: str,
-                          correction_strength: Optional[float] = None) -> Dict[str, Any]:
+    async def correct_drift(
+        self, memory_id: str, correction_strength: Optional[float] = None
+    ) -> Dict[str, Any]:
         """Manually correct drift for a memory."""
         try:
             # Verify memory exists
@@ -447,10 +469,7 @@ class DriftMemoryManager(BaseMemoryManager):
 
             # Get current drift state
             if memory_id not in self.drift_states:
-                return {
-                    "status": "error",
-                    "error": "No drift state found for memory"
-                }
+                return {"status": "error", "error": "No drift state found for memory"}
 
             drift_state = self.drift_states[memory_id]
             reference_state = self.reference_states.get(memory_id)
@@ -458,49 +477,49 @@ class DriftMemoryManager(BaseMemoryManager):
             if not reference_state:
                 return {
                     "status": "error",
-                    "error": "No reference state found for drift correction"
+                    "error": "No reference state found for drift correction",
                 }
 
             # Apply correction
             strength = correction_strength or self.drift_config["correction_strength"]
             corrected_state = self._apply_state_correction(
-                drift_state["current_state"],
-                reference_state["symbolic"],
-                strength
+                drift_state["current_state"], reference_state["symbolic"], strength
             )
 
             # Update drift state
             self.drift_states[memory_id]["current_state"] = corrected_state
-            self.drift_states[memory_id]["drift_magnitude"] *= (1 - strength)
+            self.drift_states[memory_id]["drift_magnitude"] *= 1 - strength
 
             # Record correction event
-            self._record_drift_event(memory_id, {
-                "timestamp": datetime.now(timezone.utc),
-                "magnitude": self.drift_states[memory_id]["drift_magnitude"],
-                "vector": self.drift_states[memory_id]["drift_vector"],
-                "trigger": "manual_correction",
-                "correction_strength": strength
-            })
+            self._record_drift_event(
+                memory_id,
+                {
+                    "timestamp": datetime.now(timezone.utc),
+                    "magnitude": self.drift_states[memory_id]["drift_magnitude"],
+                    "vector": self.drift_states[memory_id]["drift_vector"],
+                    "trigger": "manual_correction",
+                    "correction_strength": strength,
+                },
+            )
 
-            self.logger.info("Drift correction applied",
-                           memory_id=memory_id,
-                           correction_strength=strength)
+            self.logger.info(
+                "Drift correction applied",
+                memory_id=memory_id,
+                correction_strength=strength,
+            )
 
             return {
                 "status": "success",
                 "memory_id": memory_id,
                 "correction_applied": True,
-                "new_drift_magnitude": self.drift_states[memory_id]["drift_magnitude"]
+                "new_drift_magnitude": self.drift_states[memory_id]["drift_magnitude"],
             }
 
         except Exception as e:
-            self.logger.error("Failed to correct drift",
-                            memory_id=memory_id, error=str(e))
-            return {
-                "status": "error",
-                "memory_id": memory_id,
-                "error": str(e)
-            }
+            self.logger.error(
+                "Failed to correct drift", memory_id=memory_id, error=str(e)
+            )
+            return {"status": "error", "memory_id": memory_id, "error": str(e)}
 
     # === Private helper methods ===
 
@@ -521,7 +540,9 @@ class DriftMemoryManager(BaseMemoryManager):
             char_counts[char] = char_counts.get(char, 0) + 1
 
         # Add top character frequencies as features
-        sorted_chars = sorted(char_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+        sorted_chars = sorted(char_counts.items(), key=lambda x: x[1], reverse=True)[
+            :10
+        ]
         for char, count in sorted_chars:
             features.append(count / len(data_str))
 
@@ -532,17 +553,19 @@ class DriftMemoryManager(BaseMemoryManager):
         return {
             "vector": features[:20],  # Fixed size vector
             "hash": self._compute_data_hash(memory_data),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _compute_data_hash(self, data: Dict[str, Any]) -> str:
         """Compute hash of data for change detection."""
         import hashlib
+
         data_str = json.dumps(data, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
 
-    def _calculate_drift_vector(self, reference_state: Dict[str, Any],
-                               current_state: Dict[str, Any]) -> np.ndarray:
+    def _calculate_drift_vector(
+        self, reference_state: Dict[str, Any], current_state: Dict[str, Any]
+    ) -> np.ndarray:
         """Calculate drift vector between states."""
         ref_vector = np.array(reference_state.get("vector", []))
         curr_vector = np.array(current_state.get("vector", []))
@@ -561,7 +584,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "drift_detected": False,
             "magnitude": 0.0,
             "direction": None,
-            "rate": 0.0
+            "rate": 0.0,
         }
 
         if memory_id not in self.drift_states:
@@ -577,21 +600,31 @@ class DriftMemoryManager(BaseMemoryManager):
             # Calculate drift direction
             drift_vector = np.array(drift_state.get("drift_vector", []))
             if drift_vector.size > 0:
-                drift_info["direction"] = drift_vector / (np.linalg.norm(drift_vector) + 1e-8)
+                drift_info["direction"] = drift_vector / (
+                    np.linalg.norm(drift_vector) + 1e-8
+                )
                 drift_info["direction"] = drift_info["direction"].tolist()
 
             # Calculate drift rate if history available
-            if memory_id in self.drift_history and len(self.drift_history[memory_id]) > 1:
+            if (
+                memory_id in self.drift_history
+                and len(self.drift_history[memory_id]) > 1
+            ):
                 recent_events = self.drift_history[memory_id][-2:]
-                time_diff = (recent_events[1]["timestamp"] - recent_events[0]["timestamp"]).total_seconds()
+                time_diff = (
+                    recent_events[1]["timestamp"] - recent_events[0]["timestamp"]
+                ).total_seconds()
                 if time_diff > 0:
-                    magnitude_diff = recent_events[1]["magnitude"] - recent_events[0]["magnitude"]
+                    magnitude_diff = (
+                        recent_events[1]["magnitude"] - recent_events[0]["magnitude"]
+                    )
                     drift_info["rate"] = magnitude_diff / time_diff
 
         return drift_info
 
-    def _apply_drift_correction(self, memory_data: Dict[str, Any],
-                               drift_info: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_drift_correction(
+        self, memory_data: Dict[str, Any], drift_info: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply correction to memory data based on drift analysis."""
         # Simple correction - in practice would be more sophisticated
         corrected_data = memory_data.copy()
@@ -600,14 +633,17 @@ class DriftMemoryManager(BaseMemoryManager):
         corrected_data["_drift_correction"] = {
             "applied_at": datetime.now(timezone.utc).isoformat(),
             "drift_magnitude": drift_info["magnitude"],
-            "correction_type": "standard"
+            "correction_type": "standard",
         }
 
         return corrected_data
 
-    def _apply_state_correction(self, current_state: Dict[str, Any],
-                               reference_state: Dict[str, Any],
-                               strength: float) -> Dict[str, Any]:
+    def _apply_state_correction(
+        self,
+        current_state: Dict[str, Any],
+        reference_state: Dict[str, Any],
+        strength: float,
+    ) -> Dict[str, Any]:
         """Apply correction to symbolic state."""
         curr_vector = np.array(current_state.get("vector", []))
         ref_vector = np.array(reference_state.get("vector", []))
@@ -619,7 +655,7 @@ class DriftMemoryManager(BaseMemoryManager):
             **current_state,
             "vector": corrected_vector.tolist(),
             "corrected": True,
-            "correction_strength": strength
+            "correction_strength": strength,
         }
 
     def _record_drift_event(self, memory_id: str, event: Dict[str, Any]) -> None:
@@ -667,18 +703,22 @@ class DriftMemoryManager(BaseMemoryManager):
             if not found_group:
                 drift_groups[len(drift_groups)] = {
                     "vector": norm_vector.tolist(),
-                    "members": [memory_id]
+                    "members": [memory_id],
                 }
 
         # Convert groups to patterns
         for group_id, group_data in drift_groups.items():
             if len(group_data["members"]) > 1:  # Pattern requires multiple members
-                patterns.append({
-                    "pattern_id": f"pattern_{group_id}",
-                    "member_count": len(group_data["members"]),
-                    "drift_direction": group_data["vector"],
-                    "example_memories": group_data["members"][:3]  # First 3 examples
-                })
+                patterns.append(
+                    {
+                        "pattern_id": f"pattern_{group_id}",
+                        "member_count": len(group_data["members"]),
+                        "drift_direction": group_data["vector"],
+                        "example_memories": group_data["members"][
+                            :3
+                        ],  # First 3 examples
+                    }
+                )
 
         return patterns
 
@@ -692,8 +732,10 @@ class DriftMemoryManager(BaseMemoryManager):
 
         # Calculate trend
         if len(recent_magnitudes) > 1:
-            diffs = [recent_magnitudes[i+1] - recent_magnitudes[i]
-                    for i in range(len(recent_magnitudes)-1)]
+            diffs = [
+                recent_magnitudes[i + 1] - recent_magnitudes[i]
+                for i in range(len(recent_magnitudes) - 1)
+            ]
             avg_diff = np.mean(diffs)
 
             if avg_diff > 0.01:
@@ -703,8 +745,9 @@ class DriftMemoryManager(BaseMemoryManager):
 
         return "stable"
 
-    def _matches_drift_pattern(self, memory_pattern: Dict[str, Any],
-                              search_pattern: Dict[str, Any]) -> bool:
+    def _matches_drift_pattern(
+        self, memory_pattern: Dict[str, Any], search_pattern: Dict[str, Any]
+    ) -> bool:
         """Check if memory matches drift pattern criteria."""
         # Simple pattern matching - could be more sophisticated
         for key, value in search_pattern.items():
@@ -714,8 +757,7 @@ class DriftMemoryManager(BaseMemoryManager):
                 return False
         return True
 
-    def _matches_criteria(self, data: Dict[str, Any],
-                         criteria: Dict[str, Any]) -> bool:
+    def _matches_criteria(self, data: Dict[str, Any], criteria: Dict[str, Any]) -> bool:
         """Check if data matches search criteria."""
         for key, value in criteria.items():
             if key not in data:
@@ -730,13 +772,11 @@ class DriftMemoryManager(BaseMemoryManager):
 
         # Calculate drift statistics
         drift_magnitudes = [
-            state.get("drift_magnitude", 0.0)
-            for state in self.drift_states.values()
+            state.get("drift_magnitude", 0.0) for state in self.drift_states.values()
         ]
 
         drifting_count = sum(
-            1 for mag in drift_magnitudes
-            if mag > self.drift_config["drift_threshold"]
+            1 for mag in drift_magnitudes if mag > self.drift_config["drift_threshold"]
         )
 
         # Add drift-specific stats
@@ -747,7 +787,7 @@ class DriftMemoryManager(BaseMemoryManager):
             "average_drift": np.mean(drift_magnitudes) if drift_magnitudes else 0.0,
             "max_drift": max(drift_magnitudes) if drift_magnitudes else 0.0,
             "drift_threshold": self.drift_config["drift_threshold"],
-            "total_drift_events": sum(len(h) for h in self.drift_history.values())
+            "total_drift_events": sum(len(h) for h in self.drift_history.values()),
         }
 
         return drift_stats

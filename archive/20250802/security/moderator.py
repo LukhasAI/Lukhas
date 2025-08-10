@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Callable, List
 import logging
+from typing import Callable, List
 
 log = logging.getLogger(__name__)
 
@@ -11,15 +11,25 @@ log = logging.getLogger(__name__)
 class SymbolicComplianceRules:
     """Simple symbolic compliance rule set."""
 
-    def __init__(self, banned_phrases: List[str] | None = None, intensity_keywords: List[str] | None = None):
+    def __init__(
+        self,
+        banned_phrases: List[str] | None = None,
+        intensity_keywords: List[str] | None = None,
+    ):
         self.banned_phrases = [p.lower() for p in (banned_phrases or [])]
-        self.intensity_keywords = [k.lower() for k in (intensity_keywords or [
-            "angry",
-            "furious",
-            "rage",
-            "crying",
-            "screaming",
-        ])]
+        self.intensity_keywords = [
+            k.lower()
+            for k in (
+                intensity_keywords
+                or [
+                    "angry",
+                    "furious",
+                    "rage",
+                    "crying",
+                    "screaming",
+                ]
+            )
+        ]
 
     def is_emotionally_intense(self, prompt: str) -> bool:
         prompt_l = prompt.lower()

@@ -5,17 +5,18 @@ Advanced: dalle_client.py
 Integration Date: 2025-05-31T07:55:29.370655
 """
 
-import os
-from core.common.config import settings
-from core.common import get_logger
-import aiohttp
 import base64
-from typing import Dict, Any, Optional, List
+import os
 from datetime import datetime
-import uuid
-import openai
+from typing import Any, Optional
+
+import aiohttp
+
+from core.common import get_logger
+from core.common.config import settings
 
 logger = get_logger(__name__)
+
 
 class DALLEClient:
     """
@@ -26,7 +27,9 @@ class DALLEClient:
     def __init__(self, api_key: Optional[str] = None, model: str = "dall-e-3"):
         self.api_key = api_key or settings.OPENAI_API_KEY
         if not self.api_key:
-            logger.warning("No OpenAI API key provided. Set OPENAI_API_KEY environment variable or pass api_key parameter.")
+            logger.warning(
+                "No OpenAI API key provided. Set OPENAI_API_KEY environment variable or pass api_key parameter."
+            )
 
         self.model = model
         self.api_base = "https://api.openai.com/v1"
@@ -40,10 +43,12 @@ class DALLEClient:
     async def _ensure_session(self):
         """Ensure aiohttp session exists"""
         if self.session is None or self.session.closed:
-            self.session = aiohttp.ClientSession(headers={
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json"
-            })
+            self.session = aiohttp.ClientSession(
+                headers={
+                    "Authorization": f"Bearer {self.api_key}",
+                    "Content-Type": "application/json",
+                }
+            )
 
     async def generate_image(
         self,
@@ -51,8 +56,8 @@ class DALLEClient:
         size: str = "1024x1024",
         quality: str = "standard",
         style: str = "natural",
-        n: int = 1
-    ) -> Dict[str, Any]:
+        n: int = 1,
+    ) -> dict[str, Any]:
         """
         Generate an image using DALL-E
 
@@ -79,18 +84,20 @@ class DALLEClient:
                 "size": size,
                 "quality": quality,
                 "style": style,
-                "response_format": "url"
+                "response_format": "url",
             }
 
             logger.info(f"Generating image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(f"{self.api_base}/images/generations", json=payload) as response:
+            async with self.session.post(
+                f"{self.api_base}/images/generations", json=payload
+            ) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")
                     return {
                         "error": f"API error: {response.status}",
-                        "urls": []
+                        "urls": [],
                     }
 
                 data = await response.json()
@@ -107,17 +114,14 @@ class DALLEClient:
                     "urls": image_urls,
                     "local_paths": saved_paths,
                     "prompt": prompt,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         except Exception as e:
             logger.error(f"Error generating image: {str(e)}")
-            return {
-                "error": str(e),
-                "urls": []
-            }
+            return {"error": str(e), "urls": []}
 
-    async def _save_images_from_urls(self, urls: List[str], prompt: str) -> List[str]:
+    async def _save_images_from_urls(self, urls: list[str], prompt: str) -> list[str]:
         """
         Download and save images from URLs
 
@@ -145,7 +149,9 @@ class DALLEClient:
                             f.write(await response.read())
                         saved_paths.append(filepath)
                     else:
-                        logger.error(f"Failed to download image from {url}: {response.status}")
+                        logger.error(
+                            f"Failed to download image from {url}: {response.status}"
+                        )
 
             except Exception as e:
                 logger.error(f"Error saving image: {str(e)}")
@@ -158,20 +164,21 @@ class DALLEClient:
         mask_path: str,
         prompt: str,
         size: str = "1024x1024",
-        n: int = 1
-    ) -> Dict[str, Any]:
+        n: int = 1,
+    ) -> dict[str, Any]:
         """
-        Edit an image using DALL-E
+            Edit an image using DALL-E
 
-        Args:
-            image_path: Path to the image to edit
-            mask_path: Path to the mask that defines the edited area (black=keep, white=edit)
-            prompt: Text description of the desired edit
-            size: Image size
-            n: Number of images to generate
+            Args:
+                image_path: Path to the image to edit
+                mask_path: Path to the mask that defines the edited area (black=keep,
+        white=edit)
+                prompt: Text description of the desired edit
+                size: Image size
+                n: Number of images to generate
 
-        Returns:
-            Dictionary containing URLs or base64 data of generated images
+            Returns:
+                Dictionary containing URLs or base64 data of generated images
         """
         if not self.api_key:
             return {"error": "No API key provided"}
@@ -186,7 +193,10 @@ class DALLEClient:
             await self._ensure_session()
 
             # Read and encode the image and mask files
-            with open(image_path, "rb") as image_file, open(mask_path, "rb") as mask_file:
+            with (
+                open(image_path, "rb") as image_file,
+                open(mask_path, "rb") as mask_file,
+            ):
                 image_data = base64.b64encode(image_file.read()).decode("utf-8")
                 mask_data = base64.b64encode(mask_file.read()).decode("utf-8")
 
@@ -201,13 +211,15 @@ class DALLEClient:
 
             logger.info(f"Editing image with DALL-E: {prompt[:50]}...")
 
-            async with self.session.post(f"{self.api_base}/images/edits", data=form_data) as response:
+            async with self.session.post(
+                f"{self.api_base}/images/edits", data=form_data
+            ) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     logger.error(f"DALL-E API error: {response.status} - {error_text}")
                     return {
                         "error": f"API error: {response.status}",
-                        "urls": []
+                        "urls": [],
                     }
 
                 data = await response.json()
@@ -218,21 +230,20 @@ class DALLEClient:
                 # Save images locally
                 saved_paths = []
                 if image_urls:
-                    saved_paths = await self._save_images_from_urls(image_urls, f"edit_{prompt}")
+                    saved_paths = await self._save_images_from_urls(
+                        image_urls, f"edit_{prompt}"
+                    )
 
                 return {
                     "urls": image_urls,
                     "local_paths": saved_paths,
                     "prompt": prompt,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         except Exception as e:
             logger.error(f"Error editing image: {str(e)}")
-            return {
-                "error": str(e),
-                "urls": []
-            }
+            return {"error": str(e), "urls": []}
 
     async def close(self):
         """Close the aiohttp session"""

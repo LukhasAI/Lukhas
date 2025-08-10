@@ -3,10 +3,11 @@ Global Hub Registry
 Central registry for all system hubs
 """
 
-from typing import Dict, Any, Optional
 import logging
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
+
 
 class HubRegistry:
     """Central registry for all system hubs"""
@@ -19,17 +20,25 @@ class HubRegistry:
         """Initialize all system hubs"""
         hub_configs = [
             ("core", "core.core_hub", "get_core_hub"),
-            ("consciousness", "consciousness.consciousness_hub", "get_consciousness_hub"),
+            (
+                "consciousness",
+                "consciousness.consciousness_hub",
+                "get_consciousness_hub",
+            ),
             ("memory", "memory.memory_hub", "get_memory_hub"),
             ("quantum", "quantum.quantum_hub", "get_quantum_hub"),
             ("safety", "core.safety.safety_hub", "get_safety_hub"),
             ("bio", "bio.bio_hub", "get_bio_hub"),
-            ("orchestration", "orchestration.orchestration_hub", "get_orchestration_hub"),
+            (
+                "orchestration",
+                "orchestration.orchestration_hub",
+                "get_orchestration_hub",
+            ),
             ("nias", "core.modules.nias.nias_hub", "get_nias_hub"),
             ("dream", "orchestration.dream.dream_hub", "get_dream_hub"),
             ("symbolic", "symbolic.symbolic_hub", "get_symbolic_hub"),
             ("learning", "learning.learning_hub", "get_learning_hub"),
-            ("reasoning", "reasoning.reasoning_hub", "get_reasoning_hub")
+            ("reasoning", "reasoning.reasoning_hub", "get_reasoning_hub"),
         ]
 
         for hub_name, module_path, factory_name in hub_configs:
@@ -58,7 +67,7 @@ class HubRegistry:
         for name, factory in self.hubs.items():
             try:
                 hub = factory()
-                if hasattr(hub, 'health_check'):
+                if hasattr(hub, "health_check"):
                     results[name] = await hub.health_check()
                 else:
                     results[name] = {"status": "unknown"}
@@ -66,8 +75,10 @@ class HubRegistry:
                 results[name] = {"status": "error", "error": str(e)}
         return results
 
+
 # Singleton
 _hub_registry = None
+
 
 def get_hub_registry() -> HubRegistry:
     global _hub_registry

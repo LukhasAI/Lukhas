@@ -13,7 +13,7 @@
 # ΛAPPROVED_BY: Human Overseer (GRDM)
 # ΛUDIT: Standardized header/footer, added comments.
 
-"""LUKHAS meta_learning sub-package.""" # Changed original comment slightly for clarity
+"""LUKHAS meta_learning sub-package."""  # Changed original comment slightly for clarity
 # ΛNOTE: This __init__.py file marks the directory as a Python package.
 # It can be used to control the package's public API by specifying `__all__`,
 # or to execute package-level initialization code. Currently, it's minimal.

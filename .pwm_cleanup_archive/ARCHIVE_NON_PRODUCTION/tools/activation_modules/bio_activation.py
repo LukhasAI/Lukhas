@@ -6,7 +6,6 @@ Total Functions: 165
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +93,10 @@ BIO_CLASS_ENTITIES = [
     ("systems.orchestration.base_orchestrator", "ResourcePriority"),
     ("systems.orchestration.bio_orchestrator", "BioOrchestrator"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "DemoModule"),
-    ("systems.orchestration.identity_aware_bio_orchestrator", "IdentityAwareBioOrchestrator"),
+    (
+        "systems.orchestration.identity_aware_bio_orchestrator",
+        "IdentityAwareBioOrchestrator",
+    ),
     ("systems.orchestration.oscillator_orchestrator", "OrchestratorConfig"),
     ("systems.orchestration.oscillator_orchestrator", "OscillatorBioOrchestrator"),
     ("systems.orchestration.oscillator_orchestrator", "OscillatorConfig"),
@@ -246,14 +248,20 @@ BIO_FUNCTION_ENTITIES = [
     ("systems.orchestration.bio_orchestrator", "update_module"),
     ("systems.orchestration.bio_orchestrator", "wrapped_attention"),
     ("systems.orchestration.compatibility", "setup_import_redirects"),
-    ("systems.orchestration.identity_aware_bio_orchestrator", "admin_override_allocation"),
+    (
+        "systems.orchestration.identity_aware_bio_orchestrator",
+        "admin_override_allocation",
+    ),
     ("systems.orchestration.identity_aware_bio_orchestrator", "admin_status"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "allocate_energy"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "basic_status"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "cleanup_user_resources"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "detailed_status"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "get_service_info"),
-    ("systems.orchestration.identity_aware_bio_orchestrator", "get_tiered_system_status"),
+    (
+        "systems.orchestration.identity_aware_bio_orchestrator",
+        "get_tiered_system_status",
+    ),
     ("systems.orchestration.identity_aware_bio_orchestrator", "get_user_modules"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "heal_module"),
     ("systems.orchestration.identity_aware_bio_orchestrator", "process"),
@@ -283,7 +291,7 @@ class BioEntityActivator:
 
     def activate_all(self):
         """Activate all bio entities"""
-        logger.info(f"Starting bio entity activation...")
+        logger.info("Starting bio entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -291,12 +299,14 @@ class BioEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(BIO_CLASS_ENTITIES) + len(BIO_FUNCTION_ENTITIES)
+            "total": len(BIO_CLASS_ENTITIES) + len(BIO_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -304,7 +314,7 @@ class BioEntityActivator:
         for module_path, class_name in BIO_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -329,7 +339,9 @@ class BioEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -337,7 +349,7 @@ class BioEntityActivator:
         for module_path, func_name in BIO_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -354,20 +366,23 @@ class BioEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

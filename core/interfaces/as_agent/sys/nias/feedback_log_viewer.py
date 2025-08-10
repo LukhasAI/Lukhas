@@ -22,16 +22,16 @@ DESCRIPTION:
 
 import json
 from pathlib import Path
-import sys
 
 FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
+
 
 def view_feedback(limit=10, filter_emoji=None, min_score=None):
     if not FEEDBACK_LOG_PATH.exists():
         print("⚠️  No feedback log found.")
         return
 
-    with open(FEEDBACK_LOG_PATH, "r") as f:
+    with open(FEEDBACK_LOG_PATH) as f:
         lines = f.readlines()[-limit:]
 
     filtered = []
@@ -51,10 +51,13 @@ def view_feedback(limit=10, filter_emoji=None, min_score=None):
         return
 
     for entry in filtered:
-        print(f"\n🧠 {entry['timestamp']} | Msg: {entry['message_id']} | User: {entry['user_id']}")
+        print(
+            f"\n🧠 {entry['timestamp']} | Msg: {entry['message_id']} | User: {entry['user_id']}"
+        )
         print(f"   Score: {entry['score']} {entry.get('emoji', '')}")
         if entry.get("notes"):
             print(f"   Notes: {entry['notes']}")
+
 
 if __name__ == "__main__":
     print("\n🧠 LUCΛS FEEDBACK VIEWER")
@@ -65,7 +68,12 @@ if __name__ == "__main__":
         limit_input = input("🔢 How many feedback entries? (default 10): ").strip()
         limit = int(limit_input) if limit_input else 10
 
-        emoji_filter = input("🔘 Filter by emoji (e.g., 🌙, ⚠️, 🧡) or press ENTER to skip: ").strip() or None
+        emoji_filter = (
+            input(
+                "🔘 Filter by emoji (e.g., 🌙, ⚠️, 🧡) or press ENTER to skip: "
+            ).strip()
+            or None
+        )
         score_input = input("🔢 Minimum score (1–5) or press ENTER to skip: ").strip()
         score_filter = int(score_input) if score_input else None
     except Exception as e:

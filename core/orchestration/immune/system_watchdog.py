@@ -1,9 +1,10 @@
 import json
 import os
+
 import structlog
-from typing import List
 
 log = structlog.get_logger(__name__)
+
 
 class SystemWatchdog:
     """Simple internal immune system scanning for corrupted memory entries."""
@@ -12,11 +13,11 @@ class SystemWatchdog:
         self.store_path = store_path
         self.quarantine_path = f"{store_path}.quarantine"
 
-    def scan(self) -> List[str]:
+    def scan(self) -> list[str]:
         if not os.path.exists(self.store_path):
             return []
-        corrupted: List[str] = []
-        with open(self.store_path, "r") as f:
+        corrupted: list[str] = []
+        with open(self.store_path) as f:
             for line in f:
                 try:
                     json.loads(line)
@@ -31,4 +32,3 @@ class SystemWatchdog:
     def _quarantine_entry(self, line: str) -> None:
         with open(self.quarantine_path, "a") as qf:
             qf.write(line + "\n")
-

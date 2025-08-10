@@ -23,10 +23,13 @@ Integration Date: 2025-05-31T07:55:28.291189
 
 import os
 import sys
+
 from tools.session_logger import log_session_event
+
 
 def launch_dashboard(user_id):
     from id_portal.backend.app.tier_manager import get_user_tier
+
     tier = get_user_tier(user_id)
     print(f"🧠 Launching dashboard for user: {user_id} (Tier {tier})")
     log_session_event(user_id, "launch_dashboard")
@@ -36,13 +39,14 @@ def launch_dashboard(user_id):
         2: "dev_dashboard.py",
         3: "dev_dashboard.py",
         4: "research_dashboard.py",
-        5: "ai_supervision_dashboard.py"
+        5: "ai_supervision_dashboard.py",
     }
 
     if tier in dashboard_map:
         os.system(f"streamlit run dashboards/{dashboard_map[tier]}")
     else:
         print("❌ Unknown tier. Cannot launch dashboard.")
+
 
 if __name__ == "__main__":
     user_id = sys.argv[1] if len(sys.argv) > 1 else "lukhas_admin"

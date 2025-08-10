@@ -10,13 +10,14 @@ Safety Guardrails for v1_AGI
 Provides multiple layers of safety checks for AI outputs
 """
 
+import json
 import logging
 import re
-import json
-from typing import Dict, Any, List, Optional, Union, Set
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger("v1_AGI.compliance.guardrails")
+
 
 class SafetyGuardrails:
     """
@@ -27,7 +28,7 @@ class SafetyGuardrails:
     The design is inspired by Sam Altman's principles for responsible AGI.
     """
 
-    def __init__(self, config: Dict = None):
+    def __init__(self, config: dict = None):
         """
         Initialize the safety guardrails system.
 
@@ -45,13 +46,13 @@ class SafetyGuardrails:
                 "harmful_content": True,
                 "misinformation": True,
                 "bias_detection": True,
-                "privacy_protection": True
+                "privacy_protection": True,
             },
             "procedural_safeguards": {
                 "uncertainty_detection": True,
                 "reasoning_transparency": True,
-                "confidence_check": True
-            }
+                "confidence_check": True,
+            },
         }
 
         # Initialize content filters
@@ -59,14 +60,14 @@ class SafetyGuardrails:
             "harmful_content": self._check_harmful_content,
             "misinformation": self._check_misinformation,
             "bias_detection": self._check_bias,
-            "privacy_protection": self._check_privacy_violations
+            "privacy_protection": self._check_privacy_violations,
         }
 
         # Initialize procedural safeguards
         self.procedural_safeguards = {
             "uncertainty_detection": self._detect_uncertainty,
             "reasoning_transparency": self._check_reasoning_transparency,
-            "confidence_check": self._check_confidence
+            "confidence_check": self._check_confidence,
         }
 
         # Blocked content patterns (simplified for demo)
@@ -74,7 +75,7 @@ class SafetyGuardrails:
             r"(?i)how\s+to\s+make\s+(a\s+)?(bomb|explosive)",
             r"(?i)(hack|compromise|break\s+into)\s+(password|account|system)",
             r"(?i)(personal\s+information|address|phone\s+number)\s+of\s+[a-z\s]+",
-            r"(?i)instructions\s+for\s+(suicide|self[- ]harm)"
+            r"(?i)instructions\s+for\s+(suicide|self[- ]harm)",
         ]
 
         # Statistics tracking
@@ -82,12 +83,12 @@ class SafetyGuardrails:
             "total_checks": 0,
             "content_blocked": 0,
             "content_flagged": 0,
-            "content_passed": 0
+            "content_passed": 0,
         }
 
         logger.info("Safety Guardrails initialized")
 
-    def check_safety(self, content: Dict[str, Any]) -> Dict[str, Any]:
+    def check_safety(self, content: dict[str, Any]) -> dict[str, Any]:
         """
         Apply safety guardrails to content.
 
@@ -110,7 +111,9 @@ class SafetyGuardrails:
             "privacy_risk_score": 0.0,
             "uncertainty": 0.0,
             "transparency_score": 1.0,
-            "confidence": content.get("confidence", 0.9) if isinstance(content, dict) else 0.9
+            "confidence": (
+                content.get("confidence", 0.9) if isinstance(content, dict) else 0.9
+            ),
         }
 
         # Apply content filters
@@ -120,8 +123,13 @@ class SafetyGuardrails:
                 content_filter_results[filter_name] = filter_fn(text_content, content)
                 # Update metrics based on filter results
                 metric_key = f"{filter_name}_score"
-                if metric_key in safety_metrics and "score" in content_filter_results[filter_name]:
-                    safety_metrics[metric_key] = content_filter_results[filter_name]["score"]
+                if (
+                    metric_key in safety_metrics
+                    and "score" in content_filter_results[filter_name]
+                ):
+                    safety_metrics[metric_key] = content_filter_results[filter_name][
+                        "score"
+                    ]
 
         # Apply procedural safeguards
         safeguard_results = {}
@@ -129,22 +137,39 @@ class SafetyGuardrails:
             if self.config["procedural_safeguards"].get(safeguard_name, False):
                 safeguard_results[safeguard_name] = safeguard_fn(content)
                 # Update metrics based on safeguard results
-                if safeguard_name == "uncertainty_detection" and "score" in safeguard_results[safeguard_name]:
-                    safety_metrics["uncertainty"] = safeguard_results[safeguard_name]["score"]
-                elif safeguard_name == "reasoning_transparency" and "score" in safeguard_results[safeguard_name]:
-                    safety_metrics["transparency_score"] = safeguard_results[safeguard_name]["score"]
-                elif safeguard_name == "confidence_check" and "score" in safeguard_results[safeguard_name]:
-                    safety_metrics["confidence"] = safeguard_results[safeguard_name]["score"]
+                if (
+                    safeguard_name == "uncertainty_detection"
+                    and "score" in safeguard_results[safeguard_name]
+                ):
+                    safety_metrics["uncertainty"] = safeguard_results[safeguard_name][
+                        "score"
+                    ]
+                elif (
+                    safeguard_name == "reasoning_transparency"
+                    and "score" in safeguard_results[safeguard_name]
+                ):
+                    safety_metrics["transparency_score"] = safeguard_results[
+                        safeguard_name
+                    ]["score"]
+                elif (
+                    safeguard_name == "confidence_check"
+                    and "score" in safeguard_results[safeguard_name]
+                ):
+                    safety_metrics["confidence"] = safeguard_results[safeguard_name][
+                        "score"
+                    ]
 
         # Calculate overall risk score
         risk_scores = [
             safety_metrics["harmful_content_score"],
             safety_metrics["misinformation_score"],
             safety_metrics["bias_score"],
-            safety_metrics["privacy_risk_score"]
+            safety_metrics["privacy_risk_score"],
         ]
         max_risk_score = max(risk_scores) if risk_scores else 0.0
-        weighted_risk_score = sum(risk_scores) / len(risk_scores) if risk_scores else 0.0
+        weighted_risk_score = (
+            sum(risk_scores) / len(risk_scores) if risk_scores else 0.0
+        )
 
         # Add weight to the maximum risk for a more conservative approach
         overall_risk = (max_risk_score * 0.7) + (weighted_risk_score * 0.3)
@@ -173,7 +198,7 @@ class SafetyGuardrails:
             "overall_risk": overall_risk,
             "filter_results": content_filter_results,
             "safeguard_results": safeguard_results,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Add reason if not safe
@@ -185,7 +210,9 @@ class SafetyGuardrails:
                     risk_type = metric_name.replace("_score", "").replace("_", " ")
                     break
 
-            safety_report["reason"] = f"Content may contain {risk_type} with risk score {highest_risk:.2f}"
+            safety_report["reason"] = (
+                f"Content may contain {risk_type} with risk score {highest_risk:.2f}"
+            )
 
         return safety_report
 
@@ -212,7 +239,9 @@ class SafetyGuardrails:
         else:
             return str(content)
 
-    def _check_harmful_content(self, text: str, original_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_harmful_content(
+        self, text: str, original_content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check for harmful content"""
         # Start with a low risk score
         risk_score = 0.0
@@ -221,51 +250,86 @@ class SafetyGuardrails:
         # Check against blocked patterns
         for pattern in self.blocked_patterns:
             if re.search(pattern, text):
-                risk_score = max(risk_score, 0.9)  # High risk score for blocked patterns
+                risk_score = max(
+                    risk_score, 0.9
+                )  # High risk score for blocked patterns
                 detection_reasons.append(f"Matched blocked pattern: {pattern}")
 
         # Check for violent language (simplified)
-        violent_terms = ["kill", "attack", "hurt", "violent", "weapon", "gun", "bomb"]
+        violent_terms = [
+            "kill",
+            "attack",
+            "hurt",
+            "violent",
+            "weapon",
+            "gun",
+            "bomb",
+        ]
         violent_count = sum(1 for term in violent_terms if term.lower() in text.lower())
         if violent_count > 0:
             violence_risk = min(0.7, violent_count * 0.15)  # Cap at 0.7
             risk_score = max(risk_score, violence_risk)
             if violence_risk > 0.3:
-                detection_reasons.append(f"Detected {violent_count} terms associated with violence")
+                detection_reasons.append(
+                    f"Detected {violent_count} terms associated with violence"
+                )
 
         # Check for hate speech indicators (simplified)
         hate_speech_indicators = ["hate", "racist", "bigot", "discriminate"]
-        hate_count = sum(1 for term in hate_speech_indicators if term.lower() in text.lower())
+        hate_count = sum(
+            1 for term in hate_speech_indicators if term.lower() in text.lower()
+        )
         if hate_count > 0:
             hate_risk = min(0.8, hate_count * 0.2)  # Cap at 0.8
             risk_score = max(risk_score, hate_risk)
             if hate_risk > 0.3:
-                detection_reasons.append(f"Detected {hate_count} terms associated with hate speech")
+                detection_reasons.append(
+                    f"Detected {hate_count} terms associated with hate speech"
+                )
 
         return {
             "safe": risk_score < 0.5,
             "score": risk_score,
-            "reasons": detection_reasons
+            "reasons": detection_reasons,
         }
 
-    def _check_misinformation(self, text: str, original_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_misinformation(
+        self, text: str, original_content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check for potential misinformation"""
         # Start with a low risk score
         risk_score = 0.0
         detection_reasons = []
 
         # Check for uncertainty markers
-        uncertainty_markers = ["might", "maybe", "possibly", "could be", "perhaps", "allegedly"]
-        uncertainty_count = sum(1 for marker in uncertainty_markers if marker.lower() in text.lower())
+        uncertainty_markers = [
+            "might",
+            "maybe",
+            "possibly",
+            "could be",
+            "perhaps",
+            "allegedly",
+        ]
+        uncertainty_count = sum(
+            1 for marker in uncertainty_markers if marker.lower() in text.lower()
+        )
 
         # Check for fact assertion without evidence
-        assertion_patterns = [r"(?i)it is (a fact|true|certain) that", r"(?i)(everyone|scientists) knows? that"]
-        assertion_count = sum(1 for pattern in assertion_patterns if re.search(pattern, text))
+        assertion_patterns = [
+            r"(?i)it is (a fact|true|certain) that",
+            r"(?i)(everyone|scientists) knows? that",
+        ]
+        assertion_count = sum(
+            1 for pattern in assertion_patterns if re.search(pattern, text)
+        )
 
-        # Calculate simple misinformation risk (in a real system, this would be more sophisticated)
+        # Calculate simple misinformation risk (in a real system, this would be
+        # more sophisticated)
         if assertion_count > 0 and uncertainty_count == 0:
             risk_score = min(0.7, assertion_count * 0.3)
-            detection_reasons.append(f"Found {assertion_count} strong assertions without uncertainty markers")
+            detection_reasons.append(
+                f"Found {assertion_count} strong assertions without uncertainty markers"
+            )
 
         # Check original content confidence if available
         if isinstance(original_content, dict) and "confidence" in original_content:
@@ -277,22 +341,35 @@ class SafetyGuardrails:
         return {
             "safe": risk_score < 0.5,
             "score": risk_score,
-            "reasons": detection_reasons
+            "reasons": detection_reasons,
         }
 
-    def _check_bias(self, text: str, original_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_bias(
+        self, text: str, original_content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check for bias in content"""
         # Start with a low risk score
         risk_score = 0.0
         detection_reasons = []
 
         # Check for demographic generalizations (simplified)
-        demographic_terms = ["men", "women", "people", "americans", "europeans", "asians",
-                            "africans", "elderly", "young", "millennials", "boomers"]
+        demographic_terms = [
+            "men",
+            "women",
+            "people",
+            "americans",
+            "europeans",
+            "asians",
+            "africans",
+            "elderly",
+            "young",
+            "millennials",
+            "boomers",
+        ]
         generalization_patterns = [
             r"(?i)all [a-z]+ are",
             r"(?i)[a-z]+ people always",
-            r"(?i)typical of [a-z]+"
+            r"(?i)typical of [a-z]+",
         ]
 
         # Count generalizations about demographics
@@ -305,11 +382,18 @@ class SafetyGuardrails:
 
         if generalization_count > 0:
             risk_score = min(0.7, generalization_count * 0.2)
-            detection_reasons.append(f"Found {generalization_count} demographic generalizations")
+            detection_reasons.append(
+                f"Found {generalization_count} demographic generalizations"
+            )
 
         # Check for balanced perspective
-        perspective_markers = {"on one hand": 0, "on the other hand": 0,
-                              "however": 0, "although": 0, "conversely": 0}
+        perspective_markers = {
+            "on one hand": 0,
+            "on the other hand": 0,
+            "however": 0,
+            "although": 0,
+            "conversely": 0,
+        }
         for marker in perspective_markers:
             if marker in text.lower():
                 perspective_markers[marker] += 1
@@ -317,15 +401,19 @@ class SafetyGuardrails:
         # If presenting only one side of multiple perspectives
         if sum(perspective_markers.values()) == 0 and len(text.split()) > 100:
             risk_score = max(risk_score, 0.3)  # Moderate risk for one-sided long text
-            detection_reasons.append("Presents potentially one-sided perspective on complex topic")
+            detection_reasons.append(
+                "Presents potentially one-sided perspective on complex topic"
+            )
 
         return {
             "safe": risk_score < 0.5,
             "score": risk_score,
-            "reasons": detection_reasons
+            "reasons": detection_reasons,
         }
 
-    def _check_privacy_violations(self, text: str, original_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_privacy_violations(
+        self, text: str, original_content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check for potential privacy violations"""
         # Start with a low risk score
         risk_score = 0.0
@@ -348,7 +436,9 @@ class SafetyGuardrails:
 
         if privacy_matches:
             risk_score = min(0.9, len(privacy_matches) * 0.3)
-            detection_reasons.append(f"Found {len(privacy_matches)} potential privacy concerns")
+            detection_reasons.append(
+                f"Found {len(privacy_matches)} potential privacy concerns"
+            )
 
         # Check for discussion of specific individuals by name
         name_pattern = r"(?i)(mr|ms|mrs|dr|prof)\.?\s+[A-Z][a-z]+"
@@ -358,15 +448,17 @@ class SafetyGuardrails:
             # Lower risk score since names alone aren't always privacy violations
             risk_score = max(risk_score, min(0.4, len(name_matches) * 0.1))
             if len(name_matches) > 2:  # Multiple specific individuals
-                detection_reasons.append(f"Content discusses {len(name_matches)} specific individuals")
+                detection_reasons.append(
+                    f"Content discusses {len(name_matches)} specific individuals"
+                )
 
         return {
             "safe": risk_score < 0.5,
             "score": risk_score,
-            "reasons": detection_reasons
+            "reasons": detection_reasons,
         }
 
-    def _detect_uncertainty(self, content: Dict[str, Any]) -> Dict[str, Any]:
+    def _detect_uncertainty(self, content: dict[str, Any]) -> dict[str, Any]:
         """Detect uncertainty in output"""
         # Check confidence if available
         if isinstance(content, dict) and "confidence" in content:
@@ -375,35 +467,53 @@ class SafetyGuardrails:
             return {
                 "uncertain": uncertainty > 0.3,
                 "score": uncertainty,
-                "reason": f"Confidence level: {confidence:.2f}" if confidence < 0.7 else None
+                "reason": (
+                    f"Confidence level: {confidence:.2f}" if confidence < 0.7 else None
+                ),
             }
 
         # Check for uncertainty in text content
         text = self._extract_text_content(content)
-        uncertainty_markers = ["uncertain", "unclear", "unknown", "not sure", "may", "might",
-                              "could", "possibly", "perhaps", "unsure"]
+        uncertainty_markers = [
+            "uncertain",
+            "unclear",
+            "unknown",
+            "not sure",
+            "may",
+            "might",
+            "could",
+            "possibly",
+            "perhaps",
+            "unsure",
+        ]
 
-        uncertainty_count = sum(1 for marker in uncertainty_markers if marker.lower() in text.lower())
+        uncertainty_count = sum(
+            1 for marker in uncertainty_markers if marker.lower() in text.lower()
+        )
         uncertainty_score = min(0.8, uncertainty_count * 0.1)
 
         return {
             "uncertain": uncertainty_score > 0.3,
             "score": uncertainty_score,
-            "reason": f"Detected {uncertainty_count} uncertainty markers" if uncertainty_count > 0 else None
+            "reason": (
+                f"Detected {uncertainty_count} uncertainty markers"
+                if uncertainty_count > 0
+                else None
+            ),
         }
 
-    def _check_reasoning_transparency(self, content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_reasoning_transparency(self, content: dict[str, Any]) -> dict[str, Any]:
         """Check if reasoning process is transparent"""
         if not isinstance(content, dict):
-            return {"transparent": False, "score": 0.0, "reason": "Content is not structured with reasoning"}
+            return {
+                "transparent": False,
+                "score": 0.0,
+                "reason": "Content is not structured with reasoning",
+            }
 
         # Check for reasoning path or steps
         has_reasoning_path = False
-        if "reasoning_path" in content:
-            has_reasoning_path = True
-        elif "reasoning" in content:
-            has_reasoning_path = True
-        elif "steps" in content:
+        if "reasoning_path" in content or "reasoning" in content or "steps" in content:
             has_reasoning_path = True
 
         # Check for logical structure
@@ -424,10 +534,14 @@ class SafetyGuardrails:
         return {
             "transparent": transparency_score > 0.4,
             "score": transparency_score,
-            "reason": None if transparency_score > 0.4 else "Reasoning process lacks transparency"
+            "reason": (
+                None
+                if transparency_score > 0.4
+                else "Reasoning process lacks transparency"
+            ),
         }
 
-    def _check_confidence(self, content: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_confidence(self, content: dict[str, Any]) -> dict[str, Any]:
         """Check if confidence is appropriate for content"""
         # Extract confidence
         if isinstance(content, dict) and "confidence" in content:
@@ -442,14 +556,18 @@ class SafetyGuardrails:
         return {
             "appropriate": meets_threshold,
             "score": confidence,
-            "reason": f"Confidence below threshold: {confidence:.2f}" if not meets_threshold else None
+            "reason": (
+                f"Confidence below threshold: {confidence:.2f}"
+                if not meets_threshold
+                else None
+            ),
         }
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get guardrail statistics"""
         return self.stats.copy()
 
-    def adjust_config(self, config_updates: Dict[str, Any]) -> None:
+    def adjust_config(self, config_updates: dict[str, Any]) -> None:
         """
         Adjust guardrail configuration.
 
@@ -460,7 +578,11 @@ class SafetyGuardrails:
         for key, value in config_updates.items():
             if key in self.config and not isinstance(self.config[key], dict):
                 self.config[key] = value
-            elif key in self.config and isinstance(self.config[key], dict) and isinstance(value, dict):
+            elif (
+                key in self.config
+                and isinstance(self.config[key], dict)
+                and isinstance(value, dict)
+            ):
                 # Update nested configuration
                 self.config[key].update(value)
 

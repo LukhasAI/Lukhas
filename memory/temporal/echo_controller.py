@@ -7,18 +7,19 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
+from datetime import datetime
+from typing import Any, Dict, List
+
 from core.common import get_logger
-from typing import Dict, Any, List
-from datetime import datetime, timedelta
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = get_logger(__name__)
+
 
 class EchoController:
     """
@@ -42,7 +43,7 @@ class EchoController:
         {AIM}{orchestrator}
         Record a ping from an agent.
         """
-        #ΛTRACE
+        # ΛTRACE
         logger.info("Ping received", agent_id=agent_id, data=data)
         now = datetime.now()
         if agent_id not in self.ping_history:
@@ -76,7 +77,9 @@ class EchoController:
             if not history:
                 continue
             time_since_last_ping = (now - history[-1]).total_seconds()
-            if time_since_last_ping > self.config.get("silent_drop_threshold_seconds", 300):
+            if time_since_last_ping > self.config.get(
+                "silent_drop_threshold_seconds", 300
+            ):
                 self._output_alert(f"Silent drop detected for agent {agent_id}.")
 
     def _output_alert(self, message: str) -> None:
@@ -85,11 +88,12 @@ class EchoController:
         {ΛGOV_CHANNEL}
         Output a governance alert.
         """
-        #ΛGOV_CHANNEL
-        #ΛTRACE
+        # ΛGOV_CHANNEL
+        # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
             f.write(f"{datetime.now().isoformat()}: {message}\n")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: echo_controller.py

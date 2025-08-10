@@ -1,6 +1,6 @@
 import pytest
-
 from dast import DASTEngine
+
 # from abas import ABASEngine
 from nias import NIASEngine
 
@@ -32,6 +32,7 @@ async def test_nias_filter_block(monkeypatch):
         class Decision:
             decision_type = type("d", (), {"value": "block"})()
             confidence = 1.0
+
         return Decision()
 
     monkeypatch.setattr(engine.filter.ethics, "evaluate_action", fake_eval)

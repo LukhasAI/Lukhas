@@ -8,32 +8,31 @@ Symbiotic Swarm, treating it as a living system rather than static code.
 
 import asyncio
 import json
-import time
 import logging
-from typing import Dict, List, Any, Optional, Callable, Set, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
 import threading
+import time
 from collections import defaultdict, deque
-import weakref
-import numpy as np
-from datetime import datetime
-import uuid
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Callable, Optional
 
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
 
 class ObservabilityLevel(Enum):
     """Different levels of system observability"""
-    BASIC = "basic"          # Basic metrics only
-    DETAILED = "detailed"    # Detailed metrics and traces
-    FULL = "full"           # Complete system state capture
+
+    BASIC = "basic"  # Basic metrics only
+    DETAILED = "detailed"  # Detailed metrics and traces
+    FULL = "full"  # Complete system state capture
     INTERACTIVE = "interactive"  # Allow system steering
 
 
 class SystemHealth(Enum):
     """Overall system health states"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CRITICAL = "critical"
@@ -43,6 +42,7 @@ class SystemHealth(Enum):
 @dataclass
 class ActorSnapshot:
     """Point-in-time snapshot of an actor's state"""
+
     actor_id: str
     timestamp: float
     state: str
@@ -50,13 +50,14 @@ class ActorSnapshot:
     message_rate: float
     error_rate: float
     memory_usage: int
-    custom_metrics: Dict[str, Any]
-    relationships: List[str]  # Connected actors
+    custom_metrics: dict[str, Any]
+    relationships: list[str]  # Connected actors
 
 
 @dataclass
 class MessageFlow:
     """Represents message flow between actors"""
+
     source: str
     destination: str
     message_type: str
@@ -69,9 +70,10 @@ class MessageFlow:
 @dataclass
 class EmergentPattern:
     """Detected emergent behavior pattern"""
+
     pattern_id: str
     pattern_type: str
-    involved_actors: List[str]
+    involved_actors: list[str]
     confidence: float
     description: str
     first_detected: float
@@ -82,28 +84,28 @@ class EmergentPattern:
 class ObservabilityCollector:
     """Collects and aggregates observability data from all actors"""
 
-    def __init__(self,
-                 retention_period: float = 3600.0,  # 1 hour
-                 aggregation_interval: float = 5.0):
+    def __init__(
+        self,
+        retention_period: float = 3600.0,  # 1 hour
+        aggregation_interval: float = 5.0,
+    ):
         self.retention_period = retention_period
         self.aggregation_interval = aggregation_interval
 
         # Time-series data storage
-        self.actor_snapshots: Dict[str, deque] = defaultdict(
-            lambda: deque(maxlen=1000)
-        )
+        self.actor_snapshots: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
         self.message_flows: deque = deque(maxlen=10000)
         self.system_events: deque = deque(maxlen=5000)
 
         # Real-time metrics
-        self.current_metrics: Dict[str, Dict[str, Any]] = {}
-        self.message_rates: Dict[Tuple[str, str], deque] = defaultdict(
+        self.current_metrics: dict[str, dict[str, Any]] = {}
+        self.message_rates: dict[tuple[str, str], deque] = defaultdict(
             lambda: deque(maxlen=100)
         )
 
         # Pattern detection
-        self.detected_patterns: Dict[str, EmergentPattern] = {}
-        self.pattern_detectors: List[Callable] = []
+        self.detected_patterns: dict[str, EmergentPattern] = {}
+        self.pattern_detectors: list[Callable] = []
 
         # Aggregation thread
         self._running = False
@@ -114,8 +116,7 @@ class ObservabilityCollector:
         """Start the collector"""
         self._running = True
         self._aggregation_thread = threading.Thread(
-            target=self._aggregation_loop,
-            daemon=True
+            target=self._aggregation_loop, daemon=True
         )
         self._aggregation_thread.start()
         logger.info("Observability collector started")
@@ -137,7 +138,7 @@ class ObservabilityCollector:
                 "message_rate": snapshot.message_rate,
                 "error_rate": snapshot.error_rate,
                 "memory_usage": snapshot.memory_usage,
-                "last_update": snapshot.timestamp
+                "last_update": snapshot.timestamp,
             }
 
     def record_message_flow(self, flow: MessageFlow):
@@ -149,14 +150,16 @@ class ObservabilityCollector:
             route = (flow.source, flow.destination)
             self.message_rates[route].append(flow.timestamp)
 
-    def record_system_event(self, event_type: str, event_data: Dict[str, Any]):
+    def record_system_event(self, event_type: str, event_data: dict[str, Any]):
         """Record a system-wide event"""
         with self._lock:
-            self.system_events.append({
-                "timestamp": time.time(),
-                "event_type": event_type,
-                "data": event_data
-            })
+            self.system_events.append(
+                {
+                    "timestamp": time.time(),
+                    "event_type": event_type,
+                    "data": event_data,
+                }
+            )
 
     def register_pattern_detector(self, detector: Callable):
         """Register a custom pattern detector"""
@@ -185,7 +188,9 @@ class ObservabilityCollector:
                 self.message_flows.popleft()
 
             # Clean system events
-            while self.system_events and self.system_events[0]["timestamp"] < cutoff_time:
+            while (
+                self.system_events and self.system_events[0]["timestamp"] < cutoff_time
+            ):
                 self.system_events.popleft()
 
     def _detect_patterns(self):
@@ -232,7 +237,7 @@ class ObservabilityCollector:
                     description=f"High message traffic: {count} msgs/min",
                     first_detected=current_time,
                     last_observed=current_time,
-                    occurrence_count=count
+                    occurrence_count=count,
                 )
 
                 if pattern.pattern_id in self.detected_patterns:
@@ -251,8 +256,10 @@ class ObservabilityCollector:
         # Look for rapid succession of error events
         error_timeline = []
         for event in self.system_events:
-            if (event["event_type"] == "actor_failure" and
-                current_time - event["timestamp"] <= window):
+            if (
+                event["event_type"] == "actor_failure"
+                and current_time - event["timestamp"] <= window
+            ):
                 error_timeline.append(event)
 
         if len(error_timeline) > 3:  # Multiple failures
@@ -266,7 +273,7 @@ class ObservabilityCollector:
                 description=f"Potential cascade: {len(error_timeline)} failures",
                 first_detected=error_timeline[0]["timestamp"],
                 last_observed=current_time,
-                occurrence_count=len(error_timeline)
+                occurrence_count=len(error_timeline),
             )
 
             self.detected_patterns[pattern.pattern_id] = pattern
@@ -280,7 +287,8 @@ class ObservabilityCollector:
 
             # Count healthy actors
             healthy_count = sum(
-                1 for metrics in self.current_metrics.values()
+                1
+                for metrics in self.current_metrics.values()
                 if metrics.get("error_rate", 0) < 0.1
             )
 
@@ -293,7 +301,7 @@ class ObservabilityCollector:
             else:
                 self._system_health = SystemHealth.CRITICAL
 
-    def get_system_overview(self) -> Dict[str, Any]:
+    def get_system_overview(self) -> dict[str, Any]:
         """Get comprehensive system overview"""
         with self._lock:
             return {
@@ -302,7 +310,7 @@ class ObservabilityCollector:
                 "actor_count": len(self.current_metrics),
                 "message_flow_rate": len(self.message_flows) / 60.0,  # per minute
                 "active_patterns": len(self.detected_patterns),
-                "top_patterns": list(self.detected_patterns.values())[:5]
+                "top_patterns": list(self.detected_patterns.values())[:5],
             }
 
 
@@ -311,7 +319,7 @@ class SteeringController:
 
     def __init__(self, actor_system: ActorSystem):
         self.actor_system = actor_system
-        self.steering_policies: Dict[str, Callable] = {}
+        self.steering_policies: dict[str, Callable] = {}
         self.intervention_log: deque = deque(maxlen=1000)
 
     async def pause_actor(self, actor_id: str) -> bool:
@@ -333,26 +341,31 @@ class SteeringController:
             return True
         return False
 
-    async def inject_message(self,
-                           source: str,
-                           destination: str,
-                           message_type: str,
-                           payload: Dict[str, Any]) -> bool:
+    async def inject_message(
+        self,
+        source: str,
+        destination: str,
+        message_type: str,
+        payload: dict[str, Any],
+    ) -> bool:
         """Inject a message into the system"""
         dest_ref = self.actor_system.get_actor_ref(destination)
         if dest_ref:
             await dest_ref.tell(message_type, payload)
-            self._log_intervention("inject_message", {
-                "source": source,
-                "destination": destination,
-                "message_type": message_type
-            })
+            self._log_intervention(
+                "inject_message",
+                {
+                    "source": source,
+                    "destination": destination,
+                    "message_type": message_type,
+                },
+            )
             return True
         return False
 
-    async def modify_actor_state(self,
-                               actor_id: str,
-                               state_updates: Dict[str, Any]) -> bool:
+    async def modify_actor_state(
+        self, actor_id: str, state_updates: dict[str, Any]
+    ) -> bool:
         """Modify an actor's internal state"""
         actor = self.actor_system.get_actor(actor_id)
         if actor:
@@ -360,10 +373,10 @@ class SteeringController:
                 if hasattr(actor, key):
                     setattr(actor, key, value)
 
-            self._log_intervention("modify_state", {
-                "actor_id": actor_id,
-                "updates": list(state_updates.keys())
-            })
+            self._log_intervention(
+                "modify_state",
+                {"actor_id": actor_id, "updates": list(state_updates.keys())},
+            )
             return True
         return False
 
@@ -373,10 +386,9 @@ class SteeringController:
             policy = self.steering_policies[policy_name]
             result = await policy(self, *args, **kwargs)
 
-            self._log_intervention("apply_policy", {
-                "policy": policy_name,
-                "result": result
-            })
+            self._log_intervention(
+                "apply_policy", {"policy": policy_name, "result": result}
+            )
             return result
 
         raise ValueError(f"Unknown steering policy: {policy_name}")
@@ -385,26 +397,30 @@ class SteeringController:
         """Register a custom steering policy"""
         self.steering_policies[name] = policy
 
-    def _log_intervention(self, intervention_type: str, details: Dict[str, Any]):
+    def _log_intervention(self, intervention_type: str, details: dict[str, Any]):
         """Log a steering intervention"""
-        self.intervention_log.append({
-            "timestamp": time.time(),
-            "type": intervention_type,
-            "details": details
-        })
+        self.intervention_log.append(
+            {
+                "timestamp": time.time(),
+                "type": intervention_type,
+                "details": details,
+            }
+        )
 
 
 class ObservableActor(Actor):
     """Enhanced actor with built-in observability"""
 
-    def __init__(self, actor_id: str, collector: Optional[ObservabilityCollector] = None):
+    def __init__(
+        self, actor_id: str, collector: Optional[ObservabilityCollector] = None
+    ):
         super().__init__(actor_id)
         self.collector = collector
         self._last_snapshot_time = 0.0
         self._snapshot_interval = 5.0  # seconds
 
         # Message timing for latency tracking
-        self._message_start_times: Dict[str, float] = {}
+        self._message_start_times: dict[str, float] = {}
 
     async def _process_message(self, message: ActorMessage):
         """Process message with observability"""
@@ -425,18 +441,21 @@ class ObservableActor(Actor):
                     timestamp=start_time,
                     correlation_id=message.correlation_id or message.message_id,
                     latency=latency,
-                    payload_size=len(json.dumps(message.payload))
+                    payload_size=len(json.dumps(message.payload)),
                 )
                 self.collector.record_message_flow(flow)
 
         except Exception as e:
             # Record failure
             if self.collector:
-                self.collector.record_system_event("actor_failure", {
-                    "actor_id": self.actor_id,
-                    "error": str(e),
-                    "message_type": message.message_type
-                })
+                self.collector.record_system_event(
+                    "actor_failure",
+                    {
+                        "actor_id": self.actor_id,
+                        "error": str(e),
+                        "message_type": message.message_type,
+                    },
+                )
             raise
         finally:
             # Clean up timing
@@ -454,9 +473,7 @@ class ObservableActor(Actor):
 
                 # Process messages normally
                 try:
-                    message = await asyncio.wait_for(
-                        self.mailbox.get(), timeout=1.0
-                    )
+                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
                     await self._process_message(message)
                     self._stats["messages_processed"] += 1
                     self._stats["last_activity"] = time.time()
@@ -469,10 +486,10 @@ class ObservableActor(Actor):
                 logger.error(f"Actor {self.actor_id} message processing error: {e}")
 
                 if self.supervisor:
-                    await self.supervisor.tell("child_failed", {
-                        "child_id": self.actor_id,
-                        "error": str(e)
-                    })
+                    await self.supervisor.tell(
+                        "child_failed",
+                        {"child_id": self.actor_id, "error": str(e)},
+                    )
 
     async def _take_snapshot(self):
         """Take a snapshot of actor state"""
@@ -480,7 +497,6 @@ class ObservableActor(Actor):
             return
 
         # Calculate rates
-        time_window = 60.0  # 1 minute
         current_time = time.time()
 
         message_rate = self._stats["messages_processed"] / max(
@@ -493,6 +509,7 @@ class ObservableActor(Actor):
 
         # Get memory usage (simplified)
         import sys
+
         memory_usage = sys.getsizeof(self.__dict__)
 
         # Create snapshot
@@ -505,12 +522,12 @@ class ObservableActor(Actor):
             error_rate=error_rate,
             memory_usage=memory_usage,
             custom_metrics=self.get_custom_metrics(),
-            relationships=list(self.children.keys())
+            relationships=list(self.children.keys()),
         )
 
         self.collector.record_actor_snapshot(snapshot)
 
-    def get_custom_metrics(self) -> Dict[str, Any]:
+    def get_custom_metrics(self) -> dict[str, Any]:
         """Override to provide custom metrics"""
         return {}
 
@@ -518,30 +535,32 @@ class ObservableActor(Actor):
 class ObservabilityDashboard:
     """Interactive dashboard for system observation and steering"""
 
-    def __init__(self,
-                 collector: ObservabilityCollector,
-                 steering: SteeringController):
+    def __init__(self, collector: ObservabilityCollector, steering: SteeringController):
         self.collector = collector
         self.steering = steering
-        self.visualizations: Dict[str, Callable] = {}
+        self.visualizations: dict[str, Callable] = {}
 
     def register_visualization(self, name: str, viz_func: Callable):
         """Register a custom visualization"""
         self.visualizations[name] = viz_func
 
-    async def get_actor_graph(self) -> Dict[str, Any]:
+    async def get_actor_graph(self) -> dict[str, Any]:
         """Get actor relationship graph data"""
         nodes = []
         edges = []
 
         # Create nodes from current actors
         for actor_id, metrics in self.collector.current_metrics.items():
-            nodes.append({
-                "id": actor_id,
-                "state": metrics.get("state", "unknown"),
-                "health": "healthy" if metrics.get("error_rate", 0) < 0.1 else "unhealthy",
-                "mailbox_size": metrics.get("mailbox_size", 0)
-            })
+            nodes.append(
+                {
+                    "id": actor_id,
+                    "state": metrics.get("state", "unknown"),
+                    "health": (
+                        "healthy" if metrics.get("error_rate", 0) < 0.1 else "unhealthy"
+                    ),
+                    "mailbox_size": metrics.get("mailbox_size", 0),
+                }
+            )
 
         # Create edges from message flows
         edge_weights = defaultdict(int)
@@ -551,18 +570,13 @@ class ObservabilityDashboard:
                 edge_weights[edge_key] += 1
 
         for (source, dest), weight in edge_weights.items():
-            edges.append({
-                "source": source,
-                "target": dest,
-                "weight": weight
-            })
+            edges.append({"source": source, "target": dest, "weight": weight})
 
         return {"nodes": nodes, "edges": edges}
 
-    async def get_time_series_data(self,
-                                 actor_id: str,
-                                 metric: str,
-                                 duration: float = 300.0) -> List[Tuple[float, float]]:
+    async def get_time_series_data(
+        self, actor_id: str, metric: str, duration: float = 300.0
+    ) -> list[tuple[float, float]]:
         """Get time series data for a specific metric"""
         data = []
         current_time = time.time()
@@ -575,25 +589,29 @@ class ObservabilityDashboard:
 
         return data
 
-    def get_pattern_summary(self) -> Dict[str, Any]:
+    def get_pattern_summary(self) -> dict[str, Any]:
         """Get summary of detected patterns"""
         patterns_by_type = defaultdict(list)
 
         for pattern in self.collector.detected_patterns.values():
-            patterns_by_type[pattern.pattern_type].append({
-                "id": pattern.pattern_id,
-                "actors": pattern.involved_actors,
-                "confidence": pattern.confidence,
-                "description": pattern.description
-            })
+            patterns_by_type[pattern.pattern_type].append(
+                {
+                    "id": pattern.pattern_id,
+                    "actors": pattern.involved_actors,
+                    "confidence": pattern.confidence,
+                    "description": pattern.description,
+                }
+            )
 
         return dict(patterns_by_type)
 
 
 # Example usage and demo
+
+
 async def demo_observability():
     """Demonstrate observability and steering capabilities"""
-    from .actor_system import get_global_actor_system, AIAgentActor
+    from .actor_system import AIAgentActor, get_global_actor_system
 
     # Setup
     system = await get_global_actor_system()
@@ -604,34 +622,37 @@ async def demo_observability():
     dashboard = ObservabilityDashboard(collector, steering)
 
     # Create observable actors
+
     class ObservableAgent(ObservableActor, AIAgentActor):
-        def __init__(self, actor_id: str, capabilities: List[str] = None):
+
+        def __init__(self, actor_id: str, capabilities: list[str] = None):
             AIAgentActor.__init__(self, actor_id, capabilities)
             ObservableActor.__init__(self, actor_id, collector)
 
-        def get_custom_metrics(self) -> Dict[str, Any]:
+        def get_custom_metrics(self) -> dict[str, Any]:
             return {
                 "energy_level": getattr(self, "energy_level", 0),
-                "active_tasks": len(getattr(self, "current_tasks", {}))
+                "active_tasks": len(getattr(self, "current_tasks", {})),
             }
 
     # Create agents
     agent1 = await system.create_actor(
-        ObservableAgent, "analytics-agent-001",
-        capabilities=["analysis", "reporting"]
+        ObservableAgent,
+        "analytics-agent-001",
+        capabilities=["analysis", "reporting"],
     )
 
-    agent2 = await system.create_actor(
-        ObservableAgent, "processing-agent-001",
-        capabilities=["data_processing", "transformation"]
+    await system.create_actor(
+        ObservableAgent,
+        "processing-agent-001",
+        capabilities=["data_processing", "transformation"],
     )
 
     # Simulate some activity
     for i in range(5):
-        await agent1.tell("assign_task", {
-            "task_id": f"task_{i}",
-            "task_type": "analysis"
-        })
+        await agent1.tell(
+            "assign_task", {"task_id": f"task_{i}", "task_type": "analysis"}
+        )
         await asyncio.sleep(0.1)
 
     # Wait for data collection

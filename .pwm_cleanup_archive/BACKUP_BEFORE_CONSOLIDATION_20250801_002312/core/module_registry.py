@@ -34,11 +34,10 @@
 """
 
 import logging
-from typing import Dict, Any, Optional, List, Callable, Set
 from dataclasses import dataclass, field
 from datetime import datetime
 from functools import wraps
-import uuid
+from typing import Any, Callable, Dict, List, Optional, Set
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -52,10 +51,14 @@ try:
     from identity.core.lambd_id_service import TierLevel
     from identity.interface import IdentityClient
     from memory.core.tier_system import AccessType, PermissionScope
+
     TIER_SYSTEM_AVAILABLE = True
 except ImportError:
-    logger.warning("Tier system components not available. Running without tier enforcement.")
+    logger.warning(
+        "Tier system components not available. Running without tier enforcement."
+    )
     TIER_SYSTEM_AVAILABLE = False
+
     # Define fallback
     class TierLevel:
         GUEST = 0
@@ -69,6 +72,7 @@ except ImportError:
 @dataclass
 class ModuleInfo:
     """Information about a registered module."""
+
     module_id: str
     name: str
     version: str
@@ -95,16 +99,13 @@ class ModuleRegistry:
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
-
         # Advanced modules
         "ethics": TierLevel.FRIEND,  # Tier 2
         "creativity": TierLevel.FRIEND,  # Tier 2
         "learning": TierLevel.FRIEND,  # Tier 2
-
         # Restricted modules
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3
-
         # System modules
         "governance": TierLevel.INNER_CIRCLE,  # Tier 4
         "system_config": TierLevel.ROOT_DEV,  # Tier 5
@@ -115,7 +116,9 @@ class ModuleRegistry:
         self.modules: Dict[str, ModuleInfo] = {}
         self.identity_client = IdentityClient() if TIER_SYSTEM_AVAILABLE else None
         self.audit_log: List[Dict[str, Any]] = []
-        logger.info(f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}")
+        logger.info(
+            f"ModuleRegistry initialized - Tier enforcement: {TIER_SYSTEM_AVAILABLE}"
+        )
 
     def register_module(
         self,
@@ -126,7 +129,7 @@ class ModuleRegistry:
         path: str,
         min_tier: Optional[int] = None,
         permissions: Optional[Set[str]] = None,
-        dependencies: Optional[List[str]] = None
+        dependencies: Optional[List[str]] = None,
     ) -> bool:
         """
         Register a new module in the registry.
@@ -148,10 +151,9 @@ class ModuleRegistry:
             # Determine minimum tier
             if min_tier is None:
                 # Extract module category from path
-                category = path.split('.')[0] if '.' in path else module_id
+                category = path.split(".")[0] if "." in path else module_id
                 min_tier = self.MODULE_TIER_REQUIREMENTS.get(
-                    category,
-                    TierLevel.VISITOR  # Default to Tier 1
+                    category, TierLevel.VISITOR  # Default to Tier 1
                 )
 
             # Create module info
@@ -164,7 +166,7 @@ class ModuleRegistry:
                 min_tier=min_tier,
                 permissions=permissions or set(),
                 dependencies=dependencies or [],
-                health_status="healthy"
+                health_status="healthy",
             )
 
             # Register module
@@ -178,11 +180,13 @@ class ModuleRegistry:
                     "name": name,
                     "version": version,
                     "min_tier": min_tier,
-                    "path": path
-                }
+                    "path": path,
+                },
             )
 
-            logger.info(f"Module registered: {name} (ID: {module_id}, Tier: {min_tier})")
+            logger.info(
+                f"Module registered: {name} (ID: {module_id}, Tier: {min_tier})"
+            )
             return True
 
         except Exception as e:
@@ -213,7 +217,7 @@ class ModuleRegistry:
                 action="module_access_denied",
                 module_id=module_id,
                 user_id=user_id,
-                reason="insufficient_tier"
+                reason="insufficient_tier",
             )
             logger.warning(f"Access denied to module {module_id} for user {user_id}")
             return None
@@ -223,11 +227,7 @@ class ModuleRegistry:
         module_info.access_count += 1
 
         # Log successful access
-        self._log_audit(
-            action="module_accessed",
-            module_id=module_id,
-            user_id=user_id
-        )
+        self._log_audit(action="module_accessed", module_id=module_id, user_id=user_id)
 
         return module_info.instance
 
@@ -239,6 +239,7 @@ class ModuleRegistry:
             module_id: Module identifier
             min_tier: Override minimum tier (uses module default if None)
         """
+
         def decorator(func: Callable) -> Callable:
             @wraps(func)
             def wrapper(self, user_id: str, *args, **kwargs):
@@ -248,7 +249,9 @@ class ModuleRegistry:
                     raise ValueError(f"Module {module_id} not registered")
 
                 # Use override tier or module default
-                required_tier = min_tier if min_tier is not None else module_info.min_tier
+                required_tier = (
+                    min_tier if min_tier is not None else module_info.min_tier
+                )
 
                 # Check tier access
                 if TIER_SYSTEM_AVAILABLE and self.identity_client:
@@ -262,6 +265,7 @@ class ModuleRegistry:
                 return func(self, user_id, *args, **kwargs)
 
             return wrapper
+
         return decorator
 
     def _check_tier_access(self, user_id: str, module_info: ModuleInfo) -> bool:
@@ -280,7 +284,7 @@ class ModuleRegistry:
             "timestamp": datetime.utcnow().isoformat(),
             "action": action,
             "registry_id": id(self),
-            **kwargs
+            **kwargs,
         }
         self.audit_log.append(entry)
 
@@ -289,7 +293,7 @@ class ModuleRegistry:
             self.identity_client.log_activity(
                 activity_type=f"module_registry_{action}",
                 user_id=kwargs.get("user_id", "system"),
-                metadata=kwargs
+                metadata=kwargs,
             )
 
     def list_modules(self, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
@@ -309,14 +313,16 @@ class ModuleRegistry:
             if user_id and not self._check_tier_access(user_id, module_info):
                 continue
 
-            accessible_modules.append({
-                "module_id": module_id,
-                "name": module_info.name,
-                "version": module_info.version,
-                "min_tier": module_info.min_tier,
-                "health_status": module_info.health_status,
-                "access_count": module_info.access_count
-            })
+            accessible_modules.append(
+                {
+                    "module_id": module_id,
+                    "name": module_info.name,
+                    "version": module_info.version,
+                    "min_tier": module_info.min_tier,
+                    "health_status": module_info.health_status,
+                    "access_count": module_info.access_count,
+                }
+            )
 
         return accessible_modules
 
@@ -330,9 +336,13 @@ class ModuleRegistry:
             "module_id": module_id,
             "name": module_info.name,
             "health_status": module_info.health_status,
-            "last_accessed": module_info.last_accessed.isoformat() if module_info.last_accessed else None,
+            "last_accessed": (
+                module_info.last_accessed.isoformat()
+                if module_info.last_accessed
+                else None
+            ),
             "access_count": module_info.access_count,
-            "uptime": (datetime.utcnow() - module_info.registered_at).total_seconds()
+            "uptime": (datetime.utcnow() - module_info.registered_at).total_seconds(),
         }
 
     def register_core_connections(self) -> Dict[str, Dict[str, Any]]:
@@ -343,36 +353,36 @@ class ModuleRegistry:
             Dict containing registered connections and their configurations
         """
         connections = {
-            'orchestration': {
-                'type': 'hub',
-                'priority': 'critical',
-                'capabilities': ['coordination', 'task_management', 'workflow'],
-                'min_tier': TierLevel.TRUSTED
+            "orchestration": {
+                "type": "hub",
+                "priority": "critical",
+                "capabilities": ["coordination", "task_management", "workflow"],
+                "min_tier": TierLevel.TRUSTED,
             },
-            'ethics': {
-                'type': 'service',
-                'priority': 'high',
-                'capabilities': ['validation', 'compliance', 'consent'],
-                'min_tier': TierLevel.FRIEND
+            "ethics": {
+                "type": "service",
+                "priority": "high",
+                "capabilities": ["validation", "compliance", "consent"],
+                "min_tier": TierLevel.FRIEND,
             },
-            'bridge': {
-                'type': 'integration',
-                'priority': 'high',
-                'capabilities': ['cross_module_communication', 'protocol_translation'],
-                'min_tier': TierLevel.VISITOR
+            "bridge": {
+                "type": "integration",
+                "priority": "high",
+                "capabilities": ["cross_module_communication", "protocol_translation"],
+                "min_tier": TierLevel.VISITOR,
             },
-            'memory': {
-                'type': 'storage',
-                'priority': 'medium',
-                'capabilities': ['persistent_storage', 'memory_folding', 'retrieval'],
-                'min_tier': TierLevel.VISITOR
+            "memory": {
+                "type": "storage",
+                "priority": "medium",
+                "capabilities": ["persistent_storage", "memory_folding", "retrieval"],
+                "min_tier": TierLevel.VISITOR,
             },
-            'identity': {
-                'type': 'auth',
-                'priority': 'high',
-                'capabilities': ['authentication', 'authorization', 'tier_management'],
-                'min_tier': TierLevel.VISITOR
-            }
+            "identity": {
+                "type": "auth",
+                "priority": "high",
+                "capabilities": ["authentication", "authorization", "tier_management"],
+                "min_tier": TierLevel.VISITOR,
+            },
         }
 
         # Register each connection
@@ -380,12 +390,12 @@ class ModuleRegistry:
         for module, config in connections.items():
             try:
                 self._log_audit(
-                    action="connection_registered",
-                    module=module,
-                    config=config
+                    action="connection_registered", module=module, config=config
                 )
                 registered_connections[module] = config
-                logger.info(f"Registered core connection: {module} ({config['type']}, priority: {config['priority']})")
+                logger.info(
+                    f"Registered core connection: {module} ({config['type']}, priority: {config['priority']})"
+                )
             except Exception as e:
                 logger.error(f"Failed to register connection {module}: {e}")
 
@@ -404,16 +414,14 @@ class ModuleRegistry:
         """
         try:
             # Validate config
-            required_fields = ['type', 'priority']
+            required_fields = ["type", "priority"]
             for field in required_fields:
                 if field not in config:
                     raise ValueError(f"Missing required field: {field}")
 
             # Log connection
             self._log_audit(
-                action="connection_registered",
-                module=module,
-                config=config
+                action="connection_registered", module=module, config=config
             )
 
             logger.info(f"Registered connection: {module}")
@@ -431,7 +439,7 @@ class ModuleRegistry:
         self._log_audit(
             action="registry_shutdown",
             total_modules=len(self.modules),
-            total_audit_entries=len(self.audit_log)
+            total_audit_entries=len(self.audit_log),
         )
 
         # Clear modules
@@ -465,7 +473,7 @@ MODULE_METRICS = {
     "total_modules_registered": 0,
     "total_access_attempts": 0,
     "access_denials": 0,
-    "unique_users": 0
+    "unique_users": 0,
 }
 
 # Validation status
@@ -473,14 +481,14 @@ VALIDATION_STATUS = {
     "tier_system": TIER_SYSTEM_AVAILABLE,
     "identity_integration": TIER_SYSTEM_AVAILABLE,
     "audit_logging": True,
-    "health_monitoring": True
+    "health_monitoring": True,
 }
 
 # Performance monitoring
 PERFORMANCE_METRICS = {
     "avg_registration_time_ms": 0.0,
     "avg_access_check_time_ms": 0.0,
-    "cache_hit_rate": 0.0
+    "cache_hit_rate": 0.0,
 }
 
 # Symbolic signature
@@ -488,7 +496,7 @@ MODULE_SIGNATURE = {
     "symbolic_hash": "ΛREG_2507_TIER",
     "consciousness_resonance": 0.95,
     "ethical_alignment": 1.0,
-    "tier_compliance": 1.0
+    "tier_compliance": 1.0,
 }
 
 # Change log

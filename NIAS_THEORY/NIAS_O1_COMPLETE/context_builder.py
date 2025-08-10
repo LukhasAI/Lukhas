@@ -9,6 +9,7 @@ Author: You
 
 from . import mesh_visualizer, trace_logger
 
+
 def build_user_context(user_id):
     emotional_vector = mesh_visualizer.get_emotional_state(user_id)
     task_tags = []

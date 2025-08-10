@@ -4,11 +4,14 @@ Symbolic Entropy for LUKHAS AGI system.
 This module implements an entropy delta calculator from memory and affect traces.
 """
 
-from typing import List, Dict
 import math
+from typing import Dict, List
 
-#LUKHAS_TAG: symbolic_entropy
-def calculate_entropy_delta(memory_traces: List[Dict], affect_traces: List[Dict]) -> float:
+
+# LUKHAS_TAG: symbolic_entropy
+def calculate_entropy_delta(
+    memory_traces: List[Dict], affect_traces: List[Dict]
+) -> float:
     """
     Calculates the entropy delta from memory and affect traces.
 
@@ -43,8 +46,11 @@ def calculate_entropy_delta(memory_traces: List[Dict], affect_traces: List[Dict]
 
     return (memory_entropy + affect_entropy) / 2.0
 
-#LUKHAS_TAG: symbolic_entropy
-def entropy_state_snapshot(memory_traces: List[Dict], affect_traces: List[Dict]) -> Dict:
+
+# LUKHAS_TAG: symbolic_entropy
+def entropy_state_snapshot(
+    memory_traces: List[Dict], affect_traces: List[Dict]
+) -> Dict:
     """
     Exposes the entropy levels to Jules 05 and Codex C.
 

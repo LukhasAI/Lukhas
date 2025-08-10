@@ -3,14 +3,16 @@
 Simple version of foldin without external dependencies
 """
 
-import json
 import gzip
+import json
 import struct
+from collections.abc import AsyncIterator
 from pathlib import Path
-from typing import AsyncIterator, Dict, Any
+from typing import Any, Dict
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"
+
 
 async def import_folds(path: str) -> AsyncIterator[Dict[str, Any]]:
     """Import memory folds from file"""
@@ -35,8 +37,9 @@ async def import_folds(path: str) -> AsyncIterator[Dict[str, Any]]:
         data = json.loads(json_data)
 
         # Yield folds
-        for fold in data.get('folds', []):
+        for fold in data.get("folds", []):
             yield fold
+
 
 def verify_lkf_pack(path: str) -> bool:
     """Verify LKF pack file"""

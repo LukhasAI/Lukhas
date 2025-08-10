@@ -3,9 +3,8 @@ Core-Safety Bridge
 Bidirectional communication bridge between core and safety systems
 """
 
-from typing import Any, Dict, Optional, List
-import asyncio
 import logging
+from typing import Any
 
 # Import system hubs (will be available after hub creation)
 # from core.core_hub import get_core_hub
@@ -31,7 +30,7 @@ class CoreSafetyBridge:
         self.event_mappings = {}
         self.is_connected = False
 
-        logger.info(f"CoreSafetyBridge initialized")
+        logger.info("CoreSafetyBridge initialized")
 
     async def connect(self) -> bool:
         """Establish connection between systems"""
@@ -44,7 +43,7 @@ class CoreSafetyBridge:
             self.setup_event_mappings()
 
             self.is_connected = True
-            logger.info(f"Bridge connected between core and safety")
+            logger.info("Bridge connected between core and safety")
             return True
 
         except Exception as e:
@@ -57,13 +56,14 @@ class CoreSafetyBridge:
             # core -> safety events
             "core_state_change": "safety_sync_request",
             "core_data_update": "safety_data_sync",
-
             # safety -> core events
             "safety_state_change": "core_sync_request",
             "safety_data_update": "core_data_sync",
         }
 
-    async def core_to_safety(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def core_to_safety(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from core to safety"""
         if not self.is_connected:
             await self.connect()
@@ -77,7 +77,9 @@ class CoreSafetyBridge:
 
             # Send to safety
             if self.safety_hub:
-                result = await self.safety_hub.process_event(mapped_event, transformed_data)
+                result = await self.safety_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from core to safety")
                 return result
 
@@ -87,7 +89,9 @@ class CoreSafetyBridge:
             logger.error(f"Error forwarding from core to safety: {e}")
             return {"error": str(e)}
 
-    async def safety_to_core(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def safety_to_core(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from safety to core"""
         if not self.is_connected:
             await self.connect()
@@ -101,7 +105,9 @@ class CoreSafetyBridge:
 
             # Send to core
             if self.core_hub:
-                result = await self.core_hub.process_event(mapped_event, transformed_data)
+                result = await self.core_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from safety to core")
                 return result
 
@@ -111,24 +117,24 @@ class CoreSafetyBridge:
             logger.error(f"Error forwarding from safety to core: {e}")
             return {"error": str(e)}
 
-    def transform_data_core_to_safety(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data_core_to_safety(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from core to safety"""
         # Add system-specific transformations here
         return {
             "source_system": "core",
             "target_system": "safety",
             "data": data,
-            "timestamp": "{}".format(__import__('datetime').datetime.now().isoformat())
+            "timestamp": "{}".format(__import__("datetime").datetime.now().isoformat()),
         }
 
-    def transform_data_safety_to_core(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data_safety_to_core(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from safety to core"""
         # Add system-specific transformations here
         return {
             "source_system": "safety",
             "target_system": "core",
             "data": data,
-            "timestamp": "{}".format(__import__('datetime').datetime.now().isoformat())
+            "timestamp": "{}".format(__import__("datetime").datetime.now().isoformat()),
         }
 
     async def sync_state(self) -> bool:
@@ -154,21 +160,23 @@ class CoreSafetyBridge:
             logger.error(f"State sync failed: {e}")
             return False
 
-    async def get_core_state(self) -> Dict[str, Any]:
+    async def get_core_state(self) -> dict[str, Any]:
         """Get current state from core system"""
         if self.core_hub:
             # Implement core-specific state retrieval
             return {"system": "core", "state": "active"}
         return {}
 
-    async def get_safety_state(self) -> Dict[str, Any]:
+    async def get_safety_state(self) -> dict[str, Any]:
         """Get current state from safety system"""
         if self.safety_hub:
             # Implement safety-specific state retrieval
             return {"system": "safety", "state": "active"}
         return {}
 
-    def compare_states(self, state1: Dict[str, Any], state2: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def compare_states(
+        self, state1: dict[str, Any], state2: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []
 
@@ -177,7 +185,7 @@ class CoreSafetyBridge:
 
         return differences
 
-    async def resolve_differences(self, differences: List[Dict[str, Any]]) -> None:
+    async def resolve_differences(self, differences: list[dict[str, Any]]) -> None:
         """Resolve state differences between systems"""
         for diff in differences:
             # Implement difference resolution logic
@@ -186,7 +194,7 @@ class CoreSafetyBridge:
     async def disconnect(self) -> None:
         """Disconnect the bridge"""
         self.is_connected = False
-        logger.info(f"Bridge disconnected between core and safety")
+        logger.info("Bridge disconnected between core and safety")
 
 
 # Singleton instance
@@ -199,4 +207,3 @@ def get_core_safety_bridge() -> CoreSafetyBridge:
     if _core_safety_bridge_instance is None:
         _core_safety_bridge_instance = CoreSafetyBridge()
     return _core_safety_bridge_instance
-

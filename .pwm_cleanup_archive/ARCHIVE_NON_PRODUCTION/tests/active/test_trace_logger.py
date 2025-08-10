@@ -1,5 +1,6 @@
-from orchestration_src.brain.trace_memoria_logger import TraceMemoriaLogger as MemoriaLogger
-import logging
+from orchestration_src.brain.trace_memoria_logger import (
+    TraceMemoriaLogger as MemoriaLogger,
+)
 
 logger = MemoriaLogger()
 logger.log_trace(
@@ -9,6 +10,6 @@ logger.log_trace(
         "user_id": "Lukhas_ID#2025-0001-XA9",
         "type": "dream_fragment",
         "emotion_score": 0.87,
-        "category": "dream"
-    }
+        "category": "dream",
+    },
 )

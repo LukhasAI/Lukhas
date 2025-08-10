@@ -11,18 +11,22 @@ Provides secure alternatives to dangerous functions like exec(), eval(), subproc
 """
 
 import ast
-import subprocess
-import shlex
 import os
-from typing import Any, Dict, List, Optional, Union
+import subprocess
+from typing import Any, Dict, List, Optional
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from core.common import LukhasError
+
+
 class SecurityError(LukhasError):
     """Raised when a security check fails"""
+
     pass
+
 
 def safe_eval(expression: str, allowed_names: Optional[Dict[str, Any]] = None) -> Any:
     """
@@ -48,34 +52,37 @@ def safe_eval(expression: str, allowed_names: Optional[Dict[str, Any]] = None) -
     except (ValueError, SyntaxError):
         # For more complex expressions, parse and validate the AST
         try:
-            tree = ast.parse(expression, mode='eval')
+            tree = ast.parse(expression, mode="eval")
             if not _is_safe_ast(tree):
-                raise SecurityError(f"Expression contains unsafe operations: {expression}")
+                raise SecurityError(
+                    f"Expression contains unsafe operations: {expression}"
+                )
 
             # Create a restricted environment
             safe_env = {
-                '__builtins__': {
-                    'len': len,
-                    'str': str,
-                    'int': int,
-                    'float': float,
-                    'bool': bool,
-                    'list': list,
-                    'dict': dict,
-                    'tuple': tuple,
-                    'set': set,
-                    'abs': abs,
-                    'min': min,
-                    'max': max,
-                    'sum': sum,
-                    'round': round,
+                "__builtins__": {
+                    "len": len,
+                    "str": str,
+                    "int": int,
+                    "float": float,
+                    "bool": bool,
+                    "list": list,
+                    "dict": dict,
+                    "tuple": tuple,
+                    "set": set,
+                    "abs": abs,
+                    "min": min,
+                    "max": max,
+                    "sum": sum,
+                    "round": round,
                 },
-                **allowed_names
+                **allowed_names,
             }
 
-            return eval(compile(tree, '<string>', 'eval'), safe_env)
+            return eval(compile(tree, "<string>", "eval"), safe_env)
         except Exception as e:
             raise SecurityError(f"Failed to safely evaluate expression: {e}")
+
 
 def _is_safe_ast(node: ast.AST) -> bool:
     """
@@ -89,13 +96,21 @@ def _is_safe_ast(node: ast.AST) -> bool:
     """
     # Define unsafe node types (compatible with Python 3.8+)
     unsafe_nodes = {
-        ast.Import, ast.ImportFrom, ast.Call, ast.Attribute,
-        ast.FunctionDef, ast.ClassDef, ast.Lambda,
-        ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp
+        ast.Import,
+        ast.ImportFrom,
+        ast.Call,
+        ast.Attribute,
+        ast.FunctionDef,
+        ast.ClassDef,
+        ast.Lambda,
+        ast.ListComp,
+        ast.SetComp,
+        ast.DictComp,
+        ast.GeneratorExp,
     }
 
     # Add ast.Exec only if it exists (Python < 3.8)
-    if hasattr(ast, 'Exec'):
+    if hasattr(ast, "Exec"):
         unsafe_nodes.add(ast.Exec)
 
     for child in ast.walk(node):
@@ -104,18 +119,32 @@ def _is_safe_ast(node: ast.AST) -> bool:
 
         # Check for dangerous built-in functions
         if isinstance(child, ast.Name) and child.id in {
-            'exec', 'eval', 'compile', 'open', 'file', 'input', 'raw_input',
-            '__import__', 'reload', 'vars', 'globals', 'locals', 'dir',
-            'getattr', 'setattr', 'delattr', 'hasattr'
+            "exec",
+            "eval",
+            "compile",
+            "open",
+            "file",
+            "input",
+            "raw_input",
+            "__import__",
+            "reload",
+            "vars",
+            "globals",
+            "locals",
+            "dir",
+            "getattr",
+            "setattr",
+            "delattr",
+            "hasattr",
         }:
             return False
 
     return True
 
-def safe_subprocess_run(command: List[str],
-                       check_command: bool = True,
-                       timeout: int = 30,
-                       **kwargs) -> subprocess.CompletedProcess:
+
+def safe_subprocess_run(
+    command: List[str], check_command: bool = True, timeout: int = 30, **kwargs
+) -> subprocess.CompletedProcess:
     """
     Safely run a subprocess command with security checks
 
@@ -142,12 +171,12 @@ def safe_subprocess_run(command: List[str],
 
     # Set secure defaults
     secure_kwargs = {
-        'check': True,
-        'timeout': timeout,
-        'capture_output': True,
-        'text': True,
-        'shell': False,  # Never use shell=True
-        **kwargs
+        "check": True,
+        "timeout": timeout,
+        "capture_output": True,
+        "text": True,
+        "shell": False,  # Never use shell=True
+        **kwargs,
     }
 
     try:
@@ -160,6 +189,7 @@ def safe_subprocess_run(command: List[str],
         raise SecurityError(f"Command failed with exit code {e.returncode}: {e.stderr}")
     except Exception as e:
         raise SecurityError(f"Unexpected error running command: {e}")
+
 
 def _validate_command(command: List[str]) -> None:
     """
@@ -176,10 +206,31 @@ def _validate_command(command: List[str]) -> None:
 
     # List of allowed commands (whitelist approach)
     allowed_commands = {
-        'git', 'python', 'python3', 'pip', 'pip3', 'node', 'npm', 'yarn',
-        'ls', 'cat', 'grep', 'find', 'head', 'tail', 'wc', 'sort', 'uniq',
-        'echo', 'date', 'pwd', 'whoami', 'which', 'type',
-        'afplay', 'say'  # Audio commands for the audio exporter
+        "git",
+        "python",
+        "python3",
+        "pip",
+        "pip3",
+        "node",
+        "npm",
+        "yarn",
+        "ls",
+        "cat",
+        "grep",
+        "find",
+        "head",
+        "tail",
+        "wc",
+        "sort",
+        "uniq",
+        "echo",
+        "date",
+        "pwd",
+        "whoami",
+        "which",
+        "type",
+        "afplay",
+        "say",  # Audio commands for the audio exporter
     }
 
     executable = command[0]
@@ -189,7 +240,7 @@ def _validate_command(command: List[str]) -> None:
         raise SecurityError(f"Absolute paths not allowed: {executable}")
 
     # Check if it's a relative path with directory traversal
-    if '/' in executable or '\\' in executable:
+    if "/" in executable or "\\" in executable:
         raise SecurityError(f"Path traversal not allowed: {executable}")
 
     # Check against whitelist
@@ -198,13 +249,27 @@ def _validate_command(command: List[str]) -> None:
 
     # Check for dangerous arguments
     dangerous_args = {
-        '--eval', '--exec', '-e', '-c', '--command',
-        '|', ';', '&', '&&', '||', '$(', '`', '<', '>', '>>'
+        "--eval",
+        "--exec",
+        "-e",
+        "-c",
+        "--command",
+        "|",
+        ";",
+        "&",
+        "&&",
+        "||",
+        "$(",
+        "`",
+        "<",
+        ">",
+        ">>",
     }
 
     for arg in command[1:]:
         if any(dangerous in str(arg) for dangerous in dangerous_args):
             raise SecurityError(f"Dangerous argument detected: {arg}")
+
 
 def sanitize_input(input_str: str, max_length: int = 1000) -> str:
     """
@@ -224,13 +289,24 @@ def sanitize_input(input_str: str, max_length: int = 1000) -> str:
         raise SecurityError(f"Input too long: {len(input_str)} > {max_length}")
 
     # Remove null bytes
-    input_str = input_str.replace('\x00', '')
+    input_str = input_str.replace("\x00", "")
 
     # Check for dangerous patterns
     dangerous_patterns = [
-        '$(', '`', '|', ';', '&', '&&', '||',
-        '<script', '</script', 'javascript:', 'data:',
-        'exec(', 'eval(', '__import__'
+        "$(",
+        "`",
+        "|",
+        ";",
+        "&",
+        "&&",
+        "||",
+        "<script",
+        "</script",
+        "javascript:",
+        "data:",
+        "exec(",
+        "eval(",
+        "__import__",
     ]
 
     for pattern in dangerous_patterns:
@@ -238,6 +314,7 @@ def sanitize_input(input_str: str, max_length: int = 1000) -> str:
             raise SecurityError(f"Dangerous pattern detected: {pattern}")
 
     return input_str
+
 
 def secure_file_path(path: str, base_dir: str) -> str:
     """
@@ -262,10 +339,11 @@ def secure_file_path(path: str, base_dir: str) -> str:
         raise SecurityError(f"Path outside base directory: {path}")
 
     # Check for dangerous characters
-    if any(char in path for char in ['..', '~', '$', '`']):
+    if any(char in path for char in ["..", "~", "$", "`"]):
         raise SecurityError(f"Dangerous characters in path: {path}")
 
     return abs_path
+
 
 def get_env_var(name: str, default: str = None, required: bool = False) -> str:
     """

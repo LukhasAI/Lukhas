@@ -1,15 +1,12 @@
 import asyncio
 import unittest
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import MagicMock
 
 from core.actor_system import (
     Actor,
-    ActorSystem,
     ActorState,
     SupervisionStrategy,
-    ActorMessage,
     get_global_actor_system,
-    ActorRef,
 )
 
 
@@ -58,6 +55,7 @@ class ActorSystemTests(unittest.TestCase):
         asyncio.set_event_loop(self.loop)
         # Reset global actor system for each test
         from core import actor_system
+
         actor_system._global_actor_system = None
         self.system = self.loop.run_until_complete(get_global_actor_system())
 
@@ -65,6 +63,7 @@ class ActorSystemTests(unittest.TestCase):
         async def stop_system():
             if self.system._running:
                 await self.system.stop()
+
         self.loop.run_until_complete(stop_system())
         self.loop.close()
 

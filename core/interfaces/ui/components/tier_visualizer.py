@@ -14,6 +14,8 @@ Integration Date: 2025-05-31T07:55:31.353251
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
+
+
 import json
 
 st.title("🔐 Symbolic Tier Visualizer")
@@ -37,10 +39,13 @@ try:
     st.subheader("📊 Tier Access Level Comparison")
     try:
         import pandas as pd
-        tier_df = pd.DataFrame({
-            "Tier": list(manifest["tiers"].keys()),
-            "Level": [int(tier) for tier in manifest["tiers"].keys()]
-        })
+
+        tier_df = pd.DataFrame(
+            {
+                "Tier": list(manifest["tiers"].keys()),
+                "Level": [int(tier) for tier in manifest["tiers"]],
+            }
+        )
         st.bar_chart(tier_df.set_index("Tier"))
     except Exception as e:
         st.warning(f"Could not generate chart: {e}")

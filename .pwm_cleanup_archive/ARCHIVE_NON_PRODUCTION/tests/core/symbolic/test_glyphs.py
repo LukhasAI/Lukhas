@@ -5,19 +5,21 @@ Tests GLYPH generation, transformations, and properties with deterministic
 behavior for the LUKHAS symbolic system.
 """
 
-import pytest
-from typing import List, Dict, Any
 import hashlib
-from unittest.mock import Mock, patch
 from dataclasses import dataclass
+from typing import List
+
+import pytest
 
 # Import modules to test
 from core.symbolic.glyphs import GLYPH_MAP, get_glyph_meaning
+
 
 # Since glyphs.py only has a map and getter, we'll create test classes for comprehensive testing
 @dataclass
 class Glyph:
     """Test representation of a GLYPH."""
+
     symbol: str
     context: str
     resonance: float
@@ -25,7 +27,9 @@ class Glyph:
 
     def __post_init__(self):
         if self.hash is None:
-            self.hash = hashlib.sha256(f"{self.symbol}:{self.context}".encode()).hexdigest()[:8]
+            self.hash = hashlib.sha256(
+                f"{self.symbol}:{self.context}".encode()
+            ).hexdigest()[:8]
 
     def is_transformative(self):
         return self.symbol == "Λ"
@@ -39,6 +43,7 @@ class Glyph:
 
 class GlyphGenerator:
     """Test GLYPH generator."""
+
     def __init__(self, seed=None):
         self.seed = seed
         self._counter = 0
@@ -52,24 +57,19 @@ class GlyphGenerator:
 
         resonance = (ctx_hash[1] % 100) / 100.0
 
-        return Glyph(
-            symbol=symbols[symbol_index],
-            context=context,
-            resonance=resonance
-        )
+        return Glyph(symbol=symbols[symbol_index], context=context, resonance=resonance)
 
 
 class GlyphTransformer:
     """Test GLYPH transformer."""
+
     def __init__(self):
         self.transform_count = 0
 
     def transform(self, glyph: Glyph, transform_type: str, **params) -> Glyph:
         """Transform a GLYPH."""
         new_glyph = Glyph(
-            symbol=glyph.symbol,
-            context=glyph.context,
-            resonance=glyph.resonance
+            symbol=glyph.symbol, context=glyph.context, resonance=glyph.resonance
         )
 
         if transform_type == "identity":
@@ -88,7 +88,7 @@ class GlyphTransformer:
                 new_glyph.symbol = symbols[(idx + 1) % len(symbols)]
 
         # Track lineage
-        if hasattr(glyph, 'lineage'):
+        if hasattr(glyph, "lineage"):
             new_glyph.lineage = glyph.lineage + [transform_type]
         else:
             new_glyph.lineage = [transform_type]
@@ -109,11 +109,7 @@ class GlyphTransformer:
         else:
             symbol = "Σ"
 
-        return Glyph(
-            symbol=symbol,
-            context="composite",
-            resonance=avg_resonance
-        )
+        return Glyph(symbol=symbol, context="composite", resonance=avg_resonance)
 
 
 @pytest.mark.symbolic
@@ -265,7 +261,7 @@ class TestGlyphTransformation:
         glyphs = [
             Glyph("Λ", "part1", 0.6),
             Glyph("Ψ", "part2", 0.7),
-            Glyph("Ω", "part3", 0.8)
+            Glyph("Ω", "part3", 0.8),
         ]
 
         # Merge glyphs
@@ -284,7 +280,7 @@ class TestGlyphTransformation:
             ("amplify", {"factor": 1.5}),
             ("rotate", {}),
             ("dampen", {"factor": 0.8}),
-            ("identity", {})
+            ("identity", {}),
         ]
 
         current = original
@@ -309,7 +305,7 @@ class TestGlyphTransformation:
         assert merged.resonance == 0.5
 
         # Many glyphs
-        many = [Glyph("Λ", f"g{i}", i/10) for i in range(10)]
+        many = [Glyph("Λ", f"g{i}", i / 10) for i in range(10)]
         merged_many = transformer.merge(many)
         assert merged_many.symbol == "Σ"  # Large merge
 
@@ -349,18 +345,21 @@ class TestGlyphMapIntegration:
             assert not meaning.startswith(" ")  # No leading space
             assert not meaning.endswith(" ")  # No trailing space
 
-    @pytest.mark.parametrize("glyph,expected_concept", [
-        ("☯", "Choice"),
-        ("🪞", "Introspection"),
-        ("🌪️", "Collapse"),
-        ("🔁", "Loop"),
-        ("💡", "Insight"),
-        ("🔗", "Connection"),
-        ("🛡️", "Safety"),
-        ("🌱", "Growth"),
-        ("❓", "Uncertainty"),
-        ("👁️", "Awareness")
-    ])
+    @pytest.mark.parametrize(
+        "glyph,expected_concept",
+        [
+            ("☯", "Choice"),
+            ("🪞", "Introspection"),
+            ("🌪️", "Collapse"),
+            ("🔁", "Loop"),
+            ("💡", "Insight"),
+            ("🔗", "Connection"),
+            ("🛡️", "Safety"),
+            ("🌱", "Growth"),
+            ("❓", "Uncertainty"),
+            ("👁️", "Awareness"),
+        ],
+    )
     def test_glyph_concepts(self, glyph, expected_concept):
         """Test that glyphs map to expected concepts."""
         meaning = get_glyph_meaning(glyph)

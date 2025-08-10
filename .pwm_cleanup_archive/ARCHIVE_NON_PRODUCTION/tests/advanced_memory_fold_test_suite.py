@@ -4,15 +4,13 @@ Advanced Memory Fold Test Suite
 Tests with data injection, images, and controlled scenarios.
 """
 
-import sys
 import json
-import base64
-import asyncio
 import random
-from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
+import sys
 import time
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -30,10 +28,12 @@ class AdvancedMemoryFoldTester:
             "failed": 0,
             "scenarios": {},
             "performance": {},
-            "errors": []
+            "errors": [],
         }
 
-    def log_result(self, test_name: str, passed: bool, details: Any = None, error: str = None):
+    def log_result(
+        self, test_name: str, passed: bool, details: Any = None, error: str = None
+    ):
         """Log test results."""
         if passed:
             self.test_results["passed"] += 1
@@ -47,7 +47,7 @@ class AdvancedMemoryFoldTester:
         self.test_results["scenarios"][test_name] = {
             "status": status,
             "details": details,
-            "error": error
+            "error": error,
         }
 
         print(f"{status} - {test_name}")
@@ -60,9 +60,24 @@ class AdvancedMemoryFoldTester:
         start_time = time.time()
 
         # Generate test data
-        emotions = ["joy", "sadness", "fear", "anger", "trust", "surprise",
-                   "anticipation", "disgust", "peaceful", "anxious", "curious",
-                   "excited", "reflective", "nostalgic", "hopeful", "confused"]
+        emotions = [
+            "joy",
+            "sadness",
+            "fear",
+            "anger",
+            "trust",
+            "surprise",
+            "anticipation",
+            "disgust",
+            "peaceful",
+            "anxious",
+            "curious",
+            "excited",
+            "reflective",
+            "nostalgic",
+            "hopeful",
+            "confused",
+        ]
 
         contexts = [
             "Discovered a new algorithm that solves the problem",
@@ -80,7 +95,7 @@ class AdvancedMemoryFoldTester:
             "Thinking about system architecture",
             "Remembering the early prototype days",
             "Optimistic about future improvements",
-            "Unclear requirements from stakeholders"
+            "Unclear requirements from stakeholders",
         ]
 
         created_memories = []
@@ -98,8 +113,8 @@ class AdvancedMemoryFoldTester:
                     metadata={
                         "test_id": i,
                         "batch": "mass_injection",
-                        "timestamp_offset": i * 3600  # Spread over time
-                    }
+                        "timestamp_offset": i * 3600,  # Spread over time
+                    },
                 )
                 created_memories.append(memory)
 
@@ -113,16 +128,16 @@ class AdvancedMemoryFoldTester:
                 passed=len(created_memories) == 100,
                 details={
                     "memories_created": len(created_memories),
-                    "total_in_db": stats['total_folds'],
+                    "total_in_db": stats["total_folds"],
                     "time_elapsed": f"{elapsed:.2f}s",
-                    "rate": f"{100/elapsed:.1f} memories/second"
-                }
+                    "rate": f"{100/elapsed:.1f} memories/second",
+                },
             )
 
             self.test_results["performance"]["mass_injection"] = {
                 "count": 100,
                 "time": elapsed,
-                "rate": 100/elapsed
+                "rate": 100 / elapsed,
             }
 
         except Exception as e:
@@ -134,8 +149,16 @@ class AdvancedMemoryFoldTester:
 
         try:
             # Test emotional distances between all primary emotions
-            primary_emotions = ["joy", "trust", "fear", "surprise", "sadness",
-                              "disgust", "anger", "anticipation"]
+            primary_emotions = [
+                "joy",
+                "trust",
+                "fear",
+                "surprise",
+                "sadness",
+                "disgust",
+                "anger",
+                "anticipation",
+            ]
 
             distance_matrix = {}
 
@@ -164,8 +187,8 @@ class AdvancedMemoryFoldTester:
                 details={
                     "closest_pairs": closest_pairs[:5],
                     "cluster_count": len(clusters),
-                    "largest_cluster": max(len(v) for v in clusters.values())
-                }
+                    "largest_cluster": max(len(v) for v in clusters.values()),
+                },
             )
 
         except Exception as e:
@@ -193,20 +216,21 @@ class AdvancedMemoryFoldTester:
                         "size": "1x1",
                         "captured_at": datetime.utcnow().isoformat(),
                         "location": {"lat": 37.7749, "lon": -122.4194},
-                        "tags": ["sunset", "nature", "photography"]
-                    }
-                }
+                        "tags": ["sunset", "nature", "photography"],
+                    },
+                },
             )
 
             # Verify storage
             recalled = self.memory_system.recall_memory_folds(
-                user_id="photographer",
-                user_tier=5,
-                limit=1
+                user_id="photographer", user_tier=5, limit=1
             )
 
             image_retrieved = False
-            if recalled and recalled[0]['metadata'].get('image_data') == test_image_base64:
+            if (
+                recalled
+                and recalled[0]["metadata"].get("image_data") == test_image_base64
+            ):
                 image_retrieved = True
 
             # Test multiple images
@@ -218,8 +242,8 @@ class AdvancedMemoryFoldTester:
                     metadata={
                         "image_data": test_image_base64,
                         "image_id": f"img_{i}",
-                        "collection": "test_collection"
-                    }
+                        "collection": "test_collection",
+                    },
                 )
                 image_memories.append(mem)
 
@@ -230,8 +254,8 @@ class AdvancedMemoryFoldTester:
                     "image_stored": True,
                     "image_retrieved": image_retrieved,
                     "image_size_bytes": len(test_image_base64),
-                    "multiple_images": len(image_memories)
-                }
+                    "multiple_images": len(image_memories),
+                },
             )
 
         except Exception as e:
@@ -247,7 +271,7 @@ class AdvancedMemoryFoldTester:
                 "morning": (6, 12),
                 "afternoon": (12, 18),
                 "evening": (18, 22),
-                "night": (22, 6)
+                "night": (22, 6),
             }
 
             # Inject memories with specific timestamps
@@ -258,7 +282,11 @@ class AdvancedMemoryFoldTester:
                 for i in range(5):
                     # Calculate timestamp
                     if period == "night" and start_hour > end_hour:
-                        hour = random.randint(22, 23) if random.random() > 0.5 else random.randint(0, 5)
+                        hour = (
+                            random.randint(22, 23)
+                            if random.random() > 0.5
+                            else random.randint(0, 5)
+                        )
                     else:
                         hour = random.randint(start_hour, end_hour - 1)
 
@@ -268,22 +296,19 @@ class AdvancedMemoryFoldTester:
                     memory = self.memory_system.create_memory_fold(
                         emotion="neutral",
                         context_snippet=f"{period.capitalize()} activity",
-                        metadata={
-                            "time_period": period,
-                            "manual_hour": hour
-                        }
+                        metadata={"time_period": period, "manual_hour": hour},
                     )
                     temporal_memories.append(memory)
 
             # Test vision prompts for different times
             morning_prompt = self.memory_system.vision_manager.get_prompt_for_fold(
                 {"emotion": "peaceful", "timestamp": now.replace(hour=8).isoformat()},
-                user_tier=5
+                user_tier=5,
             )
 
             night_prompt = self.memory_system.vision_manager.get_prompt_for_fold(
                 {"emotion": "peaceful", "timestamp": now.replace(hour=23).isoformat()},
-                user_tier=5
+                user_tier=5,
             )
 
             self.log_result(
@@ -291,10 +316,12 @@ class AdvancedMemoryFoldTester:
                 passed=True,
                 details={
                     "temporal_memories": len(temporal_memories),
-                    "morning_context": morning_prompt['visual_metadata']['time_context'],
-                    "night_context": night_prompt['visual_metadata']['time_context'],
-                    "prompts_differ": morning_prompt != night_prompt
-                }
+                    "morning_context": morning_prompt["visual_metadata"][
+                        "time_context"
+                    ],
+                    "night_context": night_prompt["visual_metadata"]["time_context"],
+                    "prompts_differ": morning_prompt != night_prompt,
+                },
             )
 
         except Exception as e:
@@ -311,7 +338,7 @@ class AdvancedMemoryFoldTester:
             memory = self.memory_system.create_memory_fold(
                 emotion="neutral",
                 context_snippet="",
-                metadata={"test": "empty_context"}
+                metadata={"test": "empty_context"},
             )
             edge_cases.append(("Empty context", "✅ Handled"))
         except Exception as e:
@@ -323,7 +350,7 @@ class AdvancedMemoryFoldTester:
             memory = self.memory_system.create_memory_fold(
                 emotion="neutral",
                 context_snippet=long_context,
-                metadata={"test": "long_context"}
+                metadata={"test": "long_context"},
             )
             edge_cases.append(("10k character context", "✅ Handled"))
         except Exception as e:
@@ -334,7 +361,7 @@ class AdvancedMemoryFoldTester:
             memory = self.memory_system.create_memory_fold(
                 emotion="quantum_superposition",
                 context_snippet="Testing unknown emotion",
-                metadata={"test": "unknown_emotion"}
+                metadata={"test": "unknown_emotion"},
             )
             edge_cases.append(("Unknown emotion", "✅ Handled (interpolated)"))
         except Exception as e:
@@ -345,7 +372,7 @@ class AdvancedMemoryFoldTester:
             memory = self.memory_system.create_memory_fold(
                 emotion="joy",
                 context_snippet="Testing émojis 🎉 and spëcial çharacters ñ λ ∑ ∫",
-                metadata={"test": "special_chars"}
+                metadata={"test": "special_chars"},
             )
             edge_cases.append(("Special characters", "✅ Handled"))
         except Exception as e:
@@ -383,7 +410,7 @@ class AdvancedMemoryFoldTester:
         self.log_result(
             "Stress Test & Edge Cases",
             passed=all("✅" in result for _, result in edge_cases),
-            details={"edge_cases": edge_cases}
+            details={"edge_cases": edge_cases},
         )
 
     def test_scenario_6_consolidation_patterns(self):
@@ -397,17 +424,15 @@ class AdvancedMemoryFoldTester:
                 ("anticipation", "Waking up ready for the day"),
                 ("peaceful", "Morning meditation completed"),
                 ("joy", "Perfect cup of coffee"),
-
                 # Work pattern
                 ("curious", "Investigating new algorithm"),
                 ("confused", "Bug in the quantum module"),
                 ("determined", "Working through the problem"),
                 ("excited", "Found the solution!"),
-
                 # Evening pattern
                 ("reflective", "Reviewing today's progress"),
                 ("peaceful", "Relaxing with music"),
-                ("nostalgic", "Thinking about past projects")
+                ("nostalgic", "Thinking about past projects"),
             ]
 
             # Create memories
@@ -416,31 +441,29 @@ class AdvancedMemoryFoldTester:
                     emotion=emotion,
                     context_snippet=context,
                     user_id="pattern_user",
-                    metadata={"pattern": "daily_routine"}
+                    metadata={"pattern": "daily_routine"},
                 )
 
             # Run consolidation
             result = self.memory_system.dream_consolidate_memories(
-                hours_limit=1,  # Recent only
-                max_memories=20,
-                user_id="pattern_user"
+                hours_limit=1, max_memories=20, user_id="pattern_user"  # Recent only
             )
 
             # Analyze themes
             themes_found = []
-            if result['consolidated_memories']:
-                for consolidation in result['consolidated_memories']:
-                    themes_found.extend(consolidation.get('theme_count', []))
+            if result["consolidated_memories"]:
+                for consolidation in result["consolidated_memories"]:
+                    themes_found.extend(consolidation.get("theme_count", []))
 
             self.log_result(
                 "Dream Consolidation Patterns",
-                passed=result['consolidated_count'] > 0,
+                passed=result["consolidated_count"] > 0,
                 details={
                     "memories_processed": len(pattern_data),
-                    "consolidations": result['consolidated_count'],
+                    "consolidations": result["consolidated_count"],
                     "themes_extracted": len(set(themes_found)),
-                    "success": result['success']
-                }
+                    "success": result["success"],
+                },
             )
 
         except Exception as e:
@@ -459,8 +482,8 @@ class AdvancedMemoryFoldTester:
                 metadata={
                     "confidential": True,
                     "project": "AGI_CORE",
-                    "breakthrough_details": "Solved consciousness recursion"
-                }
+                    "breakthrough_details": "Solved consciousness recursion",
+                },
             )
 
             # Test different tier accesses
@@ -468,18 +491,17 @@ class AdvancedMemoryFoldTester:
 
             for tier in range(6):
                 memories = self.memory_system.recall_memory_folds(
-                    user_id="admin",
-                    user_tier=tier,
-                    limit=1
+                    user_id="admin", user_tier=tier, limit=1
                 )
 
                 if memories:
                     memory = memories[0]
                     tier_results[f"tier_{tier}"] = {
-                        "has_context": "context" in memory and memory["context"] != "[Context Hidden - Tier 2+ Required]",
+                        "has_context": "context" in memory
+                        and memory["context"] != "[Context Hidden - Tier 2+ Required]",
                         "has_emotion_vector": "emotion_vector" in memory,
                         "has_metadata": bool(memory.get("metadata")),
-                        "has_vision": "vision_prompt" in memory
+                        "has_vision": "vision_prompt" in memory,
                     }
                 else:
                     tier_results[f"tier_{tier}"] = "No access"
@@ -494,8 +516,8 @@ class AdvancedMemoryFoldTester:
                 details={
                     "tier_restrictions": tier_results,
                     "tier_0_restricted": tier_0_restricted,
-                    "tier_5_full_access": tier_5_full
-                }
+                    "tier_5_full_access": tier_5_full,
+                },
             )
 
         except Exception as e:
@@ -516,7 +538,7 @@ class AdvancedMemoryFoldTester:
                 ("excited", "Breakthrough moment!"),
                 ("joy", "Solution works perfectly"),
                 ("peaceful", "Satisfied with achievement"),
-                ("reflective", "Learning from the journey")
+                ("reflective", "Learning from the journey"),
             ]
 
             # Create timeline
@@ -531,8 +553,8 @@ class AdvancedMemoryFoldTester:
                     metadata={
                         "journey_step": i,
                         "journey_id": "problem_solving",
-                        "timestamp_order": i
-                    }
+                        "timestamp_order": i,
+                    },
                 )
                 journey_memories.append(memory)
 
@@ -541,12 +563,16 @@ class AdvancedMemoryFoldTester:
             for i in range(len(journey_memories) - 1):
                 current = emotional_journey[i][0]
                 next_emotion = emotional_journey[i + 1][0]
-                distance = self.memory_system.calculate_emotion_distance(current, next_emotion)
-                trajectory.append({
-                    "from": current,
-                    "to": next_emotion,
-                    "distance": round(distance, 3)
-                })
+                distance = self.memory_system.calculate_emotion_distance(
+                    current, next_emotion
+                )
+                trajectory.append(
+                    {
+                        "from": current,
+                        "to": next_emotion,
+                        "distance": round(distance, 3),
+                    }
+                )
 
             # Find biggest emotional shifts
             trajectory.sort(key=lambda x: x["distance"], reverse=True)
@@ -558,8 +584,8 @@ class AdvancedMemoryFoldTester:
                 details={
                     "journey_length": len(emotional_journey),
                     "biggest_shifts": biggest_shifts,
-                    "total_distance": sum(t["distance"] for t in trajectory)
-                }
+                    "total_distance": sum(t["distance"] for t in trajectory),
+                },
             )
 
         except Exception as e:
@@ -571,12 +597,12 @@ class AdvancedMemoryFoldTester:
 
         try:
             # Ensure we have enough data
-            if self.memory_system.get_system_statistics()['total_folds'] < 100:
+            if self.memory_system.get_system_statistics()["total_folds"] < 100:
                 # Add more if needed
                 for i in range(50):
                     self.memory_system.create_memory_fold(
                         emotion=random.choice(["joy", "trust", "fear"]),
-                        context_snippet=f"Performance test memory {i}"
+                        context_snippet=f"Performance test memory {i}",
                     )
 
             performance_results = {}
@@ -589,17 +615,14 @@ class AdvancedMemoryFoldTester:
             # Test 2: Filtered recall
             start = time.time()
             results = self.memory_system.recall_memory_folds(
-                filter_emotion="joy",
-                limit=50
+                filter_emotion="joy", limit=50
             )
             performance_results["filtered_recall_50"] = time.time() - start
 
             # Test 3: Enhanced recall with similarity
             start = time.time()
             results = self.memory_system.enhanced_recall_memory_folds(
-                target_emotion="peaceful",
-                emotion_threshold=0.5,
-                max_results=20
+                target_emotion="peaceful", emotion_threshold=0.5, max_results=20
             )
             performance_results["enhanced_recall_20"] = time.time() - start
 
@@ -621,9 +644,11 @@ class AdvancedMemoryFoldTester:
                 "Search Performance",
                 passed=all_fast,
                 details={
-                    "operations": {k: f"{v*1000:.1f}ms" for k, v in performance_results.items()},
-                    "all_under_1s": all_fast
-                }
+                    "operations": {
+                        k: f"{v*1000:.1f}ms" for k, v in performance_results.items()
+                    },
+                    "all_under_1s": all_fast,
+                },
             )
 
             self.test_results["performance"].update(performance_results)
@@ -643,19 +668,13 @@ class AdvancedMemoryFoldTester:
                 "metadata": {
                     "test_id": "integrity_001",
                     "checksum": "abc123",
-                    "nested": {
-                        "level1": {
-                            "level2": {
-                                "deep_value": "preserved"
-                            }
-                        }
-                    },
+                    "nested": {"level1": {"level2": {"deep_value": "preserved"}}},
                     "array": [1, 2, 3, {"nested": "in_array"}],
                     "unicode": "Testing émojis 🎉 λ ∑",
                     "number": 3.14159,
                     "boolean": True,
-                    "null_value": None
-                }
+                    "null_value": None,
+                },
             }
 
             # Create memory
@@ -663,14 +682,12 @@ class AdvancedMemoryFoldTester:
                 emotion=test_data["emotion"],
                 context_snippet=test_data["context"],
                 user_id="integrity_tester",
-                metadata=test_data["metadata"]
+                metadata=test_data["metadata"],
             )
 
             # Recall it
             recalled = self.memory_system.recall_memory_folds(
-                user_id="integrity_tester",
-                user_tier=5,
-                limit=1
+                user_id="integrity_tester", user_tier=5, limit=1
             )
 
             integrity_checks = []
@@ -679,18 +696,39 @@ class AdvancedMemoryFoldTester:
                 memory = recalled[0]
 
                 # Check each field
-                integrity_checks.append(("emotion", memory["emotion"] == test_data["emotion"]))
-                integrity_checks.append(("context", memory["context"] == test_data["context"]))
+                integrity_checks.append(
+                    ("emotion", memory["emotion"] == test_data["emotion"])
+                )
+                integrity_checks.append(
+                    ("context", memory["context"] == test_data["context"])
+                )
                 integrity_checks.append(("hash", len(memory["hash"]) == 64))  # SHA-256
 
                 # Check metadata preservation
                 if "metadata" in memory:
                     meta = memory["metadata"]
-                    integrity_checks.append(("test_id", meta.get("test_id") == "integrity_001"))
-                    integrity_checks.append(("nested_data",
-                        meta.get("nested", {}).get("level1", {}).get("level2", {}).get("deep_value") == "preserved"))
-                    integrity_checks.append(("array", meta.get("array") == test_data["metadata"]["array"]))
-                    integrity_checks.append(("unicode", meta.get("unicode") == test_data["metadata"]["unicode"]))
+                    integrity_checks.append(
+                        ("test_id", meta.get("test_id") == "integrity_001")
+                    )
+                    integrity_checks.append(
+                        (
+                            "nested_data",
+                            meta.get("nested", {})
+                            .get("level1", {})
+                            .get("level2", {})
+                            .get("deep_value")
+                            == "preserved",
+                        )
+                    )
+                    integrity_checks.append(
+                        ("array", meta.get("array") == test_data["metadata"]["array"])
+                    )
+                    integrity_checks.append(
+                        (
+                            "unicode",
+                            meta.get("unicode") == test_data["metadata"]["unicode"],
+                        )
+                    )
                     integrity_checks.append(("number", meta.get("number") == 3.14159))
                     integrity_checks.append(("boolean", meta.get("boolean") is True))
 
@@ -698,17 +736,19 @@ class AdvancedMemoryFoldTester:
                 if "emotion_vector" in memory:
                     vector = memory["emotion_vector"]
                     integrity_checks.append(("vector_shape", len(vector) == 3))
-                    integrity_checks.append(("vector_type", all(isinstance(v, (int, float)) for v in vector)))
+                    integrity_checks.append(
+                        (
+                            "vector_type",
+                            all(isinstance(v, (int, float)) for v in vector),
+                        )
+                    )
 
             all_passed = all(check[1] for check in integrity_checks)
 
             self.log_result(
                 "Data Integrity",
                 passed=all_passed,
-                details={
-                    "checks": integrity_checks,
-                    "all_passed": all_passed
-                }
+                details={"checks": integrity_checks, "all_passed": all_passed},
             )
 
         except Exception as e:
@@ -736,14 +776,18 @@ class AdvancedMemoryFoldTester:
         print("\n" + "=" * 60)
         print("TEST SUMMARY")
         print("=" * 60)
-        print(f"Total Tests: {self.test_results['passed'] + self.test_results['failed']}")
+        print(
+            f"Total Tests: {self.test_results['passed'] + self.test_results['failed']}"
+        )
         print(f"Passed: {self.test_results['passed']} ✅")
         print(f"Failed: {self.test_results['failed']} ❌")
-        print(f"Success Rate: {self.test_results['passed'] / (self.test_results['passed'] + self.test_results['failed']) * 100:.1f}%")
+        print(
+            f"Success Rate: {self.test_results['passed'] / (self.test_results['passed'] + self.test_results['failed']) * 100:.1f}%"
+        )
 
-        if self.test_results['errors']:
+        if self.test_results["errors"]:
             print("\n❌ ERRORS:")
-            for error in self.test_results['errors']:
+            for error in self.test_results["errors"]:
                 print(f"  - {error['test']}: {error['error']}")
 
         # Performance summary

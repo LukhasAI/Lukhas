@@ -12,18 +12,16 @@
 """
 
 import logging
-import json
-from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime
 from enum import Enum
-import asyncio
-import random
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger("ΛBIO.SYMBOLIC")
 
 
 class SymbolicGlyph(Enum):
     """Symbolic GLYPHs for bio-symbolic mapping."""
+
     # Rhythm GLYPHs
     CIRCADIAN = "ΛCIRCADIAN"
     ULTRADIAN = "ΛULTRADIAN"
@@ -87,28 +85,28 @@ class BioSymbolic:
         Returns:
             Symbolic representation with GLYPHs
         """
-        data_type = data.get('type', 'unknown')
+        data_type = data.get("type", "unknown")
 
-        if data_type == 'rhythm':
+        if data_type == "rhythm":
             return self.process_rhythm(data)
-        elif data_type == 'energy':
+        elif data_type == "energy":
             return self.process_energy(data)
-        elif data_type == 'dna':
+        elif data_type == "dna":
             return self.process_dna(data)
-        elif data_type == 'stress':
+        elif data_type == "stress":
             return self.process_stress(data)
-        elif data_type == 'homeostasis':
+        elif data_type == "homeostasis":
             return self.process_homeostasis(data)
-        elif data_type == 'neural':
+        elif data_type == "neural":
             return self.process_neural(data)
         else:
             return self.process_generic(data)
 
     def process_rhythm(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process biological rhythm data."""
-        period = data.get('period', 1.0)
-        phase = data.get('phase', 'unknown')
-        amplitude = data.get('amplitude', 0.5)
+        period = data.get("period", 1.0)
+        phase = data.get("phase", "unknown")
+        amplitude = data.get("amplitude", 0.5)
 
         # Map to appropriate GLYPH
         if period > 12:
@@ -129,29 +127,27 @@ class BioSymbolic:
             energy = "cognitive"
 
         result = {
-            'glyph': glyph.value,
-            'meaning': meaning,
-            'energy_state': energy,
-            'frequency': 1 / period,
-            'symbolic_phase': f"{phase}_symbolic",
-            'coherence': amplitude * 0.9,
-            'timestamp': datetime.utcnow().isoformat()
+            "glyph": glyph.value,
+            "meaning": meaning,
+            "energy_state": energy,
+            "frequency": 1 / period,
+            "symbolic_phase": f"{phase}_symbolic",
+            "coherence": amplitude * 0.9,
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.bio_states.append({
-            'type': 'rhythm',
-            'biological': data,
-            'symbolic': result
-        })
+        self.bio_states.append(
+            {"type": "rhythm", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"Rhythm processed: {glyph.value} - {meaning}")
         return result
 
     def process_energy(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process mitochondrial energy data."""
-        atp_level = data.get('atp_level', 0.5)
-        efficiency = data.get('efficiency', 0.5)
-        stress = data.get('stress', 0.5)
+        atp_level = data.get("atp_level", 0.5)
+        efficiency = data.get("efficiency", 0.5)
+        stress = data.get("stress", 0.5)
 
         # Map ATP levels to energy GLYPHs
         if atp_level > 0.8:
@@ -176,42 +172,40 @@ class BioSymbolic:
             optimization = 0.4
 
         result = {
-            'power_glyph': glyph.value,
-            'interpretation': interpretation,
-            'recommended_action': action,
-            'optimization_level': optimization,
-            'efficiency': efficiency,
-            'stress_impact': stress,
-            'coherence': (atp_level + efficiency) / 2 * (1 - stress),
-            'timestamp': datetime.utcnow().isoformat()
+            "power_glyph": glyph.value,
+            "interpretation": interpretation,
+            "recommended_action": action,
+            "optimization_level": optimization,
+            "efficiency": efficiency,
+            "stress_impact": stress,
+            "coherence": (atp_level + efficiency) / 2 * (1 - stress),
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append({
-            'type': 'mitochondrial',
-            'biological': data,
-            'symbolic': result
-        })
+        self.symbolic_mappings.append(
+            {"type": "mitochondrial", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"Energy processed: {glyph.value} - {interpretation}")
         return result
 
     def process_dna(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process DNA sequence data."""
-        sequence = data.get('sequence', '')
-        function = data.get('function', 'unknown')
+        sequence = data.get("sequence", "")
+        function = data.get("function", "unknown")
 
         # Calculate sequence properties
-        gc_content = (sequence.count('G') + sequence.count('C')) / max(len(sequence), 1)
+        gc_content = (sequence.count("G") + sequence.count("C")) / max(len(sequence), 1)
         repetitive = len(set(sequence)) < len(sequence) / 2 if sequence else False
 
         # Map to DNA GLYPHs
-        if function == 'regulatory':
+        if function == "regulatory":
             glyph = SymbolicGlyph.DNA_CONTROL
             properties = ["regulatory", "switching", "adaptive"]
-        elif function == 'structural':
+        elif function == "structural":
             glyph = SymbolicGlyph.DNA_STRUCTURE
             properties = ["stable", "supportive", "foundational"]
-        elif function == 'promoter':
+        elif function == "promoter":
             glyph = SymbolicGlyph.DNA_INITIATE
             properties = ["activating", "enabling", "catalytic"]
         elif repetitive:
@@ -222,28 +216,26 @@ class BioSymbolic:
             properties = ["expressive", "creative", "generative"]
 
         result = {
-            'symbol': glyph.value,
-            'properties': properties,
-            'gc_content': gc_content,
-            'complexity': len(set(sequence)) / 4 if sequence else 0,
-            'coherence': 0.8 if function != 'unknown' else 0.5,
-            'timestamp': datetime.utcnow().isoformat()
+            "symbol": glyph.value,
+            "properties": properties,
+            "gc_content": gc_content,
+            "complexity": len(set(sequence)) / 4 if sequence else 0,
+            "coherence": 0.8 if function != "unknown" else 0.5,
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append({
-            'type': 'dna_glyph',
-            'biological': data,
-            'symbolic': result
-        })
+        self.symbolic_mappings.append(
+            {"type": "dna_glyph", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"DNA processed: {glyph.value} - {properties}")
         return result
 
     def process_stress(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process stress response data."""
-        stress_type = data.get('stress_type', 'unknown')
-        level = data.get('level', 0.5)
-        duration = data.get('duration', 'acute')
+        stress_type = data.get("stress_type", "unknown")
+        level = data.get("level", 0.5)
+        duration = data.get("duration", "acute")
 
         # Map stress levels to response GLYPHs
         if level > 0.7:
@@ -264,30 +256,28 @@ class BioSymbolic:
             protection = 0.95
 
         result = {
-            'symbol': glyph.value,
-            'strategy': strategy,
-            'protection': protection,
-            'duration_response': f"{duration}_adaptation",
-            'stress_type': stress_type,
-            'resilience_factor': 1 - level + protection,
-            'coherence': protection * 0.9,
-            'timestamp': datetime.utcnow().isoformat()
+            "symbol": glyph.value,
+            "strategy": strategy,
+            "protection": protection,
+            "duration_response": f"{duration}_adaptation",
+            "stress_type": stress_type,
+            "resilience_factor": 1 - level + protection,
+            "coherence": protection * 0.9,
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.bio_states.append({
-            'type': 'stress_response',
-            'biological': data,
-            'symbolic': result
-        })
+        self.bio_states.append(
+            {"type": "stress_response", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"Stress processed: {glyph.value} - {strategy}")
         return result
 
     def process_homeostasis(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process homeostatic balance data."""
-        temp = data.get('temperature', 37.0)
-        ph = data.get('ph', 7.4)
-        glucose = data.get('glucose', 90)
+        temp = data.get("temperature", 37.0)
+        ph = data.get("ph", 7.4)
+        glucose = data.get("glucose", 90)
 
         # Calculate deviation from optimal
         temp_dev = abs(temp - 37.0)
@@ -312,42 +302,42 @@ class BioSymbolic:
             description = "Seeking new equilibrium"
 
         result = {
-            'symbol': glyph.value,
-            'description': description,
-            'balance_score': balance_score,
-            'deviations': {
-                'temperature': temp_dev,
-                'ph': ph_dev,
-                'glucose': glucose_dev
+            "symbol": glyph.value,
+            "description": description,
+            "balance_score": balance_score,
+            "deviations": {
+                "temperature": temp_dev,
+                "ph": ph_dev,
+                "glucose": glucose_dev,
             },
-            'coherence': balance_score,
-            'timestamp': datetime.utcnow().isoformat()
+            "coherence": balance_score,
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.symbolic_mappings.append({
-            'type': 'homeostatic',
-            'biological': data,
-            'symbolic': result
-        })
+        self.symbolic_mappings.append(
+            {"type": "homeostatic", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"Homeostasis processed: {glyph.value} - {description}")
         return result
 
     def process_neural(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process neural/brain state data."""
-        brain_waves = data.get('brain_waves', {})
-        stage = data.get('stage', 'awake')
-        neurotransmitters = data.get('neurotransmitters', {})
+        brain_waves = data.get("brain_waves", {})
+        stage = data.get("stage", "awake")
+        neurotransmitters = data.get("neurotransmitters", {})
 
         # Determine dominant brain wave
-        dominant_wave = max(brain_waves.items(), key=lambda x: x[1])[0] if brain_waves else 'alpha'
+        dominant_wave = (
+            max(brain_waves.items(), key=lambda x: x[1])[0] if brain_waves else "alpha"
+        )
 
         # Map to dream/consciousness GLYPHs
-        if brain_waves.get('theta', 0) > 0.7:
+        if brain_waves.get("theta", 0) > 0.7:
             glyph = SymbolicGlyph.DREAM_EXPLORE
             theme = "Mystical Journey"
             coherence = 0.8
-        elif brain_waves.get('delta', 0) > 0.7:
+        elif brain_waves.get("delta", 0) > 0.7:
             glyph = SymbolicGlyph.DREAM_INTEGRATE
             theme = "Deep Integration"
             coherence = 0.6
@@ -357,7 +347,7 @@ class BioSymbolic:
             coherence = 0.7
 
         # Generate narrative based on neurotransmitters
-        serotonin = neurotransmitters.get('serotonin', 0.5)
+        serotonin = neurotransmitters.get("serotonin", 0.5)
         if serotonin > 0.6:
             narrative = "Peaceful landscapes unfold, revealing hidden wisdom"
         elif serotonin > 0.4:
@@ -366,21 +356,19 @@ class BioSymbolic:
             narrative = "Wild visions cascade through consciousness"
 
         result = {
-            'theme': theme,
-            'primary_symbol': glyph.value,
-            'narrative_snippet': narrative,
-            'coherence': coherence,
-            'stage': stage,
-            'dominant_wave': dominant_wave,
-            'symbolic_elements': ["transformation", "integration", "revelation"],
-            'timestamp': datetime.utcnow().isoformat()
+            "theme": theme,
+            "primary_symbol": glyph.value,
+            "narrative_snippet": narrative,
+            "coherence": coherence,
+            "stage": stage,
+            "dominant_wave": dominant_wave,
+            "symbolic_elements": ["transformation", "integration", "revelation"],
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
-        self.integration_events.append({
-            'type': 'bio_dream',
-            'biological': data,
-            'symbolic': result
-        })
+        self.integration_events.append(
+            {"type": "bio_dream", "biological": data, "symbolic": result}
+        )
 
         logger.debug(f"Neural processed: {glyph.value} - {theme}")
         return result
@@ -392,19 +380,17 @@ class BioSymbolic:
         avg_value = sum(numeric_values) / len(numeric_values) if numeric_values else 0.5
 
         result = {
-            'symbol': 'ΛGENERIC',
-            'data': data,
-            'coherence': min(avg_value, 1.0),
-            'timestamp': datetime.utcnow().isoformat()
+            "symbol": "ΛGENERIC",
+            "data": data,
+            "coherence": min(avg_value, 1.0),
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
         logger.debug("Generic data processed")
         return result
 
     async def integrate_bio_symbolic(
-        self,
-        biological_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        self, biological_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Perform full bio-symbolic integration.
@@ -422,69 +408,75 @@ class BioSymbolic:
         results = []
 
         # Check for different data types in biological_data
-        if 'heart_rate' in biological_data:
+        if "heart_rate" in biological_data:
             rhythm_data = {
-                'type': 'rhythm',
-                'period': 60 / biological_data.get('heart_rate', 70),
-                'phase': 'active',
-                'amplitude': 0.8
+                "type": "rhythm",
+                "period": 60 / biological_data.get("heart_rate", 70),
+                "phase": "active",
+                "amplitude": 0.8,
             }
             results.append(self.process(rhythm_data))
 
-        if 'energy_level' in biological_data:
+        if "energy_level" in biological_data:
             energy_data = {
-                'type': 'energy',
-                'atp_level': biological_data.get('energy_level', 0.5),
-                'efficiency': biological_data.get('efficiency', 0.7),
-                'stress': biological_data.get('stress', 0.3)
+                "type": "energy",
+                "atp_level": biological_data.get("energy_level", 0.5),
+                "efficiency": biological_data.get("efficiency", 0.7),
+                "stress": biological_data.get("stress", 0.3),
             }
             results.append(self.process(energy_data))
 
-        if 'cortisol' in biological_data:
+        if "cortisol" in biological_data:
             stress_data = {
-                'type': 'stress',
-                'stress_type': 'metabolic',
-                'level': min(biological_data.get('cortisol', 10) / 20, 1.0),
-                'duration': 'variable'
+                "type": "stress",
+                "stress_type": "metabolic",
+                "level": min(biological_data.get("cortisol", 10) / 20, 1.0),
+                "duration": "variable",
             }
             results.append(self.process(stress_data))
 
-        if 'temperature' in biological_data:
+        if "temperature" in biological_data:
             homeo_data = {
-                'type': 'homeostasis',
-                'temperature': biological_data.get('temperature', 37.0),
-                'ph': biological_data.get('ph', 7.4),
-                'glucose': biological_data.get('glucose', 90)
+                "type": "homeostasis",
+                "temperature": biological_data.get("temperature", 37.0),
+                "ph": biological_data.get("ph", 7.4),
+                "glucose": biological_data.get("glucose", 90),
             }
             results.append(self.process(homeo_data))
 
         # Calculate overall coherence
-        coherences = [r.get('coherence', 0.5) for r in results]
+        coherences = [r.get("coherence", 0.5) for r in results]
         overall_coherence = sum(coherences) / len(coherences) if coherences else 0.5
 
         # Combine all symbols
-        symbols = [r.get('symbol', r.get('glyph', r.get('power_glyph', 'ΛUNKNOWN')))
-                  for r in results]
+        symbols = [
+            r.get("symbol", r.get("glyph", r.get("power_glyph", "ΛUNKNOWN")))
+            for r in results
+        ]
 
         # Generate integrated state
         integrated_state = {
-            'primary_symbol': symbols[0] if symbols else 'ΛINTEGRATED',
-            'all_symbols': symbols,
-            'coherence': overall_coherence,
-            'bio_data': biological_data,
-            'symbolic_mappings': results,
-            'integration_quality': 'high' if overall_coherence > self.coherence_threshold else 'moderate',
-            'timestamp': datetime.utcnow().isoformat(),
-            'context': context or {}
+            "primary_symbol": symbols[0] if symbols else "ΛINTEGRATED",
+            "all_symbols": symbols,
+            "coherence": overall_coherence,
+            "bio_data": biological_data,
+            "symbolic_mappings": results,
+            "integration_quality": (
+                "high" if overall_coherence > self.coherence_threshold else "moderate"
+            ),
+            "timestamp": datetime.utcnow().isoformat(),
+            "context": context or {},
         }
 
         # Record integration event
-        self.integration_events.append({
-            'type': 'full_integration',
-            'biological': biological_data,
-            'symbolic': integrated_state,
-            'coherence': overall_coherence
-        })
+        self.integration_events.append(
+            {
+                "type": "full_integration",
+                "biological": biological_data,
+                "symbolic": integrated_state,
+                "coherence": overall_coherence,
+            }
+        )
 
         logger.info(f"Integration complete. Coherence: {overall_coherence:.2%}")
         logger.info(f"Primary symbol: {integrated_state['primary_symbol']}")
@@ -494,12 +486,15 @@ class BioSymbolic:
     def get_statistics(self) -> Dict[str, Any]:
         """Get bio-symbolic processing statistics."""
         return {
-            'total_bio_states': len(self.bio_states),
-            'total_symbolic_mappings': len(self.symbolic_mappings),
-            'total_integration_events': len(self.integration_events),
-            'average_coherence': sum(e.get('coherence', 0) for e in self.integration_events) / max(len(self.integration_events), 1),
-            'initialized': self.initialized,
-            'coherence_threshold': self.coherence_threshold
+            "total_bio_states": len(self.bio_states),
+            "total_symbolic_mappings": len(self.symbolic_mappings),
+            "total_integration_events": len(self.integration_events),
+            "average_coherence": sum(
+                e.get("coherence", 0) for e in self.integration_events
+            )
+            / max(len(self.integration_events), 1),
+            "initialized": self.initialized,
+            "coherence_threshold": self.coherence_threshold,
         }
 
     def reset(self):

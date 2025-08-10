@@ -1,8 +1,9 @@
-from typing import Dict, Any
+from typing import Any
+
 from lukhas_pwm.feedback.store import get_lut
 
 
-def apply_lut(params: Dict[str, Any]) -> Dict[str, Any]:
+def apply_lut(params: dict[str, Any]) -> dict[str, Any]:
     """Apply bounded style nudges from LUT to modulated params.
     Safety invariants: does not relax safety_mode or exceed core bounds.
     """

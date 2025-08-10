@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
+import logging
+
 """
 Lukhas AI Flagship - Main System Entry Point
 Integrates all transferred golden features into a unified system.
 """
 
-import sys
-import os
-import json
 import asyncio
-from core.common import get_logger
+import json
+import os
+import sys
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any
+
+from core.common import get_logger
 
 # Add CORE to Python path
 sys.path.insert(0, str(Path(__file__).parent / "CORE"))
@@ -18,21 +21,19 @@ sys.path.insert(0, str(Path(__file__).parent / "CORE"))
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/lukhas-flagship.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("logs/lukhas-flagship.log"), logging.StreamHandler()],
 )
 
 logger = get_logger(__name__)
+
 
 class LukhasFlagshipSecurityEngine:
     """Main system orchestrator for Lukhas AI Flagship environment."""
 
     def __init__(self, config_path: str = "CONFIG/environments/development.json"):
         self.config_path = config_path
-        self.config: Dict[str, Any] = {}
+        self.config: dict[str, Any] = {}
         self.initialized = False
         self.core_systems = {}
         self.modules = {}
@@ -40,7 +41,7 @@ class LukhasFlagshipSecurityEngine:
     async def load_configuration(self) -> None:
         """Load system configuration."""
         try:
-            with open(self.config_path, 'r') as f:
+            with open(self.config_path) as f:
                 self.config = json.load(f)
             logger.info(f"Configuration loaded from {self.config_path}")
         except Exception as e:
@@ -56,8 +57,9 @@ class LukhasFlagshipSecurityEngine:
             try:
                 # Import and initialize the advanced brain system
                 from brain_core import LucasBrain
-                self.core_systems['brain'] = LucasBrain()
-                await self.core_systems['brain'].initialize()
+
+                self.core_systems["brain"] = LucasBrain()
+                await self.core_systems["brain"].initialize()
                 logger.info("✅ Advanced Brain System initialized")
             except Exception as e:
                 logger.warning(f"⚠️ Brain system initialization failed: {e}")
@@ -67,22 +69,23 @@ class LukhasFlagshipSecurityEngine:
             try:
                 # Initialize unified core architecture
                 from unified_core_system import UnifiedCore
-                self.core_systems['unified_core'] = UnifiedCore()
-                await self.core_systems['unified_core'].initialize()
+
+                self.core_systems["unified_core"] = UnifiedCore()
+                await self.core_systems["unified_core"].initialize()
                 logger.info("✅ Unified Core Architecture initialized")
             except Exception as e:
                 logger.warning(f"⚠️ Unified core initialization failed: {e}")
 
         # Initialize Security Frameworks
         try:
-            from safety_guardrails import SafetyGuardrails
             from compliance_registry import ComplianceRegistry
+            from safety_guardrails import SafetyGuardrails
 
-            self.core_systems['safety'] = SafetyGuardrails()
-            self.core_systems['compliance'] = ComplianceRegistry()
+            self.core_systems["safety"] = SafetyGuardrails()
+            self.core_systems["compliance"] = ComplianceRegistry()
 
-            await self.core_systems['safety'].initialize()
-            await self.core_systems['compliance'].initialize()
+            await self.core_systems["safety"].initialize()
+            await self.core_systems["compliance"].initialize()
             logger.info("✅ Security and Safety Frameworks initialized")
         except Exception as e:
             logger.warning(f"⚠️ Security framework initialization failed: {e}")
@@ -97,14 +100,18 @@ class LukhasFlagshipSecurityEngine:
                 sys.path.insert(0, "PLUGINS/nias")
                 from nias_plugin import NIASPlugin
 
-                self.modules['nias'] = NIASPlugin()
-                await self.modules['nias'].initialize()
+                self.modules["nias"] = NIASPlugin()
+                await self.modules["nias"].initialize()
                 logger.info("✅ NIAS System initialized")
             except Exception as e:
                 logger.warning(f"⚠️ NIAS initialization failed: {e}")
 
         # Initialize lukhas_assist (if available)
-        if self.config.get("modules", {}).get("lukhas_assist", {}).get("enabled", False):
+        if (
+            self.config.get("modules", {})
+            .get("lukhas_assist", {})
+            .get("enabled", False)
+        ):
             try:
                 # lukhas_assist implementation would go here
                 logger.info("✅ Lukhas Assist ready for implementation")
@@ -115,8 +122,8 @@ class LukhasFlagshipSecurityEngine:
         try:
             from symbolic_engine import SymbolicEngine
 
-            self.modules['symbolic'] = SymbolicEngine()
-            await self.modules['symbolic'].initialize()
+            self.modules["symbolic"] = SymbolicEngine()
+            await self.modules["symbolic"].initialize()
             logger.info("✅ Symbolic AI Engine initialized")
         except Exception as e:
             logger.warning(f"⚠️ Symbolic engine initialization failed: {e}")
@@ -135,13 +142,13 @@ class LukhasFlagshipSecurityEngine:
         except Exception as e:
             logger.error(f"Failed to start API server: {e}")
 
-    async def run_health_checks(self) -> Dict[str, str]:
+    async def run_health_checks(self) -> dict[str, str]:
         """Run system health checks."""
         health_status = {}
 
         for system_name, system in self.core_systems.items():
             try:
-                if hasattr(system, 'health_check'):
+                if hasattr(system, "health_check"):
                     status = await system.health_check()
                     health_status[system_name] = "healthy" if status else "unhealthy"
                 else:
@@ -151,7 +158,7 @@ class LukhasFlagshipSecurityEngine:
 
         for module_name, module in self.modules.items():
             try:
-                if hasattr(module, 'health_check'):
+                if hasattr(module, "health_check"):
                     status = await module.health_check()
                     health_status[module_name] = "healthy" if status else "unhealthy"
                 else:
@@ -199,7 +206,7 @@ class LukhasFlagshipSecurityEngine:
         # Shutdown modules
         for module_name, module in self.modules.items():
             try:
-                if hasattr(module, 'shutdown'):
+                if hasattr(module, "shutdown"):
                     await module.shutdown()
                 logger.info(f"✅ {module_name} shutdown complete")
             except Exception as e:
@@ -208,7 +215,7 @@ class LukhasFlagshipSecurityEngine:
         # Shutdown core systems
         for system_name, system in self.core_systems.items():
             try:
-                if hasattr(system, 'shutdown'):
+                if hasattr(system, "shutdown"):
                     await system.shutdown()
                 logger.info(f"✅ {system_name} shutdown complete")
             except Exception as e:
@@ -216,6 +223,7 @@ class LukhasFlagshipSecurityEngine:
 
         self.initialized = False
         logger.info("🏁 Lukhas AI Flagship System shutdown complete")
+
 
 async def main():
     """Main entry point for Lukhas AI Flagship System."""
@@ -235,6 +243,7 @@ async def main():
         logger.error(f"System error: {e}")
     finally:
         await system.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

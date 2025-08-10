@@ -7,32 +7,38 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
+from typing import Any, Dict, List
 
-from typing import Dict, Any, List
 try:
     import numpy as np  # type: ignore
 except Exception:  # pragma: no cover - optional
     np = None
-import asyncio
 import uuid
-from core.common import get_logger
 from collections import Counter
+
+from core.common import get_logger
 
 try:
     from memory.systems.helix_mapper import HelixMapper
 except Exception:  # pragma: no cover - optional fallback
+
     class HelixMapper:
         async def map_memory(self, *args, **kwargs):
             return "fallback-memory"
 
+
 try:
     from orchestration.brain.cognitive.voice_engine import CognitiveVoiceEngine
 except Exception:  # pragma: no cover - optional fallback
+
     class CognitiveVoiceEngine:
         pass
+
+
 from core.colonies.creativity_colony import CreativityColony
 
 logger = get_logger(__name__)
+
 
 class DreamEngine:
     """Dream processing and learning system"""
@@ -41,21 +47,22 @@ class DreamEngine:
         self.memory = HelixMapper()
         self.cognitive = CognitiveVoiceEngine()
 
-    async def generate_dream_sequence(self,
-                                    daily_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def generate_dream_sequence(
+        self, daily_data: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """Generate and process dream sequences"""
         dream_patterns = self._extract_dream_patterns(daily_data)
         learning_outcomes = self._process_dream_learning(dream_patterns)
 
         memory_id = await self.memory.map_memory(
             {"dream": dream_patterns, "learning": learning_outcomes},
-            ("cognitive", "dreams")
+            ("cognitive", "dreams"),
         )
 
         return {
             "dream_sequence": dream_patterns,
             "learning": learning_outcomes,
-            "memory_trace": memory_id
+            "memory_trace": memory_id,
         }
 
     def run_adversarial_simulation(self, parameters: dict) -> dict:

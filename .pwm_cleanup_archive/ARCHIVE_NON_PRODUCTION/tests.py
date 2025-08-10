@@ -6,19 +6,20 @@ Author: GitHub Copilot
 
 import asyncio
 import time
+
 import pytest
-from typing import Dict, Any, List
-from unittest.mock import AsyncMock, patch
+
+from .adapters import UniversalAdapter
+from .api import DASTAPIEndpoints
 
 # Import all DAST components
 from .engine import LUKHASDASTEngine
-from .intelligence import (
-    TaskIntelligence, PriorityOptimizer, ContextTracker,
-    SymbolicReasoner, WorkflowAnalyzer
+from .processors import (
+    AttentionProcessor,
+    SolutionProcessor,
+    TagProcessor,
+    TaskProcessor,
 )
-from .processors import TaskProcessor, TagProcessor, AttentionProcessor, SolutionProcessor
-from .adapters import UniversalAdapter
-from .api import DASTAPIEndpoints
 
 
 class TestLUKHASDASTIntegration:
@@ -42,7 +43,7 @@ class TestLUKHASDASTIntegration:
                 "priority": "high",
                 "complexity": "complex",
                 "tags": ["ai", "search", "nlp"],
-                "estimated_hours": 40
+                "estimated_hours": 40,
             },
             {
                 "id": "task_2",
@@ -51,7 +52,7 @@ class TestLUKHASDASTIntegration:
                 "priority": "urgent",
                 "complexity": "simple",
                 "tags": ["bug", "auth", "security"],
-                "estimated_hours": 2
+                "estimated_hours": 2,
             },
             {
                 "id": "task_3",
@@ -60,8 +61,8 @@ class TestLUKHASDASTIntegration:
                 "priority": "medium",
                 "complexity": "medium",
                 "tags": ["docs", "api", "examples"],
-                "estimated_hours": 16
-            }
+                "estimated_hours": 16,
+            },
         ]
 
     async def test_one_line_api_performance(self, dast_engine, sample_tasks):
@@ -73,10 +74,12 @@ class TestLUKHASDASTIntegration:
 
         # Test track() performance
         start_time = time.time()
-        result = await dast_engine.track({
-            "title": "Performance test task",
-            "description": "Testing sub-100ms performance"
-        })
+        result = await dast_engine.track(
+            {
+                "title": "Performance test task",
+                "description": "Testing sub-100ms performance",
+            }
+        )
         track_time = (time.time() - start_time) * 1000
 
         assert track_time < 100, f"track() took {track_time}ms, should be <100ms"
@@ -95,7 +98,9 @@ class TestLUKHASDASTIntegration:
         progress_report = await dast_engine.progress("task_1")
         progress_time = (time.time() - start_time) * 1000
 
-        assert progress_time < 100, f"progress() took {progress_time}ms, should be <100ms"
+        assert (
+            progress_time < 100
+        ), f"progress() took {progress_time}ms, should be <100ms"
         assert "progress" in progress_report
 
     async def test_ai_intelligence_integration(self, dast_engine, sample_tasks):
@@ -151,17 +156,23 @@ class TestLUKHASDASTIntegration:
         enhanced_tags = await tag_processor.enhance_tags(sample_tasks[0]["tags"])
 
         assert len(enhanced_tags) >= len(sample_tasks[0]["tags"])
-        assert any("ai_suggested" in tag for tag in enhanced_tags if isinstance(tag, dict))
+        assert any(
+            "ai_suggested" in tag for tag in enhanced_tags if isinstance(tag, dict)
+        )
 
         # Test AttentionProcessor
         attention_processor = AttentionProcessor()
-        attention_score = await attention_processor.calculate_attention_score(sample_tasks[0])
+        attention_score = await attention_processor.calculate_attention_score(
+            sample_tasks[0]
+        )
 
         assert 0 <= attention_score <= 100
 
         # Test SolutionProcessor
         solution_processor = SolutionProcessor()
-        solution_suggestions = await solution_processor.suggest_solutions(sample_tasks[0])
+        solution_suggestions = await solution_processor.suggest_solutions(
+            sample_tasks[0]
+        )
 
         assert "suggestions" in solution_suggestions
         assert len(solution_suggestions["suggestions"]) > 0
@@ -172,11 +183,14 @@ class TestLUKHASDASTIntegration:
         adapter = UniversalAdapter()
 
         # Test adapter registration
-        await adapter.register_system("test_jira", {
-            "type": "jira",
-            "url": "https://test.atlassian.net",
-            "auth": {"token": "test_token"}
-        })
+        await adapter.register_system(
+            "test_jira",
+            {
+                "type": "jira",
+                "url": "https://test.atlassian.net",
+                "auth": {"token": "test_token"},
+            },
+        )
 
         assert "test_jira" in adapter.registered_systems
 
@@ -184,7 +198,7 @@ class TestLUKHASDASTIntegration:
         test_task = {
             "title": "Test task",
             "description": "Test description",
-            "priority": "high"
+            "priority": "high",
         }
 
         jira_format = await adapter.convert_format(test_task, "jira")
@@ -222,7 +236,7 @@ class TestLUKHASDASTIntegration:
         # Test collaborative task breakdown
         collaboration_result = await dast_engine.collaborate(
             "break down the AI search implementation task",
-            {"human_input": "Focus on the NLP component first"}
+            {"human_input": "Focus on the NLP component first"},
         )
 
         assert "ai_suggestions" in collaboration_result
@@ -232,7 +246,7 @@ class TestLUKHASDASTIntegration:
         # Test collaborative prioritization
         priority_collaboration = await dast_engine.collaborate(
             "help me prioritize these tasks for this sprint",
-            {"context": "We have 2 weeks, 3 developers, focus on user-facing features"}
+            {"context": "We have 2 weeks, 3 developers, focus on user-facing features"},
         )
 
         assert "recommended_priorities" in priority_collaboration
@@ -268,14 +282,16 @@ class TestLUKHASDASTIntegration:
             "description": "Implement symbolic reasoning with neural networks",
             "dependencies": ["task_1"],  # Depends on AI search
             "complexity": "very_complex",
-            "domain": "artificial_intelligence"
+            "domain": "artificial_intelligence",
         }
 
         await dast_engine.track(complex_task)
 
         # Test symbolic reasoning
-        reasoning_result = await dast_engine.symbolic_reasoner.reason_about_dependencies(
-            "complex_ai_task"
+        reasoning_result = (
+            await dast_engine.symbolic_reasoner.reason_about_dependencies(
+                "complex_ai_task"
+            )
         )
 
         assert "dependency_chain" in reasoning_result
@@ -283,9 +299,9 @@ class TestLUKHASDASTIntegration:
         assert "risk_analysis" in reasoning_result
 
         # Test pattern recognition
-        patterns = await dast_engine.symbolic_reasoner.identify_patterns([
-            sample_tasks[0], complex_task
-        ])
+        patterns = await dast_engine.symbolic_reasoner.identify_patterns(
+            [sample_tasks[0], complex_task]
+        )
 
         assert "ai_related_tasks" in patterns
         assert "complexity_correlation" in patterns
@@ -298,17 +314,21 @@ class TestLUKHASDASTIntegration:
             "time_of_day": "morning",
             "focus_level": "high",
             "interruptions": "low",
-            "energy_level": "peak"
+            "energy_level": "peak",
         }
 
-        adapted_suggestions = await dast_engine.context_tracker.adapt_to_context(work_context)
+        adapted_suggestions = await dast_engine.context_tracker.adapt_to_context(
+            work_context
+        )
 
         assert "recommended_tasks" in adapted_suggestions
         assert "focus_duration" in adapted_suggestions
         assert "break_suggestions" in adapted_suggestions
 
         # Verify adaptation is context-aware
-        assert adapted_suggestions["focus_duration"] > 60  # Should suggest longer focus in morning
+        assert (
+            adapted_suggestions["focus_duration"] > 60
+        )  # Should suggest longer focus in morning
 
 
 # Performance Benchmarks
@@ -323,12 +343,14 @@ class TestPerformanceBenchmarks:
         # Create 1000 test tasks
         tasks = []
         for i in range(1000):
-            tasks.append({
-                "id": f"bulk_task_{i}",
-                "title": f"Bulk task {i}",
-                "description": f"Test task {i} for bulk operations",
-                "priority": ["low", "medium", "high"][i % 3]
-            })
+            tasks.append(
+                {
+                    "id": f"bulk_task_{i}",
+                    "title": f"Bulk task {i}",
+                    "description": f"Test task {i} for bulk operations",
+                    "priority": ["low", "medium", "high"][i % 3],
+                }
+            )
 
         # Benchmark bulk tracking
         start_time = time.time()
@@ -337,14 +359,18 @@ class TestPerformanceBenchmarks:
         bulk_time = time.time() - start_time
 
         avg_time_per_task = (bulk_time / len(tasks)) * 1000
-        assert avg_time_per_task < 10, f"Average task tracking took {avg_time_per_task}ms, should be <10ms"
+        assert (
+            avg_time_per_task < 10
+        ), f"Average task tracking took {avg_time_per_task}ms, should be <10ms"
 
         # Benchmark bulk focus query
         start_time = time.time()
         focused_tasks = await engine.focus("high priority")
         focus_time = (time.time() - start_time) * 1000
 
-        assert focus_time < 200, f"Bulk focus query took {focus_time}ms, should be <200ms"
+        assert (
+            focus_time < 200
+        ), f"Bulk focus query took {focus_time}ms, should be <200ms"
 
     async def test_concurrent_operations(self):
         """Test concurrent operation performance"""
@@ -361,7 +387,9 @@ class TestPerformanceBenchmarks:
         results = await asyncio.gather(*tasks)
         concurrent_time = (time.time() - start_time) * 1000
 
-        assert concurrent_time < 500, f"50 concurrent operations took {concurrent_time}ms, should be <500ms"
+        assert (
+            concurrent_time < 500
+        ), f"50 concurrent operations took {concurrent_time}ms, should be <500ms"
         assert all(r["status"] == "success" for r in results)
 
 
@@ -376,10 +404,12 @@ if __name__ == "__main__":
 
         # Basic functionality test
         print("✅ Testing basic functionality...")
-        result = await engine.track({
-            "title": "Integration test task",
-            "description": "Testing the integrated DAST system"
-        })
+        result = await engine.track(
+            {
+                "title": "Integration test task",
+                "description": "Testing the integrated DAST system",
+            }
+        )
         print(f"   Track result: {result['status']}")
 
         # Performance test
@@ -391,15 +421,17 @@ if __name__ == "__main__":
 
         # AI integration test
         print("✅ Testing AI integration...")
-        analysis = await engine.task_intelligence.analyze_task({
-            "title": "Complex AI task",
-            "description": "Build neural network for pattern recognition",
-            "complexity": "high"
-        })
+        analysis = await engine.task_intelligence.analyze_task(
+            {
+                "title": "Complex AI task",
+                "description": "Build neural network for pattern recognition",
+                "complexity": "high",
+            }
+        )
         print(f"   AI analysis: {analysis.get('complexity_score', 'N/A')}")
 
         print("🎉 Integration tests completed successfully!")
-        print(f"🚀 DAST system is ready for production use!")
+        print("🚀 DAST system is ready for production use!")
 
     # Run async tests
     asyncio.run(run_tests())

@@ -2,19 +2,15 @@
 Test suite for Memory Tracker Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
-from typing import Dict, Any
-import tempfile
 import os
+import tempfile
 
-from memory.memory_hub import MemoryHub, get_memory_hub
+import pytest
+
+from memory.memory_hub import MemoryHub
 from memory.systems.memory_tracker_integration import (
     MemoryTrackerIntegration,
     create_memory_tracker_integration,
-    MEMORY_TRACKER_AVAILABLE
 )
 
 
@@ -32,26 +28,28 @@ class TestMemoryTrackerIntegration:
         """Create a test memory tracker integration instance"""
         with tempfile.TemporaryDirectory() as temp_dir:
             config = {
-                'enable_memory_tracking': True,
-                'enable_operator_level_tracking': True,
-                'top_operators_display': 10,
-                'enable_trace_visualization': True,
-                'auto_save_stats': True,
-                'stats_save_directory': temp_dir,
-                'enable_summary_reporting': True,
-                'enable_cuda_monitoring': True,
-                'memory_alert_threshold_mb': 500.0,
-                'enable_background_monitoring': False
+                "enable_memory_tracking": True,
+                "enable_operator_level_tracking": True,
+                "top_operators_display": 10,
+                "enable_trace_visualization": True,
+                "auto_save_stats": True,
+                "stats_save_directory": temp_dir,
+                "enable_summary_reporting": True,
+                "enable_cuda_monitoring": True,
+                "memory_alert_threshold_mb": 500.0,
+                "enable_background_monitoring": False,
             }
             integration = MemoryTrackerIntegration(config)
             yield integration
 
     @pytest.mark.asyncio
-    async def test_memory_tracker_integration_initialization(self, memory_tracker_integration):
+    async def test_memory_tracker_integration_initialization(
+        self, memory_tracker_integration
+    ):
         """Test memory tracker integration initialization"""
         assert memory_tracker_integration is not None
-        assert memory_tracker_integration.config['enable_memory_tracking'] is True
-        assert memory_tracker_integration.config['top_operators_display'] == 10
+        assert memory_tracker_integration.config["enable_memory_tracking"] is True
+        assert memory_tracker_integration.config["top_operators_display"] == 10
         assert memory_tracker_integration.is_initialized is False
         assert memory_tracker_integration.monitoring_active is False
 
@@ -83,7 +81,9 @@ class TestMemoryTrackerIntegration:
             pytest.skip("Memory tracker integration not available")
 
         # Test starting memory tracking
-        start_result = await memory_hub.start_memory_tracking(session_id="test_session_1")
+        start_result = await memory_hub.start_memory_tracking(
+            session_id="test_session_1"
+        )
 
         # Verify start result structure
         assert "success" in start_result
@@ -227,7 +227,9 @@ class TestMemoryTrackerIntegration:
         await memory_tracker_integration.initialize()
 
         # Start memory tracking
-        start_result = await memory_tracker_integration.start_memory_tracking(session_id="lifecycle_test")
+        start_result = await memory_tracker_integration.start_memory_tracking(
+            session_id="lifecycle_test"
+        )
         assert "success" in start_result
 
         # Verify tracking is active
@@ -240,7 +242,9 @@ class TestMemoryTrackerIntegration:
             assert len(sessions) > 0
 
             # Stop tracking
-            stop_result = await memory_tracker_integration.stop_memory_tracking(session_id)
+            stop_result = await memory_tracker_integration.stop_memory_tracking(
+                session_id
+            )
             assert "success" in stop_result
 
     @pytest.mark.asyncio
@@ -250,7 +254,9 @@ class TestMemoryTrackerIntegration:
         await memory_tracker_integration.initialize()
 
         # Start and stop a tracking session to generate some data
-        start_result = await memory_tracker_integration.start_memory_tracking(session_id="summary_test")
+        start_result = await memory_tracker_integration.start_memory_tracking(
+            session_id="summary_test"
+        )
         if start_result["success"]:
             await memory_tracker_integration.stop_memory_tracking("summary_test")
 
@@ -271,7 +277,9 @@ class TestMemoryTrackerIntegration:
         await memory_tracker_integration.initialize()
 
         # Perform some operations to generate metrics
-        await memory_tracker_integration.start_memory_tracking(session_id="metrics_test")
+        await memory_tracker_integration.start_memory_tracking(
+            session_id="metrics_test"
+        )
         await memory_tracker_integration.stop_memory_tracking("metrics_test")
 
         # Get metrics
@@ -302,8 +310,7 @@ class TestMemoryTrackerIntegration:
 
         # Start tracking with module
         start_result = await memory_tracker_integration.start_memory_tracking(
-            root_module=mock_module,
-            session_id="module_test"
+            root_module=mock_module, session_id="module_test"
         )
 
         # Should handle module tracking (or fallback gracefully)
@@ -311,7 +318,9 @@ class TestMemoryTrackerIntegration:
 
         if start_result["success"]:
             # Stop tracking
-            stop_result = await memory_tracker_integration.stop_memory_tracking("module_test")
+            stop_result = await memory_tracker_integration.stop_memory_tracking(
+                "module_test"
+            )
             assert "success" in stop_result
 
     @pytest.mark.asyncio
@@ -320,23 +329,23 @@ class TestMemoryTrackerIntegration:
         # Test with custom config
         with tempfile.TemporaryDirectory() as temp_dir:
             custom_config = {
-                'enable_memory_tracking': False,
-                'enable_operator_level_tracking': False,
-                'top_operators_display': 5,
-                'enable_trace_visualization': False,
-                'auto_save_stats': False,
-                'stats_save_directory': temp_dir,
-                'memory_alert_threshold_mb': 2000.0,
-                'enable_background_monitoring': True
+                "enable_memory_tracking": False,
+                "enable_operator_level_tracking": False,
+                "top_operators_display": 5,
+                "enable_trace_visualization": False,
+                "auto_save_stats": False,
+                "stats_save_directory": temp_dir,
+                "memory_alert_threshold_mb": 2000.0,
+                "enable_background_monitoring": True,
             }
 
             integration = create_memory_tracker_integration(custom_config)
 
             # Verify config was applied
-            assert integration.config['enable_memory_tracking'] is False
-            assert integration.config['top_operators_display'] == 5
-            assert integration.config['enable_trace_visualization'] is False
-            assert integration.config['memory_alert_threshold_mb'] == 2000.0
+            assert integration.config["enable_memory_tracking"] is False
+            assert integration.config["top_operators_display"] == 5
+            assert integration.config["enable_trace_visualization"] is False
+            assert integration.config["memory_alert_threshold_mb"] == 2000.0
 
     @pytest.mark.asyncio
     async def test_fallback_functionality(self, memory_tracker_integration):
@@ -345,23 +354,31 @@ class TestMemoryTrackerIntegration:
         await memory_tracker_integration.initialize()
 
         # Test fallback tracking start
-        fallback_start = await memory_tracker_integration._fallback_start_tracking("fallback_test", None)
+        fallback_start = await memory_tracker_integration._fallback_start_tracking(
+            "fallback_test", None
+        )
         assert fallback_start["success"] is True
         assert "fallback" in fallback_start
 
         # Test fallback tracking stop
-        fallback_stop = await memory_tracker_integration._fallback_stop_tracking("fallback_test")
+        fallback_stop = await memory_tracker_integration._fallback_stop_tracking(
+            "fallback_test"
+        )
         assert fallback_stop["success"] is True
         assert "fallback" in fallback_stop
 
         # Test fallback summary
-        fallback_summary = await memory_tracker_integration._fallback_get_summary(None, 5)
+        fallback_summary = await memory_tracker_integration._fallback_get_summary(
+            None, 5
+        )
         assert fallback_summary["success"] is True
         assert "fallback" in fallback_summary
         assert "summary" in fallback_summary
 
         # Test fallback visualization
-        fallback_viz = await memory_tracker_integration._fallback_visualize_traces(None, None)
+        fallback_viz = await memory_tracker_integration._fallback_visualize_traces(
+            None, None
+        )
         assert fallback_viz["success"] is True
         assert "fallback" in fallback_viz
 
@@ -375,7 +392,9 @@ class TestMemoryTrackerIntegration:
         session_ids = ["session_1", "session_2", "session_3"]
 
         for session_id in session_ids:
-            result = await memory_tracker_integration.start_memory_tracking(session_id=session_id)
+            result = await memory_tracker_integration.start_memory_tracking(
+                session_id=session_id
+            )
             if result["success"]:
                 assert session_id in memory_tracker_integration.tracking_sessions
 
@@ -400,11 +419,15 @@ class TestMemoryTrackerIntegration:
         session_id = "duplicate_test"
 
         # Start first session
-        first_result = await memory_tracker_integration.start_memory_tracking(session_id=session_id)
+        first_result = await memory_tracker_integration.start_memory_tracking(
+            session_id=session_id
+        )
 
         if first_result["success"]:
             # Try to start second session with same ID
-            second_result = await memory_tracker_integration.start_memory_tracking(session_id=session_id)
+            second_result = await memory_tracker_integration.start_memory_tracking(
+                session_id=session_id
+            )
 
             # Should fail due to duplicate session ID
             assert second_result["success"] is False
@@ -419,10 +442,7 @@ class TestMemoryTrackerIntegration:
         with tempfile.TemporaryDirectory() as temp_dir:
             stats_dir = os.path.join(temp_dir, "memory_stats_test")
 
-            config = {
-                'auto_save_stats': True,
-                'stats_save_directory': stats_dir
-            }
+            config = {"auto_save_stats": True, "stats_save_directory": stats_dir}
 
             integration = MemoryTrackerIntegration(config)
             await integration.initialize()
@@ -437,8 +457,10 @@ class TestMemoryTrackerIntegration:
         await memory_tracker_integration.initialize()
 
         # Check that alert threshold is configured
-        assert hasattr(memory_tracker_integration, 'alert_threshold_mb')
-        assert memory_tracker_integration.alert_threshold_mb == 500.0  # From fixture config
+        assert hasattr(memory_tracker_integration, "alert_threshold_mb")
+        assert (
+            memory_tracker_integration.alert_threshold_mb == 500.0
+        )  # From fixture config
 
         # Test threshold in metrics
         metrics = await memory_tracker_integration.get_memory_metrics()

@@ -15,9 +15,9 @@ Author: LUKHAS AGI Core
 
 import json
 import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
 from pathlib import Path
+from typing import Any, Dict
+
 import pandas as pd
 
 # TODO: Uncomment when dependencies are available
@@ -64,9 +64,11 @@ class DashboardDataLoader:
         current_time = time.time()
 
         # Check if refresh is needed
-        if (not force_refresh and
-            "logbook_df" in self.data_cache and
-            current_time - self.last_refresh < self.refresh_interval):
+        if (
+            not force_refresh
+            and "logbook_df" in self.data_cache
+            and current_time - self.last_refresh < self.refresh_interval
+        ):
             return self.data_cache["logbook_df"]
 
         # Load data from logbook
@@ -74,7 +76,7 @@ class DashboardDataLoader:
 
         if self.logbook_path.exists():
             try:
-                with open(self.logbook_path, 'r') as f:
+                with open(self.logbook_path) as f:
                     for line in f:
                         if line.strip():
                             record = json.loads(line.strip())
@@ -86,15 +88,25 @@ class DashboardDataLoader:
         if records:
             df = pd.DataFrame(records)
             # Convert timestamp to datetime
-            df['datetime'] = pd.to_datetime(df['timestamp'], unit='s')
+            df["datetime"] = pd.to_datetime(df["timestamp"], unit="s")
             # Extract metadata fields
             df = self._expand_metadata(df)
         else:
             # Create empty DataFrame with expected columns
-            df = pd.DataFrame(columns=[
-                'timestamp', 'hash', 'signature', 'public_key', 'verified',
-                'datetime', 'entropy_score', 'location', 'experiment_id', 'measurement_type'
-            ])
+            df = pd.DataFrame(
+                columns=[
+                    "timestamp",
+                    "hash",
+                    "signature",
+                    "public_key",
+                    "verified",
+                    "datetime",
+                    "entropy_score",
+                    "location",
+                    "experiment_id",
+                    "measurement_type",
+                ]
+            )
 
         # Cache the data
         self.data_cache["logbook_df"] = df
@@ -113,10 +125,15 @@ class DashboardDataLoader:
             pd.DataFrame: DataFrame with expanded metadata
         """
         # Extract common metadata fields
-        metadata_fields = ['entropy_score', 'location', 'experiment_id', 'measurement_type']
+        metadata_fields = [
+            "entropy_score",
+            "location",
+            "experiment_id",
+            "measurement_type",
+        ]
 
         for field in metadata_fields:
-            df[field] = df['metadata'].apply(
+            df[field] = df["metadata"].apply(
                 lambda x: x.get(field) if isinstance(x, dict) else None
             )
 
@@ -141,28 +158,34 @@ class DashboardDataLoader:
                 "latest_timestamp": "No data",
                 "time_span_hours": 0.0,
                 "unique_locations": 0,
-                "unique_experiments": 0
+                "unique_experiments": 0,
             }
 
         total_records = len(df)
-        verified_records = df['verified'].sum() if 'verified' in df.columns else 0
-        verification_rate = verified_records / total_records if total_records > 0 else 0.0
+        verified_records = df["verified"].sum() if "verified" in df.columns else 0
+        verification_rate = (
+            verified_records / total_records if total_records > 0 else 0.0
+        )
 
         # Calculate entropy statistics
-        entropy_scores = pd.to_numeric(df['entropy_score'], errors='coerce').dropna()
+        entropy_scores = pd.to_numeric(df["entropy_score"], errors="coerce").dropna()
         avg_entropy = entropy_scores.mean() if not entropy_scores.empty else 0.0
 
         # Time span analysis
-        if 'datetime' in df.columns:
-            latest_timestamp = df['datetime'].max().strftime("%Y-%m-%d %H:%M:%S")
-            time_span = (df['datetime'].max() - df['datetime'].min()).total_seconds() / 3600
+        if "datetime" in df.columns:
+            latest_timestamp = df["datetime"].max().strftime("%Y-%m-%d %H:%M:%S")
+            time_span = (
+                df["datetime"].max() - df["datetime"].min()
+            ).total_seconds() / 3600
         else:
             latest_timestamp = "Unknown"
             time_span = 0.0
 
         # Location and experiment diversity
-        unique_locations = df['location'].nunique() if 'location' in df.columns else 0
-        unique_experiments = df['experiment_id'].nunique() if 'experiment_id' in df.columns else 0
+        unique_locations = df["location"].nunique() if "location" in df.columns else 0
+        unique_experiments = (
+            df["experiment_id"].nunique() if "experiment_id" in df.columns else 0
+        )
 
         return {
             "total_records": total_records,
@@ -172,7 +195,7 @@ class DashboardDataLoader:
             "latest_timestamp": latest_timestamp,
             "time_span_hours": time_span,
             "unique_locations": unique_locations,
-            "unique_experiments": unique_experiments
+            "unique_experiments": unique_experiments,
         }
 
 
@@ -391,7 +414,7 @@ if __name__ == "__main__":
 
     # Calculate metrics
     metrics = data_loader.get_dashboard_metrics(df)
-    print(f"\nDashboard Metrics:")
+    print("\nDashboard Metrics:")
     for key, value in metrics.items():
         print(f"  {key}: {value}")
 
@@ -400,27 +423,33 @@ if __name__ == "__main__":
         print("\nNo logbook data found. Creating sample data for testing...")
         sample_data = []
         for i in range(5):
-            sample_data.append({
-                "timestamp": time.time() - (i * 3600),  # Hourly intervals
-                "hash": f"sample_hash_{i:03d}" + "a" * 32,
-                "signature": f"sample_sig_{i:03d}" + "b" * 32,
-                "public_key": f"sample_key_{i:03d}" + "c" * 32,
-                "verified": i % 4 != 0,  # 75% verification rate
-                "metadata": {
-                    "entropy_score": 7.0 + (i * 0.2),
-                    "location": f"quantum_lab_{chr(ord('a') + i % 3)}",
-                    "experiment_id": f"qm_{i:03d}",
-                    "measurement_type": ["photon_polarization", "electron_spin", "bell_state"][i % 3]
+            sample_data.append(
+                {
+                    "timestamp": time.time() - (i * 3600),  # Hourly intervals
+                    "hash": f"sample_hash_{i:03d}" + "a" * 32,
+                    "signature": f"sample_sig_{i:03d}" + "b" * 32,
+                    "public_key": f"sample_key_{i:03d}" + "c" * 32,
+                    "verified": i % 4 != 0,  # 75% verification rate
+                    "metadata": {
+                        "entropy_score": 7.0 + (i * 0.2),
+                        "location": f"quantum_lab_{chr(ord('a') + i % 3)}",
+                        "experiment_id": f"qm_{i:03d}",
+                        "measurement_type": [
+                            "photon_polarization",
+                            "electron_spin",
+                            "bell_state",
+                        ][i % 3],
+                    },
                 }
-            })
+            )
 
         # Create temporary DataFrame for testing
         test_df = pd.DataFrame(sample_data)
-        test_df['datetime'] = pd.to_datetime(test_df['timestamp'], unit='s')
+        test_df["datetime"] = pd.to_datetime(test_df["timestamp"], unit="s")
         test_df = data_loader._expand_metadata(test_df)
 
         test_metrics = data_loader.get_dashboard_metrics(test_df)
-        print(f"Sample data metrics:")
+        print("Sample data metrics:")
         for key, value in test_metrics.items():
             print(f"  {key}: {value}")
 

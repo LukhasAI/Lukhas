@@ -26,19 +26,15 @@
 # (chat completions) enhances code clarity for reasoning effort management and allows
 # for future divergence in chat-specific effort tracking without altering the core concept.
 
-
 #TAG:bridge
 #TAG:protocols
 #TAG:neuroplastic
 #TAG:colony
 
-
 Defines an alias for the general `ReasoningEffort` class, specifically
 for use in the context of chat completions. This promotes clarity and allows
 for future specialization if chat completion effort tracking requires unique features.
 """
-
-import structlog
 
 # AIMPORT_TODO: Verify the package structure for `shared.reasoning_effort`.
 # The current relative import `..shared.reasoning_effort` assumes a specific package hierarchy.
@@ -52,8 +48,10 @@ import structlog
 from ..shared.reasoning_effort import ReasoningEffort
 
 # Initialize ΛTRACE logger for this module using structlog
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing chat_completion_reasoning_effort.py module.", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing chat_completion_reasoning_effort.py module.",
+    module_path=__file__,
+)
 
 __all__ = ["ChatCompletionReasoningEffort"]
 
@@ -63,15 +61,18 @@ __all__ = ["ChatCompletionReasoningEffort"]
 # facilitates potential future specialization of effort metrics for chat interactions
 # without impacting other uses of the core `ReasoningEffort` class.
 ChatCompletionReasoningEffort = ReasoningEffort
-logger.debug("ΛTRACE: Aliasing ReasoningEffort from shared module to ChatCompletionReasoningEffort for this context.",
-             original_class_module=ReasoningEffort.__module__,
-             original_class_name=ReasoningEffort.__name__,
-             alias_name="ChatCompletionReasoningEffort",
-             current_module=__name__)
+logger.debug(
+    "ΛTRACE: Aliasing ReasoningEffort from shared module to ChatCompletionReasoningEffort for this context.",
+    original_class_module=ReasoningEffort.__module__,
+    original_class_name=ReasoningEffort.__name__,
+    alias_name="ChatCompletionReasoningEffort",
+    current_module=__name__,
+)
 
-
-logger.info("ΛTRACE: ChatCompletionReasoningEffort alias created.",
-            alias_for=f"{ChatCompletionReasoningEffort.__module__}.{ChatCompletionReasoningEffort.__name__}")
+logger.info(
+    "ΛTRACE: ChatCompletionReasoningEffort alias created.",
+    alias_for=f"{ChatCompletionReasoningEffort.__module__}.{ChatCompletionReasoningEffort.__name__}",
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Chat Completion Reasoning Effort Alias

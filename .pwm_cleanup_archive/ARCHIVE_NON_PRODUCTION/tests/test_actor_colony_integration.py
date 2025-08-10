@@ -5,26 +5,27 @@ Validates communication between actor system and colony modules
 """
 
 import asyncio
-from datetime import datetime
 import logging
+from datetime import datetime
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
 # Import core systems
-from core.core_utilities import Actor
 from core.actor_system import ActorSystem
-from orchestration.symbolic_kernel_bus import kernel_bus
-from core.colonies.memory_colony_enhanced import MemoryColony
 from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony_enhanced import MemoryColony
 from core.colonies.reasoning_colony import ReasoningColony
+from core.core_utilities import Actor
+from orchestration.symbolic_kernel_bus import kernel_bus
+
 
 class ColonyActor(Actor):
     """Actor that manages a colony"""
+
     def __init__(self, actor_id: str, colony):
         super().__init__(actor_id)
         self.colony = colony
@@ -47,10 +48,11 @@ class ColonyActor(Actor):
                 "status": "completed",
                 "task_id": task_id,
                 "result": result,
-                "colony": self.colony.colony_id
+                "colony": self.colony.colony_id,
             }
 
         return {"status": "unknown_message_type"}
+
 
 async def test_actor_colony_communication():
     """Test basic actor-colony communication"""
@@ -70,17 +72,12 @@ async def test_actor_colony_communication():
     reasoning_actor = ColonyActor("reasoning_actor", reasoning_colony)
 
     # Create actor references
-    memory_ref = await actor_system.create_actor(
-        lambda: memory_actor,
-        "memory_actor"
-    )
+    memory_ref = await actor_system.create_actor(lambda: memory_actor, "memory_actor")
     creativity_ref = await actor_system.create_actor(
-        lambda: creativity_actor,
-        "creativity_actor"
+        lambda: creativity_actor, "creativity_actor"
     )
     reasoning_ref = await actor_system.create_actor(
-        lambda: reasoning_actor,
-        "reasoning_actor"
+        lambda: reasoning_actor, "reasoning_actor"
     )
 
     # Send tasks to each actor
@@ -88,18 +85,18 @@ async def test_actor_colony_communication():
         {
             "actor_id": "memory_actor",
             "task_id": "mem_task_1",
-            "task_data": {"action": "store", "data": "test memory"}
+            "task_data": {"action": "store", "data": "test memory"},
         },
         {
             "actor_id": "creativity_actor",
             "task_id": "create_task_1",
-            "task_data": {"action": "generate", "prompt": "test creation"}
+            "task_data": {"action": "generate", "prompt": "test creation"},
         },
         {
             "actor_id": "reasoning_actor",
             "task_id": "reason_task_1",
-            "task_data": {"action": "analyze", "data": "test reasoning"}
-        }
+            "task_data": {"action": "analyze", "data": "test reasoning"},
+        },
     ]
 
     results = []
@@ -109,8 +106,8 @@ async def test_actor_colony_communication():
             {
                 "type": "execute_task",
                 "task_id": task["task_id"],
-                "task_data": task["task_data"]
-            }
+                "task_data": task["task_data"],
+            },
         )
         results.append(result)
         print(f"   - {task['actor_id']}: ✅ Task completed")
@@ -119,6 +116,7 @@ async def test_actor_colony_communication():
     await actor_system.stop()
 
     return all(r.get("status") == "completed" for r in results)
+
 
 async def test_event_bus_integration():
     """Test event bus integration with colonies"""
@@ -147,18 +145,21 @@ async def test_event_bus_integration():
 
     # Emit colony events
     await event_bus.emit("colony.task.started", {"colony": "memory", "task": "test"})
-    await event_bus.emit("colony.task.completed", {"colony": "memory", "result": "success"})
+    await event_bus.emit(
+        "colony.task.completed", {"colony": "memory", "result": "success"}
+    )
 
     # Wait for events to propagate
     await asyncio.sleep(0.1)
 
-    print(f"   - Events emitted: 2")
+    print("   - Events emitted: 2")
     print(f"   - Events received: {len(events_received)}")
 
     # Cleanup
     await actor_system.stop()
 
     return len(events_received) == 2
+
 
 async def test_cross_colony_coordination():
     """Test coordination between multiple colonies"""
@@ -184,8 +185,8 @@ async def test_cross_colony_coordination():
         {
             "type": "execute_task",
             "task_id": "store_data",
-            "task_data": {"action": "store", "data": "Important fact: AI helps humans"}
-        }
+            "task_data": {"action": "store", "data": "Important fact: AI helps humans"},
+        },
     )
 
     # Step 2: Reason about the stored data
@@ -194,8 +195,8 @@ async def test_cross_colony_coordination():
         {
             "type": "execute_task",
             "task_id": "analyze_data",
-            "task_data": {"action": "analyze", "data": "AI helps humans"}
-        }
+            "task_data": {"action": "analyze", "data": "AI helps humans"},
+        },
     )
 
     print("   - Memory storage: ✅ Complete")
@@ -205,8 +206,11 @@ async def test_cross_colony_coordination():
     # Cleanup
     await actor_system.stop()
 
-    return (store_result.get("status") == "completed" and
-            reason_result.get("status") == "completed")
+    return (
+        store_result.get("status") == "completed"
+        and reason_result.get("status") == "completed"
+    )
+
 
 async def main():
     """Main test runner"""
@@ -239,7 +243,9 @@ async def main():
 
     return passed == total
 
+
 if __name__ == "__main__":
     import sys
+
     success = asyncio.run(main())
     sys.exit(0 if success else 1)

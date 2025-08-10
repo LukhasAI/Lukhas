@@ -8,18 +8,22 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
-from typing import Dict, Any, Optional
 import uuid
+from typing import Any, Dict, Optional
 
-from core.utils import SystemStatus # ΛSHARED: Example import from common
-from core.helpers import get_utc_timestamp # ΛUTIL: Example import from helpers
+import structlog
+
+from core.helpers import (
+    get_utc_timestamp,  # ΛUTIL: Example import from helpers
+)
+from core.utils import SystemStatus  # ΛSHARED: Example import from common
 
 # ΛTRACE: Initializing logger for core.lukhas_utils
 log = structlog.get_logger(__name__)
-log.info("core.lukhas_utils module initialized") # ΛNOTE: Basic initialization logging.
+log.info("core.lukhas_utils module initialized")  # ΛNOTE: Basic initialization logging.
 
 # --- LUKHAS Specific Utilities ---
+
 
 # ΛUTIL
 def generate_symbolic_id(prefix: str = "sym_") -> str:
@@ -34,6 +38,7 @@ def generate_symbolic_id(prefix: str = "sym_") -> str:
     log.debug("Generated symbolic ID", id=symbolic_id, prefix=prefix)
     return symbolic_id
 
+
 # ΛUTIL
 # ΛLEGACY: This function demonstrates a pattern that might be found in older LUKHAS code.
 #          It might be overly simplistic or have been superseded by more robust methods.
@@ -46,28 +51,47 @@ def legacy_parse_lukhas_command(command_string: str) -> Optional[Dict[str, Any]]
     #           Should not be used for new critical systems.
     """
     # ΛTRACE: Attempting to parse LUKHAS command string
-    log.debug("Parsing LUKHAS command string", command_string_snippet=command_string[:50])
+    log.debug(
+        "Parsing LUKHAS command string", command_string_snippet=command_string[:50]
+    )
     if not command_string or not command_string.startswith("CMD:"):
-        log.warning("Invalid or empty command string for legacy parser", provided_string=command_string)
+        log.warning(
+            "Invalid or empty command string for legacy parser",
+            provided_string=command_string,
+        )
         return None
 
     parts = command_string.split(" PARAMS:", 1)
-    command_part = parts[0][4:].strip() # Remove "CMD:"
+    command_part = parts[0][4:].strip()  # Remove "CMD:"
     params_part = parts[1] if len(parts) > 1 else "{}"
 
     try:
         import ast
-        params = ast.literal_eval(params_part) # CLAUDE_EDIT_v0.13: Fixed code injection vulnerability by replacing eval() with ast.literal_eval()
+
+        params = ast.literal_eval(
+            params_part
+        )  # CLAUDE_EDIT_v0.13: Fixed code injection vulnerability by replacing eval() with ast.literal_eval()
         if not isinstance(params, dict):
-            log.warning("Legacy command params did not evaluate to a dict", evaluated_type=type(params))
+            log.warning(
+                "Legacy command params did not evaluate to a dict",
+                evaluated_type=type(params),
+            )
             params = {}
     except (ValueError, SyntaxError) as e:
         # ΛTRACE: Failed to parse params in legacy command
-        log.error("Error parsing params in legacy_parse_lukhas_command", error=str(e), params_string=params_part)
+        log.error(
+            "Error parsing params in legacy_parse_lukhas_command",
+            error=str(e),
+            params_string=params_part,
+        )
         params = {"error": "param_parse_failed"}
 
     parsed_command = {"command": command_part, "params": params}
-    log.info("Successfully parsed legacy LUKHAS command", command=command_part, num_params=len(params))
+    log.info(
+        "Successfully parsed legacy LUKHAS command",
+        command=command_part,
+        num_params=len(params),
+    )
     return parsed_command
 
 

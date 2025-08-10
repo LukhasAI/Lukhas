@@ -20,6 +20,7 @@ Integration Date: 2025-05-31T07:55:30.482556
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
+
 def render_widget_preview(widget):
     """
     Converts a symbolic widget dict into HTML + CSS animation preview.
@@ -31,7 +32,11 @@ def render_widget_preview(widget):
     - str: HTML content to be rendered inside Streamlit or mobile overlay
     """
     icon = "🌿" if "travel" in widget["type"] else "🧠"
-    glow = "box-shadow: 0 0 20px rgba(0,255,150,0.5);" if widget["cta"] == "Tap to confirm" else ""
+    glow = (
+        "box-shadow: 0 0 20px rgba(0,255,150,0.5);"
+        if widget["cta"] == "Tap to confirm"
+        else ""
+    )
     opacity = "0.9" if widget["cta"] == "Tap to confirm" else "0.5"
 
     html = f"""
@@ -41,7 +46,8 @@ def render_widget_preview(widget):
         <div style="font-size: 32px;">{icon} <b>{widget['title']}</b></div>
         <div style="margin-top: 12px;">Vendor: <b>{widget.get('vendor','—')}</b></div>
         <div>Price: <b>{widget.get('price','—')}</b> LUX</div>
-        <div style="color: #66ffcc;">Ethics Score: {widget.get('ethics_score','—')}</div>
+        <div style="color: #66ffcc;">Ethics Score: {widget.get('ethics_score',
+    '—')}</div>
         <button style="margin-top: 16px; padding: 10px 20px; border-radius: 8px;
                        border: none; background: #22ffaa; color: #000; font-weight: bold;">
             {widget['cta']}
@@ -49,6 +55,7 @@ def render_widget_preview(widget):
     </div>
     """
     return html
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_live_renderer.py)

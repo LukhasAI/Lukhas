@@ -1,8 +1,8 @@
 import logging
-from typing import Dict, List, Tuple, Optional
-from datetime import datetime
+from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
+
 
 class DiagnosticEngine:
     """
@@ -17,14 +17,12 @@ class DiagnosticEngine:
             "difficulty breathing",
             "severe bleeding",
             "unconsciousness",
-            "severe head injury"
+            "severe head injury",
         }
         logger.info("DiagnosticEngine initialized")
 
     def process_user_response(
-        self,
-        user_input: str,
-        current_symptoms: List[str]
+        self, user_input: str, current_symptoms: List[str]
     ) -> Tuple[bool, List[str], bool, bool, float]:
         """
         Processes user's symptom description.
@@ -35,8 +33,7 @@ class DiagnosticEngine:
 
         # Check for critical symptoms (Altman's safety emphasis)
         is_critical = any(
-            symptom in user_input_lower
-            for symptom in self.red_flag_symptoms
+            symptom in user_input_lower for symptom in self.red_flag_symptoms
         )
 
         # Extract symptoms (simplified)

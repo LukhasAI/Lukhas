@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : journey_log_manager.py                         │
@@ -16,6 +14,7 @@ from pathlib import Path
 
 JOURNEY_LOG_PATH = Path("journey_logs.jsonl")
 
+
 def record_journey_event(user_id: int, location_name: str, symbolic_reflection: str):
     """
     Log a symbolic journey event with a location and memory reflection.
@@ -24,7 +23,7 @@ def record_journey_event(user_id: int, location_name: str, symbolic_reflection: 
         "timestamp": str(datetime.utcnow()),
         "user_id": user_id,
         "location_name": location_name,
-        "symbolic_reflection": symbolic_reflection
+        "symbolic_reflection": symbolic_reflection,
     }
 
     JOURNEY_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -34,13 +33,14 @@ def record_journey_event(user_id: int, location_name: str, symbolic_reflection: 
     print(f"🗺️ Journey memory recorded: {event}")
     return event
 
+
 def get_user_journey_logs(user_id: int):
     """
     Retrieve all symbolic journey logs for a user.
     """
     journeys = []
     if JOURNEY_LOG_PATH.exists():
-        with open(JOURNEY_LOG_PATH, "r") as f:
+        with open(JOURNEY_LOG_PATH) as f:
             for line in f:
                 try:
                     entry = json.loads(line.strip())
@@ -49,6 +49,7 @@ def get_user_journey_logs(user_id: int):
                 except json.JSONDecodeError:
                     continue
     return journeys
+
 
 # ===============================================================
 # 💾 HOW TO USE

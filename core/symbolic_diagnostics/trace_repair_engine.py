@@ -34,7 +34,8 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import List, Dict, Any
+from typing import Any
+
 
 class TraceRepairEngine:
     """
@@ -44,12 +45,13 @@ class TraceRepairEngine:
     def __init__(self):
         pass
 
-    def repair_trace(self, trace: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def repair_trace(self, trace: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """
         Repairs a symbolic trace.
         """
         # #ΛNOTE: Placeholder implementation.
         return trace
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

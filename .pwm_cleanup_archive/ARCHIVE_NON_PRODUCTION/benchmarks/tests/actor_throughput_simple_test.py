@@ -5,11 +5,11 @@ Tests basic actor message throughput without complex imports
 """
 
 import asyncio
-import time
-import threading
-import queue
-from datetime import datetime
 import json
+import queue
+import threading
+import time
+from datetime import datetime
 
 
 class SimpleActor:
@@ -50,9 +50,9 @@ class SimpleActor:
     def get_stats(self):
         """Get actor statistics."""
         return {
-            'actor_id': self.actor_id,
-            'messages_processed': self.message_count,
-            'queue_size': self.mailbox.qsize()
+            "actor_id": self.actor_id,
+            "messages_processed": self.message_count,
+            "queue_size": self.mailbox.qsize(),
         }
 
 
@@ -79,11 +79,7 @@ class SimpleBenchmark:
 
         for i in range(num_messages):
             actor_index = i % len(self.actors)
-            message = {
-                'id': i,
-                'data': f"test_message_{i}",
-                'timestamp': time.time()
-            }
+            message = {"id": i, "data": f"test_message_{i}", "timestamp": time.time()}
             self.actors[actor_index].send_message(message)
 
         # Wait for processing
@@ -103,7 +99,7 @@ class SimpleBenchmark:
         for actor in self.actors:
             actor_stats = actor.get_stats()
             stats.append(actor_stats)
-            total_processed += actor_stats['messages_processed']
+            total_processed += actor_stats["messages_processed"]
 
         return total_processed, stats
 
@@ -138,19 +134,19 @@ class SimpleBenchmark:
 
             # Results
             results = {
-                'test_timestamp': datetime.now().isoformat(),
-                'configuration': {
-                    'num_actors': num_actors,
-                    'num_messages': num_messages
+                "test_timestamp": datetime.now().isoformat(),
+                "configuration": {
+                    "num_actors": num_actors,
+                    "num_messages": num_messages,
                 },
-                'performance': {
-                    'total_messages_sent': num_messages,
-                    'total_messages_processed': total_processed,
-                    'elapsed_time_seconds': elapsed,
-                    'messages_per_second': messages_per_second,
-                    'throughput_description': f"{messages_per_second:,.0f} msg/sec"
+                "performance": {
+                    "total_messages_sent": num_messages,
+                    "total_messages_processed": total_processed,
+                    "elapsed_time_seconds": elapsed,
+                    "messages_per_second": messages_per_second,
+                    "throughput_description": f"{messages_per_second:,.0f} msg/sec",
                 },
-                'actor_stats': actor_stats[:5]  # First 5 actors for brevity
+                "actor_stats": actor_stats[:5],  # First 5 actors for brevity
             }
 
             # Display results
@@ -172,15 +168,16 @@ class SimpleBenchmark:
                 print("❌ BELOW expected performance")
 
             # Save results
-            with open('simple_actor_benchmark_results.json', 'w') as f:
+            with open("simple_actor_benchmark_results.json", "w") as f:
                 json.dump(results, f, indent=2)
-            print(f"\n💾 Results saved to: simple_actor_benchmark_results.json")
+            print("\n💾 Results saved to: simple_actor_benchmark_results.json")
 
             return results
 
         except Exception as e:
             print(f"❌ Benchmark failed: {e}")
             import traceback
+
             traceback.print_exc()
             return None
 
@@ -194,7 +191,7 @@ async def run_async_test():
 
     # Test different configurations
     configs = [
-        (50, 5000),    # Small test
+        (50, 5000),  # Small test
         (100, 10000),  # Medium test
         (200, 20000),  # Large test
     ]
@@ -212,15 +209,19 @@ async def run_async_test():
 
     # Summary
     if all_results:
-        print(f"\n📈 SUMMARY OF ALL TESTS")
+        print("\n📈 SUMMARY OF ALL TESTS")
         print("=" * 50)
         for i, result in enumerate(all_results, 1):
-            perf = result['performance']
-            config = result['configuration']
-            print(f"Test {i}: {config['num_actors']} actors, {config['num_messages']} msgs")
+            perf = result["performance"]
+            config = result["configuration"]
+            print(
+                f"Test {i}: {config['num_actors']} actors, {config['num_messages']} msgs"
+            )
             print(f"  Throughput: {perf['messages_per_second']:,.0f} msg/sec")
 
-        best_throughput = max(r['performance']['messages_per_second'] for r in all_results)
+        best_throughput = max(
+            r["performance"]["messages_per_second"] for r in all_results
+        )
         print(f"\n🏆 Best Throughput: {best_throughput:,.0f} messages/sec")
 
         if best_throughput >= 33000:

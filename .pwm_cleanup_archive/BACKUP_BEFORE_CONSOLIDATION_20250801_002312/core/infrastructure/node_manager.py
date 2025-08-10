@@ -1,10 +1,11 @@
-import logging
-import time
-import os
 import json
-from typing import Dict, Any, List, Optional, Callable, Set, Tuple
+import logging
+import os
+import time
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger("NodeManager")
+
 
 class NodeManager:
     """Manages communication between Lukhas Core and specialized nodes"""
@@ -28,16 +29,12 @@ class NodeManager:
         # Register with core
         if core_interface:
             core_interface.register_component(
-                "node_manager",
-                self,
-                self.process_message
+                "node_manager", self, self.process_message
             )
 
             # Subscribe to node events
             core_interface.subscribe_to_events(
-                "node_status_change",
-                self.handle_node_status_change,
-                "node_manager"
+                "node_status_change", self.handle_node_status_change, "node_manager"
             )
 
         logger.info("Node manager initialized")
@@ -60,12 +57,12 @@ class NodeManager:
             "auto_discover": True,
             "auto_connect": True,
             "discovery_paths": ["NODES", "MODULES"],
-            "node_config": {}
+            "node_config": {},
         }
 
         if config_path and os.path.exists(config_path):
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     loaded_config = json.load(f)
                     # Merge with defaults
                     for key, value in default_config.items():
@@ -77,11 +74,13 @@ class NodeManager:
 
         return default_config
 
-    def register_node(self,
-                     node_id: str,
-                     node_instance: Any,
-                     node_type: str,
-                     dependencies: Optional[List[str]] = None) -> bool:
+    def register_node(
+        self,
+        node_id: str,
+        node_instance: Any,
+        node_type: str,
+        dependencies: Optional[List[str]] = None,
+    ) -> bool:
         """Register a node with the manager
 
         Args:
@@ -100,7 +99,7 @@ class NodeManager:
         self.registered_nodes[node_id] = {
             "instance": node_instance,
             "type": node_type,
-            "registered_at": time.time()
+            "registered_at": time.time(),
         }
 
         self.node_status[node_id] = "connected"
@@ -113,11 +112,8 @@ class NodeManager:
         if self.core:
             self.core.broadcast_event(
                 "node_registered",
-                {
-                    "node_id": node_id,
-                    "node_type": node_type
-                },
-                "node_manager"
+                {"node_id": node_id, "node_type": node_type},
+                "node_manager",
             )
 
         return True
@@ -140,11 +136,11 @@ class NodeManager:
 
             # Look for Python files that might be nodes
             for file_name in os.listdir(path):
-                if not file_name.endswith('.py'):
+                if not file_name.endswith(".py"):
                     continue
 
                 # Skip __init__.py and similar
-                if file_name.startswith('__'):
+                if file_name.startswith("__"):
                     continue
 
                 # Check if file contains node implementation
@@ -155,7 +151,9 @@ class NodeManager:
                     if self._load_node(node_id, file_path):
                         discovered_nodes.append(node_id)
 
-        logger.info(f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes)}")
+        logger.info(
+            f"Discovered {len(discovered_nodes)} nodes: {', '.join(discovered_nodes)}"
+        )
         return discovered_nodes
 
     def _is_node_file(self, file_path: str) -> bool:
@@ -168,13 +166,13 @@ class NodeManager:
             bool: True if file appears to contain a node
         """
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path) as f:
                 content = f.read()
 
                 # Simple heuristic - check for class definitions and Lukhas imports
-                has_class = 'class' in content
-                is_lukhas_related = 'Lukhas' in content or 'lukhas' in content
-                has_process_method = 'process_message' in content
+                has_class = "class" in content
+                is_lukhas_related = "Lukhas" in content or "lukhas" in content
+                has_process_method = "process_message" in content
 
                 return has_class and is_lukhas_related and has_process_method
 
@@ -194,18 +192,22 @@ class NodeManager:
         """
         try:
             # Get module path
-            module_path = file_path.replace('/', '.')
-            if module_path.endswith('.py'):
+            module_path = file_path.replace("/", ".")
+            if module_path.endswith(".py"):
                 module_path = module_path[:-3]
 
             # Import module
-            node_module = __import__(module_path, fromlist=['*'])
+            node_module = __import__(module_path, fromlist=["*"])
 
             # Find node class (look for classes with process_message method)
             node_class = None
             for attr_name in dir(node_module):
                 attr = getattr(node_module, attr_name)
-                if isinstance(attr, type) and hasattr(attr, 'process_message') and callable(getattr(attr, 'process_message')):
+                if (
+                    isinstance(attr, type)
+                    and hasattr(attr, "process_message")
+                    and callable(attr.process_message)
+                ):
                     node_class = attr
                     break
 
@@ -217,10 +219,10 @@ class NodeManager:
             node_instance = node_class()
 
             # Determine node type
-            node_type = getattr(node_class, 'NODE_TYPE', node_class.__name__)
+            node_type = getattr(node_class, "NODE_TYPE", node_class.__name__)
 
             # Get dependencies
-            dependencies = getattr(node_class, 'DEPENDENCIES', [])
+            dependencies = getattr(node_class, "DEPENDENCIES", [])
 
             # Register node
             return self.register_node(node_id, node_instance, node_type, dependencies)
@@ -229,11 +231,13 @@ class NodeManager:
             logger.error(f"Error loading node {node_id} from {file_path}: {e}")
             return False
 
-    def dispatch_message(self,
-                        target_node_id: str,
-                        message: Dict[str, Any],
-                        source: Optional[str] = None,
-                        priority: int = 5) -> Dict[str, Any]:
+    def dispatch_message(
+        self,
+        target_node_id: str,
+        message: Dict[str, Any],
+        source: Optional[str] = None,
+        priority: int = 5,
+    ) -> Dict[str, Any]:
         """Send a message to a specific node
 
         Args:
@@ -251,18 +255,20 @@ class NodeManager:
             return {
                 "status": "error",
                 "error": f"Unknown node: {target_node_id}",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
         # Check if node is connected
         if self.node_status[target_node_id] != "connected":
-            logger.warning(f"Cannot dispatch message to disconnected node: {target_node_id}")
+            logger.warning(
+                f"Cannot dispatch message to disconnected node: {target_node_id}"
+            )
             # Queue message for later delivery
             self.message_queues[target_node_id].append((message, priority, time.time()))
             return {
                 "status": "queued",
                 "node_status": self.node_status[target_node_id],
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
         # Prepare message envelope
@@ -271,8 +277,8 @@ class NodeManager:
             "metadata": {
                 "source": source,
                 "timestamp": time.time(),
-                "priority": priority
-            }
+                "priority": priority,
+            },
         }
 
         # Send message to node
@@ -282,16 +288,14 @@ class NodeManager:
             return response
         except Exception as e:
             logger.error(f"Error dispatching message to node {target_node_id}: {e}")
-            return {
-                "status": "error",
-                "error": str(e),
-                "timestamp": time.time()
-            }
+            return {"status": "error", "error": str(e), "timestamp": time.time()}
 
-    def broadcast_to_nodes(self,
-                          message: Dict[str, Any],
-                          node_type: Optional[str] = None,
-                          source: Optional[str] = None) -> Dict[str, List[Dict[str, Any]]]:
+    def broadcast_to_nodes(
+        self,
+        message: Dict[str, Any],
+        node_type: Optional[str] = None,
+        source: Optional[str] = None,
+    ) -> Dict[str, List[Dict[str, Any]]]:
         """Broadcast a message to multiple nodes
 
         Args:
@@ -302,11 +306,7 @@ class NodeManager:
         Returns:
             Dict with results from each node
         """
-        results = {
-            "success": [],
-            "failed": [],
-            "queued": []
-        }
+        results = {"success": [], "failed": [], "queued": []}
 
         for node_id, node_info in self.registered_nodes.items():
             # Filter by node type if specified
@@ -318,19 +318,13 @@ class NodeManager:
             status = response.get("status", "")
 
             if status == "error":
-                results["failed"].append({
-                    "node_id": node_id,
-                    "error": response.get("error")
-                })
+                results["failed"].append(
+                    {"node_id": node_id, "error": response.get("error")}
+                )
             elif status == "queued":
-                results["queued"].append({
-                    "node_id": node_id
-                })
+                results["queued"].append({"node_id": node_id})
             else:
-                results["success"].append({
-                    "node_id": node_id,
-                    "response": response
-                })
+                results["success"].append({"node_id": node_id, "response": response})
 
         return results
 
@@ -352,7 +346,7 @@ class NodeManager:
                 message.get("node_id", ""),
                 message.get("message", {}),
                 message_envelope["metadata"].get("source"),
-                message.get("priority", 5)
+                message.get("priority", 5),
             )
 
         elif action == "broadcast":
@@ -360,7 +354,7 @@ class NodeManager:
             return self.broadcast_to_nodes(
                 message.get("message", {}),
                 message.get("node_type"),
-                message_envelope["metadata"].get("source")
+                message_envelope["metadata"].get("source"),
             )
 
         elif action == "get_node_status":
@@ -371,33 +365,21 @@ class NodeManager:
                     return {
                         "status": "success",
                         "node_id": node_id,
-                        "node_status": self.node_status[node_id]
+                        "node_status": self.node_status[node_id],
                     }
                 else:
-                    return {
-                        "status": "error",
-                        "error": f"Unknown node: {node_id}"
-                    }
+                    return {"status": "error", "error": f"Unknown node: {node_id}"}
             else:
-                return {
-                    "status": "success",
-                    "node_status": self.node_status
-                }
+                return {"status": "success", "node_status": self.node_status}
 
         elif action == "discover_nodes":
             # Discover nodes
             discovered = self.discover_nodes()
-            return {
-                "status": "success",
-                "discovered_nodes": discovered
-            }
+            return {"status": "success", "discovered_nodes": discovered}
 
         else:
             logger.warning(f"Unknown action: {action}")
-            return {
-                "status": "error",
-                "error": f"Unknown action: {action}"
-            }
+            return {"status": "error", "error": f"Unknown action: {action}"}
 
     def handle_node_status_change(self, event_envelope: Dict[str, Any]) -> None:
         """Handle node status change events
@@ -445,7 +427,9 @@ class NodeManager:
                 queue.remove((message, priority, timestamp))
                 processed += 1
 
-        logger.info(f"Processed {processed}/{len(queue)} queued messages for node {node_id}")
+        logger.info(
+            f"Processed {processed}/{len(queue)} queued messages for node {node_id}"
+        )
 
         # Update queue
         self.message_queues[node_id] = queue

@@ -4,10 +4,10 @@ Simplified Ethics Integration Module
 A working integration that uses available components and provides fallbacks for missing ones.
 """
 
-import asyncio
-from core.common import get_logger
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
+
+from core.common import get_logger
 
 # Import available ethics components
 from ethics.meta_ethics_governor import MetaEthicsGovernor
@@ -55,8 +55,8 @@ class SimplifiedEthicsIntegration:
         logger.info("Simplified Ethics Integration ready")
 
     async def evaluate_ethical_action(
-        self, action: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Evaluate the ethical implications of an action.
         """
@@ -97,7 +97,7 @@ class SimplifiedEthicsIntegration:
             logger.error(f"Ethics evaluation failed: {e}")
             return {"status": "error", "error": str(e), "decision_id": None}
 
-    async def monitor_system_ethics(self) -> Dict[str, Any]:
+    async def monitor_system_ethics(self) -> dict[str, Any]:
         """
         Monitor overall system ethical health.
         """
@@ -120,7 +120,7 @@ class SimplifiedEthicsIntegration:
             logger.error(f"Ethics monitoring failed: {e}")
             return {"overall_health": "error", "error": str(e)}
 
-    def get_ethics_status(self) -> Dict[str, Any]:
+    def get_ethics_status(self) -> dict[str, Any]:
         """
         Get current ethics system status.
         """

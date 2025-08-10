@@ -10,11 +10,11 @@
 # ΛCOMMIT_WINDOW: pre-O3-sweep
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
-import json
 from core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for agentic tracing.
 logger = get_logger(__name__)
+
 
 class AgenticTrace:
     """
@@ -46,6 +46,7 @@ class AgenticTrace:
         Returns the full trace for the agent.
         """
         return self.trace
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: agentic_trace.py

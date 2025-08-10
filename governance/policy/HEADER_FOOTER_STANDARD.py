@@ -122,48 +122,42 @@ APPROVED_EMOJIS = {
     "🌟": "Primary/flagship features",
     "🔧": "Tools and utilities",
     "⚙️": "Configuration and settings",
-
     # Processing & Analysis
     "🔮": "Predictive/future-oriented modules",
     "🎭": "Personality and identity modules",
     "🚀": "Performance/optimization modules",
     "📊": "Analytics and metrics modules",
     "🔍": "Search, discovery, analysis modules",
-
     # Communication & Integration
     "🌊": "Flow, streaming, continuous processes",
     "💭": "Thinking, reasoning, reflection modules",
     "🌉": "Bridge/integration modules",
     "🔗": "Connection/linking modules",
     "📡": "Communication/network modules",
-
     # Data & Memory
     "💾": "Storage and persistence modules",
     "📝": "Documentation and logging modules",
     "📚": "Knowledge base modules",
     "🗂️": "Organization/structure modules",
     "💽": "Data processing modules",
-
     # Security & Ethics
     "🛡️": "Security and protection modules",
     "⚖️": "Ethics and governance modules",
     "🔐": "Encryption/privacy modules",
     "👁️": "Monitoring/observation modules",
     "🚨": "Alert/warning modules",
-
     # Special Purpose
     "✨": "Magic/special feature modules",
     "🎯": "Target/goal-oriented modules",
     "💫": "Dream/subconscious modules",
     "🌌": "Quantum/advanced physics modules",
     "🔄": "Cycle/loop/recursive modules",
-
     # Status Indicators
     "🏁": "End/completion markers",
     "📋": "Summary/report sections",
     "✅": "Validation/verification modules",
     "⚡": "Real-time/instant modules",
-    "🔔": "Notification modules"
+    "🔔": "Notification modules",
 }
 
 # SYMBOLIC TAGS REFERENCE
@@ -174,36 +168,31 @@ SYMBOLIC_TAGS = {
     "{ΛFOLD}": "Memory fold specific",
     "{ΛCONSCIOUSNESS}": "Consciousness systems",
     "{ΛREASONING}": "Reasoning engines",
-
     # Integration Tags
     "{ΛBRIDGE}": "Integration/bridge functionality",
     "{ΛAPI}": "API interfaces",
     "{ΛPROTOCOL}": "Protocol implementations",
     "{ΛGATEWAY}": "Gateway services",
-
     # Processing Tags
     "{ΛSTREAM}": "Streaming/continuous processing",
     "{ΛBATCH}": "Batch processing",
     "{ΛREALTIME}": "Real-time processing",
     "{ΛASYNC}": "Asynchronous operations",
-
     # Analysis Tags
     "{ΛANALYTICS}": "Analytics and metrics",
     "{ΛAUDIT}": "Audit functionality",
     "{ΛTRACE}": "Tracing and debugging",
     "{ΛMONITOR}": "Monitoring systems",
-
     # Security/Ethics Tags
     "{ΛSECURITY}": "Security features",
     "{ΛETHICS}": "Ethical considerations",
     "{ΛPRIVACY}": "Privacy protection",
     "{ΛCOMPLIANCE}": "Regulatory compliance",
-
     # Special Tags
     "{ΛEXPERIMENTAL}": "Experimental features",
     "{ΛDEPRECATED}": "Deprecated functionality",
     "{ΛCRITICAL}": "Critical system components",
-    "{ΛSTANDARD}": "Standardization elements"
+    "{ΛSTANDARD}": "Standardization elements",
 }
 
 # GUIDELINES FOR USE
@@ -258,6 +247,7 @@ HEADER/FOOTER STANDARDIZATION GUIDELINES
    - Use UTF-8 encoding
 """
 
+
 def generate_header(
     emoji: str,
     title: str,
@@ -270,11 +260,15 @@ def generate_header(
     authors: str = "LUKHAS AI Team",
     features: list = None,
     dependencies: list = None,
-    tags: list = None
+    tags: list = None,
 ) -> str:
     """Generate a standardized header with the given parameters."""
-    features_text = "\n".join([f"║ • {feature}" for feature in (features or ["Add features here"])])
-    deps_text = "\n".join([f"║ • {dep}" for dep in (dependencies or ["Add dependencies here"])])
+    features_text = "\n".join(
+        [f"║ • {feature}" for feature in (features or ["Add features here"])]
+    )
+    deps_text = "\n".join(
+        [f"║ • {dep}" for dep in (dependencies or ["Add dependencies here"])]
+    )
     tags_text = ", ".join(tags or ["{ΛDEFAULT}"])
 
     header = f'''"""
@@ -303,6 +297,7 @@ def generate_header(
 """'''
     return header
 
+
 # Example usage
 if __name__ == "__main__":
     # Example of generating a header
@@ -315,20 +310,16 @@ if __name__ == "__main__":
         features=[
             "3D emotion vector mapping",
             "SQLite persistent storage",
-            "Tier-based access control"
+            "Tier-based access control",
         ],
-        dependencies=[
-            "numpy >= 1.24.0",
-            "sqlite3 (built-in)",
-            "structlog >= 24.1.0"
-        ],
-        tags=["{ΛMEMORY}", "{ΛFOLD}", "{ΛCORE}"]
+        dependencies=["numpy >= 1.24.0", "sqlite3 (built-in)", "structlog >= 24.1.0"],
+        tags=["{ΛMEMORY}", "{ΛFOLD}", "{ΛCORE}"],
     )
 
     print("Example Generated Header:")
     print(example_header)
 
-    print("\n" + "="*80 + "\n")
+    print("\n" + "=" * 80 + "\n")
     print(GUIDELINES)
 
 """

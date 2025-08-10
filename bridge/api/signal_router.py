@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - ORCHESTRATION
 ║ Signal routing for the orchestration subsystem.
@@ -24,9 +23,12 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-def route_signal(signal_type: str, payload: Dict[str, Any], target: Optional[str] = None) -> Dict[str, Any]:
+
+def route_signal(
+    signal_type: str, payload: dict[str, Any], target: Optional[str] = None
+) -> dict[str, Any]:
     """Route a signal to appropriate handler.
 
     Args:
@@ -41,8 +43,9 @@ def route_signal(signal_type: str, payload: Dict[str, Any], target: Optional[str
         "status": "routed",
         "signal_type": signal_type,
         "target": target,
-        "response": payload
+        "response": payload,
     }
+
 
 # Alias for backward compatibility
 SignalRouter = route_signal

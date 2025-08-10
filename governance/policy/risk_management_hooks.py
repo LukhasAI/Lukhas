@@ -15,7 +15,11 @@
                 - Feeds into compliance drift and audit logs.
 """
 
-from lucas_governance.policy_manager import determine_active_regulations, log_active_regulations
+from lucas_governance.policy_manager import (
+    determine_active_regulations,
+    log_active_regulations,
+)
+
 
 def risk_mitigation_check(risk_factor, subsystem="core", user_location="GLOBAL"):
     """
@@ -38,5 +42,5 @@ def risk_mitigation_check(risk_factor, subsystem="core", user_location="GLOBAL")
         "subsystem": subsystem,
         "risk_factor": risk_factor,
         "status": status,
-        "active_regulations": determine_active_regulations(user_location)
+        "active_regulations": determine_active_regulations(user_location),
     }

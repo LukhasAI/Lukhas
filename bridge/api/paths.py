@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: paths.py
 Advanced: paths.py
@@ -19,9 +18,11 @@ All path-related configuration should be defined here and imported by other modu
 This ensures consistency across the system and makes path updates easier to manage.
 """
 
+# Core paths
+
+
 from pathlib import Path
 
-# Core paths
 ROOT_DIR = Path(__file__).parent.parent.parent  # /Users/Gonz/Lukhas
 CORE_DIR = ROOT_DIR / "CORE"
 DATA_DIR = ROOT_DIR / "data"
@@ -43,17 +44,15 @@ REM_VISUALIZER_PATH = REM_DIR / "rem_visualizer.py"
 VIDEO_ADAPTER_PATH = VIDEO_DIR / "video_adapter.py"
 VOICE_INTERFACE_PATH = VOICE_DIR / "voice_interface.py"
 
+
 def ensure_paths():
     """Ensure all required directories exist"""
-    paths = [
-        DATA_DIR,
-        MEMORY_STORE_PATH,
-        VOICE_PROFILE_PATH
-    ]
-    
+    paths = [DATA_DIR, MEMORY_STORE_PATH, VOICE_PROFILE_PATH]
+
     for path in paths:
         path.mkdir(parents=True, exist_ok=True)
-        
+
+
 def get_path(path_key: str) -> Path:
     """Get a path by its key name"""
     paths = {
@@ -70,7 +69,7 @@ def get_path(path_key: str) -> Path:
         "voice_profiles": VOICE_PROFILE_PATH,
         "rem_visualizer": REM_VISUALIZER_PATH,
         "video_adapter": VIDEO_ADAPTER_PATH,
-        "voice_interface": VOICE_INTERFACE_PATH
+        "voice_interface": VOICE_INTERFACE_PATH,
     }
-    
+
     return paths.get(path_key, ROOT_DIR)

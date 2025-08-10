@@ -44,45 +44,42 @@
 
 import asyncio
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Set, Tuple
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
-import json
-import uuid
+from typing import Any
 
 # LUKHAS colony system integration
 from core.colonies.base_colony import BaseColony
-from core.symbolism.tags import TagScope, TagPermission
-from core.event_sourcing import AIAgentAggregate
-from core.distributed_tracing import create_ai_tracer
+from core.symbolism.tags import TagPermission, TagScope
 
 # Dashboard integration
-from dashboard.core.universal_adaptive_dashboard import DashboardMorphState, DashboardContext
 
 logger = logging.getLogger("ΛTRACE.dashboard_colony_agent")
 
 
 class DashboardAgentRole(Enum):
     """Specialized roles for dashboard colony agents."""
-    COORDINATOR = "coordinator"           # Main coordination agent
-    INTELLIGENCE_AGGREGATOR = "intel"     # Cross-colony intelligence gathering
-    HEALING_SPECIALIST = "healing"        # Self-healing coordination
-    USER_EXPERIENCE = "ux"               # User experience optimization
-    PERFORMANCE_MONITOR = "performance"   # Performance monitoring and optimization
-    SECURITY_GUARDIAN = "security"        # Security and access control
+
+    COORDINATOR = "coordinator"  # Main coordination agent
+    INTELLIGENCE_AGGREGATOR = "intel"  # Cross-colony intelligence gathering
+    HEALING_SPECIALIST = "healing"  # Self-healing coordination
+    USER_EXPERIENCE = "ux"  # User experience optimization
+    PERFORMANCE_MONITOR = "performance"  # Performance monitoring and optimization
+    SECURITY_GUARDIAN = "security"  # Security and access control
 
 
 @dataclass
 class DashboardIntelligence:
     """Aggregated intelligence from multiple colonies."""
-    source_colonies: Set[str]
-    oracle_predictions: Dict[str, Any]
-    ethics_assessments: Dict[str, Any]
-    performance_metrics: Dict[str, float]
-    user_patterns: Dict[str, Any]
-    health_status: Dict[str, str]
-    recommendations: List[str]
+
+    source_colonies: set[str]
+    oracle_predictions: dict[str, Any]
+    ethics_assessments: dict[str, Any]
+    performance_metrics: dict[str, float]
+    user_patterns: dict[str, Any]
+    health_status: dict[str, str]
+    recommendations: list[str]
     confidence_score: float
     timestamp: datetime
 
@@ -90,11 +87,12 @@ class DashboardIntelligence:
 @dataclass
 class HealingRequest:
     """Request for distributed healing coordination."""
+
     request_id: str
     component: str
     failure_type: str
     severity: str
-    affected_colonies: Set[str]
+    affected_colonies: set[str]
     healing_priority: int
     coordination_required: bool
     fallback_available: bool
@@ -114,8 +112,8 @@ class DashboardColonyAgent(BaseColony):
                 "cross_colony_intelligence",
                 "distributed_healing",
                 "user_experience_optimization",
-                "performance_monitoring"
-            ]
+                "performance_monitoring",
+            ],
         )
 
         self.agent_role = agent_role
@@ -146,12 +144,14 @@ class DashboardColonyAgent(BaseColony):
             "ΛROLE": agent_role.value,
             "ΛINTELLIGENCE_LEVEL": "adaptive",
             "ΛHEALING_CAPABILITY": True,
-            "ΛCOLONY_COORDINATION": True
+            "ΛCOLONY_COORDINATION": True,
         }
 
-        self.logger.info("Dashboard Colony Agent initialized",
-                        role=agent_role.value,
-                        capabilities=len(self.capabilities))
+        self.logger.info(
+            "Dashboard Colony Agent initialized",
+            role=agent_role.value,
+            capabilities=len(self.capabilities),
+        )
 
     async def initialize(self):
         """Initialize the dashboard colony agent."""
@@ -175,19 +175,23 @@ class DashboardColonyAgent(BaseColony):
             # Apply dashboard-specific tags
             await self._apply_dashboard_tags()
 
-            self.logger.info("Dashboard Colony Agent fully initialized",
-                           connected_colonies=len(self.connected_colonies))
+            self.logger.info(
+                "Dashboard Colony Agent fully initialized",
+                connected_colonies=len(self.connected_colonies),
+            )
 
         except Exception as e:
-            self.logger.error("Dashboard Colony Agent initialization failed", error=str(e))
+            self.logger.error(
+                "Dashboard Colony Agent initialization failed", error=str(e)
+            )
             raise
 
     async def _connect_to_lukhas_systems(self):
         """Connect to core LUKHAS AI systems."""
         try:
             # Import and connect to systems (avoiding circular imports)
-            from core.oracle_nervous_system import get_oracle_nervous_system
             from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+            from core.oracle_nervous_system import get_oracle_nervous_system
 
             self.oracle_nervous_system = await get_oracle_nervous_system()
             self.ethics_swarm = await get_ethics_swarm_colony()
@@ -220,7 +224,7 @@ class DashboardColonyAgent(BaseColony):
             "morph_coordination": self._coordinate_dashboard_morph,
             "healing_coordination": self._coordinate_distributed_healing,
             "intelligence_fusion": self._coordinate_intelligence_fusion,
-            "performance_optimization": self._coordinate_performance_optimization
+            "performance_optimization": self._coordinate_performance_optimization,
         }
 
         self.logger.info("Coordinator capabilities initialized")
@@ -232,14 +236,14 @@ class DashboardColonyAgent(BaseColony):
             "ethics_insights": self._gather_ethics_intelligence,
             "colony_status": self._gather_colony_intelligence,
             "user_patterns": self._gather_user_intelligence,
-            "performance_metrics": self._gather_performance_intelligence
+            "performance_metrics": self._gather_performance_intelligence,
         }
 
         self.intelligence_fusion_rules = {
             "confidence_weighting": True,
             "temporal_relevance": True,
             "source_reliability": True,
-            "context_sensitivity": True
+            "context_sensitivity": True,
         }
 
         self.logger.info("Intelligence aggregation capabilities initialized")
@@ -251,14 +255,14 @@ class DashboardColonyAgent(BaseColony):
             "colony_disconnection": self._handle_colony_disconnection,
             "data_stream_failure": self._handle_data_stream_failure,
             "user_experience_degradation": self._handle_ux_degradation,
-            "performance_degradation": self._handle_performance_degradation
+            "performance_degradation": self._handle_performance_degradation,
         }
 
         self.healing_strategies = {
             "automatic_restart": self._auto_restart_component,
             "fallback_activation": self._activate_fallback_systems,
             "load_redistribution": self._redistribute_load,
-            "emergency_mode": self._activate_emergency_mode
+            "emergency_mode": self._activate_emergency_mode,
         }
 
         self.logger.info("Healing coordination capabilities initialized")
@@ -273,7 +277,7 @@ class DashboardColonyAgent(BaseColony):
             "colony_health_change",
             "performance_threshold_exceeded",
             "user_behavior_pattern_detected",
-            "system_trauma_detected"
+            "system_trauma_detected",
         ]
 
         for event in colony_events:
@@ -313,17 +317,26 @@ class DashboardColonyAgent(BaseColony):
                 str(value),
                 TagScope.COLONY,
                 TagPermission.READ_WRITE,
-                confidence=1.0
+                confidence=1.0,
             )
 
         # Add role-specific tags
         role_tags = {
-            DashboardAgentRole.COORDINATOR: ["ΛCOORDINATION", "ΛORCHESTRATION"],
-            DashboardAgentRole.INTELLIGENCE_AGGREGATOR: ["ΛINTELLIGENCE", "ΛFUSION"],
+            DashboardAgentRole.COORDINATOR: [
+                "ΛCOORDINATION",
+                "ΛORCHESTRATION",
+            ],
+            DashboardAgentRole.INTELLIGENCE_AGGREGATOR: [
+                "ΛINTELLIGENCE",
+                "ΛFUSION",
+            ],
             DashboardAgentRole.HEALING_SPECIALIST: ["ΛHEALING", "ΛRECOVERY"],
             DashboardAgentRole.USER_EXPERIENCE: ["ΛUX", "ΛOPTIMIZATION"],
-            DashboardAgentRole.PERFORMANCE_MONITOR: ["ΛPERFORMANCE", "ΛMONITORING"],
-            DashboardAgentRole.SECURITY_GUARDIAN: ["ΛSECURITY", "ΛGUARDIAN"]
+            DashboardAgentRole.PERFORMANCE_MONITOR: [
+                "ΛPERFORMANCE",
+                "ΛMONITORING",
+            ],
+            DashboardAgentRole.SECURITY_GUARDIAN: ["ΛSECURITY", "ΛGUARDIAN"],
         }
 
         for tag in role_tags.get(self.agent_role, []):
@@ -332,7 +345,7 @@ class DashboardColonyAgent(BaseColony):
                 "active",
                 TagScope.COLONY,
                 TagPermission.READ_WRITE,
-                confidence=1.0
+                confidence=1.0,
             )
 
         self.logger.info("Dashboard-specific ΛTAGS applied")
@@ -394,7 +407,9 @@ class DashboardColonyAgent(BaseColony):
                 await asyncio.sleep(10)
 
     # Intelligence aggregation methods
-    async def _aggregate_cross_colony_intelligence(self) -> DashboardIntelligence:
+    async def _aggregate_cross_colony_intelligence(
+        self,
+    ) -> DashboardIntelligence:
         """Aggregate intelligence from multiple colonies."""
 
         intelligence_data = {}
@@ -408,13 +423,18 @@ class DashboardColonyAgent(BaseColony):
                 source_colonies.add(source_name)
 
             except Exception as e:
-                self.logger.error(f"Failed to gather {source_name} intelligence", error=str(e))
+                self.logger.error(
+                    f"Failed to gather {source_name} intelligence",
+                    error=str(e),
+                )
 
         # Calculate overall confidence
         confidence_score = self._calculate_intelligence_confidence(intelligence_data)
 
         # Generate recommendations
-        recommendations = await self._generate_intelligence_recommendations(intelligence_data)
+        recommendations = await self._generate_intelligence_recommendations(
+            intelligence_data
+        )
 
         return DashboardIntelligence(
             source_colonies=source_colonies,
@@ -425,10 +445,10 @@ class DashboardColonyAgent(BaseColony):
             health_status=intelligence_data.get("colony_status", {}),
             recommendations=recommendations,
             confidence_score=confidence_score,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
-    async def _gather_oracle_intelligence(self) -> Dict[str, Any]:
+    async def _gather_oracle_intelligence(self) -> dict[str, Any]:
         """Gather intelligence from Oracle Nervous System."""
         if not self.oracle_nervous_system:
             return {}
@@ -441,14 +461,18 @@ class DashboardColonyAgent(BaseColony):
                 "system_health": oracle_status.get("health_status", "unknown"),
                 "performance_predictions": oracle_status.get("performance_metrics", {}),
                 "upcoming_events": [],  # Would be populated by Oracle predictions
-                "recommendation": "optimal" if oracle_status.get("health_status") == "optimal" else "attention_needed"
+                "recommendation": (
+                    "optimal"
+                    if oracle_status.get("health_status") == "optimal"
+                    else "attention_needed"
+                ),
             }
 
         except Exception as e:
             self.logger.error("Oracle intelligence gathering failed", error=str(e))
             return {}
 
-    async def _gather_ethics_intelligence(self) -> Dict[str, Any]:
+    async def _gather_ethics_intelligence(self) -> dict[str, Any]:
         """Gather intelligence from Ethics Swarm Colony."""
         if not self.ethics_swarm:
             return {}
@@ -461,7 +485,11 @@ class DashboardColonyAgent(BaseColony):
                 "drift_score": ethics_status.get("drift_score", 0.0),
                 "active_decisions": ethics_status.get("active_decisions", 0),
                 "swarm_consensus": ethics_status.get("swarm_consensus", 0.0),
-                "recommendation": "simple" if ethics_status.get("complexity_level", 0.0) < 0.3 else "complex"
+                "recommendation": (
+                    "simple"
+                    if ethics_status.get("complexity_level", 0.0) < 0.3
+                    else "complex"
+                ),
             }
 
         except Exception as e:
@@ -472,9 +500,11 @@ class DashboardColonyAgent(BaseColony):
     async def _coordinate_healing_request(self, healing_request: HealingRequest):
         """Coordinate a distributed healing request."""
 
-        self.logger.info("Coordinating healing request",
-                        component=healing_request.component,
-                        severity=healing_request.severity)
+        self.logger.info(
+            "Coordinating healing request",
+            component=healing_request.component,
+            severity=healing_request.severity,
+        )
 
         # Add to active healing requests
         self.active_healing_requests[healing_request.request_id] = healing_request
@@ -486,13 +516,15 @@ class DashboardColonyAgent(BaseColony):
         healing_result = await self._execute_healing_strategy(healing_request, strategy)
 
         # Update healing history
-        self.healing_history.append({
-            "request_id": healing_request.request_id,
-            "component": healing_request.component,
-            "strategy": strategy,
-            "result": healing_result,
-            "timestamp": datetime.now()
-        })
+        self.healing_history.append(
+            {
+                "request_id": healing_request.request_id,
+                "component": healing_request.component,
+                "strategy": strategy,
+                "result": healing_result,
+                "timestamp": datetime.now(),
+            }
+        )
 
         # Remove from active requests
         del self.active_healing_requests[healing_request.request_id]
@@ -546,7 +578,9 @@ class DashboardColonyAgent(BaseColony):
             await self._recommend_ethics_focused_layout(event_data)
 
     # Colony coordination methods (implementing BaseColony abstract methods)
-    async def execute_task(self, task_name: str, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_name: str, parameters: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute dashboard coordination tasks."""
 
         if task_name == "coordinate_morph":
@@ -562,33 +596,37 @@ class DashboardColonyAgent(BaseColony):
             return {"error": f"Unknown task: {task_name}"}
 
     # Utility methods to be implemented based on specific requirements
-    async def _coordinate_dashboard_morph(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def _coordinate_dashboard_morph(
+        self, parameters: dict[str, Any]
+    ) -> dict[str, Any]:
         """Coordinate dashboard morphing across colonies."""
         # Implementation details...
         return {"status": "morph_coordinated"}
 
-    async def _trigger_predictive_adaptation(self, prediction_data: Dict[str, Any]):
+    async def _trigger_predictive_adaptation(self, prediction_data: dict[str, Any]):
         """Trigger predictive dashboard adaptation."""
         # Implementation details...
-        pass
 
-    async def _recommend_ethics_focused_layout(self, ethics_data: Dict[str, Any]):
+    async def _recommend_ethics_focused_layout(self, ethics_data: dict[str, Any]):
         """Recommend ethics-focused dashboard layout."""
         # Implementation details...
-        pass
 
-    def _calculate_intelligence_confidence(self, intelligence_data: Dict[str, Any]) -> float:
+    def _calculate_intelligence_confidence(
+        self, intelligence_data: dict[str, Any]
+    ) -> float:
         """Calculate confidence score for aggregated intelligence."""
         # Implementation details...
         return 0.8
 
-    async def _generate_intelligence_recommendations(self, intelligence_data: Dict[str, Any]) -> List[str]:
+    async def _generate_intelligence_recommendations(
+        self, intelligence_data: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on aggregated intelligence."""
         # Implementation details...
         return ["optimize_performance", "monitor_ethics_complexity"]
 
 
-async def create_dashboard_colony_swarm() -> List[DashboardColonyAgent]:
+async def create_dashboard_colony_swarm() -> list[DashboardColonyAgent]:
     """Create a complete swarm of dashboard colony agents."""
 
     agents = []
@@ -603,4 +641,6 @@ async def create_dashboard_colony_swarm() -> List[DashboardColonyAgent]:
     return agents
 
 
-logger.info("ΛDASHBOARD: Dashboard Colony Agent loaded. Intelligent coordination ready.")
+logger.info(
+    "ΛDASHBOARD: Dashboard Colony Agent loaded. Intelligent coordination ready."
+)

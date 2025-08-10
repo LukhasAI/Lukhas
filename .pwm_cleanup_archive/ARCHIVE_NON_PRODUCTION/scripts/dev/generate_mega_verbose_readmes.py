@@ -11,12 +11,10 @@ Creates rich, narrative README files with:
 Perfect for generating content for the LUKHAS website!
 """
 
-import json
 import os
-import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -99,7 +97,7 @@ def analyze_directory_structure(directory_path: Path) -> Dict[str, any]:
         # Read existing README if it exists
         readme_path = directory_path / "README.md"
         if readme_path.exists():
-            with open(readme_path, "r", encoding="utf-8") as f:
+            with open(readme_path, encoding="utf-8") as f:
                 analysis["existing_readme_content"] = f.read()
 
         return analysis
@@ -352,7 +350,7 @@ def find_incomplete_readmes() -> List[Path]:
             else:
                 # Check if existing README is too short or basic
                 try:
-                    with open(readme_path, "r", encoding="utf-8") as f:
+                    with open(readme_path, encoding="utf-8") as f:
                         content = f.read()
                         if (
                             len(content) < 500  # Too short
@@ -384,7 +382,7 @@ def generate_readme_for_directory(directory_path: Path) -> bool:
 
         print(f"  📊 Found {len(analysis['python_files'])} Python files")
         print(f"  🎯 Complexity: {analysis['code_complexity']}")
-        print(f"  🔄 Generating mega-verbose README...")
+        print("  🔄 Generating mega-verbose README...")
 
         # Generate the README content
         readme_content = generate_mega_verbose_readme(analysis)
@@ -608,7 +606,7 @@ def main():
                 failed += 1
 
         print("\n" + "=" * 60)
-        print(f"🎉 README Generation Complete!")
+        print("🎉 README Generation Complete!")
         print(f"✅ Successfully generated: {successful} READMEs")
         print(f"❌ Failed: {failed} READMEs")
         print(f"💰 Estimated cost: ~${successful * 0.002:.3f}")

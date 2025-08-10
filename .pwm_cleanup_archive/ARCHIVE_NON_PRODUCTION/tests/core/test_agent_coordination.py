@@ -3,15 +3,23 @@ Tests for Decentralized Agent Coordination System
 """
 
 import asyncio
-import pytest
 import time
-from typing import List, Tuple
 
-from core.actor_system import ActorSystem, ActorRef, ActorMessage
+import pytest
+
+from core.actor_system import ActorMessage, ActorRef, ActorSystem
 from core.agent_coordination import (
-    CoordinationHub, AutonomousAgent, DataProcessorAgent, AnalyticsAgent,
-    Skill, SkillLevel, TaskAnnouncement, TaskStatus, CoordinationProtocol,
-    WorkingGroup, SkillRegistry, MessagePriority
+    AnalyticsAgent,
+    AutonomousAgent,
+    CoordinationHub,
+    CoordinationProtocol,
+    DataProcessorAgent,
+    MessagePriority,
+    Skill,
+    SkillLevel,
+    SkillRegistry,
+    TaskAnnouncement,
+    WorkingGroup,
 )
 
 
@@ -41,7 +49,9 @@ class TestSkillRegistry:
         assert agents[0][1].level == SkillLevel.EXPERT
 
         # Find with minimum level
-        experts = await registry.find_agents_with_skill("data_cleaning", SkillLevel.ADVANCED)
+        experts = await registry.find_agents_with_skill(
+            "data_cleaning", SkillLevel.ADVANCED
+        )
         assert len(experts) == 1
         assert experts[0][0] == "agent1"
 
@@ -101,8 +111,11 @@ class TestWorkingGroup:
         announcement = TaskAnnouncement(
             task_id="test-task",
             description="Test task",
-            required_skills=[("skill1", SkillLevel.INTERMEDIATE), ("skill2", SkillLevel.ADVANCED)],
-            initiator=initiator_ref
+            required_skills=[
+                ("skill1", SkillLevel.INTERMEDIATE),
+                ("skill2", SkillLevel.ADVANCED),
+            ],
+            initiator=initiator_ref,
         )
 
         group = WorkingGroup(
@@ -110,7 +123,7 @@ class TestWorkingGroup:
             task=announcement,
             leader=announcement.initiator,
             members={},
-            skills_covered={}
+            skills_covered={},
         )
 
         # Add members
@@ -135,6 +148,7 @@ class TestWorkingGroup:
 
     def test_task_expiry(self):
         """Test task announcement expiry"""
+
         class MockSystem:
             pass
 
@@ -143,7 +157,7 @@ class TestWorkingGroup:
             description="Test",
             required_skills=[],
             initiator=ActorRef("test", MockSystem()),
-            deadline=time.time() - 1  # Already expired
+            deadline=time.time() - 1,  # Already expired
         )
 
         assert announcement.is_expired()
@@ -154,7 +168,7 @@ class TestWorkingGroup:
             description="Old task",
             required_skills=[],
             initiator=ActorRef("test", MockSystem()),
-            announced_at=time.time() - 400  # Over 5 minutes ago
+            announced_at=time.time() - 400,  # Over 5 minutes ago
         )
 
         assert old_announcement.is_expired()
@@ -194,13 +208,16 @@ class TestCoordinationHub:
         # Create test announcement
         initiator_ref = await system.create_actor(AutonomousAgent, "initiator")
 
-        result = await hub_ref.ask(CoordinationProtocol.TASK_ANNOUNCE, {
-            "task_id": "test-123",
-            "description": "Test task",
-            "required_skills": [["test_skill", SkillLevel.INTERMEDIATE.value]],
-            "initiator": initiator_ref.to_dict(),
-            "priority": MessagePriority.NORMAL.value
-        })
+        result = await hub_ref.ask(
+            CoordinationProtocol.TASK_ANNOUNCE,
+            {
+                "task_id": "test-123",
+                "description": "Test task",
+                "required_skills": [["test_skill", SkillLevel.INTERMEDIATE.value]],
+                "initiator": initiator_ref.to_dict(),
+                "priority": MessagePriority.NORMAL.value,
+            },
+        )
 
         assert result["status"] == "announced"
         assert "test-123" in hub.active_announcements
@@ -219,22 +236,33 @@ class TestCoordinationHub:
 
         # First announce a task
         task_id = "test-task-456"
-        await hub_ref.ask(CoordinationProtocol.TASK_ANNOUNCE, {
-            "task_id": task_id,
-            "description": "Process data",
-            "required_skills": [["data_cleaning", SkillLevel.INTERMEDIATE.value]],
-            "initiator": initiator_ref.to_dict(),
-            "max_group_size": 3
-        })
+        await hub_ref.ask(
+            CoordinationProtocol.TASK_ANNOUNCE,
+            {
+                "task_id": task_id,
+                "description": "Process data",
+                "required_skills": [["data_cleaning", SkillLevel.INTERMEDIATE.value]],
+                "initiator": initiator_ref.to_dict(),
+                "max_group_size": 3,
+            },
+        )
 
         # Make skill offer
-        result = await hub_ref.ask(CoordinationProtocol.SKILL_OFFER, {
-            "agent_ref": agent_ref.to_dict(),
-            "agent_id": "agent1",
-            "offered_skills": [Skill(name="data_cleaning", level=SkillLevel.EXPERT, success_rate=0.95)],
-            "availability": 0.8,
-            "estimated_time": 30.0
-        }, correlation_id=task_id)
+        result = await hub_ref.ask(
+            CoordinationProtocol.SKILL_OFFER,
+            {
+                "agent_ref": agent_ref.to_dict(),
+                "agent_id": "agent1",
+                "offered_skills": [
+                    Skill(
+                        name="data_cleaning", level=SkillLevel.EXPERT, success_rate=0.95
+                    )
+                ],
+                "availability": 0.8,
+                "estimated_time": 30.0,
+            },
+            correlation_id=task_id,
+        )
 
         assert result["status"] == "processed"
 
@@ -255,18 +283,23 @@ class TestCoordinationHub:
 
         # Announce task
         task_id = "cancel-test"
-        await hub_ref.ask(CoordinationProtocol.TASK_ANNOUNCE, {
-            "task_id": task_id,
-            "description": "Task to cancel",
-            "required_skills": [],
-            "initiator": initiator_ref.to_dict()
-        })
+        await hub_ref.ask(
+            CoordinationProtocol.TASK_ANNOUNCE,
+            {
+                "task_id": task_id,
+                "description": "Task to cancel",
+                "required_skills": [],
+                "initiator": initiator_ref.to_dict(),
+            },
+        )
 
         hub = system.get_actor("hub")
         assert task_id in hub.active_announcements
 
         # Cancel task
-        result = await hub_ref.ask(CoordinationProtocol.TASK_CANCEL, {"task_id": task_id})
+        result = await hub_ref.ask(
+            CoordinationProtocol.TASK_CANCEL, {"task_id": task_id}
+        )
         assert result["status"] == "cancelled"
         assert task_id not in hub.active_announcements
 
@@ -281,7 +314,7 @@ class TestAutonomousAgent:
         """Test agent skill management"""
         skills = [
             Skill("coding", SkillLevel.ADVANCED, success_rate=0.92),
-            Skill("testing", SkillLevel.EXPERT, success_rate=0.96)
+            Skill("testing", SkillLevel.EXPERT, success_rate=0.96),
         ]
 
         agent = AutonomousAgent("test_agent", skills)
@@ -305,7 +338,7 @@ class TestAutonomousAgent:
         task_id = await agent.announce_task(
             description="Need help with data processing",
             required_skills=[("data_cleaning", SkillLevel.INTERMEDIATE)],
-            priority=MessagePriority.HIGH
+            priority=MessagePriority.HIGH,
         )
 
         assert task_id is not None
@@ -323,22 +356,22 @@ class TestAutonomousAgent:
         await system.start()
 
         # Create agent with specific skills
-        agent_ref = await system.create_actor(
-            DataProcessorAgent,
-            "data_agent"
-        )
+        agent_ref = await system.create_actor(DataProcessorAgent, "data_agent")
 
         # Create a mock task announcement
         initiator_ref = await system.create_actor(AutonomousAgent, "initiator")
 
         # Send skill query
-        result = await agent_ref.ask(CoordinationProtocol.SKILL_QUERY, {
-            "task_id": "test-task",
-            "description": "Clean data",
-            "required_skills": [("data_cleaning", SkillLevel.INTERMEDIATE)],
-            "initiator": initiator_ref.to_dict(),
-            "priority": MessagePriority.NORMAL
-        })
+        result = await agent_ref.ask(
+            CoordinationProtocol.SKILL_QUERY,
+            {
+                "task_id": "test-task",
+                "description": "Clean data",
+                "required_skills": [("data_cleaning", SkillLevel.INTERMEDIATE)],
+                "initiator": initiator_ref.to_dict(),
+                "priority": MessagePriority.NORMAL,
+            },
+        )
 
         # Agent should offer since it has expert level data_cleaning
         assert result["status"] == "offered"
@@ -355,16 +388,19 @@ class TestAutonomousAgent:
         hub_ref = await system.create_actor(CoordinationHub, "hub")
 
         # Send group invite
-        result = await hub_ref.ask(CoordinationProtocol.GROUP_INVITE, {
-            "group_id": "test-group",
-            "task": {
-                "task_id": "test-task",
-                "description": "Test task",
-                "required_skills": []
+        result = await hub_ref.ask(
+            CoordinationProtocol.GROUP_INVITE,
+            {
+                "group_id": "test-group",
+                "task": {
+                    "task_id": "test-task",
+                    "description": "Test task",
+                    "required_skills": [],
+                },
+                "role": "member",
+                "agent_ref": agent_ref.to_dict(),
             },
-            "role": "member",
-            "agent_ref": agent_ref.to_dict()
-        })
+        )
 
         # Default implementation accepts if availability > 0.3
         assert result["status"] == "accepted"
@@ -389,9 +425,13 @@ class TestIntegration:
         agents = []
         for i in range(3):
             if i == 0:
-                agent_ref = await system.create_actor(DataProcessorAgent, f"data_agent_{i}")
+                agent_ref = await system.create_actor(
+                    DataProcessorAgent, f"data_agent_{i}"
+                )
             else:
-                agent_ref = await system.create_actor(AnalyticsAgent, f"analytics_agent_{i}")
+                agent_ref = await system.create_actor(
+                    AnalyticsAgent, f"analytics_agent_{i}"
+                )
 
             agent = system.get_actor(agent_ref.actor_id)
             agent.coord_hub = hub_ref
@@ -408,8 +448,8 @@ class TestIntegration:
             description="Analyze cleaned data",
             required_skills=[
                 ("data_cleaning", SkillLevel.INTERMEDIATE),
-                ("statistical_analysis", SkillLevel.INTERMEDIATE)
-            ]
+                ("statistical_analysis", SkillLevel.INTERMEDIATE),
+            ],
         )
 
         # Wait for coordination
@@ -485,18 +525,20 @@ class TestSpecializedAgents:
         agent.coord_hub = hub_ref
 
         # Test data cleaning task
-        result = await agent._handle_task_start(ActorMessage(
-            message_id="test",
-            sender=hub_ref,
-            recipient=agent_ref,
-            message_type=CoordinationProtocol.TASK_START,
-            payload={
-                "task_type": "clean",
-                "data": [1, 2, 3],
-                "group_id": "test-group"
-            },
-            timestamp=time.time()
-        ))
+        result = await agent._handle_task_start(
+            ActorMessage(
+                message_id="test",
+                sender=hub_ref,
+                recipient=agent_ref,
+                message_type=CoordinationProtocol.TASK_START,
+                payload={
+                    "task_type": "clean",
+                    "data": [1, 2, 3],
+                    "group_id": "test-group",
+                },
+                timestamp=time.time(),
+            )
+        )
 
         assert result["status"] == "completed"
         assert result["result"]["cleaned"] is True

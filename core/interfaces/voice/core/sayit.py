@@ -2,24 +2,35 @@
 # 🗣️ Lukhas Symbolic Speech Router
 
 import sys
-from symbolic.personas.lukhas.lukhas_voice import speak, VOICES
+
+from symbolic.personas.lukhas.lukhas_voice import VOICES, speak
+
 
 def classify(text):
     text_lower = text.lower()
-    if any(kw in text_lower for kw in ["dream", "memory", "beyond", "unseen", "imagine"]):
+    if any(
+        kw in text_lower for kw in ["dream", "memory", "beyond", "unseen", "imagine"]
+    ):
         return "cove"
-    elif any(kw in text_lower for kw in ["danger", "alert", "risk", "urgent", "violation"]):
+    elif any(
+        kw in text_lower for kw in ["danger", "alert", "risk", "urgent", "violation"]
+    ):
         return "alert"
     elif any(kw in text_lower for kw in ["echo", "log", "record", "recall", "archive"]):
         return "echo"
-    elif any(kw in text_lower for kw in ["why", "feel", "meaning", "who am i", "conscious", "ethics"]):
+    elif any(
+        kw in text_lower
+        for kw in ["why", "feel", "meaning", "who am i", "conscious", "ethics"]
+    ):
         return "reflection"
     else:
         return "lukhas"
 
+
 def route(text):
     tone = classify(text)
     speak(text, voice=tone)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

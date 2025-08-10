@@ -3,14 +3,15 @@ Integration tests for core LUKHAS modules.
 """
 
 import pytest
-from unittest.mock import Mock, patch
 
 
 @pytest.mark.integration
 class TestCoreIntegration:
     """Test integration between core modules."""
 
-    def test_memory_consciousness_integration(self, mock_consciousness, test_memory_entry):
+    def test_memory_consciousness_integration(
+        self, mock_consciousness, test_memory_entry
+    ):
         """Test integration between memory and consciousness systems."""
         # Placeholder test
         assert mock_consciousness.awareness_level > 0
@@ -24,17 +25,29 @@ class TestCoreIntegration:
 
     def test_tag_propagation(self):
         """Test that symbolic tags are propagated through a colony."""
-        from core.colonies.reasoning_colony import ReasoningColony
         import asyncio
 
+        from core.colonies.reasoning_colony import ReasoningColony
+
         colony = ReasoningColony("test_colony")
-        from core.symbolism.tags import TagScope, TagPermission
+        from core.symbolism.tags import TagPermission, TagScope
+
         task_data = {
             "type": "test_task",
             "tags": {
-                "emotional_tone": ("curious", TagScope.LOCAL, TagPermission.PUBLIC, None),
-                "directive_hash": ("a1b2c3d4", TagScope.GLOBAL, TagPermission.PROTECTED, 3600)
-            }
+                "emotional_tone": (
+                    "curious",
+                    TagScope.LOCAL,
+                    TagPermission.PUBLIC,
+                    None,
+                ),
+                "directive_hash": (
+                    "a1b2c3d4",
+                    TagScope.GLOBAL,
+                    TagPermission.PROTECTED,
+                    3600,
+                ),
+            },
         }
 
         async def run_task():
@@ -44,7 +57,8 @@ class TestCoreIntegration:
 
         asyncio.run(run_task())
 
-        from core.symbolism.tags import TagScope, TagPermission
+        from core.symbolism.tags import TagPermission, TagScope
+
         assert colony.symbolic_carryover["emotional_tone"][0] == "curious"
         assert colony.symbolic_carryover["emotional_tone"][1] == TagScope.LOCAL
         assert colony.symbolic_carryover["emotional_tone"][2] == TagPermission.PUBLIC
@@ -60,9 +74,10 @@ class TestCoreIntegration:
 
     def test_scoped_collision(self):
         """Test that tags with the same name but different scopes do not collide."""
-        from core.colonies.reasoning_colony import ReasoningColony
-        from core.symbolism.tags import TagScope, TagPermission
         import asyncio
+
+        from core.colonies.reasoning_colony import ReasoningColony
+        from core.symbolism.tags import TagPermission, TagScope
 
         colony1 = ReasoningColony("colony1")
         colony2 = ReasoningColony("colony2")
@@ -71,14 +86,14 @@ class TestCoreIntegration:
             "type": "test_task",
             "tags": {
                 "test_tag": ("value1", TagScope.LOCAL, TagPermission.PRIVATE, None)
-            }
+            },
         }
 
         task_data2 = {
             "type": "test_task",
             "tags": {
                 "test_tag": ("value2", TagScope.GLOBAL, TagPermission.PUBLIC, None)
-            }
+            },
         }
 
         async def run_tasks():
@@ -98,10 +113,11 @@ class TestCoreIntegration:
 
     def test_tag_expiry(self):
         """Test that tags expire correctly."""
-        from core.colonies.reasoning_colony import ReasoningColony
-        from core.symbolism.tags import TagScope, TagPermission
         import asyncio
         import time
+
+        from core.colonies.reasoning_colony import ReasoningColony
+        from core.symbolism.tags import TagPermission, TagScope
 
         colony = ReasoningColony("test_colony")
 
@@ -109,7 +125,7 @@ class TestCoreIntegration:
             "type": "test_task",
             "tags": {
                 "short_lived_tag": ("value", TagScope.LOCAL, TagPermission.PUBLIC, 0.1)
-            }
+            },
         }
 
         async def run_task():
@@ -125,17 +141,23 @@ class TestCoreIntegration:
 
     def test_tag_escalation(self):
         """Test the tag escalation protocol."""
-        from core.colonies.reasoning_colony import ReasoningColony
-        from core.symbolism.tags import TagScope, TagPermission
         import asyncio
+
+        from core.colonies.reasoning_colony import ReasoningColony
+        from core.symbolism.tags import TagPermission, TagScope
 
         colony = ReasoningColony("test_colony")
 
         task_data = {
             "type": "test_task",
             "tags": {
-                "private_tag": ("initial_value", TagScope.LOCAL, TagPermission.PRIVATE, None)
-            }
+                "private_tag": (
+                    "initial_value",
+                    TagScope.LOCAL,
+                    TagPermission.PRIVATE,
+                    None,
+                )
+            },
         }
 
         async def run_task():
@@ -143,28 +165,41 @@ class TestCoreIntegration:
             await colony.execute_task("task1", task_data)
 
             # Try to override the private tag - should fail
-            override_result = colony.override_tag("private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC)
+            override_result = colony.override_tag(
+                "private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC
+            )
             assert not override_result
             assert colony.symbolic_carryover["private_tag"][0] == "initial_value"
 
             # Escalate the permission
-            escalation_result = colony.request_permission_escalation("private_tag", TagPermission.PROTECTED)
+            escalation_result = colony.request_permission_escalation(
+                "private_tag", TagPermission.PROTECTED
+            )
             assert escalation_result
 
             # Try to override again - should still fail because we haven't changed the permission yet
-            override_result = colony.override_tag("private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC)
+            override_result = colony.override_tag(
+                "private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC
+            )
             assert not override_result
             assert colony.symbolic_carryover["private_tag"][0] == "initial_value"
 
             # Manually override the permission for the test
-            colony.symbolic_carryover["private_tag"] = ("initial_value", TagScope.LOCAL, TagPermission.PROTECTED, colony.symbolic_carryover["private_tag"][3], None)
+            colony.symbolic_carryover["private_tag"] = (
+                "initial_value",
+                TagScope.LOCAL,
+                TagPermission.PROTECTED,
+                colony.symbolic_carryover["private_tag"][3],
+                None,
+            )
 
             # Try to override again - should succeed
-            override_result = colony.override_tag("private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC, None)
+            override_result = colony.override_tag(
+                "private_tag", "new_value", TagScope.LOCAL, TagPermission.PUBLIC, None
+            )
             assert override_result
             assert colony.symbolic_carryover["private_tag"][0] == "new_value"
             assert colony.symbolic_carryover["private_tag"][2] == TagPermission.PUBLIC
-
 
             await colony.stop()
 

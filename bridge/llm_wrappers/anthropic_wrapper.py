@@ -39,10 +39,9 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
-import os
-from core.common import get_logger
-from typing import Optional
 from .env_loader import get_api_key
 
 # Configure module logger
@@ -52,21 +51,28 @@ logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.anthropic")
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "anthropic_wrapper"
 
+
 class AnthropicWrapper:
+
     def __init__(self):
         """Initialize Anthropic wrapper with API key"""
         self.client = None
-        self.api_key = get_api_key('anthropic')
+        self.api_key = get_api_key("anthropic")
 
         if self.api_key:
             try:
                 import anthropic
+
                 self.client = anthropic.Anthropic(api_key=self.api_key)
                 print(f"✅ Anthropic initialized with key: {self.api_key[:20]}...")
             except ImportError:
-                print("Anthropic package not installed. Install with: pip install anthropic")
+                print(
+                    "Anthropic package not installed. Install with: pip install anthropic"
+                )
 
-    def generate_response(self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs) -> str:
+    def generate_response(
+        self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs
+    ) -> str:
         """Generate response using Anthropic API"""
         if not self.client:
             return "Anthropic client not initialized. Please check API key and installation."
@@ -74,8 +80,8 @@ class AnthropicWrapper:
         try:
             response = self.client.messages.create(
                 model=model,
-                max_tokens=kwargs.get('max_tokens', 2000),
-                messages=[{"role": "user", "content": prompt}]
+                max_tokens=kwargs.get("max_tokens", 2000),
+                messages=[{"role": "user", "content": prompt}],
             )
             return response.content[0].text
         except Exception as e:
@@ -84,6 +90,7 @@ class AnthropicWrapper:
     def is_available(self) -> bool:
         """Check if Anthropic is available"""
         return self.client is not None
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

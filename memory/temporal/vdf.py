@@ -1,14 +1,14 @@
 """Simple Verifiable Delay Function implementation for log integrity."""
+
 import hashlib
 import json
 from datetime import datetime
 from pathlib import Path
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
 
 MODULUS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD97

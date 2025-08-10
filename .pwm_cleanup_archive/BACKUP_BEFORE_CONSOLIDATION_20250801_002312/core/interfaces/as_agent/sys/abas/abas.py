@@ -21,6 +21,7 @@ DESCRIPTION:
 
 """
 
+
 def is_allowed_now(user_context):
     """
     Check if symbolic delivery is currently permitted based on stress level.
@@ -32,6 +33,7 @@ def is_allowed_now(user_context):
     - bool: True if stress is below 0.7, else False
     """
     return user_context.get("emotional_vector", {}).get("stress", 0.0) < 0.7
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

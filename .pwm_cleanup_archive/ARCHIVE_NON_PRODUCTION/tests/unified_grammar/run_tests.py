@@ -6,8 +6,9 @@ Run all Unified Grammar tests and generate a report.
 """
 
 import sys
-import pytest
 from pathlib import Path
+
+import pytest
 
 
 def run_unified_grammar_tests():
@@ -21,7 +22,7 @@ def run_unified_grammar_tests():
         ("Base Module Tests", "test_base_module.py"),
         ("Symbolic Vocabulary Tests", "test_symbolic_vocabulary.py"),
         ("Module Integration Tests", "test_module_integration.py"),
-        ("Grammar Compliance Tests", "test_grammar_compliance.py")
+        ("Grammar Compliance Tests", "test_grammar_compliance.py"),
     ]
 
     # Get test directory
@@ -38,13 +39,7 @@ def run_unified_grammar_tests():
         test_path = test_dir / test_file
 
         # Run tests
-        result = pytest.main([
-            str(test_path),
-            "-v",
-            "--tb=short",
-            "--no-header",
-            "-q"
-        ])
+        result = pytest.main([str(test_path), "-v", "--tb=short", "--no-header", "-q"])
 
         passed = result == 0
         all_passed = all_passed and passed
@@ -83,11 +78,7 @@ def run_specific_test(test_name):
         print(f"❌ Test file not found: {test_name}")
         return 1
 
-    result = pytest.main([
-        str(test_path),
-        "-v",
-        "--tb=short"
-    ])
+    result = pytest.main([str(test_path), "-v", "--tb=short"])
 
     return result
 
@@ -98,13 +89,15 @@ def generate_coverage_report():
 
     test_dir = Path(__file__).parent
 
-    result = pytest.main([
-        str(test_dir),
-        "--cov=lukhas_unified_grammar",
-        "--cov-report=term-missing",
-        "--cov-report=html:coverage_html",
-        "-q"
-    ])
+    result = pytest.main(
+        [
+            str(test_dir),
+            "--cov=lukhas_unified_grammar",
+            "--cov-report=term-missing",
+            "--cov-report=html:coverage_html",
+            "-q",
+        ]
+    )
 
     if result == 0:
         print("✅ Coverage report generated in coverage_html/")
@@ -119,20 +112,12 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS Unified Grammar Test Runner")
+    parser.add_argument("--test", help="Run specific test file", type=str)
     parser.add_argument(
-        "--test",
-        help="Run specific test file",
-        type=str
+        "--coverage", help="Generate coverage report", action="store_true"
     )
     parser.add_argument(
-        "--coverage",
-        help="Generate coverage report",
-        action="store_true"
-    )
-    parser.add_argument(
-        "--quick",
-        help="Run quick smoke tests only",
-        action="store_true"
+        "--quick", help="Run quick smoke tests only", action="store_true"
     )
 
     args = parser.parse_args()

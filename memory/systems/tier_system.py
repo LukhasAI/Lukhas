@@ -14,18 +14,14 @@ License:
   OpenAI-aligned AGI Symbolic Framework (internal use)
 """
 
-import json
 import hashlib
+import json
 import os
-from typing import Dict, Any, List, Optional, Set, Callable
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-import structlog
-import openai
-
-from core.common import get_logger
+from typing import Any, Callable, Dict, List, Optional, Set
 
 
 class TierLevel(Enum):
@@ -404,6 +400,7 @@ class DynamicTierSystem:
         # Use the proper tier mapping service
         try:
             from identity.core.user_tier_mapping import get_user_tier
+
             tier_name = get_user_tier(user_id) if user_id else "LAMBDA_TIER_0"
 
             # Convert from LAMBDA_TIER_X to TierLevel enum
@@ -413,13 +410,15 @@ class DynamicTierSystem:
                 "LAMBDA_TIER_2": TierLevel.ELEVATED,
                 "LAMBDA_TIER_3": TierLevel.PRIVILEGED,
                 "LAMBDA_TIER_4": TierLevel.ADMIN,
-                "LAMBDA_TIER_5": TierLevel.SYSTEM
+                "LAMBDA_TIER_5": TierLevel.SYSTEM,
             }
             return tier_map.get(tier_name, TierLevel.PUBLIC)
 
         except ImportError:
             # Fallback to old logic if mapping service not available
-            logger.warning("User tier mapping service not available, using prefix-based fallback")
+            logger.warning(
+                "User tier mapping service not available, using prefix-based fallback"
+            )
             if user_id:
                 if user_id.startswith("system_"):
                     return TierLevel.SYSTEM

@@ -3,18 +3,17 @@
 Memory Usage Analysis and Optimization for LUKHAS Memory System
 """
 
-import sys
-import numpy as np
-from datetime import datetime, timezone
 import json
-import psutil
-import os
+from datetime import datetime, timezone
+
+import numpy as np
+
 
 def analyze_memory_usage():
     """Analyze what's actually consuming memory in our system"""
 
     print("🔍 MEMORY USAGE ANALYSIS")
-    print("="*50)
+    print("=" * 50)
 
     # Baseline memory components
     components = {}
@@ -27,11 +26,11 @@ def analyze_memory_usage():
         "content": "This is a typical memory content string of moderate length",
         "type": "knowledge",
         "timestamp": datetime.now(timezone.utc),
-        "importance": 0.8
+        "importance": 0.8,
     }
 
     basic_json = json.dumps(basic_memory, default=str)
-    basic_size = len(basic_json.encode('utf-8'))
+    basic_size = len(basic_json.encode("utf-8"))
     components["basic_memory_data"] = basic_size
     print(f"  Basic memory data: {basic_size} bytes ({basic_size/1024:.1f} KB)")
 
@@ -49,21 +48,29 @@ def analyze_memory_usage():
     embedding_256 = np.random.randn(256).astype(np.float32)
     embedding_128 = np.random.randn(128).astype(np.float32)
 
-    print(f"  512-dim float32: {embedding_512.nbytes} bytes ({embedding_512.nbytes/1024:.1f} KB)")
-    print(f"  256-dim float32: {embedding_256.nbytes} bytes ({embedding_256.nbytes/1024:.1f} KB)")
-    print(f"  128-dim float32: {embedding_128.nbytes} bytes ({embedding_128.nbytes/1024:.1f} KB)")
+    print(
+        f"  512-dim float32: {embedding_512.nbytes} bytes ({embedding_512.nbytes/1024:.1f} KB)"
+    )
+    print(
+        f"  256-dim float32: {embedding_256.nbytes} bytes ({embedding_256.nbytes/1024:.1f} KB)"
+    )
+    print(
+        f"  128-dim float32: {embedding_128.nbytes} bytes ({embedding_128.nbytes/1024:.1f} KB)"
+    )
 
     # Quantized embeddings
     embedding_int8 = (embedding_1024 * 127).astype(np.int8)
     components["embedding_quantized"] = embedding_int8.nbytes
-    print(f"  1024-dim int8 (quantized): {embedding_int8.nbytes} bytes ({embedding_int8.nbytes/1024:.1f} KB)")
+    print(
+        f"  1024-dim int8 (quantized): {embedding_int8.nbytes} bytes ({embedding_int8.nbytes/1024:.1f} KB)"
+    )
 
     # 3. Tag and metadata overhead
     print("\n3️⃣ METADATA OVERHEAD ANALYSIS:")
 
     # Tags (assuming 5 average tags)
     tags = ["knowledge", "important", "recent", "verified", "core"]
-    tags_size = sum(len(tag.encode('utf-8')) for tag in tags)
+    tags_size = sum(len(tag.encode("utf-8")) for tag in tags)
     components["tags"] = tags_size
     print(f"  5 tags average: {tags_size} bytes")
 
@@ -73,10 +80,10 @@ def analyze_memory_usage():
         "timestamp": datetime.now(timezone.utc),
         "last_accessed": datetime.now(timezone.utc),
         "access_count": 42,
-        "importance_score": 0.8
+        "importance_score": 0.8,
     }
     metadata_json = json.dumps(metadata, default=str)
-    metadata_size = len(metadata_json.encode('utf-8'))
+    metadata_size = len(metadata_json.encode("utf-8"))
     components["metadata"] = metadata_size
     print(f"  Core metadata: {metadata_size} bytes")
 
@@ -86,10 +93,10 @@ def analyze_memory_usage():
         "integrity_score": 1.0,
         "verification_count": 5,
         "drift_score": 0.1,
-        "reality_check": True
+        "reality_check": True,
     }
     safety_json = json.dumps(safety_data)
-    safety_size = len(safety_json.encode('utf-8'))
+    safety_size = len(safety_json.encode("utf-8"))
     components["safety_data"] = safety_size
     print(f"  Safety verification: {safety_size} bytes")
 
@@ -118,57 +125,62 @@ def analyze_memory_usage():
 
     for component, size in sorted(components.items(), key=lambda x: x[1], reverse=True):
         percentage = (size / total_estimated) * 100
-        print(f"  {component:20}: {size:5} bytes ({size/1024:5.1f} KB) - {percentage:4.1f}%")
+        print(
+            f"  {component:20}: {size:5} bytes ({size/1024:5.1f} KB) - {percentage:4.1f}%"
+        )
 
-    print(f"\n  TOTAL ESTIMATED: {total_estimated} bytes ({total_estimated/1024:.1f} KB)")
-    print(f"  ACTUAL MEASURED: 400 KB (from stress test)")
+    print(
+        f"\n  TOTAL ESTIMATED: {total_estimated} bytes ({total_estimated/1024:.1f} KB)"
+    )
+    print("  ACTUAL MEASURED: 400 KB (from stress test)")
     print(f"  DIFFERENCE: {400 - total_estimated/1024:.1f} KB (likely system overhead)")
 
     return components
+
 
 def optimization_strategies():
     """Propose optimization strategies"""
 
     print("\n🚀 OPTIMIZATION STRATEGIES")
-    print("="*50)
+    print("=" * 50)
 
     strategies = {
         "embedding_quantization": {
             "description": "Use int8 quantization for embeddings",
             "savings": "75% (4KB → 1KB per embedding)",
             "trade_off": "Slight accuracy loss (~1-2%)",
-            "implementation": "Post-training quantization"
+            "implementation": "Post-training quantization",
         },
         "reduced_dimensions": {
             "description": "Use 512-dim instead of 1024-dim embeddings",
             "savings": "50% (4KB → 2KB per embedding)",
             "trade_off": "Minor semantic precision loss",
-            "implementation": "PCA or learned projection"
+            "implementation": "PCA or learned projection",
         },
         "sparse_embeddings": {
             "description": "Store only non-zero embedding values",
             "savings": "80-90% for sparse vectors",
             "trade_off": "Additional indexing complexity",
-            "implementation": "Compressed sparse format"
+            "implementation": "Compressed sparse format",
         },
         "metadata_optimization": {
             "description": "Pack metadata into binary format",
             "savings": "60-70% metadata overhead",
             "trade_off": "Less human-readable",
-            "implementation": "Protocol buffers or msgpack"
+            "implementation": "Protocol buffers or msgpack",
         },
         "lazy_loading": {
             "description": "Load embeddings only when needed",
             "savings": "Up to 95% memory (disk → memory)",
             "trade_off": "I/O latency on first access",
-            "implementation": "Memory-mapped files"
+            "implementation": "Memory-mapped files",
         },
         "compression": {
             "description": "Compress stored memory content",
             "savings": "50-80% for text content",
             "trade_off": "CPU overhead for compression/decompression",
-            "implementation": "LZ4 or zstd compression"
-        }
+            "implementation": "LZ4 or zstd compression",
+        },
     }
 
     print("\n🎯 RECOMMENDED OPTIMIZATIONS:")
@@ -190,24 +202,26 @@ def optimization_strategies():
         "conservative": {
             "embedding_quantization": True,
             "metadata_optimization": True,
-            "expected_size": 100  # KB
+            "expected_size": 100,  # KB
         },
         "aggressive": {
             "embedding_quantization": True,
             "reduced_dimensions": True,
             "metadata_optimization": True,
             "compression": True,
-            "expected_size": 25  # KB
+            "expected_size": 25,  # KB
         },
         "ultra_optimized": {
             "sparse_embeddings": True,
             "lazy_loading": True,
             "compression": True,
-            "expected_size": 5  # KB (mostly metadata)
-        }
+            "expected_size": 5,  # KB (mostly metadata)
+        },
     }
 
-    print(f"\n{'Scenario':<15} {'Size/Memory':<12} {'Memories/GB':<12} {'Capacity Gain':<15}")
+    print(
+        f"\n{'Scenario':<15} {'Size/Memory':<12} {'Memories/GB':<12} {'Capacity Gain':<15}"
+    )
     print("-" * 60)
     print(f"{'Current':<15} {'400 KB':<12} {'2,560':<12} {'1x baseline':<15}")
 
@@ -215,13 +229,16 @@ def optimization_strategies():
         size = config["expected_size"]
         capacity = int(1024 * 1024 / size)  # memories per GB
         gain = capacity / 2560  # vs current
-        print(f"{scenario.title():<15} {f'{size} KB':<12} {f'{capacity:,}':<12} {f'{gain:.1f}x improvement':<15}")
+        print(
+            f"{scenario.title():<15} {f'{size} KB':<12} {f'{capacity:,}':<12} {f'{gain:.1f}x improvement':<15}"
+        )
+
 
 def create_optimized_memory_item():
     """Create an optimized memory item implementation"""
 
     print("\n🛠️ OPTIMIZED MEMORY ITEM IMPLEMENTATION")
-    print("="*50)
+    print("=" * 50)
 
     # Show optimized implementation
     code = '''
@@ -313,6 +330,7 @@ print(f"Compression ratio: {400 / (optimized_memory.memory_usage / 1024):.1f}x")
 
     print(code)
 
+
 def main():
     """Run complete memory analysis"""
     components = analyze_memory_usage()
@@ -320,7 +338,7 @@ def main():
     create_optimized_memory_item()
 
     print("\n🎯 SUMMARY & RECOMMENDATIONS")
-    print("="*50)
+    print("=" * 50)
     print("Current memory usage (400 KB/memory) breakdown:")
     print("  • 50%+ Vector embeddings (1024 float32 = 4KB)")
     print("  • 25%+ System overhead (indexes, caches)")
@@ -342,6 +360,7 @@ def main():
     print("  2. Add metadata compression")
     print("  3. Create memory-efficient storage backend")
     print("  4. Add lazy loading for infrequently accessed memories")
+
 
 if __name__ == "__main__":
     main()

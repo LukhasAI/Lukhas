@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .symbolic_trace import SymbolicTrace
+
     logger.debug("Imported SymbolicTrace from .symbolic_trace")
 except ImportError as e:
     logger.warning(f"Could not import SymbolicTrace: {e}")
     SymbolicTrace = None
 
 __all__ = [
-    'SymbolicTrace',
+    "SymbolicTrace",
 ]
 
 # Filter out None values from __all__ if imports failed

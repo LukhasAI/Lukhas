@@ -1,14 +1,14 @@
 """Tests for lukhas.ethics.security"""
 
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 try:
     from ethics.security import (
-        SecurityEngine,
         SafetyValidator,
-        ThreatDetector,
         SecurityConfig,
+        SecurityEngine,
+        ThreatDetector,
     )
 
     SECURITY_AVAILABLE = True

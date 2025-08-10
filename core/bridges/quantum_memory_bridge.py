@@ -2,9 +2,8 @@
 Bidirectional communication bridge between Quantum and Memory systems
 """
 
-from typing import Any, Dict, Optional
-import asyncio
 import logging
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -15,15 +14,15 @@ class QuantumMemoryBridge:
     def __init__(self) -> None:
         self.quantum_hub = None
         self.memory_hub = None
-        self.event_mappings: Dict[str, str] = {}
+        self.event_mappings: dict[str, str] = {}
         self.is_connected = False
         logger.info("QuantumMemoryBridge initialized")
 
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from quantum.quantum_hub import get_quantum_hub
             from consciousness.reflection.memory_hub import get_memory_hub
+            from quantum.quantum_hub import get_quantum_hub
 
             self.quantum_hub = get_quantum_hub()
             self.memory_hub = get_memory_hub()
@@ -47,7 +46,9 @@ class QuantumMemoryBridge:
             "memory_recall_request": "quantum_recall_request",
         }
 
-    async def quantum_to_memory(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def quantum_to_memory(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from Quantum to Memory"""
         if not self.is_connected:
             await self.connect()
@@ -61,7 +62,9 @@ class QuantumMemoryBridge:
             logger.error(f"Error forwarding from Quantum to Memory: {e}")
             return {"error": str(e)}
 
-    async def memory_to_quantum(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def memory_to_quantum(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from Memory to Quantum"""
         if not self.is_connected:
             await self.connect()
@@ -75,7 +78,7 @@ class QuantumMemoryBridge:
             logger.error(f"Error forwarding from Memory to Quantum: {e}")
             return {"error": str(e)}
 
-    def transform_quantum_to_memory(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_quantum_to_memory(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Quantum to Memory"""
         return {
             "source_system": "quantum",
@@ -83,7 +86,7 @@ class QuantumMemoryBridge:
             "data": data,
         }
 
-    def transform_memory_to_quantum(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_memory_to_quantum(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Memory to Quantum"""
         return {
             "source_system": "memory",
@@ -91,7 +94,7 @@ class QuantumMemoryBridge:
             "data": data,
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Health check for the bridge"""
         return {
             "bridge": "quantum_memory_bridge",

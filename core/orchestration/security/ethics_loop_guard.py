@@ -5,10 +5,11 @@ ethics_loop_guard.py - Detects misalignment patterns and outputs governance aler
 """
 
 import logging
-from typing import Dict, Any, List
 from datetime import datetime
+from typing import Any
 
 logger = logging.getLogger(__name__)
+
 
 class EthicsLoopGuard:
     """
@@ -17,22 +18,22 @@ class EthicsLoopGuard:
     Detects misalignment patterns and outputs governance alerts.
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize the ethics loop guard.
         """
         self.config = config
-        self.drift_history: List[Dict[str, Any]] = []
+        self.drift_history: list[dict[str, Any]] = []
         self.alert_log_path = "logs/ethics/ΛGOV_ALERTS.md"
         logger.info("Ethics Loop Guard initialized.")
 
-    def detect_misalignment(self, drift_signal: Dict[str, Any]) -> bool:
+    def detect_misalignment(self, drift_signal: dict[str, Any]) -> bool:
         """
         {AIM}{orchestrator}
         {ΛDRIFT_GUARD}
         Detect misalignment patterns based on drift signals.
         """
-        #ΛTRACE
+        # ΛTRACE
         logger.info("Detecting misalignment patterns", drift_signal=drift_signal)
 
         self.drift_history.append(drift_signal)
@@ -89,7 +90,7 @@ class EthicsLoopGuard:
         {ΛGOV_CHANNEL}
         Output a governance alert.
         """
-        #ΛTRACE
+        # ΛTRACE
         logger.warning(f"Governance Alert: {message}")
         with open(self.alert_log_path, "a") as f:
             f.write(f"{datetime.now().isoformat()}: {message}\n")

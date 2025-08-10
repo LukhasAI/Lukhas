@@ -1,6 +1,7 @@
 import asyncio
 import unittest
-from orchestration.symbolic_kernel_bus import kernel_bus, get_global_event_bus
+
+from orchestration.symbolic_kernel_bus import get_global_event_bus
 
 
 class TestEventBus(unittest.TestCase):
@@ -75,7 +76,9 @@ class TestEventBus(unittest.TestCase):
             self.assertIs(bus1, bus2)
             await bus1.stop()
             from core import event_bus
+
             event_bus._global_event_bus = None
+
         self.loop.run_until_complete(_test())
 
 

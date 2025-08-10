@@ -14,23 +14,23 @@ snapshotting for efficient recovery and debugging of the actor system.
 """
 
 import asyncio
-import copy
 import gzip
 import hashlib
 import json
-from core.common import get_logger
 import pickle
 import threading
 import time
 from collections import defaultdict, deque
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import aiofiles
 
-from .actor_system import Actor, ActorMessage, ActorRef, ActorSystem
+from core.common import get_logger
+
+from .actor_system import Actor, ActorMessage, ActorSystem
 
 logger = get_logger(__name__)
 
@@ -351,7 +351,7 @@ class EventStore:
                 if line:
                     events.append(Event.from_json(line))
         else:
-            async with aiofiles.open(filename, "r") as f:
+            async with aiofiles.open(filename) as f:
                 async for line in f:
                     if line.strip():
                         events.append(Event.from_json(line.strip()))

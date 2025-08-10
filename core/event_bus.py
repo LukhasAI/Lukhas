@@ -1,18 +1,20 @@
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional
-from enum import Enum
 from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class DreamEventType(Enum):
     """Specialized dream event types for enhanced coordination"""
+
     DREAM_CYCLE_START = "dream_cycle_start"
     DREAM_CYCLE_COMPLETE = "dream_cycle_complete"
     DREAM_PROCESSING_START = "dream_processing_start"
@@ -33,7 +35,7 @@ class DreamEventType(Enum):
 class Event:
     event_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     event_type: str = ""
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
     source: Optional[str] = None
     timestamp: float = field(default_factory=time.time)
     # Enhanced fields for dream coordination
@@ -44,18 +46,19 @@ class Event:
 
 
 class EventBus:
+
     def __init__(self):
-        self._subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self._subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._queue = asyncio.Queue()
         self._priority_queue = asyncio.PriorityQueue()
         self._worker_task: Optional[asyncio.Task] = None
         self._priority_worker_task: Optional[asyncio.Task] = None
 
         # Dream-specific enhancements
-        self._dream_event_history: List[Event] = []
-        self._correlation_tracking: Dict[str, List[Event]] = defaultdict(list)
-        self._dream_session_events: Dict[str, List[Event]] = defaultdict(list)
-        self._event_filters: Dict[str, Callable] = {}
+        self._dream_event_history: list[Event] = []
+        self._correlation_tracking: dict[str, list[Event]] = defaultdict(list)
+        self._dream_session_events: dict[str, list[Event]] = defaultdict(list)
+        self._event_filters: dict[str, Callable] = {}
 
         # Performance metrics
         self._events_processed = 0
@@ -69,7 +72,12 @@ class EventBus:
         if self._priority_worker_task is None:
             self._priority_worker_task = asyncio.create_task(self._priority_worker())
 
-    def subscribe(self, event_type: str, callback: Callable, filter_func: Optional[Callable] = None):
+    def subscribe(
+        self,
+        event_type: str,
+        callback: Callable,
+        filter_func: Optional[Callable] = None,
+    ):
         """Subscribe to an event type with optional filtering."""
         self._subscribers[event_type].append(callback)
         if filter_func:
@@ -88,12 +96,12 @@ class EventBus:
     async def publish(
         self,
         event_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         source: Optional[str] = None,
         priority: int = 1,
         correlation_id: Optional[str] = None,
         dream_id: Optional[str] = None,
-        user_id: Optional[str] = None
+        user_id: Optional[str] = None,
     ):
         """Publish an event with enhanced dream coordination features."""
         event = Event(
@@ -103,7 +111,7 @@ class EventBus:
             priority=priority,
             correlation_id=correlation_id,
             dream_id=dream_id,
-            user_id=user_id
+            user_id=user_id,
         )
 
         # Route to appropriate queue based on priority
@@ -121,7 +129,9 @@ class EventBus:
             self._correlation_tracking[correlation_id].append(event)
 
         # Maintain event history for dream processing
-        if event_type.startswith('dream_') or event_type in [dt.value for dt in DreamEventType]:
+        if event_type.startswith("dream_") or event_type in [
+            dt.value for dt in DreamEventType
+        ]:
             self._dream_event_history.append(event)
             # Keep only recent dream events (last 1000)
             if len(self._dream_event_history) > 1000:
@@ -131,11 +141,11 @@ class EventBus:
         self,
         dream_event_type: DreamEventType,
         dream_id: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         source: Optional[str] = None,
         correlation_id: Optional[str] = None,
         user_id: Optional[str] = None,
-        priority: int = 3
+        priority: int = 3,
     ):
         """Publish a dream-specific event with automatic coordination features."""
         await self.publish(
@@ -145,7 +155,7 @@ class EventBus:
             priority=priority,
             correlation_id=correlation_id,
             dream_id=dream_id,
-            user_id=user_id
+            user_id=user_id,
         )
 
     async def start_dream_coordination(
@@ -153,7 +163,7 @@ class EventBus:
         dream_id: str,
         dream_type: str,
         user_id: Optional[str] = None,
-        coordination_metadata: Optional[Dict[str, Any]] = None
+        coordination_metadata: Optional[dict[str, Any]] = None,
     ) -> str:
         """Start coordinated dream processing session."""
         correlation_id = f"dream_coordination_{dream_id}_{uuid.uuid4().hex[:8]}"
@@ -165,22 +175,24 @@ class EventBus:
             payload={
                 "dream_type": dream_type,
                 "coordination_metadata": coordination_metadata or {},
-                "session_start": datetime.now(timezone.utc).isoformat()
+                "session_start": datetime.now(timezone.utc).isoformat(),
             },
             correlation_id=correlation_id,
             user_id=user_id,
-            priority=4
+            priority=4,
         )
 
-        logger.info(f"Dream coordination started: {dream_id} (correlation: {correlation_id})")
+        logger.info(
+            f"Dream coordination started: {dream_id} (correlation: {correlation_id})"
+        )
         return correlation_id
 
     async def complete_dream_coordination(
         self,
         dream_id: str,
         correlation_id: str,
-        dream_result: Dict[str, Any],
-        user_id: Optional[str] = None
+        dream_result: dict[str, Any],
+        user_id: Optional[str] = None,
     ):
         """Complete coordinated dream processing session."""
         # Gather session statistics
@@ -191,7 +203,7 @@ class EventBus:
             "total_events": len(session_events),
             "correlation_events": len(correlation_events),
             "session_duration": None,
-            "processing_stages": []
+            "processing_stages": [],
         }
 
         # Calculate session duration
@@ -206,11 +218,12 @@ class EventBus:
             DreamEventType.MULTIVERSE_SIMULATION_START.value,
             DreamEventType.COLONY_DREAM_TASK_CREATED.value,
             DreamEventType.DREAM_ETHICAL_REVIEW.value,
-            DreamEventType.DREAM_PRIVACY_VALIDATION.value
+            DreamEventType.DREAM_PRIVACY_VALIDATION.value,
         ]
 
         session_stats["processing_stages"] = [
-            event.event_type for event in session_events
+            event.event_type
+            for event in session_events
             if event.event_type in stage_events
         ]
 
@@ -221,27 +234,25 @@ class EventBus:
             payload={
                 "dream_result": dream_result,
                 "session_stats": session_stats,
-                "completion_time": datetime.now(timezone.utc).isoformat()
+                "completion_time": datetime.now(timezone.utc).isoformat(),
             },
             correlation_id=correlation_id,
             user_id=user_id,
-            priority=4
+            priority=4,
         )
 
         logger.info(f"Dream coordination completed: {dream_id}")
 
-    async def get_dream_session_events(self, dream_id: str) -> List[Event]:
+    async def get_dream_session_events(self, dream_id: str) -> list[Event]:
         """Get all events for a specific dream session."""
         return self._dream_session_events.get(dream_id, [])
 
-    async def get_correlated_events(self, correlation_id: str) -> List[Event]:
+    async def get_correlated_events(self, correlation_id: str) -> list[Event]:
         """Get all events with a specific correlation ID."""
         return self._correlation_tracking.get(correlation_id, [])
 
     async def wait_for_dream_completion(
-        self,
-        dream_id: str,
-        timeout_seconds: float = 300.0
+        self, dream_id: str, timeout_seconds: float = 300.0
     ) -> Optional[Event]:
         """Wait for a dream processing session to complete."""
         completion_event = None
@@ -265,15 +276,16 @@ class EventBus:
     def subscribe_to_dream_events(
         self,
         callback: Callable,
-        dream_event_types: Optional[List[DreamEventType]] = None,
+        dream_event_types: Optional[list[DreamEventType]] = None,
         dream_id_filter: Optional[str] = None,
-        user_id_filter: Optional[str] = None
+        user_id_filter: Optional[str] = None,
     ):
         """Subscribe to dream events with specific filters."""
         event_types = dream_event_types or list(DreamEventType)
 
         for dream_event_type in event_types:
             # Create filtered callback
+
             def filtered_callback(event: Event, original_callback=callback):
                 # Apply filters
                 if dream_id_filter and event.dream_id != dream_id_filter:
@@ -325,7 +337,9 @@ class EventBus:
                             callback(event)
 
                     except Exception as e:
-                        logger.error(f"Error in event handler for {event.event_type}: {e}")
+                        logger.error(
+                            f"Error in event handler for {event.event_type}: {e}"
+                        )
                         self._events_failed += 1
 
             self._events_processed += 1
@@ -338,19 +352,15 @@ class EventBus:
         """Stop the event bus workers."""
         if self._worker_task:
             self._worker_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._worker_task
-            except asyncio.CancelledError:
-                pass
 
         if self._priority_worker_task:
             self._priority_worker_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._priority_worker_task
-            except asyncio.CancelledError:
-                pass
 
-    def get_event_bus_stats(self) -> Dict[str, Any]:
+    def get_event_bus_stats(self) -> dict[str, Any]:
         """Get comprehensive statistics about event bus operation."""
         uptime = time.time() - self._start_time
 
@@ -359,14 +369,17 @@ class EventBus:
             "events_processed": self._events_processed,
             "events_failed": self._events_failed,
             "success_rate": (
-                self._events_processed / max(1, self._events_processed + self._events_failed)
+                self._events_processed
+                / max(1, self._events_processed + self._events_failed)
             ),
             "dream_sessions_active": len(self._dream_session_events),
             "correlation_tracking_active": len(self._correlation_tracking),
             "dream_event_history_size": len(self._dream_event_history),
-            "subscriber_count": sum(len(callbacks) for callbacks in self._subscribers.values()),
+            "subscriber_count": sum(
+                len(callbacks) for callbacks in self._subscribers.values()
+            ),
             "unique_event_types": len(self._subscribers),
-            "average_events_per_second": self._events_processed / max(1, uptime)
+            "average_events_per_second": self._events_processed / max(1, uptime),
         }
 
 

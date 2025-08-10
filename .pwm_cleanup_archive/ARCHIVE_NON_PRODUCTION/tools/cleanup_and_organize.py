@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Workspace Cleanup and Organization
@@ -20,12 +19,12 @@ This tool provides a comprehensive workspace cleanup and organization script.
 It finds empty directories, empty files, corrupted files, and organizes the workspace.
 """
 
+import json
+import logging
 import os
 import shutil
-import json
 from pathlib import Path
-from typing import List, Dict
-import logging
+from typing import Dict, List
 
 # Setup logging
 logging.basicConfig(
@@ -121,7 +120,7 @@ class WorkspaceOrganizer:
                 if file.endswith(".py"):
                     file_path = Path(root) / file
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
                             # Try to compile
                             compile(content, str(file_path), "exec")
@@ -135,7 +134,7 @@ class WorkspaceOrganizer:
                 elif file.endswith(".json"):
                     file_path = Path(root) / file
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             json.load(f)
                     except (json.JSONDecodeError, UnicodeDecodeError, PermissionError):
                         corrupted.append(file_path)
@@ -354,19 +353,19 @@ def main():
 
     # Show some examples
     if report["empty_dirs_list"]:
-        print(f"\nSample empty directories:")
+        print("\nSample empty directories:")
         for dir_path in report["empty_dirs_list"][:5]:
             print(f"  - {dir_path}")
         if len(report["empty_dirs_list"]) > 5:
             print(f"  ... and {len(report['empty_dirs_list']) - 5} more")
 
     if report["corrupted_files_list"]:
-        print(f"\nCorrupted files:")
+        print("\nCorrupted files:")
         for file_path in report["corrupted_files_list"]:
             print(f"  - {file_path}")
 
     if report["root_files_list"]:
-        print(f"\nRoot files that can be organized:")
+        print("\nRoot files that can be organized:")
         for file_path in report["root_files_list"]:
             print(f"  - {file_path}")
 

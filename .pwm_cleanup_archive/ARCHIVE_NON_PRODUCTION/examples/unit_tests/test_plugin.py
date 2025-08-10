@@ -6,4 +6,5 @@ class MockPlugin:
     def process_signal(self, signal):
         self.received_signal = signal
 
+
 plugin = MockPlugin

@@ -34,12 +34,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import time
 from collections import defaultdict
-from datetime import datetime, timedelta
-from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
 from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
 
 import structlog
 
@@ -49,6 +48,7 @@ logger = structlog.get_logger("lukhas.personality")
 
 class InteractionContext(Enum):
     """Interaction context types"""
+
     FORMAL = "formal"
     CASUAL = "casual"
     PROFESSIONAL = "professional"
@@ -60,6 +60,7 @@ class InteractionContext(Enum):
 
 class CulturalStyle(Enum):
     """Cultural communication styles"""
+
     DIRECT = "direct"
     INDIRECT = "indirect"
     HIGH_CONTEXT = "high_context"
@@ -71,11 +72,12 @@ class CulturalStyle(Enum):
 @dataclass
 class InteractionMetrics:
     """Metrics tracking for personality adaptation"""
+
     interaction_count: int = 0
     positive_feedback: int = 0
     negative_feedback: int = 0
     average_session_length: float = 0.0
-    preferred_topics: List[str] = field(default_factory=list)
+    preferred_topics: list[str] = field(default_factory=list)
     communication_style_rating: float = 5.0  # 1-10 scale
 
 
@@ -94,13 +96,17 @@ class ShynessModule:
 
     def __init__(self, federated_model=None):
         """Initialize shyness module with optional federated learning"""
-        self.interaction_history: Dict[str, InteractionMetrics] = defaultdict(InteractionMetrics)
+        self.interaction_history: dict[str, InteractionMetrics] = defaultdict(
+            InteractionMetrics
+        )
         self.shyness_level = 0.7  # Initial shyness (0-1 scale)
         self.federated_model = federated_model
         self.adaptation_rate = 0.1  # How quickly to adapt
 
-        logger.info("ΛPERSONALITY: Shyness module initialized",
-                   initial_shyness=self.shyness_level)
+        logger.info(
+            "ΛPERSONALITY: Shyness module initialized",
+            initial_shyness=self.shyness_level,
+        )
 
     def update_shyness(self, partner_id: str, interaction_quality: float):
         """
@@ -133,11 +139,13 @@ class ShynessModule:
 
                 # Blend local and global patterns
                 self.shyness_level = (
-                    0.7 * (self.shyness_level + local_adjustment) +
-                    0.3 * global_mean
+                    0.7 * (self.shyness_level + local_adjustment) + 0.3 * global_mean
                 )
             except Exception as e:
-                logger.warning("ΛPERSONALITY: Federated learning unavailable", error=str(e))
+                logger.warning(
+                    "ΛPERSONALITY: Federated learning unavailable",
+                    error=str(e),
+                )
                 self.shyness_level += local_adjustment
         else:
             self.shyness_level += local_adjustment
@@ -145,12 +153,14 @@ class ShynessModule:
         # Keep shyness in valid range
         self.shyness_level = max(0.1, min(0.9, self.shyness_level))
 
-        logger.debug("ΛPERSONALITY: Shyness updated",
-                    partner_id=partner_id,
-                    new_shyness=self.shyness_level,
-                    interaction_quality=interaction_quality)
+        logger.debug(
+            "ΛPERSONALITY: Shyness updated",
+            partner_id=partner_id,
+            new_shyness=self.shyness_level,
+            interaction_quality=interaction_quality,
+        )
 
-    def get_interaction_style(self, partner_id: str) -> Dict[str, float]:
+    def get_interaction_style(self, partner_id: str) -> dict[str, float]:
         """Get interaction style parameters based on current shyness level"""
         metrics = self.interaction_history[partner_id]
         familiarity = min(metrics.interaction_count / 10.0, 1.0)  # 0-1 scale
@@ -164,7 +174,9 @@ class ShynessModule:
             "response_latency": max(0.5, 2.0 * self.shyness_level - familiarity_boost),
             "self_disclosure": max(0.1, (base_confidence + familiarity_boost) * 0.8),
             "topic_initiative": max(0.1, base_confidence + familiarity_boost * 0.5),
-            "emotional_expressiveness": max(0.3, base_confidence + familiarity_boost * 0.6)
+            "emotional_expressiveness": max(
+                0.3, base_confidence + familiarity_boost * 0.6
+            ),
         }
 
         return interaction_style
@@ -180,54 +192,60 @@ class EtiquetteEngine:
 
     def __init__(self):
         """Initialize etiquette engine with cultural and contextual rules"""
-        self.cultural_preferences: Dict[str, CulturalStyle] = {}
+        self.cultural_preferences: dict[str, CulturalStyle] = {}
         self.context_rules = self._initialize_context_rules()
         self.politeness_level = 0.7  # Default politeness (0-1 scale)
 
         logger.info("ΛPERSONALITY: Etiquette engine initialized")
 
-    def _initialize_context_rules(self) -> Dict[InteractionContext, Dict[str, Any]]:
+    def _initialize_context_rules(
+        self,
+    ) -> dict[InteractionContext, dict[str, Any]]:
         """Initialize context-specific etiquette rules"""
         return {
             InteractionContext.FORMAL: {
                 "politeness_multiplier": 1.5,
                 "verbosity_modifier": 1.2,
                 "emotional_expression": 0.3,
-                "technical_detail": 0.8
+                "technical_detail": 0.8,
             },
             InteractionContext.CASUAL: {
                 "politeness_multiplier": 0.8,
                 "verbosity_modifier": 0.9,
                 "emotional_expression": 0.8,
-                "technical_detail": 0.4
+                "technical_detail": 0.4,
             },
             InteractionContext.PROFESSIONAL: {
                 "politeness_multiplier": 1.3,
                 "verbosity_modifier": 1.1,
                 "emotional_expression": 0.4,
-                "technical_detail": 0.9
+                "technical_detail": 0.9,
             },
             InteractionContext.CREATIVE: {
                 "politeness_multiplier": 0.9,
                 "verbosity_modifier": 1.3,
                 "emotional_expression": 0.9,
-                "technical_detail": 0.3
-            }
+                "technical_detail": 0.3,
+            },
         }
 
     def set_cultural_preference(self, user_id: str, style: CulturalStyle):
         """Set cultural communication preference for a user"""
         self.cultural_preferences[user_id] = style
-        logger.info("ΛPERSONALITY: Cultural preference set",
-                   user_id=user_id,
-                   style=style.value)
+        logger.info(
+            "ΛPERSONALITY: Cultural preference set",
+            user_id=user_id,
+            style=style.value,
+        )
 
-    def get_etiquette_adjustments(self,
-                                 context: InteractionContext,
-                                 user_id: Optional[str] = None) -> Dict[str, float]:
+    def get_etiquette_adjustments(
+        self, context: InteractionContext, user_id: Optional[str] = None
+    ) -> dict[str, float]:
         """Get etiquette adjustments for current context"""
 
-        base_rules = self.context_rules.get(context, self.context_rules[InteractionContext.CASUAL])
+        base_rules = self.context_rules.get(
+            context, self.context_rules[InteractionContext.CASUAL]
+        )
         adjustments = base_rules.copy()
 
         # Apply cultural modifications if known
@@ -271,12 +289,16 @@ class PersonalityManager:
         self.session_start_time = datetime.now()
         self.interaction_count = 0
 
-        logger.info("ΛPERSONALITY: Manager initialized",
-                   components=["ShynessModule", "EtiquetteEngine"])
+        logger.info(
+            "ΛPERSONALITY: Manager initialized",
+            components=["ShynessModule", "EtiquetteEngine"],
+        )
 
-    def get_personality_profile(self,
-                               user_id: str,
-                               context: InteractionContext = InteractionContext.CASUAL) -> Dict[str, Any]:
+    def get_personality_profile(
+        self,
+        user_id: str,
+        context: InteractionContext = InteractionContext.CASUAL,
+    ) -> dict[str, Any]:
         """
         Get comprehensive personality profile for current interaction
 
@@ -289,7 +311,9 @@ class PersonalityManager:
         interaction_style = self.shyness_module.get_interaction_style(user_id)
 
         # Get etiquette adjustments for context
-        etiquette_adjustments = self.etiquette_engine.get_etiquette_adjustments(context, user_id)
+        etiquette_adjustments = self.etiquette_engine.get_etiquette_adjustments(
+            context, user_id
+        )
 
         # Apply mood and energy modulations
         mood_factor = 0.8 + (self.current_mood * 0.4)  # 0.8-1.2 multiplier
@@ -297,32 +321,46 @@ class PersonalityManager:
 
         # Combine all factors
         personality_profile = {
-            "verbosity": interaction_style["verbosity"] * etiquette_adjustments["verbosity_modifier"] * energy_factor,
+            "verbosity": interaction_style["verbosity"]
+            * etiquette_adjustments["verbosity_modifier"]
+            * energy_factor,
             "response_latency": interaction_style["response_latency"] / energy_factor,
-            "emotional_expressiveness": (interaction_style["emotional_expressiveness"] *
-                                        etiquette_adjustments["emotional_expression"] * mood_factor),
-            "politeness_level": self.etiquette_engine.politeness_level * etiquette_adjustments["politeness_multiplier"],
+            "emotional_expressiveness": (
+                interaction_style["emotional_expressiveness"]
+                * etiquette_adjustments["emotional_expression"]
+                * mood_factor
+            ),
+            "politeness_level": self.etiquette_engine.politeness_level
+            * etiquette_adjustments["politeness_multiplier"],
             "technical_detail": etiquette_adjustments["technical_detail"],
             "topic_initiative": interaction_style["topic_initiative"] * energy_factor,
             "self_disclosure": interaction_style["self_disclosure"],
             "current_mood": self.current_mood,
             "energy_level": self.energy_level,
             "social_confidence": self.social_confidence,
-            "shyness_level": self.shyness_module.shyness_level
+            "shyness_level": self.shyness_module.shyness_level,
         }
 
         # Normalize values to reasonable ranges
-        for key in ["verbosity", "emotional_expressiveness", "politeness_level",
-                   "technical_detail", "topic_initiative", "self_disclosure"]:
+        for key in [
+            "verbosity",
+            "emotional_expressiveness",
+            "politeness_level",
+            "technical_detail",
+            "topic_initiative",
+            "self_disclosure",
+        ]:
             if key in personality_profile:
                 personality_profile[key] = max(0.1, min(1.0, personality_profile[key]))
 
         return personality_profile
 
-    def update_from_interaction(self,
-                               user_id: str,
-                               interaction_quality: float,
-                               mood_impact: float = 0.0):
+    def update_from_interaction(
+        self,
+        user_id: str,
+        interaction_quality: float,
+        mood_impact: float = 0.0,
+    ):
         """Update personality based on interaction feedback"""
         # Update shyness based on interaction quality
         self.shyness_module.update_shyness(user_id, interaction_quality)
@@ -333,15 +371,19 @@ class PersonalityManager:
 
         # Adjust social confidence
         confidence_change = (interaction_quality - 0.5) * 0.05
-        self.social_confidence = max(0.1, min(1.0, self.social_confidence + confidence_change))
+        self.social_confidence = max(
+            0.1, min(1.0, self.social_confidence + confidence_change)
+        )
 
         self.interaction_count += 1
 
-        logger.info("ΛPERSONALITY: Updated from interaction",
-                   user_id=user_id,
-                   interaction_quality=interaction_quality,
-                   new_mood=self.current_mood,
-                   new_confidence=self.social_confidence)
+        logger.info(
+            "ΛPERSONALITY: Updated from interaction",
+            user_id=user_id,
+            interaction_quality=interaction_quality,
+            new_mood=self.current_mood,
+            new_confidence=self.social_confidence,
+        )
 
     def set_mood(self, mood: float):
         """Manually set mood level (0.0 = very negative, 1.0 = very positive)"""
@@ -353,7 +395,7 @@ class PersonalityManager:
         self.energy_level = max(0.0, min(1.0, energy))
         logger.info("ΛPERSONALITY: Energy level set", energy=self.energy_level)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive personality system status"""
         return {
             "personality_manager": {
@@ -361,18 +403,21 @@ class PersonalityManager:
                 "energy_level": self.energy_level,
                 "social_confidence": self.social_confidence,
                 "session_interactions": self.interaction_count,
-                "session_duration_minutes": (datetime.now() - self.session_start_time).total_seconds() / 60
+                "session_duration_minutes": (
+                    datetime.now() - self.session_start_time
+                ).total_seconds()
+                / 60,
             },
             "shyness_module": {
                 "current_shyness": self.shyness_module.shyness_level,
                 "total_users_interacted": len(self.shyness_module.interaction_history),
-                "adaptation_rate": self.shyness_module.adaptation_rate
+                "adaptation_rate": self.shyness_module.adaptation_rate,
             },
             "etiquette_engine": {
                 "base_politeness": self.etiquette_engine.politeness_level,
                 "cultural_profiles": len(self.etiquette_engine.cultural_preferences),
-                "supported_contexts": [ctx.value for ctx in InteractionContext]
-            }
+                "supported_contexts": [ctx.value for ctx in InteractionContext],
+            },
         }
 
 
@@ -440,6 +485,7 @@ def get_personality_manager(federated_model=None) -> PersonalityManager:
 # - Share anonymized personality adaptation patterns
 # - Respect privacy while improving global personality models
 # - Balance local and global adaptation patterns
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

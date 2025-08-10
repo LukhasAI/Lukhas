@@ -4,10 +4,10 @@ Find Unused Files in LUKHAS Codebase
 Identifies Python files that are never imported by any other file.
 """
 import ast
+import json
 import os
 from pathlib import Path
-from typing import Set, Dict, List
-import json
+from typing import Dict, List, Set
 
 
 class UnusedFileFinder:
@@ -17,25 +17,27 @@ class UnusedFileFinder:
         self.imported_files = set()
         self.import_map = {}  # file -> list of files it imports
 
-    def get_module_path_from_import(self, import_name: str, current_file: Path) -> Set[str]:
+    def get_module_path_from_import(
+        self, import_name: str, current_file: Path
+    ) -> Set[str]:
         """Convert import statement to possible file paths."""
         possible_paths = set()
 
         # Convert module.submodule to file paths
-        parts = import_name.split('.')
+        parts = import_name.split(".")
 
         # Try as a module path
-        module_path = os.path.join(*parts) + '.py'
+        module_path = os.path.join(*parts) + ".py"
         possible_paths.add(module_path)
 
         # Try as a package __init__.py
-        package_path = os.path.join(*parts, '__init__.py')
+        package_path = os.path.join(*parts, "__init__.py")
         possible_paths.add(package_path)
 
         # Try relative to current file
         if current_file.parent != self.root_path:
             rel_dir = current_file.parent
-            rel_module = rel_dir / (parts[-1] + '.py')
+            rel_module = rel_dir / (parts[-1] + ".py")
             if rel_module.exists():
                 rel_path = rel_module.relative_to(self.root_path)
                 possible_paths.add(str(rel_path))
@@ -47,7 +49,7 @@ class UnusedFileFinder:
         imports = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -63,9 +65,13 @@ class UnusedFileFinder:
                         # Handle relative imports
                         if node.level > 0:
                             # Relative import
-                            parent_parts = str(file_path.parent.relative_to(self.root_path)).split('/')
+                            parent_parts = str(
+                                file_path.parent.relative_to(self.root_path)
+                            ).split("/")
                             if node.level <= len(parent_parts):
-                                base = '.'.join(parent_parts[:len(parent_parts)-node.level+1])
+                                base = ".".join(
+                                    parent_parts[: len(parent_parts) - node.level + 1]
+                                )
                                 if node.module:
                                     imports.append(f"{base}.{node.module}")
                                 else:
@@ -80,10 +86,19 @@ class UnusedFileFinder:
         # Find all Python files
         for py_file in self.root_path.rglob("*.py"):
             # Skip certain directories
-            if any(skip in str(py_file) for skip in [
-                '__pycache__', '.git', 'venv', '.venv',
-                'build', 'dist', '.egg-info', 'node_modules'
-            ]):
+            if any(
+                skip in str(py_file)
+                for skip in [
+                    "__pycache__",
+                    ".git",
+                    "venv",
+                    ".venv",
+                    "build",
+                    "dist",
+                    ".egg-info",
+                    "node_modules",
+                ]
+            ):
                 continue
 
             rel_path = py_file.relative_to(self.root_path)
@@ -103,8 +118,13 @@ class UnusedFileFinder:
         """Find files that are never imported."""
         # Special files that are entry points (not imported but used)
         entry_points = {
-            'main.py', 'app.py', 'run.py', 'manage.py',
-            'setup.py', 'conftest.py', '__main__.py'
+            "main.py",
+            "app.py",
+            "run.py",
+            "manage.py",
+            "setup.py",
+            "conftest.py",
+            "__main__.py",
         }
 
         # Files that are unused
@@ -114,15 +134,15 @@ class UnusedFileFinder:
             file_name = os.path.basename(file_path)
 
             # Skip test files (they're run, not imported)
-            if 'test_' in file_name or '_test.py' in file_name:
+            if "test_" in file_name or "_test.py" in file_name:
                 continue
 
             # Skip example files
-            if 'example' in file_path or 'demo' in file_path:
+            if "example" in file_path or "demo" in file_path:
                 continue
 
             # Skip scripts (they're executed directly)
-            if file_path.startswith('scripts/'):
+            if file_path.startswith("scripts/"):
                 continue
 
             # Skip entry points
@@ -132,13 +152,15 @@ class UnusedFileFinder:
             # Check if file is imported anywhere
             if file_path not in self.imported_files:
                 # Also check without .py extension
-                module_path = file_path[:-3] if file_path.endswith('.py') else file_path
-                module_as_import = module_path.replace('/', '.')
+                module_path = file_path[:-3] if file_path.endswith(".py") else file_path
+                module_as_import = module_path.replace("/", ".")
 
                 # Check if any file imports this module
                 is_imported = False
                 for imports in self.import_map.values():
-                    if any(module_as_import in imp or module_path in imp for imp in imports):
+                    if any(
+                        module_as_import in imp or module_path in imp for imp in imports
+                    ):
                         is_imported = True
                         break
 
@@ -147,37 +169,48 @@ class UnusedFileFinder:
 
         # Categorize unused files
         categorized = {
-            'benchmarks': [],
-            'tests': [],
-            'tools': [],
-            'examples': [],
-            'core_modules': [],
-            'other': []
+            "benchmarks": [],
+            "tests": [],
+            "tools": [],
+            "examples": [],
+            "core_modules": [],
+            "other": [],
         }
 
         for file_path in sorted(unused_files):
-            if file_path.startswith('benchmarks/'):
-                categorized['benchmarks'].append(file_path)
-            elif file_path.startswith('tests/'):
-                categorized['tests'].append(file_path)
-            elif file_path.startswith('tools/'):
-                categorized['tools'].append(file_path)
-            elif file_path.startswith('examples/'):
-                categorized['examples'].append(file_path)
-            elif any(file_path.startswith(f"{module}/") for module in [
-                'core', 'memory', 'consciousness', 'learning', 'identity',
-                'orchestration', 'api', 'bio', 'symbolic', 'quantum'
-            ]):
-                categorized['core_modules'].append(file_path)
+            if file_path.startswith("benchmarks/"):
+                categorized["benchmarks"].append(file_path)
+            elif file_path.startswith("tests/"):
+                categorized["tests"].append(file_path)
+            elif file_path.startswith("tools/"):
+                categorized["tools"].append(file_path)
+            elif file_path.startswith("examples/"):
+                categorized["examples"].append(file_path)
+            elif any(
+                file_path.startswith(f"{module}/")
+                for module in [
+                    "core",
+                    "memory",
+                    "consciousness",
+                    "learning",
+                    "identity",
+                    "orchestration",
+                    "api",
+                    "bio",
+                    "symbolic",
+                    "quantum",
+                ]
+            ):
+                categorized["core_modules"].append(file_path)
             else:
-                categorized['other'].append(file_path)
+                categorized["other"].append(file_path)
 
         return {
-            'total_files': len(self.all_python_files),
-            'unused_files': len(unused_files),
-            'usage_rate': 1 - (len(unused_files) / len(self.all_python_files)),
-            'categorized': categorized,
-            'unused_list': unused_files[:50]  # First 50 for review
+            "total_files": len(self.all_python_files),
+            "unused_files": len(unused_files),
+            "usage_rate": 1 - (len(unused_files) / len(self.all_python_files)),
+            "categorized": categorized,
+            "unused_list": unused_files[:50],  # First 50 for review
         }
 
 
@@ -194,18 +227,18 @@ def main():
 
     # Save report
     report_path = root_path / "scripts" / "unused_files_report.json"
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
     # Print summary
-    print(f"\n📊 Unused Files Report")
+    print("\n📊 Unused Files Report")
     print("=" * 50)
     print(f"Total Python files: {report['total_files']}")
     print(f"Unused files: {report['unused_files']}")
     print(f"Usage rate: {report['usage_rate']:.1%}")
 
     print("\n📁 Unused files by category:")
-    for category, files in report['categorized'].items():
+    for category, files in report["categorized"].items():
         if files:
             print(f"\n{category.upper()} ({len(files)} files):")
             for f in files[:5]:  # Show first 5
@@ -216,9 +249,9 @@ def main():
     print(f"\n📄 Full report saved to: {report_path}")
 
     # Show most concerning unused files (core modules)
-    if report['categorized']['core_modules']:
+    if report["categorized"]["core_modules"]:
         print("\n⚠️  WARNING: Unused files in core modules:")
-        for f in report['categorized']['core_modules'][:10]:
+        for f in report["categorized"]["core_modules"][:10]:
             print(f"  - {f}")
 
 

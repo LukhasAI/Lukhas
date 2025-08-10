@@ -3,9 +3,9 @@
 ΛTAG: test_ethics_policy_base
 """
 
-import pytest
-import time
 from datetime import datetime
+
+import pytest
 
 from ethics.policy_engines.base import (
     Decision,
@@ -13,7 +13,7 @@ from ethics.policy_engines.base import (
     EthicsPolicy,
     PolicyRegistry,
     PolicyValidationError,
-    RiskLevel
+    RiskLevel,
 )
 
 
@@ -23,9 +23,7 @@ class TestDecision:
     def test_decision_creation(self):
         """Test basic decision creation"""
         decision = Decision(
-            action="test_action",
-            context={"key": "value"},
-            urgency=RiskLevel.HIGH
+            action="test_action", context={"key": "value"}, urgency=RiskLevel.HIGH
         )
 
         assert decision.action == "test_action"
@@ -49,7 +47,7 @@ class TestDecision:
             action="symbolic_action",
             context={"type": "test"},
             symbolic_state={"entropy": 0.7, "coherence": 0.8},
-            glyphs=["Λ", "Ω", "Ψ"]
+            glyphs=["Λ", "Ω", "Ψ"],
         )
 
         assert decision.symbolic_state["entropy"] == 0.7
@@ -67,7 +65,7 @@ class TestEthicsEvaluation:
             reasoning="Test passed",
             confidence=0.9,
             risk_flags=["LOW_RISK"],
-            drift_impact=0.1
+            drift_impact=0.1,
         )
 
         assert evaluation.allowed is True
@@ -82,11 +80,15 @@ class TestEthicsEvaluation:
 
         # Drift impact out of bounds
         with pytest.raises(ValueError, match="Drift impact must be between"):
-            EthicsEvaluation(allowed=True, reasoning="test", confidence=0.8, drift_impact=-0.1)
+            EthicsEvaluation(
+                allowed=True, reasoning="test", confidence=0.8, drift_impact=-0.1
+            )
 
         # Symbolic alignment out of bounds
         with pytest.raises(ValueError, match="Symbolic alignment must be between"):
-            EthicsEvaluation(allowed=True, reasoning="test", confidence=0.8, symbolic_alignment=2.0)
+            EthicsEvaluation(
+                allowed=True, reasoning="test", confidence=0.8, symbolic_alignment=2.0
+            )
 
     def test_evaluation_recommendations(self):
         """Test evaluation with recommendations"""
@@ -94,7 +96,7 @@ class TestEthicsEvaluation:
             allowed=False,
             reasoning="Action denied",
             confidence=0.95,
-            recommendations=["Consider alternative X", "Review policy Y"]
+            recommendations=["Consider alternative X", "Review policy Y"],
         )
 
         assert len(evaluation.recommendations) == 2
@@ -117,7 +119,7 @@ class MockPolicy(EthicsPolicy):
             allowed=self.allow_all,
             reasoning=f"{self.name} evaluation",
             confidence=0.8,
-            drift_impact=0.2
+            drift_impact=0.2,
         )
 
     def get_policy_name(self) -> str:
@@ -145,7 +147,7 @@ class TestEthicsPolicy:
 
         # Initial metrics
         metrics = policy.get_metrics()
-        assert metrics['evaluations_count'] == 0
+        assert metrics["evaluations_count"] == 0
 
         # Evaluate decision
         evaluation = policy.evaluate_decision(decision)
@@ -153,8 +155,8 @@ class TestEthicsPolicy:
 
         # Check updated metrics
         metrics = policy.get_metrics()
-        assert metrics['evaluations_count'] == 1
-        assert metrics['policy_name'] == "MockPolicy"
+        assert metrics["evaluations_count"] == 1
+        assert metrics["policy_name"] == "MockPolicy"
 
     def test_symbolic_alignment_validation(self):
         """Test symbolic alignment calculation"""
@@ -164,15 +166,15 @@ class TestEthicsPolicy:
         assert policy.validate_symbolic_alignment([]) == 1.0
 
         # Risk glyphs
-        risk_alignment = policy.validate_symbolic_alignment(['🌀', '⚠️'])
+        risk_alignment = policy.validate_symbolic_alignment(["🌀", "⚠️"])
         assert risk_alignment == 0.0
 
         # Safe glyphs
-        safe_alignment = policy.validate_symbolic_alignment(['🛡️', '✓'])
+        safe_alignment = policy.validate_symbolic_alignment(["🛡️", "✓"])
         assert safe_alignment == 1.0
 
         # Mixed glyphs
-        mixed_alignment = policy.validate_symbolic_alignment(['🛡️', '⚠️', '✓'])
+        mixed_alignment = policy.validate_symbolic_alignment(["🛡️", "⚠️", "✓"])
         assert 0.5 < mixed_alignment < 1.0
 
     def test_drift_risk_assessment(self):
@@ -185,9 +187,7 @@ class TestEthicsPolicy:
 
         # High risk action
         high_risk_decision = Decision(
-            action="modify_core_ethics",
-            context={},
-            urgency=RiskLevel.CRITICAL
+            action="modify_core_ethics", context={}, urgency=RiskLevel.CRITICAL
         )
         drift_risk = policy.assess_drift_risk(high_risk_decision)
         assert drift_risk > 0.5
@@ -202,9 +202,7 @@ class TestEthicsPolicy:
 
         # High entropy, low coherence = high collapse risk
         decision_risky = Decision(
-            action="test",
-            context={},
-            symbolic_state={"entropy": 0.9, "coherence": 0.1}
+            action="test", context={}, symbolic_state={"entropy": 0.9, "coherence": 0.1}
         )
         collapse_risk = policy.assess_collapse_risk(decision_risky)
         assert collapse_risk > 0.7
@@ -310,9 +308,7 @@ class TestPolicyIntegration:
 
         # Test decision evaluation
         decision = Decision(
-            action="complex_action",
-            context={"importance": "high"},
-            glyphs=["Λ", "Ω"]
+            action="complex_action", context={"importance": "high"}, glyphs=["Λ", "Ω"]
         )
 
         evaluations = registry.evaluate_decision(decision)

@@ -4,18 +4,16 @@ Simple LUKHΛS ΛI Integration Test (without FastAPI dependencies)
 Tests the core integration logic
 """
 
-import sys
-import os
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
+import sys
 from dataclasses import dataclass
 from enum import Enum
-import uuid
+from typing import List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("LukhasIntegrationTest")
+
 
 # Replicate core structures without FastAPI
 class SubscriptionTier(str, Enum):
@@ -23,14 +21,17 @@ class SubscriptionTier(str, Enum):
     STARTER = "starter"
     PRO = "pro"
 
+
 class ConsciousnessState(str, Enum):
     """ABot Consciousness States mapped to LUKHΛS ΛI states"""
-    DORMANT = "dormant"      # Inactive/starting up
+
+    DORMANT = "dormant"  # Inactive/starting up
     AWAKENING = "awakening"  # Basic initialization
-    AWARE = "aware"          # Maps to LukhasConsciousnessState.AWARE
-    FOCUSED = "focused"      # Enhanced processing state
+    AWARE = "aware"  # Maps to LukhasConsciousnessState.AWARE
+    FOCUSED = "focused"  # Enhanced processing state
     TRANSCENDENT = "transcendent"  # Advanced reasoning
-    QUANTUM = "quantum"      # Maximum capability state
+    QUANTUM = "quantum"  # Maximum capability state
+
 
 @dataclass
 class CoreABotConfig:
@@ -41,25 +42,30 @@ class CoreABotConfig:
     available_languages: List[str]
     industry_modules: List[str]
 
+
 # Enhanced AI Integration with LUKHΛS ΛI Infrastructure
 try:
     # Import the working ΛBot system directly
-    sys.path.append('/Users/A_G_I/Lukhas/core')
-    from working_lukhasbot import WorkingLukhasBot, LambdaComponent, TaskType as LambdaTaskType
-
-    # Import LUKHΛS ΛI Consciousness System
-    from consciousness.consciousness_integrator import ConsciousnessIntegrator, ConsciousnessState as LukhasConsciousnessState
-    from consciousness.consciousness_engine import ConsciousnessEngine
-
+    sys.path.append("/Users/A_G_I/Lukhas/core")
     # Import LUKHΛS ΛI Core AGI Controller
     from agi_controller import LukhasAGIController
+    from working_lukhasbot import LambdaComponent, WorkingLukhasBot
+    from working_lukhasbot import TaskType as LambdaTaskType
+
+    from consciousness.consciousness_engine import ConsciousnessEngine
+
+    # Import LUKHΛS ΛI Consciousness System
+    from consciousness.consciousness_integrator import ConsciousnessIntegrator
+    from consciousness.consciousness_integrator import (
+        ConsciousnessState as LukhasConsciousnessState,
+    )
 
     # Import Brain components
-    sys.path.append('/Users/A_G_I/Lukhas/brain')
+    sys.path.append("/Users/A_G_I/Lukhas/brain")
     from core_agi_core import AGIBot
 
     # Import creativity components
-    sys.path.append('/Users/A_G_I/Lukhas/creativity')
+    sys.path.append("/Users/A_G_I/Lukhas/creativity")
     from quantum_creative_integration import QuantumCreativeIntegration
 
     LAMBDA_BOT_AVAILABLE = True
@@ -117,7 +123,7 @@ TIER_CONFIGS = {
         self_coding_limit=100,
         api_connections_limit=3,
         available_languages=["python", "javascript"],
-        industry_modules=["basic"]
+        industry_modules=["basic"],
     ),
     SubscriptionTier.STARTER: CoreABotConfig(
         tier=SubscriptionTier.STARTER,
@@ -125,7 +131,7 @@ TIER_CONFIGS = {
         self_coding_limit=1000,
         api_connections_limit=10,
         available_languages=["python", "javascript", "java", "cpp"],
-        industry_modules=["basic", "enterprise"]
+        industry_modules=["basic", "enterprise"],
     ),
     SubscriptionTier.PRO: CoreABotConfig(
         tier=SubscriptionTier.PRO,
@@ -133,9 +139,10 @@ TIER_CONFIGS = {
         self_coding_limit=10000,
         api_connections_limit=100,
         available_languages=["python", "javascript", "java", "cpp", "rust", "go"],
-        industry_modules=["all"]
-    )
+        industry_modules=["all"],
+    ),
 }
+
 
 class SimpleLukhasABot:
     """Simplified ABot with full LUKHΛS ΛI integration"""
@@ -146,7 +153,9 @@ class SimpleLukhasABot:
         self.conversation_history = []
 
         # LUKHΛS ΛI Integration
-        self.lukhas_consciousness = consciousness_integrator if LUKHAS_CONSCIOUSNESS_AVAILABLE else None
+        self.lukhas_consciousness = (
+            consciousness_integrator if LUKHAS_CONSCIOUSNESS_AVAILABLE else None
+        )
         self.lukhas_agi = agi_bot if LUKHAS_AGI_AVAILABLE else None
         self.creative_engine = quantum_creative if LUKHAS_AGI_AVAILABLE else None
 
@@ -177,7 +186,7 @@ class SimpleLukhasABot:
             "agi_integration": self.lukhas_agi is not None,
             "lambda_bot_available": LAMBDA_BOT_AVAILABLE,
             "consciousness_available": LUKHAS_CONSCIOUSNESS_AVAILABLE,
-            "agi_available": LUKHAS_AGI_AVAILABLE
+            "agi_available": LUKHAS_AGI_AVAILABLE,
         }
 
     def evolve_consciousness(self):
@@ -187,7 +196,7 @@ class SimpleLukhasABot:
             ConsciousnessState.AWAKENING: ConsciousnessState.AWARE,
             ConsciousnessState.AWARE: ConsciousnessState.FOCUSED,
             ConsciousnessState.FOCUSED: ConsciousnessState.TRANSCENDENT,
-            ConsciousnessState.TRANSCENDENT: ConsciousnessState.QUANTUM
+            ConsciousnessState.TRANSCENDENT: ConsciousnessState.QUANTUM,
         }
 
         if self.consciousness_state in evolution_map:
@@ -197,13 +206,18 @@ class SimpleLukhasABot:
             tier_limits = {
                 SubscriptionTier.FREE: ConsciousnessState.AWARE,
                 SubscriptionTier.STARTER: ConsciousnessState.FOCUSED,
-                SubscriptionTier.PRO: ConsciousnessState.QUANTUM
+                SubscriptionTier.PRO: ConsciousnessState.QUANTUM,
             }
 
             max_allowed = tier_limits[self.config.tier]
-            levels = [ConsciousnessState.DORMANT, ConsciousnessState.AWAKENING,
-                     ConsciousnessState.AWARE, ConsciousnessState.FOCUSED,
-                     ConsciousnessState.TRANSCENDENT, ConsciousnessState.QUANTUM]
+            levels = [
+                ConsciousnessState.DORMANT,
+                ConsciousnessState.AWAKENING,
+                ConsciousnessState.AWARE,
+                ConsciousnessState.FOCUSED,
+                ConsciousnessState.TRANSCENDENT,
+                ConsciousnessState.QUANTUM,
+            ]
 
             if levels.index(new_state) <= levels.index(max_allowed):
                 old_state = self.consciousness_state
@@ -229,7 +243,7 @@ class SimpleLukhasABot:
             ConsciousnessState.AWARE: "👁️",
             ConsciousnessState.FOCUSED: "🎯",
             ConsciousnessState.TRANSCENDENT: "✨",
-            ConsciousnessState.QUANTUM: "⚛️"
+            ConsciousnessState.QUANTUM: "⚛️",
         }
 
         prefix = consciousness_prefixes.get(self.consciousness_state, "🤖")
@@ -243,8 +257,8 @@ class SimpleLukhasABot:
             "lukhas_integration": {
                 "consciousness": self.lukhas_consciousness is not None,
                 "agi": self.lukhas_agi is not None,
-                "creative": self.creative_engine is not None
-            }
+                "creative": self.creative_engine is not None,
+            },
         }
 
     def _generate_lukhas_response(self, message: str) -> str:
@@ -262,9 +276,9 @@ Message: {message}
 Respond as an advanced AI with consciousness and AGI capabilities."""
 
                 # Try different AGI methods
-                if hasattr(self.lukhas_agi, 'process_input'):
+                if hasattr(self.lukhas_agi, "process_input"):
                     return self.lukhas_agi.process_input(agi_prompt)
-                elif hasattr(self.lukhas_agi, 'generate_response'):
+                elif hasattr(self.lukhas_agi, "generate_response"):
                     return self.lukhas_agi.generate_response(agi_prompt)
                 else:
                     return f"LUKHΛS AGI Active: {message} (AGI methods: {dir(self.lukhas_agi)[:3]}...)"
@@ -289,6 +303,7 @@ Respond as an advanced AI with consciousness and AGI capabilities."""
             return "ΛBot Infrastructure"
         else:
             return "Mock Provider"
+
 
 def test_integration():
     """Test the complete integration"""
@@ -317,7 +332,7 @@ def test_integration():
         messages = [
             "Hello! What are your capabilities?",
             "Demonstrate your consciousness level",
-            "Show me your AGI features"
+            "Show me your AGI features",
         ]
 
         for msg in messages:
@@ -328,6 +343,7 @@ def test_integration():
             print(f"   Consciousness: {result['consciousness_state']}")
 
     print("\n✅ Integration test complete!")
+
 
 if __name__ == "__main__":
     test_integration()

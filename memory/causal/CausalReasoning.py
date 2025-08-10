@@ -14,7 +14,7 @@ cause-effect relationships in input data and context.
 
 import re
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Optional
 
 
 class CausalReasoningModule:

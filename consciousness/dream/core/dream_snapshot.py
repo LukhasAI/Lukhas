@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+
 class DreamSnapshotStore:
     def __init__(self, snapshot_dir="snapshots"):
         self.snapshot_dir = Path(snapshot_dir)
@@ -20,9 +21,11 @@ class DreamSnapshotStore:
 
         snapshots = []
         # Sort by creation time, newest first
-        for snapshot_file in sorted(user_dir.iterdir(), key=lambda f: f.stat().st_mtime, reverse=True):
+        for snapshot_file in sorted(
+            user_dir.iterdir(), key=lambda f: f.stat().st_mtime, reverse=True
+        ):
             if len(snapshots) >= limit:
                 break
-            with open(snapshot_file, "r") as f:
+            with open(snapshot_file) as f:
                 snapshots.append(json.load(f))
         return snapshots

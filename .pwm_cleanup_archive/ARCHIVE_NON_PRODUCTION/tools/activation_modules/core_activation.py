@@ -6,7 +6,6 @@ Total Functions: 1057
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -316,11 +315,20 @@ CORE_CLASS_ENTITIES = [
     ("interfaces.ui.adaptive.ui_orchestrator", "AdaptiveUI"),
     ("interfaces.ui.components.audio_exporter", "Args"),
     ("interfaces.ui.components.audio_exporter", "SecurityError"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "ComplianceEngine"),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "ComplianceEngine",
+    ),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "ContextAnalyzer"),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "DeviceAnalyzer"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "LocationAnalyzer"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "LUKHASVoiceSystem"),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "LocationAnalyzer",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "LUKHASVoiceSystem",
+    ),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "MemoryManager"),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "NLPEngine"),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "SafetyGuard"),
@@ -1117,7 +1125,10 @@ CORE_FUNCTION_ENTITIES = [
     ("interfaces.as_agent.sys.dast.store", "load_tags_from_file"),
     ("interfaces.as_agent.sys.dast.store", "save_tags_to_file"),
     ("interfaces.as_agent.sys.dast.store", "save_tags_to_file"),
-    ("interfaces.as_agent.sys.nias.05_25_dream_clustering_engine", "cluster_dreams_by_tag"),
+    (
+        "interfaces.as_agent.sys.nias.05_25_dream_clustering_engine",
+        "cluster_dreams_by_tag",
+    ),
     ("interfaces.as_agent.sys.nias.consent_filter", "is_allowed"),
     ("interfaces.as_agent.sys.nias.delivery_loop", "run_delivery_queue"),
     ("interfaces.as_agent.sys.nias.dream_narrator_queue", "extract_narratable_dreams"),
@@ -1128,14 +1139,20 @@ CORE_FUNCTION_ENTITIES = [
     ("interfaces.as_agent.sys.nias.narration_controller", "fetch_narration_entries"),
     ("interfaces.as_agent.sys.nias.narration_controller", "filter_narration_queue"),
     ("interfaces.as_agent.sys.nias.narration_controller", "load_user_settings"),
-    ("interfaces.as_agent.sys.nias.narration_controller", "print_debug_narration_summary"),
+    (
+        "interfaces.as_agent.sys.nias.narration_controller",
+        "print_debug_narration_summary",
+    ),
     ("interfaces.as_agent.sys.nias.nias_core", "push_symbolic_message"),
     ("interfaces.as_agent.sys.nias.replay_heatmap", "load_replay_data"),
     ("interfaces.as_agent.sys.nias.replay_heatmap", "plot_heatmap"),
     ("interfaces.as_agent.sys.nias.replay_visualizer", "color_emotion"),
     ("interfaces.as_agent.sys.nias.replay_visualizer", "visualize_replays"),
     ("interfaces.as_agent.sys.nias.symbolic_matcher", "match_message_to_context"),
-    ("interfaces.as_agent.sys.nias.symbolic_reply_generator", "generate_symbolic_reply"),
+    (
+        "interfaces.as_agent.sys.nias.symbolic_reply_generator",
+        "generate_symbolic_reply",
+    ),
     ("interfaces.as_agent.sys.nias.validate_payload", "validate_payload"),
     ("interfaces.as_agent.sys.nias.voice_narrator", "narrate_dreams"),
     ("interfaces.as_agent.utils.symbolic_utils", "summarize_emotion_vector"),
@@ -1224,12 +1241,30 @@ CORE_FUNCTION_ENTITIES = [
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "analyze"),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "analyze"),
     ("interfaces.voice.voice_emotional.context_aware_modular_voice", "analyze"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "anonymize_metadata"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "determine_parameters"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "get_relevant_memories"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "should_retain_data"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "store_interaction"),
-    ("interfaces.voice.voice_emotional.context_aware_modular_voice", "validate_response"),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "anonymize_metadata",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "determine_parameters",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "get_relevant_memories",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "should_retain_data",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "store_interaction",
+    ),
+    (
+        "interfaces.voice.voice_emotional.context_aware_modular_voice",
+        "validate_response",
+    ),
     ("interfaces.web_formatter", "format_caption"),
     ("interfaces.web_formatter", "format_html"),
     ("interfaces.web_formatter", "format_markdown"),
@@ -1315,7 +1350,10 @@ CORE_FUNCTION_ENTITIES = [
     ("neural_architectures.abas.abas_quantum_specialist", "create_attention_gradient"),
     ("neural_architectures.abas.abas_quantum_specialist", "get_biological_status"),
     ("neural_architectures.abas.abas_quantum_specialist", "optimize_cristae_topology"),
-    ("neural_architectures.abas.abas_quantum_specialist", "quantum_ethical_arbitration"),
+    (
+        "neural_architectures.abas.abas_quantum_specialist",
+        "quantum_ethical_arbitration",
+    ),
     ("neural_architectures.abas.abas_quantum_specialist", "synthesize_symbolic_atp"),
     ("neural_architectures.neural_integrator", "adapt_architecture"),
     ("neural_architectures.neural_integrator", "forward"),
@@ -1677,7 +1715,7 @@ class CoreEntityActivator:
 
     def activate_all(self):
         """Activate all core entities"""
-        logger.info(f"Starting core entity activation...")
+        logger.info("Starting core entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -1685,12 +1723,14 @@ class CoreEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(CORE_CLASS_ENTITIES) + len(CORE_FUNCTION_ENTITIES)
+            "total": len(CORE_CLASS_ENTITIES) + len(CORE_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -1698,7 +1738,7 @@ class CoreEntityActivator:
         for module_path, class_name in CORE_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -1723,7 +1763,9 @@ class CoreEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -1731,7 +1773,7 @@ class CoreEntityActivator:
         for module_path, func_name in CORE_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -1748,20 +1790,23 @@ class CoreEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

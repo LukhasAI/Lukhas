@@ -3,9 +3,7 @@ import logging
 from concurrent import futures
 
 import grpc
-
-from interfaces.api.v1.grpc.lukhas_pb2_grpc import core_pb2_grpc, lukhas_pb2
-from orchestration.brain.core import core_core
+from interfaces.api.v1.grpc.lukhas_pb2_grpc import lukhas_pb2
 
 
 class LukhasServicer(lukhas_pb2_grpc.LukhasServiceServicer):

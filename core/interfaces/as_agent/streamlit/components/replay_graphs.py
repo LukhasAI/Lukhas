@@ -5,8 +5,6 @@ Advanced: replay_graphs.py
 Integration Date: 2025-05-31T07:55:30.619528
 """
 
-
-
 """
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                    LUCΛS :: DREAM REPLAY VISUALIZER (v1.0)                  │
@@ -15,17 +13,20 @@ Integration Date: 2025-05-31T07:55:30.619528
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
+
 # import streamlit as st  # TODO: Install or implement streamlit
 import json
-import pandas as pd
 from collections import Counter
+
+import pandas as pd
+
 from core.utils.symbolic_utils import tier_label
 
 st.title("🌀 Replay Queue Visualizer")
 st.caption("Dreams selected for reflection or voice narration.")
 
 try:
-    with open("core/logs/replay_queue.jsonl", "r") as f:
+    with open("core/logs/replay_queue.jsonl") as f:
         entries = [json.loads(line) for line in f]
     df = pd.DataFrame(entries)
 
@@ -55,7 +56,9 @@ try:
 
     st.subheader("🎛️ Filter by Tier or Emoji")
     with st.sidebar:
-        selected_tiers = st.multiselect("Filter by Tier", options=sorted(df["tier"].unique()))
+        selected_tiers = st.multiselect(
+            "Filter by Tier", options=sorted(df["tier"].unique())
+        )
         selected_emojis = st.multiselect("Filter by Emoji", options=sorted(set(emojis)))
 
     if selected_tiers or selected_emojis:

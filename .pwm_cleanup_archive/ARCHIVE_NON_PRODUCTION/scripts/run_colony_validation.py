@@ -1,22 +1,23 @@
 import asyncio
 import json
 import logging
-import time
-import uuid
-from collections import defaultdict
-from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
-import random
-import sys
 import os
+import sys
+import time
+from collections import defaultdict
+from typing import List
+
 import psutil
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.actor_system import get_global_actor_system, AIAgentActor, SupervisionStrategy
-from core.event_bus import get_global_event_bus, Event
-from core.p2p_communication import P2PNode, MessageType
+from core.actor_system import (
+    AIAgentActor,
+    SupervisionStrategy,
+    get_global_actor_system,
+)
 from core.distributed_tracing import get_global_tracer
+from core.event_bus import get_global_event_bus
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -101,11 +102,13 @@ class ValidationMatrix:
             await system.stop()
             await event_bus.stop()
             from core import actor_system, event_bus
+
             actor_system._global_actor_system = None
             event_bus._global_event_bus = None
 
-
-    async def run_high_message_volume(self, system, event_bus, tracer, collector, colonies):
+    async def run_high_message_volume(
+        self, system, event_bus, tracer, collector, colonies
+    ):
         with tracer.trace_operation("high_message_volume_scenario") as trace_context:
             logger.info("Simulating high message volume...")
             start_time = time.time()
@@ -123,7 +126,9 @@ class ValidationMatrix:
             collector.record_metric("system", "high_message_volume_duration", duration)
             tracer.add_tag(trace_context, "duration", duration)
 
-    async def run_network_partition(self, system, event_bus, tracer, collector, colonies):
+    async def run_network_partition(
+        self, system, event_bus, tracer, collector, colonies
+    ):
         logger.info("Simulating network partition...")
         # This is a simplified simulation. A real implementation would involve
         # manipulating network interfaces or using a network simulator.
@@ -140,11 +145,12 @@ class ValidationMatrix:
             if p2p_node:
                 await p2p_node.start()
 
-
     async def run_actor_failure(self, system, event_bus, tracer, collector, colonies):
         with tracer.trace_operation("actor_failure_scenario") as trace_context:
             logger.info("Simulating actor failure...")
-            analytics_colony = next(c for c in colonies if c.name == "realtime-analytics")
+            analytics_colony = next(
+                c for c in colonies if c.name == "realtime-analytics"
+            )
             actor_to_fail_id = "failing-actor"
 
             class Supervisor(AIAgentActor):
@@ -179,7 +185,9 @@ class ValidationMatrix:
             collector.record_metric("system", "actor_failure_recovery_time", duration)
             tracer.add_tag(trace_context, "duration", duration)
 
-    async def run_resource_exhaustion(self, system, event_bus, tracer, collector, colonies):
+    async def run_resource_exhaustion(
+        self, system, event_bus, tracer, collector, colonies
+    ):
         with tracer.trace_operation("resource_exhaustion_scenario") as trace_context:
             logger.info("Simulating resource exhaustion...")
             # This is a simplified simulation. A real implementation would involve
@@ -207,7 +215,9 @@ class ValidationMatrix:
             collector.record_metric("system", "memory_usage_after_stress", mem_after)
             tracer.add_tag(trace_context, "mem_after", mem_after)
 
-    async def run_conflicting_goals(self, system, event_bus, tracer, collector, colonies):
+    async def run_conflicting_goals(
+        self, system, event_bus, tracer, collector, colonies
+    ):
         with tracer.trace_operation("conflicting_goals_scenario") as trace_context:
             logger.info("Simulating conflicting goals...")
 
@@ -238,7 +248,9 @@ class ValidationMatrix:
             logger.info("Simulating symbolic drift...")
             # This is a simplified simulation. A real implementation would involve
             # changing the meaning of a symbol in the system.
-            await kernel_bus.emit("symbol_update", {"symbol": "X", "meaning": "new_meaning"})
+            await kernel_bus.emit(
+                "symbol_update", {"symbol": "X", "meaning": "new_meaning"}
+            )
             await asyncio.sleep(1)
 
     def generate_report(self):
@@ -265,17 +277,23 @@ if __name__ == "__main__":
     class ObservabilityCollector:
         def __init__(self):
             self.metrics = defaultdict(list)
-        def start(self): pass
-        def stop(self): pass
-        def get_metrics(self): return self.metrics
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+        def get_metrics(self):
+            return self.metrics
+
         def record_metric(self, actor_id, metric_name, value):
-            self.metrics[metric_name].append({
-                "actor_id": actor_id,
-                "value": value,
-                "timestamp": time.time()
-            })
+            self.metrics[metric_name].append(
+                {"actor_id": actor_id, "value": value, "timestamp": time.time()}
+            )
 
     from core.observability import collector
+
     collector.ObservabilityCollector = ObservabilityCollector
 
     asyncio.run(main())

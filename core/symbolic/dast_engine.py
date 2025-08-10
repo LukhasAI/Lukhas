@@ -1,23 +1,20 @@
 """DAST Core Engine
 
-
 #TAG:core
 #TAG:symbolic
 #TAG:neuroplastic
 #TAG:colony
 
-
 Implements the task tracking and symbolic activity logic for the Golden Trio.
 Follows the Phase 2 Implementation Guide.
 """
 
-import asyncio
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
+from ethics.core import EthicalDecision, get_shared_ethics_engine
 from ethics.seedra import get_seedra
 from symbolic.core import Symbol, SymbolicVocabulary, get_symbolic_vocabulary
-from ethics.core import get_shared_ethics_engine, EthicalDecision
 
 logger = logging.getLogger(__name__)
 
@@ -26,19 +23,23 @@ class DASTEngine:
     """Core DAST engine coordinating task tracking and activity scoring."""
 
     # ΛTAG: dast, core_engine
+
     def __init__(self) -> None:
         self.seedra = get_seedra()
         self.symbolic: SymbolicVocabulary = get_symbolic_vocabulary()
         self.ethics = get_shared_ethics_engine()
         try:
-            from orchestration.golden_trio import get_trio_orchestrator, SystemType
+            from orchestration.golden_trio import SystemType, get_trio_orchestrator
+
             self.orchestrator = get_trio_orchestrator()
             self.system_type = SystemType
         except Exception:
             self.orchestrator = None
+
             class _Sys:
                 DAST = "DAST"
                 NIAS = "NIAS"
+
             self.system_type = _Sys
         self.driftScore = 0.0
         self.affect_delta = 0.0
@@ -48,21 +49,26 @@ class DASTEngine:
         self.gesture_interpreter = GestureInterpretationSystem(self)
         self.data_aggregator = RealtimeDataAggregator(self)
 
-    async def track_task(self, task: Any, user_context: Dict[str, Any]) -> Symbol:
+    async def track_task(self, task: Any, user_context: dict[str, Any]) -> Symbol:
         """Track a task and return a symbolic representation."""
-        return await self.activity_tracker.track_activity(task, user_context.get("user_id"))
+        return await self.activity_tracker.track_activity(
+            task, user_context.get("user_id")
+        )
 
 
 class TaskCompatibilityEngine:
     """Scores task compatibility using SEEDRA and the ethics engine."""
 
     # ΛTAG: dast, compatibility
+
     def __init__(self, engine: DASTEngine) -> None:
         self.engine = engine
 
     async def score_compatibility(self, task: Any, user_context: Any) -> float:
         # Check user consent
-        consent = await self.engine.seedra.check_consent(user_context["user_id"], "task_tracking")
+        consent = await self.engine.seedra.check_consent(
+            user_context["user_id"], "task_tracking"
+        )
         if not consent.get("allowed"):
             return 0.0
 
@@ -85,13 +91,17 @@ class SymbolicActivityTracker:
     """Tracks symbolic activity for a user."""
 
     # ΛTAG: dast, activity_tracking
+
     def __init__(self, engine: DASTEngine) -> None:
         self.engine = engine
 
     async def track_activity(self, activity: Any, user_id: str) -> Symbol:
         activity_symbol = self.engine.symbolic.create_symbol(
             "activity",
-            {"type": getattr(activity, "type", str(activity)), "timestamp": getattr(activity, "timestamp", None)},
+            {
+                "type": getattr(activity, "type", str(activity)),
+                "timestamp": getattr(activity, "timestamp", None),
+            },
         )
         if self.engine.orchestrator:
             await self.engine.orchestrator.send_message(
@@ -107,10 +117,13 @@ class GestureInterpretationSystem:
     """Interprets gestures using the ethics engine."""
 
     # ΛTAG: dast, gesture_interpretation
+
     def __init__(self, engine: DASTEngine) -> None:
         self.engine = engine
 
-    async def interpret_gesture(self, gesture_data: Dict[str, Any], user_context: Dict[str, Any]) -> Optional[Symbol]:
+    async def interpret_gesture(
+        self, gesture_data: dict[str, Any], user_context: dict[str, Any]
+    ) -> Optional[Symbol]:
         decision = await self.engine.ethics.evaluate_action(
             {"type": "interpret_gesture", "data_type": "biometric"},
             {"gesture": gesture_data, **user_context},
@@ -129,15 +142,22 @@ class RealtimeDataAggregator:
     """Aggregates external data sources respecting user consent."""
 
     # ΛTAG: dast, data_aggregation
+
     def __init__(self, engine: DASTEngine) -> None:
         self.engine = engine
 
-    async def aggregate_external_data(self, data_sources: List[str], user_id: str) -> Dict[str, Symbol]:
-        aggregated: Dict[str, Symbol] = {}
+    async def aggregate_external_data(
+        self, data_sources: list[str], user_id: str
+    ) -> dict[str, Symbol]:
+        aggregated: dict[str, Symbol] = {}
         for source in data_sources:
-            consent = await self.engine.seedra.check_consent(user_id, f"external_data_{source}")
+            consent = await self.engine.seedra.check_consent(
+                user_id, f"external_data_{source}"
+            )
             if consent.get("allowed"):
                 # TODO: implement _fetch_data
                 data = {}  # placeholder
-                aggregated[source] = self.engine.symbolic.create_symbol(f"{source}_data", data)
+                aggregated[source] = self.engine.symbolic.create_symbol(
+                    f"{source}_data", data
+                )
         return aggregated

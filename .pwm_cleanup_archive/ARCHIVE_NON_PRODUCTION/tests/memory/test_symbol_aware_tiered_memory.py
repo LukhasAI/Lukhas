@@ -1,7 +1,7 @@
 """Tests for SymbolAwareTieredMemory."""
 
-from memory.symbol_aware_tiered_memory import SymbolAwareTieredMemory
 from memory.memory_optimization import MemoryTier
+from memory.symbol_aware_tiered_memory import SymbolAwareTieredMemory
 
 
 def test_store_and_retrieve():

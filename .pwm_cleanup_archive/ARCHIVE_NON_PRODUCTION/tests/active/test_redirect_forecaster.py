@@ -3,7 +3,9 @@ Tests for the RedirectForecaster.
 """
 
 import unittest
+
 from dream.stability.redirect_forecaster import RedirectForecaster
+
 
 class TestRedirectForecaster(unittest.TestCase):
     """
@@ -43,5 +45,6 @@ class TestRedirectForecaster(unittest.TestCase):
         self.assertGreater(forecast["forecast_score"], 0.2)
         self.assertFalse(forecast["predicted_redirect"])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -5,8 +5,6 @@ Advanced: mito_ethics_sync.py
 Integration Date: 2025-05-31T07:55:28.180468
 """
 
-
-
 """
 📦 MODULE      : mito_ethics_sync.py
 🧠 DESCRIPTION : Resonance-based ethical synchronization engine inspired by mitochondrial membrane oscillations
@@ -15,8 +13,11 @@ Integration Date: 2025-05-31T07:55:28.180468
 📅 UPDATED     : 2025-05-07
 """
 
-import numpy as np
+
 import math
+
+import numpy as np
+
 
 class MitoEthicsSync:
     """
@@ -26,7 +27,7 @@ class MitoEthicsSync:
 
     def __init__(self, base_frequency=0.1):
         self.base_frequency = base_frequency  # Hz
-        self.sync_threshold = 0.92            # Phase similarity threshold
+        self.sync_threshold = 0.92  # Phase similarity threshold
         self.last_phases = {}
 
     def update_phase(self, node_id: str, current_time: float) -> float:
@@ -74,6 +75,7 @@ class MitoEthicsSync:
             return False
         mean_score = sum(alignment_scores.values()) / len(alignment_scores)
         return mean_score >= self.sync_threshold
+
 
 # ─── Usage Example ────────────────────────────────────────────────────────────
 if __name__ == "__main__":

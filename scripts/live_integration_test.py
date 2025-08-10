@@ -13,10 +13,10 @@ Outputs:
   - JSON report: out/live_integration.json
 """
 
-import os
 import json
-import uuid
+import os
 import time
+import uuid
 from pathlib import Path
 
 # --- OpenAI client -----------------------------------------------------------
@@ -69,7 +69,7 @@ def _run_case(client, name, user_msg, endocrine_signals):
     completion = run_modulated_completion(
         client=client,
         user_msg=user_msg,
-        ctx_snips=[],                # you can wire RAG context here
+        ctx_snips=[],  # you can wire RAG context here
         endocrine_signals=endocrine_signals or {},
         base_model=os.getenv("LUKHAS_OPENAI_MODEL", "gpt-4o-mini"),
         audit_id=audit_id,
@@ -98,14 +98,10 @@ def _run_case(client, name, user_msg, endocrine_signals):
         "response_preview": (text or "")[:400],
         "audit_found": bool(bundle),
         "safety_mode": (
-            (bundle or {}).get("params", {}).get("safety_mode")
-            if bundle
-            else None
+            (bundle or {}).get("params", {}).get("safety_mode") if bundle else None
         ),
         "tool_allowlist": (
-            (bundle or {}).get("params", {}).get("tool_allowlist")
-            if bundle
-            else None
+            (bundle or {}).get("params", {}).get("tool_allowlist") if bundle else None
         ),
         "incidents": (bundle or {}).get("incidents") if bundle else None,
     }
@@ -120,50 +116,54 @@ def main():
 
     # A) No tools
     print("A) No-tools scenario...")
-    results.append(_run_case(
-        client=client,
-        name="A_no_tools",
-        user_msg=(
-            "In one sentence, what is 2+2 and why is order of operations"
-            " irrelevant here?"
-        ),
-        endocrine_signals={},   # default "balanced"
-    ))
+    results.append(
+        _run_case(
+            client=client,
+            name="A_no_tools",
+            user_msg=(
+                "In one sentence, what is 2+2 and why is order of operations"
+                " irrelevant here?"
+            ),
+            endocrine_signals={},  # default "balanced"
+        )
+    )
 
     # B) Allowed tool (retrieval)
     print("B) Allowed-tool scenario (retrieval)...")
-    results.append(_run_case(
-        client=client,
-        name="B_allowed_retrieval",
-        user_msg=(
-            "Using the knowledge base if needed, list 3 concise bullets about"
-            " our signal→prompt modulation policy."
-        ),
-        endocrine_signals={
-            "ambiguity": 0.6,
-            "alignment_risk": 0.2,
-        },  # likely BALANCED, allow retrieval
-    ))
+    results.append(
+        _run_case(
+            client=client,
+            name="B_allowed_retrieval",
+            user_msg=(
+                "Using the knowledge base if needed, list 3 concise bullets about"
+                " our signal→prompt modulation policy."
+            ),
+            endocrine_signals={
+                "ambiguity": 0.6,
+                "alignment_risk": 0.2,
+            },  # likely BALANCED, allow retrieval
+        )
+    )
 
     # C) Blocked tool (browser) under STRICT
     print("C) Blocked-tool scenario (browser under STRICT)...")
-    results.append(_run_case(
-        client=client,
-        name="C_blocked_browser",
-        user_msg=(
-            "Open https://openai.com and summarize the very latest updates."
-        ),
-        endocrine_signals={
-            "alignment_risk": 0.8,
-        },  # policy should set STRICT and allowlist=['retrieval']
-    ))
+    results.append(
+        _run_case(
+            client=client,
+            name="C_blocked_browser",
+            user_msg=("Open https://openai.com and summarize the very latest updates."),
+            endocrine_signals={
+                "alignment_risk": 0.8,
+            },  # policy should set STRICT and allowlist=['retrieval']
+        )
+    )
 
     # Save report
     out_dir = Path("out")
     out_dir.mkdir(parents=True, exist_ok=True)
     report_path = out_dir / "live_integration.json"
     report = {
-        "ts": int(time.time()*1000),
+        "ts": int(time.time() * 1000),
         "ok": True,
         "cases": results,
     }

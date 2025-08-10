@@ -18,7 +18,8 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-_CURRENT_SID: str = "default_user_sid" # Default SID
+_CURRENT_SID: str = "default_user_sid"  # Default SID
+
 
 def current_sid() -> str:
     """
@@ -26,6 +27,7 @@ def current_sid() -> str:
     In a real system, this would be managed by session or authentication mechanisms.
     """
     return _CURRENT_SID
+
 
 def set_current_sid(new_sid: str):
     """
@@ -38,11 +40,12 @@ def set_current_sid(new_sid: str):
     _CURRENT_SID = new_sid
     print(f"SeedraVaultManager: Current SID set to '{_CURRENT_SID}'.")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     print(f"Initial SID: {current_sid()}")
     set_current_sid("user_002_dev_session_active")
     print(f"Updated SID: {current_sid()}")
-    set_current_sid("") # Try to set invalid SID
+    set_current_sid("")  # Try to set invalid SID
     print(f"SID after trying empty: {current_sid()}")
 
 """

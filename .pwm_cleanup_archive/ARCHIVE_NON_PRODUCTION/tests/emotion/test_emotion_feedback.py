@@ -1,13 +1,13 @@
-import unittest
-from unittest.mock import MagicMock, patch
-import time
-import sys
 import os
-import re
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+import sys
+import unittest
+from unittest.mock import patch
 
-from memory.core_memory.emotional_memory import EmotionalMemory, EmotionVector
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
 from emotion.affect_stagnation_detector import AffectStagnationDetector
+from memory.core_memory.emotional_memory import EmotionalMemory
+
 
 class TestEmotionFeedback(unittest.TestCase):
 
@@ -26,13 +26,20 @@ class TestEmotionFeedback(unittest.TestCase):
             self.emotional_memory.process_experience(
                 experience_content={"type": "text", "text": "a happy event"},
                 explicit_emotion_values=stagnation_emotion,
-                event_intensity=0.5
+                event_intensity=0.5,
             )
-            self.emotional_memory.last_history_update_ts += 3600 # Advance time by 1 hour
+            self.emotional_memory.last_history_update_ts += (
+                3600  # Advance time by 1 hour
+            )
 
         # Check for stagnation
-        with patch('time.time', return_value=self.emotional_memory.last_history_update_ts + 3600 * 25):
-            with patch.object(self.emotional_memory, 'affect_vector_velocity', return_value=0.0):
+        with patch(
+            "time.time",
+            return_value=self.emotional_memory.last_history_update_ts + 3600 * 25,
+        ):
+            with patch.object(
+                self.emotional_memory, "affect_vector_velocity", return_value=0.0
+            ):
                 stagnation = self.stagnation_detector.check_for_stagnation()
 
         self.assertIsNotNone(stagnation)

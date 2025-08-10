@@ -3,8 +3,6 @@
 ΛTAG: builtin_jules_agent
 """
 
-from typing import List
-
 from ..base import OrchestrationAgent
 from ..types import AgentCapability, AgentContext, AgentResponse
 
@@ -15,7 +13,7 @@ class Jules01Agent(OrchestrationAgent):
     def get_agent_id(self) -> str:
         return "jules_01"
 
-    def get_capabilities(self) -> List[AgentCapability]:
+    def get_capabilities(self) -> list[AgentCapability]:
         return [AgentCapability.ORCHESTRATION]
 
     def process(self, context: AgentContext) -> AgentResponse:

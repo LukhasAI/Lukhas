@@ -1,7 +1,10 @@
-from dataclasses import dataclass
-from typing import Dict, Any, List, Optional
 import time
+from dataclasses import dataclass
+from typing import Any, Optional
+
 import yaml
+
+from lukhas_pwm.flags.ff import Flags
 
 PRECEDENCE = ["alignment_risk", "stress", "ambiguity", "novelty"]
 
@@ -18,7 +21,7 @@ class Signal:
 
 class Modulator:
     def __init__(self, policy_path: str = "modulation_policy.yaml"):
-        with open(policy_path, "r") as f:
+        with open(policy_path) as f:
             self.policy = yaml.safe_load(f)
         self.last_emit_ts = {s["name"]: 0 for s in self.policy["signals"]}
 
@@ -33,10 +36,17 @@ class Modulator:
         expr: str,
         x: float,
         current: Any = None,
-        ctx: Optional[Dict[str, float]] = None,
+        ctx: Optional[dict[str, float]] = None,
     ):
-        # safe mini-evaluator: supports x, min, max, round, numbers, simple ops, and 'a if cond else b'
-        local = {"x": x, "min": min, "max": max, "round": round, "__builtins__": {}}
+        # safe mini-evaluator: supports x, min, max, round, numbers, simple ops,
+        # and 'a if cond else b'
+        local = {
+            "x": x,
+            "min": min,
+            "max": max,
+            "round": round,
+            "__builtins__": {},
+        }
         if ctx:
             local.update(ctx)
         if " if " in expr and " else " in expr:
@@ -47,9 +57,9 @@ class Modulator:
             return true_v if val else false_v
         return eval(expr, {}, local)
 
-    def combine(self, incoming: List[Signal]) -> Dict[str, Any]:
+    def combine(self, incoming: list[Signal]) -> dict[str, Any]:
         # 1) cooldown + clamp
-        signals: Dict[str, float] = {}
+        signals: dict[str, float] = {}
         now = time.time()
         for sig in incoming:
             if not self._cooldown_ok(sig):
@@ -58,6 +68,11 @@ class Modulator:
             signals[sig.name] = max(0.0, min(1.0, float(sig.level)))
 
         # 2) defaults
+        # Check FLAG_STRICT_DEFAULT to force strict safety mode
+        default_safety_mode = (
+            "strict" if Flags.get("STRICT_DEFAULT", False) else "balanced"
+        )
+
         params = {
             "temperature": 0.6,
             "top_p": 0.9,
@@ -66,7 +81,7 @@ class Modulator:
             "retrieval_k": 6,
             "planner_beam": 2,
             "memory_write": 0.4,
-            "safety_mode": "balanced",
+            "safety_mode": default_safety_mode,
             "tool_allowlist": ["retrieval", "browser"],
         }
         ctx = signals.copy()

@@ -34,18 +34,16 @@ Thus, like a modern-day Orpheus descending into the depths of the digital underw
 
 import argparse
 import json
-from core.common import get_logger
-import os
 import re
 import time
-from collections import defaultdict, deque
-from dataclasses import dataclass, asdict, field
-from datetime import datetime, timezone, timedelta
+from collections import defaultdict
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set
+
 import numpy as np
-import structlog
 
 # Configure structured logging
 
@@ -281,7 +279,8 @@ class LambdaArchiveInspector:
 
         # Group entries by entropy level
         high_entropy_entries = [
-            entry for entry in memory_entries
+            entry
+            for entry in memory_entries
             if entry.entropy_score >= self.entropy_threshold
         ]
 
@@ -299,7 +298,9 @@ class LambdaArchiveInspector:
 
             # Calculate cluster metrics
             avg_entropy = np.mean([e.entropy_score for e in cluster_entries])
-            symbol_diversity = len(set().union(*[e.symbol_ids for e in cluster_entries]))
+            symbol_diversity = len(
+                set().union(*[e.symbol_ids for e in cluster_entries])
+            )
 
             severity = min(avg_entropy * (1 + symbol_diversity * 0.1), 1.0)
 
@@ -313,8 +314,8 @@ class LambdaArchiveInspector:
                 memory_ids=list(set().union(*[e.memory_ids for e in cluster_entries])),
                 source_entries=[e.entry_id for e in cluster_entries],
                 description=f"High entropy cluster with {len(cluster_entries)} entries, "
-                          f"average entropy {avg_entropy:.3f}, "
-                          f"affecting {symbol_diversity} symbols",
+                f"average entropy {avg_entropy:.3f}, "
+                f"affecting {symbol_diversity} symbols",
                 entropy_level=avg_entropy,
             )
 
@@ -344,28 +345,31 @@ class LambdaArchiveInspector:
         anomalies = []
 
         # Build symbol statistics
-        symbol_stats = defaultdict(lambda: {
-            "recurrence": 0,
-            "emotional_weight": 0.0,
-            "last_seen": None,
-            "entries": [],
-        })
+        symbol_stats = defaultdict(
+            lambda: {
+                "recurrence": 0,
+                "emotional_weight": 0.0,
+                "last_seen": None,
+                "entries": [],
+            }
+        )
 
         for entry in memory_entries:
             for symbol_id in entry.symbol_ids:
                 symbol_stats[symbol_id]["recurrence"] += 1
                 symbol_stats[symbol_id]["emotional_weight"] = max(
-                    symbol_stats[symbol_id]["emotional_weight"],
-                    entry.emotional_weight
+                    symbol_stats[symbol_id]["emotional_weight"], entry.emotional_weight
                 )
 
                 # Parse timestamp
                 try:
                     entry_time = datetime.fromisoformat(
-                        entry.timestamp.replace('Z', '+00:00')
+                        entry.timestamp.replace("Z", "+00:00")
                     )
-                    if (symbol_stats[symbol_id]["last_seen"] is None or
-                        entry_time > symbol_stats[symbol_id]["last_seen"]):
+                    if (
+                        symbol_stats[symbol_id]["last_seen"] is None
+                        or entry_time > symbol_stats[symbol_id]["last_seen"]
+                    ):
                         symbol_stats[symbol_id]["last_seen"] = entry_time
                 except (ValueError, TypeError, KeyError) as e:
                     logger.warning(f"Failed to parse entry timestamp: {e}")
@@ -385,16 +389,14 @@ class LambdaArchiveInspector:
 
             # Check if symbol meets "forgotten" criteria
             is_forgotten = (
-                time_since_seen > forgotten_threshold and
-                stats["recurrence"] <= 3 and
-                stats["emotional_weight"] >= 0.5
+                time_since_seen > forgotten_threshold
+                and stats["recurrence"] <= 3
+                and stats["emotional_weight"] >= 0.5
             )
 
             if is_forgotten:
                 severity = min(
-                    stats["emotional_weight"] *
-                    (time_since_seen.days / 30) * 0.1,
-                    1.0
+                    stats["emotional_weight"] * (time_since_seen.days / 30) * 0.1, 1.0
                 )
 
                 anomaly = SymbolicAnomaly(
@@ -403,14 +405,14 @@ class LambdaArchiveInspector:
                     anomaly_type=AnomalyType.FORGOTTEN_SYMBOL,
                     severity=severity,
                     symbol_ids=[symbol_id],
-                    memory_ids=list(set().union(*[
-                        e.memory_ids for e in stats["entries"]
-                    ])),
+                    memory_ids=list(
+                        set().union(*[e.memory_ids for e in stats["entries"]])
+                    ),
                     source_entries=[e.entry_id for e in stats["entries"]],
                     description=f"Forgotten symbol with high emotional weight "
-                              f"({stats['emotional_weight']:.3f}), "
-                              f"low recurrence ({stats['recurrence']}), "
-                              f"last seen {time_since_seen.days} days ago",
+                    f"({stats['emotional_weight']:.3f}), "
+                    f"low recurrence ({stats['recurrence']}), "
+                    f"last seen {time_since_seen.days} days ago",
                     forgotten_duration=str(time_since_seen),
                     emotional_weight=stats["emotional_weight"],
                 )
@@ -446,7 +448,7 @@ class LambdaArchiveInspector:
 
             # Create bidirectional links between all symbols in entry
             for i, symbol_a in enumerate(symbols):
-                for symbol_b in symbols[i+1:]:
+                for symbol_b in symbols[i + 1 :]:
                     linkage_map[symbol_a].add(symbol_b)
                     linkage_map[symbol_b].add(symbol_a)
 
@@ -461,7 +463,7 @@ class LambdaArchiveInspector:
         for tag, symbols in tag_symbol_map.items():
             symbol_list = list(symbols)
             for i, symbol_a in enumerate(symbol_list):
-                for symbol_b in symbol_list[i+1:]:
+                for symbol_b in symbol_list[i + 1 :]:
                     linkage_map[symbol_a].add(symbol_b)
                     linkage_map[symbol_b].add(symbol_a)
 
@@ -476,7 +478,7 @@ class LambdaArchiveInspector:
         for memory_id, symbols in memory_symbol_map.items():
             symbol_list = list(symbols)
             for i, symbol_a in enumerate(symbol_list):
-                for symbol_b in symbol_list[i+1:]:
+                for symbol_b in symbol_list[i + 1 :]:
                     linkage_map[symbol_a].add(symbol_b)
                     linkage_map[symbol_b].add(symbol_a)
 
@@ -510,32 +512,44 @@ class LambdaArchiveInspector:
             return 0.0
 
         # Calculate component scores
-        entropy_score = np.mean([
-            a.severity for a in anomalies
-            if a.anomaly_type == AnomalyType.HIGH_ENTROPY
-        ]) if any(a.anomaly_type == AnomalyType.HIGH_ENTROPY for a in anomalies) else 0.0
+        entropy_score = (
+            np.mean(
+                [
+                    a.severity
+                    for a in anomalies
+                    if a.anomaly_type == AnomalyType.HIGH_ENTROPY
+                ]
+            )
+            if any(a.anomaly_type == AnomalyType.HIGH_ENTROPY for a in anomalies)
+            else 0.0
+        )
 
-        drift_score = np.mean([
-            a.drift_score for a in anomalies
-            if a.anomaly_type == AnomalyType.MEMORY_DRIFT and a.drift_score > 0
-        ]) if any(a.anomaly_type == AnomalyType.MEMORY_DRIFT for a in anomalies) else 0.0
+        drift_score = (
+            np.mean(
+                [
+                    a.drift_score
+                    for a in anomalies
+                    if a.anomaly_type == AnomalyType.MEMORY_DRIFT and a.drift_score > 0
+                ]
+            )
+            if any(a.anomaly_type == AnomalyType.MEMORY_DRIFT for a in anomalies)
+            else 0.0
+        )
 
-        ethics_score = len([
-            a for a in anomalies
-            if a.anomaly_type == AnomalyType.ETHICAL_VIOLATION
-        ]) / max(len(anomalies), 1)
+        ethics_score = len(
+            [a for a in anomalies if a.anomaly_type == AnomalyType.ETHICAL_VIOLATION]
+        ) / max(len(anomalies), 1)
 
-        forgetfulness_score = len([
-            a for a in anomalies
-            if a.anomaly_type == AnomalyType.FORGOTTEN_SYMBOL
-        ]) / max(len(anomalies), 1)
+        forgetfulness_score = len(
+            [a for a in anomalies if a.anomaly_type == AnomalyType.FORGOTTEN_SYMBOL]
+        ) / max(len(anomalies), 1)
 
         # Weighted composite score
         composite_score = (
-            self.scoring_weights["entropy"] * entropy_score +
-            self.scoring_weights["drift"] * drift_score +
-            self.scoring_weights["ethics"] * ethics_score +
-            self.scoring_weights["forgetfulness"] * forgetfulness_score
+            self.scoring_weights["entropy"] * entropy_score
+            + self.scoring_weights["drift"] * drift_score
+            + self.scoring_weights["ethics"] * ethics_score
+            + self.scoring_weights["forgetfulness"] * forgetfulness_score
         )
 
         logger.debug(
@@ -574,11 +588,13 @@ class LambdaArchiveInspector:
             entropy_analysis=self._analyze_entropy_distribution(),
             drift_analysis=self._analyze_drift_patterns(anomalies),
             forgotten_symbols=[
-                a.symbol_ids[0] for a in anomalies
+                a.symbol_ids[0]
+                for a in anomalies
                 if a.anomaly_type == AnomalyType.FORGOTTEN_SYMBOL
             ],
             ethical_violations=[
-                a.anomaly_id for a in anomalies
+                a.anomaly_id
+                for a in anomalies
                 if a.anomaly_type == AnomalyType.ETHICAL_VIOLATION
             ],
             symbolic_linkage_map={
@@ -600,7 +616,7 @@ class LambdaArchiveInspector:
         entries = []
 
         try:
-            content = file_path.read_text(encoding='utf-8', errors='ignore')
+            content = file_path.read_text(encoding="utf-8", errors="ignore")
         except Exception as e:
             logger.warning(
                 "Failed to read memory file",
@@ -610,11 +626,11 @@ class LambdaArchiveInspector:
             return entries
 
         # Try different parsing strategies based on file extension
-        if file_path.suffix == '.jsonl':
+        if file_path.suffix == ".jsonl":
             entries.extend(self._parse_jsonl_file(file_path, content))
-        elif file_path.suffix == '.json':
+        elif file_path.suffix == ".json":
             entries.extend(self._parse_json_file(file_path, content))
-        elif file_path.suffix == '.md':
+        elif file_path.suffix == ".md":
             entries.extend(self._parse_markdown_file(file_path, content))
         else:
             # Generic text parsing
@@ -626,7 +642,7 @@ class LambdaArchiveInspector:
         """Parse JSONL memory file."""
         entries = []
 
-        for line_num, line in enumerate(content.split('\n')):
+        for line_num, line in enumerate(content.split("\n")):
             line = line.strip()
             if not line:
                 continue
@@ -727,17 +743,15 @@ class LambdaArchiveInspector:
         try:
             # Extract or infer entry ID
             entry_id = (
-                data.get("entry_id") or
-                data.get("id") or
-                f"{file_path.stem}_{line_num}"
+                data.get("entry_id") or data.get("id") or f"{file_path.stem}_{line_num}"
             )
 
             # Extract timestamp
             timestamp = (
-                data.get("timestamp") or
-                data.get("created_at") or
-                self._extract_timestamp_from_content(str(data)) or
-                datetime.now(timezone.utc).isoformat()
+                data.get("timestamp")
+                or data.get("created_at")
+                or self._extract_timestamp_from_content(str(data))
+                or datetime.now(timezone.utc).isoformat()
             )
 
             # Determine entry type
@@ -898,8 +912,16 @@ class LambdaArchiveInspector:
         # Heuristic calculation
         content_str = json.dumps(data).lower()
         emotional_keywords = [
-            "trauma", "fear", "anxiety", "conflict", "violation",
-            "crisis", "failure", "error", "emergency", "critical"
+            "trauma",
+            "fear",
+            "anxiety",
+            "conflict",
+            "violation",
+            "crisis",
+            "failure",
+            "error",
+            "emergency",
+            "critical",
         ]
 
         weight = 0.0
@@ -920,12 +942,18 @@ class LambdaArchiveInspector:
         entropy += min(len(content_str) / 10000, 0.3)
 
         # Nested structure complexity
-        entropy += min(str(data).count('{') * 0.05, 0.3)
+        entropy += min(str(data).count("{") * 0.05, 0.3)
 
         # High-entropy keywords
         entropy_keywords = [
-            "inconsistent", "unstable", "chaotic", "random",
-            "diverged", "anomaly", "violation", "drift"
+            "inconsistent",
+            "unstable",
+            "chaotic",
+            "random",
+            "diverged",
+            "anomaly",
+            "violation",
+            "drift",
         ]
 
         for keyword in entropy_keywords:
@@ -956,7 +984,7 @@ class LambdaArchiveInspector:
         """Extract timestamp from content string."""
         # ISO format pattern
         iso_pattern = re.compile(
-            r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})?'
+            r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?(?:Z|[+-]\d{2}:\d{2})?"
         )
 
         matches = iso_pattern.findall(content)
@@ -968,9 +996,22 @@ class LambdaArchiveInspector:
     def _is_binary_file(self, file_path: Path) -> bool:
         """Check if file is binary."""
         binary_extensions = {
-            '.pyc', '.pyo', '.so', '.dll', '.exe', '.bin',
-            '.jpg', '.jpeg', '.png', '.gif', '.bmp',
-            '.mp3', '.mp4', '.avi', '.mov', '.pdf'
+            ".pyc",
+            ".pyo",
+            ".so",
+            ".dll",
+            ".exe",
+            ".bin",
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".gif",
+            ".bmp",
+            ".mp3",
+            ".mp4",
+            ".avi",
+            ".mov",
+            ".pdf",
         }
 
         if file_path.suffix.lower() in binary_extensions:
@@ -978,10 +1019,10 @@ class LambdaArchiveInspector:
 
         try:
             # Check first 1024 bytes for null bytes
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 chunk = f.read(1024)
-                return b'\x00' in chunk
-        except (OSError, IOError, UnicodeDecodeError) as e:
+                return b"\x00" in chunk
+        except (OSError, UnicodeDecodeError) as e:
             logger.warning(f"Error checking if file is binary: {e}")
             return True
 
@@ -1006,10 +1047,10 @@ class LambdaArchiveInspector:
                 # Check temporal proximity
                 try:
                     entry_time = datetime.fromisoformat(
-                        entry.timestamp.replace('Z', '+00:00')
+                        entry.timestamp.replace("Z", "+00:00")
                     )
                     cluster_time = datetime.fromisoformat(
-                        cluster_entries[0].timestamp.replace('Z', '+00:00')
+                        cluster_entries[0].timestamp.replace("Z", "+00:00")
                     )
 
                     time_diff = abs((entry_time - cluster_time).total_seconds() / 3600)
@@ -1041,7 +1082,9 @@ class LambdaArchiveInspector:
         if not self.scanned_entries:
             return {}
 
-        entropies = [e.entropy_score for e in self.scanned_entries if e.entropy_score > 0]
+        entropies = [
+            e.entropy_score for e in self.scanned_entries if e.entropy_score > 0
+        ]
 
         if not entropies:
             return {}
@@ -1051,13 +1094,19 @@ class LambdaArchiveInspector:
             "std": float(np.std(entropies)),
             "min": float(np.min(entropies)),
             "max": float(np.max(entropies)),
-            "high_entropy_ratio": len([e for e in entropies if e >= self.entropy_threshold]) / len(entropies),
+            "high_entropy_ratio": len(
+                [e for e in entropies if e >= self.entropy_threshold]
+            )
+            / len(entropies),
         }
 
-    def _analyze_drift_patterns(self, anomalies: List[SymbolicAnomaly]) -> Dict[str, Any]:
+    def _analyze_drift_patterns(
+        self, anomalies: List[SymbolicAnomaly]
+    ) -> Dict[str, Any]:
         """Analyze drift patterns in anomalies."""
         drift_anomalies = [
-            a for a in anomalies
+            a
+            for a in anomalies
             if a.anomaly_type in [AnomalyType.MEMORY_DRIFT, AnomalyType.HIGH_ENTROPY]
         ]
 
@@ -1067,11 +1116,12 @@ class LambdaArchiveInspector:
         return {
             "total_drift_events": len(drift_anomalies),
             "average_severity": float(np.mean([a.severity for a in drift_anomalies])),
-            "affected_symbols": len(set().union(*[a.symbol_ids for a in drift_anomalies])),
-            "drift_clusters": len([
-                a for a in drift_anomalies
-                if len(a.source_entries) > 1
-            ]),
+            "affected_symbols": len(
+                set().union(*[a.symbol_ids for a in drift_anomalies])
+            ),
+            "drift_clusters": len(
+                [a for a in drift_anomalies if len(a.source_entries) > 1]
+            ),
         }
 
     def _generate_recommendations(self, anomalies: List[SymbolicAnomaly]) -> List[str]:
@@ -1079,10 +1129,9 @@ class LambdaArchiveInspector:
         recommendations = []
 
         # High entropy recommendations
-        high_entropy_count = len([
-            a for a in anomalies
-            if a.anomaly_type == AnomalyType.HIGH_ENTROPY
-        ])
+        high_entropy_count = len(
+            [a for a in anomalies if a.anomaly_type == AnomalyType.HIGH_ENTROPY]
+        )
 
         if high_entropy_count > 5:
             recommendations.append(
@@ -1091,10 +1140,9 @@ class LambdaArchiveInspector:
             )
 
         # Forgotten symbol recommendations
-        forgotten_count = len([
-            a for a in anomalies
-            if a.anomaly_type == AnomalyType.FORGOTTEN_SYMBOL
-        ])
+        forgotten_count = len(
+            [a for a in anomalies if a.anomaly_type == AnomalyType.FORGOTTEN_SYMBOL]
+        )
 
         if forgotten_count > 0:
             recommendations.append(
@@ -1103,10 +1151,9 @@ class LambdaArchiveInspector:
             )
 
         # Ethical violation recommendations
-        violation_count = len([
-            a for a in anomalies
-            if a.anomaly_type == AnomalyType.ETHICAL_VIOLATION
-        ])
+        violation_count = len(
+            [a for a in anomalies if a.anomaly_type == AnomalyType.ETHICAL_VIOLATION]
+        )
 
         if violation_count > 0:
             recommendations.append(
@@ -1147,21 +1194,31 @@ class LambdaArchiveInspector:
         if report.entropy_analysis:
             md.append("## 🌀 Entropy Analysis")
             md.append("")
-            md.append(f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}")
-            md.append(f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0):.2%}")
-            md.append(f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0):.3f}")
+            md.append(
+                f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}"
+            )
+            md.append(
+                f"- **High Entropy Ratio:** {report.entropy_analysis.get('high_entropy_ratio', 0):.2%}"
+            )
+            md.append(
+                f"- **Entropy Range:** {report.entropy_analysis.get('min', 0):.3f} - {report.entropy_analysis.get('max', 0):.3f}"
+            )
             md.append("")
 
         if report.anomalies:
             md.append("## 🚨 Detected Anomalies")
             md.append("")
 
-            for anomaly in sorted(report.anomalies, key=lambda a: a.severity, reverse=True)[:10]:
+            for anomaly in sorted(
+                report.anomalies, key=lambda a: a.severity, reverse=True
+            )[:10]:
                 md.append(f"### {anomaly.anomaly_type.value}")
                 md.append(f"- **ID:** `{anomaly.anomaly_id}`")
                 md.append(f"- **Severity:** {anomaly.severity:.3f}")
                 md.append(f"- **Description:** {anomaly.description}")
-                md.append(f"- **Affected Symbols:** {', '.join(anomaly.symbol_ids[:5])}")
+                md.append(
+                    f"- **Affected Symbols:** {', '.join(anomaly.symbol_ids[:5])}"
+                )
                 md.append("")
 
         if report.recommendations:
@@ -1224,7 +1281,8 @@ def main():
     )
 
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Enable verbose logging",
     )
@@ -1277,14 +1335,16 @@ def main():
 
         # Limit results if requested
         if args.limit and len(anomalies) > args.limit:
-            anomalies = sorted(anomalies, key=lambda a: a.severity, reverse=True)[:args.limit]
+            anomalies = sorted(anomalies, key=lambda a: a.severity, reverse=True)[
+                : args.limit
+            ]
 
         # Generate report
         scan_duration = time.time() - start_time
         logger.info(f"📊 Generating report (scan took {scan_duration:.2f}s)...")
 
         # Update scan duration in inspector for report
-        if hasattr(inspector, 'last_scan_duration'):
+        if hasattr(inspector, "last_scan_duration"):
             inspector.last_scan_duration = scan_duration
 
         report = inspector.generate_archive_report(anomalies, args.format)
@@ -1294,7 +1354,7 @@ def main():
             Path(args.out).write_text(report)
             logger.info(f"📄 Report written to {args.out}")
         else:
-            logger.info("\n" + "="*80)
+            logger.info("\n" + "=" * 80)
             logger.info(report)
 
         # Summary
@@ -1318,6 +1378,7 @@ def main():
         logger.error(f"❌ Fatal error: {e}")
         if args.verbose:
             import traceback
+
             logger.error(traceback.format_exc())
         return 1
 

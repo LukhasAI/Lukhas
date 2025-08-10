@@ -39,10 +39,10 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
-from core.common import get_logger
 from collections import defaultdict
-from typing import Dict, Any, Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.personality_communication")
@@ -54,49 +54,56 @@ MODULE_NAME = "personality_communication_engine"
 
 class VoiceModulator:
     """Voice modulation component for personality expression"""
-    def adjust(self, pitch_strategy: float, speed_variance: float) -> Dict:
+
+    def adjust(self, pitch_strategy: float, speed_variance: float) -> dict:
         return {
             "pitch": pitch_strategy,
             "speed": speed_variance,
-            "modulation": "adaptive"
+            "modulation": "adaptive",
         }
 
 
 class ShynessModule:
     """Adaptive shyness system that evolves with interaction history"""
+
     def __init__(self, federated_learning):
         self.federated_learning = federated_learning
         self.interaction_history = defaultdict(int)
         self.shyness_level = 0.7  # Initial shyness (0-1 scale)
 
-    def get_interaction_style(self, user_id: str) -> Dict:
+    def get_interaction_style(self, user_id: str) -> dict:
         interaction_count = self.interaction_history[user_id]
         return {
-            "verbosity": min(0.2 + 0.1*interaction_count, 0.8),
-            "response_latency": max(1.5 - 0.3*interaction_count, 0.7),
-            "self_disclosure": 0.1 * interaction_count
+            "verbosity": min(0.2 + 0.1 * interaction_count, 0.8),
+            "response_latency": max(1.5 - 0.3 * interaction_count, 0.7),
+            "self_disclosure": 0.1 * interaction_count,
         }
 
     def update_shyness(self, interaction_quality: float):
         """Meta-learn shyness adaptation using federated pattern"""
-        global_shyness = self.federated_learning.get_parameters().get("shyness_profile", {})
-        self.shyness_level = 0.3*interaction_quality + 0.7*global_shyness.get("mean", 0.5)
+        global_shyness = self.federated_learning.get_parameters().get(
+            "shyness_profile", {}
+        )
+        self.shyness_level = 0.3 * interaction_quality + 0.7 * global_shyness.get(
+            "mean", 0.5
+        )
 
 
 class EtiquetteModule:
     """Context-aware etiquette engine for cultural sensitivity"""
+
     def __init__(self, meta_learner):
         self.meta_learner = meta_learner
         self.protocol_db = self._load_cultural_norms()
         self.voice_modulator = VoiceModulator()
 
-    def _load_cultural_norms(self) -> Dict:
+    def _load_cultural_norms(self) -> dict:
         """Load cultural protocol database"""
         return {
             "default": {
                 "formality": 0.5,
                 "personal_space": 1.0,
-                "eye_contact": 2.0
+                "eye_contact": 2.0,
             }
         }
 
@@ -109,69 +116,78 @@ class EtiquetteModule:
         else:
             return "informal"
 
-    def adapt_behavior(self, context: Dict) -> Dict:
+    def adapt_behavior(self, context: dict) -> dict:
         """Dynamic etiquette adaptation"""
         strategy = self.meta_learner.optimize_learning_approach(
             context={"type": "etiquette", "locale": context["locale"]},
-            available_data=self.protocol_db
+            available_data=self.protocol_db,
         )
         return {
             "speech_pattern": self._adjust_formality(strategy["formality_level"]),
             "body_language": strategy.get("posture_rules", "neutral"),
             "voice_params": self.voice_modulator.adjust(
                 pitch_strategy=strategy["pitch_control"],
-                speed_variance=strategy["speech_rate"]
-            )
+                speed_variance=strategy["speech_rate"],
+            ),
         }
 
 
 class HelpfulnessModule:
     """Prosocial helpfulness system aligned with user needs"""
+
     def __init__(self, federated_manager):
         self.federated_manager = federated_manager
         self.help_threshold = 0.65  # Probability to offer help
 
-    def should_offer_help(self, user_state: Dict) -> bool:
+    def should_offer_help(self, user_state: dict) -> bool:
         """Predict help need using federated social pattern"""
         help_model = self.federated_manager.get_model("prosocial_behavior")
-        return help_model.predict({
-            "user_hesitation": user_state["response_time"],
-            "task_complexity": user_state["task_difficulty"],
-            "historical_acceptance": user_state["help_acceptance_rate"]
-        }) > self.help_threshold
+        return (
+            help_model.predict(
+                {
+                    "user_hesitation": user_state["response_time"],
+                    "task_complexity": user_state["task_difficulty"],
+                    "historical_acceptance": user_state["help_acceptance_rate"],
+                }
+            )
+            > self.help_threshold
+        )
 
 
 class EthicalComplianceSystem:
     """Ethical norm internalization for responsible AI behavior"""
+
     def __init__(self, reflective_system):
         self.reflective_system = reflective_system
         self.ethical_framework = self._load_human_rights_charter()
 
-    def _load_human_rights_charter(self) -> Dict:
+    def _load_human_rights_charter(self) -> dict:
         """Load ethical framework based on human rights principles"""
         return {
             "respect_autonomy": True,
             "non_maleficence": True,
             "beneficence": True,
-            "justice": True
+            "justice": True,
         }
 
-    def _apply_ethical_rules(self, scenario: Dict) -> Dict:
+    def _apply_ethical_rules(self, scenario: dict) -> dict:
         """Apply ethical rules to resolve dilemmas"""
         return {
             "action": "ethical_resolution",
             "reasoning": "Based on human rights principles",
-            "confidence": 0.85
+            "confidence": 0.85,
         }
 
-    def resolve_dilemma(self, scenario: Dict) -> Dict:
+    def resolve_dilemma(self, scenario: dict) -> dict:
         """ECHR-aligned ethical resolution"""
         resolution = self._apply_ethical_rules(scenario)
-        self.reflective_system.log_interaction({
-            "type": "ethical_decision",
-            "scenario": scenario,
-            "resolution": resolution
-        })
+        self.reflective_system.log_interaction(
+            {
+                "type": "ethical_decision",
+                "scenario": scenario,
+                "resolution": resolution,
+            }
+        )
         return resolution
 
 
@@ -200,10 +216,10 @@ class EnhancedPersonalityCommunicationEngine:
         # Active consciousnesses for multi-consciousness coordination
         self.active_consciousnesses = []
 
-    def interact(self, user_input: Dict) -> Dict:
+    def interact(self, user_input: dict) -> dict:
         """Process user interaction with full personality adaptation"""
         # Apply shyness parameters
-        interaction_style = self.shyness_module.get_interaction_style(user_input["user_id"])
+        self.shyness_module.get_interaction_style(user_input["user_id"])
 
         # Apply cultural etiquette
         etiquette_rules = self.etiquette_module.adapt_behavior(user_input["context"])
@@ -217,27 +233,29 @@ class EnhancedPersonalityCommunicationEngine:
 
         return self._apply_vocal_characteristics(response, etiquette_rules)
 
-    def generate_response(self, user_input: Dict) -> Dict:
+    def generate_response(self, user_input: dict) -> dict:
         """Generate base response before personality filters"""
         return {
             "content": "Base response content",
             "emotion": "neutral",
-            "confidence": 0.8
+            "confidence": 0.8,
         }
 
-    def _apply_vocal_characteristics(self, response: Dict, etiquette_rules: Dict) -> Dict:
+    def _apply_vocal_characteristics(
+        self, response: dict, etiquette_rules: dict
+    ) -> dict:
         """Apply voice modulation based on personality and etiquette"""
         response["voice_params"] = etiquette_rules.get("voice_params", {})
         response["speech_pattern"] = etiquette_rules.get("speech_pattern", "neutral")
         return response
 
-    def adjust_greeting(self, locale: str) -> Dict:
+    def adjust_greeting(self, locale: str) -> dict:
         """Dynamically adapt to cultural norm"""
         norms = self.cultural_profiles.get(locale, {})
         return {
             "physical_distance": norms.get("personal_space", 1.2),
             "eye_contact_duration": norms.get("eye_contact", 2.5),
-            "formality_level": norms.get("formality", 0.7)
+            "formality_level": norms.get("formality", 0.7),
         }
 
     def handle_complex_scenario(self):
@@ -246,17 +264,19 @@ class EnhancedPersonalityCommunicationEngine:
             [consciousness.decide() for consciousness in self.active_consciousnesses]
         )
 
-    def update_personality(self, interaction_feedback: Dict):
+    def update_personality(self, interaction_feedback: dict):
         """Update personality based on interaction feedback"""
         # Update shyness based on interaction quality
         self.shyness_module.update_shyness(interaction_feedback["quality"])
 
         # Log interaction for continuous improvement
-        self.reflective_system.log_interaction({
-            "type": "personality_update",
-            "feedback": interaction_feedback,
-            "timestamp": interaction_feedback.get("timestamp")
-        })
+        self.reflective_system.log_interaction(
+            {
+                "type": "personality_update",
+                "feedback": interaction_feedback,
+                "timestamp": interaction_feedback.get("timestamp"),
+            }
+        )
 
 
 """

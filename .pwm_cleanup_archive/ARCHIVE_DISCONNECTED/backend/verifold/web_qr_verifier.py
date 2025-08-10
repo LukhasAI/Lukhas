@@ -13,13 +13,12 @@ Purpose:
 Author: LUKHAS AGI Core
 """
 
+import base64
+import hashlib
 import json
 import time
-import base64
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
-from pathlib import Path
-import hashlib
+from typing import Any, Dict, List, Optional
 
 # TODO: Uncomment when dependencies are available
 # from flask import Flask, request, jsonify, render_template, send_from_directory
@@ -38,6 +37,7 @@ import hashlib
 @dataclass
 class QRVerificationRequest:
     """Container for QR verification request."""
+
     qr_data: str
     verification_type: str  # "single", "batch", "chain"
     metadata: Dict[str, Any]
@@ -46,6 +46,7 @@ class QRVerificationRequest:
 @dataclass
 class QRVerificationResult:
     """Container for QR verification result."""
+
     hash_value: str
     signature_valid: bool
     timestamp: float
@@ -73,7 +74,7 @@ class WebQRVerifier:
             "total_verifications": 0,
             "successful_verifications": 0,
             "failed_verifications": 0,
-            "start_time": time.time()
+            "start_time": time.time(),
         }
 
         self._setup_web_app()
@@ -153,7 +154,7 @@ class WebQRVerifier:
                 signature_valid=is_valid,
                 timestamp=hash_info.get("timestamp", time.time()),
                 verification_time=time.time() - start_time,
-                metadata=hash_info.get("metadata", {})
+                metadata=hash_info.get("metadata", {}),
             )
 
             # Cache result
@@ -170,7 +171,7 @@ class WebQRVerifier:
                 timestamp=time.time(),
                 verification_time=time.time() - start_time,
                 metadata={},
-                error_message=str(e)
+                error_message=str(e),
             )
 
     def _parse_qr_data(self, qr_data: str) -> Dict[str, Any]:
@@ -186,25 +187,25 @@ class WebQRVerifier:
         # TODO: Implement robust QR data parsing
         try:
             # Try JSON format first
-            if qr_data.startswith('{'):
+            if qr_data.startswith("{"):
                 return json.loads(qr_data)
 
             # Try base64 encoded JSON
             try:
                 decoded = base64.b64decode(qr_data)
-                return json.loads(decoded.decode('utf-8'))
+                return json.loads(decoded.decode("utf-8"))
             except:
                 pass
 
             # Try colon-separated format: hash:signature:public_key
-            parts = qr_data.split(':')
+            parts = qr_data.split(":")
             if len(parts) >= 3:
                 return {
                     "hash": parts[0],
                     "signature": parts[1],
                     "public_key": parts[2],
                     "timestamp": time.time(),
-                    "metadata": {}
+                    "metadata": {},
                 }
 
             raise ValueError("Unknown QR data format")
@@ -212,7 +213,9 @@ class WebQRVerifier:
         except json.JSONDecodeError as e:
             raise ValueError(f"Invalid JSON in QR code: {e}")
 
-    def _simulate_verification(self, hash_value: str, signature: str, public_key: str) -> bool:
+    def _simulate_verification(
+        self, hash_value: str, signature: str, public_key: str
+    ) -> bool:
         """
         Simulate signature verification for testing.
 
@@ -296,17 +299,15 @@ class WebQRVerifier:
             "successful_verifications": self.stats["successful_verifications"],
             "failed_verifications": self.stats["failed_verifications"],
             "success_rate": (
-                self.stats["successful_verifications"] / total
-                if total > 0 else 0.0
+                self.stats["successful_verifications"] / total if total > 0 else 0.0
             ),
-            "verifications_per_hour": (
-                total / (uptime / 3600)
-                if uptime > 0 else 0.0
-            ),
-            "cache_size": len(self.verification_cache)
+            "verifications_per_hour": (total / (uptime / 3600) if uptime > 0 else 0.0),
+            "cache_size": len(self.verification_cache),
         }
 
-    def create_verification_report(self, results: List[QRVerificationResult]) -> Dict[str, Any]:
+    def create_verification_report(
+        self, results: List[QRVerificationResult]
+    ) -> Dict[str, Any]:
         """
         Create a verification report from results.
 
@@ -316,8 +317,12 @@ class WebQRVerifier:
         Returns:
             Dict[str, Any]: Verification report
         """
-        valid_results = [r for r in results if r.signature_valid and not r.error_message]
-        invalid_results = [r for r in results if not r.signature_valid or r.error_message]
+        valid_results = [
+            r for r in results if r.signature_valid and not r.error_message
+        ]
+        invalid_results = [
+            r for r in results if not r.signature_valid or r.error_message
+        ]
 
         return {
             "report_timestamp": time.time(),
@@ -327,7 +332,8 @@ class WebQRVerifier:
             "success_rate": len(valid_results) / len(results) if results else 0.0,
             "average_verification_time": (
                 sum(r.verification_time for r in results) / len(results)
-                if results else 0.0
+                if results
+                else 0.0
             ),
             "results": [
                 {
@@ -335,10 +341,10 @@ class WebQRVerifier:
                     "valid": r.signature_valid,
                     "timestamp": r.timestamp,
                     "verification_time": r.verification_time,
-                    "error": r.error_message
+                    "error": r.error_message,
                 }
                 for r in results
-            ]
+            ],
         }
 
 
@@ -432,18 +438,17 @@ if __name__ == "__main__":
     verifier = WebQRVerifier("flask")
 
     # Test QR verification
-    sample_qr_data = json.dumps({
-        "hash": "4c8a9d8c0eeb292aa65efb59e98de9a6a9990a563fce14a5f89de38b26a17a3c",
-        "signature": "e54c1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f",
-        "public_key": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2",
-        "timestamp": time.time(),
-        "metadata": {
-            "location": "quantum_lab_alpha",
-            "experiment_id": "qm_001"
+    sample_qr_data = json.dumps(
+        {
+            "hash": "4c8a9d8c0eeb292aa65efb59e98de9a6a9990a563fce14a5f89de38b26a17a3c",
+            "signature": "e54c1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f",
+            "public_key": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8c9d0e1f2",
+            "timestamp": time.time(),
+            "metadata": {"location": "quantum_lab_alpha", "experiment_id": "qm_001"},
         }
-    })
+    )
 
-    print(f"\nTesting QR verification...")
+    print("\nTesting QR verification...")
     result = verifier.verify_qr_hash(sample_qr_data)
 
     print(f"Hash: {result.hash_value[:16]}...")
@@ -453,7 +458,7 @@ if __name__ == "__main__":
         print(f"Error: {result.error_message}")
 
     # Test batch verification
-    print(f"\nTesting batch verification...")
+    print("\nTesting batch verification...")
     batch_data = [sample_qr_data, sample_qr_data.replace("e54c", "CORRUPTED")]
     batch_results = verifier.verify_qr_batch(batch_data)
 
@@ -464,15 +469,17 @@ if __name__ == "__main__":
 
     # Get verification stats
     stats = verifier.get_verification_stats()
-    print(f"\nVerification Statistics:")
+    print("\nVerification Statistics:")
     print(f"  Total: {stats['total_verifications']}")
     print(f"  Success rate: {stats['success_rate']:.1%}")
     print(f"  Cache size: {stats['cache_size']}")
 
     # Create verification report
     report = verifier.create_verification_report(batch_results)
-    print(f"\nVerification Report:")
-    print(f"  Valid signatures: {report['valid_signatures']}/{report['total_verifications']}")
+    print("\nVerification Report:")
+    print(
+        f"  Valid signatures: {report['valid_signatures']}/{report['total_verifications']}"
+    )
     print(f"  Average time: {report['average_verification_time']:.3f}s")
 
     print("\nReady for web QR verification service.")

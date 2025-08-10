@@ -6,16 +6,15 @@ Embeds audit trails into ALL decisions using event-bus colony/swarm architecture
 
 import asyncio
 import json
-import logging
 import time
 import uuid
-from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from dataclasses import asdict
+from dataclasses import dataclass
+from datetime import datetime
+from datetime import timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
-
-from core.swarm import SwarmHub
+from typing import Any
+from typing import Optional
 
 # Import existing infrastructure
 from core.swarm import SwarmHub
@@ -71,12 +70,12 @@ class DecisionContext:
     decision_id: str
     timestamp: datetime
     decision_type: DecisionType
-    stakeholders: List[DecisionStakeholder]
-    input_data: Dict[str, Any]
-    environmental_context: Dict[str, Any]
-    constraints: List[str]
-    alternatives_considered: List[Dict[str, Any]]
-    risk_assessment: Dict[str, Any]
+    stakeholders: list[DecisionStakeholder]
+    input_data: dict[str, Any]
+    environmental_context: dict[str, Any]
+    constraints: list[str]
+    alternatives_considered: list[dict[str, Any]]
+    risk_assessment: dict[str, Any]
 
 
 @dataclass
@@ -85,10 +84,10 @@ class DecisionOutcome:
 
     decision_made: str
     confidence_score: float
-    reasoning_chain: List[str]
-    evidence_used: List[str]
-    potential_consequences: List[str]
-    monitoring_requirements: List[str]
+    reasoning_chain: list[str]
+    evidence_used: list[str]
+    potential_consequences: list[str]
+    monitoring_requirements: list[str]
     rollback_plan: Optional[str]
 
 
@@ -102,9 +101,9 @@ class AuditTrailEntry:
     audit_level: DecisionAuditLevel
     context: DecisionContext
     outcome: DecisionOutcome
-    colony_consensus: Dict[str, Any]
-    swarm_validation: Dict[str, Any]
-    compliance_checks: Dict[str, Any]
+    colony_consensus: dict[str, Any]
+    swarm_validation: dict[str, Any]
+    compliance_checks: dict[str, Any]
     symbolic_trace: str
     blockchain_hash: Optional[str]
     recovery_checkpoint: Optional[str]
@@ -190,7 +189,7 @@ class DecisionAuditColony:
 
     async def _get_colony_consensus(
         self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get consensus from relevant colonies on the decision"""
         # Implementation would query specific colonies based on decision type
         return {
@@ -202,7 +201,7 @@ class DecisionAuditColony:
 
     async def _validate_with_swarm(
         self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate decision with swarm intelligence"""
         return {
             "swarm_confidence": 0.92,
@@ -215,7 +214,7 @@ class DecisionAuditColony:
 
     async def _run_compliance_checks(
         self, context: DecisionContext, outcome: DecisionOutcome
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run all applicable compliance checks"""
         return {
             "gdpr_compliant": True,
@@ -246,7 +245,7 @@ class DecisionAuditColony:
 
     async def _broadcast_audit_event(self, audit_entry: AuditTrailEntry):
         """Broadcast audit completion to event bus"""
-        event = {
+        {
             "type": "decision_audit_complete",
             "audit_id": audit_entry.audit_id,
             "decision_type": audit_entry.context.decision_type.value,
@@ -382,7 +381,10 @@ class UniversalDecisionInterceptor:
         )
 
     async def _execute_monitored_decision(
-        self, decision_function: callable, decision_args: tuple, decision_kwargs: dict
+        self,
+        decision_function: callable,
+        decision_args: tuple,
+        decision_kwargs: dict,
     ) -> Any:
         """Execute decision with real-time monitoring"""
 
@@ -473,21 +475,22 @@ class UniversalDecisionInterceptor:
         await asyncio.gather(*storage_tasks)
 
     # Helper methods for context capture
-    def _serialize_args(self, args: tuple) -> List[str]:
+
+    def _serialize_args(self, args: tuple) -> list[str]:
         """Safely serialize function arguments"""
         try:
             return [str(arg) for arg in args]
-        except:
+        except BaseException:
             return ["<unserializable>"]
 
-    def _serialize_kwargs(self, kwargs: dict) -> Dict[str, str]:
+    def _serialize_kwargs(self, kwargs: dict) -> dict[str, str]:
         """Safely serialize function keyword arguments"""
         try:
             return {k: str(v) for k, v in kwargs.items()}
-        except:
+        except BaseException:
             return {"error": "<unserializable>"}
 
-    async def _capture_environmental_context(self) -> Dict[str, Any]:
+    async def _capture_environmental_context(self) -> dict[str, Any]:
         """Capture current system environmental context"""
         return {
             "system_load": "normal",  # Would query actual system metrics
@@ -497,15 +500,15 @@ class UniversalDecisionInterceptor:
         }
 
     async def _identify_stakeholders(
-        self, decision_type: DecisionType, input_data: Dict[str, Any]
-    ) -> List[DecisionStakeholder]:
+        self, decision_type: DecisionType, input_data: dict[str, Any]
+    ) -> list[DecisionStakeholder]:
         """Identify all stakeholders affected by this decision"""
         # Logic would analyze decision type and context to identify stakeholders
         return [DecisionStakeholder.SYSTEM, DecisionStakeholder.AI_AGENT]
 
     async def _get_decision_constraints(
-        self, decision_type: DecisionType, input_data: Dict[str, Any]
-    ) -> List[str]:
+        self, decision_type: DecisionType, input_data: dict[str, Any]
+    ) -> list[str]:
         """Get applicable constraints from ethics engine and regulations"""
         constraints = []
 
@@ -518,7 +521,7 @@ class UniversalDecisionInterceptor:
 
     async def _generate_alternatives(
         self, decision_function: callable, args: tuple, kwargs: dict
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate alternative decision paths"""
         # AI-generated alternatives based on function analysis
         return [
@@ -535,13 +538,16 @@ class UniversalDecisionInterceptor:
         ]
 
     async def _assess_decision_risks(
-        self, decision_type: DecisionType, input_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, decision_type: DecisionType, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess risks associated with the decision"""
         return {
             "risk_level": "medium",
             "primary_risks": ["data_consistency", "user_impact"],
-            "mitigation_strategies": ["checkpoint_creation", "gradual_rollout"],
+            "mitigation_strategies": [
+                "checkpoint_creation",
+                "gradual_rollout",
+            ],
         }
 
     async def _calculate_confidence_score(self, result: Any) -> float:
@@ -549,7 +555,7 @@ class UniversalDecisionInterceptor:
         # Logic would analyze result and context to determine confidence
         return 0.85
 
-    async def _extract_reasoning_chain(self, result: Any) -> List[str]:
+    async def _extract_reasoning_chain(self, result: Any) -> list[str]:
         """Extract reasoning chain if available in result"""
         # Would parse result for reasoning information
         return [
@@ -558,11 +564,15 @@ class UniversalDecisionInterceptor:
             "Decision executed",
         ]
 
-    async def _identify_evidence_used(self, decision_id: str) -> List[str]:
+    async def _identify_evidence_used(self, decision_id: str) -> list[str]:
         """Identify what evidence was used in making the decision"""
-        return ["historical_patterns", "user_preferences", "system_constraints"]
+        return [
+            "historical_patterns",
+            "user_preferences",
+            "system_constraints",
+        ]
 
-    async def _predict_consequences(self, result: Any, success: bool) -> List[str]:
+    async def _predict_consequences(self, result: Any, success: bool) -> list[str]:
         """Predict potential consequences of the decision"""
         if success:
             return ["positive_user_experience", "system_stability_maintained"]
@@ -571,29 +581,27 @@ class UniversalDecisionInterceptor:
 
     async def _determine_monitoring_requirements(
         self, result: Any, success: bool
-    ) -> List[str]:
+    ) -> list[str]:
         """Determine what needs to be monitored post-decision"""
         return ["system_performance", "user_satisfaction", "error_rates"]
 
     async def _create_rollback_plan(self, decision_id: str) -> str:
         """Create a rollback plan for the decision"""
-        return f"Rollback plan for {decision_id}: restore from checkpoint, notify stakeholders"
+        return f"Rollback plan for {decision_id}: restore from checkpoint,
+    notify stakeholders"
 
     # Storage methods for distributed audit trail
     async def _store_in_memory_colony(self, audit_entry: AuditTrailEntry):
         """Store audit entry in Memory Colony"""
         # Implementation would use existing MemoryColony
-        pass
 
     async def _store_in_governance_colony(self, audit_entry: AuditTrailEntry):
         """Store audit entry in Governance Colony"""
         # Implementation would use existing GovernanceColony
-        pass
 
     async def _store_in_ethics_swarm_colony(self, audit_entry: AuditTrailEntry):
         """Store audit entry in Ethics Swarm Colony"""
         # Implementation would use existing EthicsSwarmColony
-        pass
 
 
 class DecisionAuditDecorator:
@@ -682,7 +690,7 @@ class EventBusAuditIntegration:
             "emergency_decision_made",
         ]
 
-        for event in decision_events:
+        for _event in decision_events:
             # Subscribe to existing event bus
             # Implementation depends on existing event bus structure
             pass
@@ -709,6 +717,8 @@ class EventBusAuditIntegration:
 
 
 # Example usage demonstration
+
+
 async def example_usage():
     """Demonstrate how to embed audit trails into all decisions"""
 

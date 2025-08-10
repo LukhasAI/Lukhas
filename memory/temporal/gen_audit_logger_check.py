@@ -19,6 +19,7 @@
 """
 
 import datetime
+
 # ==============================================================================
 # 🔍 USAGE GUIDE (for gen_audit_logger_check.py)
 #
@@ -37,12 +38,12 @@ import datetime
 # 🏷️ GUIDE TAG:
 #    #guide:gen_audit_logger_check
 # ==============================================================================
-
 import json
-from pathlib import Path
 import os
+from pathlib import Path
 
 from compliance.audit_logger import ComplianceAuditLogger
+
 
 def simulate_audit_log_entry():
     logger = ComplianceAuditLogger()
@@ -60,7 +61,7 @@ def update_manifest_with_audit_hash():
         return
 
     try:
-        with open(manifest_path, "r") as f:
+        with open(manifest_path) as f:
             manifest = json.load(f)
 
         new_hash = "0x" + os.urandom(8).hex()
@@ -72,7 +73,7 @@ def update_manifest_with_audit_hash():
             log_entry = {
                 "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
                 "new_hash": new_hash,
-                "trigger": "audit_logger_check"
+                "trigger": "audit_logger_check",
             }
             with open("dao/manifest_log.jsonl", "a") as log_f:
                 log_f.write(json.dumps(log_entry) + "\n")
@@ -81,12 +82,14 @@ def update_manifest_with_audit_hash():
     except Exception as e:
         print(f"⚠️ Failed to update manifest: {e}")
 
+
 def create_shortcut_trigger():
     shortcut_path = Path("tools/audit_shortcut.sh")
     content = "#!/bin/bash\npython3 tools/gen_audit_logger_check.py\n"
     shortcut_path.write_text(content)
     shortcut_path.chmod(0o755)
     print("🛠️ Shortcut created at tools/audit_shortcut.sh")
+
 
 if __name__ == "__main__":
     simulate_audit_log_entry()

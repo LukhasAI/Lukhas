@@ -1,4 +1,3 @@
 """
 Adaptive Agi Module
 """
-

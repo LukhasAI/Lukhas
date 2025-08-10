@@ -3,12 +3,10 @@
 
 import _plotly_utils.basevalidators as _bv
 
-
-
-#TAG:governance
-#TAG:ethics
-#TAG:neuroplastic
-#TAG:colony
+# TAG:governance
+# TAG:ethics
+# TAG:neuroplastic
+# TAG:colony
 
 
 class SpikethicknessValidator(_bv.NumberValidator):

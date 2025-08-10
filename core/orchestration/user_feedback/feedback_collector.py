@@ -12,7 +12,6 @@ All feedback is timestamped and stored securely.
 """
 
 import json
-import os
 from datetime import datetime
 from pathlib import Path
 
@@ -36,7 +35,7 @@ def store_feedback(feedback: dict) -> None:
     """Append feedback to the central feedback log"""
     existing = []
     if FEEDBACK_LOG_PATH.exists():
-        with open(FEEDBACK_LOG_PATH, "r") as f:
+        with open(FEEDBACK_LOG_PATH) as f:
             try:
                 existing = json.load(f)
             except json.JSONDecodeError:

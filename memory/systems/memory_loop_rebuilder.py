@@ -40,10 +40,10 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class MemoryLoopRebuilder:
     """
@@ -57,11 +57,18 @@ class MemoryLoopRebuilder:
         """
         Rebuilds a memory loop from a collapse event and emotional deltas.
         """
-        logger.info(f"Rebuilding memory loop from collapse event: {collapse_event.get('event_id', 'N/A')}")
+        logger.info(
+            f"Rebuilding memory loop from collapse event: {collapse_event.get('event_id', 'N/A')}"
+        )
         # In a real implementation, this would involve a complex process of analyzing the collapse event and emotional deltas to reconstruct the memory loop.
-        rebuilt_loop = {"collapse_event": collapse_event, "emotional_deltas": emotional_deltas, "status": "rebuilt"}
+        rebuilt_loop = {
+            "collapse_event": collapse_event,
+            "emotional_deltas": emotional_deltas,
+            "status": "rebuilt",
+        }
         self.rebuilt_loops.append(rebuilt_loop)
         return rebuilt_loop
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: memory_loop_rebuilder.py

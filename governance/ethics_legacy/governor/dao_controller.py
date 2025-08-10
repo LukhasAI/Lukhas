@@ -5,12 +5,15 @@ Advanced: dao_node.py
 Integration Date: 2025-05-31T07:55:28.135494
 """
 
+import logging
+
 # packages/core/src/nodes/dao_node.py
-from typing import Dict, List, Any, Optional
-from core.common import get_logger
 import time
 import uuid
+from typing import Any, Optional
+
 import numpy as np
+
 
 class DAOGovernanceNode:
     """
@@ -24,21 +27,19 @@ class DAOGovernanceNode:
         self.proposals = []  # Active and past proposals
         self.council_members = self._initialize_council()
 
-    def _initialize_council(self) -> List[Dict[str, Any]]:
+    def _initialize_council(self) -> list[dict[str, Any]]:
         """Initialize the council of decision makers."""
         return [
             {"id": "ethics_expert", "weight": 1.0, "domain": "ethics"},
             {"id": "technical_expert", "weight": 1.0, "domain": "technical"},
             {"id": "domain_expert", "weight": 1.0, "domain": "domain_specific"},
             {"id": "user_advocate", "weight": 1.0, "domain": "user_experience"},
-            {"id": "safety_monitor", "weight": 1.0, "domain": "safety"}
+            {"id": "safety_monitor", "weight": 1.0, "domain": "safety"},
         ]
 
-    def create_proposal(self,
-                       title: str,
-                       description: str,
-                       proposal_type: str,
-                       data: Dict[str, Any]) -> str:
+    def create_proposal(
+        self, title: str, description: str, proposal_type: str, data: dict[str, Any]
+    ) -> str:
         """Create a new governance proposal."""
         proposal_id = str(uuid.uuid4())
 
@@ -52,7 +53,7 @@ class DAOGovernanceNode:
             "created_at": time.time(),
             "votes": [],
             "comments": [],
-            "result": None
+            "result": None,
         }
 
         self.proposals.append(proposal)
@@ -63,18 +64,16 @@ class DAOGovernanceNode:
 
         return proposal_id
 
-    def get_proposal(self, proposal_id: str) -> Optional[Dict[str, Any]]:
+    def get_proposal(self, proposal_id: str) -> Optional[dict[str, Any]]:
         """Get a proposal by ID."""
         for proposal in self.proposals:
             if proposal["id"] == proposal_id:
                 return proposal
         return None
 
-    def vote_on_proposal(self,
-                        proposal_id: str,
-                        voter_id: str,
-                        vote: bool,
-                        comment: Optional[str] = None) -> bool:
+    def vote_on_proposal(
+        self, proposal_id: str, voter_id: str, vote: bool, comment: Optional[str] = None
+    ) -> bool:
         """Cast a vote on a proposal."""
         proposal = self.get_proposal(proposal_id)
         if not proposal or proposal["status"] != "pending":
@@ -88,23 +87,25 @@ class DAOGovernanceNode:
                 break
 
         # Record vote
-        proposal["votes"].append({
-            "voter_id": voter_id,
-            "vote": vote,
-            "weight": voter_weight,
-            "timestamp": time.time(),
-            "comment": comment
-        })
+        proposal["votes"].append(
+            {
+                "voter_id": voter_id,
+                "vote": vote,
+                "weight": voter_weight,
+                "timestamp": time.time(),
+                "comment": comment,
+            }
+        )
 
         # If comment provided, add to comments
         if comment:
-            proposal["comments"].append({
-                "author_id": voter_id,
-                "text": comment,
-                "timestamp": time.time()
-            })
+            proposal["comments"].append(
+                {"author_id": voter_id, "text": comment, "timestamp": time.time()}
+            )
 
-        self.logger.info(f"Recorded vote from {voter_id} on proposal {proposal_id}: {'Approve' if vote else 'Reject'}")
+        self.logger.info(
+            f"Recorded vote from {voter_id} on proposal {proposal_id}: {'Approve' if vote else 'Reject'}"
+        )
 
         # Check if we have enough votes to make a decision
         self._check_proposal_status(proposal_id)
@@ -130,7 +131,7 @@ class DAOGovernanceNode:
                 "approve_weight": approve_weight,
                 "reject_weight": reject_weight,
                 "total_weight": total_weight,
-                "decided_at": time.time()
+                "decided_at": time.time(),
             }
             self._execute_proposal(proposal_id)
         elif reject_weight > total_weight / 2:
@@ -140,7 +141,7 @@ class DAOGovernanceNode:
                 "approve_weight": approve_weight,
                 "reject_weight": reject_weight,
                 "total_weight": total_weight,
-                "decided_at": time.time()
+                "decided_at": time.time(),
             }
 
         # If status changed, log it
@@ -164,17 +165,17 @@ class DAOGovernanceNode:
         else:
             self.logger.warning(f"Unknown proposal type: {proposal_type}")
 
-    def _execute_system_update(self, proposal: Dict[str, Any]) -> None:
+    def _execute_system_update(self, proposal: dict[str, Any]) -> None:
         """Execute a system update proposal."""
         self.logger.info(f"Executing system update: {proposal['title']}")
         # Implementation would update system components
 
-    def _execute_ethical_decision(self, proposal: Dict[str, Any]) -> None:
+    def _execute_ethical_decision(self, proposal: dict[str, Any]) -> None:
         """Execute an ethical decision proposal."""
         self.logger.info(f"Executing ethical decision: {proposal['title']}")
         # Implementation would update ethical guidelines
 
-    def _execute_resource_allocation(self, proposal: Dict[str, Any]) -> None:
+    def _execute_resource_allocation(self, proposal: dict[str, Any]) -> None:
         """Execute a resource allocation proposal."""
         self.logger.info(f"Executing resource allocation: {proposal['title']}")
         # Implementation would allocate resources
@@ -200,5 +201,5 @@ class DAOGovernanceNode:
                 proposal_id=proposal_id,
                 voter_id=member["id"],
                 vote=vote,
-                comment=comment
+                comment=comment,
             )

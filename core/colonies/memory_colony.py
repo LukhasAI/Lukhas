@@ -3,7 +3,7 @@ Memory Colony - A specialized colony for memory tasks.
 """
 
 import logging
-from typing import Dict, Any
+from typing import Any
 
 from core.colonies.base_colony import BaseColony
 
@@ -16,12 +16,11 @@ class MemoryColony(BaseColony):
     """
 
     def __init__(self, colony_id: str):
-        super().__init__(
-            colony_id,
-            capabilities=["memory", "storage", "retrieval"]
-        )
+        super().__init__(colony_id, capabilities=["memory", "storage", "retrieval"])
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         logger.info(f"MemoryColony {self.colony_id} executing task {task_id}")
         # Dummy implementation for now
         return {"status": "completed", "task_id": task_id}

@@ -6,19 +6,16 @@ Embeds audit trails into ALL decisions using event-bus colony/swarm architecture
 
 import asyncio
 import json
-import logging
 import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional
 
 from core.swarm import SwarmHub
 
 # Import existing infrastructure
-from core.swarm import SwarmHub
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
 from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator

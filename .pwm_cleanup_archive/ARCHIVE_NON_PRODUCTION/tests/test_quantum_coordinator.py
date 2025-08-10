@@ -7,15 +7,14 @@ This test validates the TODO #9 implementation following the established pattern
 from previous reflection layer testing.
 """
 
-import sys
-import os
 import asyncio
-import json
+import os
+import sys
 from datetime import datetime
-from typing import Dict, Any
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def test_quantum_coordinator_basic():
     """Test basic quantum coordinator functionality"""
@@ -39,6 +38,7 @@ def test_quantum_coordinator_basic():
         print(f"❌ Basic functionality test failed: {e}")
         return False
 
+
 async def test_quantum_coordinator_processing():
     """Test quantum coordinator processing with consciousness data"""
     print("\n📋 Testing Quantum Coordinator Processing Logic")
@@ -61,8 +61,8 @@ async def test_quantum_coordinator_processing():
             "timestamp": datetime.now().isoformat(),
             "reflection_trigger": {
                 "source": "autonomous_monitoring",
-                "reason": "periodic_check"
-            }
+                "reason": "periodic_check",
+            },
         }
 
         # Process consciousness data
@@ -70,8 +70,14 @@ async def test_quantum_coordinator_processing():
         print("✅ Consciousness data processed successfully")
 
         # Validate result structure
-        expected_keys = ['status', 'consciousness_insights', 'quantum_coherence',
-                        'bio_integration_efficiency', 'processing_time_ms', 'timestamp']
+        expected_keys = [
+            "status",
+            "consciousness_insights",
+            "quantum_coherence",
+            "bio_integration_efficiency",
+            "processing_time_ms",
+            "timestamp",
+        ]
 
         for key in expected_keys:
             if key not in result:
@@ -80,10 +86,14 @@ async def test_quantum_coordinator_processing():
         print("✅ Result structure validation passed")
 
         # Validate consciousness insights
-        insights = result.get('consciousness_insights', {})
-        insight_keys = ['consciousness_clarity', 'consciousness_stability',
-                       'consciousness_integration', 'consciousness_state',
-                       'recommended_action']
+        insights = result.get("consciousness_insights", {})
+        insight_keys = [
+            "consciousness_clarity",
+            "consciousness_stability",
+            "consciousness_integration",
+            "consciousness_state",
+            "recommended_action",
+        ]
 
         for key in insight_keys:
             if key not in insights:
@@ -92,8 +102,13 @@ async def test_quantum_coordinator_processing():
         print("✅ Consciousness insights validation passed")
 
         # Test processing quality
-        processing_quality = insights.get('processing_quality', 'unknown')
-        if processing_quality not in ['high', 'limited', 'basic_fallback', 'minimal_fallback']:
+        processing_quality = insights.get("processing_quality", "unknown")
+        if processing_quality not in [
+            "high",
+            "limited",
+            "basic_fallback",
+            "minimal_fallback",
+        ]:
             print(f"❌ Unexpected processing quality: {processing_quality}")
             return False
         print(f"✅ Processing quality: {processing_quality}")
@@ -106,9 +121,9 @@ async def test_quantum_coordinator_processing():
                     "drift_score": 0.1,
                     "intent_alignment": 0.95,
                     "emotional_stability": 0.9,
-                    "ethical_compliance": 0.95
+                    "ethical_compliance": 0.95,
                 },
-                "expected_state": "highly_coherent"
+                "expected_state": "highly_coherent",
             },
             {
                 "name": "Requiring Attention",
@@ -116,9 +131,9 @@ async def test_quantum_coordinator_processing():
                     "drift_score": 0.6,
                     "intent_alignment": 0.5,
                     "emotional_stability": 0.4,
-                    "ethical_compliance": 0.6
+                    "ethical_compliance": 0.6,
                 },
-                "expected_state": "requiring_attention"
+                "expected_state": "requiring_attention",
             },
             {
                 "name": "Needs Intervention",
@@ -126,15 +141,17 @@ async def test_quantum_coordinator_processing():
                     "drift_score": 0.8,
                     "intent_alignment": 0.2,
                     "emotional_stability": 0.1,
-                    "ethical_compliance": 0.3
+                    "ethical_compliance": 0.3,
                 },
-                "expected_state": "needs_intervention"
-            }
+                "expected_state": "needs_intervention",
+            },
         ]
 
         for test_case in test_cases:
             test_result = await coordinator.process(test_case["data"])
-            actual_state = test_result.get('consciousness_insights', {}).get('consciousness_state', 'unknown')
+            actual_state = test_result.get("consciousness_insights", {}).get(
+                "consciousness_state", "unknown"
+            )
             print(f"✅ {test_case['name']}: {actual_state}")
 
         print("✅ All consciousness state tests passed")
@@ -144,8 +161,10 @@ async def test_quantum_coordinator_processing():
     except Exception as e:
         print(f"❌ Processing test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_quantum_coordinator_fallback():
     """Test quantum coordinator fallback mechanisms"""
@@ -159,16 +178,11 @@ async def test_quantum_coordinator_fallback():
         await coordinator.initialize()
 
         # Test with invalid data types to trigger fallback
-        invalid_data_cases = [
-            "string_data",
-            12345,
-            ["list", "data"],
-            None
-        ]
+        invalid_data_cases = ["string_data", 12345, ["list", "data"], None]
 
         for invalid_data in invalid_data_cases:
             result = await coordinator.process(invalid_data)
-            if result.get('status') != 'success':
+            if result.get("status") != "success":
                 print(f"❌ Fallback failed for data type: {type(invalid_data)}")
                 return False
             print(f"✅ Fallback handled {type(invalid_data).__name__} successfully")
@@ -176,7 +190,7 @@ async def test_quantum_coordinator_fallback():
         # Test with minimal consciousness data
         minimal_data = {"drift_score": 0.5}
         result = await coordinator.process(minimal_data)
-        if result.get('status') != 'success':
+        if result.get("status") != "success":
             print("❌ Minimal data processing failed")
             return False
         print("✅ Minimal consciousness data processed successfully")
@@ -186,6 +200,7 @@ async def test_quantum_coordinator_fallback():
     except Exception as e:
         print(f"❌ Fallback test failed: {e}")
         return False
+
 
 async def test_quantum_coordinator_statistics():
     """Test quantum coordinator statistics tracking"""
@@ -202,7 +217,7 @@ async def test_quantum_coordinator_statistics():
         test_samples = [
             {"drift_score": 0.2, "emotional_stability": 0.8},
             {"drift_score": 0.5, "emotional_stability": 0.6},
-            {"drift_score": 0.8, "emotional_stability": 0.3}
+            {"drift_score": 0.8, "emotional_stability": 0.3},
         ]
 
         for sample in test_samples:
@@ -213,10 +228,14 @@ async def test_quantum_coordinator_statistics():
         print("✅ Statistics retrieved successfully")
 
         # Validate statistics structure
-        if 'processing_stats' in stats:
-            proc_stats = stats['processing_stats']
-            expected_stat_keys = ['total_processed', 'total_processing_time',
-                                'consciousness_states', 'avg_processing_time']
+        if "processing_stats" in stats:
+            proc_stats = stats["processing_stats"]
+            expected_stat_keys = [
+                "total_processed",
+                "total_processing_time",
+                "consciousness_states",
+                "avg_processing_time",
+            ]
 
             for key in expected_stat_keys:
                 if key not in proc_stats:
@@ -224,8 +243,12 @@ async def test_quantum_coordinator_statistics():
                     return False
 
             print(f"✅ Total processed: {proc_stats['total_processed']}")
-            print(f"✅ Average processing time: {proc_stats.get('avg_processing_time', 0):.4f}s")
-            print(f"✅ Consciousness states tracked: {list(proc_stats['consciousness_states'].keys())}")
+            print(
+                f"✅ Average processing time: {proc_stats.get('avg_processing_time', 0):.4f}s"
+            )
+            print(
+                f"✅ Consciousness states tracked: {list(proc_stats['consciousness_states'].keys())}"
+            )
 
         print("✅ Statistics validation passed")
 
@@ -234,6 +257,7 @@ async def test_quantum_coordinator_statistics():
     except Exception as e:
         print(f"❌ Statistics test failed: {e}")
         return False
+
 
 async def test_quantum_coordinator_integration():
     """Test quantum coordinator integration with real consciousness data patterns"""
@@ -249,7 +273,7 @@ async def test_quantum_coordinator_integration():
         # Simulate realistic consciousness monitoring pattern
         monitoring_session = {
             "session_id": "test_session_001",
-            "monitoring_duration": 5  # cycles
+            "monitoring_duration": 5,  # cycles
         }
 
         session_results = []
@@ -258,24 +282,32 @@ async def test_quantum_coordinator_integration():
             # Simulate varying consciousness data over time
             consciousness_data = {
                 "drift_score": 0.2 + (cycle * 0.1),  # Gradually increasing drift
-                "intent_alignment": 0.9 - (cycle * 0.05),  # Slightly decreasing alignment
+                "intent_alignment": 0.9
+                - (cycle * 0.05),  # Slightly decreasing alignment
                 "emotional_stability": 0.8 - (cycle * 0.02),  # Slight emotional decline
                 "ethical_compliance": 0.95,  # Stable ethics
                 "cycle": cycle,
-                "session_id": monitoring_session["session_id"]
+                "session_id": monitoring_session["session_id"],
             }
 
             result = await coordinator.process(consciousness_data)
             session_results.append(result)
 
-            print(f"✅ Cycle {cycle}: {result.get('consciousness_insights', {}).get('consciousness_state', 'unknown')}")
+            print(
+                f"✅ Cycle {cycle}: {result.get('consciousness_insights', {}).get('consciousness_state', 'unknown')}"
+            )
 
         # Analyze session trends
-        states = [r.get('consciousness_insights', {}).get('consciousness_state', 'unknown') for r in session_results]
-        processing_times = [r.get('processing_time_ms', 0) for r in session_results]
+        states = [
+            r.get("consciousness_insights", {}).get("consciousness_state", "unknown")
+            for r in session_results
+        ]
+        processing_times = [r.get("processing_time_ms", 0) for r in session_results]
 
         print(f"✅ Session state progression: {' → '.join(states)}")
-        print(f"✅ Average processing time: {sum(processing_times)/len(processing_times):.2f}ms")
+        print(
+            f"✅ Average processing time: {sum(processing_times)/len(processing_times):.2f}ms"
+        )
 
         # Validate that coordinator can handle realistic monitoring patterns
         if len(set(states)) > 1:
@@ -289,6 +321,7 @@ async def test_quantum_coordinator_integration():
         print(f"❌ Integration test failed: {e}")
         return False
 
+
 async def run_comprehensive_quantum_coordinator_tests():
     """Run all quantum coordinator tests"""
     print("🧪 Starting Comprehensive Quantum Coordinator Tests")
@@ -299,7 +332,7 @@ async def run_comprehensive_quantum_coordinator_tests():
         ("Processing Logic", test_quantum_coordinator_processing),
         ("Fallback Mechanisms", test_quantum_coordinator_fallback),
         ("Statistics Tracking", test_quantum_coordinator_statistics),
-        ("Integration Patterns", test_quantum_coordinator_integration)
+        ("Integration Patterns", test_quantum_coordinator_integration),
     ]
 
     results = {}
@@ -338,6 +371,7 @@ async def run_comprehensive_quantum_coordinator_tests():
     else:
         print("⚠️ Some tests failed - review implementation")
         return False
+
 
 if __name__ == "__main__":
     print("🚀 Quantum Coordinator Test Suite")

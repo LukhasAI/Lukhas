@@ -4,7 +4,8 @@ A simple tag visualizer for debugging tag propagation.
 
 import asyncio
 import sys
-sys.path.append('.')
+
+sys.path.append(".")
 from core.colonies.reasoning_colony import ReasoningColony
 
 
@@ -22,8 +23,8 @@ async def main():
         "type": "test_task",
         "tags": {
             "emotional_tone": ("curious", "local"),
-            "directive_hash": ("a1b2c3d4", "global")
-        }
+            "directive_hash": ("a1b2c3d4", "global"),
+        },
     }
 
     await colony.execute_task("test_task_id", task_data)

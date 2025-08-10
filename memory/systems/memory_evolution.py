@@ -40,12 +40,12 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-from core.common import get_logger
 import time
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+
+from core.common import get_logger
 
 # Lukhas core imports
 try:
@@ -58,7 +58,9 @@ try:
     from core.docututor.memory_evolution.knowledge_adaptation import (
         KnowledgeAdaptation,
     )
-    from core.docututor.memory_evolution.usage_learning import UsageBasedLearning
+    from core.docututor.memory_evolution.usage_learning import (
+        UsageBasedLearning,
+    )
     from core.docututor.memory_evolution.version_control import (
         DocumentVersionControl,
     )

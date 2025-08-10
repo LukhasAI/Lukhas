@@ -4,64 +4,65 @@ Execute the directory reorganization plan
 Moves directories into appropriate modules and archives others
 """
 
+import json
 import os
 import shutil
-import json
 from datetime import datetime
-from pathlib import Path
+
 
 class DirectoryReorganizer:
+
     def __init__(self):
         # Directory mappings from audit
         self.moves = {
             # Directories to move into modules
-            'api': 'bridge/api_legacy',
-            'architectures': 'core/architectures', 
-            'bio': 'qim/bio_legacy',
-            'creativity': 'consciousness/creativity',
-            'dream': 'consciousness/dream',
-            'ethics': 'governance/ethics_legacy',
-            'identity': 'governance/identity',
-            'learning': 'memory/learning',
-            'orchestration': 'core/orchestration',
-            'reasoning': 'consciousness/reasoning',
-            'symbolic': 'core/symbolic_legacy',
-            'voice': 'bridge/voice'
+            "api": "bridge/api_legacy",
+            "architectures": "core/architectures",
+            "bio": "qim/bio_legacy",
+            "creativity": "consciousness/creativity",
+            "dream": "consciousness/dream",
+            "ethics": "governance/ethics_legacy",
+            "identity": "governance/identity",
+            "learning": "memory/learning",
+            "orchestration": "core/orchestration",
+            "reasoning": "consciousness/reasoning",
+            "symbolic": "core/symbolic_legacy",
+            "voice": "bridge/voice",
         }
-        
+
         # Directories to archive
         self.archive = [
-            'health_reports',
-            'misc',
-            'quarantine', 
-            'security',
-            'trace',
-            '_context_'
+            "health_reports",
+            "misc",
+            "quarantine",
+            "security",
+            "trace",
+            "_context_",
         ]
-        
+
         # Tool consolidation
         self.tool_moves = {
-            'analysis_tools': 'tools/legacy_analysis',
-            'healing': 'tools/healing'
+            "analysis_tools": "tools/legacy_analysis",
+            "healing": "tools/healing",
         }
-        
+
         self.moved_count = 0
         self.archived_count = 0
         self.errors = []
-        
+
     def move_directory(self, source, target):
         """Move a directory to target location"""
         try:
             if os.path.exists(source):
                 # Create target directory if needed
                 os.makedirs(os.path.dirname(target), exist_ok=True)
-                
+
                 # Check if target exists
                 if os.path.exists(target):
                     # Rename with timestamp
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                     target = f"{target}_{timestamp}"
-                
+
                 # Move directory
                 shutil.move(source, target)
                 print(f"  ✅ Moved {source} → {target}")
@@ -74,29 +75,29 @@ class DirectoryReorganizer:
             self.errors.append(f"Failed to move {source}: {str(e)}")
             print(f"  ❌ Error moving {source}: {e}")
             return False
-    
+
     def archive_directory(self, directory):
         """Archive a directory"""
         archive_base = "archive"
         os.makedirs(archive_base, exist_ok=True)
-        
+
         timestamp = datetime.now().strftime("%Y%m%d")
         archive_path = f"{archive_base}/{timestamp}/{directory}"
-        
+
         try:
             if os.path.exists(directory):
                 os.makedirs(os.path.dirname(archive_path), exist_ok=True)
                 shutil.move(directory, archive_path)
                 print(f"  📦 Archived {directory} → {archive_path}")
                 self.archived_count += 1
-                
+
                 # Create archive note
                 note_path = f"{archive_path}/ARCHIVE_NOTE.txt"
-                with open(note_path, 'w') as f:
+                with open(note_path, "w") as f:
                     f.write(f"Archived from: {directory}\n")
                     f.write(f"Archive date: {datetime.now().isoformat()}\n")
-                    f.write(f"Reason: Unclear purpose or temporary directory\n")
-                
+                    f.write("Reason: Unclear purpose or temporary directory\n")
+
                 return True
             else:
                 print(f"  ⚠️  Directory not found: {directory}")
@@ -105,30 +106,30 @@ class DirectoryReorganizer:
             self.errors.append(f"Failed to archive {directory}: {str(e)}")
             print(f"  ❌ Error archiving {directory}: {e}")
             return False
-    
+
     def update_module_manifest(self, module, new_subdirs):
         """Update module manifest with new directories"""
         manifest_path = f"{module}/MODULE_MANIFEST.json"
-        
+
         try:
             if os.path.exists(manifest_path):
-                with open(manifest_path, 'r') as f:
+                with open(manifest_path) as f:
                     manifest = json.load(f)
-                
+
                 # Add new integrated directories
-                if 'integrated_directories' not in manifest:
-                    manifest['integrated_directories'] = []
-                
-                manifest['integrated_directories'].extend(new_subdirs)
-                manifest['last_reorganization'] = datetime.now().isoformat()
-                
-                with open(manifest_path, 'w') as f:
+                if "integrated_directories" not in manifest:
+                    manifest["integrated_directories"] = []
+
+                manifest["integrated_directories"].extend(new_subdirs)
+                manifest["last_reorganization"] = datetime.now().isoformat()
+
+                with open(manifest_path, "w") as f:
                     json.dump(manifest, f, indent=2)
-                
+
                 print(f"  📝 Updated {module} manifest")
         except Exception as e:
             print(f"  ⚠️  Could not update manifest: {e}")
-    
+
     def create_import_migration_guide(self):
         """Create a guide for updating imports"""
         guide = """# Import Migration Guide
@@ -211,83 +212,88 @@ Run this command to find all files needing import updates:
 grep -r "from \\(api\\|architectures\\|bio\\|creativity\\|dream\\|ethics\\|identity\\|learning\\|orchestration\\|reasoning\\|symbolic\\|voice\\) import" . --include="*.py"
 ```
 """
-        
-        with open('docs/IMPORT_MIGRATION_GUIDE.md', 'w') as f:
+
+        with open("docs/IMPORT_MIGRATION_GUIDE.md", "w") as f:
             f.write(guide)
-        
+
         print("\n📋 Created import migration guide: docs/IMPORT_MIGRATION_GUIDE.md")
-    
+
     def execute(self):
         """Execute the reorganization"""
         print("🚀 EXECUTING DIRECTORY REORGANIZATION")
         print("=" * 50)
-        
+
         # Step 1: Move directories into modules
         print("\n📁 Moving directories into modules...")
         modules_updated = set()
-        
+
         for source, target in self.moves.items():
             if self.move_directory(source, target):
-                module = target.split('/')[0]
+                module = target.split("/")[0]
                 modules_updated.add(module)
-        
+
         # Update manifests
         for module in modules_updated:
-            integrated = [d.split('/')[-1] for s, d in self.moves.items() if d.startswith(module)]
+            integrated = [
+                d.split("/")[-1] for s, d in self.moves.items() if d.startswith(module)
+            ]
             self.update_module_manifest(module, integrated)
-        
+
         # Step 2: Archive directories
         print("\n📦 Archiving temporary/unclear directories...")
         for directory in self.archive:
             self.archive_directory(directory)
-        
+
         # Step 3: Consolidate tools
         print("\n🔧 Consolidating tool directories...")
         for source, target in self.tool_moves.items():
             self.move_directory(source, target)
-        
+
         # Step 4: Create import migration guide
         self.create_import_migration_guide()
-        
+
         # Summary
         print("\n" + "=" * 50)
         print("✅ REORGANIZATION COMPLETE!")
         print(f"  - Moved: {self.moved_count} directories")
         print(f"  - Archived: {self.archived_count} directories")
         print(f"  - Errors: {len(self.errors)}")
-        
+
         if self.errors:
             print("\n⚠️  Errors encountered:")
             for error in self.errors:
                 print(f"  - {error}")
-        
+
         # Create summary report
         self.create_summary_report()
-    
+
     def create_summary_report(self):
         """Create reorganization summary"""
         report = {
-            'timestamp': datetime.now().isoformat(),
-            'directories_moved': self.moved_count,
-            'directories_archived': self.archived_count,
-            'errors': self.errors,
-            'moves_completed': {k: v for k, v in self.moves.items() if not os.path.exists(k)},
-            'archives_completed': [d for d in self.archive if not os.path.exists(d)],
-            'next_steps': [
-                'Update imports using IMPORT_MIGRATION_GUIDE.md',
-                'Run tests for each module',
-                'Remove any remaining empty directories',
-                'Update documentation'
-            ]
+            "timestamp": datetime.now().isoformat(),
+            "directories_moved": self.moved_count,
+            "directories_archived": self.archived_count,
+            "errors": self.errors,
+            "moves_completed": {
+                k: v for k, v in self.moves.items() if not os.path.exists(k)
+            },
+            "archives_completed": [d for d in self.archive if not os.path.exists(d)],
+            "next_steps": [
+                "Update imports using IMPORT_MIGRATION_GUIDE.md",
+                "Run tests for each module",
+                "Remove any remaining empty directories",
+                "Update documentation",
+            ],
         }
-        
-        report_path = 'docs/reports/REORGANIZATION_SUMMARY.json'
+
+        report_path = "docs/reports/REORGANIZATION_SUMMARY.json"
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
-        
-        with open(report_path, 'w') as f:
+
+        with open(report_path, "w") as f:
             json.dump(report, f, indent=2)
-        
+
         print(f"\n📊 Summary report: {report_path}")
+
 
 def main():
     print("⚠️  WARNING: This will move many directories!")
@@ -305,17 +311,18 @@ def main():
     print("  - reasoning → consciousness/reasoning")
     print("  - symbolic → core/symbolic_legacy")
     print("  - voice → bridge/voice")
-    
+
     print("\nDirectories to be archived:")
     print("  - health_reports, misc, quarantine, security, trace, _context_")
-    
+
     response = input("\nProceed with reorganization? (yes/no): ")
-    
-    if response.lower() == 'yes':
+
+    if response.lower() == "yes":
         reorganizer = DirectoryReorganizer()
         reorganizer.execute()
     else:
         print("❌ Reorganization cancelled")
+
 
 if __name__ == "__main__":
     main()

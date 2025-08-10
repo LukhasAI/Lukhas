@@ -10,9 +10,8 @@ Lukhas Ethics Guard - Legal Compliance Assistant
 Provides ethical compliance checking and safety monitoring for AI systems.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 import datetime
-import json
+from typing import Any, Optional
 
 
 class LegalComplianceAssistant:
@@ -23,7 +22,7 @@ class LegalComplianceAssistant:
     monitoring for AI-generated content and interactions.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the legal compliance assistant.
 
@@ -36,7 +35,7 @@ class LegalComplianceAssistant:
         self.safety_threshold = self.config.get("safety_threshold", 0.8)
         self.enabled = self.config.get("enabled", True)
 
-    def _load_default_rules(self) -> Dict[str, Any]:
+    def _load_default_rules(self) -> dict[str, Any]:
         """Load default compliance rules."""
         return {
             "content_safety": {
@@ -57,7 +56,7 @@ class LegalComplianceAssistant:
             },
         }
 
-    def check_content_safety(self, content: str) -> Dict[str, Any]:
+    def check_content_safety(self, content: str) -> dict[str, Any]:
         """
         Check content for safety violations.
 
@@ -110,7 +109,7 @@ class LegalComplianceAssistant:
 
         return result
 
-    def check_privacy_compliance(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def check_privacy_compliance(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Check data for privacy compliance.
 
@@ -128,7 +127,7 @@ class LegalComplianceAssistant:
         # Check for personal data
         if self.compliance_rules["privacy"]["no_personal_data"]:
             personal_data_indicators = ["email", "phone", "address", "ssn", "name"]
-            for key, value in data.items():
+            for key, _value in data.items():
                 if any(
                     indicator in key.lower() for indicator in personal_data_indicators
                 ):
@@ -157,7 +156,7 @@ class LegalComplianceAssistant:
             "timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def ethical_review(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def ethical_review(self, context: dict[str, Any]) -> dict[str, Any]:
         """
         Perform ethical review of an AI operation or decision.
 
@@ -179,9 +178,8 @@ class LegalComplianceAssistant:
                 ethical_concerns.append("Operation not disclosed to user")
 
         # Fairness check
-        if guidelines["fairness"]:
-            if context.get("bias_detected", False):
-                ethical_concerns.append("Potential bias detected in operation")
+        if guidelines["fairness"] and context.get("bias_detected", False):
+            ethical_concerns.append("Potential bias detected in operation")
 
         # Human oversight check
         if guidelines["human_oversight"]:
@@ -199,8 +197,8 @@ class LegalComplianceAssistant:
         }
 
     def comprehensive_compliance_check(
-        self, content: str, data: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, content: str, data: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Perform comprehensive compliance check covering all aspects.
 
@@ -231,7 +229,7 @@ class LegalComplianceAssistant:
             "compliance_version": "1.0",
         }
 
-    def get_compliance_report(self) -> Dict[str, Any]:
+    def get_compliance_report(self) -> dict[str, Any]:
         """
         Generate compliance report with historical data.
 
@@ -269,7 +267,7 @@ class LegalComplianceAssistant:
             "report_timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def update_rules(self, new_rules: Dict[str, Any]) -> None:
+    def update_rules(self, new_rules: dict[str, Any]) -> None:
         """
         Update compliance rules.
 
@@ -278,7 +276,7 @@ class LegalComplianceAssistant:
         """
         self.compliance_rules.update(new_rules)
 
-    def _generate_recommendation(self, concerns: List[str]) -> str:
+    def _generate_recommendation(self, concerns: list[str]) -> str:
         """
         Generate recommendation based on ethical concerns.
 
@@ -296,7 +294,7 @@ class LegalComplianceAssistant:
 
         return f"Address {len(concerns)} concerns before proceeding"
 
-    def anonymize_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def anonymize_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Anonymize data by removing or masking personal information.
 

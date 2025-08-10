@@ -10,18 +10,18 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import oqs
 import hashlib
 import time
-import json
-import binascii
-from typing import Dict, Tuple, Any
+from typing import Any, Dict, Tuple
+
+import oqs
 
 
 class VerifoldGenerator:
     """
     Generates post-quantum Verifold hashes with SPHINCS+ signatures.
     """
+
     def __init__(self):
         """Initialize the generator with SPHINCS+ signature algorithm."""
         self.sig_algorithm = "SPHINCS+-SHAKE256-128f-simple"
@@ -39,7 +39,9 @@ class VerifoldGenerator:
             private_key = signer.export_secret_key()
         return public_key.hex(), private_key.hex()
 
-    def generate_verifold_hash(self, quantum_data: bytes, timestamp: float = None) -> Dict[str, Any]:
+    def generate_verifold_hash(
+        self, quantum_data: bytes, timestamp: float = None
+    ) -> Dict[str, Any]:
         """
         Generate a Verifold hash from probabilistic observation data.
 
@@ -52,7 +54,9 @@ class VerifoldGenerator:
         """
         if not timestamp:
             timestamp = time.time()
-        verifold_hash = hashlib.sha3_256(quantum_data + str(timestamp).encode()).hexdigest()
+        verifold_hash = hashlib.sha3_256(
+            quantum_data + str(timestamp).encode()
+        ).hexdigest()
         public_key, private_key = self.generate_keypair()
         signature = self.sign_hash(verifold_hash, private_key)
         return {
@@ -61,7 +65,7 @@ class VerifoldGenerator:
             "signature": signature,
             "public_key": public_key,
             "verified": True,
-            "metadata": {}
+            "metadata": {},
         }
 
     def sign_hash(self, verifold_hash: str, private_key_hex: str) -> str:

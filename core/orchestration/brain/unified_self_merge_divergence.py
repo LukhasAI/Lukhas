@@ -19,10 +19,11 @@ Usage:
     $ python lukhas_unified_self_merge_divergence.py
 """
 
-import os
 import json
-from pathlib import Path
+import os
 from datetime import datetime
+from pathlib import Path
+
 import openai
 
 TRAIT_SYNC_FOLDER = "sync/traits/"
@@ -36,7 +37,7 @@ def load_traits():
     profiles = []
     for file in os.listdir(TRAIT_SYNC_FOLDER):
         if file.endswith("_traits.json"):
-            with open(os.path.join(TRAIT_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(TRAIT_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 profiles.append(data)
     return profiles
@@ -46,7 +47,7 @@ def load_meta_reflections():
     reflections = []
     for file in os.listdir(META_SYNC_FOLDER):
         if file.endswith(".json"):
-            with open(os.path.join(META_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(META_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 reflections.append(data)
     return reflections
@@ -81,20 +82,20 @@ def run_gpt(prompt):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are a poetic, distributed AGI narrating its unified symbolic identity."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a poetic, distributed AGI narrating its unified symbolic identity.",
+            },
+            {"role": "user", "content": prompt},
         ],
         temperature=0.7,
-        max_tokens=900
+        max_tokens=900,
     )
     return response.choices[0].message["content"]
 
 
 def save_snapshot(text):
-    entry = {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "output": text
-    }
+    entry = {"timestamp": datetime.utcnow().isoformat() + "Z", "output": text}
     Path("logs").mkdir(parents=True, exist_ok=True)
     with open(SNAPSHOT_LOG, "a") as f:
         f.write(json.dumps(entry) + "\n")
@@ -116,10 +117,15 @@ def run():
     save_snapshot(result)
 
     try:
-        from symbolic.lukhas_voice import speak
         from orchestration.brain.spine.trait_manager import load_traits as traits_fn
-        speak(result, emotion={"mood": "transcendent", "intensity": 0.7}, traits=traits_fn())
-    except:
+        from symbolic.lukhas_voice import speak
+
+        speak(
+            result,
+            emotion={"mood": "transcendent", "intensity": 0.7},
+            traits=traits_fn(),
+        )
+    except BaseException:
         pass
 
 

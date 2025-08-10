@@ -11,18 +11,16 @@
 # Its location in `memory/core_memory/` suggests this knowledge base is a form of memory.
 
 # Standard Library Imports
-from typing import Dict, Any, Optional, List
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 # Third-Party Imports
-import structlog
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual
-
 # Initialize logger for this module
 # ΛTRACE: Standard logger setup for ExponentialLearningSystem.
-from core.common import get_logger
+
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: The lukhas_tier_required decorator is a placeholder for conceptual tiering.
@@ -30,9 +28,11 @@ def lukhas_tier_required(level: int):
     def decorator(func):
         func._lukhas_tier = level
         return func
+
     return decorator
 
-@lukhas_tier_required(2) # Conceptual tier for the learning system
+
+@lukhas_tier_required(2)  # Conceptual tier for the learning system
 class ExponentialLearningSystem:
     """
     Implements a learning system characterized by an exponential growth
@@ -43,8 +43,12 @@ class ExponentialLearningSystem:
     """
 
     # ΛSEED_CHAIN: `initial_knowledge_base`, `learning_rate`, `growth_factor` seed the system.
-    def __init__(self, initial_knowledge_base: Optional[Dict[str, Any]] = None,
-                 learning_rate: float = 0.01, growth_factor: float = 1.05):
+    def __init__(
+        self,
+        initial_knowledge_base: Optional[Dict[str, Any]] = None,
+        learning_rate: float = 0.01,
+        growth_factor: float = 1.05,
+    ):
         """
         Initializes the ExponentialLearningSystem.
 
@@ -53,15 +57,22 @@ class ExponentialLearningSystem:
             learning_rate: Base learning rate.
             growth_factor: Factor for learning effectiveness increase per cycle. #ΛDRIFT_POINT
         """
-        self.knowledge_base: Dict[str, Any] = initial_knowledge_base or {} # This is the system's memory.
+        self.knowledge_base: Dict[str, Any] = (
+            initial_knowledge_base or {}
+        )  # This is the system's memory.
         self.learning_rate: float = learning_rate
-        self.growth_factor: float = growth_factor # ΛDRIFT_POINT: Key parameter for learning curve.
+        self.growth_factor: float = (
+            growth_factor  # ΛDRIFT_POINT: Key parameter for learning curve.
+        )
         self.adaptation_cycles: int = 0
 
         # ΛTRACE: ExponentialLearningSystem initialized.
-        log.info("ExponentialLearningSystem initialized.",
-                 initial_kb_size=len(self.knowledge_base),
-                 learning_rate=self.learning_rate, growth_factor=self.growth_factor)
+        log.info(
+            "ExponentialLearningSystem initialized.",
+            initial_kb_size=len(self.knowledge_base),
+            learning_rate=self.learning_rate,
+            growth_factor=self.growth_factor,
+        )
 
     # ΛSEED_CHAIN: `experience_data` seeds the learning cycle.
     # ΛDRIFT_POINT: Each incorporation of experience modifies the knowledge base and learning weight.
@@ -73,55 +84,88 @@ class ExponentialLearningSystem:
             experience_data: Data from a new experience.
         """
         # ΛTRACE: Incorporating new experience.
-        log.debug("Incorporating experience.", cycle=self.adaptation_cycles, experience_data_keys=list(experience_data.keys()))
+        log.debug(
+            "Incorporating experience.",
+            cycle=self.adaptation_cycles,
+            experience_data_keys=list(experience_data.keys()),
+        )
 
         # ΛCAUTION: `_extract_patterns` is a STUB.
         patterns: List[Dict[str, Any]] = self._extract_patterns(experience_data)
         # ΛTRACE: Patterns extracted from experience (stub logic).
         log.debug("Patterns extracted (stub).", count=len(patterns))
 
-        current_weight: float = self.learning_rate * (self.growth_factor ** self.adaptation_cycles)
+        current_weight: float = self.learning_rate * (
+            self.growth_factor**self.adaptation_cycles
+        )
         # ΛCAUTION: `_update_knowledge_base` is a STUB.
         self._update_knowledge_base(patterns, current_weight)
 
         self.adaptation_cycles += 1
         # ΛTRACE: Experience incorporated, cycle incremented.
-        log.info("Experience incorporated successfully.", new_adaptation_cycle_count=self.adaptation_cycles, current_learning_weight=current_weight)
+        log.info(
+            "Experience incorporated successfully.",
+            new_adaptation_cycle_count=self.adaptation_cycles,
+            current_learning_weight=current_weight,
+        )
 
         # ΛDRIFT_POINT: Consolidation logic (stubbed) and its trigger condition.
         if self.adaptation_cycles > 0 and self.adaptation_cycles % 100 == 0:
             # ΛTRACE: Triggering knowledge consolidation.
-            log.info("Triggering knowledge consolidation due to cycle count.", cycle_count=self.adaptation_cycles)
+            log.info(
+                "Triggering knowledge consolidation due to cycle count.",
+                cycle_count=self.adaptation_cycles,
+            )
             self._consolidate_knowledge_base()
 
     # ΛCAUTION: STUB - Pattern extraction is critical for meaningful learning.
     # ΛDRIFT_POINT: Implemented logic here would be a major source of drift.
-    def _extract_patterns(self, experience_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _extract_patterns(
+        self, experience_data: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Extracts patterns from experience data. (STUB)"""
         # ΛTRACE: Executing _extract_patterns (stub).
-        log.warning("_extract_patterns is a STUB and needs full implementation.", status="needs_implementation")
+        log.warning(
+            "_extract_patterns is a STUB and needs full implementation.",
+            status="needs_implementation",
+        )
         # Example placeholder pattern:
-        return [{"type": experience_data.get("type", "generic_experience_pattern"),
-                 "features": list(experience_data.keys()), # Basic feature extraction
-                 "extracted_at_utc": datetime.now(timezone.utc).isoformat()}]
+        return [
+            {
+                "type": experience_data.get("type", "generic_experience_pattern"),
+                "features": list(experience_data.keys()),  # Basic feature extraction
+                "extracted_at_utc": datetime.now(timezone.utc).isoformat(),
+            }
+        ]
 
     # ΛCAUTION: STUB - Knowledge base update logic defines how learning translates to memory.
     # ΛDRIFT_POINT: Implemented logic here directly modifies the knowledge_base (memory).
     # ΛRECALL: Could implicitly recall existing patterns if update logic involves comparison/merging.
-    def _update_knowledge_base(self, patterns: List[Dict[str, Any]], weight: float) -> None:
+    def _update_knowledge_base(
+        self, patterns: List[Dict[str, Any]], weight: float
+    ) -> None:
         """Updates knowledge base with new patterns. (STUB)"""
         # ΛTRACE: Executing _update_knowledge_base (stub).
-        log.warning("_update_knowledge_base is a STUB and needs full implementation.", status="needs_implementation")
+        log.warning(
+            "_update_knowledge_base is a STUB and needs full implementation.",
+            status="needs_implementation",
+        )
         for i, pattern in enumerate(patterns):
             # ΛNOTE: Simple overwrite/add based on generated ID. More sophisticated update needed.
             pattern_id = pattern.get("id", f"pattern_{self.adaptation_cycles}_{i}")
             self.knowledge_base[pattern_id] = {
-                "pattern_data": pattern, "weight": weight, # Weight reflects learning effectiveness at this cycle
+                "pattern_data": pattern,
+                "weight": weight,  # Weight reflects learning effectiveness at this cycle
                 "cycle_added": self.adaptation_cycles,
-                "timestamp_utc": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             }
         # ΛTRACE: Knowledge base updated with new patterns (stub logic).
-        log.debug("Knowledge base updated (stub).", num_patterns_added_or_updated=len(patterns), applied_weight=weight, kb_total_size=len(self.knowledge_base))
+        log.debug(
+            "Knowledge base updated (stub).",
+            num_patterns_added_or_updated=len(patterns),
+            applied_weight=weight,
+            kb_total_size=len(self.knowledge_base),
+        )
 
     # ΛCAUTION: STUB - Consolidation is key for long-term knowledge stability and pruning.
     # ΛDRIFT_POINT: Consolidation logic would reshape the knowledge_base.
@@ -129,9 +173,15 @@ class ExponentialLearningSystem:
     def _consolidate_knowledge_base(self) -> None:
         """Consolidates the knowledge base. (STUB)"""
         # ΛTRACE: Executing _consolidate_knowledge_base (stub).
-        log.warning("_consolidate_knowledge_base is a STUB and needs full implementation.", status="needs_implementation")
+        log.warning(
+            "_consolidate_knowledge_base is a STUB and needs full implementation.",
+            status="needs_implementation",
+        )
         # Example: Could involve merging patterns, adjusting weights, removing old/weak patterns.
-        log.info("Knowledge consolidation finished (stub).", current_kb_size=len(self.knowledge_base))
+        log.info(
+            "Knowledge consolidation finished (stub).",
+            current_kb_size=len(self.knowledge_base),
+        )
 
     # ΛEXPOSE: Provides status of the learning system.
     @lukhas_tier_required(0)
@@ -140,12 +190,14 @@ class ExponentialLearningSystem:
         # ΛTRACE: Retrieving ExponentialLearningSystem status.
         status_data = {
             "adaptation_cycles": self.adaptation_cycles,
-            "current_effective_learning_rate": self.learning_rate * (self.growth_factor ** self.adaptation_cycles),
+            "current_effective_learning_rate": self.learning_rate
+            * (self.growth_factor**self.adaptation_cycles),
             "knowledge_base_size": len(self.knowledge_base),
-            "status_timestamp_utc": datetime.now(timezone.utc).isoformat()
+            "status_timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
         log.debug("ExponentialLearningSystem status retrieved.", **status_data)
         return status_data
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/exponential_learning.py

@@ -52,10 +52,10 @@
 ```
 """
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class MemoryTraceHarmonizer:
     """
@@ -65,7 +65,12 @@ class MemoryTraceHarmonizer:
     def __init__(self):
         self.harmonized_traces = []
 
-    def harmonize_traces(self, emotional_memory_trace: list, dream_memory_trace: list, fold_engine_trace: list):
+    def harmonize_traces(
+        self,
+        emotional_memory_trace: list,
+        dream_memory_trace: list,
+        fold_engine_trace: list,
+    ):
         """
         Harmonizes memory traces from different memory systems.
         """
@@ -75,10 +80,11 @@ class MemoryTraceHarmonizer:
             "emotional_memory_trace": emotional_memory_trace,
             "dream_memory_trace": dream_memory_trace,
             "fold_engine_trace": fold_engine_trace,
-            "status": "harmonized"
+            "status": "harmonized",
         }
         self.harmonized_traces.append(harmonized_trace)
         return harmonized_trace
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: memory_trace_harmonizer.py

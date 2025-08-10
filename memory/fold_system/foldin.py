@@ -26,17 +26,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import zstandard as zstd
-import msgpack
-import struct
-import json
 import binascii
-from pathlib import Path
-from typing import Generator, Dict, Any, Optional, Union
-from core.common import get_logger
-import structlog
+import json
+import struct
+from collections.abc import Generator
 from io import BytesIO
+from pathlib import Path
+from typing import Any, Dict, Optional, Union
 
+import msgpack
+import zstandard as zstd
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"
@@ -45,26 +44,31 @@ MAGIC = b"LKF\x01"
 SUPPORTED_SPECS = ["1.0"]
 
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from core.common import LukhasError
+
+
 class LKFPackError(LukhasError):
     """Base exception for LKF-Pack errors."""
+
     pass
 
 
 class LKFPackVersionError(LKFPackError):
     """Raised when LKF-Pack version is unsupported."""
+
     pass
 
 
 class LKFPackIntegrityError(LKFPackError):
     """Raised when CRC check fails."""
+
     pass
 
 
 def import_folds(
     path: Union[Path, BytesIO],
     verify_crc: bool = True,
-    max_entries: Optional[int] = None
+    max_entries: Optional[int] = None,
 ) -> Generator[Dict[str, Any], None, None]:
     """
     Import memory folds from LKF-Pack v1 format.
@@ -93,9 +97,7 @@ def import_folds(
         # Read and verify magic bytes
         magic = f.read(4)
         if magic != MAGIC:
-            raise LKFPackError(
-                f"Not an LKF-Pack v1 file (magic: {magic.hex()})"
-            )
+            raise LKFPackError(f"Not an LKF-Pack v1 file (magic: {magic.hex()})")
 
         # Read header length
         header_len_bytes = f.read(4)
@@ -133,7 +135,7 @@ def import_folds(
             codec=codec,
             expected_entries=expected_entries,
             created=header.get("created"),
-            metadata=header.get("metadata", {})
+            metadata=header.get("metadata", {}),
         )
 
         # Read payload and CRC footer
@@ -159,7 +161,7 @@ def import_folds(
                 logger.warning(
                     "CRC mismatch between header and footer",
                     header_crc=header_crc,
-                    footer_crc=crc_given
+                    footer_crc=crc_given,
                 )
 
         # Setup decompression
@@ -168,10 +170,12 @@ def import_folds(
             data_stream = decompressor.stream_reader(BytesIO(payload))
         elif codec == "lzma":
             import lzma
+
             data_stream = lzma.decompress(payload)
             data_stream = BytesIO(data_stream)
         elif codec == "gzip":
             import gzip
+
             data_stream = gzip.decompress(payload)
             data_stream = BytesIO(data_stream)
         elif codec == "none":
@@ -189,7 +193,7 @@ def import_folds(
                 logger.info(
                     "Reached max_entries limit",
                     entries_read=entries_read,
-                    max_entries=max_entries
+                    max_entries=max_entries,
                 )
                 break
 
@@ -199,16 +203,10 @@ def import_folds(
         # Verify entry count
         if entries_read != expected_entries:
             logger.warning(
-                "Entry count mismatch",
-                expected=expected_entries,
-                actual=entries_read
+                "Entry count mismatch", expected=expected_entries, actual=entries_read
             )
 
-        logger.info(
-            "LKF-Pack import completed",
-            entries_read=entries_read,
-            codec=codec
-        )
+        logger.info("LKF-Pack import completed", entries_read=entries_read, codec=codec)
 
     finally:
         if close_file:
@@ -216,9 +214,7 @@ def import_folds(
 
 
 def import_folds_safe(
-    path: Path,
-    validate_schema: bool = True,
-    allowed_keys: Optional[set] = None
+    path: Path, validate_schema: bool = True, allowed_keys: Optional[set] = None
 ) -> Generator[Dict[str, Any], None, None]:
     """
     Import memory folds with additional safety checks.
@@ -244,16 +240,13 @@ def import_folds_safe(
                 logger.warning(
                     "Skipping fold with missing required fields",
                     fold_keys=list(fold.keys()),
-                    required=list(required_fields)
+                    required=list(required_fields),
                 )
                 continue
 
         # Filter allowed keys if specified
         if allowed_keys:
-            filtered_fold = {
-                k: v for k, v in fold.items()
-                if k in allowed_keys
-            }
+            filtered_fold = {k: v for k, v in fold.items() if k in allowed_keys}
             yield filtered_fold
         else:
             yield fold
@@ -274,7 +267,7 @@ def verify_lkf_pack(path: Path) -> Dict[str, Any]:
         "errors": [],
         "warnings": [],
         "header": None,
-        "entry_count": 0
+        "entry_count": 0,
     }
 
     try:
@@ -321,8 +314,7 @@ def verify_lkf_pack(path: Path) -> Dict[str, Any]:
 
 
 def import_from_stream(
-    stream,
-    chunk_size: int = 1024 * 1024  # 1MB chunks
+    stream, chunk_size: int = 1024 * 1024  # 1MB chunks
 ) -> Generator[Dict[str, Any], None, None]:
     """
     Import memory folds from a streaming source.
@@ -354,10 +346,7 @@ def import_from_stream(
 
 
 # Factory function
-def create_memory_importer(
-    verify_crc: bool = True,
-    validate_schema: bool = True
-):
+def create_memory_importer(verify_crc: bool = True, validate_schema: bool = True):
     """
     Create a configured memory fold importer.
 
@@ -368,18 +357,17 @@ def create_memory_importer(
     Returns:
         Configured import function
     """
+
     def importer(path, **kwargs):
         if validate_schema:
             return import_folds_safe(
                 path,
                 validate_schema=kwargs.get("validate_schema", validate_schema),
-                **kwargs
+                **kwargs,
             )
         else:
             return import_folds(
-                path,
-                verify_crc=kwargs.get("verify_crc", verify_crc),
-                **kwargs
+                path, verify_crc=kwargs.get("verify_crc", verify_crc), **kwargs
             )
 
     return importer

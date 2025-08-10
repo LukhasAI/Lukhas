@@ -20,21 +20,21 @@
 """
 
 #!/usr/bin/env python3
-
-import sys
-import json
-import time
-from core.common import get_logger
-from typing import Dict, List, Any, Optional
 import argparse
+import logging
+import sys
+import time
+from typing import Any, Optional
 
 # LUKHAS Core Integration
 try:
-    from ..core.onboarding.enhanced_onboarding import EnhancedOnboardingManager, OnboardingStage, OnboardingPersonality
+    from ..core.onboarding.enhanced_onboarding import (
+        EnhancedOnboardingManager,
+    )
     from ..core.onboarding.onboarding_config import OnboardingConfigManager
 except ImportError:
     # Fallback for direct execution
-    sys.path.append('.')
+    sys.path.append(".")
     print("🔄 Running in standalone mode - some features may be limited")
 
 logger = logging.getLogger("ΛTRACE.OnboardingCLI")
@@ -70,12 +70,21 @@ class OnboardingCLI:
 
         # Show available personality types
         print("\nAvailable Personality Types:")
-        personalities = ["simple", "cultural", "security", "creative", "business", "technical"]
+        personalities = [
+            "simple",
+            "cultural",
+            "security",
+            "creative",
+            "business",
+            "technical",
+        ]
         for i, personality in enumerate(personalities, 1):
             print(f"{i}. {personality.title()}")
 
         try:
-            choice = input("\nSelect personality type (1-6) or press Enter for 'simple': ").strip()
+            choice = input(
+                "\nSelect personality type (1-6) or press Enter for 'simple': "
+            ).strip()
             if choice.isdigit() and 1 <= int(choice) <= 6:
                 personality_type = personalities[int(choice) - 1]
             else:
@@ -100,12 +109,14 @@ class OnboardingCLI:
         except Exception as e:
             print(f"\n❌ Demo error: {e}")
 
-    def _run_real_onboarding(self, personality_type: str) -> Optional[Dict[str, Any]]:
+    def _run_real_onboarding(self, personality_type: str) -> Optional[dict[str, Any]]:
         """Run real onboarding with backend managers."""
         try:
             # Start session
             initial_context = {"personality_type": personality_type}
-            session_result = self.onboarding_manager.start_onboarding_session(initial_context)
+            session_result = self.onboarding_manager.start_onboarding_session(
+                initial_context
+            )
 
             if not session_result["success"]:
                 print(f"❌ Failed to start session: {session_result.get('error')}")
@@ -116,7 +127,9 @@ class OnboardingCLI:
 
             # Progress through stages
             while True:
-                status = self.onboarding_manager.get_onboarding_status(self.current_session)
+                status = self.onboarding_manager.get_onboarding_status(
+                    self.current_session
+                )
                 if not status["success"]:
                     break
 
@@ -126,7 +139,9 @@ class OnboardingCLI:
 
                 if current_stage == "completion":
                     # Complete onboarding
-                    completion_result = self.onboarding_manager.complete_onboarding(self.current_session)
+                    completion_result = self.onboarding_manager.complete_onboarding(
+                        self.current_session
+                    )
                     return completion_result
 
                 # Get stage data from user
@@ -140,7 +155,9 @@ class OnboardingCLI:
                 )
 
                 if not progress_result["success"]:
-                    print(f"❌ Stage progression failed: {progress_result.get('error')}")
+                    print(
+                        f"❌ Stage progression failed: {progress_result.get('error')}"
+                    )
                     return None
 
                 # Show recommendations if available
@@ -151,7 +168,7 @@ class OnboardingCLI:
             print(f"❌ Onboarding error: {e}")
             return None
 
-    def _run_demo_onboarding(self, personality_type: str) -> Dict[str, Any]:
+    def _run_demo_onboarding(self, personality_type: str) -> dict[str, Any]:
         """Run demo onboarding without backend."""
         print("\n🎭 Running demo onboarding simulation...")
 
@@ -174,7 +191,9 @@ class OnboardingCLI:
         # Generate demo result
         return self._generate_demo_result(personality_type, symbolic_elements)
 
-    def _collect_stage_data(self, stage: str, personality_type: str) -> Optional[Dict[str, Any]]:
+    def _collect_stage_data(
+        self, stage: str, personality_type: str
+    ) -> Optional[dict[str, Any]]:
         """Collect stage data from user input."""
 
         if stage == "welcome":
@@ -208,17 +227,27 @@ class OnboardingCLI:
             # Default stage data
             return {"stage_completed": True}
 
-    def _collect_cultural_context(self) -> Dict[str, Any]:
+    def _collect_cultural_context(self) -> dict[str, Any]:
         """Collect cultural context from user."""
         print("\n🌍 Cultural Discovery")
         print("Available cultural contexts:")
-        cultures = ["east_asian", "arabic", "african", "european", "indigenous", "latin_american", "universal"]
+        cultures = [
+            "east_asian",
+            "arabic",
+            "african",
+            "european",
+            "indigenous",
+            "latin_american",
+            "universal",
+        ]
 
         for i, culture in enumerate(cultures, 1):
             print(f"{i}. {culture.replace('_', ' ').title()}")
 
         try:
-            choice = input("Select cultural context (1-7) or press Enter for 'universal': ").strip()
+            choice = input(
+                "Select cultural context (1-7) or press Enter for 'universal': "
+            ).strip()
             if choice.isdigit() and 1 <= int(choice) <= 7:
                 cultural_context = cultures[int(choice) - 1]
             else:
@@ -235,7 +264,7 @@ class OnboardingCLI:
         selected = cultures[int(time.time()) % len(cultures)]
         print(f"🌍 Selected cultural context: {selected.replace('_', ' ').title()}")
 
-    def _collect_symbolic_elements(self) -> Dict[str, Any]:
+    def _collect_symbolic_elements(self) -> dict[str, Any]:
         """Collect symbolic elements from user."""
         print("\n🔮 Symbolic Foundation")
         print("Enter symbolic elements (emojis, words, phrases).")
@@ -246,7 +275,7 @@ class OnboardingCLI:
         while len(elements) < 12:  # Max elements
             try:
                 element = input(f"Element {len(elements) + 1}: ").strip()
-                if element.lower() == 'done':
+                if element.lower() == "done":
                     if len(elements) >= 3:
                         break
                     else:
@@ -269,22 +298,20 @@ class OnboardingCLI:
         symbolic_entries = []
         for element in elements:
             entry_type = "emoji" if len(element) == 1 and ord(element) > 127 else "word"
-            symbolic_entries.append({
-                "type": entry_type,
-                "value": element,
-                "cultural_context": None
-            })
+            symbolic_entries.append(
+                {"type": entry_type, "value": element, "cultural_context": None}
+            )
 
         return {"symbolic_elements": symbolic_entries}
 
-    def _collect_symbolic_elements_demo(self) -> List[str]:
+    def _collect_symbolic_elements_demo(self) -> list[str]:
         """Demo version of symbolic element collection."""
         demo_elements = ["🚀", "wisdom", "create", "🌟", "harmony", "🔮"]
-        selected = demo_elements[:4 + (int(time.time()) % 3)]  # 4-6 elements
+        selected = demo_elements[: 4 + (int(time.time()) % 3)]  # 4-6 elements
         print(f"🔮 Selected symbolic elements: {', '.join(selected)}")
         return selected
 
-    def _collect_entropy_preferences(self) -> Dict[str, Any]:
+    def _collect_entropy_preferences(self) -> dict[str, Any]:
         """Collect entropy optimization preferences."""
         print("\n⚡ Entropy Optimization")
         print("Security levels:")
@@ -295,55 +322,97 @@ class OnboardingCLI:
         try:
             choice = input("Select security level (1-3): ").strip()
             levels = ["basic", "enhanced", "maximum"]
-            security_level = levels[int(choice) - 1] if choice.isdigit() and 1 <= int(choice) <= 3 else "enhanced"
+            security_level = (
+                levels[int(choice) - 1]
+                if choice.isdigit() and 1 <= int(choice) <= 3
+                else "enhanced"
+            )
 
             return {"security_level": security_level}
         except (KeyboardInterrupt, EOFError, ValueError) as e:
             logger.warning(f"Error collecting security level: {e}")
             return {"security_level": "enhanced"}
 
-    def _collect_biometric_preferences(self) -> Dict[str, Any]:
+    def _collect_biometric_preferences(self) -> dict[str, Any]:
         """Collect biometric setup preferences."""
         print("\n👆 Biometric Setup")
         enable = input("Enable biometric authentication? (y/N): ").strip().lower()
 
         return {
-            "biometric_enabled": enable.startswith('y'),
-            "biometric_types": ["fingerprint"] if enable.startswith('y') else []
+            "biometric_enabled": enable.startswith("y"),
+            "biometric_types": ["fingerprint"] if enable.startswith("y") else [],
         }
 
-    def _collect_consciousness_data(self) -> Dict[str, Any]:
+    def _collect_consciousness_data(self) -> dict[str, Any]:
         """Collect consciousness calibration data."""
         print("\n🧠 Consciousness Calibration")
         print("Rate your affinity (1-5):")
 
-        aspects = ["creativity", "analytical_thinking", "cultural_awareness", "spiritual_connection"]
+        aspects = [
+            "creativity",
+            "analytical_thinking",
+            "cultural_awareness",
+            "spiritual_connection",
+        ]
         consciousness_data = {}
 
         for aspect in aspects:
             try:
                 rating = input(f"{aspect.replace('_', ' ').title()} (1-5): ").strip()
-                consciousness_data[aspect] = float(rating) / 5.0 if rating.isdigit() and 1 <= int(rating) <= 5 else 0.5
+                consciousness_data[aspect] = (
+                    float(rating) / 5.0
+                    if rating.isdigit() and 1 <= int(rating) <= 5
+                    else 0.5
+                )
             except (KeyboardInterrupt, EOFError, ValueError) as e:
                 logger.warning(f"Error collecting consciousness aspect {aspect}: {e}")
                 consciousness_data[aspect] = 0.5
 
         return {"consciousness_metrics": consciousness_data}
 
-    def _get_demo_stages(self, personality_type: str) -> List[str]:
+    def _get_demo_stages(self, personality_type: str) -> list[str]:
         """Get demo stages for personality type."""
         stage_flows = {
             "simple": ["welcome", "symbolic_foundation", "completion"],
-            "cultural": ["welcome", "cultural_discovery", "symbolic_foundation", "completion"],
-            "security": ["welcome", "symbolic_foundation", "entropy_optimization", "verification", "completion"],
-            "creative": ["welcome", "symbolic_foundation", "consciousness_calibration", "completion"],
-            "business": ["welcome", "tier_assessment", "symbolic_foundation", "completion"],
-            "technical": ["welcome", "symbolic_foundation", "entropy_optimization", "consciousness_calibration", "completion"]
+            "cultural": [
+                "welcome",
+                "cultural_discovery",
+                "symbolic_foundation",
+                "completion",
+            ],
+            "security": [
+                "welcome",
+                "symbolic_foundation",
+                "entropy_optimization",
+                "verification",
+                "completion",
+            ],
+            "creative": [
+                "welcome",
+                "symbolic_foundation",
+                "consciousness_calibration",
+                "completion",
+            ],
+            "business": [
+                "welcome",
+                "tier_assessment",
+                "symbolic_foundation",
+                "completion",
+            ],
+            "technical": [
+                "welcome",
+                "symbolic_foundation",
+                "entropy_optimization",
+                "consciousness_calibration",
+                "completion",
+            ],
         }
 
         return stage_flows.get(personality_type, stage_flows["simple"])
 
-    def _generate_demo_result(self, personality_type: str, symbolic_elements: List[str]) -> Dict[str, Any]:
+    def _generate_demo_result(
+        self, personality_type: str, symbolic_elements: list[str]
+    ) -> dict[str, Any]:
         """Generate demo onboarding result."""
         import hashlib
 
@@ -372,21 +441,23 @@ class OnboardingCLI:
                 "final_entropy_score": entropy_score,
                 "tier_achieved": tier_level,
                 "symbolic_vault_size": len(symbolic_elements),
-                "personality_type": personality_type
-            }
+                "personality_type": personality_type,
+            },
         }
 
-    def _display_recommendations(self, recommendations: List[Dict[str, Any]]):
+    def _display_recommendations(self, recommendations: list[dict[str, Any]]):
         """Display onboarding recommendations."""
         if not recommendations:
             return
 
         print("\n💡 Recommendations:")
         for rec in recommendations[:3]:  # Show top 3
-            priority_icon = {"high": "🔥", "medium": "⚡", "low": "💡"}.get(rec.get("priority", "low"), "💡")
+            priority_icon = {"high": "🔥", "medium": "⚡", "low": "💡"}.get(
+                rec.get("priority", "low"), "💡"
+            )
             print(f"  {priority_icon} {rec.get('message', 'No message')}")
 
-    def _display_result(self, result: Dict[str, Any]):
+    def _display_result(self, result: dict[str, Any]):
         """Display onboarding completion result."""
         print("\n" + "=" * 50)
         print("🎉 ONBOARDING COMPLETION REPORT")
@@ -400,8 +471,10 @@ class OnboardingCLI:
 
         if "completion_report" in result:
             report = result["completion_report"]
-            print(f"\n📊 Session Statistics:")
-            print(f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0):.1f} minutes")
+            print("\n📊 Session Statistics:")
+            print(
+                f"  ⏱️  Duration: {report.get('onboarding_duration_minutes', 0):.1f} minutes"
+            )
             print(f"  📋 Stages: {report.get('stages_completed', 0)}")
             print(f"  🔮 Symbolic Elements: {report.get('symbolic_vault_size', 0)}")
             print(f"  🎭 Personality: {report.get('personality_type', 'N/A').title()}")
@@ -433,7 +506,7 @@ class OnboardingCLI:
         # Display batch results
         self._display_batch_results(results)
 
-    def _display_batch_results(self, results: List[Dict[str, Any]]):
+    def _display_batch_results(self, results: list[dict[str, Any]]):
         """Display batch test results."""
         if not results:
             print("\n❌ No successful tests to analyze")
@@ -443,7 +516,9 @@ class OnboardingCLI:
         print("=" * 50)
 
         # Calculate averages
-        avg_duration = sum(r["completion_report"]["onboarding_duration_minutes"] for r in results) / len(results)
+        avg_duration = sum(
+            r["completion_report"]["onboarding_duration_minutes"] for r in results
+        ) / len(results)
         avg_entropy = sum(r["entropy_score"] for r in results) / len(results)
         avg_tier = sum(r["tier_level"] for r in results) / len(results)
 
@@ -457,7 +532,7 @@ class OnboardingCLI:
             personality = result["completion_report"]["personality_type"]
             personality_counts[personality] = personality_counts.get(personality, 0) + 1
 
-        print(f"\n🎭 Personality Distribution:")
+        print("\n🎭 Personality Distribution:")
         for personality, count in personality_counts.items():
             print(f"  {personality.title()}: {count}")
 
@@ -473,15 +548,17 @@ class OnboardingCLI:
             print(f"Version: {config.version}")
             print(f"Default Personality: {config.default_personality}")
             print(f"Session Timeout: {config.session_timeout_minutes} minutes")
-            print(f"Cultural Adaptation: {'Enabled' if config.enable_cultural_adaptation else 'Disabled'}")
+            print(
+                f"Cultural Adaptation: {'Enabled' if config.enable_cultural_adaptation else 'Disabled'}"
+            )
             print(f"Analytics: {'Enabled' if config.enable_analytics else 'Disabled'}")
 
             print(f"\nPersonality Flows: {len(config.personality_flows)}")
-            for personality in config.personality_flows.keys():
+            for personality in config.personality_flows:
                 print(f"  - {personality.title()}")
 
             print(f"\nCultural Contexts: {len(config.cultural_configs)}")
-            for culture in config.cultural_configs.keys():
+            for culture in config.cultural_configs:
                 print(f"  - {culture.replace('_', ' ').title()}")
         else:
             print("⚠️  Configuration manager not available")
@@ -499,7 +576,7 @@ def main():
 
     # Setup logging
     if args.verbose:
-        logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
     # Initialize CLI
     cli = OnboardingCLI()

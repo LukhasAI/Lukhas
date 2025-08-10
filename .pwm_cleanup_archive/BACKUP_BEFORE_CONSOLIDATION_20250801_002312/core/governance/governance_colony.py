@@ -1,6 +1,7 @@
 """Governance Colony for ETHICAL oversight."""
+
 import logging
-from typing import Dict, Any
+from typing import Any, Dict
 
 from core.colonies.base_colony import BaseColony
 
@@ -17,7 +18,9 @@ class GovernanceColony(BaseColony):
         logger.info(f"GovernanceColony pre-approving task {task_id}")
         return True
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         approved = await self.pre_approve(task_id, task_data)
         status = "approved" if approved else "rejected"
         return {"status": status, "task_id": task_id}

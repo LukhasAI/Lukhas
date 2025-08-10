@@ -5,8 +5,6 @@ Advanced: compliance_dashboard.py
 Integration Date: 2025-05-31T07:55:27.745437
 """
 
-
-
 # ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_dashboard.py
 # 🛡️ PURPOSE: Institutional compliance viewer for emergency logs and GDPR status
@@ -16,6 +14,13 @@ Integration Date: 2025-05-31T07:55:27.745437
 # import streamlit as st  # TODO: Install or implement streamlit
 import json
 import os
+from pathlib import Path
+
+import pandas as pd
+
+from core.interfaces.voice.core.sayit import (
+    trace_tools,  # assuming trace_tools.py is importable
+)
 
 LOG_PATH = "logs/emergency_log.jsonl"
 
@@ -26,7 +31,7 @@ if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")
 else:
     st.markdown("### 📜 Emergency Override Incidents")
-    with open(LOG_PATH, "r") as f:
+    with open(LOG_PATH) as f:
         logs = [json.loads(line) for line in f if line.strip()]
 
     for entry in reversed(logs[-25:]):
@@ -47,9 +52,6 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 # Symbolic Trace Dashboard Viewer (Enhanced via trace_tools)
 # ────────────────────────────────────────────────────────────────────────────────
 
-import pandas as pd
-from pathlib import Path
-from core.interfaces.voice.core.sayit import trace_tools  # assuming trace_tools.py is importable
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")
 if trace_path.exists():
@@ -57,7 +59,9 @@ if trace_path.exists():
 
     try:
         df = pd.read_csv(trace_path)
-        filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())
+        filter_cols = st.multiselect(
+            "Filter Columns", df.columns.tolist(), default=df.columns.tolist()
+        )
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools

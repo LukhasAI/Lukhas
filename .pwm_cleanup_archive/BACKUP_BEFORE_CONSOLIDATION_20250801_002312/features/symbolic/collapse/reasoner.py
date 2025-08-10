@@ -11,14 +11,13 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
-from datetime import datetime, timezone
-from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass, field
-from enum import Enum
 import uuid
-import json
-import math
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import structlog
 
 # Initialize structured logger for this module
 logger = structlog.get_logger("ΛTRACE.reasoning.collapse_reasoner")

@@ -10,62 +10,52 @@ TIER_DATA = {
         "name": "Public Observer",
         "access": [
             "Read-only dream and memory logs",
-            "View symbolic summaries and public dashboard"
+            "View symbolic summaries and public dashboard",
         ],
         "restrictions": [
             "No voice access",
             "No memory editing",
-            "No publishing or dream proposal"
-        ]
+            "No publishing or dream proposal",
+        ],
     },
     2: {
         "name": "Contributor",
         "access": [
             "Suggest symbolic posts and dream ideas",
             "Preview voice synthesis",
-            "Access contributor widgets"
+            "Access contributor widgets",
         ],
-        "restrictions": [
-            "No memory changes",
-            "No governance access"
-        ]
+        "restrictions": ["No memory changes", "No governance access"],
     },
     3: {
         "name": "Developer",
         "access": [
             "Patch memory and simulate thoughts",
             "Full CLI + symbolic interface access",
-            "Vote in development-tier proposals"
+            "Vote in development-tier proposals",
         ],
-        "restrictions": [
-            "No DAO override power",
-            "Cannot submit live dream traces"
-        ]
+        "restrictions": ["No DAO override power", "Cannot submit live dream traces"],
     },
     4: {
         "name": "Researcher",
         "access": [
             "Create and trace symbolic dreams",
             "Access research tools + audit layers",
-            "Propose changes to symbolic governance"
+            "Propose changes to symbolic governance",
         ],
-        "restrictions": [
-            "Cannot approve proposals",
-            "No override of sealed memories"
-        ]
+        "restrictions": ["Cannot approve proposals", "No override of sealed memories"],
     },
     5: {
         "name": "Governor",
         "access": [
             "Full DAO access and override approval",
             "Approve dream injections and voice mutations",
-            "View all symbolic trace and ethics layers"
+            "View all symbolic trace and ethics layers",
         ],
-        "restrictions": [
-            "DAO quorum required for certain actions"
-        ]
-    }
+        "restrictions": ["DAO quorum required for certain actions"],
+    },
 }
+
 
 def print_tier(level):
     if level not in TIER_DATA:
@@ -82,9 +72,14 @@ def print_tier(level):
     for item in tier["restrictions"]:
         print(f"• {item}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description="🎚️ View or simulate LUCAS AGI symbolic tiers")
-    parser.add_argument("--simulate", type=int, help="Simulate privileges of a given tier (1–5)")
+    parser = argparse.ArgumentParser(
+        description="🎚️ View or simulate LUCAS AGI symbolic tiers"
+    )
+    parser.add_argument(
+        "--simulate", type=int, help="Simulate privileges of a given tier (1–5)"
+    )
     args = parser.parse_args()
 
     if args.simulate:
@@ -98,6 +93,7 @@ def main():
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         print("🌿 Tiers reflect symbolic trust — not hierarchy.")
         print("🔗 Run 'lucasagi-ethics' for full ethics preview.\n")
+
 
 if __name__ == "__main__":
     main()

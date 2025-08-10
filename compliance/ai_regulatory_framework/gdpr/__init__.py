@@ -8,18 +8,18 @@ Full GDPR compliance will be implemented in the comprehensive compliance update.
 """
 
 from .data_protection_validator import (
-    GDPRValidator,
-    DataProcessingActivity, 
-    GDPRAssessment,
-    LawfulBasis,
     DataCategory,
-    ProcessingPurpose
+    DataProcessingActivity,
+    GDPRAssessment,
+    GDPRValidator,
+    LawfulBasis,
+    ProcessingPurpose,
 )
 
 __all__ = [
     'GDPRValidator',
     'DataProcessingActivity',
-    'GDPRAssessment', 
+    'GDPRAssessment',
     'LawfulBasis',
     'DataCategory',
     'ProcessingPurpose'

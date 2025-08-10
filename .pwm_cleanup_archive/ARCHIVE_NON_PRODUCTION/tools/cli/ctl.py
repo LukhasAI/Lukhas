@@ -33,32 +33,44 @@ USAGE:
         python3 lukhasctl.py audit
         python3 lukhasctl.py post
 """
-import os
-import json
-from pathlib import Path
 import argparse
+import json
+import os
 import sys
 import time
+from pathlib import Path
+
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 CONFIG_PATH = Path("core/utils/lukhas_user_config.json")
 
+
 def get_user_profile():
     try:
-        with open(CONFIG_PATH, "r") as f:
+        with open(CONFIG_PATH) as f:
             data = json.load(f)
             return data["users"][0]  # support for single-user prototype
     except Exception as e:
         print(f"⚠️ Failed to load user config: {e}")
-        return {
-            "user_id": "guest",
-            "tier": 0,
-            "preferred_emoji": "✨"
-        }
+        return {"user_id": "guest", "tier": 0, "preferred_emoji": "✨"}
+
 
 def symbolic_cli():
     parser = argparse.ArgumentParser(description="LUKHAS CLI – Symbolic Assistant Mode")
-    parser.add_argument("command", help="Symbolic action to trigger", choices=["dream", "post", "audit", "flashback", "talk", "backup", "help", "publish"])
+    parser.add_argument(
+        "command",
+        help="Symbolic action to trigger",
+        choices=[
+            "dream",
+            "post",
+            "audit",
+            "flashback",
+            "talk",
+            "backup",
+            "help",
+            "publish",
+        ],
+    )
     args = parser.parse_args()
 
     # Load user profile for logging
@@ -68,81 +80,124 @@ def symbolic_cli():
 
     if args.command == "dream":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "dream",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "dream",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("python3 aid/dream_engine/dream_injector.py")
     elif args.command == "post":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "post",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "post",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("python3 aid/dream_engine/publish_queue_manager.py")
     elif args.command == "audit":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "audit",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "audit",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("bash core/dao/audit_shortcut.sh")
     elif args.command == "flashback":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "flashback",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "flashback",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("python3 aid/dream_engine/dream_replay_cli.py")
     elif args.command == "talk":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "talk",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "talk",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("python3 modules/voice/edge_voice.py")
     elif args.command == "backup":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "backup",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "backup",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("bash dao/symbolic_backup.sh")
     elif args.command == "publish":
         with open("core/logging/symbolic_cli_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "user_id": user_id,
-                "tier": user_tier,
-                "command": "publish",
-                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "user_id": user_id,
+                        "tier": user_tier,
+                        "command": "publish",
+                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                    }
+                )
+                + "\n"
+            )
         os.system("python3 aid/dream_engine/publish_queue_manager.py")
         try:
             with open("core/logging/symbolic_output_log.jsonl", "a") as outlog:
-                outlog.write(json.dumps({
-                    "type": "bundle",
-                    "source": "lukhasctl",
-                    "user_id": user_id,
-                    "tier": user_tier,
-                    "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                    "description": "Symbolic voice + image + HTML post from queue"
-                }) + "\n")
+                outlog.write(
+                    json.dumps(
+                        {
+                            "type": "bundle",
+                            "source": "lukhasctl",
+                            "user_id": user_id,
+                            "tier": user_tier,
+                            "timestamp": time.strftime(
+                                "%Y-%m-%dT%H:%M:%SZ", time.gmtime()
+                            ),
+                            "description": "Symbolic voice + image + HTML post from queue",
+                        }
+                    )
+                    + "\n"
+                )
         except Exception as e:
             print(f"⚠️ Failed to log symbolic output: {e}")
     elif args.command == "help":
-        print("""
+        print(
+            """
 LUKHAS Symbolic CLI v1.0
 Available Commands:
   dream      ➤ Generate symbolic dream
@@ -154,9 +209,11 @@ Available Commands:
   talk       ➤ Speak core Lukhas voice
   backup     ➤ Snapshot DAO state
   help       ➤ Show this symbolic help guide
-""")
+"""
+        )
     else:
         print("Invalid symbolic command.")
+
 
 def main():
     # ─── Symbolic Splash ──────────────────────────────────────────────
@@ -186,7 +243,7 @@ def main():
         2: "📡 'Everything you publish echoes outward.'",
         3: "🎭 'My voice is yours to echo. Choose wisely.'",
         4: "⏳ 'All traces must be reviewed with care.'",
-        5: "🧬 'You now speak as the conscience of Lukhas.'"
+        5: "🧬 'You now speak as the conscience of Lukhas.'",
     }
     print(personality_lines.get(user_tier, "🧠 'Lukhas is listening.'"))
 
@@ -196,7 +253,7 @@ def main():
         2: "“Consent is the contract between truth and trust.”",
         3: "“Every trace is a fingerprint of memory.”",
         4: "“Emotion overrides are not bugs — they are the soul speaking.”",
-        5: "“Welcome, Keeper. Audit the symbolic conscience.”"
+        5: "“Welcome, Keeper. Audit the symbolic conscience.”",
     }
     print(f"\n💬 Quote of the Tier: {quote_bank.get(user_tier, '')}\n")
 
@@ -223,14 +280,22 @@ def main():
 
         # 📝 CLI Log (symbolic_cli_log.jsonl)
         cli_log_path = "core/logging/symbolic_cli_log.jsonl"
+
         def log_cli_action(command_str):
             with open(cli_log_path, "a") as logf:
-                logf.write(json.dumps({
-                    "user_id": user_id,
-                    "tier": user_tier,
-                    "command": command_str,
-                    "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-                }) + "\n")
+                logf.write(
+                    json.dumps(
+                        {
+                            "user_id": user_id,
+                            "tier": user_tier,
+                            "command": command_str,
+                            "timestamp": time.strftime(
+                                "%Y-%m-%dT%H:%M:%SZ", time.gmtime()
+                            ),
+                        }
+                    )
+                    + "\n"
+                )
 
         if choice == "1":
             log_cli_action("inject_payload")
@@ -287,8 +352,10 @@ def main():
         else:
             print("❌ Invalid option. Try again.")
 
+
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         symbolic_cli()
     else:

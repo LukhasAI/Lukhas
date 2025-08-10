@@ -4,11 +4,11 @@ Memory Management Consolidator - Phase 2B-2
 Consolidate 7 memory management orchestration files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_memory_management(dry_run=True):
     """Consolidate memory management orchestrators"""
@@ -21,15 +21,15 @@ def consolidate_memory_management(dry_run=True):
         "./features/memory/integration_orchestrator.py",
         "./memory/systems/memory_orchestrator.py",
         "./orchestration/migrated/memory_orchestrator.py",
-        "./memory/systems/orchestrator.py"
+        "./memory/systems/orchestrator.py",
     ]
 
     primary_file = "./memory/core/unified_memory_orchestrator.py"
 
-    print(f"\\n🧠 MEMORY MANAGEMENT CONSOLIDATION")
+    print("\\n🧠 MEMORY MANAGEMENT CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(memory_files)}")
     print(f"{'='*60}")
@@ -43,7 +43,9 @@ def consolidate_memory_management(dry_run=True):
         print(f"   📄 {file_path} ({size:.1f} KB)")
 
     if dry_run:
-        print(f"\\n🔍 Would consolidate {len(existing_files)-1} files into {primary_file}")
+        print(
+            f"\\n🔍 Would consolidate {len(existing_files)-1} files into {primary_file}"
+        )
         print(f"📊 Estimated reduction: {len(existing_files)-1} files eliminated")
         return
 
@@ -77,21 +79,29 @@ def consolidate_memory_management(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 Memory management consolidation complete!")
+    print("\\n📊 Memory management consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate memory management orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate memory management orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     consolidate_memory_management(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_memory_management.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_memory_management.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

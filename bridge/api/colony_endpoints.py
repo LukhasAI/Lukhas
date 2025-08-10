@@ -1,17 +1,15 @@
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from core.swarm import SwarmHub
 
-
-#TAG:bridge
-#TAG:api
-#TAG:neuroplastic
-#TAG:colony
-
+# TAG:bridge
+# TAG:api
+# TAG:neuroplastic
+# TAG:colony
 
 router = APIRouter(prefix="/colonies", tags=["colonies"])
 
@@ -19,13 +17,13 @@ router = APIRouter(prefix="/colonies", tags=["colonies"])
 class ColonySpawnRequest(BaseModel):
     colony_type: str
     size: int
-    capabilities: Optional[List[str]] = None
-    config: Optional[Dict[str, Any]] = None
+    capabilities: Optional[list[str]] = None
+    config: Optional[dict[str, Any]] = None
 
 
 class ColonyTaskRequest(BaseModel):
     task_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timeout: Optional[float] = 30.0
 
 
@@ -35,6 +33,7 @@ async def spawn_colony(request: ColonySpawnRequest):
         swarm = SwarmHub()
         if request.colony_type == "reasoning":
             from core.colonies.reasoning_colony import ReasoningColony
+
             colony = ReasoningColony(f"dynamic-reasoning-{datetime.now().timestamp()}")
         else:
             raise ValueError("Unknown colony type")

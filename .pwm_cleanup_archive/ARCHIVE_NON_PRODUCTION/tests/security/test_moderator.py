@@ -1,5 +1,6 @@
 import unittest
-from security import SymbolicComplianceRules, ModerationWrapper
+
+from security import ModerationWrapper, SymbolicComplianceRules
 
 
 class TestModerationWrapper(unittest.TestCase):

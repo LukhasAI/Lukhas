@@ -8,27 +8,29 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-from flask import Flask, request, jsonify
-from functools import wraps
 import os
-import sys
-from typing import Dict, Any, Optional, Callable  # Added Callable
-from datetime import datetime
 import traceback
-import structlog  # Changed from logging
+from datetime import datetime
+from functools import wraps
+from typing import Any  # Added Callable
+from typing import Callable
+from typing import Optional
+
+from flask import Flask
+from flask import jsonify
+from flask import request
+
+# Import service registry to get learning service without circular dependency
+from orchestration.service_registry import get_service
+from orchestration.service_registry import ServiceNames
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)
 
-# Import service registry to get learning service without circular dependency
-from orchestration.service_registry import get_service, ServiceNames
-from orchestration.learning_initializer import initialize_learning_service  # Ensures service is registered
-
-
-#TAG:bridge
-#TAG:api
-#TAG:neuroplastic
-#TAG:colony
+# TAG:bridge
+# TAG:api
+# TAG:neuroplastic
+# TAG:colony
 
 
 def _get_learning_service():
@@ -38,35 +40,43 @@ def _get_learning_service():
         logger.error("ΛTRACE: Learning service not available in registry")
         # Return a callable that returns the fallback service to maintain compatibility
         from .fallback_services import FallbackLearningService
+
         return lambda: FallbackLearningService()
-    # Return a callable that returns the service to maintain compatibility with existing code
+    # Return a callable that returns the service to maintain compatibility
+    # with existing code
     return lambda: service
 
 
-from core.common import get_logger
 logger.info("ΛTRACE: Initializing api_controllers module.")
 
 # Add parent directory for imports if necessary, though direct relative imports are preferred.
 # This line might be problematic if 'core' is not the immediate parent of where this runs.
 # Consider structuring imports to avoid sys.path manipulation if possible.
-# sys.path.insert(0, os.path.dirname(__file__)) # Commented out, assuming standard Python path mechanisms
+# sys.path.insert(0, os.path.dirname(__file__)) # Commented out, assuming
+# standard Python path mechanisms
 
 # Import module services
 # It's good practice to have these services clearly defined and importable.
 # The fallback classes are useful for development if services are not yet available.
-# AIMPORT_TODO: Review the direct imports for AGI services (EthicsService, MemoryService, etc.). For robustness and clearer dependency management in production, consider structuring these services as part of an installable package or ensuring consistent relative import paths if they belong to the same top-level project structure. The current direct imports might rely on specific PYTHONPATH configurations.
+# AIMPORT_TODO: Review the direct imports for AGI services (EthicsService,
+# MemoryService, etc.). For robustness and clearer dependency management
+# in production, consider structuring these services as part of an
+# installable package or ensuring consistent relative import paths if they
+# belong to the same top-level project structure. The current direct
+# imports might rely on specific PYTHONPATH configurations.
 try:
     # Assuming these modules are structured to be importable, e.g., they are in PYTHONPATH
     # or installed as part of a larger package.
     # For example: from core_modules.ethics.ethics_service import EthicsService
     # For now, using the provided relative-like import paths.
-    from ethics.ethics_service import EthicsService
-    from memory.memory_service import MemoryService
-    from creativity.creativity_service import CreativityService
     from consciousness.consciousness_service import ConsciousnessService
+    from creativity.creativity_service import CreativityService
+    from ethics.ethics_service import EthicsService
+    from identity.interface import IdentityClient  # Needs to be a defined interface
+    from memory.memory_service import MemoryService
+
     # Learning service is now obtained through the service registry
     from quantum.quantum_service import QuantumService
-    from identity.interface import IdentityClient  # Needs to be a defined interface
 
     logger.info("ΛTRACE: Successfully imported AGI module services and IdentityClient.")
 except ImportError as e:
@@ -74,15 +84,12 @@ except ImportError as e:
         f"ΛTRACE: Some AGI module service imports failed: {e}. Using fallback classes for development."
     )
     # ΛCORE: Import fallback services from dedicated module
-    from .fallback_services import (
-        FallbackEthicsService as EthicsService,
-        FallbackMemoryService as MemoryService,
-        FallbackCreativityService as CreativityService,
-        FallbackConsciousnessService as ConsciousnessService,
-        FallbackLearningService as LearningService,
-        FallbackQuantumService as QuantumService,
-        FallbackIdentityClient as IdentityClient,
-    )
+    from .fallback_services import FallbackConsciousnessService as ConsciousnessService
+    from .fallback_services import FallbackCreativityService as CreativityService
+    from .fallback_services import FallbackEthicsService as EthicsService
+    from .fallback_services import FallbackIdentityClient as IdentityClient
+    from .fallback_services import FallbackMemoryService as MemoryService
+    from .fallback_services import FallbackQuantumService as QuantumService
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -94,7 +101,12 @@ logger.info(
 )
 
 # Initialize services
-# ΛNOTE: Service initialization is basic (direct instantiation). For production and larger systems, consider using a dependency injection framework (e.g., `python-dependency-injector`) or a service locator pattern. This would improve testability, configurability, and decoupling of components. Fallback services are used if primary service imports fail.
+# ΛNOTE: Service initialization is basic (direct instantiation). For
+# production and larger systems, consider using a dependency injection
+# framework (e.g., `python-dependency-injector`) or a service locator
+# pattern. This would improve testability, configurability, and decoupling
+# of components. Fallback services are used if primary service imports
+# fail.
 ethics_service = EthicsService()
 memory_service = MemoryService()
 creativity_service = CreativityService()
@@ -111,9 +123,12 @@ API_VERSION = "v1.0.0"  # More semantic versioning
 BASE_PATH = f"/api/{API_VERSION}"
 logger.info(f"ΛTRACE: API configured. Version: {API_VERSION}, Base Path: {BASE_PATH}")
 
-
 # Authentication Decorator
-# AIDENTITY: This decorator handles authentication by checking 'X-User-ID' and authorization against required LUKHAS tiers using an IdentityClient. It logs access attempts and outcomes.
+# AIDENTITY: This decorator handles authentication by checking 'X-User-ID'
+# and authorization against required LUKHAS tiers using an IdentityClient.
+# It logs access attempts and outcomes.
+
+
 def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
     """
     Decorator factory to enforce authentication and tier-based authorization for API endpoints.
@@ -125,6 +140,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
     """
 
     # This is the actual decorator
+
     def decorator(f: Callable) -> Callable:
         @wraps(f)  # Preserves metadata of the decorated function
         def decorated_function(*args: Any, **kwargs: Any) -> Any:
@@ -147,17 +163,13 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                         "reason": "Missing X-User-ID",
                     },
                 )
-                return (
-                    jsonify(
-                        {
-                            "success": False,
-                            "error": "Authentication required: Missing X-User-ID header.",
-                            "error_code": "AUTH_MISSING_USER_ID",
-                            "timestamp": datetime.utcnow().isoformat(),
-                        }
-                    ),
-                    401,
-                )
+                return (jsonify({"success": False,
+                                 "error": "Authentication required: Missing X-User-ID header.",
+                                 "error_code": "AUTH_MISSING_USER_ID",
+                                 "timestamp": datetime.utcnow().isoformat(),
+                                 }),
+                        401,
+                        )
 
             # Verify user access tier
             if not identity_client.verify_user_access(user_id, required_tier):
@@ -180,8 +192,7 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
                             "error": f"Access denied: Insufficient tier. Required: {required_tier}.",
                             "error_code": "AUTH_INSUFFICIENT_TIER",
                             "timestamp": datetime.utcnow().isoformat(),
-                        }
-                    ),
+                        }),
                     403,
                 )
 
@@ -203,9 +214,11 @@ def require_auth(required_tier: str = "LAMBDA_TIER_1") -> Callable:
 
 
 # Standardized API Error Handling Function
+
+
 def handle_api_error(
     error: Exception, endpoint: str, user_id: Optional[str]
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Centralized error handling for API endpoints. Logs the error using ΛTRACE
     and returns a standardized JSON error response.
@@ -252,6 +265,8 @@ def handle_api_error(
 
 
 # Helper to get user_id from request, defaulting for logging if not present
+
+
 def get_request_user_id() -> str:
     return getattr(request, "user_id", "anonymous_or_internal")
 
@@ -261,6 +276,8 @@ def get_request_user_id() -> str:
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Ethics module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/ethics/assess", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")  # Example tier
 def ethics_assess_action_endpoint():  # Renamed for clarity
@@ -286,7 +303,8 @@ def ethics_assess_action_endpoint():  # Renamed for clarity
             )
 
         logger.debug(
-            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}', action: '{data['action']}'."
+            f"ΛTRACE: Calling ethics_service.assess_action for user '{user_id}',
+            action: '{data['action']}'."
         )
         result = ethics_service.assess_action(
             user_id,
@@ -306,6 +324,8 @@ def ethics_assess_action_endpoint():  # Renamed for clarity
 
 # Human-readable comment: Endpoint for checking compliance with ethical guidelines.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/ethics/compliance", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")  # Example tier
 def ethics_check_compliance_endpoint():  # Renamed for clarity
@@ -354,6 +374,8 @@ def ethics_check_compliance_endpoint():  # Renamed for clarity
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Memory module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/memory/store", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def memory_store_item_endpoint():  # Renamed
@@ -400,6 +422,8 @@ def memory_store_item_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for retrieving a specific memory item.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/memory/retrieve/<memory_id>", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")
 def memory_retrieve_item_endpoint(memory_id: str):  # Renamed
@@ -411,7 +435,8 @@ def memory_retrieve_item_endpoint(memory_id: str):  # Renamed
     )
     try:
         logger.debug(
-            f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}', memory_id '{memory_id}'."
+            f"ΛTRACE: Calling memory_service.retrieve_memory for user '{user_id}',
+            memory_id '{memory_id}'."
         )
         result = memory_service.retrieve_memory(user_id, memory_id)
         logger.info(
@@ -426,6 +451,8 @@ def memory_retrieve_item_endpoint(memory_id: str):  # Renamed
 
 # Human-readable comment: Endpoint for searching memory items.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/memory/search", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def memory_search_items_endpoint():  # Renamed
@@ -451,7 +478,8 @@ def memory_search_items_endpoint():  # Renamed
             )
 
         logger.debug(
-            f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}', query: '{data['query']}'."
+            f"ΛTRACE: Calling memory_service.search_memory for user '{user_id}',
+            query: '{data['query']}'."
         )
         result = memory_service.search_memory(
             user_id,
@@ -475,6 +503,8 @@ def memory_search_items_endpoint():  # Renamed
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Creativity module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/creativity/generate", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def creativity_generate_content_endpoint():  # Renamed
@@ -500,7 +530,8 @@ def creativity_generate_content_endpoint():  # Renamed
             )
 
         logger.debug(
-            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}', type: '{data['content_type']}'."
+            f"ΛTRACE: Calling creativity_service.generate_content for user '{user_id}',
+            type: '{data['content_type']}'."
         )
         result = creativity_service.generate_content(
             user_id,
@@ -521,6 +552,8 @@ def creativity_generate_content_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for synthesizing dream-like content.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/creativity/dream", methods=["POST"])
 @require_auth("LAMBDA_TIER_3")  # Higher tier for specialized function
 def creativity_synthesize_dream_endpoint():  # Renamed
@@ -551,7 +584,9 @@ def creativity_synthesize_dream_endpoint():  # Renamed
             f"ΛTRACE: Calling creativity_service.synthesize_dream for user '{user_id}'."
         )
         result = creativity_service.synthesize_dream(
-            user_id, data["dream_data"], data.get("synthesis_type", "narrative")
+            user_id,
+            data["dream_data"],
+            data.get("synthesis_type", "narrative"),
         )
         logger.info(
             f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
@@ -568,6 +603,8 @@ def creativity_synthesize_dream_endpoint():  # Renamed
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Consciousness module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/consciousness/awareness", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def consciousness_process_awareness_endpoint():  # Renamed
@@ -612,6 +649,8 @@ def consciousness_process_awareness_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for performing introspective analysis.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/consciousness/introspect", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")
 def consciousness_perform_introspection_endpoint():  # Renamed
@@ -637,7 +676,8 @@ def consciousness_perform_introspection_endpoint():  # Renamed
             )
 
         logger.debug(
-            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}', focus: '{data['focus_area']}'."
+            f"ΛTRACE: Calling consciousness_service.introspect for user '{user_id}',
+            focus: '{data['focus_area']}'."
         )
         result = consciousness_service.introspect(
             user_id,
@@ -657,6 +697,8 @@ def consciousness_perform_introspection_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for retrieving the current consciousness state.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/consciousness/state", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")
 def consciousness_get_state_endpoint():  # Renamed
@@ -688,6 +730,8 @@ def consciousness_get_state_endpoint():  # Renamed
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Learning module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/learning/learn", methods=["POST"])
 @require_auth("LAMBDA_TIER_1")
 def learning_learn_from_data_endpoint():  # Renamed
@@ -733,6 +777,8 @@ def learning_learn_from_data_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for adapting behavior based on context.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/learning/adapt", methods=["POST"])
 @require_auth("LAMBDA_TIER_2")
 def learning_adapt_behavior_endpoint():  # Renamed
@@ -756,8 +802,7 @@ def learning_adapt_behavior_endpoint():  # Renamed
                         "success": False,
                         "error": "Missing 'adaptation_context' or 'behavior_targets' in request body.",
                         "error_code": "REQUEST_MISSING_ADAPTATION_FIELDS",
-                    }
-                ),
+                    }),
                 400,
             )
 
@@ -785,6 +830,8 @@ def learning_adapt_behavior_endpoint():  # Renamed
 # ===============================
 # Human-readable comment: Endpoints for interacting with the Quantum module.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/quantum/compute", methods=["POST"])
 @require_auth("LAMBDA_TIER_3")  # Higher tier for quantum computation
 def quantum_perform_computation_endpoint():  # Renamed
@@ -798,20 +845,17 @@ def quantum_perform_computation_endpoint():  # Renamed
             logger.warning(
                 f"ΛTRACE: Bad request to {endpoint_path} from user '{user_id}': Missing 'algorithm' or 'input_qubits'."
             )
-            return (
-                jsonify(
-                    {
-                        "success": False,
-                        "error": "Missing 'algorithm' or 'input_qubits' in request body.",
-                        "error_code": "REQUEST_MISSING_QUANTUM_COMPUTE_FIELDS",
-                    }
-                ),
-                400,
-            )
+            return (jsonify({"success": False,
+                             "error": "Missing 'algorithm' or 'input_qubits' in request body.",
+                             "error_code": "REQUEST_MISSING_QUANTUM_COMPUTE_FIELDS",
+                             }),
+                    400,
+                    )
 
         # Validate and convert input_qubits to complex numbers
         try:
-            # This list comprehension handles numbers directly or dicts like {'real': x, 'imag': y}
+            # This list comprehension handles numbers directly or dicts like {'real':
+            # x, 'imag': y}
             qubits = [
                 (
                     complex(q_val)
@@ -831,13 +875,13 @@ def quantum_perform_computation_endpoint():  # Renamed
                         "success": False,
                         "error": "Invalid qubit format. Each qubit must be a number or a dict {'real': x, 'imag': y}.",
                         "error_code": "INVALID_QUBIT_FORMAT",
-                    }
-                ),
+                    }),
                 400,
             )
 
         logger.debug(
-            f"ΛTRACE: Calling quantum_service.quantum_compute for user '{user_id}', algorithm: '{data['algorithm']}'."
+            f"ΛTRACE: Calling quantum_service.quantum_compute for user '{user_id}',
+            algorithm: '{data['algorithm']}'."
         )
         result = quantum_service.quantum_compute(
             user_id,
@@ -857,6 +901,8 @@ def quantum_perform_computation_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for creating entanglement-like correlation.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/quantum/entangle", methods=["POST"])
 @require_auth("LAMBDA_TIER_4")  # Highest tier for advanced quantum operations
 def quantum_create_entanglement_endpoint():  # Renamed
@@ -876,13 +922,13 @@ def quantum_create_entanglement_endpoint():  # Renamed
                         "success": False,
                         "error": "Missing 'entanglement_type' or 'target_systems' in request body.",
                         "error_code": "REQUEST_MISSING_ENTANGLEMENT_FIELDS",
-                    }
-                ),
+                    }),
                 400,
             )
 
         logger.debug(
-            f"ΛTRACE: Calling quantum_service.quantum_entangle for user '{user_id}', type: '{data['entanglement_type']}'."
+            f"ΛTRACE: Calling quantum_service.quantum_entangle for user '{user_id}',
+            type: '{data['entanglement_type']}'."
         )
         result = quantum_service.quantum_entangle(
             user_id,
@@ -905,6 +951,8 @@ def quantum_create_entanglement_endpoint():  # Renamed
 # ===============================
 # Human-readable comment: General system health and information endpoints.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/health", methods=["GET"])
 def system_health_check_endpoint():  # Renamed
     """Provides a basic health check of the API server and connected modules."""
@@ -932,6 +980,8 @@ def system_health_check_endpoint():  # Renamed
 
 # Human-readable comment: Endpoint for API information.
 # ΛEXPOSE
+
+
 @app.route(f"{BASE_PATH}/info", methods=["GET"])
 @require_auth("LAMBDA_TIER_1")  # Basic info might still need some auth
 def system_api_info_endpoint():  # Renamed
@@ -999,6 +1049,8 @@ def system_api_info_endpoint():  # Renamed
 # FLASK ERROR HANDLERS
 # ===============================
 # Human-readable comment: Standard Flask error handlers for 404, 405, 500.
+
+
 @app.errorhandler(404)
 def handle_not_found_error(
     error: Exception,
@@ -1037,8 +1089,7 @@ def handle_method_not_allowed_error(
                 "error_code": "METHOD_NOT_ALLOWED",
                 "path": request.path,
                 "timestamp": datetime.utcnow().isoformat(),
-            }
-        ),
+            }),
         405,
     )
 
@@ -1049,7 +1100,8 @@ def handle_internal_server_error(
 ) -> Any:  # Catches general internal server errors
     """Handles 500 Internal Server Errors with a standardized JSON response."""
     # Note: This is a generic 500 handler. Specific endpoint errors are caught by `handle_api_error`.
-    # This will catch unhandled exceptions within Flask routing or before endpoint logic fully engages.
+    # This will catch unhandled exceptions within Flask routing or before
+    # endpoint logic fully engages.
     user_id_for_log = request.headers.get("X-User-ID", "unknown_or_pre_auth")
     logger.critical(
         f"ΛTRACE: Unhandled 500 Internal Server Error at path '{request.path}' for user '{user_id_for_log}'. Error: {error}. Traceback: {traceback.format_exc()}"
@@ -1070,8 +1122,7 @@ def handle_internal_server_error(
                 "error": "An unexpected internal server error occurred. The LUKHAS team has been notified.",
                 "error_code": "UNHANDLED_INTERNAL_SERVER_ERROR",
                 "timestamp": datetime.utcnow().isoformat(),
-            }
-        ),
+            }),
         500,
     )
 
@@ -1096,7 +1147,7 @@ if __name__ == "__main__":
         f"🚀 LUKHAS AGI API Server starting on {host_setting}:{port_setting} (Debug: {debug_setting})..."
     )
     logger.info(f"🔗 API Base Path: {BASE_PATH}")
-    logger.info(f"🔑 Authentication expected via 'X-User-ID' header.")
+    logger.info("🔑 Authentication expected via 'X-User-ID' header.")
     logger.info(f"🩺 Health Check endpoint available at: {BASE_PATH}/health")
 
     # It's generally recommended not to use Flask's built-in server for production.

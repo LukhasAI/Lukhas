@@ -44,20 +44,20 @@ Author: LUKHAS AGI Development Team
 Date: May 25, 2025
 """
 
-import numpy as np
-import math
-from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
 import logging
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+from typing import Optional, Tuple
+
+import numpy as np
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
 logger = logging.getLogger("BioOscillator")
+
 
 class OscillationType(Enum):
     """
@@ -93,11 +93,13 @@ class OscillationType(Enum):
         - All types implement phase coherence monitoring
         - Safety bounds are enforced for each type
     """
-    NEURAL = "neural"      # Neural network synchronization
-    METABOLIC = "metabolic" # Resource management patterns
-    QUANTUM = "quantum"    # Quantum state processing
-    EMOTIONAL = "emotional" # Emotional modulation
-    COGNITIVE = "cognitive" # Cognitive processing
+
+    NEURAL = "neural"  # Neural network synchronization
+    METABOLIC = "metabolic"  # Resource management patterns
+    QUANTUM = "quantum"  # Quantum state processing
+    EMOTIONAL = "emotional"  # Emotional modulation
+    COGNITIVE = "cognitive"  # Cognitive processing
+
 
 @dataclass
 class OscillatorConfig:
@@ -144,11 +146,13 @@ class OscillatorConfig:
         All parameters are validated upon oscillator initialization.
         Invalid configurations raise ValueError with detailed messages.
     """
+
     frequency_range: Tuple[float, float] = (0.1, 10.0)
     amplitude_range: Tuple[float, float] = (0.1, 2.0)
     phase_range: Tuple[float, float] = (0, 2 * np.pi)
     sample_rate: int = 44100
     wave_range: Tuple[float, float] = (-1, 1)
+
 
 class BaseOscillator(ABC):
     """
@@ -204,11 +208,13 @@ class BaseOscillator(ABC):
         - Supports external phase locking
     """
 
-    def __init__(self,
-                 freq: float = 440,
-                 phase: float = 0,
-                 amplitude: float = 1,
-                 config: Optional[OscillatorConfig] = None):
+    def __init__(
+        self,
+        freq: float = 440,
+        phase: float = 0,
+        amplitude: float = 1,
+        config: Optional[OscillatorConfig] = None,
+    ):
         """
         Initialize the oscillator with basic parameters.
 
@@ -247,11 +253,7 @@ class BaseOscillator(ABC):
         self._sample_rate = self.config.sample_rate
 
         # Performance metrics
-        self.metrics = {
-            "stability": 1.0,
-            "coherence": 1.0,
-            "energy_efficiency": 1.0
-        }
+        self.metrics = {"stability": 1.0, "coherence": 1.0, "energy_efficiency": 1.0}
 
         logger.info(f"Initialized {self.__class__.__name__} with freq={freq}Hz")
 
@@ -361,7 +363,9 @@ class BaseOscillator(ABC):
         """
         min_freq, max_freq = self.config.frequency_range
         if not min_freq <= freq <= max_freq:
-            logger.warning(f"Frequency {freq} outside valid range [{min_freq}, {max_freq}]")
+            logger.warning(
+                f"Frequency {freq} outside valid range [{min_freq}, {max_freq}]"
+            )
             return np.clip(freq, min_freq, max_freq)
         return freq
 
@@ -398,7 +402,9 @@ class BaseOscillator(ABC):
         """
         min_amp, max_amp = self.config.amplitude_range
         if not min_amp <= amplitude <= max_amp:
-            logger.warning(f"Amplitude {amplitude} outside valid range [{min_amp}, {max_amp}]")
+            logger.warning(
+                f"Amplitude {amplitude} outside valid range [{min_amp}, {max_amp}]"
+            )
             return np.clip(amplitude, min_amp, max_amp)
         return amplitude
 

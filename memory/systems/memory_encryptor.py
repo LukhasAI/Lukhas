@@ -44,80 +44,132 @@ import json
 import os
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Third-Party Imports
-import structlog
 
 # LUKHAS Core Imports / Placeholders
-from core.common import get_logger
+
 SEEDRA_AVAILABLE = False
 try:
     from seedra_docs.vault_manager import encrypt_user_file
+
     SEEDRA_AVAILABLE = True
 except ImportError:
-    log.warning("SEEDRA Vault Manager not found. `encrypt_memory` will use a placeholder.", component="MemoryEncryptor")
-    def encrypt_user_file(filepath_to_encrypt: str, seed_phrase: List[str], filename_in_vault: str) -> bool:
-        log.info("Placeholder encrypt_user_file called.", file_to_encrypt=filepath_to_encrypt, vault_filename=filename_in_vault)
-        # Returning True to allow example flow, but in real scenario this failure might be critical
-        return True # Placeholder returns True for flow
+    log.warning(
+        "SEEDRA Vault Manager not found. `encrypt_memory` will use a placeholder.",
+        component="MemoryEncryptor",
+    )
 
-LUKHAS_FUNCTION_TIER = 3 # Conceptual Tier for this utility's operation
+    def encrypt_user_file(
+        filepath_to_encrypt: str, seed_phrase: List[str], filename_in_vault: str
+    ) -> bool:
+        log.info(
+            "Placeholder encrypt_user_file called.",
+            file_to_encrypt=filepath_to_encrypt,
+            vault_filename=filename_in_vault,
+        )
+        # Returning True to allow example flow, but in real scenario this failure might be critical
+        return True  # Placeholder returns True for flow
+
+
+LUKHAS_FUNCTION_TIER = 3  # Conceptual Tier for this utility's operation
+
 
 def encrypt_memory(
     seed_phrase: List[str],
     memory_data: Dict[str, Any],
     output_filename_in_vault: Optional[str] = None,
-    temp_file_base_path: str = "./.tmp_lukhas_memory"
+    temp_file_base_path: str = "./.tmp_lukhas_memory",
 ) -> bool:
     """
     Encrypts a symbolic memory log for a "Lukhas" entity using SEEDRA vault manager.
     Returns: True if encryption and cleanup were successful (or placeholder succeeded), False otherwise.
     """
-    log.debug("Attempting to encrypt 'Lukhas' memory.", data_keys_count=len(memory_data), output_fn_provided=bool(output_filename_in_vault))
+    log.debug(
+        "Attempting to encrypt 'Lukhas' memory.",
+        data_keys_count=len(memory_data),
+        output_fn_provided=bool(output_filename_in_vault),
+    )
 
     final_vault_filename: str
     if output_filename_in_vault:
         final_vault_filename = output_filename_in_vault
     else:
         ts_utc = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
-        final_vault_filename = f"lukhas_memory_{ts_utc}.json.seedra" # .seedra suffix indicates encrypted by this method
+        final_vault_filename = f"lukhas_memory_{ts_utc}.json.seedra"  # .seedra suffix indicates encrypted by this method
 
     temp_dir = Path(temp_file_base_path)
-    try: temp_dir.mkdir(parents=True, exist_ok=True)
-    except OSError as e: log.error("Failed to create temp directory.", path=str(temp_dir), error=str(e)); return False
+    try:
+        temp_dir.mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        log.error("Failed to create temp directory.", path=str(temp_dir), error=str(e))
+        return False
 
     # Using a more unique temp name to avoid clashes if function is called rapidly
-    temp_json_name = f"temp_lucas_mem_{uuid.uuid4().hex[:12]}.json" # Increased uniqueness
+    temp_json_name = (
+        f"temp_lucas_mem_{uuid.uuid4().hex[:12]}.json"  # Increased uniqueness
+    )
     temp_json_path = temp_dir / temp_json_name
 
     encryption_successful = False
     try:
-        log.debug("Saving memory to temporary plaintext file.", path=str(temp_json_path))
-        with open(temp_json_path, "w", encoding='utf-8') as f:
+        log.debug(
+            "Saving memory to temporary plaintext file.", path=str(temp_json_path)
+        )
+        with open(temp_json_path, "w", encoding="utf-8") as f:
             json.dump(memory_data, f, indent=2, ensure_ascii=False)
 
-        if SEEDRA_AVAILABLE or not SEEDRA_AVAILABLE: # Allow placeholder to run
-            log.info("Calling SEEDRA (or placeholder) to encrypt user file.", source_file=str(temp_json_path), vault_target_name=final_vault_filename)
-            op_status = encrypt_user_file(str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename) # type: ignore
+        if SEEDRA_AVAILABLE or not SEEDRA_AVAILABLE:  # Allow placeholder to run
+            log.info(
+                "Calling SEEDRA (or placeholder) to encrypt user file.",
+                source_file=str(temp_json_path),
+                vault_target_name=final_vault_filename,
+            )
+            op_status = encrypt_user_file(str(temp_json_path), seed_phrase, filename_in_vault=final_vault_filename)  # type: ignore
             encryption_successful = bool(op_status)
             if encryption_successful:
-                 log.info("'Lukhas' memory encrypted.", vault_destination=f"vault/<SID>/{final_vault_filename} (conceptual path)", seedra_active=SEEDRA_AVAILABLE)
+                log.info(
+                    "'Lukhas' memory encrypted.",
+                    vault_destination=f"vault/<SID>/{final_vault_filename} (conceptual path)",
+                    seedra_active=SEEDRA_AVAILABLE,
+                )
             else:
-                 log.error("SEEDRA (or placeholder) encryption call reported failure.", source_file=str(temp_json_path), seedra_active=SEEDRA_AVAILABLE)
+                log.error(
+                    "SEEDRA (or placeholder) encryption call reported failure.",
+                    source_file=str(temp_json_path),
+                    seedra_active=SEEDRA_AVAILABLE,
+                )
         # Removed the specific 'else' for SEEDRA_AVAILABLE being false, as placeholder handles it.
 
     except Exception as e:
-        log.error("Error during 'Lukhas' memory encryption process.", error_message=str(e), exc_info=True)
-        encryption_successful = False # Ensure this is set on any exception
+        log.error(
+            "Error during 'Lukhas' memory encryption process.",
+            error_message=str(e),
+            exc_info=True,
+        )
+        encryption_successful = False  # Ensure this is set on any exception
     finally:
         if temp_json_path.exists():
-            try: os.remove(temp_json_path); log.debug("Temporary plaintext memory file deleted.", path=str(temp_json_path))
+            try:
+                os.remove(temp_json_path)
+                log.debug(
+                    "Temporary plaintext memory file deleted.", path=str(temp_json_path)
+                )
             except OSError as e_del:
-                log.error("Failed to delete temporary plaintext memory file.", path=str(temp_json_path), os_error=str(e_del))
-                if encryption_successful: log.critical("SECURITY_RISK: Encrypted memory, but failed to delete plaintext temporary file.", temp_file_path=str(temp_json_path))
+                log.error(
+                    "Failed to delete temporary plaintext memory file.",
+                    path=str(temp_json_path),
+                    os_error=str(e_del),
+                )
+                if encryption_successful:
+                    log.critical(
+                        "SECURITY_RISK: Encrypted memory, but failed to delete plaintext temporary file.",
+                        temp_file_path=str(temp_json_path),
+                    )
     return encryption_successful
+
 
 """
 # --- Example Usage (Commented Out) ---

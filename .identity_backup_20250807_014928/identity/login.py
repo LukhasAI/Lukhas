@@ -8,12 +8,12 @@ Implements multi-factor authentication readiness with Trinity validation.
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
-from fastapi import APIRouter, HTTPException, Request, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List, Dict, Any
 import logging
-from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, EmailStr, Field
 
 from .user_db import user_db
 
@@ -30,7 +30,7 @@ class LoginRequest(BaseModel):
     email: Optional[EmailStr] = Field(None, description="Email address")
     token: Optional[str] = Field(None, description="Existing session token")
     password: Optional[str] = Field(None, description="User password")
-    
+
     class Config:
         schema_extra = {
             "example": {
@@ -77,7 +77,7 @@ def get_allowed_routes(tier: str) -> List[str]:
         "/api/health",
         "/api/status"
     ]
-    
+
     tier_routes = {
         "T1": base_routes + [
             "/api/public/*",
@@ -109,7 +109,7 @@ def get_allowed_routes(tier: str) -> List[str]:
             "/*"  # Full access
         ]
     }
-    
+
     return tier_routes.get(tier, base_routes)
 
 @router.post("/login", response_model=LoginResponse)
@@ -129,7 +129,7 @@ async def login(request: LoginRequest):
     """
     try:
         user_data = None
-        
+
         # Method 1: Token-based authentication
         if request.token:
             user_data = user_db.verify_token(request.token)
@@ -138,7 +138,7 @@ async def login(request: LoginRequest):
                     status_code=401,
                     detail="Invalid or expired token"
                 )
-            
+
             # Token is valid, return existing session
             return LoginResponse(
                 success=True,
@@ -156,7 +156,7 @@ async def login(request: LoginRequest):
                 },
                 trinity_active=user_data["metadata"]["trinity_score"] >= 0.7
             )
-        
+
         # Method 2: Email + Password authentication
         if request.email and request.password:
             user_data = user_db.authenticate_user(request.email, request.password)
@@ -165,10 +165,10 @@ async def login(request: LoginRequest):
                     status_code=401,
                     detail="Invalid email or password"
                 )
-            
+
             # Successful authentication
             logger.info(f"User {request.email} logged in with tier {user_data['tier']}")
-            
+
             return LoginResponse(
                 success=True,
                 message=f"Welcome back! Logged in with {user_data['tier']} access",
@@ -186,13 +186,13 @@ async def login(request: LoginRequest):
                 },
                 trinity_active=user_data["metadata"]["trinity_score"] >= 0.7
             )
-        
+
         # No valid authentication method provided
         raise HTTPException(
             status_code=400,
             detail="Please provide either email+password or token"
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -211,7 +211,7 @@ async def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token exists
         user_data = user_db.verify_token(token)
         if not user_data:
@@ -219,10 +219,10 @@ async def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
                 status_code=401,
                 detail="Invalid token"
             )
-        
+
         # Invalidate token
         success = user_db.invalidate_token(token)
-        
+
         if success:
             logger.info(f"User {user_data['email']} logged out")
             return {
@@ -235,7 +235,7 @@ async def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
                 status_code=500,
                 detail="Failed to invalidate token"
             )
-            
+
     except HTTPException:
         raise
     except Exception as e:
@@ -254,7 +254,7 @@ async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(securi
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token and get user
         user_data = user_db.verify_token(token)
         if not user_data:
@@ -262,7 +262,7 @@ async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(securi
                 status_code=401,
                 detail="Invalid or expired token"
             )
-        
+
         return UserProfile(
             email=user_data["email"],
             lambda_id=user_data["lambda_id"],
@@ -276,7 +276,7 @@ async def get_profile(credentials: HTTPAuthorizationCredentials = Depends(securi
             last_login=user_data["metadata"].get("last_login"),
             login_count=user_data["metadata"].get("login_count", 0)
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:

@@ -40,9 +40,10 @@
 
 import base64
 import gzip
+from collections.abc import Iterable
 from contextlib import contextmanager
 from dataclasses import dataclass
-from typing import Dict, Iterable, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 import torch
@@ -77,11 +78,13 @@ class ModelDimensions:
 
 
 class LayerNorm(nn.LayerNorm):
+
     def forward(self, x: Tensor) -> Tensor:
         return super().forward(x.float()).type(x.dtype)
 
 
 class Linear(nn.Linear):
+
     def forward(self, x: Tensor) -> Tensor:
         return F.linear(
             x,
@@ -91,6 +94,7 @@ class Linear(nn.Linear):
 
 
 class Conv1d(nn.Conv1d):
+
     def _conv_forward(
         self, x: Tensor, weight: Tensor, bias: Optional[Tensor]
     ) -> Tensor:
@@ -140,11 +144,13 @@ class MultiHeadAttention(nn.Module):
 
         if kv_cache is None or xa is None or self.key not in kv_cache:
             # hooks, if installed (i.e. kv_cache is not None), will prepend the cached kv tensors;
-            # otherwise, perform key/value projections for self- or cross-attention as usual.
+            # otherwise, perform key/value projections for self- or cross-attention as
+            # usual.
             k = self.key(x if xa is None else xa)
             v = self.value(x if xa is None else xa)
         else:
-            # for cross-attention, calculate keys and values once and reuse in subsequent calls.
+            # for cross-attention, calculate keys and values once and reuse in
+            # subsequent calls.
             k = kv_cache[self.key]
             v = kv_cache[self.value]
 
@@ -153,7 +159,7 @@ class MultiHeadAttention(nn.Module):
 
     def qkv_attention(
         self, q: Tensor, k: Tensor, v: Tensor, mask: Optional[Tensor] = None
-    ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
+    ) -> tuple[torch.Tensor, Optional[torch.Tensor]]:
         n_batch, n_ctx, n_state = q.shape
         scale = (n_state // self.n_head) ** -0.25
         q = q.view(*q.shape[:2], self.n_head, -1).permute(0, 2, 1, 3)
@@ -180,6 +186,7 @@ class MultiHeadAttention(nn.Module):
 
 
 class ResidualAttentionBlock(nn.Module):
+
     def __init__(self, n_state: int, n_head: int, cross_attention: bool = False):
         super().__init__()
 
@@ -212,6 +219,7 @@ class ResidualAttentionBlock(nn.Module):
 
 
 class AudioEncoder(nn.Module):
+
     def __init__(
         self, n_mels: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):
@@ -245,6 +253,7 @@ class AudioEncoder(nn.Module):
 
 
 class TextDecoder(nn.Module):
+
     def __init__(
         self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):
@@ -290,6 +299,7 @@ class TextDecoder(nn.Module):
 
 
 class ModelCommunicationEngine(nn.Module):
+
     def __init__(self, dims: ModelDimensions):
         super().__init__()
         self.dims = dims
@@ -332,7 +342,7 @@ class ModelCommunicationEngine(nn.Module):
 
     def forward(
         self, mel: torch.Tensor, tokens: torch.Tensor
-    ) -> Dict[str, torch.Tensor]:
+    ) -> dict[str, torch.Tensor]:
         return self.decoder(tokens, self.encoder(mel))
 
     @property

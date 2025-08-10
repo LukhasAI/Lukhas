@@ -9,13 +9,14 @@ logger = get_logger(__name__)
 
 try:
     from .test_unified_memory import TestUnifiedMemory
+
     logger.debug("Imported TestUnifiedMemory from .test_unified_memory")
 except ImportError as e:
     logger.warning(f"Could not import TestUnifiedMemory: {e}")
     TestUnifiedMemory = None
 
 __all__ = [
-    'TestUnifiedMemory',
+    "TestUnifiedMemory",
 ]
 
 # Filter out None values from __all__ if imports failed

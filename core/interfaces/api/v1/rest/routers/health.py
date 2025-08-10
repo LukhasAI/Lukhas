@@ -1,6 +1,4 @@
 from fastapi import APIRouter
-from datetime import datetime
-
 from interfaces.api.v1.rest.models import HealthStatus
 
 router = APIRouter()

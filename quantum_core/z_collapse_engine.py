@@ -5,9 +5,9 @@ Z Collapse Engine
 Minimal implementation for testing infrastructure.
 """
 
-from enum import Enum
 from dataclasses import dataclass
-from typing import Dict, List, Any, Optional
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class CollapseType(Enum):
@@ -34,16 +34,16 @@ class ZCollapseEngine:
     
     This is a placeholder implementation to support test infrastructure.
     """
-    
+
     def __init__(self):
         self.name = "Z-Collapse Engine"
         self.version = "1.0.0-minimal"
         self.active_collapses = {}
-        
+
     async def initiate_collapse(self, collapse_type: CollapseType, data: Any) -> CollapseResult:
         """Initiate a collapse operation"""
         collapse_id = f"collapse_{len(self.active_collapses)}"
-        
+
         # Simulate collapse operation
         result = CollapseResult(
             collapse_id=collapse_id,
@@ -53,14 +53,14 @@ class ZCollapseEngine:
             compression_ratio=0.85,  # Mock value
             metadata={"timestamp": "2025-08-03", "engine": self.name}
         )
-        
+
         self.active_collapses[collapse_id] = result
         return result
-        
+
     def get_collapse_status(self, collapse_id: str) -> Optional[CollapseResult]:
         """Get status of a collapse operation"""
         return self.active_collapses.get(collapse_id)
-        
+
     def list_active_collapses(self) -> List[str]:
         """List all active collapse operations"""
         return list(self.active_collapses.keys())

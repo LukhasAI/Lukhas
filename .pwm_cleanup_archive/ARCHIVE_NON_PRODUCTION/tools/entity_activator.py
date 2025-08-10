@@ -4,20 +4,17 @@ Entity Activation Script - Agent 5
 Systematically activate all inactive entities across the LUKHAS AGI system
 """
 
-import os
 import ast
 import json
 import logging
 import sys
-from pathlib import Path
-from typing import Dict, List, Tuple, Optional, Set, Any
 from datetime import datetime
-import importlib.util
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -37,7 +34,7 @@ class EntityActivator:
         entities = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -46,7 +43,9 @@ class EntityActivator:
                 if isinstance(node, ast.ClassDef):
                     # Include line number for better tracking
                     entities.append(("class", node.name, node.lineno))
-                elif isinstance(node, ast.FunctionDef) and not node.name.startswith('_'):
+                elif isinstance(node, ast.FunctionDef) and not node.name.startswith(
+                    "_"
+                ):
                     # Only public functions
                     entities.append(("function", node.name, node.lineno))
 
@@ -55,7 +54,9 @@ class EntityActivator:
 
         return entities
 
-    def find_system_entities(self, system_path: str) -> Dict[str, List[Tuple[str, str, int]]]:
+    def find_system_entities(
+        self, system_path: str
+    ) -> Dict[str, List[Tuple[str, str, int]]]:
         """Find all entities in a system directory"""
         system_dir = self.root_path / system_path
         entities_by_file = {}
@@ -65,7 +66,7 @@ class EntityActivator:
             return entities_by_file
 
         # Exclude test files and __pycache__
-        exclude_patterns = ['test_', '_test.py', '__pycache__', '.pyc']
+        exclude_patterns = ["test_", "_test.py", "__pycache__", ".pyc"]
 
         for py_file in system_dir.rglob("*.py"):
             # Skip excluded files
@@ -83,7 +84,9 @@ class EntityActivator:
 
         return entities_by_file
 
-    def generate_hub_activation_code(self, system_name: str, entities_by_file: Dict[str, List[Tuple[str, str, int]]]) -> str:
+    def generate_hub_activation_code(
+        self, system_name: str, entities_by_file: Dict[str, List[Tuple[str, str, int]]]
+    ) -> str:
         """Generate activation code for a system hub"""
 
         # Group entities by type
@@ -91,7 +94,7 @@ class EntityActivator:
         functions = []
 
         for file_path, entities in entities_by_file.items():
-            module_path = file_path.replace('.py', '').replace('/', '.')
+            module_path = file_path.replace(".py", "").replace("/", ".")
 
             for entity_type, entity_name, line_no in entities:
                 if entity_type == "class":
@@ -118,10 +121,10 @@ logger = logging.getLogger(__name__)
         for module_path, class_name in sorted(classes):
             code += f'    ("{module_path}", "{class_name}"),\n'
 
-        code += f''']
+        code += f"""]
 
 {system_name.upper()}_FUNCTION_ENTITIES = [
-'''
+"""
 
         for module_path, func_name in sorted(functions):
             code += f'    ("{module_path}", "{func_name}"),\n'
@@ -242,7 +245,7 @@ def get_{system_name}_activator(hub_instance):
         output_dir.mkdir(parents=True, exist_ok=True)
 
         output_file = output_dir / f"{system_name}_activation.py"
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             f.write(code)
 
         return output_file
@@ -268,8 +271,12 @@ def get_{system_name}_activator(hub_instance):
 
         # Count entities
         entity_count = sum(len(ents) for ents in entities.values())
-        class_count = sum(1 for ents in entities.values() for e in ents if e[0] == "class")
-        func_count = sum(1 for ents in entities.values() for e in ents if e[0] == "function")
+        class_count = sum(
+            1 for ents in entities.values() for e in ents if e[0] == "class"
+        )
+        func_count = sum(
+            1 for ents in entities.values() for e in ents if e[0] == "function"
+        )
 
         logger.info(f"Generated activation code for {entity_count} entities:")
         logger.info(f"  - Classes: {class_count}")
@@ -283,7 +290,7 @@ def get_{system_name}_activator(hub_instance):
             "function_count": func_count,
             "files": len(entities),
             "activation_file": str(activation_file),
-            "entities_by_file": entities
+            "entities_by_file": entities,
         }
 
         self.activation_log.append(result)
@@ -306,10 +313,10 @@ def get_{system_name}_activator(hub_instance):
             ("identity", "identity"),
             ("creativity", "creativity"),
             ("embodiment", "embodiment"),
-            ("emotion", "emotion")
+            ("emotion", "emotion"),
         ]
 
-        logger.info(f"\nStarting system-wide entity activation...")
+        logger.info("\nStarting system-wide entity activation...")
         logger.info(f"Processing {len(systems)} systems\n")
 
         for system_name, system_path in systems:
@@ -325,20 +332,22 @@ def get_{system_name}_activator(hub_instance):
             "total_systems": len(self.activation_log),
             "total_entities": sum(item["entity_count"] for item in self.activation_log),
             "total_classes": sum(item["class_count"] for item in self.activation_log),
-            "total_functions": sum(item["function_count"] for item in self.activation_log),
-            "systems": self.activation_log
+            "total_functions": sum(
+                item["function_count"] for item in self.activation_log
+            ),
+            "systems": self.activation_log,
         }
 
         # Save report
         report_file = self.root_path / "tools" / "entity_activation_report.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         # Generate hub integration script
         self.generate_hub_integration_script()
 
         logger.info(f"\n{'='*60}")
-        logger.info(f"📊 Entity Activation Summary")
+        logger.info("📊 Entity Activation Summary")
         logger.info(f"{'='*60}")
         logger.info(f"Systems processed: {report['total_systems']}")
         logger.info(f"Total entities found: {report['total_entities']}")
@@ -375,8 +384,8 @@ def integrate_all_hubs():
 '''
 
         for system in self.activation_log:
-            system_name = system['system']
-            code += f'''    # {system_name.title()} System
+            system_name = system["system"]
+            code += f"""    # {system_name.title()} System
     try:
         from {system_name}.{system_name}_hub import get_{system_name}_hub
         from {system_name}_activation import get_{system_name}_activator
@@ -400,9 +409,9 @@ def integrate_all_hubs():
             "error": str(e)
         }})
 
-'''
+"""
 
-        code += '''
+        code += """
     # Summary
     total_activated = sum(i.get('activated', 0) for i in integrations if i['status'] == 'success')
     total_failed = sum(i.get('failed', 0) for i in integrations if i['status'] == 'success')
@@ -427,11 +436,11 @@ if __name__ == "__main__":
     )
 
     integrate_all_hubs()
-'''
+"""
 
         # Save integration script
         script_file = self.root_path / "tools" / "integrate_hubs.py"
-        with open(script_file, 'w') as f:
+        with open(script_file, "w") as f:
             f.write(code)
 
         # Make executable
@@ -444,12 +453,16 @@ def main():
     """Main execution function"""
     import argparse
 
-    parser = argparse.ArgumentParser(description='LUKHAS AGI Entity Activator')
-    parser.add_argument('--root', default='/Users/agi_dev/Downloads/Consolidation-Repo',
-                        help='Root directory of the project')
-    parser.add_argument('--system', help='Activate specific system only')
-    parser.add_argument('--integrate', action='store_true',
-                        help='Run hub integration after activation')
+    parser = argparse.ArgumentParser(description="LUKHAS AGI Entity Activator")
+    parser.add_argument(
+        "--root",
+        default="/Users/agi_dev/Downloads/Consolidation-Repo",
+        help="Root directory of the project",
+    )
+    parser.add_argument("--system", help="Activate specific system only")
+    parser.add_argument(
+        "--integrate", action="store_true", help="Run hub integration after activation"
+    )
 
     args = parser.parse_args()
 
@@ -466,10 +479,12 @@ def main():
         if args.integrate:
             logger.info("\nRunning hub integration...")
             import subprocess
-            result = subprocess.run([
-                sys.executable,
-                str(Path(args.root) / "tools" / "integrate_hubs.py")
-            ], capture_output=True, text=True)
+
+            result = subprocess.run(
+                [sys.executable, str(Path(args.root) / "tools" / "integrate_hubs.py")],
+                capture_output=True,
+                text=True,
+            )
 
             if result.returncode == 0:
                 logger.info("Hub integration successful")

@@ -26,7 +26,6 @@ Integration Date: 2025-05-31T07:55:28.262769
 
 from cryptography.fernet import Fernet
 from seedra_core.guardian_orchestrator import GuardianEngine
-from seedra_docs.multisig_validator import MultisigValidator
 
 # 🔐 Setup
 key = Fernet.generate_key()
@@ -39,14 +38,18 @@ print(f"📦 Ciphertext: {cipher}")
 
 # Simulate trust drop + fallback mode
 print("\n🚨 Triggering fallback via trust monitor...")
-fallback = guardian.encrypt("Trigger fallback")  # triggers again due to hardcoded TrustMonitor
+fallback = guardian.encrypt(
+    "Trigger fallback"
+)  # triggers again due to hardcoded TrustMonitor
 print(f"🛡️ Status: {fallback}")
 
 # Simulate override with mock quorum
 print("\n✍️ Simulating quorum signatures...")
 
 mock_message = "guardian_override_request"
-mock_signatures = [(f"node_0{i}", b"fake_signature") for i in range(1, 6)]  # Placeholder
+mock_signatures = [
+    (f"node_0{i}", b"fake_signature") for i in range(1, 6)
+]  # Placeholder
 
 guardian.attempt_override(mock_message, mock_signatures)
 

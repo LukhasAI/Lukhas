@@ -1,7 +1,9 @@
 import numpy as np
 
 
-def validate_modal_agreement(vector_a: np.ndarray, vector_b: np.ndarray, threshold: float = 0.8) -> bool:
+def validate_modal_agreement(
+    vector_a: np.ndarray, vector_b: np.ndarray, threshold: float = 0.8
+) -> bool:
     """Return True if cosine similarity between vectors exceeds threshold."""
     if vector_a.shape != vector_b.shape:
         raise ValueError("Vectors must have same shape")

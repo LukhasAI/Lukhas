@@ -6,7 +6,6 @@ Test the documentation updater on a single file to verify the path fixes work.
 import asyncio
 import sys
 from pathlib import Path
-import openai
 
 # Add docs directory to path
 sys.path.append(str(Path(__file__).parent / "docs"))
@@ -33,8 +32,7 @@ async def test_single_file():
 
     try:
         results = await standardize_lukhas_documentation(
-            project_root=".",
-            specific_files=[test_file]
+            project_root=".", specific_files=[test_file]
         )
 
         print("✅ Test completed successfully!")
@@ -47,6 +45,7 @@ async def test_single_file():
         else:
             print(f"❌ Unexpected error: {e}")
             import traceback
+
             traceback.print_exc()
 
 

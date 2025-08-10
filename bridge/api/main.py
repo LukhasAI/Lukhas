@@ -10,28 +10,26 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from typing import Dict, Any
 
-from .db.db import init_db
-from .identity.auth_middleware import get_current_user, AuthUser
 from .analysis.drift_score import update_user_drift_profile
+from .db.db import init_db
+from .identity.auth_middleware import AuthUser, get_current_user
 from .settings import get_settings
 
 # Initialize FastAPI app
 
-#TAG:bridge
-#TAG:api
-#TAG:neuroplastic
-#TAG:colony
-
+# TAG:bridge
+# TAG:api
+# TAG:neuroplastic
+# TAG:colony
 
 app = FastAPI(
     title="Oneiric Core API",
     description="Symbolic Dream Analysis System with ΛiD Identity",
-    version="2.9.0"
+    version="2.9.0",
 )
 
 # Initialize database
@@ -47,6 +45,8 @@ app.add_middleware(
 )
 
 # Root endpoint for basic API info
+
+
 @app.get("/")
 async def root():
     """Root endpoint - API information"""
@@ -60,12 +60,15 @@ async def root():
             "api": {
                 "dreams": "/api/dreams",
                 "symbols": "/api/symbols",
-                "settings": "/api/settings"
-            }
-        }
+                "settings": "/api/settings",
+            },
+        },
     }
 
+
 # Health check endpoint
+
+
 @app.get("/healthz")
 async def health_check(user: AuthUser = Depends(get_current_user)):
     """Health check with user authentication"""
@@ -73,28 +76,31 @@ async def health_check(user: AuthUser = Depends(get_current_user)):
         "status": "ok",
         "user_id": user.id,
         "tier": user.tier,
-        "identity_legacy": user.lukhas_id[:16] + "..." if user.lukhas_id else None,
-        "timestamp": "2025-07-10T12:00:00Z"
+        "identity_legacy": (user.lukhas_id[:16] + "..." if user.lukhas_id else None),
+        "timestamp": "2025-07-10T12:00:00Z",
     }
 
+
 # Public health check (no auth required)
+
+
 @app.get("/health")
 async def public_health():
     """Public health check"""
     return {"status": "ok", "service": "oneiric-core"}
 
+
 # Dream generation endpoint
+
+
 @app.post("/api/generate-dream")
-async def generate_dream(
-    request: Request,
-    user: AuthUser = Depends(get_current_user)
-):
+async def generate_dream(request: Request, user: AuthUser = Depends(get_current_user)):
     """Generate a dream scene with symbolic analysis"""
     try:
         # Get request data
         data = await request.json()
         prompt = data.get("prompt", "")
-        recursive = data.get("recursive", False)
+        data.get("recursive", False)
 
         # Mock dream generation response
         dream_response = {
@@ -109,9 +115,9 @@ async def generate_dream(
                     "driftScore": 0.15,
                     "symbolic_entropy": 0.65,
                     "emotional_charge": 0.3,
-                    "narrative_coherence": 0.85
-                }
-            }
+                    "narrative_coherence": 0.85,
+                },
+            },
         }
 
         # Update user drift profile
@@ -119,7 +125,7 @@ async def generate_dream(
             "symbolic_entropy": 0.65,
             "emotional_charge": 0.3,
             "narrative_coherence": 0.85,
-            "timestamp": "2025-07-10T12:00:00Z"
+            "timestamp": "2025-07-10T12:00:00Z",
         }
 
         updated_profile = await update_user_drift_profile(user.id, dream_metrics)
@@ -127,7 +133,9 @@ async def generate_dream(
         # Add profile info to response
         dream_response["userProfile"] = {
             "total_dreams": updated_profile.get("total_dreams", 0),
-            "avg_drift": updated_profile.get("drift_history", [{}])[-1].get("drift_score", 0.0)
+            "avg_drift": updated_profile.get("drift_history", [{}])[-1].get(
+                "drift_score", 0.0
+            ),
         }
 
         return dream_response
@@ -135,7 +143,10 @@ async def generate_dream(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
 # Dreams list endpoint
+
+
 @app.get("/api/dreams")
 async def list_dreams(user: AuthUser = Depends(get_current_user)):
     """List user's dreams"""
@@ -148,8 +159,8 @@ async def list_dreams(user: AuthUser = Depends(get_current_user)):
             "symbolicStructure": {
                 "visualAnchor": "memory_cascade",
                 "directive_used": "memory_exploration",
-                "driftAnalysis": {"driftScore": 0.12}
-            }
+                "driftAnalysis": {"driftScore": 0.12},
+            },
         },
         {
             "sceneId": f"dream_{user.id}_002",
@@ -158,19 +169,20 @@ async def list_dreams(user: AuthUser = Depends(get_current_user)):
             "symbolicStructure": {
                 "visualAnchor": "consciousness_weave",
                 "directive_used": "consciousness_exploration",
-                "driftAnalysis": {"driftScore": 0.08}
-            }
-        }
+                "driftAnalysis": {"driftScore": 0.08},
+            },
+        },
     ]
 
     return {"dreams": dreams}
 
+
 # Dream rating endpoint
+
+
 @app.post("/api/dreams/{dream_id}/rate")
 async def rate_dream(
-    dream_id: str,
-    request: Request,
-    user: AuthUser = Depends(get_current_user)
+    dream_id: str, request: Request, user: AuthUser = Depends(get_current_user)
 ):
     """Rate a dream"""
     data = await request.json()
@@ -181,10 +193,13 @@ async def rate_dream(
         "success": True,
         "dream_id": dream_id,
         "rating": rating,
-        "message": "Rating recorded"
+        "message": "Rating recorded",
     }
 
+
 # Symbols endpoint
+
+
 @app.get("/api/symbols")
 async def list_symbols(user: AuthUser = Depends(get_current_user)):
     """List user's symbolic patterns"""
@@ -194,19 +209,22 @@ async def list_symbols(user: AuthUser = Depends(get_current_user)):
             "symbol": "water",
             "frequency": 12,
             "emotional_charge": 0.3,
-            "recent_dreams": ["dream_001", "dream_005"]
+            "recent_dreams": ["dream_001", "dream_005"],
         },
         {
             "symbol": "flight",
             "frequency": 8,
             "emotional_charge": 0.7,
-            "recent_dreams": ["dream_002", "dream_003"]
-        }
+            "recent_dreams": ["dream_002", "dream_003"],
+        },
     ]
 
     return {"symbols": symbols}
 
+
 # Settings endpoint
+
+
 @app.get("/api/settings")
 async def get_user_settings(user: AuthUser = Depends(get_current_user)):
     """Get user settings"""
@@ -214,43 +232,45 @@ async def get_user_settings(user: AuthUser = Depends(get_current_user)):
         "recursive_dreams": True,
         "drift_logging": True,
         "audio_enabled": True,
-        "theme": "default"
+        "theme": "default",
     }
+
 
 @app.post("/api/settings")
 async def update_user_settings(
-    request: Request,
-    user: AuthUser = Depends(get_current_user)
+    request: Request, user: AuthUser = Depends(get_current_user)
 ):
     """Update user settings"""
     data = await request.json()
 
     # Mock settings update
-    return {
-        "success": True,
-        "settings": data,
-        "message": "Settings updated"
-    }
+    return {"success": True, "settings": data, "message": "Settings updated"}
+
 
 # Error handlers
+
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions"""
     return JSONResponse(
         status_code=exc.status_code,
-        content={"detail": exc.detail, "type": "http_error"}
+        content={"detail": exc.detail, "type": "http_error"},
     )
+
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle general exceptions"""
     return JSONResponse(
         status_code=500,
-        content={"detail": "Internal server error", "type": "server_error"}
+        content={"detail": "Internal server error", "type": "server_error"},
     )
+
 
 if __name__ == "__main__":
     import uvicorn
+
     settings = get_settings()
     uvicorn.run(app, host=settings.host, port=settings.port, reload=settings.debug)
 

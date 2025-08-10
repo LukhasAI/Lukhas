@@ -1,7 +1,7 @@
-from typing import Dict, Any, List
 import logging
-from datetime import datetime, timedelta
-import json
+from datetime import datetime
+from typing import Any, Dict
+
 
 class AIComplianceManager:
     def __init__(self):
@@ -24,7 +24,7 @@ class AIComplianceManager:
                 "required_assessments": ["ethics", "governance"]
             }
         }
-        
+
     async def validate_ai_action(self, action: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
         """Validate AI action against all applicable regulations"""
         result = {
@@ -32,21 +32,21 @@ class AIComplianceManager:
             "validations": [],
             "required_actions": []
         }
-        
+
         # Check EU compliance
         eu_compliance = self._check_eu_compliance(action, context)
         if not eu_compliance["compliant"]:
             result["compliant"] = False
             result["required_actions"].extend(eu_compliance["required_actions"])
-            
+
         # Check US compliance
         us_compliance = self._check_us_compliance(action, context)
         if not us_compliance["compliant"]:
             result["compliant"] = False
             result["required_actions"].extend(us_compliance["required_actions"])
-            
+
         return result
-        
+
     def get_transparency_report(self) -> Dict[str, Any]:
         """Generate transparency report for AI system"""
         return {

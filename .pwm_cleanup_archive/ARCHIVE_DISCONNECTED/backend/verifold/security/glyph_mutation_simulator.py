@@ -6,9 +6,9 @@ Simulates tampering, QR degradation, and encoding drift for security testing.
 Red team tool for validating VeriFold resilience against attacks.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
-import random
+from typing import Dict, List
+
 
 class MutationType(Enum):
     PIXEL_CORRUPTION = "pixel_corruption"
@@ -16,6 +16,7 @@ class MutationType(Enum):
     QR_DEGRADATION = "qr_degradation"
     TIER_SPOOFING = "tier_spoofing"
     REPLAY_INJECTION = "replay_injection"
+
 
 class GlyphMutationSimulator:
     """Simulates various attack vectors against GLYMPH encoding."""
@@ -49,6 +50,7 @@ class GlyphMutationSimulator:
         """Generate comprehensive attack simulation report."""
         # TODO: Implement attack reporting
         pass
+
 
 # TODO: Add fuzzing capabilities for consent validation
 # TODO: Implement side-channel attack simulation

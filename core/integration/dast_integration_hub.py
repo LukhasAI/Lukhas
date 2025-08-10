@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 DAST Integration Hub
 Central hub for connecting all DAST components to TrioOrchestrator and Audit System
 """
@@ -13,9 +12,9 @@ Central hub for connecting all DAST components to TrioOrchestrator and Audit Sys
 import asyncio
 import logging
 import sys
-from pathlib import Path
-from typing import Any, Dict, List, Optional
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Add parent directory to path for imports
 parent_dir = Path(__file__).parent.parent.parent
@@ -58,13 +57,15 @@ class DASTIntegrationHub:
         self.trio_orchestrator = TrioOrchestrator() if TrioOrchestrator else None
         self.dast_engine = DASTEngine() if DASTEngine else None
         self.audit_engine = DecisionAuditEngine() if DecisionAuditEngine else None
-        self.symbolic_framework = SymbolicLanguageFramework() if SymbolicLanguageFramework else None
+        self.symbolic_framework = (
+            SymbolicLanguageFramework() if SymbolicLanguageFramework else None
+        )
         self.seedra = SEEDRACore() if SEEDRACore else None
 
         # Component registry
         self.registered_components = {}
         self.task_tracking = {}
-        self.connected_hubs: List[Dict[str, Any]] = []
+        self.connected_hubs: list[dict[str, Any]] = []
 
         logger.info("DAST Integration Hub initialized")
 
@@ -154,7 +155,7 @@ class DASTIntegrationHub:
                 f"dast.{component_name}", symbolic_patterns
             )
 
-    async def track_task(self, task_id: str, task_data: Dict[str, Any]):
+    async def track_task(self, task_id: str, task_data: dict[str, Any]):
         """Track DAST task execution"""
         self.task_tracking[task_id] = {
             "data": task_data,
@@ -167,7 +168,7 @@ class DASTIntegrationHub:
         # Notify TrioOrchestrator
         await self.trio_orchestrator.notify_task_created("dast", task_id, task_data)
 
-    async def execute_task(self, task_id: str) -> Dict[str, Any]:
+    async def execute_task(self, task_id: str) -> dict[str, Any]:
         """Execute tracked task with full integration"""
         if task_id not in self.task_tracking:
             return {"error": "Task not found"}
@@ -200,13 +201,13 @@ class DASTIntegrationHub:
         finally:
             task["end_time"] = asyncio.get_event_loop().time()
 
-    def broadcast_to_all_hubs(self, message: Dict[str, Any]) -> Dict[str, List[Any]]:
+    def broadcast_to_all_hubs(self, message: dict[str, Any]) -> dict[str, list[Any]]:
         responses = {}
         for hub_info in self.connected_hubs:
             hub_name = hub_info["name"]
             hub = hub_info["instance"]
             try:
-                if hasattr(hub, 'receive_message'):
+                if hasattr(hub, "receive_message"):
                     response = hub.receive_message(message)
                     responses[hub_name] = response
             except Exception as e:
@@ -214,7 +215,7 @@ class DASTIntegrationHub:
                 responses[hub_name] = {"error": str(e)}
         return responses
 
-    def receive_message(self, message: Dict[str, Any]) -> Dict[str, Any]:
+    def receive_message(self, message: dict[str, Any]) -> dict[str, Any]:
         return {
             "hub": self.name,
             "received": True,
@@ -222,7 +223,7 @@ class DASTIntegrationHub:
             "message_id": message.get("id", "unknown"),
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get integration hub status"""
         return {
             "registered_components": len(self.registered_components),

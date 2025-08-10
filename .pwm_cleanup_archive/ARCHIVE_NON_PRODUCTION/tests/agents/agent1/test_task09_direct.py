@@ -21,12 +21,8 @@ async def test_grid_calculator_direct():
         # Test 1: Direct module import
         print("Test 1: Testing Grid Size Calculator imports...")
         from identity.auth_utils.grid_size_calculator import (
-            GridCalculationResult,
-            GridConstraints,
-            GridPattern,
             GridSizeCalculator,
             ScreenDimensions,
-            SizingMode,
         )
 
         print("✅ All grid calculator components imported successfully!")

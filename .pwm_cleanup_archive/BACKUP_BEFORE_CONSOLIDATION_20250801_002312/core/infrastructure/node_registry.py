@@ -18,16 +18,15 @@ This component is inspired by Apple's minimalist design principles
 and OpenAI's focus on robust AI system architectures.
 """
 
-import logging
 import importlib
 import inspect
-import os
+import logging
 import time
 import uuid
-from typing import Dict, Any, List, Optional, Type, Union, Callable
-import openai
+from typing import Any, Callable, Dict, List, Optional, Type
 
 logger = logging.getLogger(__name__)
+
 
 class NodeRegistry:
     """
@@ -66,7 +65,7 @@ class NodeRegistry:
                 "backend.nodes",
                 "backend.cognitive",
                 "backend.ethical",
-                "backend.security"
+                "backend.security",
             ]
 
         discovered = 0
@@ -77,9 +76,12 @@ class NodeRegistry:
 
                 # Find all classes in the module that have "Node" in their name
                 for name, obj in inspect.getmembers(module):
-                    if (inspect.isclass(obj) and "Node" in name and
-                            hasattr(obj, "__init__") and
-                            "agi_system" in inspect.signature(obj.__init__).parameters):
+                    if (
+                        inspect.isclass(obj)
+                        and "Node" in name
+                        and hasattr(obj, "__init__")
+                        and "agi_system" in inspect.signature(obj.__init__).parameters
+                    ):
                         node_id = self._to_node_id(name)
                         self.node_types[node_id] = obj
                         discovered += 1
@@ -109,7 +111,9 @@ class NodeRegistry:
         logger.info(f"Registered node type: {node_id}")
         return True
 
-    def create_node(self, node_type: str, node_id: Optional[str] = None, **kwargs) -> str:
+    def create_node(
+        self, node_type: str, node_id: Optional[str] = None, **kwargs
+    ) -> str:
         """
         Create and register a node instance
 
@@ -137,10 +141,7 @@ class NodeRegistry:
             self.nodes[node_id] = node_instance
 
             # Initialize node relationships
-            self.node_relationships[node_id] = {
-                "depends_on": [],
-                "provides_to": []
-            }
+            self.node_relationships[node_id] = {"depends_on": [], "provides_to": []}
 
             # Initialize execution stats
             self.node_execution_stats[node_id] = {
@@ -148,7 +149,7 @@ class NodeRegistry:
                 "execution_count": 0,
                 "last_execution": None,
                 "total_execution_time": 0,
-                "average_execution_time": 0
+                "average_execution_time": 0,
             }
 
             logger.info(f"Created node {node_id} of type {node_type}")
@@ -173,11 +174,9 @@ class NodeRegistry:
 
         return self.nodes[node_id]
 
-    def send_message(self,
-                    from_node: str,
-                    to_node: str,
-                    message_type: str,
-                    payload: Any) -> str:
+    def send_message(
+        self, from_node: str, to_node: str, message_type: str, payload: Any
+    ) -> str:
         """
         Send a message from one node to another
 
@@ -192,10 +191,9 @@ class NodeRegistry:
         """
         return self.message_bus.send_message(from_node, to_node, message_type, payload)
 
-    def broadcast_message(self,
-                         from_node: str,
-                         message_type: str,
-                         payload: Any) -> List[str]:
+    def broadcast_message(
+        self, from_node: str, message_type: str, payload: Any
+    ) -> List[str]:
         """
         Broadcast a message to all nodes
 
@@ -209,10 +207,9 @@ class NodeRegistry:
         """
         return self.message_bus.broadcast_message(from_node, message_type, payload)
 
-    def establish_relationship(self,
-                             from_node: str,
-                             to_node: str,
-                             relationship_type: str = "depends_on") -> bool:
+    def establish_relationship(
+        self, from_node: str, to_node: str, relationship_type: str = "depends_on"
+    ) -> bool:
         """
         Establish a relationship between nodes
 
@@ -243,7 +240,9 @@ class NodeRegistry:
         else:
             raise ValueError(f"Unknown relationship type: {relationship_type}")
 
-        logger.debug(f"Established {relationship_type} relationship: {from_node} -> {to_node}")
+        logger.debug(
+            f"Established {relationship_type} relationship: {from_node} -> {to_node}"
+        )
         return True
 
     def initialize_standard_nodes(self) -> Dict[str, str]:
@@ -261,7 +260,7 @@ class NodeRegistry:
             {"type": "memory", "id": "memory"},
             {"type": "ethics", "id": "ethics"},
             {"type": "goal", "id": "goal"},
-            {"type": "dao", "id": "dao"}
+            {"type": "dao", "id": "dao"},
         ]
 
         # Create each node
@@ -274,13 +273,19 @@ class NodeRegistry:
 
         # Establish standard relationships
         if "intent" in node_ids and "goal" in node_ids:
-            self.establish_relationship(node_ids["intent"], node_ids["goal"], "provides_to")
+            self.establish_relationship(
+                node_ids["intent"], node_ids["goal"], "provides_to"
+            )
 
         if "goal" in node_ids and "ethics" in node_ids:
-            self.establish_relationship(node_ids["goal"], node_ids["ethics"], "depends_on")
+            self.establish_relationship(
+                node_ids["goal"], node_ids["ethics"], "depends_on"
+            )
 
         if "memory" in node_ids and "intent" in node_ids:
-            self.establish_relationship(node_ids["memory"], node_ids["intent"], "provides_to")
+            self.establish_relationship(
+                node_ids["memory"], node_ids["intent"], "provides_to"
+            )
 
         logger.info(f"Initialized {len(node_ids)} standard nodes")
         return node_ids
@@ -312,23 +317,21 @@ class NodeRegistry:
             "id": node_id,
             "type": node_type,
             "relationships": self.node_relationships[node_id],
-            "execution_stats": self.node_execution_stats[node_id]
+            "execution_stats": self.node_execution_stats[node_id],
         }
 
         # Add any public properties
         for attr in dir(node):
-            if (not attr.startswith("_") and
-                    not callable(getattr(node, attr)) and
-                    attr not in ["agi", "logger"]):
+            if (
+                not attr.startswith("_")
+                and not callable(getattr(node, attr))
+                and attr not in ["agi", "logger"]
+            ):
                 info[attr] = getattr(node, attr)
 
         return info
 
-    def execute_node(self,
-                    node_id: str,
-                    method_name: str,
-                    *args,
-                    **kwargs) -> Any:
+    def execute_node(self, node_id: str, method_name: str, *args, **kwargs) -> Any:
         """
         Execute a method on a node with timing and metrics
 
@@ -362,8 +365,8 @@ class NodeRegistry:
             self.node_execution_stats[node_id]["last_execution"] = time.time()
             self.node_execution_stats[node_id]["total_execution_time"] += execution_time
             self.node_execution_stats[node_id]["average_execution_time"] = (
-                self.node_execution_stats[node_id]["total_execution_time"] /
-                self.node_execution_stats[node_id]["execution_count"]
+                self.node_execution_stats[node_id]["total_execution_time"]
+                / self.node_execution_stats[node_id]["execution_count"]
             )
 
             return result
@@ -393,11 +396,9 @@ class MessageBus:
         self.messages = []  # Message history
         self.subscribers = {}  # Message type subscriptions
 
-    def send_message(self,
-                    from_node: str,
-                    to_node: str,
-                    message_type: str,
-                    payload: Any) -> str:
+    def send_message(
+        self, from_node: str, to_node: str, message_type: str, payload: Any
+    ) -> str:
         """
         Send a message from one node to another
 
@@ -419,7 +420,7 @@ class MessageBus:
             "type": message_type,
             "payload": payload,
             "timestamp": time.time(),
-            "processed": False
+            "processed": False,
         }
 
         self.messages.append(message)
@@ -449,10 +450,9 @@ class MessageBus:
 
         return message_id
 
-    def broadcast_message(self,
-                         from_node: str,
-                         message_type: str,
-                         payload: Any) -> List[str]:
+    def broadcast_message(
+        self, from_node: str, message_type: str, payload: Any
+    ) -> List[str]:
         """
         Broadcast a message to all nodes
 
@@ -468,7 +468,9 @@ class MessageBus:
 
         for node_id in self.registry.nodes:
             if node_id != from_node:  # Don't send to self
-                message_id = self.send_message(from_node, node_id, message_type, payload)
+                message_id = self.send_message(
+                    from_node, node_id, message_type, payload
+                )
                 message_ids.append(message_id)
 
         return message_ids
@@ -486,10 +488,12 @@ class MessageBus:
 
         self.subscribers[message_type].append(callback)
 
-    def get_messages(self,
-                    node_id: Optional[str] = None,
-                    message_type: Optional[str] = None,
-                    limit: int = 100) -> List[Dict[str, Any]]:
+    def get_messages(
+        self,
+        node_id: Optional[str] = None,
+        message_type: Optional[str] = None,
+        limit: int = 100,
+    ) -> List[Dict[str, Any]]:
         """
         Get messages filtered by node ID and/or message type
 
@@ -504,8 +508,11 @@ class MessageBus:
         filtered = self.messages
 
         if node_id is not None:
-            filtered = [m for m in filtered
-                       if m["from_node"] == node_id or m["to_node"] == node_id]
+            filtered = [
+                m
+                for m in filtered
+                if m["from_node"] == node_id or m["to_node"] == node_id
+            ]
 
         if message_type is not None:
             filtered = [m for m in filtered if m["type"] == message_type]

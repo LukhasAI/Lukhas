@@ -17,49 +17,55 @@ all cognitive components while preserving unique Lukhas innovations:
 Professional architecture with scientific naming conventions.
 """
 
-import asyncio
-import logging
-import uuid
 import hashlib
-from datetime import datetime
-from typing import Dict, List, Any, Optional
+import logging
+import os
 
 # Core neural intelligence imports - simplified for working components
 import sys
-import os
+import uuid
+from datetime import datetime
+from typing import Optional
+
+from orchestration.brain.core.capability_levels import AGICapabilityLevel
+from orchestration.brain.core.response_types import AGIResponse
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Basic components that should be available
-from orchestration.brain.core.capability_levels import AGICapabilityLevel
-from orchestration.brain.core.response_types import AGIResponse
 
 # Try to import available components
 try:
     from orchestration.brain.attention.quantum_attention import QuantumInspiredAttention
+
     QUANTUM_ATTENTION_AVAILABLE = True
 except ImportError:
     QUANTUM_ATTENTION_AVAILABLE = False
-    
+
 try:
     from reasoning.causal_reasoning import CausalReasoningModule
+
     CAUSAL_REASONING_AVAILABLE = True
 except ImportError:
     CAUSAL_REASONING_AVAILABLE = False
 
 try:
     from reasoning.symbolic_reasoning import SymbolicEngine
+
     SYMBOLIC_REASONING_AVAILABLE = True
 except ImportError:
     SYMBOLIC_REASONING_AVAILABLE = False
 
 try:
     from orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
+
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
     ORCHESTRATOR_AVAILABLE = False
 
 try:
     from orchestration.brain.compliance.ethical_engine import ComplianceEngine
+
     COMPLIANCE_AVAILABLE = True
 except ImportError:
     COMPLIANCE_AVAILABLE = False
@@ -67,12 +73,14 @@ except ImportError:
 # Unique Lukhas innovations (preserve branding)
 try:
     from dream.core.dream_engine import DreamEngine
+
     DREAMS_AVAILABLE = True
 except ImportError:
     DREAMS_AVAILABLE = False
 
 try:
     from orchestration.brain.visualization.golden_healix_mapper import GoldenHelixMapper
+
     HEALIX_AVAILABLE = True
 except ImportError:
     HEALIX_AVAILABLE = False
@@ -86,27 +94,27 @@ logger = logging.getLogger("NeuralIntelligence")
 class NeuralIntelligenceSystem:
     """
     Lukhas Neural Intelligence System - Advanced Cognitive Architecture
-    
+
     This is the main cognitive system that integrates:
-    
+
     STANDARD COMPONENTS (Professional naming):
     - Multi-modal reasoning (symbolic, causal, neural)
     - Quantum-inspired attention mechanisms
     - Ethical compliance and safety systems
     - Continuous learning and adaptation
     - Metacognitive orchestration
-    
+
     UNIQUE LUKHAS INNOVATIONS (Branded features):
     - Dreams: Advanced sleep-state cognitive processing
     - Healix: Golden ratio bio-mathematical optimization
     - Flashback: Context-aware memory reconstruction
     - DriftScore: Real-time cognitive performance tracking
     - CollapseHash: Quantum-inspired information compression
-    
+
     Professional architecture preserving all original logic and innovations.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Neural Intelligence System with all cognitive components"""
         logger.info("🧠 Initializing Lukhas Neural Intelligence System")
 
@@ -116,68 +124,80 @@ class NeuralIntelligenceSystem:
 
         # Initialize standard cognitive components
         self._initialize_core_components()
-        
+
         # Initialize unique Lukhas innovations
         self._initialize_lukhas_innovations()
-        
+
         # Setup system state management
         self._initialize_system_state()
 
-        logger.info(f"✅ Neural Intelligence System initialized - Session: {self.session_id}")
-        
+        logger.info(
+            f"✅ Neural Intelligence System initialized - Session: {self.session_id}"
+        )
+
         # Set initial capability level
         if self.orchestrator:
-            logger.info(f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}")
+            logger.info(
+                f"🎯 Initial Capability Level: {self.orchestrator.capability_level.value}"
+            )
         else:
-            logger.info(f"🎯 Initial Capability Level: INTERMEDIATE (simplified mode)")
+            logger.info("🎯 Initial Capability Level: INTERMEDIATE (simplified mode)")
 
     def _initialize_core_components(self):
         """Initialize standard cognitive architecture components"""
-        
+
         # Initialize components that are available
         if QUANTUM_ATTENTION_AVAILABLE:
             self.attention_mechanism = QuantumInspiredAttention()
         else:
             self.attention_mechanism = None
             logger.warning("Quantum attention not available")
-            
+
         if CAUSAL_REASONING_AVAILABLE:
             self.causal_reasoning = CausalReasoningModule()
         else:
             self.causal_reasoning = None
             logger.warning("Causal reasoning not available")
-            
+
         if SYMBOLIC_REASONING_AVAILABLE:
             self.symbolic_engine = SymbolicEngine()
         else:
             self.symbolic_engine = None
             logger.warning("Symbolic reasoning not available")
-            
+
         if COMPLIANCE_AVAILABLE:
             self.compliance_engine = ComplianceEngine()
         else:
             self.compliance_engine = None
             logger.warning("Compliance engine not available")
-            
+
         if ORCHESTRATOR_AVAILABLE:
             self.orchestrator = MetaCognitiveOrchestrator()
-            
+
             # Register available components with orchestrator
             if self.attention_mechanism:
-                self.orchestrator.register_component("attention", self.attention_mechanism)
+                self.orchestrator.register_component(
+                    "attention", self.attention_mechanism
+                )
             if self.causal_reasoning:
-                self.orchestrator.register_component("causal_reasoning", self.causal_reasoning)
+                self.orchestrator.register_component(
+                    "causal_reasoning", self.causal_reasoning
+                )
             if self.symbolic_engine:
-                self.orchestrator.register_component("symbolic_reasoning", self.symbolic_engine)
+                self.orchestrator.register_component(
+                    "symbolic_reasoning", self.symbolic_engine
+                )
             if self.compliance_engine:
-                self.orchestrator.register_component("compliance", self.compliance_engine)
+                self.orchestrator.register_component(
+                    "compliance", self.compliance_engine
+                )
         else:
             self.orchestrator = None
             logger.warning("Orchestrator not available - using simplified processing")
 
     def _initialize_lukhas_innovations(self):
         """Initialize unique Lukhas branded innovations"""
-        
+
         # Dreams - Advanced cognitive processing during rest states
         if DREAMS_AVAILABLE:
             try:
@@ -210,8 +230,10 @@ class NeuralIntelligenceSystem:
         self.flashback_engine = None  # Advanced memory retrieval
         self.drift_score_calculator = None  # Cognitive drift measurement
         self.collapse_hash_processor = None  # Quantum information compression
-        
-        logger.info("🚀 Additional Lukhas innovations (Flashback, DriftScore, CollapseHash) will be implemented")
+
+        logger.info(
+            "🚀 Additional Lukhas innovations (Flashback, DriftScore, CollapseHash) will be implemented"
+        )
 
     def _initialize_system_state(self):
         """Initialize system state management"""
@@ -222,7 +244,7 @@ class NeuralIntelligenceSystem:
             "successful_responses": 0,
             "average_confidence": 0.0,
             "capability_progression": [],
-            "lukhas_innovations_active": LUKHAS_INNOVATIONS_AVAILABLE
+            "lukhas_innovations_active": LUKHAS_INNOVATIONS_AVAILABLE,
         }
 
         # Advanced intelligence capabilities
@@ -230,10 +252,10 @@ class NeuralIntelligenceSystem:
         self.metacognitive_awareness = True
         self.continuous_learning = True
 
-    async def process_intelligence_request(self, input_data: Dict) -> AGIResponse:
+    async def process_intelligence_request(self, input_data: dict) -> AGIResponse:
         """
         Main intelligence processing method
-        
+
         This integrates all cognitive components including unique Lukhas innovations
         to provide comprehensive intelligent responses.
         """
@@ -248,34 +270,43 @@ class NeuralIntelligenceSystem:
                 except TypeError:
                     # Fallback to old signature if needed
                     try:
-                        compliance_result = await self.compliance_engine.check_compliance(input_data)
-                    except:
+                        compliance_result = (
+                            await self.compliance_engine.check_compliance(input_data)
+                        )
+                    except BaseException:
                         # If compliance engine is not working, use basic safety
                         compliance_result = {"compliant": True}
-                        
+
                 if not compliance_result.get("compliant", False):
                     return AGIResponse(
                         content=self._generate_safe_response(compliance_result),
                         confidence=0.0,
                         capability_level=AGICapabilityLevel.BASIC,
-                        metadata={"compliance_blocked": True}
+                        metadata={"compliance_blocked": True},
                     )
             else:
                 # Basic safety check without compliance engine
-                if any(word in input_data.get("text", "").lower() for word in ["hack", "harm", "illegal"]):
+                if any(
+                    word in input_data.get("text", "").lower()
+                    for word in ["hack", "harm", "illegal"]
+                ):
                     return AGIResponse(
                         content="I cannot assist with requests that might be harmful or illegal.",
                         confidence=0.0,
                         capability_level=AGICapabilityLevel.BASIC,
-                        metadata={"basic_safety_block": True}
+                        metadata={"basic_safety_block": True},
                     )
 
             # Step 2: Orchestrate cognitive processing
             if self.orchestrator:
                 try:
-                    orchestration_result = await self.orchestrator.orchestrate_processing(input_data)
+                    orchestration_result = (
+                        await self.orchestrator.orchestrate_processing(input_data)
+                    )
                 except Exception as e:
-                    logger.warning(f"Orchestrator processing failed: {e}, falling back to simplified processing")
+                    logger.warning(
+                        f"Orchestrator processing failed: {e}, falling back to simplified processing"
+                    )
                     orchestration_result = await self._simplified_processing(input_data)
             else:
                 # Simplified processing without orchestrator
@@ -283,18 +314,27 @@ class NeuralIntelligenceSystem:
 
             # Step 3: Apply Lukhas innovations if available
             if self.dream_processor and input_data.get("enable_dreams", True):
-                dream_enhancement = await self._apply_dream_processing(input_data, orchestration_result)
+                dream_enhancement = await self._apply_dream_processing(
+                    input_data, orchestration_result
+                )
                 orchestration_result.update(dream_enhancement)
 
             if self.healix_mapper and input_data.get("enable_healix", True):
-                healix_optimization = await self._apply_healix_optimization(input_data, orchestration_result)
+                healix_optimization = await self._apply_healix_optimization(
+                    input_data, orchestration_result
+                )
                 orchestration_result.update(healix_optimization)
 
             # Step 4: Generate enhanced response
             agi_response = AGIResponse(
-                content=orchestration_result.get("response", "I need more information to provide a helpful response."),
+                content=orchestration_result.get(
+                    "response",
+                    "I need more information to provide a helpful response.",
+                ),
                 confidence=orchestration_result.get("confidence", 0.7),
-                capability_level=orchestration_result.get("capability_level", AGICapabilityLevel.INTERMEDIATE),
+                capability_level=orchestration_result.get(
+                    "capability_level", AGICapabilityLevel.INTERMEDIATE
+                ),
                 metadata={
                     "orchestration_data": orchestration_result,
                     "lukhas_innovations_applied": LUKHAS_INNOVATIONS_AVAILABLE,
@@ -303,18 +343,20 @@ class NeuralIntelligenceSystem:
                         "orchestrator": ORCHESTRATOR_AVAILABLE,
                         "compliance": COMPLIANCE_AVAILABLE,
                         "dreams": DREAMS_AVAILABLE,
-                        "healix": HEALIX_AVAILABLE
-                    }
-                }
+                        "healix": HEALIX_AVAILABLE,
+                    },
+                },
             )
 
             # Step 5: Update system state
             self._update_conversation_history(input_data, agi_response)
             self._update_performance_metrics(agi_response)
-            
+
             # Step 6: Continuous learning
             if self.continuous_learning:
-                await self._continuous_learning_update(input_data, agi_response, orchestration_result)
+                await self._continuous_learning_update(
+                    input_data, agi_response, orchestration_result
+                )
 
             self.performance_metrics["total_interactions"] += 1
             return agi_response
@@ -325,87 +367,97 @@ class NeuralIntelligenceSystem:
                 content="I encountered an error while processing your request. Please try again.",
                 confidence=0.0,
                 capability_level=AGICapabilityLevel.BASIC,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
-    async def _apply_dream_processing(self, input_data: Dict, orchestration_result: Dict) -> Dict:
+    async def _apply_dream_processing(
+        self, input_data: dict, orchestration_result: dict
+    ) -> dict:
         """Apply Lukhas Dreams innovation for enhanced cognitive processing"""
         try:
             if not self.dream_processor:
                 return {}
-            
+
             # Dreams can enhance understanding through background cognitive processing
             dream_context = {
                 "input": input_data.get("text", ""),
                 "current_processing": orchestration_result,
-                "session_context": self.conversation_history[-5:] if self.conversation_history else []
+                "session_context": (
+                    self.conversation_history[-5:] if self.conversation_history else []
+                ),
             }
-            
+
             # Apply dream-based enhancement (simplified for now)
             dream_insights = await self._simulate_dream_processing(dream_context)
-            
+
             return {
                 "dream_enhancement": dream_insights,
-                "enhanced_by_dreams": True
+                "enhanced_by_dreams": True,
             }
         except Exception as e:
             logger.warning(f"Dream processing failed: {e}")
             return {}
 
-    async def _apply_healix_optimization(self, input_data: Dict, orchestration_result: Dict) -> Dict:
+    async def _apply_healix_optimization(
+        self, input_data: dict, orchestration_result: dict
+    ) -> dict:
         """Apply Lukhas Healix innovation for golden ratio optimization"""
         try:
             if not self.healix_mapper:
                 return {}
-            
+
             # Healix optimizes response quality using golden ratio principles
             optimization_context = {
                 "response_content": orchestration_result.get("response", ""),
                 "confidence_level": orchestration_result.get("confidence", 0.7),
-                "cognitive_load": len(input_data.get("text", ""))
+                "cognitive_load": len(input_data.get("text", "")),
             }
-            
+
             # Apply healix optimization (simplified for now)
-            healix_optimization = await self._simulate_healix_optimization(optimization_context)
-            
+            healix_optimization = await self._simulate_healix_optimization(
+                optimization_context
+            )
+
             return {
                 "healix_optimization": healix_optimization,
-                "optimized_by_healix": True
+                "optimized_by_healix": True,
             }
         except Exception as e:
             logger.warning(f"Healix optimization failed: {e}")
             return {}
 
-    async def _simulate_dream_processing(self, dream_context: Dict) -> Dict:
+    async def _simulate_dream_processing(self, dream_context: dict) -> dict:
         """Simulate dream-based cognitive enhancement (placeholder for full implementation)"""
         return {
             "dream_insights": "Enhanced understanding through background processing",
             "subconscious_connections": 3,
-            "dream_quality_score": 0.85
+            "dream_quality_score": 0.85,
         }
 
-    async def _simulate_healix_optimization(self, optimization_context: Dict) -> Dict:
+    async def _simulate_healix_optimization(self, optimization_context: dict) -> dict:
         """Simulate healix-based optimization (placeholder for full implementation)"""
         return {
             "golden_ratio_optimization": "Response optimized using bio-mathematical principles",
             "optimization_score": 0.92,
-            "healix_enhancement_level": "moderate"
+            "healix_enhancement_level": "moderate",
         }
 
-    def _generate_safe_response(self, compliance_result: Dict) -> str:
+    def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate safe response when compliance fails"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: Dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history"""
-        self.conversation_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "input": input_data.get("text", ""),
-            "response": agi_response.content,
-            "confidence": agi_response.confidence,
-            "capability_level": agi_response.capability_level.value,
-            "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE
-        })
+        self.conversation_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "input": input_data.get("text", ""),
+                "response": agi_response.content,
+                "confidence": agi_response.confidence,
+                "capability_level": agi_response.capability_level.value,
+                "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE,
+            }
+        )
         # Keep only last 50 conversations
         self.conversation_history = self.conversation_history[-50:]
 
@@ -417,31 +469,40 @@ class NeuralIntelligenceSystem:
             new_avg = (current_avg * total + agi_response.confidence) / (total + 1)
             self.performance_metrics["average_confidence"] = new_avg
 
-    async def _continuous_learning_update(self, input_data: Dict, agi_response: AGIResponse, orchestration_result: Dict):
+    async def _continuous_learning_update(
+        self,
+        input_data: dict,
+        agi_response: AGIResponse,
+        orchestration_result: dict,
+    ):
         """Perform continuous learning updates"""
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
             # Use SHA-256 instead of MD5 for better security
-            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[:16]
+            pattern_key = hashlib.sha256(
+                input_data.get("text", "").encode()
+            ).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
                 "confidence": agi_response.confidence,
                 "timestamp": datetime.now().isoformat(),
-                "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE
+                "lukhas_enhanced": LUKHAS_INNOVATIONS_AVAILABLE,
             }
             # Keep only last 1000 patterns
             if len(self.learning_memory) > 1000:
-                oldest_key = min(self.learning_memory.keys(), 
-                               key=lambda k: self.learning_memory[k]["timestamp"])
+                oldest_key = min(
+                    self.learning_memory.keys(),
+                    key=lambda k: self.learning_memory[k]["timestamp"],
+                )
                 del self.learning_memory[oldest_key]
 
-    def get_system_status(self) -> Dict:
+    def get_system_status(self) -> dict:
         """Get comprehensive neural intelligence system status"""
         capability_level = "INTERMEDIATE"
-        if self.orchestrator and hasattr(self.orchestrator, 'capability_level'):
+        if self.orchestrator and hasattr(self.orchestrator, "capability_level"):
             capability_level = self.orchestrator.capability_level.value
-            
+
         return {
             "session_id": self.session_id,
             "initialization_time": self.initialization_time.isoformat(),
@@ -455,12 +516,12 @@ class NeuralIntelligenceSystem:
                 "healix_active": self.healix_mapper is not None,
                 "flashback_active": self.flashback_engine is not None,
                 "drift_score_active": self.drift_score_calculator is not None,
-                "collapse_hash_active": self.collapse_hash_processor is not None
+                "collapse_hash_active": self.collapse_hash_processor is not None,
             },
             "system_capabilities": {
                 "self_modification": self.self_modification_enabled,
                 "metacognitive_awareness": self.metacognitive_awareness,
-                "continuous_learning": self.continuous_learning
+                "continuous_learning": self.continuous_learning,
             },
             "component_status": {
                 "orchestrator": ORCHESTRATOR_AVAILABLE,
@@ -469,44 +530,44 @@ class NeuralIntelligenceSystem:
                 "symbolic": SYMBOLIC_REASONING_AVAILABLE,
                 "compliance": COMPLIANCE_AVAILABLE,
                 "dreams": DREAMS_AVAILABLE,
-                "healix": HEALIX_AVAILABLE
-            }
+                "healix": HEALIX_AVAILABLE,
+            },
         }
 
-    def get_lukhas_innovations_status(self) -> Dict:
+    def get_lukhas_innovations_status(self) -> dict:
         """Get status of unique Lukhas innovations"""
         return {
             "dreams": {
                 "active": self.dream_processor is not None,
                 "description": "Advanced sleep-state cognitive processing",
-                "innovation_level": "high"
+                "innovation_level": "high",
             },
             "healix": {
                 "active": self.healix_mapper is not None,
                 "description": "Golden ratio bio-mathematical optimization",
-                "innovation_level": "high"
+                "innovation_level": "high",
             },
             "flashback": {
                 "active": self.flashback_engine is not None,
                 "description": "Context-aware memory reconstruction",
-                "innovation_level": "medium"
+                "innovation_level": "medium",
             },
             "drift_score": {
                 "active": self.drift_score_calculator is not None,
                 "description": "Real-time cognitive performance tracking",
-                "innovation_level": "medium"
+                "innovation_level": "medium",
             },
             "collapse_hash": {
                 "active": self.collapse_hash_processor is not None,
                 "description": "Quantum-inspired information compression",
-                "innovation_level": "high"
-            }
+                "innovation_level": "high",
+            },
         }
 
-    async def _simplified_processing(self, input_data: Dict) -> Dict:
+    async def _simplified_processing(self, input_data: dict) -> dict:
         """Simplified processing when orchestrator is not available"""
         query = input_data.get("text", "")
-        
+
         # Basic response generation
         if "lukhas" in query.lower():
             response = f"Lukhas is an advanced neural intelligence system with unique innovations like Dreams and Healix. Your query: '{query}' shows interest in our cognitive architecture."
@@ -517,7 +578,7 @@ class NeuralIntelligenceSystem:
         else:
             response = f"I've processed your input: {query}. I'm currently running with available cognitive components and can provide assistance."
             confidence = 0.6
-            
+
         return {
             "response": response,
             "confidence": confidence,
@@ -528,6 +589,6 @@ class NeuralIntelligenceSystem:
                 "reasoning": self.causal_reasoning is not None,
                 "symbolic": self.symbolic_engine is not None,
                 "dreams": self.dream_processor is not None,
-                "healix": self.healix_mapper is not None
-            }
+                "healix": self.healix_mapper is not None,
+            },
         }

@@ -8,15 +8,18 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from datetime import datetime
 import uuid
+from datetime import datetime
 
 # #AIDENTITY_TRACE
 # In-memory session store (placeholder, move to Redis/DB in production)
 active_sessions = {}
 
+
 # #ΛSESSION_FLOW
-def create_session(user_id: int, username_slug: str, entity_type: str, tier: int) -> dict:
+def create_session(
+    user_id: int, username_slug: str, entity_type: str, tier: int
+) -> dict:
     """
     Create a symbolic session object for LucasID users.
     """
@@ -28,17 +31,19 @@ def create_session(user_id: int, username_slug: str, entity_type: str, tier: int
         "username_slug": username_slug,
         "entity_type": entity_type,
         "tier": tier,
-        "created_at": datetime.utcnow()
+        "created_at": datetime.utcnow(),
     }
     active_sessions[session_id] = session_data
     print(f"🛡️ Session created: {session_id} for {username_slug}")
     return session_data
+
 
 def get_session(session_id: str) -> dict:
     """
     Retrieve session data by session_id.
     """
     return active_sessions.get(session_id)
+
 
 def invalidate_session(session_id: str) -> bool:
     """

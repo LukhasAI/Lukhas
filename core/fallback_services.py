@@ -7,8 +7,9 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
+from typing import Any
+
 import structlog
-from typing import Dict, Any
 
 # ΛTAG: core, fallback, services
 # ΛLOCKED: False - This module provides development fallbacks and should be flexible
@@ -30,7 +31,7 @@ class FallbackEthicsService:
         self.logger = logger.getChild("FallbackEthicsService")
         self.logger.info("ΛTRACE: FallbackEthicsService initialized.")
 
-    def assess_action(self, *args, **kwargs) -> Dict[str, Any]:
+    def assess_action(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate ethics assessment with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback ethics assessment.")
         return {
@@ -41,7 +42,7 @@ class FallbackEthicsService:
             "kwargs": kwargs,
         }
 
-    def check_compliance(self, *args, **kwargs) -> Dict[str, Any]:
+    def check_compliance(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate compliance check with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback compliance check.")
         return {
@@ -60,7 +61,7 @@ class FallbackMemoryService:
         self.logger = logger.getChild("FallbackMemoryService")
         self.logger.info("ΛTRACE: FallbackMemoryService initialized.")
 
-    def store_memory(self, *args, **kwargs) -> Dict[str, Any]:
+    def store_memory(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate memory storage with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback memory storage.")
         return {
@@ -71,7 +72,7 @@ class FallbackMemoryService:
             "kwargs": kwargs,
         }
 
-    def retrieve_memory(self, *args, **kwargs) -> Dict[str, Any]:
+    def retrieve_memory(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate memory retrieval with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback memory retrieval.")
         return {
@@ -81,7 +82,7 @@ class FallbackMemoryService:
             "kwargs": kwargs,
         }
 
-    def search_memory(self, *args, **kwargs) -> Dict[str, Any]:
+    def search_memory(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate memory search with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback memory search.")
         return {
@@ -99,7 +100,7 @@ class FallbackCreativityService:
         self.logger = logger.getChild("FallbackCreativityService")
         self.logger.info("ΛTRACE: FallbackCreativityService initialized.")
 
-    def generate_content(self, *args, **kwargs) -> Dict[str, Any]:
+    def generate_content(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate content generation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback content generation.")
         return {
@@ -109,7 +110,7 @@ class FallbackCreativityService:
             "kwargs": kwargs,
         }
 
-    def synthesize_dream(self, *args, **kwargs) -> Dict[str, Any]:
+    def synthesize_dream(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate dream synthesis with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback dream synthesis.")
         return {
@@ -127,7 +128,7 @@ class FallbackConsciousnessService:
         self.logger = logger.getChild("FallbackConsciousnessService")
         self.logger.info("ΛTRACE: FallbackConsciousnessService initialized.")
 
-    def process_awareness(self, *args, **kwargs) -> Dict[str, Any]:
+    def process_awareness(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate awareness processing with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback awareness processing.")
         return {
@@ -137,7 +138,7 @@ class FallbackConsciousnessService:
             "kwargs": kwargs,
         }
 
-    def introspect(self, *args, **kwargs) -> Dict[str, Any]:
+    def introspect(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate introspection with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback introspection.")
         return {
@@ -147,7 +148,7 @@ class FallbackConsciousnessService:
             "kwargs": kwargs,
         }
 
-    def get_consciousness_state(self, *args, **kwargs) -> Dict[str, Any]:
+    def get_consciousness_state(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate consciousness state retrieval with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback consciousness state.")
         return {
@@ -165,7 +166,7 @@ class FallbackLearningService:
         self.logger = logger.getChild("FallbackLearningService")
         self.logger.info("ΛTRACE: FallbackLearningService initialized.")
 
-    def learn_from_data(self, *args, **kwargs) -> Dict[str, Any]:
+    def learn_from_data(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate learning from data with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback learning from data.")
         return {
@@ -176,7 +177,7 @@ class FallbackLearningService:
             "kwargs": kwargs,
         }
 
-    def adapt_behavior(self, *args, **kwargs) -> Dict[str, Any]:
+    def adapt_behavior(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate behavior adaptation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback behavior adaptation.")
         return {
@@ -195,7 +196,7 @@ class FallbackQuantumService:
         self.logger = logger.getChild("FallbackQuantumService")
         self.logger.info("ΛTRACE: FallbackQuantumService initialized.")
 
-    def quantum_compute(self, *args, **kwargs) -> Dict[str, Any]:
+    def quantum_compute(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate quantum computation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback quantum computation.")
         return {
@@ -205,7 +206,7 @@ class FallbackQuantumService:
             "kwargs": kwargs,
         }
 
-    def quantum_entangle(self, *args, **kwargs) -> Dict[str, Any]:
+    def quantum_entangle(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate entanglement-like correlation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback entanglement-like correlation.")
         return {
@@ -227,17 +228,19 @@ class FallbackIdentityClient:
     def verify_user_access(self, user_id: str, tier: str) -> bool:
         """Simulate user access verification with fallback response."""
         self.logger.warning(
-            f"ΛTRACE: Fallback verify_user_access called for user '{user_id}', tier '{tier}'. Returning True."
+            f"ΛTRACE: Fallback verify_user_access called for user '{user_id}',
+            tier '{tier}'. Returning True."
         )
         # AIDENTITY: Simulates verification for development
         return True
 
     def log_activity(
-        self, activity: str, user_id: str, metadata: Dict[str, Any]
+        self, activity: str, user_id: str, metadata: dict[str, Any]
     ) -> None:
         """Simulate activity logging with fallback response."""
         self.logger.warning(
-            f"ΛTRACE: Fallback log_activity: Activity='{activity}', User='{user_id}', Metadata='{metadata}'."
+            f"ΛTRACE: Fallback log_activity: Activity='{activity}', User='{user_id}',
+            Metadata='{metadata}'."
         )
         # AIDENTITY: Simulates activity logging for development
 

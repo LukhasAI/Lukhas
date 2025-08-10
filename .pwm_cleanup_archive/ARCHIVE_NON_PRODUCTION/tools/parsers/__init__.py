@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Parsers Module
@@ -34,10 +33,10 @@ __status__ = "Production"
 
 try:
     from .knowledge_loader import (
-        load_symbolic_ontology,
         SymbolicKnowledgeLoader,
+        load_symbolic_ontology,
+        merge_knowledge_bases,
         normalize_knowledge_structure,
-        merge_knowledge_bases
     )
 except ImportError:
     # Fallback implementations
@@ -53,11 +52,12 @@ except ImportError:
     def merge_knowledge_bases(*args, **kwargs):
         return {}
 
+
 __all__ = [
-    'load_symbolic_ontology',
-    'SymbolicKnowledgeLoader',
-    'normalize_knowledge_structure',
-    'merge_knowledge_bases'
+    "load_symbolic_ontology",
+    "SymbolicKnowledgeLoader",
+    "normalize_knowledge_structure",
+    "merge_knowledge_bases",
 ]
 
 # CLAUDE CHANGELOG

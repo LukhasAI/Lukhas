@@ -1,0 +1,96 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [ main, trunk, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PYTHONVER: "3.11"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: ${{ env.PYTHONVER }} }
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ env.PYTHONVER }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: pip-${{ runner.os }}-${{ env.PYTHONVER }}-
+
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install pytest-cov
+
+      - name: Unit tests
+        run: |
+          mkdir -p out
+          pytest -q --maxfail=1 --disable-warnings \
+            --cov=lukhas_pwm --cov-report=xml:out/coverage.xml
+
+      - name: Smoke check
+        run: |
+          python smoke_check.py --json out/smoke.json
+          test -f out/smoke.json
+
+      - name: Export OpenAPI (local uvicorn)
+        run: |
+          uvicorn lukhas_pwm.api.app:app --port 8000 & echo $! > .pid
+          sleep 2
+          curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
+          kill $(cat .pid)
+
+      - name: Enforce thresholds
+        run: |
+          IMPORT_MS=$(jq '.timings.import_app_ms' out/smoke.json)
+          FEED_MS=$(jq '.timings.feedback_health_ms' out/smoke.json)
+          INCIDENTS=$(jq '.offline_governance.incidents' out/smoke.json)
+          TIGHTENED=$(jq -r '.offline_governance.tightened' out/smoke.json)
+
+          echo "App import: ${IMPORT_MS}ms | /feedback/health: ${FEED_MS}ms | Incidents: ${INCIDENTS} | Tightened: ${TIGHTENED}"
+
+          [ "$IMPORT_MS" -le 1500 ] || { echo "::error::App import too slow (${IMPORT_MS}ms)"; exit 1; }
+          [ "$FEED_MS"   -le   50 ] || { echo "::error::/feedback/health too slow (${FEED_MS}ms)"; exit 1; }
+          [ "$INCIDENTS" -eq    1 ] || { echo "::error::Expected 1 blocked-tool incident (got ${INCIDENTS})"; exit 1; }
+          [ "$TIGHTENED" = "true" ] || { echo "::error::Auto-tighten did not trigger"; exit 1; }
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lukhas-ci-artifacts
+          path: |
+            out/smoke.json
+            out/openapi.json
+            out/coverage.xml
+
+      - name: Job summary
+        run: |
+          echo "## LUKHΛS PWM CI Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          jq -r '
+            . as $r
+            | "| Metric | Value |", "|---|---|",
+              "| App import | \($r.timings.import_app_ms) ms |",
+              "| /feedback/health | \($r.timings.feedback_health_ms) ms |",
+              "| Offline incidents | \($r.offline_governance.incidents) |",
+              "| Auto-tighten | " + (if $r.offline_governance.tightened then "✅" else "❌" end) + " |"
+          ' out/smoke.json >> $GITHUB_STEP_SUMMARY
+
+      # Optional: sticky PR comment with smoke.json
+      - name: Sticky PR comment
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          message: |
+            ### LUKHΛS PWM CI
+            - Artifacts: **smoke.json**, **openapi.json**, **coverage.xml**
+            - Thresholds: import ≤ 1500ms; /feedback/health ≤ 50ms; blocked-incidents=1; auto-tighten ✅

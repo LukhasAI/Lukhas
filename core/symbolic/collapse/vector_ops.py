@@ -2,14 +2,12 @@ from __future__ import annotations
 
 """Vector collapse utilities for symbolic tag propagation."""
 
-from typing import List
-
 from core.symbolism.tags import TagScope
-
 
 # ΛTAG: vector_collapse_logic
 
-def vector_collapse(vector: List[float]) -> TagScope:
+
+def vector_collapse(vector: list[float]) -> TagScope:
     """Collapse a numeric vector to a :class:`TagScope` outcome.
 
     The collapse is a simplified mapping of average vector magnitude to
@@ -27,4 +25,3 @@ def vector_collapse(vector: List[float]) -> TagScope:
     if avg >= 0:
         return TagScope.TEMPORAL
     return TagScope.ETHICAL
-

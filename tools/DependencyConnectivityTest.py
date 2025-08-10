@@ -5,15 +5,16 @@ lukhas SYSTEM DEPENDENCY & CONNECTIVITY TEST
 Analyzes the lukhas system for dependency issues and connectivity problems.
 """
 
+import ast
+import json
 import os
 import re
-import ast
-import sys
-from pathlib import Path
 from collections import defaultdict
-import json
+from pathlib import Path
+
 
 class LambdaDependencyAnalyzer:
+
     def __init__(self, lambda_root):
         self.lambda_root = Path(lambda_root)
         self.python_files = []
@@ -36,7 +37,7 @@ class LambdaDependencyAnalyzer:
     def extract_imports(self, file_path):
         """Extract imports from a Python file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Parse with AST for accurate import detection
@@ -67,11 +68,11 @@ class LambdaDependencyAnalyzer:
 
         # Match import statements
         import_patterns = [
-            r'^\s*import\s+([a-zA-Z_][a-zA-Z0-9_\.]*)',
-            r'^\s*from\s+([a-zA-Z_][a-zA-Z0-9_\.]*)\s+import'
+            r"^\s*import\s+([a-zA-Z_][a-zA-Z0-9_\.]*)",
+            r"^\s*from\s+([a-zA-Z_][a-zA-Z0-9_\.]*)\s+import",
         ]
 
-        for line in content.split('\n'):
+        for line in content.split("\n"):
             for pattern in import_patterns:
                 match = re.match(pattern, line)
                 if match:
@@ -99,9 +100,22 @@ class LambdaDependencyAnalyzer:
         """Check if import is local to the lukhas system."""
         # Common lukhas system module prefixes
         unicode_prefixes = [
-            'agent', 'auth', 'bio', 'brain', 'connectivity', 'governance',
-            'Lukhas_ID', 'interface', 'orchestration', 'vision', 'voice',
-            'applications', 'tests', 'config', 'shared', 'meta'
+            "agent",
+            "auth",
+            "bio",
+            "brain",
+            "connectivity",
+            "governance",
+            "Lukhas_ID",
+            "interface",
+            "orchestration",
+            "vision",
+            "voice",
+            "applications",
+            "tests",
+            "config",
+            "shared",
+            "meta",
         ]
 
         for prefix in unicode_prefixes:
@@ -109,10 +123,7 @@ class LambdaDependencyAnalyzer:
                 return True
 
         # Check relative imports
-        if import_name.startswith('.'):
-            return True
-
-        return False
+        return bool(import_name.startswith("."))
 
     def check_broken_imports(self):
         """Check for broken local imports."""
@@ -126,13 +137,13 @@ class LambdaDependencyAnalyzer:
     def import_exists(self, import_name):
         """Check if a local import actually exists."""
         # Convert import to file path
-        parts = import_name.split('.')
+        parts = import_name.split(".")
 
         # Try different combinations
         possible_paths = [
             Path(*parts) / "__init__.py",
             Path(*parts).with_suffix(".py"),
-            Path(*parts[:-1]) / f"{parts[-1]}.py"
+            Path(*parts[:-1]) / f"{parts[-1]}.py",
         ]
 
         for path in possible_paths:
@@ -153,10 +164,10 @@ class LambdaDependencyAnalyzer:
         for imports in self.local_imports.values():
             for imp in imports:
                 # Convert import to potential file paths
-                parts = imp.split('.')
+                parts = imp.split(".")
                 possible_files = [
                     f"{'/'.join(parts)}.py",
-                    f"{'/'.join(parts)}/__init__.py"
+                    f"{'/'.join(parts)}/__init__.py",
                 ]
                 imported_files.update(possible_files)
 
@@ -164,11 +175,11 @@ class LambdaDependencyAnalyzer:
         for file_path in all_files:
             file_imported = False
             for imported in imported_files:
-                if file_path.endswith(imported.replace('/', os.sep)):
+                if file_path.endswith(imported.replace("/", os.sep)):
                     file_imported = True
                     break
 
-            if not file_imported and not file_path.endswith('__init__.py'):
+            if not file_imported and not file_path.endswith("__init__.py"):
                 self.isolated_files.add(file_path)
 
     def build_connectivity_map(self):
@@ -182,24 +193,32 @@ class LambdaDependencyAnalyzer:
     def generate_report(self):
         """Generate comprehensive dependency report."""
         report = {
-            'timestamp': '2025-06-08',
-            'total_files': len(self.python_files),
-            'total_imports': sum(len(imports) for imports in self.imports.values()),
-            'local_imports': sum(len(imports) for imports in self.local_imports.values()),
-            'external_imports': sum(len(imports) for imports in self.external_imports.values()),
-            'broken_imports_count': sum(len(broken) for broken in self.broken_imports.values()),
-            'isolated_files_count': len(self.isolated_files),
-            'summary': {
-                'files_analyzed': len(self.python_files),
-                'connectivity_health': 'GOOD' if len(self.broken_imports) < 10 else 'NEEDS_ATTENTION',
-                'isolation_level': 'LOW' if len(self.isolated_files) < 50 else 'HIGH'
+            "timestamp": "2025-06-08",
+            "total_files": len(self.python_files),
+            "total_imports": sum(len(imports) for imports in self.imports.values()),
+            "local_imports": sum(
+                len(imports) for imports in self.local_imports.values()
+            ),
+            "external_imports": sum(
+                len(imports) for imports in self.external_imports.values()
+            ),
+            "broken_imports_count": sum(
+                len(broken) for broken in self.broken_imports.values()
+            ),
+            "isolated_files_count": len(self.isolated_files),
+            "summary": {
+                "files_analyzed": len(self.python_files),
+                "connectivity_health": (
+                    "GOOD" if len(self.broken_imports) < 10 else "NEEDS_ATTENTION"
+                ),
+                "isolation_level": "LOW" if len(self.isolated_files) < 50 else "HIGH",
             },
-            'details': {
-                'broken_imports': dict(self.broken_imports),
-                'isolated_files': list(self.isolated_files),
-                'top_importers': self.get_top_importers(),
-                'dependency_clusters': self.get_dependency_clusters()
-            }
+            "details": {
+                "broken_imports": dict(self.broken_imports),
+                "isolated_files": list(self.isolated_files),
+                "top_importers": self.get_top_importers(),
+                "dependency_clusters": self.get_dependency_clusters(),
+            },
         }
 
         return report
@@ -214,15 +233,15 @@ class LambdaDependencyAnalyzer:
         clusters = defaultdict(list)
         for file_path in self.python_files:
             rel_path = file_path.relative_to(self.lambda_root)
-            module = str(rel_path).split('/')[0] if '/' in str(rel_path) else 'root'
+            module = str(rel_path).split("/")[0] if "/" in str(rel_path) else "root"
             clusters[module].append(str(rel_path))
         return dict(clusters)
 
     def print_summary(self, report):
         """Print a summary of the analysis."""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("🎯 lukhas SYSTEM DEPENDENCY & CONNECTIVITY ANALYSIS")
-        print("="*60)
+        print("=" * 60)
         print(f"📊 Total Python Files: {report['total_files']}")
         print(f"🔗 Total Imports: {report['total_imports']}")
         print(f"🏠 Local Imports: {report['local_imports']}")
@@ -233,19 +252,20 @@ class LambdaDependencyAnalyzer:
         print(f"\n🏥 System Health: {report['summary']['connectivity_health']}")
         print(f"🔍 Isolation Level: {report['summary']['isolation_level']}")
 
-        if report['details']['broken_imports']:
+        if report["details"]["broken_imports"]:
             print("\n⚠️  BROKEN IMPORTS:")
-            for file, broken in list(report['details']['broken_imports'].items())[:5]:
+            for file, broken in list(report["details"]["broken_imports"].items())[:5]:
                 print(f"   📄 {file}: {', '.join(list(broken)[:3])}")
 
-        if report['details']['isolated_files']:
-            print(f"\n🏝️  ISOLATED FILES (showing first 10):")
-            for file in list(report['details']['isolated_files'])[:10]:
+        if report["details"]["isolated_files"]:
+            print("\n🏝️  ISOLATED FILES (showing first 10):")
+            for file in list(report["details"]["isolated_files"])[:10]:
                 print(f"   📄 {file}")
 
         print("\n📈 TOP IMPORTERS:")
-        for file, count in report['details']['top_importers'][:5]:
+        for file, count in report["details"]["top_importers"][:5]:
             print(f"   📄 {file}: {count} imports")
+
 
 def main():
     lambda_root = Path.cwd()  # Assumes we're running from system directory
@@ -264,12 +284,13 @@ def main():
     analyzer.print_summary(report)
 
     # Save detailed report
-    with open('lambda_dependency_report.json', 'w') as f:
+    with open("lambda_dependency_report.json", "w") as f:
         json.dump(report, f, indent=2, default=str)
 
-    print(f"\n💾 Detailed report saved to: lambda_dependency_report.json")
+    print("\n💾 Detailed report saved to: lambda_dependency_report.json")
 
     return report
+
 
 if __name__ == "__main__":
     main()

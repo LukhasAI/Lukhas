@@ -10,11 +10,10 @@
 import json
 from datetime import datetime
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
 
 class DreamTimelineVisualizer:
@@ -33,21 +32,26 @@ class DreamTimelineVisualizer:
         print("Dream Timeline:")
         print("=" * 20)
 
-        with open(self.dream_log_path, "r") as f:
+        with open(self.dream_log_path) as f:
             for line in f:
                 dream = json.loads(line)
                 timestamp = datetime.fromisoformat(dream["timestamp"])
                 emotional_context = dream.get("emotional_context", {})
                 primary_emotion = emotional_context.get("primary_emotion", "N/A")
 
-                print(f"[{timestamp.strftime('%Y-%m-%d %H:%M:%S')}] Dream Cycle {dream['cycle_number']} - Emotion: {primary_emotion}")
+                print(
+                    f"[{timestamp.strftime('%Y-%m-%d %H:%M:%S')}] Dream Cycle {dream['cycle_number']} - Emotion: {primary_emotion}"
+                )
 
                 if "affect_trace" in dream and dream["affect_trace"]:
-                    print(f"  Affect Trace: {dream['affect_trace']['symbolic_state']} (Drift: {dream['affect_trace']['total_drift']:.2f})")
+                    print(
+                        f"  Affect Trace: {dream['affect_trace']['symbolic_state']} (Drift: {dream['affect_trace']['total_drift']:.2f})"
+                    )
 
         print("=" * 20)
         print("Current Emotional State:")
         print(self.emotional_memory.get_current_emotional_state())
+
 
 if __name__ == "__main__":
     # This is a conceptual example of how to use the visualizer

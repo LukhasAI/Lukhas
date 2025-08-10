@@ -8,7 +8,7 @@ Summary of what was successfully implemented vs. what remains blocked
 def generate_integration_report():
     print("🎯 LUKHAS INTEGRATION ACHIEVEMENT REPORT")
     print("=" * 60)
-    print(f"Generated: July 31, 2025")
+    print("Generated: July 31, 2025")
     print("=" * 60)
 
     print("\n🎉 SUCCESSFULLY IMPLEMENTED:")

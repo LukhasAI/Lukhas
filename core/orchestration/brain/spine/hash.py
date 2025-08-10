@@ -10,14 +10,14 @@ Integration Date: 2025-05-31T07:55:28.115896
 # 🧠 PURPOSE: Provides symbolic build hash, version ID, and manifest snapshot
 # ===============================================================
 
-import json
-import hashlib
-import os
 import argparse
+import hashlib
+import json
 
 MANIFEST_PATH = "dao/manifest.json"
 LICENSE_PATH = "LICENSE.txt"
 VERSION_ID = "v0.1.0"
+
 
 def get_manifest_hash():
     try:
@@ -27,6 +27,7 @@ def get_manifest_hash():
     except FileNotFoundError:
         return "⚠️ manifest.json not found"
 
+
 def get_license_hash():
     try:
         with open(LICENSE_PATH, "rb") as f:
@@ -35,6 +36,7 @@ def get_license_hash():
     except FileNotFoundError:
         return "⚠️ LICENSE.txt not found"
 
+
 def get_symbolic_fingerprint():
     return {
         "lukhas_version": VERSION_ID,
@@ -42,12 +44,15 @@ def get_symbolic_fingerprint():
         "license_hash": get_license_hash(),
     }
 
+
 def main():
     parser = argparse.ArgumentParser(description="🔑 LUKHAS_AGI Symbolic Hash Utility")
     parser.add_argument("--version", action="store_true", help="Show LUKHAS version ID")
     parser.add_argument("--manifest", action="store_true", help="Hash of manifest.json")
     parser.add_argument("--license", action="store_true", help="Hash of LICENSE.txt")
-    parser.add_argument("--all", action="store_true", help="Show full symbolic fingerprint")
+    parser.add_argument(
+        "--all", action="store_true", help="Show full symbolic fingerprint"
+    )
 
     args = parser.parse_args()
 
@@ -62,6 +67,7 @@ def main():
         print(json.dumps(get_symbolic_fingerprint(), indent=4))
     else:
         parser.print_help()
+
 
 if __name__ == "__main__":
     main()

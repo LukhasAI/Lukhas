@@ -69,56 +69,70 @@ import asyncio
 import gc
 import gzip
 import json
+import pickle
+import struct
 import sys
 import time
-import weakref
 import zlib
 from collections import OrderedDict, defaultdict, deque
 from dataclasses import dataclass, field
-from enum import Enum, auto
-from typing import Any, Dict, Generic, List, Optional, Set, Tuple, TypeVar, Union, Callable
+from enum import Enum
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    List,
+    Optional,
+    Tuple,
+    TypeVar,
+    Union,
+)
+
 from core.common import get_logger
-import pickle
-from functools import lru_cache
-import struct
 
 # Try to import optional dependencies
 try:
     import numpy as np
+
     HAS_NUMPY = True
 except ImportError:
     HAS_NUMPY = False
 
 try:
     import psutil
+
     HAS_PSUTIL = True
 except ImportError:
     HAS_PSUTIL = False
 
 logger = get_logger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class MemoryTier(Enum):
     """Memory storage tiers with different performance characteristics"""
-    HOT = "hot"          # Frequently accessed, uncompressed
-    WARM = "warm"        # Recently accessed, light compression
-    COLD = "cold"        # Rarely accessed, heavy compression
-    ARCHIVED = "archived" # Very rare access, maximum compression
+
+    HOT = "hot"  # Frequently accessed, uncompressed
+    WARM = "warm"  # Recently accessed, light compression
+    COLD = "cold"  # Rarely accessed, heavy compression
+    ARCHIVED = "archived"  # Very rare access, maximum compression
 
 
 class CompressionStrategy(Enum):
     """Compression strategies for memory optimization"""
+
     NONE = "none"
-    LIGHT = "light"      # Fast compression (zlib level 1)
-    MODERATE = "moderate" # Balanced (zlib level 6)
-    HEAVY = "heavy"      # Maximum compression (gzip level 9)
+    LIGHT = "light"  # Fast compression (zlib level 1)
+    MODERATE = "moderate"  # Balanced (zlib level 6)
+    HEAVY = "heavy"  # Maximum compression (gzip level 9)
 
 
 @dataclass
 class MemoryObject:
     """Wrapper for objects in memory with metadata"""
+
     key: str
     data: Any
     size_bytes: int
@@ -144,7 +158,7 @@ class MemoryObject:
         if age > 0:
             return self.access_count / age
         elif self.access_count > 0:
-            return float('inf')
+            return float("inf")
         else:
             return 0.0
 
@@ -155,18 +169,18 @@ class ObjectPool(Generic[T]):
     Reduces allocation overhead and garbage collection pressure
     """
 
-    def __init__(self, factory: Callable[[], T], max_size: int = 1000,
-                 reset_func: Optional[Callable[[T], None]] = None):
+    def __init__(
+        self,
+        factory: Callable[[], T],
+        max_size: int = 1000,
+        reset_func: Optional[Callable[[T], None]] = None,
+    ):
         self.factory = factory
         self.max_size = max_size
         self.reset_func = reset_func
         self._pool: deque = deque()
         self._allocated: int = 0
-        self._stats = {
-            "hits": 0,
-            "misses": 0,
-            "returns": 0
-        }
+        self._stats = {"hits": 0, "misses": 0, "returns": 0}
 
     def acquire(self) -> T:
         """Acquire an object from the pool"""
@@ -196,8 +210,9 @@ class ObjectPool(Generic[T]):
         return {
             "pool_size": len(self._pool),
             "allocated": self._allocated,
-            "hit_rate": self._stats["hits"] / max(1, self._stats["hits"] + self._stats["misses"]),
-            **self._stats
+            "hit_rate": self._stats["hits"]
+            / max(1, self._stats["hits"] + self._stats["misses"]),
+            **self._stats,
         }
 
 
@@ -211,17 +226,19 @@ class CompressedStorage:
             CompressionStrategy.NONE: lambda x: x,
             CompressionStrategy.LIGHT: lambda x: zlib.compress(x, 1),
             CompressionStrategy.MODERATE: lambda x: zlib.compress(x, 6),
-            CompressionStrategy.HEAVY: lambda x: gzip.compress(x, 9)
+            CompressionStrategy.HEAVY: lambda x: gzip.compress(x, 9),
         }
 
         self.decompression_strategies = {
             CompressionStrategy.NONE: lambda x: x,
             CompressionStrategy.LIGHT: zlib.decompress,
             CompressionStrategy.MODERATE: zlib.decompress,
-            CompressionStrategy.HEAVY: gzip.decompress
+            CompressionStrategy.HEAVY: gzip.decompress,
         }
 
-    def compress(self, data: bytes, strategy: CompressionStrategy) -> Tuple[bytes, float]:
+    def compress(
+        self, data: bytes, strategy: CompressionStrategy
+    ) -> Tuple[bytes, float]:
         """
         Compress data using specified strategy
         Returns: (compressed_data, compression_ratio)
@@ -237,7 +254,9 @@ class CompressedStorage:
         """Decompress data using specified strategy"""
         return self.decompression_strategies[strategy](data)
 
-    def select_strategy(self, size_bytes: int, access_frequency: float) -> CompressionStrategy:
+    def select_strategy(
+        self, size_bytes: int, access_frequency: float
+    ) -> CompressionStrategy:
         """Select compression strategy based on object characteristics"""
         # Large, rarely accessed objects get heavy compression
         if size_bytes > 1_000_000 and access_frequency < 0.1:
@@ -257,20 +276,25 @@ class TieredMemoryCache:
     Tiered memory cache with automatic promotion/demotion based on access patterns
     """
 
-    def __init__(self, hot_capacity: int = 100, warm_capacity: int = 500,
-                 cold_capacity: int = 1000, archive_capacity: int = 10000):
+    def __init__(
+        self,
+        hot_capacity: int = 100,
+        warm_capacity: int = 500,
+        cold_capacity: int = 1000,
+        archive_capacity: int = 10000,
+    ):
         self.tiers = {
             MemoryTier.HOT: OrderedDict(),
             MemoryTier.WARM: OrderedDict(),
             MemoryTier.COLD: OrderedDict(),
-            MemoryTier.ARCHIVED: OrderedDict()
+            MemoryTier.ARCHIVED: OrderedDict(),
         }
 
         self.capacities = {
             MemoryTier.HOT: hot_capacity,
             MemoryTier.WARM: warm_capacity,
             MemoryTier.COLD: cold_capacity,
-            MemoryTier.ARCHIVED: archive_capacity
+            MemoryTier.ARCHIVED: archive_capacity,
         }
 
         self.compressed_storage = CompressedStorage()
@@ -284,12 +308,7 @@ class TieredMemoryCache:
         size_bytes = len(serialized)
 
         # Create memory object
-        mem_obj = MemoryObject(
-            key=key,
-            data=value,
-            size_bytes=size_bytes,
-            tier=tier
-        )
+        mem_obj = MemoryObject(key=key, data=value, size_bytes=size_bytes, tier=tier)
 
         # Store in appropriate tier
         self._store_in_tier(mem_obj, tier)
@@ -306,8 +325,7 @@ class TieredMemoryCache:
                 # Decompress if needed
                 if mem_obj.compressed:
                     serialized = self.compressed_storage.decompress(
-                        mem_obj.data,
-                        self._get_compression_strategy(mem_obj.tier)
+                        mem_obj.data, self._get_compression_strategy(mem_obj.tier)
                     )
                     mem_obj.data = pickle.loads(serialized)
                     mem_obj.compressed = False
@@ -382,7 +400,7 @@ class TieredMemoryCache:
             MemoryTier.HOT: CompressionStrategy.NONE,
             MemoryTier.WARM: CompressionStrategy.LIGHT,
             MemoryTier.COLD: CompressionStrategy.MODERATE,
-            MemoryTier.ARCHIVED: CompressionStrategy.HEAVY
+            MemoryTier.ARCHIVED: CompressionStrategy.HEAVY,
         }[tier]
 
     def _get_promotion_threshold(self, tier: MemoryTier) -> float:
@@ -391,13 +409,17 @@ class TieredMemoryCache:
             MemoryTier.ARCHIVED: 0.1,
             MemoryTier.COLD: 1.0,
             MemoryTier.WARM: 10.0,
-            MemoryTier.HOT: float('inf')
+            MemoryTier.HOT: float("inf"),
         }[tier]
 
     def _get_higher_tier(self, tier: MemoryTier) -> Optional[MemoryTier]:
         """Get the next higher tier"""
-        tier_order = [MemoryTier.ARCHIVED, MemoryTier.COLD,
-                      MemoryTier.WARM, MemoryTier.HOT]
+        tier_order = [
+            MemoryTier.ARCHIVED,
+            MemoryTier.COLD,
+            MemoryTier.WARM,
+            MemoryTier.HOT,
+        ]
         idx = tier_order.index(tier)
         if idx < len(tier_order) - 1:
             return tier_order[idx + 1]
@@ -405,8 +427,12 @@ class TieredMemoryCache:
 
     def _get_lower_tier(self, tier: MemoryTier) -> Optional[MemoryTier]:
         """Get the next lower tier"""
-        tier_order = [MemoryTier.ARCHIVED, MemoryTier.COLD,
-                      MemoryTier.WARM, MemoryTier.HOT]
+        tier_order = [
+            MemoryTier.ARCHIVED,
+            MemoryTier.COLD,
+            MemoryTier.WARM,
+            MemoryTier.HOT,
+        ]
         idx = tier_order.index(tier)
         if idx > 0:
             return tier_order[idx - 1]
@@ -420,14 +446,14 @@ class TieredMemoryCache:
             tier_stats[tier.value] = {
                 "count": len(tier_cache),
                 "capacity": self.capacities[tier],
-                "memory_bytes": sum(obj.size_bytes for obj in tier_cache.values())
+                "memory_bytes": sum(obj.size_bytes for obj in tier_cache.values()),
             }
 
         return {
             "total_memory_bytes": self.total_memory_bytes,
             "total_objects": sum(len(cache) for cache in self.tiers.values()),
             "tier_stats": tier_stats,
-            "operations": dict(self.stats)
+            "operations": dict(self.stats),
         }
 
 
@@ -445,7 +471,7 @@ class MemoryOptimizer:
             "list": ObjectPool(list, max_size=1000, reset_func=lambda x: x.clear()),
             "dict": ObjectPool(dict, max_size=1000, reset_func=lambda x: x.clear()),
             "deque": ObjectPool(deque, max_size=100),
-            "set": ObjectPool(set, max_size=500, reset_func=lambda x: x.clear())
+            "set": ObjectPool(set, max_size=500, reset_func=lambda x: x.clear()),
         }
 
         # Memory monitoring
@@ -461,7 +487,7 @@ class MemoryOptimizer:
         self.stats = {
             "optimizations_triggered": 0,
             "memory_saved_bytes": 0,
-            "gc_collections": 0
+            "gc_collections": 0,
         }
 
     def store(self, key: str, value: Any, hint: str = "default") -> None:
@@ -496,7 +522,7 @@ class MemoryOptimizer:
             "cold": MemoryTier.COLD,
             "rare": MemoryTier.COLD,
             "archive": MemoryTier.ARCHIVED,
-            "historical": MemoryTier.ARCHIVED
+            "historical": MemoryTier.ARCHIVED,
         }
         return hint_to_tier.get(hint, MemoryTier.WARM)
 
@@ -509,13 +535,14 @@ class MemoryOptimizer:
 
     def register_default_optimizations(self) -> None:
         """Register default optimization strategies"""
+
         # Clear empty collections
         def clear_empty_collections():
             freed = 0
             for tier_cache in self.tiered_cache.tiers.values():
                 to_remove = []
                 for key, mem_obj in tier_cache.items():
-                    if hasattr(mem_obj.data, '__len__') and len(mem_obj.data) == 0:
+                    if hasattr(mem_obj.data, "__len__") and len(mem_obj.data) == 0:
                         to_remove.append(key)
                         freed += mem_obj.size_bytes
 
@@ -547,11 +574,9 @@ class MemoryOptimizer:
 
             return freed
 
-        self.optimization_callbacks.extend([
-            clear_empty_collections,
-            compress_large_objects,
-            force_gc
-        ])
+        self.optimization_callbacks.extend(
+            [clear_empty_collections, compress_large_objects, force_gc]
+        )
 
     async def start_monitoring(self) -> None:
         """Start memory monitoring and optimization"""
@@ -576,8 +601,10 @@ class MemoryOptimizer:
                 memory_usage = self._get_memory_usage()
 
                 if memory_usage > self.target_memory_bytes * self.memory_threshold:
-                    logger.warning(f"Memory usage {memory_usage / 1024 / 1024:.1f}MB "
-                                 f"exceeds threshold, optimizing...")
+                    logger.warning(
+                        f"Memory usage {memory_usage / 1024 / 1024:.1f}MB "
+                        f"exceeds threshold, optimizing..."
+                    )
                     self._trigger_optimization()
 
                 await asyncio.sleep(5.0)  # Check every 5 seconds
@@ -620,14 +647,13 @@ class MemoryOptimizer:
             "target_memory_mb": self.target_memory_bytes / 1024 / 1024,
             "usage_percentage": (current_usage / self.target_memory_bytes) * 100,
             "cache_stats": self.tiered_cache.get_stats(),
-            "pool_stats": {
-                name: pool.get_stats() for name, pool in self.pools.items()
-            },
-            "optimization_stats": self.stats
+            "pool_stats": {name: pool.get_stats() for name, pool in self.pools.items()},
+            "optimization_stats": self.stats,
         }
 
-    def create_memory_efficient_collection(self, collection_type: str,
-                                         initial_data: Optional[Any] = None) -> Any:
+    def create_memory_efficient_collection(
+        self, collection_type: str, initial_data: Optional[Any] = None
+    ) -> Any:
         """
         Create a memory-efficient collection that automatically returns to pool
         """
@@ -636,9 +662,7 @@ class MemoryOptimizer:
         if initial_data is not None:
             if collection_type in ["list", "deque"]:
                 obj.extend(initial_data)
-            elif collection_type == "dict":
-                obj.update(initial_data)
-            elif collection_type == "set":
+            elif collection_type == "dict" or collection_type == "set":
                 obj.update(initial_data)
 
         # Create a wrapper that returns to pool on deletion
@@ -663,7 +687,7 @@ class CompactList:
     Memory-efficient list implementation using struct packing for numeric data
     """
 
-    def __init__(self, dtype: str = 'i'):
+    def __init__(self, dtype: str = "i"):
         """
         Initialize compact list
         dtype: struct format character (i=int, f=float, d=double)
@@ -717,7 +741,7 @@ class BloomFilter:
             index = self._hash(item, i) % self.size
             byte_index = index // 8
             bit_index = index % 8
-            self.bit_array[byte_index] |= (1 << bit_index)
+            self.bit_array[byte_index] |= 1 << bit_index
         self.items_added += 1
 
     def contains(self, item: str) -> bool:
@@ -737,11 +761,13 @@ class BloomFilter:
     def _optimal_size(self, n: int, p: float) -> int:
         """Calculate optimal bit array size"""
         import math
+
         return int(-n * math.log(p) / (math.log(2) ** 2))
 
     def _optimal_hash_count(self, n: int, m: int) -> int:
         """Calculate optimal number of hash functions"""
         import math
+
         return max(1, int(m / n * math.log(2)))
 
     def memory_usage(self) -> int:
@@ -754,7 +780,10 @@ async def integrate_with_energy_analyzer():
     """
     Demonstrate integration between memory optimization and energy analysis
     """
-    from core.energy_consumption_analysis import EnergyConsumptionAnalyzer, EnergyComponent
+    from core.energy_consumption_analysis import (
+        EnergyComponent,
+        EnergyConsumptionAnalyzer,
+    )
 
     # Initialize systems
     energy_analyzer = EnergyConsumptionAnalyzer()
@@ -769,9 +798,7 @@ async def integrate_with_energy_analyzer():
         "memory_operations",
         total_joules=100.0,
         time_window_seconds=3600.0,
-        component_budgets={
-            EnergyComponent.MEMORY: 50.0
-        }
+        component_budgets={EnergyComponent.MEMORY: 50.0},
     )
 
     # Simulate memory-intensive operations with energy tracking
@@ -790,7 +817,7 @@ async def integrate_with_energy_analyzer():
             "memory_store",
             energy_joules=0.001 * len(data),  # Estimate based on data size
             duration_ms=duration_ms,
-            metadata={"key": key, "size": sys.getsizeof(data)}
+            metadata={"key": key, "size": sys.getsizeof(data)},
         )
 
         await asyncio.sleep(0.01)
@@ -808,7 +835,7 @@ async def integrate_with_energy_analyzer():
                 "memory_retrieve",
                 energy_joules=0.0001 * len(data),
                 duration_ms=duration_ms,
-                metadata={"key": key, "hit": True}
+                metadata={"key": key, "hit": True},
             )
 
     # Get combined statistics
@@ -886,7 +913,7 @@ async def demonstrate_memory_optimization():
     print("\nTesting memory-efficient structures...")
 
     # Compact list vs regular list
-    compact = CompactList('i')
+    compact = CompactList("i")
     regular = []
 
     for i in range(10000):
@@ -894,7 +921,9 @@ async def demonstrate_memory_optimization():
         regular.append(i)
 
     print(f"Compact list memory: {compact.memory_usage()} bytes")
-    print(f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes")
+    print(
+        f"Regular list memory: {sys.getsizeof(regular) + sum(sys.getsizeof(i) for i in regular)} bytes"
+    )
 
     # Bloom filter for membership testing
     bloom = BloomFilter(expected_items=10000, false_positive_rate=0.01)

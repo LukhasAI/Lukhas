@@ -2,6 +2,7 @@ import unittest
 
 from core.governance import GovernanceLayer
 
+
 class TestGovernanceLayer(unittest.TestCase):
     def setUp(self):
         self.governance = GovernanceLayer()
@@ -28,7 +29,7 @@ class TestGovernanceLayer(unittest.TestCase):
         contradictory_dream = {
             "type": "dream_session",
             "entropy": 0.5,
-            "states": ["peace", "war"]
+            "states": ["peace", "war"],
         }
 
         # We'll add a rule to the governance layer to check for this
@@ -36,12 +37,15 @@ class TestGovernanceLayer(unittest.TestCase):
             if action["type"] == "dream_session":
                 if "states" in action:
                     if "peace" in action["states"] and "war" in action["states"]:
-                        print("GovernanceLayer: Denied dream with contradictory states.")
+                        print(
+                            "GovernanceLayer: Denied dream with contradictory states."
+                        )
                         return False
             return True
 
         self.governance.add_rule(check_contradictory_states)
         self.assertFalse(self.governance.validate_action(contradictory_dream))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -19,21 +19,11 @@ Integration Date: 2025-05-31T07:55:30.569930
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Optional
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 # Since the constants.py file contains placeholder values and symbolic_utils.py
 # doesn't have the referenced functions, we'll import what exists
-from core.interfaces.as_agent.utils.constants import (
-    DEFAULT_COOLDOWN_SECONDS,
-    SEED_TAG_VOCAB,
-    SYMBOLIC_THRESHOLDS,
-    SYMBOLIC_TIERS,
-)
-from core.interfaces.as_agent.utils.symbolic_utils import (
-    summarize_emotion_vector,
-    tier_label,
-)
 
 # Import connectivity features with graceful degradation
 try:
@@ -86,8 +76,8 @@ class DASTAggregator:
             pass
 
         # Component state
-        self.active_tags: Set[str] = set()
-        self.aggregation_history: List[Dict[str, Any]] = []
+        self.active_tags: set[str] = set()
+        self.aggregation_history: list[dict[str, Any]] = []
 
     async def register_with_trio(self) -> bool:
         """Register DAST aggregator with TrioOrchestrator"""
@@ -102,7 +92,7 @@ class DASTAggregator:
         except Exception:
             return False
 
-    def aggregate_symbolic_tags(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def aggregate_symbolic_tags(self, inputs: dict[str, Any]) -> dict[str, Any]:
         """
         Merge symbolic tags from various DAST-compatible sources.
 
@@ -131,7 +121,7 @@ class DASTAggregator:
 
         return aggregation_result
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get aggregator status for hub monitoring"""
         return {
             "active_tags_count": len(self.active_tags),
@@ -176,13 +166,15 @@ async def register_with_trio() -> bool:
 
 
 # Backward compatibility functions
-def aggregate_dast_tags(inputs: Dict[str, Any]) -> Dict[str, Any]:
+
+
+def aggregate_dast_tags(inputs: dict[str, Any]) -> dict[str, Any]:
     """Legacy function wrapper - delegates to DASTAggregator class"""
     aggregator = get_aggregator()
     return aggregator.aggregate_symbolic_tags(inputs)
 
 
-def aggregate_symbolic_tags(inputs: Dict[str, Any]) -> Dict[str, Any]:
+def aggregate_symbolic_tags(inputs: dict[str, Any]) -> dict[str, Any]:
     """Legacy function wrapper - delegates to DASTAggregator class"""
     return aggregate_dast_tags(inputs)
 

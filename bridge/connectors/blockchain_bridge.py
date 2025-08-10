@@ -1,6 +1,5 @@
-import os
 import json
-import hashlib
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -14,10 +13,7 @@ def anchor_hash(data_hash: str) -> str:
         "timestamp": datetime.utcnow().isoformat(),
         "data_hash": data_hash,
     }
-    if ANCHOR_LOG.exists():
-        anchors = json.loads(ANCHOR_LOG.read_text())
-    else:
-        anchors = []
+    anchors = json.loads(ANCHOR_LOG.read_text()) if ANCHOR_LOG.exists() else []
     anchors.append(tx)
     ANCHOR_LOG.write_text(json.dumps(anchors, indent=2))
     return tx["timestamp"]

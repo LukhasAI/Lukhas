@@ -25,18 +25,12 @@ from numbers import Integral, Real
 import numpy as np
 from joblib import effective_n_jobs
 from scipy import linalg
-import structlog # ΛTRACE: Ensure structlog is used for logging
 
 # ΛTRACE: Initialize logger for learning phase
-
-#TAG:consciousness
-#TAG:reflection
-#TAG:neuroplastic
-#TAG:colony
-
-
-from core.common import get_logger
-
+# TAG:consciousness
+# TAG:reflection
+# TAG:neuroplastic
+# TAG:colony
 from ..base import (
     BaseEstimator,
     ClassNamePrefixFeaturesOutMixin,
@@ -44,7 +38,12 @@ from ..base import (
     _fit_context,
 )
 from ..linear_model import Lars, Lasso, LassoLars, orthogonal_mp_gram
-from ..utils import check_array, check_random_state, gen_batches, gen_even_slices
+from ..utils import (
+    check_array,
+    check_random_state,
+    gen_batches,
+    gen_even_slices,
+)
 from ..utils._param_validation import Interval, StrOptions, validate_params
 from ..utils.extmath import _randomized_svd, row_norms, svd_flip
 from ..utils.parallel import Parallel, delayed
@@ -56,10 +55,16 @@ def _check_positive_coding(method, positive):
     # ΛNOTE: Validates if the chosen method supports positive constraints.
     if positive and method in ["omp", "lars"]:
         # ΛTRACE: Logging constraint violation
-        logger.error("constraint_violation", method=method, constraint="positive", message="Positive constraint not supported for this coding method.")
-        raise ValueError(
-            "Positive constraint not supported for '{}' coding method.".format(method)
+        logger.error(
+            "constraint_violation",
+            method=method,
+            constraint="positive",
+            message="Positive constraint not supported for this coding method.",
         )
+        raise ValueError(
+            f"Positive constraint not supported for '{method}' coding method."
+        )
+
 
 # # Generic sparse coding with precomputed Gram and/or covariance matrices.
 def _sparse_encode_precomputed(
@@ -78,14 +83,22 @@ def _sparse_encode_precomputed(
 ):
     # ΛNOTE: Core sparse encoding logic using precomputed matrices. This is a performance optimization.
     # ΛTRACE: Starting sparse encoding with precomputed matrices.
-    logger.debug("sparse_encode_precomputed_start", algorithm=algorithm, X_shape=X.shape, dict_shape=dictionary.shape, positive=positive)
+    logger.debug(
+        "sparse_encode_precomputed_start",
+        algorithm=algorithm,
+        X_shape=X.shape,
+        dict_shape=dictionary.shape,
+        positive=positive,
+    )
     n_samples, n_features = X.shape
     n_components = dictionary.shape[0]
 
     if algorithm == "lasso_lars":
         alpha = float(regularization) / n_features  # account for scaling
         try:
-            err_mgt = np.seterr(all="ignore") # ΛCAUTION: Ignoring all numpy errors here. Could mask issues.
+            err_mgt = np.seterr(
+                all="ignore"
+            )  # ΛCAUTION: Ignoring all numpy errors here. Could mask issues.
 
             # Not passing in verbose=max(0, verbose-1) because Lars.fit already
             # corrects the verbosity level.
@@ -115,7 +128,9 @@ def _sparse_encode_precomputed(
             positive=positive,
         )
 
-        if init is not None: # ΛSEED: Initialization code can be a seed for the learning process.
+        if (
+            init is not None
+        ):  # ΛSEED: Initialization code can be a seed for the learning process.
             if not init.flags["WRITEABLE"]:
                 init = np.array(init)
             clf.coef_ = init
@@ -125,7 +140,7 @@ def _sparse_encode_precomputed(
 
     elif algorithm == "lars":
         try:
-            err_mgt = np.seterr(all="ignore") # ΛCAUTION: Ignoring all numpy errors.
+            err_mgt = np.seterr(all="ignore")  # ΛCAUTION: Ignoring all numpy errors.
 
             lars = Lars(
                 fit_intercept=False,
@@ -154,7 +169,11 @@ def _sparse_encode_precomputed(
             copy_Xy=copy_cov,
         ).T
     # ΛTRACE: Finished sparse encoding with precomputed matrices.
-    logger.debug("sparse_encode_precomputed_end", algorithm=algorithm, code_shape=new_code.reshape(n_samples, n_components).shape)
+    logger.debug(
+        "sparse_encode_precomputed_end",
+        algorithm=algorithm,
+        code_shape=new_code.reshape(n_samples, n_components).shape,
+    )
     return new_code.reshape(n_samples, n_components)
 
 
@@ -172,7 +191,10 @@ def _sparse_encode_precomputed(
         "n_nonzero_coefs": [Interval(Integral, 1, None, closed="left"), None],
         "alpha": [Interval(Real, 0, None, closed="left"), None],
         "copy_cov": ["boolean"],
-        "init": ["array-like", None], # ΛSEED: `init` can act as a seed for the optimization.
+        "init": [
+            "array-like",
+            None,
+        ],  # ΛSEED: `init` can act as a seed for the optimization.
         "max_iter": [Interval(Integral, 0, None, closed="left")],
         "n_jobs": [Integral, None],
         "check_input": ["boolean"],
@@ -191,7 +213,7 @@ def sparse_encode(
     n_nonzero_coefs=None,
     alpha=None,
     copy_cov=True,
-    init=None, # ΛSEED: Initialization for sparse codes can be considered a seed.
+    init=None,  # ΛSEED: Initialization for sparse codes can be considered a seed.
     max_iter=1000,
     n_jobs=None,
     check_input=True,
@@ -200,7 +222,15 @@ def sparse_encode(
 ):
     # ΛNOTE: Solves the sparse coding problem X ~= code * dictionary. This is a fundamental operation in dictionary learning.
     # ΛTRACE: Starting sparse encoding.
-    logger.info("sparse_encode_start", algorithm=algorithm, X_shape=X.shape if hasattr(X, 'shape') else 'unknown', dict_shape=dictionary.shape if hasattr(dictionary, 'shape') else 'unknown', positive=positive, alpha=alpha, n_nonzero_coefs=n_nonzero_coefs)
+    logger.info(
+        "sparse_encode_start",
+        algorithm=algorithm,
+        X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        dict_shape=dictionary.shape if hasattr(dictionary, "shape") else "unknown",
+        positive=positive,
+        alpha=alpha,
+        n_nonzero_coefs=n_nonzero_coefs,
+    )
 
     if check_input:
         if algorithm == "lasso_cd":
@@ -214,10 +244,15 @@ def sparse_encode(
 
     if dictionary.shape[1] != X.shape[1]:
         # ΛTRACE: Logging shape mismatch error
-        logger.error("shape_mismatch", dict_shape=dictionary.shape, X_shape=X.shape, message="Dictionary and X have different numbers of features.")
+        logger.error(
+            "shape_mismatch",
+            dict_shape=dictionary.shape,
+            X_shape=X.shape,
+            message="Dictionary and X have different numbers of features.",
+        )
         raise ValueError(
             "Dictionary and X have different numbers of features:"
-            "dictionary.shape: {} X.shape{}".format(dictionary.shape, X.shape)
+            f"dictionary.shape: {dictionary.shape} X.shape{X.shape}"
         )
 
     _check_positive_coding(algorithm, positive)
@@ -241,6 +276,7 @@ def sparse_encode(
     logger.info("sparse_encode_end", algorithm=algorithm, code_shape=result_code.shape)
     return result_code
 
+
 # # Internal sparse encoding logic without validation
 def _sparse_encode(
     X,
@@ -252,7 +288,7 @@ def _sparse_encode(
     n_nonzero_coefs=None,
     alpha=None,
     copy_cov=True,
-    init=None, # ΛSEED: Initialization for sparse codes.
+    init=None,  # ΛSEED: Initialization for sparse codes.
     max_iter=1000,
     n_jobs=None,
     verbose=0,
@@ -303,7 +339,11 @@ def _sparse_encode(
     slices = list(gen_even_slices(n_samples, effective_n_jobs(n_jobs)))
 
     # ΛTRACE: Parallel sparse encoding initiated.
-    logger.debug("parallel_sparse_encode_start", num_slices=len(slices), n_jobs=effective_n_jobs(n_jobs))
+    logger.debug(
+        "parallel_sparse_encode_start",
+        num_slices=len(slices),
+        n_jobs=effective_n_jobs(n_jobs),
+    )
     code_views = Parallel(n_jobs=n_jobs, verbose=verbose)(
         delayed(_sparse_encode_precomputed)(
             X[this_slice],
@@ -313,7 +353,7 @@ def _sparse_encode(
             algorithm=algorithm,
             regularization=regularization,
             copy_cov=copy_cov,
-            init=init[this_slice] if init is not None else None, # ΛSEED: Sliced init.
+            init=init[this_slice] if init is not None else None,  # ΛSEED: Sliced init.
             max_iter=max_iter,
             verbose=verbose,
             positive=positive,
@@ -325,6 +365,7 @@ def _sparse_encode(
     # ΛTRACE: Parallel sparse encoding finished.
     logger.debug("parallel_sparse_encode_end")
     return code
+
 
 # # Updates the dictionary atoms in place
 def _update_dict(
@@ -340,7 +381,13 @@ def _update_dict(
     # ΛNOTE: This function updates the dictionary atoms. It's a critical step in dictionary learning.
     # ΛDREAM_LOOP: The dictionary update based on the current sparse codes (code) and data (Y) is part of the iterative learning loop.
     # ΛTRACE: Starting dictionary update.
-    logger.debug("update_dict_start", dict_shape=dictionary.shape, Y_shape=Y.shape, code_shape=code.shape, positive=positive)
+    logger.debug(
+        "update_dict_start",
+        dict_shape=dictionary.shape,
+        Y_shape=Y.shape,
+        code_shape=code.shape,
+        positive=positive,
+    )
     n_samples, n_components = code.shape
     random_state = check_random_state(random_state)
 
@@ -361,16 +408,15 @@ def _update_dict(
             noise_level = 0.01 * (newd.std() or 1)
             noise = random_state.normal(0, noise_level, size=len(newd))
             dictionary[k] = newd + noise
-            code[:, k] = 0 # ΛNOTE: Resetting code for the new atom.
+            code[:, k] = 0  # ΛNOTE: Resetting code for the new atom.
             n_unused += 1
             # ΛTRACE: Resampled unused atom.
             logger.info("resampled_atom", atom_index=k, noise_level=noise_level)
 
-
         if positive:
             np.clip(dictionary[k], 0, None, out=dictionary[k])
 
-        dictionary[k] /= max(linalg.norm(dictionary[k]), 1) # ΛNOTE: Normalizing atom.
+        dictionary[k] /= max(linalg.norm(dictionary[k]), 1)  # ΛNOTE: Normalizing atom.
 
     if verbose and n_unused > 0:
         print(f"{n_unused} unused atoms resampled.")
@@ -390,8 +436,8 @@ def _dict_learning(
     tol,
     method,
     n_jobs,
-    dict_init, # ΛSEED: Initial dictionary can be a seed.
-    code_init, # ΛSEED: Initial code can be a seed.
+    dict_init,  # ΛSEED: Initial dictionary can be a seed.
+    code_init,  # ΛSEED: Initial code can be a seed.
     callback,
     verbose,
     random_state,
@@ -403,7 +449,13 @@ def _dict_learning(
     # ΛNOTE: This is the core batch dictionary learning algorithm. It iteratively updates codes and the dictionary.
     # ΛDREAM_LOOP: The iterative process of updating codes and then the dictionary forms a learning loop.
     # ΛTRACE: Starting batch dictionary learning.
-    logger.info("dict_learning_batch_start", n_components=n_components, alpha=alpha, max_iter=max_iter, method=method)
+    logger.info(
+        "dict_learning_batch_start",
+        n_components=n_components,
+        alpha=alpha,
+        max_iter=max_iter,
+        method=method,
+    )
     t0 = time.time()
     if code_init is not None and dict_init is not None:
         code = np.array(code_init, order="F")
@@ -435,7 +487,12 @@ def _dict_learning(
             sys.stdout.flush()
         elif verbose:
             # ΛTRACE: Logging iteration progress.
-            logger.debug("dict_learning_iteration", iteration=ii, elapsed_time_s=dt, current_cost=current_cost)
+            logger.debug(
+                "dict_learning_iteration",
+                iteration=ii,
+                elapsed_time_s=dt,
+                current_cost=current_cost,
+            )
             print(
                 "Iteration % 3i (elapsed time: % 3is, % 4.1fmn, current cost % 7.3f)"
                 % (ii, dt, dt / 60, current_cost)
@@ -447,7 +504,7 @@ def _dict_learning(
             dictionary,
             algorithm=method,
             alpha=alpha,
-            init=code, # ΛSEED: Previous code acts as init for next iteration.
+            init=code,  # ΛSEED: Previous code acts as init for next iteration.
             n_jobs=n_jobs,
             positive=positive_code,
             max_iter=method_max_iter,
@@ -471,20 +528,29 @@ def _dict_learning(
         # ΛTRACE: Cost calculated for iteration.
         logger.debug("dict_learning_cost", iteration=ii, cost=current_cost)
 
-
         if ii > 0:
             dE = errors[-2] - errors[-1]
             if dE < tol * errors[-1]:
-                if verbose == 1: print("")
-                elif verbose: print("--- Convergence reached after %d iterations" % ii)
+                if verbose == 1:
+                    print("")
+                elif verbose:
+                    print("--- Convergence reached after %d iterations" % ii)
                 # ΛTRACE: Convergence reached.
-                logger.info("dict_learning_convergence", iteration=ii, reason="dE < tol * errors[-1]")
+                logger.info(
+                    "dict_learning_convergence",
+                    iteration=ii,
+                    reason="dE < tol * errors[-1]",
+                )
                 break
         if ii % 5 == 0 and callback is not None:
-            callback(locals()) # ΛNOTE: Callback for external monitoring or actions.
+            callback(locals())  # ΛNOTE: Callback for external monitoring or actions.
 
     # ΛTRACE: Batch dictionary learning finished.
-    logger.info("dict_learning_batch_end", iterations_completed=ii + 1, final_cost=current_cost if errors else np.nan)
+    logger.info(
+        "dict_learning_batch_end",
+        iterations_completed=ii + 1,
+        final_cost=current_cost if errors else np.nan,
+    )
     if return_n_iter:
         return code, dictionary, errors, ii + 1
     else:
@@ -509,7 +575,7 @@ def dict_learning_online(
     alpha=1,
     max_iter=100,
     return_code=True,
-    dict_init=None, # ΛSEED: Initial dictionary.
+    dict_init=None,  # ΛSEED: Initial dictionary.
     callback=None,
     batch_size=256,
     verbose=False,
@@ -526,7 +592,14 @@ def dict_learning_online(
     # ΛNOTE: Solves dictionary learning online using mini-batches. More scalable than batch.
     # ΛDREAM_LOOP: Iterating over mini-batches and updating the dictionary/codes forms a continuous learning loop.
     # ΛTRACE: Starting online dictionary learning.
-    logger.info("dict_learning_online_start", n_components=n_components, alpha=alpha, max_iter=max_iter, method=method, batch_size=batch_size)
+    logger.info(
+        "dict_learning_online_start",
+        n_components=n_components,
+        alpha=alpha,
+        max_iter=max_iter,
+        method=method,
+        batch_size=batch_size,
+    )
 
     transform_algorithm = "lasso_" + method
 
@@ -538,7 +611,7 @@ def dict_learning_online(
         fit_algorithm=method,
         batch_size=batch_size,
         shuffle=shuffle,
-        dict_init=dict_init, # ΛSEED: Passed to MiniBatchDictionaryLearning.
+        dict_init=dict_init,  # ΛSEED: Passed to MiniBatchDictionaryLearning.
         random_state=random_state,
         transform_algorithm=transform_algorithm,
         transform_alpha=alpha,
@@ -551,8 +624,10 @@ def dict_learning_online(
         max_no_improvement=max_no_improvement,
     ).fit(X)
     # ΛTRACE: Online dictionary learning fitting complete.
-    logger.info("dict_learning_online_fit_complete", n_iter=est.n_iter_ if hasattr(est, 'n_iter_') else 'N/A')
-
+    logger.info(
+        "dict_learning_online_fit_complete",
+        n_iter=est.n_iter_ if hasattr(est, "n_iter_") else "N/A",
+    )
 
     if not return_code:
         return est.components_
@@ -583,8 +658,8 @@ def dict_learning(
     tol=1e-8,
     method="lars",
     n_jobs=None,
-    dict_init=None, # ΛSEED: Initial dictionary.
-    code_init=None, # ΛSEED: Initial code.
+    dict_init=None,  # ΛSEED: Initial dictionary.
+    code_init=None,  # ΛSEED: Initial code.
     callback=None,
     verbose=False,
     random_state=None,
@@ -595,7 +670,12 @@ def dict_learning(
 ):
     # ΛNOTE: High-level wrapper for the batch dictionary learning algorithm.
     # ΛTRACE: Preparing for batch dictionary learning via DictionaryLearning class.
-    logger.info("dict_learning_wrapper_start", n_components=n_components, alpha=alpha, method=method)
+    logger.info(
+        "dict_learning_wrapper_start",
+        n_components=n_components,
+        alpha=alpha,
+        method=method,
+    )
     estimator = DictionaryLearning(
         n_components=n_components,
         alpha=alpha,
@@ -603,9 +683,9 @@ def dict_learning(
         tol=tol,
         fit_algorithm=method,
         n_jobs=n_jobs,
-        dict_init=dict_init, # ΛSEED: Passed to DictionaryLearning.
+        dict_init=dict_init,  # ΛSEED: Passed to DictionaryLearning.
         callback=callback,
-        code_init=code_init, # ΛSEED: Passed to DictionaryLearning.
+        code_init=code_init,  # ΛSEED: Passed to DictionaryLearning.
         verbose=verbose,
         random_state=random_state,
         positive_code=positive_code,
@@ -651,8 +731,13 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
     def _transform(self, X, dictionary):
         # ΛNOTE: Internal transform logic.
         # ΛTRACE: Base sparse coding transform called.
-        logger.debug("_base_sparse_coding_transform", transform_algorithm=self.transform_algorithm)
-        X = validate_data(self, X, reset=False) # TODO: original code uses self, but should be X?
+        logger.debug(
+            "_base_sparse_coding_transform",
+            transform_algorithm=self.transform_algorithm,
+        )
+        X = validate_data(
+            self, X, reset=False
+        )  # TODO: original code uses self, but should be X?
 
         if hasattr(self, "alpha") and self.transform_alpha is None:
             transform_alpha = self.alpha
@@ -677,8 +762,11 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
             split_code[:, n_features:] = -np.minimum(code, 0)
             code = split_code
             # ΛTRACE: Code sign split performed.
-            logger.debug("code_sign_split_performed", original_shape= (n_samples, n_features), new_shape=code.shape)
-
+            logger.debug(
+                "code_sign_split_performed",
+                original_shape=(n_samples, n_features),
+                new_shape=code.shape,
+            )
 
         return code
 
@@ -688,7 +776,10 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
         # ΛNOTE: Encodes data as a sparse combination of dictionary atoms.
         check_is_fitted(self)
         # ΛTRACE: Public transform method called.
-        logger.info("sparse_coder_transform_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "sparse_coder_transform_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         return self._transform(X, self.components_)
 
     # # Private inverse transform method
@@ -702,7 +793,11 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
             expected_n_components += expected_n_components
         if not code.shape[1] == expected_n_components:
             # ΛTRACE: Logging component mismatch error during inverse transform.
-            logger.error("inverse_transform_component_mismatch", expected_components=expected_n_components, got_components=code.shape[1])
+            logger.error(
+                "inverse_transform_component_mismatch",
+                expected_components=expected_n_components,
+                got_components=code.shape[1],
+            )
             raise ValueError(
                 "The number of components in the code is different from the "
                 "number of components in the dictionary."
@@ -713,7 +808,11 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
             n_features //= 2
             code = code[:, :n_features] - code[:, n_features:]
             # ΛTRACE: Code sign merged for inverse transform.
-            logger.debug("code_sign_merged_for_inverse", original_shape=(n_samples, n_features*2), new_shape=code.shape)
+            logger.debug(
+                "code_sign_merged_for_inverse",
+                original_shape=(n_samples, n_features * 2),
+                new_shape=code.shape,
+            )
 
         return code @ dictionary
 
@@ -723,7 +822,10 @@ class _BaseSparseCoding(ClassNamePrefixFeaturesOutMixin, TransformerMixin):
         # ΛNOTE: Transforms sparse codes back to the original data space.
         check_is_fitted(self)
         # ΛTRACE: Public inverse_transform method called.
-        logger.info("sparse_coder_inverse_transform_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "sparse_coder_inverse_transform_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         return self._inverse_transform(X, self.components_)
 
 
@@ -733,7 +835,7 @@ class SparseCoder(_BaseSparseCoding, BaseEstimator):
     # ΛNOTE: Finds a sparse representation of data against a fixed, precomputed dictionary.
     def __init__(
         self,
-        dictionary, # ΛSEED: The dictionary itself is a seed/basis for encoding.
+        dictionary,  # ΛSEED: The dictionary itself is a seed/basis for encoding.
         *,
         transform_algorithm="omp",
         transform_n_nonzero_coefs=None,
@@ -754,8 +856,13 @@ class SparseCoder(_BaseSparseCoding, BaseEstimator):
         )
         self.dictionary = dictionary
         # ΛTRACE: SparseCoder initialized.
-        logger.debug("SparseCoder_initialized", transform_algorithm=transform_algorithm, dictionary_shape=dictionary.shape if hasattr(dictionary, 'shape') else "unknown")
-
+        logger.debug(
+            "SparseCoder_initialized",
+            transform_algorithm=transform_algorithm,
+            dictionary_shape=(
+                dictionary.shape if hasattr(dictionary, "shape") else "unknown"
+            ),
+        )
 
     # # Fit method (no-op for SparseCoder)
     def fit(self, X, y=None):
@@ -768,14 +875,20 @@ class SparseCoder(_BaseSparseCoding, BaseEstimator):
     # ΛEXPOSE: Main method to get sparse codes using the fixed dictionary.
     def transform(self, X, y=None):
         # ΛTRACE: SparseCoder specific transform called.
-        logger.info("SparseCoder_transform_specific_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "SparseCoder_transform_specific_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         return super()._transform(X, self.dictionary)
 
     # # Inverse transform method specific to SparseCoder
     # ΛEXPOSE: Main method to reconstruct data from sparse codes.
     def inverse_transform(self, X):
         # ΛTRACE: SparseCoder specific inverse_transform called.
-        logger.info("SparseCoder_inverse_transform_specific_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "SparseCoder_inverse_transform_specific_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         return self._inverse_transform(X, self.dictionary)
 
     def __sklearn_tags__(self):
@@ -813,8 +926,8 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
         "transform_n_nonzero_coefs": [Interval(Integral, 1, None, closed="left"), None],
         "transform_alpha": [Interval(Real, 0, None, closed="left"), None],
         "n_jobs": [Integral, None],
-        "code_init": [np.ndarray, None], # ΛSEED: Initial code can be a seed.
-        "dict_init": [np.ndarray, None], # ΛSEED: Initial dictionary can be a seed.
+        "code_init": [np.ndarray, None],  # ΛSEED: Initial code can be a seed.
+        "dict_init": [np.ndarray, None],  # ΛSEED: Initial dictionary can be a seed.
         "callback": [callable, None],
         "verbose": ["verbose"],
         "split_sign": ["boolean"],
@@ -836,8 +949,8 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
         transform_n_nonzero_coefs=None,
         transform_alpha=None,
         n_jobs=None,
-        code_init=None, # ΛSEED: Initial code.
-        dict_init=None, # ΛSEED: Initial dictionary.
+        code_init=None,  # ΛSEED: Initial code.
+        dict_init=None,  # ΛSEED: Initial dictionary.
         callback=None,
         verbose=False,
         split_sign=False,
@@ -867,15 +980,22 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
         self.random_state = random_state
         self.positive_dict = positive_dict
         # ΛTRACE: DictionaryLearning initialized.
-        logger.debug("DictionaryLearning_initialized", n_components=n_components, alpha=alpha, fit_algorithm=fit_algorithm)
-
+        logger.debug(
+            "DictionaryLearning_initialized",
+            n_components=n_components,
+            alpha=alpha,
+            fit_algorithm=fit_algorithm,
+        )
 
     # # Fit method
     # ΛEXPOSE: Main method to learn the dictionary from data.
     def fit(self, X, y=None):
         # ΛDREAM_LOOP: The fit process involves iteratively refining the dictionary, which is a learning loop.
         # ΛTRACE: DictionaryLearning fit called.
-        logger.info("DictionaryLearning_fit_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "DictionaryLearning_fit_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         self.fit_transform(X)
         return self
 
@@ -894,7 +1014,11 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
         else:
             n_components = self.n_components
         # ΛTRACE: DictionaryLearning fit_transform starting internal _dict_learning.
-        logger.info("DictionaryLearning_fit_transform_start_internal", n_components=n_components, method=method)
+        logger.info(
+            "DictionaryLearning_fit_transform_start_internal",
+            n_components=n_components,
+            method=method,
+        )
 
         V, U, E, self.n_iter_ = _dict_learning(
             X,
@@ -905,8 +1029,8 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
             method=method,
             method_max_iter=self.transform_max_iter,
             n_jobs=self.n_jobs,
-            code_init=self.code_init, # ΛSEED: Passed to internal learner.
-            dict_init=self.dict_init, # ΛSEED: Passed to internal learner.
+            code_init=self.code_init,  # ΛSEED: Passed to internal learner.
+            dict_init=self.dict_init,  # ΛSEED: Passed to internal learner.
             callback=self.callback,
             verbose=self.verbose,
             random_state=random_state,
@@ -914,12 +1038,16 @@ class DictionaryLearning(_BaseSparseCoding, BaseEstimator):
             positive_dict=self.positive_dict,
             positive_code=self.positive_code,
         )
-        self.components_ = U # This is the learned dictionary
+        self.components_ = U  # This is the learned dictionary
         self.error_ = E
         # ΛTRACE: DictionaryLearning fit_transform completed internal _dict_learning.
-        logger.info("DictionaryLearning_fit_transform_end_internal", n_iter=self.n_iter_, final_error=E[-1] if E else 'N/A')
+        logger.info(
+            "DictionaryLearning_fit_transform_end_internal",
+            n_iter=self.n_iter_,
+            final_error=E[-1] if E else "N/A",
+        )
 
-        return V # This is the sparse code
+        return V  # This is the sparse code
 
     @property
     def _n_features_out(self):
@@ -943,7 +1071,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         "n_jobs": [None, Integral],
         "batch_size": [Interval(Integral, 1, None, closed="left")],
         "shuffle": ["boolean"],
-        "dict_init": [None, np.ndarray], # ΛSEED: Initial dictionary.
+        "dict_init": [None, np.ndarray],  # ΛSEED: Initial dictionary.
         "transform_algorithm": [
             StrOptions({"lasso_lars", "lasso_cd", "lars", "omp", "threshold"})
         ],
@@ -970,7 +1098,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         n_jobs=None,
         batch_size=256,
         shuffle=True,
-        dict_init=None, # ΛSEED: Initial dictionary.
+        dict_init=None,  # ΛSEED: Initial dictionary.
         transform_algorithm="omp",
         transform_n_nonzero_coefs=None,
         transform_alpha=None,
@@ -1008,7 +1136,12 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         self.max_no_improvement = max_no_improvement
         self.tol = tol
         # ΛTRACE: MiniBatchDictionaryLearning initialized.
-        logger.debug("MiniBatchDictionaryLearning_initialized", n_components=n_components, alpha=alpha, batch_size=batch_size)
+        logger.debug(
+            "MiniBatchDictionaryLearning_initialized",
+            n_components=n_components,
+            alpha=alpha,
+            batch_size=batch_size,
+        )
 
     # # Check parameters internal method
     def _check_params(self, X):
@@ -1019,8 +1152,12 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         self._fit_algorithm = "lasso_" + self.fit_algorithm
         self._batch_size = min(self.batch_size, X.shape[0])
         # ΛTRACE: Parameters checked for MiniBatchDictionaryLearning.
-        logger.debug("_check_params_complete", n_components=self._n_components, fit_algorithm=self._fit_algorithm, batch_size=self._batch_size)
-
+        logger.debug(
+            "_check_params_complete",
+            n_components=self._n_components,
+            fit_algorithm=self._fit_algorithm,
+            batch_size=self._batch_size,
+        )
 
     # # Initialize dictionary internal method
     def _initialize_dict(self, X, random_state):
@@ -1029,7 +1166,9 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         if self.dict_init is not None:
             dictionary = self.dict_init
             # ΛTRACE: Dictionary initialized from dict_init.
-            logger.info("dictionary_initialized_from_dict_init", dict_shape=dictionary.shape)
+            logger.info(
+                "dictionary_initialized_from_dict_init", dict_shape=dictionary.shape
+            )
         else:
             _, S, dictionary = _randomized_svd(
                 X, self._n_components, random_state=random_state
@@ -1037,7 +1176,6 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
             dictionary = S[:, np.newaxis] * dictionary
             # ΛTRACE: Dictionary initialized using randomized SVD.
             logger.info("dictionary_initialized_from_svd", dict_shape=dictionary.shape)
-
 
         if self._n_components <= len(dictionary):
             dictionary = dictionary[: self._n_components, :]
@@ -1072,7 +1210,6 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         # ΛTRACE: Inner stats A and B updated.
         logger.debug("inner_stats_updated", step=step, theta=theta, beta=beta)
 
-
     # # Perform one mini-batch step
     def _minibatch_step(self, X, dictionary, random_state, step):
         # ΛNOTE: Processes one mini-batch: sparse code, update stats, update dictionary.
@@ -1080,7 +1217,6 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         batch_size = X.shape[0]
         # ΛTRACE: Mini-batch step started.
         logger.debug("minibatch_step_start", step=step, batch_size=batch_size)
-
 
         code = _sparse_encode(
             X,
@@ -1099,11 +1235,10 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         # ΛTRACE: Sparse code computed for mini-batch.
         logger.debug("minibatch_sparse_code_computed", step=step, batch_cost=batch_cost)
 
-
         self._update_inner_stats(X, code, batch_size, step)
         _update_dict(
             dictionary,
-            X, # This should be X_batch, but original code uses X. Assuming X is X_batch here.
+            X,  # This should be X_batch, but original code uses X. Assuming X is X_batch here.
             code,
             self._A,
             self._B,
@@ -1121,23 +1256,34 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
     ):
         # ΛNOTE: Implements early stopping logic based on dictionary change and cost improvement.
         batch_size = X.shape[0]
-        step = step + 1 # User-friendly step count
+        step = step + 1  # User-friendly step count
 
         if step <= min(100, n_samples / batch_size):
-            if self.verbose: print(f"Minibatch step {step}/{n_steps}: mean batch cost: {batch_cost}")
+            if self.verbose:
+                print(f"Minibatch step {step}/{n_steps}: mean batch cost: {batch_cost}")
             # ΛTRACE: Initial steps, convergence check skipped.
-            logger.debug("convergence_check_skipped_initial_steps", step=step, batch_cost=batch_cost)
+            logger.debug(
+                "convergence_check_skipped_initial_steps",
+                step=step,
+                batch_cost=batch_cost,
+            )
             return False
 
         if self._ewa_cost is None:
             self._ewa_cost = batch_cost
         else:
-            alpha_ewa = batch_size / (n_samples + 1) # Renamed alpha to alpha_ewa to avoid conflict
+            alpha_ewa = batch_size / (
+                n_samples + 1
+            )  # Renamed alpha to alpha_ewa to avoid conflict
             alpha_ewa = min(alpha_ewa, 1)
             self._ewa_cost = self._ewa_cost * (1 - alpha_ewa) + batch_cost * alpha_ewa
         # ΛTRACE: EWA cost updated.
-        logger.debug("ewa_cost_updated", step=step, ewa_cost=self._ewa_cost, batch_cost=batch_cost)
-
+        logger.debug(
+            "ewa_cost_updated",
+            step=step,
+            ewa_cost=self._ewa_cost,
+            batch_cost=batch_cost,
+        )
 
         if self.verbose:
             print(
@@ -1147,9 +1293,15 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
 
         dict_diff = linalg.norm(new_dict - old_dict) / self._n_components
         if self.tol > 0 and dict_diff <= self.tol:
-            if self.verbose: print(f"Converged (small dictionary change) at step {step}/{n_steps}")
+            if self.verbose:
+                print(f"Converged (small dictionary change) at step {step}/{n_steps}")
             # ΛTRACE: Convergence due to small dictionary change.
-            logger.info("convergence_small_dict_change", step=step, dict_diff=dict_diff, tol=self.tol)
+            logger.info(
+                "convergence_small_dict_change",
+                step=step,
+                dict_diff=dict_diff,
+                tol=self.tol,
+            )
             return True
 
         if self._ewa_cost_min is None or self._ewa_cost < self._ewa_cost_min:
@@ -1158,16 +1310,27 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         else:
             self._no_improvement += 1
         # ΛTRACE: Improvement stats updated.
-        logger.debug("improvement_stats_updated", step=step, no_improvement_count=self._no_improvement, ewa_cost_min=self._ewa_cost_min)
-
+        logger.debug(
+            "improvement_stats_updated",
+            step=step,
+            no_improvement_count=self._no_improvement,
+            ewa_cost_min=self._ewa_cost_min,
+        )
 
         if (
             self.max_no_improvement is not None
             and self._no_improvement >= self.max_no_improvement
         ):
-            if self.verbose: print(f"Converged (lack of improvement in objective function) at step {step}/{n_steps}")
+            if self.verbose:
+                print(
+                    f"Converged (lack of improvement in objective function) at step {step}/{n_steps}"
+                )
             # ΛTRACE: Convergence due to lack of improvement.
-            logger.info("convergence_no_improvement", step=step, no_improvement_count=self._no_improvement)
+            logger.info(
+                "convergence_no_improvement",
+                step=step,
+                no_improvement_count=self._no_improvement,
+            )
             return True
         return False
 
@@ -1177,7 +1340,10 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
     def fit(self, X, y=None):
         # ΛDREAM_LOOP: The fit process iteratively processes mini-batches, forming a learning loop.
         # ΛTRACE: MiniBatchDictionaryLearning fit called.
-        logger.info("MiniBatchDictionaryLearning_fit_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "MiniBatchDictionaryLearning_fit_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         X = validate_data(
             self, X, dtype=[np.float64, np.float32], order="C", copy=False
         )
@@ -1193,8 +1359,11 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
             X_train = X
         n_samples, n_features = X_train.shape
 
-        if self.verbose: print("[dict_learning]")
-        self._A = np.zeros((self._n_components, self._n_components), dtype=X_train.dtype)
+        if self.verbose:
+            print("[dict_learning]")
+        self._A = np.zeros(
+            (self._n_components, self._n_components), dtype=X_train.dtype
+        )
         self._B = np.zeros((n_features, self._n_components), dtype=X_train.dtype)
         self._ewa_cost = None
         self._ewa_cost_min = None
@@ -1206,19 +1375,30 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         n_steps = self.max_iter * n_steps_per_iter
         i = -1
 
-        for i, batch_slice in zip(range(n_steps), batches): # Renamed batch to batch_slice
+        for i, batch_slice in zip(
+            range(n_steps), batches
+        ):  # Renamed batch to batch_slice
             X_batch = X_train[batch_slice]
-            batch_cost = self._minibatch_step(X_batch, dictionary, self._random_state, i)
-            if self._check_convergence(X_batch, batch_cost, dictionary, old_dict, n_samples, i, n_steps):
+            batch_cost = self._minibatch_step(
+                X_batch, dictionary, self._random_state, i
+            )
+            if self._check_convergence(
+                X_batch, batch_cost, dictionary, old_dict, n_samples, i, n_steps
+            ):
                 break
-            if self.callback is not None: self.callback(locals())
+            if self.callback is not None:
+                self.callback(locals())
             old_dict[:] = dictionary
 
         self.n_steps_ = i + 1
         self.n_iter_ = np.ceil(self.n_steps_ / n_steps_per_iter)
         self.components_ = dictionary
         # ΛTRACE: MiniBatchDictionaryLearning fit completed.
-        logger.info("MiniBatchDictionaryLearning_fit_completed", n_steps=self.n_steps_, n_iter=self.n_iter_)
+        logger.info(
+            "MiniBatchDictionaryLearning_fit_completed",
+            n_steps=self.n_steps_,
+            n_iter=self.n_iter_,
+        )
         return self
 
     # # Partial fit method for online learning
@@ -1227,7 +1407,10 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
     def partial_fit(self, X, y=None):
         # ΛDREAM_LOOP: Each call to partial_fit is a step in an ongoing learning loop.
         # ΛTRACE: MiniBatchDictionaryLearning partial_fit called.
-        logger.info("MiniBatchDictionaryLearning_partial_fit_called", X_shape=X.shape if hasattr(X, 'shape') else 'unknown')
+        logger.info(
+            "MiniBatchDictionaryLearning_partial_fit_called",
+            X_shape=X.shape if hasattr(X, "shape") else "unknown",
+        )
         has_components = hasattr(self, "components_")
         X = validate_data(
             self, X, dtype=[np.float64, np.float32], order="C", reset=not has_components
@@ -1260,6 +1443,7 @@ class MiniBatchDictionaryLearning(_BaseSparseCoding, BaseEstimator):
         tags = super().__sklearn_tags__()
         tags["transformer_tags.preserves_dtype"] = ["float64", "float32"]
         return tags
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: _dict_learning.py

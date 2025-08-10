@@ -5,22 +5,24 @@ Tests drift detection, scoring, alerting thresholds, and history tracking
 for the LUKHAS symbolic drift system.
 """
 
-import pytest
-import numpy as np
-from unittest.mock import Mock, patch, MagicMock
-from datetime import datetime, timedelta, timezone
-from typing import List, Dict, Any
-from collections import deque
 from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from typing import List
+
+import pytest
 
 # Import modules to test
 from core.symbolic.drift.symbolic_drift_tracker import (
-    SymbolicDriftTracker, DriftPhase, DriftScore
+    DriftPhase,
+    DriftScore,
+    SymbolicDriftTracker,
 )
+
 
 # Create test-specific classes for missing imports
 class DriftMetrics:
     """Test drift metrics container."""
+
     def __init__(self, score: float, phase: DriftPhase):
         self.score = score
         self.phase = phase
@@ -30,6 +32,7 @@ class DriftMetrics:
 @dataclass
 class DriftAlert:
     """Test drift alert representation."""
+
     drift_score: DriftScore
     severity: str  # info, warning, critical
     tags: List[str]
@@ -44,11 +47,13 @@ class TestDriftDetection:
     @pytest.fixture
     def tracker(self):
         """Create drift tracker instance."""
-        return SymbolicDriftTracker(config={
-            "alert_threshold": 0.7,
-            "critical_threshold": 0.9,
-            "window_size": 10
-        })
+        return SymbolicDriftTracker(
+            config={
+                "alert_threshold": 0.7,
+                "critical_threshold": 0.9,
+                "window_size": 10,
+            }
+        )
 
     @pytest.fixture
     def symbolic_states(self):
@@ -59,21 +64,25 @@ class TestDriftDetection:
                 "resonance": 0.5,
                 "entropy": 0.3,
                 "emotional_vector": [0.1, 0.2, 0.3],
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             },
             {
                 "glyphs": ["Λ", "Ω"],
                 "resonance": 0.6,
                 "entropy": 0.4,
                 "emotional_vector": [0.2, 0.3, 0.4],
-                "timestamp": (datetime.now(timezone.utc) + timedelta(minutes=1)).isoformat()
+                "timestamp": (
+                    datetime.now(timezone.utc) + timedelta(minutes=1)
+                ).isoformat(),
             },
             {
                 "glyphs": ["Δ", "Σ"],
                 "resonance": 0.8,
                 "entropy": 0.7,
                 "emotional_vector": [0.7, 0.8, 0.9],
-                "timestamp": (datetime.now(timezone.utc) + timedelta(minutes=2)).isoformat()
+                "timestamp": (
+                    datetime.now(timezone.utc) + timedelta(minutes=2)
+                ).isoformat(),
             },
         ]
 
@@ -88,7 +97,9 @@ class TestDriftDetection:
             "prior_emotional_vector": state1.get("emotional_vector", [0.5, 0.5, 0.5]),
             "ethical_alignment": state2.get("resonance", 0.5),
             "prior_ethical_alignment": state1.get("resonance", 0.5),
-            "timestamp": state2.get("timestamp", datetime.now(timezone.utc).isoformat())
+            "timestamp": state2.get(
+                "timestamp", datetime.now(timezone.utc).isoformat()
+            ),
         }
 
         drift_score = tracker.calculate_symbolic_drift(glyphs1, glyphs2, context)
@@ -104,7 +115,7 @@ class TestDriftDetection:
             (0.1, DriftPhase.EARLY),
             (0.3, DriftPhase.MIDDLE),
             (0.6, DriftPhase.LATE),
-            (0.85, DriftPhase.CASCADE)
+            (0.85, DriftPhase.CASCADE),
         ]
 
         for score, expected_phase in test_cases:
@@ -117,8 +128,16 @@ class TestDriftDetection:
                 temporal_decay=0.0,
                 phase=expected_phase,
                 recursive_indicators=[],
-                risk_level="LOW" if score < 0.3 else "MEDIUM" if score < 0.6 else "HIGH" if score < 0.85 else "CRITICAL",
-                metadata={}
+                risk_level=(
+                    "LOW"
+                    if score < 0.3
+                    else (
+                        "MEDIUM"
+                        if score < 0.6
+                        else "HIGH" if score < 0.85 else "CRITICAL"
+                    )
+                ),
+                metadata={},
             )
             assert drift_score.phase == expected_phase
 
@@ -134,8 +153,8 @@ class TestDriftDetection:
             state1["glyphs"],
             {
                 "emotional_vector": state1.get("emotional_vector", [0.5, 0.5, 0.5]),
-                "ethical_alignment": state1.get("resonance", 0.5)
-            }
+                "ethical_alignment": state1.get("resonance", 0.5),
+            },
         )
 
         # Register second state - should trigger drift analysis
@@ -145,8 +164,8 @@ class TestDriftDetection:
             state2["glyphs"],
             {
                 "emotional_vector": state2.get("emotional_vector", [0.5, 0.5, 0.5]),
-                "ethical_alignment": state2.get("resonance", 0.5)
-            }
+                "ethical_alignment": state2.get("resonance", 0.5),
+            },
         )
 
         # Register third state with high drift
@@ -156,8 +175,8 @@ class TestDriftDetection:
             state3["glyphs"],
             {
                 "emotional_vector": state3.get("emotional_vector", [0.7, 0.8, 0.9]),
-                "ethical_alignment": state3.get("resonance", 0.8)
-            }
+                "ethical_alignment": state3.get("resonance", 0.8),
+            },
         )
 
     def test_critical_drift_detection(self, tracker, symbolic_states):
@@ -171,7 +190,7 @@ class TestDriftDetection:
             "prior_emotional_vector": [0.0, 0.0, 0.0],
             "ethical_alignment": 1.0,
             "prior_ethical_alignment": 0.0,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         drift_score = tracker.calculate_symbolic_drift(glyphs1, glyphs2, context)
@@ -196,7 +215,7 @@ class TestDriftDetection:
             glyphs = ["Λ"] * (i % 3 + 1)
             metadata = {
                 "emotional_vector": [i * 0.1, i * 0.05, i * 0.02],
-                "ethical_alignment": i * 0.1
+                "ethical_alignment": i * 0.1,
             }
             tracker.register_symbolic_state(session_id, glyphs, metadata)
 
@@ -214,7 +233,9 @@ class TestDriftDetection:
             "ethical_alignment": 0.5,
             "prior_ethical_alignment": 0.5,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "prior_timestamp": (datetime.now(timezone.utc) - timedelta(seconds=1)).isoformat()
+            "prior_timestamp": (
+                datetime.now(timezone.utc) - timedelta(seconds=1)
+            ).isoformat(),
         }
         zero_drift = tracker.calculate_symbolic_drift(glyphs, glyphs, context)
         assert zero_drift < 0.05  # Near zero (temporal factor might add tiny amount)
@@ -228,7 +249,9 @@ class TestDriftDetection:
             "ethical_alignment": 1.0,
             "prior_ethical_alignment": 0.0,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "prior_timestamp": (datetime.now(timezone.utc) - timedelta(hours=1)).isoformat()
+            "prior_timestamp": (
+                datetime.now(timezone.utc) - timedelta(hours=1)
+            ).isoformat(),
         }
         max_drift = tracker.calculate_symbolic_drift(glyphs1, glyphs2, max_context)
         # With weighted combination, max theoretical is around 0.45-0.55
@@ -245,7 +268,7 @@ class TestDriftDetection:
             glyphs = ["Λ"]
             metadata = {
                 "emotional_vector": [0.5, 0.5, 0.5],
-                "ethical_alignment": i * 0.01
+                "ethical_alignment": i * 0.01,
             }
             tracker.register_symbolic_state(session_id, glyphs, metadata)
 
@@ -263,9 +286,11 @@ class TestDriftDetection:
             curr_glyphs = ["Λ", "Ψ"] if i % 2 else ["Ω"]
             context = {
                 "current_emotional_vector": [i * 0.2, 0.5, 0.5],
-                "prior_emotional_vector": [(i-1) * 0.2, 0.5, 0.5] if i > 0 else [0, 0.5, 0.5],
+                "prior_emotional_vector": (
+                    [(i - 1) * 0.2, 0.5, 0.5] if i > 0 else [0, 0.5, 0.5]
+                ),
                 "ethical_alignment": i * 0.2,
-                "prior_ethical_alignment": (i-1) * 0.2 if i > 0 else 0
+                "prior_ethical_alignment": (i - 1) * 0.2 if i > 0 else 0,
             }
             drift = tracker.calculate_symbolic_drift(prev_glyphs, curr_glyphs, context)
             drift_scores.append(drift)
@@ -281,10 +306,12 @@ class TestDriftDetection:
             "current_emotional_vector": [0.8, 0.8, 0.8],
             "prior_emotional_vector": [0.8, 0.8, 0.8],
             "ethical_alignment": 0.8,
-            "prior_ethical_alignment": 0.8
+            "prior_ethical_alignment": 0.8,
         }
         for _ in range(5):
-            drift = tracker.calculate_symbolic_drift(stable_glyphs, stable_glyphs, stable_context)
+            drift = tracker.calculate_symbolic_drift(
+                stable_glyphs, stable_glyphs, stable_context
+            )
             stable_scores.append(drift)
 
         stable_rate = sum(stable_scores) / len(stable_scores)
@@ -313,7 +340,7 @@ class TestDriftDetection:
         # Same emotion - zero drift
         context = {
             "current_emotional_vector": [0.5, 0.5, 0.5],
-            "prior_emotional_vector": [0.5, 0.5, 0.5]
+            "prior_emotional_vector": [0.5, 0.5, 0.5],
         }
         drift = tracker._calculate_emotional_drift(context)
         assert drift == 0.0
@@ -354,7 +381,7 @@ class TestDriftDetection:
             "current_emotional_vector": [0.9, 0.8, 0.7],
             "prior_emotional_vector": [0.1, 0.2, 0.3],
             "ethical_alignment": 0.9,
-            "prior_ethical_alignment": 0.2
+            "prior_ethical_alignment": 0.2,
         }
 
         # Calculate high drift
@@ -377,8 +404,16 @@ class TestDriftDetection:
 
         # Create initial states
         states_data = [
-            {"glyphs": ["Λ"], "emotional_vector": [0.3, 0.3, 0.3], "ethical_alignment": 0.3},
-            {"glyphs": ["Ψ"], "emotional_vector": [0.7, 0.7, 0.7], "ethical_alignment": 0.7}
+            {
+                "glyphs": ["Λ"],
+                "emotional_vector": [0.3, 0.3, 0.3],
+                "ethical_alignment": 0.3,
+            },
+            {
+                "glyphs": ["Ψ"],
+                "emotional_vector": [0.7, 0.7, 0.7],
+                "ethical_alignment": 0.7,
+            },
         ]
 
         # Register states
@@ -388,8 +423,8 @@ class TestDriftDetection:
                 state["glyphs"],
                 {
                     "emotional_vector": state["emotional_vector"],
-                    "ethical_alignment": state["ethical_alignment"]
-                }
+                    "ethical_alignment": state["ethical_alignment"],
+                },
             )
 
         # Add more states
@@ -400,8 +435,8 @@ class TestDriftDetection:
                 state["glyphs"],
                 {
                     "emotional_vector": state["emotional_vector"],
-                    "ethical_alignment": state["ethical_alignment"]
-                }
+                    "ethical_alignment": state["ethical_alignment"],
+                },
             )
 
         # Check states were maintained
@@ -418,10 +453,14 @@ class TestDriftDetection:
             "ethical_alignment": 0.8,
             "prior_ethical_alignment": 0.5,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "prior_timestamp": (datetime.now(timezone.utc) - timedelta(minutes=10)).isoformat()
+            "prior_timestamp": (
+                datetime.now(timezone.utc) - timedelta(minutes=10)
+            ).isoformat(),
         }
 
-        drift_score = tracker.calculate_symbolic_drift(base_glyphs, drifted_glyphs, context)
+        drift_score = tracker.calculate_symbolic_drift(
+            base_glyphs, drifted_glyphs, context
+        )
 
         # Multi-dimensional drift should be noticeable
         # Given the weighted combination of factors (30% symbol, 25% emotion, etc.)

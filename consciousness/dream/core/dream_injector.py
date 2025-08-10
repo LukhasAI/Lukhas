@@ -33,7 +33,7 @@ DELIVERED, DREAMED, REJECTED = [], [], []
 
 
 def process_payload(file_path, schema):
-    with open(file_path, "r") as f:
+    with open(file_path) as f:
         payload = json.load(f)
     try:
         validate(instance=payload, schema=schema)
@@ -49,7 +49,7 @@ def process_payload(file_path, schema):
 
 
 def run_batch_validation():
-    with open(SCHEMA_PATH, "r") as f:
+    with open(SCHEMA_PATH) as f:
         schema = json.load(f)
 
     for filename in os.listdir(PAYLOADS_DIR):

@@ -58,7 +58,6 @@ def test_urban_planning_creativity():
 
     try:
         # Test with working dream analysis module
-        import run_dream_analysis
 
         # Simulate creative solution generation using symbolic anomaly analysis
         creative_elements = [
@@ -333,7 +332,7 @@ def main():
 
     if real_world_results["innovation_scores"]:
         metrics = real_world_results["performance_metrics"]
-        print(f"\n🧠 Creative Performance Metrics:")
+        print("\n🧠 Creative Performance Metrics:")
         print(
             f'   📊 Average Innovation Score: {metrics["average_innovation_score"]:.3f}/1.0'
         )
@@ -347,7 +346,7 @@ def main():
             f'   ⚡ Average Processing Time: {metrics["average_processing_time"]:.1f}ms'
         )
 
-        print(f"\n🎨 Creative Solutions Generated:")
+        print("\n🎨 Creative Solutions Generated:")
         for i, scenario in enumerate(real_world_results["test_scenarios"], 1):
             print(
                 f'   {i}. {scenario["solution"]["core_concept"]} (Score: {scenario["innovation_score"]:.3f})'

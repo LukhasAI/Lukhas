@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from .bio_signals import BioSignals
+
     logger.debug("Imported BioSignals from .bio_signals")
 except ImportError as e:
     logger.warning(f"Could not import BioSignals: {e}")
@@ -16,6 +17,7 @@ except ImportError as e:
 
 try:
     from .integration import Integration
+
     logger.debug("Imported Integration from .integration")
 except ImportError as e:
     logger.warning(f"Could not import Integration: {e}")
@@ -23,15 +25,16 @@ except ImportError as e:
 
 try:
     from .orchestration import Orchestration
+
     logger.debug("Imported Orchestration from .orchestration")
 except ImportError as e:
     logger.warning(f"Could not import Orchestration: {e}")
     Orchestration = None
 
 __all__ = [
-    'BioSignals',
-    'Integration',
-    'Orchestration',
+    "BioSignals",
+    "Integration",
+    "Orchestration",
 ]
 
 # Filter out None values from __all__ if imports failed

@@ -10,13 +10,12 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any
 
 import structlog
 
 logger = structlog.get_logger(__name__)
+
 
 class CollapseChainIntegrity:
     """
@@ -32,7 +31,7 @@ class CollapseChainIntegrity:
         """
         self.brain_integrator: Any = brain_integrator
 
-    async def validate(self, symbolic_trace: List[Dict[str, Any]]) -> bool:
+    async def validate(self, symbolic_trace: list[dict[str, Any]]) -> bool:
         """
         Validates the integrity of the symbolic collapse chain.
 

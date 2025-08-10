@@ -3,15 +3,21 @@ TutorEngine: Intelligent tutoring system that integrates with Lukhas AI capabili
 Combines Steve Jobs' perfect UX with Sam Altman's AI vision.
 """
 
-from core.common import get_logger
-from typing import Dict, Any, List, Optional
-from enum import Enum
-from pydantic import BaseModel, Field
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from ..symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph, SKGNode
+from pydantic import BaseModel
+
+from core.common import get_logger
+
+from ..symbolic_knowledge_core.knowledge_graph import (
+    SKGNode,
+    SystemKnowledgeGraph,
+)
 
 logger = get_logger(__name__)
+
 
 class LearningStyle(str, Enum):
     VISUAL = "visual"
@@ -19,11 +25,13 @@ class LearningStyle(str, Enum):
     KINESTHETIC = "kinesthetic"
     READING_WRITING = "reading_writing"
 
+
 class DifficultyLevel(str, Enum):
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
+
 
 class TutorMessageType(str, Enum):
     EXPLANATION = "explanation"
@@ -32,24 +40,30 @@ class TutorMessageType(str, Enum):
     FEEDBACK = "feedback"
     ENCOURAGEMENT = "encouragement"
 
+
 class LearningObjective(BaseModel):
     """Represents a specific learning objective."""
+
     id: str
     description: str
     required_concepts: List[str] = []
     difficulty: DifficultyLevel
     estimated_time_minutes: int = 15
 
+
 class TutorMessage(BaseModel):
     """Represents a message from the tutor to the student."""
+
     content: str
     message_type: TutorMessageType
     voice_style: Optional[Dict[str, Any]] = None
     cultural_context: Optional[str] = None
     visual_aids: Optional[List[str]] = None
 
+
 class LearningSession(BaseModel):
     """Represents an active learning session."""
+
     session_id: str
     user_id: str
     topic: str
@@ -63,27 +77,32 @@ class LearningSession(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
+
 class TutorEngine:
     """
     Core tutoring engine that provides interactive, personalized learning experiences.
     Integrates with Lukhas's voice synthesis and bio-oscillator systems.
     """
 
-    def __init__(self,
-                 skg: SystemKnowledgeGraph,
-                 voice_interface=None,  # Lukhas Voice Interface
-                 bio_interface=None):   # Lukhas Bio-oscillator Interface
+    def __init__(
+        self,
+        skg: SystemKnowledgeGraph,
+        voice_interface=None,  # Lukhas Voice Interface
+        bio_interface=None,
+    ):  # Lukhas Bio-oscillator Interface
         self.skg = skg
         self.voice = voice_interface
         self.bio = bio_interface
         self.active_sessions: Dict[str, LearningSession] = {}
         logger.info("TutorEngine initialized")
 
-    async def create_session(self,
-                           topic: str,
-                           user_id: str,
-                           difficulty: DifficultyLevel,
-                           config: Dict[str, Any]) -> LearningSession:
+    async def create_session(
+        self,
+        topic: str,
+        user_id: str,
+        difficulty: DifficultyLevel,
+        config: Dict[str, Any],
+    ) -> LearningSession:
         """Create a new learning session."""
         # Generate session ID using Lukhas's identity system
         session_id = f"session_{user_id}_{int(datetime.now().timestamp())}"
@@ -103,23 +122,20 @@ class TutorEngine:
             objectives=objectives,
             start_time=datetime.now(),
             bio_metrics=bio_metrics,
-            voice_enabled=config.get('voice_enabled', False)
+            voice_enabled=config.get("voice_enabled", False),
         )
 
         self.active_sessions[session_id] = session
         logger.info(f"Created learning session {session_id} for user {user_id}")
 
         # Send welcome message
-        await self._send_message(
-            session_id,
-            self._generate_welcome_message(session)
-        )
+        await self._send_message(session_id, self._generate_welcome_message(session))
 
         return session
 
-    def _generate_learning_objectives(self,
-                                    topic: str,
-                                    difficulty: DifficultyLevel) -> List[LearningObjective]:
+    def _generate_learning_objectives(
+        self, topic: str, difficulty: DifficultyLevel
+    ) -> List[LearningObjective]:
         """Generate learning objectives from the knowledge graph."""
         objectives = []
 
@@ -139,36 +155,34 @@ class TutorEngine:
             obj = LearningObjective(
                 id=obj_id,
                 description=f"Learn about {node.name}",
-                required_concepts=[n.name for n in related.get('nodes', [])],
+                required_concepts=[n.name for n in related.get("nodes", [])],
                 difficulty=difficulty,
-                estimated_time_minutes=self._estimate_learning_time(node, difficulty)
+                estimated_time_minutes=self._estimate_learning_time(node, difficulty),
             )
             objectives.append(obj)
 
         return objectives
 
-    def _estimate_learning_time(self,
-                              node: SKGNode,
-                              difficulty: DifficultyLevel) -> int:
+    def _estimate_learning_time(
+        self, node: SKGNode, difficulty: DifficultyLevel
+    ) -> int:
         """Estimate time needed to learn a concept."""
         base_time = 15  # Base time in minutes
 
         # Adjust based on node complexity
-        complexity_factor = len(self.skg.get_neighborhood(node.id)['connections'])
+        complexity_factor = len(self.skg.get_neighborhood(node.id)["connections"])
 
         # Adjust based on difficulty
         difficulty_multiplier = {
             DifficultyLevel.BEGINNER: 1.0,
             DifficultyLevel.INTERMEDIATE: 1.5,
             DifficultyLevel.ADVANCED: 2.0,
-            DifficultyLevel.EXPERT: 2.5
+            DifficultyLevel.EXPERT: 2.5,
         }[difficulty]
 
         return int(base_time * (1 + complexity_factor * 0.1) * difficulty_multiplier)
 
-    async def _send_message(self,
-                          session_id: str,
-                          message: TutorMessage):
+    async def _send_message(self, session_id: str, message: TutorMessage):
         """Send a message to the user, using voice if enabled."""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -180,10 +194,7 @@ class TutorEngine:
         # Use voice synthesis if enabled
         if session.voice_enabled and self.voice:
             voice_config = message.voice_style or {}
-            await self.voice.synthesize_speech(
-                text=message.content,
-                style=voice_config
-            )
+            await self.voice.synthesize_speech(text=message.content, style=voice_config)
 
         logger.debug(f"Sent message in session {session_id}: {message.content[:50]}...")
         return message
@@ -192,15 +203,15 @@ class TutorEngine:
         """Generate a personalized welcome message."""
         return TutorMessage(
             content=f"Welcome to your learning session about {session.topic}! "
-                   f"We'll cover {len(session.objectives)} main objectives. "
-                   "I'll adapt to your pace and preferred learning style.",
+            f"We'll cover {len(session.objectives)} main objectives. "
+            "I'll adapt to your pace and preferred learning style.",
             message_type=TutorMessageType.ENCOURAGEMENT,
-            voice_style={"emotion": "welcoming", "pace": "moderate"}
+            voice_style={"emotion": "welcoming", "pace": "moderate"},
         )
 
-    async def handle_user_response(self,
-                                 session_id: str,
-                                 response: str) -> List[TutorMessage]:
+    async def handle_user_response(
+        self, session_id: str, response: str
+    ) -> List[TutorMessage]:
         """Handle user's response and provide appropriate feedback."""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -229,8 +240,8 @@ class TutorEngine:
         if not session.bio_metrics:
             return False
 
-        stress_level = session.bio_metrics.get('stress', 0.5)
-        attention_level = session.bio_metrics.get('attention', 0.5)
+        stress_level = session.bio_metrics.get("stress", 0.5)
+        attention_level = session.bio_metrics.get("attention", 0.5)
 
         return stress_level > 0.7 or attention_level < 0.3
 
@@ -238,76 +249,90 @@ class TutorEngine:
         """Adjust difficulty based on user's bio-metrics."""
         responses = []
 
-        if session.bio_metrics.get('stress', 0.5) > 0.7:
+        if session.bio_metrics.get("stress", 0.5) > 0.7:
             # User is stressed - reduce complexity
-            responses.append(TutorMessage(
-                content="Let's take a step back and break this down into simpler parts.",
-                message_type=TutorMessageType.ENCOURAGEMENT,
-                voice_style={"emotion": "calming", "pace": "slow"}
-            ))
+            responses.append(
+                TutorMessage(
+                    content="Let's take a step back and break this down into simpler parts.",
+                    message_type=TutorMessageType.ENCOURAGEMENT,
+                    voice_style={"emotion": "calming", "pace": "slow"},
+                )
+            )
 
-        if session.bio_metrics.get('attention', 0.5) < 0.3:
+        if session.bio_metrics.get("attention", 0.5) < 0.3:
             # User is losing attention - make it more engaging
-            responses.append(TutorMessage(
-                content="Here's an interesting example to help illustrate this concept.",
-                message_type=TutorMessageType.EXPLANATION,
-                voice_style={"emotion": "enthusiastic", "pace": "moderate"}
-            ))
+            responses.append(
+                TutorMessage(
+                    content="Here's an interesting example to help illustrate this concept.",
+                    message_type=TutorMessageType.EXPLANATION,
+                    voice_style={"emotion": "enthusiastic", "pace": "moderate"},
+                )
+            )
 
         return responses
 
-    async def _generate_responses(self,
-                                session: LearningSession,
-                                user_response: str) -> List[TutorMessage]:
+    async def _generate_responses(
+        self, session: LearningSession, user_response: str
+    ) -> List[TutorMessage]:
         """Generate appropriate responses based on user's input."""
         current_objective = session.objectives[session.current_objective_index]
         responses = []
 
         # Analyze response using SKG
-        understanding_level = self._analyze_understanding(user_response, current_objective)
+        understanding_level = self._analyze_understanding(
+            user_response, current_objective
+        )
 
         if understanding_level > 0.8:
             # User demonstrates good understanding
-            responses.append(TutorMessage(
-                content="Excellent! You've grasped this concept well.",
-                message_type=TutorMessageType.FEEDBACK,
-                voice_style={"emotion": "approving", "pace": "moderate"}
-            ))
+            responses.append(
+                TutorMessage(
+                    content="Excellent! You've grasped this concept well.",
+                    message_type=TutorMessageType.FEEDBACK,
+                    voice_style={"emotion": "approving", "pace": "moderate"},
+                )
+            )
 
             # Move to next objective if available
             if session.current_objective_index < len(session.objectives) - 1:
                 session.current_objective_index += 1
                 next_objective = session.objectives[session.current_objective_index]
-                responses.append(TutorMessage(
-                    content=f"Let's move on to our next topic: {next_objective.description}",
-                    message_type=TutorMessageType.EXPLANATION,
-                    voice_style={"emotion": "encouraging", "pace": "moderate"}
-                ))
+                responses.append(
+                    TutorMessage(
+                        content=f"Let's move on to our next topic: {next_objective.description}",
+                        message_type=TutorMessageType.EXPLANATION,
+                        voice_style={"emotion": "encouraging", "pace": "moderate"},
+                    )
+                )
 
         elif understanding_level > 0.5:
             # User shows partial understanding
-            responses.append(TutorMessage(
-                content="Good thinking! Let's explore this a bit more.",
-                message_type=TutorMessageType.ENCOURAGEMENT,
-                voice_style={"emotion": "supportive", "pace": "moderate"}
-            ))
+            responses.append(
+                TutorMessage(
+                    content="Good thinking! Let's explore this a bit more.",
+                    message_type=TutorMessageType.ENCOURAGEMENT,
+                    voice_style={"emotion": "supportive", "pace": "moderate"},
+                )
+            )
 
         else:
             # User needs more help
-            responses.append(TutorMessage(
-                content="Let me explain this another way.",
-                message_type=TutorMessageType.EXPLANATION,
-                voice_style={"emotion": "helpful", "pace": "slow"}
-            ))
+            responses.append(
+                TutorMessage(
+                    content="Let me explain this another way.",
+                    message_type=TutorMessageType.EXPLANATION,
+                    voice_style={"emotion": "helpful", "pace": "slow"},
+                )
+            )
 
             # Add a hint
             responses.append(self._generate_hint(current_objective))
 
         return responses
 
-    def _analyze_understanding(self,
-                             response: str,
-                             objective: LearningObjective) -> float:
+    def _analyze_understanding(
+        self, response: str, objective: LearningObjective
+    ) -> float:
         """
         Analyze user's understanding level using the SKG.
         Returns a score between 0 and 1.
@@ -325,7 +350,7 @@ class TutorEngine:
         return TutorMessage(
             content=f"Think about how {', '.join(objective.required_concepts[:2])} relate to each other.",
             message_type=TutorMessageType.HINT,
-            voice_style={"emotion": "helpful", "pace": "slow"}
+            voice_style={"emotion": "helpful", "pace": "slow"},
         )
 
     async def end_session(self, session_id: str) -> Dict[str, Any]:
@@ -339,7 +364,7 @@ class TutorEngine:
             "duration_minutes": (datetime.now() - session.start_time).seconds // 60,
             "objectives_completed": session.current_objective_index + 1,
             "total_objectives": len(session.objectives),
-            "messages_exchanged": len(session.messages)
+            "messages_exchanged": len(session.messages),
         }
 
         # Clean up

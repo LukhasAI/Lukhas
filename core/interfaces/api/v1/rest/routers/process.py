@@ -1,27 +1,21 @@
-from fastapi import APIRouter, BackgroundTasks, Depends
-import uuid
 import time
+import uuid
 from datetime import datetime
 
-from interfaces.api.v1.rest.models import (
-    ProcessRequest,
-    ProcessResponse,
-    SymbolicState,
-)
-from interfaces.api.v1.common.errors import ValidationError, ProcessingError
+from fastapi import APIRouter, BackgroundTasks, Depends
+from interfaces.api.v1.common.errors import ProcessingError, ValidationError
+from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
 router = APIRouter()
 
 
 def get_lukhas_core():
-    from orchestration.brain.core import core_core
     return lukhas_core
 
 
 async def record_metrics(request_id: str, duration: float) -> None:
     """Record processing metrics."""
     # TODO: implement metrics recording
-    pass
 
 
 @router.post("/", response_model=ProcessResponse)

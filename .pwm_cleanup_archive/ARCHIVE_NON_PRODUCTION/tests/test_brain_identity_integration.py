@@ -2,18 +2,15 @@
 Test suite for Brain Identity Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
-from typing import Dict, Any
 
-from identity.identity_hub import IdentityHub, get_identity_hub
+import pytest
+
 from identity.core.brain_identity_integration import (
     BrainIdentityIntegration,
     create_brain_identity_integration,
-    BRAIN_IDENTITY_AVAILABLE
 )
+from identity.identity_hub import IdentityHub
 
 
 class TestBrainIdentityIntegration:
@@ -29,31 +26,33 @@ class TestBrainIdentityIntegration:
     async def brain_identity_integration(self):
         """Create a test brain identity integration instance"""
         config = {
-            'enable_access_logging': True,
-            'max_log_entries': 500,
-            'default_tier_requirements': {
-                'read': 1,
-                'write': 2,
-                'modify': 3,
-                'delete': 3
+            "enable_access_logging": True,
+            "max_log_entries": 500,
+            "default_tier_requirements": {
+                "read": 1,
+                "write": 2,
+                "modify": 3,
+                "delete": 3,
             },
-            'memory_type_tiers': {
-                'EPISODIC': {'read': 2, 'write': 2},
-                'EMOTIONAL': {'read': 2, 'write': 2, 'modify': 3},
-                'IDENTITY': {'read': 3, 'write': 4, 'modify': 4, 'delete': 5}
+            "memory_type_tiers": {
+                "EPISODIC": {"read": 2, "write": 2},
+                "EMOTIONAL": {"read": 2, "write": 2, "modify": 3},
+                "IDENTITY": {"read": 3, "write": 4, "modify": 4, "delete": 5},
             },
-            'enable_encryption': True,
-            'audit_sensitive_operations': True
+            "enable_encryption": True,
+            "audit_sensitive_operations": True,
         }
         integration = BrainIdentityIntegration(config)
         return integration
 
     @pytest.mark.asyncio
-    async def test_brain_identity_integration_initialization(self, brain_identity_integration):
+    async def test_brain_identity_integration_initialization(
+        self, brain_identity_integration
+    ):
         """Test brain identity integration initialization"""
         assert brain_identity_integration is not None
-        assert brain_identity_integration.config['enable_access_logging'] is True
-        assert brain_identity_integration.config['max_log_entries'] == 500
+        assert brain_identity_integration.config["enable_access_logging"] is True
+        assert brain_identity_integration.config["max_log_entries"] == 500
         assert brain_identity_integration.is_initialized is False
 
         # Initialize the integration
@@ -89,7 +88,7 @@ class TestBrainIdentityIntegration:
             operation="read",
             memory_key="test_memory_001",
             memory_type="EPISODIC",
-            memory_owner="test_user"
+            memory_owner="test_user",
         )
 
         # Verify result structure
@@ -118,7 +117,7 @@ class TestBrainIdentityIntegration:
             memory_owner="test_user",
             memory_type="EMOTIONAL",
             access_policy="tier_based",
-            min_tier=2
+            min_tier=2,
         )
 
         # Verify result structure
@@ -189,13 +188,12 @@ class TestBrainIdentityIntegration:
         original_content = {
             "data": "sensitive memory content",
             "type": "emotional",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Test encryption
         encrypted_content = await identity_hub.encrypt_memory_content(
-            "test_memory_003",
-            original_content
+            "test_memory_003", original_content
         )
 
         # Verify encryption (should have encryption metadata)
@@ -206,8 +204,7 @@ class TestBrainIdentityIntegration:
 
         # Test decryption
         decrypted_content = await identity_hub.decrypt_memory_content(
-            "test_memory_003",
-            encrypted_content
+            "test_memory_003", encrypted_content
         )
 
         # Verify decryption
@@ -257,7 +254,9 @@ class TestBrainIdentityIntegration:
         assert decrypted == test_content  # Should return original
 
     @pytest.mark.asyncio
-    async def test_authorization_with_different_operations(self, brain_identity_integration):
+    async def test_authorization_with_different_operations(
+        self, brain_identity_integration
+    ):
         """Test authorization with different operation types"""
         # Initialize the integration
         await brain_identity_integration.initialize()
@@ -271,7 +270,7 @@ class TestBrainIdentityIntegration:
                 user_id=user_id,
                 operation=operation,
                 memory_key=memory_key,
-                memory_type="EPISODIC"
+                memory_type="EPISODIC",
             )
 
             # Should get a response for each operation
@@ -282,7 +281,9 @@ class TestBrainIdentityIntegration:
             assert "timestamp" in result
 
     @pytest.mark.asyncio
-    async def test_authorization_with_different_memory_types(self, brain_identity_integration):
+    async def test_authorization_with_different_memory_types(
+        self, brain_identity_integration
+    ):
         """Test authorization with different memory types"""
         # Initialize the integration
         await brain_identity_integration.initialize()
@@ -296,7 +297,7 @@ class TestBrainIdentityIntegration:
                 user_id=user_id,
                 operation=operation,
                 memory_key=f"test_memory_{memory_type.lower()}",
-                memory_type=memory_type
+                memory_type=memory_type,
             )
 
             # Should get a response for each memory type
@@ -314,7 +315,7 @@ class TestBrainIdentityIntegration:
         memories = [
             ("memory_001", "user_001", "EPISODIC", "tier_based", 1),
             ("memory_002", "user_002", "EMOTIONAL", "owner_only", 2),
-            ("memory_003", "user_001", "IDENTITY", "private", 3)
+            ("memory_003", "user_001", "IDENTITY", "private", 3),
         ]
 
         for memory_key, owner, mem_type, policy, tier in memories:
@@ -393,46 +394,46 @@ class TestBrainIdentityIntegration:
         """Test different configuration options for brain identity integration"""
         # Test with custom config
         custom_config = {
-            'enable_access_logging': False,
-            'max_log_entries': 2000,
-            'default_tier_requirements': {
-                'read': 2,
-                'write': 3,
-                'modify': 4,
-                'delete': 5
+            "enable_access_logging": False,
+            "max_log_entries": 2000,
+            "default_tier_requirements": {
+                "read": 2,
+                "write": 3,
+                "modify": 4,
+                "delete": 5,
             },
-            'enable_encryption': False,
-            'audit_sensitive_operations': False
+            "enable_encryption": False,
+            "audit_sensitive_operations": False,
         }
 
         integration = create_brain_identity_integration(custom_config)
 
         # Verify config was applied
-        assert integration.config['enable_access_logging'] is False
-        assert integration.config['max_log_entries'] == 2000
-        assert integration.config['default_tier_requirements']['read'] == 2
-        assert integration.config['enable_encryption'] is False
-        assert integration.config['audit_sensitive_operations'] is False
+        assert integration.config["enable_access_logging"] is False
+        assert integration.config["max_log_entries"] == 2000
+        assert integration.config["default_tier_requirements"]["read"] == 2
+        assert integration.config["enable_encryption"] is False
+        assert integration.config["audit_sensitive_operations"] is False
 
     def test_mock_components_creation(self, brain_identity_integration):
         """Test that mock components are created properly"""
         # Test mock registry
         registry = brain_identity_integration.id_registry
-        assert hasattr(registry, 'users')
-        assert hasattr(registry, 'sessions')
-        assert callable(getattr(registry, 'get_user', None))
-        assert callable(getattr(registry, 'validate_session', None))
-        assert callable(getattr(registry, 'register_user', None))
+        assert hasattr(registry, "users")
+        assert hasattr(registry, "sessions")
+        assert callable(getattr(registry, "get_user", None))
+        assert callable(getattr(registry, "validate_session", None))
+        assert callable(getattr(registry, "register_user", None))
 
         # Test mock brain integration
         brain = brain_identity_integration.brain_integration
-        assert hasattr(brain, 'memory_manager')
+        assert hasattr(brain, "memory_manager")
         mm = brain.memory_manager
-        assert hasattr(mm, 'memories')
-        assert callable(getattr(mm, 'retrieve', None))
-        assert callable(getattr(mm, 'store', None))
-        assert callable(getattr(mm, 'update', None))
-        assert callable(getattr(mm, 'delete', None))
+        assert hasattr(mm, "memories")
+        assert callable(getattr(mm, "retrieve", None))
+        assert callable(getattr(mm, "store", None))
+        assert callable(getattr(mm, "update", None))
+        assert callable(getattr(mm, "delete", None))
 
     @pytest.mark.asyncio
     async def test_access_policy_handling(self, brain_identity_integration):
@@ -448,7 +449,7 @@ class TestBrainIdentityIntegration:
                 operation="read",
                 memory_key=f"memory_{policy}",
                 memory_type="EPISODIC",
-                access_policy=policy
+                access_policy=policy,
             )
 
             # Should handle all policy types

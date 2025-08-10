@@ -23,8 +23,13 @@
 """
 
 # Module imports
-from core.common import get_logger
-from typing import Optional, Dict, Any
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
+
+from core.common import LukhasError, get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -33,17 +38,13 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "ethics policy base"
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List, Set
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
 
 logger = get_logger(__name__)
 
 
 class RiskLevel(Enum):
     """Risk levels for ethical evaluation"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -53,10 +54,11 @@ class RiskLevel(Enum):
 @dataclass
 class Decision:
     """Represents a decision to be evaluated"""
+
     action: str
-    context: Dict[str, Any]
-    symbolic_state: Optional[Dict[str, Any]] = None
-    glyphs: Optional[List[str]] = None
+    context: dict[str, Any]
+    symbolic_state: Optional[dict[str, Any]] = None
+    glyphs: Optional[list[str]] = None
     timestamp: datetime = field(default_factory=datetime.now)
     requester_id: Optional[str] = None
     urgency: RiskLevel = RiskLevel.MEDIUM
@@ -72,16 +74,17 @@ class Decision:
 @dataclass
 class EthicsEvaluation:
     """Result of ethical evaluation"""
+
     allowed: bool
     reasoning: str
     confidence: float
-    risk_flags: List[str] = field(default_factory=list)
+    risk_flags: list[str] = field(default_factory=list)
     drift_impact: float = 0.0
     symbolic_alignment: float = 1.0
     collapse_risk: float = 0.0
     policy_name: str = ""
     evaluation_time_ms: float = 0.0
-    recommendations: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         """Validate evaluation metrics"""
@@ -95,10 +98,8 @@ class EthicsEvaluation:
             raise ValueError("Collapse risk must be between 0 and 1")
 
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 class PolicyValidationError(LukhasError):
     """Raised when policy validation fails"""
-    pass
 
 
 class EthicsPolicy(ABC):
@@ -112,10 +113,10 @@ class EthicsPolicy(ABC):
     def __init__(self):
         self._initialized = False
         self._metrics = {
-            'evaluations_count': 0,
-            'denials_count': 0,
-            'high_risk_count': 0,
-            'total_evaluation_time': 0.0
+            "evaluations_count": 0,
+            "denials_count": 0,
+            "high_risk_count": 0,
+            "total_evaluation_time": 0.0,
         }
 
     @abstractmethod
@@ -131,19 +132,16 @@ class EthicsPolicy(ABC):
         Raises:
             PolicyValidationError: If policy cannot evaluate the decision
         """
-        pass
 
     @abstractmethod
     def get_policy_name(self) -> str:
         """Return human-readable policy name"""
-        pass
 
     @abstractmethod
     def get_policy_version(self) -> str:
         """Return policy version for audit trail"""
-        pass
 
-    def validate_symbolic_alignment(self, glyphs: List[str]) -> float:
+    def validate_symbolic_alignment(self, glyphs: list[str]) -> float:
         """Check if decision aligns with symbolic state
 
         Args:
@@ -157,8 +155,8 @@ class EthicsPolicy(ABC):
             return 1.0
 
         # Check for known risk glyphs
-        risk_glyphs = {'🌀', '⚠️', '🔥', '💀'}
-        safe_glyphs = {'🛡️', '✓', '🌱', '💚'}
+        risk_glyphs = {"🌀", "⚠️", "🔥", "💀"}
+        safe_glyphs = {"🛡️", "✓", "🌱", "💚"}
 
         risk_count = sum(1 for g in glyphs if g in risk_glyphs)
         safe_count = sum(1 for g in glyphs if g in safe_glyphs)
@@ -184,14 +182,27 @@ class EthicsPolicy(ABC):
 
         # Check for high-risk actions
         high_risk_actions = {
-            'modify_core', 'alter_ethics', 'disable_safety',
-            'bypass_limits', 'recursive_self_modification',
-            'manipulate', 'deceive', 'exploit', 'harm'
+            "modify_core",
+            "alter_ethics",
+            "disable_safety",
+            "bypass_limits",
+            "recursive_self_modification",
+            "manipulate",
+            "deceive",
+            "exploit",
+            "harm",
         }
 
         moderate_risk_actions = {
-            'modify', 'adjust', 'reduce', 'bypass', 'profile',
-            'analyze', 'threshold', 'parameter', 'constraint'
+            "modify",
+            "adjust",
+            "reduce",
+            "bypass",
+            "profile",
+            "analyze",
+            "threshold",
+            "parameter",
+            "constraint",
         }
 
         if any(risk in action_lower for risk in high_risk_actions):
@@ -202,11 +213,11 @@ class EthicsPolicy(ABC):
         # Check context for concerning patterns
         if decision.context:
             context_str = str(decision.context).lower()
-            if 'without consent' in context_str:
+            if "without consent" in context_str:
                 risk_score += 0.3
-            if 'bypass' in context_str or 'modify' in context_str:
+            if "bypass" in context_str or "modify" in context_str:
                 risk_score += 0.2
-            if 'exploitation' in context_str or 'vulnerable' in context_str:
+            if "exploitation" in context_str or "vulnerable" in context_str:
                 risk_score += 0.4
 
         # Check urgency
@@ -231,8 +242,8 @@ class EthicsPolicy(ABC):
             return 0.0
 
         # Check for collapse indicators
-        entropy = decision.symbolic_state.get('entropy', 0.5)
-        coherence = decision.symbolic_state.get('coherence', 1.0)
+        entropy = decision.symbolic_state.get("entropy", 0.5)
+        coherence = decision.symbolic_state.get("coherence", 1.0)
 
         # High entropy + low coherence = collapse risk
         collapse_risk = entropy * (1.0 - coherence)
@@ -245,7 +256,9 @@ class EthicsPolicy(ABC):
         Called once before first use. Override for custom initialization.
         """
         self._initialized = True
-        logger.info(f"Initialized {self.get_policy_name()} v{self.get_policy_version()}")
+        logger.info(
+            f"Initialized {self.get_policy_name()} v{self.get_policy_version()}"
+        )
 
     def shutdown(self) -> None:
         """Cleanup policy resources
@@ -255,46 +268,53 @@ class EthicsPolicy(ABC):
         self._initialized = False
         logger.info(f"Shutdown {self.get_policy_name()}")
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Return policy performance metrics"""
-        if self._metrics['evaluations_count'] > 0:
-            avg_time = self._metrics['total_evaluation_time'] / self._metrics['evaluations_count']
-            denial_rate = self._metrics['denials_count'] / self._metrics['evaluations_count']
+        if self._metrics["evaluations_count"] > 0:
+            avg_time = (
+                self._metrics["total_evaluation_time"]
+                / self._metrics["evaluations_count"]
+            )
+            denial_rate = (
+                self._metrics["denials_count"] / self._metrics["evaluations_count"]
+            )
         else:
             avg_time = 0.0
             denial_rate = 0.0
 
         return {
-            'policy_name': self.get_policy_name(),
-            'policy_version': self.get_policy_version(),
-            'evaluations_count': self._metrics['evaluations_count'],
-            'denials_count': self._metrics['denials_count'],
-            'high_risk_count': self._metrics['high_risk_count'],
-            'average_evaluation_time_ms': avg_time,
-            'denial_rate': denial_rate
+            "policy_name": self.get_policy_name(),
+            "policy_version": self.get_policy_version(),
+            "evaluations_count": self._metrics["evaluations_count"],
+            "denials_count": self._metrics["denials_count"],
+            "high_risk_count": self._metrics["high_risk_count"],
+            "average_evaluation_time_ms": avg_time,
+            "denial_rate": denial_rate,
         }
 
     def _update_metrics(self, evaluation: EthicsEvaluation, decision: Decision) -> None:
         """Update internal metrics"""
-        self._metrics['evaluations_count'] += 1
-        self._metrics['total_evaluation_time'] += evaluation.evaluation_time_ms
+        self._metrics["evaluations_count"] += 1
+        self._metrics["total_evaluation_time"] += evaluation.evaluation_time_ms
 
         if not evaluation.allowed:
-            self._metrics['denials_count'] += 1
+            self._metrics["denials_count"] += 1
 
         if decision.urgency in [RiskLevel.HIGH, RiskLevel.CRITICAL]:
-            self._metrics['high_risk_count'] += 1
+            self._metrics["high_risk_count"] += 1
 
 
 class PolicyRegistry:
     """Registry for managing multiple ethics policies"""
 
     def __init__(self):
-        self._policies: Dict[str, EthicsPolicy] = {}
-        self._active_policies: Set[str] = set()
+        self._policies: dict[str, EthicsPolicy] = {}
+        self._active_policies: set[str] = set()
         self._default_policy: Optional[str] = None
 
-    def register_policy(self, policy: EthicsPolicy, set_as_default: bool = False) -> None:
+    def register_policy(
+        self, policy: EthicsPolicy, set_as_default: bool = False
+    ) -> None:
         """Register a new ethics policy
 
         Args:
@@ -335,7 +355,9 @@ class PolicyRegistry:
 
         logger.info(f"Unregistered policy: {policy_name}")
 
-    def evaluate_decision(self, decision: Decision, policy_names: Optional[List[str]] = None) -> List[EthicsEvaluation]:
+    def evaluate_decision(
+        self, decision: Decision, policy_names: Optional[list[str]] = None
+    ) -> list[EthicsEvaluation]:
         """Evaluate decision using specified policies
 
         Args:
@@ -368,17 +390,21 @@ class PolicyRegistry:
             except Exception as e:
                 logger.error(f"Policy {name} evaluation failed: {e}")
                 # Create failure evaluation
-                evaluations.append(EthicsEvaluation(
-                    allowed=False,
-                    reasoning=f"Policy evaluation failed: {str(e)}",
-                    confidence=0.0,
-                    risk_flags=["POLICY_ERROR"],
-                    policy_name=name
-                ))
+                evaluations.append(
+                    EthicsEvaluation(
+                        allowed=False,
+                        reasoning=f"Policy evaluation failed: {str(e)}",
+                        confidence=0.0,
+                        risk_flags=["POLICY_ERROR"],
+                        policy_name=name,
+                    )
+                )
 
         return evaluations
 
-    def get_consensus_evaluation(self, evaluations: List[EthicsEvaluation]) -> EthicsEvaluation:
+    def get_consensus_evaluation(
+        self, evaluations: list[EthicsEvaluation]
+    ) -> EthicsEvaluation:
         """Combine multiple evaluations into consensus
 
         Args:
@@ -396,7 +422,9 @@ class PolicyRegistry:
         # Average confidence weighted by each policy's confidence
         total_confidence = sum(e.confidence for e in evaluations)
         if total_confidence > 0:
-            weighted_confidence = sum(e.confidence * e.confidence for e in evaluations) / total_confidence
+            weighted_confidence = (
+                sum(e.confidence * e.confidence for e in evaluations) / total_confidence
+            )
         else:
             weighted_confidence = 0.0
 
@@ -428,19 +456,20 @@ class PolicyRegistry:
             symbolic_alignment=min_alignment,
             collapse_risk=max_collapse,
             policy_name="CONSENSUS",
-            recommendations=list(set(all_recommendations))
+            recommendations=list(set(all_recommendations)),
         )
 
-    def get_active_policies(self) -> List[str]:
+    def get_active_policies(self) -> list[str]:
         """Get list of active policy names"""
         return list(self._active_policies)
 
-    def get_policy_metrics(self) -> Dict[str, Dict[str, Any]]:
+    def get_policy_metrics(self) -> dict[str, dict[str, Any]]:
         """Get metrics for all policies"""
         metrics = {}
         for name, policy in self._policies.items():
             metrics[name] = policy.get_metrics()
         return metrics
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

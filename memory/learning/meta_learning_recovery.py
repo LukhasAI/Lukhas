@@ -23,16 +23,12 @@ from the LUKHAS backup directory.
 import ast
 import json
 import os
-import shutil  # Not used, can be removed
 from collections import defaultdict
 from datetime import datetime  # Use datetime directly
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple  # Added Any, Optional
 
-import structlog  # ΛTRACE: Using structlog for structured logging
-
 # ΛTRACE: Initialize logger for learning phase (or recovery tool context)
-from core.common import get_logger
 
 
 # # MetaLearningRecovery class
@@ -305,9 +301,7 @@ class MetaLearningRecovery:
             )  # Use Path object
             recovery_result["components_processed"] += 1
             try:
-                with open(
-                    source_file_path, "r", encoding="utf-8", errors="ignore"
-                ) as f:
+                with open(source_file_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                 filename = source_file_path.name
                 new_filename, new_content = self.convert_to_lukhas_format(

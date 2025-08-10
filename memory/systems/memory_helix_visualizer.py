@@ -4,20 +4,20 @@ Implements a 3D helical visualization of system memories,
 integrating with the memory management system, Lukhas_ID, and Seedra.
 """
 
-from core.common import get_logger
-import plotly.graph_objects as go
-import numpy as np
-from typing import Dict, List, Optional, Tuple, Any
 import time
 from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
 
+import numpy as np
+import plotly.graph_objects as go
+
+from identity.vault.lukhas_id import AccessTier, LucasID
+from memory.memory_folds import MemoryPriority, MemoryType
 from memory.memory_manager import MemoryManager
-from memory.memory_folds import MemoryType, MemoryPriority
-from identity.vault.lukhas_id import LucasID, AccessTier
-from identity.vault.memory_identity import MemoryIdentityIntegration
 
 # Set up logging
 logger = logging.getLogger("v1_AGI.interface.memory_helix")
+
 
 class MemoryHelixVisualizer:
     """
@@ -25,7 +25,9 @@ class MemoryHelixVisualizer:
     the v1_AGI memory system, Lukhas_ID for access control, and Seedra components.
     """
 
-    def __init__(self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None):
+    def __init__(
+        self, memory_manager: MemoryManager, id_system: Optional[LucasID] = None
+    ):
         """
         Initialize the memory helix visualizer.
 
@@ -52,7 +54,7 @@ class MemoryHelixVisualizer:
             MemoryType.SENSORY: "purple",
             MemoryType.SPATIAL: "cyan",
             MemoryType.ASSOCIATION: "yellow",
-            MemoryType.META: "darkgray"
+            MemoryType.META: "darkgray",
         }
 
         # Memory priority size mapping (size multiplier)
@@ -61,12 +63,14 @@ class MemoryHelixVisualizer:
             MemoryPriority.HIGH: 1.5,
             MemoryPriority.MEDIUM: 1.0,
             MemoryPriority.LOW: 0.8,
-            MemoryPriority.NEGLIGIBLE: 0.5
+            MemoryPriority.NEGLIGIBLE: 0.5,
         }
 
         logger.info("Memory Helix Visualizer initialized")
 
-    def get_memory_coordinates(self, memory_id: str, index: int, total_memories: int) -> Tuple[float, float, float]:
+    def get_memory_coordinates(
+        self, memory_id: str, index: int, total_memories: int
+    ) -> Tuple[float, float, float]:
         """
         Calculate the 3D coordinates for a memory along the helix.
 
@@ -95,7 +99,9 @@ class MemoryHelixVisualizer:
 
         return (x, y, z)
 
-    def get_authorized_memories(self, user_id: str = None, access_tier: AccessTier = None) -> List[Dict[str, Any]]:
+    def get_authorized_memories(
+        self, user_id: str = None, access_tier: AccessTier = None
+    ) -> List[Dict[str, Any]]:
         """
         Get the list of memories that the user is authorized to view.
 
@@ -117,16 +123,19 @@ class MemoryHelixVisualizer:
         for memory in all_memories:
             # Check if user has permission to access this memory
             if self.memory_manager.id_integration.check_memory_access(
-                memory_id=memory['id'],
-                user_id=user_id,
-                access_tier=access_tier
+                memory_id=memory["id"], user_id=user_id, access_tier=access_tier
             ):
                 authorized_memories.append(memory)
 
         return authorized_memories
 
-    def visualize_memory_helix(self, user_id: str = None, access_tier: AccessTier = None,
-                              height: int = 800, width: int = 1000) -> go.Figure:
+    def visualize_memory_helix(
+        self,
+        user_id: str = None,
+        access_tier: AccessTier = None,
+        height: int = 800,
+        width: int = 1000,
+    ) -> go.Figure:
         """
         Create a 3D visualization of the memory helix.
 
@@ -151,18 +160,14 @@ class MemoryHelixVisualizer:
             fig = go.Figure()
             fig.update_layout(
                 title="Memory Helix (No accessible memories)",
-                scene=dict(
-                    xaxis_title='X',
-                    yaxis_title='Y',
-                    zaxis_title='Time'
-                ),
+                scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Time"),
                 height=height,
-                width=width
+                width=width,
             )
             return fig
 
         # Sort memories by timestamp
-        memories.sort(key=lambda x: x.get('timestamp', 0))
+        memories.sort(key=lambda x: x.get("timestamp", 0))
 
         # Create empty lists for coordinates and memory data
         xs, ys, zs = [], [], []
@@ -172,21 +177,23 @@ class MemoryHelixVisualizer:
         # Process each memory
         for i, memory in enumerate(memories):
             # Get memory coordinates
-            x, y, z = self.get_memory_coordinates(memory['id'], i, total_memories)
+            x, y, z = self.get_memory_coordinates(memory["id"], i, total_memories)
             xs.append(x)
             ys.append(y)
             zs.append(z)
 
             # Set color based on memory type
-            memory_type = memory.get('type', MemoryType.SEMANTIC)
-            colors.append(self.memory_type_colors.get(memory_type, 'gray'))
+            memory_type = memory.get("type", MemoryType.SEMANTIC)
+            colors.append(self.memory_type_colors.get(memory_type, "gray"))
 
             # Set size based on memory priority
-            memory_priority = memory.get('priority', MemoryPriority.MEDIUM)
+            memory_priority = memory.get("priority", MemoryPriority.MEDIUM)
             sizes.append(10 * self.priority_size.get(memory_priority, 1.0))
 
             # Create hover text
-            created = datetime.fromtimestamp(memory.get('timestamp', 0)).strftime('%Y-%m-%d %H:%M:%S')
+            created = datetime.fromtimestamp(memory.get("timestamp", 0)).strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
             text = (
                 f"ID: {memory['id'][:8]}...<br>"
                 f"Type: {memory_type}<br>"
@@ -197,12 +204,14 @@ class MemoryHelixVisualizer:
             texts.append(text)
 
             # Connect memories with related ones (if relationship data exists)
-            for related_id in memory.get('related_memories', []):
+            for related_id in memory.get("related_memories", []):
                 # Find the related memory in our list
                 for j, rel_memory in enumerate(memories):
-                    if rel_memory['id'] == related_id:
+                    if rel_memory["id"] == related_id:
                         # Get coordinates for related memory
-                        rx, ry, rz = self.get_memory_coordinates(rel_memory['id'], j, total_memories)
+                        rx, ry, rz = self.get_memory_coordinates(
+                            rel_memory["id"], j, total_memories
+                        )
 
                         # Add edge between memories
                         edges_x.extend([x, rx, None])  # None creates a break
@@ -212,17 +221,16 @@ class MemoryHelixVisualizer:
 
         # Create the 3D scatter plot for memories
         memory_trace = go.Scatter3d(
-            x=xs, y=ys, z=zs,
-            mode='markers',
+            x=xs,
+            y=ys,
+            z=zs,
+            mode="markers",
             marker=dict(
-                size=sizes,
-                color=colors,
-                opacity=0.8,
-                line=dict(width=1, color='black')
+                size=sizes, color=colors, opacity=0.8, line=dict(width=1, color="black")
             ),
             text=texts,
-            hoverinfo='text',
-            name='Memories'
+            hoverinfo="text",
+            name="Memories",
         )
 
         # Create the helix path
@@ -232,21 +240,25 @@ class MemoryHelixVisualizer:
         helix_z = self.helix_pitch * t / (2 * np.pi)
 
         helix_trace = go.Scatter3d(
-            x=helix_x, y=helix_y, z=helix_z,
-            mode='lines',
-            line=dict(color='lightgray', width=2),
-            hoverinfo='none',
-            name='Memory Helix'
+            x=helix_x,
+            y=helix_y,
+            z=helix_z,
+            mode="lines",
+            line=dict(color="lightgray", width=2),
+            hoverinfo="none",
+            name="Memory Helix",
         )
 
         # Create connections between related memories
         if edges_x:
             edge_trace = go.Scatter3d(
-                x=edges_x, y=edges_y, z=edges_z,
-                mode='lines',
-                line=dict(color='rgba(120, 120, 120, 0.4)', width=1),
-                hoverinfo='none',
-                name='Memory Connections'
+                x=edges_x,
+                y=edges_y,
+                z=edges_z,
+                mode="lines",
+                line=dict(color="rgba(120, 120, 120, 0.4)", width=1),
+                hoverinfo="none",
+                name="Memory Connections",
             )
             # Create the figure with all traces
             fig = go.Figure(data=[helix_trace, memory_trace, edge_trace])
@@ -258,38 +270,39 @@ class MemoryHelixVisualizer:
         fig.update_layout(
             title=f"Memory Helix ({total_memories} memories)",
             scene=dict(
-                xaxis_title='X',
-                yaxis_title='Y',
-                zaxis_title='Time',
-                camera=dict(
-                    eye=dict(x=1.5, y=1.5, z=0.8),
-                    up=dict(x=0, y=0, z=1)
-                )
+                xaxis_title="X",
+                yaxis_title="Y",
+                zaxis_title="Time",
+                camera=dict(eye=dict(x=1.5, y=1.5, z=0.8), up=dict(x=0, y=0, z=1)),
             ),
             height=height,
             width=width,
-            legend=dict(
-                x=0,
-                y=0.9,
-                bgcolor="rgba(255, 255, 255, 0.5)"
-            ),
-            margin=dict(l=0, r=0, b=10, t=50)
+            legend=dict(x=0, y=0.9, bgcolor="rgba(255, 255, 255, 0.5)"),
+            margin=dict(l=0, r=0, b=10, t=50),
         )
 
         # Add legend for memory types
         for memory_type, color in self.memory_type_colors.items():
-            fig.add_trace(go.Scatter3d(
-                x=[None], y=[None], z=[None],  # No actual points
-                mode='markers',
-                marker=dict(size=10, color=color),
-                name=f"{memory_type}",
-                showlegend=True
-            ))
+            fig.add_trace(
+                go.Scatter3d(
+                    x=[None],
+                    y=[None],
+                    z=[None],  # No actual points
+                    mode="markers",
+                    marker=dict(size=10, color=color),
+                    name=f"{memory_type}",
+                    showlegend=True,
+                )
+            )
 
-        logger.info(f"Generated memory helix visualization with {total_memories} memories")
+        logger.info(
+            f"Generated memory helix visualization with {total_memories} memories"
+        )
         return fig
 
-    def create_interactive_visualization(self, user_id: str = None, access_tier: AccessTier = None) -> str:
+    def create_interactive_visualization(
+        self, user_id: str = None, access_tier: AccessTier = None
+    ) -> str:
         """
         Create and save an interactive HTML visualization of the memory helix.
 

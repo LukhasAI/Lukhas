@@ -2,18 +2,16 @@
 Test suite for Quantum Neuro Symbolic Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
-from typing import Dict, Any
 
-from quantum.quantum_hub import QuantumHub, get_quantum_hub
+import pytest
+
 from quantum.neuro_symbolic_integration import (
+    NEURO_SYMBOLIC_AVAILABLE,
     NeuroSymbolicIntegration,
     create_neuro_symbolic_integration,
-    NEURO_SYMBOLIC_AVAILABLE
 )
+from quantum.quantum_hub import QuantumHub
 
 
 class TestNeuroSymbolicIntegration:
@@ -29,26 +27,28 @@ class TestNeuroSymbolicIntegration:
     async def neuro_symbolic_integration(self):
         """Create a test neuro symbolic integration instance"""
         config = {
-            'attention_gates': {
-                'semantic': 0.4,
-                'emotional': 0.3,
-                'contextual': 0.2,
-                'historical': 0.1
+            "attention_gates": {
+                "semantic": 0.4,
+                "emotional": 0.3,
+                "contextual": 0.2,
+                "historical": 0.1,
             },
-            'confidence_threshold': 0.6,
-            'max_causal_depth': 3,
-            'superposition_enabled': True,
-            'entanglement_tracking': True
+            "confidence_threshold": 0.6,
+            "max_causal_depth": 3,
+            "superposition_enabled": True,
+            "entanglement_tracking": True,
         }
         integration = NeuroSymbolicIntegration(config)
         return integration
 
     @pytest.mark.asyncio
-    async def test_neuro_symbolic_integration_initialization(self, neuro_symbolic_integration):
+    async def test_neuro_symbolic_integration_initialization(
+        self, neuro_symbolic_integration
+    ):
         """Test neuro symbolic integration initialization"""
         assert neuro_symbolic_integration is not None
-        assert neuro_symbolic_integration.config['confidence_threshold'] == 0.6
-        assert neuro_symbolic_integration.config['max_causal_depth'] == 3
+        assert neuro_symbolic_integration.config["confidence_threshold"] == 0.6
+        assert neuro_symbolic_integration.config["max_causal_depth"] == 3
         assert neuro_symbolic_integration.is_initialized is False
 
         # Initialize the integration
@@ -81,9 +81,7 @@ class TestNeuroSymbolicIntegration:
         # Test text processing
         test_text = "How does quantum computing work with artificial intelligence?"
         result = await quantum_hub.process_text_quantum(
-            text=test_text,
-            user_id="test_user",
-            context={"focus_on_emotion": False}
+            text=test_text, user_id="test_user", context={"focus_on_emotion": False}
         )
 
         # Verify result structure
@@ -107,17 +105,14 @@ class TestNeuroSymbolicIntegration:
         # Test attention processing
         input_data = {
             "text": "I'm feeling confused about machine learning",
-            "emotion": {
-                "primary_emotion": "confused",
-                "intensity": 0.7
-            },
-            "context": {"urgent": False}
+            "emotion": {"primary_emotion": "confused", "intensity": 0.7},
+            "context": {"urgent": False},
         }
 
         result = await quantum_hub.apply_quantum_attention(
             input_data=input_data,
             context={"focus_on_emotion": True},
-            user_id="test_user"
+            user_id="test_user",
         )
 
         # Verify result
@@ -140,24 +135,23 @@ class TestNeuroSymbolicIntegration:
 
         # Mock attended data (as would come from attention processing)
         attended_data = {
-            'original': {"text": "Test input for reasoning"},
-            'attention_weights': {
-                'semantic': 0.4,
-                'emotional': 0.3,
-                'contextual': 0.2,
-                'historical': 0.1
+            "original": {"text": "Test input for reasoning"},
+            "attention_weights": {
+                "semantic": 0.4,
+                "emotional": 0.3,
+                "contextual": 0.2,
+                "historical": 0.1,
             },
-            'attended_content': {
-                'semantic': {'content': 'Test input for reasoning', 'weight': 0.4},
-                'emotional': {'content': {'primary_emotion': 'neutral'}, 'weight': 0.3}
+            "attended_content": {
+                "semantic": {"content": "Test input for reasoning", "weight": 0.4},
+                "emotional": {"content": {"primary_emotion": "neutral"}, "weight": 0.3},
             },
-            'timestamp': datetime.now().isoformat(),
-            'processing_id': 'test_processing_id'
+            "timestamp": datetime.now().isoformat(),
+            "processing_id": "test_processing_id",
         }
 
         result = await quantum_hub.perform_causal_reasoning(
-            attended_data=attended_data,
-            user_id="test_user"
+            attended_data=attended_data, user_id="test_user"
         )
 
         # Verify result
@@ -250,8 +244,7 @@ class TestNeuroSymbolicIntegration:
 
         # Test text processing (should work with fallback)
         result = await neuro_symbolic_integration.process_text(
-            "What is quantum computing?",
-            user_id="test_user"
+            "What is quantum computing?", user_id="test_user"
         )
 
         # Verify result structure
@@ -273,13 +266,11 @@ class TestNeuroSymbolicIntegration:
         # Test attention processing
         input_data = {
             "text": "I need help understanding this concept",
-            "emotion": {"primary_emotion": "confused", "intensity": 0.6}
+            "emotion": {"primary_emotion": "confused", "intensity": 0.6},
         }
 
         result = await neuro_symbolic_integration.apply_quantum_attention(
-            input_data,
-            context={"focus_on_emotion": True},
-            user_id="test_user"
+            input_data, context={"focus_on_emotion": True}, user_id="test_user"
         )
 
         # Verify result structure
@@ -293,26 +284,26 @@ class TestNeuroSymbolicIntegration:
         """Test different configuration options for neuro symbolic integration"""
         # Test with custom config
         custom_config = {
-            'attention_gates': {
-                'semantic': 0.5,
-                'emotional': 0.2,
-                'contextual': 0.2,
-                'historical': 0.1
+            "attention_gates": {
+                "semantic": 0.5,
+                "emotional": 0.2,
+                "contextual": 0.2,
+                "historical": 0.1,
             },
-            'confidence_threshold': 0.8,
-            'max_causal_depth': 4,
-            'superposition_enabled': False,
-            'entanglement_tracking': False
+            "confidence_threshold": 0.8,
+            "max_causal_depth": 4,
+            "superposition_enabled": False,
+            "entanglement_tracking": False,
         }
 
         integration = create_neuro_symbolic_integration(custom_config)
 
         # Verify config was applied
-        assert integration.config['confidence_threshold'] == 0.8
-        assert integration.config['max_causal_depth'] == 4
-        assert integration.config['superposition_enabled'] is False
-        assert integration.config['entanglement_tracking'] is False
-        assert integration.config['attention_gates']['semantic'] == 0.5
+        assert integration.config["confidence_threshold"] == 0.8
+        assert integration.config["max_causal_depth"] == 4
+        assert integration.config["superposition_enabled"] is False
+        assert integration.config["entanglement_tracking"] is False
+        assert integration.config["attention_gates"]["semantic"] == 0.5
 
     @pytest.mark.asyncio
     async def test_caching_behavior(self, neuro_symbolic_integration):
@@ -351,8 +342,7 @@ class TestNeuroSymbolicIntegration:
 
         for user in users:
             result = await neuro_symbolic_integration.process_text(
-                f"Hello from {user}",
-                user_id=user
+                f"Hello from {user}", user_id=user
             )
             assert result is not None
             assert result["user_id"] == user
@@ -372,11 +362,11 @@ class TestNeuroSymbolicIntegration:
         mock_manager = neuro_symbolic_integration.lukhas_id_manager
 
         # Test that it has expected methods
-        assert hasattr(mock_manager, 'active_sessions')
-        assert hasattr(mock_manager, 'users')
-        assert callable(getattr(mock_manager, '_create_audit_log', None))
-        assert callable(getattr(mock_manager, 'register_user', None))
-        assert callable(getattr(mock_manager, 'authenticate_user', None))
+        assert hasattr(mock_manager, "active_sessions")
+        assert hasattr(mock_manager, "users")
+        assert callable(getattr(mock_manager, "_create_audit_log", None))
+        assert callable(getattr(mock_manager, "register_user", None))
+        assert callable(getattr(mock_manager, "authenticate_user", None))
 
     @pytest.mark.asyncio
     async def test_error_recovery(self, neuro_symbolic_integration):

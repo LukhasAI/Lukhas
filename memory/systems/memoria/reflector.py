@@ -16,7 +16,7 @@
 """
 
 # Module imports
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -31,81 +31,155 @@ import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List
 
 # Third-Party Imports
 import structlog
 
-from core.common import get_logger
-
 try:
     # Consistent with lukhas_dreams.py log directory
-    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path(os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams"))
+    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path(
+        os.getenv("LUKHAS_DREAM_LOGS_PATH_CONFIG", "./.lukhas_logs/memoria_dreams")
+    )
     DREAM_LOGS_REFLECTOR_DIR_CONFIG.mkdir(parents=True, exist_ok=True)
 except Exception as e_path_reflect_cfg:
-    log.error("Failed to configure dream log dir for Reflector. Using fallback.", error_msg=str(e_path_reflect_cfg))
-    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path("./.tmp_lukhas_dreams_logs"); DREAM_LOGS_REFLECTOR_DIR_CONFIG.mkdir(parents=True, exist_ok=True)
+    log.error(
+        "Failed to configure dream log dir for Reflector. Using fallback.",
+        error_msg=str(e_path_reflect_cfg),
+    )
+    DREAM_LOGS_REFLECTOR_DIR_CONFIG = Path("./.tmp_lukhas_dreams_logs")
+    DREAM_LOGS_REFLECTOR_DIR_CONFIG.mkdir(parents=True, exist_ok=True)
 
 LUKHAS_REFLECTION_PROCESS_EFFECTIVE_TIER = 2
 
-def load_dream_memories_from_log(limit: int = 5, log_date: Optional[datetime] = None, specific_log_file: Optional[Path] = None) -> List[Dict[str, Any]]:
+
+def load_dream_memories_from_log(
+    limit: int = 5,
+    log_date: Optional[datetime] = None,
+    specific_log_file: Optional[Path] = None,
+) -> List[Dict[str, Any]]:
     """Loads recent dream memory entries from core.common dream log file(s)."""
-    log.debug("Loading dream memories for reflection.", load_limit=limit, date_filter=log_date.isoformat() if log_date else "today", file_override=str(specific_log_file) if specific_log_file else "None")
+    log.debug(
+        "Loading dream memories for reflection.",
+        load_limit=limit,
+        date_filter=log_date.isoformat() if log_date else "today",
+        file_override=str(specific_log_file) if specific_log_file else "None",
+    )
 
-    target_log_path = specific_log_file or (DREAM_LOGS_REFLECTOR_DIR_CONFIG / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl")
+    target_log_path = specific_log_file or (
+        DREAM_LOGS_REFLECTOR_DIR_CONFIG
+        / f"dreams_log_{(log_date or datetime.now(timezone.utc)).strftime('%Y-%m-%d')}.jsonl"
+    )
 
-    if not target_log_path.exists(): log.warning("Dream log file not found for reflection.", path=str(target_log_path)); return []
+    if not target_log_path.exists():
+        log.warning(
+            "Dream log file not found for reflection.", path=str(target_log_path)
+        )
+        return []
 
     loaded_mems: List[Dict[str, Any]] = []
     try:
-        with open(target_log_path, "r", encoding='utf-8') as f: all_lines = [line.strip() for line in f if line.strip()]
-        for line_content in all_lines[-limit:]: # Last 'limit' lines
-            try: loaded_mems.append(json.loads(line_content))
-            except json.JSONDecodeError as jde: log.error("Failed to decode JSON from dream log.", path=str(target_log_path), error=str(jde), line_prev=line_content[:100])
-        loaded_mems.reverse() # Most recent first
-        log.info("Dream memories loaded.", count=len(loaded_mems), source=str(target_log_path))
+        with open(target_log_path, encoding="utf-8") as f:
+            all_lines = [line.strip() for line in f if line.strip()]
+        for line_content in all_lines[-limit:]:  # Last 'limit' lines
+            try:
+                loaded_mems.append(json.loads(line_content))
+            except json.JSONDecodeError as jde:
+                log.error(
+                    "Failed to decode JSON from dream log.",
+                    path=str(target_log_path),
+                    error=str(jde),
+                    line_prev=line_content[:100],
+                )
+        loaded_mems.reverse()  # Most recent first
+        log.info(
+            "Dream memories loaded.",
+            count=len(loaded_mems),
+            source=str(target_log_path),
+        )
         return loaded_mems
-    except Exception as e: log.error("Error loading dream memories.", path=str(target_log_path), error_msg=str(e), exc_info=True); return []
+    except Exception as e:
+        log.error(
+            "Error loading dream memories.",
+            path=str(target_log_path),
+            error_msg=str(e),
+            exc_info=True,
+        )
+        return []
+
 
 def reflect_on_dream_memories(dream_memories: List[Dict[str, Any]]) -> List[str]:
     """Generates textual reflections based on provided dream memories."""
-    if not dream_memories: log.info("No dream memories for reflection."); return []
+    if not dream_memories:
+        log.info("No dream memories for reflection.")
+        return []
     log.debug("Reflecting on dream memories.", count=len(dream_memories))
     reflections: List[str] = []
 
     for i, mem_item in enumerate(dream_memories):
         narrative = mem_item.get("dream_narrative_text", "")
-        meta_emo = mem_item.get("additional_metadata", {}).get("emotional_tone", {}) # Path from example
+        meta_emo = mem_item.get("additional_metadata", {}).get(
+            "emotional_tone", {}
+        )  # Path from example
         primary_emo = meta_emo.get("primary", "unknown_emotion_tone")
         visuals = mem_item.get("extracted_visual_prompts", [])
         visual_summary = visuals[0] if visuals else "[no specific visuals highlighted]"
 
         reflection = f"Reflection on Dream ('{mem_item.get('dream_log_id',f'Entry {i+1}')}'): Experienced emotion '{primary_emo}'. Imagery involved '{visual_summary}'. "
-        if any(k in narrative.lower() for k in ["memory", "past", "recall"]): reflection += "This dream may relate to memory processing or identity continuity. "
-        if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]): reflection += "Themes of self-perception or introspection appear dominant. "
-        if any(k in narrative.lower() for k in ["path", "journey", "labyrinth", "choice"]): reflection += "The dream suggests considerations of future paths or complex problem-solving. "
+        if any(k in narrative.lower() for k in ["memory", "past", "recall"]):
+            reflection += (
+                "This dream may relate to memory processing or identity continuity. "
+            )
+        if any(k in narrative.lower() for k in ["mirror", "self", "reflection"]):
+            reflection += "Themes of self-perception or introspection appear dominant. "
+        if any(
+            k in narrative.lower() for k in ["path", "journey", "labyrinth", "choice"]
+        ):
+            reflection += "The dream suggests considerations of future paths or complex problem-solving. "
         reflections.append(reflection)
-        log.debug("Generated reflection for dream.", dream_id=mem_item.get('dream_log_id',f'Entry {i+1}'), reflection_len=len(reflection))
+        log.debug(
+            "Generated reflection for dream.",
+            dream_id=mem_item.get("dream_log_id", f"Entry {i+1}"),
+            reflection_len=len(reflection),
+        )
     log.info("Reflection process completed.", num_reflections=len(reflections))
     return reflections
+
 
 def run_dream_reflection_cycle() -> None:
     """Orchestrates loading dream memories and generating reflections."""
     log.info("Initiating LUKHAS Dream Reflection Cycle.")
     # ΛNOTE: This cycle is vital for LUKHAS's introspective capabilities.
     # Future enhancements could involve storing these reflections back into a specialized memory type.
-    loaded_dream_mems = load_dream_memories_from_log(limit=7) # Reflect on up to 7 recent dreams
-    if not loaded_dream_mems: log.info("No dream memories found for current reflection cycle."); return
+    loaded_dream_mems = load_dream_memories_from_log(
+        limit=7
+    )  # Reflect on up to 7 recent dreams
+    if not loaded_dream_mems:
+        log.info("No dream memories found for current reflection cycle.")
+        return
     log.info(f"Starting reflection on {len(loaded_dream_mems)} dream memories.")
     generated_reflections = reflect_on_dream_memories(loaded_dream_mems)
     if generated_reflections:
         log.info("--- LUKHAS Dream Reflections Output ---")
-        for idx, thought in enumerate(generated_reflections, 1): log.info(f"Reflection {idx}: {thought}")
-    else: log.info("No specific reflections generated in this cycle.")
+        for idx, thought in enumerate(generated_reflections, 1):
+            log.info(f"Reflection {idx}: {thought}")
+    else:
+        log.info("No specific reflections generated in this cycle.")
     log.info("LUKHAS Dream Reflection Cycle complete.")
 
+
 if __name__ == "__main__":
-    if not structlog.get_config(): structlog.configure(processors=[structlog.stdlib.add_logger_name, structlog.stdlib.add_log_level, structlog.dev.ConsoleRenderer()], logger_factory=structlog.stdlib.LoggerFactory(), wrapper_class=structlog.stdlib.BoundLogger, cache_logger_on_first_use=True)
+    if not structlog.get_config():
+        structlog.configure(
+            processors=[
+                structlog.stdlib.add_logger_name,
+                structlog.stdlib.add_log_level,
+                structlog.dev.ConsoleRenderer(),
+            ],
+            logger_factory=structlog.stdlib.LoggerFactory(),
+            wrapper_class=structlog.stdlib.BoundLogger,
+            cache_logger_on_first_use=True,
+        )
     log.info("--- Running LUKHAS Dream Reflector Script (Manual Execution) ---")
     # Ensure 'dreams.py' has run recently to populate logs for reflection.
     run_dream_reflection_cycle()

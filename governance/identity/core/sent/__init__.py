@@ -34,20 +34,20 @@ Usage:
     status = consent_mgr.get_consent_status(user_id)
 """
 
-from .consent_manager import LambdaConsentManager
-from .symbolic_scopes import SymbolicScopesManager
 from .consent_history import ConsentHistoryManager
+from .consent_manager import LambdaConsentManager
 from .policy_engine import ConsentPolicyEngine
+from .symbolic_scopes import SymbolicScopesManager
 
 # Create alias for compatibility with interface.py
 ConsentManager = LambdaConsentManager
 
 __all__ = [
-    'LambdaConsentManager',
-    'ConsentManager', 
-    'SymbolicScopesManager',
-    'ConsentHistoryManager',
-    'ConsentPolicyEngine'
+    "LambdaConsentManager",
+    "ConsentManager",
+    "SymbolicScopesManager",
+    "ConsentHistoryManager",
+    "ConsentPolicyEngine",
 ]
 
 # Symbolic consent system version

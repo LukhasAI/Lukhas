@@ -25,10 +25,8 @@ DEPENDENCIES:
 """
 
 # Sample emotion log structure
-emotion_db = {
-    "current": "neutral",
-    "log": []
-}
+emotion_db = {"current": "neutral", "log": []}
+
 
 def log_emotion(state, source="manual"):
     """
@@ -42,14 +40,16 @@ def log_emotion(state, source="manual"):
     - dict: updated emotion state
     """
     from datetime import datetime
+
     entry = {
         "state": state,
         "source": source,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
     emotion_db["current"] = state
     emotion_db["log"].append(entry)
     return emotion_db
+
 
 def decay_emotion(threshold_minutes=60):
     """
@@ -59,6 +59,7 @@ def decay_emotion(threshold_minutes=60):
     - threshold_minutes (int): Time since last emotion to trigger decay
     """
     from datetime import datetime, timedelta
+
     if not emotion_db["log"]:
         return
     last_entry = emotion_db["log"][-1]
@@ -66,22 +67,27 @@ def decay_emotion(threshold_minutes=60):
     if datetime.utcnow() - last_time > timedelta(minutes=threshold_minutes):
         log_emotion("neutral", source="decay")
 
+
 def save_emotion_log(filepath="emotion_log.json"):
     """
     Saves the emotion log to a JSON file.
     """
     import json
+
     with open(filepath, "w") as f:
         json.dump(emotion_db, f)
+
 
 def load_emotion_log(filepath="emotion_log.json"):
     """
     Loads the emotion log from a JSON file.
     """
     import json
+
     global emotion_db
-    with open(filepath, "r") as f:
+    with open(filepath) as f:
         emotion_db = json.load(f)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_emotion_log.py)

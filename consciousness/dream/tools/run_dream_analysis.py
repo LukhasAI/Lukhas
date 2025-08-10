@@ -10,17 +10,12 @@ Part of the Jules-13 task implementation for dream pattern detection.
 import argparse
 import sys
 from pathlib import Path
-import json
 
 # Add parent directories to path for imports
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from dream.tools.symbolic_anomaly_explorer import (
-    SymbolicAnomalyExplorer,
-    cli_analysis,
-    analyze_recent_dreams
-)
+from dream.tools.symbolic_anomaly_explorer import SymbolicAnomalyExplorer
 
 
 def main():
@@ -34,57 +29,50 @@ Examples:
   %(prog)s --storage ./dream_data -n 5     # Use custom storage path
   %(prog)s --quiet --json-only            # Generate JSON report only
   %(prog)s --heatmap-only                 # Show only ASCII heatmap
-        """
+        """,
     )
 
     parser.add_argument(
-        "-n", "--sessions",
+        "-n",
+        "--sessions",
         type=int,
         default=10,
-        help="Number of recent sessions to analyze (default: 10)"
+        help="Number of recent sessions to analyze (default: 10)",
     )
 
     parser.add_argument(
-        "--storage",
-        type=str,
-        help="Path to dream session storage directory"
+        "--storage", type=str, help="Path to dream session storage directory"
     )
 
     parser.add_argument(
-        "--no-json",
-        action="store_true",
-        help="Skip JSON report export"
+        "--no-json", action="store_true", help="Skip JSON report export"
     )
 
     parser.add_argument(
-        "--no-markdown",
-        action="store_true",
-        help="Skip Markdown summary export"
+        "--no-markdown", action="store_true", help="Skip Markdown summary export"
     )
 
     parser.add_argument(
         "--json-only",
         action="store_true",
-        help="Export JSON report only (no console output)"
+        help="Export JSON report only (no console output)",
     )
 
     parser.add_argument(
         "--markdown-only",
         action="store_true",
-        help="Export Markdown summary only (no console output)"
+        help="Export Markdown summary only (no console output)",
     )
 
     parser.add_argument(
-        "--heatmap-only",
-        action="store_true",
-        help="Show ASCII heatmap only"
+        "--heatmap-only", action="store_true", help="Show ASCII heatmap only"
     )
 
     parser.add_argument(
         "--output-dir",
         type=str,
         default="./",
-        help="Output directory for reports (default: current directory)"
+        help="Output directory for reports (default: current directory)",
     )
 
     parser.add_argument(
@@ -92,25 +80,21 @@ Examples:
         action="append",
         nargs=2,
         metavar=("NAME", "VALUE"),
-        help="Custom threshold: --threshold emotional_dissonance 0.3"
+        help="Custom threshold: --threshold emotional_dissonance 0.3",
     )
 
     parser.add_argument(
-        "--quiet", "-q",
-        action="store_true",
-        help="Suppress console output"
+        "--quiet", "-q", action="store_true", help="Suppress console output"
     )
 
     parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Enable verbose logging"
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
 
     parser.add_argument(
         "--version",
         action="version",
-        version="LUKHAS AGI Dream Analysis v1.0.0 (Jules-13)"
+        version="LUKHAS AGI Dream Analysis v1.0.0 (Jules-13)",
     )
 
     args = parser.parse_args()
@@ -125,8 +109,7 @@ Examples:
     try:
         # Initialize explorer
         explorer = SymbolicAnomalyExplorer(
-            storage_path=args.storage,
-            drift_integration=True
+            storage_path=args.storage, drift_integration=True
         )
 
         # Apply custom thresholds
@@ -191,7 +174,7 @@ Examples:
             print(explorer.display_ascii_heatmap(report))
 
             # Show summary
-            print(f"\n📊 ANALYSIS SUMMARY")
+            print("\n📊 ANALYSIS SUMMARY")
             print("-" * 30)
             print(f"Sessions analyzed: {report.sessions_analyzed}")
             print(f"Anomalies detected: {len(report.anomalies_detected)}")
@@ -200,26 +183,28 @@ Examples:
 
             # Show top anomalies
             if report.anomalies_detected:
-                print(f"\n🚨 TOP ANOMALIES")
+                print("\n🚨 TOP ANOMALIES")
                 print("-" * 30)
 
                 top_anomalies = sorted(
                     report.anomalies_detected,
                     key=lambda a: (explorer._severity_rank(a.severity), a.confidence),
-                    reverse=True
+                    reverse=True,
                 )[:5]
 
                 for i, anomaly in enumerate(top_anomalies, 1):
                     severity_emoji = {
-                        'minor': '🟢',
-                        'moderate': '🟡',
-                        'significant': '🟠',
-                        'critical': '🔴',
-                        'catastrophic': '⚫'
+                        "minor": "🟢",
+                        "moderate": "🟡",
+                        "significant": "🟠",
+                        "critical": "🔴",
+                        "catastrophic": "⚫",
                     }
 
-                    emoji = severity_emoji.get(anomaly.severity.value, '❓')
-                    print(f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title()}")
+                    emoji = severity_emoji.get(anomaly.severity.value, "❓")
+                    print(
+                        f"{i}. {emoji} {anomaly.anomaly_type.value.replace('_', ' ').title()}"
+                    )
                     print(f"   Severity: {anomaly.severity.value.upper()}")
                     print(f"   Confidence: {anomaly.confidence:.1%}")
                     print(f"   Sessions: {len(anomaly.affected_sessions)}")
@@ -240,13 +225,17 @@ Examples:
                 print("📈 SYMBOLIC TRENDS")
                 print("-" * 30)
                 print(f"Unique symbols: {trends.get('total_unique_tags', 'N/A')}")
-                print(f"Average frequency: {trends.get('average_frequency', 'N/A'):.1f}")
-                print(f"Average volatility: {trends.get('average_volatility', 'N/A'):.3f}")
+                print(
+                    f"Average frequency: {trends.get('average_frequency', 'N/A'):.1f}"
+                )
+                print(
+                    f"Average volatility: {trends.get('average_volatility', 'N/A'):.3f}"
+                )
 
-                if 'volatile_symbols' in trends and trends['volatile_symbols']:
+                if "volatile_symbols" in trends and trends["volatile_symbols"]:
                     print(f"Most volatile: {', '.join(trends['volatile_symbols'][:3])}")
 
-                if 'frequent_symbols' in trends and trends['frequent_symbols']:
+                if "frequent_symbols" in trends and trends["frequent_symbols"]:
                     print(f"Most frequent: {', '.join(trends['frequent_symbols'][:3])}")
                 print()
 
@@ -269,8 +258,9 @@ Examples:
 
             # Exit with error code if critical anomalies found
             critical_count = sum(
-                1 for a in report.anomalies_detected
-                if a.severity.value in ['critical', 'catastrophic']
+                1
+                for a in report.anomalies_detected
+                if a.severity.value in ["critical", "catastrophic"]
             )
 
             if critical_count > 0:
@@ -285,6 +275,7 @@ Examples:
     except Exception as e:
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         else:
             print(f"❌ Error during analysis: {e}")

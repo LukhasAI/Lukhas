@@ -16,8 +16,9 @@
 """
 
 # Module imports
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -34,8 +35,8 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+
 
 class MetaCognition:
     """
@@ -88,7 +89,7 @@ class MetaCognition:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -97,7 +98,7 @@ class MetaCognition:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -169,7 +170,7 @@ class MetaCognition:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -178,23 +179,37 @@ class MetaCognition:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
 def create_consciousness_component(config: Optional[Dict] = None) -> ΛMetaCognition:
     """Create and return a consciousness component instance"""
     return ΛMetaCognition(config)
+
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> ΛMetaCognition:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> ΛMetaCognition:
     """Create, initialize and return a consciousness component instance"""
     component = ΛMetaCognition(config)
-def create_consciousness_component(config: Optional[Dict] = None) -> lukhasMetaCognition:
+
+
+def create_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasMetaCognition:
     """Create and return a consciousness component instance"""
     return lukhasMetaCognition(config)
+
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> lukhasMetaCognition:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasMetaCognition:
     """Create, initialize and return a consciousness component instance"""
     component = lukhasMetaCognition(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

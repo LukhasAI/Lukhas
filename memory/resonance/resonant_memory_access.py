@@ -40,45 +40,43 @@
 
 import asyncio
 import math
-import numpy as np
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
+from typing import Any, Dict, List, Optional, Set, Tuple
 from uuid import uuid4
 
-import structlog
-
-from core.common import get_logger
+import numpy as np
 
 
 class ResonanceMode(Enum):
     """Types of resonant memory access"""
-    HARMONIC = "harmonic"           # Fundamental + overtones
-    SYMPATHETIC = "sympathetic"     # Cross-resonance
-    COHERENT = "coherent"          # Phase-locked patterns
-    CHAOTIC = "chaotic"            # Non-linear resonance
-    EMERGENT = "emergent"          # Self-organizing patterns
+
+    HARMONIC = "harmonic"  # Fundamental + overtones
+    SYMPATHETIC = "sympathetic"  # Cross-resonance
+    COHERENT = "coherent"  # Phase-locked patterns
+    CHAOTIC = "chaotic"  # Non-linear resonance
+    EMERGENT = "emergent"  # Self-organizing patterns
 
 
 @dataclass
 class ResonanceSignature:
     """Frequency signature for memory resonance"""
+
     memory_id: str
-    fundamental_freq: float         # Base oscillation frequency
-    harmonics: List[float]          # Harmonic overtones
-    phase_shift: float = 0.0        # Phase offset
-    amplitude: float = 1.0          # Resonance strength
-    decay_rate: float = 0.1         # Amplitude decay
+    fundamental_freq: float  # Base oscillation frequency
+    harmonics: List[float]  # Harmonic overtones
+    phase_shift: float = 0.0  # Phase offset
+    amplitude: float = 1.0  # Resonance strength
+    decay_rate: float = 0.1  # Amplitude decay
 
     # Temporal dynamics
     created_at: float = field(default_factory=time.time)
     last_resonance: float = field(default_factory=time.time)
     resonance_count: int = 0
 
-    def calculate_resonance_with(self, other: 'ResonanceSignature') -> float:
+    def calculate_resonance_with(self, other: "ResonanceSignature") -> float:
         """Calculate resonance strength with another signature"""
 
         # Fundamental frequency matching
@@ -101,10 +99,10 @@ class ResonanceSignature:
 
         # Combined resonance score
         total_resonance = (
-            0.4 * fundamental_resonance +
-            0.3 * harmonic_resonance +
-            0.2 * phase_coherence +
-            0.1 * amplitude_factor
+            0.4 * fundamental_resonance
+            + 0.3 * harmonic_resonance
+            + 0.2 * phase_coherence
+            + 0.1 * amplitude_factor
         )
 
         return max(0.0, min(1.0, total_resonance))
@@ -113,8 +111,9 @@ class ResonanceSignature:
 @dataclass
 class ResonantCluster:
     """Cluster of resonantly-connected memories"""
+
     cluster_id: str = field(default_factory=lambda: str(uuid4()))
-    center_frequency: float = 40.0   # Gamma band default
+    center_frequency: float = 40.0  # Gamma band default
     member_signatures: List[ResonanceSignature] = field(default_factory=list)
 
     # Cluster dynamics
@@ -136,7 +135,7 @@ class ResonantCluster:
         pair_count = 0
 
         for i, sig1 in enumerate(self.member_signatures):
-            for sig2 in self.member_signatures[i+1:]:
+            for sig2 in self.member_signatures[i + 1 :]:
                 resonance = sig1.calculate_resonance_with(sig2)
                 total_resonance += resonance
                 pair_count += 1
@@ -156,11 +155,11 @@ class ResonantMemoryAccess:
 
     def __init__(
         self,
-        base_frequency: float = 40.0,      # Gamma frequency
-        resonance_threshold: float = 0.3,   # Minimum resonance for connection
-        max_harmonics: int = 5,             # Maximum harmonic overtones
-        decay_factor: float = 0.95,         # Resonance decay per cycle
-        cluster_coherence_threshold: float = 0.6
+        base_frequency: float = 40.0,  # Gamma frequency
+        resonance_threshold: float = 0.3,  # Minimum resonance for connection
+        max_harmonics: int = 5,  # Maximum harmonic overtones
+        decay_factor: float = 0.95,  # Resonance decay per cycle
+        cluster_coherence_threshold: float = 0.6,
     ):
         self.base_frequency = base_frequency
         self.resonance_threshold = resonance_threshold
@@ -194,7 +193,7 @@ class ResonantMemoryAccess:
         logger.info(
             "ResonantMemoryAccess initialized",
             base_frequency=base_frequency,
-            resonance_threshold=resonance_threshold
+            resonance_threshold=resonance_threshold,
         )
 
     async def start(self):
@@ -223,12 +222,14 @@ class ResonantMemoryAccess:
         memory_id: str,
         content: Any,
         frequency_hint: Optional[float] = None,
-        harmonics: Optional[List[float]] = None
+        harmonics: Optional[List[float]] = None,
     ) -> str:
         """Register a memory with its resonance signature"""
 
         # Calculate fundamental frequency from content
-        fundamental_freq = frequency_hint or self._extract_fundamental_frequency(content)
+        fundamental_freq = frequency_hint or self._extract_fundamental_frequency(
+            content
+        )
 
         # Generate harmonics if not provided
         if not harmonics:
@@ -240,7 +241,7 @@ class ResonantMemoryAccess:
             fundamental_freq=fundamental_freq,
             harmonics=harmonics,
             phase_shift=np.random.uniform(0, 2 * math.pi),
-            amplitude=1.0
+            amplitude=1.0,
         )
 
         self.memory_signatures[memory_id] = signature
@@ -255,7 +256,7 @@ class ResonantMemoryAccess:
             "Memory registered for resonant access",
             memory_id=memory_id,
             fundamental_freq=fundamental_freq,
-            harmonics=len(harmonics)
+            harmonics=len(harmonics),
         )
 
         return memory_id
@@ -267,14 +268,14 @@ class ResonantMemoryAccess:
         content_str = str(content).lower()
 
         # Map content types to frequency bands
-        if any(word in content_str for word in ['emotion', 'feel', 'love', 'fear']):
-            return np.random.uniform(4, 8)      # Theta band (emotional)
-        elif any(word in content_str for word in ['remember', 'memory', 'recall']):
-            return np.random.uniform(8, 12)     # Alpha band (memory)
-        elif any(word in content_str for word in ['think', 'analyze', 'logic']):
-            return np.random.uniform(12, 30)    # Beta band (cognitive)
-        elif any(word in content_str for word in ['insight', 'creative', 'dream']):
-            return np.random.uniform(30, 100)   # Gamma band (insight)
+        if any(word in content_str for word in ["emotion", "feel", "love", "fear"]):
+            return np.random.uniform(4, 8)  # Theta band (emotional)
+        elif any(word in content_str for word in ["remember", "memory", "recall"]):
+            return np.random.uniform(8, 12)  # Alpha band (memory)
+        elif any(word in content_str for word in ["think", "analyze", "logic"]):
+            return np.random.uniform(12, 30)  # Beta band (cognitive)
+        elif any(word in content_str for word in ["insight", "creative", "dream"]):
+            return np.random.uniform(30, 100)  # Gamma band (insight)
         else:
             # Default to gamma band with content-based variation
             content_hash = hash(content_str) % 1000
@@ -297,7 +298,7 @@ class ResonantMemoryAccess:
         query_content: Any,
         mode: ResonanceMode = ResonanceMode.HARMONIC,
         max_cascade_depth: int = 3,
-        return_limit: int = 10
+        return_limit: int = 10,
     ) -> List[Tuple[str, float, Dict[str, Any]]]:
         """
         Retrieve memories using resonant patterns.
@@ -314,7 +315,7 @@ class ResonantMemoryAccess:
             fundamental_freq=query_freq,
             harmonics=query_harmonics,
             amplitude=self.oscillation_amplitude,
-            phase_shift=self.current_phase
+            phase_shift=self.current_phase,
         )
 
         # Find direct resonances
@@ -323,19 +324,31 @@ class ResonantMemoryAccess:
             resonance_score = query_signature.calculate_resonance_with(signature)
 
             if resonance_score >= self.resonance_threshold:
-                direct_resonances.append((memory_id, resonance_score, {
-                    "resonance_type": "direct",
-                    "fundamental_match": abs(query_freq - signature.fundamental_freq) < 2.0,
-                    "harmonic_matches": self._count_harmonic_matches(query_harmonics, signature.harmonics)
-                }))
+                direct_resonances.append(
+                    (
+                        memory_id,
+                        resonance_score,
+                        {
+                            "resonance_type": "direct",
+                            "fundamental_match": abs(
+                                query_freq - signature.fundamental_freq
+                            )
+                            < 2.0,
+                            "harmonic_matches": self._count_harmonic_matches(
+                                query_harmonics, signature.harmonics
+                            ),
+                        },
+                    )
+                )
 
         # Cascade resonance if requested
         cascaded_resonances = []
-        if max_cascade_depth > 0 and mode in [ResonanceMode.SYMPATHETIC, ResonanceMode.EMERGENT]:
+        if max_cascade_depth > 0 and mode in [
+            ResonanceMode.SYMPATHETIC,
+            ResonanceMode.EMERGENT,
+        ]:
             cascaded_resonances = await self._cascade_resonance(
-                direct_resonances,
-                query_signature,
-                depth=max_cascade_depth
+                direct_resonances, query_signature, depth=max_cascade_depth
             )
 
         # Combine and rank results
@@ -355,12 +368,14 @@ class ResonantMemoryAccess:
             query_freq=query_freq,
             direct_matches=len(direct_resonances),
             cascaded_matches=len(cascaded_resonances),
-            mode=mode.value
+            mode=mode.value,
         )
 
         return filtered_resonances[:return_limit]
 
-    def _count_harmonic_matches(self, harmonics1: List[float], harmonics2: List[float]) -> int:
+    def _count_harmonic_matches(
+        self, harmonics1: List[float], harmonics2: List[float]
+    ) -> int:
         """Count close harmonic frequency matches"""
         matches = 0
         for h1 in harmonics1:
@@ -374,7 +389,7 @@ class ResonantMemoryAccess:
         initial_resonances: List[Tuple[str, float, Dict[str, Any]]],
         query_signature: ResonanceSignature,
         depth: int,
-        visited: Optional[Set[str]] = None
+        visited: Optional[Set[str]] = None,
     ) -> List[Tuple[str, float, Dict[str, Any]]]:
         """Recursively find cascaded resonances"""
 
@@ -402,18 +417,26 @@ class ResonantMemoryAccess:
                     continue
 
                 # Calculate cascaded resonance
-                cascade_score = memory_signature.calculate_resonance_with(other_signature)
+                cascade_score = memory_signature.calculate_resonance_with(
+                    other_signature
+                )
 
                 if cascade_score >= self.resonance_threshold:
                     # Dampen cascaded score
                     dampened_score = cascade_score * (0.8 ** (4 - depth))
 
-                    cascaded.append((other_id, dampened_score, {
-                        "resonance_type": "cascaded",
-                        "cascade_depth": 4 - depth,
-                        "cascade_source": memory_id,
-                        "original_score": cascade_score
-                    }))
+                    cascaded.append(
+                        (
+                            other_id,
+                            dampened_score,
+                            {
+                                "resonance_type": "cascaded",
+                                "cascade_depth": 4 - depth,
+                                "cascade_source": memory_id,
+                                "original_score": cascade_score,
+                            },
+                        )
+                    )
 
         # Continue cascade
         if depth > 1:
@@ -426,17 +449,17 @@ class ResonantMemoryAccess:
         return cascaded
 
     def _apply_mode_filter(
-        self,
-        resonances: List[Tuple[str, float, Dict[str, Any]]],
-        mode: ResonanceMode
+        self, resonances: List[Tuple[str, float, Dict[str, Any]]], mode: ResonanceMode
     ) -> List[Tuple[str, float, Dict[str, Any]]]:
         """Apply resonance mode specific filtering"""
 
         if mode == ResonanceMode.HARMONIC:
             # Prefer harmonic matches
-            return sorted(resonances, key=lambda x: (
-                x[2].get("harmonic_matches", 0), x[1]
-            ), reverse=True)
+            return sorted(
+                resonances,
+                key=lambda x: (x[2].get("harmonic_matches", 0), x[1]),
+                reverse=True,
+            )
 
         elif mode == ResonanceMode.SYMPATHETIC:
             # Prefer cascaded resonances
@@ -447,7 +470,9 @@ class ResonantMemoryAccess:
             coherent = []
             for memory_id, score, metadata in resonances:
                 if self._is_in_coherent_cluster(memory_id):
-                    coherent.append((memory_id, score * 1.2, metadata))  # Boost coherent memories
+                    coherent.append(
+                        (memory_id, score * 1.2, metadata)
+                    )  # Boost coherent memories
             return coherent
 
         elif mode == ResonanceMode.EMERGENT:
@@ -498,25 +523,27 @@ class ResonantMemoryAccess:
             # Create new cluster
             cluster = ResonantCluster(
                 center_frequency=signature.fundamental_freq,
-                member_signatures=[signature] + potential_members
+                member_signatures=[signature] + potential_members,
             )
             cluster.update_coherence()
 
             if cluster.coherence_level >= self.cluster_coherence_threshold:
                 self.resonant_clusters[cluster.cluster_id] = cluster
 
-                self.cluster_emergence_history.append({
-                    "cluster_id": cluster.cluster_id,
-                    "emergence_time": time.time(),
-                    "member_count": len(cluster.member_signatures),
-                    "coherence": cluster.coherence_level
-                })
+                self.cluster_emergence_history.append(
+                    {
+                        "cluster_id": cluster.cluster_id,
+                        "emergence_time": time.time(),
+                        "member_count": len(cluster.member_signatures),
+                        "coherence": cluster.coherence_level,
+                    }
+                )
 
                 logger.info(
                     "Resonant cluster formed",
                     cluster_id=cluster.cluster_id,
                     members=len(cluster.member_signatures),
-                    coherence=cluster.coherence_level
+                    coherence=cluster.coherence_level,
                 )
 
     async def _oscillation_loop(self):
@@ -544,7 +571,8 @@ class ResonantMemoryAccess:
 
             # Remove low-coherence clusters
             to_remove = [
-                cid for cid, cluster in self.resonant_clusters.items()
+                cid
+                for cid, cluster in self.resonant_clusters.items()
                 if cluster.coherence_level < 0.2
             ]
 
@@ -557,11 +585,15 @@ class ResonantMemoryAccess:
     def get_resonance_stats(self) -> Dict[str, Any]:
         """Get comprehensive resonance statistics"""
 
-        avg_cluster_coherence = np.mean([
-            c.coherence_level for c in self.resonant_clusters.values()
-        ]) if self.resonant_clusters else 0.0
+        avg_cluster_coherence = (
+            np.mean([c.coherence_level for c in self.resonant_clusters.values()])
+            if self.resonant_clusters
+            else 0.0
+        )
 
-        network_density = sum(len(connections) for connections in self.resonance_network.values()) / 2
+        network_density = (
+            sum(len(connections) for connections in self.resonance_network.values()) / 2
+        )
         network_density /= max(1, len(self.memory_signatures))
 
         return {
@@ -573,7 +605,7 @@ class ResonantMemoryAccess:
             "average_cluster_coherence": avg_cluster_coherence,
             "network_density": network_density,
             "current_phase": self.current_phase,
-            "oscillation_amplitude": self.oscillation_amplitude
+            "oscillation_amplitude": self.oscillation_amplitude,
         }
 
 
@@ -583,9 +615,7 @@ async def demonstrate_resonant_memory():
 
     # Create resonant memory system
     resonant_memory = ResonantMemoryAccess(
-        base_frequency=40.0,
-        resonance_threshold=0.3,
-        max_harmonics=4
+        base_frequency=40.0, resonance_threshold=0.3, max_harmonics=4
     )
 
     await resonant_memory.start()
@@ -596,9 +626,18 @@ async def demonstrate_resonant_memory():
     # Register some test memories
     test_memories = [
         ("mem_1", {"content": "I feel happy when I see sunlight", "emotion": "joy"}),
-        ("mem_2", {"content": "The sunset was beautiful yesterday", "visual": "colors"}),
+        (
+            "mem_2",
+            {"content": "The sunset was beautiful yesterday", "visual": "colors"},
+        ),
         ("mem_3", {"content": "Remembering my childhood home", "memory": "nostalgia"}),
-        ("mem_4", {"content": "Creative insight about colors and light", "insight": "connection"}),
+        (
+            "mem_4",
+            {
+                "content": "Creative insight about colors and light",
+                "insight": "connection",
+            },
+        ),
         ("mem_5", {"content": "Fear of the dark stormy night", "emotion": "fear"}),
     ]
 
@@ -616,7 +655,7 @@ async def demonstrate_resonant_memory():
     test_queries = [
         ("Light and happiness", ResonanceMode.HARMONIC),
         ("Emotional memories", ResonanceMode.SYMPATHETIC),
-        ("Visual experiences", ResonanceMode.COHERENT)
+        ("Visual experiences", ResonanceMode.COHERENT),
     ]
 
     for query, mode in test_queries:
@@ -626,11 +665,13 @@ async def demonstrate_resonant_memory():
             query_content={"content": query},
             mode=mode,
             max_cascade_depth=2,
-            return_limit=3
+            return_limit=3,
         )
 
         for i, (mem_id, score, metadata) in enumerate(results, 1):
-            print(f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown')}")
+            print(
+                f"   {i}. {mem_id} (resonance: {score:.3f}) - {metadata.get('resonance_type', 'unknown')}"
+            )
 
     # Show statistics
     print("\n3. Resonance Statistics:")

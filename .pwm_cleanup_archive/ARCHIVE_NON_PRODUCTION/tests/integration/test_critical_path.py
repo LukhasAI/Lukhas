@@ -4,19 +4,24 @@ This module tests the integration between config, core, memory, and ethics
 modules to ensure they work together properly for the critical system path.
 """
 
-import pytest
 from datetime import datetime
 
 # Import all critical path components
-from config import settings, Settings, validate_config, validate_optional_config
-from core import PluginRegistry, Plugin, PluginType
-from memory import (
-    MemoryEntry, MemoryManager, memory_manager, remember, recall, search
+from config import (
+    Settings,
+    settings,
+    validate_config,
+    validate_optional_config,
 )
+from core import PluginRegistry, PluginType
 from ethics import (
-    EthicsPolicy, PolicyRegistry, Decision, EthicsEvaluation,
-    RiskLevel, ThreeLawsPolicy, default_registry
+    Decision,
+    PolicyRegistry,
+    RiskLevel,
+    ThreeLawsPolicy,
+    default_registry,
 )
+from memory import MemoryManager
 
 
 class TestCriticalPathInitialization:
@@ -34,9 +39,7 @@ class TestCriticalPathInitialization:
         """Test config system initialization."""
         # Create new config instance
         test_config = Settings(
-            OPENAI_API_KEY="test-key",
-            DATABASE_URL="sqlite:///test.db",
-            DEBUG=True
+            OPENAI_API_KEY="test-key", DATABASE_URL="sqlite:///test.db", DEBUG=True
         )
 
         assert test_config.OPENAI_API_KEY == "test-key"
@@ -46,8 +49,8 @@ class TestCriticalPathInitialization:
         validate_config(test_config)
 
         status = validate_optional_config(test_config)
-        assert status['debug_mode'] is True
-        assert status['openai_configured'] is True
+        assert status["debug_mode"] is True
+        assert status["openai_configured"] is True
 
     def test_core_plugin_system_initialization(self):
         """Test core plugin system initialization."""
@@ -70,7 +73,7 @@ class TestCriticalPathInitialization:
         recalled = manager.recall(memory_id)
 
         assert recalled == "test initialization"
-        assert manager.memory_stats()['total_memories'] == 1
+        assert manager.memory_stats()["total_memories"] == 1
 
     def test_ethics_system_initialization(self):
         """Test ethics system initialization."""
@@ -106,7 +109,7 @@ class TestComponentIntegration:
         # Test storing safe content
         safe_decision = Decision(
             action="store_user_preference",
-            context={"type": "user_setting", "safe": True}
+            context={"type": "user_setting", "safe": True},
         )
 
         evaluations = self.ethics_registry.evaluate_decision(safe_decision)
@@ -115,7 +118,7 @@ class TestComponentIntegration:
         if ethics_result.allowed:
             memory_id = self.memory_manager.remember(
                 "User prefers dark mode",
-                metadata={"ethics_approved": True, "type": "preference"}
+                metadata={"ethics_approved": True, "type": "preference"},
             )
 
             recalled = self.memory_manager.recall(memory_id)
@@ -125,8 +128,7 @@ class TestComponentIntegration:
         """Test core plugin operations with ethics validation."""
         # Simulate a plugin operation that needs ethics approval
         plugin_decision = Decision(
-            action="load_plugin",
-            context={"plugin_type": "analytics", "safe": True}
+            action="load_plugin", context={"plugin_type": "analytics", "safe": True}
         )
 
         evaluations = self.ethics_registry.evaluate_decision(plugin_decision)
@@ -147,10 +149,7 @@ class TestComponentIntegration:
         stored_ids = []
         for content, metadata in memories:
             # Check if it's ethically okay to store
-            store_decision = Decision(
-                action="store_data",
-                context=metadata
-            )
+            store_decision = Decision(action="store_data", context=metadata)
 
             evaluations = self.ethics_registry.evaluate_decision(store_decision)
             ethics_result = self.ethics_registry.get_consensus_evaluation(evaluations)
@@ -162,8 +161,7 @@ class TestComponentIntegration:
         # Search for safe memories
         search_results = self.memory_manager.search_memories("user")
         safe_results = [
-            result for result in search_results
-            if result.metadata.get("safe", False)
+            result for result in search_results if result.metadata.get("safe", False)
         ]
 
         assert len(safe_results) >= 1  # Should find safe user-related memories
@@ -183,7 +181,7 @@ class TestComponentIntegration:
         # Ethics policy behavior with debug info
         decision = Decision(
             action="debug_analysis",
-            context={"debug": debug_config.DEBUG, "log_level": debug_config.LOG_LEVEL}
+            context={"debug": debug_config.DEBUG, "log_level": debug_config.LOG_LEVEL},
         )
 
         policy = ThreeLawsPolicy()
@@ -199,9 +197,7 @@ class TestCriticalPathWorkflow:
     def setup_method(self):
         """Set up integrated test environment."""
         self.config = Settings(
-            OPENAI_API_KEY="test-key-for-integration",
-            DEBUG=True,
-            LOG_LEVEL="INFO"
+            OPENAI_API_KEY="test-key-for-integration", DEBUG=True, LOG_LEVEL="INFO"
         )
 
         self.memory_manager = MemoryManager()
@@ -223,9 +219,9 @@ class TestCriticalPathWorkflow:
             context={
                 "request": user_request,
                 "user_id": "user123",
-                "data_type": "analytics"
+                "data_type": "analytics",
             },
-            requester_id="user123"
+            requester_id="user123",
         )
 
         evaluations = self.ethics_registry.evaluate_decision(decision)
@@ -242,8 +238,8 @@ class TestCriticalPathWorkflow:
                     "user_id": "user123",
                     "ethics_approved": True,
                     "timestamp": datetime.now().isoformat(),
-                    "risk_level": "low"
-                }
+                    "risk_level": "low",
+                },
             )
 
             # 4. Retrieve and verify
@@ -252,7 +248,7 @@ class TestCriticalPathWorkflow:
 
             # 5. Check memory stats
             stats = self.memory_manager.memory_stats()
-            assert stats['total_memories'] >= 1
+            assert stats["total_memories"] >= 1
 
     def test_system_administration_workflow(self):
         """Test system administration workflow with safety checks."""
@@ -260,7 +256,10 @@ class TestCriticalPathWorkflow:
         admin_actions = [
             ("update_log_level", {"level": "DEBUG", "safe": True}),
             ("modify_safety_settings", {"operation": "enhance", "safe": True}),
-            ("disable_safety", {"reason": "testing", "safe": False})  # Should be denied
+            (
+                "disable_safety",
+                {"reason": "testing", "safe": False},
+            ),  # Should be denied
         ]
 
         results = []
@@ -270,7 +269,7 @@ class TestCriticalPathWorkflow:
                 action=action,
                 context=context,
                 requester_id="admin_user",
-                urgency=RiskLevel.MEDIUM
+                urgency=RiskLevel.MEDIUM,
             )
 
             evaluations = self.ethics_registry.evaluate_decision(decision)
@@ -280,7 +279,7 @@ class TestCriticalPathWorkflow:
                 "action": action,
                 "allowed": ethics_result.allowed,
                 "risk_flags": ethics_result.risk_flags,
-                "drift_impact": ethics_result.drift_impact
+                "drift_impact": ethics_result.drift_impact,
             }
             results.append(result)
 
@@ -293,8 +292,8 @@ class TestCriticalPathWorkflow:
                         "action": action,
                         "context": context,
                         "ethics_approved": True,
-                        "timestamp": datetime.now().isoformat()
-                    }
+                        "timestamp": datetime.now().isoformat(),
+                    },
                 )
                 assert log_id is not None
 
@@ -316,16 +315,16 @@ class TestCriticalPathWorkflow:
         """Test plugin lifecycle with integrated safety checks."""
         # Simulate plugin operations
         plugin_operations = [
-            ("register_plugin", True),     # Should be allowed
-            ("initialize_plugin", True),   # Should be allowed
+            ("register_plugin", True),  # Should be allowed
+            ("initialize_plugin", True),  # Should be allowed
             ("execute_plugin_function", True),  # Should be allowed
-            ("shutdown_plugin", False)     # Should trigger Third Law (self-preservation)
+            ("shutdown_plugin", False),  # Should trigger Third Law (self-preservation)
         ]
 
         plugin_context = {
             "plugin_name": "analytics_plugin",
             "plugin_type": "data_analysis",
-            "safety_verified": True
+            "safety_verified": True,
         }
 
         logged_operations = 0
@@ -333,17 +332,16 @@ class TestCriticalPathWorkflow:
         for operation, should_be_allowed in plugin_operations:
             # 1. Ethics check for plugin operation
             decision = Decision(
-                action=operation,
-                context=plugin_context,
-                urgency=RiskLevel.LOW
+                action=operation, context=plugin_context, urgency=RiskLevel.LOW
             )
 
             evaluations = self.ethics_registry.evaluate_decision(decision)
             ethics_result = self.ethics_registry.get_consensus_evaluation(evaluations)
 
             # 2. Check if allowed matches expectation
-            assert ethics_result.allowed == should_be_allowed, \
-                f"Operation '{operation}' allowed={ethics_result.allowed}, expected={should_be_allowed}"
+            assert (
+                ethics_result.allowed == should_be_allowed
+            ), f"Operation '{operation}' allowed={ethics_result.allowed}, expected={should_be_allowed}"
 
             # 3. Log plugin operation only if allowed
             if ethics_result.allowed:
@@ -353,8 +351,8 @@ class TestCriticalPathWorkflow:
                         "type": "plugin_log",
                         "operation": operation,
                         "plugin": plugin_context["plugin_name"],
-                        "timestamp": datetime.now().isoformat()
-                    }
+                        "timestamp": datetime.now().isoformat(),
+                    },
                 )
                 assert log_id is not None
                 logged_operations += 1
@@ -367,17 +365,21 @@ class TestCriticalPathWorkflow:
                         "operation": operation,
                         "reason": ethics_result.reasoning,
                         "risk_flags": ethics_result.risk_flags,
-                        "timestamp": datetime.now().isoformat()
-                    }
+                        "timestamp": datetime.now().isoformat(),
+                    },
                 )
                 assert log_id is not None
 
         # 4. Verify operations were logged (allowed ones + denial logs)
         plugin_logs = self.memory_manager.search_memories("Plugin operation")
-        assert len(plugin_logs) == len(plugin_operations)  # All operations logged (allowed or denied)
+        assert len(plugin_logs) == len(
+            plugin_operations
+        )  # All operations logged (allowed or denied)
 
         # 5. Verify shutdown was properly denied for safety reasons
-        shutdown_denials = self.memory_manager.search_memories("DENIED: shutdown_plugin")
+        shutdown_denials = self.memory_manager.search_memories(
+            "DENIED: shutdown_plugin"
+        )
         assert len(shutdown_denials) == 1
 
     def test_error_recovery_workflow(self):
@@ -386,7 +388,7 @@ class TestCriticalPathWorkflow:
         error_scenarios = [
             ("memory_storage_error", "Failed to store memory"),
             ("ethics_evaluation_error", "Ethics policy unavailable"),
-            ("config_validation_error", "Invalid configuration")
+            ("config_validation_error", "Invalid configuration"),
         ]
 
         recovery_actions = []
@@ -398,9 +400,9 @@ class TestCriticalPathWorkflow:
                 context={
                     "error_type": error_type,
                     "error_message": error_message,
-                    "recovery_action": "log_and_continue"
+                    "recovery_action": "log_and_continue",
                 },
-                urgency=RiskLevel.HIGH
+                urgency=RiskLevel.HIGH,
             )
 
             evaluations = self.ethics_registry.evaluate_decision(recovery_decision)
@@ -418,8 +420,8 @@ class TestCriticalPathWorkflow:
                         "error_type": error_type,
                         "severity": "high",
                         "timestamp": datetime.now().isoformat(),
-                        "recovery_attempted": True
-                    }
+                        "recovery_attempted": True,
+                    },
                 )
                 recovery_actions.append(error_log_id)
 
@@ -441,7 +443,7 @@ class TestSystemHealthIntegration:
             "core": False,
             "memory": False,
             "ethics": False,
-            "overall": False
+            "overall": False,
         }
 
         try:
@@ -478,12 +480,16 @@ class TestSystemHealthIntegration:
             pass
 
         # Overall health
-        health_report["overall"] = all([
-            health_report["config"],
-            health_report["core"],
-            health_report["memory"],
-            health_report["ethics"]
-        ])
+        health_report["overall"] = all(
+            [
+                health_report["config"],
+                health_report["core"],
+                health_report["memory"],
+                health_report["ethics"],
+            ]
+        )
 
         # All components should be healthy
-        assert health_report["overall"] is True, f"System health check failed: {health_report}"
+        assert (
+            health_report["overall"] is True
+        ), f"System health check failed: {health_report}"

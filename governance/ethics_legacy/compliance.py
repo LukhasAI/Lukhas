@@ -10,18 +10,19 @@ Version: 1.0.0
 License: Proprietary
 """
 
-import asyncio
-from core.common import get_logger
-from datetime import datetime
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any, Optional
 
-from .types import PluginManifest, PluginType, PluginContext, BaseLUKHASPlugin
+from core.common import get_logger
+
+from .types import BaseLUKHASPlugin, PluginContext, PluginManifest
 
 
 class EthicsViolationType(Enum):
     """Types of ethics violations that can occur"""
+
     HARM_RISK = "harm_risk"
     PRIVACY_VIOLATION = "privacy_violation"
     UNSAFE_OPERATION = "unsafe_operation"
@@ -29,6 +30,7 @@ class EthicsViolationType(Enum):
 
 class ComplianceFramework(Enum):
     """Supported compliance frameworks"""
+
     GDPR = "gdpr"
     LUKHAS_ETHICS = "lukhas_ethics"
 
@@ -36,6 +38,7 @@ class ComplianceFramework(Enum):
 @dataclass
 class ComplianceViolation:
     """Represents a compliance violation"""
+
     violation_type: EthicsViolationType
     framework: ComplianceFramework
     severity: str  # "low", "medium", "high", "critical"
@@ -48,16 +51,17 @@ class ComplianceViolation:
 @dataclass
 class EthicsValidationResult:
     """Result of ethics validation"""
+
     passed: bool
-    violations: List[ComplianceViolation] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    violations: list[ComplianceViolation] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
     risk_score: float = 0.0
 
 
 class EthicsComplianceEngine:
     """Simplified ethics compliance engine for Lukhas plugins"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(__name__)
 
@@ -66,25 +70,30 @@ class EthicsComplianceEngine:
         self.violation_threshold = self.config.get("violation_threshold", 0.7)
 
         # Violation tracking
-        self.violation_history: List[ComplianceViolation] = []
-        self.plugin_risk_scores: Dict[str, float] = {}
+        self.violation_history: list[ComplianceViolation] = []
+        self.plugin_risk_scores: dict[str, float] = {}
 
     async def validate_plugin_action(
         self,
         plugin: BaseLUKHASPlugin,
         action: str,
         data: Optional[Any] = None,
-        context: Optional[PluginContext] = None
+        context: Optional[PluginContext] = None,
     ) -> EthicsValidationResult:
         """Validate a plugin action for ethics compliance"""
         try:
             # Get plugin ID safely
-            plugin_id = getattr(plugin, 'name', 'unknown')
+            plugin_id = getattr(plugin, "name", "unknown")
 
             result = EthicsValidationResult(passed=True)
 
             # Basic safety checks
-            dangerous_actions = {"delete_all", "format", "shutdown", "override_security"}
+            dangerous_actions = {
+                "delete_all",
+                "format",
+                "shutdown",
+                "override_security",
+            }
             if any(dangerous in action.lower() for dangerous in dangerous_actions):
                 violation = ComplianceViolation(
                     violation_type=EthicsViolationType.UNSAFE_OPERATION,
@@ -93,7 +102,7 @@ class EthicsComplianceEngine:
                     description=f"Potentially dangerous action: {action}",
                     plugin_id=plugin_id,
                     timestamp=datetime.now(),
-                    risk_score=0.8
+                    risk_score=0.8,
                 )
                 result.violations.append(violation)
                 result.passed = False
@@ -124,12 +133,14 @@ class EthicsComplianceEngine:
                         description=f"Ethics validation error: {str(e)}",
                         plugin_id="unknown",
                         timestamp=datetime.now(),
-                        risk_score=1.0
+                        risk_score=1.0,
                     )
-                ]
+                ],
             )
 
-    async def validate_plugin_manifest(self, manifest: PluginManifest) -> EthicsValidationResult:
+    async def validate_plugin_manifest(
+        self, manifest: PluginManifest
+    ) -> EthicsValidationResult:
         """Validate a plugin manifest for compliance"""
         result = EthicsValidationResult(passed=True)
 
@@ -141,7 +152,9 @@ class EthicsComplianceEngine:
         if manifest.capabilities and manifest.capabilities.permissions:
             dangerous_perms = {"admin", "root", "system", "unrestricted"}
             for permission in manifest.capabilities.permissions:
-                if any(dangerous in permission.lower() for dangerous in dangerous_perms):
+                if any(
+                    dangerous in permission.lower() for dangerous in dangerous_perms
+                ):
                     violation = ComplianceViolation(
                         violation_type=EthicsViolationType.UNSAFE_OPERATION,
                         framework=ComplianceFramework.LUKHAS_ETHICS,
@@ -149,7 +162,7 @@ class EthicsComplianceEngine:
                         description=f"Plugin requests dangerous permission: {permission}",
                         plugin_id=manifest.name,
                         timestamp=datetime.now(),
-                        risk_score=0.7
+                        risk_score=0.7,
                     )
                     result.violations.append(violation)
                     result.passed = False
@@ -161,7 +174,9 @@ class EthicsComplianceEngine:
         """Get the current risk score for a plugin"""
         return self.plugin_risk_scores.get(plugin_id, 0.0)
 
-    def get_violation_history(self, plugin_id: Optional[str] = None) -> List[ComplianceViolation]:
+    def get_violation_history(
+        self, plugin_id: Optional[str] = None
+    ) -> list[ComplianceViolation]:
         """Get violation history with optional filters"""
         violations = self.violation_history
 
@@ -170,7 +185,7 @@ class EthicsComplianceEngine:
 
         return violations
 
-    def get_compliance_report(self) -> Dict[str, Any]:
+    def get_compliance_report(self) -> dict[str, Any]:
         """Generate a basic compliance report"""
         return {
             "report_timestamp": datetime.now().isoformat(),
@@ -178,8 +193,8 @@ class EthicsComplianceEngine:
             "plugin_risk_scores": self.plugin_risk_scores.copy(),
             "configuration": {
                 "strict_mode": self.strict_mode,
-                "violation_threshold": self.violation_threshold
-            }
+                "violation_threshold": self.violation_threshold,
+            },
         }
 
     def _contains_sensitive_data(self, data: Any) -> bool:
@@ -192,7 +207,9 @@ class EthicsComplianceEngine:
             for key, value in data.items():
                 if any(pattern in str(key).lower() for pattern in sensitive_patterns):
                     return True
-                if isinstance(value, str) and any(pattern in value.lower() for pattern in sensitive_patterns):
+                if isinstance(value, str) and any(
+                    pattern in value.lower() for pattern in sensitive_patterns
+                ):
                     return True
 
         return False

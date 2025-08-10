@@ -44,20 +44,17 @@ Priority: CRITICAL - Enterprise platform enhancement
 """
 
 import asyncio
-from core.common import get_logger
-import os
-import sys
-import json
-import numpy as np
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple, Set, Union
-from dataclasses import dataclass, field
-from enum import Enum
-import uuid
 import copy
-import re
 import hashlib
-import math
+import re
+import sys
+import uuid
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 # Configure logging for AI operations
 logging.basicConfig(
@@ -570,9 +567,7 @@ class SymbolicEngine:
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
             symbolic_types = sum(
-                1
-                for t in elements_by_type.keys()
-                if "symbolic" in t or "formal_logic" in t
+                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
             )
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
@@ -1371,7 +1366,7 @@ if __name__ == "__main__":
                 print(f"🤖 Response: {demo['response'][:100]}...")
                 print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
 
-            print(f"\n📈 Overall Performance:")
+            print("\n📈 Overall Performance:")
             perf = demo_results["overall_performance"]
             print(f"   Average Confidence: {perf['average_confidence']:.2f}")
             print(

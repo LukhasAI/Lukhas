@@ -4,42 +4,46 @@ NIΛS Vendor Portal & SDK - Commercial vendor integration for dream commerce
 Part of the Lambda Products Suite by LUKHAS AI
 """
 
-import logging
-import json
-import uuid
 import hashlib
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Tuple
+import json
+import logging
+import uuid
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
-import asyncio
+from typing import Any, Dict, List, Optional, Tuple
 
-from .consent_manager import DataSource, AIGenerationType
 from .user_data_integrator import UserDataIntegrator
 
 logger = logging.getLogger("Lambda.NIΛS.VendorPortal")
 
+
 class VendorTier(Enum):
     """Vendor partnership tiers"""
-    TRIAL = "trial"              # 30-day trial, limited features
-    BASIC = "basic"              # Basic dream seed creation
-    PROFESSIONAL = "professional" # Advanced analytics, A/B testing
-    ENTERPRISE = "enterprise"     # Full API access, custom integration
-    STRATEGIC = "strategic"       # Co-creation, revenue sharing
+
+    TRIAL = "trial"  # 30-day trial, limited features
+    BASIC = "basic"  # Basic dream seed creation
+    PROFESSIONAL = "professional"  # Advanced analytics, A/B testing
+    ENTERPRISE = "enterprise"  # Full API access, custom integration
+    STRATEGIC = "strategic"  # Co-creation, revenue sharing
+
 
 class DreamSeedType(Enum):
     """Types of dream seeds vendors can create"""
-    REMINDER = "reminder"         # Gentle product reminders
-    DISCOVERY = "discovery"       # New product discovery
-    SEASONAL = "seasonal"         # Holiday/seasonal offers
+
+    REMINDER = "reminder"  # Gentle product reminders
+    DISCOVERY = "discovery"  # New product discovery
+    SEASONAL = "seasonal"  # Holiday/seasonal offers
     REPLENISHMENT = "replenishment"  # Auto-replenishment suggestions
-    EXCLUSIVE = "exclusive"       # VIP/exclusive offers
-    NARRATIVE = "narrative"       # Story-driven experiences
-    EXPERIENTIAL = "experiential" # Virtual try-before-buy
+    EXCLUSIVE = "exclusive"  # VIP/exclusive offers
+    NARRATIVE = "narrative"  # Story-driven experiences
+    EXPERIENTIAL = "experiential"  # Virtual try-before-buy
+
 
 @dataclass
 class VendorProfile:
     """Vendor profile and capabilities"""
+
     vendor_id: str
     company_name: str
     tier: VendorTier
@@ -52,16 +56,20 @@ class VendorProfile:
     active: bool = True
     settings: Dict[str, Any] = field(default_factory=dict)
     metrics: Dict[str, Any] = field(default_factory=dict)
-    
+
     def generate_api_credentials(self) -> Tuple[str, str]:
         """Generate new API credentials for vendor"""
         api_key = f"vk_{uuid.uuid4().hex}"
-        api_secret = hashlib.sha256(f"{self.vendor_id}_{datetime.now().isoformat()}".encode()).hexdigest()
+        api_secret = hashlib.sha256(
+            f"{self.vendor_id}_{datetime.now().isoformat()}".encode()
+        ).hexdigest()
         return api_key, api_secret
+
 
 @dataclass
 class DreamSeed:
     """A dream seed created by a vendor"""
+
     seed_id: str
     vendor_id: str
     seed_type: DreamSeedType
@@ -78,17 +86,18 @@ class DreamSeed:
     ethical_validation: Dict[str, Any] = field(default_factory=dict)
     performance_metrics: Dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
-    
+
     def is_valid(self) -> bool:
         """Check if dream seed is still valid"""
         if self.expiry and datetime.now() > self.expiry:
             return False
         return self.ethical_validation.get("approved", False)
 
+
 class VendorPortal:
     """
     Commercial vendor portal for NIΛS dream commerce
-    
+
     Features:
     - Vendor onboarding and management
     - Dream seed creation and validation
@@ -97,8 +106,10 @@ class VendorPortal:
     - Ethical compliance checking
     - Revenue sharing management
     """
-    
-    def __init__(self, config: Optional[Dict] = None, consent_manager: Optional[Any] = None):
+
+    def __init__(
+        self, config: Optional[Dict] = None, consent_manager: Optional[Any] = None
+    ):
         self.config = config or self._default_config()
         self.vendors: Dict[str, VendorProfile] = {}
         self.dream_seeds: Dict[str, List[DreamSeed]] = {}
@@ -106,12 +117,13 @@ class VendorPortal:
         # Create consent manager if not provided
         if consent_manager is None:
             from .consent_manager import ConsentManager
+
             consent_manager = ConsentManager()
         self.user_data_integrator = UserDataIntegrator(consent_manager)
         self.performance_tracker: Dict[str, Dict] = {}
-        
+
         logger.info("NIΛS Vendor Portal initialized")
-    
+
     def _default_config(self) -> Dict:
         """Default vendor portal configuration"""
         return {
@@ -125,29 +137,34 @@ class VendorPortal:
                 "basic": 100,
                 "professional": 1000,
                 "enterprise": 10000,
-                "strategic": -1  # Unlimited
+                "strategic": -1,  # Unlimited
             },
             "analytics_retention_days": 90,
-            "require_ssl": True
+            "require_ssl": True,
         }
-    
-    async def onboard_vendor(self, company_name: str, domains: List[str],
-                            categories: List[str], tier: VendorTier = VendorTier.TRIAL) -> Dict[str, Any]:
+
+    async def onboard_vendor(
+        self,
+        company_name: str,
+        domains: List[str],
+        categories: List[str],
+        tier: VendorTier = VendorTier.TRIAL,
+    ) -> Dict[str, Any]:
         """
         Onboard a new vendor to the platform
-        
+
         Args:
             company_name: Company name
             domains: List of company domains
             categories: Product categories
             tier: Initial vendor tier
-            
+
         Returns:
             Vendor profile with API credentials
         """
         try:
             vendor_id = f"vendor_{uuid.uuid4().hex[:12]}"
-            
+
             # Create vendor profile
             vendor = VendorProfile(
                 vendor_id=vendor_id,
@@ -158,20 +175,20 @@ class VendorPortal:
                 api_secret="",
                 domains=domains,
                 categories=categories,
-                ethical_score=1.0  # Start with perfect score
+                ethical_score=1.0,  # Start with perfect score
             )
-            
+
             # Generate API credentials
             api_key, api_secret = vendor.generate_api_credentials()
             vendor.api_key = api_key
             vendor.api_secret = api_secret
-            
+
             # Store vendor
             self.vendors[vendor_id] = vendor
             self.dream_seeds[vendor_id] = []
-            
+
             logger.info(f"Vendor onboarded: {company_name} ({vendor_id})")
-            
+
             return {
                 "vendor_id": vendor_id,
                 "api_key": api_key,
@@ -180,38 +197,40 @@ class VendorPortal:
                 "webhook_url": f"https://api.nias.ai/vendor/{vendor_id}/webhook",
                 "sdk_download": "https://sdk.nias.ai/download",
                 "documentation": "https://docs.nias.ai/vendor",
-                "sandbox_mode": tier == VendorTier.TRIAL
+                "sandbox_mode": tier == VendorTier.TRIAL,
             }
-            
+
         except Exception as e:
             logger.error(f"Error onboarding vendor: {e}")
             return {"error": str(e)}
-    
-    async def create_dream_seed(self, vendor_id: str, seed_data: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def create_dream_seed(
+        self, vendor_id: str, seed_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Create a new dream seed for vendor's products/offers
-        
+
         Args:
             vendor_id: Vendor identifier
             seed_data: Dream seed configuration
-            
+
         Returns:
             Created dream seed with validation status
         """
         try:
             if vendor_id not in self.vendors:
                 return {"error": "Vendor not found"}
-            
+
             vendor = self.vendors[vendor_id]
-            
+
             # Check seed limit for vendor tier
             max_seeds = self.config["max_seeds_per_vendor"].get(vendor.tier.value, 10)
             if max_seeds != -1 and len(self.dream_seeds[vendor_id]) >= max_seeds:
                 return {"error": f"Seed limit reached for {vendor.tier.value} tier"}
-            
+
             # Create dream seed
             seed_id = f"seed_{uuid.uuid4().hex[:16]}"
-            
+
             # Extract and validate seed data
             seed = DreamSeed(
                 seed_id=seed_id,
@@ -219,25 +238,24 @@ class VendorPortal:
                 seed_type=DreamSeedType(seed_data.get("type", "reminder")),
                 title=seed_data.get("title", ""),
                 narrative=seed_data.get("narrative", ""),
-                emotional_triggers=seed_data.get("emotional_triggers", {
-                    "joy": 0.5,
-                    "calm": 0.5,
-                    "stress": 0.0,
-                    "longing": 0.3
-                }),
+                emotional_triggers=seed_data.get(
+                    "emotional_triggers",
+                    {"joy": 0.5, "calm": 0.5, "stress": 0.0, "longing": 0.3},
+                ),
                 product_data=seed_data.get("product_data", {}),
                 offer_details=seed_data.get("offer_details", {}),
                 media_assets=seed_data.get("media_assets", []),
                 targeting_criteria=seed_data.get("targeting_criteria", {}),
                 affiliate_link=seed_data.get("affiliate_link", ""),
                 one_click_data=seed_data.get("one_click_data", {}),
-                expiry=datetime.now() + timedelta(days=seed_data.get("validity_days", 30))
+                expiry=datetime.now()
+                + timedelta(days=seed_data.get("validity_days", 30)),
             )
-            
+
             # Validate dream seed ethically
             ethical_validation = await self._validate_dream_seed(seed)
             seed.ethical_validation = ethical_validation
-            
+
             if ethical_validation["approved"]:
                 # Add to active seeds
                 self.dream_seeds[vendor_id].append(seed)
@@ -246,29 +264,27 @@ class VendorPortal:
                 # Add to pending seeds for review
                 self.pending_seeds.append(seed)
                 status = "pending_review"
-            
-            logger.info(f"Dream seed created: {seed_id} for vendor {vendor_id} - Status: {status}")
-            
+
+            logger.info(
+                f"Dream seed created: {seed_id} for vendor {vendor_id} - Status: {status}"
+            )
+
             return {
                 "seed_id": seed_id,
                 "status": status,
                 "ethical_validation": ethical_validation,
                 "targeting_reach": await self._estimate_reach(seed.targeting_criteria),
-                "preview_url": f"https://preview.nias.ai/seed/{seed_id}"
+                "preview_url": f"https://preview.nias.ai/seed/{seed_id}",
             }
-            
+
         except Exception as e:
             logger.error(f"Error creating dream seed: {e}")
             return {"error": str(e)}
-    
+
     async def _validate_dream_seed(self, seed: DreamSeed) -> Dict[str, Any]:
         """Validate dream seed for ethical compliance"""
-        validation_results = {
-            "approved": True,
-            "score": 1.0,
-            "checks": {}
-        }
-        
+        validation_results = {"approved": True, "score": 1.0, "checks": {}}
+
         # Check emotional manipulation
         stress_level = seed.emotional_triggers.get("stress", 0)
         if stress_level > 0.3:
@@ -277,25 +293,31 @@ class VendorPortal:
             validation_results["score"] *= 0.5
         else:
             validation_results["checks"]["emotional_manipulation"] = True
-        
+
         # Check for aggressive marketing language
-        aggressive_words = ["buy now", "limited time", "act fast", "don't miss", "hurry"]
+        aggressive_words = [
+            "buy now",
+            "limited time",
+            "act fast",
+            "don't miss",
+            "hurry",
+        ]
         narrative_lower = seed.narrative.lower()
         has_aggressive = any(word in narrative_lower for word in aggressive_words)
-        
+
         if has_aggressive:
             validation_results["checks"]["aggressive_marketing"] = False
             validation_results["score"] *= 0.7
         else:
             validation_results["checks"]["aggressive_marketing"] = True
-        
+
         # Check for truthfulness (simplified - would use AI in production)
         if not seed.product_data or not seed.offer_details:
             validation_results["checks"]["transparency"] = False
             validation_results["score"] *= 0.8
         else:
             validation_results["checks"]["transparency"] = True
-        
+
         # Check targeting ethics
         targeting = seed.targeting_criteria
         if targeting.get("vulnerable_groups") or targeting.get("age_min", 18) < 13:
@@ -304,18 +326,20 @@ class VendorPortal:
             validation_results["score"] *= 0.3
         else:
             validation_results["checks"]["ethical_targeting"] = True
-        
+
         # Final approval based on score
         if validation_results["score"] < self.config["min_ethical_score"]:
             validation_results["approved"] = False
-        
+
         return validation_results
-    
-    async def _estimate_reach(self, targeting_criteria: Dict[str, Any]) -> Dict[str, Any]:
+
+    async def _estimate_reach(
+        self, targeting_criteria: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Estimate potential reach for targeting criteria"""
         # Simplified estimation - would use real user data in production
         base_reach = 100000
-        
+
         # Apply targeting filters
         if targeting_criteria.get("interests"):
             base_reach *= 0.3
@@ -325,30 +349,31 @@ class VendorPortal:
             base_reach *= 0.4
         if targeting_criteria.get("purchase_history"):
             base_reach *= 0.2
-        
+
         return {
             "estimated_users": int(base_reach),
             "confidence": 0.7,
-            "segments": targeting_criteria.keys()
+            "segments": targeting_criteria.keys(),
         }
-    
-    async def generate_affiliate_link(self, vendor_id: str, product_id: str,
-                                     user_context: Dict[str, Any]) -> str:
+
+    async def generate_affiliate_link(
+        self, vendor_id: str, product_id: str, user_context: Dict[str, Any]
+    ) -> str:
         """
         Generate a one-click affiliate link with pre-filled user data
-        
+
         Args:
             vendor_id: Vendor identifier
             product_id: Product identifier
             user_context: User preferences and data
-            
+
         Returns:
             One-click purchase URL
         """
         try:
             # Create tracking ID
             tracking_id = f"nias_{uuid.uuid4().hex[:8]}"
-            
+
             # Build affiliate parameters
             params = {
                 "vendor": vendor_id,
@@ -359,66 +384,77 @@ class VendorPortal:
                     "size": user_context.get("preferences", {}).get("size"),
                     "color": user_context.get("preferences", {}).get("color"),
                     "shipping": user_context.get("shipping_preference", "standard"),
-                    "payment": user_context.get("payment_method", "saved")
-                }
+                    "payment": user_context.get("payment_method", "saved"),
+                },
             }
-            
+
             # Encode parameters
             import base64
             import urllib.parse
-            
+
             encoded_params = base64.b64encode(json.dumps(params).encode()).decode()
-            
+
             # Generate affiliate link
             vendor = self.vendors.get(vendor_id)
             if vendor and vendor.domains:
                 base_url = f"https://{vendor.domains[0]}"
             else:
                 base_url = "https://checkout.nias.ai"
-            
-            affiliate_link = f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
-            
+
+            affiliate_link = (
+                f"{base_url}/quick-buy?data={urllib.parse.quote(encoded_params)}"
+            )
+
             # Store tracking data
             self.performance_tracker[tracking_id] = {
                 "vendor_id": vendor_id,
                 "product_id": product_id,
                 "created_at": datetime.now().isoformat(),
-                "user_segment": user_context.get("segment", "default")
+                "user_segment": user_context.get("segment", "default"),
             }
-            
+
             return affiliate_link
-            
+
         except Exception as e:
             logger.error(f"Error generating affiliate link: {e}")
             return ""
-    
-    async def get_vendor_analytics(self, vendor_id: str, 
-                                  date_range: Optional[Tuple[datetime, datetime]] = None) -> Dict[str, Any]:
+
+    async def get_vendor_analytics(
+        self, vendor_id: str, date_range: Optional[Tuple[datetime, datetime]] = None
+    ) -> Dict[str, Any]:
         """Get performance analytics for a vendor"""
         if vendor_id not in self.vendors:
             return {"error": "Vendor not found"}
-        
+
         vendor = self.vendors[vendor_id]
         seeds = self.dream_seeds.get(vendor_id, [])
-        
+
         # Calculate metrics
         total_seeds = len(seeds)
         active_seeds = len([s for s in seeds if s.is_valid()])
-        
+
         # Aggregate performance metrics
-        total_impressions = sum(s.performance_metrics.get("impressions", 0) for s in seeds)
+        total_impressions = sum(
+            s.performance_metrics.get("impressions", 0) for s in seeds
+        )
         total_clicks = sum(s.performance_metrics.get("clicks", 0) for s in seeds)
-        total_conversions = sum(s.performance_metrics.get("conversions", 0) for s in seeds)
-        
+        total_conversions = sum(
+            s.performance_metrics.get("conversions", 0) for s in seeds
+        )
+
         # Calculate rates
         ctr = (total_clicks / total_impressions * 100) if total_impressions > 0 else 0
-        conversion_rate = (total_conversions / total_clicks * 100) if total_clicks > 0 else 0
-        
+        conversion_rate = (
+            (total_conversions / total_clicks * 100) if total_clicks > 0 else 0
+        )
+
         # Revenue calculation
         total_revenue = sum(s.performance_metrics.get("revenue", 0) for s in seeds)
-        nias_commission = total_revenue * (self.config["revenue_share_percentage"] / 100)
+        nias_commission = total_revenue * (
+            self.config["revenue_share_percentage"] / 100
+        )
         vendor_revenue = total_revenue - nias_commission
-        
+
         return {
             "vendor_id": vendor_id,
             "company_name": vendor.company_name,
@@ -427,46 +463,51 @@ class VendorPortal:
             "seeds": {
                 "total": total_seeds,
                 "active": active_seeds,
-                "pending": len([s for s in self.pending_seeds if s.vendor_id == vendor_id])
+                "pending": len(
+                    [s for s in self.pending_seeds if s.vendor_id == vendor_id]
+                ),
             },
             "performance": {
                 "impressions": total_impressions,
                 "clicks": total_clicks,
                 "conversions": total_conversions,
                 "ctr": round(ctr, 2),
-                "conversion_rate": round(conversion_rate, 2)
+                "conversion_rate": round(conversion_rate, 2),
             },
             "revenue": {
                 "total": round(total_revenue, 2),
                 "vendor_share": round(vendor_revenue, 2),
                 "nias_commission": round(nias_commission, 2),
-                "currency": "USD"
+                "currency": "USD",
             },
-            "top_performing_seeds": self._get_top_seeds(seeds, 5)
+            "top_performing_seeds": self._get_top_seeds(seeds, 5),
         }
-    
-    def _get_top_seeds(self, seeds: List[DreamSeed], limit: int = 5) -> List[Dict[str, Any]]:
+
+    def _get_top_seeds(
+        self, seeds: List[DreamSeed], limit: int = 5
+    ) -> List[Dict[str, Any]]:
         """Get top performing dream seeds"""
         # Sort by conversion rate
         sorted_seeds = sorted(
             seeds,
             key=lambda s: s.performance_metrics.get("conversion_rate", 0),
-            reverse=True
+            reverse=True,
         )[:limit]
-        
+
         return [
             {
                 "seed_id": s.seed_id,
                 "title": s.title,
                 "type": s.seed_type.value,
                 "conversions": s.performance_metrics.get("conversions", 0),
-                "revenue": s.performance_metrics.get("revenue", 0)
+                "revenue": s.performance_metrics.get("revenue", 0),
             }
             for s in sorted_seeds
         ]
-    
-    async def update_seed_performance(self, seed_id: str, event_type: str,
-                                     event_data: Dict[str, Any]) -> bool:
+
+    async def update_seed_performance(
+        self, seed_id: str, event_type: str, event_data: Dict[str, Any]
+    ) -> bool:
         """Update performance metrics for a dream seed"""
         try:
             # Find the seed
@@ -478,41 +519,53 @@ class VendorPortal:
                         break
                 if seed:
                     break
-            
+
             if not seed:
                 logger.warning(f"Seed not found for performance update: {seed_id}")
                 return False
-            
+
             # Update metrics based on event type
             if event_type == "impression":
-                seed.performance_metrics["impressions"] = seed.performance_metrics.get("impressions", 0) + 1
+                seed.performance_metrics["impressions"] = (
+                    seed.performance_metrics.get("impressions", 0) + 1
+                )
             elif event_type == "click":
-                seed.performance_metrics["clicks"] = seed.performance_metrics.get("clicks", 0) + 1
+                seed.performance_metrics["clicks"] = (
+                    seed.performance_metrics.get("clicks", 0) + 1
+                )
             elif event_type == "conversion":
-                seed.performance_metrics["conversions"] = seed.performance_metrics.get("conversions", 0) + 1
-                seed.performance_metrics["revenue"] = seed.performance_metrics.get("revenue", 0) + event_data.get("amount", 0)
-            
+                seed.performance_metrics["conversions"] = (
+                    seed.performance_metrics.get("conversions", 0) + 1
+                )
+                seed.performance_metrics["revenue"] = seed.performance_metrics.get(
+                    "revenue", 0
+                ) + event_data.get("amount", 0)
+
             # Update vendor ethical score based on user feedback
             if event_type == "user_feedback":
                 vendor = self.vendors.get(seed.vendor_id)
                 if vendor:
                     feedback_score = event_data.get("score", 0)
                     # Weighted average with existing score
-                    vendor.ethical_score = (vendor.ethical_score * 0.9) + (feedback_score * 0.1)
-            
+                    vendor.ethical_score = (vendor.ethical_score * 0.9) + (
+                        feedback_score * 0.1
+                    )
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error updating seed performance: {e}")
             return False
-    
-    async def get_vendor_sdk_code(self, vendor_id: str, language: str = "python") -> str:
+
+    async def get_vendor_sdk_code(
+        self, vendor_id: str, language: str = "python"
+    ) -> str:
         """Generate SDK code for vendor integration"""
         if vendor_id not in self.vendors:
             return ""
-        
+
         vendor = self.vendors[vendor_id]
-        
+
         if language == "python":
             return f'''
 """
@@ -615,9 +668,9 @@ seed = sdk.create_dream_seed({{
 
 print(f"Dream seed created: {{seed}}")
 '''
-        
+
         elif language == "javascript":
-            return f'''
+            return f"""
 /**
  * NIAS Dream Commerce SDK for {vendor.company_name}
  * Generated for vendor: {vendor_id}
@@ -677,6 +730,6 @@ class NIASDreamSDK {{
 }}
 
 module.exports = NIASDreamSDK;
-'''
-        
+"""
+
         return ""

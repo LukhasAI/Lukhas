@@ -38,25 +38,28 @@
 """
 
 import asyncio
-import numpy as np
-import time
 import json
-from typing import Dict, List, Any, Optional
+import time
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
+import numpy as np
 import structlog
 
 # Import all memory components
 try:
+    from memory.consolidation.consolidation_orchestrator import (
+        ConsolidationOrchestrator,
+    )
+    from memory.consolidation.ripple_generator import RippleGenerator
+    from memory.consolidation.sleep_cycle_manager import SleepCycleManager
     from memory.hippocampal.hippocampal_buffer import HippocampalBuffer
     from memory.neocortical.neocortical_network import NeocorticalNetwork
-    from memory.consolidation.consolidation_orchestrator import ConsolidationOrchestrator
-    from memory.consolidation.sleep_cycle_manager import SleepCycleManager
-    from memory.consolidation.ripple_generator import RippleGenerator
-    from memory.replay.replay_buffer import ReplayBuffer, ExperienceType
-    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
     from memory.persistence.orthogonal_persistence import OrthogonalPersistence
+    from memory.replay.replay_buffer import ExperienceType, ReplayBuffer
+    from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
+
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Memory components not available: {e}")
@@ -68,6 +71,7 @@ logger = structlog.get_logger(__name__)
 @dataclass
 class TestResult:
     """Result of a single test"""
+
     test_name: str
     success: bool
     duration: float
@@ -80,13 +84,14 @@ class TestResult:
             "success": self.success,
             "duration": self.duration,
             "metrics": self.metrics,
-            "error": self.error
+            "error": self.error,
         }
 
 
 @dataclass
 class IntegrationTestSuite:
     """Complete integration test suite results"""
+
     test_results: List[TestResult]
     total_duration: float
     success_rate: float
@@ -103,20 +108,26 @@ class IntegrationTestSuite:
         report.append(f"║ Total Tests: {len(self.test_results)}")
         report.append(f"║ Success Rate: {self.success_rate:.1%}")
         report.append(f"║ Total Duration: {self.total_duration:.2f}s")
-        report.append(f"║ Overall Result: {'✓ PASS' if self.overall_success else '✗ FAIL'}")
+        report.append(
+            f"║ Overall Result: {'✓ PASS' if self.overall_success else '✗ FAIL'}"
+        )
         report.append("╠" + "═" * 78)
 
         # Individual test results
         for result in self.test_results:
             status = "✓ PASS" if result.success else "✗ FAIL"
-            report.append(f"║ {result.test_name:<30} {status:<8} ({result.duration:.2f}s)")
+            report.append(
+                f"║ {result.test_name:<30} {status:<8} ({result.duration:.2f}s)"
+            )
 
             if result.error:
                 report.append(f"║   Error: {result.error}")
 
             # Key metrics
             if result.metrics:
-                for key, value in list(result.metrics.items())[:3]:  # Show top 3 metrics
+                for key, value in list(result.metrics.items())[
+                    :3
+                ]:  # Show top 3 metrics
                     if isinstance(value, float):
                         report.append(f"║   {key}: {value:.3f}")
                     else:
@@ -137,35 +148,55 @@ class MemoryIntegrationTester:
         # Test data
         self.test_episodes = [
             {
-                "content": {"event": "learning", "topic": "python", "concept": "async/await"},
+                "content": {
+                    "event": "learning",
+                    "topic": "python",
+                    "concept": "async/await",
+                },
                 "location": np.array([1.0, 2.0, 0.0]),
                 "emotion": (0.8, 0.7),
-                "tags": {"programming", "learning", "async"}
+                "tags": {"programming", "learning", "async"},
             },
             {
-                "content": {"event": "debugging", "error": "race condition", "solution": "locks"},
+                "content": {
+                    "event": "debugging",
+                    "error": "race condition",
+                    "solution": "locks",
+                },
                 "location": np.array([1.5, 2.5, 0.0]),
                 "emotion": (-0.3, 0.9),
-                "tags": {"programming", "debugging", "concurrency"}
+                "tags": {"programming", "debugging", "concurrency"},
             },
             {
-                "content": {"event": "meeting", "topic": "AI safety", "outcome": "new insights"},
+                "content": {
+                    "event": "meeting",
+                    "topic": "AI safety",
+                    "outcome": "new insights",
+                },
                 "location": np.array([3.0, 1.0, 0.0]),
                 "emotion": (0.6, 0.6),
-                "tags": {"collaboration", "ai", "safety"}
+                "tags": {"collaboration", "ai", "safety"},
             },
             {
-                "content": {"event": "research", "paper": "attention mechanism", "understanding": "improved"},
+                "content": {
+                    "event": "research",
+                    "paper": "attention mechanism",
+                    "understanding": "improved",
+                },
                 "location": np.array([2.0, 3.0, 0.0]),
                 "emotion": (0.9, 0.8),
-                "tags": {"research", "deep learning", "attention"}
+                "tags": {"research", "deep learning", "attention"},
             },
             {
-                "content": {"event": "problem solving", "challenge": "optimization", "approach": "gradient descent"},
+                "content": {
+                    "event": "problem solving",
+                    "challenge": "optimization",
+                    "approach": "gradient descent",
+                },
                 "location": np.array([2.5, 1.5, 0.0]),
                 "emotion": (0.4, 0.8),
-                "tags": {"optimization", "mathematics", "ml"}
-            }
+                "tags": {"optimization", "mathematics", "ml"},
+            },
         ]
 
     async def run_full_integration_test(self) -> IntegrationTestSuite:
@@ -178,16 +209,18 @@ class MemoryIntegrationTester:
 
         if not COMPONENTS_AVAILABLE:
             return IntegrationTestSuite(
-                test_results=[TestResult(
-                    test_name="Component Import",
-                    success=False,
-                    duration=0.0,
-                    metrics={},
-                    error="Memory components not available"
-                )],
+                test_results=[
+                    TestResult(
+                        test_name="Component Import",
+                        success=False,
+                        duration=0.0,
+                        metrics={},
+                        error="Memory components not available",
+                    )
+                ],
                 total_duration=0.0,
                 success_rate=0.0,
-                overall_success=False
+                overall_success=False,
             )
 
         # Test sequence
@@ -203,7 +236,7 @@ class MemoryIntegrationTester:
             self.test_integration_flow,
             self.test_performance_metrics,
             self.test_persistence_layer,
-            self.test_error_recovery
+            self.test_error_recovery,
         ]
 
         # Run tests
@@ -219,26 +252,30 @@ class MemoryIntegrationTester:
                     print(f"  Error: {result.error}")
 
             except Exception as e:
-                self.test_results.append(TestResult(
-                    test_name=test_method.__name__,
-                    success=False,
-                    duration=0.0,
-                    metrics={},
-                    error=str(e)
-                ))
+                self.test_results.append(
+                    TestResult(
+                        test_name=test_method.__name__,
+                        success=False,
+                        duration=0.0,
+                        metrics={},
+                        error=str(e),
+                    )
+                )
                 print(f"✗ {test_method.__name__} - Exception: {e}")
 
         # Calculate results
         total_duration = time.time() - start_time
         successful_tests = sum(1 for r in self.test_results if r.success)
-        success_rate = successful_tests / len(self.test_results) if self.test_results else 0.0
+        success_rate = (
+            successful_tests / len(self.test_results) if self.test_results else 0.0
+        )
         overall_success = success_rate >= 0.8  # 80% success threshold
 
         return IntegrationTestSuite(
             test_results=self.test_results,
             total_duration=total_duration,
             success_rate=success_rate,
-            overall_success=overall_success
+            overall_success=overall_success,
         )
 
     async def test_component_initialization(self) -> TestResult:
@@ -248,55 +285,51 @@ class MemoryIntegrationTester:
 
         try:
             # Initialize core components
-            self.components['scaffold'] = AtomicMemoryScaffold()
-            self.components['persistence'] = OrthogonalPersistence()
+            self.components["scaffold"] = AtomicMemoryScaffold()
+            self.components["persistence"] = OrthogonalPersistence()
 
             # Initialize hippocampal components
-            self.components['hippocampus'] = HippocampalBuffer(
+            self.components["hippocampus"] = HippocampalBuffer(
                 capacity=1000,
                 enable_place_cells=True,
                 enable_grid_cells=True,
-                scaffold=self.components['scaffold'],
-                persistence=self.components['persistence']
+                scaffold=self.components["scaffold"],
+                persistence=self.components["persistence"],
             )
 
             # Initialize neocortical components
-            self.components['neocortex'] = NeocorticalNetwork(
+            self.components["neocortex"] = NeocorticalNetwork(
                 columns_x=8,
                 columns_y=8,
                 neurons_per_layer=64,
-                scaffold=self.components['scaffold'],
-                persistence=self.components['persistence']
+                scaffold=self.components["scaffold"],
+                persistence=self.components["persistence"],
             )
 
             # Initialize consolidation components
-            self.components['sleep_manager'] = SleepCycleManager(
-                base_cycle_duration=1.0,  # 1 minute for testing
-                enable_circadian=True
+            self.components["sleep_manager"] = SleepCycleManager(
+                base_cycle_duration=1.0, enable_circadian=True  # 1 minute for testing
             )
 
-            self.components['ripple_generator'] = RippleGenerator(
-                ripple_rate=5.0,  # Higher for testing
-                enable_coupling=True
+            self.components["ripple_generator"] = RippleGenerator(
+                ripple_rate=5.0, enable_coupling=True  # Higher for testing
             )
 
-            self.components['orchestrator'] = ConsolidationOrchestrator(
-                hippocampus=self.components['hippocampus'],
-                neocortex=self.components['neocortex'],
+            self.components["orchestrator"] = ConsolidationOrchestrator(
+                hippocampus=self.components["hippocampus"],
+                neocortex=self.components["neocortex"],
                 enable_sleep_cycles=True,
-                enable_creative_consolidation=True
+                enable_creative_consolidation=True,
             )
 
             # Initialize replay system
-            self.components['replay_buffer'] = ReplayBuffer(
-                capacity=10000,
-                enable_prioritized=True,
-                enable_clustering=True
+            self.components["replay_buffer"] = ReplayBuffer(
+                capacity=10000, enable_prioritized=True, enable_clustering=True
             )
 
             # Start components
             for name, component in self.components.items():
-                if hasattr(component, 'start'):
+                if hasattr(component, "start"):
                     await component.start()
 
             duration = time.time() - start_time
@@ -307,10 +340,10 @@ class MemoryIntegrationTester:
                 duration=duration,
                 metrics={
                     "components_initialized": len(self.components),
-                    "hippocampal_capacity": self.components['hippocampus'].capacity,
-                    "neocortical_columns": len(self.components['neocortex'].columns),
-                    "replay_capacity": self.components['replay_buffer'].capacity
-                }
+                    "hippocampal_capacity": self.components["hippocampus"].capacity,
+                    "neocortical_columns": len(self.components["neocortex"].columns),
+                    "replay_capacity": self.components["replay_buffer"].capacity,
+                },
             )
 
         except Exception as e:
@@ -319,7 +352,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_hippocampal_encoding(self) -> TestResult:
@@ -328,7 +361,7 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            hippocampus = self.components['hippocampus']
+            hippocampus = self.components["hippocampus"]
             encoded_ids = []
 
             # Encode test episodes
@@ -337,7 +370,7 @@ class MemoryIntegrationTester:
                     content=episode["content"],
                     spatial_location=episode["location"],
                     emotional_state=episode["emotion"],
-                    tags=episode["tags"]
+                    tags=episode["tags"],
                 )
                 encoded_ids.append(memory_id)
 
@@ -353,15 +386,16 @@ class MemoryIntegrationTester:
 
             return TestResult(
                 test_name="Hippocampal Encoding",
-                success=buffer_size == len(self.test_episodes) and retrieved is not None,
+                success=buffer_size == len(self.test_episodes)
+                and retrieved is not None,
                 duration=duration,
                 metrics={
                     "episodes_encoded": len(encoded_ids),
                     "buffer_size": buffer_size,
                     "unique_memories": unique_memories,
                     "pattern_completion_success": retrieved is not None,
-                    "total_encoded": hippocampus.total_encoded
-                }
+                    "total_encoded": hippocampus.total_encoded,
+                },
             )
 
         except Exception as e:
@@ -370,7 +404,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_neocortical_consolidation(self) -> TestResult:
@@ -379,7 +413,7 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            neocortex = self.components['neocortex']
+            neocortex = self.components["neocortex"]
             consolidated_ids = []
 
             # Consolidate episodes
@@ -387,7 +421,7 @@ class MemoryIntegrationTester:
                 semantic_id = await neocortex.consolidate_episode(
                     episode_data=episode["content"],
                     source_episode_id=f"episode_{i}",
-                    replay_strength=0.8
+                    replay_strength=0.8,
                 )
                 if semantic_id:
                     consolidated_ids.append(semantic_id)
@@ -413,8 +447,8 @@ class MemoryIntegrationTester:
                     "concept_count": len(neocortex.concept_index),
                     "learning_retrievals": len(learning_memories),
                     "programming_retrievals": len(programming_memories),
-                    "hierarchy_categories": len(hierarchy)
-                }
+                    "hierarchy_categories": len(hierarchy),
+                },
             )
 
         except Exception as e:
@@ -423,7 +457,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_replay_system(self) -> TestResult:
@@ -432,7 +466,7 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            replay_buffer = self.components['replay_buffer']
+            replay_buffer = self.components["replay_buffer"]
 
             # Add experiences to replay buffer
             for i, episode in enumerate(self.test_episodes):
@@ -441,7 +475,7 @@ class MemoryIntegrationTester:
                     action=f"action_{i}",
                     reward=np.random.uniform(-1, 1),
                     experience_type=ExperienceType.EPISODIC,
-                    priority=np.random.uniform(0.5, 2.0)
+                    priority=np.random.uniform(0.5, 2.0),
                 )
 
             # Test different sampling modes
@@ -458,15 +492,16 @@ class MemoryIntegrationTester:
 
             return TestResult(
                 test_name="Replay System",
-                success=len(uniform_batch.experiences) > 0 and len(prioritized_batch.experiences) > 0,
+                success=len(uniform_batch.experiences) > 0
+                and len(prioritized_batch.experiences) > 0,
                 duration=duration,
                 metrics={
                     "experiences_added": len(self.test_episodes),
                     "uniform_batch_size": len(uniform_batch.experiences),
                     "prioritized_batch_size": len(prioritized_batch.experiences),
                     "total_experiences": len(replay_buffer.experiences),
-                    "total_samples": replay_buffer.total_samples
-                }
+                    "total_samples": replay_buffer.total_samples,
+                },
             )
 
         except Exception as e:
@@ -475,7 +510,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_sleep_cycle_management(self) -> TestResult:
@@ -484,7 +519,7 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            sleep_manager = self.components['sleep_manager']
+            sleep_manager = self.components["sleep_manager"]
 
             # Initiate short sleep cycle
             cycle_id = await sleep_manager.initiate_sleep()
@@ -506,8 +541,10 @@ class MemoryIntegrationTester:
                     "current_stage": metrics["current_stage"],
                     "total_cycles": metrics["total_cycles"],
                     "sleep_pressure": metrics["sleep_pressure"],
-                    "architecture_efficiency": metrics.get("architecture_sleep_efficiency", 0)
-                }
+                    "architecture_efficiency": metrics.get(
+                        "architecture_sleep_efficiency", 0
+                    ),
+                },
             )
 
         except Exception as e:
@@ -516,7 +553,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_ripple_generation(self) -> TestResult:
@@ -525,18 +562,14 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            ripple_generator = self.components['ripple_generator']
+            ripple_generator = self.components["ripple_generator"]
 
             # Generate single ripple
             memory_sequence = ["memory_1", "memory_2", "memory_3"]
             ripple = await ripple_generator.generate_ripple(memory_sequence)
 
             # Generate ripple sequence
-            sequences = [
-                ["mem_a", "mem_b"],
-                ["mem_c", "mem_d"],
-                ["mem_e", "mem_f"]
-            ]
+            sequences = [["mem_a", "mem_b"], ["mem_c", "mem_d"], ["mem_e", "mem_f"]]
             sequence = await ripple_generator.generate_ripple_sequence(sequences)
 
             # Get metrics
@@ -553,8 +586,8 @@ class MemoryIntegrationTester:
                     "sequence_ripples": len(sequence.ripples),
                     "total_ripples": metrics["total_ripples"],
                     "ripple_frequency": metrics.get("avg_frequency", 0),
-                    "ripple_complexity": metrics.get("avg_complexity", 0)
-                }
+                    "ripple_complexity": metrics.get("avg_complexity", 0),
+                },
             )
 
         except Exception as e:
@@ -563,7 +596,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_consolidation_orchestration(self) -> TestResult:
@@ -572,13 +605,15 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            orchestrator = self.components['orchestrator']
+            orchestrator = self.components["orchestrator"]
 
             # Trigger replay event
             replay_results = await orchestrator.trigger_replay_event(num_memories=3)
 
             # Process creative consolidation
-            creative_results = await orchestrator.process_creative_consolidation(num_memories=2)
+            creative_results = await orchestrator.process_creative_consolidation(
+                num_memories=2
+            )
 
             # Get metrics
             metrics = orchestrator.get_metrics()
@@ -595,8 +630,8 @@ class MemoryIntegrationTester:
                     "total_replayed": metrics["total_episodes_replayed"],
                     "total_consolidated": metrics["total_memories_consolidated"],
                     "current_stage": metrics["current_stage"],
-                    "consolidation_threshold": metrics["consolidation_threshold"]
-                }
+                    "consolidation_threshold": metrics["consolidation_threshold"],
+                },
             )
 
         except Exception as e:
@@ -605,7 +640,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_memory_retrieval(self) -> TestResult:
@@ -614,8 +649,8 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            hippocampus = self.components['hippocampus']
-            neocortex = self.components['neocortex']
+            hippocampus = self.components["hippocampus"]
+            neocortex = self.components["neocortex"]
 
             # Test hippocampal retrieval
             episodic_retrievals = 0
@@ -640,11 +675,14 @@ class MemoryIntegrationTester:
                 metrics={
                     "episodic_retrievals": episodic_retrievals,
                     "semantic_retrievals": semantic_retrievals,
-                    "hippocampal_success_rate": hippocampus.successful_retrievals / max(
-                        hippocampus.successful_retrievals + hippocampus.failed_retrievals, 1
+                    "hippocampal_success_rate": hippocampus.successful_retrievals
+                    / max(
+                        hippocampus.successful_retrievals
+                        + hippocampus.failed_retrievals,
+                        1,
                     ),
-                    "total_semantic_memories": len(neocortex.semantic_memories)
-                }
+                    "total_semantic_memories": len(neocortex.semantic_memories),
+                },
             )
 
         except Exception as e:
@@ -653,7 +691,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_integration_flow(self) -> TestResult:
@@ -662,20 +700,20 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            hippocampus = self.components['hippocampus']
-            orchestrator = self.components['orchestrator']
+            hippocampus = self.components["hippocampus"]
+            orchestrator = self.components["orchestrator"]
 
             # Encode new episode
             new_episode = {
                 "event": "integration_test",
                 "system": "memory",
-                "status": "testing"
+                "status": "testing",
             }
 
             episode_id = await hippocampus.encode_episode(
                 content=new_episode,
                 emotional_state=(0.7, 0.8),
-                tags={"test", "integration"}
+                tags={"test", "integration"},
             )
 
             # Wait for encoding
@@ -697,8 +735,8 @@ class MemoryIntegrationTester:
                     "episode_encoded": episode_id is not None,
                     "replay_triggered": len(replay_results) > 0,
                     "consolidation_success": consolidation_success,
-                    "flow_complete": episode_id is not None and len(replay_results) > 0
-                }
+                    "flow_complete": episode_id is not None and len(replay_results) > 0,
+                },
             )
 
         except Exception as e:
@@ -707,7 +745,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_performance_metrics(self) -> TestResult:
@@ -720,12 +758,14 @@ class MemoryIntegrationTester:
             component_metrics = {}
 
             for name, component in self.components.items():
-                if hasattr(component, 'get_metrics'):
+                if hasattr(component, "get_metrics"):
                     component_metrics[name] = component.get_metrics()
 
             # Calculate performance indicators
             total_memories = sum(
-                metrics.get("total_encoded", 0) + metrics.get("total_memories", 0) + metrics.get("total_experiences", 0)
+                metrics.get("total_encoded", 0)
+                + metrics.get("total_memories", 0)
+                + metrics.get("total_experiences", 0)
                 for metrics in component_metrics.values()
             )
 
@@ -738,10 +778,18 @@ class MemoryIntegrationTester:
                 metrics={
                     "components_reporting": len(component_metrics),
                     "total_memories": total_memories,
-                    "hippocampal_buffer_utilization": len(self.components['hippocampus'].episodic_buffer) / self.components['hippocampus'].capacity,
-                    "neocortical_concepts": len(self.components['neocortex'].concept_index),
-                    "replay_buffer_utilization": len(self.components['replay_buffer'].experiences) / self.components['replay_buffer'].capacity
-                }
+                    "hippocampal_buffer_utilization": len(
+                        self.components["hippocampus"].episodic_buffer
+                    )
+                    / self.components["hippocampus"].capacity,
+                    "neocortical_concepts": len(
+                        self.components["neocortex"].concept_index
+                    ),
+                    "replay_buffer_utilization": len(
+                        self.components["replay_buffer"].experiences
+                    )
+                    / self.components["replay_buffer"].capacity,
+                },
             )
 
         except Exception as e:
@@ -750,7 +798,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_persistence_layer(self) -> TestResult:
@@ -759,13 +807,13 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            persistence = self.components['persistence']
+            persistence = self.components["persistence"]
 
             # Test persistence operations
             test_memory = {
                 "type": "test",
                 "content": "persistence_test",
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Store memory
@@ -773,7 +821,7 @@ class MemoryIntegrationTester:
                 content=test_memory,
                 memory_id="test_memory_001",
                 importance=0.8,
-                tags={"test", "persistence"}
+                tags={"test", "persistence"},
             )
 
             # Retrieve memory
@@ -788,8 +836,10 @@ class MemoryIntegrationTester:
                 metrics={
                     "memory_stored": True,
                     "memory_retrieved": retrieved is not None,
-                    "content_match": retrieved.get("content") == test_memory if retrieved else False
-                }
+                    "content_match": (
+                        retrieved.get("content") == test_memory if retrieved else False
+                    ),
+                },
             )
 
         except Exception as e:
@@ -798,7 +848,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def test_error_recovery(self) -> TestResult:
@@ -807,8 +857,8 @@ class MemoryIntegrationTester:
         start_time = time.time()
 
         try:
-            hippocampus = self.components['hippocampus']
-            neocortex = self.components['neocortex']
+            hippocampus = self.components["hippocampus"]
+            neocortex = self.components["neocortex"]
 
             recovery_tests = 0
             successful_recoveries = 0
@@ -827,8 +877,7 @@ class MemoryIntegrationTester:
             # Test invalid consolidation
             try:
                 await neocortex.consolidate_episode(
-                    episode_data=None,
-                    source_episode_id="invalid"
+                    episode_data=None, source_episode_id="invalid"
                 )
                 recovery_tests += 1
                 successful_recoveries += 1
@@ -841,14 +890,15 @@ class MemoryIntegrationTester:
 
             return TestResult(
                 test_name="Error Recovery",
-                success=successful_recoveries >= recovery_tests * 0.5,  # At least 50% recover
+                success=successful_recoveries
+                >= recovery_tests * 0.5,  # At least 50% recover
                 duration=duration,
                 metrics={
                     "recovery_tests": recovery_tests,
                     "successful_recoveries": successful_recoveries,
                     "recovery_rate": successful_recoveries / max(recovery_tests, 1),
-                    "system_stability": True  # If we reach here, system is stable
-                }
+                    "system_stability": True,  # If we reach here, system is stable
+                },
             )
 
         except Exception as e:
@@ -857,7 +907,7 @@ class MemoryIntegrationTester:
                 success=False,
                 duration=time.time() - start_time,
                 metrics={},
-                error=str(e)
+                error=str(e),
             )
 
     async def cleanup(self):
@@ -865,7 +915,7 @@ class MemoryIntegrationTester:
 
         try:
             for component in self.components.values():
-                if hasattr(component, 'stop'):
+                if hasattr(component, "stop"):
                     await component.stop()
         except Exception as e:
             logger.error(f"Cleanup error: {e}")
@@ -888,7 +938,7 @@ async def run_integration_test():
         with open("memory_integration_test_results.json", "w") as f:
             json.dump([r.to_dict() for r in results.test_results], f, indent=2)
 
-        print(f"\nDetailed results saved to: memory_integration_test_results.json")
+        print("\nDetailed results saved to: memory_integration_test_results.json")
 
         return results.overall_success
 

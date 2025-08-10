@@ -5,19 +5,22 @@ Integrates with the global event bus to publish identity-specific events
 with enhanced tracking, correlation, and tier-based routing.
 """
 
-import asyncio
-from core.common import get_logger, GLYPHToken, create_glyph
-from typing import Dict, Any, Optional, List, Callable
+import logging
 from datetime import datetime
-import json
+from typing import Any, Callable, Optional
 
-from core.event_bus import get_global_event_bus, EventBus
+from core.event_bus import EventBus, get_global_event_bus
+
 from .identity_event_types import (
-    IdentityEvent, IdentityEventType, IdentityEventPriority,
-    AuthenticationContext, VerificationResult, TierChangeContext
+    AuthenticationContext,
+    IdentityEvent,
+    IdentityEventPriority,
+    IdentityEventType,
+    TierChangeContext,
+    VerificationResult,
 )
 
-logger = logging.getLogger('LUKHAS_IDENTITY_EVENTS')
+logger = logging.getLogger("LUKHAS_IDENTITY_EVENTS")
 
 
 class IdentityEventPublisher:
@@ -28,9 +31,9 @@ class IdentityEventPublisher:
 
     def __init__(self):
         self.event_bus: Optional[EventBus] = None
-        self.event_history: List[IdentityEvent] = []
-        self.correlation_tracking: Dict[str, List[IdentityEvent]] = {}
-        self.session_tracking: Dict[str, List[IdentityEvent]] = {}
+        self.event_history: list[IdentityEvent] = []
+        self.correlation_tracking: dict[str, list[IdentityEvent]] = {}
+        self.session_tracking: dict[str, list[IdentityEvent]] = {}
 
         # Event statistics
         self.stats = {
@@ -40,11 +43,11 @@ class IdentityEventPublisher:
             "security_events": 0,
             "tier_change_events": 0,
             "colony_events": 0,
-            "healing_events": 0
+            "healing_events": 0,
         }
 
         # Event handlers for specific identity events
-        self.event_handlers: Dict[IdentityEventType, List[Callable]] = {}
+        self.event_handlers: dict[IdentityEventType, list[Callable]] = {}
 
         logger.info("Identity Event Publisher initialized")
 
@@ -65,7 +68,7 @@ class IdentityEventPublisher:
         auth_context: AuthenticationContext,
         session_id: str,
         priority: IdentityEventPriority = IdentityEventPriority.NORMAL,
-        additional_data: Optional[Dict[str, Any]] = None
+        additional_data: Optional[dict[str, Any]] = None,
     ) -> str:
         """Publish an authentication-related event."""
 
@@ -85,15 +88,15 @@ class IdentityEventPublisher:
                     "location": auth_context.location,
                     "risk_score": auth_context.risk_score,
                     "previous_attempts": auth_context.previous_attempts,
-                    "lockout_remaining": auth_context.lockout_remaining
+                    "lockout_remaining": auth_context.lockout_remaining,
                 },
-                **(additional_data or {})
+                **(additional_data or {}),
             },
             security_context={
                 "risk_level": self._calculate_risk_level(auth_context.risk_score),
-                "requires_monitoring": auth_context.risk_score > 0.7
+                "requires_monitoring": auth_context.risk_score > 0.7,
             },
-            processing_start=datetime.utcnow()
+            processing_start=datetime.utcnow(),
         )
 
         # Set consensus requirements based on tier
@@ -116,7 +119,7 @@ class IdentityEventPublisher:
         verification_result: Optional[VerificationResult] = None,
         colony_id: Optional[str] = None,
         correlation_id: Optional[str] = None,
-        priority: IdentityEventPriority = IdentityEventPriority.NORMAL
+        priority: IdentityEventPriority = IdentityEventPriority.NORMAL,
     ) -> str:
         """Publish a verification-related event."""
 
@@ -128,7 +131,7 @@ class IdentityEventPublisher:
             source_component="identity_verification_system",
             correlation_id=correlation_id,
             colony_id=colony_id,
-            verification_colony=colony_id
+            verification_colony=colony_id,
         )
 
         if verification_result:
@@ -139,11 +142,14 @@ class IdentityEventPublisher:
                 "colony_consensus": verification_result.colony_consensus,
                 "failure_reasons": verification_result.failure_reasons,
                 "verification_duration_ms": verification_result.verification_duration_ms,
-                "agents_involved": verification_result.agents_involved
+                "agents_involved": verification_result.agents_involved,
             }
 
             # Set healing requirements if verification failed
-            if not verification_result.verified and verification_result.confidence_score < 0.3:
+            if (
+                not verification_result.verified
+                and verification_result.confidence_score < 0.3
+            ):
                 event.requires_healing = True
                 event.healing_priority = "HIGH"
 
@@ -159,17 +165,22 @@ class IdentityEventPublisher:
         lambda_id: str,
         tier_context: TierChangeContext,
         approved: bool,
-        session_id: Optional[str] = None
+        session_id: Optional[str] = None,
     ) -> str:
         """Publish a tier change event."""
 
-        event_type = (IdentityEventType.TIER_UPGRADE_APPROVED if approved
-                     else IdentityEventType.TIER_UPGRADE_DENIED)
+        event_type = (
+            IdentityEventType.TIER_UPGRADE_APPROVED
+            if approved
+            else IdentityEventType.TIER_UPGRADE_DENIED
+        )
 
         event = IdentityEvent(
             event_type=event_type,
             lambda_id=lambda_id,
-            tier_level=tier_context.new_tier if approved else tier_context.previous_tier,
+            tier_level=(
+                tier_context.new_tier if approved else tier_context.previous_tier
+            ),
             priority=IdentityEventPriority.HIGH,
             source_component="identity_tier_system",
             session_id=session_id,
@@ -181,8 +192,8 @@ class IdentityEventPublisher:
                 "approver_id": tier_context.approver_id,
                 "benefits_delta": tier_context.benefits_delta,
                 "cooldown_period": tier_context.cooldown_period,
-                "approved": approved
-            }
+                "approved": approved,
+            },
         )
 
         # Tier changes may require colony coordination for validation
@@ -210,8 +221,8 @@ class IdentityEventPublisher:
         tier_level: int,
         colony_id: str,
         swarm_task_id: Optional[str] = None,
-        consensus_data: Optional[Dict[str, Any]] = None,
-        priority: IdentityEventPriority = IdentityEventPriority.NORMAL
+        consensus_data: Optional[dict[str, Any]] = None,
+        priority: IdentityEventPriority = IdentityEventPriority.NORMAL,
     ) -> str:
         """Publish a colony coordination event."""
 
@@ -225,13 +236,15 @@ class IdentityEventPublisher:
             swarm_task_id=swarm_task_id,
             data={
                 "colony_type": self._get_colony_type(colony_id),
-                "consensus_data": consensus_data or {}
-            }
+                "consensus_data": consensus_data or {},
+            },
         )
 
         # Colony events often require coordination
-        if event_type in [IdentityEventType.COLONY_CONSENSUS_VOTING,
-                         IdentityEventType.COLONY_VERIFICATION_START]:
+        if event_type in [
+            IdentityEventType.COLONY_CONSENSUS_VOTING,
+            IdentityEventType.COLONY_VERIFICATION_START,
+        ]:
             event.consensus_required = True
             event.consensus_threshold = 0.67
 
@@ -247,13 +260,16 @@ class IdentityEventPublisher:
         event_type: IdentityEventType,
         lambda_id: str,
         tier_level: int,
-        threat_data: Dict[str, Any],
-        immediate_action_required: bool = False
+        threat_data: dict[str, Any],
+        immediate_action_required: bool = False,
     ) -> str:
         """Publish a security-related event."""
 
-        priority = (IdentityEventPriority.EMERGENCY if immediate_action_required
-                   else IdentityEventPriority.CRITICAL)
+        priority = (
+            IdentityEventPriority.EMERGENCY
+            if immediate_action_required
+            else IdentityEventPriority.CRITICAL
+        )
 
         event = IdentityEvent(
             event_type=event_type,
@@ -265,15 +281,15 @@ class IdentityEventPublisher:
                 "threat_data": threat_data,
                 "immediate_action_required": immediate_action_required,
                 "threat_level": threat_data.get("level", "unknown"),
-                "mitigation_steps": threat_data.get("mitigation_steps", [])
+                "mitigation_steps": threat_data.get("mitigation_steps", []),
             },
             security_context={
                 "threat_detected": True,
                 "lockdown_recommended": immediate_action_required,
-                "monitoring_required": True
+                "monitoring_required": True,
             },
             requires_healing=immediate_action_required,
-            healing_priority="CRITICAL" if immediate_action_required else "HIGH"
+            healing_priority="CRITICAL" if immediate_action_required else "HIGH",
         )
 
         await self._publish_event(event)
@@ -295,7 +311,7 @@ class IdentityEventPublisher:
         tier_level: int,
         healing_reason: str,
         correlation_id: Optional[str] = None,
-        healing_strategy: Optional[str] = None
+        healing_strategy: Optional[str] = None,
     ) -> str:
         """Publish a healing-related event."""
 
@@ -308,11 +324,12 @@ class IdentityEventPublisher:
             correlation_id=correlation_id,
             data={
                 "healing_reason": healing_reason,
-                "tier_specific_healing": tier_level >= 3
+                "tier_specific_healing": tier_level >= 3,
             },
             requires_healing=True,
             healing_priority="HIGH",
-            healing_strategy=healing_strategy or self._determine_healing_strategy(tier_level)
+            healing_strategy=healing_strategy
+            or self._determine_healing_strategy(tier_level),
         )
 
         await self._publish_event(event)
@@ -327,8 +344,8 @@ class IdentityEventPublisher:
         event_type: IdentityEventType,
         lambda_id: str,
         tier_level: int,
-        glyph_data: Dict[str, Any],
-        session_id: Optional[str] = None
+        glyph_data: dict[str, Any],
+        session_id: Optional[str] = None,
     ) -> str:
         """Publish a GLYPH-related event."""
 
@@ -344,8 +361,8 @@ class IdentityEventPublisher:
                 "glyph_id": glyph_data.get("id"),
                 "steganographic_enabled": tier_level >= 2,
                 "quantum_enhanced": tier_level >= 4,
-                **glyph_data
-            }
+                **glyph_data,
+            },
         )
 
         await self._publish_event(event)
@@ -353,10 +370,7 @@ class IdentityEventPublisher:
         return event.event_id
 
     async def publish_tier_benefits_activation(
-        self,
-        lambda_id: str,
-        tier_level: int,
-        benefits: Dict[str, Any]
+        self, lambda_id: str, tier_level: int, benefits: dict[str, Any]
     ) -> str:
         """Publish tier benefits activation event."""
 
@@ -368,8 +382,8 @@ class IdentityEventPublisher:
             source_component="identity_benefits_system",
             data={
                 "activated_benefits": benefits,
-                "activation_timestamp": datetime.utcnow().isoformat()
-            }
+                "activation_timestamp": datetime.utcnow().isoformat(),
+            },
         )
 
         await self._publish_event(event)
@@ -393,7 +407,7 @@ class IdentityEventPublisher:
             source=event.source_component,
             priority=event.priority.value,
             correlation_id=event.correlation_id,
-            user_id=event.lambda_id
+            user_id=event.lambda_id,
         )
 
         # Track event in history
@@ -418,7 +432,9 @@ class IdentityEventPublisher:
 
         # Log security-critical events
         if event.is_security_critical():
-            logger.warning(f"Security-critical event: {event.event_type.value} for {event.lambda_id}")
+            logger.warning(
+                f"Security-critical event: {event.event_type.value} for {event.lambda_id}"
+            )
 
         # Execute registered handlers
         if event.event_type in self.event_handlers:
@@ -434,14 +450,12 @@ class IdentityEventPublisher:
         # Subscribe to all identity events for statistics
         for event_type in IdentityEventType:
             await self.event_bus.subscribe(
-                event_type.value,
-                self._track_event_statistics
+                event_type.value, self._track_event_statistics
             )
 
-    async def _track_event_statistics(self, event_data: Dict[str, Any]):
+    async def _track_event_statistics(self, event_data: dict[str, Any]):
         """Track event statistics for monitoring."""
         # This would be called by event bus for tracking
-        pass
 
     def _calculate_risk_level(self, risk_score: float) -> str:
         """Calculate risk level from score."""
@@ -484,20 +498,20 @@ class IdentityEventPublisher:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    def get_event_statistics(self) -> Dict[str, Any]:
+    def get_event_statistics(self) -> dict[str, Any]:
         """Get comprehensive event statistics."""
         return {
             **self.stats,
             "correlation_sessions": len(self.correlation_tracking),
             "active_sessions": len(self.session_tracking),
-            "event_history_size": len(self.event_history)
+            "event_history_size": len(self.event_history),
         }
 
-    def get_session_events(self, session_id: str) -> List[IdentityEvent]:
+    def get_session_events(self, session_id: str) -> list[IdentityEvent]:
         """Get all events for a specific session."""
         return self.session_tracking.get(session_id, [])
 
-    def get_correlation_events(self, correlation_id: str) -> List[IdentityEvent]:
+    def get_correlation_events(self, correlation_id: str) -> list[IdentityEvent]:
         """Get all events with specific correlation ID."""
         return self.correlation_tracking.get(correlation_id, [])
 

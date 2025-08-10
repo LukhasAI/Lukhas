@@ -8,25 +8,27 @@
 # Useful for sharing symbolic AGI output to web, stream, or dashboard.
 # ===============================================================
 
+import html
 import json
 import os
-from datetime import datetime
-import html
 import sys
+from datetime import datetime
 
 QUEUE_PATH = "core/logging/publish_queue.jsonl"
 EXPORT_DIR = "html_posts"
+
 
 def load_latest_entry():
     if not os.path.exists(QUEUE_PATH):
         print("⚠️ No publish_queue.jsonl found.")
         return None
-    with open(QUEUE_PATH, "r") as f:
+    with open(QUEUE_PATH) as f:
         lines = f.readlines()
         if not lines:
             print("📭 Queue is empty.")
             return None
         return json.loads(lines[-1])
+
 
 def generate_html(content):
     if not os.path.exists(EXPORT_DIR):
@@ -71,17 +73,23 @@ def generate_html(content):
         f.write(html_content)
     try:
         with open("core/logging/symbolic_output_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "type": "html",
-                "timestamp": timestamp,
-                "source": source,
-                "author": author,
-                "filename": filename,
-                "summary": content.get("thought", "")[:200]
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "type": "html",
+                        "timestamp": timestamp,
+                        "source": source,
+                        "author": author,
+                        "filename": filename,
+                        "summary": content.get("thought", "")[:200],
+                    }
+                )
+                + "\n"
+            )
     except Exception as e:
         print(f"⚠️ Failed to write symbolic output log: {e}")
     print(f"✅ HTML post generated: {filename}")
+
 
 if __name__ == "__main__":
     if "--test" in sys.argv:
@@ -90,7 +98,7 @@ if __name__ == "__main__":
             "timestamp": datetime.now().isoformat(),
             "author": "LUCAS_TEST",
             "source": "test_suite",
-            "thought": "This is a test dream generated for symbolic HTML preview."
+            "thought": "This is a test dream generated for symbolic HTML preview.",
         }
         generate_html(test_entry)
     else:

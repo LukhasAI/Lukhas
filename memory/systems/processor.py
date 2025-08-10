@@ -28,9 +28,11 @@ This component handles memory functionality in the AI consciousness computing sy
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
+from core.common import get_logger
+
 
 class MemoryProcessor:
     """
@@ -82,7 +84,7 @@ class MemoryProcessor:
                 "component": self.__class__.__name__,
                 "category": "memory",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -91,7 +93,7 @@ class MemoryProcessor:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_memory_processing(self, data: Any) -> Any:
@@ -163,7 +165,7 @@ class MemoryProcessor:
             "category": "memory",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -172,17 +174,22 @@ class MemoryProcessor:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
 def create_memory_component(config: Optional[Dict] = None) -> lukhasMemoryProcessor:
     """Create and return a memory component instance"""
     return lukhasMemoryProcessor(config)
 
+
 # Async factory function
-async def create_and_initialize_memory_component(config: Optional[Dict] = None) -> lukhasMemoryProcessor:
+async def create_and_initialize_memory_component(
+    config: Optional[Dict] = None,
+) -> lukhasMemoryProcessor:
     """Create, initialize and return a memory component instance"""
     component = lukhasMemoryProcessor(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

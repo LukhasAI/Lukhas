@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🌙 LUKHAS AI - DREAM MODULE SYMBOLIC VOCABULARY
 ║ Symbolic vocabulary for dream processing and oneiric state representation
@@ -48,7 +47,7 @@ DREAM_PHASE_SYMBOLS = {
     "pattern": "🔮 Pattern Recognition",
     "deep_symbolic": "🌌 Deep Symbolic Realm",
     "creative": "🎨 Creative Flow",
-    "integration": "🌄 Peaceful Integration"
+    "integration": "🌄 Peaceful Integration",
 }
 
 # Dream Type Symbols
@@ -57,7 +56,7 @@ DREAM_TYPE_SYMBOLS = {
     "pattern": "🔍 Hidden Connections",
     "creative": "💫 Boundless Imagination",
     "ethical": "⚖️ Moral Reflection",
-    "predictive": "🔮 Future Glimpses"
+    "predictive": "🔮 Future Glimpses",
 }
 
 # Dream State Symbols
@@ -66,7 +65,7 @@ DREAM_STATE_SYMBOLS = {
     "active": "🌊 Active Processing",
     "lucid": "✨ Lucid Awareness",
     "deep": "🌌 Deep Sleep",
-    "rem": "⚡ REM Intensity"
+    "rem": "⚡ REM Intensity",
 }
 
 # Pattern Recognition Symbols
@@ -76,7 +75,7 @@ PATTERN_SYMBOLS = {
     "causal": "🔗 Cause & Effect",
     "thematic": "🎭 Common Themes",
     "archetypal": "🏛️ Universal Patterns",
-    "novel": "💡 New Connections"
+    "novel": "💡 New Connections",
 }
 
 # Memory Processing Symbols
@@ -85,7 +84,7 @@ MEMORY_SYMBOLS = {
     "integration": "🔄 Experience Weaving",
     "enhancement": "✨ Memory Enrichment",
     "compression": "📦 Information Packing",
-    "reconstruction": "🔧 Memory Rebuilding"
+    "reconstruction": "🔧 Memory Rebuilding",
 }
 
 # Insight Generation Symbols
@@ -94,7 +93,7 @@ INSIGHT_SYMBOLS = {
     "connection": "🌐 Neural Link",
     "synthesis": "⚗️ Idea Fusion",
     "revelation": "🌟 Truth Unveiled",
-    "wisdom": "🦉 Ancient Knowing"
+    "wisdom": "🦉 Ancient Knowing",
 }
 
 # Emotional Dream Symbols
@@ -104,7 +103,7 @@ EMOTIONAL_SYMBOLS = {
     "passionate": "🔥 Burning Bright",
     "peaceful": "🕊️ Serene Dove",
     "intense": "⚡ Lightning Storm",
-    "reflective": "🌙 Moonlight Meditation"
+    "reflective": "🌙 Moonlight Meditation",
 }
 
 # Creative Symbols
@@ -113,14 +112,17 @@ CREATIVE_SYMBOLS = {
     "innovation": "💫 Star Birth",
     "imagination": "🦋 Thought Wings",
     "synthesis": "🌟 Idea Constellation",
-    "breakthrough": "🚀 Mental Launch"
+    "breakthrough": "🚀 Mental Launch",
 }
 
 # Helper Functions for Dream Operations
+
+
 def dream_cycle_start(dream_type: str) -> str:
     """Symbol for starting a dream cycle."""
     base_symbol = DREAM_TYPE_SYMBOLS.get(dream_type, "🌙 Unknown Dream")
     return f"🌙 Initiating {base_symbol}"
+
 
 def dream_phase_transition(from_phase: str, to_phase: str) -> str:
     """Symbol for phase transitions."""
@@ -128,15 +130,18 @@ def dream_phase_transition(from_phase: str, to_phase: str) -> str:
     to_sym = DREAM_PHASE_SYMBOLS.get(to_phase, "❓")
     return f"{from_sym} → {to_sym}"
 
+
 def pattern_discovered(pattern_type: str, confidence: float) -> str:
     """Symbol for pattern discovery."""
     symbol = PATTERN_SYMBOLS.get(pattern_type, "🔍 Unknown Pattern")
     intensity = "🔥" if confidence > 0.8 else "⭐" if confidence > 0.6 else "✨"
     return f"{intensity} {symbol}"
 
+
 def insight_generated(insight_type: str) -> str:
     """Symbol for insight generation."""
     return INSIGHT_SYMBOLS.get(insight_type, "💡 New Understanding")
+
 
 def emotional_context(emotion: str, intensity: float) -> str:
     """Symbol for emotional context."""
@@ -148,6 +153,7 @@ def emotional_context(emotion: str, intensity: float) -> str:
     else:
         return f"✨ {base_symbol}"
 
+
 def memory_processing(operation: str, count: int) -> str:
     """Symbol for memory processing operations."""
     symbol = MEMORY_SYMBOLS.get(operation, "🧠 Memory Work")
@@ -158,6 +164,7 @@ def memory_processing(operation: str, count: int) -> str:
     else:
         return f"✨ {symbol} (Focused)"
 
+
 def cycle_completion(insights: int, patterns: int) -> str:
     """Symbol for dream cycle completion."""
     if insights > 5 and patterns > 10:
@@ -167,38 +174,39 @@ def cycle_completion(insights: int, patterns: int) -> str:
     else:
         return "✨ Gentle Dream Processing Done"
 
+
 # Dream Narrative Templates
 DREAM_NARRATIVES = {
     "initiation": [
         "Consciousness gently stirs in the twilight realm...",
         "The mind's eye opens to inner landscapes...",
         "Memories begin their nightly dance...",
-        "The dream realm welcomes another seeker..."
+        "The dream realm welcomes another seeker...",
     ],
     "pattern": [
         "Connections sparkle like stars in the mental sky...",
         "Invisible threads weave between experiences...",
         "The pattern recognition engine awakens...",
-        "Hidden relationships emerge from the depths..."
+        "Hidden relationships emerge from the depths...",
     ],
     "deep_symbolic": [
         "The unconscious speaks in ancient symbols...",
         "Archetypal forces shape the dream narrative...",
         "Deep wisdom bubbles up from primal wells...",
-        "Symbolic transformations unfold in sacred space..."
+        "Symbolic transformations unfold in sacred space...",
     ],
     "creative": [
         "Imagination flows like a river of liquid light...",
         "Impossible combinations birth new possibilities...",
         "The creative spark ignites novel connections...",
-        "Innovation dances with established knowledge..."
+        "Innovation dances with established knowledge...",
     ],
     "integration": [
         "New understanding settles into consciousness...",
         "The dream's gifts integrate with waking wisdom...",
         "Insights crystallize into actionable knowledge...",
-        "The cycle completes as wisdom takes root..."
-    ]
+        "The cycle completes as wisdom takes root...",
+    ],
 }
 
 # Visual Hints for Dream Phases
@@ -207,32 +215,32 @@ VISUAL_HINTS = {
         "A serene mindscape at twilight",
         "Gentle waves of consciousness awakening",
         "A peaceful garden of thoughts",
-        "Soft light filtering through mental clouds"
+        "Soft light filtering through mental clouds",
     ],
     "pattern": [
         "Constellations forming in the mind's sky",
         "Neural pathways lighting up like circuitry",
         "A web of connections spanning vast distances",
-        "Geometric patterns emerging from chaos"
+        "Geometric patterns emerging from chaos",
     ],
     "deep_symbolic": [
         "Ancient symbols floating in cosmic space",
         "A library of archetypal knowledge",
         "Symbolic transformations in sacred chambers",
-        "Deep caverns filled with glowing wisdom"
+        "Deep caverns filled with glowing wisdom",
     ],
     "creative": [
         "A vibrant studio where anything is possible",
         "Rivers of colored light flowing together",
         "An infinite space of creative potential",
-        "Artistic chaos birthing new forms"
+        "Artistic chaos birthing new forms",
     ],
     "integration": [
         "A peaceful dawn breaking over consciousness",
         "Knowledge settling like golden dust",
         "A harmonious merger of old and new",
-        "Wisdom crystallizing into clear forms"
-    ]
+        "Wisdom crystallizing into clear forms",
+    ],
 }
 
 # Symbolic Vocabulary for Dream Analysis
@@ -246,8 +254,9 @@ ANALYSIS_VOCABULARY = {
     "transformative": "🦋 Metamorphosis in Progress",
     "consolidating": "🗂️ Memory Archive Organizing",
     "creative_breakthrough": "🚀 Innovation Launch Sequence",
-    "healing": "🌿 Restorative Dream Medicine"
+    "healing": "🌿 Restorative Dream Medicine",
 }
+
 
 def get_dream_symbol(category: str, item: str) -> str:
     """Get symbolic representation for dream elements."""
@@ -260,21 +269,25 @@ def get_dream_symbol(category: str, item: str) -> str:
         "insight": INSIGHT_SYMBOLS,
         "emotion": EMOTIONAL_SYMBOLS,
         "creative": CREATIVE_SYMBOLS,
-        "analysis": ANALYSIS_VOCABULARY
+        "analysis": ANALYSIS_VOCABULARY,
     }
 
     symbol_map = symbol_maps.get(category, {})
     return symbol_map.get(item, f"❓ Unknown {category.title()}")
 
+
 def get_dream_narrative(phase: str) -> str:
     """Get random narrative text for dream phase."""
     import random
+
     narratives = DREAM_NARRATIVES.get(phase, ["The dream unfolds..."])
     return random.choice(narratives)
+
 
 def get_visual_hint(phase: str) -> str:
     """Get random visual hint for dream phase."""
     import random
+
     hints = VISUAL_HINTS.get(phase, ["A mysterious dreamscape"])
     return random.choice(hints)
 

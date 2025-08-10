@@ -1,6 +1,9 @@
-import json, os, threading, time
+import json
+import os
+import threading
+import time
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Any, Optional
 
 _FEED_DIR = Path(os.getenv("LUKHAS_FEEDBACK_DIR", ".lukhas_feedback"))
 _FEED_FILE = _FEED_DIR / "feedback.jsonl"
@@ -12,7 +15,7 @@ _LUT_LOCK = threading.Lock()
 # --- public api ---
 
 
-def record_feedback(card: Dict[str, Any]) -> Dict[str, Any]:
+def record_feedback(card: dict[str, Any]) -> dict[str, Any]:
     """Append a feedback card and update bounded LUT. Returns the updated LUT."""
     card = _sanitize_card(card)
     with _LUT_LOCK:
@@ -22,7 +25,7 @@ def record_feedback(card: Dict[str, Any]) -> Dict[str, Any]:
         return lut
 
 
-def get_lut() -> Dict[str, Any]:
+def get_lut() -> dict[str, Any]:
     with _LUT_LOCK:
         return _read_json(_LUT_FILE) or _default_lut()
 
@@ -30,7 +33,7 @@ def get_lut() -> Dict[str, Any]:
 # --- helpers ---
 
 
-def _sanitize_card(card: Dict[str, Any]) -> Dict[str, Any]:
+def _sanitize_card(card: dict[str, Any]) -> dict[str, Any]:
     now = int(time.time() * 1000)
     c = {
         "target_action_id": str(card.get("target_action_id", ""))[:128],
@@ -48,13 +51,13 @@ def _sanitize_card(card: Dict[str, Any]) -> Dict[str, Any]:
     return c
 
 
-def _append_jsonl(path: Path, obj: Dict[str, Any]):
+def _append_jsonl(path: Path, obj: dict[str, Any]):
     line = json.dumps(obj, ensure_ascii=False)
     with path.open("a", encoding="utf-8") as f:
         f.write(line + "\n")
 
 
-def _read_json(path: Path) -> Optional[Dict[str, Any]]:
+def _read_json(path: Path) -> Optional[dict[str, Any]]:
     if not path.exists():
         return None
     try:
@@ -63,14 +66,14 @@ def _read_json(path: Path) -> Optional[Dict[str, Any]]:
         return None
 
 
-def _write_json(path: Path, obj: Dict[str, Any]):
+def _write_json(path: Path, obj: dict[str, Any]):
     path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 # --- bounded LUT logic ---
 
 
-def _default_lut() -> Dict[str, Any]:
+def _default_lut() -> dict[str, Any]:
     return {
         "version": 1,
         "updated_ms": int(time.time() * 1000),
@@ -83,7 +86,7 @@ def _default_lut() -> Dict[str, Any]:
     }
 
 
-def _recompute_lut_locked() -> Dict[str, Any]:
+def _recompute_lut_locked() -> dict[str, Any]:
     N = 200
     try:
         lines = _FEED_FILE.read_text("utf-8").splitlines()[-N:]

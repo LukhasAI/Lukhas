@@ -6,19 +6,22 @@ GDPR-compliant audit trail with zero-knowledge proofs.
 Secure replay mode with consent checkpointing and viewer verification.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Dict, Tuple
+
 
 @dataclass
 class AuditEvent:
     """Represents an auditable event in the system"""
+
     event_id: str
     timestamp: datetime
     event_type: str
     lukhas_id: str
     data_hash: str
     consent_proof: bytes
+
 
 class SymbolicAuditMode:
     """Manages GDPR-compliant audit trails with privacy preservation."""
@@ -28,10 +31,13 @@ class SymbolicAuditMode:
         self.audit_trail = []
         self.consent_checkpoints = {}
 
-    def create_audit_event(self, event_type: str, lukhas_id: str, data: Dict) -> AuditEvent:
+    def create_audit_event(
+        self, event_type: str, lukhas_id: str, data: Dict
+    ) -> AuditEvent:
         """Create new audit event with privacy preservation."""
-        from hashlib import sha256
         import uuid
+        from hashlib import sha256
+
         event_id = str(uuid.uuid4())
         timestamp = datetime.utcnow()
         data_hash = sha256(str(data).encode()).hexdigest()
@@ -42,7 +48,7 @@ class SymbolicAuditMode:
             event_type=event_type,
             lukhas_id=lukhas_id,
             data_hash=data_hash,
-            consent_proof=consent_proof
+            consent_proof=consent_proof,
         )
         self.audit_trail.append(event)
         return event
@@ -56,13 +62,14 @@ class SymbolicAuditMode:
         """Generate GDPR compliance report for data subject."""
         start, end = date_range
         relevant_events = [
-            e for e in self.audit_trail
+            e
+            for e in self.audit_trail
             if e.lukhas_id == lukhas_id and start <= e.timestamp <= end
         ]
         return {
             "identity_legacy": lukhas_id,
             "total_events": len(relevant_events),
-            "events": [e.__dict__ for e in relevant_events]
+            "events": [e.__dict__ for e in relevant_events],
         }
 
     def secure_replay_with_audit(self, replay_request: Dict) -> Dict:
@@ -72,7 +79,9 @@ class SymbolicAuditMode:
         checkpoint_id = replay_request.get("checkpoint_id")
         consent_scope = replay_request.get("consent_scope", {})
 
-        from identity.backend.verifold.identity.ethics_verifier import EthicsVerifier
+        from identity.backend.verifold.identity.ethics_verifier import (
+            EthicsVerifier,
+        )
 
         # Mock missing classes for testing
         class ConsentScopeValidator:
@@ -98,8 +107,9 @@ class SymbolicAuditMode:
             "event_id": event.event_id,
             "consent_valid": consent_valid,
             "ethics_ok": ethics_ok,
-            "audit_trail_length": len(self.audit_trail)
+            "audit_trail_length": len(self.audit_trail),
         }
+
 
 # TODO: Implement GDPR compliance mechanisms
 # TODO: Add zero-knowledge audit proofs

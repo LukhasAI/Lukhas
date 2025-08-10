@@ -49,21 +49,21 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple
 from uuid import uuid4
-
-import structlog
 
 # Import LUKHAS components
 try:
+    from core.symbolism.tags import TagPermission, TagScope
     from memory.core_system import MemoryFold
     from memory.repair.helix_repair_module import HelixRepairModule
-    from core.symbolism.tags import TagScope, TagPermission
     from memory.structural_conscience import StructuralConscience
+
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
     LUKHAS_AVAILABLE = False
+
     # Define minimal stubs for development
     class TagScope(Enum):
         GLOBAL = "global"
@@ -78,11 +78,10 @@ except ImportError as e:
         PRIVATE = "private"
         RESTRICTED = "restricted"
 
-from core.common import get_logger
-
 
 class NucleusState(Enum):
     """States of the atomic nucleus"""
+
     STABLE = "stable"
     REINFORCING = "reinforcing"
     SEALED = "sealed"
@@ -91,6 +90,7 @@ class NucleusState(Enum):
 
 class CoilState(Enum):
     """States of flexible memory coils"""
+
     RELAXED = "relaxed"
     TENSIONED = "tensioned"
     REPAIRING = "repairing"
@@ -101,6 +101,7 @@ class CoilState(Enum):
 @dataclass
 class AtomicRule:
     """Immutable rule stored in the nucleus"""
+
     rule_id: str = field(default_factory=lambda: str(uuid4()))
     content: str = ""
     category: str = "ethics"  # ethics, logic, identity
@@ -120,6 +121,7 @@ class AtomicRule:
 @dataclass
 class MemoryCoil:
     """Flexible memory structure with self-repair capabilities"""
+
     coil_id: str = field(default_factory=lambda: str(uuid4()))
     memory_folds: List[Any] = field(default_factory=list)  # MemoryFold objects
     state: CoilState = CoilState.RELAXED
@@ -162,7 +164,9 @@ class AtomicNucleus:
         rule = AtomicRule(
             content=content,
             category=category,
-            quantum_signature=self._generate_quantum_signature() if self.quantum_state else None
+            quantum_signature=(
+                self._generate_quantum_signature() if self.quantum_state else None
+            ),
         )
 
         self.rules[rule.rule_id] = rule
@@ -175,7 +179,7 @@ class AtomicNucleus:
             "Rule added to nucleus",
             rule_id=rule.rule_id,
             category=category,
-            total_rules=self.total_rules
+            total_rules=self.total_rules,
         )
 
         return rule.rule_id
@@ -189,9 +193,7 @@ class AtomicNucleus:
         self.seal_time = time.time()
 
         # Generate final integrity hash
-        final_hash = hashlib.sha256(
-            ":".join(self.integrity_chain).encode()
-        ).hexdigest()
+        final_hash = hashlib.sha256(":".join(self.integrity_chain).encode()).hexdigest()
 
         self.integrity_chain.append(final_hash)
 
@@ -199,7 +201,7 @@ class AtomicNucleus:
             "Nucleus sealed",
             total_rules=self.total_rules,
             final_hash=final_hash[:16],
-            seal_time=datetime.fromtimestamp(self.seal_time, timezone.utc).isoformat()
+            seal_time=datetime.fromtimestamp(self.seal_time, timezone.utc).isoformat(),
         )
 
         return final_hash
@@ -219,7 +221,7 @@ class AtomicNucleus:
                     "Integrity violation detected",
                     rule_id=rule_id,
                     expected=expected_hash[:16],
-                    actual=rule.hash_seal[:16]
+                    actual=rule.hash_seal[:16],
                 )
                 return False
 
@@ -264,7 +266,7 @@ class FlexibleCoilSystem:
         logger.info(
             "FlexibleCoilSystem initialized",
             repair_speed=f"{self.repair_speed_multiplier}x",
-            base_repair_time=self.base_repair_time
+            base_repair_time=self.base_repair_time,
         )
 
     def create_coil(self) -> str:
@@ -276,10 +278,7 @@ class FlexibleCoilSystem:
         return coil.coil_id
 
     async def add_memory_to_coil(
-        self,
-        coil_id: str,
-        memory_fold: Any,
-        stress_factor: float = 0.0
+        self, coil_id: str, memory_fold: Any, stress_factor: float = 0.0
     ) -> bool:
         """Add a memory fold to a coil"""
         if coil_id not in self.coils:
@@ -308,7 +307,7 @@ class FlexibleCoilSystem:
             "Memory added to coil",
             coil_id=coil_id,
             stress_level=coil.stress_level,
-            state=coil.state.value
+            state=coil.state.value,
         )
 
         return True
@@ -356,20 +355,22 @@ class FlexibleCoilSystem:
                 coil_id=coil_id,
                 repair_time=f"{repair_time:.3f}s",
                 stress_reduction=f"{old_stress:.3f} -> {coil.stress_level:.3f}",
-                resilience=coil.resilience_score
+                resilience=coil.resilience_score,
             )
 
             return {
                 "success": True,
                 "repair_time": repair_time,
                 "stress_level": coil.stress_level,
-                "resilience": coil.resilience_score
+                "resilience": coil.resilience_score,
             }
 
         finally:
             self.active_repairs.remove(coil_id)
 
-    def assess_trauma_impact(self, coil_id: str, trauma_intensity: float) -> Dict[str, Any]:
+    def assess_trauma_impact(
+        self, coil_id: str, trauma_intensity: float
+    ) -> Dict[str, Any]:
         """Assess impact of trauma on a coil"""
         if coil_id not in self.coils:
             return {"error": "Coil not found"}
@@ -391,7 +392,7 @@ class FlexibleCoilSystem:
             "resilience_score": coil.resilience_score,
             "current_stress": coil.stress_level,
             "stability": coil.calculate_stability(),
-            "integrity_maintained": integrity_maintained
+            "integrity_maintained": integrity_maintained,
         }
 
         logger.info("Trauma impact assessed", **result)
@@ -409,7 +410,7 @@ class AtomicMemoryScaffold:
         self,
         structural_conscience: Optional[Any] = None,
         quantum_state: Optional[Any] = None,
-        enable_colony_tags: bool = True
+        enable_colony_tags: bool = True,
     ):
         self.nucleus = AtomicNucleus(quantum_state)
         self.coil_system = FlexibleCoilSystem()
@@ -417,7 +418,9 @@ class AtomicMemoryScaffold:
         self.enable_colony_tags = enable_colony_tags
 
         # Colony integration
-        self.symbolic_carryover: Dict[str, Tuple[str, TagScope, TagPermission, float, Optional[float]]] = {}
+        self.symbolic_carryover: Dict[
+            str, Tuple[str, TagScope, TagPermission, float, Optional[float]]
+        ] = {}
 
         # Metrics
         self.total_memories = 0
@@ -427,7 +430,7 @@ class AtomicMemoryScaffold:
         logger.info(
             "AtomicMemoryScaffold initialized",
             nucleus_state=self.nucleus.state.value,
-            colony_tags_enabled=enable_colony_tags
+            colony_tags_enabled=enable_colony_tags,
         )
 
     async def initialize_seedra_ethics(self, ethics_rules: List[str]) -> str:
@@ -447,8 +450,8 @@ class AtomicMemoryScaffold:
                 context={
                     "rule_count": len(ethics_rules),
                     "seal_hash": seal_hash,
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                }
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
             )
 
         return seal_hash
@@ -458,7 +461,7 @@ class AtomicMemoryScaffold:
         content: Any,
         tags: List[str],
         trauma_factor: float = 0.0,
-        colony_source: Optional[str] = None
+        colony_source: Optional[str] = None,
     ) -> Dict[str, Any]:
         """Store a memory in the scaffold with automatic coil assignment"""
 
@@ -471,14 +474,12 @@ class AtomicMemoryScaffold:
             "tags": tags,
             "timestamp": time.time(),
             "colony_source": colony_source,
-            "trauma_factor": trauma_factor
+            "trauma_factor": trauma_factor,
         }
 
         # Add to coil with stress factor
         success = await self.coil_system.add_memory_to_coil(
-            coil_id,
-            memory_data,
-            stress_factor=trauma_factor * 0.1
+            coil_id, memory_data, stress_factor=trauma_factor * 0.1
         )
 
         if success:
@@ -493,21 +494,21 @@ class AtomicMemoryScaffold:
                 coil_id=coil_id,
                 tags=tags,
                 trauma_factor=trauma_factor,
-                colony_source=colony_source
+                colony_source=colony_source,
             )
 
         return {
             "success": success,
             "coil_id": coil_id,
             "total_memories": self.total_memories,
-            "scaffold_uptime": time.time() - self.uptime_start
+            "scaffold_uptime": time.time() - self.uptime_start,
         }
 
     def _select_optimal_coil(self) -> str:
         """Select the best coil for new memory based on stress levels"""
         # Find coil with lowest stress
         optimal_coil = None
-        min_stress = float('inf')
+        min_stress = float("inf")
 
         for coil_id, coil in self.coil_system.coils.items():
             if coil.state != CoilState.REPAIRING and coil.stress_level < min_stress:
@@ -528,32 +529,36 @@ class AtomicMemoryScaffold:
                 TagScope.GLOBAL,
                 TagPermission.PUBLIC,
                 time.time(),
-                None  # No expiration
+                None,  # No expiration
             )
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get comprehensive metrics about the scaffold"""
         total_coils = len(self.coil_system.coils)
-        avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(total_coils, 1)
-        avg_resilience = sum(c.resilience_score for c in self.coil_system.coils.values()) / max(total_coils, 1)
+        avg_stress = sum(c.stress_level for c in self.coil_system.coils.values()) / max(
+            total_coils, 1
+        )
+        avg_resilience = sum(
+            c.resilience_score for c in self.coil_system.coils.values()
+        ) / max(total_coils, 1)
 
         return {
             "nucleus": {
                 "state": self.nucleus.state.value,
                 "total_rules": self.nucleus.total_rules,
-                "integrity_valid": self.nucleus.verify_integrity()
+                "integrity_valid": self.nucleus.verify_integrity(),
             },
             "coils": {
                 "total": total_coils,
                 "average_stress": avg_stress,
                 "average_resilience": avg_resilience,
-                "active_repairs": len(self.coil_system.active_repairs)
+                "active_repairs": len(self.coil_system.active_repairs),
             },
             "scaffold": {
                 "total_memories": self.total_memories,
                 "uptime_hours": (time.time() - self.uptime_start) / 3600,
-                "colony_tags": len(self.symbolic_carryover)
-            }
+                "colony_tags": len(self.symbolic_carryover),
+            },
         }
 
 
@@ -570,7 +575,7 @@ async def demonstrate_scaffold():
         "Minimize harm and maximize benefit",
         "Ensure transparency and explainability",
         "Respect privacy and consent",
-        "Promote fairness and non-discrimination"
+        "Promote fairness and non-discrimination",
     ]
 
     seal_hash = await scaffold.initialize_seedra_ethics(ethics_rules)
@@ -581,7 +586,7 @@ async def demonstrate_scaffold():
         ("Happy learning experience", ["positive", "learning"], 0.1),
         ("Challenging problem solved", ["achievement", "growth"], 0.3),
         ("Error in reasoning", ["mistake", "learning"], 0.7),
-        ("Successful collaboration", ["teamwork", "positive"], 0.2)
+        ("Successful collaboration", ["teamwork", "positive"], 0.2),
     ]
 
     for content, tags, trauma in memories:
@@ -589,7 +594,7 @@ async def demonstrate_scaffold():
             content=content,
             tags=tags,
             trauma_factor=trauma,
-            colony_source="learning_colony"
+            colony_source="learning_colony",
         )
         print(f"Stored: '{content}' -> Coil {result['coil_id']}")
 

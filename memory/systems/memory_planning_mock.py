@@ -3,9 +3,10 @@ Memory Planning Mock Implementation
 Provides lightweight memory planning functionality without PyTorch dependencies
 """
 
-from core.common import get_logger
-from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -13,10 +14,11 @@ logger = get_logger(__name__)
 @dataclass
 class LiveRange:
     """Simple live range representation"""
+
     begin: float
     end: float
 
-    def overlaps(self, other: 'LiveRange') -> bool:
+    def overlaps(self, other: "LiveRange") -> bool:
         """Check if this range overlaps with another"""
         return not (self.end <= other.begin or other.end <= self.begin)
 
@@ -36,7 +38,7 @@ class MemoryPlanner:
             "name": pool_name,
             "total_size": size,
             "used_size": 0,
-            "allocations": []
+            "allocations": [],
         }
         self.allocation_pools[pool_name] = pool
         logger.debug(f"Created allocation pool: {pool_name} ({size} bytes)")
@@ -67,7 +69,9 @@ class MemoryPlanner:
                     return True
         return False
 
-    def allocate_tensor(self, tensor_id: str, size: int, pool_name: str = "default") -> bool:
+    def allocate_tensor(
+        self, tensor_id: str, size: int, pool_name: str = "default"
+    ) -> bool:
         """Allocate memory for a tensor"""
         if pool_name not in self.allocation_pools:
             logger.error(f"Pool {pool_name} not found")
@@ -113,16 +117,18 @@ class MemoryPlanner:
             "active_allocations": len(self.allocations),
             "total_allocated_bytes": total_allocated,
             "total_capacity_bytes": total_capacity,
-            "utilization_percent": (total_allocated / total_capacity * 100) if total_capacity > 0 else 0,
+            "utilization_percent": (
+                (total_allocated / total_capacity * 100) if total_capacity > 0 else 0
+            ),
             "pools": {
                 name: {
                     "size": pool["total_size"],
                     "used": pool["used_size"],
                     "free": pool["total_size"] - pool["used_size"],
-                    "allocations": len(pool["allocations"])
+                    "allocations": len(pool["allocations"]),
                 }
                 for name, pool in self.allocation_pools.items()
-            }
+            },
         }
 
     def optimize_memory_layout(self) -> Dict[str, Any]:
@@ -131,13 +137,13 @@ class MemoryPlanner:
             "reuse_opportunities": 0,
             "fragmentation_score": 0,
             "suggested_merges": [],
-            "memory_saved_bytes": 0
+            "memory_saved_bytes": 0,
         }
 
         # Check for non-overlapping tensors that could share memory
         tensor_ids = list(self.live_ranges.keys())
         for i, id1 in enumerate(tensor_ids):
-            for id2 in tensor_ids[i+1:]:
+            for id2 in tensor_ids[i + 1 :]:
                 if not self.check_overlaps(id1, id2):
                     optimizations["reuse_opportunities"] += 1
                     optimizations["suggested_merges"].append((id1, id2))
@@ -145,8 +151,7 @@ class MemoryPlanner:
                     # Calculate potential memory savings
                     if id1 in self.allocations and id2 in self.allocations:
                         optimizations["memory_saved_bytes"] += min(
-                            self.allocations[id1],
-                            self.allocations[id2]
+                            self.allocations[id1], self.allocations[id2]
                         )
 
         # Calculate fragmentation score
@@ -158,7 +163,9 @@ class MemoryPlanner:
         if self.allocation_pools:
             optimizations["fragmentation_score"] /= len(self.allocation_pools)
 
-        logger.info(f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities")
+        logger.info(
+            f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities"
+        )
         return optimizations
 
 

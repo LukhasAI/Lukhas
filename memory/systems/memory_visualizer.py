@@ -7,27 +7,20 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 Enhanced REM and memory visualization system combining prot1's visualization
 capabilities with prot2's quantum features.
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
-import json
-import os
-from datetime import datetime, timedelta
-import pathlib
-import pandas as pd
-import matplotlib.pyplot as plt
-import altair as alt
-import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
-from core.common import get_logger
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
-from quantum.systems.quantum_engine import Quantumoscillator as QuantumOscillator
+from core.common import get_logger
+from quantum.systems.quantum_engine import (
+    Quantumoscillator as QuantumOscillator,
+)
+
 try:
     from bio.quantum_bio_components import ProtonGradient
 except ImportError:
@@ -36,16 +29,20 @@ except ImportError:
         def __init__(self):
             pass
 
+
 logger = get_logger(__name__)
+
 
 @dataclass
 class VisualizationConfig:
     """Configuration for memory visualization"""
+
     quantum_enhancement: bool = True
     dream_collapse: bool = True
     emotional_mapping: bool = True
     temporal_depth: int = 7  # Days
     coherence_threshold: float = 0.7
+
 
 class EnhancedMemoryVisualizer:
     """
@@ -62,23 +59,19 @@ class EnhancedMemoryVisualizer:
 
     def setup_visualization(self):
         """Setup visualization environment"""
-        st.set_page_config(
-            page_title="Enhanced Memory Visualization",
-            layout="wide"
-        )
+        st.set_page_config(page_title="Enhanced Memory Visualization", layout="wide")
 
         # Quantum coherence indicator
         coherence = self.quantum_oscillator.quantum_modulate(1.0)
         st.sidebar.metric(
             "Quantum Coherence",
             f"{coherence:.2f}",
-            delta=f"{(coherence - self.config.coherence_threshold):.2f}"
+            delta=f"{(coherence - self.config.coherence_threshold):.2f}",
         )
 
-    async def visualize_memory_fold(self,
-                                  memory_data: Dict[str, Any],
-                                  context: Optional[Dict[str, Any]] = None
-                                  ) -> Dict[str, Any]:
+    async def visualize_memory_fold(
+        self, memory_data: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Create quantum-enhanced visualization of memory fold
         """
@@ -103,7 +96,7 @@ class EnhancedMemoryVisualizer:
             return {
                 "status": "success",
                 "coherence": self.quantum_oscillator.entanglement_factor,
-                "visualization_data": modulated_data
+                "visualization_data": modulated_data,
             }
 
         except Exception as e:
@@ -140,6 +133,7 @@ class EnhancedMemoryVisualizer:
         # Implementation of collapse plot generation
         pass
 
+
 class Enhanced3DVisualizer:
     """
     3D visualization of quantum memory spaces
@@ -157,12 +151,6 @@ class Enhanced3DVisualizer:
         """Prepare data for 3D visualization"""
         # Implementation of 3D data preparation
         pass
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

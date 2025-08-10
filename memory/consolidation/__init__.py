@@ -4,29 +4,25 @@ Orchestrates transfer from hippocampus to neocortex during sleep cycles
 """
 
 from .consolidation_orchestrator import (
+    ConsolidationMode,
     ConsolidationOrchestrator,
     SleepStage,
-    ConsolidationMode
 )
+from .ripple_generator import ReplayDirection, RippleGenerator, RippleType
 from .sleep_cycle_manager import (
-    SleepCycleManager,
     CircadianPhase,
-    SleepPressure
-)
-from .ripple_generator import (
-    RippleGenerator,
-    RippleType,
-    ReplayDirection
+    SleepCycleManager,
+    SleepPressure,
 )
 
 __all__ = [
-    'ConsolidationOrchestrator',
-    'SleepStage',
-    'ConsolidationMode',
-    'SleepCycleManager',
-    'CircadianPhase',
-    'SleepPressure',
-    'RippleGenerator',
-    'RippleType',
-    'ReplayDirection'
+    "ConsolidationOrchestrator",
+    "SleepStage",
+    "ConsolidationMode",
+    "SleepCycleManager",
+    "CircadianPhase",
+    "SleepPressure",
+    "RippleGenerator",
+    "RippleType",
+    "ReplayDirection",
 ]

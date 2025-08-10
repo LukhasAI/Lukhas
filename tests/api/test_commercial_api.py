@@ -1,16 +1,15 @@
 """Tests for Lukhas commercial FastAPI endpoints"""
 
 from fastapi.testclient import TestClient
-from serve.main import app
+
 from config.config import TIER_PERMISSIONS
+from serve.main import app
 
 client = TestClient(app)
 
 
 def test_generate_dream():
-    response = client.post(
-        "/generate-dream/", json={"symbols": ["sun", "moon"]}
-    )
+    response = client.post("/generate-dream/", json={"symbols": ["sun", "moon"]})
     assert response.status_code == 200
     data = response.json()
     assert "dream" in data
@@ -35,9 +34,7 @@ def test_tier_auth():
 
 
 def test_plugin_load():
-    response = client.post(
-        "/plugin-load/", json={"symbols": ["plug1"]}
-    )
+    response = client.post("/plugin-load/", json={"symbols": ["plug1"]})
     assert response.status_code == 200
     assert response.json()["status"] == "loaded"
 

@@ -7,13 +7,15 @@ core.efficient_communication <-> core.resource_optimization_integration
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
 from enum import Enum
+from typing import Any, Optional
+
 from core.common import GLYPHToken
 
 
 class MessagePriority(Enum):
     """Message priority levels"""
+
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
@@ -22,6 +24,7 @@ class MessagePriority(Enum):
 
 class CommunicationMode(Enum):
     """Communication mode types"""
+
     SYNC = "sync"
     ASYNC = "async"
     BROADCAST = "broadcast"
@@ -30,6 +33,7 @@ class CommunicationMode(Enum):
 
 class OptimizationStrategy(Enum):
     """Resource optimization strategies"""
+
     BALANCED = "balanced"
     PERFORMANCE = "performance"
     MEMORY = "memory"
@@ -38,59 +42,58 @@ class OptimizationStrategy(Enum):
 
 class CoreInterface(ABC):
     """Abstract interface for core modules"""
-    
+
     @abstractmethod
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the module"""
-        pass
-        
+
     @abstractmethod
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
         """Handle GLYPH token"""
-        pass
-        
+
     @abstractmethod
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get module status"""
-        pass
 
 
 class CommunicationFabricInterface(ABC):
     """Interface for communication fabric"""
-    
+
     @abstractmethod
-    async def send_message(self, message: Dict[str, Any], priority: MessagePriority = MessagePriority.NORMAL) -> bool:
+    async def send_message(
+        self,
+        message: dict[str, Any],
+        priority: MessagePriority = MessagePriority.NORMAL,
+    ) -> bool:
         """Send a message"""
-        pass
-    
-    @abstractmethod 
-    async def broadcast(self, message: Dict[str, Any]) -> int:
+
+    @abstractmethod
+    async def broadcast(self, message: dict[str, Any]) -> int:
         """Broadcast message to all subscribers"""
-        pass
 
 
 class ResourceOptimizerInterface(ABC):
     """Interface for resource optimization"""
-    
+
     @abstractmethod
-    async def optimize(self, strategy: OptimizationStrategy = OptimizationStrategy.BALANCED) -> Dict[str, Any]:
+    async def optimize(
+        self, strategy: OptimizationStrategy = OptimizationStrategy.BALANCED
+    ) -> dict[str, Any]:
         """Optimize resources with given strategy"""
-        pass
-    
+
     @abstractmethod
-    async def get_optimization_metrics(self) -> Dict[str, Any]:
+    async def get_optimization_metrics(self) -> dict[str, Any]:
         """Get current optimization metrics"""
-        pass
 
 
 # Module registry for dependency injection
-_module_registry: Dict[str, CoreInterface] = {}
+_module_registry: dict[str, CoreInterface] = {}
 
 
 def register_module(name: str, module: CoreInterface) -> None:
     """Register module implementation"""
     _module_registry[name] = module
-    
+
 
 def get_module(name: str) -> Optional[CoreInterface]:
     """Get registered module"""

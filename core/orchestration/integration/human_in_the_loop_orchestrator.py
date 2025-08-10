@@ -41,17 +41,15 @@ SYMBOLIC TAGS: ΛHITLO, ΛHUMAN, ΛORCHESTRATOR, ΛDECISION, ΛESCROW
 """
 
 import asyncio
-import json
 import uuid
-import hashlib
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-from enum import Enum
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
-import structlog
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+from enum import Enum
+from typing import Any, Optional
+
+import structlog
 
 # ΛTRACE: Standardized logging for HITLO module
 logger = structlog.get_logger(__name__)
@@ -59,35 +57,49 @@ logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 
 # Graceful imports with fallbacks for Lukhas integration
 try:
-    from ethics.meta_ethics_governor import MetaEthicsGovernor, EthicalVerdict
+    from communication.explainability_interface_layer import (
+        ExplainabilityInterfaceLayer,
+    )
+
+    from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
-    from communication.explainability_interface_layer import ExplainabilityInterfaceLayer
     from orchestration.lukhas_master_orchestrator import LukhasMasterOrchestrator
+
     LUKHAS_INTEGRATION = True
-    logger.info("ΛTRACE_IMPORT_SUCCESS", components=["MEG", "SRD", "XIL", "MasterOrchestrator"])
+    logger.info(
+        "ΛTRACE_IMPORT_SUCCESS",
+        components=["MEG", "SRD", "XIL", "MasterOrchestrator"],
+    )
 except ImportError as e:
     logger.warning("ΛTRACE_IMPORT_FALLBACK", error=str(e), mode="standalone")
     LUKHAS_INTEGRATION = False
+
     # Graceful fallback classes
+
     class EthicalVerdict(Enum):
         APPROVED = "approved"
         REQUIRES_REVIEW = "requires_review"
         REJECTED = "rejected"
+
     MetaEthicsGovernor = None
     SelfReflectiveDebugger = None
     ExplainabilityInterfaceLayer = None
     LukhasMasterOrchestrator = None
 
+
 class DecisionPriority(Enum):
     """Priority levels for human review decisions."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
     EMERGENCY = "emergency"
 
+
 class ReviewerRole(Enum):
     """Roles for human reviewers in the system."""
+
     ETHICS_SPECIALIST = "ethics_specialist"
     DOMAIN_EXPERT = "domain_expert"
     SAFETY_AUDITOR = "safety_auditor"
@@ -96,8 +108,10 @@ class ReviewerRole(Enum):
     GENERAL_REVIEWER = "general_reviewer"
     SENIOR_OVERSEER = "senior_overseer"
 
+
 class DecisionStatus(Enum):
     """Status tracking for decisions in HITLO."""
+
     PENDING_REVIEW = "pending_review"
     UNDER_REVIEW = "under_review"
     AWAITING_CONSENSUS = "awaiting_consensus"
@@ -108,67 +122,79 @@ class DecisionStatus(Enum):
     TIMED_OUT = "timed_out"
     EMERGENCY_OVERRIDE = "emergency_override"
 
+
 class EscrowStatus(Enum):
     """Status for auto-escrow functionality."""
+
     NOT_REQUIRED = "not_required"
     ESCROWED = "escrowed"
     RELEASED = "released"
     REFUNDED = "refunded"
     DISPUTED = "disputed"
 
+
 @dataclass
 class ReviewerProfile:
     """Profile for human reviewers in the HITLO system."""
+
     reviewer_id: str
     name: str
-    roles: List[ReviewerRole]
-    expertise_domains: List[str]
+    roles: list[ReviewerRole]
+    expertise_domains: list[str]
     experience_level: int  # 1-10 scale
     current_workload: int
     max_concurrent_reviews: int = 5
-    availability_hours: Dict[str, List[Tuple[int, int]]] = field(default_factory=dict)  # Day -> [(start_hour, end_hour)]
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
-    contact_methods: List[str] = field(default_factory=list)
-    languages: List[str] = field(default_factory=lambda: ["en"])
+    availability_hours: dict[str, list[tuple[int, int]]] = field(
+        default_factory=dict
+    )  # Day -> [(start_hour, end_hour)]
+    performance_metrics: dict[str, float] = field(default_factory=dict)
+    contact_methods: list[str] = field(default_factory=list)
+    languages: list[str] = field(default_factory=lambda: ["en"])
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_active: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     is_active: bool = True
 
+
 @dataclass
 class DecisionContext:
     """Context information for decisions requiring human review."""
+
     decision_id: str
     decision_type: str
     description: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     priority: DecisionPriority
     urgency_deadline: Optional[datetime] = None
-    ethical_implications: List[str] = field(default_factory=list)
-    required_expertise: List[str] = field(default_factory=list)
+    ethical_implications: list[str] = field(default_factory=list)
+    required_expertise: list[str] = field(default_factory=list)
     estimated_impact: str = "medium"
-    stakeholders: List[str] = field(default_factory=list)
-    background_context: Dict[str, Any] = field(default_factory=dict)
+    stakeholders: list[str] = field(default_factory=list)
+    background_context: dict[str, Any] = field(default_factory=dict)
     ai_recommendation: Optional[str] = None
     ai_confidence: float = 0.0
-    related_decisions: List[str] = field(default_factory=list)
+    related_decisions: list[str] = field(default_factory=list)
+
 
 @dataclass
 class EscrowDetails:
     """Details for auto-escrow functionality."""
+
     escrow_id: str
     amount: Decimal
     currency: str = "USD"
     escrow_type: str = "decision_stake"
     stakeholder: str = ""
-    conditions: List[str] = field(default_factory=list)
-    release_criteria: Dict[str, Any] = field(default_factory=dict)
+    conditions: list[str] = field(default_factory=list)
+    release_criteria: dict[str, Any] = field(default_factory=dict)
     status: EscrowStatus = EscrowStatus.NOT_REQUIRED
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     expires_at: Optional[datetime] = None
 
+
 @dataclass
 class ReviewAssignment:
     """Assignment of a decision to a specific reviewer."""
+
     assignment_id: str
     decision_id: str
     reviewer_id: str
@@ -179,29 +205,33 @@ class ReviewAssignment:
     notification_sent: bool = False
     reminder_count: int = 0
 
+
 @dataclass
 class ReviewResponse:
     """Response from a human reviewer."""
+
     response_id: str
     assignment_id: str
     reviewer_id: str
     decision: str  # "approve", "reject", "needs_more_info", "escalate"
     confidence: float
     reasoning: str
-    recommendations: List[str] = field(default_factory=list)
-    concerns: List[str] = field(default_factory=list)
-    additional_reviewers_needed: List[ReviewerRole] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    concerns: list[str] = field(default_factory=list)
+    additional_reviewers_needed: list[ReviewerRole] = field(default_factory=list)
     estimated_review_time_minutes: Optional[int] = None
     srd_signature: Optional[str] = None
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
+
 @dataclass
 class DecisionRecord:
     """Complete record of a decision processed through HITLO."""
+
     decision_id: str
     context: DecisionContext
-    assignments: List[ReviewAssignment] = field(default_factory=list)
-    responses: List[ReviewResponse] = field(default_factory=list)
+    assignments: list[ReviewAssignment] = field(default_factory=list)
+    responses: list[ReviewResponse] = field(default_factory=list)
     final_decision: Optional[str] = None
     consensus_score: float = 0.0
     escrow_details: Optional[EscrowDetails] = None
@@ -210,7 +240,8 @@ class DecisionRecord:
     completed_at: Optional[datetime] = None
     ai_explanation: Optional[str] = None
     human_explanation: Optional[str] = None
-    audit_trail: List[Dict[str, Any]] = field(default_factory=list)
+    audit_trail: list[dict[str, Any]] = field(default_factory=list)
+
 
 class ReviewerNotification(ABC):
     """Abstract base class for reviewer notification systems."""
@@ -220,10 +251,10 @@ class ReviewerNotification(ABC):
         self,
         reviewer: ReviewerProfile,
         decision: DecisionRecord,
-        notification_type: str
+        notification_type: str,
     ) -> bool:
         """Send notification to reviewer."""
-        pass
+
 
 class EmailNotification(ReviewerNotification):
     """Email notification implementation."""
@@ -232,15 +263,18 @@ class EmailNotification(ReviewerNotification):
         self,
         reviewer: ReviewerProfile,
         decision: DecisionRecord,
-        notification_type: str
+        notification_type: str,
     ) -> bool:
         """ΛSTUB: Send email notification."""
         # ΛTODO: Implement actual email sending
-        logger.info("ΛTRACE_EMAIL_NOTIFICATION",
-                   reviewer_id=reviewer.reviewer_id,
-                   decision_id=decision.decision_id,
-                   type=notification_type)
+        logger.info(
+            "ΛTRACE_EMAIL_NOTIFICATION",
+            reviewer_id=reviewer.reviewer_id,
+            decision_id=decision.decision_id,
+            type=notification_type,
+        )
         return True
+
 
 class SlackNotification(ReviewerNotification):
     """Slack notification implementation."""
@@ -249,15 +283,18 @@ class SlackNotification(ReviewerNotification):
         self,
         reviewer: ReviewerProfile,
         decision: DecisionRecord,
-        notification_type: str
+        notification_type: str,
     ) -> bool:
         """ΛSTUB: Send Slack notification."""
         # ΛTODO: Implement Slack API integration
-        logger.info("ΛTRACE_SLACK_NOTIFICATION",
-                   reviewer_id=reviewer.reviewer_id,
-                   decision_id=decision.decision_id,
-                   type=notification_type)
+        logger.info(
+            "ΛTRACE_SLACK_NOTIFICATION",
+            reviewer_id=reviewer.reviewer_id,
+            decision_id=decision.decision_id,
+            type=notification_type,
+        )
         return True
+
 
 class HumanInTheLoopOrchestrator:
     """
@@ -266,15 +303,15 @@ class HumanInTheLoopOrchestrator:
     ΛTAG: orchestrator, human_oversight, decision_routing
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize HITLO with configuration."""
         self.config = config or {}
         self.logger = logger.bind(component="HITLO")
 
         # Core storage
-        self.reviewers: Dict[str, ReviewerProfile] = {}
-        self.decisions: Dict[str, DecisionRecord] = {}
-        self.assignments: Dict[str, ReviewAssignment] = {}
+        self.reviewers: dict[str, ReviewerProfile] = {}
+        self.decisions: dict[str, DecisionRecord] = {}
+        self.assignments: dict[str, ReviewAssignment] = {}
 
         # Integration components (graceful fallback)
         self.meg = None
@@ -288,15 +325,21 @@ class HumanInTheLoopOrchestrator:
         # Notification systems
         self.notification_systems = {
             "email": EmailNotification(),
-            "slack": SlackNotification()
+            "slack": SlackNotification(),
         }
 
         # Configuration
         self.consensus_threshold = self.config.get("consensus_threshold", 0.7)
         self.max_review_time_hours = self.config.get("max_review_time_hours", 48)
-        self.emergency_timeout_minutes = self.config.get("emergency_timeout_minutes", 60)
-        self.min_reviewers_per_decision = self.config.get("min_reviewers_per_decision", 2)
-        self.max_reviewers_per_decision = self.config.get("max_reviewers_per_decision", 5)
+        self.emergency_timeout_minutes = self.config.get(
+            "emergency_timeout_minutes", 60
+        )
+        self.min_reviewers_per_decision = self.config.get(
+            "min_reviewers_per_decision", 2
+        )
+        self.max_reviewers_per_decision = self.config.get(
+            "max_reviewers_per_decision", 5
+        )
 
         # Metrics and state
         self.metrics = {
@@ -308,17 +351,19 @@ class HumanInTheLoopOrchestrator:
             "reviewer_workload_balance": 0.0,
             "escalation_rate": 0.0,
             "emergency_overrides": 0,
-            "escrow_operations": 0
+            "escrow_operations": 0,
         }
 
         # Background tasks
-        self._background_tasks: Set[asyncio.Task] = set()
+        self._background_tasks: set[asyncio.Task] = set()
         self._shutdown_event = asyncio.Event()
 
-        self.logger.info("ΛTRACE_HITLO_INIT",
-                        lukhas_integration=LUKHAS_INTEGRATION,
-                        consensus_threshold=self.consensus_threshold,
-                        max_review_time=self.max_review_time_hours)
+        self.logger.info(
+            "ΛTRACE_HITLO_INIT",
+            lukhas_integration=LUKHAS_INTEGRATION,
+            consensus_threshold=self.consensus_threshold,
+            max_review_time=self.max_review_time_hours,
+        )
 
     def _initialize_lukhas_integration(self):
         """Initialize integration with Lukhas components."""
@@ -353,7 +398,10 @@ class HumanInTheLoopOrchestrator:
 
         self._background_tasks.update([monitor_task, timeout_task, metrics_task])
 
-        self.logger.info("ΛTRACE_HITLO_STARTED", background_tasks=len(self._background_tasks))
+        self.logger.info(
+            "ΛTRACE_HITLO_STARTED",
+            background_tasks=len(self._background_tasks),
+        )
 
     async def stop(self):
         """Stop HITLO and clean up resources."""
@@ -381,32 +429,36 @@ class HumanInTheLoopOrchestrator:
 
         self.reviewers[reviewer.reviewer_id] = reviewer
 
-        reviewer_logger.info("ΛTRACE_REVIEWER_REGISTERED",
-                           roles=[role.value for role in reviewer.roles],
-                           expertise=reviewer.expertise_domains,
-                           experience=reviewer.experience_level)
+        reviewer_logger.info(
+            "ΛTRACE_REVIEWER_REGISTERED",
+            roles=[role.value for role in reviewer.roles],
+            expertise=reviewer.expertise_domains,
+            experience=reviewer.experience_level,
+        )
 
         return reviewer.reviewer_id
 
     async def submit_decision_for_review(
         self,
         context: DecisionContext,
-        escrow_details: Optional[EscrowDetails] = None
+        escrow_details: Optional[EscrowDetails] = None,
     ) -> str:
         """Submit a decision for human review through HITLO."""
         decision_logger = self.logger.bind(decision_id=context.decision_id)
 
-        decision_logger.info("ΛTRACE_DECISION_SUBMITTED",
-                           priority=context.priority.value,
-                           decision_type=context.decision_type,
-                           has_escrow=escrow_details is not None)
+        decision_logger.info(
+            "ΛTRACE_DECISION_SUBMITTED",
+            priority=context.priority.value,
+            decision_type=context.decision_type,
+            has_escrow=escrow_details is not None,
+        )
 
         # Create decision record
         decision_record = DecisionRecord(
             decision_id=context.decision_id,
             context=context,
             escrow_details=escrow_details,
-            status=DecisionStatus.PENDING_REVIEW
+            status=DecisionStatus.PENDING_REVIEW,
         )
 
         # Generate AI explanation if XIL available
@@ -432,7 +484,9 @@ class HumanInTheLoopOrchestrator:
             return context.decision_id
 
         # Create assignments
-        assignments = await self._create_review_assignments(context.decision_id, reviewers)
+        assignments = await self._create_review_assignments(
+            context.decision_id, reviewers
+        )
         decision_record.assignments = assignments
         decision_record.status = DecisionStatus.UNDER_REVIEW
 
@@ -440,30 +494,31 @@ class HumanInTheLoopOrchestrator:
         await self._notify_reviewers(decision_record, "new_assignment")
 
         # Add to audit trail
-        decision_record.audit_trail.append({
-            "action": "decision_submitted",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "reviewers_assigned": len(assignments),
-            "priority": context.priority.value
-        })
+        decision_record.audit_trail.append(
+            {
+                "action": "decision_submitted",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "reviewers_assigned": len(assignments),
+                "priority": context.priority.value,
+            }
+        )
 
         self.metrics["decisions_processed"] += 1
 
-        decision_logger.info("ΛTRACE_DECISION_REVIEW_STARTED",
-                           reviewers_assigned=len(assignments),
-                           status=decision_record.status.value)
+        decision_logger.info(
+            "ΛTRACE_DECISION_REVIEW_STARTED",
+            reviewers_assigned=len(assignments),
+            status=decision_record.status.value,
+        )
 
         return context.decision_id
 
     async def submit_review_response(
-        self,
-        assignment_id: str,
-        response: ReviewResponse
+        self, assignment_id: str, response: ReviewResponse
     ) -> bool:
         """Submit a review response from a human reviewer."""
         response_logger = self.logger.bind(
-            assignment_id=assignment_id,
-            reviewer_id=response.reviewer_id
+            assignment_id=assignment_id, reviewer_id=response.reviewer_id
         )
 
         if assignment_id not in self.assignments:
@@ -490,26 +545,32 @@ class HumanInTheLoopOrchestrator:
         # Update assignment status
         assignment.status = "completed"
 
-        response_logger.info("ΛTRACE_RESPONSE_SUBMITTED",
-                           decision=response.decision,
-                           confidence=response.confidence,
-                           signed=response.srd_signature is not None)
+        response_logger.info(
+            "ΛTRACE_RESPONSE_SUBMITTED",
+            decision=response.decision,
+            confidence=response.confidence,
+            signed=response.srd_signature is not None,
+        )
 
         # Check if we have enough responses to make a decision
         await self._evaluate_consensus(decision)
 
         # Add to audit trail
-        decision.audit_trail.append({
-            "action": "response_submitted",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "reviewer_id": response.reviewer_id,
-            "decision": response.decision,
-            "confidence": response.confidence
-        })
+        decision.audit_trail.append(
+            {
+                "action": "response_submitted",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "reviewer_id": response.reviewer_id,
+                "decision": response.decision,
+                "confidence": response.confidence,
+            }
+        )
 
         return True
 
-    async def _find_suitable_reviewers(self, context: DecisionContext) -> List[ReviewerProfile]:
+    async def _find_suitable_reviewers(
+        self, context: DecisionContext
+    ) -> list[ReviewerProfile]:
         """Find suitable reviewers for a decision context."""
         suitable_reviewers = []
 
@@ -543,34 +604,40 @@ class HumanInTheLoopOrchestrator:
         # Sort by suitability score
         suitable_reviewers.sort(
             key=lambda r: self._calculate_reviewer_suitability_score(r, context),
-            reverse=True
+            reverse=True,
         )
 
         # Limit based on priority
         max_reviewers = self._get_reviewer_count_for_priority(context.priority)
         return suitable_reviewers[:max_reviewers]
 
-    def _check_role_suitability(self, reviewer: ReviewerProfile, context: DecisionContext) -> bool:
+    def _check_role_suitability(
+        self, reviewer: ReviewerProfile, context: DecisionContext
+    ) -> bool:
         """Check if reviewer roles are suitable for decision context."""
         # Ethics-related decisions need ethics specialists
-        if context.ethical_implications and ReviewerRole.ETHICS_SPECIALIST in reviewer.roles:
+        if (
+            context.ethical_implications
+            and ReviewerRole.ETHICS_SPECIALIST in reviewer.roles
+        ):
             return True
 
         # High priority decisions need senior overseers
-        if context.priority in [DecisionPriority.CRITICAL, DecisionPriority.EMERGENCY]:
-            if ReviewerRole.SENIOR_OVERSEER in reviewer.roles:
-                return True
-
-        # Always allow general reviewers
-        if ReviewerRole.GENERAL_REVIEWER in reviewer.roles:
+        if (
+            context.priority
+            in [
+                DecisionPriority.CRITICAL,
+                DecisionPriority.EMERGENCY,
+            ]
+            and ReviewerRole.SENIOR_OVERSEER in reviewer.roles
+        ):
             return True
 
-        return False
+        # Always allow general reviewers
+        return ReviewerRole.GENERAL_REVIEWER in reviewer.roles
 
     def _calculate_reviewer_suitability_score(
-        self,
-        reviewer: ReviewerProfile,
-        context: DecisionContext
+        self, reviewer: ReviewerProfile, context: DecisionContext
     ) -> float:
         """Calculate how suitable a reviewer is for a given decision."""
         score = 0.0
@@ -580,14 +647,17 @@ class HumanInTheLoopOrchestrator:
 
         # Expertise match
         expertise_matches = sum(
-            1 for expertise in context.required_expertise
+            1
+            for expertise in context.required_expertise
             if expertise in reviewer.expertise_domains
         )
         if context.required_expertise:
             score += (expertise_matches / len(context.required_expertise)) * 0.3
 
         # Workload (prefer less busy reviewers)
-        workload_factor = 1.0 - (reviewer.current_workload / reviewer.max_concurrent_reviews)
+        workload_factor = 1.0 - (
+            reviewer.current_workload / reviewer.max_concurrent_reviews
+        )
         score += workload_factor * 0.2
 
         # Performance metrics
@@ -617,10 +687,8 @@ class HumanInTheLoopOrchestrator:
             return self.min_reviewers_per_decision
 
     async def _create_review_assignments(
-        self,
-        decision_id: str,
-        reviewers: List[ReviewerProfile]
-    ) -> List[ReviewAssignment]:
+        self, decision_id: str, reviewers: list[ReviewerProfile]
+    ) -> list[ReviewAssignment]:
         """Create review assignments for selected reviewers."""
         assignments = []
 
@@ -635,7 +703,7 @@ class HumanInTheLoopOrchestrator:
                 assignment_id=assignment_id,
                 decision_id=decision_id,
                 reviewer_id=reviewer.reviewer_id,
-                due_date=due_date
+                due_date=due_date,
             )
 
             assignments.append(assignment)
@@ -672,15 +740,17 @@ class HumanInTheLoopOrchestrator:
             for contact_method in reviewer.contact_methods:
                 if contact_method in self.notification_systems:
                     try:
-                        await self.notification_systems[contact_method].send_notification(
-                            reviewer, decision, notification_type
-                        )
+                        await self.notification_systems[
+                            contact_method
+                        ].send_notification(reviewer, decision, notification_type)
                         assignment.notification_sent = True
                     except Exception as e:
-                        self.logger.error("ΛTRACE_NOTIFICATION_ERROR",
-                                        reviewer_id=reviewer.reviewer_id,
-                                        method=contact_method,
-                                        error=str(e))
+                        self.logger.error(
+                            "ΛTRACE_NOTIFICATION_ERROR",
+                            reviewer_id=reviewer.reviewer_id,
+                            method=contact_method,
+                            error=str(e),
+                        )
 
     async def _evaluate_consensus(self, decision: DecisionRecord):
         """Evaluate if consensus has been reached among reviewers."""
@@ -699,7 +769,9 @@ class HumanInTheLoopOrchestrator:
 
         # Calculate consensus
         total_responses = len(decision.responses)
-        avg_confidence = total_confidence / total_responses if total_responses > 0 else 0.0
+        avg_confidence = (
+            total_confidence / total_responses if total_responses > 0 else 0.0
+        )
 
         # Find majority decision
         majority_decision = max(decisions.keys(), key=lambda k: len(decisions[k]))
@@ -720,7 +792,9 @@ class HumanInTheLoopOrchestrator:
 
             # Generate human explanation
             if self.xil:
-                decision.human_explanation = await self._generate_human_explanation(decision)
+                decision.human_explanation = await self._generate_human_explanation(
+                    decision
+                )
 
             # Update metrics
             if majority_decision == "approve":
@@ -728,22 +802,29 @@ class HumanInTheLoopOrchestrator:
             elif majority_decision == "reject":
                 self.metrics["decisions_rejected"] += 1
 
-            self.logger.info("ΛTRACE_CONSENSUS_REACHED",
-                           decision_id=decision.decision_id,
-                           final_decision=majority_decision,
-                           consensus_score=consensus_score,
-                           avg_confidence=avg_confidence)
+            self.logger.info(
+                "ΛTRACE_CONSENSUS_REACHED",
+                decision_id=decision.decision_id,
+                final_decision=majority_decision,
+                consensus_score=consensus_score,
+                avg_confidence=avg_confidence,
+            )
 
         elif total_responses >= self.max_reviewers_per_decision:
             # No consensus with maximum reviewers - escalate
             decision.status = DecisionStatus.ESCALATED
-            self.metrics["escalation_rate"] = (self.metrics.get("escalation_rate", 0) *
-                                              (self.metrics["decisions_processed"] - 1) + 1) / self.metrics["decisions_processed"]
+            self.metrics["escalation_rate"] = (
+                self.metrics.get("escalation_rate", 0)
+                * (self.metrics["decisions_processed"] - 1)
+                + 1
+            ) / self.metrics["decisions_processed"]
 
-            self.logger.warning("ΛTRACE_DECISION_ESCALATED",
-                              decision_id=decision.decision_id,
-                              consensus_score=consensus_score,
-                              total_responses=total_responses)
+            self.logger.warning(
+                "ΛTRACE_DECISION_ESCALATED",
+                decision_id=decision.decision_id,
+                consensus_score=consensus_score,
+                total_responses=total_responses,
+            )
 
     async def _generate_ai_explanation(self, context: DecisionContext) -> str:
         """Generate AI explanation for the decision context."""
@@ -765,7 +846,9 @@ class HumanInTheLoopOrchestrator:
 
         for response in decision.responses:
             if response.reasoning:
-                all_reasoning.append(f"Reviewer {response.reviewer_id}: {response.reasoning}")
+                all_reasoning.append(
+                    f"Reviewer {response.reviewer_id}: {response.reasoning}"
+                )
             all_recommendations.extend(response.recommendations)
 
         explanation_parts = [
@@ -773,13 +856,19 @@ class HumanInTheLoopOrchestrator:
             f"Consensus Score: {decision.consensus_score:.2f}",
             f"Total Reviewers: {len(decision.responses)}",
             "",
-            "Human Reasoning:"
+            "Human Reasoning:",
         ]
 
         explanation_parts.extend(all_reasoning)
 
         if all_recommendations:
-            explanation_parts.extend(["", "Recommendations:", "- " + "\n- ".join(set(all_recommendations))])
+            explanation_parts.extend(
+                [
+                    "",
+                    "Recommendations:",
+                    "- " + "\n- ".join(set(all_recommendations)),
+                ]
+            )
 
         return "\n".join(explanation_parts)
 
@@ -790,10 +879,12 @@ class HumanInTheLoopOrchestrator:
         escrow_details.status = EscrowStatus.ESCROWED
         self.metrics["escrow_operations"] += 1
 
-        self.logger.info("ΛTRACE_ESCROW_SETUP",
-                        escrow_id=escrow_details.escrow_id,
-                        amount=str(escrow_details.amount),
-                        currency=escrow_details.currency)
+        self.logger.info(
+            "ΛTRACE_ESCROW_SETUP",
+            escrow_id=escrow_details.escrow_id,
+            amount=str(escrow_details.amount),
+            currency=escrow_details.currency,
+        )
 
     async def _handle_escrow_completion(self, decision: DecisionRecord):
         """Handle escrow release/refund based on decision outcome."""
@@ -820,7 +911,7 @@ class HumanInTheLoopOrchestrator:
             "response_id": response.response_id,
             "reviewer_id": response.reviewer_id,
             "decision": response.decision,
-            "timestamp": response.timestamp.isoformat()
+            "timestamp": response.timestamp.isoformat(),
         }
         return f"SRD_SIGNATURE_{hash(str(signature_data))}"
 
@@ -829,7 +920,10 @@ class HumanInTheLoopOrchestrator:
         while not self._shutdown_event.is_set():
             try:
                 for decision in self.decisions.values():
-                    if decision.status in [DecisionStatus.UNDER_REVIEW, DecisionStatus.AWAITING_CONSENSUS]:
+                    if decision.status in [
+                        DecisionStatus.UNDER_REVIEW,
+                        DecisionStatus.AWAITING_CONSENSUS,
+                    ]:
                         # Send reminders for overdue assignments
                         await self._send_reminders_if_needed(decision)
 
@@ -848,11 +942,17 @@ class HumanInTheLoopOrchestrator:
                 now = datetime.now(timezone.utc)
 
                 for decision in self.decisions.values():
-                    if decision.status not in [DecisionStatus.UNDER_REVIEW, DecisionStatus.AWAITING_CONSENSUS]:
+                    if decision.status not in [
+                        DecisionStatus.UNDER_REVIEW,
+                        DecisionStatus.AWAITING_CONSENSUS,
+                    ]:
                         continue
 
                     # Check for timeout
-                    if decision.context.urgency_deadline and now > decision.context.urgency_deadline:
+                    if (
+                        decision.context.urgency_deadline
+                        and now > decision.context.urgency_deadline
+                    ):
                         await self._handle_decision_timeout(decision)
 
                 await asyncio.sleep(60)  # Check every minute
@@ -878,10 +978,12 @@ class HumanInTheLoopOrchestrator:
             # Conservative default - reject
             decision.final_decision = "reject_timeout"
 
-        self.logger.warning("ΛTRACE_DECISION_TIMEOUT",
-                          decision_id=decision.decision_id,
-                          priority=decision.context.priority.value,
-                          final_action=decision.final_decision)
+        self.logger.warning(
+            "ΛTRACE_DECISION_TIMEOUT",
+            decision_id=decision.decision_id,
+            priority=decision.context.priority.value,
+            final_action=decision.final_decision,
+        )
 
     async def _send_reminders_if_needed(self, decision: DecisionRecord):
         """Send reminders to reviewers for overdue assignments."""
@@ -902,8 +1004,15 @@ class HumanInTheLoopOrchestrator:
             try:
                 # Calculate average review time
                 completed_decisions = [
-                    d for d in self.decisions.values()
-                    if d.completed_at and d.status in [DecisionStatus.CONSENSUS_REACHED, DecisionStatus.APPROVED, DecisionStatus.REJECTED]
+                    d
+                    for d in self.decisions.values()
+                    if d.completed_at
+                    and d.status
+                    in [
+                        DecisionStatus.CONSENSUS_REACHED,
+                        DecisionStatus.APPROVED,
+                        DecisionStatus.REJECTED,
+                    ]
                 ]
 
                 if completed_decisions:
@@ -911,23 +1020,30 @@ class HumanInTheLoopOrchestrator:
                         (d.completed_at - d.created_at).total_seconds() / 3600
                         for d in completed_decisions
                     )
-                    self.metrics["average_review_time_hours"] = total_time / len(completed_decisions)
+                    self.metrics["average_review_time_hours"] = total_time / len(
+                        completed_decisions
+                    )
 
                 # Calculate consensus rate
                 consensus_decisions = [
-                    d for d in completed_decisions
+                    d
+                    for d in completed_decisions
                     if d.status == DecisionStatus.CONSENSUS_REACHED
                 ]
 
                 if completed_decisions:
-                    self.metrics["consensus_reached_rate"] = len(consensus_decisions) / len(completed_decisions)
+                    self.metrics["consensus_reached_rate"] = len(
+                        consensus_decisions
+                    ) / len(completed_decisions)
 
                 # Calculate reviewer workload balance
                 if self.reviewers:
                     workloads = [r.current_workload for r in self.reviewers.values()]
                     avg_workload = sum(workloads) / len(workloads)
                     max_workload = max(workloads) if workloads else 0
-                    self.metrics["reviewer_workload_balance"] = 1.0 - (max_workload - avg_workload) / max(max_workload, 1)
+                    self.metrics["reviewer_workload_balance"] = 1.0 - (
+                        max_workload - avg_workload
+                    ) / max(max_workload, 1)
 
                 await asyncio.sleep(3600)  # Update every hour
 
@@ -937,7 +1053,7 @@ class HumanInTheLoopOrchestrator:
                 self.logger.error("ΛTRACE_METRICS_UPDATE_ERROR", error=str(e))
                 await asyncio.sleep(300)
 
-    def get_decision_status(self, decision_id: str) -> Optional[Dict[str, Any]]:
+    def get_decision_status(self, decision_id: str) -> Optional[dict[str, Any]]:
         """Get current status of a decision."""
         decision = self.decisions.get(decision_id)
         if not decision:
@@ -947,23 +1063,26 @@ class HumanInTheLoopOrchestrator:
             "decision_id": decision_id,
             "status": decision.status.value,
             "created_at": decision.created_at.isoformat(),
-            "completed_at": decision.completed_at.isoformat() if decision.completed_at else None,
+            "completed_at": (
+                decision.completed_at.isoformat() if decision.completed_at else None
+            ),
             "final_decision": decision.final_decision,
             "consensus_score": decision.consensus_score,
             "total_responses": len(decision.responses),
             "total_assignments": len(decision.assignments),
             "has_escrow": decision.escrow_details is not None,
-            "priority": decision.context.priority.value
+            "priority": decision.context.priority.value,
         }
 
-    def get_reviewer_workload(self, reviewer_id: str) -> Optional[Dict[str, Any]]:
+    def get_reviewer_workload(self, reviewer_id: str) -> Optional[dict[str, Any]]:
         """Get current workload for a reviewer."""
         reviewer = self.reviewers.get(reviewer_id)
         if not reviewer:
             return None
 
         active_assignments = [
-            a for a in self.assignments.values()
+            a
+            for a in self.assignments.values()
             if a.reviewer_id == reviewer_id and a.status == "assigned"
         ]
 
@@ -974,10 +1093,10 @@ class HumanInTheLoopOrchestrator:
             "active_assignments": len(active_assignments),
             "is_active": reviewer.is_active,
             "last_active": reviewer.last_active.isoformat(),
-            "performance_metrics": reviewer.performance_metrics
+            "performance_metrics": reviewer.performance_metrics,
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get HITLO performance metrics."""
         return self.metrics.copy()
 
@@ -986,7 +1105,7 @@ class HumanInTheLoopOrchestrator:
         decision_id: str,
         override_decision: str,
         override_reason: str,
-        authorizer_id: str
+        authorizer_id: str,
     ) -> bool:
         """Perform emergency override of a decision."""
         decision = self.decisions.get(decision_id)
@@ -998,23 +1117,28 @@ class HumanInTheLoopOrchestrator:
         decision.completed_at = datetime.now(timezone.utc)
 
         # Add to audit trail
-        decision.audit_trail.append({
-            "action": "emergency_override",
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "authorizer_id": authorizer_id,
-            "override_decision": override_decision,
-            "reason": override_reason
-        })
+        decision.audit_trail.append(
+            {
+                "action": "emergency_override",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "authorizer_id": authorizer_id,
+                "override_decision": override_decision,
+                "reason": override_reason,
+            }
+        )
 
         self.metrics["emergency_overrides"] += 1
 
-        self.logger.warning("ΛTRACE_EMERGENCY_OVERRIDE",
-                          decision_id=decision_id,
-                          override_decision=override_decision,
-                          authorizer_id=authorizer_id,
-                          reason=override_reason)
+        self.logger.warning(
+            "ΛTRACE_EMERGENCY_OVERRIDE",
+            decision_id=decision_id,
+            override_decision=override_decision,
+            authorizer_id=authorizer_id,
+            reason=override_reason,
+        )
 
         return True
+
 
 # ΛFOOTER: ═══════════════════════════════════════════════════════════════════
 # MODULE: orchestration.human_in_the_loop_orchestrator

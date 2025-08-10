@@ -111,7 +111,9 @@ class SystemTestSuite:
         """Test singleton patterns work correctly"""
         try:
             # Test DASTAggregator singleton
-            from core.interfaces.as_agent.sys.dast.aggregator import DASTAggregator
+            from core.interfaces.as_agent.sys.dast.aggregator import (
+                DASTAggregator,
+            )
 
             instance1 = DASTAggregator()
             instance2 = DASTAggregator()
@@ -120,7 +122,9 @@ class SystemTestSuite:
                 return {"success": False, "error": "DASTAggregator singleton failed"}
 
             # Test DASTLogger singleton
-            from core.interfaces.as_agent.sys.dast.dast_logger import DASTLogger
+            from core.interfaces.as_agent.sys.dast.dast_logger import (
+                DASTLogger,
+            )
 
             logger1 = DASTLogger()
             logger2 = DASTLogger()
@@ -161,7 +165,9 @@ class SystemTestSuite:
         """Test DAST components basic functionality"""
         try:
             # Test aggregator functionality
-            from core.interfaces.as_agent.sys.dast.aggregator import DASTAggregator
+            from core.interfaces.as_agent.sys.dast.aggregator import (
+                DASTAggregator,
+            )
 
             aggregator = DASTAggregator()
             test_input = {"gesture_tags": ["test"], "widget_tags": ["demo"]}
@@ -171,7 +177,9 @@ class SystemTestSuite:
                 return {"success": False, "error": "Aggregator did not return dict"}
 
             # Test logger functionality
-            from core.interfaces.as_agent.sys.dast.dast_logger import DASTLogger
+            from core.interfaces.as_agent.sys.dast.dast_logger import (
+                DASTLogger,
+            )
 
             logger = DASTLogger()
             logger.log_tag_event("test_tag", {"test": True}, "INFO")
@@ -180,7 +188,9 @@ class SystemTestSuite:
                 return {"success": False, "error": "Logger did not record event"}
 
             # Test partner SDK functionality
-            from core.interfaces.as_agent.sys.dast.partner_sdk import PartnerSDK
+            from core.interfaces.as_agent.sys.dast.partner_sdk import (
+                PartnerSDK,
+            )
 
             sdk = PartnerSDK()
             partner_result = sdk.receive_partner_input(
@@ -330,14 +340,14 @@ class SystemTestSuite:
         print(f"Success Rate: {success_rate:.1f}%")
 
         # Category breakdown
-        print(f"\n📋 CATEGORY BREAKDOWN:")
+        print("\n📋 CATEGORY BREAKDOWN:")
         for category, stats in self.test_results["test_categories"].items():
             cat_total = stats["passed"] + stats["failed"]
             cat_rate = (stats["passed"] / cat_total * 100) if cat_total > 0 else 0
             print(f"  {category}: {stats['passed']}/{cat_total} ({cat_rate:.1f}%)")
 
         # Detailed results
-        print(f"\n🔍 DETAILED RESULTS:")
+        print("\n🔍 DETAILED RESULTS:")
         for result in self.test_results["detailed_results"]:
             print(f"  {result['status']} {result['category']}: {result['test_name']}")
             if result["error"]:
@@ -347,11 +357,11 @@ class SystemTestSuite:
         with open("test_results.json", "w") as f:
             json.dump(self.test_results, f, indent=2)
 
-        print(f"\n💾 Detailed results saved to: test_results.json")
+        print("\n💾 Detailed results saved to: test_results.json")
 
         # Final status
         if failed == 0:
-            print(f"\n🎉 ALL TESTS PASSED! System is fully operational.")
+            print("\n🎉 ALL TESTS PASSED! System is fully operational.")
         else:
             print(f"\n⚠️  {failed} test(s) failed. See details above.")
 

@@ -21,13 +21,14 @@ import datetime
 
 ARCHITECTURE_LOG_FILE = "logs/architecture/architecture_change_log.md"
 
+
 def add_architecture_log_entry(change_summary, affected_modules):
     """Appends a new change entry into the protected architecture change log."""
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     entry = f"| {today} | {change_summary} | {affected_modules} |\n"
 
     try:
-        with open(ARCHITECTURE_LOG_FILE, "r") as f:
+        with open(ARCHITECTURE_LOG_FILE) as f:
             contents = f.readlines()
 
         # Insert the new log entry after the 'Change History' header
@@ -35,7 +36,11 @@ def add_architecture_log_entry(change_summary, affected_modules):
         inserted = False
         for line in contents:
             updated_contents.append(line)
-            if not inserted and line.strip() == "| Date         | Change Summary                                           | Module/Folder Affected         |":
+            if (
+                not inserted
+                and line.strip()
+                == "| Date         | Change Summary                                           | Module/Folder Affected         |"
+            ):
                 updated_contents.append(entry)
                 inserted = True
 
@@ -48,9 +53,12 @@ def add_architecture_log_entry(change_summary, affected_modules):
         print(f"✅ Architecture log updated successfully on {today}!")
 
     except FileNotFoundError:
-        print(f"❌ Architecture log file not found at {ARCHITECTURE_LOG_FILE}. Please check your paths.")
+        print(
+            f"❌ Architecture log file not found at {ARCHITECTURE_LOG_FILE}. Please check your paths."
+        )
     except Exception as e:
         print(f"❌ Error updating architecture log: {e}")
+
 
 # ==============================================================================
 # 💻 USAGE EXAMPLE

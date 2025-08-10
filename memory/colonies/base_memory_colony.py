@@ -40,57 +40,62 @@
 import asyncio
 import time
 from abc import ABC, abstractmethod
+from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Callable, Union
-from uuid import uuid4
-from collections import defaultdict, deque
-
-import structlog
+from typing import Any, Callable, Dict, List, Optional, Set
 
 # Import memory components
 try:
+    from ..core.colony_memory_validator import ConsensusResult, ValidationMode
     from ..core.interfaces import (
-        BaseMemoryInterface, MemoryType, MemoryOperation, MemoryResponse,
-        ValidationResult, MemoryMetadata
+        BaseMemoryInterface,
+        MemoryMetadata,
+        MemoryOperation,
+        MemoryResponse,
+        MemoryType,
+        ValidationResult,
     )
-    from ..core.colony_memory_validator import ValidationMode, ConsensusResult
+
     INTERFACES_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Memory interfaces not available: {e}")
     INTERFACES_AVAILABLE = False
+
     # Stubs for development
     class MemoryType(Enum):
         EPISODIC = "episodic"
         SEMANTIC = "semantic"
+
     ValidationResult = object
     ValidationMode = object
-
-from core.common import get_logger
 
 
 class ColonyRole(Enum):
     """Roles that colonies can play in the memory system"""
-    SPECIALIST = "specialist"       # Specialized in specific memory type
-    VALIDATOR = "validator"         # Focuses on validation operations
-    ARBITER = "arbiter"            # Resolves conflicts between colonies
-    BACKUP = "backup"              # Provides redundancy
-    MONITOR = "monitor"            # Observes and reports system health
+
+    SPECIALIST = "specialist"  # Specialized in specific memory type
+    VALIDATOR = "validator"  # Focuses on validation operations
+    ARBITER = "arbiter"  # Resolves conflicts between colonies
+    BACKUP = "backup"  # Provides redundancy
+    MONITOR = "monitor"  # Observes and reports system health
 
 
 class ColonyState(Enum):
     """Operational states of a colony"""
-    INITIALIZING = "initializing"   # Starting up
-    ACTIVE = "active"              # Fully operational
-    BUSY = "busy"                  # At capacity, accepting limited requests
-    DEGRADED = "degraded"          # Operating with reduced capacity
-    MAINTENANCE = "maintenance"     # Undergoing maintenance
-    OFFLINE = "offline"            # Not accepting requests
+
+    INITIALIZING = "initializing"  # Starting up
+    ACTIVE = "active"  # Fully operational
+    BUSY = "busy"  # At capacity, accepting limited requests
+    DEGRADED = "degraded"  # Operating with reduced capacity
+    MAINTENANCE = "maintenance"  # Undergoing maintenance
+    OFFLINE = "offline"  # Not accepting requests
 
 
 @dataclass
 class ColonyCapabilities:
     """Capabilities and limits of a colony"""
+
     max_concurrent_operations: int = 100
     supported_memory_types: Set[MemoryType] = field(default_factory=set)
     supported_operations: Set[str] = field(default_factory=set)
@@ -111,6 +116,7 @@ class ColonyCapabilities:
 @dataclass
 class ColonyMetrics:
     """Real-time metrics for colony performance"""
+
     colony_id: str
 
     # Operational metrics
@@ -135,10 +141,7 @@ class ColonyMetrics:
     def calculate_health_score(self) -> float:
         """Calculate overall health score (0-1)"""
         # Success rate component
-        success_rate = (
-            self.successful_operations /
-            max(self.total_operations, 1)
-        )
+        success_rate = self.successful_operations / max(self.total_operations, 1)
 
         # Load component (optimal around 70%)
         load_factor = 1.0 - abs(0.7 - self.current_load_percentage / 100.0)
@@ -147,10 +150,13 @@ class ColonyMetrics:
         reliability = max(0.0, 1.0 - self.consecutive_failures / 10.0)
 
         # Recency component
-        recency = max(0.0, 1.0 - (time.time() - self.last_heartbeat) / 300.0)  # 5 min decay
+        recency = max(
+            0.0, 1.0 - (time.time() - self.last_heartbeat) / 300.0
+        )  # 5 min decay
 
-        return (success_rate * 0.3 + load_factor * 0.2 +
-                reliability * 0.3 + recency * 0.2)
+        return (
+            success_rate * 0.3 + load_factor * 0.2 + reliability * 0.3 + recency * 0.2
+        )
 
 
 class BaseMemoryColony(ABC):
@@ -164,7 +170,7 @@ class BaseMemoryColony(ABC):
         colony_id: str,
         colony_role: ColonyRole,
         specialized_memory_types: List[MemoryType],
-        capabilities: Optional[ColonyCapabilities] = None
+        capabilities: Optional[ColonyCapabilities] = None,
     ):
         self.colony_id = colony_id
         self.colony_role = colony_role
@@ -183,7 +189,7 @@ class BaseMemoryColony(ABC):
         self.operation_history: List[Dict[str, Any]] = []
 
         # Communication
-        self.peer_colonies: Dict[str, 'BaseMemoryColony'] = {}
+        self.peer_colonies: Dict[str, BaseMemoryColony] = {}
         self.message_callbacks: List[Callable] = []
 
         # Memory storage (each subclass implements differently)
@@ -198,7 +204,7 @@ class BaseMemoryColony(ABC):
         logger.info(
             f"{self.colony_role.value.title()} memory colony initialized",
             colony_id=colony_id,
-            specialized_types=[t.value for t in specialized_memory_types]
+            specialized_types=[t.value for t in specialized_memory_types],
         )
 
     async def start(self):
@@ -222,7 +228,11 @@ class BaseMemoryColony(ABC):
         self.state = ColonyState.OFFLINE
 
         # Cancel background tasks
-        for task in [self._heartbeat_task, self._processing_task, self._maintenance_task]:
+        for task in [
+            self._heartbeat_task,
+            self._processing_task,
+            self._maintenance_task,
+        ]:
             if task:
                 task.cancel()
 
@@ -235,12 +245,12 @@ class BaseMemoryColony(ABC):
         logger.info(
             f"Colony {self.colony_id} stopped",
             total_operations=self.metrics.total_operations,
-            success_rate=self.metrics.successful_operations / max(self.metrics.total_operations, 1)
+            success_rate=self.metrics.successful_operations
+            / max(self.metrics.total_operations, 1),
         )
 
     async def process_memory_operation(
-        self,
-        operation: MemoryOperation
+        self, operation: MemoryOperation
     ) -> MemoryResponse:
         """Process a memory operation according to colony specialization"""
 
@@ -249,7 +259,7 @@ class BaseMemoryColony(ABC):
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
-                error_message=f"Colony {self.colony_id} cannot handle this operation type"
+                error_message=f"Colony {self.colony_id} cannot handle this operation type",
             )
 
         # Check capacity
@@ -257,7 +267,7 @@ class BaseMemoryColony(ABC):
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
-                error_message="Colony at capacity, try again later"
+                error_message="Colony at capacity, try again later",
             )
 
         # Track operation
@@ -285,13 +295,15 @@ class BaseMemoryColony(ABC):
             self._update_response_time(response_time)
 
             # Record operation in history
-            self.operation_history.append({
-                "operation_id": operation.operation_id,
-                "operation_type": operation.operation_type,
-                "success": response.success,
-                "response_time_ms": response_time,
-                "timestamp": time.time()
-            })
+            self.operation_history.append(
+                {
+                    "operation_id": operation.operation_id,
+                    "operation_type": operation.operation_type,
+                    "success": response.success,
+                    "response_time_ms": response_time,
+                    "timestamp": time.time(),
+                }
+            )
 
             # Keep history limited
             if len(self.operation_history) > 1000:
@@ -309,7 +321,7 @@ class BaseMemoryColony(ABC):
             logger.error(
                 f"Colony {self.colony_id} operation failed",
                 operation_id=operation.operation_id,
-                error=str(e)
+                error=str(e),
             )
 
             return MemoryResponse(
@@ -317,7 +329,7 @@ class BaseMemoryColony(ABC):
                 success=False,
                 error_message=str(e),
                 responding_colony=self.colony_id,
-                execution_time_ms=(time.time() - start_time) * 1000
+                execution_time_ms=(time.time() - start_time) * 1000,
             )
 
         finally:
@@ -326,8 +338,7 @@ class BaseMemoryColony(ABC):
             self.metrics.active_operations = len(self.active_operations)
 
     async def participate_in_consensus(
-        self,
-        consensus_request: Dict[str, Any]
+        self, consensus_request: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Participate in inter-colony consensus"""
 
@@ -343,13 +354,9 @@ class BaseMemoryColony(ABC):
                 if vote.get("decision") == expected:
                     # Update running accuracy
                     current_accuracy = self.metrics.consensus_accuracy
-                    self.metrics.consensus_accuracy = (
-                        current_accuracy * 0.9 + 1.0 * 0.1
-                    )
+                    self.metrics.consensus_accuracy = current_accuracy * 0.9 + 1.0 * 0.1
                 else:
-                    self.metrics.consensus_accuracy = (
-                        current_accuracy * 0.9 + 0.0 * 0.1
-                    )
+                    self.metrics.consensus_accuracy = current_accuracy * 0.9 + 0.0 * 0.1
 
             return vote
 
@@ -359,10 +366,10 @@ class BaseMemoryColony(ABC):
                 "colony_id": self.colony_id,
                 "decision": "abstain",
                 "confidence": 0.0,
-                "error": str(e)
+                "error": str(e),
             }
 
-    def register_peer_colony(self, colony: 'BaseMemoryColony'):
+    def register_peer_colony(self, colony: "BaseMemoryColony"):
         """Register a peer colony for communication"""
         self.peer_colonies[colony.colony_id] = colony
         logger.debug(f"Colony {self.colony_id} registered peer: {colony.colony_id}")
@@ -372,9 +379,7 @@ class BaseMemoryColony(ABC):
         self.message_callbacks.append(callback)
 
     async def send_message_to_colony(
-        self,
-        target_colony_id: str,
-        message: Dict[str, Any]
+        self, target_colony_id: str, message: Dict[str, Any]
     ) -> bool:
         """Send message to another colony"""
         if target_colony_id not in self.peer_colonies:
@@ -410,19 +415,21 @@ class BaseMemoryColony(ABC):
             "metrics": {
                 "total_operations": self.metrics.total_operations,
                 "success_rate": (
-                    self.metrics.successful_operations /
-                    max(self.metrics.total_operations, 1)
+                    self.metrics.successful_operations
+                    / max(self.metrics.total_operations, 1)
                 ),
                 "active_operations": self.metrics.active_operations,
                 "current_load": self.metrics.current_load_percentage,
                 "average_response_time_ms": self.metrics.average_response_time_ms,
-                "consecutive_failures": self.metrics.consecutive_failures
+                "consecutive_failures": self.metrics.consecutive_failures,
             },
             "capabilities": {
                 "max_concurrent": self.capabilities.max_concurrent_operations,
-                "supported_types": [t.value for t in self.capabilities.supported_memory_types],
-                "specialization_confidence": self.capabilities.specialization_confidence
-            }
+                "supported_types": [
+                    t.value for t in self.capabilities.supported_memory_types
+                ],
+                "specialization_confidence": self.capabilities.specialization_confidence,
+            },
         }
 
     # Abstract methods that subclasses must implement
@@ -439,16 +446,14 @@ class BaseMemoryColony(ABC):
 
     @abstractmethod
     async def _process_specialized_operation(
-        self,
-        operation: MemoryOperation
+        self, operation: MemoryOperation
     ) -> MemoryResponse:
         """Process operation according to colony specialization"""
         pass
 
     @abstractmethod
     async def _cast_consensus_vote(
-        self,
-        consensus_request: Dict[str, Any]
+        self, consensus_request: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Cast vote in inter-colony consensus"""
         pass
@@ -459,15 +464,19 @@ class BaseMemoryColony(ABC):
         """Check if colony can handle the given operation"""
 
         # Check if operation type is supported
-        if (operation.operation_type not in self.capabilities.supported_operations and
-            len(self.capabilities.supported_operations) > 0):
+        if (
+            operation.operation_type not in self.capabilities.supported_operations
+            and len(self.capabilities.supported_operations) > 0
+        ):
             return False
 
         # Check memory type compatibility
-        if operation.metadata and hasattr(operation.metadata, 'memory_type'):
+        if operation.metadata and hasattr(operation.metadata, "memory_type"):
             memory_type = operation.metadata.memory_type
-            if (memory_type not in self.capabilities.supported_memory_types and
-                len(self.capabilities.supported_memory_types) > 0):
+            if (
+                memory_type not in self.capabilities.supported_memory_types
+                and len(self.capabilities.supported_memory_types) > 0
+            ):
                 return False
 
         # Check current state
@@ -500,11 +509,14 @@ class BaseMemoryColony(ABC):
 
         try:
             await asyncio.wait_for(
-                asyncio.gather(*[
-                    self._cancel_operation(op_id)
-                    for op_id in list(self.active_operations.keys())
-                ], return_exceptions=True),
-                timeout=timeout
+                asyncio.gather(
+                    *[
+                        self._cancel_operation(op_id)
+                        for op_id in list(self.active_operations.keys())
+                    ],
+                    return_exceptions=True,
+                ),
+                timeout=timeout,
             )
         except asyncio.TimeoutError:
             logger.warning(f"Colony {self.colony_id} timed out completing operations")
@@ -523,8 +535,9 @@ class BaseMemoryColony(ABC):
 
             # Update load percentage
             current_load = (
-                len(self.active_operations) /
-                self.capabilities.max_concurrent_operations * 100
+                len(self.active_operations)
+                / self.capabilities.max_concurrent_operations
+                * 100
             )
             self.metrics.current_load_percentage = current_load
 
@@ -541,7 +554,11 @@ class BaseMemoryColony(ABC):
     async def _operation_processing_loop(self):
         """Process queued operations"""
         while self._running:
-            if self.operation_queue and len(self.active_operations) < self.capabilities.max_concurrent_operations:
+            if (
+                self.operation_queue
+                and len(self.active_operations)
+                < self.capabilities.max_concurrent_operations
+            ):
                 operation = self.operation_queue.popleft()
                 asyncio.create_task(self.process_memory_operation(operation))
 
@@ -555,9 +572,13 @@ class BaseMemoryColony(ABC):
                 self.operation_history = self.operation_history[-500:]
 
             # Reset consecutive failures if recent success
-            if (self.metrics.consecutive_failures > 0 and
-                self.operation_history and
-                self.operation_history[-1].get("success", False)):
-                self.metrics.consecutive_failures = max(0, self.metrics.consecutive_failures - 1)
+            if (
+                self.metrics.consecutive_failures > 0
+                and self.operation_history
+                and self.operation_history[-1].get("success", False)
+            ):
+                self.metrics.consecutive_failures = max(
+                    0, self.metrics.consecutive_failures - 1
+                )
 
             await asyncio.sleep(60.0)  # Maintenance every minute

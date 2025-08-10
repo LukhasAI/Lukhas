@@ -3,10 +3,9 @@
 Revolutionary orchestrator for Bio-Quantum Symbolic Reasoning
 """
 
-import asyncio
 import logging
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Optional
 
 from .bio_quantum_engine import (
     BioQuantumSymbolicReasoner,
@@ -27,6 +26,7 @@ except ImportError:
     print("🔄 Core: Brain components not available, using mock implementations")
 
     class MockBrainCore:
+
         def __init__(self, brain_type: str):
             self.brain_type = brain_type
             self.active = True
@@ -50,15 +50,27 @@ except ImportError:
             }
 
         def get_brain_status(self):
-            return {"active": self.active, "brain_type": self.brain_type, "mock": True}
+            return {
+                "active": self.active,
+                "brain_type": self.brain_type,
+                "mock": True,
+            }
 
-    DreamsBrainCore = lambda: MockBrainCore("dreams")
-    EmotionalBrainCore = lambda: MockBrainCore("emotional")
-    LearningBrainCore = lambda: MockBrainCore("learning")
-    MemoryBrainCore = lambda: MockBrainCore("memory")
+    def DreamsBrainCore():
+        return MockBrainCore("dreams")
+
+    def EmotionalBrainCore():
+        return MockBrainCore("emotional")
+
+    def LearningBrainCore():
+        return MockBrainCore("learning")
+
+    def MemoryBrainCore():
+        return MockBrainCore("memory")
+
     BRAIN_COMPONENTS_AVAILABLE = False
 
-logger = logging.getLogger(f"lukhas.AbstractReasoningBrain")
+logger = logging.getLogger("lukhas.AbstractReasoningBrain")
 
 
 class AbstractReasoningBrainCore:
@@ -161,7 +173,7 @@ class AbstractReasoningBrainCore:
             f"⚡ {self.brain_id} Brain activated - Bio-Quantum Symphony ready for abstract reasoning"
         )
 
-    async def process_independently(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_independently(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process abstract reasoning requests independently using Bio-Quantum engine
         """
@@ -217,7 +229,7 @@ class AbstractReasoningBrainCore:
             # Store reasoning session
             self.reasoning_sessions.append(enhanced_result)
 
-            logger.info(f"✅ Abstract reasoning completed successfully")
+            logger.info("✅ Abstract reasoning completed successfully")
 
             return enhanced_result
 
@@ -232,16 +244,21 @@ class AbstractReasoningBrainCore:
 
     async def orchestrate_cross_brain_reasoning(
         self,
-        reasoning_request: Dict[str, Any],
-        target_brains: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        reasoning_request: dict[str, Any],
+        target_brains: Optional[list[str]] = None,
+    ) -> dict[str, Any]:
         """
         Orchestrate reasoning across specific brain systems
         """
         if not self.active:
             await self.activate_brain()
 
-        target_brains = target_brains or ["dreams", "emotional", "memory", "learning"]
+        target_brains = target_brains or [
+            "dreams",
+            "emotional",
+            "memory",
+            "learning",
+        ]
 
         logger.info(f"🎼 Orchestrating cross-brain reasoning across: {target_brains}")
 
@@ -305,9 +322,9 @@ class AbstractReasoningBrainCore:
 
     async def update_from_feedback(
         self,
-        reasoning_result: Dict[str, Any],
+        reasoning_result: dict[str, Any],
         actual_outcome: bool,
-        feedback_context: Dict[str, Any],
+        feedback_context: dict[str, Any],
     ):
         """Update the system based on feedback from actual outcomes"""
 
@@ -366,7 +383,7 @@ class AbstractReasoningBrainCore:
             logger.error(f"❌ Failed to update from feedback: {e}")
 
     def _calculate_reasoning_complexity(
-        self, reasoning_result: Dict[str, Any]
+        self, reasoning_result: dict[str, Any]
     ) -> float:
         """Calculate the complexity of the reasoning process"""
         try:
@@ -376,9 +393,7 @@ class AbstractReasoningBrainCore:
             reasoning_path = reasoning_result.get("reasoning_result", {}).get(
                 "reasoning_path", {}
             )
-            num_phases = len(
-                [k for k in reasoning_path.keys() if k.startswith("phase_")]
-            )
+            num_phases = len([k for k in reasoning_path if k.startswith("phase_")])
             complexity_factors.append(num_phases / 6.0)  # Normalize by max phases
 
             # Cross-brain coherence (lower coherence = higher complexity)
@@ -403,7 +418,7 @@ class AbstractReasoningBrainCore:
         except Exception:
             return 0.5  # Default medium complexity
 
-    def _update_performance_metrics(self, result: Dict[str, Any]):
+    def _update_performance_metrics(self, result: dict[str, Any]):
         """Update performance tracking metrics"""
         try:
             self.performance_metrics["total_reasoning_sessions"] += 1
@@ -440,7 +455,7 @@ class AbstractReasoningBrainCore:
         except Exception as e:
             logger.warning(f"⚠️ Failed to update performance metrics: {e}")
 
-    def get_brain_status(self) -> Dict[str, Any]:
+    def get_brain_status(self) -> dict[str, Any]:
         """Get comprehensive status of the abstract reasoning brain"""
         return {
             "brain_id": self.brain_id,
@@ -462,7 +477,7 @@ class AbstractReasoningBrainCore:
 
     async def get_reasoning_history(
         self, limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get history of reasoning sessions"""
         if limit:
             return self.reasoning_sessions[-limit:]

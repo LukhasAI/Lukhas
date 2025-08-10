@@ -1,4 +1,3 @@
-import re
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: tests/emotion/test_emotion_recursion.py
 # MODULE: tests.emotion.test_emotion_recursion
@@ -7,15 +6,19 @@ import re
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - DO NOT DISTRIBUTE
 # ═══════════════════════════════════════════════════════════════════════════
 
+import time
 import unittest
 from unittest.mock import MagicMock, patch
-import time
 
-from memory.core_memory.emotional_memory import EmotionalMemory, EmotionVector
-from emotion.recurring_emotion_tracker import RecurringEmotionTracker
-from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import DreamReflectionLoop
-from reasoning.reasoning_engine import SymbolicEngine
+from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import (
+    DreamReflectionLoop,
+)
+
 from emotion.mood_regulator import MoodRegulator
+from emotion.recurring_emotion_tracker import RecurringEmotionTracker
+from memory.core_memory.emotional_memory import EmotionalMemory, EmotionVector
+from reasoning.reasoning_engine import SymbolicEngine
+
 
 class TestEmotionRecursion(unittest.TestCase):
 
@@ -53,7 +56,9 @@ class TestEmotionRecursion(unittest.TestCase):
         self.assertIn("new_valence", delta)
         self.assertIn("intensity_change", delta)
         self.assertIn("timestamp", delta)
-        self.assertAlmostEqual(delta["new_valence"], self.emotional_memory.current_emotion.valence)
+        self.assertAlmostEqual(
+            delta["new_valence"], self.emotional_memory.current_emotion.valence
+        )
 
     def test_symbolic_tagging_in_dream_synthesis(self):
         """
@@ -67,7 +72,7 @@ class TestEmotionRecursion(unittest.TestCase):
         self.assertIn("affect_trace", dream)
 
     @unittest.skip("DreamReflectionLoop doesn't have start_dream_cycle method")
-    @patch('time.sleep', return_value=None)
+    @patch("time.sleep", return_value=None)
     def test_recurring_emotion_simulation(self, mock_sleep):
         """
         Simulates multiple dream cycles to test recurrence detection.
@@ -77,19 +82,21 @@ class TestEmotionRecursion(unittest.TestCase):
             self.emotional_memory.process_experience(
                 experience_content={"type": "text", "text": "a sad event"},
                 explicit_emotion_values={"sadness": 0.8},
-                event_intensity=0.7
+                event_intensity=0.7,
             )
             # We need to manually advance the timestamp for history
             self.emotional_memory.last_history_update_ts += 3600
 
         # Run a dream cycle
         self.dream_loop.start_dream_cycle(duration_minutes=0.1)
-        time.sleep(1) # give the thread time to run
+        time.sleep(1)  # give the thread time to run
         self.dream_loop.stop_dream_cycle()
 
         # Check for recurrence
-        with patch('time.time', return_value=time.time() + 3600 * 25):
-            with patch.object(self.emotional_memory, 'affect_vector_velocity', return_value=0.0):
+        with patch("time.time", return_value=time.time() + 3600 * 25):
+            with patch.object(
+                self.emotional_memory, "affect_vector_velocity", return_value=0.0
+            ):
                 recurrence = self.emotion_tracker.check_for_recurrence()
 
         self.assertIsNotNone(recurrence)
@@ -98,7 +105,7 @@ class TestEmotionRecursion(unittest.TestCase):
         self.assertIn("Recurring emotion detected: sadness", recurrence["trigger"])
 
     @unittest.skip("DreamReflectionLoop doesn't have start_dream_cycle method")
-    @patch('time.sleep', return_value=None)
+    @patch("time.sleep", return_value=None)
     def test_emotional_stagnation_simulation(self, mock_sleep):
         """
         Simulates a long period of the same emotion to test stagnation detection.
@@ -110,9 +117,11 @@ class TestEmotionRecursion(unittest.TestCase):
             self.emotional_memory.process_experience(
                 experience_content={"type": "text", "text": "a happy event"},
                 explicit_emotion_values=stagnation_emotion,
-                event_intensity=0.5
+                event_intensity=0.5,
             )
-            self.emotional_memory.last_history_update_ts += 3600 # Advance time by 1 hour
+            self.emotional_memory.last_history_update_ts += (
+                3600  # Advance time by 1 hour
+            )
 
         # Run a dream cycle
         self.dream_loop.start_dream_cycle(duration_minutes=0.1)
@@ -120,8 +129,10 @@ class TestEmotionRecursion(unittest.TestCase):
         self.dream_loop.stop_dream_cycle()
 
         # Check for stagnation
-        with patch('time.time', return_value=time.time() + 3600 * 25):
-            with patch.object(self.emotional_memory, 'affect_vector_velocity', return_value=0.0):
+        with patch("time.time", return_value=time.time() + 3600 * 25):
+            with patch.object(
+                self.emotional_memory, "affect_vector_velocity", return_value=0.0
+            ):
                 recurrence = self.emotion_tracker.check_for_recurrence()
 
         self.assertIsNotNone(recurrence)
@@ -138,7 +149,7 @@ class TestEmotionRecursion(unittest.TestCase):
         self.emotional_memory.process_experience(
             experience_content={"type": "text", "text": "a very happy event"},
             explicit_emotion_values={"joy": 0.9, "trust": 0.8},
-            event_intensity=0.9
+            event_intensity=0.9,
         )
         positive_state = self.emotional_memory.current_emotion
 
@@ -146,13 +157,15 @@ class TestEmotionRecursion(unittest.TestCase):
         self.emotional_memory.process_experience(
             experience_content={"type": "text", "text": "a very sad event"},
             explicit_emotion_values={"sadness": 0.9, "fear": 0.8},
-            event_intensity=0.9
+            event_intensity=0.9,
         )
         collided_state = self.emotional_memory.current_emotion
 
         # Check that the resulting state is more neutral than either of the two initial states
         self.assertLess(collided_state.valence, positive_state.valence)
-        self.assertGreater(collided_state.valence, 0.1) # Should not be extremely negative
+        self.assertGreater(
+            collided_state.valence, 0.1
+        )  # Should not be extremely negative
 
     def test_drift_triggered_reset(self):
         """
@@ -179,10 +192,19 @@ class TestEmotionRecursion(unittest.TestCase):
 
         # Run the reasoning engine with a neutral input
         input_data = {"text": "The user is considering a new proposal."}
-        reasoning_result = self.reasoning_engine.reason(input_data, emotional_state=self.emotional_memory.get_current_emotional_state()["current_emotion_vector"])
+        reasoning_result = self.reasoning_engine.reason(
+            input_data,
+            emotional_state=self.emotional_memory.get_current_emotional_state()[
+                "current_emotion_vector"
+            ],
+        )
 
         # Check that the confidence of the conclusion is lower due to fear
-        self.assertLess(reasoning_result["overall_confidence"], self.reasoning_engine.confidence_threshold)
+        self.assertLess(
+            reasoning_result["overall_confidence"],
+            self.reasoning_engine.confidence_threshold,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

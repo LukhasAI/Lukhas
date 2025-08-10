@@ -35,56 +35,64 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+import hashlib
+import json
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional
+
 import numpy as np
 import structlog
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Set
-from dataclasses import dataclass, field
-from enum import Enum
-from collections import defaultdict, deque
-import hashlib
-import math
-import json
 
 # Import drift monitoring integration
-from core.monitoring.drift_monitor import UnifiedDriftMonitor, DriftDimension
+from core.monitoring.drift_monitor import DriftDimension, UnifiedDriftMonitor
 
 # Configure structured logging
 logger = structlog.get_logger(__name__)
 
+
 class CollapsePhase(Enum):
     """Phases of symbolic collapse progression"""
-    STABLE = "stable"              # Entropy < 0.3, no collapse risk
+
+    STABLE = "stable"  # Entropy < 0.3, no collapse risk
     PERTURBATION = "perturbation"  # Entropy 0.3-0.5, minor instability
-    CRITICAL = "critical"          # Entropy 0.5-0.7, collapse imminent
-    CASCADE = "cascade"            # Entropy 0.7-0.9, active collapse
-    SINGULARITY = "singularity"    # Entropy > 0.9, total collapse
+    CRITICAL = "critical"  # Entropy 0.5-0.7, collapse imminent
+    CASCADE = "cascade"  # Entropy 0.7-0.9, active collapse
+    SINGULARITY = "singularity"  # Entropy > 0.9, total collapse
+
 
 class CollapseType(Enum):
     """Types of symbolic collapse patterns"""
-    MEMORY = "memory"              # Memory fold collapse
-    SYMBOLIC = "symbolic"          # GLYPH/symbol coherence loss
-    EMOTIONAL = "emotional"        # Emotional regulation failure
-    COGNITIVE = "cognitive"        # Reasoning chain breakdown
-    ETHICAL = "ethical"           # Ethical boundary violation
-    TEMPORAL = "temporal"         # Time coherence loss
-    IDENTITY = "identity"         # Identity fragmentation
+
+    MEMORY = "memory"  # Memory fold collapse
+    SYMBOLIC = "symbolic"  # GLYPH/symbol coherence loss
+    EMOTIONAL = "emotional"  # Emotional regulation failure
+    COGNITIVE = "cognitive"  # Reasoning chain breakdown
+    ETHICAL = "ethical"  # Ethical boundary violation
+    TEMPORAL = "temporal"  # Time coherence loss
+    IDENTITY = "identity"  # Identity fragmentation
+
 
 @dataclass
 class CollapseField:
     """Represents a localized collapse field within the system"""
+
     field_id: str
     field_type: CollapseType
     entropy: float  # Current entropy level (0.0 - 1.0)
     collapse_score: float  # Collapse risk score (0.0 - 1.0)
-    affected_nodes: Set[str]  # Affected system nodes
+    affected_nodes: set[str]  # Affected system nodes
     creation_time: datetime
     last_update: datetime
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class CollapseTrace:
     """Audit trace for collapse events"""
+
     trace_id: str
     timestamp: datetime
     field_id: str
@@ -92,21 +100,24 @@ class CollapseTrace:
     entropy_value: float
     collapse_score: float
     entropy_slope: float  # Rate of entropy change
-    trigger_events: List[str]
-    mitigation_actions: List[str]
-    metadata: Dict[str, Any]
+    trigger_events: list[str]
+    mitigation_actions: list[str]
+    metadata: dict[str, Any]
+
 
 @dataclass
 class CollapseRiskAssessment:
     """Comprehensive collapse risk assessment"""
+
     overall_risk: float  # 0.0 - 1.0
     phase: CollapsePhase
-    active_fields: List[CollapseField]
+    active_fields: list[CollapseField]
     entropy_trend: str  # increasing, stable, decreasing
     time_to_cascade: Optional[timedelta]  # Estimated time to cascade
-    risk_factors: List[str]
-    recommended_actions: List[str]
+    risk_factors: list[str]
+    recommended_actions: list[str]
     confidence: float  # Confidence in assessment (0.0 - 1.0)
+
 
 class CollapseEntropyTracker:
     """
@@ -115,33 +126,36 @@ class CollapseEntropyTracker:
     and triggers preventive measures when collapse risk exceeds thresholds.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize collapse entropy tracker with configuration."""
         self.config = config or {}
 
         # Entropy thresholds for phase transitions
-        self.phase_thresholds = self.config.get('phase_thresholds', {
-            CollapsePhase.STABLE: 0.3,
-            CollapsePhase.PERTURBATION: 0.5,
-            CollapsePhase.CRITICAL: 0.7,
-            CollapsePhase.CASCADE: 0.9,
-            CollapsePhase.SINGULARITY: 0.95
-        })
+        self.phase_thresholds = self.config.get(
+            "phase_thresholds",
+            {
+                CollapsePhase.STABLE: 0.3,
+                CollapsePhase.PERTURBATION: 0.5,
+                CollapsePhase.CRITICAL: 0.7,
+                CollapsePhase.CASCADE: 0.9,
+                CollapsePhase.SINGULARITY: 0.95,
+            },
+        )
 
         # Collapse scoring parameters
-        self.entropy_weight = self.config.get('entropy_weight', 0.4)
-        self.slope_weight = self.config.get('slope_weight', 0.3)
-        self.field_density_weight = self.config.get('field_density_weight', 0.2)
-        self.temporal_weight = self.config.get('temporal_weight', 0.1)
+        self.entropy_weight = self.config.get("entropy_weight", 0.4)
+        self.slope_weight = self.config.get("slope_weight", 0.3)
+        self.field_density_weight = self.config.get("field_density_weight", 0.2)
+        self.temporal_weight = self.config.get("temporal_weight", 0.1)
 
         # Risk assessment parameters
-        self.cascade_threshold = self.config.get('cascade_threshold', 0.75)
-        self.critical_slope = self.config.get('critical_slope', 0.1)  # Entropy/minute
-        self.field_interaction_radius = self.config.get('interaction_radius', 3)
+        self.cascade_threshold = self.config.get("cascade_threshold", 0.75)
+        self.critical_slope = self.config.get("critical_slope", 0.1)  # Entropy/minute
+        self.field_interaction_radius = self.config.get("interaction_radius", 3)
 
         # Storage and tracking
-        self.collapse_fields: Dict[str, CollapseField] = {}
-        self.entropy_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.collapse_fields: dict[str, CollapseField] = {}
+        self.entropy_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
         self.collapse_traces: deque = deque(maxlen=10000)
         self.risk_assessments: deque = deque(maxlen=100)
 
@@ -151,23 +165,24 @@ class CollapseEntropyTracker:
 
         # Performance metrics
         self.metrics = {
-            'traces_generated': 0,
-            'fields_tracked': 0,
-            'cascades_prevented': 0,
-            'assessments_performed': 0
+            "traces_generated": 0,
+            "fields_tracked": 0,
+            "cascades_prevented": 0,
+            "assessments_performed": 0,
         }
 
         logger.info(
             "CollapseEntropyTracker initialized",
             phase_thresholds=self.phase_thresholds,
             cascade_threshold=self.cascade_threshold,
-            tag="ΛCOLLAPSE"
+            tag="ΛCOLLAPSE",
         )
 
     def _init_drift_integration(self):
         """Initialize integration with unified drift monitor."""
         try:
             from core.monitoring import create_drift_monitor
+
             self.drift_monitor = create_drift_monitor()
             logger.info("Drift monitor integration initialized", tag="ΛCOLLAPSE")
         except ImportError:
@@ -177,8 +192,8 @@ class CollapseEntropyTracker:
         self,
         field_type: CollapseType,
         entropy_value: float,
-        affected_nodes: Set[str],
-        metadata: Optional[Dict[str, Any]] = None
+        affected_nodes: set[str],
+        metadata: Optional[dict[str, Any]] = None,
     ) -> CollapseField:
         """
         Track entropy measurement and create/update collapse field.
@@ -215,17 +230,19 @@ class CollapseEntropyTracker:
                 affected_nodes=affected_nodes.copy(),
                 creation_time=datetime.now(),
                 last_update=datetime.now(),
-                metadata=metadata or {}
+                metadata=metadata or {},
             )
             self.collapse_fields[field_id] = field
-            self.metrics['fields_tracked'] += 1
+            self.metrics["fields_tracked"] += 1
 
         # Store entropy history
-        self.entropy_history[field_id].append({
-            'timestamp': datetime.now(),
-            'value': entropy_value,
-            'node_count': len(affected_nodes)
-        })
+        self.entropy_history[field_id].append(
+            {
+                "timestamp": datetime.now(),
+                "value": entropy_value,
+                "node_count": len(affected_nodes),
+            }
+        )
 
         # Calculate collapse score
         field.collapse_score = self._calculate_collapse_score(field)
@@ -245,7 +262,7 @@ class CollapseEntropyTracker:
             collapse_score=round(field.collapse_score, 3),
             phase=phase.value,
             affected_nodes=len(affected_nodes),
-            tag="ΛENTROPY"
+            tag="ΛENTROPY",
         )
 
         # Check for cascade risk
@@ -259,9 +276,7 @@ class CollapseEntropyTracker:
         return field
 
     def calculate_entropy_slope(
-        self,
-        field_id: str,
-        time_window: Optional[timedelta] = None
+        self, field_id: str, time_window: Optional[timedelta] = None
     ) -> float:
         """
         Calculate the rate of entropy change (slope) for a field.
@@ -281,18 +296,17 @@ class CollapseEntropyTracker:
 
         # Get measurements within time window
         cutoff_time = datetime.now() - time_window
-        recent_measurements = [
-            m for m in history
-            if m['timestamp'] >= cutoff_time
-        ]
+        recent_measurements = [m for m in history if m["timestamp"] >= cutoff_time]
 
         if len(recent_measurements) < 2:
             return 0.0
 
         # Calculate linear regression slope
-        times = [(m['timestamp'] - recent_measurements[0]['timestamp']).total_seconds() / 60
-                 for m in recent_measurements]
-        values = [m['value'] for m in recent_measurements]
+        times = [
+            (m["timestamp"] - recent_measurements[0]["timestamp"]).total_seconds() / 60
+            for m in recent_measurements
+        ]
+        values = [m["value"] for m in recent_measurements]
 
         if times[-1] == 0:
             return 0.0
@@ -313,8 +327,7 @@ class CollapseEntropyTracker:
         return slope
 
     def assess_collapse_risk(
-        self,
-        include_predictions: bool = True
+        self, include_predictions: bool = True
     ) -> CollapseRiskAssessment:
         """
         Perform comprehensive collapse risk assessment.
@@ -336,7 +349,7 @@ class CollapseEntropyTracker:
                 time_to_cascade=None,
                 risk_factors=[],
                 recommended_actions=["System stable - continue monitoring"],
-                confidence=1.0
+                confidence=1.0,
             )
 
         # Calculate overall risk metrics
@@ -368,51 +381,49 @@ class CollapseEntropyTracker:
             avg_entropy,
             max_collapse_score,
             avg_slope,
-            len(active_fields)
+            len(active_fields),
         )
 
         # Identify risk factors
         risk_factors = self._identify_risk_factors(
-            active_fields,
-            entropy_slopes,
-            overall_phase
+            active_fields, entropy_slopes, overall_phase
         )
 
         # Predict time to cascade if applicable
         time_to_cascade = None
         if include_predictions and avg_slope > 0 and max_entropy < 0.9:
-            remaining_entropy = self.phase_thresholds[CollapsePhase.CASCADE] - max_entropy
+            remaining_entropy = (
+                self.phase_thresholds[CollapsePhase.CASCADE] - max_entropy
+            )
             if avg_slope > 0:
                 minutes_to_cascade = remaining_entropy / avg_slope
                 time_to_cascade = timedelta(minutes=minutes_to_cascade)
 
         # Generate recommendations
         recommendations = self._generate_recommendations(
-            overall_phase,
-            risk_factors,
-            entropy_trend,
-            active_fields
+            overall_phase, risk_factors, entropy_trend, active_fields
         )
 
         # Calculate confidence
         confidence = self._calculate_assessment_confidence(
-            len(active_fields),
-            len(self.entropy_history)
+            len(active_fields), len(self.entropy_history)
         )
 
         assessment = CollapseRiskAssessment(
             overall_risk=overall_risk,
             phase=overall_phase,
-            active_fields=sorted(active_fields, key=lambda f: f.collapse_score, reverse=True),
+            active_fields=sorted(
+                active_fields, key=lambda f: f.collapse_score, reverse=True
+            ),
             entropy_trend=entropy_trend,
             time_to_cascade=time_to_cascade,
             risk_factors=risk_factors,
             recommended_actions=recommendations,
-            confidence=confidence
+            confidence=confidence,
         )
 
         self.risk_assessments.append(assessment)
-        self.metrics['assessments_performed'] += 1
+        self.metrics["assessments_performed"] += 1
 
         logger.info(
             "Collapse risk assessed",
@@ -422,15 +433,17 @@ class CollapseEntropyTracker:
             active_fields=len(active_fields),
             risk_factors=len(risk_factors),
             time_to_cascade=str(time_to_cascade) if time_to_cascade else None,
-            tag="ΛRISK"
+            tag="ΛRISK",
         )
 
         return assessment
 
-    def _generate_field_id(self, field_type: CollapseType, affected_nodes: Set[str]) -> str:
+    def _generate_field_id(
+        self, field_type: CollapseType, affected_nodes: set[str]
+    ) -> str:
         """Generate unique field ID based on type and affected nodes."""
         node_hash = hashlib.sha256(
-            ''.join(sorted(affected_nodes)).encode()
+            "".join(sorted(affected_nodes)).encode()
         ).hexdigest()[:8]
         return f"{field_type.value}_{node_hash}"
 
@@ -444,19 +457,16 @@ class CollapseEntropyTracker:
         slope_score = min(1.0, abs(slope) * 10) * self.slope_weight
 
         # Field density contribution (affected nodes)
-        density_score = min(1.0, len(field.affected_nodes) / 10) * self.field_density_weight
+        density_score = (
+            min(1.0, len(field.affected_nodes) / 10) * self.field_density_weight
+        )
 
         # Temporal contribution (field age)
         age = (datetime.now() - field.creation_time).total_seconds() / 3600  # Hours
         temporal_score = min(1.0, age / 24) * self.temporal_weight  # Max at 24 hours
 
         # Combine scores
-        collapse_score = (
-            entropy_score +
-            slope_score +
-            density_score +
-            temporal_score
-        )
+        collapse_score = entropy_score + slope_score + density_score + temporal_score
 
         # Apply non-linear scaling for critical regions
         if collapse_score > 0.7:
@@ -471,9 +481,13 @@ class CollapseEntropyTracker:
                 return phase
         return CollapsePhase.STABLE
 
-    def _generate_trace(self, field: CollapseField, phase: CollapsePhase) -> CollapseTrace:
+    def _generate_trace(
+        self, field: CollapseField, phase: CollapsePhase
+    ) -> CollapseTrace:
         """Generate collapse trace for audit trail."""
-        trace_id = f"collapse_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
+        trace_id = (
+            f"collapse_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{field.field_id}"
+        )
 
         # Calculate entropy slope
         entropy_slope = self.calculate_entropy_slope(field.field_id)
@@ -489,12 +503,17 @@ class CollapseEntropyTracker:
 
         # Determine mitigation actions
         mitigation_actions = []
-        if phase.value in [CollapsePhase.CRITICAL.value, CollapsePhase.CASCADE.value]:
-            mitigation_actions.extend([
-                "reduce_system_complexity",
-                "isolate_affected_nodes",
-                "increase_monitoring_frequency"
-            ])
+        if phase.value in [
+            CollapsePhase.CRITICAL.value,
+            CollapsePhase.CASCADE.value,
+        ]:
+            mitigation_actions.extend(
+                [
+                    "reduce_system_complexity",
+                    "isolate_affected_nodes",
+                    "increase_monitoring_frequency",
+                ]
+            )
 
         trace = CollapseTrace(
             trace_id=trace_id,
@@ -507,13 +526,16 @@ class CollapseEntropyTracker:
             trigger_events=trigger_events,
             mitigation_actions=mitigation_actions,
             metadata={
-                'field_type': field.field_type.value,
-                'affected_node_count': len(field.affected_nodes),
-                'field_age_hours': (datetime.now() - field.creation_time).total_seconds() / 3600
-            }
+                "field_type": field.field_type.value,
+                "affected_node_count": len(field.affected_nodes),
+                "field_age_hours": (
+                    datetime.now() - field.creation_time
+                ).total_seconds()
+                / 3600,
+            },
         )
 
-        self.metrics['traces_generated'] += 1
+        self.metrics["traces_generated"] += 1
 
         return trace
 
@@ -526,18 +548,20 @@ class CollapseEntropyTracker:
             entropy=field.entropy,
             collapse_score=field.collapse_score,
             affected_nodes=list(field.affected_nodes)[:5],  # Limit for logging
-            tag="ΛCASCADE"
+            tag="ΛCASCADE",
         )
 
         # Record prevention action
-        self.metrics['cascades_prevented'] += 1
+        self.metrics["cascades_prevented"] += 1
 
         # Add cascade prevention to trace
-        trace.mitigation_actions.extend([
-            "cascade_prevention_activated",
-            "emergency_entropy_reduction",
-            "node_quarantine_initiated"
-        ])
+        trace.mitigation_actions.extend(
+            [
+                "cascade_prevention_activated",
+                "emergency_entropy_reduction",
+                "node_quarantine_initiated",
+            ]
+        )
 
     def _report_to_drift_monitor(self, field: CollapseField, phase: CollapsePhase):
         """Report collapse metrics to drift monitor."""
@@ -546,18 +570,19 @@ class CollapseEntropyTracker:
 
         # Report as cognitive drift
         import asyncio
+
         asyncio.create_task(
             self.drift_monitor.track_drift(
                 dimension=DriftDimension.COGNITIVE,
                 score=field.collapse_score,
                 metadata={
-                    'collapse_field_id': field.field_id,
-                    'field_type': field.field_type.value,
-                    'entropy': field.entropy,
-                    'phase': phase.value,
-                    'affected_nodes': len(field.affected_nodes),
-                    'source_module': 'collapse_entropy_tracker'
-                }
+                    "collapse_field_id": field.field_id,
+                    "field_type": field.field_type.value,
+                    "entropy": field.entropy,
+                    "phase": phase.value,
+                    "affected_nodes": len(field.affected_nodes),
+                    "source_module": "collapse_entropy_tracker",
+                },
             )
         )
 
@@ -567,7 +592,7 @@ class CollapseEntropyTracker:
         avg_entropy: float,
         max_collapse_score: float,
         avg_slope: float,
-        field_count: int
+        field_count: int,
     ) -> float:
         """Calculate overall collapse risk score."""
         # Weighted combination of risk factors
@@ -576,7 +601,7 @@ class CollapseEntropyTracker:
             avg_entropy * 0.2,
             max_collapse_score * 0.25,
             min(1.0, avg_slope * 10) * 0.15,
-            min(1.0, field_count / 10) * 0.1
+            min(1.0, field_count / 10) * 0.1,
         ]
 
         overall_risk = sum(risk_components)
@@ -589,10 +614,10 @@ class CollapseEntropyTracker:
 
     def _identify_risk_factors(
         self,
-        active_fields: List[CollapseField],
-        entropy_slopes: List[float],
-        overall_phase: CollapsePhase
-    ) -> List[str]:
+        active_fields: list[CollapseField],
+        entropy_slopes: list[float],
+        overall_phase: CollapsePhase,
+    ) -> list[str]:
         """Identify specific risk factors."""
         risk_factors = []
 
@@ -604,7 +629,9 @@ class CollapseEntropyTracker:
         # Slope-based risks
         rapid_increase_count = sum(1 for s in entropy_slopes if s > self.critical_slope)
         if rapid_increase_count > 0:
-            risk_factors.append(f"{rapid_increase_count} fields with rapid entropy increase")
+            risk_factors.append(
+                f"{rapid_increase_count} fields with rapid entropy increase"
+            )
 
         # Phase-based risks
         if overall_phase in [CollapsePhase.CRITICAL, CollapsePhase.CASCADE]:
@@ -615,7 +642,7 @@ class CollapseEntropyTracker:
             risk_factors.append("Multiple collapse fields interacting")
 
         # Type diversity risks
-        field_types = set(f.field_type for f in active_fields)
+        field_types = {f.field_type for f in active_fields}
         if len(field_types) > 3:
             risk_factors.append("Multi-dimensional collapse pattern")
 
@@ -624,52 +651,60 @@ class CollapseEntropyTracker:
     def _generate_recommendations(
         self,
         phase: CollapsePhase,
-        risk_factors: List[str],
+        risk_factors: list[str],
         entropy_trend: str,
-        active_fields: List[CollapseField]
-    ) -> List[str]:
+        active_fields: list[CollapseField],
+    ) -> list[str]:
         """Generate actionable recommendations."""
         recommendations = []
 
         # Phase-specific recommendations
         if phase == CollapsePhase.CASCADE:
-            recommendations.extend([
-                "IMMEDIATE: Activate emergency collapse protocol",
-                "IMMEDIATE: Isolate affected subsystems",
-                "IMMEDIATE: Reduce all non-critical processing"
-            ])
+            recommendations.extend(
+                [
+                    "IMMEDIATE: Activate emergency collapse protocol",
+                    "IMMEDIATE: Isolate affected subsystems",
+                    "IMMEDIATE: Reduce all non-critical processing",
+                ]
+            )
         elif phase == CollapsePhase.CRITICAL:
-            recommendations.extend([
-                "Implement entropy reduction measures",
-                "Increase monitoring frequency to real-time",
-                "Prepare rollback contingencies"
-            ])
+            recommendations.extend(
+                [
+                    "Implement entropy reduction measures",
+                    "Increase monitoring frequency to real-time",
+                    "Prepare rollback contingencies",
+                ]
+            )
         elif phase == CollapsePhase.PERTURBATION:
-            recommendations.extend([
-                "Monitor affected fields closely",
-                "Review recent system changes",
-                "Optimize resource allocation"
-            ])
+            recommendations.extend(
+                [
+                    "Monitor affected fields closely",
+                    "Review recent system changes",
+                    "Optimize resource allocation",
+                ]
+            )
 
         # Trend-specific recommendations
         if entropy_trend == "increasing":
             recommendations.append("Apply entropy damping algorithms")
 
         # Field-specific recommendations
-        memory_fields = [f for f in active_fields if f.field_type == CollapseType.MEMORY]
+        memory_fields = [
+            f for f in active_fields if f.field_type == CollapseType.MEMORY
+        ]
         if memory_fields:
             recommendations.append("Optimize memory fold compression")
 
-        symbolic_fields = [f for f in active_fields if f.field_type == CollapseType.SYMBOLIC]
+        symbolic_fields = [
+            f for f in active_fields if f.field_type == CollapseType.SYMBOLIC
+        ]
         if symbolic_fields:
             recommendations.append("Stabilize symbolic vocabulary")
 
         return recommendations[:5]  # Limit to top 5
 
     def _calculate_assessment_confidence(
-        self,
-        field_count: int,
-        history_size: int
+        self, field_count: int, history_size: int
     ) -> float:
         """Calculate confidence in risk assessment."""
         # Base confidence on data availability
@@ -679,11 +714,13 @@ class CollapseEntropyTracker:
         # Weight by recency of data
         recency_factor = 1.0  # Could be enhanced with time-based decay
 
-        confidence = (field_confidence * 0.4 + history_confidence * 0.6) * recency_factor
+        confidence = (
+            field_confidence * 0.4 + history_confidence * 0.6
+        ) * recency_factor
 
         return confidence
 
-    def get_field_status(self, field_id: str) -> Optional[Dict[str, Any]]:
+    def get_field_status(self, field_id: str) -> Optional[dict[str, Any]]:
         """Get current status of a specific collapse field."""
         field = self.collapse_fields.get(field_id)
         if not field:
@@ -693,38 +730,44 @@ class CollapseEntropyTracker:
         phase = self._determine_phase(field.entropy)
 
         return {
-            'field_id': field_id,
-            'field_type': field.field_type.value,
-            'entropy': field.entropy,
-            'collapse_score': field.collapse_score,
-            'entropy_slope': slope,
-            'phase': phase.value,
-            'affected_nodes': list(field.affected_nodes),
-            'age_hours': (datetime.now() - field.creation_time).total_seconds() / 3600,
-            'last_update': field.last_update.isoformat()
+            "field_id": field_id,
+            "field_type": field.field_type.value,
+            "entropy": field.entropy,
+            "collapse_score": field.collapse_score,
+            "entropy_slope": slope,
+            "phase": phase.value,
+            "affected_nodes": list(field.affected_nodes),
+            "age_hours": (datetime.now() - field.creation_time).total_seconds() / 3600,
+            "last_update": field.last_update.isoformat(),
         }
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get overall system metrics."""
         active_fields = list(self.collapse_fields.values())
 
         metrics = {
-            'timestamp': datetime.now().isoformat(),
-            'active_fields': len(active_fields),
-            'total_traces': self.metrics['traces_generated'],
-            'cascades_prevented': self.metrics['cascades_prevented'],
-            'assessments_performed': self.metrics['assessments_performed'],
-            'current_state': {
-                'max_entropy': max((f.entropy for f in active_fields), default=0.0),
-                'avg_entropy': np.mean([f.entropy for f in active_fields]) if active_fields else 0.0,
-                'max_collapse_score': max((f.collapse_score for f in active_fields), default=0.0),
-                'phase_distribution': self._get_phase_distribution(active_fields)
-            }
+            "timestamp": datetime.now().isoformat(),
+            "active_fields": len(active_fields),
+            "total_traces": self.metrics["traces_generated"],
+            "cascades_prevented": self.metrics["cascades_prevented"],
+            "assessments_performed": self.metrics["assessments_performed"],
+            "current_state": {
+                "max_entropy": max((f.entropy for f in active_fields), default=0.0),
+                "avg_entropy": (
+                    np.mean([f.entropy for f in active_fields])
+                    if active_fields
+                    else 0.0
+                ),
+                "max_collapse_score": max(
+                    (f.collapse_score for f in active_fields), default=0.0
+                ),
+                "phase_distribution": self._get_phase_distribution(active_fields),
+            },
         }
 
         return metrics
 
-    def _get_phase_distribution(self, fields: List[CollapseField]) -> Dict[str, int]:
+    def _get_phase_distribution(self, fields: list[CollapseField]) -> dict[str, int]:
         """Get distribution of fields across phases."""
         distribution = {phase.value: 0 for phase in CollapsePhase}
 
@@ -738,7 +781,7 @@ class CollapseEntropyTracker:
         self,
         start_time: Optional[datetime] = None,
         end_time: Optional[datetime] = None,
-        format: str = 'json'
+        format: str = "json",
     ) -> Any:
         """Export collapse traces for analysis."""
         # Filter traces by time window
@@ -750,26 +793,26 @@ class CollapseEntropyTracker:
 
         # Convert to serializable format
         export_data = {
-            'export_timestamp': datetime.now().isoformat(),
-            'trace_count': len(filtered_traces),
-            'traces': [
+            "export_timestamp": datetime.now().isoformat(),
+            "trace_count": len(filtered_traces),
+            "traces": [
                 {
-                    'trace_id': t.trace_id,
-                    'timestamp': t.timestamp.isoformat(),
-                    'field_id': t.field_id,
-                    'phase': t.phase.value,
-                    'entropy_value': t.entropy_value,
-                    'collapse_score': t.collapse_score,
-                    'entropy_slope': t.entropy_slope,
-                    'trigger_events': t.trigger_events,
-                    'mitigation_actions': t.mitigation_actions,
-                    'metadata': t.metadata
+                    "trace_id": t.trace_id,
+                    "timestamp": t.timestamp.isoformat(),
+                    "field_id": t.field_id,
+                    "phase": t.phase.value,
+                    "entropy_value": t.entropy_value,
+                    "collapse_score": t.collapse_score,
+                    "entropy_slope": t.entropy_slope,
+                    "trigger_events": t.trigger_events,
+                    "mitigation_actions": t.mitigation_actions,
+                    "metadata": t.metadata,
                 }
                 for t in filtered_traces
-            ]
+            ],
         }
 
-        if format == 'json':
+        if format == "json":
             return json.dumps(export_data, indent=2)
         else:
             return export_data
@@ -793,28 +836,34 @@ class CollapseEntropyTracker:
                 "Inactive fields cleared",
                 cleared_count=len(fields_to_remove),
                 remaining_fields=len(self.collapse_fields),
-                tag="ΛCOLLAPSE"
+                tag="ΛCOLLAPSE",
             )
 
+
 # Factory function
-def create_collapse_tracker(config: Optional[Dict[str, Any]] = None) -> CollapseEntropyTracker:
+
+
+def create_collapse_tracker(
+    config: Optional[dict[str, Any]] = None,
+) -> CollapseEntropyTracker:
     """Create configured collapse entropy tracker instance."""
     default_config = {
-        'phase_thresholds': {
+        "phase_thresholds": {
             CollapsePhase.STABLE: 0.3,
             CollapsePhase.PERTURBATION: 0.5,
             CollapsePhase.CRITICAL: 0.7,
             CollapsePhase.CASCADE: 0.9,
-            CollapsePhase.SINGULARITY: 0.95
+            CollapsePhase.SINGULARITY: 0.95,
         },
-        'cascade_threshold': 0.75,
-        'critical_slope': 0.1
+        "cascade_threshold": 0.75,
+        "critical_slope": 0.1,
     }
 
     if config:
         default_config.update(config)
 
     return CollapseEntropyTracker(default_config)
+
 
 # Main execution for testing
 if __name__ == "__main__":
@@ -832,18 +881,19 @@ if __name__ == "__main__":
         field_type=CollapseType.MEMORY,
         entropy_value=0.2,
         affected_nodes={"node_1", "node_2"},
-        metadata={'trigger': 'memory_overflow'}
+        metadata={"trigger": "memory_overflow"},
     )
     print(f"Field 1: Entropy={field1.entropy:.3f}, Score={field1.collapse_score:.3f}")
 
     # Deteriorating field
     import time
+
     time.sleep(0.1)
     field2 = tracker.track_entropy(
         field_type=CollapseType.SYMBOLIC,
         entropy_value=0.6,
         affected_nodes={"node_3", "node_4", "node_5"},
-        metadata={'trigger': 'symbol_divergence'}
+        metadata={"trigger": "symbol_divergence"},
     )
     print(f"Field 2: Entropy={field2.entropy:.3f}, Score={field2.collapse_score:.3f}")
 
@@ -853,7 +903,7 @@ if __name__ == "__main__":
         field_type=CollapseType.EMOTIONAL,
         entropy_value=0.85,
         affected_nodes={"node_6", "node_7", "node_8", "node_9"},
-        metadata={'trigger': 'emotional_cascade'}
+        metadata={"trigger": "emotional_cascade"},
     )
     print(f"Field 3: Entropy={field3.entropy:.3f}, Score={field3.collapse_score:.3f}")
 

@@ -15,50 +15,54 @@ Author: LUKHAS Identity Team
 Version: 1.0.0
 """
 
+import base64
 import hashlib
+import json
+import logging
 import secrets
-import numpy as np
-from typing import Dict, List, Optional, Tuple, Any
+import struct
 from dataclasses import dataclass
 from enum import Enum
-from core.common import get_logger, GLYPHToken, create_glyph
-from PIL import Image
-import struct
-import json
-import base64
-from cryptography.fernet import Fernet
+from typing import Any, Optional
 
-logger = logging.getLogger('LUKHAS_STEGANOGRAPHIC_ID')
+import numpy as np
+from cryptography.fernet import Fernet
+from PIL import Image
+
+logger = logging.getLogger("LUKHAS_STEGANOGRAPHIC_ID")
 
 
 class EmbeddingMethod(Enum):
     """Steganographic embedding methods"""
-    LSB = "lsb"                    # Least Significant Bit
-    DCT = "dct"                    # Discrete Cosine Transform
-    WAVELET = "wavelet"            # Wavelet Transform
-    FRACTAL = "fractal"            # Fractal-based hiding
-    QUANTUM_LSB = "quantum_lsb"    # Quantum-enhanced LSB
-    MULTI_LAYER = "multi_layer"    # Multiple method combination
+
+    LSB = "lsb"  # Least Significant Bit
+    DCT = "dct"  # Discrete Cosine Transform
+    WAVELET = "wavelet"  # Wavelet Transform
+    FRACTAL = "fractal"  # Fractal-based hiding
+    QUANTUM_LSB = "quantum_lsb"  # Quantum-enhanced LSB
+    MULTI_LAYER = "multi_layer"  # Multiple method combination
 
 
 class EmbeddingStrength(Enum):
     """Embedding strength levels"""
-    SUBTLE = "subtle"              # Hard to detect, lower capacity
-    MODERATE = "moderate"          # Balanced detection/capacity
-    STRONG = "strong"              # Higher capacity, more detectable
-    QUANTUM = "quantum"            # Quantum-enhanced hiding
+
+    SUBTLE = "subtle"  # Hard to detect, lower capacity
+    MODERATE = "moderate"  # Balanced detection/capacity
+    STRONG = "strong"  # Higher capacity, more detectable
+    QUANTUM = "quantum"  # Quantum-enhanced hiding
 
 
 @dataclass
 class IdentityEmbedData:
     """Identity data to embed steganographically"""
+
     lambda_id: str
     tier_level: int
     biometric_hash: Optional[str] = None
     consciousness_signature: Optional[str] = None
     dream_pattern_hash: Optional[str] = None
     cultural_context: Optional[str] = None
-    custom_data: Optional[Dict[str, Any]] = None
+    custom_data: Optional[dict[str, Any]] = None
     timestamp: float = 0.0
     expires_at: float = 0.0
 
@@ -66,9 +70,10 @@ class IdentityEmbedData:
 @dataclass
 class EmbeddingResult:
     """Result of steganographic embedding"""
+
     success: bool
     embedded_image: Optional[Image.Image]
-    embedding_metadata: Dict[str, Any]
+    embedding_metadata: dict[str, Any]
     extraction_key: str
     integrity_hash: str
     detection_resistance_score: float
@@ -84,11 +89,13 @@ class SteganographicIdentityEmbedder:
     with quantum-enhanced security features.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Embedding parameters
-        self.max_embedding_ratio = self.config.get("max_embedding_ratio", 0.25)  # 25% of image capacity
+        self.max_embedding_ratio = self.config.get(
+            "max_embedding_ratio", 0.25
+        )  # 25% of image capacity
         self.default_strength = EmbeddingStrength.MODERATE
         self.detection_threshold = 0.8  # Minimum detection resistance score
 
@@ -102,10 +109,13 @@ class SteganographicIdentityEmbedder:
 
         logger.info("Steganographic Identity Embedder initialized")
 
-    def embed_identity_data(self, carrier_image: Image.Image,
-                          identity_data: IdentityEmbedData,
-                          method: EmbeddingMethod = EmbeddingMethod.QUANTUM_LSB,
-                          strength: EmbeddingStrength = EmbeddingStrength.MODERATE) -> EmbeddingResult:
+    def embed_identity_data(
+        self,
+        carrier_image: Image.Image,
+        identity_data: IdentityEmbedData,
+        method: EmbeddingMethod = EmbeddingMethod.QUANTUM_LSB,
+        strength: EmbeddingStrength = EmbeddingStrength.MODERATE,
+    ) -> EmbeddingResult:
         """
         Embed identity data into carrier image
 
@@ -129,7 +139,7 @@ class SteganographicIdentityEmbedder:
                     integrity_hash="",
                     detection_resistance_score=0.0,
                     capacity_used=0.0,
-                    error_message="Invalid input data"
+                    error_message="Invalid input data",
                 )
 
             # Prepare identity data for embedding
@@ -139,7 +149,9 @@ class SteganographicIdentityEmbedder:
             embedding_keys = self._generate_embedding_keys(identity_data.lambda_id)
 
             # Encrypt identity data
-            encrypted_data = self._encrypt_identity_data(prepared_data, embedding_keys["encryption"])
+            encrypted_data = self._encrypt_identity_data(
+                prepared_data, embedding_keys["encryption"]
+            )
 
             # Select embedding algorithm
             if method == EmbeddingMethod.LSB:
@@ -147,12 +159,18 @@ class SteganographicIdentityEmbedder:
             elif method == EmbeddingMethod.DCT:
                 result = self._embed_dct(carrier_image, encrypted_data, strength)
             elif method == EmbeddingMethod.QUANTUM_LSB:
-                result = self._embed_quantum_lsb(carrier_image, encrypted_data, strength, embedding_keys)
+                result = self._embed_quantum_lsb(
+                    carrier_image, encrypted_data, strength, embedding_keys
+                )
             elif method == EmbeddingMethod.MULTI_LAYER:
-                result = self._embed_multi_layer(carrier_image, encrypted_data, strength, embedding_keys)
+                result = self._embed_multi_layer(
+                    carrier_image, encrypted_data, strength, embedding_keys
+                )
             else:
                 # Default to quantum LSB
-                result = self._embed_quantum_lsb(carrier_image, encrypted_data, strength, embedding_keys)
+                result = self._embed_quantum_lsb(
+                    carrier_image, encrypted_data, strength, embedding_keys
+                )
 
             if not result["success"]:
                 return EmbeddingResult(
@@ -163,7 +181,7 @@ class SteganographicIdentityEmbedder:
                     integrity_hash="",
                     detection_resistance_score=0.0,
                     capacity_used=0.0,
-                    error_message=result.get("error", "Embedding failed")
+                    error_message=result.get("error", "Embedding failed"),
                 )
 
             # Calculate detection resistance
@@ -172,7 +190,9 @@ class SteganographicIdentityEmbedder:
             )
 
             # Calculate capacity usage
-            capacity_used = len(encrypted_data) / self._calculate_image_capacity(carrier_image)
+            capacity_used = len(encrypted_data) / self._calculate_image_capacity(
+                carrier_image
+            )
 
             # Generate integrity hash
             integrity_hash = self._generate_integrity_hash(
@@ -186,10 +206,11 @@ class SteganographicIdentityEmbedder:
                 "data_size": len(encrypted_data),
                 "image_size": carrier_image.size,
                 "embedding_locations": result.get("locations", []),
-                "quantum_enhanced": method in [EmbeddingMethod.QUANTUM_LSB, EmbeddingMethod.MULTI_LAYER],
+                "quantum_enhanced": method
+                in [EmbeddingMethod.QUANTUM_LSB, EmbeddingMethod.MULTI_LAYER],
                 "layers_used": result.get("layers", 1),
                 "encryption_algorithm": "Fernet",
-                "detection_countermeasures": result.get("countermeasures", [])
+                "detection_countermeasures": result.get("countermeasures", []),
             }
 
             return EmbeddingResult(
@@ -199,7 +220,7 @@ class SteganographicIdentityEmbedder:
                 extraction_key=base64.b64encode(embedding_keys["extraction"]).decode(),
                 integrity_hash=integrity_hash,
                 detection_resistance_score=detection_resistance,
-                capacity_used=capacity_used
+                capacity_used=capacity_used,
             )
 
         except Exception as e:
@@ -212,12 +233,15 @@ class SteganographicIdentityEmbedder:
                 integrity_hash="",
                 detection_resistance_score=0.0,
                 capacity_used=0.0,
-                error_message=str(e)
+                error_message=str(e),
             )
 
-    def extract_identity_data(self, stego_image: Image.Image,
-                            extraction_key: str,
-                            method: EmbeddingMethod = EmbeddingMethod.QUANTUM_LSB) -> Dict[str, Any]:
+    def extract_identity_data(
+        self,
+        stego_image: Image.Image,
+        extraction_key: str,
+        method: EmbeddingMethod = EmbeddingMethod.QUANTUM_LSB,
+    ) -> dict[str, Any]:
         """
         Extract identity data from steganographic image
 
@@ -231,9 +255,7 @@ class SteganographicIdentityEmbedder:
         """
         try:
             # Decode extraction key
-            embedding_keys = {
-                "extraction": base64.b64decode(extraction_key.encode())
-            }
+            embedding_keys = {"extraction": base64.b64decode(extraction_key.encode())}
 
             # Extract encrypted data based on method
             if method == EmbeddingMethod.LSB:
@@ -248,13 +270,12 @@ class SteganographicIdentityEmbedder:
                 encrypted_data = self._extract_quantum_lsb(stego_image, embedding_keys)
 
             if not encrypted_data:
-                return {
-                    "success": False,
-                    "error": "No embedded data found"
-                }
+                return {"success": False, "error": "No embedded data found"}
 
             # Decrypt identity data
-            decrypted_data = self._decrypt_identity_data(encrypted_data, embedding_keys["extraction"][:32])
+            decrypted_data = self._decrypt_identity_data(
+                encrypted_data, embedding_keys["extraction"][:32]
+            )
 
             # Parse identity data
             identity_data = self._parse_identity_data(decrypted_data)
@@ -263,23 +284,22 @@ class SteganographicIdentityEmbedder:
                 "success": True,
                 "identity_data": identity_data,
                 "extraction_method": method.value,
-                "data_size": len(encrypted_data)
+                "data_size": len(encrypted_data),
             }
 
         except Exception as e:
             logger.error(f"Steganographic extraction error: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def _prepare_identity_data(self, identity_data: IdentityEmbedData) -> bytes:
         """Prepare identity data for embedding"""
         data_dict = {
-            "lambda_id_hash": hashlib.sha256(identity_data.lambda_id.encode()).hexdigest()[:16],
+            "lambda_id_hash": hashlib.sha256(
+                identity_data.lambda_id.encode()
+            ).hexdigest()[:16],
             "tier_level": identity_data.tier_level,
             "timestamp": identity_data.timestamp,
-            "expires_at": identity_data.expires_at
+            "expires_at": identity_data.expires_at,
         }
 
         # Add optional fields
@@ -300,33 +320,24 @@ class SteganographicIdentityEmbedder:
 
         # Convert to bytes
         json_data = json.dumps(data_dict, sort_keys=True)
-        return json_data.encode('utf-8')
+        return json_data.encode("utf-8")
 
-    def _generate_embedding_keys(self, lambda_id: str) -> Dict[str, bytes]:
+    def _generate_embedding_keys(self, lambda_id: str) -> dict[str, bytes]:
         """Generate keys for embedding"""
         # Generate quantum-enhanced keys
         key_material = lambda_id.encode() + self._get_quantum_entropy(64)
 
         # Derive encryption key
         encryption_key = hashlib.scrypt(
-            key_material,
-            salt=b'LUKHAS_STEGO_ENC',
-            n=16384, r=8, p=1,
-            dklen=32
+            key_material, salt=b"LUKHAS_STEGO_ENC", n=16384, r=8, p=1, dklen=32
         )
 
         # Derive extraction key (includes encryption key + additional data)
         extraction_key = hashlib.scrypt(
-            key_material,
-            salt=b'LUKHAS_STEGO_EXT',
-            n=16384, r=8, p=1,
-            dklen=64
+            key_material, salt=b"LUKHAS_STEGO_EXT", n=16384, r=8, p=1, dklen=64
         )
 
-        return {
-            "encryption": encryption_key,
-            "extraction": extraction_key
-        }
+        return {"encryption": encryption_key, "extraction": extraction_key}
 
     def _encrypt_identity_data(self, data: bytes, key: bytes) -> bytes:
         """Encrypt identity data for embedding"""
@@ -338,13 +349,15 @@ class SteganographicIdentityEmbedder:
         fernet = Fernet(base64.urlsafe_b64encode(key))
         return fernet.decrypt(encrypted_data)
 
-    def _embed_lsb(self, image: Image.Image, data: bytes, strength: EmbeddingStrength) -> Dict[str, Any]:
+    def _embed_lsb(
+        self, image: Image.Image, data: bytes, strength: EmbeddingStrength
+    ) -> dict[str, Any]:
         """Embed data using LSB method"""
-        img_array = np.array(image.convert('RGB'))
+        img_array = np.array(image.convert("RGB"))
 
         # Convert data to binary
-        binary_data = ''.join(format(byte, '08b') for byte in data)
-        binary_data += '1111111111111110'  # End marker
+        binary_data = "".join(format(byte, "08b") for byte in data)
+        binary_data += "1111111111111110"  # End marker
 
         # Calculate embedding capacity
         capacity = img_array.size
@@ -360,7 +373,9 @@ class SteganographicIdentityEmbedder:
                 for k in range(3):  # RGB channels
                     if data_index < len(binary_data):
                         # Modify LSB
-                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(binary_data[data_index])
+                        img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | int(
+                            binary_data[data_index]
+                        )
                         locations.append((i, j, k))
                         data_index += 1
                     else:
@@ -370,19 +385,24 @@ class SteganographicIdentityEmbedder:
             if data_index >= len(binary_data):
                 break
 
-        embedded_image = Image.fromarray(img_array, 'RGB')
+        embedded_image = Image.fromarray(img_array, "RGB")
 
         return {
             "success": True,
             "embedded_image": embedded_image,
             "locations": locations[:100],  # Store first 100 locations
-            "layers": 1
+            "layers": 1,
         }
 
-    def _embed_quantum_lsb(self, image: Image.Image, data: bytes,
-                         strength: EmbeddingStrength, keys: Dict[str, bytes]) -> Dict[str, Any]:
+    def _embed_quantum_lsb(
+        self,
+        image: Image.Image,
+        data: bytes,
+        strength: EmbeddingStrength,
+        keys: dict[str, bytes],
+    ) -> dict[str, Any]:
         """Embed data using quantum-enhanced LSB method"""
-        img_array = np.array(image.convert('RGB'))
+        img_array = np.array(image.convert("RGB"))
 
         # Generate quantum-guided embedding pattern
         embedding_pattern = self._generate_quantum_pattern(
@@ -390,8 +410,8 @@ class SteganographicIdentityEmbedder:
         )
 
         # Convert data to binary
-        binary_data = ''.join(format(byte, '08b') for byte in data)
-        binary_data += '1111111111111110'  # End marker
+        binary_data = "".join(format(byte, "08b") for byte in data)
+        binary_data += "1111111111111110"  # End marker
 
         # Embed using quantum pattern
         data_index = 0
@@ -414,7 +434,9 @@ class SteganographicIdentityEmbedder:
                     # Add quantum countermeasures
                     if quantum_noise:
                         # Occasionally flip adjacent bits to confuse detectors
-                        adjacent_pos = self._get_adjacent_position(i, j, k, img_array.shape)
+                        adjacent_pos = self._get_adjacent_position(
+                            i, j, k, img_array.shape
+                        )
                         if adjacent_pos:
                             ai, aj, ak = adjacent_pos
                             img_array[ai, aj, ak] ^= 0x01
@@ -424,18 +446,23 @@ class SteganographicIdentityEmbedder:
                 locations.append((i, j, k))
                 data_index += 1
 
-        embedded_image = Image.fromarray(img_array, 'RGB')
+        embedded_image = Image.fromarray(img_array, "RGB")
 
         return {
             "success": True,
             "embedded_image": embedded_image,
             "locations": locations[:100],
             "layers": 1,
-            "countermeasures": countermeasures[:50]
+            "countermeasures": countermeasures[:50],
         }
 
-    def _embed_multi_layer(self, image: Image.Image, data: bytes,
-                         strength: EmbeddingStrength, keys: Dict[str, bytes]) -> Dict[str, Any]:
+    def _embed_multi_layer(
+        self,
+        image: Image.Image,
+        data: bytes,
+        strength: EmbeddingStrength,
+        keys: dict[str, bytes],
+    ) -> dict[str, Any]:
         """Embed data using multiple layers and methods"""
         # Split data into chunks for different layers
         data_chunks = self._split_data_for_layers(data, 3)
@@ -464,17 +491,19 @@ class SteganographicIdentityEmbedder:
             "embedded_image": current_image,
             "locations": layer1_result.get("locations", []),
             "layers": min(3, len([chunk for chunk in data_chunks if chunk])),
-            "countermeasures": layer1_result.get("countermeasures", [])
+            "countermeasures": layer1_result.get("countermeasures", []),
         }
 
-    def _embed_dct(self, image: Image.Image, data: bytes, strength: EmbeddingStrength) -> Dict[str, Any]:
+    def _embed_dct(
+        self, image: Image.Image, data: bytes, strength: EmbeddingStrength
+    ) -> dict[str, Any]:
         """Embed data using DCT (Discrete Cosine Transform) method"""
         # This is a simplified DCT embedding
         # In full implementation, would use proper DCT transformation
 
-        img_array = np.array(image.convert('RGB')).astype(np.float32)
-        binary_data = ''.join(format(byte, '08b') for byte in data)
-        binary_data += '1111111111111110'
+        img_array = np.array(image.convert("RGB")).astype(np.float32)
+        binary_data = "".join(format(byte, "08b") for byte in data)
+        binary_data += "1111111111111110"
 
         # Simplified DCT-like embedding in frequency domain
         data_index = 0
@@ -505,24 +534,28 @@ class SteganographicIdentityEmbedder:
 
         # Convert back to image
         img_array = np.clip(img_array, 0, 255).astype(np.uint8)
-        embedded_image = Image.fromarray(img_array, 'RGB')
+        embedded_image = Image.fromarray(img_array, "RGB")
 
         return {
             "success": True,
             "embedded_image": embedded_image,
             "locations": [],
-            "layers": 1
+            "layers": 1,
         }
 
-    def _embed_fractal(self, image: Image.Image, data: bytes, strength: EmbeddingStrength) -> Dict[str, Any]:
+    def _embed_fractal(
+        self, image: Image.Image, data: bytes, strength: EmbeddingStrength
+    ) -> dict[str, Any]:
         """Embed data using fractal-based method"""
         # Simplified fractal embedding
-        img_array = np.array(image.convert('RGB'))
-        binary_data = ''.join(format(byte, '08b') for byte in data)
+        img_array = np.array(image.convert("RGB"))
+        binary_data = "".join(format(byte, "08b") for byte in data)
 
         # Use fractal patterns for embedding locations
         data_index = 0
-        fractal_positions = self._generate_fractal_positions(img_array.shape, len(binary_data))
+        fractal_positions = self._generate_fractal_positions(
+            img_array.shape, len(binary_data)
+        )
 
         for pos in fractal_positions:
             if data_index >= len(binary_data):
@@ -534,18 +567,18 @@ class SteganographicIdentityEmbedder:
                 img_array[i, j, k] = (img_array[i, j, k] & 0xFE) | bit_value
                 data_index += 1
 
-        embedded_image = Image.fromarray(img_array, 'RGB')
+        embedded_image = Image.fromarray(img_array, "RGB")
 
         return {
             "success": True,
             "embedded_image": embedded_image,
             "locations": fractal_positions[:100],
-            "layers": 1
+            "layers": 1,
         }
 
     def _extract_lsb(self, image: Image.Image) -> Optional[bytes]:
         """Extract data using LSB method"""
-        img_array = np.array(image.convert('RGB'))
+        img_array = np.array(image.convert("RGB"))
 
         binary_data = ""
         for i in range(img_array.shape[0]):
@@ -554,7 +587,7 @@ class SteganographicIdentityEmbedder:
                     binary_data += str(img_array[i, j, k] & 1)
 
         # Find end marker
-        end_marker = '1111111111111110'
+        end_marker = "1111111111111110"
         end_index = binary_data.find(end_marker)
         if end_index == -1:
             return None
@@ -564,15 +597,17 @@ class SteganographicIdentityEmbedder:
         data_bytes = bytearray()
 
         for i in range(0, len(extracted_binary), 8):
-            byte_binary = extracted_binary[i:i+8]
+            byte_binary = extracted_binary[i : i + 8]
             if len(byte_binary) == 8:
                 data_bytes.append(int(byte_binary, 2))
 
         return bytes(data_bytes)
 
-    def _extract_quantum_lsb(self, image: Image.Image, keys: Dict[str, bytes]) -> Optional[bytes]:
+    def _extract_quantum_lsb(
+        self, image: Image.Image, keys: dict[str, bytes]
+    ) -> Optional[bytes]:
         """Extract data using quantum-enhanced LSB method"""
-        img_array = np.array(image.convert('RGB'))
+        img_array = np.array(image.convert("RGB"))
 
         # Regenerate quantum pattern
         embedding_pattern = self._generate_quantum_pattern(
@@ -587,11 +622,11 @@ class SteganographicIdentityEmbedder:
 
                 # Check for end marker periodically
                 if len(binary_data) >= 16:
-                    if binary_data[-16:] == '1111111111111110':
+                    if binary_data[-16:] == "1111111111111110":
                         break
 
         # Find end marker
-        end_marker = '1111111111111110'
+        end_marker = "1111111111111110"
         end_index = binary_data.find(end_marker)
         if end_index == -1:
             return None
@@ -601,7 +636,7 @@ class SteganographicIdentityEmbedder:
         data_bytes = bytearray()
 
         for i in range(0, len(extracted_binary), 8):
-            byte_binary = extracted_binary[i:i+8]
+            byte_binary = extracted_binary[i : i + 8]
             if len(byte_binary) == 8:
                 data_bytes.append(int(byte_binary, 2))
 
@@ -610,7 +645,7 @@ class SteganographicIdentityEmbedder:
     def _extract_dct(self, image: Image.Image) -> Optional[bytes]:
         """Extract data using DCT method"""
         # Simplified DCT extraction
-        img_array = np.array(image.convert('RGB')).astype(np.float32)
+        img_array = np.array(image.convert("RGB")).astype(np.float32)
         binary_data = ""
 
         # Process in 8x8 blocks
@@ -630,7 +665,9 @@ class SteganographicIdentityEmbedder:
         # Find end marker and convert to bytes
         return self._binary_to_bytes(binary_data)
 
-    def _extract_multi_layer(self, image: Image.Image, keys: Dict[str, bytes]) -> Optional[bytes]:
+    def _extract_multi_layer(
+        self, image: Image.Image, keys: dict[str, bytes]
+    ) -> Optional[bytes]:
         """Extract data from multiple layers"""
         # Extract from primary quantum LSB layer
         primary_data = self._extract_quantum_lsb(image, keys)
@@ -641,10 +678,12 @@ class SteganographicIdentityEmbedder:
         # Fallback to LSB if quantum extraction fails
         return self._extract_lsb(image)
 
-    def _generate_quantum_pattern(self, shape: Tuple[int, ...], data_bits: int, key: bytes) -> List[Tuple[int, int, int]]:
+    def _generate_quantum_pattern(
+        self, shape: tuple[int, ...], data_bits: int, key: bytes
+    ) -> list[tuple[int, int, int]]:
         """Generate quantum-guided embedding pattern"""
         # Use key to seed quantum pattern generation
-        np.random.seed(struct.unpack('I', key[:4])[0])
+        np.random.seed(struct.unpack("I", key[:4])[0])
 
         positions = []
         max_positions = shape[0] * shape[1] * 3
@@ -658,7 +697,9 @@ class SteganographicIdentityEmbedder:
 
         return positions
 
-    def _generate_fractal_positions(self, shape: Tuple[int, ...], data_bits: int) -> List[Tuple[int, int, int]]:
+    def _generate_fractal_positions(
+        self, shape: tuple[int, ...], data_bits: int
+    ) -> list[tuple[int, int, int]]:
         """Generate fractal-based embedding positions"""
         positions = []
 
@@ -685,12 +726,16 @@ class SteganographicIdentityEmbedder:
             self.entropy_pool = secrets.token_bytes(self.entropy_pool_size)
             self.entropy_position = 0
 
-        entropy = self.entropy_pool[self.entropy_position:self.entropy_position + num_bytes]
+        entropy = self.entropy_pool[
+            self.entropy_position : self.entropy_position + num_bytes
+        ]
         self.entropy_position += num_bytes
 
         return entropy
 
-    def _get_adjacent_position(self, i: int, j: int, k: int, shape: Tuple[int, ...]) -> Optional[Tuple[int, int, int]]:
+    def _get_adjacent_position(
+        self, i: int, j: int, k: int, shape: tuple[int, ...]
+    ) -> Optional[tuple[int, int, int]]:
         """Get adjacent position for quantum noise"""
         adjacent_offsets = [(0, 1, 0), (1, 0, 0), (0, 0, 1), (-1, 0, 0), (0, -1, 0)]
 
@@ -701,7 +746,7 @@ class SteganographicIdentityEmbedder:
 
         return None
 
-    def _split_data_for_layers(self, data: bytes, num_layers: int) -> List[bytes]:
+    def _split_data_for_layers(self, data: bytes, num_layers: int) -> list[bytes]:
         """Split data into chunks for multi-layer embedding"""
         chunk_size = len(data) // num_layers
         chunks = []
@@ -712,7 +757,7 @@ class SteganographicIdentityEmbedder:
                 # Last chunk gets remainder
                 chunks.append(data[start:])
             else:
-                chunks.append(data[start:start + chunk_size])
+                chunks.append(data[start : start + chunk_size])
 
         return chunks
 
@@ -720,21 +765,23 @@ class SteganographicIdentityEmbedder:
         """Calculate embedding capacity of image"""
         return image.size[0] * image.size[1] * 3  # RGB channels
 
-    def _calculate_detection_resistance(self, original: Image.Image, embedded: Image.Image,
-                                     method: EmbeddingMethod, strength: EmbeddingStrength) -> float:
+    def _calculate_detection_resistance(
+        self,
+        original: Image.Image,
+        embedded: Image.Image,
+        method: EmbeddingMethod,
+        strength: EmbeddingStrength,
+    ) -> float:
         """Calculate detection resistance score"""
         # Calculate statistical measures
-        orig_array = np.array(original.convert('RGB'))
-        embed_array = np.array(embedded.convert('RGB'))
+        orig_array = np.array(original.convert("RGB"))
+        embed_array = np.array(embedded.convert("RGB"))
 
         # Mean Square Error
         mse = np.mean((orig_array - embed_array) ** 2)
 
         # Peak Signal-to-Noise Ratio
-        if mse == 0:
-            psnr = float('inf')
-        else:
-            psnr = 20 * np.log10(255.0 / np.sqrt(mse))
+        psnr = float("inf") if mse == 0 else 20 * np.log10(255.0 / np.sqrt(mse))
 
         # Base resistance score on PSNR and method
         base_score = min(1.0, psnr / 60.0)  # Higher PSNR = better resistance
@@ -744,7 +791,7 @@ class SteganographicIdentityEmbedder:
             EmbeddingMethod.LSB: 0.0,
             EmbeddingMethod.DCT: 0.1,
             EmbeddingMethod.QUANTUM_LSB: 0.2,
-            EmbeddingMethod.MULTI_LAYER: 0.3
+            EmbeddingMethod.MULTI_LAYER: 0.3,
         }.get(method, 0.0)
 
         # Strength bonus
@@ -752,13 +799,17 @@ class SteganographicIdentityEmbedder:
             EmbeddingStrength.SUBTLE: 0.2,
             EmbeddingStrength.MODERATE: 0.1,
             EmbeddingStrength.STRONG: 0.0,
-            EmbeddingStrength.QUANTUM: 0.3
+            EmbeddingStrength.QUANTUM: 0.3,
         }.get(strength, 0.0)
 
         return min(1.0, base_score + method_bonus + strength_bonus)
 
-    def _generate_integrity_hash(self, image: Image.Image, identity_data: IdentityEmbedData,
-                               keys: Dict[str, bytes]) -> str:
+    def _generate_integrity_hash(
+        self,
+        image: Image.Image,
+        identity_data: IdentityEmbedData,
+        keys: dict[str, bytes],
+    ) -> str:
         """Generate integrity hash for verification"""
         # Combine image data, identity data, and keys
         image_hash = hashlib.sha256(image.tobytes()).hexdigest()
@@ -768,10 +819,10 @@ class SteganographicIdentityEmbedder:
         combined = f"{image_hash}:{identity_hash}:{key_hash}"
         return hashlib.sha3_256(combined.encode()).hexdigest()
 
-    def _parse_identity_data(self, data: bytes) -> Dict[str, Any]:
+    def _parse_identity_data(self, data: bytes) -> dict[str, Any]:
         """Parse identity data from bytes"""
         try:
-            json_str = data.decode('utf-8')
+            json_str = data.decode("utf-8")
             return json.loads(json_str)
         except Exception as e:
             logger.error(f"Error parsing identity data: {e}")
@@ -779,7 +830,7 @@ class SteganographicIdentityEmbedder:
 
     def _binary_to_bytes(self, binary_data: str) -> Optional[bytes]:
         """Convert binary string to bytes with end marker detection"""
-        end_marker = '1111111111111110'
+        end_marker = "1111111111111110"
         end_index = binary_data.find(end_marker)
 
         if end_index == -1:
@@ -789,7 +840,7 @@ class SteganographicIdentityEmbedder:
         data_bytes = bytearray()
 
         for i in range(0, len(extracted_binary), 8):
-            byte_binary = extracted_binary[i:i+8]
+            byte_binary = extracted_binary[i : i + 8]
             if len(byte_binary) == 8:
                 data_bytes.append(int(byte_binary, 2))
 

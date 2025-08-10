@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import logging
 from dataclasses import dataclass
 from datetime import datetime
@@ -6,14 +7,14 @@ from typing import Any
 
 from quantum.service import QuantumService
 
-
-#TAG:qim
-#TAG:quantum_states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:qim
+# TAG:quantum_states
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class QuantumLikeStateModifier:
@@ -26,7 +27,10 @@ class QuantumLikeStateModifier:
         """Modify narrative thread using superposition-like state and collapse."""
         try:
             states = [
-                {"action": f"fragment_{i}", "probability": 1.0 / max(len(thread.fragments), 1)}
+                {
+                    "action": f"fragment_{i}",
+                    "probability": 1.0 / max(len(thread.fragments), 1),
+                }
                 for i, _ in enumerate(thread.fragments)
             ]
             sup = self.quantum_service.quantum_superposition(

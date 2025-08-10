@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -7,7 +6,6 @@
 #TAG:glyph
 #TAG:neuroplastic
 #TAG:colony
-
 
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Dream-Glyph Bridge
 
@@ -42,14 +40,18 @@ __status__ = "Production"
 
 import json
 import logging
-from datetime import datetime
-from typing import Dict, List, Optional, Any, Tuple, Union
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any, Optional
 
 # Internal imports
 from symbolic.glyphs.glyph import (
-    Glyph, GlyphType, GlyphFactory, EmotionVector, GlyphPriority
+    EmotionVector,
+    Glyph,
+    GlyphFactory,
+    GlyphPriority,
+    GlyphType,
 )
 
 # Configure logger
@@ -58,55 +60,59 @@ logger = logging.getLogger(__name__)
 
 class DreamPhase(Enum):
     """Dream processing phases for glyph integration."""
-    INITIATION = "initiation"       # Dream startup with glyph seeds
-    PATTERN = "pattern"             # Pattern recognition from glyphs
-    DEEP_SYMBOLIC = "deep_symbolic" # Deep symbolic processing
-    CREATIVE = "creative"           # Creative synthesis phase
-    INTEGRATION = "integration"     # Integration back to memory
+
+    INITIATION = "initiation"  # Dream startup with glyph seeds
+    PATTERN = "pattern"  # Pattern recognition from glyphs
+    DEEP_SYMBOLIC = "deep_symbolic"  # Deep symbolic processing
+    CREATIVE = "creative"  # Creative synthesis phase
+    INTEGRATION = "integration"  # Integration back to memory
 
 
 class ArchetypalGlyphMapping(Enum):
     """Mapping between Jungian archetypes and glyph types."""
-    SELF = GlyphType.ETHICAL        # Self archetype -> Ethical glyphs
-    SHADOW = GlyphType.COLLAPSE     # Shadow archetype -> Collapse glyphs
-    ANIMA_ANIMUS = GlyphType.EMOTION # Anima/Animus -> Emotion glyphs
-    HERO = GlyphType.ACTION         # Hero archetype -> Action glyphs
-    SAGE = GlyphType.MEMORY         # Sage archetype -> Memory glyphs
-    MOTHER = GlyphType.CAUSAL       # Mother archetype -> Causal glyphs
-    TRICKSTER = GlyphType.DREAM     # Trickster -> Dream glyphs
+
+    SELF = GlyphType.ETHICAL  # Self archetype -> Ethical glyphs
+    SHADOW = GlyphType.COLLAPSE  # Shadow archetype -> Collapse glyphs
+    ANIMA_ANIMUS = GlyphType.EMOTION  # Anima/Animus -> Emotion glyphs
+    HERO = GlyphType.ACTION  # Hero archetype -> Action glyphs
+    SAGE = GlyphType.MEMORY  # Sage archetype -> Memory glyphs
+    MOTHER = GlyphType.CAUSAL  # Mother archetype -> Causal glyphs
+    TRICKSTER = GlyphType.DREAM  # Trickster -> Dream glyphs
 
 
 @dataclass
 class DreamSeed:
     """Glyph-derived seed for dream generation."""
+
     seed_id: str
     source_glyph_id: str
     dream_phase: DreamPhase
-    symbolic_content: Dict[str, Any]
+    symbolic_content: dict[str, Any]
     emotional_context: EmotionVector
-    archetypal_resonance: List[str]
-    narrative_fragments: List[str]
+    archetypal_resonance: list[str]
+    narrative_fragments: list[str]
     symbolic_intensity: float
     creation_timestamp: datetime
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert dream seed to dictionary."""
         return {
-            'seed_id': self.seed_id,
-            'source_glyph_id': self.source_glyph_id,
-            'dream_phase': self.dream_phase.value,
-            'symbolic_content': self.symbolic_content,
-            'emotional_context': self.emotional_context.to_dict(),
-            'archetypal_resonance': self.archetypal_resonance,
-            'narrative_fragments': self.narrative_fragments,
-            'symbolic_intensity': self.symbolic_intensity,
-            'creation_timestamp': self.creation_timestamp.isoformat()
+            "seed_id": self.seed_id,
+            "source_glyph_id": self.source_glyph_id,
+            "dream_phase": self.dream_phase.value,
+            "symbolic_content": self.symbolic_content,
+            "emotional_context": self.emotional_context.to_dict(),
+            "archetypal_resonance": self.archetypal_resonance,
+            "narrative_fragments": self.narrative_fragments,
+            "symbolic_intensity": self.symbolic_intensity,
+            "creation_timestamp": self.creation_timestamp.isoformat(),
         }
 
 
 @dataclass
 class DreamGlyph:
     """Glyph extracted from dream processing."""
+
     dream_id: str
     extracted_glyph: Glyph
     dream_phase: DreamPhase
@@ -115,16 +121,16 @@ class DreamGlyph:
     narrative_context: str
     extraction_method: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert dream glyph to dictionary."""
         return {
-            'dream_id': self.dream_id,
-            'extracted_glyph': self.extracted_glyph.to_dict(),
-            'dream_phase': self.dream_phase.value,
-            'archetypal_source': self.archetypal_source,
-            'consolidation_score': self.consolidation_score,
-            'narrative_context': self.narrative_context,
-            'extraction_method': self.extraction_method
+            "dream_id": self.dream_id,
+            "extracted_glyph": self.extracted_glyph.to_dict(),
+            "dream_phase": self.dream_phase.value,
+            "archetypal_source": self.archetypal_source,
+            "consolidation_score": self.consolidation_score,
+            "narrative_context": self.narrative_context,
+            "extraction_method": self.extraction_method,
         }
 
 
@@ -140,17 +146,19 @@ class DreamGlyphBridge:
 
     def __init__(self):
         """Initialize the Dream-Glyph Bridge."""
-        self.dream_seeds: Dict[str, DreamSeed] = {}
-        self.dream_glyphs: Dict[str, DreamGlyph] = {}
+        self.dream_seeds: dict[str, DreamSeed] = {}
+        self.dream_glyphs: dict[str, DreamGlyph] = {}
         self.archetypal_mappings = self._initialize_archetypal_mappings()
         self.narrative_templates = self._initialize_narrative_templates()
 
         logger.info("Dream-Glyph Bridge initialized")
 
-    def glyph_to_dream_seed(self,
-                            glyph: Glyph,
-                            dream_phase: DreamPhase = DreamPhase.INITIATION,
-                            intensity_multiplier: float = 1.0) -> DreamSeed:
+    def glyph_to_dream_seed(
+        self,
+        glyph: Glyph,
+        dream_phase: DreamPhase = DreamPhase.INITIATION,
+        intensity_multiplier: float = 1.0,
+    ) -> DreamSeed:
         """
         Convert a glyph into a dream seed for dream processing.
 
@@ -187,7 +195,7 @@ class DreamGlyphBridge:
             archetypal_resonance=archetypal_resonance,
             narrative_fragments=narrative_fragments,
             symbolic_intensity=symbolic_intensity,
-            creation_timestamp=datetime.now()
+            creation_timestamp=datetime.now(),
         )
 
         self.dream_seeds[seed_id] = dream_seed
@@ -195,11 +203,13 @@ class DreamGlyphBridge:
 
         return dream_seed
 
-    def dream_to_glyph(self,
-                       dream_id: str,
-                       dream_content: Dict[str, Any],
-                       dream_phase: DreamPhase,
-                       consolidation_method: str = "archetypal_extraction") -> Optional[DreamGlyph]:
+    def dream_to_glyph(
+        self,
+        dream_id: str,
+        dream_content: dict[str, Any],
+        dream_phase: DreamPhase,
+        consolidation_method: str = "archetypal_extraction",
+    ) -> Optional[DreamGlyph]:
         """
         Extract a glyph from dream content for memory consolidation.
 
@@ -217,10 +227,14 @@ class DreamGlyphBridge:
             archetypal_source = self._identify_archetypal_source(dream_content)
 
             # Create consolidated glyph
-            extracted_glyph = self._create_dream_glyph(dream_content, archetypal_source, dream_phase)
+            extracted_glyph = self._create_dream_glyph(
+                dream_content, archetypal_source, dream_phase
+            )
 
             # Calculate consolidation score
-            consolidation_score = self._calculate_consolidation_score(dream_content, extracted_glyph)
+            consolidation_score = self._calculate_consolidation_score(
+                dream_content, extracted_glyph
+            )
 
             # Extract narrative context
             narrative_context = self._extract_narrative_context(dream_content)
@@ -233,7 +247,7 @@ class DreamGlyphBridge:
                 archetypal_source=archetypal_source,
                 consolidation_score=consolidation_score,
                 narrative_context=narrative_context,
-                extraction_method=consolidation_method
+                extraction_method=consolidation_method,
             )
 
             self.dream_glyphs[dream_id] = dream_glyph
@@ -245,9 +259,9 @@ class DreamGlyphBridge:
             logger.error(f"Failed to extract glyph from dream {dream_id}: {e}")
             return None
 
-    def create_memory_consolidation_glyph(self,
-                                          memory_traces: List[Dict[str, Any]],
-                                          dream_narrative: str) -> Glyph:
+    def create_memory_consolidation_glyph(
+        self, memory_traces: list[dict[str, Any]], dream_narrative: str
+    ) -> Glyph:
         """
         Create a glyph for memory consolidation from dream processing.
 
@@ -268,7 +282,7 @@ class DreamGlyphBridge:
         # Create memory consolidation glyph
         memory_glyph = GlyphFactory.create_memory_glyph(
             memory_key=f"consolidated_{len(memory_traces)}_traces",
-            emotion_vector=consolidated_emotion
+            emotion_vector=consolidated_emotion,
         )
 
         # Add dream-specific semantic tags
@@ -282,16 +296,18 @@ class DreamGlyphBridge:
             memory_glyph.priority = GlyphPriority.HIGH
 
         # Add dream narrative to content
-        memory_glyph.content['dream_narrative'] = dream_narrative
-        memory_glyph.content['consolidated_traces'] = len(memory_traces)
-        memory_glyph.content['consolidation_timestamp'] = datetime.now().isoformat()
+        memory_glyph.content["dream_narrative"] = dream_narrative
+        memory_glyph.content["consolidated_traces"] = len(memory_traces)
+        memory_glyph.content["consolidation_timestamp"] = datetime.now().isoformat()
 
         memory_glyph.update_symbolic_hash()
 
-        logger.info(f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces)} traces")
+        logger.info(
+            f"Created memory consolidation glyph {memory_glyph.id} from {len(memory_traces)} traces"
+        )
         return memory_glyph
 
-    def get_archetypal_dream_seeds(self, archetype: str) -> List[DreamSeed]:
+    def get_archetypal_dream_seeds(self, archetype: str) -> list[DreamSeed]:
         """
         Get dream seeds matching a specific archetypal pattern.
 
@@ -304,12 +320,14 @@ class DreamGlyphBridge:
         matching_seeds = []
 
         for seed in self.dream_seeds.values():
-            if archetype.lower() in [arch.lower() for arch in seed.archetypal_resonance]:
+            if archetype.lower() in [
+                arch.lower() for arch in seed.archetypal_resonance
+            ]:
                 matching_seeds.append(seed)
 
         return matching_seeds
 
-    def get_dream_glyph_lineage(self, dream_id: str) -> Optional[Dict[str, Any]]:
+    def get_dream_glyph_lineage(self, dream_id: str) -> Optional[dict[str, Any]]:
         """
         Get the complete lineage of a dream glyph.
 
@@ -326,117 +344,124 @@ class DreamGlyphBridge:
         glyph = dream_glyph.extracted_glyph
 
         lineage = {
-            'dream_id': dream_id,
-            'glyph_id': glyph.id,
-            'archetypal_source': dream_glyph.archetypal_source,
-            'dream_phase': dream_glyph.dream_phase.value,
-            'consolidation_score': dream_glyph.consolidation_score,
-            'emotional_vector': glyph.emotion_vector.to_dict(),
-            'semantic_tags': list(glyph.semantic_tags),
-            'causal_links': {
-                'parent_glyph_id': glyph.causal_link.parent_glyph_id,
-                'causal_origin_id': glyph.causal_link.causal_origin_id,
-                'event_chain_hash': glyph.causal_link.event_chain_hash
+            "dream_id": dream_id,
+            "glyph_id": glyph.id,
+            "archetypal_source": dream_glyph.archetypal_source,
+            "dream_phase": dream_glyph.dream_phase.value,
+            "consolidation_score": dream_glyph.consolidation_score,
+            "emotional_vector": glyph.emotion_vector.to_dict(),
+            "semantic_tags": list(glyph.semantic_tags),
+            "causal_links": {
+                "parent_glyph_id": glyph.causal_link.parent_glyph_id,
+                "causal_origin_id": glyph.causal_link.causal_origin_id,
+                "event_chain_hash": glyph.causal_link.event_chain_hash,
             },
-            'memory_associations': list(glyph.memory_keys),
-            'narrative_context': dream_glyph.narrative_context
+            "memory_associations": list(glyph.memory_keys),
+            "narrative_context": dream_glyph.narrative_context,
         }
 
         return lineage
 
-    def _initialize_archetypal_mappings(self) -> Dict[str, Any]:
+    def _initialize_archetypal_mappings(self) -> dict[str, Any]:
         """Initialize archetypal mapping configurations."""
         return {
-            'self': {
-                'glyph_type': GlyphType.ETHICAL,
-                'symbols': ['⚖️', '🎯', '💎', '🔱'],
-                'themes': ['wholeness', 'integration', 'purpose', 'identity'],
-                'emotional_emphasis': ['trust', 'joy', 'anticipation']
+            "self": {
+                "glyph_type": GlyphType.ETHICAL,
+                "symbols": ["⚖️", "🎯", "💎", "🔱"],
+                "themes": ["wholeness", "integration", "purpose", "identity"],
+                "emotional_emphasis": ["trust", "joy", "anticipation"],
             },
-            'shadow': {
-                'glyph_type': GlyphType.COLLAPSE,
-                'symbols': ['🌑', '🔮', '⚡', '🌊'],
-                'themes': ['hidden', 'repressed', 'chaos', 'transformation'],
-                'emotional_emphasis': ['fear', 'anger', 'disgust']
+            "shadow": {
+                "glyph_type": GlyphType.COLLAPSE,
+                "symbols": ["🌑", "🔮", "⚡", "🌊"],
+                "themes": ["hidden", "repressed", "chaos", "transformation"],
+                "emotional_emphasis": ["fear", "anger", "disgust"],
             },
-            'anima': {
-                'glyph_type': GlyphType.EMOTION,
-                'symbols': ['🌙', '💫', '🌸', '💭'],
-                'themes': ['feeling', 'intuition', 'creativity', 'receptivity'],
-                'emotional_emphasis': ['joy', 'trust', 'surprise']
+            "anima": {
+                "glyph_type": GlyphType.EMOTION,
+                "symbols": ["🌙", "💫", "🌸", "💭"],
+                "themes": [
+                    "feeling",
+                    "intuition",
+                    "creativity",
+                    "receptivity",
+                ],
+                "emotional_emphasis": ["joy", "trust", "surprise"],
             },
-            'animus': {
-                'glyph_type': GlyphType.ACTION,
-                'symbols': ['⚔️', '🔥', '⚡', '🎯'],
-                'themes': ['logic', 'action', 'focus', 'achievement'],
-                'emotional_emphasis': ['anticipation', 'trust', 'anger']
+            "animus": {
+                "glyph_type": GlyphType.ACTION,
+                "symbols": ["⚔️", "🔥", "⚡", "🎯"],
+                "themes": ["logic", "action", "focus", "achievement"],
+                "emotional_emphasis": ["anticipation", "trust", "anger"],
             },
-            'hero': {
-                'glyph_type': GlyphType.ACTION,
-                'symbols': ['🦅', '⚡', '🔱', '🏆'],
-                'themes': ['courage', 'journey', 'transformation', 'victory'],
-                'emotional_emphasis': ['anticipation', 'joy', 'trust']
+            "hero": {
+                "glyph_type": GlyphType.ACTION,
+                "symbols": ["🦅", "⚡", "🔱", "🏆"],
+                "themes": ["courage", "journey", "transformation", "victory"],
+                "emotional_emphasis": ["anticipation", "joy", "trust"],
             },
-            'sage': {
-                'glyph_type': GlyphType.MEMORY,
-                'symbols': ['📚', '🔍', '💡', '🕯️'],
-                'themes': ['wisdom', 'knowledge', 'understanding', 'guidance'],
-                'emotional_emphasis': ['trust', 'anticipation', 'joy']
+            "sage": {
+                "glyph_type": GlyphType.MEMORY,
+                "symbols": ["📚", "🔍", "💡", "🕯️"],
+                "themes": ["wisdom", "knowledge", "understanding", "guidance"],
+                "emotional_emphasis": ["trust", "anticipation", "joy"],
             },
-            'mother': {
-                'glyph_type': GlyphType.CAUSAL,
-                'symbols': ['🌱', '🤱', '🏠', '💚'],
-                'themes': ['nurturing', 'protection', 'growth', 'connection'],
-                'emotional_emphasis': ['trust', 'joy', 'anticipation']
+            "mother": {
+                "glyph_type": GlyphType.CAUSAL,
+                "symbols": ["🌱", "🤱", "🏠", "💚"],
+                "themes": ["nurturing", "protection", "growth", "connection"],
+                "emotional_emphasis": ["trust", "joy", "anticipation"],
             },
-            'trickster': {
-                'glyph_type': GlyphType.DREAM,
-                'symbols': ['🎭', '🌈', '🔄', '🎲'],
-                'themes': ['change', 'humor', 'disruption', 'creativity'],
-                'emotional_emphasis': ['surprise', 'joy', 'anticipation']
-            }
+            "trickster": {
+                "glyph_type": GlyphType.DREAM,
+                "symbols": ["🎭", "🌈", "🔄", "🎲"],
+                "themes": ["change", "humor", "disruption", "creativity"],
+                "emotional_emphasis": ["surprise", "joy", "anticipation"],
+            },
         }
 
-    def _initialize_narrative_templates(self) -> Dict[str, List[str]]:
+    def _initialize_narrative_templates(self) -> dict[str, list[str]]:
         """Initialize narrative templates for different dream phases."""
         return {
-            'initiation': [
+            "initiation": [
                 "A {symbol} appears in the threshold between sleep and waking...",
                 "You find yourself in a space where {theme} begins to unfold...",
-                "The dream opens with a sense of {emotion}, drawing you deeper..."
+                "The dream opens with a sense of {emotion}, drawing you deeper...",
             ],
-            'pattern': [
+            "pattern": [
                 "Patterns emerge: {theme} weaves through the narrative like threads of {emotion}...",
                 "Recognition dawns as {symbol} reveals its connection to {theme}...",
-                "The dream logic crystallizes around the interplay of {emotion} and {theme}..."
+                "The dream logic crystallizes around the interplay of {emotion} and {theme}...",
             ],
-            'deep_symbolic': [
+            "deep_symbolic": [
                 "In the depths of the dream, {symbol} transforms into pure {theme}...",
                 "The archetypal {archetype} speaks through symbols of {emotion}...",
-                "Layers of meaning unfold as {theme} resonates with ancient {archetype} wisdom..."
+                "Layers of meaning unfold as {theme} resonates with ancient {archetype} wisdom...",
             ],
-            'creative': [
+            "creative": [
                 "New possibilities arise as {theme} dances with {emotion}...",
                 "The creative spark of {archetype} illuminates unexpected connections...",
-                "Novel combinations emerge: {symbol} becomes a bridge to {theme}..."
+                "Novel combinations emerge: {symbol} becomes a bridge to {theme}...",
             ],
-            'integration': [
+            "integration": [
                 "The dream consolidates its wisdom: {theme} integrated with {emotion}...",
                 "As the dream fades, {symbol} remains as a bridge to waking consciousness...",
-                "The archetypal {archetype} leaves its mark through embodied {theme}..."
-            ]
+                "The archetypal {archetype} leaves its mark through embodied {theme}...",
+            ],
         }
 
-    def _extract_symbolic_content(self, glyph: Glyph, dream_phase: DreamPhase) -> Dict[str, Any]:
+    def _extract_symbolic_content(
+        self, glyph: Glyph, dream_phase: DreamPhase
+    ) -> dict[str, Any]:
         """Extract symbolic content from glyph for dream processing."""
         content = {
-            'symbol': glyph.symbol,
-            'glyph_type': glyph.glyph_type.value,
-            'semantic_tags': list(glyph.semantic_tags),
-            'stability_index': glyph.stability_index,
-            'collapse_risk': glyph.collapse_risk_level,
-            'drift_anchor': glyph.drift_anchor_score,
-            'phase_context': dream_phase.value
+            "symbol": glyph.symbol,
+            "glyph_type": glyph.glyph_type.value,
+            "semantic_tags": list(glyph.semantic_tags),
+            "stability_index": glyph.stability_index,
+            "collapse_risk": glyph.collapse_risk_level,
+            "drift_anchor": glyph.drift_anchor_score,
+            "phase_context": dream_phase.value,
         }
 
         # Add glyph-specific content
@@ -444,33 +469,35 @@ class DreamGlyphBridge:
 
         return content
 
-    def _map_to_archetypes(self, glyph: Glyph) -> List[str]:
+    def _map_to_archetypes(self, glyph: Glyph) -> list[str]:
         """Map glyph characteristics to archetypal patterns."""
         archetypes = []
 
         # Primary archetype based on glyph type
         for archetype, mapping in self.archetypal_mappings.items():
-            if mapping['glyph_type'] == glyph.glyph_type:
+            if mapping["glyph_type"] == glyph.glyph_type:
                 archetypes.append(archetype)
 
         # Secondary archetypes based on semantic tags
         for tag in glyph.semantic_tags:
             for archetype, mapping in self.archetypal_mappings.items():
-                if any(theme in tag.lower() for theme in mapping['themes']):
+                if any(theme in tag.lower() for theme in mapping["themes"]):
                     if archetype not in archetypes:
                         archetypes.append(archetype)
 
         # Emotional archetypes
         emotion = glyph.emotion_vector
         for archetype, mapping in self.archetypal_mappings.items():
-            emphasis = mapping['emotional_emphasis']
+            emphasis = mapping["emotional_emphasis"]
             if any(getattr(emotion, em, 0) > 0.5 for em in emphasis):
                 if archetype not in archetypes:
                     archetypes.append(archetype)
 
         return archetypes[:3]  # Limit to top 3 archetypes
 
-    def _generate_narrative_fragments(self, glyph: Glyph, dream_phase: DreamPhase) -> List[str]:
+    def _generate_narrative_fragments(
+        self, glyph: Glyph, dream_phase: DreamPhase
+    ) -> list[str]:
         """Generate narrative fragments for dream processing."""
         templates = self.narrative_templates.get(dream_phase.value, [])
         if not templates:
@@ -487,10 +514,12 @@ class DreamGlyphBridge:
 
             # Fill template with glyph context
             context = {
-                'symbol': glyph.symbol,
-                'theme': archetype_mapping['themes'][0] if archetype_mapping else 'mystery',
-                'emotion': self._get_dominant_emotion(glyph.emotion_vector),
-                'archetype': archetypes[0] if archetypes else 'unknown'
+                "symbol": glyph.symbol,
+                "theme": (
+                    archetype_mapping["themes"][0] if archetype_mapping else "mystery"
+                ),
+                "emotion": self._get_dominant_emotion(glyph.emotion_vector),
+                "archetype": archetypes[0] if archetypes else "unknown",
             }
 
             try:
@@ -515,7 +544,7 @@ class DreamGlyphBridge:
             GlyphPriority.HIGH: 0.8,
             GlyphPriority.MEDIUM: 0.5,
             GlyphPriority.LOW: 0.3,
-            GlyphPriority.EPHEMERAL: 0.1
+            GlyphPriority.EPHEMERAL: 0.1,
         }
         intensity_factors.append(priority_weights.get(glyph.priority, 0.5) * 0.3)
 
@@ -529,7 +558,7 @@ class DreamGlyphBridge:
 
         return sum(intensity_factors)
 
-    def _identify_archetypal_source(self, dream_content: Dict[str, Any]) -> str:
+    def _identify_archetypal_source(self, dream_content: dict[str, Any]) -> str:
         """Identify archetypal source from dream content."""
         # Look for archetypal keywords in dream content
         content_text = json.dumps(dream_content).lower()
@@ -537,7 +566,7 @@ class DreamGlyphBridge:
         archetype_scores = {}
         for archetype, mapping in self.archetypal_mappings.items():
             score = 0
-            for theme in mapping['themes']:
+            for theme in mapping["themes"]:
                 if theme in content_text:
                     score += 1
             archetype_scores[archetype] = score
@@ -546,29 +575,34 @@ class DreamGlyphBridge:
         if archetype_scores:
             return max(archetype_scores, key=archetype_scores.get)
         else:
-            return 'unknown'
+            return "unknown"
 
-    def _create_dream_glyph(self, dream_content: Dict[str, Any], archetypal_source: str, dream_phase: DreamPhase) -> Glyph:
+    def _create_dream_glyph(
+        self,
+        dream_content: dict[str, Any],
+        archetypal_source: str,
+        dream_phase: DreamPhase,
+    ) -> Glyph:
         """Create a glyph from dream content."""
         # Get archetypal mapping
         archetype_mapping = self.archetypal_mappings.get(archetypal_source)
 
         if archetype_mapping:
-            glyph_type = archetype_mapping['glyph_type']
-            symbol = archetype_mapping['symbols'][0]  # Use first symbol
+            glyph_type = archetype_mapping["glyph_type"]
+            symbol = archetype_mapping["symbols"][0]  # Use first symbol
         else:
             glyph_type = GlyphType.DREAM
             symbol = "💭"
 
         # Create dream-derived glyph
         dream_glyph = Glyph(
-            glyph_type=glyph_type,
-            symbol=symbol,
-            priority=GlyphPriority.MEDIUM
+            glyph_type=glyph_type, symbol=symbol, priority=GlyphPriority.MEDIUM
         )
 
         # Set emotion vector based on dream content
-        dream_glyph.emotion_vector = self._extract_dream_emotions(dream_content, archetype_mapping)
+        dream_glyph.emotion_vector = self._extract_dream_emotions(
+            dream_content, archetype_mapping
+        )
 
         # Add semantic tags
         dream_glyph.add_semantic_tag("dream_derived")
@@ -576,13 +610,15 @@ class DreamGlyphBridge:
         dream_glyph.add_semantic_tag(f"archetype_{archetypal_source}")
 
         # Add dream content
-        dream_glyph.content['dream_source'] = dream_content
-        dream_glyph.content['archetypal_source'] = archetypal_source
+        dream_glyph.content["dream_source"] = dream_content
+        dream_glyph.content["archetypal_source"] = archetypal_source
 
         dream_glyph.update_symbolic_hash()
         return dream_glyph
 
-    def _calculate_consolidation_score(self, dream_content: Dict[str, Any], glyph: Glyph) -> float:
+    def _calculate_consolidation_score(
+        self, dream_content: dict[str, Any], glyph: Glyph
+    ) -> float:
         """Calculate consolidation score for dream glyph."""
         score_factors = []
 
@@ -603,10 +639,16 @@ class DreamGlyphBridge:
 
         return sum(score_factors)
 
-    def _extract_narrative_context(self, dream_content: Dict[str, Any]) -> str:
+    def _extract_narrative_context(self, dream_content: dict[str, Any]) -> str:
         """Extract narrative context from dream content."""
         # Look for narrative elements
-        narrative_keys = ['text', 'narrative', 'story', 'content', 'description']
+        narrative_keys = [
+            "text",
+            "narrative",
+            "story",
+            "content",
+            "description",
+        ]
 
         for key in narrative_keys:
             if key in dream_content:
@@ -615,13 +657,15 @@ class DreamGlyphBridge:
         # Fallback to general content summary
         return f"Dream content with {len(dream_content)} elements processed"
 
-    def _analyze_emotional_patterns(self, memory_traces: List[Dict[str, Any]]) -> Dict[str, float]:
+    def _analyze_emotional_patterns(
+        self, memory_traces: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Analyze emotional patterns across memory traces."""
         emotion_sums = defaultdict(float)
         emotion_counts = defaultdict(int)
 
         for trace in memory_traces:
-            emotions = trace.get('emotions', {})
+            emotions = trace.get("emotions", {})
             for emotion, value in emotions.items():
                 emotion_sums[emotion] += value
                 emotion_counts[emotion] += 1
@@ -630,70 +674,106 @@ class DreamGlyphBridge:
         dominant_emotions = {}
         for emotion in emotion_sums:
             if emotion_counts[emotion] > 0:
-                dominant_emotions[emotion] = emotion_sums[emotion] / emotion_counts[emotion]
+                dominant_emotions[emotion] = (
+                    emotion_sums[emotion] / emotion_counts[emotion]
+                )
 
         return dominant_emotions
 
-    def _extract_symbolic_themes(self, memory_traces: List[Dict[str, Any]], dream_narrative: str) -> List[str]:
+    def _extract_symbolic_themes(
+        self, memory_traces: list[dict[str, Any]], dream_narrative: str
+    ) -> list[str]:
         """Extract symbolic themes from memory traces and dream narrative."""
         themes = set()
 
         # Extract from memory traces
         for trace in memory_traces:
-            tags = trace.get('tags', [])
+            tags = trace.get("tags", [])
             themes.update(tags)
 
         # Extract from dream narrative
         narrative_lower = dream_narrative.lower()
-        for archetype, mapping in self.archetypal_mappings.items():
-            for theme in mapping['themes']:
+        for _archetype, mapping in self.archetypal_mappings.items():
+            for theme in mapping["themes"]:
                 if theme in narrative_lower:
                     themes.add(theme)
 
         return list(themes)[:5]  # Limit to 5 themes
 
-    def _consolidate_emotions(self, emotion_patterns: Dict[str, float]) -> EmotionVector:
+    def _consolidate_emotions(
+        self, emotion_patterns: dict[str, float]
+    ) -> EmotionVector:
         """Consolidate emotion patterns into a single EmotionVector."""
         emotion_vector = EmotionVector()
 
         # Map patterns to emotion vector attributes
         emotion_mapping = {
-            'joy': 'joy', 'happiness': 'joy', 'pleasure': 'joy',
-            'sadness': 'sadness', 'sorrow': 'sadness', 'grief': 'sadness',
-            'anger': 'anger', 'rage': 'anger', 'fury': 'anger',
-            'fear': 'fear', 'anxiety': 'fear', 'worry': 'fear',
-            'surprise': 'surprise', 'amazement': 'surprise', 'wonder': 'surprise',
-            'disgust': 'disgust', 'revulsion': 'disgust', 'aversion': 'disgust',
-            'trust': 'trust', 'confidence': 'trust', 'faith': 'trust',
-            'anticipation': 'anticipation', 'expectation': 'anticipation', 'hope': 'anticipation'
+            "joy": "joy",
+            "happiness": "joy",
+            "pleasure": "joy",
+            "sadness": "sadness",
+            "sorrow": "sadness",
+            "grief": "sadness",
+            "anger": "anger",
+            "rage": "anger",
+            "fury": "anger",
+            "fear": "fear",
+            "anxiety": "fear",
+            "worry": "fear",
+            "surprise": "surprise",
+            "amazement": "surprise",
+            "wonder": "surprise",
+            "disgust": "disgust",
+            "revulsion": "disgust",
+            "aversion": "disgust",
+            "trust": "trust",
+            "confidence": "trust",
+            "faith": "trust",
+            "anticipation": "anticipation",
+            "expectation": "anticipation",
+            "hope": "anticipation",
         }
 
         for pattern, value in emotion_patterns.items():
             emotion_attr = emotion_mapping.get(pattern.lower())
             if emotion_attr and hasattr(emotion_vector, emotion_attr):
                 current_value = getattr(emotion_vector, emotion_attr)
-                setattr(emotion_vector, emotion_attr, min(1.0, current_value + value))
+                setattr(
+                    emotion_vector,
+                    emotion_attr,
+                    min(1.0, current_value + value),
+                )
 
         # Set meta-emotional properties
-        emotion_vector.intensity = min(1.0, sum(emotion_patterns.values()) / len(emotion_patterns))
-        emotion_vector.stability = 1.0 - (max(emotion_patterns.values()) - min(emotion_patterns.values()) if emotion_patterns else 0)
+        emotion_vector.intensity = min(
+            1.0, sum(emotion_patterns.values()) / len(emotion_patterns)
+        )
+        emotion_vector.stability = 1.0 - (
+            max(emotion_patterns.values()) - min(emotion_patterns.values())
+            if emotion_patterns
+            else 0
+        )
 
         return emotion_vector
 
-    def _extract_dream_emotions(self, dream_content: Dict[str, Any], archetype_mapping: Optional[Dict[str, Any]]) -> EmotionVector:
+    def _extract_dream_emotions(
+        self,
+        dream_content: dict[str, Any],
+        archetype_mapping: Optional[dict[str, Any]],
+    ) -> EmotionVector:
         """Extract emotion vector from dream content."""
         emotion_vector = EmotionVector()
 
         # Use archetypal emotional emphasis if available
         if archetype_mapping:
-            emphasis = archetype_mapping['emotional_emphasis']
+            emphasis = archetype_mapping["emotional_emphasis"]
             for emotion in emphasis:
                 if hasattr(emotion_vector, emotion):
                     setattr(emotion_vector, emotion, 0.6)  # Moderate emphasis
 
         # Extract from dream content if available
-        if 'emotions' in dream_content:
-            emotions = dream_content['emotions']
+        if "emotions" in dream_content:
+            emotions = dream_content["emotions"]
             for emotion, value in emotions.items():
                 if hasattr(emotion_vector, emotion):
                     current = getattr(emotion_vector, emotion)
@@ -703,26 +783,26 @@ class DreamGlyphBridge:
         emotion_vector.intensity = 0.5
         emotion_vector.stability = 0.7
         emotion_vector.valence = 0.3  # Slightly positive
-        emotion_vector.arousal = 0.4   # Moderate arousal
+        emotion_vector.arousal = 0.4  # Moderate arousal
 
         return emotion_vector
 
     def _get_dominant_emotion(self, emotion_vector: EmotionVector) -> str:
         """Get the dominant emotion from an emotion vector."""
         emotions = {
-            'joy': emotion_vector.joy,
-            'sadness': emotion_vector.sadness,
-            'anger': emotion_vector.anger,
-            'fear': emotion_vector.fear,
-            'surprise': emotion_vector.surprise,
-            'disgust': emotion_vector.disgust,
-            'trust': emotion_vector.trust,
-            'anticipation': emotion_vector.anticipation
+            "joy": emotion_vector.joy,
+            "sadness": emotion_vector.sadness,
+            "anger": emotion_vector.anger,
+            "fear": emotion_vector.fear,
+            "surprise": emotion_vector.surprise,
+            "disgust": emotion_vector.disgust,
+            "trust": emotion_vector.trust,
+            "anticipation": emotion_vector.anticipation,
         }
 
-        return max(emotions, key=emotions.get) if emotions else 'neutral'
+        return max(emotions, key=emotions.get) if emotions else "neutral"
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get bridge operation statistics."""
         total_seeds = len(self.dream_seeds)
         total_glyphs = len(self.dream_glyphs)
@@ -738,16 +818,24 @@ class DreamGlyphBridge:
             archetype_counts[glyph.archetypal_source] += 1
 
         return {
-            'total_dream_seeds': total_seeds,
-            'total_dream_glyphs': total_glyphs,
-            'dream_phase_distribution': dict(phase_counts),
-            'archetypal_distribution': dict(archetype_counts),
-            'average_consolidation_score': sum(g.consolidation_score for g in self.dream_glyphs.values()) / max(1, total_glyphs),
-            'average_symbolic_intensity': sum(s.symbolic_intensity for s in self.dream_seeds.values()) / max(1, total_seeds)
+            "total_dream_seeds": total_seeds,
+            "total_dream_glyphs": total_glyphs,
+            "dream_phase_distribution": dict(phase_counts),
+            "archetypal_distribution": dict(archetype_counts),
+            "average_consolidation_score": sum(
+                g.consolidation_score for g in self.dream_glyphs.values()
+            )
+            / max(1, total_glyphs),
+            "average_symbolic_intensity": sum(
+                s.symbolic_intensity for s in self.dream_seeds.values()
+            )
+            / max(1, total_seeds),
         }
 
 
 # Create a convenience function for easy integration
+
+
 def create_glyph_dream_seed(glyph: Glyph, dream_phase: str = "initiation") -> DreamSeed:
     """
     Convenience function to create a dream seed from a glyph.

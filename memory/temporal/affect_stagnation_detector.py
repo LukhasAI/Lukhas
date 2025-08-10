@@ -33,29 +33,30 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any, Optional
-from core.common import get_logger
-import structlog
 from datetime import datetime, timezone
+from typing import Any, Dict, Optional
 
 from memory.emotional import EmotionalMemory
 
 # ΛTRACE: Initialize logger for stagnation detection
+
 
 class AffectStagnationDetector:
     """
     Monitors for emotional stagnation and triggers recovery mechanisms.
     """
 
-    def __init__(self, emotional_memory: EmotionalMemory, config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self, emotional_memory: EmotionalMemory, config: Optional[Dict[str, Any]] = None
+    ):
         self.emotional_memory = emotional_memory
         self.config = config or {}
         self.stagnation_threshold = self.config.get("stagnation_threshold_hours", 24)
         self.last_affect_change_ts = datetime.now(timezone.utc).timestamp()
 
-    #LUKHAS_TAG: stagnation_alert
-    #LUKHAS_TAG: emotion_freeze
-    #LUKHAS_TAG: recovery_trigger
+    # LUKHAS_TAG: stagnation_alert
+    # LUKHAS_TAG: emotion_freeze
+    # LUKHAS_TAG: recovery_trigger
     def check_for_stagnation(self) -> Optional[Dict[str, Any]]:
         """
         Checks for emotional stagnation.
@@ -65,30 +66,38 @@ class AffectStagnationDetector:
         """
         now_ts = datetime.now(timezone.utc).timestamp()
 
-        if self.emotional_memory.affect_vector_velocity(depth=2) is not None and self.emotional_memory.affect_vector_velocity(depth=2) > 0.001:
-             self.last_affect_change_ts = now_ts
+        if (
+            self.emotional_memory.affect_vector_velocity(depth=2) is not None
+            and self.emotional_memory.affect_vector_velocity(depth=2) > 0.001
+        ):
+            self.last_affect_change_ts = now_ts
 
         time_since_last_change = now_ts - self.last_affect_change_ts
 
         if time_since_last_change > self.stagnation_threshold * 3600:
             # ΛTRACE: Emotional stagnation detected
-            logger.warning("emotional_stagnation_detected",
-                         hours_since_change=time_since_last_change / 3600,
-                         threshold_hours=self.stagnation_threshold)
+            logger.warning(
+                "emotional_stagnation_detected",
+                hours_since_change=time_since_last_change / 3600,
+                threshold_hours=self.stagnation_threshold,
+            )
             return {
                 "stagnation": True,
                 "symbol": "🧊",
                 "trigger": f"No significant affect change for over {self.stagnation_threshold} hours.",
                 "recovery_needed": True,
                 "timestamp": now_ts,
-                "stagnation_duration_hours": time_since_last_change / 3600
+                "stagnation_duration_hours": time_since_last_change / 3600,
             }
 
         # ΛTRACE: No stagnation detected
-        logger.debug("stagnation_check_passed",
-                   hours_since_change=time_since_last_change / 3600,
-                   threshold_hours=self.stagnation_threshold)
+        logger.debug(
+            "stagnation_check_passed",
+            hours_since_change=time_since_last_change / 3600,
+            threshold_hours=self.stagnation_threshold,
+        )
         return None
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

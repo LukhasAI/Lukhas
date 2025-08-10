@@ -26,16 +26,16 @@ def fix_validation_script():
     original_content = content
 
     # 1. Fix send_message calls to tell
-    send_message_pattern = r'(\w+)\.send_message\(([^)]+)\)'
+    send_message_pattern = r"(\w+)\.send_message\(([^)]+)\)"
 
     def replace_send_message(match):
         obj = match.group(1)
         args = match.group(2)
 
         # For actor refs, convert to tell
-        if 'agent_ref' in obj or 'actor_ref' in obj:
+        if "agent_ref" in obj or "actor_ref" in obj:
             # Extract the message dict from args
-            if args.startswith('{') and args.endswith('}'):
+            if args.startswith("{") and args.endswith("}"):
                 return f'{obj}.tell("task", {args})'
             else:
                 return f'{obj}.tell("task", {{{args}}})'
@@ -47,16 +47,16 @@ def fix_validation_script():
 
     # 2. Fix create_agent calls to create_colony
     content = re.sub(
-        r'await (\w*system\w*)\.create_agent\(',
+        r"await (\w*system\w*)\.create_agent\(",
         r'await \1.create_colony("validation-colony", ReasoningColony, ',
-        content
+        content,
     )
 
     # Also fix the standalone create_agent call
     content = re.sub(
-        r'(\w+)\.create_agent\(\[[^\]]+\], [^)]+\)',
+        r"(\w+)\.create_agent\(\[[^\]]+\], [^)]+\)",
         r'await \1.create_colony("validation-colony", ReasoningColony)',
-        content
+        content,
     )
 
     # 3. Fix total_messages access - this should work after we fix the fabric
@@ -64,22 +64,29 @@ def fix_validation_script():
 
     # 4. Fix send_large_data parameter
     content = re.sub(
-        r'await fabric\.send_large_data\(([^,]+), ([^,]+), use_p2p=True\)',
-        r'await fabric.send_large_data(\1, \2)',
-        content
+        r"await fabric\.send_large_data\(([^,]+), ([^,]+), use_p2p=True\)",
+        r"await fabric.send_large_data(\1, \2)",
+        content,
     )
 
     # 5. Add necessary imports for ReasoningColony if not present
-    if 'ReasoningColony' in content and 'from core.colonies.reasoning_colony import ReasoningColony' not in content:
+    if (
+        "ReasoningColony" in content
+        and "from core.colonies.reasoning_colony import ReasoningColony" not in content
+    ):
         # Add import after the existing imports
-        import_section = content.find('from core.integrated_system')
+        import_section = content.find("from core.integrated_system")
         if import_section != -1:
-            end_of_line = content.find('\n', import_section)
-            content = content[:end_of_line] + '\nfrom core.colonies.reasoning_colony import ReasoningColony' + content[end_of_line:]
+            end_of_line = content.find("\n", import_section)
+            content = (
+                content[:end_of_line]
+                + "\nfrom core.colonies.reasoning_colony import ReasoningColony"
+                + content[end_of_line:]
+            )
 
     # Write the fixed content
     if content != original_content:
-        backup_path = script_path.with_suffix('.fixed.py')
+        backup_path = script_path.with_suffix(".fixed.py")
         script_path.rename(backup_path)
         script_path.write_text(content)
 
@@ -102,7 +109,7 @@ def fix_efficient_communication():
     content = fabric_path.read_text()
 
     # Check if _message_count is initialized in __init__
-    if '_message_count' not in content:
+    if "_message_count" not in content:
         # Add message count tracking to __init__
         init_pattern = r'(def __init__\(self[^\)]*\):[^\n]*\n(?:[ ]*"""[\s\S]*?"""\n)?)([\s\S]*?)(?=\n[ ]*def|\n[ ]*async def|\Z)'
 
@@ -111,41 +118,49 @@ def fix_efficient_communication():
             init_body = match.group(2)
 
             # Add message count initialization
-            if '_message_count = 0' not in init_body:
+            if "_message_count = 0" not in init_body:
                 # Find where to insert (after basic initialization)
-                lines = init_body.split('\n')
+                lines = init_body.split("\n")
                 insert_index = -1
                 for i, line in enumerate(lines):
-                    if 'self.' in line and '=' in line:
+                    if "self." in line and "=" in line:
                         insert_index = i + 1
 
                 if insert_index > 0:
-                    lines.insert(insert_index, '        self._message_count = 0')
+                    lines.insert(insert_index, "        self._message_count = 0")
                 else:
-                    lines.insert(1, '        self._message_count = 0')
+                    lines.insert(1, "        self._message_count = 0")
 
-                return init_signature + '\n'.join(lines)
+                return init_signature + "\n".join(lines)
             return match.group(0)
 
         content = re.sub(init_pattern, add_message_count, content, flags=re.MULTILINE)
 
     # Update send_message to increment the counter
-    if '_message_count += 1' not in content:
-        send_msg_pattern = r'(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)'
+    if "_message_count += 1" not in content:
+        send_msg_pattern = (
+            r"(async def send_message\([^\)]*\)[^\{]*\{[^\}]*)(return [^\n]*?)"
+        )
 
         def add_counter_increment(match):
             method_body = match.group(1)
             return_stmt = match.group(2)
 
             # Add counter increment before return
-            if 'self._message_count += 1' not in method_body:
-                return method_body + '\n        self._message_count += 1\n        ' + return_stmt
+            if "self._message_count += 1" not in method_body:
+                return (
+                    method_body
+                    + "\n        self._message_count += 1\n        "
+                    + return_stmt
+                )
             return match.group(0)
 
-        content = re.sub(send_msg_pattern, add_counter_increment, content, flags=re.DOTALL)
+        content = re.sub(
+            send_msg_pattern, add_counter_increment, content, flags=re.DOTALL
+        )
 
     # Write the updated content
-    backup_path = fabric_path.with_suffix('.final.bak')
+    backup_path = fabric_path.with_suffix(".final.bak")
     fabric_path.rename(backup_path)
     fabric_path.write_text(content)
 

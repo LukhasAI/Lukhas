@@ -3,11 +3,11 @@ Dream Recorder for NIAS system.
 Provides dream recording and logging functionality.
 """
 
-from typing import Dict, Any, Optional, List
 import json
 import logging
-from datetime import datetime
 import os
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 
 class DreamRecorder:
@@ -100,7 +100,7 @@ class DreamRecorder:
         try:
             # Load existing records if file exists
             if os.path.exists(self.log_file):
-                with open(self.log_file, "r", encoding="utf-8") as f:
+                with open(self.log_file, encoding="utf-8") as f:
                     existing_records = json.load(f)
                     if not isinstance(existing_records, list):
                         existing_records = []

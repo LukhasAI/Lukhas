@@ -19,7 +19,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Symbolic Logic Engine for LUKHAS AGI System
 
 This module serves as the nervous system of symbolic inference, evaluating logical pathways
@@ -36,19 +35,19 @@ Key Capabilities:
 - Quantum collapse decision hooks (prepared)
 """
 
-import structlog
-import json
 import uuid
+from dataclasses import dataclass
 from datetime import datetime, timezone
-from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Dict, List, Any, Optional, Tuple, Set, Union
-import math
+from typing import Any, Optional
+
+import structlog
 
 # Initialize ΛTRACE logger for symbolic logic operations
 logger = structlog.get_logger("ΛTRACE.reasoning.symbolic_logic_engine")
 logger.info(
-    "ΛTRACE: Initializing symbolic_logic_engine.py module.", module_path=__file__
+    "ΛTRACE: Initializing symbolic_logic_engine.py module.",
+    module_path=__file__,
 )
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -87,6 +86,8 @@ class ContradictionType(Enum):
 
 
 # ΛNOTE: Core data structures for symbolic evaluation and reasoning chains
+
+
 @dataclass
 class SymbolicEvaluation:
     """
@@ -98,16 +99,16 @@ class SymbolicEvaluation:
     entropy_score: float  # Current entropy level [0.0, 1.0]
     collapse_probability: float  # Probability of path collapse [0.0, 1.0]
     attractor_strength: float  # Strength of attractor dynamics [-1.0, 1.0]
-    glyph_signals: List[GlyphSignal]  # Active GLYPH signals
-    contradictions: List[str]  # Detected contradiction descriptions
+    glyph_signals: list[GlyphSignal]  # Active GLYPH signals
+    contradictions: list[str]  # Detected contradiction descriptions
     symbolic_pressure: float  # Pressure from symbolic environment
     quantum_branches: int  # Number of potential quantum branches
     confidence_score: float  # Overall path confidence [0.0, 1.0]
-    feedback_glyphs: Dict[str, Any]  # GLYPHs to emit back to system
+    feedback_glyphs: dict[str, Any]  # GLYPHs to emit back to system
     evaluation_timestamp: str  # UTC timestamp of evaluation
     evaluation_id: str  # Unique evaluation identifier
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert evaluation to dictionary for serialization."""
         return {
             "path_state": self.path_state.name,
@@ -134,17 +135,17 @@ class ReasoningChain:
 
     start_glyph: str  # Starting symbolic position
     target_glyph: str  # Target symbolic position
-    path_elements: List[str]  # Ordered reasoning steps
-    constraints: Dict[str, Any]  # Applied reasoning constraints
-    attractor_path: List[Tuple[str, float]]  # (glyph, attractor_strength) pairs
-    entropy_evolution: List[float]  # Entropy at each step
-    branch_points: List[int]  # Indices where quantum branching possible
-    confidence_evolution: List[float]  # Confidence at each step
+    path_elements: list[str]  # Ordered reasoning steps
+    constraints: dict[str, Any]  # Applied reasoning constraints
+    attractor_path: list[tuple[str, float]]  # (glyph, attractor_strength) pairs
+    entropy_evolution: list[float]  # Entropy at each step
+    branch_points: list[int]  # Indices where quantum branching possible
+    confidence_evolution: list[float]  # Confidence at each step
     drift_score: float  # Accumulated drift during construction
-    construction_metadata: Dict[str, Any]  # Construction process metadata
+    construction_metadata: dict[str, Any]  # Construction process metadata
     chain_id: str  # Unique chain identifier
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert reasoning chain to dictionary for serialization."""
         return {
             "start_glyph": self.start_glyph,
@@ -175,7 +176,7 @@ class SymbolicLogicEngine:
     pathways based on symbolic signatures, ethical consistency, and memory influence.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the Symbolic Logic Engine with configuration parameters.
 
@@ -198,12 +199,12 @@ class SymbolicLogicEngine:
         self.quantum_branch_limit = self.config.get("quantum_branch_limit", 5)
 
         # ΛMEMORY_TIER: Engine state and knowledge storage
-        self.glyph_registry: Dict[str, Dict[str, Any]] = (
+        self.glyph_registry: dict[str, dict[str, Any]] = (
             {}
         )  # Known GLYPHs and their properties
-        self.path_history: List[Dict[str, Any]] = []  # History of evaluated paths
-        self.contradiction_patterns: Set[str] = set()  # Known contradiction patterns
-        self.attractor_network: Dict[str, List[Tuple[str, float]]] = (
+        self.path_history: list[dict[str, Any]] = []  # History of evaluated paths
+        self.contradiction_patterns: set[str] = set()  # Known contradiction patterns
+        self.attractor_network: dict[str, list[tuple[str, float]]] = (
             {}
         )  # GLYPH attractor relationships
 
@@ -226,8 +227,9 @@ class SymbolicLogicEngine:
 
     # ΛEXPOSE: Primary symbolic path evaluation method
     # ΛTAG: symbolic_evaluation
+
     def evaluate_symbolic_path(
-        self, glyph_path: List[str], context: Dict[str, Any]
+        self, glyph_path: list[str], context: dict[str, Any]
     ) -> SymbolicEvaluation:
         """
         Determines if a symbolic logic path is stable, entropic, or collapsible.
@@ -346,6 +348,7 @@ class SymbolicLogicEngine:
             )
 
     # AINTERNAL: Entropy and drift calculation
+
     def calculate_entropy_drift(
         self, path_entropy: float, symbolic_pressure: float
     ) -> float:
@@ -388,8 +391,9 @@ class SymbolicLogicEngine:
         return collapse_prob
 
     # AINTERNAL: Contradiction detection across reasoning traces
+
     def detect_contradictions(
-        self, path: List[str], memory_snippets: List[str]
+        self, path: list[str], memory_snippets: list[str]
     ) -> Optional[str]:
         """
         Searches for direct or symbolic contradiction in reasoning trace.
@@ -407,7 +411,8 @@ class SymbolicLogicEngine:
         return contradictions[0] if contradictions else None
 
     # ΛEXPOSE: GLYPH feedback emission to mesh layers
-    def emit_feedback_glyphs(self, result: SymbolicEvaluation) -> Dict[str, Any]:
+
+    def emit_feedback_glyphs(self, result: SymbolicEvaluation) -> dict[str, Any]:
         """
         Sends symbolic GLYPH feedback to mesh layer or memory orbit based on evaluation results.
 
@@ -423,8 +428,9 @@ class SymbolicLogicEngine:
 
     # ΛEXPOSE: Recursive reasoning chain construction
     # ΛTAG: reasoning_construction
+
     def reason_chain_builder(
-        self, start: str, target: str, constraints: Dict[str, Any]
+        self, start: str, target: str, constraints: dict[str, Any]
     ) -> ReasoningChain:
         """
         Builds a symbolic reasoning path using recursive attractor logic,
@@ -503,7 +509,8 @@ class SymbolicLogicEngine:
                 ):
                     branch_points.append(step_count - 1)
                     chain_logger.debug(
-                        "ΛTRACE: Quantum branch point identified.", step=step_count - 1
+                        "ΛTRACE: Quantum branch point identified.",
+                        step=step_count - 1,
                     )
 
                 # Update drift and check thresholds
@@ -533,7 +540,7 @@ class SymbolicLogicEngine:
                     if current_glyph == target
                     else "threshold_exceeded"
                 ),
-                "final_entropy": entropy_evolution[-1] if entropy_evolution else 0.0,
+                "final_entropy": (entropy_evolution[-1] if entropy_evolution else 0.0),
                 "final_confidence": (
                     confidence_evolution[-1] if confidence_evolution else 0.0
                 ),
@@ -588,7 +595,7 @@ class SymbolicLogicEngine:
     # INTERNAL HELPER METHODS
     # ═══════════════════════════════════════════════════════════════════════════
 
-    def _calculate_path_entropy(self, glyph_path: List[str], eval_logger: Any) -> float:
+    def _calculate_path_entropy(self, glyph_path: list[str], eval_logger: Any) -> float:
         """Calculate entropy of a GLYPH path based on transitions and complexity."""
         if len(glyph_path) <= 1:
             return 0.1  # Minimal entropy for single element
@@ -624,7 +631,8 @@ class SymbolicLogicEngine:
 
     def _calculate_glyph_distance(self, glyph1: str, glyph2: str) -> float:
         """Calculate symbolic distance between two GLYPHs (placeholder implementation)."""
-        # Simple string-based distance for now - could be enhanced with semantic similarity
+        # Simple string-based distance for now - could be enhanced with semantic
+        # similarity
         if glyph1 == glyph2:
             return 0.0
 
@@ -636,8 +644,8 @@ class SymbolicLogicEngine:
         return 1.0 - (intersection / union if union > 0 else 0.0)
 
     def _evaluate_attractor_dynamics(
-        self, glyph_path: List[str], eval_logger: Any
-    ) -> Tuple[float, List[GlyphSignal]]:
+        self, glyph_path: list[str], eval_logger: Any
+    ) -> tuple[float, list[GlyphSignal]]:
         """Evaluate attractor/repeller dynamics for the GLYPH path."""
         if not glyph_path:
             return 0.0, []
@@ -671,7 +679,7 @@ class SymbolicLogicEngine:
 
         return avg_attractor_strength, active_signals
 
-    def _get_glyph_properties(self, glyph: str) -> Dict[str, Any]:
+    def _get_glyph_properties(self, glyph: str) -> dict[str, Any]:
         """Get or generate properties for a GLYPH."""
         if glyph not in self.glyph_registry:
             # Generate default properties for unknown GLYPH
@@ -684,8 +692,8 @@ class SymbolicLogicEngine:
         return self.glyph_registry[glyph]
 
     def _detect_path_contradictions(
-        self, path: List[str], memory_snippets: List[str], eval_logger: Any
-    ) -> List[str]:
+        self, path: list[str], memory_snippets: list[str], eval_logger: Any
+    ) -> list[str]:
         """Detect contradictions in a symbolic path."""
         contradictions = []
 
@@ -750,7 +758,7 @@ class SymbolicLogicEngine:
 
         return False
 
-    def _matches_contradiction_pattern(self, path: List[str], pattern: str) -> bool:
+    def _matches_contradiction_pattern(self, path: list[str], pattern: str) -> bool:
         """Check if path matches a known contradiction pattern (placeholder)."""
         # Simple pattern matching - could be enhanced with regex or ML
         path_str = " ".join(path)
@@ -760,7 +768,7 @@ class SymbolicLogicEngine:
         self,
         entropy: float,
         collapse_prob: float,
-        contradictions: List[str],
+        contradictions: list[str],
         eval_logger: Any,
     ) -> SymbolicPathState:
         """Determine overall state of symbolic path based on metrics."""
@@ -782,10 +790,11 @@ class SymbolicLogicEngine:
         return SymbolicPathState.STABLE
 
     def _assess_quantum_branches(
-        self, glyph_path: List[str], entropy: float, eval_logger: Any
+        self, glyph_path: list[str], entropy: float, eval_logger: Any
     ) -> int:
         """Assess potential for quantum branching in the path."""
-        # Quantum branches possible when entropy is moderate-high and path has decision points
+        # Quantum branches possible when entropy is moderate-high and path has
+        # decision points
         if entropy < 0.4:
             return 0  # Too stable for branching
 
@@ -825,7 +834,8 @@ class SymbolicLogicEngine:
 
         # Final confidence
         confidence = max(
-            0.0, min(1.0, base_confidence - contradiction_penalty + attractor_bonus)
+            0.0,
+            min(1.0, base_confidence - contradiction_penalty + attractor_bonus),
         )
 
         return confidence
@@ -834,8 +844,8 @@ class SymbolicLogicEngine:
         self,
         path_state: SymbolicPathState,
         attractor_strength: float,
-        glyph_signals: List[GlyphSignal],
-    ) -> Dict[str, Any]:
+        glyph_signals: list[GlyphSignal],
+    ) -> dict[str, Any]:
         """Generate GLYPH feedback signals for system integration."""
         feedback = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -883,15 +893,21 @@ class SymbolicLogicEngine:
         self,
         current_glyph: str,
         target_glyph: str,
-        constraints: Dict[str, Any],
+        constraints: dict[str, Any],
         chain_logger: Any,
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         """Find potential next GLYPHs based on attractor dynamics."""
         # Placeholder implementation - would use actual attractor network
         candidates = []
 
         # Simple heuristic: GLYPHs that are "closer" to target
-        potential_glyphs = ["ΛREASON", "ΛLOGIC", "AINFER", "ΛDERIVE", "ΛCONCLUDE"]
+        potential_glyphs = [
+            "ΛREASON",
+            "ΛLOGIC",
+            "AINFER",
+            "ΛDERIVE",
+            "ΛCONCLUDE",
+        ]
 
         for glyph in potential_glyphs:
             if glyph != current_glyph:  # Avoid loops
@@ -904,17 +920,18 @@ class SymbolicLogicEngine:
         candidates.sort(key=lambda x: x[1], reverse=True)
 
         chain_logger.debug(
-            "ΛTRACE: Attractor candidates found.", candidate_count=len(candidates)
+            "ΛTRACE: Attractor candidates found.",
+            candidate_count=len(candidates),
         )
 
         return candidates[:3]  # Return top 3 candidates
 
     def _select_best_candidate(
         self,
-        candidates: List[Tuple[str, float]],
-        constraints: Dict[str, Any],
+        candidates: list[tuple[str, float]],
+        constraints: dict[str, Any],
         chain_logger: Any,
-    ) -> Tuple[str, float]:
+    ) -> tuple[str, float]:
         """Select best candidate from attractor candidates."""
         if not candidates:
             return "ΛDEFAULT", 0.1
@@ -993,7 +1010,8 @@ class SymbolicLogicEngine:
             self.path_history = self.path_history[-1000:]
 
     # ΛEXPOSE: Engine status and insights
-    def get_engine_status(self) -> Dict[str, Any]:
+
+    def get_engine_status(self) -> dict[str, Any]:
         """Get current engine status and metrics."""
         return {
             "engine_id": self.engine_id,
@@ -1014,6 +1032,7 @@ class SymbolicLogicEngine:
 # ═══════════════════════════════════════════════════════════════════════════
 # MODULE EXPORTS AND INITIALIZATION
 # ═══════════════════════════════════════════════════════════════════════════
+
 
 __all__ = [
     "SymbolicLogicEngine",

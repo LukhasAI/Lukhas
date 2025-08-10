@@ -6,9 +6,11 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
+from core.common import get_logger
+
 
 class AwarenessTracker:
     """
@@ -61,7 +63,7 @@ class AwarenessTracker:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -70,7 +72,7 @@ class AwarenessTracker:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -142,7 +144,7 @@ class AwarenessTracker:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -151,23 +153,37 @@ class AwarenessTracker:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
 def create_consciousness_component(config: Optional[Dict] = None) -> ΛAwarenessTracker:
     """Create and return a consciousness component instance"""
     return ΛAwarenessTracker(config)
+
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> ΛAwarenessTracker:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> ΛAwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
     component = ΛAwarenessTracker(config)
-def create_consciousness_component(config: Optional[Dict] = None) -> lukhasAwarenessTracker:
+
+
+def create_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasAwarenessTracker:
     """Create and return a consciousness component instance"""
     return lukhasAwarenessTracker(config)
+
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> lukhasAwarenessTracker:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasAwarenessTracker:
     """Create, initialize and return a consciousness component instance"""
     component = lukhasAwarenessTracker(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

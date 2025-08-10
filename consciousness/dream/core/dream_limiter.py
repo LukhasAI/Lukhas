@@ -8,8 +8,9 @@
 ════════════════════════════════════════════════════════════════════════════════
 """
 
-from dataclasses import dataclass, field
-from typing import List, Dict, Any, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
 from core.common import get_logger
 
 logger = get_logger(__name__)

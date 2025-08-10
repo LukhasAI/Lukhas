@@ -1,6 +1,6 @@
-import os
 import json
-from pathlib import Path
+import os
+
 from bridge.connectors import blockchain_bridge
 
 

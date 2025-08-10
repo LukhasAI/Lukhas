@@ -3,29 +3,31 @@ Voice Synthesis Adapter for DocuTutor.
 Integrates with Lukhas AGI voice capabilities for audio documentation interaction.
 """
 
-from typing import Dict, Optional
 import json
-from pathlib import Path
-import asyncio
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Dict, Optional
+
 
 @dataclass
 class VoiceParameter:
     """Mock VoiceParameter class."""
+
     pass
+
 
 def speak_text(text: str, params: VoiceParameter):
     """Mock speak_text function."""
     print(f"Speaking: {text}")
 
+
 class VoiceSynthesisAdapter:
     def __init__(self, voice_config: Dict = None):
         self.voice_config = voice_config or {
-            'voice_id': 'default',
-            'language': 'en-US',
-            'speed': 1.0,
-            'pitch': 1.0
+            "voice_id": "default",
+            "language": "en-US",
+            "speed": 1.0,
+            "pitch": 1.0,
         }
         self.voice_cache = {}
         self.last_synthesis = None
@@ -42,9 +44,9 @@ class VoiceSynthesisAdapter:
         # Prepare synthesis parameters
         params = {
             **self.voice_config,
-            'content': content,
-            'context': metadata.get('context', {}),
-            'timestamp': datetime.now().isoformat()
+            "content": content,
+            "context": metadata.get("context", {}),
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Synthesize voice content
@@ -55,19 +57,21 @@ class VoiceSynthesisAdapter:
             return synthesis_result
         except Exception as e:
             return {
-                'success': False,
-                'error': str(e),
-                'timestamp': datetime.now().isoformat()
+                "success": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def adapt_voice(self, user_preferences: Dict):
         """Adapt voice characteristics based on user preferences."""
         new_config = {
             **self.voice_config,
-            'voice_id': user_preferences.get('preferred_voice', self.voice_config['voice_id']),
-            'speed': user_preferences.get('speech_rate', self.voice_config['speed']),
-            'pitch': user_preferences.get('voice_pitch', self.voice_config['pitch']),
-            'language': user_preferences.get('language', self.voice_config['language'])
+            "voice_id": user_preferences.get(
+                "preferred_voice", self.voice_config["voice_id"]
+            ),
+            "speed": user_preferences.get("speech_rate", self.voice_config["speed"]),
+            "pitch": user_preferences.get("voice_pitch", self.voice_config["pitch"]),
+            "language": user_preferences.get("language", self.voice_config["language"]),
         }
 
         # Validate new configuration
@@ -93,9 +97,9 @@ class VoiceSynthesisAdapter:
         key_parts = [
             content,
             json.dumps(metadata, sort_keys=True),
-            json.dumps(self.voice_config, sort_keys=True)
+            json.dumps(self.voice_config, sort_keys=True),
         ]
-        key_string = '|'.join(key_parts)
+        key_string = "|".join(key_parts)
 
         # Use SHA-256 for better hash distribution
         return hashlib.sha256(key_string.encode()).hexdigest()
@@ -105,29 +109,29 @@ class VoiceSynthesisAdapter:
         # This would integrate with the actual Lukhas voice synthesis system
         # For now, return a mock successful result
         return {
-            'success': True,
-            'audio_data': None,  # Would contain actual audio data
-            'duration': len(params['content']) / 15,  # Rough estimate of duration
-            'format': 'wav',
-            'sample_rate': 44100,
-            'timestamp': params['timestamp']
+            "success": True,
+            "audio_data": None,  # Would contain actual audio data
+            "duration": len(params["content"]) / 15,  # Rough estimate of duration
+            "format": "wav",
+            "sample_rate": 44100,
+            "timestamp": params["timestamp"],
         }
 
     async def _validate_voice_config(self, config: Dict) -> bool:
         """Validate voice configuration parameters."""
         try:
             # Validate voice_id exists
-            if not isinstance(config['voice_id'], str):
+            if not isinstance(config["voice_id"], str):
                 return False
 
             # Validate language format
-            if not isinstance(config['language'], str) or len(config['language']) < 2:
+            if not isinstance(config["language"], str) or len(config["language"]) < 2:
                 return False
 
             # Validate speed and pitch ranges
-            if not (0.5 <= config['speed'] <= 2.0):
+            if not (0.5 <= config["speed"] <= 2.0):
                 return False
-            if not (0.5 <= config['pitch'] <= 2.0):
+            if not (0.5 <= config["pitch"] <= 2.0):
                 return False
 
             return True

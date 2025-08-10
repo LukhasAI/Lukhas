@@ -3,9 +3,10 @@
 Unified access to all cognitive and reasoning systems
 """
 
-from orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
 from orchestration.brain.lukhas_brain import LUKHASBrain
+from orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
 from orchestration.meta_cognitive_orchestrator import MetaCognitiveOrchestrator
+
 
 class LUKHASBrainBridge:
     """
@@ -33,6 +34,7 @@ class LUKHASBrainBridge:
         )
 
         return orchestrated_result
+
 
 # Global brain bridge instance
 brain_bridge = LUKHASBrainBridge()

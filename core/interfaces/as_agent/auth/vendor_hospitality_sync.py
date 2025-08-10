@@ -23,6 +23,7 @@ hospitality_vendors = {
     "airbnb": {"api_endpoint": "https://api.airbnb.com/v2/preferences"},
 }
 
+
 def pair_with_vendor(vendor_name, user_id, preferences):
     """
     Simulates pairing with a hospitality vendor and syncing user settings.
@@ -44,10 +45,11 @@ def pair_with_vendor(vendor_name, user_id, preferences):
         "user_id": user_id,
         "preferences": preferences,
         "vendor": vendor_name,
-        "api_used": vendor["api_endpoint"]
+        "api_used": vendor["api_endpoint"],
     }
 
     return {"status": "paired", "details": sync_payload}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for vendor_hospitality_sync.py)

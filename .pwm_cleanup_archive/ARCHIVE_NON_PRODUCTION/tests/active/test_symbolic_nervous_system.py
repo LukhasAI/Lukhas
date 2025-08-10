@@ -3,7 +3,6 @@ Unit tests for SymbolicNervousSystem
 """
 
 import pytest
-
 from perception.symbolic_nervous_system import SymbolicNervousSystem
 
 

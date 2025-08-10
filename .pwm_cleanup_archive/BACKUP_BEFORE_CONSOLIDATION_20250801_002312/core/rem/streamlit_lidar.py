@@ -5,18 +5,23 @@ Streamlit interface for visualizing Lucs' symbolic dreams and LiDAR-derived emot
 """
 
 import streamlit as st
+
+
 # Mock implementations for missing functions
 def load_dreams():
     """Mock load_dreams function"""
     return []
 
+
 def filter_dreams(dreams, phase=None, collapse_only=False, min_resonance=0.0):
     """Mock filter_dreams function"""
     return dreams
 
+
 def summarize_dreams(dreams):
     """Mock summarize_dreams function"""
     return {"total": len(dreams), "phases": {}, "avg_resonance": 0.0}
+
 
 # Page setup
 st.set_page_config(page_title="Lucs LiDAR", layout="wide")
@@ -37,7 +42,7 @@ filtered = filter_dreams(
     dreams,
     phase=None if phase == "All" else phase,
     collapse_only=collapse_only,
-    min_resonance=min_res
+    min_resonance=min_res,
 )
 
 # Display stats
@@ -52,12 +57,14 @@ if not filtered:
 else:
     for d in filtered[-10:]:
         with st.container():
-            st.markdown(f"""
+            st.markdown(
+                f"""
                 **REM Phase {d.get('phase', '?')}**
                 - **Resonance**: {d.get('resonance', 0.0)}
                 - **Collapse**: {d.get('collapse_id', '-')}
                 - **Dream**: {d.get('dream', '')}
                 - *Token ID*: `{d.get('source_token', '-')}`
                 - *Timestamp*: `{d.get('timestamp', '')}`
-            """)
+            """
+            )
 # SYNTAX_ERROR_FIXED: ```

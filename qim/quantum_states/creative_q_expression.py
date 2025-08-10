@@ -19,43 +19,59 @@ VERSION: 2.0.0 • QUANTUM-READY • POST-QUANTUM SECURE
 """
 
 import asyncio
-import numpy as np
-from typing import Dict, Any, List, Optional, AsyncGenerator, Protocol
-from dataclasses import dataclass, field
-from abc import ABC, abstractmethod
-import torch
-import torch.nn as nn
-from qiskit import QuantumCircuit, QuantumRegister
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import hashlib
+from collections.abc import AsyncGenerator
+from dataclasses import dataclass
 from datetime import datetime
-from collections import defaultdict
-import json
+from typing import Any, Dict, List, Optional, Protocol
 
-# Quantum imports
-from qiskit.circuit.library import QFT, HHL
-from qiskit.algorithms import VQE, QAOA
+import numpy as np
 
 # Security imports
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+from qiskit import QuantumCircuit, QuantumRegister
+
+# Quantum imports
 
 # Import comprehensive quantum creative types
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 try:
     from .quantum_creative_types import (
-        CreativeExpression, QuantumContext, QuantumHaiku, QuantumMusicalPiece,
-        SemanticField, QuantumWordState, CognitiveState, EnhancedCreativeState,
-        CreatorIdentity, ProtectedCreativeWork, CreativeParticipant, CreativeGoal,
-        SessionConfig, CollaborativeCreation, UserCreativeProfile, CreativeInteraction
+        CognitiveState,
+        CollaborativeCreation,
+        CreativeExpression,
+        CreativeGoal,
+        CreativeInteraction,
+        CreativeParticipant,
+        CreatorIdentity,
+        EnhancedCreativeState,
+        ProtectedCreativeWork,
+        QuantumContext,
+        QuantumHaiku,
+        QuantumMusicalPiece,
+        QuantumWordState,
+        SemanticField,
+        SessionConfig,
+        UserCreativeProfile,
     )
 except ImportError:
     # Fallback for direct execution
     from quantum_creative_types import (
-        CreativeExpression, QuantumContext, QuantumHaiku, QuantumMusicalPiece,
-        SemanticField, QuantumWordState, CognitiveState, EnhancedCreativeState,
-        CreatorIdentity, ProtectedCreativeWork, CreativeParticipant, CreativeGoal,
-        SessionConfig, CollaborativeCreation, UserCreativeProfile, CreativeInteraction
+        CognitiveState,
+        CollaborativeCreation,
+        CreativeExpression,
+        CreativeGoal,
+        CreativeInteraction,
+        CreativeParticipant,
+        CreatorIdentity,
+        EnhancedCreativeState,
+        ProtectedCreativeWork,
+        QuantumContext,
+        QuantumHaiku,
+        QuantumMusicalPiece,
+        QuantumWordState,
+        SemanticField,
+        SessionConfig,
+        UserCreativeProfile,
     )
 
 
@@ -555,8 +571,8 @@ class BioCognitiveCreativityLayer:
         """
         Apply bio-cognitive enhancements to creative process
         """
-        #ΛTAG: bio
-        #ΛTAG: endocrine
+        # ΛTAG: bio
+        # ΛTAG: endocrine
         # 1. Modulate with neural oscillations (alpha/theta waves for creativity)
         oscillation_enhanced = await self.neural_oscillator.apply_creative_frequency(
             base_creativity,
@@ -1026,7 +1042,6 @@ class EnhancedNeuroHaikuGenerator:
         """
         # Basic haiku generation for backward compatibility
         return "Old pond\nFrog jumps in\nSound of water"
-
 
 
 # Module: Quantum-Enhanced Creative Expression Engine v2.0

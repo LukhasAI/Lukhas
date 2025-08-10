@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -33,14 +32,13 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-
-
-
 import asyncio
-import sys
 import os
+import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(
+    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 
 
 # Test with mock imports to avoid dependency issues
@@ -84,7 +82,7 @@ Beauty collapses"""
     expected_syllables = [5, 7, 5]
     lines = mock_haiku.lines
 
-    print(f"    Generated Haiku:")
+    print("    Generated Haiku:")
     for i, line in enumerate(lines):
         print(f"      {line} ({expected_syllables[i]} syllables)")
 
@@ -177,7 +175,7 @@ async def test_quantum_consciousness_integration():
     # Calculate integrated consciousness score
     consciousness_score = sum(consciousness_levels.values()) / len(consciousness_levels)
 
-    print(f"    Consciousness levels:")
+    print("    Consciousness levels:")
     for level, value in consciousness_levels.items():
         print(f"      {level}: {value}")
     print(f"    Integrated consciousness score: {consciousness_score:.3f}")
@@ -222,10 +220,10 @@ if __name__ == "__main__":
     sys.exit(0 if success else 1)
 
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -233,14 +231,15 @@ def __validate_module__():
         "quantum_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
-        "tier_2_access": True
+        "tier_2_access": True,
     }
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {failed}")
-    
+
     return len(failed) == 0
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Health and Monitoring
@@ -251,7 +250,7 @@ MODULE_HEALTH = {
     "quantum_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

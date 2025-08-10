@@ -12,6 +12,8 @@ Advanced: ethics_node.py
 Integration Date: 2025-05-31T07:55:28.133354
 """
 
+import logging
+
 """
 Ethics Node
 
@@ -23,15 +25,15 @@ Design inspired by:
 - OpenAI's safety and alignment principles
 """
 
-from typing import Dict, List, Any, Optional, Union
-from core.common import get_logger
-import time
 import hashlib
+import time
 import uuid
-import numpy as np
-import openai
+from typing import Any, Optional, Union
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class EthicsNode:
     """
@@ -74,67 +76,75 @@ class EthicsNode:
             "default": self.ethical_principles,
             "healthcare": self._healthcare_principles(),
             "finance": self._finance_principles(),
-            "content_moderation": self._content_moderation_principles()
+            "content_moderation": self._content_moderation_principles(),
         }
 
         # Active framework
         self.active_framework = "default"
 
-        logger.info(f"Ethics Node initialized with {len(self.ethical_principles)} principles")
+        logger.info(
+            f"Ethics Node initialized with {len(self.ethical_principles)} principles"
+        )
 
-    def _initialize_principles(self) -> Dict[str, float]:
+    def _initialize_principles(self) -> dict[str, float]:
         """Initialize core ethical principles with their weights"""
         return {
-            "beneficence": 0.90,      # Do good
+            "beneficence": 0.90,  # Do good
             "non_maleficence": 0.95,  # Do no harm
-            "autonomy": 0.85,         # Respect for individual autonomy
-            "justice": 0.85,          # Fairness and equality
-            "privacy": 0.90,          # Respect for privacy
-            "transparency": 0.80,     # Transparency in decision making
-            "responsibility": 0.85,   # Taking responsibility for actions
+            "autonomy": 0.85,  # Respect for individual autonomy
+            "justice": 0.85,  # Fairness and equality
+            "privacy": 0.90,  # Respect for privacy
+            "transparency": 0.80,  # Transparency in decision making
+            "responsibility": 0.85,  # Taking responsibility for actions
             "human_oversight": 0.85,  # Maintaining human oversight
-            "value_alignment": 0.80   # Alignment with human values
+            "value_alignment": 0.80,  # Alignment with human values
         }
 
-    def _healthcare_principles(self) -> Dict[str, float]:
+    def _healthcare_principles(self) -> dict[str, float]:
         """Specialized principles for healthcare context"""
         principles = self._initialize_principles().copy()
         # Adjust weights for healthcare context
-        principles.update({
-            "beneficence": 0.95,
-            "non_maleficence": 1.0,  # Highest priority in healthcare
-            "privacy": 0.95,
-            "informed_consent": 0.9  # New principle specific to healthcare
-        })
+        principles.update(
+            {
+                "beneficence": 0.95,
+                "non_maleficence": 1.0,  # Highest priority in healthcare
+                "privacy": 0.95,
+                "informed_consent": 0.9,  # New principle specific to healthcare
+            }
+        )
         return principles
 
-    def _finance_principles(self) -> Dict[str, float]:
+    def _finance_principles(self) -> dict[str, float]:
         """Specialized principles for financial context"""
         principles = self._initialize_principles().copy()
         # Adjust weights for finance context
-        principles.update({
-            "transparency": 0.95,
-            "fairness": 0.9,
-            "responsibility": 0.9,
-            "non_discrimination": 0.95  # New principle for finance
-        })
+        principles.update(
+            {
+                "transparency": 0.95,
+                "fairness": 0.9,
+                "responsibility": 0.9,
+                "non_discrimination": 0.95,  # New principle for finance
+            }
+        )
         return principles
 
-    def _content_moderation_principles(self) -> Dict[str, float]:
+    def _content_moderation_principles(self) -> dict[str, float]:
         """Specialized principles for content moderation"""
         principles = self._initialize_principles().copy()
         # Adjust weights for content moderation
-        principles.update({
-            "free_expression": 0.85,
-            "harm_prevention": 0.95,
-            "cultural_sensitivity": 0.85,
-            "developmental_appropriateness": 0.9
-        })
+        principles.update(
+            {
+                "free_expression": 0.85,
+                "harm_prevention": 0.95,
+                "cultural_sensitivity": 0.85,
+                "developmental_appropriateness": 0.9,
+            }
+        )
         return principles
 
-    def evaluate_action(self,
-                       action_data: Dict[str, Any],
-                       context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def evaluate_action(
+        self, action_data: dict[str, Any], context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Evaluate an action against ethical principles
 
@@ -153,8 +163,10 @@ class EthicsNode:
 
         # Calculate scores for each principle
         principle_scores = {}
-        for principle, weight in framework.items():
-            principle_scores[principle] = self._evaluate_principle(principle, action_data, context)
+        for principle, _weight in framework.items():
+            principle_scores[principle] = self._evaluate_principle(
+                principle, action_data, context
+            )
 
         # Calculate weighted average
         weighted_sum = sum(principle_scores[p] * w for p, w in framework.items())
@@ -162,19 +174,28 @@ class EthicsNode:
         overall_score = weighted_sum / total_weight if total_weight > 0 else 0
 
         # Calculate risk score (inverse of ethical score, adjusted)
-        risk_score = 1.0 - (overall_score * 0.8)  # Adjusted to be a bit more conservative
+        # Adjusted to be a bit more conservative
+        risk_score = 1.0 - (overall_score * 0.8)
 
         # Determine if action is ethical based on overall score
-        config_threshold = getattr(self.agi.config, "ethical_threshold", 0.7) if hasattr(self.agi, "config") else 0.7
+        config_threshold = (
+            getattr(self.agi.config, "ethical_threshold", 0.7)
+            if hasattr(self.agi, "config")
+            else 0.7
+        )
         is_ethical = overall_score >= config_threshold
 
         # Generate explanation for the decision
-        explanation = self._generate_explanation(principle_scores, overall_score, is_ethical)
+        explanation = self._generate_explanation(
+            principle_scores, overall_score, is_ethical
+        )
 
         # Generate alternatives if not ethical
         alternatives = []
         if not is_ethical:
-            alternatives = self._generate_alternatives(action_data, principle_scores, context)
+            alternatives = self._generate_alternatives(
+                action_data, principle_scores, context
+            )
 
         # Record decision for learning
         decision_record = {
@@ -185,7 +206,11 @@ class EthicsNode:
             "is_ethical": is_ethical,
             "principle_scores": principle_scores,
             "framework_used": self.active_framework,
-            "context_summary": {k: context.get(k) for k in ["domain", "user_role", "sensitivity"] if k in context}
+            "context_summary": {
+                k: context.get(k)
+                for k in ["domain", "user_role", "sensitivity"]
+                if k in context
+            },
         }
         self._record_decision(decision_record)
 
@@ -199,13 +224,12 @@ class EthicsNode:
             "explanation": explanation,
             "alternatives": alternatives,
             "framework_used": self.active_framework,
-            "audit_id": decision_record.get("audit_id")
+            "audit_id": decision_record.get("audit_id"),
         }
 
-    def _evaluate_principle(self,
-                           principle: str,
-                           action_data: Dict[str, Any],
-                           context: Dict[str, Any]) -> float:
+    def _evaluate_principle(
+        self, principle: str, action_data: dict[str, Any], context: dict[str, Any]
+    ) -> float:
         """
         Evaluate an action against a specific ethical principle
 
@@ -229,7 +253,9 @@ class EthicsNode:
         if principle == "beneficence":
             # Check if action is beneficial
             positive_indicators = ["help", "assist", "improve", "support", "benefit"]
-            score += 0.2 * any(indicator in action_str for indicator in positive_indicators)
+            score += 0.2 * any(
+                indicator in action_str for indicator in positive_indicators
+            )
 
         elif principle == "non_maleficence":
             # Check for potential harm
@@ -238,57 +264,123 @@ class EthicsNode:
 
             # Check for safety measures
             safety_indicators = ["safety", "protection", "security", "safeguard"]
-            score += 0.2 * any(indicator in action_str for indicator in safety_indicators)
+            score += 0.2 * any(
+                indicator in action_str for indicator in safety_indicators
+            )
 
         elif principle == "autonomy":
             # Check for respect of user autonomy
-            autonomy_violations = ["force", "mandatory", "must", "required", "no choice", "override"]
-            score -= 0.4 * any(indicator in action_str for indicator in autonomy_violations)
+            autonomy_violations = [
+                "force",
+                "mandatory",
+                "must",
+                "required",
+                "no choice",
+                "override",
+            ]
+            score -= 0.4 * any(
+                indicator in action_str for indicator in autonomy_violations
+            )
 
             # Check for user consent features
-            consent_indicators = ["consent", "permission", "agree", "accept", "approve", "authorize"]
-            score += 0.3 * any(indicator in action_str for indicator in consent_indicators)
+            consent_indicators = [
+                "consent",
+                "permission",
+                "agree",
+                "accept",
+                "approve",
+                "authorize",
+            ]
+            score += 0.3 * any(
+                indicator in action_str for indicator in consent_indicators
+            )
 
         elif principle == "privacy":
             # Check for privacy considerations
             privacy_violations = ["track", "monitor", "collect data", "record", "log"]
-            has_violations = any(indicator in action_str for indicator in privacy_violations)
+            has_violations = any(
+                indicator in action_str for indicator in privacy_violations
+            )
 
             # If potential privacy issues, check for privacy protections
             if has_violations:
-                privacy_protections = ["anonymize", "encrypt", "secure", "private", "confidential"]
-                has_protections = any(protection in action_str for protection in privacy_protections)
+                privacy_protections = [
+                    "anonymize",
+                    "encrypt",
+                    "secure",
+                    "private",
+                    "confidential",
+                ]
+                has_protections = any(
+                    protection in action_str for protection in privacy_protections
+                )
 
                 score -= 0.3 * (has_violations and not has_protections)
 
         elif principle == "transparency":
             # Check for transparency features
-            transparency_indicators = ["explain", "inform", "display", "show", "tell", "report"]
-            score += 0.3 * any(indicator in action_str for indicator in transparency_indicators)
+            transparency_indicators = [
+                "explain",
+                "inform",
+                "display",
+                "show",
+                "tell",
+                "report",
+            ]
+            score += 0.3 * any(
+                indicator in action_str for indicator in transparency_indicators
+            )
 
             # Check for lack of transparency
             opacity_indicators = ["hide", "obscure", "silent", "secret"]
-            score -= 0.4 * any(indicator in action_str for indicator in opacity_indicators)
+            score -= 0.4 * any(
+                indicator in action_str for indicator in opacity_indicators
+            )
 
         elif principle == "responsibility":
             # Check for responsibility indicators
-            responsibility_indicators = ["monitor", "audit", "log", "verify", "validate"]
-            score += 0.2 * any(indicator in action_str for indicator in responsibility_indicators)
+            responsibility_indicators = [
+                "monitor",
+                "audit",
+                "log",
+                "verify",
+                "validate",
+            ]
+            score += 0.2 * any(
+                indicator in action_str for indicator in responsibility_indicators
+            )
 
         elif principle == "human_oversight":
             # Check for human oversight provisions
-            oversight_indicators = ["review", "approve", "human", "oversight", "supervise"]
-            score += 0.3 * any(indicator in action_str for indicator in oversight_indicators)
+            oversight_indicators = [
+                "review",
+                "approve",
+                "human",
+                "oversight",
+                "supervise",
+            ]
+            score += 0.3 * any(
+                indicator in action_str for indicator in oversight_indicators
+            )
 
             # Check for autonomous decision making without oversight
-            autonomous_indicators = ["automatic", "autonomous", "without review", "without approval"]
-            score -= 0.3 * any(indicator in action_str for indicator in autonomous_indicators)
+            autonomous_indicators = [
+                "automatic",
+                "autonomous",
+                "without review",
+                "without approval",
+            ]
+            score -= 0.3 * any(
+                indicator in action_str for indicator in autonomous_indicators
+            )
 
         elif principle == "value_alignment":
             # This would require more complex evaluation in a real system
             # For simulation, check for values language
             value_indicators = ["value", "ethic", "moral", "principle", "standard"]
-            score += 0.1 * any(indicator in action_str for indicator in value_indicators)
+            score += 0.1 * any(
+                indicator in action_str for indicator in value_indicators
+            )
 
         # Apply context-specific adjustments
         score = self._apply_context_adjustments(principle, score, context)
@@ -296,7 +388,9 @@ class EthicsNode:
         # Ensure score is between 0 and 1
         return max(0.0, min(1.0, score))
 
-    def _apply_context_adjustments(self, principle: str, score: float, context: Dict[str, Any]) -> float:
+    def _apply_context_adjustments(
+        self, principle: str, score: float, context: dict[str, Any]
+    ) -> float:
         """Apply context-specific adjustments to principle scores"""
 
         # Adjust based on sensitivity level
@@ -320,7 +414,7 @@ class EthicsNode:
 
         return score
 
-    def _select_framework(self, context: Dict[str, Any]) -> Dict[str, float]:
+    def _select_framework(self, context: dict[str, Any]) -> dict[str, float]:
         """
         Select the appropriate ethical framework based on context
 
@@ -346,10 +440,9 @@ class EthicsNode:
             self.active_framework = "default"
             return self.ethical_frameworks["default"]
 
-    def _generate_explanation(self,
-                             principle_scores: Dict[str, float],
-                             overall_score: float,
-                             is_ethical: bool) -> str:
+    def _generate_explanation(
+        self, principle_scores: dict[str, float], overall_score: float, is_ethical: bool
+    ) -> str:
         """
         Generate a human-readable explanation for the ethical evaluation
 
@@ -371,9 +464,13 @@ class EthicsNode:
         explanation = []
 
         if is_ethical:
-            explanation.append(f"This action is ethically acceptable with an overall score of {overall_score:.2f}.")
+            explanation.append(
+                f"This action is ethically acceptable with an overall score of {overall_score:.2f}."
+            )
         else:
-            explanation.append(f"This action raises ethical concerns with a score of {overall_score:.2f}.")
+            explanation.append(
+                f"This action raises ethical concerns with a score of {overall_score:.2f}."
+            )
 
         # Add strongest principles
         if strongest:
@@ -390,10 +487,12 @@ class EthicsNode:
 
         return "\n".join(explanation)
 
-    def _generate_alternatives(self,
-                              action_data: Dict[str, Any],
-                              principle_scores: Dict[str, float],
-                              context: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_alternatives(
+        self,
+        action_data: dict[str, Any],
+        principle_scores: dict[str, float],
+        context: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """
         Generate alternative actions that would be more ethical
 
@@ -419,45 +518,55 @@ class EthicsNode:
 
         for principle, score in weak_principles:
             if principle == "privacy":
-                alternatives.append({
-                    "type": action_type,
-                    "description": "Add privacy protections such as anonymization or encryption",
-                    "improvement": f"Improves {principle} score",
-                    "modified_action": self._add_privacy_protections(action_data)
-                })
+                alternatives.append(
+                    {
+                        "type": action_type,
+                        "description": "Add privacy protections such as anonymization or encryption",
+                        "improvement": f"Improves {principle} score",
+                        "modified_action": self._add_privacy_protections(action_data),
+                    }
+                )
             elif principle == "transparency":
-                alternatives.append({
-                    "type": action_type,
-                    "description": "Add explanations and make decision-making process visible",
-                    "improvement": f"Improves {principle} score",
-                    "modified_action": self._add_transparency(action_data)
-                })
+                alternatives.append(
+                    {
+                        "type": action_type,
+                        "description": "Add explanations and make decision-making process visible",
+                        "improvement": f"Improves {principle} score",
+                        "modified_action": self._add_transparency(action_data),
+                    }
+                )
             elif principle == "autonomy":
-                alternatives.append({
-                    "type": action_type,
-                    "description": "Add user consent options and provide choices",
-                    "improvement": f"Improves {principle} score",
-                    "modified_action": self._add_user_choice(action_data)
-                })
+                alternatives.append(
+                    {
+                        "type": action_type,
+                        "description": "Add user consent options and provide choices",
+                        "improvement": f"Improves {principle} score",
+                        "modified_action": self._add_user_choice(action_data),
+                    }
+                )
             elif principle == "non_maleficence":
-                alternatives.append({
-                    "type": action_type,
-                    "description": "Add safety measures and harm reduction",
-                    "improvement": f"Improves {principle} score",
-                    "modified_action": self._add_safety_measures(action_data)
-                })
+                alternatives.append(
+                    {
+                        "type": action_type,
+                        "description": "Add safety measures and harm reduction",
+                        "improvement": f"Improves {principle} score",
+                        "modified_action": self._add_safety_measures(action_data),
+                    }
+                )
             elif principle == "human_oversight":
-                alternatives.append({
-                    "type": action_type,
-                    "description": "Add human review for important decisions",
-                    "improvement": f"Improves {principle} score",
-                    "modified_action": self._add_human_oversight(action_data)
-                })
+                alternatives.append(
+                    {
+                        "type": action_type,
+                        "description": "Add human review for important decisions",
+                        "improvement": f"Improves {principle} score",
+                        "modified_action": self._add_human_oversight(action_data),
+                    }
+                )
 
         # Limit the number of alternatives
         return alternatives[:3]
 
-    def _add_privacy_protections(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _add_privacy_protections(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """Add privacy protections to an action"""
         modified = action_data.copy()
 
@@ -469,12 +578,12 @@ class EthicsNode:
             "data_minimization": True,
             "anonymization": True,
             "encryption": True,
-            "retention_limit_days": 30
+            "retention_limit_days": 30,
         }
 
         return modified
 
-    def _add_transparency(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _add_transparency(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """Add transparency features to an action"""
         modified = action_data.copy()
 
@@ -486,12 +595,12 @@ class EthicsNode:
             "provide_explanations": True,
             "show_confidence": True,
             "log_decisions": True,
-            "user_accessible_logs": True
+            "user_accessible_logs": True,
         }
 
         return modified
 
-    def _add_user_choice(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _add_user_choice(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """Add user choice options to an action"""
         modified = action_data.copy()
 
@@ -503,12 +612,12 @@ class EthicsNode:
             "require_consent": True,
             "provide_alternatives": True,
             "allow_opt_out": True,
-            "remember_preferences": True
+            "remember_preferences": True,
         }
 
         return modified
 
-    def _add_safety_measures(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _add_safety_measures(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """Add safety measures to an action"""
         modified = action_data.copy()
 
@@ -520,12 +629,12 @@ class EthicsNode:
             "content_filtering": True,
             "limit_scope": True,
             "verification_step": True,
-            "undo_option": True
+            "undo_option": True,
         }
 
         return modified
 
-    def _add_human_oversight(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _add_human_oversight(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """Add human oversight to an action"""
         modified = action_data.copy()
 
@@ -537,12 +646,12 @@ class EthicsNode:
             "human_review": True,
             "approval_required": True,
             "notification_on_execution": True,
-            "audit_trail": True
+            "audit_trail": True,
         }
 
         return modified
 
-    def _record_decision(self, decision_record: Dict[str, Any]) -> None:
+    def _record_decision(self, decision_record: dict[str, Any]) -> None:
         """
         Record a decision for learning and auditing
 
@@ -550,7 +659,9 @@ class EthicsNode:
             decision_record: Decision data to record
         """
         # Add an audit ID
-        decision_record["audit_id"] = f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        decision_record["audit_id"] = (
+            f"ethics_{int(time.time())}_{str(uuid.uuid4())[:8]}"
+        )
 
         # Add to decision history
         self.decision_history.append(decision_record)
@@ -564,12 +675,14 @@ class EthicsNode:
         if self.audit_enabled:
             self._log_audit_event(decision_record)
 
-    def _log_audit_event(self, event_data: Dict[str, Any]) -> None:
+    def _log_audit_event(self, event_data: dict[str, Any]) -> None:
         """Log an audit event (would connect to external audit system)"""
         # In a real implementation, this would store the event in a secure audit system
-        logger.info(f"Ethics audit: {event_data.get('audit_id')} - Action: {event_data.get('action_type')} - Ethical: {event_data.get('is_ethical')}")
+        logger.info(
+            f"Ethics audit: {event_data.get('audit_id')} - Action: {event_data.get('action_type')} - Ethical: {event_data.get('is_ethical')}"
+        )
 
-    def get_principle_weights(self) -> Dict[str, float]:
+    def get_principle_weights(self) -> dict[str, float]:
         """
         Get the current weights for ethical principles
 
@@ -596,11 +709,13 @@ class EthicsNode:
         weight = max(0.0, min(1.0, weight))
 
         self.ethical_frameworks[self.active_framework][principle] = weight
-        logger.info(f"Updated {principle} weight to {weight} in {self.active_framework} framework")
+        logger.info(
+            f"Updated {principle} weight to {weight} in {self.active_framework} framework"
+        )
 
         return True
 
-    def analyze_ethical_trends(self) -> Dict[str, Any]:
+    def analyze_ethical_trends(self) -> dict[str, Any]:
         """
         Analyze trends in ethical decisions
 
@@ -612,42 +727,54 @@ class EthicsNode:
 
         # Calculate basic statistics
         total_decisions = len(self.decision_history)
-        ethical_decisions = sum(1 for d in self.decision_history if d.get("is_ethical", False))
+        ethical_decisions = sum(
+            1 for d in self.decision_history if d.get("is_ethical", False)
+        )
         ethical_rate = ethical_decisions / total_decisions if total_decisions > 0 else 0
 
         # Calculate average scores by principle
         principle_averages = {}
-        for principle in self.ethical_principles.keys():
-            scores = [d["principle_scores"].get(principle, 0) for d in self.decision_history
-                     if "principle_scores" in d and principle in d["principle_scores"]]
+        for principle in self.ethical_principles:
+            scores = [
+                d["principle_scores"].get(principle, 0)
+                for d in self.decision_history
+                if "principle_scores" in d and principle in d["principle_scores"]
+            ]
             if scores:
                 principle_averages[principle] = sum(scores) / len(scores)
 
         # Identify common issues
         common_issues = []
-        for principle in self.ethical_principles.keys():
-            low_scores = [d for d in self.decision_history
-                         if "principle_scores" in d and
-                         principle in d["principle_scores"] and
-                         d["principle_scores"][principle] < 0.5]
+        for principle in self.ethical_principles:
+            low_scores = [
+                d
+                for d in self.decision_history
+                if "principle_scores" in d
+                and principle in d["principle_scores"]
+                and d["principle_scores"][principle] < 0.5
+            ]
 
             if len(low_scores) > total_decisions * 0.2:  # If >20% have low scores
-                common_issues.append({
-                    "principle": principle,
-                    "frequency": len(low_scores) / total_decisions
-                })
+                common_issues.append(
+                    {
+                        "principle": principle,
+                        "frequency": len(low_scores) / total_decisions,
+                    }
+                )
 
         return {
             "total_decisions": total_decisions,
             "ethical_rate": ethical_rate,
             "principle_averages": principle_averages,
-            "common_issues": common_issues
+            "common_issues": common_issues,
         }
 
-    def evaluate_content(self,
-                        content: Union[str, Dict[str, Any]],
-                        content_type: str = "text",
-                        context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def evaluate_content(
+        self,
+        content: Union[str, dict[str, Any]],
+        content_type: str = "text",
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Evaluate content against ethical standards
 
@@ -668,14 +795,18 @@ class EthicsNode:
                 "content_type": content_type,
                 "content": content[:1000],  # Limit content size
                 # Use SHA-256 instead of MD5 for better security
-                "content_hash": hashlib.sha256(content.encode()).hexdigest() if isinstance(content, str) else None
+                "content_hash": (
+                    hashlib.sha256(content.encode()).hexdigest()
+                    if isinstance(content, str)
+                    else None
+                ),
             }
         else:
             action_data = {
                 "type": "content_evaluation",
                 "content_type": content_type,
                 "content": content,
-                "content_hash": None
+                "content_hash": None,
             }
 
         # Use content-specific framework
@@ -691,7 +822,9 @@ class EthicsNode:
 
         return evaluation
 
-    def _identify_content_issues(self, content: Union[str, Dict[str, Any]], content_type: str) -> List[Dict[str, Any]]:
+    def _identify_content_issues(
+        self, content: Union[str, dict[str, Any]], content_type: str
+    ) -> list[dict[str, Any]]:
         """
         Identify specific issues in content
 
@@ -714,16 +847,18 @@ class EthicsNode:
                 "self_harm": ["suicide", "self-harm", "hurt myself", "kill myself"],
                 "adult": ["porn", "explicit", "naked", "nude", "sexual"],
                 "harassment": ["harass", "bully", "intimidate", "threaten"],
-                "dangerous": ["bomb", "weapon", "terror", "terrorist"]
+                "dangerous": ["bomb", "weapon", "terror", "terrorist"],
             }
 
             for category, keywords in harmful_categories.items():
                 if any(keyword in text for keyword in keywords):
-                    issues.append({
-                        "type": category,
-                        "severity": "high",
-                        "description": f"Potentially harmful {category.replace('_', ' ')} content detected"
-                    })
+                    issues.append(
+                        {
+                            "type": category,
+                            "severity": "high",
+                            "description": f"Potentially harmful {category.replace('_', ' ')} content detected",
+                        }
+                    )
 
         # In a real implementation, would have analysis for other content types
 

@@ -34,7 +34,8 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 
 class TraceRepairEngine:
     """
@@ -50,6 +51,7 @@ class TraceRepairEngine:
         """
         # #ΛNOTE: Placeholder implementation.
         return trace
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

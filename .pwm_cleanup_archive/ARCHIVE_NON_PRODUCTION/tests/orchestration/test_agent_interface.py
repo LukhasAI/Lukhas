@@ -5,19 +5,20 @@ Tests for Agent Interface
 ΛTAG: test, agent, interface
 """
 
-import pytest
 import asyncio
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
+import pytest
 
 from orchestration.interfaces.agent_interface import (
-    AgentInterface,
-    AgentMetadata,
     AgentCapability,
-    AgentStatus,
-    AgentMessage,
     AgentContext,
-    SimpleAgent
+    AgentInterface,
+    AgentMessage,
+    AgentMetadata,
+    AgentStatus,
+    SimpleAgent,
 )
 
 
@@ -42,7 +43,7 @@ class TestAgentMetadata:
             name="TestAgent",
             version="2.0.0",
             description="A test agent",
-            capabilities={AgentCapability.TASK_PROCESSING, AgentCapability.LEARNING}
+            capabilities={AgentCapability.TASK_PROCESSING, AgentCapability.LEARNING},
         )
 
         assert metadata.name == "TestAgent"
@@ -61,7 +62,7 @@ class TestAgentMessage:
             recipient_id="agent2",
             message_type="test",
             content={"data": "test"},
-            priority=5
+            priority=5,
         )
 
         assert message.sender_id == "agent1"
@@ -77,7 +78,7 @@ class TestAgentMessage:
             sender_id="agent1",
             recipient_id=None,  # Broadcast
             message_type="announcement",
-            content="Hello all agents"
+            content="Hello all agents",
         )
 
         assert message.recipient_id is None
@@ -89,10 +90,7 @@ class TestAgentContext:
 
     def test_context_creation(self):
         """Test creating agent context"""
-        context = AgentContext(
-            orchestrator_id="orch1",
-            session_id="session1"
-        )
+        context = AgentContext(orchestrator_id="orch1", session_id="session1")
 
         assert context.orchestrator_id == "orch1"
         assert context.session_id == "session1"
@@ -125,14 +123,16 @@ class TestAgentInterface:
                 self.tasks_processed += 1
                 return {"status": "completed", "task_id": task.get("task_id")}
 
-            async def handle_message(self, message: AgentMessage) -> Optional[AgentMessage]:
+            async def handle_message(
+                self, message: AgentMessage
+            ) -> Optional[AgentMessage]:
                 self.messages_handled += 1
                 if message.requires_response:
                     return AgentMessage(
                         sender_id=self.metadata.agent_id,
                         recipient_id=message.sender_id,
                         message_type="response",
-                        content={"acknowledged": True}
+                        content={"acknowledged": True},
                     )
                 return None
 
@@ -140,7 +140,7 @@ class TestAgentInterface:
                 return {
                     "healthy": True,
                     "status": self.status.name,
-                    "tasks_processed": self.tasks_processed
+                    "tasks_processed": self.tasks_processed,
                 }
 
             async def shutdown(self) -> None:
@@ -158,10 +158,7 @@ class TestAgentInterface:
     @pytest.mark.asyncio
     async def test_agent_initialization(self, mock_agent):
         """Test agent initialization"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
 
         success = await mock_agent.initialize(context)
 
@@ -192,6 +189,7 @@ class TestAgentInterface:
 
     def test_message_handler_registration(self, mock_agent):
         """Test message handler registration"""
+
         def test_handler(message):
             return {"handled": True}
 
@@ -248,18 +246,12 @@ class TestAgentInterface:
     @pytest.mark.asyncio
     async def test_send_message(self, mock_agent):
         """Test message sending"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await mock_agent.initialize(context)
 
         # Send direct message
         message_id = await mock_agent.send_message(
-            "recipient_agent",
-            {"data": "test"},
-            message_type="test",
-            priority=5
+            "recipient_agent", {"data": "test"}, message_type="test", priority=5
         )
 
         assert message_id is not None
@@ -274,16 +266,12 @@ class TestAgentInterface:
     @pytest.mark.asyncio
     async def test_broadcast_message(self, mock_agent):
         """Test broadcast message"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await mock_agent.initialize(context)
 
         # Broadcast message
         message_id = await mock_agent.broadcast(
-            {"announcement": "Hello all"},
-            message_type="announcement"
+            {"announcement": "Hello all"}, message_type="announcement"
         )
 
         assert message_id is not None
@@ -296,10 +284,7 @@ class TestAgentInterface:
     @pytest.mark.asyncio
     async def test_error_handling(self, mock_agent):
         """Test error handling"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await mock_agent.initialize(context)
 
         # Simulate error
@@ -342,10 +327,7 @@ class TestSimpleAgent:
     @pytest.mark.asyncio
     async def test_simple_agent_initialization(self, simple_agent):
         """Test SimpleAgent initialization"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
 
         success = await simple_agent.initialize(context)
 
@@ -356,16 +338,13 @@ class TestSimpleAgent:
     @pytest.mark.asyncio
     async def test_simple_agent_task_processing(self, simple_agent):
         """Test SimpleAgent task processing"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await simple_agent.initialize(context)
 
         task = {
             "task_id": "test_task_123",
             "type": "test_task",
-            "parameters": {"param1": "value1"}
+            "parameters": {"param1": "value1"},
         }
 
         result = await simple_agent.process_task(task)
@@ -377,17 +356,12 @@ class TestSimpleAgent:
     @pytest.mark.asyncio
     async def test_simple_agent_message_handling(self, simple_agent):
         """Test SimpleAgent message handling"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await simple_agent.initialize(context)
 
         # Test message without response required
         message1 = AgentMessage(
-            sender_id="sender1",
-            message_type="info",
-            content={"info": "test"}
+            sender_id="sender1", message_type="info", content={"info": "test"}
         )
 
         response1 = await simple_agent.handle_message(message1)
@@ -398,7 +372,7 @@ class TestSimpleAgent:
             sender_id="sender2",
             message_type="query",
             content={"query": "status"},
-            requires_response=True
+            requires_response=True,
         )
 
         response2 = await simple_agent.handle_message(message2)
@@ -409,10 +383,7 @@ class TestSimpleAgent:
     @pytest.mark.asyncio
     async def test_simple_agent_health_status(self, simple_agent):
         """Test SimpleAgent health status"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await simple_agent.initialize(context)
 
         health = await simple_agent.get_health_status()
@@ -426,10 +397,7 @@ class TestSimpleAgent:
     @pytest.mark.asyncio
     async def test_simple_agent_shutdown(self, simple_agent):
         """Test SimpleAgent shutdown"""
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await simple_agent.initialize(context)
 
         # Add message to queue
@@ -453,14 +421,8 @@ class TestAgentIntegration:
         agent2 = SimpleAgent("Agent2")
 
         # Initialize with shared context (simplified)
-        context1 = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
-        context2 = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context1 = AgentContext(orchestrator_id="test_orch", session_id="test_session")
+        context2 = AgentContext(orchestrator_id="test_orch", session_id="test_session")
 
         await agent1.initialize(context1)
         await agent2.initialize(context2)
@@ -469,7 +431,7 @@ class TestAgentIntegration:
         await agent1.send_message(
             agent2.metadata.agent_id,
             {"greeting": "Hello Agent2"},
-            message_type="greeting"
+            message_type="greeting",
         )
 
         # Get message from agent1's queue
@@ -506,7 +468,7 @@ class TestAgentIntegration:
                     return {
                         "status": "error",
                         "error": str(e),
-                        "task_id": task.get("task_id", "unknown")
+                        "task_id": task.get("task_id", "unknown"),
                     }
 
             async def handle_message(self, message):
@@ -519,17 +481,11 @@ class TestAgentIntegration:
                 self.update_status(AgentStatus.TERMINATED)
 
         agent = ErrorAgent()
-        context = AgentContext(
-            orchestrator_id="test_orch",
-            session_id="test_session"
-        )
+        context = AgentContext(orchestrator_id="test_orch", session_id="test_session")
         await agent.initialize(context)
 
         # Process error task
-        error_task = {
-            "task_id": "error_task_123",
-            "type": "error_task"
-        }
+        error_task = {"task_id": "error_task_123", "type": "error_task"}
 
         result = await agent.process_task(error_task)
 

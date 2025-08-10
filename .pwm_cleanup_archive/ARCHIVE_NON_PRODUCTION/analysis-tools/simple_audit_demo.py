@@ -9,7 +9,7 @@ in your LUKHAS system using the existing event-bus colony/swarm architecture.
 import asyncio
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 print("🚀 LUKHAS Universal Decision Audit Trail Embedding")
 print("=" * 60)
@@ -197,10 +197,10 @@ async def demonstrate_universal_auditing():
     print("-" * 40)
     print(f"   📋 Total Decisions Audited: {len(auditor.audit_trails)}")
     print(f"   📨 Event Bus Messages Sent: {len(auditor.event_bus_messages)}")
-    print(f"   🏛️ Average Colony Consensus: 94%")
-    print(f"   🐝 Average Swarm Confidence: 91%")
-    print(f"   ✅ Compliance Rate: 100%")
-    print(f"   ⚡ Average Audit Time: <20ms")
+    print("   🏛️ Average Colony Consensus: 94%")
+    print("   🐝 Average Swarm Confidence: 91%")
+    print("   ✅ Compliance Rate: 100%")
+    print("   ⚡ Average Audit Time: <20ms")
     print()
 
     return auditor

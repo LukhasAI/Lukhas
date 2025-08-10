@@ -24,10 +24,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-from core.common import get_logger
 import sys
-import time
 from pathlib import Path
 
 # Add current directory to path for imports
@@ -36,7 +33,11 @@ sys.path.insert(0, str(current_dir))
 
 try:
     # Import MemoryType from interface to break circular dependency
-    from core.interfaces.memory_interface import MemoryType, MemoryTestInterface, register_test_module
+    from core.interfaces.memory_interface import (
+        MemoryTestInterface,
+        MemoryType,
+        register_test_module,
+    )
 
     MEMORY_CORE_AVAILABLE = True
 except ImportError:
@@ -98,7 +99,7 @@ def test_memory_lifecycle(orchestrator):
         # Get current memory statistics for baseline
         memory_stats = orchestrator.get_memory_statistics()
 
-        print(f"✅ Memory lifecycle test completed")
+        print("✅ Memory lifecycle test completed")
         print(f"   - Total memories: {memory_stats['total_memories']}")
         print(f"   - Hippocampal: {memory_stats['hippocampal_memories']}")
         print(f"   - Neocortical: {memory_stats['neocortical_memories']}")
@@ -185,7 +186,7 @@ def test_error_conditions(orchestrator):
         passed_tests = sum(1 for t in test_results if t["status"] == "pass")
         total_tests = len(test_results)
 
-        print(f"✅ Error condition test completed")
+        print("✅ Error condition test completed")
         print(f"   - Tests passed: {passed_tests}/{total_tests}")
         for result in test_results:
             status_icon = "✅" if result["status"] == "pass" else "❌"
@@ -207,29 +208,40 @@ def test_error_conditions(orchestrator):
 
 # Dependency injection implementation
 if MEMORY_CORE_AVAILABLE:
+
     class MemoryComprehensiveTestModule(MemoryTestInterface):
         """Implementation of MemoryTestInterface for dependency injection"""
-        
+
         async def test_error_conditions(self) -> dict:
             """Test error handling conditions"""
             # Since the original function expects an orchestrator parameter,
             # we'll need to get it through dependency injection
             from core.interfaces.dependency_injection import get_service
+
             try:
                 orchestrator = get_service("memory_orchestrator")
                 return test_error_conditions(orchestrator)
             except Exception as e:
-                return {"status": "error", "test_type": "error_conditions", "error": str(e)}
-                
+                return {
+                    "status": "error",
+                    "test_type": "error_conditions",
+                    "error": str(e),
+                }
+
         async def test_memory_lifecycle(self) -> dict:
             """Test memory lifecycle operations"""
             from core.interfaces.dependency_injection import get_service
+
             try:
                 orchestrator = get_service("memory_orchestrator")
                 return test_memory_lifecycle(orchestrator)
             except Exception as e:
-                return {"status": "error", "test_type": "memory_lifecycle", "error": str(e)}
-    
+                return {
+                    "status": "error",
+                    "test_type": "memory_lifecycle",
+                    "error": str(e),
+                }
+
     # Register the test module for dependency injection
     try:
         test_module = MemoryComprehensiveTestModule()

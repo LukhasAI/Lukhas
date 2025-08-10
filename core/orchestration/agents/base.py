@@ -4,7 +4,6 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List
 
 from .types import AgentCapability, AgentContext, AgentResponse
 
@@ -18,7 +17,7 @@ class OrchestrationAgent(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_capabilities(self) -> List[AgentCapability]:
+    def get_capabilities(self) -> list[AgentCapability]:
         """Return the list of capabilities supported by this agent."""
         raise NotImplementedError
 
@@ -32,7 +31,7 @@ class OrchestrationAgent(ABC):
         """Return True if the agent can handle the provided context."""
         raise NotImplementedError
 
-    def get_metadata(self) -> Dict[str, any]:
+    def get_metadata(self) -> dict[str, any]:
         """Return metadata describing the agent."""
         return {
             "id": self.get_agent_id(),

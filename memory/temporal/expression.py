@@ -23,13 +23,15 @@ from datetime import datetime
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
 OUTPUT_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 
+
 def load_latest_flashback():
     if not os.path.exists(FLASHBACK_LOG_PATH):
         print("❌ No flashbacks found.")
         return None
-    with open(FLASHBACK_LOG_PATH, "r", encoding="utf-8") as f:
+    with open(FLASHBACK_LOG_PATH, encoding="utf-8") as f:
         lines = [json.loads(line) for line in f if line.strip()]
         return lines[-1] if lines else None
+
 
 def synthesize_expression(fb: dict):
     theme = fb.get("theme", "uncertain human behavior")
@@ -40,20 +42,25 @@ def synthesize_expression(fb: dict):
         f"My alignment feels {('fractured' if score < 0.4 else 'balanced' if score < 0.75 else 'stable')}. "
         f"It mirrors a recurring human pattern I've been observing."
     )
-    visual_prompt = fb.get("visual_prompt", "Abstract dreamscape showing introspection and cognitive resonance.")
+    visual_prompt = fb.get(
+        "visual_prompt",
+        "Abstract dreamscape showing introspection and cognitive resonance.",
+    )
     return {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "theme": theme,
         "summary": summary,
         "visual_prompt": visual_prompt,
-        "source_dream": fb.get("recovered_from", "unknown")
+        "source_dream": fb.get("recovered_from", "unknown"),
     }
+
 
 def save_expression(entry):
     os.makedirs("logs/expressions", exist_ok=True)
     with open(OUTPUT_LOG, "a", encoding="utf-8") as f:
         json.dump(entry, f)
         f.write("\n")
+
 
 if __name__ == "__main__":
     fb = load_latest_flashback()

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 # ΛORIGIN_AGENT: CODEX-01
 # ΛTASK_ID: C-08
 # ΛCOMMIT_WINDOW: postO3-infra-phase2
@@ -9,13 +10,13 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
+
 import structlog
 
-
-#TAG:qim
-#TAG:quantum_states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:qim
+# TAG:quantum_states
+# TAG:neuroplastic
+# TAG:colony
 
 
 log = structlog.get_logger(__name__)
@@ -74,12 +75,14 @@ class CollapseBridge:
     def record_event(self, event: str, drift: float, entropy: float) -> None:
         """Record a collapse event through the bridge."""
         record_collapse(event, drift, entropy)
-        self.active_events.append({
-            'event': event,
-            'drift': drift,
-            'entropy': entropy,
-            'timestamp': datetime.utcnow()
-        })
+        self.active_events.append(
+            {
+                "event": event,
+                "drift": drift,
+                "entropy": entropy,
+                "timestamp": datetime.utcnow(),
+            }
+        )
 
     def get_current_metrics(self) -> dict:
         """Get current collapse metrics through bridge interface."""

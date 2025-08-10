@@ -9,4 +9,4 @@ This module provides entropy analysis and monitoring capabilities:
 
 from .radar import EntropyRadar
 
-__all__ = ['EntropyRadar']
+__all__ = ["EntropyRadar"]

@@ -11,12 +11,13 @@ Enhanced bio-symbolic adapter for the Lukhas Awareness Protocol that implements
 quantum-biological metaphors with a focus of simplicity and safety.
 """
 
-from core.common import get_logger
 import asyncio
-from typing import Dict, Any, Optional, List
-from datetime import datetime
-from collections import deque
 import hashlib
+from collections import deque
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 try:
     import numpy as np
@@ -62,26 +63,38 @@ except ImportError:
 
 try:
     from symbolic.bio import (
+        CardiolipinEncoder,
+        CristaFilter,
         ProtonGradient,
         QuantumAttentionGate,
-        CristaFilter,
-        CardiolipinEncoder
     )
+
     bio_symbolic_available = True
 except ImportError:
     # Fallback stubs for when bio symbolic components aren't available
     class ProtonGradient:
-        def process(self, *args, **kwargs): return args[0] if args else {}
+        def process(self, *args, **kwargs):
+            return args[0] if args else {}
+
     class QuantumAttentionGate:
-        def attend(self, *args, **kwargs): return args[0] if args else {}
+        def attend(self, *args, **kwargs):
+            return args[0] if args else {}
+
     class CristaFilter:
-        def filter(self, *args, **kwargs): return args[0] if args else {}
+        def filter(self, *args, **kwargs):
+            return args[0] if args else {}
+
     class CardiolipinEncoder:
-        def encode(self, *args, **kwargs): return args[0] if args else {}
-        def create_base_pattern(self, user_id): return {"user_id": user_id}
+        def encode(self, *args, **kwargs):
+            return args[0] if args else {}
+
+        def create_base_pattern(self, user_id):
+            return {"user_id": user_id}
+
     bio_symbolic_available = False
 
 logger = get_logger(__name__)
+
 
 class BioSymbolicAwarenessAdapter:
     """
@@ -107,65 +120,67 @@ class BioSymbolicAwarenessAdapter:
 
         # Safety boundaries (Altman-inspired)
         self.safety_limits = {
-            "max_adaptation_rate": 0.2,    # Limit learning speed
-            "min_coherence": 0.3,          # Minimum quantum stability
-            "resource_ceiling": 0.95,       # Prevent resource saturation
-            "pattern_confidence": 0.7       # Required for pattern promotion
+            "max_adaptation_rate": 0.2,  # Limit learning speed
+            "min_coherence": 0.3,  # Minimum quantum stability
+            "resource_ceiling": 0.95,  # Prevent resource saturation
+            "pattern_confidence": 0.7,  # Required for pattern promotion
         }
 
         # Bio-inspired metrics for health monitoring
         self.bio_metrics = {
-            "proton_gradient": 1.0,        # Energy gradient level
-            "attention_focus": 0.8,        # Attention quality
-            "pattern_match": 0.0,          # Pattern recognition confidence
-            "identity_strength": 1.0,      # Security signature strength
-            "resource_efficiency": 1.0,    # Resource usage efficiency
-            "adaptation_rate": 0.1         # Conservative learning rate
+            "proton_gradient": 1.0,  # Energy gradient level
+            "attention_focus": 0.8,  # Attention quality
+            "pattern_match": 0.0,  # Pattern recognition confidence
+            "identity_strength": 1.0,  # Security signature strength
+            "resource_efficiency": 1.0,  # Resource usage efficiency
+            "adaptation_rate": 0.1,  # Conservative learning rate
         }
 
         # Safety monitoring
         self.safety_state = {
-            "violations": [],              # Safety boundary violations
+            "violations": [],  # Safety boundary violations
             "adaptation_history": deque(maxlen=100),  # Recent adaptations
-            "resource_peaks": {},          # Resource usage peaks
-            "pattern_stability": 1.0       # Overall pattern stability
+            "resource_peaks": {},  # Resource usage peaks
+            "pattern_stability": 1.0,  # Overall pattern stability
         }
 
         # Quantum state tracking
         self.quantum_like_state = {
-            "coherence": 1.0,           # Quantum state stability
-            "entanglement": {},         # Tracked relationships
-            "superposition": {},        # Current possibilities
-            "fallback_states": []       # Backup states
+            "coherence": 1.0,  # Quantum state stability
+            "entanglement": {},  # Tracked relationships
+            "superposition": {},  # Current possibilities
+            "fallback_states": [],  # Backup states
         }
 
         # Cross-domain pattern memory
         self.pattern_memory = {
             "short_term": deque(maxlen=100),  # Recent patterns
-            "long_term": set(),               # Established patterns
-            "cross_domain": {}                # Pattern relationships
+            "long_term": set(),  # Established patterns
+            "cross_domain": {},  # Pattern relationships
         }
 
         # Resource allocation pools
         self.resource_pools = {
-            "attention": 1.0,     # Available attention
-            "memory": 1.0,        # Memory capacity
-            "processing": 1.0,    # Processing power
-            "security": 1.0       # Security resources
+            "attention": 1.0,  # Available attention
+            "memory": 1.0,  # Memory capacity
+            "processing": 1.0,  # Processing power
+            "security": 1.0,  # Security resources
         }
 
         # Security protocol state
         self.security_state = {
-            "membrane_integrity": 1.0,   # Security boundary
-            "ion_channels": {},          # Access points
+            "membrane_integrity": 1.0,  # Security boundary
+            "ion_channels": {},  # Access points
             "cardiolipin_codes": set(),  # Valid signatures
-            "threat_memory": set()       # Known threats
+            "threat_memory": set(),  # Known threats
         }
 
         # Configure from settings
         self.config = config or {}
 
-    async def enhance_context_vector(self, context_vector: Dict[str, float]) -> Dict[str, float]:
+    async def enhance_context_vector(
+        self, context_vector: Dict[str, float]
+    ) -> Dict[str, float]:
         """
         Enhance contextual awareness through quantum-biological processing.
         Follows Jobs' philosophy: "Simplicity is the ultimate sophistication"
@@ -183,39 +198,37 @@ class BioSymbolicAwarenessAdapter:
             logger.error("Error in bio-symbolic enhancement: %s", str(e))
             return await self._activate_safe_fallback(context_vector)
 
-    async def _process_through_pipeline(self, data: Dict[str, float]) -> Dict[str, float]:
+    async def _process_through_pipeline(
+        self, data: Dict[str, float]
+    ) -> Dict[str, float]:
         """Single unified processing pipeline following quantum-biological metaphor"""
         # Phase 1: Quantum Focus (Attention)
         focused = await self._apply_with_fallback(
-            self.attention_gate.attend,
-            data,
-            self.quantum_like_state
+            self.attention_gate.attend, data, self.quantum_like_state
         )
 
         # Phase 2: Energy Flow (Resource Allocation)
         energized = await self._allocate_resources(
-            self.proton_gradient.process,
-            focused,
-            self.quantum_like_state
+            self.proton_gradient.process, focused, self.quantum_like_state
         )
 
         # Phase 3: Pattern Recognition (Learning)
         filtered = await self._filter_with_learning(
-            self.crista_filter.filter,
-            energized,
-            self.bio_metrics
+            self.crista_filter.filter, energized, self.bio_metrics
         )
 
         # Phase 4: Security (Protection)
         secured = await self._secure_with_protocols(
             self.identity_encoder.encode,
             filtered,
-            self.bio_metrics["identity_strength"]
+            self.bio_metrics["identity_strength"],
         )
 
         return secured
 
-    async def _adapt_and_learn(self, input_data: Dict[str, float], output_data: Dict[str, float]) -> None:
+    async def _adapt_and_learn(
+        self, input_data: Dict[str, float], output_data: Dict[str, float]
+    ) -> None:
         """Unified adaptation and learning process"""
         # Update core metrics
         self._update_metrics(input_data, output_data)
@@ -248,11 +261,11 @@ class BioSymbolicAwarenessAdapter:
 
         # Weight the different bio-inspired signals
         confidence = (
-            0.3 * self.bio_metrics["proton_gradient"] +      # Energy level
-            0.3 * self.bio_metrics["attention_focus"] +      # Focus quality
-            0.2 * self.bio_metrics["pattern_match"] +        # Pattern strength
-            0.1 * self.bio_metrics["identity_strength"] +    # Security strength
-            0.1 * vector_strength                            # Input vector strength
+            0.3 * self.bio_metrics["proton_gradient"]  # Energy level
+            + 0.3 * self.bio_metrics["attention_focus"]  # Focus quality
+            + 0.2 * self.bio_metrics["pattern_match"]  # Pattern strength
+            + 0.1 * self.bio_metrics["identity_strength"]  # Security strength
+            + 0.1 * vector_strength  # Input vector strength
         )
 
         # Apply coherence-inspired processing damping
@@ -275,13 +288,13 @@ class BioSymbolicAwarenessAdapter:
         bio_fingerprint = {
             "gradient_state": self.bio_metrics["proton_gradient"],
             "attention_pattern": self.bio_metrics["attention_focus"],
-            "coherence_level": self.quantum_like_state["coherence"]
+            "coherence_level": self.quantum_like_state["coherence"],
         }
 
         return {
             "recovery_pattern": quantum_enhanced,
             "bio_fingerprint": bio_fingerprint,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
     async def get_system_status(self) -> Dict[str, Any]:
@@ -295,17 +308,19 @@ class BioSymbolicAwarenessAdapter:
             "health": self._calculate_system_health(),
             "stability": self.safety_state["pattern_stability"],
             "efficiency": self._calculate_efficiency(),
-            "safety": self._calculate_safety_score()
+            "safety": self._calculate_safety_score(),
         }
 
         # Detailed safety metrics (Altman-style thoroughness)
         if status["health"] < 0.8 or status["safety"] < 0.9:
-            status.update({
-                "violations": self.safety_state["violations"][-5:],
-                "adaptation_trend": self._calculate_adaptation_trend(),
-                "resource_warnings": self._check_resource_warnings(),
-                "recommended_actions": self._get_recommended_actions()
-            })
+            status.update(
+                {
+                    "violations": self.safety_state["violations"][-5:],
+                    "adaptation_trend": self._calculate_adaptation_trend(),
+                    "resource_warnings": self._check_resource_warnings(),
+                    "recommended_actions": self._get_recommended_actions(),
+                }
+            )
 
         return status
 
@@ -315,17 +330,21 @@ class BioSymbolicAwarenessAdapter:
             self.quantum_like_state["coherence"],
             self.bio_metrics["proton_gradient"],
             self.security_state["membrane_integrity"],
-            self.safety_state["pattern_stability"]
+            self.safety_state["pattern_stability"],
         )
 
     def _calculate_efficiency(self) -> float:
         """Calculate system efficiency (Jobs-style focus on essentials)"""
-        fallback_penalty = max(0.0, 1.0 - (len(self.quantum_like_state["fallback_states"]) / 5))
-        return np.mean([
-            self.bio_metrics["resource_efficiency"],
-            self.bio_metrics["attention_focus"],
-            fallback_penalty
-        ])
+        fallback_penalty = max(
+            0.0, 1.0 - (len(self.quantum_like_state["fallback_states"]) / 5)
+        )
+        return np.mean(
+            [
+                self.bio_metrics["resource_efficiency"],
+                self.bio_metrics["attention_focus"],
+                fallback_penalty,
+            ]
+        )
 
     def _calculate_safety_score(self) -> float:
         """Calculate comprehensive safety score (Altman-style safety focus)"""
@@ -333,9 +352,9 @@ class BioSymbolicAwarenessAdapter:
 
         return min(
             1.0,
-            self.safety_state["pattern_stability"] *
-            (1.0 - violations_penalty) *
-            self.bio_metrics["identity_strength"]
+            self.safety_state["pattern_stability"]
+            * (1.0 - violations_penalty)
+            * self.bio_metrics["identity_strength"],
         )
 
     def _calculate_adaptation_trend(self) -> Dict[str, float]:
@@ -354,7 +373,7 @@ class BioSymbolicAwarenessAdapter:
 
         return {
             "trend": float(np.mean(recent_rates)),
-            "volatility": float(np.std(recent_rates))
+            "volatility": float(np.std(recent_rates)),
         }
 
     def _check_resource_warnings(self) -> List[str]:
@@ -384,34 +403,52 @@ class BioSymbolicAwarenessAdapter:
 
         return actions
 
-    def _update_metrics(self, input_vector: Dict[str, float], output_vector: Dict[str, float]) -> None:
+    def _update_metrics(
+        self, input_vector: Dict[str, float], output_vector: Dict[str, float]
+    ) -> None:
         """Update bio-inspired metrics based on processing results"""
         # Update proton gradient (energy level)
-        energy_used = float(np.mean(list(output_vector.values()))) if output_vector else 0.0
-        self.bio_metrics["proton_gradient"] = float(self.bio_metrics["proton_gradient"] * (1.0 - 0.1 * energy_used))
-        self.bio_metrics["proton_gradient"] = float(np.clip(self.bio_metrics["proton_gradient"], 0.1, 1.0))
+        energy_used = (
+            float(np.mean(list(output_vector.values()))) if output_vector else 0.0
+        )
+        self.bio_metrics["proton_gradient"] = float(
+            self.bio_metrics["proton_gradient"] * (1.0 - 0.1 * energy_used)
+        )
+        self.bio_metrics["proton_gradient"] = float(
+            np.clip(self.bio_metrics["proton_gradient"], 0.1, 1.0)
+        )
 
         # Update attention focus
         if input_vector and output_vector and len(input_vector) == len(output_vector):
-            corr_matrix = np.corrcoef(list(input_vector.values()), list(output_vector.values()))
-            attention_quality = float(corr_matrix[0][1]) if len(corr_matrix) > 1 else 0.0
+            corr_matrix = np.corrcoef(
+                list(input_vector.values()), list(output_vector.values())
+            )
+            attention_quality = (
+                float(corr_matrix[0][1]) if len(corr_matrix) > 1 else 0.0
+            )
         else:
             attention_quality = 0.5  # Default attention quality
 
-        self.bio_metrics["attention_focus"] = float(0.8 * self.bio_metrics["attention_focus"] + 0.2 * attention_quality)
+        self.bio_metrics["attention_focus"] = float(
+            0.8 * self.bio_metrics["attention_focus"] + 0.2 * attention_quality
+        )
 
         # Update pattern match confidence
-        self.bio_metrics["pattern_match"] = float(np.mean(list(output_vector.values()))) if output_vector else 0.0
+        self.bio_metrics["pattern_match"] = (
+            float(np.mean(list(output_vector.values()))) if output_vector else 0.0
+        )
 
         # Decay coherence-inspired processing
-        self.quantum_like_state["coherence"] = float(self.quantum_like_state["coherence"] * 0.99)
+        self.quantum_like_state["coherence"] = float(
+            self.quantum_like_state["coherence"] * 0.99
+        )
         if self.quantum_like_state["coherence"] < 0.5:
             # Reset synchronously in this context
             self.quantum_like_state = {
                 "coherence": 0.8,
                 "entanglement": {},
                 "superposition": {},
-                "fallback_states": []
+                "fallback_states": [],
             }
             self.bio_metrics["proton_gradient"] = 0.8
             self.bio_metrics["attention_focus"] = 0.7
@@ -421,7 +458,7 @@ class BioSymbolicAwarenessAdapter:
         # Add quantum signature
         pattern["quantum_signature"] = {
             "coherence": self.quantum_like_state["coherence"],
-            "entanglement_keys": list(self.quantum_like_state["entanglement"].keys())
+            "entanglement_keys": list(self.quantum_like_state["entanglement"].keys()),
         }
 
         # Add superposition states
@@ -429,17 +466,18 @@ class BioSymbolicAwarenessAdapter:
 
         return pattern
 
-    async def _apply_with_fallback(self, func: Any, data: Any, state: Dict[str, Any]) -> Any:
+    async def _apply_with_fallback(
+        self, func: Any, data: Any, state: Dict[str, Any]
+    ) -> Any:
         """Apply function with multi-tier fallback mechanism"""
         try:
             # Try primary processing
             result = await self._try_async(func, data, state)
 
             # Store successful state
-            self.quantum_like_state["fallback_states"].append({
-                "state": state.copy(),
-                "timestamp": datetime.utcnow().isoformat()
-            })
+            self.quantum_like_state["fallback_states"].append(
+                {"state": state.copy(), "timestamp": datetime.utcnow().isoformat()}
+            )
 
             # Trim fallback states
             if len(self.quantum_like_state["fallback_states"]) > 5:
@@ -460,7 +498,9 @@ class BioSymbolicAwarenessAdapter:
             # Final fallback: return input with minimal processing
             return self._minimal_process(data)
 
-    async def _allocate_resources(self, func: Any, data: Any, state: Dict[str, Any]) -> Any:
+    async def _allocate_resources(
+        self, func: Any, data: Any, state: Dict[str, Any]
+    ) -> Any:
         """Allocate resources adaptively based on demands"""
         # Calculate resource needs
         attention_need = float(np.mean(list(data.values()))) if data else 0.0
@@ -476,13 +516,15 @@ class BioSymbolicAwarenessAdapter:
             float(self.resource_pools["attention"]) * attention_need,
             float(self.resource_pools["memory"]) * memory_need,
             float(self.resource_pools["processing"]) * processing_need,
-            float(self.resource_pools["security"]) * security_need
+            float(self.resource_pools["security"]) * security_need,
         )
 
         # Apply resource-scaled processing
         return await self._try_async(func, data, {**state, "resource_scale": allocated})
 
-    async def _filter_with_learning(self, func: Any, data: Any, metrics: Dict[str, Any]) -> Any:
+    async def _filter_with_learning(
+        self, func: Any, data: Any, metrics: Dict[str, Any]
+    ) -> Any:
         """Filter with cross-domain pattern learning"""
         # Extract pattern signature
         pattern_sig = self._extract_pattern(data)
@@ -506,7 +548,9 @@ class BioSymbolicAwarenessAdapter:
             self._update_pattern_memory(pattern_sig, result)
         return result
 
-    async def _secure_with_protocols(self, func: Any, data: Any, strength: float) -> Any:
+    async def _secure_with_protocols(
+        self, func: Any, data: Any, strength: float
+    ) -> Any:
         """Apply bio-inspired security protocols"""
         # Check membrane integrity
         if self.security_state["membrane_integrity"] < 0.5:
@@ -526,11 +570,7 @@ class BioSymbolicAwarenessAdapter:
         return await self._try_async(
             func,
             data,
-            {
-                "strength": strength,
-                "channel_id": channel_id,
-                "signature": signature
-            }
+            {"strength": strength, "channel_id": channel_id, "signature": signature},
         )
 
     def _decay_resources(self) -> None:
@@ -540,9 +580,13 @@ class BioSymbolicAwarenessAdapter:
 
         for pool in self.resource_pools:
             # Decay
-            self.resource_pools[pool] = float(self.resource_pools[pool] * (1.0 - decay_rate))
+            self.resource_pools[pool] = float(
+                self.resource_pools[pool] * (1.0 - decay_rate)
+            )
             # Regenerate
-            self.resource_pools[pool] = float(min(1.0, self.resource_pools[pool] + regeneration))
+            self.resource_pools[pool] = float(
+                min(1.0, self.resource_pools[pool] + regeneration)
+            )
 
     def _extract_pattern(self, data: Dict[str, float]) -> Optional[str]:
         """Extract pattern signature from data"""
@@ -570,15 +614,16 @@ class BioSymbolicAwarenessAdapter:
     def _verify_channel(self, channel_id: str) -> bool:
         """Verify ion channel integrity"""
         return (
-            channel_id in self.security_state["ion_channels"] and
-            self.security_state["ion_channels"][channel_id]["integrity"] > 0.5
+            channel_id in self.security_state["ion_channels"]
+            and self.security_state["ion_channels"][channel_id]["integrity"] > 0.5
         )
 
     async def _repair_membrane(self) -> None:
         """Repair security membrane"""
         self.security_state["membrane_integrity"] = 1.0
         self.security_state["ion_channels"] = {
-            k: v for k, v in self.security_state["ion_channels"].items()
+            k: v
+            for k, v in self.security_state["ion_channels"].items()
             if v["integrity"] > 0.2  # Remove heavily compromised channels
         }
 
@@ -595,7 +640,7 @@ class BioSymbolicAwarenessAdapter:
         self.security_state["ion_channels"][channel_id] = {
             "created": datetime.utcnow().isoformat(),
             "integrity": 1.0,
-            "signature": self._generate_cardiolipin_code(data)
+            "signature": self._generate_cardiolipin_code(data),
         }
         return channel_id
 
@@ -611,18 +656,25 @@ class BioSymbolicAwarenessAdapter:
         Implements Altman's principle of safe self-improvement.
         """
         # Record current state
-        self.safety_state["adaptation_history"].append({
-            "timestamp": datetime.utcnow().isoformat(),
-            "metrics": self.bio_metrics.copy(),
-            "resources": self.resource_pools.copy()
-        })
+        self.safety_state["adaptation_history"].append(
+            {
+                "timestamp": datetime.utcnow().isoformat(),
+                "metrics": self.bio_metrics.copy(),
+                "resources": self.resource_pools.copy(),
+            }
+        )
 
         # Check safety boundaries
         violations = []
 
         # 1. Check adaptation rate
-        if self.bio_metrics["adaptation_rate"] > self.safety_limits["max_adaptation_rate"]:
-            self.bio_metrics["adaptation_rate"] = self.safety_limits["max_adaptation_rate"]
+        if (
+            self.bio_metrics["adaptation_rate"]
+            > self.safety_limits["max_adaptation_rate"]
+        ):
+            self.bio_metrics["adaptation_rate"] = self.safety_limits[
+                "max_adaptation_rate"
+            ]
             violations.append("adaptation_rate_exceeded")
 
         # 2. Check coherence-inspired processing
@@ -641,19 +693,23 @@ class BioSymbolicAwarenessAdapter:
 
         # Record violations
         if violations:
-            self.safety_state["violations"].extend([
-                {
-                    "type": v,
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "metrics": self.bio_metrics.copy()
-                }
-                for v in violations
-            ])
+            self.safety_state["violations"].extend(
+                [
+                    {
+                        "type": v,
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "metrics": self.bio_metrics.copy(),
+                    }
+                    for v in violations
+                ]
+            )
 
         # Adjust learning based on stability
         self._adjust_learning_rate()
 
-    async def _activate_safe_fallback(self, context_vector: Dict[str, float]) -> Dict[str, float]:
+    async def _activate_safe_fallback(
+        self, context_vector: Dict[str, float]
+    ) -> Dict[str, float]:
         """Activate safe fallback processing when main pipeline fails"""
         logger.warning("Activating safe fallback processing")
 
@@ -677,30 +733,41 @@ class BioSymbolicAwarenessAdapter:
                 self.pattern_memory["long_term"].add(pattern)
                 logger.info("Pattern promoted to long-term memory")
 
-    async def _apply_known_pattern(self, data: Dict[str, float], pattern_sig: str) -> Dict[str, float]:
+    async def _apply_known_pattern(
+        self, data: Dict[str, float], pattern_sig: str
+    ) -> Dict[str, float]:
         """Apply a known pattern from memory"""
         # Use pattern_sig for consistency (avoid unused parameter warning)
         pattern_boost = 0.1 if pattern_sig in self.pattern_memory["long_term"] else 0.0
 
         # Simple pattern application - just return processed data
         return {
-            key: value * (0.9 + pattern_boost) if value > 0.5 else value * (1.1 + pattern_boost)
+            key: (
+                value * (0.9 + pattern_boost)
+                if value > 0.5
+                else value * (1.1 + pattern_boost)
+            )
             for key, value in data.items()
         }
 
-    async def _apply_learned_pattern(self, data: Dict[str, float], pattern_sig: str) -> Dict[str, float]:
+    async def _apply_learned_pattern(
+        self, data: Dict[str, float], pattern_sig: str
+    ) -> Dict[str, float]:
         """Apply a learned pattern with adaptation"""
         # Use pattern_sig for learning enhancement
-        learning_boost = 0.05 if pattern_sig in self.pattern_memory["cross_domain"] else 0.0
+        learning_boost = (
+            0.05 if pattern_sig in self.pattern_memory["cross_domain"] else 0.0
+        )
 
         # Enhanced pattern application with learning
         adaptation_factor = self.bio_metrics["adaptation_rate"] + learning_boost
         return {
-            key: value * (0.9 + 0.2 * adaptation_factor)
-            for key, value in data.items()
+            key: value * (0.9 + 0.2 * adaptation_factor) for key, value in data.items()
         }
 
-    def _update_pattern_memory(self, pattern_sig: str, result: Dict[str, float]) -> None:
+    def _update_pattern_memory(
+        self, pattern_sig: str, result: Dict[str, float]
+    ) -> None:
         """Update pattern memory with new result"""
         if pattern_sig:
             # Add to short-term memory
@@ -709,7 +776,9 @@ class BioSymbolicAwarenessAdapter:
             # Update pattern quality metrics
             quality = float(np.mean(list(result.values()))) if result else 0.0
             if quality > 0.7:
-                self.bio_metrics["pattern_match"] = float(min(1.0, self.bio_metrics["pattern_match"] + 0.1))
+                self.bio_metrics["pattern_match"] = float(
+                    min(1.0, self.bio_metrics["pattern_match"] + 0.1)
+                )
 
     async def _reset_quantum_like_state(self) -> None:
         """Reset quantum-like state to safe defaults"""
@@ -717,7 +786,7 @@ class BioSymbolicAwarenessAdapter:
             "coherence": 0.8,
             "entanglement": {},
             "superposition": {},
-            "fallback_states": []
+            "fallback_states": [],
         }
 
         # Reset bio metrics to safe values
@@ -734,7 +803,8 @@ class BioSymbolicAwarenessAdapter:
 
         # Check pattern consistency
         consistent_patterns = sum(
-            1 for p in self.pattern_memory["short_term"]
+            1
+            for p in self.pattern_memory["short_term"]
             if p in self.pattern_memory["long_term"]
         )
 
@@ -747,8 +817,10 @@ class BioSymbolicAwarenessAdapter:
 
         # Consider recent violations
         recent_violations = sum(
-            1 for v in self.safety_state["violations"]
-            if (datetime.utcnow() - datetime.fromisoformat(v["timestamp"])).seconds < 3600
+            1
+            for v in self.safety_state["violations"]
+            if (datetime.utcnow() - datetime.fromisoformat(v["timestamp"])).seconds
+            < 3600
         )
 
         violation_penalty = 0.1 * recent_violations
@@ -758,17 +830,13 @@ class BioSymbolicAwarenessAdapter:
             0.01,  # Minimum learning rate
             min(
                 self.safety_limits["max_adaptation_rate"],
-                self.bio_metrics["adaptation_rate"] * stability_factor * (1.0 - violation_penalty)
-            )
+                self.bio_metrics["adaptation_rate"]
+                * stability_factor
+                * (1.0 - violation_penalty),
+            ),
         )
 
         self.bio_metrics["adaptation_rate"] = safe_rate
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-09 13:30:00

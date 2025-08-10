@@ -20,40 +20,47 @@ Version: 1.0.0
 Created: 2025-07-05
 """
 
-import qrcode
 import base64
 import hashlib
-import secrets
 import json
-from typing import Dict, List, Optional, Tuple, Any
-from enum import Enum
+import secrets
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional
+
+import qrcode
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
 try:
     import mnemonic
 except ImportError:
     # Use local mock if mnemonic library is not installed
     from . import mnemonic
 
+
 class RecoveryMethod(Enum):
     """Available recovery methods"""
-    QR_GEO = "qr_geo"                    # QR code with geo-encoding
-    EMERGENCY_CODE = "emergency_code"     # Emergency fallback code
-    RECOVERY_PHRASE = "recovery_phrase"   # Mnemonic recovery phrase
-    BIOMETRIC = "biometric"              # Biometric recovery
-    DEVICE_SYNC = "device_sync"          # Cross-device sync
-    BACKUP_FILE = "backup_file"          # Encrypted backup file
+
+    QR_GEO = "qr_geo"  # QR code with geo-encoding
+    EMERGENCY_CODE = "emergency_code"  # Emergency fallback code
+    RECOVERY_PHRASE = "recovery_phrase"  # Mnemonic recovery phrase
+    BIOMETRIC = "biometric"  # Biometric recovery
+    DEVICE_SYNC = "device_sync"  # Cross-device sync
+    BACKUP_FILE = "backup_file"  # Encrypted backup file
+
 
 class RecoveryStatus(Enum):
     """Recovery attempt status"""
+
     SUCCESS = "success"
     FAILED = "failed"
     PARTIAL = "partial"
     EXPIRED = "expired"
     LOCKED = "locked"
     PENDING = "pending"
+
 
 class PortabilityPackage:
     """Complete portability package for ΛiD"""
@@ -70,20 +77,21 @@ class PortabilityPackage:
         self.methods_enabled = []
         self.security_level = "standard"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert package to dictionary"""
         return {
-            'lambda_id': self.lambda_id,
-            'qr_geo_code': self.qr_geo_code,
-            'emergency_codes': self.emergency_codes,
-            'recovery_phrase': self.recovery_phrase,
-            'backup_data': self.backup_data,
-            'expiry_date': self.expiry_date.isoformat() if self.expiry_date else None,
-            'geo_location': self.geo_location,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'methods_enabled': [method.value for method in self.methods_enabled],
-            'security_level': self.security_level
+            "lambda_id": self.lambda_id,
+            "qr_geo_code": self.qr_geo_code,
+            "emergency_codes": self.emergency_codes,
+            "recovery_phrase": self.recovery_phrase,
+            "backup_data": self.backup_data,
+            "expiry_date": self.expiry_date.isoformat() if self.expiry_date else None,
+            "geo_location": self.geo_location,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "methods_enabled": [method.value for method in self.methods_enabled],
+            "security_level": self.security_level,
         }
+
 
 class RecoveryAttempt:
     """Recovery attempt record"""
@@ -100,20 +108,21 @@ class RecoveryAttempt:
         self.failure_reasons = []
         self.security_checks = {}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert attempt to dictionary"""
         return {
-            'attempt_id': self.attempt_id,
-            'lambda_id': self.lambda_id,
-            'method': self.method.value if self.method else None,
-            'status': self.status.value,
-            'timestamp': self.timestamp.isoformat() if self.timestamp else None,
-            'geo_location': self.geo_location,
-            'device_info': self.device_info,
-            'success_factors': self.success_factors,
-            'failure_reasons': self.failure_reasons,
-            'security_checks': self.security_checks
+            "attempt_id": self.attempt_id,
+            "lambda_id": self.lambda_id,
+            "method": self.method.value if self.method else None,
+            "status": self.status.value,
+            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
+            "geo_location": self.geo_location,
+            "device_info": self.device_info,
+            "success_factors": self.success_factors,
+            "failure_reasons": self.failure_reasons,
+            "security_checks": self.security_checks,
         }
+
 
 class LambdaIDPortabilitySystem:
     """
@@ -135,9 +144,9 @@ class LambdaIDPortabilitySystem:
     def create_portability_package(
         self,
         lambda_id: str,
-        methods: List[RecoveryMethod],
-        geo_location: Optional[Dict[str, float]] = None,
-        security_level: str = "standard"
+        methods: list[RecoveryMethod],
+        geo_location: Optional[dict[str, float]] = None,
+        security_level: str = "standard",
     ) -> PortabilityPackage:
         """
         Create comprehensive portability package for ΛiD.
@@ -165,7 +174,9 @@ class LambdaIDPortabilitySystem:
 
         # Generate emergency codes if requested
         if RecoveryMethod.EMERGENCY_CODE in methods:
-            package.emergency_codes = self._generate_emergency_codes(lambda_id, security_level)
+            package.emergency_codes = self._generate_emergency_codes(
+                lambda_id, security_level
+            )
 
         # Generate recovery phrase if requested
         if RecoveryMethod.RECOVERY_PHRASE in methods:
@@ -182,9 +193,9 @@ class LambdaIDPortabilitySystem:
     def generate_qr_geo_recovery(
         self,
         lambda_id: str,
-        geo_location: Dict[str, float],
-        security_level: str = "standard"
-    ) -> Dict[str, Any]:
+        geo_location: dict[str, float],
+        security_level: str = "standard",
+    ) -> dict[str, Any]:
         """
         Generate QR code with geographic encoding for recovery.
 
@@ -218,23 +229,22 @@ class LambdaIDPortabilitySystem:
 
         # Encode image to base64 for storage/transmission
         import io
+
         buffer = io.BytesIO()
-        qr_image.save(buffer, format='PNG')
+        qr_image.save(buffer, format="PNG")
         qr_base64 = base64.b64encode(buffer.getvalue()).decode()
 
         return {
-            'qr_code_base64': qr_base64,
-            'geo_payload': geo_payload,
-            'location': geo_location,
-            'security_level': security_level,
-            'expiry': (datetime.now() + timedelta(days=365)).isoformat(),
-            'recovery_instructions': self._get_qr_recovery_instructions()
+            "qr_code_base64": qr_base64,
+            "geo_payload": geo_payload,
+            "location": geo_location,
+            "security_level": security_level,
+            "expiry": (datetime.now() + timedelta(days=365)).isoformat(),
+            "recovery_instructions": self._get_qr_recovery_instructions(),
         }
 
     def recover_from_qr_geo(
-        self,
-        qr_payload: str,
-        current_location: Optional[Dict[str, float]] = None
+        self, qr_payload: str, current_location: Optional[dict[str, float]] = None
     ) -> RecoveryAttempt:
         """
         Recover ΛiD from QR-G code.
@@ -261,17 +271,17 @@ class LambdaIDPortabilitySystem:
                 attempt.failure_reasons.append("Invalid QR payload format")
                 return attempt
 
-            lambda_id = decoded_data.get('lambda_id')
-            original_location = decoded_data.get('geo_location')
+            lambda_id = decoded_data.get("lambda_id")
+            original_location = decoded_data.get("geo_location")
 
             # Verify geographic proximity if location provided
             if current_location and original_location:
                 proximity_check = self._verify_geographic_proximity(
                     current_location, original_location
                 )
-                attempt.security_checks['proximity'] = proximity_check
+                attempt.security_checks["proximity"] = proximity_check
 
-                if not proximity_check['valid']:
+                if not proximity_check["valid"]:
                     attempt.status = RecoveryStatus.FAILED
                     attempt.failure_reasons.append("Geographic verification failed")
                     return attempt
@@ -292,11 +302,13 @@ class LambdaIDPortabilitySystem:
             # Successful recovery
             attempt.lambda_id = lambda_id
             attempt.status = RecoveryStatus.SUCCESS
-            attempt.success_factors.extend([
-                "QR payload decoded successfully",
-                "ΛiD found in recovery database",
-                "Package not expired"
-            ])
+            attempt.success_factors.extend(
+                [
+                    "QR payload decoded successfully",
+                    "ΛiD found in recovery database",
+                    "Package not expired",
+                ]
+            )
 
             if current_location:
                 attempt.success_factors.append("Geographic verification passed")
@@ -308,7 +320,7 @@ class LambdaIDPortabilitySystem:
         self.recovery_attempts.append(attempt)
         return attempt
 
-    def generate_emergency_codes(self, lambda_id: str, count: int = 10) -> List[str]:
+    def generate_emergency_codes(self, lambda_id: str, count: int = 10) -> list[str]:
         """
         Generate emergency recovery codes for ΛiD.
 
@@ -328,7 +340,9 @@ class LambdaIDPortabilitySystem:
             code_hash = hashlib.sha256(code_seed.encode()).hexdigest()[:12]
 
             # Format as human-readable code
-            formatted_code = f"{code_hash[:4]}-{code_hash[4:8]}-{code_hash[8:12]}".upper()
+            formatted_code = (
+                f"{code_hash[:4]}-{code_hash[4:8]}-{code_hash[8:12]}".upper()
+            )
             codes.append(formatted_code)
 
         return codes
@@ -336,7 +350,7 @@ class LambdaIDPortabilitySystem:
     def recover_from_emergency_code(
         self,
         emergency_code: str,
-        additional_verification: Optional[Dict[str, str]] = None
+        additional_verification: Optional[dict[str, str]] = None,
     ) -> RecoveryAttempt:
         """
         Recover ΛiD using emergency recovery code.
@@ -370,7 +384,7 @@ class LambdaIDPortabilitySystem:
             verification_passed = self._verify_additional_factors(
                 matching_lambda_id, additional_verification
             )
-            attempt.security_checks['additional_verification'] = verification_passed
+            attempt.security_checks["additional_verification"] = verification_passed
 
             if not verification_passed:
                 attempt.status = RecoveryStatus.FAILED
@@ -401,7 +415,7 @@ class LambdaIDPortabilitySystem:
             24-word recovery phrase
         """
         # Generate entropy from ΛiD
-        lambda_bytes = lambda_id.encode('utf-8')
+        lambda_bytes = lambda_id.encode("utf-8")
         entropy = hashlib.sha256(lambda_bytes).digest()
 
         # Generate mnemonic from entropy
@@ -456,11 +470,8 @@ class LambdaIDPortabilitySystem:
         return attempt
 
     def sync_across_devices(
-        self,
-        lambda_id: str,
-        source_device: str,
-        target_devices: List[str]
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, source_device: str, target_devices: list[str]
+    ) -> dict[str, Any]:
         """
         Synchronize ΛiD across multiple devices.
 
@@ -473,38 +484,38 @@ class LambdaIDPortabilitySystem:
             Dict with synchronization results
         """
         sync_results = {
-            'lambda_id': lambda_id,
-            'source_device': source_device,
-            'target_devices': target_devices,
-            'sync_timestamp': datetime.now().isoformat(),
-            'successful_syncs': [],
-            'failed_syncs': [],
-            'sync_package': None
+            "lambda_id": lambda_id,
+            "source_device": source_device,
+            "target_devices": target_devices,
+            "sync_timestamp": datetime.now().isoformat(),
+            "successful_syncs": [],
+            "failed_syncs": [],
+            "sync_package": None,
         }
 
         # Get portability package
         if lambda_id not in self.active_packages:
-            sync_results['error'] = "ΛiD not found in portability system"
+            sync_results["error"] = "ΛiD not found in portability system"
             return sync_results
 
         package = self.active_packages[lambda_id]
 
         # Create encrypted sync package
         sync_package = self._create_sync_package(package)
-        sync_results['sync_package'] = sync_package
+        sync_results["sync_package"] = sync_package
 
         # Simulate device synchronization
         for device in target_devices:
             sync_success = self._sync_to_device(device, sync_package)
 
             if sync_success:
-                sync_results['successful_syncs'].append(device)
+                sync_results["successful_syncs"].append(device)
             else:
-                sync_results['failed_syncs'].append(device)
+                sync_results["failed_syncs"].append(device)
 
         return sync_results
 
-    def create_backup_file(self, lambda_id: str, password: str) -> Dict[str, Any]:
+    def create_backup_file(self, lambda_id: str, password: str) -> dict[str, Any]:
         """
         Create encrypted backup file for ΛiD.
 
@@ -516,16 +527,16 @@ class LambdaIDPortabilitySystem:
             Dict with backup file data
         """
         if lambda_id not in self.active_packages:
-            return {'error': 'ΛiD not found in portability system'}
+            return {"error": "ΛiD not found in portability system"}
 
         package = self.active_packages[lambda_id]
 
         # Create backup data
         backup_data = {
-            'lambda_id': lambda_id,
-            'package': package.to_dict(),
-            'backup_timestamp': datetime.now().isoformat(),
-            'version': '1.0'
+            "lambda_id": lambda_id,
+            "package": package.to_dict(),
+            "backup_timestamp": datetime.now().isoformat(),
+            "version": "1.0",
         }
 
         # Encrypt backup data
@@ -534,10 +545,10 @@ class LambdaIDPortabilitySystem:
         )
 
         return {
-            'backup_file': base64.b64encode(encrypted_backup).decode(),
-            'filename': f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now().strftime('%Y%m%d')}.lbak",
-            'size_bytes': len(encrypted_backup),
-            'created_at': datetime.now().isoformat()
+            "backup_file": base64.b64encode(encrypted_backup).decode(),
+            "filename": f"lambda_id_backup_{lambda_id.replace('LUKHAS', 'L')}_{datetime.now().strftime('%Y%m%d')}.lbak",
+            "size_bytes": len(encrypted_backup),
+            "created_at": datetime.now().isoformat(),
         }
 
     def restore_from_backup(self, backup_file: str, password: str) -> RecoveryAttempt:
@@ -565,21 +576,21 @@ class LambdaIDPortabilitySystem:
             backup_data = json.loads(decrypted_data.decode())
 
             # Validate backup format
-            if 'lambda_id' not in backup_data or 'package' not in backup_data:
+            if "lambda_id" not in backup_data or "package" not in backup_data:
                 attempt.status = RecoveryStatus.FAILED
                 attempt.failure_reasons.append("Invalid backup file format")
                 return attempt
 
-            lambda_id = backup_data['lambda_id']
+            lambda_id = backup_data["lambda_id"]
 
             # Restore package
-            package_data = backup_data['package']
+            package_data = backup_data["package"]
             package = PortabilityPackage()
-            package.lambda_id = package_data['lambda_id']
-            package.qr_geo_code = package_data['qr_geo_code']
-            package.emergency_codes = package_data['emergency_codes']
-            package.recovery_phrase = package_data['recovery_phrase']
-            package.backup_data = package_data['backup_data']
+            package.lambda_id = package_data["lambda_id"]
+            package.qr_geo_code = package_data["qr_geo_code"]
+            package.emergency_codes = package_data["emergency_codes"]
+            package.recovery_phrase = package_data["recovery_phrase"]
+            package.backup_data = package_data["backup_data"]
 
             # Store restored package
             self.active_packages[lambda_id] = package
@@ -597,7 +608,7 @@ class LambdaIDPortabilitySystem:
         self.recovery_attempts.append(attempt)
         return attempt
 
-    def get_recovery_analytics(self, lambda_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_recovery_analytics(self, lambda_id: Optional[str] = None) -> dict[str, Any]:
         """
         Get recovery analytics and statistics.
 
@@ -609,68 +620,100 @@ class LambdaIDPortabilitySystem:
         """
         if lambda_id:
             # Analytics for specific ΛiD
-            lambda_attempts = [a for a in self.recovery_attempts if a.lambda_id == lambda_id]
+            lambda_attempts = [
+                a for a in self.recovery_attempts if a.lambda_id == lambda_id
+            ]
 
             return {
-                'lambda_id': lambda_id,
-                'total_attempts': len(lambda_attempts),
-                'successful_recoveries': len([a for a in lambda_attempts if a.status == RecoveryStatus.SUCCESS]),
-                'failed_attempts': len([a for a in lambda_attempts if a.status == RecoveryStatus.FAILED]),
-                'methods_used': list(set(a.method.value for a in lambda_attempts if a.method)),
-                'latest_attempt': lambda_attempts[-1].to_dict() if lambda_attempts else None,
-                'package_exists': lambda_id in self.active_packages
+                "lambda_id": lambda_id,
+                "total_attempts": len(lambda_attempts),
+                "successful_recoveries": len(
+                    [a for a in lambda_attempts if a.status == RecoveryStatus.SUCCESS]
+                ),
+                "failed_attempts": len(
+                    [a for a in lambda_attempts if a.status == RecoveryStatus.FAILED]
+                ),
+                "methods_used": list(
+                    {a.method.value for a in lambda_attempts if a.method}
+                ),
+                "latest_attempt": (
+                    lambda_attempts[-1].to_dict() if lambda_attempts else None
+                ),
+                "package_exists": lambda_id in self.active_packages,
             }
         else:
             # Overall analytics
             total_attempts = len(self.recovery_attempts)
-            successful = len([a for a in self.recovery_attempts if a.status == RecoveryStatus.SUCCESS])
+            successful = len(
+                [
+                    a
+                    for a in self.recovery_attempts
+                    if a.status == RecoveryStatus.SUCCESS
+                ]
+            )
 
             method_stats = {}
             for method in RecoveryMethod:
-                method_attempts = [a for a in self.recovery_attempts if a.method == method]
+                method_attempts = [
+                    a for a in self.recovery_attempts if a.method == method
+                ]
                 method_stats[method.value] = {
-                    'total': len(method_attempts),
-                    'successful': len([a for a in method_attempts if a.status == RecoveryStatus.SUCCESS])
+                    "total": len(method_attempts),
+                    "successful": len(
+                        [
+                            a
+                            for a in method_attempts
+                            if a.status == RecoveryStatus.SUCCESS
+                        ]
+                    ),
                 }
 
             return {
-                'total_recovery_attempts': total_attempts,
-                'successful_recoveries': successful,
-                'success_rate': (successful / total_attempts * 100) if total_attempts > 0 else 0,
-                'active_packages': len(self.active_packages),
-                'method_statistics': method_stats,
-                'peak_recovery_day': self._get_peak_recovery_day()
+                "total_recovery_attempts": total_attempts,
+                "successful_recoveries": successful,
+                "success_rate": (
+                    (successful / total_attempts * 100) if total_attempts > 0 else 0
+                ),
+                "active_packages": len(self.active_packages),
+                "method_statistics": method_stats,
+                "peak_recovery_day": self._get_peak_recovery_day(),
             }
 
     # Private helper methods
 
-    def _generate_qr_geo_code(self, lambda_id: str, geo_location: Optional[Dict[str, float]]) -> str:
+    def _generate_qr_geo_code(
+        self, lambda_id: str, geo_location: Optional[dict[str, float]]
+    ) -> str:
         """Generate QR-G code for ΛiD"""
         geo_data = self.geo_encoder.encode_with_location(lambda_id, geo_location)
         return geo_data
 
-    def _generate_emergency_codes(self, lambda_id: str, security_level: str) -> List[str]:
+    def _generate_emergency_codes(
+        self, lambda_id: str, security_level: str
+    ) -> list[str]:
         """Generate emergency codes based on security level"""
-        code_count = {'standard': 5, 'high': 10, 'ultra': 15}.get(security_level, 5)
+        code_count = {"standard": 5, "high": 10, "ultra": 15}.get(security_level, 5)
         return self.generate_emergency_codes(lambda_id, code_count)
 
     def _generate_recovery_phrase(self, lambda_id: str) -> str:
         """Generate recovery phrase for ΛiD"""
         return self.generate_recovery_phrase(lambda_id)
 
-    def _create_backup_data(self, lambda_id: str, security_level: str) -> Dict[str, Any]:
+    def _create_backup_data(
+        self, lambda_id: str, security_level: str
+    ) -> dict[str, Any]:
         """Create backup data structure"""
         return {
-            'lambda_id': lambda_id,
-            'security_level': security_level,
-            'backup_version': '1.0',
-            'created_at': datetime.now().isoformat(),
-            'checksum': hashlib.sha256(lambda_id.encode()).hexdigest()
+            "lambda_id": lambda_id,
+            "security_level": security_level,
+            "backup_version": "1.0",
+            "created_at": datetime.now().isoformat(),
+            "checksum": hashlib.sha256(lambda_id.encode()).hexdigest(),
         }
 
     def _calculate_expiry_date(self, security_level: str) -> datetime:
         """Calculate expiry date based on security level"""
-        days_mapping = {'standard': 365, 'high': 730, 'ultra': 1095}
+        days_mapping = {"standard": 365, "high": 730, "ultra": 1095}
         days = days_mapping.get(security_level, 365)
         return datetime.now() + timedelta(days=days)
 
@@ -689,33 +732,38 @@ class LambdaIDPortabilitySystem:
 
     def _verify_geographic_proximity(
         self,
-        current: Dict[str, float],
-        original: Dict[str, float],
-        max_distance_km: float = 50.0
-    ) -> Dict[str, Any]:
+        current: dict[str, float],
+        original: dict[str, float],
+        max_distance_km: float = 50.0,
+    ) -> dict[str, Any]:
         """Verify geographic proximity between locations"""
         # Calculate distance using Haversine formula
         import math
 
-        lat1, lon1 = math.radians(current['lat']), math.radians(current['lng'])
-        lat2, lon2 = math.radians(original['lat']), math.radians(original['lng'])
+        lat1, lon1 = math.radians(current["lat"]), math.radians(current["lng"])
+        lat2, lon2 = math.radians(original["lat"]), math.radians(original["lng"])
 
         dlat = lat2 - lat1
         dlon = lon2 - lon1
 
-        a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+        a = (
+            math.sin(dlat / 2) ** 2
+            + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+        )
         c = 2 * math.asin(math.sqrt(a))
         distance_km = 6371 * c  # Earth's radius in km
 
         return {
-            'valid': distance_km <= max_distance_km,
-            'distance_km': round(distance_km, 2),
-            'max_allowed_km': max_distance_km,
-            'current_location': current,
-            'original_location': original
+            "valid": distance_km <= max_distance_km,
+            "distance_km": round(distance_km, 2),
+            "max_allowed_km": max_distance_km,
+            "current_location": current,
+            "original_location": original,
         }
 
-    def _verify_additional_factors(self, lambda_id: str, factors: Dict[str, str]) -> bool:
+    def _verify_additional_factors(
+        self, lambda_id: str, factors: dict[str, str]
+    ) -> bool:
         """Verify additional authentication factors"""
         # Placeholder for additional verification logic
         return True
@@ -724,13 +772,13 @@ class LambdaIDPortabilitySystem:
         """Generate unique attempt ID"""
         return f"rec_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{secrets.token_hex(4)}"
 
-    def _get_qr_recovery_instructions(self) -> List[str]:
+    def _get_qr_recovery_instructions(self) -> list[str]:
         """Get QR recovery instructions"""
         return [
             "Scan QR code with LUKHAS app",
             "Verify your current location matches the original",
             "Complete additional verification if prompted",
-            "Your ΛiD will be restored automatically"
+            "Your ΛiD will be restored automatically",
         ]
 
     def _create_sync_package(self, package: PortabilityPackage) -> str:
@@ -789,7 +837,7 @@ class LambdaIDPortabilitySystem:
 
         day_counts = defaultdict(int)
         for attempt in self.recovery_attempts:
-            day = attempt.timestamp.strftime('%Y-%m-%d')
+            day = attempt.timestamp.strftime("%Y-%m-%d")
             day_counts[day] += 1
 
         peak_day = max(day_counts, key=day_counts.get)
@@ -800,37 +848,39 @@ class LambdaIDPortabilitySystem:
         # In production, this would load from secure storage
         return Fernet.generate_key()
 
-    def _load_config(self, config_path: Optional[str] = None) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str] = None) -> dict[str, Any]:
         """Load portability system configuration"""
         return {
-            'qr_geo_enabled': True,
-            'emergency_codes_enabled': True,
-            'recovery_phrase_enabled': True,
-            'cross_device_sync_enabled': True,
-            'backup_encryption_enabled': True,
-            'geographic_verification_enabled': True,
-            'max_recovery_attempts_per_day': 5
+            "qr_geo_enabled": True,
+            "emergency_codes_enabled": True,
+            "recovery_phrase_enabled": True,
+            "cross_device_sync_enabled": True,
+            "backup_encryption_enabled": True,
+            "geographic_verification_enabled": True,
+            "max_recovery_attempts_per_day": 5,
         }
 
 
 class GeographicEncoder:
     """Geographic encoding utility for QR-G codes"""
 
-    def encode_with_location(self, lambda_id: str, geo_location: Optional[Dict[str, float]]) -> str:
+    def encode_with_location(
+        self, lambda_id: str, geo_location: Optional[dict[str, float]]
+    ) -> str:
         """Encode ΛiD with geographic location"""
         if not geo_location:
             return lambda_id
 
         geo_data = {
-            'lambda_id': lambda_id,
-            'geo_location': geo_location,
-            'timestamp': datetime.now().timestamp()
+            "lambda_id": lambda_id,
+            "geo_location": geo_location,
+            "timestamp": datetime.now().timestamp(),
         }
 
         encoded = base64.b64encode(json.dumps(geo_data).encode()).decode()
         return f"GEO:{encoded}"
 
-    def decode_from_payload(self, payload: str) -> Optional[Dict[str, Any]]:
+    def decode_from_payload(self, payload: str) -> Optional[dict[str, Any]]:
         """Decode geographic payload"""
         try:
             if payload.startswith("GEO:"):
@@ -848,7 +898,7 @@ if __name__ == "__main__":
 
     # Test ΛiD
     test_lambda_id = "Λ3-A1B2-🔮-C3D4"
-    geo_location = {'lat': 37.7749, 'lng': -122.4194}  # San Francisco
+    geo_location = {"lat": 37.7749, "lng": -122.4194}  # San Francisco
 
     print("ΛiD Portability & Recovery System Test:")
     print("=" * 50)
@@ -856,9 +906,13 @@ if __name__ == "__main__":
     # Create portability package
     package = portability.create_portability_package(
         test_lambda_id,
-        [RecoveryMethod.QR_GEO, RecoveryMethod.EMERGENCY_CODE, RecoveryMethod.RECOVERY_PHRASE],
+        [
+            RecoveryMethod.QR_GEO,
+            RecoveryMethod.EMERGENCY_CODE,
+            RecoveryMethod.RECOVERY_PHRASE,
+        ],
         geo_location=geo_location,
-        security_level="high"
+        security_level="high",
     )
 
     print(f"Created portability package for: {test_lambda_id}")
@@ -867,37 +921,37 @@ if __name__ == "__main__":
     print(f"Recovery phrase: {package.recovery_phrase[:50]}...")
 
     # Test QR-G recovery
-    print(f"\nTesting QR-G Recovery:")
+    print("\nTesting QR-G Recovery:")
     qr_data = portability.generate_qr_geo_recovery(test_lambda_id, geo_location)
-    print(f"QR code generated with geo-encoding")
+    print("QR code generated with geo-encoding")
 
     # Simulate recovery
     recovery_attempt = portability.recover_from_qr_geo(
-        qr_data['geo_payload'],
-        {'lat': 37.7750, 'lng': -122.4195}  # Slightly different location
+        qr_data["geo_payload"],
+        {"lat": 37.7750, "lng": -122.4195},  # Slightly different location
     )
     print(f"Recovery status: {recovery_attempt.status.value}")
     print(f"Success factors: {recovery_attempt.success_factors}")
 
     # Test emergency code recovery
-    print(f"\nTesting Emergency Code Recovery:")
+    print("\nTesting Emergency Code Recovery:")
     emergency_code = package.emergency_codes[0]
     emergency_recovery = portability.recover_from_emergency_code(emergency_code)
     print(f"Emergency recovery status: {emergency_recovery.status.value}")
 
     # Test recovery phrase
-    print(f"\nTesting Recovery Phrase:")
+    print("\nTesting Recovery Phrase:")
     phrase_recovery = portability.recover_from_phrase(package.recovery_phrase)
     print(f"Phrase recovery status: {phrase_recovery.status.value}")
 
     # Test backup creation
-    print(f"\nTesting Backup Creation:")
+    print("\nTesting Backup Creation:")
     backup = portability.create_backup_file(test_lambda_id, "secure_password_123")
     print(f"Backup file created: {backup['filename']}")
     print(f"Size: {backup['size_bytes']} bytes")
 
     # Test analytics
-    print(f"\nRecovery Analytics:")
+    print("\nRecovery Analytics:")
     analytics = portability.get_recovery_analytics()
     print(f"Total attempts: {analytics['total_recovery_attempts']}")
     print(f"Success rate: {analytics['success_rate']:.1f}%")

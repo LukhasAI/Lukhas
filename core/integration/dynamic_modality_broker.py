@@ -40,14 +40,12 @@ SYMBOLIC TAGS: ΛDMB, ΛMODALITY, ΛSENSOR, ΛACTUATOR, ΛHOT_PLUG
 
 import abc
 import asyncio
-import json
-import threading
-import time
+import contextlib
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Union
+from typing import Any, Callable, Optional
 from uuid import uuid4
 
 import structlog
@@ -57,25 +55,30 @@ try:
     from ethics.self_reflective_debugger import get_srd, instrument_reasoning
 except ImportError:
     # Fallback functions when SRD is not available
+
     def get_srd():
         return None
+
     def instrument_reasoning(func):
         return func
+
 
 logger = structlog.get_logger("ΛTRACE.dmb")
 
 
 class ModalityType(Enum):
     """Types of modalities the DMB can handle"""
-    SENSOR = "sensor"           # Input modalities (cameras, mics, etc.)
-    ACTUATOR = "actuator"       # Output modalities (speakers, displays, etc.)
+
+    SENSOR = "sensor"  # Input modalities (cameras, mics, etc.)
+    ACTUATOR = "actuator"  # Output modalities (speakers, displays, etc.)
     BIDIRECTIONAL = "bidirectional"  # Both input and output
-    VIRTUAL = "virtual"         # Software-only modalities
-    COMPOSITE = "composite"     # Combined modalities
+    VIRTUAL = "virtual"  # Software-only modalities
+    COMPOSITE = "composite"  # Combined modalities
 
 
 class DataType(Enum):
     """Types of data that can flow through modalities"""
+
     IMAGE = "image"
     AUDIO = "audio"
     TEXT = "text"
@@ -93,6 +96,7 @@ class DataType(Enum):
 
 class Priority(Enum):
     """Priority levels for modality operations"""
+
     EMERGENCY = 1
     HIGH = 2
     NORMAL = 3
@@ -102,6 +106,7 @@ class Priority(Enum):
 
 class ModalityStatus(Enum):
     """Status of a modality"""
+
     INACTIVE = "inactive"
     INITIALIZING = "initializing"
     ACTIVE = "active"
@@ -113,6 +118,7 @@ class ModalityStatus(Enum):
 @dataclass
 class ModalityCapability:
     """Describes a specific capability of a modality"""
+
     name: str
     data_type: DataType
     input_format: str = ""
@@ -122,21 +128,22 @@ class ModalityCapability:
     accuracy: Optional[float] = None
     latency_ms: Optional[float] = None
     bandwidth_mbps: Optional[float] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class ModalityData:
     """Container for data flowing through modalities"""
+
     data_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     modality_id: str = ""
     data_type: DataType = DataType.DIGITAL
     payload: Any = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     quality_score: float = 1.0
     confidence: float = 1.0
-    processing_chain: List[str] = field(default_factory=list)
+    processing_chain: list[str] = field(default_factory=list)
 
 
 class BaseModality(abc.ABC):
@@ -147,8 +154,8 @@ class BaseModality(abc.ABC):
         self.name = name
         self.modality_type = modality_type
         self.status = ModalityStatus.INACTIVE
-        self.capabilities: List[ModalityCapability] = []
-        self.metadata: Dict[str, Any] = {}
+        self.capabilities: list[ModalityCapability] = []
+        self.metadata: dict[str, Any] = {}
         self.last_heartbeat = datetime.now(timezone.utc)
 
         # Performance metrics
@@ -157,39 +164,34 @@ class BaseModality(abc.ABC):
             "errors": 0,
             "avg_latency": 0.0,
             "uptime": 0.0,
-            "last_error": None
+            "last_error": None,
         }
 
     @abc.abstractmethod
     async def initialize(self) -> bool:
         """Initialize the modality"""
-        pass
 
     @abc.abstractmethod
     async def shutdown(self) -> bool:
         """Shutdown the modality"""
-        pass
 
     @abc.abstractmethod
     async def process_data(self, data: ModalityData) -> Optional[ModalityData]:
         """Process incoming data"""
-        pass
 
     @abc.abstractmethod
-    def get_capabilities(self) -> List[ModalityCapability]:
+    def get_capabilities(self) -> list[ModalityCapability]:
         """Get modality capabilities"""
-        pass
 
     @abc.abstractmethod
     async def health_check(self) -> bool:
         """Perform health check"""
-        pass
 
     def update_heartbeat(self):
         """Update heartbeat timestamp"""
         self.last_heartbeat = datetime.now(timezone.utc)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert modality to dictionary representation"""
         return {
             "modality_id": self.modality_id,
@@ -199,7 +201,7 @@ class BaseModality(abc.ABC):
             "capabilities": [cap.__dict__ for cap in self.capabilities],
             "metadata": self.metadata,
             "metrics": self.metrics,
-            "last_heartbeat": self.last_heartbeat.isoformat()
+            "last_heartbeat": self.last_heartbeat.isoformat(),
         }
 
 
@@ -210,7 +212,7 @@ class VisionModality(BaseModality):
         super().__init__(
             modality_id or f"vision_{camera_index}",
             f"Camera {camera_index}",
-            ModalityType.SENSOR
+            ModalityType.SENSOR,
         )
         self.camera_index = camera_index
 
@@ -230,20 +232,26 @@ class VisionModality(BaseModality):
                     resolution="1920x1080",
                     accuracy=0.95,
                     latency_ms=16.67,  # 60 FPS
-                    bandwidth_mbps=50.0
+                    bandwidth_mbps=50.0,
                 )
             ]
 
             self.status = ModalityStatus.ACTIVE
-            logger.info("ΛDMB: Vision modality initialized",
-                       modality_id=self.modality_id, camera=self.camera_index)
+            logger.info(
+                "ΛDMB: Vision modality initialized",
+                modality_id=self.modality_id,
+                camera=self.camera_index,
+            )
             return True
 
         except Exception as e:
             self.status = ModalityStatus.ERROR
             self.metrics["last_error"] = str(e)
-            logger.error("ΛDMB: Vision modality init failed",
-                        modality_id=self.modality_id, error=str(e))
+            logger.error(
+                "ΛDMB: Vision modality init failed",
+                modality_id=self.modality_id,
+                error=str(e),
+            )
             return False
 
     async def shutdown(self) -> bool:
@@ -267,7 +275,7 @@ class VisionModality(BaseModality):
             metadata={"resolution": "1920x1080", "format": "rgb"},
             quality_score=0.9,
             confidence=0.85,
-            processing_chain=[self.modality_id]
+            processing_chain=[self.modality_id],
         )
 
         self.metrics["data_processed"] += 1
@@ -275,7 +283,7 @@ class VisionModality(BaseModality):
 
         return processed_data
 
-    def get_capabilities(self) -> List[ModalityCapability]:
+    def get_capabilities(self) -> list[ModalityCapability]:
         """Get vision capabilities"""
         return self.capabilities
 
@@ -292,7 +300,7 @@ class AudioModality(BaseModality):
         super().__init__(
             modality_id or f"audio_{device_id}",
             f"Microphone {device_id}",
-            ModalityType.BIDIRECTIONAL
+            ModalityType.BIDIRECTIONAL,
         )
         self.device_id = device_id
 
@@ -311,7 +319,7 @@ class AudioModality(BaseModality):
                     frequency_range=(20, 20000),  # Human hearing range
                     accuracy=0.98,
                     latency_ms=5.0,
-                    bandwidth_mbps=1.5
+                    bandwidth_mbps=1.5,
                 ),
                 ModalityCapability(
                     name="audio_playback",
@@ -321,20 +329,26 @@ class AudioModality(BaseModality):
                     frequency_range=(20, 20000),
                     accuracy=0.99,
                     latency_ms=10.0,
-                    bandwidth_mbps=1.5
-                )
+                    bandwidth_mbps=1.5,
+                ),
             ]
 
             self.status = ModalityStatus.ACTIVE
-            logger.info("ΛDMB: Audio modality initialized",
-                       modality_id=self.modality_id, device=self.device_id)
+            logger.info(
+                "ΛDMB: Audio modality initialized",
+                modality_id=self.modality_id,
+                device=self.device_id,
+            )
             return True
 
         except Exception as e:
             self.status = ModalityStatus.ERROR
             self.metrics["last_error"] = str(e)
-            logger.error("ΛDMB: Audio modality init failed",
-                        modality_id=self.modality_id, error=str(e))
+            logger.error(
+                "ΛDMB: Audio modality init failed",
+                modality_id=self.modality_id,
+                error=str(e),
+            )
             return False
 
     async def shutdown(self) -> bool:
@@ -357,7 +371,7 @@ class AudioModality(BaseModality):
             metadata={"sample_rate": 44100, "channels": 2},
             quality_score=0.95,
             confidence=0.9,
-            processing_chain=[self.modality_id]
+            processing_chain=[self.modality_id],
         )
 
         self.metrics["data_processed"] += 1
@@ -365,7 +379,7 @@ class AudioModality(BaseModality):
 
         return processed_data
 
-    def get_capabilities(self) -> List[ModalityCapability]:
+    def get_capabilities(self) -> list[ModalityCapability]:
         """Get audio capabilities"""
         return self.capabilities
 
@@ -386,18 +400,18 @@ class DynamicModalityBroker:
         """Initialize the Dynamic Modality Broker"""
 
         self.config_path = config_path
-        self.registered_modalities: Dict[str, BaseModality] = {}
-        self.active_streams: Dict[str, asyncio.Task] = {}
-        self.data_routes: Dict[str, List[str]] = {}  # source -> [destinations]
-        self.filters: Dict[str, Callable] = {}
-        self.transformers: Dict[str, Callable] = {}
+        self.registered_modalities: dict[str, BaseModality] = {}
+        self.active_streams: dict[str, asyncio.Task] = {}
+        self.data_routes: dict[str, list[str]] = {}  # source -> [destinations]
+        self.filters: dict[str, Callable] = {}
+        self.transformers: dict[str, Callable] = {}
 
         # Performance and monitoring
         self.broker_metrics = {
             "modalities_registered": 0,
             "data_messages_routed": 0,
             "errors": 0,
-            "uptime_start": datetime.now(timezone.utc)
+            "uptime_start": datetime.now(timezone.utc),
         }
 
         # Thread safety
@@ -406,11 +420,11 @@ class DynamicModalityBroker:
         self._monitor_task: Optional[asyncio.Task] = None
 
         # Event callbacks
-        self.event_callbacks: Dict[str, List[Callable]] = {
+        self.event_callbacks: dict[str, list[Callable]] = {
             "modality_registered": [],
             "modality_removed": [],
             "data_received": [],
-            "error_occurred": []
+            "error_occurred": [],
         }
 
         logger.info("ΛDMB: Dynamic Modality Broker initialized")
@@ -428,8 +442,10 @@ class DynamicModalityBroker:
         # Auto-discover and register default modalities
         await self._auto_discover_modalities()
 
-        logger.info("ΛDMB: Modality broker started",
-                   registered=len(self.registered_modalities))
+        logger.info(
+            "ΛDMB: Modality broker started",
+            registered=len(self.registered_modalities),
+        )
 
     async def stop(self):
         """Stop the modality broker"""
@@ -441,18 +457,19 @@ class DynamicModalityBroker:
         # Cancel monitoring
         if self._monitor_task:
             self._monitor_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._monitor_task
-            except asyncio.CancelledError:
-                pass
 
         # Shutdown all modalities
         for modality in self.registered_modalities.values():
             try:
                 await modality.shutdown()
             except Exception as e:
-                logger.warning("ΛDMB: Error shutting down modality",
-                             modality_id=modality.modality_id, error=str(e))
+                logger.warning(
+                    "ΛDMB: Error shutting down modality",
+                    modality_id=modality.modality_id,
+                    error=str(e),
+                )
 
         # Cancel active streams
         for task in self.active_streams.values():
@@ -466,16 +483,20 @@ class DynamicModalityBroker:
 
         async with self._lock:
             if modality.modality_id in self.registered_modalities:
-                logger.warning("ΛDMB: Modality already registered",
-                             modality_id=modality.modality_id)
+                logger.warning(
+                    "ΛDMB: Modality already registered",
+                    modality_id=modality.modality_id,
+                )
                 return False
 
             # Initialize the modality
             try:
                 success = await modality.initialize()
                 if not success:
-                    logger.error("ΛDMB: Failed to initialize modality",
-                               modality_id=modality.modality_id)
+                    logger.error(
+                        "ΛDMB: Failed to initialize modality",
+                        modality_id=modality.modality_id,
+                    )
                     return False
 
                 # Register the modality
@@ -485,18 +506,25 @@ class DynamicModalityBroker:
                 # Trigger callbacks
                 await self._trigger_event("modality_registered", modality)
 
-                logger.info("ΛDMB: Modality registered successfully",
-                           modality_id=modality.modality_id,
-                           name=modality.name,
-                           type=modality.modality_type.value,
-                           capabilities=len(modality.capabilities))
+                logger.info(
+                    "ΛDMB: Modality registered successfully",
+                    modality_id=modality.modality_id,
+                    name=modality.name,
+                    type=modality.modality_type.value,
+                    capabilities=len(modality.capabilities),
+                )
 
                 return True
 
             except Exception as e:
-                logger.error("ΛDMB: Error registering modality",
-                           modality_id=modality.modality_id, error=str(e))
-                await self._trigger_event("error_occurred", {"error": str(e), "modality": modality})
+                logger.error(
+                    "ΛDMB: Error registering modality",
+                    modality_id=modality.modality_id,
+                    error=str(e),
+                )
+                await self._trigger_event(
+                    "error_occurred", {"error": str(e), "modality": modality}
+                )
                 return False
 
     async def unregister_modality(self, modality_id: str) -> bool:
@@ -504,8 +532,10 @@ class DynamicModalityBroker:
 
         async with self._lock:
             if modality_id not in self.registered_modalities:
-                logger.warning("ΛDMB: Modality not found for unregistration",
-                             modality_id=modality_id)
+                logger.warning(
+                    "ΛDMB: Modality not found for unregistration",
+                    modality_id=modality_id,
+                )
                 return False
 
             modality = self.registered_modalities[modality_id]
@@ -529,19 +559,25 @@ class DynamicModalityBroker:
                 return True
 
             except Exception as e:
-                logger.error("ΛDMB: Error unregistering modality",
-                           modality_id=modality_id, error=str(e))
+                logger.error(
+                    "ΛDMB: Error unregistering modality",
+                    modality_id=modality_id,
+                    error=str(e),
+                )
                 return False
 
-    async def send_data(self,
-                       target_modality: str,
-                       data: ModalityData,
-                       priority: Priority = Priority.NORMAL) -> bool:
+    async def send_data(
+        self,
+        target_modality: str,
+        data: ModalityData,
+        priority: Priority = Priority.NORMAL,
+    ) -> bool:
         """Send data to a specific modality"""
 
         if target_modality not in self.registered_modalities:
-            logger.warning("ΛDMB: Target modality not found",
-                         modality_id=target_modality)
+            logger.warning(
+                "ΛDMB: Target modality not found", modality_id=target_modality
+            )
             return False
 
         modality = self.registered_modalities[target_modality]
@@ -559,15 +595,20 @@ class DynamicModalityBroker:
             return result is not None
 
         except Exception as e:
-            logger.error("ΛDMB: Error sending data to modality",
-                       modality_id=target_modality, error=str(e))
+            logger.error(
+                "ΛDMB: Error sending data to modality",
+                modality_id=target_modality,
+                error=str(e),
+            )
             self.broker_metrics["errors"] += 1
-            await self._trigger_event("error_occurred", {"error": str(e), "modality": modality})
+            await self._trigger_event(
+                "error_occurred", {"error": str(e), "modality": modality}
+            )
             return False
 
-    async def broadcast_data(self,
-                           data: ModalityData,
-                           modality_filter: Optional[Callable] = None) -> Dict[str, bool]:
+    async def broadcast_data(
+        self, data: ModalityData, modality_filter: Optional[Callable] = None
+    ) -> dict[str, bool]:
         """Broadcast data to multiple modalities"""
 
         results = {}
@@ -579,23 +620,32 @@ class DynamicModalityBroker:
 
             results[modality_id] = await self.send_data(modality_id, data)
 
-        logger.debug("ΛDMB: Data broadcast completed",
-                    targets=len(results), successful=sum(results.values()))
+        logger.debug(
+            "ΛDMB: Data broadcast completed",
+            targets=len(results),
+            successful=sum(results.values()),
+        )
 
         return results
 
-    def add_data_route(self, source_modality: str, target_modalities: List[str]):
+    def add_data_route(self, source_modality: str, target_modalities: list[str]):
         """Add data routing rule"""
         self.data_routes[source_modality] = target_modalities
-        logger.info("ΛDMB: Data route added",
-                   source=source_modality, targets=target_modalities)
+        logger.info(
+            "ΛDMB: Data route added",
+            source=source_modality,
+            targets=target_modalities,
+        )
 
     def add_event_callback(self, event_type: str, callback: Callable):
         """Add event callback"""
         if event_type in self.event_callbacks:
             self.event_callbacks[event_type].append(callback)
-            logger.info("ΛDMB: Event callback added",
-                       event=event_type, callback=callback.__name__)
+            logger.info(
+                "ΛDMB: Event callback added",
+                event=event_type,
+                callback=callback.__name__,
+            )
 
     async def _route_data(self, data: ModalityData):
         """Route data according to routing rules"""
@@ -618,8 +668,12 @@ class DynamicModalityBroker:
                     else:
                         callback(event_data)
                 except Exception as e:
-                    logger.warning("ΛDMB: Event callback failed",
-                                 event=event_type, callback=callback.__name__, error=str(e))
+                    logger.warning(
+                        "ΛDMB: Event callback failed",
+                        event=event_type,
+                        callback=callback.__name__,
+                        error=str(e),
+                    )
 
     async def _auto_discover_modalities(self):
         """Auto-discover available modalities"""
@@ -650,22 +704,32 @@ class DynamicModalityBroker:
                 # Health check all modalities
                 unhealthy_modalities = []
 
-                for modality_id, modality in self.registered_modalities.items():
+                for (
+                    modality_id,
+                    modality,
+                ) in self.registered_modalities.items():
                     try:
                         if not await modality.health_check():
                             unhealthy_modalities.append(modality_id)
-                            logger.warning("ΛDMB: Unhealthy modality detected",
-                                         modality_id=modality_id)
+                            logger.warning(
+                                "ΛDMB: Unhealthy modality detected",
+                                modality_id=modality_id,
+                            )
                     except Exception as e:
-                        logger.error("ΛDMB: Health check failed",
-                                   modality_id=modality_id, error=str(e))
+                        logger.error(
+                            "ΛDMB: Health check failed",
+                            modality_id=modality_id,
+                            error=str(e),
+                        )
 
                 # Log performance metrics
                 if len(self.registered_modalities) > 0:
-                    logger.debug("ΛDMB: Broker status",
-                               active_modalities=len(self.registered_modalities),
-                               unhealthy=len(unhealthy_modalities),
-                               messages_routed=self.broker_metrics["data_messages_routed"])
+                    logger.debug(
+                        "ΛDMB: Broker status",
+                        active_modalities=len(self.registered_modalities),
+                        unhealthy=len(unhealthy_modalities),
+                        messages_routed=self.broker_metrics["data_messages_routed"],
+                    )
 
                 await asyncio.sleep(10)  # Check every 10 seconds
 
@@ -675,7 +739,7 @@ class DynamicModalityBroker:
                 logger.error("ΛDMB: Monitoring loop error", error=str(e))
                 await asyncio.sleep(1)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive broker status"""
         return {
             "running": self._running,
@@ -687,10 +751,10 @@ class DynamicModalityBroker:
             "metrics": self.broker_metrics.copy(),
             "uptime_seconds": (
                 datetime.now(timezone.utc) - self.broker_metrics["uptime_start"]
-            ).total_seconds()
+            ).total_seconds(),
         }
 
-    def get_capabilities_summary(self) -> Dict[str, List[Dict]]:
+    def get_capabilities_summary(self) -> dict[str, list[dict]]:
         """Get summary of all available capabilities"""
         capabilities_by_type = {}
 
@@ -700,13 +764,15 @@ class DynamicModalityBroker:
                 if data_type not in capabilities_by_type:
                     capabilities_by_type[data_type] = []
 
-                capabilities_by_type[data_type].append({
-                    "modality_id": modality.modality_id,
-                    "modality_name": modality.name,
-                    "capability_name": capability.name,
-                    "accuracy": capability.accuracy,
-                    "latency_ms": capability.latency_ms
-                })
+                capabilities_by_type[data_type].append(
+                    {
+                        "modality_id": modality.modality_id,
+                        "modality_name": modality.name,
+                        "capability_name": capability.name,
+                        "accuracy": capability.accuracy,
+                        "latency_ms": capability.latency_ms,
+                    }
+                )
 
         return capabilities_by_type
 
@@ -725,6 +791,8 @@ async def get_dmb() -> DynamicModalityBroker:
 
 
 # Convenience functions for common operations
+
+
 async def register_vision_modality(camera_index: int = 0) -> bool:
     """Register a vision modality"""
     dmb = await get_dmb()

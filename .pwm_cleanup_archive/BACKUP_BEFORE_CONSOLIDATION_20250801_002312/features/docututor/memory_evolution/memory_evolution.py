@@ -1,5 +1,5 @@
-
 """Minimal memory evolution stub"""
+
 
 class MemoryEvolution:
     def __init__(self):

@@ -6,5 +6,7 @@ Error: Check quarantine/20250802_203919/core/interfaces/as_agent/core/filter_gpt
 """
 
 # Placeholder to prevent import errors
+
+
 class Placeholder:
     pass

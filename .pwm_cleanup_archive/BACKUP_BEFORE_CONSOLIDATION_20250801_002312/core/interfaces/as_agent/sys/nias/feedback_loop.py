@@ -26,7 +26,10 @@ from pathlib import Path
 FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
 FEEDBACK_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_context=None):
+
+def record_feedback(
+    message_id, user_id, score, notes=None, emoji=None, user_context=None
+):
     """
     Store a symbolic feedback event with tier-safe attributes.
 
@@ -52,11 +55,12 @@ def record_feedback(message_id, user_id, score, notes=None, emoji=None, user_con
         # Symbolic logic: enrich with optional flags
         "replay_candidate": (score == 5 and emoji in ["🧡", "🌙"]),
         "from_dream": "dream" in (notes.lower() if notes else ""),
-        "tier": user_context.get("tier") if user_context else None  # if passed
+        "tier": user_context.get("tier") if user_context else None,  # if passed
     }
 
     with open(FEEDBACK_LOG_PATH, "a") as f:
         f.write(json.dumps(log_entry) + "\n")
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────
@@ -96,7 +100,7 @@ if __name__ == "__main__":
             score=score,
             emoji=emoji,
             notes=notes,
-            user_context=user_context
+            user_context=user_context,
         )
         print("✅ Symbolic feedback recorded.")
 

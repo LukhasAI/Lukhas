@@ -7,8 +7,8 @@ Priority Score: 25.5 points
 Simplified test focusing on core integration without complex mocking.
 """
 
-import sys
 import os
+import sys
 import unittest
 
 # Add project root to path for testing
@@ -184,8 +184,8 @@ def run_simple_trauma_lock_tests():
         print(
             "✅ TraumaLockSystem successfully integrated with UnifiedMemoryOrchestrator"
         )
-        print(f"✅ Agent 1 Task 14 Priority Score: 25.5 points achieved")
-        print(f"✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
+        print("✅ Agent 1 Task 14 Priority Score: 25.5 points achieved")
+        print("✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
         print(
             "✅ Integration follows hub pattern: Import → Initialize → Interface → Test"
         )

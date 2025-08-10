@@ -2,18 +2,15 @@
 Test suite for Episodic Memory Colony Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
-from typing import Dict, Any
 
-from memory.memory_hub import MemoryHub, get_memory_hub
+import pytest
+
 from memory.colonies.episodic_memory_integration import (
     EpisodicMemoryIntegration,
     create_episodic_memory_integration,
-    EPISODIC_COLONY_AVAILABLE
 )
+from memory.memory_hub import MemoryHub
 
 
 class TestEpisodicMemoryIntegration:
@@ -29,25 +26,27 @@ class TestEpisodicMemoryIntegration:
     async def episodic_integration(self):
         """Create a test episodic memory integration instance"""
         config = {
-            'max_concurrent_operations': 25,
-            'memory_capacity': 5000,
-            'enable_background_processing': True,
-            'replay_processing_interval': 1.0,
-            'consolidation_assessment_interval': 10.0,
-            'pattern_separation_threshold': 0.4,
-            'pattern_completion_threshold': 0.6,
-            'enable_autobiographical_significance': True,
-            'enable_emotional_processing': True
+            "max_concurrent_operations": 25,
+            "memory_capacity": 5000,
+            "enable_background_processing": True,
+            "replay_processing_interval": 1.0,
+            "consolidation_assessment_interval": 10.0,
+            "pattern_separation_threshold": 0.4,
+            "pattern_completion_threshold": 0.6,
+            "enable_autobiographical_significance": True,
+            "enable_emotional_processing": True,
         }
         integration = EpisodicMemoryIntegration(config)
         return integration
 
     @pytest.mark.asyncio
-    async def test_episodic_memory_integration_initialization(self, episodic_integration):
+    async def test_episodic_memory_integration_initialization(
+        self, episodic_integration
+    ):
         """Test episodic memory integration initialization"""
         assert episodic_integration is not None
-        assert episodic_integration.config['max_concurrent_operations'] == 25
-        assert episodic_integration.config['memory_capacity'] == 5000
+        assert episodic_integration.config["max_concurrent_operations"] == 25
+        assert episodic_integration.config["memory_capacity"] == 5000
         assert episodic_integration.is_initialized is False
 
         # Initialize the integration
@@ -82,7 +81,7 @@ class TestEpisodicMemoryIntegration:
             "description": "Meeting with friends at the park",
             "participants": ["Alice", "Bob", "Charlie"],
             "emotions": {"happiness": 0.8, "excitement": 0.6},
-            "details": "We played frisbee and had a picnic"
+            "details": "We played frisbee and had a picnic",
         }
 
         result = await memory_hub.create_episodic_memory(
@@ -92,8 +91,8 @@ class TestEpisodicMemoryIntegration:
                 "location": [40.7128, -74.0060],  # NYC coordinates
                 "time": datetime.now().isoformat(),
                 "weather": "sunny",
-                "duration": 120  # minutes
-            }
+                "duration": 120,  # minutes
+            },
         )
 
         # Verify result structure
@@ -114,10 +113,12 @@ class TestEpisodicMemoryIntegration:
             pytest.skip("Episodic memory colony integration not available")
 
         # Create a memory first
-        content = {"description": "First day at new job", "emotions": {"nervousness": 0.7}}
+        content = {
+            "description": "First day at new job",
+            "emotions": {"nervousness": 0.7},
+        }
         create_result = await memory_hub.create_episodic_memory(
-            content=content,
-            event_type="career_milestone"
+            content=content, event_type="career_milestone"
         )
 
         if create_result.get("success"):
@@ -125,8 +126,7 @@ class TestEpisodicMemoryIntegration:
 
             # Test memory retrieval
             result = await memory_hub.retrieve_episodic_memory(
-                memory_id=memory_id,
-                include_related=True
+                memory_id=memory_id, include_related=True
             )
 
             # Verify result structure
@@ -151,22 +151,20 @@ class TestEpisodicMemoryIntegration:
         test_memories = [
             {"content": {"description": "Birthday party"}, "event_type": "celebration"},
             {"content": {"description": "Work meeting"}, "event_type": "professional"},
-            {"content": {"description": "Family dinner"}, "event_type": "family"}
+            {"content": {"description": "Family dinner"}, "event_type": "family"},
         ]
 
         created_ids = []
         for memory_data in test_memories:
             result = await memory_hub.create_episodic_memory(
-                content=memory_data["content"],
-                event_type=memory_data["event_type"]
+                content=memory_data["content"], event_type=memory_data["event_type"]
             )
             if result.get("success"):
                 created_ids.append(result["memory_id"])
 
         # Test search by event type
         search_results = await memory_hub.search_episodic_memories(
-            query={"event_type": "celebration"},
-            limit=10
+            query={"event_type": "celebration"}, limit=10
         )
 
         # Verify search results
@@ -190,12 +188,11 @@ class TestEpisodicMemoryIntegration:
         significant_content = {
             "description": "Graduation day - received diploma",
             "significance": 0.9,
-            "emotions": {"pride": 0.9, "accomplishment": 0.8}
+            "emotions": {"pride": 0.9, "accomplishment": 0.8},
         }
 
         create_result = await memory_hub.create_episodic_memory(
-            content=significant_content,
-            event_type="life_milestone"
+            content=significant_content, event_type="life_milestone"
         )
 
         if create_result.get("success"):
@@ -203,8 +200,7 @@ class TestEpisodicMemoryIntegration:
 
             # Test replay triggering
             replay_result = await memory_hub.trigger_episodic_replay(
-                memory_ids=[memory_id],
-                replay_strength=0.8
+                memory_ids=[memory_id], replay_strength=0.8
             )
 
             # Verify replay result
@@ -269,8 +265,7 @@ class TestEpisodicMemoryIntegration:
 
         # Test episodic memory creation with missing service
         result = await memory_hub.create_episodic_memory(
-            content={"description": "test"},
-            event_type="test"
+            content={"description": "test"}, event_type="test"
         )
         assert result["success"] is False
         assert "error" in result
@@ -303,23 +298,23 @@ class TestEpisodicMemoryIntegration:
         """Test different configuration options for episodic memory integration"""
         # Test with custom config
         custom_config = {
-            'max_concurrent_operations': 100,
-            'memory_capacity': 20000,
-            'enable_background_processing': False,
-            'pattern_separation_threshold': 0.2,
-            'pattern_completion_threshold': 0.8,
-            'enable_autobiographical_significance': False,
-            'enable_emotional_processing': False
+            "max_concurrent_operations": 100,
+            "memory_capacity": 20000,
+            "enable_background_processing": False,
+            "pattern_separation_threshold": 0.2,
+            "pattern_completion_threshold": 0.8,
+            "enable_autobiographical_significance": False,
+            "enable_emotional_processing": False,
         }
 
         integration = create_episodic_memory_integration(custom_config)
 
         # Verify config was applied
-        assert integration.config['max_concurrent_operations'] == 100
-        assert integration.config['memory_capacity'] == 20000
-        assert integration.config['enable_background_processing'] is False
-        assert integration.config['pattern_separation_threshold'] == 0.2
-        assert integration.config['enable_autobiographical_significance'] is False
+        assert integration.config["max_concurrent_operations"] == 100
+        assert integration.config["memory_capacity"] == 20000
+        assert integration.config["enable_background_processing"] is False
+        assert integration.config["pattern_separation_threshold"] == 0.2
+        assert integration.config["enable_autobiographical_significance"] is False
 
     @pytest.mark.asyncio
     async def test_episodic_memory_content_processing(self, episodic_integration):
@@ -333,19 +328,14 @@ class TestEpisodicMemoryIntegration:
             "description": "Sister's wedding at the beach resort",
             "participants": ["Sarah", "Mike", "Mom", "Dad", "Uncle Joe"],
             "location": "Sunset Beach Resort, Hawaii",
-            "emotions": {
-                "joy": 0.9,
-                "love": 0.8,
-                "excitement": 0.7,
-                "nostalgia": 0.3
-            },
+            "emotions": {"joy": 0.9, "love": 0.8, "excitement": 0.7, "nostalgia": 0.3},
             "sensory_details": {
                 "sounds": ["ocean waves", "wedding music", "laughter"],
                 "smells": ["ocean breeze", "flowers", "cake"],
-                "sights": ["sunset", "white dress", "happy faces"]
+                "sights": ["sunset", "white dress", "happy faces"],
             },
             "significance": "Major family milestone",
-            "personal_impact": 0.9
+            "personal_impact": 0.9,
         }
 
         # Create episodic memory
@@ -356,8 +346,8 @@ class TestEpisodicMemoryIntegration:
                 "duration": 480,  # 8 hours
                 "weather": "perfect",
                 "time_of_day": "afternoon_evening",
-                "social_setting": "formal_celebration"
-            }
+                "social_setting": "formal_celebration",
+            },
         )
 
         # Should handle complex content
@@ -377,18 +367,18 @@ class TestEpisodicMemoryIntegration:
             {
                 "content": {"description": "Morning jog in Central Park"},
                 "event_type": "exercise",
-                "context": {"time_of_day": "morning", "location": "park"}
+                "context": {"time_of_day": "morning", "location": "park"},
             },
             {
                 "content": {"description": "Team building workshop"},
                 "event_type": "professional",
-                "context": {"duration": 240, "participants": 15}
+                "context": {"duration": 240, "participants": 15},
             },
             {
                 "content": {"description": "Movie night with friends"},
                 "event_type": "social",
-                "context": {"emotions": {"fun": 0.8}, "location": "home"}
-            }
+                "context": {"emotions": {"fun": 0.8}, "location": "home"},
+            },
         ]
 
         # Create memories
@@ -396,7 +386,7 @@ class TestEpisodicMemoryIntegration:
             await episodic_integration.create_episodic_memory(
                 content=memory_data["content"],
                 event_type=memory_data["event_type"],
-                context=memory_data.get("context")
+                context=memory_data.get("context"),
             )
 
         # Test different search queries
@@ -404,11 +394,13 @@ class TestEpisodicMemoryIntegration:
             {"event_type": "exercise"},
             {"text": "park"},
             {"event_type": "social"},
-            {"participants": ["friends"]}
+            {"participants": ["friends"]},
         ]
 
         for query in search_queries:
-            results = await episodic_integration.search_episodic_memories(query, limit=10)
+            results = await episodic_integration.search_episodic_memories(
+                query, limit=10
+            )
             assert isinstance(results, list)
 
     @pytest.mark.asyncio
@@ -420,8 +412,7 @@ class TestEpisodicMemoryIntegration:
         # Create and interact with memories
         for i in range(3):
             result = await episodic_integration.create_episodic_memory(
-                content={"description": f"Test memory {i}"},
-                event_type="test"
+                content={"description": f"Test memory {i}"}, event_type="test"
             )
 
             if result.get("success"):
@@ -460,7 +451,9 @@ class TestEpisodicMemoryIntegration:
 
         # Test fallback retrieval
         memory_id = result["memory_id"]
-        retrieve_result = await episodic_integration._fallback_retrieve_episode(memory_id)
+        retrieve_result = await episodic_integration._fallback_retrieve_episode(
+            memory_id
+        )
         assert retrieve_result["success"] is True
         assert retrieve_result["memory_id"] == memory_id
 
@@ -471,7 +464,9 @@ class TestEpisodicMemoryIntegration:
         assert isinstance(search_results, list)
 
         # Test fallback replay
-        replay_result = await episodic_integration._fallback_trigger_replay([memory_id], 1.0)
+        replay_result = await episodic_integration._fallback_trigger_replay(
+            [memory_id], 1.0
+        )
         assert replay_result["success"] is True
         assert "fallback" in replay_result
 
@@ -483,16 +478,21 @@ class TestEpisodicMemoryIntegration:
 
         # Create memories with different significance levels
         memories_data = [
-            {"content": {"description": "High significance event"}, "significance": 0.9},
-            {"content": {"description": "Medium significance event"}, "significance": 0.6},
-            {"content": {"description": "Low significance event"}, "significance": 0.2}
+            {
+                "content": {"description": "High significance event"},
+                "significance": 0.9,
+            },
+            {
+                "content": {"description": "Medium significance event"},
+                "significance": 0.6,
+            },
+            {"content": {"description": "Low significance event"}, "significance": 0.2},
         ]
 
         memory_ids = []
         for memory_data in memories_data:
             result = await episodic_integration.create_episodic_memory(
-                content=memory_data["content"],
-                event_type="test"
+                content=memory_data["content"], event_type="test"
             )
             if result.get("success"):
                 memory_ids.append(result["memory_id"])
@@ -501,7 +501,7 @@ class TestEpisodicMemoryIntegration:
         if memory_ids:
             replay_result = await episodic_integration.trigger_episode_replay(
                 memory_ids=memory_ids[:2],  # Replay first 2 memories
-                replay_strength=0.7
+                replay_strength=0.7,
             )
 
             assert "success" in replay_result

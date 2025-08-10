@@ -9,13 +9,14 @@ intelligent prioritization, and seamless human-AI collaboration.
 """
 
 import asyncio
-import time
-from typing import Dict, List, Any, Optional, Union, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
-import json
 import hashlib
+import json
+import time
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional, Union
+
 
 class TaskPriority(Enum):
     CRITICAL = "critical"
@@ -24,12 +25,14 @@ class TaskPriority(Enum):
     LOW = "low"
     DEFERRED = "deferred"
 
+
 class TaskStatus(Enum):
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     BLOCKED = "blocked"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
+
 
 @dataclass
 class Task:
@@ -38,14 +41,15 @@ class Task:
     description: str
     priority: TaskPriority
     status: TaskStatus
-    tags: List[str]
-    context: Dict[str, Any]
+    tags: list[str]
+    context: dict[str, Any]
     created_at: datetime
     due_date: Optional[datetime] = None
     estimated_duration: Optional[int] = None  # minutes
-    dependencies: List[str] = field(default_factory=list)
-    symbolic_reasoning: Dict[str, Any] = field(default_factory=dict)
-    ai_insights: Dict[str, Any] = field(default_factory=dict)
+    dependencies: list[str] = field(default_factory=list)
+    symbolic_reasoning: dict[str, Any] = field(default_factory=dict)
+    ai_insights: dict[str, Any] = field(default_factory=dict)
+
 
 class LukhasDASTEngine:
     """
@@ -60,14 +64,14 @@ class LukhasDASTEngine:
     """
 
     def __init__(self):
-        self.tasks: Dict[str, Task] = {}
-        self.context_cache: Dict[str, Any] = {}
-        self.symbolic_patterns: Dict[str, Any] = {}
-        self.workflow_metrics: Dict[str, Any] = {}
+        self.tasks: dict[str, Task] = {}
+        self.context_cache: dict[str, Any] = {}
+        self.symbolic_patterns: dict[str, Any] = {}
+        self.workflow_metrics: dict[str, Any] = {}
         self.ai_model_registry = self._initialize_ai_models()
 
         # Performance monitoring
-        self.operation_times: List[float] = []
+        self.operation_times: list[float] = []
         self.cache_hits = 0
         self.cache_misses = 0
 
@@ -78,7 +82,12 @@ class LukhasDASTEngine:
         """Initialize AI intelligence components"""
         # Import and initialize AI components when available
         try:
-            from .intelligence import TaskIntelligence, PriorityOptimizer, ContextTracker
+            from .intelligence import (
+                ContextTracker,
+                PriorityOptimizer,
+                TaskIntelligence,
+            )
+
             self.task_intelligence = TaskIntelligence()
             self.priority_optimizer = PriorityOptimizer()
             self.context_tracker = ContextTracker()
@@ -88,14 +97,14 @@ class LukhasDASTEngine:
             self.priority_optimizer = None
             self.context_tracker = None
 
-    def _initialize_ai_models(self) -> Dict[str, Any]:
+    def _initialize_ai_models(self) -> dict[str, Any]:
         """Initialize modular AI model registry for future upgrades"""
         return {
             "task_classifier": "lukhas_ai_v2.1",
             "priority_optimizer": "lukhas_priority_v1.3",
             "symbolic_reasoner": "lukhas_symbolic_v2.0",
             "workflow_analyzer": "lukhas_workflow_v1.5",
-            "context_predictor": "lukhas_context_v1.8"
+            "context_predictor": "lukhas_context_v1.8",
         }
 
     # ========================================
@@ -104,9 +113,10 @@ class LukhasDASTEngine:
 
     async def initialize(self):
         """Async initialization for the engine"""
-        pass
 
-    async def track(self, request: Union[str, Dict], context: Optional[Dict] = None) -> Dict[str, Any]:
+    async def track(
+        self, request: Union[str, dict], context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         🎯 One-line task tracking with AI intelligence
 
@@ -131,7 +141,11 @@ class LukhasDASTEngine:
             self.cache_hits += 1
             cached_result = self.context_cache[cache_key]
             self._record_operation_time(time.time() - start_time)
-            return {"status": "success", "task_id": cached_result["task_id"], "cached": True}
+            return {
+                "status": "success",
+                "task_id": cached_result["task_id"],
+                "cached": True,
+            }
 
         # AI-powered task creation and analysis
         task = await self._ai_create_task(request_str, context or {})
@@ -141,7 +155,7 @@ class LukhasDASTEngine:
         self.context_cache[cache_key] = {
             "task_id": task.id,
             "timestamp": time.time(),
-            "reasoning": task.ai_insights
+            "reasoning": task.ai_insights,
         }
         self.cache_misses += 1
 
@@ -156,10 +170,12 @@ class LukhasDASTEngine:
             "task_id": task.id,
             "title": task.title,
             "priority": task.priority.value,
-            "response_time_ms": operation_time * 1000
+            "response_time_ms": operation_time * 1000,
         }
 
-    async def focus(self, query: Optional[str] = None, limit: int = 5) -> List[Dict[str, Any]]:
+    async def focus(
+        self, query: Optional[str] = None, limit: int = 5
+    ) -> list[dict[str, Any]]:
         """
         🎯 Get intelligently prioritized tasks for immediate attention
 
@@ -170,27 +186,38 @@ class LukhasDASTEngine:
         start_time = time.time()
 
         # Apply intelligent filtering and prioritization
-        filtered_tasks = self._ai_filter_tasks(query) if query else list(self.tasks.values())
+        filtered_tasks = (
+            self._ai_filter_tasks(query) if query else list(self.tasks.values())
+        )
         prioritized_tasks = self._ai_prioritize_tasks(filtered_tasks)
 
         # Return top tasks with context and reasoning
         result = []
         for task in prioritized_tasks[:limit]:
-            result.append({
-                "id": task.id,
-                "title": task.title,
-                "priority": task.priority.value,
-                "status": task.status.value,
-                "ai_score": task.ai_insights.get("priority_score", 0),
-                "reasoning": task.ai_insights.get("focus_reasoning", "AI-powered prioritization"),
-                "estimated_time": task.estimated_duration,
-                "context": task.context
-            })
+            result.append(
+                {
+                    "id": task.id,
+                    "title": task.title,
+                    "priority": task.priority.value,
+                    "status": task.status.value,
+                    "ai_score": task.ai_insights.get("priority_score", 0),
+                    "reasoning": task.ai_insights.get(
+                        "focus_reasoning", "AI-powered prioritization"
+                    ),
+                    "estimated_time": task.estimated_duration,
+                    "context": task.context,
+                }
+            )
 
         self._record_operation_time(time.time() - start_time)
         return result
 
-    async def progress(self, task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> Dict[str, Any]:
+    async def progress(
+        self,
+        task_id: str,
+        status: Optional[str] = None,
+        notes: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         🎯 Update task progress with AI-powered insights
 
@@ -203,14 +230,18 @@ class LukhasDASTEngine:
         if task_id == "overall":
             # Return overall progress summary
             total_tasks = len(self.tasks)
-            completed_tasks = len([t for t in self.tasks.values() if t.status == TaskStatus.COMPLETED])
+            completed_tasks = len(
+                [t for t in self.tasks.values() if t.status == TaskStatus.COMPLETED]
+            )
 
             self._record_operation_time(time.time() - start_time)
             return {
                 "total_tasks": total_tasks,
                 "completed_tasks": completed_tasks,
-                "completion_rate": completed_tasks / total_tasks if total_tasks > 0 else 0,
-                "active_tasks": total_tasks - completed_tasks
+                "completion_rate": (
+                    completed_tasks / total_tasks if total_tasks > 0 else 0
+                ),
+                "active_tasks": total_tasks - completed_tasks,
             }
 
         if task_id not in self.tasks:
@@ -223,7 +254,10 @@ class LukhasDASTEngine:
             try:
                 task.status = TaskStatus(status)
             except ValueError:
-                return {"error": "Invalid status", "valid_statuses": [s.value for s in TaskStatus]}
+                return {
+                    "error": "Invalid status",
+                    "valid_statuses": [s.value for s in TaskStatus],
+                }
 
         # AI analysis of progress and recommendations
         ai_analysis = await self._ai_analyze_progress(task, notes)
@@ -237,13 +271,15 @@ class LukhasDASTEngine:
             "status": task.status.value,
             "ai_recommendations": ai_analysis.get("recommendations", []),
             "workflow_impact": ai_analysis.get("workflow_impact", {}),
-            "next_actions": ai_analysis.get("next_actions", [])
+            "next_actions": ai_analysis.get("next_actions", []),
         }
 
         self._record_operation_time(time.time() - start_time)
         return result
 
-    async def collaborate(self, request: str, human_input: Optional[Dict] = None) -> Dict[str, Any]:
+    async def collaborate(
+        self, request: str, human_input: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         🤝 Human-AI collaborative task management
 
@@ -257,7 +293,7 @@ class LukhasDASTEngine:
             "ai_suggestions": [],
             "human_preferences": human_input or {},
             "collaborative_plan": {},
-            "reasoning": ""
+            "reasoning": "",
         }
 
         if "plan" in request.lower():
@@ -268,14 +304,14 @@ class LukhasDASTEngine:
             collaboration_result["ai_suggestions"] = [
                 f"Focus on {min(5, len(prioritized))} high-priority tasks first",
                 "Consider batching similar tasks for efficiency",
-                "Schedule critical tasks during peak hours"
+                "Schedule critical tasks during peak hours",
             ]
 
             if prioritized:
                 collaboration_result["collaborative_plan"] = {
                     "immediate_focus": [t.title for t in prioritized[:3]],
                     "this_week": [t.title for t in prioritized[3:8]],
-                    "backlog": [t.title for t in prioritized[8:]]
+                    "backlog": [t.title for t in prioritized[8:]],
                 }
 
         elif "review" in request.lower():
@@ -283,17 +319,19 @@ class LukhasDASTEngine:
             collaboration_result["ai_suggestions"] = [
                 "Some tasks may need priority adjustment",
                 "Consider breaking down complex tasks",
-                "Dependencies should be addressed first"
+                "Dependencies should be addressed first",
             ]
         else:
             # General assistance
             collaboration_result["ai_suggestions"] = [
                 "I can help you prioritize, plan, and track your tasks",
                 "Try asking me to 'plan your sprint' or 'review priorities'",
-                "I use AI to optimize your workflow automatically"
+                "I use AI to optimize your workflow automatically",
             ]
 
-        collaboration_result["reasoning"] = "AI analysis based on current task load and priorities"
+        collaboration_result["reasoning"] = (
+            "AI analysis based on current task load and priorities"
+        )
 
         self._record_operation_time(time.time() - start_time)
         return collaboration_result
@@ -302,7 +340,7 @@ class LukhasDASTEngine:
     # 🤖 AI-POWERED INTELLIGENCE LAYER
     # ========================================
 
-    async def _ai_create_task(self, request: str, context: Dict) -> Task:
+    async def _ai_create_task(self, request: str, context: dict) -> Task:
         """AI-powered task creation with intelligent analysis"""
 
         # Generate unique task ID
@@ -321,7 +359,9 @@ class LukhasDASTEngine:
         dependencies = ai_analysis.get("dependencies", [])
 
         # Symbolic reasoning for complex relationships
-        symbolic_reasoning = self._apply_symbolic_reasoning(request, context, ai_analysis)
+        symbolic_reasoning = self._apply_symbolic_reasoning(
+            request, context, ai_analysis
+        )
 
         task = Task(
             id=task_id,
@@ -336,23 +376,27 @@ class LukhasDASTEngine:
             estimated_duration=estimated_duration,
             dependencies=dependencies,
             symbolic_reasoning=symbolic_reasoning,
-            ai_insights=ai_analysis
+            ai_insights=ai_analysis,
         )
 
         return task
 
-    async def _analyze_task_request(self, request: str, context: Dict) -> Dict[str, Any]:
+    async def _analyze_task_request(
+        self, request: str, context: dict
+    ) -> dict[str, Any]:
         """Advanced AI analysis of task requests"""
 
         # Use TaskIntelligence if available
         if self.task_intelligence:
             try:
-                return await self.task_intelligence.analyze_task({
-                    "title": request,
-                    "description": request,
-                    "context": context
-                })
-            except:
+                return await self.task_intelligence.analyze_task(
+                    {
+                        "title": request,
+                        "description": request,
+                        "context": context,
+                    }
+                )
+            except BaseException:
                 pass  # Fallback to simple analysis
 
         # Fallback: Simulate AI analysis
@@ -364,7 +408,7 @@ class LukhasDASTEngine:
             "estimated_duration": self._estimate_duration(request),
             "confidence_score": 0.85,
             "reasoning": "AI analysis based on content patterns and context",
-            "priority_score": self._calculate_priority_score(request, context)
+            "priority_score": self._calculate_priority_score(request, context),
         }
 
         # Extract due date from natural language
@@ -387,11 +431,22 @@ class LukhasDASTEngine:
             return request
         return " ".join(words[:6]) + "..."
 
-    def _determine_priority(self, request: str, context: Dict) -> str:
+    def _determine_priority(self, request: str, context: dict) -> str:
         """AI-powered priority determination"""
-        urgent_keywords = ["urgent", "asap", "critical", "emergency", "immediately"]
+        urgent_keywords = [
+            "urgent",
+            "asap",
+            "critical",
+            "emergency",
+            "immediately",
+        ]
         high_keywords = ["important", "priority", "deadline", "today"]
-        low_keywords = ["when you can", "eventually", "nice to have", "backlog"]
+        low_keywords = [
+            "when you can",
+            "eventually",
+            "nice to have",
+            "backlog",
+        ]
 
         request_lower = request.lower()
 
@@ -406,19 +461,27 @@ class LukhasDASTEngine:
         else:
             return "medium"
 
-    def _extract_tags(self, request: str, context: Dict) -> List[str]:
+    def _extract_tags(self, request: str, context: dict) -> list[str]:
         """Extract relevant tags from request and context"""
         tags = []
 
         # Technology tags
         tech_keywords = {
-            "frontend": ["frontend", "ui", "react", "vue", "angular", "css", "html"],
+            "frontend": [
+                "frontend",
+                "ui",
+                "react",
+                "vue",
+                "angular",
+                "css",
+                "html",
+            ],
             "backend": ["backend", "api", "server", "database", "db"],
             "deployment": ["deploy", "deployment", "release", "production"],
             "testing": ["test", "testing", "qa", "quality"],
             "documentation": ["docs", "documentation", "readme"],
             "bug": ["bug", "fix", "error", "issue"],
-            "feature": ["feature", "new", "add", "implement"]
+            "feature": ["feature", "new", "add", "implement"],
         }
 
         request_lower = request.lower()
@@ -441,10 +504,11 @@ class LukhasDASTEngine:
             r"review|check": 30,
             r"implement|create|build": 120,
             r"refactor|redesign": 240,
-            r"complex|major|big": 480
+            r"complex|major|big": 480,
         }
 
         import re
+
         request_lower = request.lower()
 
         for pattern, duration in duration_patterns.items():
@@ -474,7 +538,7 @@ class LukhasDASTEngine:
 
         return None
 
-    def _identify_dependencies(self, request: str, context: Dict) -> List[str]:
+    def _identify_dependencies(self, request: str, context: dict) -> list[str]:
         """Identify task dependencies"""
         dependencies = []
 
@@ -493,7 +557,7 @@ class LukhasDASTEngine:
 
         return dependencies
 
-    def _calculate_priority_score(self, request: str, context: Dict) -> float:
+    def _calculate_priority_score(self, request: str, context: dict) -> float:
         """Calculate numerical priority score for intelligent ranking"""
         score = 5.0  # Base score
 
@@ -515,32 +579,37 @@ class LukhasDASTEngine:
 
         return max(0.0, min(10.0, score))  # Clamp between 0-10
 
-    def _apply_symbolic_reasoning(self, request: str, context: Dict, ai_analysis: Dict) -> Dict[str, Any]:
+    def _apply_symbolic_reasoning(
+        self, request: str, context: dict, ai_analysis: dict
+    ) -> dict[str, Any]:
         """Apply symbolic reasoning for complex task relationships"""
         return {
             "reasoning_type": "symbolic",
             "patterns_detected": ["task_creation", "priority_inference"],
             "logical_connections": ai_analysis.get("dependencies", []),
             "symbolic_tags": ai_analysis.get("tags", []),
-            "inference_confidence": ai_analysis.get("confidence_score", 0.8)
+            "inference_confidence": ai_analysis.get("confidence_score", 0.8),
         }
 
-    def _ai_filter_tasks(self, query: str) -> List[Task]:
+    def _ai_filter_tasks(self, query: str) -> list[Task]:
         """AI-powered task filtering based on query"""
         filtered = []
         query_lower = query.lower()
 
         for task in self.tasks.values():
             # Check title, description, and tags
-            if (query_lower in task.title.lower() or
-                query_lower in task.description.lower() or
-                any(query_lower in tag.lower() for tag in task.tags)):
+            if (
+                query_lower in task.title.lower()
+                or query_lower in task.description.lower()
+                or any(query_lower in tag.lower() for tag in task.tags)
+            ):
                 filtered.append(task)
 
         return filtered
 
-    def _ai_prioritize_tasks(self, tasks: List[Task]) -> List[Task]:
+    def _ai_prioritize_tasks(self, tasks: list[Task]) -> list[Task]:
         """AI-powered intelligent task prioritization"""
+
         def priority_key(task):
             # Multi-factor prioritization
             priority_weights = {
@@ -548,7 +617,7 @@ class LukhasDASTEngine:
                 TaskPriority.HIGH: 7,
                 TaskPriority.MEDIUM: 5,
                 TaskPriority.LOW: 3,
-                TaskPriority.DEFERRED: 1
+                TaskPriority.DEFERRED: 1,
             }
 
             base_score = priority_weights.get(task.priority, 5)
@@ -567,24 +636,30 @@ class LukhasDASTEngine:
 
         return sorted(tasks, key=priority_key, reverse=True)
 
-    async def _ai_analyze_progress(self, task: Task, notes: Optional[str]) -> Dict[str, Any]:
+    async def _ai_analyze_progress(
+        self, task: Task, notes: Optional[str]
+    ) -> dict[str, Any]:
         """AI analysis of task progress with recommendations"""
         analysis = {
             "progress_assessment": "on_track",
             "recommendations": [],
             "next_actions": [],
-            "workflow_impact": {}
+            "workflow_impact": {},
         }
 
         # Analyze status transition
         if task.status == TaskStatus.BLOCKED:
-            analysis["recommendations"].append("Identify blockers and create unblocking tasks")
+            analysis["recommendations"].append(
+                "Identify blockers and create unblocking tasks"
+            )
             analysis["next_actions"].append("Schedule blocker resolution meeting")
 
         elif task.status == TaskStatus.IN_PROGRESS:
             analysis["recommendations"].append("Continue current trajectory")
             if task.estimated_duration:
-                analysis["next_actions"].append(f"Estimated {task.estimated_duration} minutes remaining")
+                analysis["next_actions"].append(
+                    f"Estimated {task.estimated_duration} minutes remaining"
+                )
 
         # Analyze notes if provided
         if notes:
@@ -605,7 +680,7 @@ class LukhasDASTEngine:
         """Asynchronous workflow optimization"""
         try:
             asyncio.create_task(self._background_workflow_analysis(task_id))
-        except:
+        except BaseException:
             # If async isn't available, update metrics synchronously
             self._update_workflow_metrics_sync(task_id)
 
@@ -620,21 +695,22 @@ class LukhasDASTEngine:
             # Update workflow metrics
             self.workflow_metrics[task_id] = {
                 "creation_time": time.time(),
-                "predicted_completion": time.time() + (task.estimated_duration or 60) * 60,
+                "predicted_completion": time.time()
+                + (task.estimated_duration or 60) * 60,
                 "workflow_efficiency": 0.85,
                 "optimization_suggestions": [
                     "Consider batching similar tasks",
-                    "Schedule during peak productivity hours"
-                ]
+                    "Schedule during peak productivity hours",
+                ],
             }
 
     def _update_workflow_metrics_sync(self, task_id: str):
         """Synchronous workflow metrics update"""
         if task_id in self.tasks:
-            task = self.tasks[task_id]
+            self.tasks[task_id]
             self.workflow_metrics[task_id] = {
                 "creation_time": time.time(),
-                "workflow_efficiency": 0.85
+                "workflow_efficiency": 0.85,
             }
 
     def _update_workflow_metrics(self, task: Task):
@@ -645,13 +721,15 @@ class LukhasDASTEngine:
 
             if task.status == TaskStatus.COMPLETED:
                 metrics["completion_time"] = time.time()
-                metrics["actual_duration"] = metrics["completion_time"] - metrics.get("creation_time", time.time())
+                metrics["actual_duration"] = metrics["completion_time"] - metrics.get(
+                    "creation_time", time.time()
+                )
 
     # ========================================
     # 📊 PERFORMANCE & CACHING
     # ========================================
 
-    def _generate_cache_key(self, request: str, context: Optional[Dict]) -> str:
+    def _generate_cache_key(self, request: str, context: Optional[dict]) -> str:
         """Generate intelligent cache key for similar requests"""
         # Normalize request for caching
         normalized = request.lower().strip()
@@ -667,7 +745,7 @@ class LukhasDASTEngine:
         if len(self.operation_times) > 1000:
             self.operation_times = self.operation_times[-1000:]
 
-    def get_performance_stats(self) -> Dict[str, Any]:
+    def get_performance_stats(self) -> dict[str, Any]:
         """Get performance statistics"""
         if not self.operation_times:
             return {"status": "no_data"}
@@ -686,17 +764,18 @@ class LukhasDASTEngine:
             "cache_hit_rate": cache_hit_rate,
             "total_operations": len(self.operation_times),
             "performance_target_met": avg_time < 0.1,  # <100ms target
-            "total_tasks": len(self.tasks)
+            "total_tasks": len(self.tasks),
         }
-
 
 
 # ========================================
 # 🎨 JOBS-LEVEL UX: GLOBAL FUNCTIONS
 # ========================================
 
+
 # Global DAST engine instance
 _dast_engine = None
+
 
 def get_dast_engine() -> LukhasDASTEngine:
     """Get or create global DAST engine instance"""
@@ -705,22 +784,32 @@ def get_dast_engine() -> LukhasDASTEngine:
         _dast_engine = LukhasDASTEngine()
     return _dast_engine
 
-async def track(request: Union[str, Dict], context: Optional[Dict] = None) -> Dict[str, Any]:
+
+async def track(
+    request: Union[str, dict], context: Optional[dict] = None
+) -> dict[str, Any]:
     """🎯 One-line task tracking with AI intelligence"""
     engine = get_dast_engine()
     return await engine.track(request, context)
 
-async def focus(query: Optional[str] = None, limit: int = 5) -> List[Dict[str, Any]]:
+
+async def focus(query: Optional[str] = None, limit: int = 5) -> list[dict[str, Any]]:
     """🎯 Get intelligently prioritized tasks for immediate attention"""
     engine = get_dast_engine()
     return await engine.focus(query, limit)
 
-async def progress(task_id: str, status: Optional[str] = None, notes: Optional[str] = None) -> Dict[str, Any]:
+
+async def progress(
+    task_id: str, status: Optional[str] = None, notes: Optional[str] = None
+) -> dict[str, Any]:
     """🎯 Update task progress with AI-powered insights"""
     engine = get_dast_engine()
     return await engine.progress(task_id, status, notes)
 
-async def collaborate(request: str, human_input: Optional[Dict] = None) -> Dict[str, Any]:
+
+async def collaborate(
+    request: str, human_input: Optional[dict] = None
+) -> dict[str, Any]:
     """🤝 Human-AI collaborative task management"""
     engine = get_dast_engine()
     return await engine.collaborate(request, human_input)

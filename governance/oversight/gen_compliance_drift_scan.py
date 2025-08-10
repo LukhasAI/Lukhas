@@ -38,6 +38,7 @@
 
 from compliance.drift_monitor import ComplianceMonitor
 
+
 def simulate_compliance_drift():
     monitor = ComplianceMonitor()
     simulated_scores = [1.0, 0.97, 0.92, 0.89, 0.86, 0.83, 0.80, 0.77, 0.74]
@@ -46,6 +47,7 @@ def simulate_compliance_drift():
         monitor.evaluate_decision(score)
 
     print("✅ Compliance drift simulation complete. Log updated!")
+
 
 if __name__ == "__main__":
     simulate_compliance_drift()

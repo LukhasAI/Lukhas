@@ -17,11 +17,10 @@ from core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from core.enhanced_swarm import AgentState
+    from core.enhanced_swarm import AgentState, MessageType
     from core.enhanced_swarm import EnhancedColony as AgentColonyEnhanced
     from core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgentEnhanced
     from core.enhanced_swarm import EnhancedSwarmHub as SwarmHubEnhanced
-    from core.enhanced_swarm import MessageType
 
     ENHANCED_AVAILABLE = True
 except ImportError:

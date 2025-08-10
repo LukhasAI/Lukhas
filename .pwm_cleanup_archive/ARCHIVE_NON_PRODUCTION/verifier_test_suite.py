@@ -7,16 +7,18 @@ Author: LUKHAS AGI Core
 """
 
 import json
-import os
 from pathlib import Path
+
 from verifold_verifier import verify_verifold_signature
 
 TEST_VECTOR_FILE = Path(__file__).parent / "test_vectors.json"
 
+
 def load_test_vectors() -> list:
-    with open(TEST_VECTOR_FILE, "r") as f:
+    with open(TEST_VECTOR_FILE) as f:
         data = json.load(f)
     return data.get("test_vectors", [])
+
 
 def run_signature_tests():
     vectors = load_test_vectors()
@@ -41,7 +43,9 @@ def run_signature_tests():
                     print(f"✅ PASS: {desc}")
                     passed += 1
                 else:
-                    print(f"❌ FAIL: {desc} (expected: {expected_verified}, got: {is_valid})")
+                    print(
+                        f"❌ FAIL: {desc} (expected: {expected_verified}, got: {is_valid})"
+                    )
                     failed += 1
             except Exception as e:
                 if expected_error and expected_error.lower() in str(e).lower():
@@ -58,6 +62,7 @@ def run_signature_tests():
 
     print("\n📊 Test Summary")
     print(f"Total: {total}, Passed: {passed}, Failed: {failed}")
+
 
 if __name__ == "__main__":
     run_signature_tests()

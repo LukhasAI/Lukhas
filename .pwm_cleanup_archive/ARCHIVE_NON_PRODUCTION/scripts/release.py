@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Release helper script for LUKHAS AGI."""
 
+import re
 import subprocess
 import sys
-import re
 from pathlib import Path
 
 
@@ -34,11 +34,11 @@ def update_changelog(version: str):
 
     # Add date to unreleased section
     from datetime import date
+
     today = date.today().strftime("%Y-%m-%d")
 
     content = content.replace(
-        "## [Unreleased]",
-        f"## [Unreleased]\n\n## [{version}] - {today}"
+        "## [Unreleased]", f"## [Unreleased]\n\n## [{version}] - {today}"
     )
 
     changelog.write_text(content)
@@ -72,4 +72,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

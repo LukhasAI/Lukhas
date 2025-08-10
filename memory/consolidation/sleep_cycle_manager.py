@@ -10,7 +10,7 @@
 | Version: 1.0.0 | Created: 2025-7-29
 | Authors: LUKHAS AI Neuroscience Team
 +==================================================================================
-|                              POETIC ESSENCE 
+|                              POETIC ESSENCE
 |
 | | In the rhythmic dance of consciousness and rest, the Sleep Cycle Manager    |
 | | orchestrates the ebb and flow of awareness. Like tides governed by an       |
@@ -43,41 +43,40 @@
 """
 
 import asyncio
-import numpy as np
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from uuid import uuid4
-import math
 
-import structlog
+import numpy as np
 
 from memory.consolidation.consolidation_orchestrator import SleepStage
-
-from core.common import get_logger
 
 
 class CircadianPhase(Enum):
     """Circadian rhythm phase"""
-    MORNING = "morning"          # 6am-12pm
-    AFTERNOON = "afternoon"      # 12pm-6pm
-    EVENING = "evening"         # 6pm-12am
-    NIGHT = "night"            # 12am-6am
+
+    MORNING = "morning"  # 6am-12pm
+    AFTERNOON = "afternoon"  # 12pm-6pm
+    EVENING = "evening"  # 6pm-12am
+    NIGHT = "night"  # 12am-6am
 
 
 class SleepPressure(Enum):
     """Homeostatic sleep pressure level"""
-    LOW = "low"              # Just woke up
-    MODERATE = "moderate"    # Mid-day
-    HIGH = "high"           # Evening
-    CRITICAL = "critical"   # Sleep deprived
+
+    LOW = "low"  # Just woke up
+    MODERATE = "moderate"  # Mid-day
+    HIGH = "high"  # Evening
+    CRITICAL = "critical"  # Sleep deprived
 
 
 @dataclass
 class SleepCycle:
     """Individual sleep cycle representation"""
+
     cycle_id: str = field(default_factory=lambda: str(uuid4()))
     cycle_number: int = 0
     start_time: float = field(default_factory=time.time)
@@ -85,7 +84,9 @@ class SleepCycle:
 
     # Stage durations (seconds)
     stage_durations: Dict[SleepStage, float] = field(default_factory=dict)
-    stage_transitions: List[Tuple[SleepStage, SleepStage, float]] = field(default_factory=list)
+    stage_transitions: List[Tuple[SleepStage, SleepStage, float]] = field(
+        default_factory=list
+    )
 
     # Cycle characteristics
     rem_proportion: float = 0.2  # Increases with cycle number
@@ -112,6 +113,7 @@ class SleepCycle:
 @dataclass
 class SleepArchitecture:
     """Overall sleep architecture parameter"""
+
     total_sleep_time: float = 0.0
     sleep_efficiency: float = 0.0  # Time asleep / Time in bed
     sleep_onset_latency: float = 0.0
@@ -146,7 +148,7 @@ class SleepCycleManager:
         enable_adaptive: bool = True,
         sleep_pressure_decay: float = 0.1,
         rem_progression_rate: float = 0.5,
-        initial_sleep_pressure: float = 0.5
+        initial_sleep_pressure: float = 0.5,
     ):
         self.base_cycle_duration = base_cycle_duration
         self.enable_circadian = enable_circadian
@@ -168,7 +170,7 @@ class SleepCycleManager:
         # Architecture tracking
         self.architecture = SleepArchitecture()
         self.stage_start_time = time.time()
-        self.time_in_stages: Dict[SleepStage, float] = {stage: 0.0 for stage in SleepStage}
+        self.time_in_stages: Dict[SleepStage, float] = dict.fromkeys(SleepStage, 0.0)
 
         # Oscillation parameters
         self.delta_power = 1.0  # Slow-wave activity
@@ -188,7 +190,7 @@ class SleepCycleManager:
             "SleepCycleManager initialized",
             base_cycle_duration=base_cycle_duration,
             circadian=enable_circadian,
-            adaptive=enable_adaptive
+            adaptive=enable_adaptive,
         )
 
     async def start(self):
@@ -219,7 +221,7 @@ class SleepCycleManager:
         logger.info(
             "SleepCycleManager stopped",
             total_cycles=self.total_cycles,
-            total_sleep_time=self.architecture.total_sleep_time
+            total_sleep_time=self.architecture.total_sleep_time,
         )
 
     async def initiate_sleep(self) -> str:
@@ -233,7 +235,7 @@ class SleepCycleManager:
         self.current_cycle = SleepCycle(
             cycle_number=self.total_cycles,
             rem_proportion=0.15 + (self.total_cycles - 1) * self.rem_progression_rate,
-            sws_proportion=0.4 - (self.total_cycles - 1) * 0.5
+            sws_proportion=0.4 - (self.total_cycles - 1) * 0.5,
         )
 
         # Transition to NREM1
@@ -246,7 +248,7 @@ class SleepCycleManager:
         logger.info(
             f"Sleep initiated - Cycle {self.total_cycles}",
             cycle_id=self.current_cycle.cycle_id,
-            sleep_pressure=self.sleep_pressure
+            sleep_pressure=self.sleep_pressure,
         )
 
         return self.current_cycle.cycle_id
@@ -263,8 +265,10 @@ class SleepCycleManager:
 
         # Update cycle tracking
         if self.current_cycle and old_stage != SleepStage.WAKE:
-# SYNTAX_ERROR_FIXED:             self.current_cycle.stage_durations[old_stage] = " + "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
-            self.current_cycle.stage_transitions.append((old_stage, new_stage, current_time))
+            # SYNTAX_ERROR_FIXED:             self.current_cycle.stage_durations[old_stage] = " + "self.current_cycle.stage_durations.get(old_stage, 0) + stage_duration
+            self.current_cycle.stage_transitions.append(
+                (old_stage, new_stage, current_time)
+            )
 
         # Transition
         self.current_stage = new_stage
@@ -296,7 +300,7 @@ class SleepCycleManager:
             SleepStage.NREM1: (5, 7, 10),
             SleepStage.NREM2: (20, 30, 40),
             SleepStage.NREM3: (15, 25, 40),
-            SleepStage.REM: (10, 20, 30)
+            SleepStage.REM: (10, 20, 30),
         }
 
         min_dur, target_dur, max_dur = base_durations.get(stage, (5, 10, 15))
@@ -320,11 +324,7 @@ class SleepCycleManager:
                 target_dur *= 1.3
 
         # Convert to seconds
-        return {
-            "min": min_dur * 60,
-            "target": target_dur * 60,
-            "max": max_dur * 60
-        }
+        return {"min": min_dur * 60, "target": target_dur * 60, "max": max_dur * 60}
 
     def get_next_stage(self, current: SleepStage) -> SleepStage:
         """Determine next sleep stage based on normal progression"""
@@ -335,7 +335,7 @@ class SleepCycleManager:
             SleepStage.NREM1: SleepStage.NREM2,
             SleepStage.NREM2: SleepStage.NREM3,
             SleepStage.NREM3: SleepStage.NREM2,  # Back to NREM2
-            SleepStage.REM: SleepStage.NREM2     # Back to NREM2
+            SleepStage.REM: SleepStage.NREM2,  # Back to NREM2
         }
 
         next_stage = progression.get(current, SleepStage.WAKE)
@@ -437,13 +437,19 @@ class SleepCycleManager:
                 self.sleep_pressure = min(1.0, self.sleep_pressure + 0.01)
             else:
                 # Decrease sleep pressure during sleep
-                self.sleep_pressure = max(0.0, self.sleep_pressure - self.sleep_pressure_decay / 60)
+                self.sleep_pressure = max(
+                    0.0, self.sleep_pressure - self.sleep_pressure_decay / 60
+                )
 
             # Update architecture
             total_time = sum(self.time_in_stages.values())
             if total_time > 0:
-                self.architecture.total_sleep_time = total_time - self.time_in_stages[SleepStage.WAKE]
-                self.architecture.sleep_efficiency = self.architecture.total_sleep_time / total_time
+                self.architecture.total_sleep_time = (
+                    total_time - self.time_in_stages[SleepStage.WAKE]
+                )
+                self.architecture.sleep_efficiency = (
+                    self.architecture.total_sleep_time / total_time
+                )
 
                 # Update stage percentages
                 for stage in SleepStage:
@@ -484,7 +490,9 @@ class SleepCycleManager:
         # Calculate quality metrics
         transitions = len(self.current_cycle.stage_transitions)
         expected_transitions = 5  # Typical cycle
-        self.current_cycle.fragmentation_index = min(1.0, transitions / (expected_transitions * 2))
+        self.current_cycle.fragmentation_index = min(
+            1.0, transitions / (expected_transitions * 2)
+        )
 
         # Consolidation score based on SWS and REM proportions
         sws_score = self.current_cycle.get_stage_proportion(SleepStage.NREM3)
@@ -503,7 +511,7 @@ class SleepCycleManager:
         logger.info(
             f"Cycle {self.current_cycle.cycle_number} completed",
             duration_minutes=self.current_cycle.calculate_duration() / 60,
-            consolidation_score=self.current_cycle.consolidation_score
+            consolidation_score=self.current_cycle.consolidation_score,
         )
 
         # Decide whether to start new cycle or wake
@@ -534,7 +542,7 @@ class SleepCycleManager:
             "time_awake_hours": self.time_awake / 3600,
             "delta_power": self.delta_power,
             "theta_power": self.theta_power,
-            "spindle_density": self.spindle_density
+            "spindle_density": self.spindle_density,
         }
 
         # Architecture metrics
@@ -548,14 +556,20 @@ class SleepCycleManager:
         # Current cycle metrics
         if self.current_cycle:
             metrics["current_cycle_id"] = self.current_cycle.cycle_id
-            metrics["current_cycle_duration_min"] = self.current_cycle.calculate_duration() / 60
+            metrics["current_cycle_duration_min"] = (
+                self.current_cycle.calculate_duration() / 60
+            )
             metrics["current_cycle_rem_prop"] = self.current_cycle.rem_proportion
             metrics["current_cycle_sws_prop"] = self.current_cycle.sws_proportion
 
         # History metrics
         if self.cycle_history:
-            avg_duration = np.mean([c.calculate_duration() for c in self.cycle_history]) / 60
-            avg_consolidation = np.mean([c.consolidation_score for c in self.cycle_history])
+            avg_duration = (
+                np.mean([c.calculate_duration() for c in self.cycle_history]) / 60
+            )
+            avg_consolidation = np.mean(
+                [c.consolidation_score for c in self.cycle_history]
+            )
             metrics["average_cycle_duration_min"] = avg_duration
             metrics["average_consolidation_score"] = avg_consolidation
 
@@ -569,7 +583,7 @@ async def demonstrate_sleep_cycle_manager():
     manager = SleepCycleManager(
         base_cycle_duration=1.5,  # 1.5 minutes for demo
         enable_circadian=True,
-        enable_adaptive=True
+        enable_adaptive=True,
     )
 
     await manager.start()

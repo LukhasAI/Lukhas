@@ -23,20 +23,22 @@ Integration Date: 2025-05-31T07:55:30.363461
 │   3. Will later be upgraded to event-based runtime                         │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-#"""
-#agent_core.py
-#=============
-#Primary control hub for initializing and orchestrating the LUKHAS Personal Agent.
+# """
+# agent_core.py
+# =============
+# Primary control hub for initializing and orchestrating the LUKHAS Personal Agent.
 #
-#This file acts as the central execution point where modules for memory,
-#emotional response, consent validation, and symbolic interaction come together.
+# This file acts as the central execution point where modules for memory,
+# emotional response, consent validation, and symbolic interaction come together.
 #
-#This is an early-stage scaffold for conceptual testing.
-#"""
-from config_legacy import TIER_PERMISSIONS
+# This is an early-stage scaffold for conceptual testing.
+# """
 
 # Import placeholder logic modules (to be implemented separately)
-# from Agent_Logic_Architecture import (  # TODO: Install or implement Agent_Logic_Architecture
+# from Agent_Logic_Architecture import (  # TODO: Install or implement
+# Agent_Logic_Architecture
+
+from config_legacy import TIER_PERMISSIONS
 initialize_agent, sync_user_mood, verify_access_level,
 
     generate_response, store_memory_echo, generate_dream_digest,
@@ -46,6 +48,7 @@ initialize_agent, sync_user_mood, verify_access_level,
 # ------------------------------------
 # Agent Initialization
 # ------------------------------------
+
 def start_agent(seed_identity, tier_level=1):
     print("🔐 Starting Agent with Seed:", seed_identity)
     initialize_agent(seed_identity)
@@ -55,6 +58,7 @@ def start_agent(seed_identity, tier_level=1):
 # ------------------------------------
 # Agent Event Loop (Prototype Mode)
 # ------------------------------------
+
 def run_agent_simulation():
     """
     Simulates one cycle of interaction with the agent.

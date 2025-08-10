@@ -5,16 +5,25 @@ Tests the integration of BridgeTraceLogger with the message bus system.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Test imports
 try:
-    from bridge.trace_logger import BridgeTraceLogger, TraceLevel, TraceCategory
-    from bridge.message_bus import MessageBus, Message, MessageType, MessagePriority
+    from bridge.message_bus import (
+        Message,
+        MessageBus,
+        MessagePriority,
+        MessageType,
+    )
+    from bridge.trace_logger import (
+        BridgeTraceLogger,
+        TraceCategory,
+        TraceLevel,
+    )
 
     print("✅ Successfully imported BridgeTraceLogger and MessageBus")
 except ImportError as e:

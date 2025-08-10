@@ -5,8 +5,9 @@ Common base classes for memory-related components.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 
 class MemoryManager(ABC):
     """Base class for memory managers."""
@@ -33,17 +34,22 @@ class MemoryManager(ABC):
 
     def log_access(self, key: str, operation: str, user_id: str):
         """Log memory access."""
-        self.access_logs.append({
-            'key': key,
-            'operation': operation,
-            'user_id': user_id,
-            'timestamp': datetime.now().isoformat()
-        })
+        self.access_logs.append(
+            {
+                "key": key,
+                "operation": operation,
+                "user_id": user_id,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
+
 
 class MemoryAccessPolicy:
     """Base class for memory access policies."""
 
-    def __init__(self, owner_id: str, public: bool = False, allowed_users: List[str] = None):
+    def __init__(
+        self, owner_id: str, public: bool = False, allowed_users: List[str] = None
+    ):
         self.owner_id = owner_id
         self.public = public
         self.allowed_users = allowed_users or []
@@ -57,6 +63,7 @@ class MemoryAccessPolicy:
         if user_id in self.allowed_users:
             return True
         return False
+
 
 class MemoryIdentityIntegration:
     """Base class for memory-identity integration."""

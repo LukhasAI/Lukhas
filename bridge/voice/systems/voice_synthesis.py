@@ -5,6 +5,8 @@ Advanced: voice_synthesis.py
 Integration Date: 2025-05-31T07:55:28.339501
 """
 
+import logging
+
 """
 Advanced Voice Synthesis Module
 
@@ -13,22 +15,22 @@ to user context and interaction patterns. It implements Steve Jobs' principles o
 elegant human-computer interaction with Sam Altman's vision for advanced AI capabilities.
 """
 
-from typing import Dict, Any, Optional, List, Union
-from core.common import get_logger
-import time
 import os
-import asyncio
-import json
-from enum import Enum
-import numpy as np
-from abc import ABC, abstractmethod
 import tempfile
+from abc import ABC, abstractmethod
+from enum import Enum
+from typing import Any
+
 import requests
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class VoiceEmotion(Enum):
     """Emotional tones for voice synthesis"""
+
     NEUTRAL = "neutral"
     HAPPY = "happy"
     SAD = "sad"
@@ -41,6 +43,7 @@ class VoiceEmotion(Enum):
 
 class VoiceProvider(Enum):
     """Available voice synthesis providers"""
+
     EDGE_TTS = "edge_tts"
     ELEVENLABS = "elevenlabs"
     COQUI = "coqui"
@@ -53,16 +56,18 @@ class VoiceSynthesisProvider(ABC):
     Each provider must implement the synthesize method.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         self.logger = logging.getLogger(f"VoiceSynthesis.{self.__class__.__name__}")
         self.config = config or {}
 
     @abstractmethod
-    def synthesize(self,
-                  text: str,
-                  voice_id: str = None,
-                  emotion: str = None,
-                  params: Dict[str, Any] = None) -> Dict[str, Any]:
+    def synthesize(
+        self,
+        text: str,
+        voice_id: str = None,
+        emotion: str = None,
+        params: dict[str, Any] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize speech from text.
 
@@ -75,7 +80,6 @@ class VoiceSynthesisProvider(ABC):
         Returns:
             Dictionary with synthesis results including audio data
         """
-        pass
 
     def is_available(self) -> bool:
         """
@@ -95,7 +99,7 @@ class VoiceSynthesisProvider(ABC):
         """
         return self.config.get("default_voice", "default")
 
-    def _apply_emotion(self, params: Dict[str, Any], emotion: str) -> Dict[str, Any]:
+    def _apply_emotion(self, params: dict[str, Any], emotion: str) -> dict[str, Any]:
         """
         Apply emotion-specific adjustments to synthesis parameters.
 
@@ -112,7 +116,7 @@ class VoiceSynthesisProvider(ABC):
             "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
             "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
             "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
-            "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0}
+            "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
         }
 
         if emotion and emotion in emotion_mappings:
@@ -133,17 +137,19 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
     Provides high-quality, emotional TTS capabilities.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         super().__init__(config)
         self.api_key = self.config.get("api_key")
         self.base_url = "https://api.elevenlabs.io/v1"
         self.voice_cache = {}  # Cache of available voices
 
-    def synthesize(self,
-                  text: str,
-                  voice_id: str = None,
-                  emotion: str = None,
-                  params: Dict[str, Any] = None) -> Dict[str, Any]:
+    def synthesize(
+        self,
+        text: str,
+        voice_id: str = None,
+        emotion: str = None,
+        params: dict[str, Any] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize speech using ElevenLabs API.
 
@@ -159,7 +165,7 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
         if not self.is_available():
             return {
                 "success": False,
-                "error": "ElevenLabs API key not configured"
+                "error": "ElevenLabs API key not configured",
             }
 
         # Set default values
@@ -175,7 +181,7 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
         headers = {
             "Accept": "audio/mpeg",
             "xi-api-key": self.api_key,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
 
         data = {
@@ -185,8 +191,8 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
                 "stability": params.get("stability", 0.5),
                 "similarity_boost": params.get("similarity", 0.75),
                 "style": params.get("style", 0.0),
-                "speaker_boost": params.get("speaker_boost", True)
-            }
+                "speaker_boost": params.get("speaker_boost", True),
+            },
         }
 
         try:
@@ -198,7 +204,7 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
                 return {
                     "success": False,
                     "error": f"API Error: {response.status_code}",
-                    "response": response.text
+                    "response": response.text,
                 }
 
             # Process successful response
@@ -210,33 +216,24 @@ class ElevenLabsProvider(VoiceSynthesisProvider):
                 "format": "mp3",
                 "provider": "elevenlabs",
                 "voice_id": voice_id,
-                "text": text
+                "text": text,
             }
 
         except requests.exceptions.Timeout:
             self.logger.error("Timeout while connecting to ElevenLabs API")
-            return {
-                "success": False,
-                "error": "Request timeout"
-            }
+            return {"success": False, "error": "Request timeout"}
         except requests.exceptions.RequestException as e:
             self.logger.error(f"ElevenLabs API request error: {str(e)}")
-            return {
-                "success": False,
-                "error": f"Request error: {str(e)}"
-            }
+            return {"success": False, "error": f"Request error: {str(e)}"}
         except Exception as e:
             self.logger.error(f"ElevenLabs synthesis error: {str(e)}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def is_available(self) -> bool:
         """Check if ElevenLabs API is configured and available"""
         return self.api_key is not None and len(self.api_key) > 0
 
-    def get_available_voices(self) -> List[Dict[str, Any]]:
+    def get_available_voices(self) -> list[dict[str, Any]]:
         """
         Get list of available voices from ElevenLabs.
 
@@ -298,17 +295,19 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
     Provides reliable, free TTS with multiple voices and languages.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         super().__init__(config)
         # Lazy import edge-tts - will be imported when needed
         self.edge_tts = None
         self.available_voices = []
 
-    def synthesize(self,
-                  text: str,
-                  voice_id: str = None,
-                  emotion: str = None,
-                  params: Dict[str, Any] = None) -> Dict[str, Any]:
+    def synthesize(
+        self,
+        text: str,
+        voice_id: str = None,
+        emotion: str = None,
+        params: dict[str, Any] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize speech using Edge TTS.
 
@@ -324,13 +323,13 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
         # Lazy import edge-tts
         if not self.edge_tts:
             try:
-#                 import edge_tts  # TODO: Install or implement edge_tts
+                #                 import edge_tts  # TODO: Install or implement edge_tts
                 self.edge_tts = edge_tts
             except ImportError:
                 self.logger.error("edge-tts package not installed")
                 return {
                     "success": False,
-                    "error": "edge-tts package not installed"
+                    "error": "edge-tts package not installed",
                 }
 
         # Set default values
@@ -357,8 +356,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
 
             async def run_edge_tts():
                 communicate = self.edge_tts.Communicate(
-                    text, voice_id,
-                    rate=rate, volume=volume, pitch=pitch
+                    text, voice_id, rate=rate, volume=volume, pitch=pitch
                 )
                 await communicate.save(output_file)
 
@@ -378,7 +376,7 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
                 "format": "mp3",
                 "provider": "edge_tts",
                 "voice_id": voice_id,
-                "text": text
+                "text": text,
             }
 
         except Exception as e:
@@ -390,21 +388,18 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
                 except OSError as e:
                     logger.warning(f"Failed to clean up output file {output_file}: {e}")
 
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def is_available(self) -> bool:
         """Check if Edge TTS is available"""
         try:
-#             import edge_tts  # TODO: Install or implement edge_tts
+            #             import edge_tts  # TODO: Install or implement edge_tts
             self.edge_tts = edge_tts
             return True
         except ImportError:
             return False
 
-    def get_available_voices(self) -> List[Dict[str, Any]]:
+    def get_available_voices(self) -> list[dict[str, Any]]:
         """
         Get list of available voices from Edge TTS.
 
@@ -427,13 +422,15 @@ class EdgeTTSProvider(VoiceSynthesisProvider):
             voices = []
 
             for voice in voices_manager.voices:
-                voices.append({
-                    "voice_id": voice["ShortName"],
-                    "name": voice["FriendlyName"],
-                    "gender": voice["Gender"],
-                    "language": voice["Locale"],
-                    "provider": "edge_tts"
-                })
+                voices.append(
+                    {
+                        "voice_id": voice["ShortName"],
+                        "name": voice["FriendlyName"],
+                        "gender": voice["Gender"],
+                        "language": voice["Locale"],
+                        "provider": "edge_tts",
+                    }
+                )
 
             self.available_voices = voices
             return voices
@@ -458,17 +455,19 @@ class CoquiProvider(VoiceSynthesisProvider):
     Provides high-quality open-source TTS with XTTS model support.
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         super().__init__(config)
         self.tts = None
         self.model_path = self.config.get("model_path")
         self.voices_dir = self.config.get("voices_dir", "./voices")
 
-    def synthesize(self,
-                  text: str,
-                  voice_id: str = None,
-                  emotion: str = None,
-                  params: Dict[str, Any] = None) -> Dict[str, Any]:
+    def synthesize(
+        self,
+        text: str,
+        voice_id: str = None,
+        emotion: str = None,
+        params: dict[str, Any] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize speech using Coqui TTS.
 
@@ -483,10 +482,7 @@ class CoquiProvider(VoiceSynthesisProvider):
         """
         # Initialize TTS if needed
         if not self.is_available():
-            return {
-                "success": False,
-                "error": "Coqui TTS not available"
-            }
+            return {"success": False, "error": "Coqui TTS not available"}
 
         # Set default values
         params = params or {}
@@ -519,7 +515,7 @@ class CoquiProvider(VoiceSynthesisProvider):
                 file_path=output_file,
                 speaker_wav=speaker_wav,
                 language=language,
-                speed=speed
+                speed=speed,
             )
 
             # Read the audio data
@@ -535,7 +531,7 @@ class CoquiProvider(VoiceSynthesisProvider):
                 "format": "wav",
                 "provider": "coqui",
                 "voice_id": voice_id if speaker_wav else "default",
-                "text": text
+                "text": text,
             }
 
         except Exception as e:
@@ -547,10 +543,7 @@ class CoquiProvider(VoiceSynthesisProvider):
                 except OSError as e:
                     logger.warning(f"Failed to clean up output file {output_file}: {e}")
 
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
     def is_available(self) -> bool:
         """Check if Coqui TTS is available and initialize if needed"""
@@ -579,7 +572,7 @@ class CoquiProvider(VoiceSynthesisProvider):
             self.logger.error(f"Error initializing Coqui TTS: {e}")
             return False
 
-    def get_available_voices(self) -> List[Dict[str, Any]]:
+    def get_available_voices(self) -> list[dict[str, Any]]:
         """
         Get list of available voice references from voices directory.
 
@@ -593,11 +586,13 @@ class CoquiProvider(VoiceSynthesisProvider):
         for file in os.listdir(self.voices_dir):
             if file.endswith(".wav"):
                 voice_id = os.path.splitext(file)[0]
-                voices.append({
-                    "voice_id": voice_id,
-                    "name": voice_id,
-                    "provider": "coqui"
-                })
+                voices.append(
+                    {
+                        "voice_id": voice_id,
+                        "name": voice_id,
+                        "provider": "coqui",
+                    }
+                )
 
         return voices
 

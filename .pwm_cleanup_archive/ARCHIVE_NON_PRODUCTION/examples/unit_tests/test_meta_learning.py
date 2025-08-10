@@ -21,8 +21,7 @@ Copyright (c) 2025 LUKHΛS AI Research. All rights reserved. (Corrected)
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-import pytest
-import structlog # ΛTRACE: Using structlog for structured logging
+import structlog  # ΛTRACE: Using structlog for structured logging
 
 # ΛIMPORT_TODO: Assuming MetaLearningSystem is in learning.meta_learning based on file path.
 # If it's from `lukhas.core.meta_learning`, the import needs to be adjusted.
@@ -32,18 +31,42 @@ try:
 except ImportError:
     # ΛCAUTION: Fallback if direct relative import fails. This might indicate a structural issue or missing __init__.py.
     logger_fallback = structlog.get_logger().bind(tag="test_meta_learning_fallback")
-    logger_fallback.warn("meta_learning_import_failed_using_placeholder", path_attempted=".meta_learning")
-    class MetaLearningSystem: # Placeholder class if import fails
-        def __init__(self): self.capabilities = {'recursive_self_improvement': True, 'contextual_awareness': True, 'feedback_integration': True, 'pattern_recognition': True, 'error_correction': True }
-        def has_capability(self, cap): return self.capabilities.get(cap, False)
-        def get_recovery_speed(self): return 95
-        def get_state_persistence(self): return 90
-        def get_coherence_restore(self): return 98
-        def get_anomaly_tolerance(self): return 5
-        def get_self_repair_capability(self): return 85
+    logger_fallback.warn(
+        "meta_learning_import_failed_using_placeholder", path_attempted=".meta_learning"
+    )
+
+    class MetaLearningSystem:  # Placeholder class if import fails
+        def __init__(self):
+            self.capabilities = {
+                "recursive_self_improvement": True,
+                "contextual_awareness": True,
+                "feedback_integration": True,
+                "pattern_recognition": True,
+                "error_correction": True,
+            }
+
+        def has_capability(self, cap):
+            return self.capabilities.get(cap, False)
+
+        def get_recovery_speed(self):
+            return 95
+
+        def get_state_persistence(self):
+            return 90
+
+        def get_coherence_restore(self):
+            return 98
+
+        def get_anomaly_tolerance(self):
+            return 5
+
+        def get_self_repair_capability(self):
+            return 85
+
 
 # ΛTRACE: Initialize logger for test phase
 logger = structlog.get_logger().bind(tag="test_meta_learning")
+
 
 # # Test: Verify MetaLearningSystem capabilities
 # ΛTEST_PATH: Checks for the presence of key meta-learning capabilities.
@@ -54,12 +77,15 @@ def test_meta_learning_capabilities():
     meta_learner = MetaLearningSystem()
 
     # ΛNOTE: These assertions check for core conceptual capabilities.
-    assert meta_learner.has_capability('recursive_self_improvement') # ΛDREAM_LOOP related
-    assert meta_learner.has_capability('contextual_awareness')
-    assert meta_learner.has_capability('feedback_integration') # ΛDREAM_LOOP related
-    assert meta_learner.has_capability('pattern_recognition')
-    assert meta_learner.has_capability('error_correction') # ΛDREAM_LOOP related
+    assert meta_learner.has_capability(
+        "recursive_self_improvement"
+    )  # ΛDREAM_LOOP related
+    assert meta_learner.has_capability("contextual_awareness")
+    assert meta_learner.has_capability("feedback_integration")  # ΛDREAM_LOOP related
+    assert meta_learner.has_capability("pattern_recognition")
+    assert meta_learner.has_capability("error_correction")  # ΛDREAM_LOOP related
     logger.debug("test_meta_learning_capabilities_end")
+
 
 # # Test: Verify MetaLearningSystem simulated performance metrics
 # ΛTEST_PATH: Checks if simulated performance metrics meet predefined thresholds.
@@ -74,9 +100,10 @@ def test_meta_learning_performance():
     assert meta_learner.get_recovery_speed() >= 90
     assert meta_learner.get_state_persistence() >= 85
     assert meta_learner.get_coherence_restore() >= 95
-    assert meta_learner.get_anomaly_tolerance() <= 10 # Lower is better
-    assert meta_learner.get_self_repair_capability() >= 80 # ΛDREAM_LOOP related
+    assert meta_learner.get_anomaly_tolerance() <= 10  # Lower is better
+    assert meta_learner.get_self_repair_capability() >= 80  # ΛDREAM_LOOP related
     logger.debug("test_meta_learning_performance_end")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: test_meta_learning.py

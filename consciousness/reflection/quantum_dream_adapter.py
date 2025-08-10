@@ -14,7 +14,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 Quantum-aware dream adapter for LUKHAS AI system.
 Quantum-aware dream adapter for lukhas AI system.
@@ -23,31 +22,33 @@ This adapter integrates the dream engine with the quantum bio-oscillator system,
 enabling quantum-enhanced dream processing and memory consolidation.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from core.common import get_logger
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
-from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 from ..oscillator.orchestrator import BioOrchestrator
+from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
 
 logger = logging.getLogger("quantum_dream")
+
 
 @dataclass
 class DreamQuantumConfig:
     """Configuration for quantum dream processing"""
+
     coherence_threshold: float = 0.85
     entanglement_threshold: float = 0.95
     consolidation_frequency: float = 0.1  # Hz
     dream_cycle_duration: int = 600  # seconds
 
+
 class QuantumDreamAdapter:
     """Adapter for quantum-enhanced dream processing"""
 
-    def __init__(self,
-                orchestrator: BioOrchestrator,
-                config: Optional[DreamQuantumConfig] = None):
+    def __init__(
+        self, orchestrator: BioOrchestrator, config: Optional[DreamQuantumConfig] = None
+    ):
         """Initialize quantum dream adapter
 
         Args:
@@ -62,15 +63,12 @@ class QuantumDreamAdapter:
             base_freq=self.config.consolidation_frequency,
             quantum_config={
                 "coherence_threshold": self.config.coherence_threshold,
-                "entanglement_threshold": self.config.entanglement_threshold
-            }
+                "entanglement_threshold": self.config.entanglement_threshold,
+            },
         )
 
         # Register with orchestrator
-        self.orchestrator.register_oscillator(
-            self.dream_oscillator,
-            "dream_processor"
-        )
+        self.orchestrator.register_oscillator(self.dream_oscillator, "dream_processor")
 
         self.active = False
         self.processing_task = None
@@ -134,8 +132,8 @@ class QuantumDreamAdapter:
             cycle_start = datetime.now()
 
             while (
-                self.active and
-                (datetime.now() - cycle_start).total_seconds() < duration_seconds
+                self.active
+                and (datetime.now() - cycle_start).total_seconds() < duration_seconds
             ):
                 # Process dreams in superposition-like state
                 await self._process_quantum_dreams()
@@ -143,7 +141,9 @@ class QuantumDreamAdapter:
                 # Monitor coherence-inspired processing
                 coherence = await self.dream_oscillator.measure_coherence()
                 if coherence < self.config.coherence_threshold:
-                    logger.warning(f"Low coherence-inspired processing: {coherence:.2f}")
+                    logger.warning(
+                        f"Low coherence-inspired processing: {coherence:.2f}"
+                    )
 
                 # Small delay between iterations
                 await asyncio.sleep(1.0)
@@ -175,7 +175,7 @@ class QuantumDreamAdapter:
                 self._last_processed_state = {
                     "quantum_like_state": quantum_like_state,
                     "insights": insights,
-                    "timestamp": datetime.utcnow().isoformat()
+                    "timestamp": datetime.utcnow().isoformat(),
                 }
 
         except Exception as e:
@@ -204,9 +204,9 @@ class QuantumDreamAdapter:
                     "confidence": p["probability"],
                     "quantum_like_state": {
                         "coherence": p["coherence"],
-                        "entanglement": p["entanglement"]
+                        "entanglement": p["entanglement"],
                     },
-                    "timestamp": datetime.utcnow().isoformat()
+                    "timestamp": datetime.utcnow().isoformat(),
                 }
                 for p in patterns
             ]
@@ -217,15 +217,13 @@ class QuantumDreamAdapter:
 
     async def get_quantum_like_state(self) -> Dict:
         """Get the current quantum-like state"""
-        if hasattr(self, '_last_processed_state'):
+        if hasattr(self, "_last_processed_state"):
             return self._last_processed_state
-        return {
-            "coherence": 0.0,
-            "insights": [],
-            "timestamp": None
-        }
+        return {"coherence": 0.0, "insights": [], "timestamp": None}
 
-    async def enhance_emotional_state(self, emotional_context: Dict[str, float]) -> Dict[str, float]:
+    async def enhance_emotional_state(
+        self, emotional_context: Dict[str, float]
+    ) -> Dict[str, float]:
         """Enhance emotional state using quantum-inspired processing
 
         Args:
@@ -236,10 +234,14 @@ class QuantumDreamAdapter:
         """
         try:
             # Convert emotions to quantum-like state
-            emotion_qubits = await self.dream_oscillator.encode_emotional_state(emotional_context)
+            emotion_qubits = await self.dream_oscillator.encode_emotional_state(
+                emotional_context
+            )
 
             # Apply quantum transformations to find hidden correlations
-            transformed = await self.dream_oscillator.apply_emotional_transformations(emotion_qubits)
+            transformed = await self.dream_oscillator.apply_emotional_transformations(
+                emotion_qubits
+            )
 
             # Extract enhanced emotional state
             enhanced = await self.dream_oscillator.measure_emotional_state(transformed)
@@ -271,13 +273,14 @@ class QuantumDreamAdapter:
         """
         try:
             # Encode memories into quantum-like state
-            memory_state = await self._memories_to_qubits({
-                "memories": memories,
-                "timestamp": datetime.utcnow().isoformat()
-            })
+            memory_state = await self._memories_to_qubits(
+                {"memories": memories, "timestamp": datetime.utcnow().isoformat()}
+            )
 
             # Apply quantum transformations
-            transformed = await self.dream_oscillator.apply_transformations(memory_state)
+            transformed = await self.dream_oscillator.apply_transformations(
+                memory_state
+            )
 
             # Extract insights
             insights = await self._extract_insights(transformed)
@@ -287,7 +290,7 @@ class QuantumDreamAdapter:
                 "quantum_like_state": transformed,
                 "insights": insights,
                 "timestamp": datetime.utcnow().isoformat(),
-                "coherence": await self.dream_oscillator.measure_coherence()
+                "coherence": await self.dream_oscillator.measure_coherence(),
             }
 
             self._last_processed_state = processed_state
@@ -300,14 +303,11 @@ class QuantumDreamAdapter:
                 "insights": [],
                 "timestamp": datetime.utcnow().isoformat(),
                 "coherence": 0.0,
-                "error": str(e)
+                "error": str(e),
             }
 
     async def simulate_multiverse_dreams(
-        self,
-        dream_seed: Dict[str, Any],
-        parallel_paths: int = 5,
-        max_depth: int = 3
+        self, dream_seed: Dict[str, Any], parallel_paths: int = 5, max_depth: int = 3
     ) -> Dict[str, Any]:
         """
         Simulate multiverse dream scaling with parallel branching pathways
@@ -325,7 +325,9 @@ class QuantumDreamAdapter:
             Dict containing convergent insights from all parallel paths
         """
         try:
-            logger.info(f"Starting multiverse dream simulation with {parallel_paths} parallel paths")
+            logger.info(
+                f"Starting multiverse dream simulation with {parallel_paths} parallel paths"
+            )
 
             # Initialize parallel dream paths
             parallel_dreams = []
@@ -338,42 +340,50 @@ class QuantumDreamAdapter:
                     "emotional_lens": self._get_emotional_lens(path_id),
                     "contextual_lens": self._get_contextual_lens(path_id),
                     "dream_seed": dream_seed,
-                    "max_depth": max_depth
+                    "max_depth": max_depth,
                 }
 
                 # Start parallel dream simulation
-                dream_task = asyncio.create_task(
-                    self._simulate_dream_path(path_config)
+                dream_task = asyncio.create_task(self._simulate_dream_path(path_config))
+                parallel_dreams.append(
+                    {
+                        "path_id": path_config["path_id"],
+                        "config": path_config,
+                        "task": dream_task,
+                    }
                 )
-                parallel_dreams.append({
-                    "path_id": path_config["path_id"],
-                    "config": path_config,
-                    "task": dream_task
-                })
 
             # Wait for all parallel dreams to complete
             completed_dreams = []
             for dream_path in parallel_dreams:
                 try:
                     result = await dream_path["task"]
-                    completed_dreams.append({
-                        "path_id": dream_path["path_id"],
-                        "config": dream_path["config"],
-                        "result": result
-                    })
+                    completed_dreams.append(
+                        {
+                            "path_id": dream_path["path_id"],
+                            "config": dream_path["config"],
+                            "result": result,
+                        }
+                    )
                 except Exception as e:
                     logger.error(f"Dream path {dream_path['path_id']} failed: {e}")
-                    completed_dreams.append({
-                        "path_id": dream_path["path_id"],
-                        "config": dream_path["config"],
-                        "result": {"error": str(e), "success": False}
-                    })
+                    completed_dreams.append(
+                        {
+                            "path_id": dream_path["path_id"],
+                            "config": dream_path["config"],
+                            "result": {"error": str(e), "success": False},
+                        }
+                    )
 
             # Converge insights from all parallel paths
-            convergent_insights = await self._converge_multiverse_insights(completed_dreams)
+            convergent_insights = await self._converge_multiverse_insights(
+                completed_dreams
+            )
 
             # Measure overall coherence across all paths
-            overall_coherence = await self._measure_multiverse_coherence(completed_dreams)
+            overall_coherence = await self._measure_multiverse_coherence(
+                completed_dreams
+            )
 
             return {
                 "success": True,
@@ -383,8 +393,9 @@ class QuantumDreamAdapter:
                 "parallel_dreams": completed_dreams,
                 "convergent_insights": convergent_insights,
                 "overall_coherence": overall_coherence,
-                "quantum_superposition_achieved": overall_coherence > self.config.coherence_threshold,
-                "timestamp": datetime.utcnow().isoformat()
+                "quantum_superposition_achieved": overall_coherence
+                > self.config.coherence_threshold,
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
         except Exception as e:
@@ -392,30 +403,42 @@ class QuantumDreamAdapter:
             return {
                 "success": False,
                 "error": str(e),
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
     def _get_ethical_lens(self, path_id: int) -> str:
         """Get ethical lens for dream path based on path ID"""
         ethical_lenses = [
-            "utilitarian", "deontological", "virtue_ethics",
-            "care_ethics", "justice_based", "rights_based"
+            "utilitarian",
+            "deontological",
+            "virtue_ethics",
+            "care_ethics",
+            "justice_based",
+            "rights_based",
         ]
         return ethical_lenses[path_id % len(ethical_lenses)]
 
     def _get_emotional_lens(self, path_id: int) -> str:
         """Get emotional lens for dream path based on path ID"""
         emotional_lenses = [
-            "compassionate", "analytical", "creative",
-            "protective", "curious", "harmonious"
+            "compassionate",
+            "analytical",
+            "creative",
+            "protective",
+            "curious",
+            "harmonious",
         ]
         return emotional_lenses[path_id % len(emotional_lenses)]
 
     def _get_contextual_lens(self, path_id: int) -> str:
         """Get contextual lens for dream path based on path ID"""
         contextual_lenses = [
-            "individual_focus", "collective_focus", "temporal_long_term",
-            "temporal_immediate", "systemic_view", "personal_view"
+            "individual_focus",
+            "collective_focus",
+            "temporal_long_term",
+            "temporal_immediate",
+            "systemic_view",
+            "personal_view",
         ]
         return contextual_lenses[path_id % len(contextual_lenses)]
 
@@ -431,10 +454,7 @@ class QuantumDreamAdapter:
                 "ethical_lens": path_config["ethical_lens"],
                 "emotional_lens": path_config["emotional_lens"],
                 "contextual_lens": path_config["contextual_lens"],
-                "path_metadata": {
-                    "path_id": path_id,
-                    "simulation_depth": 0
-                }
+                "path_metadata": {"path_id": path_id, "simulation_depth": 0},
             }
 
             # Process through quantum-like superposition
@@ -446,12 +466,16 @@ class QuantumDreamAdapter:
             )
 
             # Extract path-specific insights
-            path_insights = await self._extract_path_insights(transformed_state, path_config)
+            path_insights = await self._extract_path_insights(
+                transformed_state, path_config
+            )
 
             # Simulate branching if within depth limit
             branches = []
             if path_config.get("simulation_depth", 0) < path_config["max_depth"]:
-                branches = await self._simulate_dream_branches(path_config, transformed_state)
+                branches = await self._simulate_dream_branches(
+                    path_config, transformed_state
+                )
 
             return {
                 "success": True,
@@ -460,23 +484,27 @@ class QuantumDreamAdapter:
                 "quantum_state": transformed_state,
                 "branches": branches,
                 "coherence": await self.dream_oscillator.measure_coherence(),
-                "ethical_outcome": self._evaluate_ethical_outcome(path_insights, path_config),
-                "emotional_resonance": self._evaluate_emotional_resonance(path_insights, path_config),
-                "timestamp": datetime.utcnow().isoformat()
+                "ethical_outcome": self._evaluate_ethical_outcome(
+                    path_insights, path_config
+                ),
+                "emotional_resonance": self._evaluate_emotional_resonance(
+                    path_insights, path_config
+                ),
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
         except Exception as e:
-            logger.error(f"Dream path simulation failed for {path_config.get('path_id', 'unknown')}: {e}")
+            logger.error(
+                f"Dream path simulation failed for {path_config.get('path_id', 'unknown')}: {e}"
+            )
             return {
                 "success": False,
                 "path_id": path_config.get("path_id", "unknown"),
-                "error": str(e)
+                "error": str(e),
             }
 
     async def _apply_lens_transformations(
-        self,
-        quantum_state: Any,
-        path_config: Dict[str, Any]
+        self, quantum_state: Any, path_config: Dict[str, Any]
     ) -> Any:
         """Apply lens-specific transformations to quantum state"""
         # Implementation would apply different transformations based on ethical,
@@ -484,9 +512,7 @@ class QuantumDreamAdapter:
         return await self.dream_oscillator.apply_transformations(quantum_state)
 
     async def _extract_path_insights(
-        self,
-        transformed_state: Any,
-        path_config: Dict[str, Any]
+        self, transformed_state: Any, path_config: Dict[str, Any]
     ) -> List[Dict]:
         """Extract insights specific to dream path configuration"""
         base_insights = await self._extract_insights(transformed_state)
@@ -499,16 +525,14 @@ class QuantumDreamAdapter:
                 "ethical_lens": path_config["ethical_lens"],
                 "emotional_lens": path_config["emotional_lens"],
                 "contextual_lens": path_config["contextual_lens"],
-                "path_id": path_config["path_id"]
+                "path_id": path_config["path_id"],
             }
             enhanced_insights.append(enhanced_insight)
 
         return enhanced_insights
 
     async def _simulate_dream_branches(
-        self,
-        path_config: Dict[str, Any],
-        current_state: Any
+        self, path_config: Dict[str, Any], current_state: Any
     ) -> List[Dict]:
         """Simulate additional branches from current dream state"""
         # For demonstration, create 2 branches per path
@@ -517,7 +541,7 @@ class QuantumDreamAdapter:
             branch_config = {
                 **path_config,
                 "simulation_depth": path_config.get("simulation_depth", 0) + 1,
-                "branch_id": f"{path_config['path_id']}_branch_{branch_id}"
+                "branch_id": f"{path_config['path_id']}_branch_{branch_id}",
             }
 
             try:
@@ -525,43 +549,40 @@ class QuantumDreamAdapter:
                 branches.append(branch_result)
             except Exception as e:
                 logger.error(f"Branch simulation failed: {e}")
-                branches.append({
-                    "success": False,
-                    "branch_id": branch_config["branch_id"],
-                    "error": str(e)
-                })
+                branches.append(
+                    {
+                        "success": False,
+                        "branch_id": branch_config["branch_id"],
+                        "error": str(e),
+                    }
+                )
 
         return branches
 
     def _evaluate_ethical_outcome(
-        self,
-        insights: List[Dict],
-        path_config: Dict[str, Any]
+        self, insights: List[Dict], path_config: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Evaluate ethical outcome of dream path"""
         return {
             "ethical_lens": path_config["ethical_lens"],
             "ethical_score": 0.8,  # Placeholder - would use actual ethical evaluation
             "ethical_conflicts": [],
-            "ethical_strengths": ["coherent_reasoning", "harm_minimization"]
+            "ethical_strengths": ["coherent_reasoning", "harm_minimization"],
         }
 
     def _evaluate_emotional_resonance(
-        self,
-        insights: List[Dict],
-        path_config: Dict[str, Any]
+        self, insights: List[Dict], path_config: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Evaluate emotional resonance of dream path"""
         return {
             "emotional_lens": path_config["emotional_lens"],
             "resonance_score": 0.75,  # Placeholder - would use actual emotional evaluation
             "dominant_emotions": ["curiosity", "harmony"],
-            "emotional_balance": 0.85
+            "emotional_balance": 0.85,
         }
 
     async def _converge_multiverse_insights(
-        self,
-        completed_dreams: List[Dict]
+        self, completed_dreams: List[Dict]
     ) -> Dict[str, Any]:
         """Converge insights from all parallel dream paths back to main core"""
         try:
@@ -584,7 +605,9 @@ class QuantumDreamAdapter:
             ethical_synthesis = self._synthesize_ethical_outcomes(ethical_outcomes)
 
             # Synthesize emotional conclusions
-            emotional_synthesis = self._synthesize_emotional_resonances(emotional_resonances)
+            emotional_synthesis = self._synthesize_emotional_resonances(
+                emotional_resonances
+            )
 
             # Generate meta-insights from convergence
             meta_insights = await self._generate_convergence_meta_insights(
@@ -597,17 +620,17 @@ class QuantumDreamAdapter:
                 "emotional_synthesis": emotional_synthesis,
                 "meta_insights": meta_insights,
                 "total_insights_processed": len(all_insights),
-                "successful_paths": len([d for d in completed_dreams if d["result"].get("success", False)]),
-                "convergence_strength": self._calculate_convergence_strength(convergent_patterns)
+                "successful_paths": len(
+                    [d for d in completed_dreams if d["result"].get("success", False)]
+                ),
+                "convergence_strength": self._calculate_convergence_strength(
+                    convergent_patterns
+                ),
             }
 
         except Exception as e:
             logger.error(f"Failed to converge multiverse insights: {e}")
-            return {
-                "error": str(e),
-                "convergent_patterns": [],
-                "meta_insights": []
-            }
+            return {"error": str(e), "convergent_patterns": [], "meta_insights": []}
 
     def _find_convergent_patterns(self, all_insights: List[Dict]) -> List[Dict]:
         """Find patterns that appear across multiple dream paths"""
@@ -620,7 +643,7 @@ class QuantumDreamAdapter:
                     "pattern": pattern,
                     "count": 0,
                     "confidence_sum": 0.0,
-                    "paths": []
+                    "paths": [],
                 }
 
             pattern_counts[pattern]["count"] += 1
@@ -631,17 +654,24 @@ class QuantumDreamAdapter:
         convergent_patterns = []
         for pattern_data in pattern_counts.values():
             if pattern_data["count"] > 1:  # Appeared in multiple paths
-                convergent_patterns.append({
-                    "pattern": pattern_data["pattern"],
-                    "convergence_count": pattern_data["count"],
-                    "average_confidence": pattern_data["confidence_sum"] / pattern_data["count"],
-                    "appearing_paths": pattern_data["paths"]
-                })
+                convergent_patterns.append(
+                    {
+                        "pattern": pattern_data["pattern"],
+                        "convergence_count": pattern_data["count"],
+                        "average_confidence": pattern_data["confidence_sum"]
+                        / pattern_data["count"],
+                        "appearing_paths": pattern_data["paths"],
+                    }
+                )
 
         # Sort by convergence strength
-        return sorted(convergent_patterns, key=lambda x: x["convergence_count"], reverse=True)
+        return sorted(
+            convergent_patterns, key=lambda x: x["convergence_count"], reverse=True
+        )
 
-    def _synthesize_ethical_outcomes(self, ethical_outcomes: List[Dict]) -> Dict[str, Any]:
+    def _synthesize_ethical_outcomes(
+        self, ethical_outcomes: List[Dict]
+    ) -> Dict[str, Any]:
         """Synthesize ethical outcomes across all paths"""
         if not ethical_outcomes:
             return {"synthesis": "no_ethical_data"}
@@ -658,18 +688,20 @@ class QuantumDreamAdapter:
 
         # Calculate average scores per lens
         lens_averages = {
-            lens: sum(scores) / len(scores)
-            for lens, scores in lens_scores.items()
+            lens: sum(scores) / len(scores) for lens, scores in lens_scores.items()
         }
 
         return {
             "lens_performance": lens_averages,
             "strongest_ethical_lens": max(lens_averages.items(), key=lambda x: x[1])[0],
-            "overall_ethical_coherence": sum(lens_averages.values()) / len(lens_averages),
-            "ethical_consensus": len([s for s in lens_averages.values() if s > 0.7])
+            "overall_ethical_coherence": sum(lens_averages.values())
+            / len(lens_averages),
+            "ethical_consensus": len([s for s in lens_averages.values() if s > 0.7]),
         }
 
-    def _synthesize_emotional_resonances(self, emotional_resonances: List[Dict]) -> Dict[str, Any]:
+    def _synthesize_emotional_resonances(
+        self, emotional_resonances: List[Dict]
+    ) -> Dict[str, Any]:
         """Synthesize emotional resonances across all paths"""
         if not emotional_resonances:
             return {"synthesis": "no_emotional_data"}
@@ -686,22 +718,24 @@ class QuantumDreamAdapter:
 
         # Calculate average resonances per lens
         lens_averages = {
-            lens: sum(scores) / len(scores)
-            for lens, scores in lens_resonances.items()
+            lens: sum(scores) / len(scores) for lens, scores in lens_resonances.items()
         }
 
         return {
             "lens_resonances": lens_averages,
-            "strongest_emotional_lens": max(lens_averages.items(), key=lambda x: x[1])[0],
-            "overall_emotional_coherence": sum(lens_averages.values()) / len(lens_averages),
-            "emotional_harmony": len([s for s in lens_averages.values() if s > 0.7])
+            "strongest_emotional_lens": max(lens_averages.items(), key=lambda x: x[1])[
+                0
+            ],
+            "overall_emotional_coherence": sum(lens_averages.values())
+            / len(lens_averages),
+            "emotional_harmony": len([s for s in lens_averages.values() if s > 0.7]),
         }
 
     async def _generate_convergence_meta_insights(
         self,
         convergent_patterns: List[Dict],
         ethical_synthesis: Dict[str, Any],
-        emotional_synthesis: Dict[str, Any]
+        emotional_synthesis: Dict[str, Any],
     ) -> List[Dict]:
         """Generate meta-insights from multiverse convergence"""
         meta_insights = []
@@ -709,32 +743,40 @@ class QuantumDreamAdapter:
         # Meta-insight about pattern convergence
         if convergent_patterns:
             strongest_pattern = convergent_patterns[0]
-            meta_insights.append({
-                "type": "convergent_pattern_meta_insight",
-                "insight": f"Pattern '{strongest_pattern['pattern']}' emerged across {strongest_pattern['convergence_count']} parallel paths",
-                "confidence": strongest_pattern["average_confidence"],
-                "meta_level": "multiverse_convergence"
-            })
+            meta_insights.append(
+                {
+                    "type": "convergent_pattern_meta_insight",
+                    "insight": f"Pattern '{strongest_pattern['pattern']}' emerged across {strongest_pattern['convergence_count']} parallel paths",
+                    "confidence": strongest_pattern["average_confidence"],
+                    "meta_level": "multiverse_convergence",
+                }
+            )
 
         # Meta-insight about ethical coherence
         ethical_coherence = ethical_synthesis.get("overall_ethical_coherence", 0.0)
         if ethical_coherence > 0.8:
-            meta_insights.append({
-                "type": "ethical_coherence_meta_insight",
-                "insight": f"High ethical coherence ({ethical_coherence:.2f}) across multiple ethical lenses",
-                "confidence": ethical_coherence,
-                "meta_level": "ethical_convergence"
-            })
+            meta_insights.append(
+                {
+                    "type": "ethical_coherence_meta_insight",
+                    "insight": f"High ethical coherence ({ethical_coherence:.2f}) across multiple ethical lenses",
+                    "confidence": ethical_coherence,
+                    "meta_level": "ethical_convergence",
+                }
+            )
 
         # Meta-insight about emotional harmony
-        emotional_coherence = emotional_synthesis.get("overall_emotional_coherence", 0.0)
+        emotional_coherence = emotional_synthesis.get(
+            "overall_emotional_coherence", 0.0
+        )
         if emotional_coherence > 0.8:
-            meta_insights.append({
-                "type": "emotional_harmony_meta_insight",
-                "insight": f"High emotional harmony ({emotional_coherence:.2f}) across multiple emotional lenses",
-                "confidence": emotional_coherence,
-                "meta_level": "emotional_convergence"
-            })
+            meta_insights.append(
+                {
+                    "type": "emotional_harmony_meta_insight",
+                    "insight": f"High emotional harmony ({emotional_coherence:.2f}) across multiple emotional lenses",
+                    "confidence": emotional_coherence,
+                    "meta_level": "emotional_convergence",
+                }
+            )
 
         return meta_insights
 
@@ -757,9 +799,13 @@ class QuantumDreamAdapter:
 
         return total_strength / max(1, total_weight)
 
-    async def _measure_multiverse_coherence(self, completed_dreams: List[Dict]) -> float:
+    async def _measure_multiverse_coherence(
+        self, completed_dreams: List[Dict]
+    ) -> float:
         """Measure overall coherence across all parallel dream paths"""
-        successful_dreams = [d for d in completed_dreams if d["result"].get("success", False)]
+        successful_dreams = [
+            d for d in completed_dreams if d["result"].get("success", False)
+        ]
 
         if not successful_dreams:
             return 0.0
@@ -771,12 +817,6 @@ class QuantumDreamAdapter:
 
         # Return average coherence across all paths
         return sum(coherence_values) / len(coherence_values)
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

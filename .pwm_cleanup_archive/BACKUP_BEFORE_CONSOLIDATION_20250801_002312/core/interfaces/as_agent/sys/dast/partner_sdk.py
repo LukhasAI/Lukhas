@@ -21,7 +21,6 @@ DESCRIPTION:
 
 """
 
-import asyncio
 
 # TODO: Enable when hub dependencies are resolved
 # from dast.integration.dast_integration_hub import get_dast_integration_hub

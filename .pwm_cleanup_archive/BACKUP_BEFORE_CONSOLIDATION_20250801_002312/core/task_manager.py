@@ -8,20 +8,22 @@ Manages agent coordination, workflow execution, and task queue processing.
 import asyncio
 import logging
 import uuid
-from typing import Dict, List, Optional, Any, Callable, Union
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-import json
+from typing import Any, Callable, Dict, List, Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
 class TaskStatus(Enum):
     """Task execution status."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -32,6 +34,7 @@ class TaskStatus(Enum):
 
 class TaskPriority(Enum):
     """Task priority levels."""
+
     LOW = 1
     NORMAL = 2
     HIGH = 3
@@ -41,6 +44,7 @@ class TaskPriority(Enum):
 @dataclass
 class Task:
     """Individual task definition."""
+
     id: str
     name: str
     description: str
@@ -63,6 +67,7 @@ class Task:
 @dataclass
 class TaskQueue:
     """Task queue configuration."""
+
     name: str
     max_concurrent: int = 5
     auto_start: bool = True
@@ -72,6 +77,7 @@ class TaskQueue:
 @dataclass
 class Agent:
     """Agent configuration for task execution."""
+
     id: str
     name: str
     capabilities: List[str]
@@ -117,32 +123,29 @@ class LukhλsTaskManager:
                 name="Symbol Validation",
                 max_concurrent=3,
                 auto_start=True,
-                persistent=True
+                persistent=True,
             ),
             "design_system": TaskQueue(
-                name="Design System",
-                max_concurrent=2,
-                auto_start=True,
-                persistent=True
+                name="Design System", max_concurrent=2, auto_start=True, persistent=True
             ),
             "agent_communication": TaskQueue(
                 name="Agent Communication",
                 max_concurrent=5,
                 auto_start=True,
-                persistent=True
+                persistent=True,
             ),
             "file_processing": TaskQueue(
                 name="File Processing",
                 max_concurrent=4,
                 auto_start=True,
-                persistent=True
+                persistent=True,
             ),
             "integration_sync": TaskQueue(
                 name="Integration Sync",
                 max_concurrent=2,
                 auto_start=False,
-                persistent=True
-            )
+                persistent=True,
+            ),
         }
 
         for queue_id, queue in default_queues.items():
@@ -155,32 +158,36 @@ class LukhλsTaskManager:
                 id="symbol_validator",
                 name="Symbol Validation Agent",
                 capabilities=["symbol_validation", "file_scanning", "auto_correction"],
-                max_concurrent_tasks=2
+                max_concurrent_tasks=2,
             ),
             "design_coordinator": Agent(
                 id="design_coordinator",
                 name="Design System Coordinator",
                 capabilities=["design_tokens", "asset_organization", "figma_sync"],
-                max_concurrent_tasks=1
+                max_concurrent_tasks=1,
             ),
             "communication_hub": Agent(
                 id="communication_hub",
                 name="Agent Communication Hub",
-                capabilities=["message_routing", "protocol_handling", "ethics_checking"],
-                max_concurrent_tasks=3
+                capabilities=[
+                    "message_routing",
+                    "protocol_handling",
+                    "ethics_checking",
+                ],
+                max_concurrent_tasks=3,
             ),
             "file_processor": Agent(
                 id="file_processor",
                 name="File Processing Agent",
                 capabilities=["file_operations", "backup_creation", "cleanup"],
-                max_concurrent_tasks=2
+                max_concurrent_tasks=2,
             ),
             "integration_manager": Agent(
                 id="integration_manager",
                 name="Integration Manager",
                 capabilities=["notion_sync", "api_coordination", "external_services"],
-                max_concurrent_tasks=1
-            )
+                max_concurrent_tasks=1,
+            ),
         }
 
         for agent_id, agent in default_agents.items():
@@ -215,11 +222,13 @@ class LukhλsTaskManager:
             await asyncio.sleep(1.5)  # Simulate work
             return {"files_processed": 50, "cleanup_completed": True}
 
-        self.task_handlers.update({
-            "symbol_validation": symbol_validation_handler,
-            "design_system": design_system_handler,
-            "file_processing": file_processing_handler
-        })
+        self.task_handlers.update(
+            {
+                "symbol_validation": symbol_validation_handler,
+                "design_system": design_system_handler,
+                "file_processing": file_processing_handler,
+            }
+        )
 
     def add_queue(self, queue_id: str, queue: TaskQueue) -> None:
         """Add a task queue to the manager."""
@@ -231,14 +240,16 @@ class LukhλsTaskManager:
         self.agents[agent_id] = agent
         logger.info(f"🤖 Registered agent: {agent.name}")
 
-    def create_task(self,
-                   name: str,
-                   description: str,
-                   handler: str,
-                   parameters: Optional[Dict[str, Any]] = None,
-                   priority: TaskPriority = TaskPriority.NORMAL,
-                   queue: str = "default",
-                   agent_id: Optional[str] = None) -> str:
+    def create_task(
+        self,
+        name: str,
+        description: str,
+        handler: str,
+        parameters: Optional[Dict[str, Any]] = None,
+        priority: TaskPriority = TaskPriority.NORMAL,
+        queue: str = "default",
+        agent_id: Optional[str] = None,
+    ) -> str:
         """
         Create a new task.
 
@@ -262,7 +273,7 @@ class LukhλsTaskManager:
             handler=handler,
             parameters=parameters or {},
             priority=priority,
-            agent_id=agent_id
+            agent_id=agent_id,
         )
 
         self.tasks[task_id] = task
@@ -302,10 +313,7 @@ class LukhλsTaskManager:
             handler = self.task_handlers[task.handler]
 
             # Execute task with timeout
-            result = await asyncio.wait_for(
-                handler(task),
-                timeout=task.timeout
-            )
+            result = await asyncio.wait_for(handler(task), timeout=task.timeout)
 
             # Update task with results
             task.status = TaskStatus.COMPLETED
@@ -338,8 +346,7 @@ class LukhλsTaskManager:
 
         # Get pending tasks for this queue
         pending_tasks = [
-            task for task in self.tasks.values()
-            if task.status == TaskStatus.PENDING
+            task for task in self.tasks.values() if task.status == TaskStatus.PENDING
         ]
 
         # Sort by priority
@@ -353,11 +360,11 @@ class LukhλsTaskManager:
                 await self.execute_task(task_id)
 
         # Execute tasks concurrently
-        tasks_to_run = pending_tasks[:queue.max_concurrent]
+        tasks_to_run = pending_tasks[: queue.max_concurrent]
         if tasks_to_run:
-            await asyncio.gather(*[
-                process_with_semaphore(task.id) for task in tasks_to_run
-            ])
+            await asyncio.gather(
+                *[process_with_semaphore(task.id) for task in tasks_to_run]
+            )
 
     def get_task_status(self, task_id: str) -> Optional[Dict[str, Any]]:
         """Get status information for a task."""
@@ -372,29 +379,34 @@ class LukhλsTaskManager:
             "priority": task.priority.value,
             "created_at": task.created_at.isoformat(),
             "started_at": task.started_at.isoformat() if task.started_at else None,
-            "completed_at": task.completed_at.isoformat() if task.completed_at else None,
+            "completed_at": (
+                task.completed_at.isoformat() if task.completed_at else None
+            ),
             "result": task.result,
             "error": task.error,
-            "retry_count": task.retry_count
+            "retry_count": task.retry_count,
         }
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get overall system status."""
         task_counts = {}
         for status in TaskStatus:
-            task_counts[status.value] = len([
-                t for t in self.tasks.values() if t.status == status
-            ])
+            task_counts[status.value] = len(
+                [t for t in self.tasks.values() if t.status == status]
+            )
 
         agent_status = {
             agent_id: {
                 "name": agent.name,
                 "status": agent.status,
                 "capabilities": agent.capabilities,
-                "active_tasks": len([
-                    t for t in self.tasks.values()
-                    if t.agent_id == agent_id and t.status == TaskStatus.RUNNING
-                ])
+                "active_tasks": len(
+                    [
+                        t
+                        for t in self.tasks.values()
+                        if t.agent_id == agent_id and t.status == TaskStatus.RUNNING
+                    ]
+                ),
             }
             for agent_id, agent in self.agents.items()
         }
@@ -405,7 +417,7 @@ class LukhλsTaskManager:
             "active_queues": len([q for q in self.queues.values() if q.auto_start]),
             "registered_agents": len(self.agents),
             "agent_status": agent_status,
-            "system_uptime": datetime.now().isoformat()
+            "system_uptime": datetime.now().isoformat(),
         }
 
 
@@ -414,16 +426,16 @@ async def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="LUKHAS Task Manager")
-    parser.add_argument('--status', action='store_true',
-                       help='Show system status')
-    parser.add_argument('--process-queue', type=str,
-                       help='Process specific queue')
-    parser.add_argument('--create-task', nargs=3, metavar=('NAME', 'HANDLER', 'DESCRIPTION'),
-                       help='Create a new task')
-    parser.add_argument('--execute-task', type=str,
-                       help='Execute specific task by ID')
-    parser.add_argument('--verbose', action='store_true',
-                       help='Verbose output')
+    parser.add_argument("--status", action="store_true", help="Show system status")
+    parser.add_argument("--process-queue", type=str, help="Process specific queue")
+    parser.add_argument(
+        "--create-task",
+        nargs=3,
+        metavar=("NAME", "HANDLER", "DESCRIPTION"),
+        help="Create a new task",
+    )
+    parser.add_argument("--execute-task", type=str, help="Execute specific task by ID")
+    parser.add_argument("--verbose", action="store_true", help="Verbose output")
 
     args = parser.parse_args()
 
@@ -440,7 +452,7 @@ async def main():
         logger.info(f"   - Total tasks: {status['total_tasks']}")
         logger.info(f"   - Active queues: {status['active_queues']}")
         logger.info(f"   - Registered agents: {status['registered_agents']}")
-        for status_name, count in status['task_counts'].items():
+        for status_name, count in status["task_counts"].items():
             logger.info(f"   - {status_name.title()} tasks: {count}")
         return
 

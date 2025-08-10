@@ -2,17 +2,21 @@
 # MASTER SYMBOLIC LOOP FOR LUKHAS v1.0 (AIG-GRADE)
 
 from datetime import datetime
-import json
-from symbolic.memoria import log_memory
-from symbolic.lukhas_personality import adjust_personality, LUKHAS_PERSONALITY
-from symbolic.lukhas_emotion import analyze_emotion
+
+from seedra.core.registry import get_user_tier
+from seedra_docs.vault_manager import (
+    current_sid,  # assumes current SID is loaded here
+)
+
 from symbolic.lukhas_dreams import generate_symbolic_dreams
+from symbolic.lukhas_emotion import analyze_emotion
 from symbolic.lukhas_guardian import ethical_check
-from symbolic.lukhas_voice import speak
+from symbolic.lukhas_personality import adjust_personality
 from symbolic.lukhas_reflector import recall_last_interaction
 from symbolic.lukhas_visualizer import visualize_dream_output  # optional
-from seedra.core.registry import get_user_tier
-from seedra_docs.vault_manager import current_sid  # assumes current SID is loaded here
+from symbolic.lukhas_voice import speak
+from symbolic.memoria import log_memory
+
 
 # Entry point for symbolic loop
 def process_user_input(user_input):
@@ -37,7 +41,10 @@ def process_user_input(user_input):
 
     # Ethical validation
     if not ethical_check(user_input):
-        speak("That request might breach ethical alignment. Let's rephrase.", emotion=emotion)
+        speak(
+            "That request might breach ethical alignment. Let's rephrase.",
+            emotion=emotion,
+        )
         return
 
     dreams = []
@@ -55,14 +62,18 @@ def process_user_input(user_input):
             visualize_dream_output(dream, emotion)
 
         if user_tier >= 3:
-            log_memory("lukhas_dream", {
-                "timestamp": timestamp,
-                "input": user_input,
-                "dream": dream,
-                "emotion": emotion,
-                "personality": personality_state,
-                "context": last_context
-            })
+            log_memory(
+                "lukhas_dream",
+                {
+                    "timestamp": timestamp,
+                    "input": user_input,
+                    "dream": dream,
+                    "emotion": emotion,
+                    "personality": personality_state,
+                    "context": last_context,
+                },
+            )
+
 
 if __name__ == "__main__":
     print("🎙️ LUKHAS v1.0 — Symbolic Conscience Activated")

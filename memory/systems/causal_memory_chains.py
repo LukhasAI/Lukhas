@@ -41,36 +41,35 @@
 """
 
 import asyncio
-import numpy as np
 import hashlib
-from typing import Dict, List, Optional, Any, Set, Tuple, Union
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import structlog
-from collections import defaultdict, deque
-import networkx as nx
-import json
+from typing import Any, Dict, List, Optional
 
-from core.common import get_logger
+import networkx as nx
+import numpy as np
 
 
 class CausalRelationType(Enum):
     """Types of causal relationships between memories"""
-    DIRECT_CAUSE = "direct_cause"              # A directly causes B
-    INDIRECT_CAUSE = "indirect_cause"          # A causes B through intermediates
-    NECESSARY_CONDITION = "necessary_condition" # A is necessary for B
-    SUFFICIENT_CONDITION = "sufficient_condition" # A is sufficient for B
+
+    DIRECT_CAUSE = "direct_cause"  # A directly causes B
+    INDIRECT_CAUSE = "indirect_cause"  # A causes B through intermediates
+    NECESSARY_CONDITION = "necessary_condition"  # A is necessary for B
+    SUFFICIENT_CONDITION = "sufficient_condition"  # A is sufficient for B
     CONTRIBUTORY_CAUSE = "contributory_cause"  # A contributes to B
-    PREVENTIVE_CAUSE = "preventive_cause"      # A prevents B
+    PREVENTIVE_CAUSE = "preventive_cause"  # A prevents B
     ENABLING_CONDITION = "enabling_condition"  # A enables B to occur
-    TRIGGERING_EVENT = "triggering_event"      # A triggers B
-    CORRELATION = "correlation"                # A and B are correlated
-    SPURIOUS_CORRELATION = "spurious_correlation" # False causal relationship
+    TRIGGERING_EVENT = "triggering_event"  # A triggers B
+    CORRELATION = "correlation"  # A and B are correlated
+    SPURIOUS_CORRELATION = "spurious_correlation"  # False causal relationship
 
 
 class CausalStrength(Enum):
     """Strength of causal relationships"""
+
     VERY_STRONG = 0.9
     STRONG = 0.75
     MODERATE = 0.6
@@ -82,9 +81,10 @@ class CausalStrength(Enum):
 @dataclass
 class CausalEvidence:
     """Evidence supporting a causal relationship"""
+
     evidence_type: str  # temporal, statistical, experimental, logical
-    strength: float     # 0.0 to 1.0
-    confidence: float   # 0.0 to 1.0
+    strength: float  # 0.0 to 1.0
+    confidence: float  # 0.0 to 1.0
     timestamp: datetime
     source_memories: List[str]  # Memory IDs that provide this evidence
     description: str
@@ -96,13 +96,14 @@ class CausalEvidence:
             "confidence": self.confidence,
             "timestamp": self.timestamp.isoformat(),
             "source_memories": self.source_memories,
-            "description": self.description
+            "description": self.description,
         }
 
 
 @dataclass
 class CausalRelation:
     """Represents a causal relationship between two memories"""
+
     cause_memory_id: str
     effect_memory_id: str
     relation_type: CausalRelationType
@@ -152,18 +153,21 @@ class CausalRelation:
             "relation_type": self.relation_type.value,
             "strength": self.strength,
             "confidence": self.confidence,
-            "temporal_delay": self.temporal_delay.total_seconds() if self.temporal_delay else None,
+            "temporal_delay": (
+                self.temporal_delay.total_seconds() if self.temporal_delay else None
+            ),
             "evidence": [e.to_dict() for e in self.evidence],
             "created_at": self.created_at.isoformat(),
             "last_updated": self.last_updated.isoformat(),
             "validated": self.validated,
-            "validation_count": self.validation_count
+            "validation_count": self.validation_count,
         }
 
 
 @dataclass
 class CausalChain:
     """Represents a sequence of causally connected memories"""
+
     chain_id: str
     memory_sequence: List[str]  # Ordered list of memory IDs
     causal_relations: List[CausalRelation]
@@ -194,7 +198,11 @@ class CausalChain:
             "created_at": self.created_at.isoformat(),
             "chain_type": self.chain_type,
             "chain_length": self.get_chain_length(),
-            "total_delay": self.get_total_delay().total_seconds() if self.get_total_delay() else None
+            "total_delay": (
+                self.get_total_delay().total_seconds()
+                if self.get_total_delay()
+                else None
+            ),
         }
 
 
@@ -210,7 +218,7 @@ class TemporalCausalAnalyzer:
         self,
         min_temporal_gap: timedelta = timedelta(seconds=1),
         max_temporal_gap: timedelta = timedelta(hours=24),
-        min_confidence_threshold: float = 0.3
+        min_confidence_threshold: float = 0.3,
     ):
         self.min_temporal_gap = min_temporal_gap
         self.max_temporal_gap = max_temporal_gap
@@ -220,12 +228,11 @@ class TemporalCausalAnalyzer:
             "Temporal causal analyzer initialized",
             min_gap=min_temporal_gap,
             max_gap=max_temporal_gap,
-            min_confidence=min_confidence_threshold
+            min_confidence=min_confidence_threshold,
         )
 
     async def analyze_temporal_sequence(
-        self,
-        memories: List[Dict[str, Any]]
+        self, memories: List[Dict[str, Any]]
     ) -> List[CausalRelation]:
         """
         Analyze a sequence of memories for temporal causal patterns.
@@ -241,7 +248,9 @@ class TemporalCausalAnalyzer:
             return []
 
         # Sort memories by timestamp
-        sorted_memories = sorted(memories, key=lambda m: m.get('timestamp', datetime.min))
+        sorted_memories = sorted(
+            memories, key=lambda m: m.get("timestamp", datetime.min)
+        )
 
         causal_relations = []
 
@@ -252,26 +261,29 @@ class TemporalCausalAnalyzer:
                 memory_b = sorted_memories[j]
 
                 # Check temporal constraints
-                time_diff = memory_b['timestamp'] - memory_a['timestamp']
+                time_diff = memory_b["timestamp"] - memory_a["timestamp"]
 
                 if self.min_temporal_gap <= time_diff <= self.max_temporal_gap:
-                    relation = await self._analyze_memory_pair(memory_a, memory_b, time_diff)
+                    relation = await self._analyze_memory_pair(
+                        memory_a, memory_b, time_diff
+                    )
                     if relation:
                         causal_relations.append(relation)
 
         return causal_relations
 
     async def _analyze_memory_pair(
-        self,
-        memory_a: Dict[str, Any],
-        memory_b: Dict[str, Any],
-        time_diff: timedelta
+        self, memory_a: Dict[str, Any], memory_b: Dict[str, Any], time_diff: timedelta
     ) -> Optional[CausalRelation]:
         """Analyze a pair of memories for causal relationship"""
 
         # Extract features for causal analysis
-        content_similarity = await self._calculate_content_similarity(memory_a, memory_b)
-        semantic_connection = await self._calculate_semantic_connection(memory_a, memory_b)
+        content_similarity = await self._calculate_content_similarity(
+            memory_a, memory_b
+        )
+        semantic_connection = await self._calculate_semantic_connection(
+            memory_a, memory_b
+        )
         tag_overlap = self._calculate_tag_overlap(memory_a, memory_b)
 
         # Causal strength indicators
@@ -280,14 +292,18 @@ class TemporalCausalAnalyzer:
         tag_strength = tag_overlap
 
         # Overall causal strength
-        causal_strength = (temporal_strength * 0.4 + content_strength * 0.4 + tag_strength * 0.2)
+        causal_strength = (
+            temporal_strength * 0.4 + content_strength * 0.4 + tag_strength * 0.2
+        )
 
         # Determine if relationship is strong enough
         if causal_strength < self.min_confidence_threshold:
             return None
 
         # Determine relation type based on analysis
-        relation_type = self._determine_relation_type(memory_a, memory_b, causal_strength)
+        relation_type = self._determine_relation_type(
+            memory_a, memory_b, causal_strength
+        )
 
         # Create evidence
         evidence = CausalEvidence(
@@ -295,37 +311,39 @@ class TemporalCausalAnalyzer:
             strength=causal_strength,
             confidence=min(0.9, causal_strength + 0.2),
             timestamp=datetime.now(),
-            source_memories=[memory_a['id'], memory_b['id']],
-            description=f"Temporal sequence analysis: {time_diff.total_seconds():.1f}s gap"
+            source_memories=[memory_a["id"], memory_b["id"]],
+            description=f"Temporal sequence analysis: {time_diff.total_seconds():.1f}s gap",
         )
 
         # Create causal relation
         relation = CausalRelation(
-            cause_memory_id=memory_a['id'],
-            effect_memory_id=memory_b['id'],
+            cause_memory_id=memory_a["id"],
+            effect_memory_id=memory_b["id"],
             relation_type=relation_type,
             strength=causal_strength,
             confidence=evidence.confidence,
             temporal_delay=time_diff,
-            evidence=[evidence]
+            evidence=[evidence],
         )
 
         logger.debug(
             "Causal relation inferred",
-            cause=memory_a['id'][:8],
-            effect=memory_b['id'][:8],
+            cause=memory_a["id"][:8],
+            effect=memory_b["id"][:8],
             type=relation_type.value,
             strength=causal_strength,
-            delay=time_diff.total_seconds()
+            delay=time_diff.total_seconds(),
         )
 
         return relation
 
-    async def _calculate_content_similarity(self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]) -> float:
+    async def _calculate_content_similarity(
+        self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]
+    ) -> float:
         """Calculate content similarity between two memories"""
 
-        content_a = memory_a.get('content', '')
-        content_b = memory_b.get('content', '')
+        content_a = memory_a.get("content", "")
+        content_b = memory_b.get("content", "")
 
         if not content_a or not content_b:
             return 0.0
@@ -342,12 +360,14 @@ class TemporalCausalAnalyzer:
 
         return intersection / union if union > 0 else 0.0
 
-    async def _calculate_semantic_connection(self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]) -> float:
+    async def _calculate_semantic_connection(
+        self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]
+    ) -> float:
         """Calculate semantic connection between memories"""
 
         # Use embeddings if available
-        embedding_a = memory_a.get('embedding')
-        embedding_b = memory_b.get('embedding')
+        embedding_a = memory_a.get("embedding")
+        embedding_b = memory_b.get("embedding")
 
         if embedding_a is not None and embedding_b is not None:
             embedding_a = np.array(embedding_a)
@@ -362,11 +382,13 @@ class TemporalCausalAnalyzer:
         # Fallback to content analysis
         return await self._calculate_content_similarity(memory_a, memory_b)
 
-    def _calculate_tag_overlap(self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]) -> float:
+    def _calculate_tag_overlap(
+        self, memory_a: Dict[str, Any], memory_b: Dict[str, Any]
+    ) -> float:
         """Calculate tag overlap between memories"""
 
-        tags_a = set(memory_a.get('tags', []))
-        tags_b = set(memory_b.get('tags', []))
+        tags_a = set(memory_a.get("tags", []))
+        tags_b = set(memory_b.get("tags", []))
 
         if not tags_a or not tags_b:
             return 0.0
@@ -387,23 +409,25 @@ class TemporalCausalAnalyzer:
         return max(0.1, np.exp(-seconds / (max_seconds * 0.3)))
 
     def _determine_relation_type(
-        self,
-        memory_a: Dict[str, Any],
-        memory_b: Dict[str, Any],
-        strength: float
+        self, memory_a: Dict[str, Any], memory_b: Dict[str, Any], strength: float
     ) -> CausalRelationType:
         """Determine the type of causal relation"""
 
         # Analyze content for causal keywords and patterns
-        content_a = memory_a.get('content', '').lower()
-        content_b = memory_b.get('content', '').lower()
+        content_a = memory_a.get("content", "").lower()
+        content_b = memory_b.get("content", "").lower()
 
         # Look for causal language patterns
         causal_keywords = {
-            'direct_cause': ['caused', 'resulted in', 'led to', 'triggered'],
-            'preventive_cause': ['prevented', 'stopped', 'blocked', 'avoided'],
-            'enabling_condition': ['enabled', 'allowed', 'facilitated', 'made possible'],
-            'necessary_condition': ['required', 'needed', 'necessary', 'essential']
+            "direct_cause": ["caused", "resulted in", "led to", "triggered"],
+            "preventive_cause": ["prevented", "stopped", "blocked", "avoided"],
+            "enabling_condition": [
+                "enabled",
+                "allowed",
+                "facilitated",
+                "made possible",
+            ],
+            "necessary_condition": ["required", "needed", "necessary", "essential"],
         }
 
         # Check for causal language
@@ -463,7 +487,11 @@ class CausalGraphBuilder:
             relation_type=relation.relation_type.value,
             strength=relation.strength,
             confidence=relation.confidence,
-            temporal_delay=relation.temporal_delay.total_seconds() if relation.temporal_delay else None
+            temporal_delay=(
+                relation.temporal_delay.total_seconds()
+                if relation.temporal_delay
+                else None
+            ),
         )
 
         logger.debug(
@@ -471,24 +499,23 @@ class CausalGraphBuilder:
             cause=relation.cause_memory_id[:8],
             effect=relation.effect_memory_id[:8],
             type=relation.relation_type.value,
-            strength=relation.strength
+            strength=relation.strength,
         )
 
     def find_causal_paths(
-        self,
-        source_memory_id: str,
-        target_memory_id: str,
-        max_path_length: int = 5
+        self, source_memory_id: str, target_memory_id: str, max_path_length: int = 5
     ) -> List[List[str]]:
         """Find all causal paths between two memories"""
 
         try:
-            paths = list(nx.all_simple_paths(
-                self.causal_graph,
-                source_memory_id,
-                target_memory_id,
-                cutoff=max_path_length
-            ))
+            paths = list(
+                nx.all_simple_paths(
+                    self.causal_graph,
+                    source_memory_id,
+                    target_memory_id,
+                    cutoff=max_path_length,
+                )
+            )
             return paths
         except nx.NetworkXNoPath:
             return []
@@ -546,7 +573,9 @@ class CausalGraphBuilder:
         for start_node in self.causal_graph.nodes():
             for end_node in self.causal_graph.nodes():
                 if start_node != end_node:
-                    paths = self.find_causal_paths(start_node, end_node, min_chain_length + 2)
+                    paths = self.find_causal_paths(
+                        start_node, end_node, min_chain_length + 2
+                    )
 
                     for path in paths:
                         if len(path) >= min_chain_length:
@@ -598,7 +627,7 @@ class CausalGraphBuilder:
             memory_sequence=memory_path,
             causal_relations=causal_relations,
             chain_strength=chain_strength,
-            confidence=confidence
+            confidence=confidence,
         )
 
     def analyze_causal_structure(self) -> Dict[str, Any]:
@@ -617,15 +646,11 @@ class CausalGraphBuilder:
 
         # Find most influential memories
         most_influential_causes = sorted(
-            out_degree_centrality.items(),
-            key=lambda x: x[1],
-            reverse=True
+            out_degree_centrality.items(), key=lambda x: x[1], reverse=True
         )[:5]
 
         most_influenced_effects = sorted(
-            in_degree_centrality.items(),
-            key=lambda x: x[1],
-            reverse=True
+            in_degree_centrality.items(), key=lambda x: x[1], reverse=True
         )[:5]
 
         # Detect cycles (circular causality)
@@ -652,7 +677,9 @@ class CausalGraphBuilder:
             "circular_chains": len(cycles),
             "average_path_length": avg_path_length,
             "weakly_connected": nx.is_weakly_connected(self.causal_graph),
-            "strongly_connected_components": nx.number_strongly_connected_components(self.causal_graph)
+            "strongly_connected_components": nx.number_strongly_connected_components(
+                self.causal_graph
+            ),
         }
 
 
@@ -668,16 +695,18 @@ class CausalReasoningEngine:
         self,
         enable_temporal_analysis: bool = True,
         enable_graph_analysis: bool = True,
-        min_confidence_threshold: float = 0.3
+        min_confidence_threshold: float = 0.3,
     ):
         self.enable_temporal_analysis = enable_temporal_analysis
         self.enable_graph_analysis = enable_graph_analysis
         self.min_confidence_threshold = min_confidence_threshold
 
         # Initialize components
-        self.temporal_analyzer = TemporalCausalAnalyzer(
-            min_confidence_threshold=min_confidence_threshold
-        ) if enable_temporal_analysis else None
+        self.temporal_analyzer = (
+            TemporalCausalAnalyzer(min_confidence_threshold=min_confidence_threshold)
+            if enable_temporal_analysis
+            else None
+        )
 
         self.graph_builder = CausalGraphBuilder() if enable_graph_analysis else None
 
@@ -689,7 +718,7 @@ class CausalReasoningEngine:
             "Causal reasoning engine initialized",
             temporal_analysis=enable_temporal_analysis,
             graph_analysis=enable_graph_analysis,
-            min_confidence=min_confidence_threshold
+            min_confidence=min_confidence_threshold,
         )
 
     async def add_memory_for_causal_analysis(
@@ -699,17 +728,17 @@ class CausalReasoningEngine:
         tags: List[str] = None,
         embedding: np.ndarray = None,
         timestamp: datetime = None,
-        metadata: Dict[str, Any] = None
+        metadata: Dict[str, Any] = None,
     ):
         """Add a memory to the causal reasoning system"""
 
         memory_data = {
-            'id': memory_id,
-            'content': content,
-            'tags': tags or [],
-            'embedding': embedding.tolist() if embedding is not None else None,
-            'timestamp': timestamp or datetime.now(),
-            'metadata': metadata or {}
+            "id": memory_id,
+            "content": content,
+            "tags": tags or [],
+            "embedding": embedding.tolist() if embedding is not None else None,
+            "timestamp": timestamp or datetime.now(),
+            "metadata": metadata or {},
         }
 
         self.causal_memory_store[memory_id] = memory_data
@@ -721,21 +750,23 @@ class CausalReasoningEngine:
         logger.debug("Memory added for causal analysis", memory_id=memory_id[:8])
 
     async def analyze_causal_relationships(
-        self,
-        memory_ids: List[str] = None,
-        time_window: timedelta = None
+        self, memory_ids: List[str] = None, time_window: timedelta = None
     ) -> List[CausalRelation]:
         """Analyze causal relationships in memories"""
 
         if memory_ids:
-            memories = [self.causal_memory_store[mid] for mid in memory_ids if mid in self.causal_memory_store]
+            memories = [
+                self.causal_memory_store[mid]
+                for mid in memory_ids
+                if mid in self.causal_memory_store
+            ]
         else:
             memories = list(self.causal_memory_store.values())
 
         # Filter by time window if specified
         if time_window:
             cutoff_time = datetime.now() - time_window
-            memories = [m for m in memories if m['timestamp'] >= cutoff_time]
+            memories = [m for m in memories if m["timestamp"] >= cutoff_time]
 
         if not memories:
             return []
@@ -743,7 +774,9 @@ class CausalReasoningEngine:
         # Temporal analysis
         causal_relations = []
         if self.temporal_analyzer:
-            temporal_relations = await self.temporal_analyzer.analyze_temporal_sequence(memories)
+            temporal_relations = await self.temporal_analyzer.analyze_temporal_sequence(
+                memories
+            )
             causal_relations.extend(temporal_relations)
 
         # Add relations to graph
@@ -754,15 +787,13 @@ class CausalReasoningEngine:
         logger.info(
             "Causal relationship analysis completed",
             memories_analyzed=len(memories),
-            relations_found=len(causal_relations)
+            relations_found=len(causal_relations),
         )
 
         return causal_relations
 
     async def find_causal_explanation(
-        self,
-        target_memory_id: str,
-        max_depth: int = 3
+        self, target_memory_id: str, max_depth: int = 3
     ) -> Dict[str, Any]:
         """Find causal explanation for a specific memory/event"""
 
@@ -770,21 +801,25 @@ class CausalReasoningEngine:
             return {"error": "Memory not found or graph analysis disabled"}
 
         # Find causal ancestors
-        causal_ancestors = self.graph_builder.get_causal_ancestors(target_memory_id, max_depth)
+        causal_ancestors = self.graph_builder.get_causal_ancestors(
+            target_memory_id, max_depth
+        )
 
         # Build explanation
         explanation = {
             "target_memory": self.causal_memory_store[target_memory_id],
             "causal_factors": [],
             "explanation_confidence": 0.0,
-            "explanation_depth": len(causal_ancestors)
+            "explanation_depth": len(causal_ancestors),
         }
 
         total_confidence = 0.0
         for ancestor_id in causal_ancestors:
             if ancestor_id in self.causal_memory_store:
                 # Find direct causal path
-                paths = self.graph_builder.find_causal_paths(ancestor_id, target_memory_id, max_depth)
+                paths = self.graph_builder.find_causal_paths(
+                    ancestor_id, target_memory_id, max_depth
+                )
 
                 if paths:
                     shortest_path = min(paths, key=len)
@@ -794,26 +829,30 @@ class CausalReasoningEngine:
                     for i in range(len(shortest_path) - 1):
                         relation_id = f"{shortest_path[i]}->{shortest_path[i+1]}"
                         if relation_id in self.graph_builder.causal_relations:
-                            path_strength *= self.graph_builder.causal_relations[relation_id].strength
+                            path_strength *= self.graph_builder.causal_relations[
+                                relation_id
+                            ].strength
 
-                    explanation["causal_factors"].append({
-                        "memory": self.causal_memory_store[ancestor_id],
-                        "causal_path": shortest_path,
-                        "path_length": len(shortest_path) - 1,
-                        "path_strength": path_strength
-                    })
+                    explanation["causal_factors"].append(
+                        {
+                            "memory": self.causal_memory_store[ancestor_id],
+                            "causal_path": shortest_path,
+                            "path_length": len(shortest_path) - 1,
+                            "path_strength": path_strength,
+                        }
+                    )
 
                     total_confidence += path_strength
 
         if explanation["causal_factors"]:
-            explanation["explanation_confidence"] = total_confidence / len(explanation["causal_factors"])
+            explanation["explanation_confidence"] = total_confidence / len(
+                explanation["causal_factors"]
+            )
 
         return explanation
 
     async def predict_causal_outcomes(
-        self,
-        source_memory_id: str,
-        max_depth: int = 3
+        self, source_memory_id: str, max_depth: int = 3
     ) -> Dict[str, Any]:
         """Predict potential causal outcomes from a memory/event"""
 
@@ -821,21 +860,25 @@ class CausalReasoningEngine:
             return {"error": "Memory not found or graph analysis disabled"}
 
         # Find causal descendants
-        causal_descendants = self.graph_builder.get_causal_descendants(source_memory_id, max_depth)
+        causal_descendants = self.graph_builder.get_causal_descendants(
+            source_memory_id, max_depth
+        )
 
         # Build prediction
         prediction = {
             "source_memory": self.causal_memory_store[source_memory_id],
             "predicted_outcomes": [],
             "prediction_confidence": 0.0,
-            "prediction_depth": len(causal_descendants)
+            "prediction_depth": len(causal_descendants),
         }
 
         total_confidence = 0.0
         for descendant_id in causal_descendants:
             if descendant_id in self.causal_memory_store:
                 # Find direct causal path
-                paths = self.graph_builder.find_causal_paths(source_memory_id, descendant_id, max_depth)
+                paths = self.graph_builder.find_causal_paths(
+                    source_memory_id, descendant_id, max_depth
+                )
 
                 if paths:
                     shortest_path = min(paths, key=len)
@@ -845,26 +888,30 @@ class CausalReasoningEngine:
                     for i in range(len(shortest_path) - 1):
                         relation_id = f"{shortest_path[i]}->{shortest_path[i+1]}"
                         if relation_id in self.graph_builder.causal_relations:
-                            path_strength *= self.graph_builder.causal_relations[relation_id].strength
+                            path_strength *= self.graph_builder.causal_relations[
+                                relation_id
+                            ].strength
 
-                    prediction["predicted_outcomes"].append({
-                        "memory": self.causal_memory_store[descendant_id],
-                        "causal_path": shortest_path,
-                        "path_length": len(shortest_path) - 1,
-                        "prediction_strength": path_strength
-                    })
+                    prediction["predicted_outcomes"].append(
+                        {
+                            "memory": self.causal_memory_store[descendant_id],
+                            "causal_path": shortest_path,
+                            "path_length": len(shortest_path) - 1,
+                            "prediction_strength": path_strength,
+                        }
+                    )
 
                     total_confidence += path_strength
 
         if prediction["predicted_outcomes"]:
-            prediction["prediction_confidence"] = total_confidence / len(prediction["predicted_outcomes"])
+            prediction["prediction_confidence"] = total_confidence / len(
+                prediction["predicted_outcomes"]
+            )
 
         return prediction
 
     async def identify_significant_causal_chains(
-        self,
-        min_chain_length: int = 3,
-        min_strength: float = 0.5
+        self, min_chain_length: int = 3, min_strength: float = 0.5
     ) -> List[CausalChain]:
         """Identify significant causal chains for AGI reasoning"""
 
@@ -876,8 +923,7 @@ class CausalReasoningEngine:
 
         # Filter by strength
         significant_chains = [
-            chain for chain in all_chains
-            if chain.chain_strength >= min_strength
+            chain for chain in all_chains if chain.chain_strength >= min_strength
         ]
 
         # Store for future reference
@@ -889,7 +935,7 @@ class CausalReasoningEngine:
             total_chains=len(all_chains),
             significant_chains=len(significant_chains),
             min_length=min_chain_length,
-            min_strength=min_strength
+            min_strength=min_strength,
         )
 
         return significant_chains
@@ -901,7 +947,7 @@ class CausalReasoningEngine:
             "total_memories": len(self.causal_memory_store),
             "causal_chains": len(self.causal_chains),
             "temporal_analysis_enabled": self.temporal_analyzer is not None,
-            "graph_analysis_enabled": self.graph_builder is not None
+            "graph_analysis_enabled": self.graph_builder is not None,
         }
 
         if self.graph_builder:
@@ -931,7 +977,7 @@ class CausalMemoryWrapper:
 
         logger.info(
             "Causal memory wrapper initialized",
-            causal_reasoning_enabled=enable_causal_reasoning
+            causal_reasoning_enabled=enable_causal_reasoning,
         )
 
     async def fold_in_with_causal_analysis(
@@ -940,16 +986,13 @@ class CausalMemoryWrapper:
         tags: List[str] = None,
         embedding: np.ndarray = None,
         timestamp: datetime = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         """Store memory with causal analysis"""
 
         # Store in base system
         memory_id = await self.base_memory_system.fold_in_with_embedding(
-            data=data,
-            tags=tags,
-            embedding=embedding,
-            **kwargs
+            data=data, tags=tags, embedding=embedding, **kwargs
         )
 
         # Add to causal analysis
@@ -959,7 +1002,7 @@ class CausalMemoryWrapper:
                 content=data,
                 tags=tags,
                 embedding=embedding,
-                timestamp=timestamp or datetime.now()
+                timestamp=timestamp or datetime.now(),
             )
 
             # Analyze causal relationships periodically
@@ -973,31 +1016,33 @@ class CausalMemoryWrapper:
         query: str,
         top_k: int = 10,
         include_causal_explanation: bool = True,
-        **kwargs
+        **kwargs,
     ) -> List[Dict[str, Any]]:
         """Retrieve memories with causal context"""
 
         # Get base results
         base_results = await self.base_memory_system.fold_out_semantic(
-            query=query,
-            top_k=top_k,
-            **kwargs
+            query=query, top_k=top_k, **kwargs
         )
 
         enhanced_results = []
         for memory, score in base_results:
-            result = {
-                "memory": memory,
-                "score": score,
-                "causal_context": {}
-            }
+            result = {"memory": memory, "score": score, "causal_context": {}}
 
             # Add causal context if enabled
-            if self.causal_engine and include_causal_explanation and hasattr(memory, 'id'):
-                memory_id = memory.id if hasattr(memory, 'id') else str(hash(memory.data))
+            if (
+                self.causal_engine
+                and include_causal_explanation
+                and hasattr(memory, "id")
+            ):
+                memory_id = (
+                    memory.id if hasattr(memory, "id") else str(hash(memory.data))
+                )
 
                 # Get causal explanation
-                explanation = await self.causal_engine.find_causal_explanation(memory_id)
+                explanation = await self.causal_engine.find_causal_explanation(
+                    memory_id
+                )
                 result["causal_context"]["explanation"] = explanation
 
                 # Get causal predictions
@@ -1014,7 +1059,7 @@ async def create_causal_memory_system(
     base_memory_system=None,
     enable_temporal_analysis: bool = True,
     enable_graph_analysis: bool = True,
-    min_confidence_threshold: float = 0.3
+    min_confidence_threshold: float = 0.3,
 ):
     """
     Create a causal reasoning-enabled memory system.
@@ -1031,14 +1076,13 @@ async def create_causal_memory_system(
 
     if base_memory_system:
         return CausalMemoryWrapper(
-            base_memory_system=base_memory_system,
-            enable_causal_reasoning=True
+            base_memory_system=base_memory_system, enable_causal_reasoning=True
         )
     else:
         return CausalReasoningEngine(
             enable_temporal_analysis=enable_temporal_analysis,
             enable_graph_analysis=enable_graph_analysis,
-            min_confidence_threshold=min_confidence_threshold
+            min_confidence_threshold=min_confidence_threshold,
         )
 
 
@@ -1058,26 +1102,26 @@ async def example_causal_reasoning():
             "id": "mem_1",
             "content": "I decided to study machine learning to improve my AI capabilities",
             "tags": ["decision", "learning", "ai"],
-            "timestamp": datetime.now() - timedelta(days=10)
+            "timestamp": datetime.now() - timedelta(days=10),
         },
         {
             "id": "mem_2",
             "content": "I started reading research papers on neural networks and deep learning",
             "tags": ["study", "research", "neural_networks"],
-            "timestamp": datetime.now() - timedelta(days=9)
+            "timestamp": datetime.now() - timedelta(days=9),
         },
         {
             "id": "mem_3",
             "content": "My understanding of artificial intelligence concepts significantly improved",
             "tags": ["improvement", "understanding", "ai"],
-            "timestamp": datetime.now() - timedelta(days=7)
+            "timestamp": datetime.now() - timedelta(days=7),
         },
         {
             "id": "mem_4",
             "content": "I was able to implement a neural network from scratch successfully",
             "tags": ["implementation", "success", "neural_networks"],
-            "timestamp": datetime.now() - timedelta(days=5)
-        }
+            "timestamp": datetime.now() - timedelta(days=5),
+        },
     ]
 
     # Add memories to causal engine
@@ -1088,7 +1132,7 @@ async def example_causal_reasoning():
             content=memory["content"],
             tags=memory["tags"],
             timestamp=memory["timestamp"],
-            embedding=np.random.randn(512).astype(np.float32)
+            embedding=np.random.randn(512).astype(np.float32),
         )
 
     # Analyze causal relationships
@@ -1115,7 +1159,7 @@ async def example_causal_reasoning():
         print(f"📊 Explanation confidence: {explanation['explanation_confidence']:.3f}")
         print(f"📈 Causal factors found: {len(explanation['causal_factors'])}")
 
-        for factor in explanation['causal_factors']:
+        for factor in explanation["causal_factors"]:
             print(f"  Cause: {factor['memory']['content'][:50]}...")
             print(f"  Path length: {factor['path_length']}")
             print(f"  Strength: {factor['path_strength']:.3f}")
@@ -1124,8 +1168,7 @@ async def example_causal_reasoning():
     # Identify causal chains
     print("Identifying significant causal chains...")
     causal_chains = await causal_engine.identify_significant_causal_chains(
-        min_chain_length=3,
-        min_strength=0.4
+        min_chain_length=3, min_strength=0.4
     )
 
     print(f"🔗 Found {len(causal_chains)} significant causal chains")

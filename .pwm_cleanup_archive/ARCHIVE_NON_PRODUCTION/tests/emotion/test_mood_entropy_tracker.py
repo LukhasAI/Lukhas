@@ -1,7 +1,6 @@
 import unittest
-import numpy as np
+
 from emotion.mood_regulation.mood_entropy_tracker import MoodEntropyTracker
-import re
 
 
 class TestMoodEntropyTracker(unittest.TestCase):

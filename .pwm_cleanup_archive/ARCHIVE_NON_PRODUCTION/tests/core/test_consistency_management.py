@@ -1,7 +1,7 @@
-import asyncio
 import pytest
-from core.core_utilities import ConsistencyManager, Consistency
-from core.tiered_state_management import TieredStateManager, StateType
+
+from core.core_utilities import Consistency, ConsistencyManager
+from core.tiered_state_management import StateType, TieredStateManager
 
 
 @pytest.mark.asyncio
@@ -24,4 +24,3 @@ async def test_apply_updates_eventual():
     await cm.apply_updates(updates, Consistency.EVENTUAL)
     state = await manager.get_state("agg", StateType.LOCAL_EPHEMERAL)
     assert state == {"value": 42}
-

@@ -12,6 +12,7 @@ from datetime import datetime
 
 analytics_log = []
 
+
 def record_event(user_id: int, event: str, source: str = "unknown"):
     """
     Log a symbolic event into the analytics stream.
@@ -20,17 +21,19 @@ def record_event(user_id: int, event: str, source: str = "unknown"):
         "timestamp": str(datetime.utcnow()),
         "user_id": user_id,
         "event": event,
-        "source": source
+        "source": source,
     }
     analytics_log.append(entry)
     print(f"📊 Analytics Logged: {entry}")
     return entry
+
 
 def get_user_analytics(user_id: int):
     """
     Retrieve all analytics events linked to a user.
     """
     return [e for e in analytics_log if e["user_id"] == user_id]
+
 
 def get_aggregate_events():
     """

@@ -1,18 +1,17 @@
-import asyncio
 import pytest
 
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
-from orchestration.signals.signal_bus import get_signal_bus, Signal, SignalType
 from orchestration.signals.homeostasis import ModulationParams
+from orchestration.signals.signal_bus import Signal, SignalType, get_signal_bus
 
 
 class FakeOpenAIClient:
-    async def chat_completion(self, messages, task=None, temperature=None, max_tokens=None, **kwargs):
+    async def chat_completion(
+        self, messages, task=None, temperature=None, max_tokens=None, **kwargs
+    ):
         # Return a minimal shape similar to OpenAI's model_dump
         return {
-            "choices": [
-                {"message": {"content": f"ok:{messages[-1]['content'][:10]}"}}
-            ],
+            "choices": [{"message": {"content": f"ok:{messages[-1]['content'][:10]}"}}],
             "lukhas_test": True,
             "params": {
                 "temperature": temperature,
@@ -33,7 +32,9 @@ async def test_generate_with_signals_and_params(monkeypatch):
     service = OpenAIModulatedService(client=FakeOpenAIClient())
 
     params = ModulationParams(temperature=0.5, max_output_tokens=256)
-    out = await service.generate("hello world", signals=bus.get_active_signals(), params=params)
+    out = await service.generate(
+        "hello world", signals=bus.get_active_signals(), params=params
+    )
 
     assert "content" in out
     assert out["modulation"]["params"]["temperature"] == 0.5

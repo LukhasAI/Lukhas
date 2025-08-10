@@ -6,13 +6,15 @@ Simplified integration test for actor/colony systems
 import asyncio
 from datetime import datetime
 
+from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony_enhanced import MemoryColony
+from core.colonies.reasoning_colony import ReasoningColony
+from core.integration_hub import UnifiedIntegration
+
 # Import modules that we know work
 from core.task_manager import LukhλsTaskManager
-from core.integration_hub import UnifiedIntegration
-from core.colonies.memory_colony_enhanced import MemoryColony
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.reasoning_colony import ReasoningColony
 from orchestration.symbolic_kernel_bus import kernel_bus
+
 
 async def test_task_manager_with_colonies():
     """Test task manager coordinating with colonies"""
@@ -31,14 +33,14 @@ async def test_task_manager_with_colonies():
         name="Memory Storage Task",
         description="Store test data in memory colony",
         handler="file_processing",  # Using existing handler
-        parameters={"colony": "memory", "action": "store"}
+        parameters={"colony": "memory", "action": "store"},
     )
 
     task2 = task_manager.create_task(
         name="Creative Generation Task",
         description="Generate creative content",
         handler="design_system",  # Using existing handler
-        parameters={"colony": "creativity", "action": "generate"}
+        parameters={"colony": "creativity", "action": "generate"},
     )
 
     # Execute tasks
@@ -49,6 +51,7 @@ async def test_task_manager_with_colonies():
     print(f"   - Creative task: {'✅ Success' if success2 else '❌ Failed'}")
 
     return success1 and success2
+
 
 async def test_integration_hub_with_colonies():
     """Test integration hub managing colonies"""
@@ -62,31 +65,38 @@ async def test_integration_hub_with_colonies():
     reasoning_colony = ReasoningColony("hub_reasoning")
 
     # Register colonies as components
-    result1 = hub.register_component("memory_colony", memory_colony, {
-        "type": "colony",
-        "capabilities": memory_colony.capabilities
-    })
+    result1 = hub.register_component(
+        "memory_colony",
+        memory_colony,
+        {"type": "colony", "capabilities": memory_colony.capabilities},
+    )
 
-    result2 = hub.register_component("reasoning_colony", reasoning_colony, {
-        "type": "colony",
-        "capabilities": reasoning_colony.capabilities
-    })
+    result2 = hub.register_component(
+        "reasoning_colony",
+        reasoning_colony,
+        {"type": "colony", "capabilities": reasoning_colony.capabilities},
+    )
 
-    print(f"   - Memory colony registration: {'✅ Success' if result1.success else '❌ Failed'}")
-    print(f"   - Reasoning colony registration: {'✅ Success' if result2.success else '❌ Failed'}")
+    print(
+        f"   - Memory colony registration: {'✅ Success' if result1.success else '❌ Failed'}"
+    )
+    print(
+        f"   - Reasoning colony registration: {'✅ Success' if result2.success else '❌ Failed'}"
+    )
 
     # Test integration operations
-    if hasattr(hub, 'execute_integration'):
+    if hasattr(hub, "execute_integration"):
         # Try to execute an integration if the method exists
         integration_result = await hub.execute_integration(
             "cross_colony_sync",
-            {"source": "memory_colony", "target": "reasoning_colony"}
+            {"source": "memory_colony", "target": "reasoning_colony"},
         )
-        print(f"   - Cross-colony integration: ✅ Attempted")
+        print("   - Cross-colony integration: ✅ Attempted")
     else:
-        print(f"   - Cross-colony integration: ℹ️ Method not available")
+        print("   - Cross-colony integration: ℹ️ Method not available")
 
     return result1.success and result2.success
+
 
 async def test_event_bus_with_colonies():
     """Test event bus communication between colonies"""
@@ -110,25 +120,28 @@ async def test_event_bus_with_colonies():
     kernel_bus.subscribe("colony.*", colony_event_handler)
 
     # Simulate colony events
-    await event_bus.publish("colony.memory.store", {
-        "colony": memory_colony.colony_id,
-        "action": "store",
-        "data": "test data"
-    })
+    await event_bus.publish(
+        "colony.memory.store",
+        {"colony": memory_colony.colony_id, "action": "store", "data": "test data"},
+    )
 
-    await event_bus.publish("colony.creativity.generate", {
-        "colony": creativity_colony.colony_id,
-        "action": "generate",
-        "prompt": "test prompt"
-    })
+    await event_bus.publish(
+        "colony.creativity.generate",
+        {
+            "colony": creativity_colony.colony_id,
+            "action": "generate",
+            "prompt": "test prompt",
+        },
+    )
 
     # Wait for events
     await asyncio.sleep(0.1)
 
-    print(f"   - Events emitted: 2")
+    print("   - Events emitted: 2")
     print(f"   - Events received: {len(events_received)}")
 
     return len(events_received) == 2
+
 
 async def test_colony_task_execution():
     """Test direct colony task execution"""
@@ -139,21 +152,21 @@ async def test_colony_task_execution():
     reasoning_colony = ReasoningColony("exec_reasoning")
 
     # Test memory colony task
-    memory_result = await memory_colony.execute_task("mem_task_1", {
-        "action": "store",
-        "data": {"key": "test", "value": "data"}
-    })
+    memory_result = await memory_colony.execute_task(
+        "mem_task_1", {"action": "store", "data": {"key": "test", "value": "data"}}
+    )
 
     # Test reasoning colony task
-    reasoning_result = await reasoning_colony.execute_task("reason_task_1", {
-        "action": "analyze",
-        "data": "What is the meaning of this test?"
-    })
+    reasoning_result = await reasoning_colony.execute_task(
+        "reason_task_1",
+        {"action": "analyze", "data": "What is the meaning of this test?"},
+    )
 
-    print(f"   - Memory task execution: ✅ Complete")
-    print(f"   - Reasoning task execution: ✅ Complete")
+    print("   - Memory task execution: ✅ Complete")
+    print("   - Reasoning task execution: ✅ Complete")
 
     return True
+
 
 async def main():
     """Main test runner"""
@@ -188,7 +201,9 @@ async def main():
 
     return passed == total
 
+
 if __name__ == "__main__":
     import sys
+
     success = asyncio.run(main())
     sys.exit(0 if success else 1)

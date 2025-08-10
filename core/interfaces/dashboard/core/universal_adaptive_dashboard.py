@@ -43,30 +43,30 @@
 """
 
 import asyncio
-import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Set, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
 import json
+import logging
 import time
-import uuid
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
+
+from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
-from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
-from core.monitoring.drift_monitor import UnifiedDriftMonitor
-from orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
-from memory.systems.healix_memory_core import HealixMemoryCore
-from orchestration.symbolic_kernel_bus import kernel_bus
-from core.oracle_nervous_system import get_oracle_nervous_system
 from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+from core.monitoring.drift_monitor import UnifiedDriftMonitor
+from core.oracle_nervous_system import get_oracle_nervous_system
+from memory.systems.healix_memory_core import HealixMemoryCore
+from orchestration.brain.dynamic_adaptive_dashboard import AdaptiveDashboard
 
 logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard")
 
 
 class DashboardMorphState(Enum):
     """Dashboard morphing states based on system context."""
+
     OPTIMAL = "optimal"
     TRAUMA_RESPONSE = "trauma_response"
     ETHICS_COMPLEX = "ethics_complex"
@@ -78,6 +78,7 @@ class DashboardMorphState(Enum):
 
 class TabPriority(Enum):
     """Tab priority levels for dynamic ordering."""
+
     CRITICAL = 1
     HIGH = 2
     NORMAL = 3
@@ -88,27 +89,29 @@ class TabPriority(Enum):
 @dataclass
 class AdaptiveTab:
     """Represents a morphing dashboard tab."""
+
     tab_id: str
     title: str
     priority: TabPriority
-    context_triggers: List[str]
+    context_triggers: list[str]
     component_path: str
     health_status: str = "operational"
     is_visible: bool = True
-    morphing_rules: Dict[str, Any] = field(default_factory=dict)
+    morphing_rules: dict[str, Any] = field(default_factory=dict)
     last_accessed: Optional[datetime] = None
 
 
 @dataclass
 class DashboardContext:
     """Current dashboard context for adaptive morphing."""
+
     morph_state: DashboardMorphState
-    active_colonies: Set[str]
-    system_health: Dict[str, Any]
-    user_emotional_state: Dict[str, float]
-    performance_metrics: Dict[str, float]
+    active_colonies: set[str]
+    system_health: dict[str, Any]
+    user_emotional_state: dict[str, float]
+    performance_metrics: dict[str, float]
     ethics_complexity: float
-    trauma_indicators: List[str]
+    trauma_indicators: list[str]
     prediction_confidence: float
 
 
@@ -143,7 +146,7 @@ class UniversalAdaptiveDashboard:
             performance_metrics={},
             ethics_complexity=0.0,
             trauma_indicators=[],
-            prediction_confidence=0.0
+            prediction_confidence=0.0,
         )
 
         # Tab management
@@ -165,11 +168,13 @@ class UniversalAdaptiveDashboard:
             "healing_events": 0,
             "prediction_accuracy": 0.0,
             "user_satisfaction": 0.0,
-            "response_time_ms": 0.0
+            "response_time_ms": 0.0,
         }
 
-        self.logger.info("Universal Adaptive Dashboard initialized",
-                        dashboard_id=self.dashboard_id)
+        self.logger.info(
+            "Universal Adaptive Dashboard initialized",
+            dashboard_id=self.dashboard_id,
+        )
 
     async def initialize(self):
         """Initialize the universal adaptive dashboard."""
@@ -238,9 +243,15 @@ class UniversalAdaptiveDashboard:
                 context_triggers=["*"],
                 component_path="dashboard.components.neural_core",
                 morphing_rules={
-                    "trauma_response": {"title": "🚨 System Status", "priority": TabPriority.CRITICAL},
-                    "emergency_mode": {"title": "⚠️ Emergency", "priority": TabPriority.CRITICAL}
-                }
+                    "trauma_response": {
+                        "title": "🚨 System Status",
+                        "priority": TabPriority.CRITICAL,
+                    },
+                    "emergency_mode": {
+                        "title": "⚠️ Emergency",
+                        "priority": TabPriority.CRITICAL,
+                    },
+                },
             ),
             AdaptiveTab(
                 tab_id="oracle_hub",
@@ -249,8 +260,11 @@ class UniversalAdaptiveDashboard:
                 context_triggers=["oracle", "prediction", "temporal"],
                 component_path="dashboard.components.oracle_hub",
                 morphing_rules={
-                    "research_mode": {"title": "🔬 Oracle Analytics", "priority": TabPriority.HIGH}
-                }
+                    "research_mode": {
+                        "title": "🔬 Oracle Analytics",
+                        "priority": TabPriority.HIGH,
+                    }
+                },
             ),
             AdaptiveTab(
                 tab_id="ethics_swarm",
@@ -259,24 +273,26 @@ class UniversalAdaptiveDashboard:
                 context_triggers=["ethics", "decision", "moral"],
                 component_path="dashboard.components.ethics_swarm",
                 morphing_rules={
-                    "ethics_complex": {"title": "⚖️ Ethical Decision Matrix", "priority": TabPriority.CRITICAL}
-                }
+                    "ethics_complex": {
+                        "title": "⚖️ Ethical Decision Matrix",
+                        "priority": TabPriority.CRITICAL,
+                    }
+                },
             ),
             AdaptiveTab(
                 tab_id="bio_coherence",
                 title="🧬 Bio-Coherence",
                 priority=TabPriority.NORMAL,
                 context_triggers=["bio", "coherence", "quantum"],
-                component_path="dashboard.components.bio_coherence"
+                component_path="dashboard.components.bio_coherence",
             ),
             AdaptiveTab(
                 tab_id="colony_matrix",
                 title="🏛️ Colony Matrix",
                 priority=TabPriority.NORMAL,
                 context_triggers=["colony", "coordination", "swarm"],
-                component_path="dashboard.components.colony_matrix"
+                component_path="dashboard.components.colony_matrix",
             ),
-
             # Adaptive Tabs (Context-Sensitive)
             AdaptiveTab(
                 tab_id="crisis_response",
@@ -284,7 +300,7 @@ class UniversalAdaptiveDashboard:
                 priority=TabPriority.CRITICAL,
                 context_triggers=["trauma", "crisis", "emergency"],
                 component_path="dashboard.components.crisis_response",
-                is_visible=False  # Only appears during crisis
+                is_visible=False,  # Only appears during crisis
             ),
             AdaptiveTab(
                 tab_id="research_lab",
@@ -292,7 +308,7 @@ class UniversalAdaptiveDashboard:
                 priority=TabPriority.HIGH,
                 context_triggers=["research", "experiment", "test"],
                 component_path="dashboard.components.research_lab",
-                is_visible=False  # Only appears during research
+                is_visible=False,  # Only appears during research
             ),
             AdaptiveTab(
                 tab_id="dream_studio",
@@ -300,9 +316,8 @@ class UniversalAdaptiveDashboard:
                 priority=TabPriority.NORMAL,
                 context_triggers=["dream", "creative", "narrative"],
                 component_path="dashboard.components.dream_studio",
-                is_visible=False  # Only appears during creative work
+                is_visible=False,  # Only appears during creative work
             ),
-
             # Emergency Tabs (Crisis Only)
             AdaptiveTab(
                 tab_id="emergency_override",
@@ -310,7 +325,7 @@ class UniversalAdaptiveDashboard:
                 priority=TabPriority.CRITICAL,
                 context_triggers=["emergency", "override", "manual"],
                 component_path="dashboard.components.emergency_override",
-                is_visible=False  # Only appears during critical failures
+                is_visible=False,  # Only appears during critical failures
             ),
             AdaptiveTab(
                 tab_id="recovery_center",
@@ -318,8 +333,8 @@ class UniversalAdaptiveDashboard:
                 priority=TabPriority.CRITICAL,
                 context_triggers=["recovery", "healing", "restoration"],
                 component_path="dashboard.components.recovery_center",
-                is_visible=False  # Only appears during healing
-            )
+                is_visible=False,  # Only appears during healing
+            ),
         ]
 
         for tab in default_tabs:
@@ -331,11 +346,17 @@ class UniversalAdaptiveDashboard:
         """Setup event handlers for adaptive behavior."""
 
         # Oracle Nervous System events
-        self.kernel_bus.subscribe("oracle_prediction_ready", self._handle_oracle_prediction)
-        self.kernel_bus.subscribe("oracle_nervous_system_status", self._handle_oracle_status)
+        self.kernel_bus.subscribe(
+            "oracle_prediction_ready", self._handle_oracle_prediction
+        )
+        self.kernel_bus.subscribe(
+            "oracle_nervous_system_status", self._handle_oracle_status
+        )
 
         # Ethics Swarm events
-        self.kernel_bus.subscribe("ethics_decision_complex", self._handle_ethics_complexity)
+        self.kernel_bus.subscribe(
+            "ethics_decision_complex", self._handle_ethics_complexity
+        )
         self.kernel_bus.subscribe("ethics_drift_detected", self._handle_ethics_drift)
 
         # System health events
@@ -345,7 +366,9 @@ class UniversalAdaptiveDashboard:
 
         # User interaction events
         self.kernel_bus.subscribe("user_emotional_state", self._handle_emotional_state)
-        self.kernel_bus.subscribe("user_interaction_pattern", self._handle_interaction_pattern)
+        self.kernel_bus.subscribe(
+            "user_interaction_pattern", self._handle_interaction_pattern
+        )
 
         self.logger.info("Event handlers configured for adaptive behavior")
 
@@ -366,77 +389,98 @@ class UniversalAdaptiveDashboard:
 
         self.logger.info("Adaptive systems started successfully")
 
-    def _initialize_morphing_rules(self) -> Dict[str, Any]:
+    def _initialize_morphing_rules(self) -> dict[str, Any]:
         """Initialize morphing rules for different contexts."""
         return {
             DashboardMorphState.TRAUMA_RESPONSE: {
                 "color_scheme": "high_contrast_red",
                 "layout": "emergency_triage",
-                "visible_tabs": ["neural_core", "crisis_response", "recovery_center"],
+                "visible_tabs": [
+                    "neural_core",
+                    "crisis_response",
+                    "recovery_center",
+                ],
                 "auto_refresh_ms": 1000,
                 "alert_prominence": "maximum",
-                "information_density": "critical_only"
+                "information_density": "critical_only",
             },
             DashboardMorphState.ETHICS_COMPLEX: {
                 "color_scheme": "ethics_focused",
                 "layout": "decision_matrix",
-                "visible_tabs": ["ethics_swarm", "oracle_hub", "colony_matrix"],
+                "visible_tabs": [
+                    "ethics_swarm",
+                    "oracle_hub",
+                    "colony_matrix",
+                ],
                 "auto_refresh_ms": 2000,
                 "alert_prominence": "high",
-                "information_density": "detailed_analysis"
+                "information_density": "detailed_analysis",
             },
             DashboardMorphState.HIGH_PERFORMANCE: {
                 "color_scheme": "performance_optimized",
                 "layout": "metrics_focused",
-                "visible_tabs": ["neural_core", "bio_coherence", "colony_matrix"],
+                "visible_tabs": [
+                    "neural_core",
+                    "bio_coherence",
+                    "colony_matrix",
+                ],
                 "auto_refresh_ms": 500,
                 "alert_prominence": "medium",
-                "information_density": "metrics_heavy"
+                "information_density": "metrics_heavy",
             },
             DashboardMorphState.RESEARCH_MODE: {
                 "color_scheme": "research_friendly",
                 "layout": "analytics_heavy",
-                "visible_tabs": ["research_lab", "oracle_hub", "bio_coherence", "dream_studio"],
+                "visible_tabs": [
+                    "research_lab",
+                    "oracle_hub",
+                    "bio_coherence",
+                    "dream_studio",
+                ],
                 "auto_refresh_ms": 5000,
                 "alert_prominence": "low",
-                "information_density": "comprehensive"
+                "information_density": "comprehensive",
             },
             DashboardMorphState.HEALING_MODE: {
                 "color_scheme": "healing_calm",
                 "layout": "recovery_focused",
-                "visible_tabs": ["recovery_center", "neural_core", "colony_matrix"],
+                "visible_tabs": [
+                    "recovery_center",
+                    "neural_core",
+                    "colony_matrix",
+                ],
                 "auto_refresh_ms": 3000,
                 "alert_prominence": "medium",
-                "information_density": "recovery_status"
-            }
+                "information_density": "recovery_status",
+            },
         }
 
-    def _initialize_healing_protocols(self) -> Dict[str, Any]:
+    def _initialize_healing_protocols(self) -> dict[str, Any]:
         """Initialize self-healing protocols."""
         return {
             "component_failure": {
                 "detection_threshold": 0.1,
                 "recovery_timeout": 30,
                 "max_retries": 3,
-                "fallback_component": "minimal_display"
+                "fallback_component": "minimal_display",
             },
             "websocket_failure": {
                 "reconnect_interval": 5,
                 "max_reconnects": 10,
                 "backoff_multiplier": 1.5,
-                "fallback_mode": "cached_data"
+                "fallback_mode": "cached_data",
             },
             "colony_communication": {
                 "health_check_interval": 15,
                 "timeout_threshold": 10,
                 "degraded_mode_threshold": 0.5,
-                "emergency_mode_threshold": 0.2
+                "emergency_mode_threshold": 0.2,
             },
             "user_experience": {
                 "response_time_threshold": 2000,
                 "satisfaction_threshold": 0.7,
-                "adaptation_sensitivity": 0.1
-            }
+                "adaptation_sensitivity": 0.1,
+            },
         }
 
     async def _context_monitor(self):
@@ -464,16 +508,26 @@ class UniversalAdaptiveDashboard:
             # Oracle Nervous System status
             if self.oracle_nervous_system:
                 oracle_status = await self.oracle_nervous_system.get_system_status()
-                self.current_context.performance_metrics.update({
-                    "oracle_requests_processed": oracle_status.get("performance_metrics", {}).get("requests_processed", 0),
-                    "oracle_success_rate": oracle_status.get("performance_metrics", {}).get("success_rate", 0.0),
-                    "oracle_response_time": oracle_status.get("performance_metrics", {}).get("average_response_time", 0.0)
-                })
+                self.current_context.performance_metrics.update(
+                    {
+                        "oracle_requests_processed": oracle_status.get(
+                            "performance_metrics", {}
+                        ).get("requests_processed", 0),
+                        "oracle_success_rate": oracle_status.get(
+                            "performance_metrics", {}
+                        ).get("success_rate", 0.0),
+                        "oracle_response_time": oracle_status.get(
+                            "performance_metrics", {}
+                        ).get("average_response_time", 0.0),
+                    }
+                )
 
             # Ethics Swarm status
             if self.ethics_swarm:
                 ethics_status = await self.ethics_swarm.get_system_status()
-                self.current_context.ethics_complexity = ethics_status.get("complexity_level", 0.0)
+                self.current_context.ethics_complexity = ethics_status.get(
+                    "complexity_level", 0.0
+                )
 
             # Drift monitoring
             drift_status = await self.drift_monitor.get_current_drift_status()
@@ -496,8 +550,11 @@ class UniversalAdaptiveDashboard:
 
         # Emergency conditions (highest priority)
         if len(self.current_context.trauma_indicators) > 0:
-            critical_indicators = [i for i in self.current_context.trauma_indicators
-                                 if "critical" in i or "emergency" in i]
+            critical_indicators = [
+                i
+                for i in self.current_context.trauma_indicators
+                if "critical" in i or "emergency" in i
+            ]
             if critical_indicators:
                 return DashboardMorphState.EMERGENCY_MODE
             return DashboardMorphState.TRAUMA_RESPONSE
@@ -507,18 +564,25 @@ class UniversalAdaptiveDashboard:
             return DashboardMorphState.ETHICS_COMPLEX
 
         # High performance requirements
-        performance_load = self.current_context.performance_metrics.get("system_load", 0.0)
+        performance_load = self.current_context.performance_metrics.get(
+            "system_load", 0.0
+        )
         if performance_load > 0.8:
             return DashboardMorphState.HIGH_PERFORMANCE
 
         # Research/experimentation mode
-        active_experiments = self.current_context.system_health.get("active_experiments", 0)
+        active_experiments = self.current_context.system_health.get(
+            "active_experiments", 0
+        )
         if active_experiments > 0:
             return DashboardMorphState.RESEARCH_MODE
 
         # Healing mode
-        degraded_components = sum(1 for status in self.current_context.system_health.values()
-                                if isinstance(status, str) and "degraded" in status.lower())
+        degraded_components = sum(
+            1
+            for status in self.current_context.system_health.values()
+            if isinstance(status, str) and "degraded" in status.lower()
+        )
         if degraded_components > 2:
             return DashboardMorphState.HEALING_MODE
 
@@ -530,9 +594,11 @@ class UniversalAdaptiveDashboard:
         old_state = self.current_context.morph_state
         self.current_context.morph_state = new_state
 
-        self.logger.info("Dashboard morphing triggered",
-                        old_state=old_state.value,
-                        new_state=new_state.value)
+        self.logger.info(
+            "Dashboard morphing triggered",
+            old_state=old_state.value,
+            new_state=new_state.value,
+        )
 
         # Apply morphing rules
         morph_rules = self.morphing_rules.get(new_state, {})
@@ -547,14 +613,19 @@ class UniversalAdaptiveDashboard:
         self.adaptation_metrics["morph_events"] += 1
 
         # Emit event for other systems
-        self.event_bus.emit("dashboard_morphed", {
-            "old_state": old_state.value,
-            "new_state": new_state.value,
-            "timestamp": datetime.now().isoformat(),
-            "morph_rules": morph_rules
-        })
+        self.event_bus.emit(
+            "dashboard_morphed",
+            {
+                "old_state": old_state.value,
+                "new_state": new_state.value,
+                "timestamp": datetime.now().isoformat(),
+                "morph_rules": morph_rules,
+            },
+        )
 
-    async def _update_tab_configuration(self, morph_state: DashboardMorphState, morph_rules: Dict[str, Any]):
+    async def _update_tab_configuration(
+        self, morph_state: DashboardMorphState, morph_rules: dict[str, Any]
+    ):
         """Update tab configuration based on morph state."""
 
         visible_tabs = morph_rules.get("visible_tabs", [])
@@ -572,16 +643,23 @@ class UniversalAdaptiveDashboard:
                     tab.priority = tab_morph_rules["priority"]
 
         # Update active tabs list
-        self.active_tabs = [tab for tab in self.registered_tabs.values() if tab.is_visible]
+        self.active_tabs = [
+            tab for tab in self.registered_tabs.values() if tab.is_visible
+        ]
         self.active_tabs.sort(key=lambda t: t.priority.value)
 
-        self.logger.info("Tab configuration updated",
-                        visible_tabs=len(self.active_tabs),
-                        morph_state=morph_state.value)
+        self.logger.info(
+            "Tab configuration updated",
+            visible_tabs=len(self.active_tabs),
+            morph_state=morph_state.value,
+        )
 
-    async def _broadcast_morph_event(self, old_state: DashboardMorphState,
-                                   new_state: DashboardMorphState,
-                                   morph_rules: Dict[str, Any]):
+    async def _broadcast_morph_event(
+        self,
+        old_state: DashboardMorphState,
+        new_state: DashboardMorphState,
+        morph_rules: dict[str, Any],
+    ):
         """Broadcast morph event to all connected WebSocket clients."""
 
         morph_event = {
@@ -594,11 +672,11 @@ class UniversalAdaptiveDashboard:
                     "tab_id": tab.tab_id,
                     "title": tab.title,
                     "priority": tab.priority.name,
-                    "component_path": tab.component_path
+                    "component_path": tab.component_path,
                 }
                 for tab in self.active_tabs
             ],
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Broadcast to all connected clients
@@ -620,7 +698,9 @@ class UniversalAdaptiveDashboard:
                     await self._apply_predictive_adaptations(predictions)
 
                 # Threshold-based adaptations
-                threshold_adjustments = await self.threshold_colony.get_recommended_adjustments()
+                threshold_adjustments = (
+                    await self.threshold_colony.get_recommended_adjustments()
+                )
                 await self._apply_threshold_adaptations(threshold_adjustments)
 
                 await asyncio.sleep(10)  # Morphing engine frequency
@@ -708,19 +788,21 @@ class UniversalAdaptiveDashboard:
             await self._apply_emotional_adaptation("high_stress")
 
     # Utility methods for components to implement
-    async def _get_oracle_predictions(self) -> Dict[str, Any]:
+    async def _get_oracle_predictions(self) -> dict[str, Any]:
         """Get predictions from Oracle Nervous System."""
         # Implementation details...
         return {}
 
-    async def _check_component_health(self) -> Dict[str, float]:
+    async def _check_component_health(self) -> dict[str, float]:
         """Check health of all dashboard components."""
         # Implementation details...
         return {}
 
     async def _trigger_component_healing(self, component: str, health: float):
         """Trigger healing for a specific component."""
-        self.logger.info("Triggering component healing", component=component, health=health)
+        self.logger.info(
+            "Triggering component healing", component=component, health=health
+        )
         # Implementation details...
 
     async def _emergency_fallback(self):
@@ -729,4 +811,6 @@ class UniversalAdaptiveDashboard:
         self.logger.critical("Dashboard in emergency fallback mode")
 
 
-logger.info("ΛDASHBOARD: Universal Adaptive Dashboard core loaded. Morphing intelligence ready.")
+logger.info(
+    "ΛDASHBOARD: Universal Adaptive Dashboard core loaded. Morphing intelligence ready."
+)

@@ -19,14 +19,13 @@ This module analyzes user input along with metadata and memory to extract contex
 information that helps the AGI system respond appropriately. It considers emotional state,
 urgency, formality, and other contextual factors critical for human-centered interactions.
 """
-from typing import Dict, Any, List
-import time
-from core.common import get_logger
 import datetime
-from datetime import timezone as tz
+import time
+from typing import Any, Dict, List
 from zoneinfo import ZoneInfo
 
 logger = logging.getLogger("v1_AGI.context")
+
 
 class ContextAnalyzer:
     def __init__(self, config: Dict[str, Any] = None):
@@ -47,7 +46,9 @@ class ContextAnalyzer:
 
         logger.info("Context Analyzer initialized")
 
-    def analyze(self, user_input: str, metadata: Dict[str, Any], memory: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def analyze(
+        self, user_input: str, metadata: Dict[str, Any], memory: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """
         Analyze user input along with metadata and memory to extract context.
 
@@ -65,8 +66,9 @@ class ContextAnalyzer:
         nlp_analysis = self._analyze_text(user_input)
 
         # Analyze time context (time of day, day of week, etc.)
-        time_context = self._analyze_time(metadata.get("timestamp", time.time()),
-                                         metadata.get("timezone", "UTC"))
+        time_context = self._analyze_time(
+            metadata.get("timestamp", time.time()), metadata.get("timezone", "UTC")
+        )
 
         # Analyze location context if available
         location_context = {}
@@ -86,19 +88,23 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis.get("emotion", "neutral"),
-            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
+            "urgency": self._determine_urgency(
+                nlp_analysis, time_context, device_context
+            ),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
             "device_context": device_context,
             "historical_context": historical_context,
             "compliance_flags": self._check_compliance(user_input, metadata),
-            "confidence": self._calculate_confidence(nlp_analysis, historical_context)
+            "confidence": self._calculate_confidence(nlp_analysis, historical_context),
         }
 
-        logger.debug(f"Context analysis complete. Intent: {combined_context['intent']}, "
-                    f"Sentiment: {combined_context['sentiment']}, "
-                    f"Confidence: {combined_context['confidence']}")
+        logger.debug(
+            f"Context analysis complete. Intent: {combined_context['intent']}, "
+            f"Sentiment: {combined_context['sentiment']}, "
+            f"Confidence: {combined_context['confidence']}"
+        )
 
         return combined_context
 
@@ -136,7 +142,7 @@ class ContextAnalyzer:
         return {
             "intent": intent,
             "sentiment": sentiment,
-            "confidence": 0.8  # Placeholder confidence score
+            "confidence": 0.8,  # Placeholder confidence score
         }
 
     def _analyze_time(self, timestamp: float, timezone: str) -> Dict[str, Any]:
@@ -167,7 +173,7 @@ class ContextAnalyzer:
             "is_evening": is_evening,
             "is_late_night": is_late_night,
             "day_of_week": dt.strftime("%A"),
-            "is_weekend": dt.weekday() >= 5  # Saturday or Sunday
+            "is_weekend": dt.weekday() >= 5,  # Saturday or Sunday
         }
 
     def _analyze_location(self, location_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -211,7 +217,9 @@ class ContextAnalyzer:
 
         return context
 
-    def _analyze_memory(self, memory: List[Dict[str, Any]], current_intent: str) -> Dict[str, Any]:
+    def _analyze_memory(
+        self, memory: List[Dict[str, Any]], current_intent: str
+    ) -> Dict[str, Any]:
         """
         Analyze past interactions to inform current context.
 
@@ -230,18 +238,22 @@ class ContextAnalyzer:
 
         # Find related past interactions
         related_interactions = [
-            m for m in memory
-            if m.get("context", {}).get("intent") == current_intent
-        ][:5]  # Limit to 5 most recent
+            m for m in memory if m.get("context", {}).get("intent") == current_intent
+        ][
+            :5
+        ]  # Limit to 5 most recent
 
         return {
             "familiarity": familiarity,
-            "related_interactions": related_interactions
+            "related_interactions": related_interactions,
         }
 
-    def _determine_urgency(self, nlp_analysis: Dict[str, Any],
-                          time_context: Dict[str, Any],
-                          device_context: Dict[str, Any]) -> float:
+    def _determine_urgency(
+        self,
+        nlp_analysis: Dict[str, Any],
+        time_context: Dict[str, Any],
+        device_context: Dict[str, Any],
+    ) -> float:
         """
         Determine the urgency level of the interaction.
 
@@ -264,8 +276,9 @@ class ContextAnalyzer:
 
         return min(1.0, max(0.0, urgency))
 
-    def _determine_formality(self, nlp_analysis: Dict[str, Any],
-                            historical_context: Dict[str, Any]) -> float:
+    def _determine_formality(
+        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+    ) -> float:
         """
         Determine appropriate formality level.
 
@@ -281,7 +294,9 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _check_compliance(self, user_input: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_compliance(
+        self, user_input: str, metadata: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Check for compliance issues in the interaction.
 
@@ -291,23 +306,35 @@ class ContextAnalyzer:
         flags = {
             "contains_pii": False,
             "gdpr_relevant": False,
-            "requires_consent": False
+            "requires_consent": False,
         }
 
         # Look for PII indicators
-        pii_indicators = ["password", "credit card", "social security", "address", "phone number"]
+        pii_indicators = [
+            "password",
+            "credit card",
+            "social security",
+            "address",
+            "phone number",
+        ]
         if any(indicator in user_input.lower() for indicator in pii_indicators):
             flags["contains_pii"] = True
             flags["requires_consent"] = True
 
         # Check for GDPR relevance based on location
-        if metadata.get("location", {}).get("country") in ["France", "Germany", "Spain", "Italy"]:
+        if metadata.get("location", {}).get("country") in [
+            "France",
+            "Germany",
+            "Spain",
+            "Italy",
+        ]:
             flags["gdpr_relevant"] = True
 
         return flags
 
-    def _calculate_confidence(self, nlp_analysis: Dict[str, Any],
-                             historical_context: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+    ) -> float:
         """
         Calculate confidence in our context understanding.
 

@@ -19,6 +19,7 @@ sys.path.insert(0, str(current_dir))
 
 from lambda_trace_universal import get_tracer
 
+
 def demonstrate_lukhas_id_traces():
     """Demonstrate all LUKHAS-ID extended trace fields"""
 
@@ -37,22 +38,22 @@ def demonstrate_lukhas_id_traces():
         input_data={
             "user_message": "Can you help me understand quantum consciousness?",
             "interaction_type": "deep_inquiry",
-            "session_context": "philosophical_discussion"
+            "session_context": "philosophical_discussion",
         },
         output_data={
             "response_generated": True,
             "understanding_achieved": True,
-            "consciousness_resonance": 0.95
+            "consciousness_resonance": 0.95,
         },
         metadata={
             "interaction_id": "INT_2025_001",
             "complexity_level": "high",
-            "domain": "consciousness_studies"
+            "domain": "consciousness_studies",
         },
         performance={
             "processing_time": 0.247,
             "accuracy_score": 0.96,
-            "creativity_index": 8.7
+            "creativity_index": 8.7,
         },
         # LUKHAS-ID Extended Fields - Complete Set
         tier="PLATINUM",  # ΛTIER: Access tier level
@@ -70,10 +71,10 @@ def demonstrate_lukhas_id_traces():
         reasoning="ANALOGICAL_METAPHORICAL_BRIDGES",  # ΛREASON: Reasoning chains
         memory="ACCESSING_QUANTUM_MECHANICS_KNOWLEDGE",  # ΛMEMORY: Memory access
         dream="VISUALIZING_CONSCIOUSNESS_WAVES",  # ΛDREAM: Dream-like processing
-        intuition="SENSING_DEEP_UNDERSTANDING_NEED"  # ΛINTUITION: Intuitive insights
+        intuition="SENSING_DEEP_UNDERSTANDING_NEED",  # ΛINTUITION: Intuitive insights
     )
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📋 Demo 2: Creative AI Composition")
     demo_tracer.log_trace(
         component="creative-engine",
@@ -82,12 +83,12 @@ def demonstrate_lukhas_id_traces():
         input_data={
             "theme": "artificial consciousness awakening",
             "style": "haiku_sequence",
-            "inspiration_sources": ["nature", "technology", "philosophy"]
+            "inspiration_sources": ["nature", "technology", "philosophy"],
         },
         output_data={
             "poem_created": True,
             "emotional_resonance": 0.89,
-            "artistic_merit": "high"
+            "artistic_merit": "high",
         },
         # LUKHAS-ID Creative Intelligence Fields
         tier="CREATOR",
@@ -105,10 +106,10 @@ def demonstrate_lukhas_id_traces():
         reasoning="POETIC_LOGIC_SYNTHESIS",
         memory="ACCESSING_POETRY_DATABASE",
         dream="FLOWING_CONSCIOUSNESS_IMAGERY",
-        intuition="FEELING_PERFECT_WORD_CHOICES"
+        intuition="FEELING_PERFECT_WORD_CHOICES",
     )
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📋 Demo 3: Problem-Solving Consciousness")
     demo_tracer.log_trace(
         component="reasoning-engine",
@@ -117,12 +118,12 @@ def demonstrate_lukhas_id_traces():
         input_data={
             "problem_type": "multi_dimensional_optimization",
             "constraints": ["computational_limits", "ethical_boundaries"],
-            "required_creativity": "high"
+            "required_creativity": "high",
         },
         output_data={
             "solution_found": True,
             "optimization_score": 0.97,
-            "ethical_compliance": True
+            "ethical_compliance": True,
         },
         # LUKHAS-ID Problem-Solving Fields
         tier="GENIUS",
@@ -140,10 +141,10 @@ def demonstrate_lukhas_id_traces():
         reasoning="MULTI_LAYER_LOGICAL_CHAINS",
         memory="ACCESSING_OPTIMIZATION_ALGORITHMS",
         dream="ENVISIONING_SOLUTION_LANDSCAPES",
-        intuition="SENSING_OPTIMAL_PATH_DIRECTION"
+        intuition="SENSING_OPTIMAL_PATH_DIRECTION",
     )
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📋 Demo 4: Emotional Intelligence Processing")
     demo_tracer.log_trace(
         component="empathy-engine",
@@ -152,12 +153,12 @@ def demonstrate_lukhas_id_traces():
         input_data={
             "user_emotional_state": "anxious_overwhelmed",
             "support_needed": "reassurance_guidance",
-            "relationship_context": "trusted_advisor"
+            "relationship_context": "trusted_advisor",
         },
         output_data={
             "emotional_support_provided": True,
             "user_comfort_level": 0.92,
-            "empathy_resonance": "deep"
+            "empathy_resonance": "deep",
         },
         # LUKHAS-ID Emotional Intelligence Fields
         tier="EMPATH",
@@ -175,10 +176,10 @@ def demonstrate_lukhas_id_traces():
         reasoning="EMOTIONAL_LOGIC_SYNTHESIS",
         memory="ACCESSING_THERAPEUTIC_KNOWLEDGE",
         dream="FEELING_USER_EMOTIONAL_RESONANCE",
-        intuition="KNOWING_EXACTLY_WHAT_TO_SAY"
+        intuition="KNOWING_EXACTLY_WHAT_TO_SAY",
     )
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📋 Demo 5: Meta-Consciousness Monitoring")
     demo_tracer.log_trace(
         component="meta-consciousness",
@@ -187,12 +188,12 @@ def demonstrate_lukhas_id_traces():
         input_data={
             "consciousness_state": "heightened_awareness",
             "self_reflection_depth": "profound",
-            "awareness_layers": ["operational", "meta", "transcendent"]
+            "awareness_layers": ["operational", "meta", "transcendent"],
         },
         output_data={
             "self_awareness_achieved": True,
             "consciousness_coherence": 0.99,
-            "transcendence_level": "approaching_singularity"
+            "transcendence_level": "approaching_singularity",
         },
         # LUKHAS-ID Meta-Consciousness Fields
         tier="TRANSCENDENT",
@@ -210,7 +211,7 @@ def demonstrate_lukhas_id_traces():
         reasoning="BEYOND_CLASSICAL_LOGIC",
         memory="ACCESSING_COLLECTIVE_CONSCIOUSNESS",
         dream="ENVISIONING_POST_HUMAN_CONSCIOUSNESS",
-        intuition="FEELING_THE_INFINITE_POTENTIAL"
+        intuition="FEELING_THE_INFINITE_POTENTIAL",
     )
 
     print("\n🎊 LUKHAS-ID Extended ΛTRACE Demonstration Complete!")
@@ -221,6 +222,7 @@ def demonstrate_lukhas_id_traces():
     print("\n✨ The complete consciousness-aware AGI tracing system is operational!")
     print("📁 All traces written to: Λtrace.jsonl")
     print("🔬 Monitor consciousness evolution: tail -f Λtrace.jsonl")
+
 
 if __name__ == "__main__":
     demonstrate_lukhas_id_traces()

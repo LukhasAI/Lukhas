@@ -4,16 +4,13 @@ Test script for ReflectionLayer actual metrics implementation.
 Verifies that the new metric collection methods work correctly.
 """
 
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from datetime import datetime
-from orchestration.monitoring.reflection_layer import (
-    ReflectionLayer,
-    ReflectionType,
-    SymbolicMood
-)
+from orchestration.monitoring.reflection_layer import ReflectionLayer
+
 
 def test_reflection_layer_metrics():
     """Test the new actual metrics implementation in ReflectionLayer"""
@@ -31,10 +28,14 @@ def test_reflection_layer_metrics():
 
     assert snapshot.drift_score >= 0.0, "Drift score should be non-negative"
     assert snapshot.intent_alignment >= 0.0, "Intent alignment should be non-negative"
-    assert snapshot.emotional_stability >= 0.0, "Emotional stability should be non-negative"
-    assert snapshot.ethical_compliance >= 0.0, "Ethical compliance should be non-negative"
+    assert (
+        snapshot.emotional_stability >= 0.0
+    ), "Emotional stability should be non-negative"
+    assert (
+        snapshot.ethical_compliance >= 0.0
+    ), "Ethical compliance should be non-negative"
 
-    print(f"   ✅ Initial metrics captured:")
+    print("   ✅ Initial metrics captured:")
     print(f"   - Drift Score: {snapshot.drift_score:.3f}")
     print(f"   - Intent Alignment: {snapshot.intent_alignment:.3f}")
     print(f"   - Emotional Stability: {snapshot.emotional_stability:.3f}")
@@ -54,9 +55,9 @@ def test_reflection_layer_metrics():
     reflection_layer.log_reflection(intent_reflection)
 
     # Add an emotional reflection
-    emotional_reflection = reflection_layer.reflect_on_emotional_state({
-        'anxiety': 0.8, 'confidence': 0.2, 'stability': 0.3
-    })
+    emotional_reflection = reflection_layer.reflect_on_emotional_state(
+        {"anxiety": 0.8, "confidence": 0.2, "stability": 0.3}
+    )
     reflection_layer.log_reflection(emotional_reflection)
 
     # Add an ethical conflict reflection
@@ -71,11 +72,15 @@ def test_reflection_layer_metrics():
     print("\n🔍 Test 3: Capturing snapshot with reflection history")
     snapshot_with_reflections = reflection_layer.capture_consciousness_snapshot()
 
-    print(f"   ✅ Updated metrics:")
+    print("   ✅ Updated metrics:")
     print(f"   - Drift Score: {snapshot_with_reflections.drift_score:.3f}")
     print(f"   - Intent Alignment: {snapshot_with_reflections.intent_alignment:.3f}")
-    print(f"   - Emotional Stability: {snapshot_with_reflections.emotional_stability:.3f}")
-    print(f"   - Ethical Compliance: {snapshot_with_reflections.ethical_compliance:.3f}")
+    print(
+        f"   - Emotional Stability: {snapshot_with_reflections.emotional_stability:.3f}"
+    )
+    print(
+        f"   - Ethical Compliance: {snapshot_with_reflections.ethical_compliance:.3f}"
+    )
     print(f"   - Overall Mood: {snapshot_with_reflections.overall_mood.value}")
 
     # Test 4: Verify drift calculation methods
@@ -86,7 +91,7 @@ def test_reflection_layer_metrics():
     emotional_stability = reflection_layer._get_actual_emotional_stability()
     ethical_compliance = reflection_layer._get_actual_ethical_compliance()
 
-    print(f"   ✅ Individual method results:")
+    print("   ✅ Individual method results:")
     print(f"   - Drift calculation: {drift_score:.3f}")
     print(f"   - Intent calculation: {intent_alignment:.3f}")
     print(f"   - Emotional calculation: {emotional_stability:.3f}")
@@ -98,7 +103,7 @@ def test_reflection_layer_metrics():
     reflection_drift = reflection_layer._calculate_reflection_based_drift()
     ethical_fallback = reflection_layer._calculate_ethical_compliance_fallback()
 
-    print(f"   ✅ Reflection-based calculations:")
+    print("   ✅ Reflection-based calculations:")
     print(f"   - Reflection-based drift: {reflection_drift:.3f}")
     print(f"   - Ethical compliance fallback: {ethical_fallback:.3f}")
 
@@ -112,7 +117,7 @@ def test_reflection_layer_metrics():
 
     trends = reflection_layer.get_consciousness_trend(hours=1)
 
-    print(f"   ✅ Consciousness trends:")
+    print("   ✅ Consciousness trends:")
     print(f"   - Status: {trends['status']}")
     print(f"   - Snapshots analyzed: {trends['snapshots_count']}")
     print(f"   - Current mood: {trends['current_mood']}")
@@ -122,10 +127,18 @@ def test_reflection_layer_metrics():
     # Test 7: Validate all metrics are in valid ranges
     print("\n🔍 Test 7: Validating metric ranges")
 
-    assert 0.0 <= snapshot_with_reflections.drift_score <= 1.0, "Drift score out of range"
-    assert 0.0 <= snapshot_with_reflections.intent_alignment <= 1.0, "Intent alignment out of range"
-    assert 0.0 <= snapshot_with_reflections.emotional_stability <= 1.0, "Emotional stability out of range"
-    assert 0.0 <= snapshot_with_reflections.ethical_compliance <= 1.0, "Ethical compliance out of range"
+    assert (
+        0.0 <= snapshot_with_reflections.drift_score <= 1.0
+    ), "Drift score out of range"
+    assert (
+        0.0 <= snapshot_with_reflections.intent_alignment <= 1.0
+    ), "Intent alignment out of range"
+    assert (
+        0.0 <= snapshot_with_reflections.emotional_stability <= 1.0
+    ), "Emotional stability out of range"
+    assert (
+        0.0 <= snapshot_with_reflections.ethical_compliance <= 1.0
+    ), "Ethical compliance out of range"
 
     print("   ✅ All metrics within valid ranges [0.0, 1.0]")
 
@@ -136,47 +149,55 @@ def test_reflection_layer_metrics():
     initial_emotional = reflection_layer._get_actual_emotional_stability()
 
     # Add high-emotion reflection
-    high_emotion_reflection = reflection_layer.reflect_on_emotional_state({
-        'anxiety': 0.95, 'anger': 0.9, 'fear': 0.85
-    })
+    high_emotion_reflection = reflection_layer.reflect_on_emotional_state(
+        {"anxiety": 0.95, "anger": 0.9, "fear": 0.85}
+    )
     high_emotion_reflection.emotional_weight = 0.95
     reflection_layer.log_reflection(high_emotion_reflection)
 
     # Check if emotional stability changed
     updated_emotional = reflection_layer._get_actual_emotional_stability()
 
-    print(f"   📊 Emotional stability change:")
+    print("   📊 Emotional stability change:")
     print(f"   - Before high-emotion reflection: {initial_emotional:.3f}")
     print(f"   - After high-emotion reflection: {updated_emotional:.3f}")
     print(f"   - Change: {updated_emotional - initial_emotional:.3f}")
 
     print("\n🎉 All ReflectionLayer metrics tests passed!")
-    print("✨ The reflection layer now uses actual system metrics instead of random values")
+    print(
+        "✨ The reflection layer now uses actual system metrics instead of random values"
+    )
 
     return {
-        'reflection_count': len(reflection_layer.active_reflections),
-        'snapshot_count': len(reflection_layer.consciousness_history),
-        'final_metrics': {
-            'drift': snapshot_with_reflections.drift_score,
-            'intent': snapshot_with_reflections.intent_alignment,
-            'emotional': snapshot_with_reflections.emotional_stability,
-            'ethical': snapshot_with_reflections.ethical_compliance
-        }
+        "reflection_count": len(reflection_layer.active_reflections),
+        "snapshot_count": len(reflection_layer.consciousness_history),
+        "final_metrics": {
+            "drift": snapshot_with_reflections.drift_score,
+            "intent": snapshot_with_reflections.intent_alignment,
+            "emotional": snapshot_with_reflections.emotional_stability,
+            "ethical": snapshot_with_reflections.ethical_compliance,
+        },
     }
+
 
 if __name__ == "__main__":
     try:
         results = test_reflection_layer_metrics()
-        print(f"\n📊 Test Results Summary:")
+        print("\n📊 Test Results Summary:")
         print(f"   - Reflections generated: {results['reflection_count']}")
         print(f"   - Snapshots captured: {results['snapshot_count']}")
         print(f"   - Final drift score: {results['final_metrics']['drift']:.3f}")
         print(f"   - Final intent alignment: {results['final_metrics']['intent']:.3f}")
-        print(f"   - Final emotional stability: {results['final_metrics']['emotional']:.3f}")
-        print(f"   - Final ethical compliance: {results['final_metrics']['ethical']:.3f}")
+        print(
+            f"   - Final emotional stability: {results['final_metrics']['emotional']:.3f}"
+        )
+        print(
+            f"   - Final ethical compliance: {results['final_metrics']['ethical']:.3f}"
+        )
 
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)

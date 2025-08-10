@@ -22,57 +22,62 @@ Copyright (c) 2025 LUKHAS AI Research. All rights reserved.
 Licensed under the LUKHAS Core License - see LICENSE.md for details.
 """
 
-#+──────────────────────────────────────────────────────────────────────────────+
-#+──────────────────────────────────────────────────────────────────────────────+
+# +──────────────────────────────────────────────────────────────────────────────+
+# +──────────────────────────────────────────────────────────────────────────────+
 #
-#📜 Description:
+# 📜 Description:
 #    This module scans the symbolic dream log and filters out entries
 #    marked with `"suggest_voice": true`, routing them into the
 #    narration_queue.jsonl for further processing by the LUKHAS voice modules.
 #
-#📂 Related Modules:
+# 📂 Related Modules:
 #    - dream_recorder.py (logs dreams)
 #    - Λ_voice_narrator.py (narrates)
 #    narration_queue.jsonl for further processing by the LUKHAS voice modules.
 #
-#📂 Related Modules:
+# 📂 Related Modules:
 #    - dream_recorder.py (logs dreams)
 #    - voice_narrator.py (narrates)
 #    - dream_voice_pipeline.py (full voice loop)
 #    - feedback_loop.py (can also mark replay-worthy dreams)
 #
-#🔐 Tier Controlled:
+# 🔐 Tier Controlled:
 #    Only dreams with valid tier access are queued.
 #
-#🧠 Symbolic Pipeline Role:
+# 🧠 Symbolic Pipeline Role:
 #    This node initiates the symbolic voice reflection chain, transforming
 #    passive dream logs into actionable, narratable insights - forming the
 #    bridge between stored memory and expressive voice output.
 
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 DREAM_LOG = Path("core/logs/dream_log.jsonl")
 QUEUE_FILE = Path("core/logs/narration_queue.jsonl")
 
+
 def load_dreams():
     if not DREAM_LOG.exists():
         return []
-    with open(DREAM_LOG, "r") as f:
+    with open(DREAM_LOG) as f:
         return [json.loads(line) for line in f if line.strip()]
+
 
 def filter_narratable_dreams(dreams):
     return [
-        d for d in dreams
+        d
+        for d in dreams
         if d.get("suggest_voice") is True and d.get("consent") and d.get("tier", 0) >= 3
     ]
+
 
 def save_to_queue(filtered):
     with open(QUEUE_FILE, "a") as f:
         for entry in filtered:
             entry["queued_at"] = datetime.utcnow().isoformat()
             f.write(json.dumps(entry) + "\n")
+
 
 def run_narration_queue_builder():
     dreams = load_dreams()
@@ -83,10 +88,11 @@ def run_narration_queue_builder():
         save_to_queue(narratables)
         print(f"🎙 {len(narratables)} dreams added to narration queue.")
 
+
 run_narration_queue_builder()
 
-#+──────────────────────────────────────────────────────────────────────────────+
-#+──────────────────────────────────────────────────────────────────────────────+
+# +──────────────────────────────────────────────────────────────────────────────+
+# +──────────────────────────────────────────────────────────────────────────────+
 #
 # To run this module and update the narration queue, use:
 #
@@ -97,12 +103,6 @@ run_narration_queue_builder()
 # to narration_queue.jsonl for downstream use by voice_narrator.py.
 #
 # 🖤 Lukhas will now speak only what the soul has symbolically allowed.
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

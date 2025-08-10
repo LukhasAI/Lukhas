@@ -6,26 +6,18 @@ allowing plugins to process memory items before storage and after recall.
 ΛTAG: memory_hooks_interface
 """
 
-from .base import (
-    MemoryItem,
-    MemoryHook,
-    HookExecutionError
-)
-from .registry import (
-    HookRegistry,
-    HookPriority,
-    HookRegistrationError
-)
+from .base import HookExecutionError, MemoryHook, MemoryItem
+from .registry import HookPriority, HookRegistrationError, HookRegistry
 
 __all__ = [
-    'MemoryItem',
-    'MemoryHook',
-    'HookExecutionError',
-    'HookRegistry',
-    'HookPriority',
-    'HookRegistrationError'
+    "MemoryItem",
+    "MemoryHook",
+    "HookExecutionError",
+    "HookRegistry",
+    "HookPriority",
+    "HookRegistrationError",
 ]
 
 # Module metadata
-__version__ = '1.0.0'
-__author__ = 'LUKHAS AGI Team'
+__version__ = "1.0.0"
+__author__ = "LUKHAS AGI Team"

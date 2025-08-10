@@ -1,19 +1,28 @@
-import pytest
-from unittest.mock import patch, MagicMock
-import asyncio
-
-from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator, SimulationType, MAX_RECURSION_DEPTH
-from memory.core_memory.fold_lineage_tracker import FoldLineageTracker, CausationType, MAX_DRIFT_RATE
 from trace.drift_metrics import compute_drift_score
+from unittest.mock import MagicMock, patch
+
+import pytest
+from dream.hyperspace_dream_simulator import (
+    MAX_RECURSION_DEPTH,
+    HyperspaceDreamSimulator,
+)
+
+from memory.core_memory.fold_lineage_tracker import (
+    MAX_DRIFT_RATE,
+    CausationType,
+    FoldLineageTracker,
+)
+
 
 @pytest.fixture
 def mock_logger():
-    with patch('lukhas.dream.hyperspace_dream_simulator.logger') as mock_hds_logger, \
-         patch('lukhas.memory.core_memory.fold_lineage_tracker.logger') as mock_flt_logger:
-        yield {
-            'hds': mock_hds_logger,
-            'flt': mock_flt_logger
-        }
+    with patch(
+        "lukhas.dream.hyperspace_dream_simulator.logger"
+    ) as mock_hds_logger, patch(
+        "lukhas.memory.core_memory.fold_lineage_tracker.logger"
+    ) as mock_flt_logger:
+        yield {"hds": mock_hds_logger, "flt": mock_flt_logger}
+
 
 @pytest.mark.asyncio
 async def test_hds_recursion_depth_guard(mock_logger):
@@ -29,19 +38,17 @@ async def test_hds_recursion_depth_guard(mock_logger):
     high_recursion_depth = MAX_RECURSION_DEPTH + 1
 
     result = await hds.simulate_decision(
-        scenario_id,
-        timeline_id,
-        {'type': 'test'},
-        recursion_depth=high_recursion_depth
+        scenario_id, timeline_id, {"type": "test"}, recursion_depth=high_recursion_depth
     )
 
     assert result == []
-    mock_logger['hds'].warning.assert_called_with(
+    mock_logger["hds"].warning.assert_called_with(
         "ÎHDS: Max recursion depth exceeded, breaking loop",
         scenario_id=scenario_id,
         timeline_id=timeline_id,
-        recursion_depth=high_recursion_depth
+        recursion_depth=high_recursion_depth,
     )
+
 
 @pytest.mark.asyncio
 async def test_hds_token_budget_guard(mock_logger):
@@ -53,19 +60,15 @@ async def test_hds_token_budget_guard(mock_logger):
     timeline_id = hds.active_scenarios[scenario_id].root_timeline
 
     # Simulate a decision that will exceed the token budget
-    large_decision = {'type': 'test', 'data': 'a' * 1000}
-    result = await hds.simulate_decision(
-        scenario_id,
-        timeline_id,
-        large_decision
-    )
+    large_decision = {"type": "test", "data": "a" * 1000}
+    result = await hds.simulate_decision(scenario_id, timeline_id, large_decision)
 
     assert result == []
-    mock_logger['hds'].warning.assert_called_with(
+    mock_logger["hds"].warning.assert_called_with(
         "ÎHDS: Token budget exceeded, halting simulation",
         scenario_id=scenario_id,
         timeline_id=timeline_id,
-        tokens_used=hds.tokens_used
+        tokens_used=hds.tokens_used,
     )
 
 
@@ -78,17 +81,20 @@ def test_flt_recursion_depth_guard(mock_logger):
     high_recursion_depth = MAX_RECURSION_DEPTH + 1
 
     result = flt.track_causation(
-        'source', 'target', CausationType.ASSOCIATION,
-        recursion_depth=high_recursion_depth
+        "source",
+        "target",
+        CausationType.ASSOCIATION,
+        recursion_depth=high_recursion_depth,
     )
 
     assert result == ""
-    mock_logger['flt'].warning.assert_called_with(
+    mock_logger["flt"].warning.assert_called_with(
         "FoldCausation: Max recursion depth exceeded, breaking loop",
-        source='source',
-        target='target',
-        recursion_depth=high_recursion_depth
+        source="source",
+        target="target",
+        recursion_depth=high_recursion_depth,
     )
+
 
 def test_flt_drift_rate_guard(mock_logger):
     """
@@ -97,25 +103,24 @@ def test_flt_drift_rate_guard(mock_logger):
     flt = FoldLineageTracker()
 
     # Mock a fold node with high drift score
-    flt.fold_nodes['source'] = MagicMock(drift_score=MAX_DRIFT_RATE + 0.1)
+    flt.fold_nodes["source"] = MagicMock(drift_score=MAX_DRIFT_RATE + 0.1)
 
-    result = flt.track_causation(
-        'source', 'target', CausationType.ASSOCIATION
-    )
+    result = flt.track_causation("source", "target", CausationType.ASSOCIATION)
 
     assert result == ""
-    mock_logger['flt'].warning.assert_called_with(
+    mock_logger["flt"].warning.assert_called_with(
         "FoldCausation: Drift rate exceeded, halting tracking",
-        source='source',
-        drift_score=flt.fold_nodes['source'].drift_score
+        source="source",
+        drift_score=flt.fold_nodes["source"].drift_score,
     )
+
 
 def test_drift_metrics_token_budget():
     """
     Tests that the compute_drift_score function respects the token budget.
     """
-    state1 = {'a': 1, 'b': [1, 2, 3]}
-    state2 = {'a': 2, 'b': [4, 5, 6], 'c': 'a' * 1000}
+    state1 = {"a": 1, "b": [1, 2, 3]}
+    state2 = {"a": 2, "b": [4, 5, 6], "c": "a" * 1000}
 
     # With a small budget, the score should be incomplete
     score_low_budget = compute_drift_score(state1, state2, max_tokens=10)

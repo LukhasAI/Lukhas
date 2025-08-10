@@ -14,31 +14,42 @@ Features:
 Author: LUKHAS AGI Core
 """
 
-import os
 import json
-import asyncio
+import os
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List
 
 # Web framework imports
 try:
-    from flask import Flask, render_template, jsonify, request, websocket
+    from flask import Flask, jsonify, render_template, request, websocket
     from flask_socketio import SocketIO, emit
+
     FLASK_AVAILABLE = True
 except ImportError:
     FLASK_AVAILABLE = False
-    print("Warning: Flask not available. Install with: pip install flask flask-socketio")
+    print(
+        "Warning: Flask not available. Install with: pip install flask flask-socketio"
+    )
 
 # Import our journal system
 try:
     import sys
+
     sys.path.append(str(Path(__file__).parent.parent))
-    from journal_mode import VeriFoldJournal, replay_chain, gpt_summarize, replay_with_gpt_summary
+    from journal_mode import (
+        VeriFoldJournal,
+        gpt_summarize,
+        replay_chain,
+        replay_with_gpt_summary,
+    )
+
     JOURNAL_AVAILABLE = True
 except ImportError:
     JOURNAL_AVAILABLE = False
-    print("Warning: Could not import journal_mode. Make sure it's in the parent directory.")
+    print(
+        "Warning: Could not import journal_mode. Make sure it's in the parent directory."
+    )
 
 
 class VeriFoldWebJournal:
@@ -61,9 +72,9 @@ class VeriFoldWebJournal:
 
         # Initialize Flask app if available
         if FLASK_AVAILABLE:
-            self.app = Flask(__name__,
-                           template_folder='templates',
-                           static_folder='static')
+            self.app = Flask(
+                __name__, template_folder="templates", static_folder="static"
+            )
             self.app.secret_key = os.urandom(24)
             self.socketio = SocketIO(self.app, cors_allowed_origins="*")
             self.setup_routes()
@@ -86,32 +97,33 @@ class VeriFoldWebJournal:
     def setup_routes(self):
         """Set up Flask routes for the web interface."""
 
-        @self.app.route('/')
+        @self.app.route("/")
         def index():
             """Main journal interface."""
-            return render_template('journal.html')
+            return render_template("journal.html")
 
-        @self.app.route('/api/entries')
+        @self.app.route("/api/entries")
         def get_entries():
             """Get journal entries as JSON."""
             entries = self.load_journal_entries()
-            return jsonify({
-                'entries': entries,
-                'total': len(entries),
-                'last_update': datetime.now().isoformat()
-            })
+            return jsonify(
+                {
+                    "entries": entries,
+                    "total": len(entries),
+                    "last_update": datetime.now().isoformat(),
+                }
+            )
 
-        @self.app.route('/api/summary')
+        @self.app.route("/api/summary")
         def get_gpt_summary():
             """Get GPT-4 summary of recent entries."""
-            limit = request.args.get('limit', 5, type=int)
+            limit = request.args.get("limit", 5, type=int)
             summary = self.generate_live_summary(limit)
-            return jsonify({
-                'summary': summary,
-                'timestamp': datetime.now().isoformat()
-            })
+            return jsonify(
+                {"summary": summary, "timestamp": datetime.now().isoformat()}
+            )
 
-        @self.app.route('/api/refresh')
+        @self.app.route("/api/refresh")
         def refresh_entries():
             """Force refresh of journal entries."""
             self.cached_entries = []
@@ -119,38 +131,38 @@ class VeriFoldWebJournal:
 
             # Emit update to connected clients
             if self.socketio:
-                self.socketio.emit('entries_updated', {
-                    'entries': entries,
-                    'timestamp': datetime.now().isoformat()
-                })
+                self.socketio.emit(
+                    "entries_updated",
+                    {"entries": entries, "timestamp": datetime.now().isoformat()},
+                )
 
-            return jsonify({'status': 'refreshed', 'count': len(entries)})
+            return jsonify({"status": "refreshed", "count": len(entries)})
 
         # WebSocket events
-        @self.socketio.on('connect')
+        @self.socketio.on("connect")
         def handle_connect():
             """Handle client connection."""
-            print('Client connected to VeriFold Web Journal')
+            print("Client connected to VeriFold Web Journal")
             entries = self.load_journal_entries()
-            emit('initial_entries', {
-                'entries': entries,
-                'timestamp': datetime.now().isoformat()
-            })
+            emit(
+                "initial_entries",
+                {"entries": entries, "timestamp": datetime.now().isoformat()},
+            )
 
-        @self.socketio.on('request_summary')
+        @self.socketio.on("request_summary")
         def handle_summary_request(data):
             """Handle GPT summary request."""
-            limit = data.get('limit', 5)
+            limit = data.get("limit", 5)
             summary = self.generate_live_summary(limit)
-            emit('summary_generated', {
-                'summary': summary,
-                'timestamp': datetime.now().isoformat()
-            })
+            emit(
+                "summary_generated",
+                {"summary": summary, "timestamp": datetime.now().isoformat()},
+            )
 
-        @self.socketio.on('disconnect')
+        @self.socketio.on("disconnect")
         def handle_disconnect():
             """Handle client disconnection."""
-            print('Client disconnected from VeriFold Web Journal')
+            print("Client disconnected from VeriFold Web Journal")
 
     def load_journal_entries(self, limit: int = 20) -> List[Dict[str, Any]]:
         """
@@ -167,7 +179,7 @@ class VeriFoldWebJournal:
 
         try:
             # Load entries from logbook
-            with open(self.logbook_path, 'r') as f:
+            with open(self.logbook_path) as f:
                 lines = f.readlines()
 
             # Process recent entries
@@ -181,21 +193,37 @@ class VeriFoldWebJournal:
 
                     # Format for web display
                     formatted_entry = {
-                        'id': f"entry_{entry.timestamp}_{i}",
-                        'timestamp': entry.timestamp,
-                        'formatted_time': datetime.fromtimestamp(entry.timestamp).strftime('%Y-%m-%d %H:%M:%S'),
-                        'title': entry.title,
-                        'narrative': entry.narrative,
-                        'technical_summary': entry.technical_summary,
-                        'emotion_tags': entry.emotion_tags,
-                        'symbolic_meaning': entry.symbolic_meaning,
-                        'hash_snippet': entry.related_hashes[0][:16] + '...' if entry.related_hashes else 'unknown',
-                        'verified': record.get('verified', False),
-                        'location': record.get('metadata', {}).get('location', 'unknown'),
-                        'measurement_type': record.get('metadata', {}).get('measurement_type', 'unknown'),
-                        'entropy_score': record.get('metadata', {}).get('entropy_score', 0.0),
-                        'glyph_color': self._get_emotion_color(entry.emotion_tags),
-                        'glyph_symbol': self._get_quantum_symbol(record.get('metadata', {}).get('measurement_type', 'unknown'))
+                        "id": f"entry_{entry.timestamp}_{i}",
+                        "timestamp": entry.timestamp,
+                        "formatted_time": datetime.fromtimestamp(
+                            entry.timestamp
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "title": entry.title,
+                        "narrative": entry.narrative,
+                        "technical_summary": entry.technical_summary,
+                        "emotion_tags": entry.emotion_tags,
+                        "symbolic_meaning": entry.symbolic_meaning,
+                        "hash_snippet": (
+                            entry.related_hashes[0][:16] + "..."
+                            if entry.related_hashes
+                            else "unknown"
+                        ),
+                        "verified": record.get("verified", False),
+                        "location": record.get("metadata", {}).get(
+                            "location", "unknown"
+                        ),
+                        "measurement_type": record.get("metadata", {}).get(
+                            "measurement_type", "unknown"
+                        ),
+                        "entropy_score": record.get("metadata", {}).get(
+                            "entropy_score", 0.0
+                        ),
+                        "glyph_color": self._get_emotion_color(entry.emotion_tags),
+                        "glyph_symbol": self._get_quantum_symbol(
+                            record.get("metadata", {}).get(
+                                "measurement_type", "unknown"
+                            )
+                        ),
                     }
 
                     formatted_entries.append(formatted_entry)
@@ -207,7 +235,7 @@ class VeriFoldWebJournal:
             self.cached_entries = formatted_entries
             return formatted_entries
 
-        except (FileNotFoundError, IOError) as e:
+        except (OSError, FileNotFoundError) as e:
             print(f"Error reading logbook: {e}")
             return self._get_sample_entries()
 
@@ -215,39 +243,39 @@ class VeriFoldWebJournal:
         """Generate sample entries for demo purposes."""
         return [
             {
-                'id': 'sample_1',
-                'timestamp': datetime.now().timestamp(),
-                'formatted_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                'title': 'Quantum Whispers from the Digital Realm',
-                'narrative': 'In this moment of digital transcendence, the probabilistic observation crystallized into verification. The hash emerged from uncertainty, its signature validated with mathematical precision.',
-                'technical_summary': 'Hash verification completed successfully using SPHINCS+ post-quantum cryptography.',
-                'emotion_tags': ['wonder', 'transcendent', 'quantum'],
-                'symbolic_meaning': 'The dance of light revealing hidden polarities',
-                'hash_snippet': 'demo1234abcd...',
-                'verified': True,
-                'location': 'digital_lab',
-                'measurement_type': 'demo_measurement',
-                'entropy_score': 8.5,
-                'glyph_color': '#4CAF50',
-                'glyph_symbol': '🌟'
+                "id": "sample_1",
+                "timestamp": datetime.now().timestamp(),
+                "formatted_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "title": "Quantum Whispers from the Digital Realm",
+                "narrative": "In this moment of digital transcendence, the probabilistic observation crystallized into verification. The hash emerged from uncertainty, its signature validated with mathematical precision.",
+                "technical_summary": "Hash verification completed successfully using SPHINCS+ post-quantum cryptography.",
+                "emotion_tags": ["wonder", "transcendent", "quantum"],
+                "symbolic_meaning": "The dance of light revealing hidden polarities",
+                "hash_snippet": "demo1234abcd...",
+                "verified": True,
+                "location": "digital_lab",
+                "measurement_type": "demo_measurement",
+                "entropy_score": 8.5,
+                "glyph_color": "#4CAF50",
+                "glyph_symbol": "🌟",
             },
             {
-                'id': 'sample_2',
-                'timestamp': datetime.now().timestamp() - 3600,
-                'formatted_time': (datetime.now()).strftime('%Y-%m-%d %H:%M:%S'),
-                'title': 'The Measurement That Changed Everything',
-                'narrative': 'Through profound curiosity, the verification process unveiled truth. The quantum field yielded its secrets, cryptographically sealed and tamper-evident.',
-                'technical_summary': 'Quantum measurement processed with high entropy score.',
-                'emotion_tags': ['curiosity', 'profound', 'mystery'],
-                'symbolic_meaning': 'Information transcending space and time',
-                'hash_snippet': 'demo5678efgh...',
-                'verified': False,
-                'location': 'remote_lab',
-                'measurement_type': 'bell_state',
-                'entropy_score': 7.2,
-                'glyph_color': '#FF9800',
-                'glyph_symbol': '🔮'
-            }
+                "id": "sample_2",
+                "timestamp": datetime.now().timestamp() - 3600,
+                "formatted_time": (datetime.now()).strftime("%Y-%m-%d %H:%M:%S"),
+                "title": "The Measurement That Changed Everything",
+                "narrative": "Through profound curiosity, the verification process unveiled truth. The quantum field yielded its secrets, cryptographically sealed and tamper-evident.",
+                "technical_summary": "Quantum measurement processed with high entropy score.",
+                "emotion_tags": ["curiosity", "profound", "mystery"],
+                "symbolic_meaning": "Information transcending space and time",
+                "hash_snippet": "demo5678efgh...",
+                "verified": False,
+                "location": "remote_lab",
+                "measurement_type": "bell_state",
+                "entropy_score": 7.2,
+                "glyph_color": "#FF9800",
+                "glyph_symbol": "🔮",
+            },
         ]
 
     def _get_emotion_color(self, emotion_tags: List[str]) -> str:
@@ -261,14 +289,14 @@ class VeriFoldWebJournal:
             str: Hex color code
         """
         color_map = {
-            'wonder': '#9C27B0',      # Purple
-            'excitement': '#F44336',   # Red
-            'curiosity': '#2196F3',    # Blue
-            'focus': '#4CAF50',        # Green
-            'uncertainty': '#FF9800',  # Orange
-            'transcendent': '#E91E63', # Pink
-            'quantum': '#00BCD4',      # Cyan
-            'mystery': '#795548'       # Brown
+            "wonder": "#9C27B0",  # Purple
+            "excitement": "#F44336",  # Red
+            "curiosity": "#2196F3",  # Blue
+            "focus": "#4CAF50",  # Green
+            "uncertainty": "#FF9800",  # Orange
+            "transcendent": "#E91E63",  # Pink
+            "quantum": "#00BCD4",  # Cyan
+            "mystery": "#795548",  # Brown
         }
 
         # Return color for first recognized emotion, or default
@@ -276,7 +304,7 @@ class VeriFoldWebJournal:
             if tag in color_map:
                 return color_map[tag]
 
-        return '#607D8B'  # Default blue-grey
+        return "#607D8B"  # Default blue-grey
 
     def _get_quantum_symbol(self, measurement_type: str) -> str:
         """
@@ -289,16 +317,16 @@ class VeriFoldWebJournal:
             str: Unicode symbol
         """
         symbol_map = {
-            'photon_polarization': '💫',
-            'electron_spin': '⚛️',
-            'bell_state_measurement': '🔗',
-            'quantum_teleportation': '🌀',
-            'atom_interference': '🌊',
-            'demo_measurement': '🌟',
-            'unknown': '❓'
+            "photon_polarization": "💫",
+            "electron_spin": "⚛️",
+            "bell_state_measurement": "🔗",
+            "quantum_teleportation": "🌀",
+            "atom_interference": "🌊",
+            "demo_measurement": "🌟",
+            "unknown": "❓",
         }
 
-        return symbol_map.get(measurement_type, '⚡')
+        return symbol_map.get(measurement_type, "⚡")
 
     def generate_live_summary(self, limit: int = 5) -> str:
         """
@@ -328,17 +356,21 @@ class VeriFoldWebJournal:
     def run(self):
         """Start the web journal server."""
         if not FLASK_AVAILABLE:
-            print("❌ Flask not available. Install with: pip install flask flask-socketio")
+            print(
+                "❌ Flask not available. Install with: pip install flask flask-socketio"
+            )
             return
 
-        print(f"🌐 Starting VeriFold Web Journal...")
+        print("🌐 Starting VeriFold Web Journal...")
         print(f"📱 Interface: http://{self.host}:{self.port}")
         print(f"🔮 Real-time updates: {'Enabled' if self.socketio else 'Disabled'}")
         print(f"🧠 GPT Integration: {'Available' if JOURNAL_AVAILABLE else 'Limited'}")
-        print("="*50)
+        print("=" * 50)
 
         if self.socketio:
-            self.socketio.run(self.app, host=self.host, port=self.port, debug=self.debug)
+            self.socketio.run(
+                self.app, host=self.host, port=self.port, debug=self.debug
+            )
         else:
             self.app.run(host=self.host, port=self.port, debug=self.debug)
 
@@ -355,11 +387,7 @@ def main():
     args = parser.parse_args()
 
     # Create and run web journal
-    web_journal = VeriFoldWebJournal(
-        host=args.host,
-        port=args.port,
-        debug=args.debug
-    )
+    web_journal = VeriFoldWebJournal(host=args.host, port=args.port, debug=args.debug)
 
     web_journal.run()
 

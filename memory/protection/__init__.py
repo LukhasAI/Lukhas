@@ -9,13 +9,14 @@ logger = get_logger(__name__)
 
 try:
     from .symbolic_quarantine_sanctum import SymbolicQuarantineSanctum
+
     logger.debug("Imported SymbolicQuarantineSanctum from .symbolic_quarantine_sanctum")
 except ImportError as e:
     logger.warning(f"Could not import SymbolicQuarantineSanctum: {e}")
     SymbolicQuarantineSanctum = None
 
 __all__ = [
-    'SymbolicQuarantineSanctum',
+    "SymbolicQuarantineSanctum",
 ]
 
 # Filter out None values from __all__ if imports failed

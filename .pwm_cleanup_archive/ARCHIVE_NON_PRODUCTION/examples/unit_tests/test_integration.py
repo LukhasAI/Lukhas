@@ -7,16 +7,22 @@ Integration Date: 2025-05-31T07:55:27.780001
 
 # filepath: /Users/grdm_admin/LUKHAS _SYS/bio_symbolic/tests/test_integration.py
 
-import unittest
-import numpy as np
-import sys
 import os
+import sys
+import unittest
+
+import numpy as np
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from orchestration_src.brain.BIO_SYMBOLIC.bio_orchestrator import BioOrchestrator
-from orchestration_src.brain.attention.quantum_attention import QuantumInspiredAttention
+from orchestration_src.brain.attention.quantum_attention import (
+    QuantumInspiredAttention,
+)
+from orchestration_src.brain.BIO_SYMBOLIC.bio_orchestrator import (
+    BioOrchestrator,
+)
+
 
 class TestBioSymbolicIntegration(unittest.TestCase):
 

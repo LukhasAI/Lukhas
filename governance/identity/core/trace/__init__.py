@@ -14,4 +14,4 @@ Features:
 
 from .activity_logger import LambdaTraceLogger as ActivityLogger
 
-__all__ = ['ActivityLogger']
+__all__ = ["ActivityLogger"]

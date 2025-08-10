@@ -5,16 +5,12 @@ Verifies discrete, auditable cognitive processing steps
 """
 
 import asyncio
-import time
-import json
 from datetime import datetime
 
 from core.quantized_thought_cycles import (
     QuantizedThoughtProcessor,
-    CyclePhase,
-    CycleState,
-    ThoughtQuantum
 )
+
 
 async def test_basic_cycle_operation():
     """Test basic cycle operation"""
@@ -31,16 +27,17 @@ async def test_basic_cycle_operation():
     result = await processor.get_result(timeout=1.0)
 
     if result:
-        print(f"   - Result received: ✅")
+        print("   - Result received: ✅")
         print(f"   - Output: {result.output_data}")
         print(f"   - Duration: {result.duration_ms:.2f}ms")
         success = True
     else:
-        print(f"   - Result timeout: ❌")
+        print("   - Result timeout: ❌")
         success = False
 
     await processor.stop()
     return success
+
 
 async def test_discrete_cycles():
     """Test that cycles are discrete and countable"""
@@ -65,11 +62,12 @@ async def test_discrete_cycles():
     print(f"   - Current frequency: {metrics['current_frequency_hz']:.1f}Hz")
 
     # Verify discrete cycles
-    success = metrics['total_cycles'] >= num_thoughts
+    success = metrics["total_cycles"] >= num_thoughts
     print(f"   - Discrete cycles verified: {'✅' if success else '❌'}")
 
     await processor.stop()
     return success
+
 
 async def test_cycle_phases():
     """Test that all phases are executed in order"""
@@ -103,19 +101,19 @@ async def test_cycle_phases():
 
         success = phases_match
     else:
-        print(f"   - No cycle trace available: ❌")
+        print("   - No cycle trace available: ❌")
         success = False
 
     await processor.stop()
     return success
+
 
 async def test_energy_management():
     """Test energy consumption and limits"""
     print("\n🧪 Testing Energy Management...")
 
     processor = QuantizedThoughtProcessor(
-        cycle_frequency_hz=50.0,
-        max_energy_per_cycle=3
+        cycle_frequency_hz=50.0, max_energy_per_cycle=3
     )
     await processor.start()
 
@@ -124,15 +122,11 @@ async def test_energy_management():
 
     # Submit high-energy thought
     high_energy_id = await processor.submit_thought(
-        "High energy computation",
-        energy_required=5
+        "High energy computation", energy_required=5
     )
 
     # Submit normal thought
-    normal_id = await processor.submit_thought(
-        "Normal computation",
-        energy_required=2
-    )
+    normal_id = await processor.submit_thought("Normal computation", energy_required=2)
 
     # Wait for processing
     await asyncio.sleep(0.2)
@@ -152,6 +146,7 @@ async def test_energy_management():
     await processor.stop()
     return success
 
+
 async def test_pause_resume():
     """Test pause and resume functionality"""
     print("\n🧪 Testing Pause/Resume Functionality...")
@@ -165,7 +160,7 @@ async def test_pause_resume():
     # Get initial metrics
     await asyncio.sleep(0.1)
     metrics_before = processor.get_metrics()
-    cycles_before = metrics_before['total_cycles']
+    cycles_before = metrics_before["total_cycles"]
 
     # Pause
     await processor.pause()
@@ -176,11 +171,11 @@ async def test_pause_resume():
 
     # Check no new cycles during pause
     metrics_paused = processor.get_metrics()
-    cycles_paused = metrics_paused['total_cycles']
+    cycles_paused = metrics_paused["total_cycles"]
 
     # Resume
     await processor.resume()
-    print(f"   - Processor resumed")
+    print("   - Processor resumed")
 
     # Submit more thoughts
     await processor.submit_thought("After resume")
@@ -188,7 +183,7 @@ async def test_pause_resume():
 
     # Final metrics
     metrics_after = processor.get_metrics()
-    cycles_after = metrics_after['total_cycles']
+    cycles_after = metrics_after["total_cycles"]
 
     print(f"   - Cycles before pause: {cycles_before}")
     print(f"   - Cycles during pause: {cycles_paused - cycles_before}")
@@ -200,6 +195,7 @@ async def test_pause_resume():
 
     await processor.stop()
     return success
+
 
 async def test_cycle_auditing():
     """Test cycle trace auditing capability"""
@@ -213,7 +209,7 @@ async def test_cycle_auditing():
         "Simple string",
         {"key": "value", "number": 42},
         ["list", "of", "items"],
-        12345
+        12345,
     ]
 
     for data in test_data:
@@ -245,6 +241,7 @@ async def test_cycle_auditing():
 
     await processor.stop()
     return audit_success
+
 
 async def main():
     """Run all tests"""
@@ -282,7 +279,9 @@ async def main():
 
     return passed == total
 
+
 if __name__ == "__main__":
     import sys
+
     success = asyncio.run(main())
     sys.exit(0 if success else 1)

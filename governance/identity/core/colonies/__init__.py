@@ -11,8 +11,8 @@ from .dream_verification_colony import DreamVerificationColony
 from .identity_governance_colony import IdentityGovernanceColony
 
 __all__ = [
-    'BiometricVerificationColony',
-    'ConsciousnessVerificationColony',
-    'DreamVerificationColony',
-    'IdentityGovernanceColony'
+    "BiometricVerificationColony",
+    "ConsciousnessVerificationColony",
+    "DreamVerificationColony",
+    "IdentityGovernanceColony",
 ]

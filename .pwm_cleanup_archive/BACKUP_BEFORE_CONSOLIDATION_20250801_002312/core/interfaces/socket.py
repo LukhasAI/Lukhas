@@ -16,16 +16,17 @@
 # ===============================================================
 
 import asyncio
-import websockets
 import json
-import time
-import os
 import logging
+import time
+
+import websockets
 
 # Initialize logger
 logger = logging.getLogger(__name__)
 
 PUBLISH_QUEUE_PATH = "core/logging/publish_queue.jsonl"
+
 
 async def handle_message(websocket):
     async for message in websocket:
@@ -35,16 +36,25 @@ async def handle_message(websocket):
             tier = int(data.get("tier", 0))
             origin = data.get("origin", "unverified")
 
-            logger.info(f"Incoming message from {origin} [Tier {tier}]: {symbolic_message}")
+            logger.info(
+                f"Incoming message from {origin} [Tier {tier}]: {symbolic_message}"
+            )
 
             if symbolic_message and tier >= 4:
                 with open(PUBLISH_QUEUE_PATH, "a") as f:
-                    f.write(json.dumps({
-                        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                        "message": symbolic_message,
-                        "origin": origin,
-                        "tier": tier
-                    }) + "\n")
+                    f.write(
+                        json.dumps(
+                            {
+                                "timestamp": time.strftime(
+                                    "%Y-%m-%dT%H:%M:%SZ", time.gmtime()
+                                ),
+                                "message": symbolic_message,
+                                "origin": origin,
+                                "tier": tier,
+                            }
+                        )
+                        + "\n"
+                    )
                 logger.info("Symbolic message added to publish_queue.")
             else:
                 logger.warning("Tier too low or message empty. Ignored.")
@@ -52,11 +62,13 @@ async def handle_message(websocket):
         except Exception as e:
             logger.error(f"Failed to process message: {e}")
 
+
 async def listen_to_socket(port=3030):
     logger.info(f"Lukhas is listening symbolically on port {port}")
     print("🎧 Lukhas is listening symbolically on port", port)  # Keep UI output
     async with websockets.serve(handle_message, "localhost", port):
         await asyncio.Future()  # run forever
+
 
 # 🔁 Preview CLI entry
 if __name__ == "__main__":

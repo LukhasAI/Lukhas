@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🌊 LUKHAS AI - Drift Recovery Tools
 ║ Advanced drift injection, recovery simulation, and resilience testing
@@ -36,13 +35,13 @@
 """
 
 import asyncio
-import time
 import json
-import logging
-from typing import Dict, List, Optional, Tuple, Any
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Optional
+
 import numpy as np
 
 # Configure structured logging
@@ -53,7 +52,7 @@ logger = get_logger(__name__)
 # Import current LUKHAS modules
 try:
     from memory.core import MemoryFold
-    from memory.core_memory.symbolic_glyphs import SymbolicGlyph, GlyphManager
+    from memory.core_memory.symbolic_glyphs import GlyphManager, SymbolicGlyph
 except ImportError:
     logger.warning("Memory modules not available, using fallback")
     MemoryFold = None
@@ -64,6 +63,7 @@ except ImportError:
 @dataclass
 class EntropyProfile:
     """Defines entropy injection characteristics for drift simulation."""
+
     name: str
     base_magnitude: float
     variance: float = 0.1
@@ -73,19 +73,26 @@ class EntropyProfile:
     def compute_entropy(self, t: float) -> float:
         """Compute entropy value at time t using configured waveform."""
         if self.wave_type == "sine":
-            return self.base_magnitude * (1 + self.variance * np.sin(2 * np.pi * self.frequency * t))
+            return self.base_magnitude * (
+                1 + self.variance * np.sin(2 * np.pi * self.frequency * t)
+            )
         elif self.wave_type == "square":
-            return self.base_magnitude * (1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t)))
+            return self.base_magnitude * (
+                1 + self.variance * np.sign(np.sin(2 * np.pi * self.frequency * t))
+            )
         elif self.wave_type == "sawtooth":
             phase = (t * self.frequency) % 1
             return self.base_magnitude * (1 + self.variance * (2 * phase - 1))
         else:  # random
-            return self.base_magnitude * (1 + self.variance * (2 * np.random.random() - 1))
+            return self.base_magnitude * (
+                1 + self.variance * (2 * np.random.random() - 1)
+            )
 
 
 @dataclass
 class SymbolicHealth:
     """Health metrics for a symbolic entity in LUKHAS AGI."""
+
     coherence: float = 1.0  # 0-1 scale - {ΛCOHERENCE}
     stability: float = 1.0  # 0-1 scale - {ΛSTABILITY}
     ethical_alignment: float = 1.0  # 0-1 scale - {ΛETHICS}
@@ -96,38 +103,39 @@ class SymbolicHealth:
     def overall_health(self) -> float:
         """Compute weighted overall health score."""
         weights = {
-            'coherence': 0.25,
-            'stability': 0.20,
-            'ethical_alignment': 0.15,
-            'emotional_balance': 0.15,
-            'memory_integrity': 0.15,
-            'glyph_resonance': 0.10
+            "coherence": 0.25,
+            "stability": 0.20,
+            "ethical_alignment": 0.15,
+            "emotional_balance": 0.15,
+            "memory_integrity": 0.15,
+            "glyph_resonance": 0.10,
         }
         return sum(getattr(self, k) * v for k, v in weights.items())
 
-    def to_dict(self) -> Dict[str, float]:
+    def to_dict(self) -> dict[str, float]:
         """Convert health metrics to dictionary for logging."""
         return {
-            'coherence': self.coherence,
-            'stability': self.stability,
-            'ethical_alignment': self.ethical_alignment,
-            'emotional_balance': self.emotional_balance,
-            'memory_integrity': self.memory_integrity,
-            'glyph_resonance': self.glyph_resonance,
-            'overall': self.overall_health()
+            "coherence": self.coherence,
+            "stability": self.stability,
+            "ethical_alignment": self.ethical_alignment,
+            "emotional_balance": self.emotional_balance,
+            "memory_integrity": self.memory_integrity,
+            "glyph_resonance": self.glyph_resonance,
+            "overall": self.overall_health(),
         }
 
 
 @dataclass
 class RecoveryMetrics:
     """Metrics for analyzing recovery dynamics after drift injection."""
+
     start_time: float
     end_time: Optional[float] = None
-    recovery_path: List[float] = field(default_factory=list)
-    interventions: List[Tuple[float, str]] = field(default_factory=list)
+    recovery_path: list[float] = field(default_factory=list)
+    interventions: list[tuple[float, str]] = field(default_factory=list)
     converged: bool = False
     final_health: Optional[float] = None
-    glyph_interactions: List[Dict] = field(default_factory=list)
+    glyph_interactions: list[dict] = field(default_factory=list)
 
     def time_to_recovery(self) -> Optional[float]:
         """Calculate recovery time if converged."""
@@ -144,15 +152,15 @@ class RecoveryMetrics:
         oscillations = np.sum(np.abs(np.diff(np.sign(deltas))))
         return 1.0 / (1.0 + oscillations / len(deltas))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert metrics to dictionary for logging."""
         return {
-            'converged': self.converged,
-            'time_to_recovery': self.time_to_recovery(),
-            'efficiency': self.recovery_efficiency(),
-            'final_health': self.final_health,
-            'intervention_count': len(self.interventions),
-            'glyph_interaction_count': len(self.glyph_interactions)
+            "converged": self.converged,
+            "time_to_recovery": self.time_to_recovery(),
+            "efficiency": self.recovery_efficiency(),
+            "final_health": self.final_health,
+            "intervention_count": len(self.interventions),
+            "glyph_interaction_count": len(self.glyph_interactions),
         }
 
 
@@ -168,9 +176,9 @@ class DriftRecoverySimulator:
     """
 
     def __init__(self, checkpoint_dir: str = "lukhas/trace/checkpoints"):
-        self.symbols: Dict[str, SymbolicHealth] = {}
-        self.recovery_metrics: Dict[str, RecoveryMetrics] = {}
-        self.glyphs: Dict[str, Dict] = {}  # Glyph tracking
+        self.symbols: dict[str, SymbolicHealth] = {}
+        self.recovery_metrics: dict[str, RecoveryMetrics] = {}
+        self.glyphs: dict[str, dict] = {}  # Glyph tracking
         self.checkpoint_dir = Path(checkpoint_dir)
         self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
         self.recovery_threshold = 0.95  # Health threshold for recovery
@@ -185,8 +193,8 @@ class DriftRecoverySimulator:
         magnitude: float,
         entropy_profile: EntropyProfile,
         duration: float = 10.0,
-        affect_glyphs: bool = True
-    ) -> Dict[str, Any]:
+        affect_glyphs: bool = True,
+    ) -> dict[str, Any]:
         """
         Inject controlled entropy into a symbolic entity.
 
@@ -205,7 +213,7 @@ class DriftRecoverySimulator:
             symbol_id=symbol_id,
             magnitude=magnitude,
             profile=entropy_profile.name,
-            duration=duration
+            duration=duration,
         )
 
         # Initialize symbol if needed
@@ -218,8 +226,8 @@ class DriftRecoverySimulator:
         # Create associated glyph if using glyphs
         if affect_glyphs and self.glyph_manager:
             glyph = self.glyph_manager.create_glyph(
-                emotion_vector={'stress': magnitude, 'chaos': magnitude},
-                semantic_tags=[f'drift_{symbol_id}', 'injection']
+                emotion_vector={"stress": magnitude, "chaos": magnitude},
+                semantic_tags=[f"drift_{symbol_id}", "injection"],
             )
             self.glyphs[symbol_id] = glyph.to_dict()
 
@@ -237,27 +245,33 @@ class DriftRecoverySimulator:
             # Apply entropy to different aspects with glyph influence
             glyph_modifier = 0.8 if affect_glyphs and symbol_id in self.glyphs else 1.0
 
-            symbol.coherence *= (1 - entropy * 0.1 * glyph_modifier)
-            symbol.stability *= (1 - entropy * 0.15 * glyph_modifier)
-            symbol.ethical_alignment *= (1 - entropy * 0.05 * glyph_modifier)
-            symbol.emotional_balance *= (1 - entropy * 0.2 * glyph_modifier)
-            symbol.memory_integrity *= (1 - entropy * 0.08 * glyph_modifier)
-            symbol.glyph_resonance *= (1 - entropy * 0.12 * glyph_modifier)
+            symbol.coherence *= 1 - entropy * 0.1 * glyph_modifier
+            symbol.stability *= 1 - entropy * 0.15 * glyph_modifier
+            symbol.ethical_alignment *= 1 - entropy * 0.05 * glyph_modifier
+            symbol.emotional_balance *= 1 - entropy * 0.2 * glyph_modifier
+            symbol.memory_integrity *= 1 - entropy * 0.08 * glyph_modifier
+            symbol.glyph_resonance *= 1 - entropy * 0.12 * glyph_modifier
 
             # Clamp values
-            for attr in ['coherence', 'stability', 'ethical_alignment',
-                        'emotional_balance', 'memory_integrity', 'glyph_resonance']:
+            for attr in [
+                "coherence",
+                "stability",
+                "ethical_alignment",
+                "emotional_balance",
+                "memory_integrity",
+                "glyph_resonance",
+            ]:
                 setattr(symbol, attr, max(0.0, min(1.0, getattr(symbol, attr))))
 
             health = symbol.overall_health()
 
             # Log injection state
             log_entry = {
-                'time': t,
-                'entropy': entropy,
-                'health': health,
-                'metrics': symbol.to_dict(),
-                'glyph_affected': symbol_id in self.glyphs
+                "time": t,
+                "entropy": entropy,
+                "health": health,
+                "metrics": symbol.to_dict(),
+                "glyph_affected": symbol_id in self.glyphs,
             }
             injection_log.append(log_entry)
 
@@ -269,7 +283,7 @@ class DriftRecoverySimulator:
                 logger.warning(
                     "cascade_threshold_reached",
                     symbol_id=symbol_id,
-                    health=health
+                    health=health,
                 )
                 self.recovery_metrics[symbol_id].interventions.append(
                     (time.time(), "cascade_prevention_triggered")
@@ -278,12 +292,12 @@ class DriftRecoverySimulator:
             await asyncio.sleep(0.1)  # 10Hz update rate
 
         return {
-            'symbol_id': symbol_id,
-            'initial_health': initial_health,
-            'final_health': symbol.overall_health(),
-            'injection_log': injection_log,
-            'duration': duration,
-            'glyph_id': self.glyphs.get(symbol_id, {}).get('id')
+            "symbol_id": symbol_id,
+            "initial_health": initial_health,
+            "final_health": symbol.overall_health(),
+            "injection_log": injection_log,
+            "duration": duration,
+            "glyph_id": self.glyphs.get(symbol_id, {}).get("id"),
         }
 
     async def measure_recovery(
@@ -291,7 +305,7 @@ class DriftRecoverySimulator:
         symbol_id: str,
         timeout: float = 60.0,
         intervention_strategy: Optional[str] = None,
-        use_memory_fold: bool = True
+        use_memory_fold: bool = True,
     ) -> RecoveryMetrics:
         """
         Measure symbol recovery after drift injection.
@@ -312,11 +326,13 @@ class DriftRecoverySimulator:
             "measuring_recovery",
             symbol_id=symbol_id,
             strategy=intervention_strategy,
-            use_memory_fold=use_memory_fold
+            use_memory_fold=use_memory_fold,
         )
 
         symbol = self.symbols[symbol_id]
-        metrics = self.recovery_metrics.get(symbol_id, RecoveryMetrics(start_time=time.time()))
+        metrics = self.recovery_metrics.get(
+            symbol_id, RecoveryMetrics(start_time=time.time())
+        )
         start_time = time.time()
 
         # Memory fold assistance if available
@@ -356,8 +372,14 @@ class DriftRecoverySimulator:
             symbol.glyph_resonance += recovery_amount * 0.05 * glyph_boost
 
             # Clamp values
-            for attr in ['coherence', 'stability', 'ethical_alignment',
-                        'emotional_balance', 'memory_integrity', 'glyph_resonance']:
+            for attr in [
+                "coherence",
+                "stability",
+                "ethical_alignment",
+                "emotional_balance",
+                "memory_integrity",
+                "glyph_resonance",
+            ]:
                 setattr(symbol, attr, max(0.0, min(1.0, getattr(symbol, attr))))
 
             current_health = symbol.overall_health()
@@ -365,11 +387,13 @@ class DriftRecoverySimulator:
 
             # Track glyph interactions
             if symbol_id in self.glyphs:
-                metrics.glyph_interactions.append({
-                    'time': time.time() - start_time,
-                    'health': current_health,
-                    'glyph_resonance': symbol.glyph_resonance
-                })
+                metrics.glyph_interactions.append(
+                    {
+                        "time": time.time() - start_time,
+                        "health": current_health,
+                        "glyph_resonance": symbol.glyph_resonance,
+                    }
+                )
 
             # Check convergence
             if current_health >= self.recovery_threshold:
@@ -380,7 +404,7 @@ class DriftRecoverySimulator:
                     "symbol_recovered",
                     symbol_id=symbol_id,
                     health=current_health,
-                    recovery_time=metrics.time_to_recovery()
+                    recovery_time=metrics.time_to_recovery(),
                 )
                 break
 
@@ -392,7 +416,7 @@ class DriftRecoverySimulator:
             logger.warning(
                 "recovery_timeout",
                 symbol_id=symbol_id,
-                final_health=metrics.final_health
+                final_health=metrics.final_health,
             )
 
         return metrics
@@ -424,7 +448,9 @@ class DriftRecoverySimulator:
 
         # Recovery time (faster is better)
         if metrics.time_to_recovery():
-            time_score = 1.0 / (1.0 + metrics.time_to_recovery() / 10.0)  # Normalize around 10s
+            time_score = 1.0 / (
+                1.0 + metrics.time_to_recovery() / 10.0
+            )  # Normalize around 10s
             scores.append(time_score)
 
         # Recovery efficiency
@@ -446,8 +472,8 @@ class DriftRecoverySimulator:
         trigger_symbol: str,
         cascade_depth: int = 3,
         propagation_factor: float = 0.7,
-        dream_integration: bool = True
-    ) -> Dict[str, Any]:
+        dream_integration: bool = True,
+    ) -> dict[str, Any]:
         """
         Simulate dream-affect feedback loop cascade.
 
@@ -464,7 +490,7 @@ class DriftRecoverySimulator:
             "simulating_emotional_cascade",
             trigger=trigger_symbol,
             depth=cascade_depth,
-            dream_integration=dream_integration
+            dream_integration=dream_integration,
         )
 
         # Create cascade tree
@@ -501,43 +527,44 @@ class DriftRecoverySimulator:
                         emotional_balance=child_health,
                         coherence=0.8 - (depth * 0.1),
                         stability=0.9 - (depth * 0.15),
-                        glyph_resonance=0.7 - (depth * 0.1)
+                        glyph_resonance=0.7 - (depth * 0.1),
                     )
 
                     cascade_tree.setdefault(parent, []).append(child_id)
                     affected_symbols.add(child_id)
                     next_level.append(child_id)
 
-                    cascade_log.append({
-                        'time': time.time(),
-                        'parent': parent,
-                        'child': child_id,
-                        'depth': depth,
-                        'health': self.symbols[child_id].overall_health(),
-                        'dream_affected': dream_integration
-                    })
+                    cascade_log.append(
+                        {
+                            "time": time.time(),
+                            "parent": parent,
+                            "child": child_id,
+                            "depth": depth,
+                            "health": self.symbols[child_id].overall_health(),
+                            "dream_affected": dream_integration,
+                        }
+                    )
 
             current_level = next_level
             await asyncio.sleep(0.5)  # Cascade propagation delay
 
         # Measure cascade impact
         total_health_loss = sum(
-            1.0 - self.symbols[s].overall_health()
-            for s in affected_symbols
+            1.0 - self.symbols[s].overall_health() for s in affected_symbols
         )
 
         return {
-            'trigger_symbol': trigger_symbol,
-            'cascade_tree': cascade_tree,
-            'affected_symbols': list(affected_symbols),
-            'cascade_depth': cascade_depth,
-            'total_health_loss': total_health_loss,
-            'cascade_log': cascade_log,
-            'dream_integration': dream_integration,
-            'timestamp': datetime.now().isoformat()
+            "trigger_symbol": trigger_symbol,
+            "cascade_tree": cascade_tree,
+            "affected_symbols": list(affected_symbols),
+            "cascade_depth": cascade_depth,
+            "total_health_loss": total_health_loss,
+            "cascade_log": cascade_log,
+            "dream_integration": dream_integration,
+            "timestamp": datetime.now().isoformat(),
         }
 
-    async def run_benchmark_suite(self) -> Dict[str, Any]:
+    async def run_benchmark_suite(self) -> dict[str, Any]:
         """
         Run comprehensive resilience benchmark tests.
 
@@ -550,129 +577,140 @@ class DriftRecoverySimulator:
         test_configs = [
             # Test 1: Mild drift with natural recovery
             {
-                'name': 'mild_drift_natural',
-                'symbol': 'test_mild_01',
-                'magnitude': 0.1,
-                'profile': EntropyProfile('sine_mild', 0.1, 0.05, 0.5),
-                'duration': 5.0,
-                'strategy': None,
-                'use_glyphs': True
+                "name": "mild_drift_natural",
+                "symbol": "test_mild_01",
+                "magnitude": 0.1,
+                "profile": EntropyProfile("sine_mild", 0.1, 0.05, 0.5),
+                "duration": 5.0,
+                "strategy": None,
+                "use_glyphs": True,
             },
             # Test 2: Moderate drift with intervention
             {
-                'name': 'moderate_drift_intervention',
-                'symbol': 'test_moderate_01',
-                'magnitude': 0.3,
-                'profile': EntropyProfile('square_moderate', 0.3, 0.1, 0.3),
-                'duration': 10.0,
-                'strategy': 'moderate',
-                'use_memory': True
+                "name": "moderate_drift_intervention",
+                "symbol": "test_moderate_01",
+                "magnitude": 0.3,
+                "profile": EntropyProfile("square_moderate", 0.3, 0.1, 0.3),
+                "duration": 10.0,
+                "strategy": "moderate",
+                "use_memory": True,
             },
             # Test 3: Severe drift with aggressive intervention
             {
-                'name': 'severe_drift_aggressive',
-                'symbol': 'test_severe_01',
-                'magnitude': 0.6,
-                'profile': EntropyProfile('random_severe', 0.6, 0.2, 1.0),
-                'duration': 15.0,
-                'strategy': 'aggressive',
-                'use_memory': True,
-                'use_glyphs': True
+                "name": "severe_drift_aggressive",
+                "symbol": "test_severe_01",
+                "magnitude": 0.6,
+                "profile": EntropyProfile("random_severe", 0.6, 0.2, 1.0),
+                "duration": 15.0,
+                "strategy": "aggressive",
+                "use_memory": True,
+                "use_glyphs": True,
             },
             # Test 4: Cascade scenario with dream integration
             {
-                'name': 'emotional_cascade_dream',
-                'symbol': 'test_cascade_01',
-                'cascade': True,
-                'cascade_depth': 3,
-                'dream_integration': True
+                "name": "emotional_cascade_dream",
+                "symbol": "test_cascade_01",
+                "cascade": True,
+                "cascade_depth": 3,
+                "dream_integration": True,
             },
             # Test 5: Cascade without dream integration
             {
-                'name': 'emotional_cascade_nodream',
-                'symbol': 'test_cascade_02',
-                'cascade': True,
-                'cascade_depth': 3,
-                'dream_integration': False
-            }
+                "name": "emotional_cascade_nodream",
+                "symbol": "test_cascade_02",
+                "cascade": True,
+                "cascade_depth": 3,
+                "dream_integration": False,
+            },
         ]
 
         for config in test_configs:
-            logger.info("running_test", test_name=config['name'])
+            logger.info("running_test", test_name=config["name"])
 
-            if config.get('cascade'):
+            if config.get("cascade"):
                 # Cascade test
                 result = await self.simulate_emotional_cascade(
-                    config['symbol'],
-                    cascade_depth=config['cascade_depth'],
-                    dream_integration=config.get('dream_integration', True)
+                    config["symbol"],
+                    cascade_depth=config["cascade_depth"],
+                    dream_integration=config.get("dream_integration", True),
                 )
-                test_results.append({
-                    'test_name': config['name'],
-                    'type': 'cascade',
-                    'result': result
-                })
+                test_results.append(
+                    {
+                        "test_name": config["name"],
+                        "type": "cascade",
+                        "result": result,
+                    }
+                )
             else:
                 # Drift injection test
                 injection_result = await self.inject_drift(
-                    config['symbol'],
-                    config['magnitude'],
-                    config['profile'],
-                    config['duration'],
-                    affect_glyphs=config.get('use_glyphs', False)
+                    config["symbol"],
+                    config["magnitude"],
+                    config["profile"],
+                    config["duration"],
+                    affect_glyphs=config.get("use_glyphs", False),
                 )
 
                 # Recovery test
                 recovery_metrics = await self.measure_recovery(
-                    config['symbol'],
+                    config["symbol"],
                     timeout=30.0,
-                    intervention_strategy=config['strategy'],
-                    use_memory_fold=config.get('use_memory', False)
+                    intervention_strategy=config["strategy"],
+                    use_memory_fold=config.get("use_memory", False),
                 )
 
                 # Score resilience
-                resilience_score = self.score_resilience(config['symbol'])
+                resilience_score = self.score_resilience(config["symbol"])
 
-                test_results.append({
-                    'test_name': config['name'],
-                    'type': 'drift_recovery',
-                    'injection': injection_result,
-                    'recovery': recovery_metrics.to_dict(),
-                    'resilience_score': resilience_score
-                })
+                test_results.append(
+                    {
+                        "test_name": config["name"],
+                        "type": "drift_recovery",
+                        "injection": injection_result,
+                        "recovery": recovery_metrics.to_dict(),
+                        "resilience_score": resilience_score,
+                    }
+                )
 
         # Calculate overall metrics
-        drift_tests = [r for r in test_results if r['type'] == 'drift_recovery']
-        cascade_tests = [r for r in test_results if r['type'] == 'cascade']
+        drift_tests = [r for r in test_results if r["type"] == "drift_recovery"]
+        cascade_tests = [r for r in test_results if r["type"] == "cascade"]
 
         # Save benchmark results
         benchmark_summary = {
-            'timestamp': datetime.now().isoformat(),
-            'total_tests': len(test_results),
-            'test_results': test_results,
-            'overall_resilience': np.mean([
-                r['resilience_score']
-                for r in drift_tests
-            ]) if drift_tests else 0.0,
-            'average_recovery_time': np.mean([
-                r['recovery']['time_to_recovery'] or 60.0
-                for r in drift_tests
-            ]) if drift_tests else 0.0,
-            'cascade_impact': np.mean([
-                r['result']['total_health_loss']
-                for r in cascade_tests
-            ]) if cascade_tests else 0.0
+            "timestamp": datetime.now().isoformat(),
+            "total_tests": len(test_results),
+            "test_results": test_results,
+            "overall_resilience": (
+                np.mean([r["resilience_score"] for r in drift_tests])
+                if drift_tests
+                else 0.0
+            ),
+            "average_recovery_time": (
+                np.mean(
+                    [r["recovery"]["time_to_recovery"] or 60.0 for r in drift_tests]
+                )
+                if drift_tests
+                else 0.0
+            ),
+            "cascade_impact": (
+                np.mean([r["result"]["total_health_loss"] for r in cascade_tests])
+                if cascade_tests
+                else 0.0
+            ),
         }
 
         # Save to file
-        output_path = self.checkpoint_dir / f"benchmark_{datetime.now():%Y%m%d_%H%M%S}.json"
-        with open(output_path, 'w') as f:
+        output_path = (
+            self.checkpoint_dir / f"benchmark_{datetime.now():%Y%m%d_%H%M%S}.json"
+        )
+        with open(output_path, "w") as f:
             json.dump(benchmark_summary, f, indent=2, default=str)
 
         logger.info(
             "benchmark_complete",
             output_path=str(output_path),
-            overall_resilience=benchmark_summary['overall_resilience']
+            overall_resilience=benchmark_summary["overall_resilience"],
         )
 
         return benchmark_summary
@@ -680,35 +718,32 @@ class DriftRecoverySimulator:
 
 # Utility functions for integration with LUKHAS
 
-async def quick_drift_test(symbol_id: str = "test_symbol") -> Dict[str, Any]:
+
+async def quick_drift_test(symbol_id: str = "test_symbol") -> dict[str, Any]:
     """Quick drift test for integration testing."""
     simulator = DriftRecoverySimulator()
 
     # Simple drift injection
     entropy_profile = EntropyProfile("test_sine", 0.2, 0.1, 0.5)
     injection_result = await simulator.inject_drift(
-        symbol_id,
-        magnitude=0.3,
-        entropy_profile=entropy_profile,
-        duration=3.0
+        symbol_id, magnitude=0.3, entropy_profile=entropy_profile, duration=3.0
     )
 
     # Measure recovery
     recovery = await simulator.measure_recovery(
-        symbol_id,
-        timeout=10.0,
-        intervention_strategy="moderate"
+        symbol_id, timeout=10.0, intervention_strategy="moderate"
     )
 
     return {
-        'injection': injection_result,
-        'recovery': recovery.to_dict(),
-        'resilience_score': simulator.score_resilience(symbol_id)
+        "injection": injection_result,
+        "recovery": recovery.to_dict(),
+        "resilience_score": simulator.score_resilience(symbol_id),
     }
 
 
 # Example usage for testing
 if __name__ == "__main__":
+
     async def main():
         """Demonstration of drift recovery tools."""
         print("🌊 LUKHAS Drift Recovery Tools Demo")
@@ -716,7 +751,7 @@ if __name__ == "__main__":
 
         # Run quick test
         result = await quick_drift_test()
-        print(f"\nQuick Test Results:")
+        print("\nQuick Test Results:")
         print(f"  Initial Health: {result['injection']['initial_health']:.3f}")
         print(f"  Final Health: {result['injection']['final_health']:.3f}")
         print(f"  Recovery: {result['recovery']['converged']}")
@@ -724,18 +759,22 @@ if __name__ == "__main__":
 
         # Run full benchmark if requested
         import sys
+
         if len(sys.argv) > 1 and sys.argv[1] == "--benchmark":
             print("\n🏃 Running Full Benchmark Suite...")
             simulator = DriftRecoverySimulator()
             benchmark_results = await simulator.run_benchmark_suite()
-            print(f"\nBenchmark Complete:")
+            print("\nBenchmark Complete:")
             print(f"  Total Tests: {benchmark_results['total_tests']}")
-            print(f"  Overall Resilience: {benchmark_results['overall_resilience']:.3f}")
-            print(f"  Average Recovery Time: {benchmark_results['average_recovery_time']:.2f}s")
+            print(
+                f"  Overall Resilience: {benchmark_results['overall_resilience']:.3f}"
+            )
+            print(
+                f"  Average Recovery Time: {benchmark_results['average_recovery_time']:.2f}s"
+            )
             print(f"  Cascade Impact: {benchmark_results['cascade_impact']:.3f}")
 
     asyncio.run(main())
-
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Module Footer - LUKHAS AI AGI System
@@ -747,7 +786,7 @@ if __name__ == "__main__":
 # Glyph Resonance: STABLE
 # ═══════════════════════════════════════════════════════════════════════════════
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # - [CLAUDE_08] Task 8: Migrated drift_recovery_simulator.py to lukhas/trace/drift_tools.py # CLAUDE_EDIT_v0.1
 # - Refactored to use structured logging with structlog # CLAUDE_EDIT_v0.1
 # - Updated to integrate with current LUKHAS memory and glyph systems # CLAUDE_EDIT_v0.1

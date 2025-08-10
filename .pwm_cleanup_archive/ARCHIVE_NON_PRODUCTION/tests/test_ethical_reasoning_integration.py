@@ -3,12 +3,10 @@ Test suite for Ethical Reasoning System Integration
 """
 
 import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 
-from reasoning.reasoning_hub import ReasoningHub, get_reasoning_hub
 from reasoning.ethical_reasoning_integration import EthicalReasoningIntegration
-from reasoning.ethical_reasoning_system import StakeholderType, MoralPrinciple
+from reasoning.ethical_reasoning_system import StakeholderType
+from reasoning.reasoning_hub import ReasoningHub, get_reasoning_hub
 
 
 class TestEthicalReasoningIntegration:
@@ -27,7 +25,7 @@ class TestEthicalReasoningIntegration:
             "enable_constraint_checking": True,
             "multi_framework_analysis": True,
             "value_alignment_active": True,
-            "cultural_sensitivity": True
+            "cultural_sensitivity": True,
         }
         integration = EthicalReasoningIntegration(config)
         return integration
@@ -48,7 +46,7 @@ class TestEthicalReasoningIntegration:
         # Verify ethical reasoning was initialized
         ethical_service = reasoning_hub.get_service("ethical_reasoning")
         assert ethical_service is not None
-        assert hasattr(ethical_service, 'is_initialized')
+        assert hasattr(ethical_service, "is_initialized")
 
     @pytest.mark.asyncio
     async def test_evaluate_ethical_decision(self, ethical_integration):
@@ -61,18 +59,23 @@ class TestEthicalReasoningIntegration:
         context = {
             "proposed_action": "maintain_strict_privacy",
             "alternatives": ["optimize_with_data_collection", "hybrid_approach"],
-            "stakeholders": [StakeholderType.INDIVIDUAL_USER, StakeholderType.ORGANIZATION_OPERATING_AI],
-            "high_stakes": False
+            "stakeholders": [
+                StakeholderType.INDIVIDUAL_USER,
+                StakeholderType.ORGANIZATION_OPERATING_AI,
+            ],
+            "high_stakes": False,
         }
 
         # Evaluate the decision
-        judgment = await ethical_integration.evaluate_ethical_decision(question, context)
+        judgment = await ethical_integration.evaluate_ethical_decision(
+            question, context
+        )
 
         # Verify judgment structure
         assert judgment is not None
-        assert hasattr(judgment, 'judgment_id')
-        assert hasattr(judgment, 'recommended_action_or_stance')
-        assert hasattr(judgment, 'overall_confidence_score')
+        assert hasattr(judgment, "judgment_id")
+        assert hasattr(judgment, "recommended_action_or_stance")
+        assert hasattr(judgment, "overall_confidence_score")
 
     @pytest.mark.asyncio
     async def test_check_action_permissibility(self, ethical_integration):
@@ -86,11 +89,13 @@ class TestEthicalReasoningIntegration:
         context = {
             "data_type": "usage_patterns",
             "anonymization_level": "strong",
-            "purpose": "service_improvement"
+            "purpose": "service_improvement",
         }
 
         # Check permissibility
-        result = await ethical_integration.check_action_permissibility(action, maxim, context)
+        result = await ethical_integration.check_action_permissibility(
+            action, maxim, context
+        )
 
         # Verify result structure
         assert "action" in result
@@ -149,8 +154,8 @@ class TestEthicalReasoningIntegration:
 
         # Verify assessment structure
         assert assessment is not None
-        assert hasattr(assessment, 'assessment_id')
-        assert hasattr(assessment, 'overall_value_alignment_score')
+        assert hasattr(assessment, "assessment_id")
+        assert hasattr(assessment, "overall_value_alignment_score")
         assert 0.0 <= assessment.overall_value_alignment_score <= 1.0
 
     @pytest.mark.asyncio
@@ -163,7 +168,7 @@ class TestEthicalReasoningIntegration:
         awareness_state = {
             "level": "active",
             "timestamp": 12345.67,
-            "connected_systems": 5
+            "connected_systems": 5,
         }
 
         # Update awareness
@@ -195,7 +200,7 @@ class TestEthicalReasoningIntegration:
         question = "Is it ethical to modify user preferences without explicit consent if it improves their experience?"
         context = {
             "proposed_action": "modify_preferences_implicitly",
-            "stakeholders": [StakeholderType.INDIVIDUAL_USER]
+            "stakeholders": [StakeholderType.INDIVIDUAL_USER],
         }
 
         judgment = await ethical_service.evaluate_ethical_decision(question, context)

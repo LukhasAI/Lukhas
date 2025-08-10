@@ -2,21 +2,17 @@
 Test suite for Multimodal Memory Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-import numpy as np
-from pathlib import Path
+from unittest.mock import AsyncMock
 
-from memory.memory_hub import MemoryHub, get_memory_hub
+import pytest
+
+from memory.memory_hub import MemoryHub
 from memory.systems.multimodal_memory_integration import (
     MultimodalMemoryIntegration,
-    create_multimodal_memory_integration
+    create_multimodal_memory_integration,
 )
 from memory.systems.multimodal_memory_support import (
     ModalityType,
-    ModalityMetadata,
-    MultiModalMemoryData
 )
 
 
@@ -33,10 +29,10 @@ class TestMultimodalMemoryIntegration:
     async def multimodal_integration(self):
         """Create a test multimodal memory integration instance"""
         config = {
-            'enable_cross_modal_alignment': True,
-            'unified_embedding_dim': 512,
-            'modal_embedding_dim': 256,
-            'max_memory_size_mb': 50
+            "enable_cross_modal_alignment": True,
+            "unified_embedding_dim": 512,
+            "modal_embedding_dim": 256,
+            "max_memory_size_mb": 50,
         }
         integration = MultimodalMemoryIntegration(config)
         return integration
@@ -57,7 +53,7 @@ class TestMultimodalMemoryIntegration:
         # Verify multimodal memory was initialized
         multimodal_service = memory_hub.get_service("multimodal_memory")
         assert multimodal_service is not None
-        assert hasattr(multimodal_service, 'is_initialized')
+        assert hasattr(multimodal_service, "is_initialized")
         assert multimodal_service.is_initialized is True
 
     @pytest.mark.asyncio
@@ -87,7 +83,7 @@ class TestMultimodalMemoryIntegration:
         memory = await multimodal_integration.create_memory(
             text="This is a test memory",
             tags=["test", "text"],
-            metadata={"source": "unit_test"}
+            metadata={"source": "unit_test"},
         )
 
         # Verify memory structure
@@ -113,7 +109,7 @@ class TestMultimodalMemoryIntegration:
             text=text_data,
             image=image_data,
             audio=audio_data,
-            tags=["multimodal", "test"]
+            tags=["multimodal", "test"],
         )
 
         # Verify memory structure
@@ -130,8 +126,7 @@ class TestMultimodalMemoryIntegration:
 
         # Create a memory first
         memory = await multimodal_integration.create_memory(
-            text="Retrievable memory",
-            tags=["retrieval_test"]
+            text="Retrievable memory", tags=["retrieval_test"]
         )
 
         memory_id = memory["memory_id"]
@@ -150,20 +145,16 @@ class TestMultimodalMemoryIntegration:
 
         # Create test memories
         await multimodal_integration.create_memory(
-            text="Python programming tutorial",
-            tags=["programming", "python"]
+            text="Python programming tutorial", tags=["programming", "python"]
         )
 
         await multimodal_integration.create_memory(
-            text="Machine learning basics",
-            tags=["ml", "basics"]
+            text="Machine learning basics", tags=["ml", "basics"]
         )
 
         # Search for memories
         results = await multimodal_integration.search_memories(
-            query="python",
-            modality=ModalityType.TEXT,
-            top_k=5
+            query="python", modality=ModalityType.TEXT, top_k=5
         )
 
         # Verify search results
@@ -181,8 +172,7 @@ class TestMultimodalMemoryIntegration:
         # Create some memories
         await multimodal_integration.create_memory(text="Text memory 1")
         await multimodal_integration.create_memory(
-            text="Multimodal memory",
-            image=b"fake_image"
+            text="Multimodal memory", image=b"fake_image"
         )
 
         # Get statistics
@@ -205,7 +195,7 @@ class TestMultimodalMemoryIntegration:
             "level": "active",
             "timestamp": 12345.67,
             "connected_systems": 3,
-            "memory_nodes": ["base", "quantum", "multimodal"]
+            "memory_nodes": ["base", "quantum", "multimodal"],
         }
 
         # Update awareness
@@ -232,8 +222,7 @@ class TestMultimodalMemoryIntegration:
         # Create some memories
         for i in range(5):
             await multimodal_integration.create_memory(
-                text=f"Test memory {i}",
-                tags=["optimization_test"]
+                text=f"Test memory {i}", tags=["optimization_test"]
             )
 
         # Run optimization
@@ -291,18 +280,18 @@ class TestMultimodalMemoryIntegration:
         """Test different configuration options"""
         # Test with custom config
         custom_config = {
-            'enable_cross_modal_alignment': False,
-            'unified_embedding_dim': 256,
-            'max_memory_size_mb': 200,
-            'image_quality': 95
+            "enable_cross_modal_alignment": False,
+            "unified_embedding_dim": 256,
+            "max_memory_size_mb": 200,
+            "image_quality": 95,
         }
 
         integration = create_multimodal_memory_integration(custom_config)
 
         # Verify config was applied
-        assert integration.config['enable_cross_modal_alignment'] is False
-        assert integration.config['unified_embedding_dim'] == 256
-        assert integration.config['max_memory_size_mb'] == 200
+        assert integration.config["enable_cross_modal_alignment"] is False
+        assert integration.config["unified_embedding_dim"] == 256
+        assert integration.config["max_memory_size_mb"] == 200
 
     @pytest.mark.asyncio
     async def test_error_handling(self, multimodal_integration):

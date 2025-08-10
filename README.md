@@ -429,6 +429,7 @@ traced_gpt = AuditLogger(safe_gpt)
 ### Documentation
 
 - [Component Guide](docs/components.md)
+- See `docs/BACKUP_DR.md` for Backup & Disaster Recovery runbook and endpoints.
 - [Integration Manual](docs/integration.md)
 - [API Reference](docs/api.md)
 - [Development Setup](docs/development.md)

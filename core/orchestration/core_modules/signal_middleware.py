@@ -12,13 +12,12 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any
 
 import structlog
 
 logger = structlog.get_logger(__name__)
+
 
 class SignalMiddleware:
     """

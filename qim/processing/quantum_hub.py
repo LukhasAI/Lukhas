@@ -11,30 +11,35 @@ import asyncio
 import logging
 from typing import Any, Dict, List, Optional
 
-from quantum.coordinator import QuantumCoordinator
-# MockQuantumCore is defined inside QuantumCoordinator, not exported directly
-# from quantum.coordinator import MockBioCoordinator
-# from quantum.coordinator import SimpleBioCoordinator
-from quantum.metadata import QuantumMetadataManager
+from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from quantum.bio_optimization_adapter import (
     MockBioOrchestrator,
     MockQuantumBioCoordinator,
     QuantumBioOptimizationAdapter,
 )
-from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
-from quantum.post_quantum_crypto_enhanced import QuantumResistantKeyManager
-from quantum.post_quantum_crypto_enhanced import SecureMemoryManager
-from quantum.distributed_quantum_architecture import DistributedQuantumSafeOrchestrator
+from quantum.coordinator import QuantumCoordinator
+from quantum.distributed_quantum_architecture import (
+    DistributedQuantumSafeOrchestrator,
+)
+
+# MockQuantumCore is defined inside QuantumCoordinator, not exported directly
+# from quantum.coordinator import MockBioCoordinator
+# from quantum.coordinator import SimpleBioCoordinator
 from quantum.metadata import QuantumMetadataManager
 from quantum.post_quantum_crypto_enhanced import (
     QuantumResistantKeyManager,
     SecureMemoryManager,
 )
-from quantum.quantum_security_integration import create_quantum_security_integration
+from quantum.quantum_security_integration import (
+    create_quantum_security_integration,
+)
 
 # Neuro Symbolic Integration
 try:
-    from quantum.neuro_symbolic_integration import create_neuro_symbolic_integration
+    from quantum.neuro_symbolic_integration import (
+        create_neuro_symbolic_integration,
+    )
+
     NEURO_SYMBOLIC_AVAILABLE = True
 except ImportError as e:
     NEURO_SYMBOLIC_AVAILABLE = False
@@ -82,24 +87,26 @@ class QuantumHub:
         self.securememorymanager = SecureMemoryManager()
         self.register_service("securememorymanager", self.securememorymanager)
         self.distributedsafeorchestrator = DistributedQuantumSafeOrchestrator()
-        self.register_service('distributedsafeorchestrator', self.distributedsafeorchestrator)
+        self.register_service(
+            "distributedsafeorchestrator", self.distributedsafeorchestrator
+        )
         self.memory_bridge = get_quantum_memory_bridge()
-        self.register_service('memory_bridge', self.memory_bridge)
+        self.register_service("memory_bridge", self.memory_bridge)
 
         # Quantum Bio Optimization Adapter integration
         self.bio_optimizer = QuantumBioOptimizationAdapter(self.mockbioorchestrator)
-        self.register_service('quantum_bio_optimizer', self.bio_optimizer)
-        
+        self.register_service("quantum_bio_optimizer", self.bio_optimizer)
+
         # Quantum Security integration
         self.quantum_security = create_quantum_security_integration()
-        self.register_service('quantum_security', self.quantum_security)
+        self.register_service("quantum_security", self.quantum_security)
 
         # Neuro Symbolic integration
         if NEURO_SYMBOLIC_AVAILABLE:
             try:
                 self.neuro_symbolic = create_neuro_symbolic_integration()
                 if self.neuro_symbolic:
-                    self.register_service('neuro_symbolic', self.neuro_symbolic)
+                    self.register_service("neuro_symbolic", self.neuro_symbolic)
                     logger.info("Quantum neuro symbolic integration initialized")
             except Exception as e:
                 logger.error(f"Failed to initialize neuro symbolic integration: {e}")
@@ -112,19 +119,22 @@ class QuantumHub:
             return
 
         # Initialize quantum security first for system protection
-        if hasattr(self.quantum_security, 'initialize'):
+        if hasattr(self.quantum_security, "initialize"):
             await self.quantum_security.initialize()
             logger.info("Quantum security system initialized")
-        
+
         # Initialize neuro symbolic system
         if NEURO_SYMBOLIC_AVAILABLE and "neuro_symbolic" in self.services:
-            if hasattr(self.services["neuro_symbolic"], 'initialize'):
+            if hasattr(self.services["neuro_symbolic"], "initialize"):
                 await self.services["neuro_symbolic"].initialize()
                 logger.info("Quantum neuro symbolic system initialized")
-        
+
         # Initialize all registered services
         for name, service in self.services.items():
-            if hasattr(service, "initialize") and name not in ['quantum_security', 'neuro_symbolic']:
+            if hasattr(service, "initialize") and name not in [
+                "quantum_security",
+                "neuro_symbolic",
+            ]:
                 try:
                     if asyncio.iscoroutinefunction(service.initialize):
                         await service.initialize()
@@ -151,26 +161,28 @@ class QuantumHub:
 
         # Mark as initialized
         self.is_initialized = True
-        logger.info(f"QuantumHub fully initialized")
+        logger.info("QuantumHub fully initialized")
 
     def _register_attention_services(self):
         """Register quantum attention system services"""
         attention_services = [
             ("quantum_attention_economics", "QuantumAttentionEconomics"),
             ("attention_allocator", "QuantumAttentionAllocator"),
-            ("focus_manager", "QuantumFocusManager")
+            ("focus_manager", "QuantumFocusManager"),
         ]
-        
+
         for service_name, class_name in attention_services:
             try:
-                module = __import__(f"quantum.attention.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"quantum.attention.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
                 logger.debug(f"Registered {class_name} as {service_name}")
             except (ImportError, AttributeError, TypeError) as e:
                 logger.warning(f"Could not register {class_name}: {e}")
-    
+
     def _register_state_services(self):
         """Register quantum state management services"""
         state_services = [
@@ -178,28 +190,30 @@ class QuantumHub:
             ("quantum_superposition", "QuantumSuperposition"),
             ("quantum_entanglement", "QuantumEntanglement"),
             ("quantum_measurement", "QuantumMeasurement"),
-            ("coherence_monitor", "CoherenceMonitor")
+            ("coherence_monitor", "CoherenceMonitor"),
         ]
-        
+
         for service_name, class_name in state_services:
             try:
-                module = __import__(f"quantum.state.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"quantum.state.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
                 logger.debug(f"Registered {class_name} as {service_name}")
             except (ImportError, AttributeError, TypeError) as e:
                 logger.warning(f"Could not register {class_name}: {e}")
-    
+
     def _register_integration_services(self):
         """Register quantum integration services"""
         integration_services = [
             ("quantum_processor", "QuantumProcessor"),
             ("quantum_error_correction", "QuantumErrorCorrection"),
             ("quantum_optimizer", "QuantumOptimizer"),
-            ("quantum_simulator", "QuantumSimulator")
+            ("quantum_simulator", "QuantumSimulator"),
         ]
-        
+
         for service_name, class_name in integration_services:
             try:
                 module = __import__(f"quantum.{service_name}", fromlist=[class_name])
@@ -226,7 +240,9 @@ class QuantumHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from core.integration.service_discovery import (
+                get_service_discovery,
+            )
 
             discovery = get_service_discovery()
 
@@ -261,11 +277,11 @@ class QuantumHub:
         """Register a service with the hub"""
         self.services[name] = service
         logger.debug(f"Registered {name} service in quantumHub")
-    
+
     async def register_consciousness(self, consciousness_hub: Any) -> None:
         """Register consciousness hub for quantum-consciousness integration"""
         self.consciousness_hub = consciousness_hub
-        self.register_service('consciousness_integration', consciousness_hub)
+        self.register_service("consciousness_integration", consciousness_hub)
         logger.info("Consciousness hub registered with quantum system")
 
     def get_service(self, name: str) -> Optional[Any]:
@@ -302,15 +318,20 @@ class QuantumHub:
         self.event_handlers[event_type].append(handler)
 
     # Neuro Symbolic Integration Methods
-    async def process_text_quantum(self, 
-                                 text: str,
-                                 user_id: Optional[str] = None,
-                                 session_token: Optional[str] = None,
-                                 context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def process_text_quantum(
+        self,
+        text: str,
+        user_id: Optional[str] = None,
+        session_token: Optional[str] = None,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Process text through quantum neuro symbolic engine"""
         if "neuro_symbolic" not in self.services:
             logger.error("Neuro symbolic integration not available")
-            return {"status": "failed", "error": "Neuro symbolic integration not configured"}
+            return {
+                "status": "failed",
+                "error": "Neuro symbolic integration not configured",
+            }
 
         try:
             result = await self.services["neuro_symbolic"].process_text(
@@ -321,13 +342,18 @@ class QuantumHub:
             logger.error(f"Quantum text processing failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def apply_quantum_attention(self, 
-                                    input_data: Dict[str, Any],
-                                    context: Optional[Dict[str, Any]] = None,
-                                    user_id: Optional[str] = None) -> Dict[str, Any]:
+    async def apply_quantum_attention(
+        self,
+        input_data: Dict[str, Any],
+        context: Optional[Dict[str, Any]] = None,
+        user_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """Apply quantum attention mechanisms to input data"""
         if "neuro_symbolic" not in self.services:
-            return {"status": "failed", "error": "Neuro symbolic integration not available"}
+            return {
+                "status": "failed",
+                "error": "Neuro symbolic integration not available",
+            }
 
         try:
             result = await self.services["neuro_symbolic"].apply_quantum_attention(
@@ -338,12 +364,15 @@ class QuantumHub:
             logger.error(f"Quantum attention processing failed: {e}")
             return {"status": "failed", "error": str(e)}
 
-    async def perform_causal_reasoning(self, 
-                                     attended_data: Dict[str, Any],
-                                     user_id: Optional[str] = None) -> Dict[str, Any]:
+    async def perform_causal_reasoning(
+        self, attended_data: Dict[str, Any], user_id: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Perform causal reasoning on attended data"""
         if "neuro_symbolic" not in self.services:
-            return {"status": "failed", "error": "Neuro symbolic integration not available"}
+            return {
+                "status": "failed",
+                "error": "Neuro symbolic integration not available",
+            }
 
         try:
             result = await self.services["neuro_symbolic"].perform_causal_reasoning(
@@ -357,7 +386,10 @@ class QuantumHub:
     def get_neuro_symbolic_statistics(self) -> Dict[str, Any]:
         """Get neuro symbolic processing statistics"""
         if "neuro_symbolic" not in self.services:
-            return {"available": False, "error": "Neuro symbolic integration not configured"}
+            return {
+                "available": False,
+                "error": "Neuro symbolic integration not configured",
+            }
 
         try:
             stats = self.services["neuro_symbolic"].get_processing_statistics()
@@ -369,7 +401,10 @@ class QuantumHub:
     async def cleanup_neuro_symbolic_sessions(self) -> Dict[str, Any]:
         """Clean up expired neuro symbolic sessions"""
         if "neuro_symbolic" not in self.services:
-            return {"status": "failed", "error": "Neuro symbolic integration not available"}
+            return {
+                "status": "failed",
+                "error": "Neuro symbolic integration not available",
+            }
 
         try:
             await self.services["neuro_symbolic"].cleanup_sessions()
@@ -390,7 +425,7 @@ class QuantumHub:
                 except Exception as e:
                     logger.error(f"Error shutting down {name}: {e}")
 
-        logger.info(f"QuantumHub shutdown complete")
+        logger.info("QuantumHub shutdown complete")
 
 
 # Singleton instance

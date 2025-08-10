@@ -1,0 +1,14 @@
+[project]
+name = "lukhas-pwm"
+version = "0.1.0"
+description = "Official Python client for LUKHΛS PWM API"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{name="LUKHAS AI"}]
+dependencies = ["requests>=2.31.0"]
+
+[project.urls]
+Homepage = "https://lukhas.ai"
+
+[tool.setuptools.packages.find]
+where = ["src"]

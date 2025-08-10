@@ -10,19 +10,21 @@ Tests: monitoring overhead, historical retrieval, real trace operations
 
 import asyncio
 import json
-import time
+import logging
 import os
 import sys
 from datetime import datetime
-from typing import Dict, Any, List, Optional
-import logging
+from typing import Any, Dict
 
 # Add parent directories to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class RealTraceSystemBenchmark:
     """REAL trace system benchmark - NO MOCKS ALLOWED"""
@@ -36,7 +38,7 @@ class RealTraceSystemBenchmark:
             "mock_mode": False,  # NEVER TRUE
             "tests": {},
             "summary": {},
-            "import_status": {}
+            "import_status": {},
         }
 
         # ATTEMPT REAL IMPORTS - NO FALLBACKS TO MOCKS
@@ -53,6 +55,7 @@ class RealTraceSystemBenchmark:
         # Try to import real trace collector
         try:
             from trace.collector import TraceCollector
+
             self.trace_collector = TraceCollector()
             self.results["import_status"]["trace_collector"] = "SUCCESS"
             print("  ✅ TraceCollector loaded successfully")
@@ -63,6 +66,7 @@ class RealTraceSystemBenchmark:
         # Try to import real trace analyzer
         try:
             from trace.analyzer import TraceAnalyzer
+
             self.trace_analyzer = TraceAnalyzer()
             self.results["import_status"]["trace_analyzer"] = "SUCCESS"
             print("  ✅ TraceAnalyzer loaded successfully")
@@ -73,6 +77,7 @@ class RealTraceSystemBenchmark:
         # Try to import real trace storage
         try:
             from trace.storage import TraceStorage
+
             self.trace_storage = TraceStorage()
             self.results["import_status"]["trace_storage"] = "SUCCESS"
             print("  ✅ TraceStorage loaded successfully")
@@ -81,10 +86,16 @@ class RealTraceSystemBenchmark:
             print(f"  ❌ TraceStorage failed: {e}")
 
         # Count successful imports
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         total_imports = len(self.results["import_status"])
 
-        print(f"📊 Real system status: {successful_imports}/{total_imports} trace components loaded")
+        print(
+            f"📊 Real system status: {successful_imports}/{total_imports} trace components loaded"
+        )
 
         if successful_imports == 0:
             print("🚨 CRITICAL: NO REAL TRACE SYSTEMS AVAILABLE")
@@ -100,7 +111,7 @@ class RealTraceSystemBenchmark:
             return {
                 "error": "NO_REAL_TRACE_COLLECTOR_AVAILABLE",
                 "message": "Cannot test data collection - no real trace collector loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         # Test trace collection
@@ -110,7 +121,7 @@ class RealTraceSystemBenchmark:
             "real_test": True,
             "collection_success": result.get("success", False) if result else False,
             "collection_time_ms": 50,  # placeholder
-            "real_errors": []
+            "real_errors": [],
         }
 
     async def run_real_comprehensive_benchmark(self) -> Dict[str, Any]:
@@ -123,13 +134,17 @@ class RealTraceSystemBenchmark:
         print()
 
         # Check if we have any real systems
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         if successful_imports == 0:
             error_result = {
                 "error": "NO_REAL_SYSTEMS_AVAILABLE",
                 "message": "Cannot run investor-grade benchmarks without real trace systems",
                 "import_failures": self.results["import_status"],
-                "recommendation": "Fix import dependencies and deploy real trace systems before investor presentation"
+                "recommendation": "Fix import dependencies and deploy real trace systems before investor presentation",
             }
             self.results["critical_error"] = error_result
             print("🚨 CRITICAL ERROR: No real trace systems available for testing")
@@ -157,24 +172,27 @@ class RealTraceSystemBenchmark:
                 error_result = {
                     "error": str(e),
                     "real_test": False,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
                 self.results["tests"][test_name] = error_result
                 print(f"❌ REAL {test_name} failed: {str(e)}")
 
         # Generate summary and save results
         self.results["summary"] = {
-            "import_success_rate": successful_imports / len(self.results["import_status"]),
-            "overall_system_health": "CRITICAL" if successful_imports == 0 else "DEGRADED",
-            "investor_ready": successful_imports >= 2
+            "import_success_rate": successful_imports
+            / len(self.results["import_status"]),
+            "overall_system_health": (
+                "CRITICAL" if successful_imports == 0 else "DEGRADED"
+            ),
+            "investor_ready": successful_imports >= 2,
         }
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"REAL_trace_system_benchmark_results_{timestamp}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(self.results, f, indent=2)
 
-        print(f"\\n🎉 REAL TRACE SYSTEMS BENCHMARK COMPLETE!")
+        print("\\n🎉 REAL TRACE SYSTEMS BENCHMARK COMPLETE!")
         print("=" * 80)
         print(f"💾 Results saved to: {filename}")
 

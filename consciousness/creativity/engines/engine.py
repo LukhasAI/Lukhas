@@ -11,17 +11,19 @@ Based on the audit findings, this engine provides:
 - Symbolic reasoning for creative problem solving
 """
 
-import asyncio
 import time
-from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Any, Dict, List
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class CreationType(Enum):
     """Types of content creation supported"""
+
     TEXT_CONTENT = "text_content"
     CODE_GENERATION = "code_generation"
     DESIGN_CONCEPTS = "design_concepts"
@@ -31,9 +33,11 @@ class CreationType(Enum):
     INNOVATIVE_SOLUTIONS = "innovative_solutions"
     MULTIMEDIA_CONCEPTS = "multimedia_concepts"
 
+
 @dataclass
 class CreateRequest:
     """Structured representation of a creation request"""
+
     prompt: str
     type: CreationType = CreationType.TEXT_CONTENT
     context: Dict[str, Any] = field(default_factory=dict)
@@ -43,15 +47,18 @@ class CreateRequest:
     target_audience: str = "general"
     constraints: List[str] = field(default_factory=list)
 
+
 @dataclass
 class CreateResponse:
     """Structured creation response with AGI capabilities"""
+
     content: str
     confidence: float
     creation_method: str
     alternative_versions: List[str]
     metadata: Dict[str, Any]
     suggestions: List[str]
+
 
 class LukhasCreateEngine:
     """
@@ -72,11 +79,13 @@ class LukhasCreateEngine:
             "technical_documentation": TechnicalDocCreator(),
             "strategic_plans": StrategicPlanCreator(),
             "innovative_solutions": InnovationCreator(),
-            "multimedia_concepts": MultimediaCreator()
+            "multimedia_concepts": MultimediaCreator(),
         }
         logger.info("🎨 LUKHAS Create Engine initialized successfully")
 
-    async def create(self, request: str, context: Dict[str, Any] = None, **kwargs) -> CreateResponse:
+    async def create(
+        self, request: str, context: Dict[str, Any] = None, **kwargs
+    ) -> CreateResponse:
         """
         🚀 Main creation interface - Generate content using AGI capabilities
 
@@ -102,16 +111,16 @@ class LukhasCreateEngine:
         response = await self._generate_content(create_request, enhanced_context)
 
         # Store creation in history for learning
-        self.creation_history.append({
-            "request": create_request,
-            "response": response,
-            "timestamp": time.time()
-        })
+        self.creation_history.append(
+            {"request": create_request, "response": response, "timestamp": time.time()}
+        )
 
         logger.info(f"✅ Content created: {create_request.type.value}")
         return response
 
-    def _parse_request(self, request: str, context: Dict[str, Any], **kwargs) -> CreateRequest:
+    def _parse_request(
+        self, request: str, context: Dict[str, Any], **kwargs
+    ) -> CreateRequest:
         """Parse natural language request into structured format"""
         return CreateRequest(
             prompt=request,
@@ -121,7 +130,7 @@ class LukhasCreateEngine:
             length=kwargs.get("length", "medium"),
             creativity_level=kwargs.get("creativity_level", 0.7),
             target_audience=kwargs.get("target_audience", "general"),
-            constraints=kwargs.get("constraints", [])
+            constraints=kwargs.get("constraints", []),
         )
 
     def _detect_creation_type(self, request: CreateRequest) -> CreationType:
@@ -129,13 +138,54 @@ class LukhasCreateEngine:
         prompt_lower = request.prompt.lower()
 
         type_patterns = {
-            CreationType.CODE_GENERATION: ["code", "function", "class", "algorithm", "implementation"],
-            CreationType.DESIGN_CONCEPTS: ["design", "layout", "visual", "interface", "mockup"],
-            CreationType.CREATIVE_WRITING: ["story", "poem", "creative", "narrative", "fiction"],
-            CreationType.TECHNICAL_DOCUMENTATION: ["documentation", "guide", "manual", "specification"],
-            CreationType.STRATEGIC_PLANS: ["plan", "strategy", "roadmap", "approach", "framework"],
-            CreationType.INNOVATIVE_SOLUTIONS: ["solution", "innovation", "breakthrough", "novel", "creative solution"],
-            CreationType.MULTIMEDIA_CONCEPTS: ["video", "audio", "multimedia", "presentation", "interactive"]
+            CreationType.CODE_GENERATION: [
+                "code",
+                "function",
+                "class",
+                "algorithm",
+                "implementation",
+            ],
+            CreationType.DESIGN_CONCEPTS: [
+                "design",
+                "layout",
+                "visual",
+                "interface",
+                "mockup",
+            ],
+            CreationType.CREATIVE_WRITING: [
+                "story",
+                "poem",
+                "creative",
+                "narrative",
+                "fiction",
+            ],
+            CreationType.TECHNICAL_DOCUMENTATION: [
+                "documentation",
+                "guide",
+                "manual",
+                "specification",
+            ],
+            CreationType.STRATEGIC_PLANS: [
+                "plan",
+                "strategy",
+                "roadmap",
+                "approach",
+                "framework",
+            ],
+            CreationType.INNOVATIVE_SOLUTIONS: [
+                "solution",
+                "innovation",
+                "breakthrough",
+                "novel",
+                "creative solution",
+            ],
+            CreationType.MULTIMEDIA_CONCEPTS: [
+                "video",
+                "audio",
+                "multimedia",
+                "presentation",
+                "interactive",
+            ],
         }
 
         for creation_type, patterns in type_patterns.items():
@@ -159,11 +209,15 @@ class LukhasCreateEngine:
 
         return enhanced_context
 
-    async def _generate_content(self, request: CreateRequest, context: Dict[str, Any]) -> CreateResponse:
+    async def _generate_content(
+        self, request: CreateRequest, context: Dict[str, Any]
+    ) -> CreateResponse:
         """Generate content using appropriate creator module"""
 
         # Select appropriate creator
-        creator = self.capabilities.get(request.type.value, self.capabilities["text_content"])
+        creator = self.capabilities.get(
+            request.type.value, self.capabilities["text_content"]
+        )
 
         # Generate base content
         content = await creator.create(request, context)
@@ -186,21 +240,25 @@ class LukhasCreateEngine:
                 "creation_type": request.type.value,
                 "style": request.style,
                 "creativity_level": request.creativity_level,
-                "processing_time": time.time()
+                "processing_time": time.time(),
             },
-            suggestions=suggestions
+            suggestions=suggestions,
         )
 
-    async def _generate_alternatives(self, request: CreateRequest, content: str) -> List[str]:
+    async def _generate_alternatives(
+        self, request: CreateRequest, content: str
+    ) -> List[str]:
         """Generate alternative versions of the content"""
         # Placeholder for alternative generation logic
         return [
             f"Alternative 1: {content[:100]}... (concise version)",
             f"Alternative 2: {content[:100]}... (detailed version)",
-            f"Alternative 3: {content[:100]}... (creative variation)"
+            f"Alternative 3: {content[:100]}... (creative variation)",
         ]
 
-    def _calculate_confidence(self, request: CreateRequest, content: str, context: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, request: CreateRequest, content: str, context: Dict[str, Any]
+    ) -> float:
         """Calculate confidence score for generated content"""
         base_confidence = 0.8
 
@@ -220,7 +278,7 @@ class LukhasCreateEngine:
             "Consider adding more specific examples",
             "Review content for target audience alignment",
             "Validate technical accuracy if applicable",
-            "Consider creative enhancements based on feedback"
+            "Consider creative enhancements based on feedback",
         ]
 
     def _analyze_creation_patterns(self) -> Dict[str, Any]:
@@ -231,10 +289,12 @@ class LukhasCreateEngine:
         return {
             "total_creations": len(self.creation_history),
             "common_types": ["text_content", "technical_documentation"],
-            "success_patterns": ["clear prompts", "adequate context"]
+            "success_patterns": ["clear prompts", "adequate context"],
         }
 
+
 # Creator Modules - Specialized Content Generation
+
 
 class TextContentCreator:
     """General text content creation"""
@@ -259,7 +319,9 @@ This content addresses the request with a focus on {request.style} style and {re
 The content provides comprehensive coverage of the requested topic with appropriate depth and clarity.
 """
 
-    def _generate_main_content(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    def _generate_main_content(
+        self, request: CreateRequest, context: Dict[str, Any]
+    ) -> str:
         """Generate the main content section"""
         return f"""
 Based on your request "{request.prompt}", here is comprehensive content that addresses your needs:
@@ -268,6 +330,7 @@ The approach combines proven methodologies with innovative thinking to deliver r
 
 This content is designed to be {request.length} in length while maintaining {request.style} tone throughout. The creativity level has been calibrated to {request.creativity_level} to ensure the right balance between innovation and practicality.
 """
+
 
 class CodeGenerationCreator:
     """Code generation and programming assistance"""
@@ -313,6 +376,7 @@ print(result)
 - Ready for integration and testing
 """
 
+
 class DesignConceptCreator:
     """Design concepts and visual ideas"""
 
@@ -351,6 +415,7 @@ class DesignConceptCreator:
 - Progressive enhancement
 """
 
+
 class CreativeWritingCreator:
     """Creative writing and storytelling"""
 
@@ -373,7 +438,9 @@ class CreativeWritingCreator:
 - Emotional resonance
 """
 
-    def _generate_creative_content(self, request: CreateRequest, context: Dict[str, Any]) -> str:
+    def _generate_creative_content(
+        self, request: CreateRequest, context: Dict[str, Any]
+    ) -> str:
         """Generate creative narrative content"""
         return f"""
 The story begins with an intriguing premise that captures the imagination and draws the reader into a world where {request.prompt} becomes the central focus of an extraordinary journey.
@@ -384,6 +451,7 @@ As the plot develops, unexpected twists and revelations keep the audience engage
 
 The narrative voice maintains consistency with the {request.style} approach while appealing to the {request.target_audience} demographic through carefully chosen language and pacing.
 """
+
 
 class TechnicalDocCreator:
     """Technical documentation generation"""
@@ -412,6 +480,7 @@ Common issues and their solutions, with diagnostic procedures.
 ## References
 Additional resources and documentation links for extended learning.
 """
+
 
 class StrategicPlanCreator:
     """Strategic planning and frameworks"""
@@ -447,6 +516,7 @@ Strategic approach addressing {request.prompt} with measurable objectives and cl
 Clear timeline with checkpoints and deliverables.
 """
 
+
 class InnovationCreator:
     """Innovation and breakthrough solutions"""
 
@@ -475,6 +545,7 @@ Novel approach that reimagines traditional solutions through innovative thinking
 ## Future Vision
 Long-term impact and evolution of the innovative solution.
 """
+
 
 class MultimediaCreator:
     """Multimedia and interactive content concepts"""

@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 lukhas AI System - Symbolic Reasoning Engine
 File: symbolic_reasoning.py
 Path: lukhas/brain/reasoning/symbolic_reasoning.py
@@ -23,9 +22,7 @@ EXTRACTED FROM: enhanced_bot_primary.py (SymbolicEngine class)
 ENHANCEMENT: Added professional structure and improved documentation
 """
 
-import re
 from datetime import datetime
-from typing import Dict, List, Any, Callable
 
 
 class SymbolicEngine:
@@ -54,9 +51,22 @@ class SymbolicEngine:
                 "related to",
                 "connected with",
             ],
-            "conditional": ["if", "when", "assuming", "provided that", "unless"],
+            "conditional": [
+                "if",
+                "when",
+                "assuming",
+                "provided that",
+                "unless",
+            ],
             "temporal": ["before", "after", "during", "while", "since"],
-            "logical": ["and", "or", "not", "implies", "equivalent", "therefore"],
+            "logical": [
+                "and",
+                "or",
+                "not",
+                "implies",
+                "equivalent",
+                "therefore",
+            ],
         }
 
         # Logic operators for symbolic inference
@@ -68,7 +78,7 @@ class SymbolicEngine:
             "equivalent": lambda x, y: x == y,
         }
 
-    def reason(self, input_data: Dict) -> Dict:
+    def reason(self, input_data: dict) -> dict:
         """Apply symbolic reasoning with logic operators"""
         semantic_content = self._extract_semantic_content(input_data)
         symbolic_content = self._extract_symbolic_patterns(semantic_content)
@@ -88,13 +98,14 @@ class SymbolicEngine:
             "symbolic_reasoning": weighted_logic,
             "valid_logic": valid_logic,
             "confidence": max(
-                [v.get("confidence", 0) for v in valid_logic.values()], default=0.0
+                [v.get("confidence", 0) for v in valid_logic.values()],
+                default=0.0,
             ),
             "logic_applied": len(valid_logic) > 0,
             "timestamp": datetime.now().isoformat(),
         }
 
-    def _extract_semantic_content(self, input_data: Dict) -> str:
+    def _extract_semantic_content(self, input_data: dict) -> str:
         """Extract semantic content from input"""
         if "text" in input_data:
             return input_data["text"]
@@ -103,7 +114,7 @@ class SymbolicEngine:
         else:
             return str(input_data)
 
-    def _extract_symbolic_patterns(self, content: str) -> List[Dict]:
+    def _extract_symbolic_patterns(self, content: str) -> list[dict]:
         """Extract symbolic patterns from content"""
         patterns = []
         for rule_type, keywords in self.symbolic_rules.items():
@@ -119,8 +130,11 @@ class SymbolicEngine:
         return patterns
 
     def _extract_logical_elements(
-        self, semantic_content: str, symbolic_content: List[Dict], context: Dict
-    ) -> List[Dict]:
+        self,
+        semantic_content: str,
+        symbolic_content: list[dict],
+        context: dict,
+    ) -> list[dict]:
         """Extract logical elements for reasoning"""
         logical_elements = []
 
@@ -158,7 +172,7 @@ class SymbolicEngine:
 
         return logical_elements
 
-    def _build_symbolic_logical_chains(self, logical_elements: List[Dict]) -> Dict:
+    def _build_symbolic_logical_chains(self, logical_elements: list[dict]) -> dict:
         """Build logical chains using symbolic structures"""
         logical_chains = {}
 
@@ -179,7 +193,7 @@ class SymbolicEngine:
 
         return logical_chains
 
-    def _elements_related(self, elem1: Dict, elem2: Dict) -> bool:
+    def _elements_related(self, elem1: dict, elem2: dict) -> bool:
         """Check if two elements are logically related"""
         content1 = elem1["content"].lower()
         content2 = elem2["content"].lower()
@@ -191,7 +205,7 @@ class SymbolicEngine:
 
         return overlap >= 1 or content1 in content2 or content2 in content1
 
-    def _calculate_symbolic_confidences(self, logical_chains: Dict) -> Dict:
+    def _calculate_symbolic_confidences(self, logical_chains: dict) -> dict:
         """Calculate confidence levels using symbolic logic"""
         weighted_logic = {}
 
@@ -211,9 +225,7 @@ class SymbolicEngine:
             type_diversity_bonus = min(0.1, 0.03 * type_count)
 
             symbolic_types = sum(
-                1
-                for t in elements_by_type.keys()
-                if "symbolic" in t or "formal_logic" in t
+                1 for t in elements_by_type if "symbolic" in t or "formal_logic" in t
             )
             symbolic_bonus = min(0.15, 0.05 * symbolic_types)
 
@@ -243,7 +255,7 @@ class SymbolicEngine:
 
         return weighted_logic
 
-    def _create_symbolic_summary(self, elements: List[Dict], relation_type: str) -> str:
+    def _create_symbolic_summary(self, elements: list[dict], relation_type: str) -> str:
         """Create symbolic summary of logical chain"""
         if not elements:
             return ""
@@ -261,7 +273,7 @@ class SymbolicEngine:
         else:
             raise ValueError(f"Unknown logic operator: {operator}")
 
-    def get_symbolic_insights(self) -> Dict:
+    def get_symbolic_insights(self) -> dict:
         """Get insights about symbolic reasoning patterns"""
         return {
             "available_operators": list(self.logic_operators.keys()),

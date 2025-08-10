@@ -6,7 +6,6 @@ Total Functions: 310
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -222,7 +221,10 @@ ETHICS_FUNCTION_ENTITIES = [
     ("compliance_engine20250503213400_p95", "generate_compliance_report"),
     ("compliance_engine20250503213400_p95", "get_compliance_status"),
     ("compliance_engine20250503213400_p95", "should_retain_data"),
-    ("compliance_engine20250503213400_p95", "validate_content_against_ethical_constraints"),
+    (
+        "compliance_engine20250503213400_p95",
+        "validate_content_against_ethical_constraints",
+    ),
     ("compliance_simple", "get_compliance_report"),
     ("compliance_simple", "get_plugin_risk_score"),
     ("compliance_simple", "get_violation_history"),
@@ -490,7 +492,7 @@ class EthicsEntityActivator:
 
     def activate_all(self):
         """Activate all ethics entities"""
-        logger.info(f"Starting ethics entity activation...")
+        logger.info("Starting ethics entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -498,12 +500,14 @@ class EthicsEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(ETHICS_CLASS_ENTITIES) + len(ETHICS_FUNCTION_ENTITIES)
+            "total": len(ETHICS_CLASS_ENTITIES) + len(ETHICS_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -511,7 +515,7 @@ class EthicsEntityActivator:
         for module_path, class_name in ETHICS_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -536,7 +540,9 @@ class EthicsEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -544,7 +550,7 @@ class EthicsEntityActivator:
         for module_path, func_name in ETHICS_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -561,20 +567,23 @@ class EthicsEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

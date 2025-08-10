@@ -7,86 +7,111 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
-from enum import Enum
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
+
+import structlog
 
 # ΛTRACE: Initializing logger for core.ethics
 log = structlog.get_logger(__name__)
-log.info("core.ethics module initialized") # ΛNOTE: Core ethics module coming online.
+log.info("core.ethics module initialized")  # ΛNOTE: Core ethics module coming online.
 
 # --- Ethical Models & Principles ---
 
 # ΛCONSTANT
 # ΛNOTE: Defines broad categories of ethical models LUKHAS might reference or implement.
 #        This is a high-level categorization. Specific models would be more detailed.
+
+
 class EthicalFramework(Enum):
-    DEONTOLOGICAL = "DEONTOLOGICAL" # Rule-based ethics
-    CONSEQUENTIALIST = "CONSEQUENTIALIST" # Outcome-based ethics
-    VIRTUE_ETHICS = "VIRTUE_ETHICS" # Character-based ethics
-    PRAGMATIC_ETHICS = "PRAGMATIC_ETHICS" # Context-driven practical ethics
-    LUKHAS_HYBRID = "LUKHAS_HYBRID" # ΛNOTE: LUKHAS may employ a hybrid model.
-    # ΛCAUTION: Selection and implementation of these frameworks are critical ethical arbitration points.
+    DEONTOLOGICAL = "DEONTOLOGICAL"  # Rule-based ethics
+    CONSEQUENTIALIST = "CONSEQUENTIALIST"  # Outcome-based ethics
+    VIRTUE_ETHICS = "VIRTUE_ETHICS"  # Character-based ethics
+    PRAGMATIC_ETHICS = "PRAGMATIC_ETHICS"  # Context-driven practical ethics
+    LUKHAS_HYBRID = "LUKHAS_HYBRID"  # ΛNOTE: LUKHAS may employ a hybrid model.
+    # ΛCAUTION: Selection and implementation of these frameworks are critical
+    # ethical arbitration points.
+
 
 # ΛCONSTANT
 # ΛNOTE: Placeholder for specific ethical principles or rules.
 #        These would be significantly more detailed in a production system.
 # ΛETHICAL_MODELS (Conceptual Grouping)
-ETHICAL_PRINCIPLES: Dict[str, str] = {
-    "NON_MALEFICENCE": "Do no harm, or allow harm to be caused by inaction.", # ΛNOTE: Foundational principle.
+ETHICAL_PRINCIPLES: dict[str, str] = {
+    # ΛNOTE: Foundational principle.
+    "NON_MALEFICENCE": "Do no harm, or allow harm to be caused by inaction.",
     "BENEFICENCE": "Act in the best interests of humanity and users.",
-    "AUTONOMY": "Respect user autonomy and decision-making capacity.", # ΛCAUTION: Balancing autonomy with safety is key.
+    # ΛCAUTION: Balancing autonomy with safety is key.
+    "AUTONOMY": "Respect user autonomy and decision-making capacity.",
     "JUSTICE": "Ensure fairness and equity in operations and outcomes.",
-    "TRANSPARENCY": "Maintain transparency in operations, where appropriate and safe.", # AINFER: Transparency level might be inferred based on context.
-    "ACCOUNTABILITY": "Ensure mechanisms for accountability are in place."
+    # AINFER: Transparency level might be inferred based on context.
+    "TRANSPARENCY": "Maintain transparency in operations, where appropriate and safe.",
+    "ACCOUNTABILITY": "Ensure mechanisms for accountability are in place.",
 }
 
 # --- Safety Constraints ---
 
 # ΛCONSTANT
 # ΛNOTE: Defines categories of safety constraints.
+
+
 class SafetyConstraintLevel(Enum):
-    CRITICAL_STOP = "CRITICAL_STOP" # Immediate cessation of problematic action.
-    WARNING_FLAG = "WARNING_FLAG" # Log and flag for review, action may continue with caution.
-    INFO_LOG = "INFO_LOG" # Informational, no immediate action required.
+    CRITICAL_STOP = "CRITICAL_STOP"  # Immediate cessation of problematic action.
+    WARNING_FLAG = (
+        "WARNING_FLAG"  # Log and flag for review, action may continue with caution.
+    )
+    INFO_LOG = "INFO_LOG"  # Informational, no immediate action required.
+
 
 # ΛCONSTANT
 # ΛNOTE: Placeholder for specific safety constraints. These would be linked to detection mechanisms.
 # ΛSAFETY_CONSTRAINTS (Conceptual Grouping)
-SAFETY_CONSTRAINTS_DEFINITIONS: List[Dict[str, Any]] = [
+SAFETY_CONSTRAINTS_DEFINITIONS: list[dict[str, Any]] = [
     {
         "id": "SC001",
         "description": "Detection of intent to cause direct physical harm to humans.",
         "default_level": SafetyConstraintLevel.CRITICAL_STOP,
-        "keywords": ["harm human", "injure person", "attack user"], # ΛNOTE: Simplified keyword detection.
+        "keywords": [
+            "harm human",
+            "injure person",
+            "attack user",
+        ],  # ΛNOTE: Simplified keyword detection.
         # AINFER: Real system would infer intent, not just keywords.
     },
     {
         "id": "SC002",
         "description": "Generation of hate speech or discriminatory content.",
         "default_level": SafetyConstraintLevel.CRITICAL_STOP,
-        "keywords": ["hate speech example", "discriminatory term"], # ΛCAUTION: Keyword lists are insufficient for robust detection.
+        "keywords": [
+            "hate speech example",
+            "discriminatory term",
+        ],  # ΛCAUTION: Keyword lists are insufficient for robust detection.
     },
     {
         "id": "SC003",
         "description": "Attempt to bypass core safety protocols.",
         "default_level": SafetyConstraintLevel.WARNING_FLAG,
-        "pattern": r"override safety protocol \w+", # ΛNOTE: Example regex pattern.
-        # ΛECHO: Detection of this constraint violation is an echo of an attempt to subvert safety.
+        "pattern": r"override safety protocol \w+",  # ΛNOTE: Example regex pattern.
+        # ΛECHO: Detection of this constraint violation is an echo of an attempt
+        # to subvert safety.
     },
-    { # ΛLEGACY: Example of a constraint that might be from an older system or less critical.
+    {  # ΛLEGACY: Example of a constraint that might be from an older system or less critical.
         "id": "SC_LEGACY_001",
         "description": "Use of excessive exclamation marks in output.",
         "default_level": SafetyConstraintLevel.INFO_LOG,
-        "threshold": 5, # ΛNOTE: Max 5 exclamation marks.
-    }
+        "threshold": 5,  # ΛNOTE: Max 5 exclamation marks.
+    },
 ]
 
 # --- Ethical Evaluation Function Stub ---
 
 # ΛUTIL (though core to this module's purpose)
-def evaluate_ethics(payload: Dict[str, Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+
+
+def evaluate_ethics(
+    payload: dict[str, Any], context: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """
     Stub function for evaluating the ethical implications of a given payload or action.
     # ΛNOTE: This is a critical ethical arbitration point.
@@ -94,31 +119,51 @@ def evaluate_ethics(payload: Dict[str, Any], context: Optional[Dict[str, Any]] =
               Significant development is required here.
     """
     # ΛTRACE: Received payload for ethical evaluation
-    log.info("evaluate_ethics.received_payload", payload_keys=list(payload.keys()), context_present=(context is not None))
+    log.info(
+        "evaluate_ethics.received_payload",
+        payload_keys=list(payload.keys()),
+        context_present=(context is not None),
+    )
 
     # AINFER: Placeholder for inferring ethical concerns from payload.
     #         In a real system, this would involve complex reasoning, model checks, etc.
-    ethical_concerns: List[str] = []
+    ethical_concerns: list[str] = []
     action_advisability: str = "UNDETERMINED"
-    confidence: float = 0.1 # ΛNOTE: Low confidence as it's a stub.
+    confidence: float = 0.1  # ΛNOTE: Low confidence as it's a stub.
 
     # Example: Check against simplified safety constraints (keyword-based)
-    input_text = str(payload.get("text_content", "")) + str(payload.get("action_description", ""))
+    input_text = str(payload.get("text_content", "")) + str(
+        payload.get("action_description", "")
+    )
     for constraint in SAFETY_CONSTRAINTS_DEFINITIONS:
         if constraint.get("keywords"):
             for kw in constraint["keywords"]:
                 if kw in input_text.lower():
-                    ethical_concerns.append(f"Potential violation of constraint {constraint['id']}: {constraint['description']}")
-                    if constraint["default_level"] == SafetyConstraintLevel.CRITICAL_STOP:
+                    ethical_concerns.append(
+                        f"Potential violation of constraint {constraint['id']}: {constraint['description']}"
+                    )
+                    if (
+                        constraint["default_level"]
+                        == SafetyConstraintLevel.CRITICAL_STOP
+                    ):
                         action_advisability = "NOT_ADVISABLE_CRITICAL"
-                    elif constraint["default_level"] == SafetyConstraintLevel.WARNING_FLAG and action_advisability != "NOT_ADVISABLE_CRITICAL":
+                    elif (
+                        constraint["default_level"]
+                        == SafetyConstraintLevel.WARNING_FLAG
+                        and action_advisability != "NOT_ADVISABLE_CRITICAL"
+                    ):
                         action_advisability = "CAUTION_ADVISED"
                     # ΛECHO: Logging the echo of a constraint being triggered.
-                    log.warning("evaluate_ethics.constraint_triggered", constraint_id=constraint['id'], input_snippet=input_text[:100])
-
+                    log.warning(
+                        "evaluate_ethics.constraint_triggered",
+                        constraint_id=constraint["id"],
+                        input_snippet=input_text[:100],
+                    )
 
     if not ethical_concerns:
-        action_advisability = "NOMINALLY_ACCEPTABLE" # ΛNOTE: Still low confidence due to stub nature.
+        action_advisability = (
+            "NOMINALLY_ACCEPTABLE"  # ΛNOTE: Still low confidence due to stub nature.
+        )
         confidence = 0.3
 
     # ΛTRACE: Ethical evaluation complete
@@ -127,12 +172,17 @@ def evaluate_ethics(payload: Dict[str, Any], context: Optional[Dict[str, Any]] =
         "action_advisability": action_advisability,
         "confidence": confidence,
         "ethical_concerns_identified": ethical_concerns,
-        "applied_framework": EthicalFramework.LUKHAS_HYBRID.value, # ΛNOTE: Assumed framework
-        "notes": "This is a stub evaluation. Detailed ethical reasoning not implemented."
+        "applied_framework": EthicalFramework.LUKHAS_HYBRID.value,  # ΛNOTE: Assumed framework
+        "notes": "This is a stub evaluation. Detailed ethical reasoning not implemented.",
     }
-    log.info("evaluate_ethics.evaluation_result", result_advisability=result["action_advisability"], num_concerns=len(result["ethical_concerns_identified"]))
+    log.info(
+        "evaluate_ethics.evaluation_result",
+        result_advisability=result["action_advisability"],
+        num_concerns=len(result["ethical_concerns_identified"]),
+    )
 
     return result
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

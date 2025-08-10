@@ -5,6 +5,8 @@ Advanced: voice_cultural_integration.py
 Integration Date: 2025-05-31T07:55:28.254343
 """
 
+import logging
+
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE        : voice_cultural_integration.py                             ║
@@ -21,14 +23,15 @@ DEPENDENCIES:
 - emotion_mapper_alt.py
 """
 
-from core.common import get_logger
-from typing import Dict, Any, List, Optional
-from datetime import datetime
+import builtins
+import contextlib
+from typing import Any, Optional
 
 from ..spine.accent_adapter import AccentAdapter
 from ..spine.emotion_mapper_alt import LUKHAS
 
 logger = logging.getLogger("voice_cultural_integration")
+
 
 class VoiceCulturalIntegrator:
     """
@@ -36,7 +39,7 @@ class VoiceCulturalIntegrator:
     to provide holistic cultural awareness capabilities.
     """
 
-    def __init__(self, core_interface=None, config: Dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: dict[str, Any] = None):
         """
         Initialize the voice cultural integrator.
 
@@ -53,12 +56,14 @@ class VoiceCulturalIntegrator:
         self.accent_adapter = AccentAdapter(
             emotion_mapper=self.emotion_mapper,
             memory_helix=self.memory_helix,
-            config=self.config.get("accent_adapter", {})
+            config=self.config.get("accent_adapter", {}),
         )
 
         # Settings
         self.reminiscence_chance = self.config.get("reminiscence_chance", 0.2)
-        self.cultural_learning_enabled = self.config.get("cultural_learning_enabled", True)
+        self.cultural_learning_enabled = self.config.get(
+            "cultural_learning_enabled", True
+        )
 
         logger.info("Voice Cultural Integrator initialized")
 
@@ -68,6 +73,7 @@ class VoiceCulturalIntegrator:
             return self.core.emotion_mapper
 
         # Create simple wrapper if we don't have direct reference
+
         class EmotionMapperWrapper:
             @property
             def emotions(self):
@@ -86,15 +92,14 @@ class VoiceCulturalIntegrator:
         elif hasattr(self.core, "get_component"):
             try:
                 return self.core.get_component("memory_helix")
-            except:
+            except BaseException:
                 logger.warning("Could not get memory helix from core")
                 return None
         return None
 
-    async def process_cultural_context(self,
-                                    user_text: str,
-                                    user_id: str,
-                                    context: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_cultural_context(
+        self, user_text: str, user_id: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Process cultural context from user input and update the context.
 
@@ -113,7 +118,9 @@ class VoiceCulturalIntegrator:
         user_history = await self._get_user_history(user_id)
 
         # Detect cultural context
-        cultural_context = self.accent_adapter.detect_cultural_context(user_text, user_history)
+        cultural_context = self.accent_adapter.detect_cultural_context(
+            user_text, user_history
+        )
         context["cultural_context"] = cultural_context
 
         # Get appropriate voice mode
@@ -129,23 +136,27 @@ class VoiceCulturalIntegrator:
             # Record in accent adapter
             words_learned = []
             if self.memory_helix and hasattr(self.memory_helix, "detect_new_words"):
-                try:
+                with contextlib.suppress(builtins.BaseException):
                     words_learned = await self.memory_helix.detect_new_words(user_text)
-                except:
-                    pass
 
-            accent_detected = context.get("accent_info", {}).get("name") if context.get("accent_info") else None
+            accent_detected = (
+                context.get("accent_info", {}).get("name")
+                if context.get("accent_info")
+                else None
+            )
 
             self.accent_adapter.remember_location(
                 user_id=user_id,
                 location=location,
                 accent_detected=accent_detected,
-                words_learned=words_learned
+                words_learned=words_learned,
             )
 
         return context
 
-    async def _extract_location(self, text: str, context: Dict[str, Any]) -> Optional[str]:
+    async def _extract_location(
+        self, text: str, context: dict[str, Any]
+    ) -> Optional[str]:
         """Extract location mentions from text."""
         # Simple extraction - in production, would use NER
         location_indicators = ["in ", "at ", "from ", "visiting ", "to "]
@@ -163,26 +174,26 @@ class VoiceCulturalIntegrator:
                     if len(location_phrase) > 3:  # Avoid tiny words
                         # Remove punctuation
                         import re
-                        location = re.sub(r'[^\w\s]', '', location_phrase).strip()
+
+                        location = re.sub(r"[^\w\s]", "", location_phrase).strip()
                         if location:
                             return location
 
         return None
 
-    async def _get_user_history(self, user_id: str) -> List[Dict[str, Any]]:
+    async def _get_user_history(self, user_id: str) -> list[dict[str, Any]]:
         """Get user interaction history if available."""
         if self.core and hasattr(self.core, "get_user_history"):
             try:
                 return await self.core.get_user_history(user_id, limit=10)
-            except:
+            except BaseException:
                 logger.warning(f"Failed to get user history for {user_id}")
 
         return []
 
-    async def generate_cultural_response(self,
-                                     base_response: str,
-                                     user_id: str,
-                                     context: Dict[str, Any]) -> str:
+    async def generate_cultural_response(
+        self, base_response: str, user_id: str, context: dict[str, Any]
+    ) -> str:
         """
         Enhance response with cultural awareness features like reminiscence.
 
@@ -202,10 +213,10 @@ class VoiceCulturalIntegrator:
         # Generate reminiscence if appropriate
         should_reminisce = (
             # Random chance
-            random.random() < self.reminiscence_chance and
+            random.random() < self.reminiscence_chance
+            and
             # Only if we have a location context
-            ("detected_location" in context or
-             "location" in context)
+            ("detected_location" in context or "location" in context)
         )
 
         if should_reminisce:
@@ -218,12 +229,17 @@ class VoiceCulturalIntegrator:
         cultural_context = context.get("cultural_context", "casual")
 
         # Extract unusual words (longer words are more likely to be interesting)
-        words = [w for w in re.findall(r'\b[a-zA-Z\']+\b', context.get("user_text", "")) if len(w) > 5]
+        words = [
+            w
+            for w in re.findall(r"\b[a-zA-Z\']+\b", context.get("user_text", ""))
+            if len(w) > 5
+        ]
 
         for word in words:
             if self.accent_adapter.should_express_curiosity(word, cultural_context):
                 curiosity_question = self.accent_adapter.generate_curiosity_question(
-                    word, cultural_context)
+                    word, cultural_context
+                )
 
                 # Add curiosity question
                 updated_response = f"{updated_response}\n\n{curiosity_question}"
@@ -232,11 +248,12 @@ class VoiceCulturalIntegrator:
                 self.accent_adapter.log_cultural_interaction(
                     user_id=user_id,
                     word=word,
-                    cultural_context=cultural_context
+                    cultural_context=cultural_context,
                 )
                 break
 
         return updated_response
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for voice_cultural_integration.py)

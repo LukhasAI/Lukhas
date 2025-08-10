@@ -15,7 +15,7 @@ Priority: HIGH
 
 # Import existing vocabularies
 try:
-    from .bio_vocabulary import BIO_SYMBOLS, EMOTION_SYMBOLS, DEVICE_SYMBOLS
+    from .bio_vocabulary import BIO_SYMBOLS, DEVICE_SYMBOLS, EMOTION_SYMBOLS
 except ImportError:
     BIO_SYMBOLS = {}
     EMOTION_SYMBOLS = {}
@@ -24,10 +24,10 @@ except ImportError:
 try:
     from .dream_vocabulary import (
         DREAM_PHASE_SYMBOLS,
-        DREAM_TYPE_SYMBOLS,
         DREAM_STATE_SYMBOLS,
+        DREAM_TYPE_SYMBOLS,
+        MEMORY_SYMBOLS,
         PATTERN_SYMBOLS,
-        MEMORY_SYMBOLS
     )
 except ImportError:
     DREAM_PHASE_SYMBOLS = {}
@@ -77,7 +77,7 @@ def get_symbol(vocabulary_name: str, key: str, default: str = "❓") -> str:
         'voice': VOICE_SYMBOLIC_VOCABULARY,
         'vision': VISION_SYMBOLIC_VOCABULARY
     }
-    
+
     vocab = vocabularies.get(vocabulary_name, {})
     if isinstance(vocab, dict) and key in vocab:
         entry = vocab[key]

@@ -27,7 +27,6 @@
 
 # Package imports
 import logging
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = logging.getLogger(__name__)

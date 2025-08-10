@@ -4,16 +4,23 @@ Tests sequential guarantees, priority processing, back-pressure, and persistence
 """
 
 import asyncio
-import pytest
 import tempfile
-import json
 from pathlib import Path
 
-from core.actor_system import Actor, ActorMessage, get_global_actor_system
+import pytest
+
+from core.actor_system import ActorMessage, get_global_actor_system
 from core.mailbox import (
-    UnboundedMailbox, BoundedMailbox, PriorityMailbox, PersistentMailbox,
-    MailboxFactory, MailboxType, MessagePriority, BackPressureStrategy,
-    DeadLetterQueue, MailboxActor
+    BackPressureStrategy,
+    BoundedMailbox,
+    DeadLetterQueue,
+    MailboxActor,
+    MailboxFactory,
+    MailboxType,
+    MessagePriority,
+    PersistentMailbox,
+    PriorityMailbox,
+    UnboundedMailbox,
 )
 
 
@@ -33,7 +40,7 @@ class TestMailboxBasics:
                 recipient="test",
                 message_type="test",
                 payload={"id": i},
-                timestamp=0
+                timestamp=0,
             )
             result = await mailbox.put(msg)
             assert result is True
@@ -49,8 +56,7 @@ class TestMailboxBasics:
     async def test_bounded_mailbox_blocking(self):
         """Test bounded mailbox with blocking strategy"""
         mailbox = BoundedMailbox(
-            max_size=5,
-            back_pressure_strategy=BackPressureStrategy.BLOCK
+            max_size=5, back_pressure_strategy=BackPressureStrategy.BLOCK
         )
 
         # Fill mailbox
@@ -61,7 +67,7 @@ class TestMailboxBasics:
                 recipient="test",
                 message_type="test",
                 payload={"id": i},
-                timestamp=0
+                timestamp=0,
             )
             await mailbox.put(msg)
 
@@ -69,6 +75,7 @@ class TestMailboxBasics:
 
         # Try to add one more - should block
         blocked = False
+
         async def try_put():
             nonlocal blocked
             blocked = True
@@ -78,7 +85,7 @@ class TestMailboxBasics:
                 recipient="test",
                 message_type="test",
                 payload={},
-                timestamp=0
+                timestamp=0,
             )
             await mailbox.put(msg)  # This should block
             blocked = False
@@ -102,7 +109,7 @@ class TestMailboxBasics:
         mailbox = BoundedMailbox(
             max_size=3,
             back_pressure_strategy=BackPressureStrategy.DROP_NEWEST,
-            dead_letter_queue=dlq
+            dead_letter_queue=dlq,
         )
 
         # Fill mailbox
@@ -113,7 +120,7 @@ class TestMailboxBasics:
                 recipient="test",
                 message_type="test",
                 payload={"id": i},
-                timestamp=0
+                timestamp=0,
             )
             result = await mailbox.put(msg)
             assert result is True
@@ -125,7 +132,7 @@ class TestMailboxBasics:
             recipient="test",
             message_type="test",
             payload={"id": "dropped"},
-            timestamp=0
+            timestamp=0,
         )
         result = await mailbox.put(msg)
         assert result is False
@@ -147,8 +154,7 @@ class TestPriorityMailbox:
     async def test_priority_ordering(self):
         """Test messages are processed by priority"""
         mailbox = PriorityMailbox(
-            max_size=10,
-            starvation_prevention=False  # Disable for this test
+            max_size=10, starvation_prevention=False  # Disable for this test
         )
 
         # Add messages in reverse priority order
@@ -157,7 +163,7 @@ class TestPriorityMailbox:
             (MessagePriority.LOW, "low"),
             (MessagePriority.NORMAL, "normal"),
             (MessagePriority.HIGH, "high"),
-            (MessagePriority.SYSTEM, "system")
+            (MessagePriority.SYSTEM, "system"),
         ]
 
         for priority, name in priorities:
@@ -167,7 +173,7 @@ class TestPriorityMailbox:
                 recipient="test",
                 message_type="test",
                 payload={"name": name},
-                timestamp=0
+                timestamp=0,
             )
             await mailbox.put(msg, priority)
 
@@ -180,10 +186,7 @@ class TestPriorityMailbox:
     @pytest.mark.asyncio
     async def test_starvation_prevention(self):
         """Test that low priority messages eventually get processed"""
-        mailbox = PriorityMailbox(
-            max_size=20,
-            starvation_prevention=True
-        )
+        mailbox = PriorityMailbox(max_size=20, starvation_prevention=True)
 
         # Set low starvation threshold for testing
         mailbox._starvation_threshold = 0.5  # 500ms
@@ -195,7 +198,7 @@ class TestPriorityMailbox:
             recipient="test",
             message_type="test",
             payload={"priority": "low"},
-            timestamp=0
+            timestamp=0,
         )
         await mailbox.put(low_msg, MessagePriority.LOW)
 
@@ -210,7 +213,7 @@ class TestPriorityMailbox:
                 recipient="test",
                 message_type="test",
                 payload={"priority": "high"},
-                timestamp=0
+                timestamp=0,
             )
             await mailbox.put(high_msg, MessagePriority.HIGH)
 
@@ -225,15 +228,13 @@ class TestPersistentMailbox:
     @pytest.mark.asyncio
     async def test_persistence_and_recovery(self):
         """Test mailbox can persist and recover messages"""
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.json') as tmp:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
             persistence_path = tmp.name
 
         try:
             # Create mailbox and add messages
             mailbox1 = PersistentMailbox(
-                max_size=10,
-                persistence_path=persistence_path,
-                persistence_interval=0.1
+                max_size=10, persistence_path=persistence_path, persistence_interval=0.1
             )
 
             for i in range(5):
@@ -243,7 +244,7 @@ class TestPersistentMailbox:
                     recipient="test",
                     message_type="test",
                     payload={"id": i},
-                    timestamp=0
+                    timestamp=0,
                 )
                 await mailbox1.put(msg)
 
@@ -251,10 +252,7 @@ class TestPersistentMailbox:
             await asyncio.sleep(0.2)
 
             # Create new mailbox and restore
-            mailbox2 = PersistentMailbox(
-                max_size=10,
-                persistence_path=persistence_path
-            )
+            mailbox2 = PersistentMailbox(max_size=10, persistence_path=persistence_path)
 
             restored = await mailbox2.restore_from_disk()
             assert restored == 5
@@ -326,7 +324,7 @@ class TestMailboxFactory:
         mailbox = MailboxFactory.create_mailbox(
             MailboxType.BOUNDED,
             max_size=50,
-            back_pressure_strategy=BackPressureStrategy.DROP_OLDEST
+            back_pressure_strategy=BackPressureStrategy.DROP_OLDEST,
         )
         assert isinstance(mailbox, BoundedMailbox)
         assert mailbox.max_size == 50
@@ -335,9 +333,7 @@ class TestMailboxFactory:
     def test_create_priority(self):
         """Test creating priority mailbox"""
         mailbox = MailboxFactory.create_mailbox(
-            MailboxType.PRIORITY,
-            max_size=100,
-            starvation_prevention=True
+            MailboxType.PRIORITY, max_size=100, starvation_prevention=True
         )
         assert isinstance(mailbox, PriorityMailbox)
         assert mailbox.starvation_prevention is True
@@ -345,8 +341,7 @@ class TestMailboxFactory:
     def test_create_persistent(self):
         """Test creating persistent mailbox"""
         mailbox = MailboxFactory.create_mailbox(
-            MailboxType.PERSISTENT,
-            persistence_path="/tmp/test.json"
+            MailboxType.PERSISTENT, persistence_path="/tmp/test.json"
         )
         assert isinstance(mailbox, PersistentMailbox)
         assert mailbox.persistence_path == "/tmp/test.json"
@@ -366,9 +361,7 @@ class TestMailboxActor:
                 self.register_handler("process", self._process)
 
                 # Add filter to only accept even IDs
-                self.add_message_filter(
-                    lambda msg: msg.payload.get("id", 0) % 2 == 0
-                )
+                self.add_message_filter(lambda msg: msg.payload.get("id", 0) % 2 == 0)
 
             async def _process(self, msg):
                 self.received.append(msg.payload["id"])
@@ -398,7 +391,7 @@ class TestMailboxActor:
                 super().__init__(
                     actor_id,
                     mailbox_type=MailboxType.BOUNDED,
-                    mailbox_config={"batch_size": 5, "batch_timeout": 0.1}
+                    mailbox_config={"batch_size": 5, "batch_timeout": 0.1},
                 )
                 self.batches_processed = []
 
@@ -431,14 +424,14 @@ class TestMailboxActor:
 @pytest.mark.asyncio
 async def test_integration_with_supervision():
     """Test mailbox integration with supervision system"""
-    from core.supervision import SupervisorActor, SupervisionStrategy
+    from core.supervision import SupervisionStrategy, SupervisorActor
 
     class WorkerWithPriorityMailbox(MailboxActor):
         def __init__(self, actor_id: str):
             super().__init__(
                 actor_id,
                 mailbox_type=MailboxType.PRIORITY,
-                mailbox_config={"max_size": 50}
+                mailbox_config={"max_size": 50},
             )
             self.register_handler("work", self._work)
             self.register_handler("fail", self._fail)
@@ -455,7 +448,7 @@ async def test_integration_with_supervision():
     supervisor = await system.create_actor(
         SupervisorActor,
         "mailbox-supervisor",
-        supervision_strategy=SupervisionStrategy(max_failures=3)
+        supervision_strategy=SupervisionStrategy(max_failures=3),
     )
 
     # Create worker and supervise it

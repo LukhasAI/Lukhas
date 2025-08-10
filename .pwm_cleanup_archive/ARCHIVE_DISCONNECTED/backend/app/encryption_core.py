@@ -4,20 +4,24 @@
 🛠️ VERSION: v1.0.0 • 📅 UPDATED: 2025-04-29 • ✍️ AUTHOR: LUKHAS AGI
 📦 DEPENDENCIES: pycryptodome, hashlib
 """
+
 # ──────────────────────────────────────────────────────────────
 
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
 from hashlib import sha256
+
+from Crypto.Cipher import AES
+
 
 def generate_key(seed: str) -> bytes:
     digest = sha256(seed.encode()).digest()
     return digest[:32]
 
+
 def encrypt(data: bytes, key: bytes) -> bytes:
     cipher = AES.new(key, AES.MODE_EAX)
     ciphertext, tag = cipher.encrypt_and_digest(data)
     return cipher.nonce + tag + ciphertext
+
 
 def decrypt(encrypted: bytes, key: bytes) -> bytes:
     nonce = encrypted[:16]
@@ -25,6 +29,7 @@ def decrypt(encrypted: bytes, key: bytes) -> bytes:
     ciphertext = encrypted[32:]
     cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
     return cipher.decrypt_and_verify(ciphertext, tag)
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════

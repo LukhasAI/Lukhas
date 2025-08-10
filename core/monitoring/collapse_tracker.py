@@ -38,14 +38,15 @@ import logging
 import math
 import uuid
 from collections import Counter, deque
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple, Callable
 from pathlib import Path
+from typing import Any, Callable, Optional
 
 try:
     import structlog
+
     logger = structlog.get_logger(__name__)
 except ImportError:
     logger = logging.getLogger(__name__)
@@ -54,29 +55,33 @@ except ImportError:
 
 class CollapseAlertLevel(Enum):
     """Alert levels for collapse conditions."""
-    GREEN = "GREEN"     # Normal operation (entropy < 0.3)
-    YELLOW = "YELLOW"   # Elevated risk (entropy 0.3-0.5)
-    ORANGE = "ORANGE"   # High risk (entropy 0.5-0.7)
-    RED = "RED"         # Critical collapse imminent (entropy > 0.7)
+
+    GREEN = "GREEN"  # Normal operation (entropy < 0.3)
+    YELLOW = "YELLOW"  # Elevated risk (entropy 0.3-0.5)
+    ORANGE = "ORANGE"  # High risk (entropy 0.5-0.7)
+    RED = "RED"  # Critical collapse imminent (entropy > 0.7)
 
 
 @dataclass
 class CollapseState:
     """Represents a collapse state snapshot."""
-    collapse_trace_id: str = field(default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}")
+
+    collapse_trace_id: str = field(
+        default_factory=lambda: f"collapse_{uuid.uuid4().hex[:12]}"
+    )
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     entropy_score: float = 0.0
     alert_level: CollapseAlertLevel = CollapseAlertLevel.GREEN
     entropy_slope: float = 0.0  # Rate of entropy change
-    affected_components: List[str] = field(default_factory=list)
-    symbolic_drift: Dict[str, float] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    affected_components: list[str] = field(default_factory=list)
+    symbolic_drift: dict[str, float] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         data = asdict(self)
-        data['timestamp'] = self.timestamp.isoformat()
-        data['alert_level'] = self.alert_level.value
+        data["timestamp"] = self.timestamp.isoformat()
+        data["alert_level"] = self.alert_level.value
         return data
 
 
@@ -88,10 +93,12 @@ class CollapseTracker:
     collapse conditions within the LUKHAS AGI system.
     """
 
-    def __init__(self,
-                 orchestrator_callback: Optional[Callable] = None,
-                 ethics_callback: Optional[Callable] = None,
-                 persistence_path: Optional[Path] = None):
+    def __init__(
+        self,
+        orchestrator_callback: Optional[Callable] = None,
+        ethics_callback: Optional[Callable] = None,
+        persistence_path: Optional[Path] = None,
+    ):
         """
         Initialize the collapse tracker.
 
@@ -110,7 +117,9 @@ class CollapseTracker:
         self.ethics_callback = ethics_callback
 
         # Persistence
-        self.persistence_path = persistence_path or Path("lukhas/logs/collapse_history.jsonl")
+        self.persistence_path = persistence_path or Path(
+            "lukhas/logs/collapse_history.jsonl"
+        )
         self.persistence_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Thresholds
@@ -118,19 +127,22 @@ class CollapseTracker:
             CollapseAlertLevel.GREEN: 0.3,
             CollapseAlertLevel.YELLOW: 0.5,
             CollapseAlertLevel.ORANGE: 0.7,
-            CollapseAlertLevel.RED: 0.9
+            CollapseAlertLevel.RED: 0.9,
         }
 
         # Component monitoring
-        self.component_entropy: Dict[str, float] = {}
-        self.sid_hashes: List[str] = []
+        self.component_entropy: dict[str, float] = {}
+        self.sid_hashes: list[str] = []
 
-        logger.info("CollapseTracker initialized",
-                   thresholds=self.thresholds,
-                   persistence_path=str(self.persistence_path))
+        logger.info(
+            "CollapseTracker initialized",
+            thresholds=self.thresholds,
+            persistence_path=str(self.persistence_path),
+        )
 
     # {ΛENTROPY}
-    def calculate_shannon_entropy(self, data: List[Any]) -> float:
+
+    def calculate_shannon_entropy(self, data: list[Any]) -> float:
         """
         Calculate Shannon entropy for a given dataset.
 
@@ -161,9 +173,12 @@ class CollapseTracker:
         return min(1.0, max(0.0, normalized_entropy))
 
     # {ΛCOLLAPSE}
-    def update_entropy_score(self,
-                           symbolic_data: List[str],
-                           component_scores: Optional[Dict[str, float]] = None) -> float:
+
+    def update_entropy_score(
+        self,
+        symbolic_data: list[str],
+        component_scores: Optional[dict[str, float]] = None,
+    ) -> float:
         """
         Update the current entropy score based on symbolic data.
 
@@ -183,7 +198,9 @@ class CollapseTracker:
 
         # Weighted average if we have component scores
         if self.component_entropy:
-            component_avg = sum(self.component_entropy.values()) / len(self.component_entropy)
+            component_avg = sum(self.component_entropy.values()) / len(
+                self.component_entropy
+            )
             final_entropy = 0.7 * main_entropy + 0.3 * component_avg
         else:
             final_entropy = main_entropy
@@ -201,10 +218,12 @@ class CollapseTracker:
         # Check alert level
         self._update_alert_level()
 
-        logger.info("Entropy updated",
-                   entropy_score=final_entropy,
-                   entropy_slope=entropy_slope,
-                   alert_level=self.current_state.alert_level.value)
+        logger.info(
+            "Entropy updated",
+            entropy_score=final_entropy,
+            entropy_slope=entropy_slope,
+            alert_level=self.current_state.alert_level.value,
+        )
 
         return final_entropy
 
@@ -261,9 +280,9 @@ class CollapseTracker:
             asyncio.create_task(self._emit_alert(old_level, new_level))
 
     # {ΛSAFETY}
-    async def _emit_alert(self,
-                         old_level: CollapseAlertLevel,
-                         new_level: CollapseAlertLevel) -> None:
+    async def _emit_alert(
+        self, old_level: CollapseAlertLevel, new_level: CollapseAlertLevel
+    ) -> None:
         """
         Emit alerts when collapse level changes.
 
@@ -277,13 +296,15 @@ class CollapseTracker:
             "new_level": new_level.value,
             "entropy_score": self.current_state.entropy_score,
             "entropy_slope": self.current_state.entropy_slope,
-            "collapse_trace_id": self.current_state.collapse_trace_id
+            "collapse_trace_id": self.current_state.collapse_trace_id,
         }
 
-        logger.warning("Collapse alert level changed",
-                      old_level=old_level.value,
-                      new_level=new_level.value,
-                      entropy=self.current_state.entropy_score)
+        logger.warning(
+            "Collapse alert level changed",
+            old_level=old_level.value,
+            new_level=new_level.value,
+            entropy=self.current_state.entropy_score,
+        )
 
         # Notify orchestrator
         if self.orchestrator_callback:
@@ -296,21 +317,29 @@ class CollapseTracker:
         if new_level in [CollapseAlertLevel.ORANGE, CollapseAlertLevel.RED]:
             if self.ethics_callback:
                 try:
-                    await self.ethics_callback({
-                        **alert_data,
-                        "severity": "HIGH" if new_level == CollapseAlertLevel.RED else "MEDIUM",
-                        "recommended_action": "intervention_required"
-                    })
+                    await self.ethics_callback(
+                        {
+                            **alert_data,
+                            "severity": (
+                                "HIGH"
+                                if new_level == CollapseAlertLevel.RED
+                                else "MEDIUM"
+                            ),
+                            "recommended_action": "intervention_required",
+                        }
+                    )
                 except Exception as e:
                     logger.error("Failed to notify ethics layer", error=str(e))
 
         # Persist alert
         await self._persist_state()
 
-    def record_collapse_event(self,
-                            affected_components: List[str],
-                            symbolic_drift: Dict[str, float],
-                            metadata: Optional[Dict[str, Any]] = None) -> str:
+    def record_collapse_event(
+        self,
+        affected_components: list[str],
+        symbolic_drift: dict[str, float],
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> str:
         """
         Record a collapse event with full context.
 
@@ -329,7 +358,7 @@ class CollapseTracker:
             entropy_slope=self.current_state.entropy_slope,
             affected_components=affected_components,
             symbolic_drift=symbolic_drift,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # Add to history
@@ -338,9 +367,11 @@ class CollapseTracker:
         # Update current state with new trace ID
         self.current_state = collapse_state
 
-        logger.info("Collapse event recorded",
-                   trace_id=collapse_state.collapse_trace_id,
-                   affected_components=len(affected_components))
+        logger.info(
+            "Collapse event recorded",
+            trace_id=collapse_state.collapse_trace_id,
+            affected_components=len(affected_components),
+        )
 
         # Persist immediately
         asyncio.create_task(self._persist_state())
@@ -350,14 +381,14 @@ class CollapseTracker:
     async def _persist_state(self) -> None:
         """Persist current state to storage."""
         try:
-            with open(self.persistence_path, 'a') as f:
-                f.write(json.dumps(self.current_state.to_dict()) + '\n')
+            with open(self.persistence_path, "a") as f:
+                f.write(json.dumps(self.current_state.to_dict()) + "\n")
         except Exception as e:
             logger.error("Failed to persist collapse state", error=str(e))
 
-    def get_collapse_history(self,
-                           trace_id: Optional[str] = None,
-                           limit: int = 100) -> List[Dict[str, Any]]:
+    def get_collapse_history(
+        self, trace_id: Optional[str] = None, limit: int = 100
+    ) -> list[dict[str, Any]]:
         """
         Retrieve collapse history.
 
@@ -379,7 +410,7 @@ class CollapseTracker:
         history = list(self.collapse_history)[-limit:]
         return [state.to_dict() for state in history]
 
-    def get_system_health(self) -> Dict[str, Any]:
+    def get_system_health(self) -> dict[str, Any]:
         """
         Get current system health metrics.
 
@@ -394,12 +425,14 @@ class CollapseTracker:
             "component_entropy": self.component_entropy.copy(),
             "history_size": len(self.collapse_history),
             "affected_components": self.current_state.affected_components,
-            "collapse_trace_id": self.current_state.collapse_trace_id
+            "collapse_trace_id": self.current_state.collapse_trace_id,
         }
 
     # Test utilities
-    def generate_synthetic_test_data(self,
-                                   scenario: str = "normal") -> Tuple[List[str], Dict[str, float]]:
+
+    def generate_synthetic_test_data(
+        self, scenario: str = "normal"
+    ) -> tuple[list[str], dict[str, float]]:
         """
         Generate synthetic test data for validation.
 
@@ -418,7 +451,7 @@ class CollapseTracker:
                 "memory": 0.2,
                 "reasoning": 0.15,
                 "emotion": 0.25,
-                "consciousness": 0.18
+                "consciousness": 0.18,
             }
 
         elif scenario == "drift":
@@ -428,7 +461,7 @@ class CollapseTracker:
                 "memory": 0.45,
                 "reasoning": 0.38,
                 "emotion": 0.52,
-                "consciousness": 0.41
+                "consciousness": 0.41,
             }
 
         elif scenario == "collapse":
@@ -438,7 +471,7 @@ class CollapseTracker:
                 "memory": 0.85,
                 "reasoning": 0.78,
                 "emotion": 0.92,
-                "consciousness": 0.88
+                "consciousness": 0.88,
             }
 
         else:

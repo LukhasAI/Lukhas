@@ -25,17 +25,19 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
 
-from core.common import get_logger
+import base64
+import hashlib
+import json
 import os
 import time
-import json
-import hashlib
-import base64
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Any, Dict, Optional
+
 import numpy as np
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -191,7 +193,7 @@ class TraumaLockSystem:
         if policy["context_validation"] and access_context:
             vector_id = encrypted_memory.get("vector_id")
             if not vector_id or vector_id not in self.secure_memory_vectors:
-                raise ValueError(f"Security vector not found for memory")
+                raise ValueError("Security vector not found for memory")
 
             # Generate context vector
             context_vector = self._generate_context_vector(access_context)
@@ -222,7 +224,7 @@ class TraumaLockSystem:
                 "expired",
                 False,
             )
-            raise ValueError(f"Encrypted memory has expired")
+            raise ValueError("Encrypted memory has expired")
 
         try:
             # Get the encrypted data
@@ -435,10 +437,6 @@ class TraumaLockSystem:
             "vector_dim": self.vector_dim,
             "secure_vectors_stored": len(self.secure_memory_vectors),
         }
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

@@ -8,6 +8,7 @@ import threading
 
 
 class Actor:
+
     def __init__(self, behavior, state=None):
         self.state = state or {}
         self.behavior = behavior
@@ -26,6 +27,8 @@ class Actor:
 
 
 # Example behavior function
+
+
 def echo_behavior(actor, message):
     print(f"Actor received: {message}")
     # Example: update state or send messages

@@ -3,16 +3,17 @@
 Analyze codebase for consolidation and modularization opportunities
 """
 
-import os
 import ast
 import json
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
-from collections import defaultdict
 import logging
+from collections import defaultdict
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class ConsolidationAnalyzer:
     def __init__(self, root_path: Path):
@@ -45,18 +46,18 @@ class ConsolidationAnalyzer:
         """Map all internal Python modules"""
         logger.info("Mapping internal modules...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             # Get module path
             try:
                 relative = py_file.relative_to(self.root_path)
-                module_path = '.'.join(relative.parts[:-1] + (relative.stem,))
+                module_path = ".".join(relative.parts[:-1] + (relative.stem,))
                 self.internal_modules.add(module_path)
 
                 # Extract classes from file
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     try:
                         tree = ast.parse(f.read())
                         for node in ast.walk(tree):
@@ -75,15 +76,15 @@ class ConsolidationAnalyzer:
         """Analyze who imports whom"""
         logger.info("Analyzing import relationships...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
                 relative = py_file.relative_to(self.root_path)
-                module_path = '.'.join(relative.parts[:-1] + (relative.stem,))
+                module_path = ".".join(relative.parts[:-1] + (relative.stem,))
 
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     tree = ast.parse(f.read())
 
                 for node in ast.walk(tree):
@@ -129,11 +130,13 @@ class ConsolidationAnalyzer:
                 # Check if they import each other
                 if module1 in self.module_imports.get(module2, set()):
                     if module1 < module2:  # Avoid duplicates
-                        couples.append({
-                            'type': 'tightly_coupled',
-                            'modules': [module1, module2],
-                            'reason': 'Bidirectional imports indicate tight coupling'
-                        })
+                        couples.append(
+                            {
+                                "type": "tightly_coupled",
+                                "modules": [module1, module2],
+                                "reason": "Bidirectional imports indicate tight coupling",
+                            }
+                        )
 
         self.consolidation_candidates.extend(couples)
 
@@ -145,20 +148,22 @@ class ConsolidationAnalyzer:
         similar = []
 
         for i, mod1 in enumerate(module_names):
-            for mod2 in module_names[i+1:]:
+            for mod2 in module_names[i + 1 :]:
                 # Get base names
-                base1 = mod1.split('.')[-1]
-                base2 = mod2.split('.')[-1]
+                base1 = mod1.split(".")[-1]
+                base2 = mod2.split(".")[-1]
 
                 # Check similarity
                 ratio = SequenceMatcher(None, base1.lower(), base2.lower()).ratio()
                 if ratio > 0.8:  # 80% similar
-                    similar.append({
-                        'type': 'similar_names',
-                        'modules': [mod1, mod2],
-                        'similarity': ratio,
-                        'reason': f'Names are {ratio*100:.0f}% similar'
-                    })
+                    similar.append(
+                        {
+                            "type": "similar_names",
+                            "modules": [mod1, mod2],
+                            "similarity": ratio,
+                            "reason": f"Names are {ratio*100:.0f}% similar",
+                        }
+                    )
 
         self.consolidation_candidates.extend(similar)
 
@@ -166,7 +171,7 @@ class ConsolidationAnalyzer:
         """Find small modules that could be consolidated"""
         small_modules = defaultdict(list)
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
@@ -174,21 +179,26 @@ class ConsolidationAnalyzer:
                 size = py_file.stat().st_size
                 if size < 1000:  # Less than 1KB
                     relative = py_file.relative_to(self.root_path)
-                    parent = relative.parts[0] if relative.parts else 'root'
+                    parent = relative.parts[0] if relative.parts else "root"
 
                     # Count meaningful lines
-                    with open(py_file, 'r', encoding='utf-8') as f:
+                    with open(py_file, encoding="utf-8") as f:
                         lines = f.readlines()
-                        meaningful_lines = sum(1 for line in lines
-                                             if line.strip() and not line.strip().startswith('#'))
+                        meaningful_lines = sum(
+                            1
+                            for line in lines
+                            if line.strip() and not line.strip().startswith("#")
+                        )
 
                     if meaningful_lines < 50:  # Less than 50 meaningful lines
-                        small_modules[parent].append({
-                            'file': str(relative),
-                            'size': size,
-                            'lines': meaningful_lines,
-                            'classes': self.file_to_classes.get(str(relative), [])
-                        })
+                        small_modules[parent].append(
+                            {
+                                "file": str(relative),
+                                "size": size,
+                                "lines": meaningful_lines,
+                                "classes": self.file_to_classes.get(str(relative), []),
+                            }
+                        )
 
             except Exception as e:
                 logger.debug(f"Error checking {py_file}: {e}")
@@ -196,12 +206,14 @@ class ConsolidationAnalyzer:
         # Group small modules by directory
         for directory, modules in small_modules.items():
             if len(modules) > 1:
-                self.consolidation_candidates.append({
-                    'type': 'small_modules',
-                    'directory': directory,
-                    'modules': modules,
-                    'reason': f'{len(modules)} small modules in same directory could be consolidated'
-                })
+                self.consolidation_candidates.append(
+                    {
+                        "type": "small_modules",
+                        "directory": directory,
+                        "modules": modules,
+                        "reason": f"{len(modules)} small modules in same directory could be consolidated",
+                    }
+                )
 
     def _find_circular_dependencies(self):
         """Find circular import dependencies"""
@@ -233,12 +245,14 @@ class ConsolidationAnalyzer:
         unique_cycles = []
         for cycle in cycles:
             sorted_cycle = tuple(sorted(cycle))
-            if sorted_cycle not in [tuple(sorted(c['modules'])) for c in unique_cycles]:
-                unique_cycles.append({
-                    'type': 'circular_dependency',
-                    'modules': cycle,
-                    'reason': 'Circular import dependency - consider consolidating or refactoring'
-                })
+            if sorted_cycle not in [tuple(sorted(c["modules"])) for c in unique_cycles]:
+                unique_cycles.append(
+                    {
+                        "type": "circular_dependency",
+                        "modules": cycle,
+                        "reason": "Circular import dependency - consider consolidating or refactoring",
+                    }
+                )
 
         self.consolidation_candidates.extend(unique_cycles[:10])  # Limit to 10
 
@@ -246,15 +260,15 @@ class ConsolidationAnalyzer:
         """Find files with very similar content"""
         file_hashes = defaultdict(list)
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
                     # Simple content hash (ignoring whitespace)
-                    normalized = ''.join(content.split())
+                    normalized = "".join(content.split())
                     content_hash = hash(normalized)
 
                 relative = py_file.relative_to(self.root_path)
@@ -266,39 +280,47 @@ class ConsolidationAnalyzer:
         # Find duplicates
         for content_hash, files in file_hashes.items():
             if len(files) > 1:
-                self.consolidation_candidates.append({
-                    'type': 'duplicate_files',
-                    'files': files,
-                    'reason': 'Files have identical or nearly identical content'
-                })
+                self.consolidation_candidates.append(
+                    {
+                        "type": "duplicate_files",
+                        "files": files,
+                        "reason": "Files have identical or nearly identical content",
+                    }
+                )
 
     def _generate_report(self):
         """Generate consolidation opportunities report"""
         # Analyze import patterns for consolidation
         consolidation_report = {
-            'total_modules': len(self.internal_modules),
-            'total_imports': sum(len(imports) for imports in self.module_imports.values()),
-            'consolidation_opportunities': len(self.consolidation_candidates),
-            'opportunities_by_type': defaultdict(int),
-            'recommendations': []
+            "total_modules": len(self.internal_modules),
+            "total_imports": sum(
+                len(imports) for imports in self.module_imports.values()
+            ),
+            "consolidation_opportunities": len(self.consolidation_candidates),
+            "opportunities_by_type": defaultdict(int),
+            "recommendations": [],
         }
 
         # Count by type
         for candidate in self.consolidation_candidates:
-            consolidation_report['opportunities_by_type'][candidate['type']] += 1
+            consolidation_report["opportunities_by_type"][candidate["type"]] += 1
 
         # Generate specific recommendations
         self._generate_recommendations(consolidation_report)
 
         # Save report
-        output_dir = self.root_path / 'scripts' / 'import_migration'
+        output_dir = self.root_path / "scripts" / "import_migration"
         output_dir.mkdir(exist_ok=True)
 
-        with open(output_dir / 'consolidation_report.json', 'w') as f:
-            json.dump({
-                'report': consolidation_report,
-                'candidates': self.consolidation_candidates[:50]  # Top 50
-            }, f, indent=2)
+        with open(output_dir / "consolidation_report.json", "w") as f:
+            json.dump(
+                {
+                    "report": consolidation_report,
+                    "candidates": self.consolidation_candidates[:50],  # Top 50
+                },
+                f,
+                indent=2,
+            )
 
         # Generate summary
         summary = f"""
@@ -312,16 +334,16 @@ Consolidation Opportunities: {consolidation_report['consolidation_opportunities'
 Opportunities by Type:
 """
 
-        for opp_type, count in consolidation_report['opportunities_by_type'].items():
+        for opp_type, count in consolidation_report["opportunities_by_type"].items():
             summary += f"- {opp_type.replace('_', ' ').title()}: {count}\n"
 
         summary += "\nTop Recommendations:\n"
-        for i, rec in enumerate(consolidation_report['recommendations'][:10], 1):
+        for i, rec in enumerate(consolidation_report["recommendations"][:10], 1):
             summary += f"\n{i}. {rec['title']}\n"
             summary += f"   Action: {rec['action']}\n"
             summary += f"   Impact: {rec['impact']}\n"
 
-        with open(output_dir / 'consolidation_summary.txt', 'w') as f:
+        with open(output_dir / "consolidation_summary.txt", "w") as f:
             f.write(summary)
 
         print(summary)
@@ -332,56 +354,92 @@ Opportunities by Type:
         recommendations = []
 
         # Recommendation 1: Merge tightly coupled modules
-        coupled = [c for c in self.consolidation_candidates if c['type'] == 'tightly_coupled']
+        coupled = [
+            c for c in self.consolidation_candidates if c["type"] == "tightly_coupled"
+        ]
         if coupled:
-            recommendations.append({
-                'title': 'Merge Tightly Coupled Modules',
-                'action': f'Consider merging {len(coupled)} pairs of modules with bidirectional imports',
-                'impact': 'Reduce complexity and circular dependencies',
-                'examples': [c['modules'] for c in coupled[:3]]
-            })
+            recommendations.append(
+                {
+                    "title": "Merge Tightly Coupled Modules",
+                    "action": f"Consider merging {len(coupled)} pairs of modules with bidirectional imports",
+                    "impact": "Reduce complexity and circular dependencies",
+                    "examples": [c["modules"] for c in coupled[:3]],
+                }
+            )
 
         # Recommendation 2: Consolidate small modules
-        small = [c for c in self.consolidation_candidates if c['type'] == 'small_modules']
+        small = [
+            c for c in self.consolidation_candidates if c["type"] == "small_modules"
+        ]
         if small:
-            total_small = sum(len(s['modules']) for s in small)
-            recommendations.append({
-                'title': 'Consolidate Small Modules',
-                'action': f'Merge {total_small} small modules into larger, cohesive modules',
-                'impact': 'Reduce file sprawl and improve organization',
-                'examples': [s['directory'] for s in small[:3]]
-            })
+            total_small = sum(len(s["modules"]) for s in small)
+            recommendations.append(
+                {
+                    "title": "Consolidate Small Modules",
+                    "action": f"Merge {total_small} small modules into larger, cohesive modules",
+                    "impact": "Reduce file sprawl and improve organization",
+                    "examples": [s["directory"] for s in small[:3]],
+                }
+            )
 
         # Recommendation 3: Remove duplicates
-        duplicates = [c for c in self.consolidation_candidates if c['type'] == 'duplicate_files']
+        duplicates = [
+            c for c in self.consolidation_candidates if c["type"] == "duplicate_files"
+        ]
         if duplicates:
-            recommendations.append({
-                'title': 'Remove Duplicate Files',
-                'action': f'Remove or merge {len(duplicates)} sets of duplicate files',
-                'impact': 'Eliminate redundancy and confusion',
-                'examples': [d['files'] for d in duplicates[:3]]
-            })
+            recommendations.append(
+                {
+                    "title": "Remove Duplicate Files",
+                    "action": f"Remove or merge {len(duplicates)} sets of duplicate files",
+                    "impact": "Eliminate redundancy and confusion",
+                    "examples": [d["files"] for d in duplicates[:3]],
+                }
+            )
 
         # Recommendation 4: Fix circular dependencies
-        circular = [c for c in self.consolidation_candidates if c['type'] == 'circular_dependency']
+        circular = [
+            c
+            for c in self.consolidation_candidates
+            if c["type"] == "circular_dependency"
+        ]
         if circular:
-            recommendations.append({
-                'title': 'Resolve Circular Dependencies',
-                'action': f'Refactor {len(circular)} circular dependency chains',
-                'impact': 'Improve architecture and testability',
-                'examples': [c['modules'] for c in circular[:3]]
-            })
+            recommendations.append(
+                {
+                    "title": "Resolve Circular Dependencies",
+                    "action": f"Refactor {len(circular)} circular dependency chains",
+                    "impact": "Improve architecture and testability",
+                    "examples": [c["modules"] for c in circular[:3]],
+                }
+            )
 
-        report['recommendations'] = recommendations
+        report["recommendations"] = recommendations
 
     def _is_internal_module(self, module: str) -> bool:
         """Check if module is internal to project"""
         # Check against known external modules
         external_prefixes = [
-            'numpy', 'pandas', 'torch', 'tensorflow', 'sklearn',
-            'matplotlib', 'os', 'sys', 'json', 'logging', 'typing',
-            'datetime', 'asyncio', 'collections', 'pathlib', 'unittest',
-            'pytest', 're', 'math', 'random', 'time', 'functools'
+            "numpy",
+            "pandas",
+            "torch",
+            "tensorflow",
+            "sklearn",
+            "matplotlib",
+            "os",
+            "sys",
+            "json",
+            "logging",
+            "typing",
+            "datetime",
+            "asyncio",
+            "collections",
+            "pathlib",
+            "unittest",
+            "pytest",
+            "re",
+            "math",
+            "random",
+            "time",
+            "functools",
         ]
 
         for prefix in external_prefixes:
@@ -389,27 +447,39 @@ Opportunities by Type:
                 return False
 
         # Check if it's one of our modules
-        return any(module.startswith(m.split('.')[0]) for m in self.internal_modules)
+        return any(module.startswith(m.split(".")[0]) for m in self.internal_modules)
 
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'scripts', 'visualizations', 'analysis_output'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "scripts",
+            "visualizations",
+            "analysis_output",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Analyze consolidation opportunities')
-    parser.add_argument('path', nargs='?', default='.', help='Root path to analyze')
+
+    parser = argparse.ArgumentParser(description="Analyze consolidation opportunities")
+    parser.add_argument("path", nargs="?", default=".", help="Root path to analyze")
     args = parser.parse_args()
 
     root_path = Path(args.path).resolve()
     analyzer = ConsolidationAnalyzer(root_path)
     analyzer.analyze()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

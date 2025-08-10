@@ -15,8 +15,7 @@ communication and to compute a modularity score based on coupling.
 
 from __future__ import annotations
 
-
-from typing import Sequence, List
+from collections.abc import Sequence
 
 # ΛTAG: digital_friction
 
@@ -24,7 +23,6 @@ from typing import Sequence, List
 def compute_digital_friction(
     num_calls: int, serialization_cost: float, average_latency: float
 ) -> float:
-
     """Estimate digital friction from network communication.
 
     Parameters
@@ -50,14 +48,12 @@ def compute_digital_friction(
     return score
 
 
-
 # ΛTAG: modularity_score
 
 
 def compute_modularity_score(
     num_services: int, coupling_matrix: Sequence[Sequence[float]]
 ) -> float:
-
     """Compute a modularity score based on service coupling.
 
     A lower average coupling results in a higher modularity score.
@@ -83,7 +79,6 @@ def compute_modularity_score(
     avg_coupling = total / count
     score = max(0.0, 1.0 - avg_coupling)
     return score
-
 
 
 __all__ = ["compute_digital_friction", "compute_modularity_score"]

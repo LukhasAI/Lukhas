@@ -6,19 +6,22 @@ Created as mock implementation for voice system integration.
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, Optional
+import logging
 from dataclasses import dataclass
+from typing import Any, Optional
 
 logger = logging.getLogger("quantum_inspired_layer")
+
 
 @dataclass
 class QuantumConfig:
     """Configuration for quantum oscillator behavior"""
+
     coherence_threshold: float = 0.85
     entanglement_threshold: float = 0.95
     base_frequency: float = 10.0
     quantum_noise_factor: float = 0.1
+
 
 class QuantumBioOscillator:
     """
@@ -28,7 +31,11 @@ class QuantumBioOscillator:
     Real implementation should be sourced from core.common AI team.
     """
 
-    def __init__(self, base_freq: float = 10.0, quantum_config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        base_freq: float = 10.0,
+        quantum_config: Optional[dict[str, Any]] = None,
+    ):
         """Initialize quantum bio-oscillator
 
         Args:
@@ -69,7 +76,7 @@ class QuantumBioOscillator:
             logger.error(f"Failed to enter superposition: {e}")
             return False
 
-    async def measure_state(self) -> Dict[str, float]:
+    async def measure_state(self) -> dict[str, float]:
         """Measure quantum-like state and collapse superposition
 
         Returns:
@@ -80,15 +87,15 @@ class QuantumBioOscillator:
                 "coherence": self.coherence_level,
                 "entanglement": self.entanglement_level,
                 "frequency": self.base_freq,
-                "superposition": self.superposition_state
+                "superposition": self.superposition_state,
             }
 
             # Collapse superposition
             self.superposition_state = False
 
             # Apply measurement noise
-            self.coherence_level *= (1.0 - self.config.quantum_noise_factor)
-            self.entanglement_level *= (1.0 - self.config.quantum_noise_factor)
+            self.coherence_level *= 1.0 - self.config.quantum_noise_factor
+            self.entanglement_level *= 1.0 - self.config.quantum_noise_factor
 
             logger.debug(f"State measured: {state}")
             return state
@@ -113,7 +120,7 @@ class QuantumBioOscillator:
         """
         return self.entanglement_level
 
-    async def oscillate(self, duration: float = 1.0) -> Dict[str, Any]:
+    async def oscillate(self, duration: float = 1.0) -> dict[str, Any]:
         """Perform quantum oscillation for specified duration
 
         Args:
@@ -138,7 +145,7 @@ class QuantumBioOscillator:
                 "duration": end_time - start_time,
                 "cycles": cycles,
                 "final_coherence": self.coherence_level,
-                "final_entanglement": self.entanglement_level
+                "final_entanglement": self.entanglement_level,
             }
 
             logger.debug(f"Oscillation completed: {result}")
@@ -158,6 +165,7 @@ class QuantumBioOscillator:
         self.active = False
         self.superposition_state = False
         logger.info("QuantumBioOscillator deactivated")
+
 
 # CLAUDE CHANGELOG
 # - Created mock QuantumBioOscillator implementation for voice system integration # CLAUDE_EDIT_v0.19

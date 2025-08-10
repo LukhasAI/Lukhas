@@ -8,23 +8,22 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from datetime import datetime
-
 # ── Symbolic Quotas and Storage Rules ─────────────────────────
 
 TIER_QUOTAS_MB = {
-    1: 512,     # Tier 1: 512 MB
-    2: 2048,    # Tier 2: 2 GB
-    3: 8192,    # Tier 3: 8 GB
-    4: 32768    # Tier 4: 32 GB + Secrets Vault (personal vault tier)
+    1: 512,  # Tier 1: 512 MB
+    2: 2048,  # Tier 2: 2 GB
+    3: 8192,  # Tier 3: 8 GB
+    4: 32768,  # Tier 4: 32 GB + Secrets Vault (personal vault tier)
 }
 
 RETENTION_POLICY = {
-    "default_retention_days": 365,    # Keep symbolic vaults 1 year minimum
-    "inactive_account_cleanup_days": 730  # 2 years symbolic inactivity triggers warning
+    "default_retention_days": 365,  # Keep symbolic vaults 1 year minimum
+    "inactive_account_cleanup_days": 730,  # 2 years symbolic inactivity triggers warning
 }
 
 # ── Symbolic Policy Functions ─────────────────────────────────
+
 
 def get_quota_for_tier(tier: int) -> int:
     """
@@ -32,17 +31,20 @@ def get_quota_for_tier(tier: int) -> int:
     """
     return TIER_QUOTAS_MB.get(tier, 512)
 
+
 def get_default_retention_period() -> int:
     """
     Return symbolic default retention period in days.
     """
     return RETENTION_POLICY["default_retention_days"]
 
+
 def get_inactive_cleanup_period() -> int:
     """
     Return symbolic cleanup trigger period for inactive accounts.
     """
     return RETENTION_POLICY["inactive_account_cleanup_days"]
+
 
 # ===============================================================
 # 💾 HOW TO USE

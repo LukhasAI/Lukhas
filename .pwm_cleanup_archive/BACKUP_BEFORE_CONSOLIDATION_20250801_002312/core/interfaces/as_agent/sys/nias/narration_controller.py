@@ -25,29 +25,37 @@ DEPENDENCIES:
     - lukhas_user_config.json
 """
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 QUEUE_PATH = Path("core/logs/narration_queue.jsonl")
 CONFIG_PATH = Path("core/utils/lukhas_user_config.json")
 
+
 def load_user_settings():
     try:
-        with open(CONFIG_PATH, "r") as cfg:
+        with open(CONFIG_PATH) as cfg:
             return json.load(cfg).get("lukhas_user_profile", {})
     except Exception:
         return {}
 
+
 def filter_narration_queue(entries, tier_threshold=3):
-    return [e for e in entries if e.get("tier", 0) >= tier_threshold and e.get("suggest_voice", False)]
+    return [
+        e
+        for e in entries
+        if e.get("tier", 0) >= tier_threshold and e.get("suggest_voice", False)
+    ]
+
 
 def fetch_narration_entries():
     if not QUEUE_PATH.exists():
         print("⚠️ No narration queue found.")
         return []
 
-    with open(QUEUE_PATH, "r") as f:
+    with open(QUEUE_PATH) as f:
         return [json.loads(line.strip()) for line in f if line.strip()]
+
 
 def print_debug_narration_summary():
     """
@@ -62,9 +70,12 @@ def print_debug_narration_summary():
 
     print(f"🔊 Narration-ready entries for Tier {tier_limit}: {len(filtered)}")
     for e in filtered:
-        print(f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {', '.join(e.get('tags', []))}")
+        print(
+            f" • ID: {e.get('id')} | Emoji: {e.get('emoji')} | Tags: {', '.join(e.get('tags', []))}"
+        )
         print(f"   📝 Summary: {e.get('summary', '—')}")
         print()
+
 
 if __name__ == "__main__":
     print_debug_narration_summary()

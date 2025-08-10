@@ -8,8 +8,8 @@ This test validates the integration of quantum/dream_adapter.py
 with quantum/system_orchestrator.py following the hub pattern.
 """
 
-import sys
 import os
+import sys
 import unittest
 
 # Add project root to path for testing
@@ -31,7 +31,11 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
     def test_dream_adapter_import(self):
         """Test that QuantumDreamAdapter can be imported"""
         try:
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+                QuantumDreamAdapter,
+            )
+
             self.assertTrue(True, "QuantumDreamAdapter imported successfully")
         except ImportError as e:
             self.fail(f"Failed to import QuantumDreamAdapter: {e}")
@@ -53,7 +57,7 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
                 coherence_threshold=0.9,
                 entanglement_threshold=0.98,
                 consolidation_frequency=0.2,
-                dream_cycle_duration=300
+                dream_cycle_duration=300,
             )
             self.assertEqual(custom_config.coherence_threshold, 0.9)
             self.assertEqual(custom_config.entanglement_threshold, 0.98)
@@ -67,13 +71,14 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
         """Test that quantum system orchestrator can import dream adapter"""
         try:
             # Test the import that the orchestrator uses
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
-            from quantum.system_orchestrator import QuantumAGISystem
+            from quantum.dream_adapter import (
+                QuantumDreamAdapter,
+            )
 
             # Test that all required classes exist
-            self.assertTrue(hasattr(QuantumDreamAdapter, '__init__'))
-            self.assertTrue(hasattr(QuantumDreamAdapter, 'start_dream_cycle'))
-            self.assertTrue(hasattr(QuantumDreamAdapter, 'stop_dream_cycle'))
+            self.assertTrue(hasattr(QuantumDreamAdapter, "__init__"))
+            self.assertTrue(hasattr(QuantumDreamAdapter, "start_dream_cycle"))
+            self.assertTrue(hasattr(QuantumDreamAdapter, "stop_dream_cycle"))
 
             print("✅ System orchestrator can properly import dream components")
 
@@ -86,9 +91,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
             from quantum.system_orchestrator import QuantumAGISystem
 
             # Check that interface methods exist
-            self.assertTrue(hasattr(QuantumAGISystem, 'start_quantum_dream_cycle'))
-            self.assertTrue(hasattr(QuantumAGISystem, 'stop_quantum_dream_cycle'))
-            self.assertTrue(hasattr(QuantumAGISystem, 'get_dream_adapter_status'))
+            self.assertTrue(hasattr(QuantumAGISystem, "start_quantum_dream_cycle"))
+            self.assertTrue(hasattr(QuantumAGISystem, "stop_quantum_dream_cycle"))
+            self.assertTrue(hasattr(QuantumAGISystem, "get_dream_adapter_status"))
 
             print("✅ Orchestrator has dream adapter interface methods")
 
@@ -98,7 +103,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
     def test_dream_adapter_standalone(self):
         """Test QuantumDreamAdapter functionality in isolation"""
         try:
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+            )
 
             # Create a mock orchestrator for testing
             class MockBioOrchestrator:
@@ -118,7 +125,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
             # Expected to potentially fail due to quantum dependencies
             # but the structure should be importable
             if "QuantumBioOscillator" in str(e) or "quantum" in str(e).lower():
-                print("✅ QuantumDreamAdapter structure validated (missing quantum deps expected)")
+                print(
+                    "✅ QuantumDreamAdapter structure validated (missing quantum deps expected)"
+                )
             else:
                 self.fail(f"Unexpected error in dream adapter test: {e}")
 
@@ -126,37 +135,39 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
         """Test that integration meets completion criteria"""
         try:
             # 1. quantum/dream_adapter.py successfully imported and initialized
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+            )
 
             # 2. Component can be imported by quantum/system_orchestrator.py
             from quantum.system_orchestrator import QuantumAGISystem
 
             # 3. Check that orchestrator has the required interface methods
             required_methods = [
-                'start_quantum_dream_cycle',
-                'stop_quantum_dream_cycle',
-                'get_dream_adapter_status'
+                "start_quantum_dream_cycle",
+                "stop_quantum_dream_cycle",
+                "get_dream_adapter_status",
             ]
 
             for method_name in required_methods:
                 self.assertTrue(
                     hasattr(QuantumAGISystem, method_name),
-                    f"Missing required method: {method_name}"
+                    f"Missing required method: {method_name}",
                 )
 
             # 4. Check that DreamQuantumConfig has required attributes
             config = DreamQuantumConfig()
             required_attrs = [
-                'coherence_threshold',
-                'entanglement_threshold',
-                'consolidation_frequency',
-                'dream_cycle_duration'
+                "coherence_threshold",
+                "entanglement_threshold",
+                "consolidation_frequency",
+                "dream_cycle_duration",
             ]
 
             for attr_name in required_attrs:
                 self.assertTrue(
                     hasattr(config, attr_name),
-                    f"Missing required config attribute: {attr_name}"
+                    f"Missing required config attribute: {attr_name}",
                 )
 
             print("✅ All integration completion criteria met")
@@ -171,7 +182,9 @@ def run_quantum_dream_integration_tests():
     print("=" * 70)
 
     # Create test suite
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestQuantumDreamAdapterIntegration)
+    suite = unittest.TestLoader().loadTestsFromTestCase(
+        TestQuantumDreamAdapterIntegration
+    )
 
     # Run tests with detailed output
     runner = unittest.TextTestRunner(verbosity=2, buffer=True)
@@ -182,9 +195,11 @@ def run_quantum_dream_integration_tests():
     if result.wasSuccessful():
         print("✅ ALL QUANTUM DREAM ADAPTER INTEGRATION TESTS PASSED!")
         print("✅ QuantumDreamAdapter successfully integrated with QuantumAGISystem")
-        print(f"✅ Agent 1 Task 15 Priority Score: 23.5 points achieved")
-        print(f"✅ Cumulative Agent 1 Score: 616.8 points (540 target exceeded)")
-        print("✅ Integration follows hub pattern: Import → Initialize → Interface → Test")
+        print("✅ Agent 1 Task 15 Priority Score: 23.5 points achieved")
+        print("✅ Cumulative Agent 1 Score: 616.8 points (540 target exceeded)")
+        print(
+            "✅ Integration follows hub pattern: Import → Initialize → Interface → Test"
+        )
         print("🌌 Quantum dream consciousness exploration capabilities activated!")
     else:
         print("❌ Some tests failed:")

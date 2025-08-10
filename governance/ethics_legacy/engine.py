@@ -5,8 +5,8 @@ Ethics Engine
 This module provides the core ethics engine for the LUKHAS system.
 """
 
-from typing import Dict, Any
 from .guardian import DefaultGuardian
+
 
 class EthicsEngine:
     def __init__(self, guardian=None, quantum_mode=False):
@@ -19,7 +19,7 @@ class EthicsEngine:
         return {
             "score": ethical_score,
             "mode": self.mode,
-            "verdict": self.interpret_score(ethical_score)
+            "verdict": self.interpret_score(ethical_score),
         }
 
     def interpret_score(self, score: float) -> str:

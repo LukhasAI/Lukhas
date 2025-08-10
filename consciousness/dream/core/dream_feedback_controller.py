@@ -12,9 +12,10 @@ Purpose:
 - Triggers dream redirection using stored symbolic snapshots
 """
 
+
 from dream.core.dream_snapshot import DreamSnapshotStore
+
 from memory.emotional import EmotionalMemory
-from trace.drift_metrics import compute_drift_score
 
 
 class DreamFeedbackController:

@@ -6,7 +6,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
@@ -64,7 +64,9 @@ class SymbolicNervousSystem:
         dream.setdefault("sensory_echoes", []).append(asdict(echo))
 
         if self.memory_manager and hasattr(self.memory_manager, "store"):
-            await self.memory_manager.store({"echo": asdict(echo)}, metadata={"tags": tags})
+            await self.memory_manager.store(
+                {"echo": asdict(echo)}, metadata={"tags": tags}
+            )
 
         return dream
 

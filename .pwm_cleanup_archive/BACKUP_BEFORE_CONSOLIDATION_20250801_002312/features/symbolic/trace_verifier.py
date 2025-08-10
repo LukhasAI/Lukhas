@@ -6,7 +6,8 @@ Symbolic Trace Verifier
 Verifies symbolic traces against the AGENT_FLOW_MAP.md.
 """
 
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 
 class SymbolicTraceVerifier:
     """

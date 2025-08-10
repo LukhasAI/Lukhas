@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Symbolic CLI Test Suite
@@ -19,15 +18,15 @@ and planet.
 This tool tests symbolic command functionality like `lukhas describe dream.recursion`.
 """
 
-import sys
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class SymbolicResolver:
     """Resolves symbolic paths to actual modules and descriptions."""
@@ -41,7 +40,7 @@ class SymbolicResolver:
         symbol_map_path = self.root_path.parent / "symbol_map.json"
 
         try:
-            with open(symbol_map_path, 'r') as f:
+            with open(symbol_map_path) as f:
                 return json.load(f)
         except FileNotFoundError:
             logger.warning(f"Symbol map not found at {symbol_map_path}")
@@ -54,21 +53,21 @@ class SymbolicResolver:
         """Resolve a symbolic path like 'dream.recursion' to module info."""
 
         result = {
-            'symbolic_path': symbolic_path,
-            'resolved': False,
-            'matches': [],
-            'suggestions': []
+            "symbolic_path": symbolic_path,
+            "resolved": False,
+            "matches": [],
+            "suggestions": [],
         }
 
         # Split symbolic path
-        parts = symbolic_path.split('.')
+        parts = symbolic_path.split(".")
 
         if not self.symbol_map:
-            result['error'] = "Symbol map not loaded"
+            result["error"] = "Symbol map not loaded"
             return result
 
         # Search for matches in symbol map
-        modules = self.symbol_map.get('modules', {})
+        modules = self.symbol_map.get("modules", {})
 
         for module_path, module_info in modules.items():
             # Check if module path contains symbolic parts
@@ -81,54 +80,58 @@ class SymbolicResolver:
                     break
 
             if matches_all:
-                result['matches'].append({
-                    'module': module_path,
-                    'tags': module_info.get('tags', []),
-                    'subsystem': module_info.get('subsystem', 'unknown'),
-                    'level': module_info.get('level', 'unknown')
-                })
+                result["matches"].append(
+                    {
+                        "module": module_path,
+                        "tags": module_info.get("tags", []),
+                        "subsystem": module_info.get("subsystem", "unknown"),
+                        "level": module_info.get("level", "unknown"),
+                    }
+                )
 
         # Find suggestions based on partial matches
-        if not result['matches']:
+        if not result["matches"]:
             for module_path, module_info in modules.items():
                 module_lower = module_path.lower()
 
                 # Check if any part matches
                 for part in parts:
                     if part.lower() in module_lower:
-                        result['suggestions'].append({
-                            'module': module_path,
-                            'subsystem': module_info.get('subsystem', 'unknown'),
-                            'match_reason': f"Contains '{part}'"
-                        })
+                        result["suggestions"].append(
+                            {
+                                "module": module_path,
+                                "subsystem": module_info.get("subsystem", "unknown"),
+                                "match_reason": f"Contains '{part}'",
+                            }
+                        )
                         break
 
-        result['resolved'] = len(result['matches']) > 0
+        result["resolved"] = len(result["matches"]) > 0
         return result
 
     def describe_module(self, module_path: str) -> Dict[str, Any]:
         """Get detailed description of a module."""
 
         # Try to read the actual file for docstring
-        file_path = self.root_path / (module_path.replace('.', '/') + '.py')
+        file_path = self.root_path / (module_path.replace(".", "/") + ".py")
 
         description = {
-            'module': module_path,
-            'file_path': str(file_path),
-            'exists': file_path.exists(),
-            'docstring': None,
-            'imports': [],
-            'classes': [],
-            'functions': []
+            "module": module_path,
+            "file_path": str(file_path),
+            "exists": file_path.exists(),
+            "docstring": None,
+            "imports": [],
+            "classes": [],
+            "functions": [],
         }
 
         if file_path.exists():
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
 
                 # Extract docstring (simple approach)
-                lines = content.split('\n')
+                lines = content.split("\n")
                 in_docstring = False
                 docstring_lines = []
 
@@ -137,24 +140,25 @@ class SymbolicResolver:
                         in_docstring = True
                         if line.strip().count('"""') == 2:
                             # Single line docstring
-                            docstring_lines.append(line.strip().replace('"""', ''))
+                            docstring_lines.append(line.strip().replace('"""', ""))
                             break
                         else:
                             # Multi-line docstring start
-                            docstring_lines.append(line.strip().replace('"""', ''))
+                            docstring_lines.append(line.strip().replace('"""', ""))
                     elif '"""' in line and in_docstring:
                         in_docstring = False
-                        docstring_lines.append(line.strip().replace('"""', ''))
+                        docstring_lines.append(line.strip().replace('"""', ""))
                         break
                     elif in_docstring:
                         docstring_lines.append(line.strip())
 
-                description['docstring'] = '\n'.join(docstring_lines).strip()
+                description["docstring"] = "\n".join(docstring_lines).strip()
 
             except Exception as e:
-                description['error'] = str(e)
+                description["error"] = str(e)
 
         return description
+
 
 class SymbolicCLI:
     """Command-line interface for symbolic operations."""
@@ -171,19 +175,21 @@ class SymbolicCLI:
         output.append(f"🔍 Symbolic Path: {symbolic_path}")
         output.append("=" * 50)
 
-        if resolution['resolved']:
+        if resolution["resolved"]:
             output.append(f"✅ Resolved to {len(resolution['matches'])} module(s):")
             output.append("")
 
-            for i, match in enumerate(resolution['matches'][:5], 1):  # Limit to 5
+            for i, match in enumerate(resolution["matches"][:5], 1):  # Limit to 5
                 output.append(f"{i}. **{match['module']}**")
                 output.append(f"   - Subsystem: {match['subsystem']}")
                 output.append(f"   - Level: {match['level']}")
-                output.append(f"   - Tags: {', '.join(match['tags'][:3])}")  # Show first 3 tags
+                output.append(
+                    f"   - Tags: {', '.join(match['tags'][:3])}"
+                )  # Show first 3 tags
 
                 # Get detailed description
-                desc = self.resolver.describe_module(match['module'])
-                if desc['docstring']:
+                desc = self.resolver.describe_module(match["module"])
+                if desc["docstring"]:
                     output.append(f"   - Description: {desc['docstring'][:100]}...")
 
                 output.append("")
@@ -191,15 +197,17 @@ class SymbolicCLI:
         else:
             output.append("❌ No exact matches found")
 
-            if resolution['suggestions']:
+            if resolution["suggestions"]:
                 output.append("")
                 output.append("💡 Suggestions:")
-                for suggestion in resolution['suggestions'][:5]:
-                    output.append(f"   - {suggestion['module']} ({suggestion['match_reason']})")
+                for suggestion in resolution["suggestions"][:5]:
+                    output.append(
+                        f"   - {suggestion['module']} ({suggestion['match_reason']})"
+                    )
             else:
                 output.append("   No similar modules found")
 
-        return '\n'.join(output)
+        return "\n".join(output)
 
     def test_symbolic_commands(self) -> Dict[str, Any]:
         """Test various symbolic command patterns."""
@@ -212,15 +220,15 @@ class SymbolicCLI:
             "consciousness.awareness",
             "emotion.loop",
             "reasoning.symbolic",
-            "narrative.weaver"
+            "narrative.weaver",
         ]
 
         results = {
-            'timestamp': str(Path(__file__).stat().st_mtime),
-            'total_tests': len(test_cases),
-            'passed_tests': 0,
-            'failed_tests': 0,
-            'results': {}
+            "timestamp": str(Path(__file__).stat().st_mtime),
+            "total_tests": len(test_cases),
+            "passed_tests": 0,
+            "failed_tests": 0,
+            "results": {},
         }
 
         for test_case in test_cases:
@@ -229,39 +237,48 @@ class SymbolicCLI:
                 resolution = self.resolver.resolve_symbolic_path(test_case)
 
                 test_result = {
-                    'symbolic_path': test_case,
-                    'resolved': resolution['resolved'],
-                    'matches_count': len(resolution['matches']),
-                    'description_length': len(description),
-                    'status': 'PASS' if resolution['resolved'] else 'FAIL'
+                    "symbolic_path": test_case,
+                    "resolved": resolution["resolved"],
+                    "matches_count": len(resolution["matches"]),
+                    "description_length": len(description),
+                    "status": "PASS" if resolution["resolved"] else "FAIL",
                 }
 
-                if resolution['resolved']:
-                    results['passed_tests'] += 1
+                if resolution["resolved"]:
+                    results["passed_tests"] += 1
                 else:
-                    results['failed_tests'] += 1
+                    results["failed_tests"] += 1
 
-                results['results'][test_case] = test_result
+                results["results"][test_case] = test_result
 
             except Exception as e:
-                results['results'][test_case] = {
-                    'symbolic_path': test_case,
-                    'status': 'ERROR',
-                    'error': str(e)
+                results["results"][test_case] = {
+                    "symbolic_path": test_case,
+                    "status": "ERROR",
+                    "error": str(e),
                 }
-                results['failed_tests'] += 1
+                results["failed_tests"] += 1
 
         return results
+
 
 def main():
     """CLI entry point."""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Test LUKHAS symbolic CLI functionality')
-    parser.add_argument('--root', default='lukhas', help='Root directory of LUKHAS modules')
-    parser.add_argument('--describe', help='Describe a symbolic path (e.g., dream.recursion)')
-    parser.add_argument('--test', action='store_true', help='Run symbolic CLI test suite')
-    parser.add_argument('--output', help='Output test results to file')
+    parser = argparse.ArgumentParser(
+        description="Test LUKHAS symbolic CLI functionality"
+    )
+    parser.add_argument(
+        "--root", default="lukhas", help="Root directory of LUKHAS modules"
+    )
+    parser.add_argument(
+        "--describe", help="Describe a symbolic path (e.g., dream.recursion)"
+    )
+    parser.add_argument(
+        "--test", action="store_true", help="Run symbolic CLI test suite"
+    )
+    parser.add_argument("--output", help="Output test results to file")
 
     args = parser.parse_args()
 
@@ -275,31 +292,34 @@ def main():
         results = cli.test_symbolic_commands()
 
         # Print summary
-        print(f"🧪 Symbolic CLI Test Results")
+        print("🧪 Symbolic CLI Test Results")
         print("=" * 40)
         print(f"Total Tests: {results['total_tests']}")
         print(f"Passed: {results['passed_tests']} ✅")
         print(f"Failed: {results['failed_tests']} ❌")
-        print(f"Success Rate: {results['passed_tests']/results['total_tests']*100:.1f}%")
+        print(
+            f"Success Rate: {results['passed_tests']/results['total_tests']*100:.1f}%"
+        )
         print("")
 
         # Print detailed results
-        for test_path, result in results['results'].items():
-            status_emoji = "✅" if result['status'] == 'PASS' else "❌"
+        for test_path, result in results["results"].items():
+            status_emoji = "✅" if result["status"] == "PASS" else "❌"
             print(f"{status_emoji} {test_path}: {result['status']}")
-            if result['status'] == 'PASS':
+            if result["status"] == "PASS":
                 print(f"   Matches: {result['matches_count']}")
 
         # Save results if requested
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 json.dump(results, f, indent=2)
             print(f"\n📄 Results saved to {args.output}")
 
     else:
         parser.print_help()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
 
 """

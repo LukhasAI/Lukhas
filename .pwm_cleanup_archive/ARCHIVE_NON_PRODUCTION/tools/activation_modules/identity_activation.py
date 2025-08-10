@@ -6,7 +6,6 @@ Total Functions: 950
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +113,10 @@ IDENTITY_CLASS_ENTITIES = [
     ("backend.verifold.cryptography.forward_secure_pibe", "FSPIBEParams"),
     ("backend.verifold.cryptography.forward_secure_pibe", "ForwardSecurePIBE"),
     ("backend.verifold.cryptography.zk_narrative_proof_adapter", "SymbolicNarrative"),
-    ("backend.verifold.cryptography.zk_narrative_proof_adapter", "ZKNarrativeProofAdapter"),
+    (
+        "backend.verifold.cryptography.zk_narrative_proof_adapter",
+        "ZKNarrativeProofAdapter",
+    ),
     ("backend.verifold.entropy_fusion", "EmotionType"),
     ("backend.verifold.entropy_fusion", "EntropyFusionEngine"),
     ("backend.verifold.entropy_fusion", "EthicsWeight"),
@@ -211,9 +213,18 @@ IDENTITY_CLASS_ENTITIES = [
     ("core.colonies.biometric_verification_colony", "BiometricVerificationColony"),
     ("core.colonies.biometric_verification_colony", "BiometricVerificationTask"),
     ("core.colonies.consciousness_verification_colony", "ConsciousnessAnalysisAgent"),
-    ("core.colonies.consciousness_verification_colony", "ConsciousnessVerificationColony"),
-    ("core.colonies.consciousness_verification_colony", "ConsciousnessVerificationMethod"),
-    ("core.colonies.consciousness_verification_colony", "ConsciousnessVerificationTask"),
+    (
+        "core.colonies.consciousness_verification_colony",
+        "ConsciousnessVerificationColony",
+    ),
+    (
+        "core.colonies.consciousness_verification_colony",
+        "ConsciousnessVerificationMethod",
+    ),
+    (
+        "core.colonies.consciousness_verification_colony",
+        "ConsciousnessVerificationTask",
+    ),
     ("core.colonies.dream_verification_colony", "DreamAnalysisAgent"),
     ("core.colonies.dream_verification_colony", "DreamAnalysisMethod"),
     ("core.colonies.dream_verification_colony", "DreamVerificationColony"),
@@ -725,14 +736,20 @@ IDENTITY_FUNCTION_ENTITIES = [
     ("backend.seedra.vault.seedra_vault_manager", "current_sid"),
     ("backend.seedra.vault.seedra_vault_manager", "set_current_sid"),
     ("backend.verifold.ai.gpt_symbolic_narrator", "main"),
-    ("backend.verifold.ai.narrative_alignment_checker", "compute_narrative_fingerprint"),
+    (
+        "backend.verifold.ai.narrative_alignment_checker",
+        "compute_narrative_fingerprint",
+    ),
     ("backend.verifold.ai.narrative_alignment_checker", "create_authenticity_proof"),
     ("backend.verifold.ai.narrative_alignment_checker", "detect_hallucination_drift"),
     ("backend.verifold.ai.narrative_alignment_checker", "generate_alignment_report"),
     ("backend.verifold.ai.narrative_alignment_checker", "replay_signature_chain"),
     ("backend.verifold.ai.narrative_alignment_checker", "track_provenance_record"),
     ("backend.verifold.ai.narrative_alignment_checker", "validate_hash_consistency"),
-    ("backend.verifold.ai.narrative_alignment_checker", "verify_emotional_authenticity"),
+    (
+        "backend.verifold.ai.narrative_alignment_checker",
+        "verify_emotional_authenticity",
+    ),
     ("backend.verifold.compliance.symbolic_audit_mode", "create_audit_event"),
     ("backend.verifold.compliance.symbolic_audit_mode", "generate_compliance_report"),
     ("backend.verifold.compliance.symbolic_audit_mode", "secure_replay_with_audit"),
@@ -746,9 +763,18 @@ IDENTITY_FUNCTION_ENTITIES = [
     ("backend.verifold.cryptography.forward_secure_pibe", "extract_key"),
     ("backend.verifold.cryptography.forward_secure_pibe", "puncture"),
     ("backend.verifold.cryptography.forward_secure_pibe", "setup"),
-    ("backend.verifold.cryptography.zk_narrative_proof_adapter", "create_experience_proof"),
-    ("backend.verifold.cryptography.zk_narrative_proof_adapter", "generate_proof_circuit"),
-    ("backend.verifold.cryptography.zk_narrative_proof_adapter", "verify_narrative_proof"),
+    (
+        "backend.verifold.cryptography.zk_narrative_proof_adapter",
+        "create_experience_proof",
+    ),
+    (
+        "backend.verifold.cryptography.zk_narrative_proof_adapter",
+        "generate_proof_circuit",
+    ),
+    (
+        "backend.verifold.cryptography.zk_narrative_proof_adapter",
+        "verify_narrative_proof",
+    ),
     ("backend.verifold.entropy_fusion", "analyze_entropy_patterns"),
     ("backend.verifold.entropy_fusion", "export_fusion_history"),
     ("backend.verifold.entropy_fusion", "export_to_verifold_chain"),
@@ -823,11 +849,26 @@ IDENTITY_FUNCTION_ENTITIES = [
     ("backend.verifold.security.glyph_mutation_simulator", "inject_malicious_stego"),
     ("backend.verifold.security.glyph_mutation_simulator", "simulate_qr_degradation"),
     ("backend.verifold.security.glyph_mutation_simulator", "spoof_tier_level"),
-    ("backend.verifold.security.symbolic_adversary_agent", "attempt_memory_replay_injection"),
-    ("backend.verifold.security.symbolic_adversary_agent", "generate_threat_assessment"),
-    ("backend.verifold.security.symbolic_adversary_agent", "simulate_lukhas_id_impersonation"),
-    ("backend.verifold.security.symbolic_adversary_agent", "simulate_social_engineering"),
-    ("backend.verifold.security.symbolic_adversary_agent", "test_cryptographic_downgrade"),
+    (
+        "backend.verifold.security.symbolic_adversary_agent",
+        "attempt_memory_replay_injection",
+    ),
+    (
+        "backend.verifold.security.symbolic_adversary_agent",
+        "generate_threat_assessment",
+    ),
+    (
+        "backend.verifold.security.symbolic_adversary_agent",
+        "simulate_lukhas_id_impersonation",
+    ),
+    (
+        "backend.verifold.security.symbolic_adversary_agent",
+        "simulate_social_engineering",
+    ),
+    (
+        "backend.verifold.security.symbolic_adversary_agent",
+        "test_cryptographic_downgrade",
+    ),
     ("backend.verifold.setup_project", "check_python_version"),
     ("backend.verifold.setup_project", "create_config"),
     ("backend.verifold.setup_project", "create_directories"),
@@ -1382,7 +1423,7 @@ class IdentityEntityActivator:
 
     def activate_all(self):
         """Activate all identity entities"""
-        logger.info(f"Starting identity entity activation...")
+        logger.info("Starting identity entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -1390,12 +1431,14 @@ class IdentityEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(IDENTITY_CLASS_ENTITIES) + len(IDENTITY_FUNCTION_ENTITIES)
+            "total": len(IDENTITY_CLASS_ENTITIES) + len(IDENTITY_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -1403,7 +1446,7 @@ class IdentityEntityActivator:
         for module_path, class_name in IDENTITY_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -1428,7 +1471,9 @@ class IdentityEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -1436,7 +1481,7 @@ class IdentityEntityActivator:
         for module_path, func_name in IDENTITY_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -1453,20 +1498,23 @@ class IdentityEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

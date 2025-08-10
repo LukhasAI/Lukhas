@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Vision Prompt Helper
@@ -21,10 +20,10 @@ visualization.
 """
 
 import json
-from pathlib import Path
-from typing import Dict, Any, Optional
 import logging
-from datetime import datetime, date
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.core.vision_prompt_helper")
@@ -53,7 +52,7 @@ class VisionPromptHelper:
         try:
             path = Path(self.prompts_path)
             if path.exists():
-                with open(path, 'r') as f:
+                with open(path) as f:
                     self.prompts_cache = json.load(f)
                 logger.info(f"Loaded vision prompts from {path}")
             else:
@@ -74,11 +73,15 @@ class VisionPromptHelper:
             "emotion_surprise": "✨ Burst of colors with expanding patterns",
             "emotion_neutral": "☁️ Balanced grays with steady flow",
             "emotion_peaceful": "🌊 Gentle waves in soft pastels",
-            "default": "🖼️ Abstract patterns reflecting the emotional state"
+            "default": "🖼️ Abstract patterns reflecting the emotional state",
         }
 
-    def get_vision_prompt(self, emotion: str, fold_timestamp: Optional[datetime] = None,
-                         user_tier: int = 0) -> Dict[str, Any]:
+    def get_vision_prompt(
+        self,
+        emotion: str,
+        fold_timestamp: Optional[datetime] = None,
+        user_tier: int = 0,
+    ) -> Dict[str, Any]:
         """
         Get vision prompt for a given emotion and context.
 
@@ -127,37 +130,32 @@ class VisionPromptHelper:
             specific_key,
             self.prompts_cache.get(
                 general_key,
-                self.prompts_cache.get("default", "🖼️ Visual memory representation")
-            )
+                self.prompts_cache.get("default", "🖼️ Visual memory representation"),
+            ),
         )
 
         # Build metadata based on tier
-        metadata = {
-            "style": "dreamlike_watercolor",
-            "ambient_ready": user_tier >= 3
-        }
+        metadata = {"style": "dreamlike_watercolor", "ambient_ready": user_tier >= 3}
 
         if user_tier >= 4:
-            metadata.update({
-                "emotion_blend": True,
-                "transition_style": "emotional_morph"
-            })
+            metadata.update(
+                {"emotion_blend": True, "transition_style": "emotional_morph"}
+            )
 
         if user_tier >= 5:
-            metadata.update({
-                "advanced_synthesis": True,
-                "memory_projection": True,
-                "time_context": {
-                    "period": time_period,
-                    "season": season
+            metadata.update(
+                {
+                    "advanced_synthesis": True,
+                    "memory_projection": True,
+                    "time_context": {"period": time_period, "season": season},
                 }
-            })
+            )
 
         return {
             "prompt": prompt_text,
             "metadata": metadata,
             "emotion": emotion,
-            "generated_at": datetime.utcnow().isoformat()
+            "generated_at": datetime.utcnow().isoformat(),
         }
 
     def add_custom_prompt(self, key: str, prompt: str) -> bool:
@@ -181,7 +179,7 @@ class VisionPromptHelper:
             path = Path(self.prompts_path)
             path.parent.mkdir(parents=True, exist_ok=True)
 
-            with open(path, 'w') as f:
+            with open(path, "w") as f:
                 json.dump(self.prompts_cache, f, indent=2)
 
             logger.info(f"Added custom prompt: {key}")

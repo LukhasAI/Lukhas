@@ -4,30 +4,22 @@ Integration wrapper for quantum-biological AI specialist
 """
 
 import logging
-from typing import Dict, Any, Optional
-import asyncio
+from typing import Any, Optional
 
 try:
-    from .abas_quantum_specialist import (
-        QuantumBiologicalAGI,
-        QuantumBioCapabilityLevel,
-        QuantumBioResponse,
-        QuantumTunnelingEthics,
-        ProtonMotiveProcessor,
-        CristaeTopologyManager
-    )
+    from .abas_quantum_specialist import QuantumBiologicalAGI
+
     QUANTUM_SPECIALIST_AVAILABLE = True
 except ImportError as e:
     QUANTUM_SPECIALIST_AVAILABLE = False
     logging.warning(f"ABAS quantum specialist not available: {e}")
     # Try mock implementation
     try:
+        from .abas_quantum_specialist_mock import QuantumBiologicalAGI
         from .abas_quantum_specialist_mock import (
-            QuantumBiologicalAGI,
-            QuantumBioCapabilityLevel,
-            QuantumBioResponse,
-            get_quantum_biological_agi as get_mock_quantum_agi
+            get_quantum_biological_agi as get_mock_quantum_agi,
         )
+
         QUANTUM_SPECIALIST_AVAILABLE = True
         USING_MOCK = True
         logging.info("Using mock ABAS quantum specialist implementation")
@@ -58,7 +50,7 @@ class ABASQuantumSpecialistWrapper:
             "failed_processes": 0,
             "average_bio_confidence": 0.0,
             "average_quantum_coherence": 0.0,
-            "capability_advancements": 0
+            "capability_advancements": 0,
         }
 
         logger.info("ABASQuantumSpecialistWrapper initialized")
@@ -80,22 +72,33 @@ class ABASQuantumSpecialistWrapper:
             logger.error(f"Failed to initialize quantum specialist: {e}")
             return False
 
-    async def process_quantum_biological(self, input_text: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def process_quantum_biological(
+        self, input_text: str, context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Process input using quantum-biological architecture"""
         self.integration_stats["total_processes"] += 1
 
         try:
             # Process with quantum biology
-            response = await self.quantum_agi.process_with_quantum_biology(input_text, context)
+            response = await self.quantum_agi.process_with_quantum_biology(
+                input_text, context
+            )
 
             # Update statistics
             self.integration_stats["successful_processes"] += 1
-            self._update_average_metric("average_bio_confidence", response.bio_confidence)
-            self._update_average_metric("average_quantum_coherence", response.quantum_coherence)
+            self._update_average_metric(
+                "average_bio_confidence", response.bio_confidence
+            )
+            self._update_average_metric(
+                "average_quantum_coherence", response.quantum_coherence
+            )
 
             # Check for capability advancement
             current_level = self.quantum_agi.capability_level
-            if hasattr(self, '_last_capability_level') and current_level != self._last_capability_level:
+            if (
+                hasattr(self, "_last_capability_level")
+                and current_level != self._last_capability_level
+            ):
                 self.integration_stats["capability_advancements"] += 1
             self._last_capability_level = current_level
 
@@ -110,10 +113,12 @@ class ABASQuantumSpecialistWrapper:
                 "identity_signature": response.identity_signature,
                 "processing_pathway": response.processing_pathway,
                 "timestamp": response.timestamp,
-                "capability_level": current_level.value
+                "capability_level": current_level.value,
             }
 
-            logger.debug(f"Quantum-biological processing complete: bio_confidence={response.bio_confidence:.2f}")
+            logger.debug(
+                f"Quantum-biological processing complete: bio_confidence={response.bio_confidence:.2f}"
+            )
             return result
 
         except Exception as e:
@@ -125,7 +130,7 @@ class ABASQuantumSpecialistWrapper:
                 "bio_confidence": 0.0,
                 "quantum_coherence": 0.0,
                 "atp_efficiency": 0.0,
-                "ethical_resonance": 0.0
+                "ethical_resonance": 0.0,
             }
 
     def _update_average_metric(self, metric_name: str, new_value: float):
@@ -136,28 +141,42 @@ class ABASQuantumSpecialistWrapper:
         else:
             current_avg = self.integration_stats[metric_name]
             self.integration_stats[metric_name] = (
-                (current_avg * (success_count - 1) + new_value) / success_count
-            )
+                current_avg * (success_count - 1) + new_value
+            ) / success_count
 
-    async def get_quantum_ethics_arbitration(self, decision_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def get_quantum_ethics_arbitration(
+        self, decision_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Get quantum tunneling ethical arbitration"""
-        if hasattr(self.quantum_agi, 'quantum_ethics'):
-            return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(decision_context)
+        if hasattr(self.quantum_agi, "quantum_ethics"):
+            return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(
+                decision_context
+            )
         return {"error": "Quantum ethics not available"}
 
-    async def create_attention_gradient(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def create_attention_gradient(
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create proton motive attention gradient"""
-        if hasattr(self.quantum_agi, 'proton_processor'):
-            return self.quantum_agi.proton_processor.create_attention_gradient(input_data)
+        if hasattr(self.quantum_agi, "proton_processor"):
+            return self.quantum_agi.proton_processor.create_attention_gradient(
+                input_data
+            )
         return {"error": "Proton processor not available"}
 
-    async def optimize_cristae_topology(self, current_state: Dict[str, Any], performance_metrics: Dict[str, Any]) -> Dict[str, Any]:
+    async def optimize_cristae_topology(
+        self,
+        current_state: dict[str, Any],
+        performance_metrics: dict[str, Any],
+    ) -> dict[str, Any]:
         """Optimize cristae topology for performance"""
-        if hasattr(self.quantum_agi, 'cristae_manager'):
-            return self.quantum_agi.cristae_manager.optimize_cristae_topology(current_state, performance_metrics)
+        if hasattr(self.quantum_agi, "cristae_manager"):
+            return self.quantum_agi.cristae_manager.optimize_cristae_topology(
+                current_state, performance_metrics
+            )
         return {"error": "Cristae manager not available"}
 
-    def get_biological_status(self) -> Dict[str, Any]:
+    def get_biological_status(self) -> dict[str, Any]:
         """Get comprehensive biological AI status"""
         base_status = self.quantum_agi.get_biological_status()
 
@@ -175,7 +194,6 @@ class ABASQuantumSpecialistWrapper:
         """Shutdown quantum specialist"""
         logger.info("Shutting down ABAS quantum specialist")
         # Any cleanup needed
-        pass
 
 
 def get_abas_quantum_specialist() -> Optional[ABASQuantumSpecialistWrapper]:

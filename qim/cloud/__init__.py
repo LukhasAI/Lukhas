@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -11,14 +10,14 @@
 
 @lukhas/HEADER_FOOTER_TEMPLATE.py
 
-LUKHAS - Quantum   Init  
+LUKHAS - Quantum   Init
 ================
 
 An enterprise-grade Artificial General Intelligence (AGI) framework
 combining symbolic reasoning, emotional intelligence, quantum-inspired computing,
 and bio-inspired architecture for next-generation AI applications.
 
-Module: Quantum   Init  
+Module: Quantum   Init
 Path: lukhas/quantum/__init__.py
 Description: Quantum module for advanced AGI functionality
 
@@ -33,15 +32,18 @@ __version__ = "1.0.0"
 __tier__ = 2
 
 
-from .azure_integration import AzureQuantumCloudOrchestrator, MacBookM1Optimizer
+from .azure_integration import (
+    AzureQuantumCloudOrchestrator,
+    MacBookM1Optimizer,
+)
 
-__all__ = ['AzureQuantumCloudOrchestrator', 'MacBookM1Optimizer']
-
+__all__ = ["AzureQuantumCloudOrchestrator", "MacBookM1Optimizer"]
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -49,14 +51,15 @@ def __validate_module__():
         "quantum_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
-        "tier_2_access": True
+        "tier_2_access": True,
     }
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {failed}")
-    
+
     return len(failed) == 0
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Health and Monitoring
@@ -67,7 +70,7 @@ MODULE_HEALTH = {
     "quantum_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

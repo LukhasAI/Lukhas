@@ -1,5 +1,7 @@
 import asyncio
+
 import structlog
+
 
 class QuantizedCycleManager:
     """Manage discrete thought cycles for core processing."""
@@ -16,4 +18,3 @@ class QuantizedCycleManager:
     async def end_cycle(self) -> None:
         self.log.info("cycle_end", cycle=self.cycle_count)
         await asyncio.sleep(self.step_duration)
-

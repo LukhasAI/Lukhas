@@ -34,39 +34,49 @@ seamless communication between all cognitive modules.
 """
 
 import asyncio
-import logging
 import json
-import time
-from typing import Dict, List, Optional, Any, Union, Tuple
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from enum import Enum
-import uuid
+import logging
 import threading
+import time
+import uuid
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Try to import from core.common if available
 try:
     from core.common import get_logger
+
     logger = get_logger("consciousness")
 except ImportError:
     logger = logging.getLogger("consciousness")
 
 # Import core components
 try:
+    from ...core.identity.identity_manager import IdentityManager
+    from ...identity.interface import (
+        IdentityClient as PersonaManager,  # Using IdentityClient as temp placeholder
+    )
+    from ...memory.emotional import (
+        EmotionEngine,  # Using available emotion module
+    )
     from ...memory.enhanced_memory_manager import EnhancedMemoryManager
     from ...voice.voice_processor import VoiceProcessor
-    from ...identity.interface import IdentityClient as PersonaManager  # Using IdentityClient as temp placeholder
-    from ...core.identity.identity_manager import IdentityManager
-    from ...memory.emotional import EmotionEngine  # Using available emotion module
 except ImportError as e:
     logger.warning(f"Some core components not available: {e}")
 
     # Create mock classes for missing components
     class EnhancedMemoryManager:
-        async def consolidate_memories(self): pass
-        async def extract_patterns(self): return {}
-        async def process_consciousness_event(self, event): pass
+        async def consolidate_memories(self):
+            pass
+
+        async def extract_patterns(self):
+            return {}
+
+        async def process_consciousness_event(self, event):
+            pass
 
     class MemoryType:
         EPISODIC = "episodic"
@@ -74,40 +84,58 @@ except ImportError as e:
         EMOTIONAL = "emotional"
 
     class VoiceProcessor:
-        async def update_voice_characteristics(self, characteristics): pass
-        async def process_consciousness_event(self, event): pass
+        async def update_voice_characteristics(self, characteristics):
+            pass
+
+        async def process_consciousness_event(self, event):
+            pass
 
     class PersonaManager:
-        async def get_current_persona(self): return None
-        async def get_voice_characteristics(self, persona): return {}
-        async def process_consciousness_event(self, event): pass
+        async def get_current_persona(self):
+            return None
+
+        async def get_voice_characteristics(self, persona):
+            return {}
+
+        async def process_consciousness_event(self, event):
+            pass
 
     class IdentityManager:
-        async def process_consciousness_event(self, event): pass
+        async def process_consciousness_event(self, event):
+            pass
 
     class EmotionEngine:
-        async def process_emotional_context(self, **kwargs): return {}
-        async def process_consciousness_event(self, event): pass
+        async def process_emotional_context(self, **kwargs):
+            return {}
+
+        async def process_consciousness_event(self, event):
+            pass
+
 
 class ConsciousnessState(Enum):
     """Consciousness states for the AGI system"""
-    AWARE = "aware"           # Fully conscious and responsive
-    DREAMING = "dreaming"     # In dream/creative state
-    LEARNING = "learning"     # Focused on learning/adaptation
+
+    AWARE = "aware"  # Fully conscious and responsive
+    DREAMING = "dreaming"  # In dream/creative state
+    LEARNING = "learning"  # Focused on learning/adaptation
     INTROSPECTING = "introspecting"  # Self-reflection mode
     INTEGRATING = "integrating"  # Integrating new information
-    RESTING = "resting"       # Low-power/background processing
+    RESTING = "resting"  # Low-power/background processing
+
 
 class IntegrationPriority(Enum):
     """Priority levels for system integration"""
-    CRITICAL = "critical"     # Essential for consciousness
-    HIGH = "high"            # Important for functionality
-    MEDIUM = "medium"        # Normal priority
-    LOW = "low"              # Background processing
+
+    CRITICAL = "critical"  # Essential for consciousness
+    HIGH = "high"  # Important for functionality
+    MEDIUM = "medium"  # Normal priority
+    LOW = "low"  # Background processing
+
 
 @dataclass
 class ConsciousnessEvent:
     """Represents a consciousness event or experience"""
+
     id: str
     timestamp: datetime
     event_type: str
@@ -117,9 +145,11 @@ class ConsciousnessEvent:
     emotional_context: Optional[Dict[str, float]] = None
     memory_tags: Optional[List[str]] = None
 
+
 @dataclass
 class IntegrationContext:
     """Context for system integration operations"""
+
     user_id: str
     session_id: str
     current_state: ConsciousnessState
@@ -127,6 +157,7 @@ class IntegrationContext:
     emotional_state: Dict[str, float]
     memory_context: Dict[str, Any]
     voice_preferences: Dict[str, Any]
+
 
 class ConsciousnessIntegrator:
     """
@@ -174,24 +205,24 @@ class ConsciousnessIntegrator:
                 "emotion": IntegrationPriority.HIGH,
                 "identity": IntegrationPriority.CRITICAL,
                 "learning": IntegrationPriority.MEDIUM,
-                "creativity": IntegrationPriority.MEDIUM
+                "creativity": IntegrationPriority.MEDIUM,
             },
             "consciousness_cycles": {
                 "integration_interval": 0.1,  # seconds
                 "memory_consolidation_interval": 5.0,
                 "emotional_update_interval": 1.0,
-                "voice_sync_interval": 0.5
+                "voice_sync_interval": 0.5,
             },
             "event_processing": {
                 "max_queue_size": 1000,
                 "batch_size": 10,
-                "timeout": 30.0
-            }
+                "timeout": 30.0,
+            },
         }
 
         if config_path and Path(config_path).exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     user_config = json.load(f)
                 default_config.update(user_config)
             except Exception as e:
@@ -247,8 +278,7 @@ class ConsciousnessIntegrator:
 
         # Start event processing thread
         self.processing_thread = threading.Thread(
-            target=self._event_processing_loop,
-            daemon=True
+            target=self._event_processing_loop, daemon=True
         )
         self.processing_thread.start()
 
@@ -284,7 +314,11 @@ class ConsciousnessIntegrator:
 
                 # Sleep for integration interval
                 cycle_duration = time.time() - cycle_start
-                sleep_time = max(0, self.config["consciousness_cycles"]["integration_interval"] - cycle_duration)
+                sleep_time = max(
+                    0,
+                    self.config["consciousness_cycles"]["integration_interval"]
+                    - cycle_duration,
+                )
                 await asyncio.sleep(sleep_time)
 
                 if cycle_count % 100 == 0:
@@ -300,7 +334,9 @@ class ConsciousnessIntegrator:
         new_state = await self._evaluate_consciousness_state()
 
         if new_state != self.current_state:
-            logger.info(f"Consciousness state transition: {self.current_state} -> {new_state}")
+            logger.info(
+                f"Consciousness state transition: {self.current_state} -> {new_state}"
+            )
             self.current_state = new_state
 
             # Notify all components of state change
@@ -311,7 +347,9 @@ class ConsciousnessIntegrator:
         # This is a simplified evaluation - in practice, this would be more sophisticated
         if self.current_context and self.current_context.emotional_state:
             # Check for high emotional intensity
-            emotional_intensity = sum(abs(v) for v in self.current_context.emotional_state.values())
+            emotional_intensity = sum(
+                abs(v) for v in self.current_context.emotional_state.values()
+            )
             if emotional_intensity > 0.8:
                 return ConsciousnessState.INTROSPECTING
 
@@ -335,10 +373,12 @@ class ConsciousnessIntegrator:
 
             # Update consciousness context with memory insights
             if patterns and self.current_context:
-                self.current_context.memory_context.update({
-                    "recent_patterns": patterns,
-                    "last_consolidation": datetime.now().isoformat()
-                })
+                self.current_context.memory_context.update(
+                    {
+                        "recent_patterns": patterns,
+                        "last_consolidation": datetime.now().isoformat(),
+                    }
+                )
 
         except Exception as e:
             logger.error(f"Error integrating memory systems: {e}")
@@ -350,13 +390,15 @@ class ConsciousnessIntegrator:
 
         try:
             # Get emotional context from recent events
-            recent_events = self.integration_history[-10:] if self.integration_history else []
+            recent_events = (
+                self.integration_history[-10:] if self.integration_history else []
+            )
 
             # Update emotional state
             new_emotional_state = await self.emotion_engine.process_emotional_context(
                 current_state=self.current_context.emotional_state,
                 recent_events=recent_events,
-                memory_context=self.current_context.memory_context
+                memory_context=self.current_context.memory_context,
             )
 
             if new_emotional_state:
@@ -376,10 +418,16 @@ class ConsciousnessIntegrator:
 
             # Update voice characteristics based on personality
             if current_persona and self.current_context:
-                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
+                voice_characteristics = (
+                    await self.persona_manager.get_voice_characteristics(
+                        current_persona
+                    )
+                )
 
                 # Apply voice characteristics
-                await self.voice_processor.update_voice_characteristics(voice_characteristics)
+                await self.voice_processor.update_voice_characteristics(
+                    voice_characteristics
+                )
 
                 # Update context
                 self.current_context.voice_preferences.update(voice_characteristics)
@@ -408,8 +456,7 @@ class ConsciousnessIntegrator:
                 for _ in range(self.config["event_processing"]["batch_size"]):
                     try:
                         event = await asyncio.wait_for(
-                            self.event_queue.get(),
-                            timeout=1.0
+                            self.event_queue.get(), timeout=1.0
                         )
                         events.append(event)
                     except asyncio.TimeoutError:
@@ -422,7 +469,9 @@ class ConsciousnessIntegrator:
                 logger.error(f"Error processing events: {e}")
                 await asyncio.sleep(0.1)
 
-    async def _process_event_batch(self, events: Optional[List[ConsciousnessEvent]] = None):
+    async def _process_event_batch(
+        self, events: Optional[List[ConsciousnessEvent]] = None
+    ):
         """Process a batch of consciousness events"""
         if not events:
             return
@@ -451,7 +500,7 @@ class ConsciousnessIntegrator:
             "emotion": self._handle_emotion_event,
             "identity": self._handle_identity_event,
             "learning": self._handle_learning_event,
-            "creativity": self._handle_creativity_event
+            "creativity": self._handle_creativity_event,
         }
 
         handler = handlers.get(event.source_module)
@@ -502,8 +551,11 @@ class ConsciousnessIntegrator:
             timestamp=datetime.now(),
             event_type="consciousness_state_change",
             source_module="consciousness",
-            data={"new_state": new_state.value, "previous_state": self.current_state.value},
-            priority=IntegrationPriority.CRITICAL
+            data={
+                "new_state": new_state.value,
+                "previous_state": self.current_state.value,
+            },
+            priority=IntegrationPriority.CRITICAL,
         )
 
         # Send to all active components
@@ -523,7 +575,9 @@ class ConsciousnessIntegrator:
         self.current_context.active_modules = active_modules
         self.current_context.current_state = self.current_state
 
-    async def create_integration_context(self, user_id: str, session_id: str) -> IntegrationContext:
+    async def create_integration_context(
+        self, user_id: str, session_id: str
+    ) -> IntegrationContext:
         """Create a new integration context for a user session"""
         self.current_context = IntegrationContext(
             user_id=user_id,
@@ -532,10 +586,12 @@ class ConsciousnessIntegrator:
             active_modules=list(self.active_integrations.keys()),
             emotional_state={},
             memory_context={},
-            voice_preferences={}
+            voice_preferences={},
         )
 
-        logger.info(f"Created integration context for user {user_id}, session {session_id}")
+        logger.info(
+            f"Created integration context for user {user_id}, session {session_id}"
+        )
         return self.current_context
 
     async def submit_event(self, event: ConsciousnessEvent) -> bool:
@@ -562,8 +618,8 @@ class ConsciousnessIntegrator:
             if not isinstance(event_data, dict):
                 raise ValueError("Event data must be a dictionary")
 
-            event_type = event_data.get('type', 'general')
-            event_content = event_data.get('content', {})
+            event_type = event_data.get("type", "general")
+            event_content = event_data.get("content", {})
             timestamp = datetime.now().isoformat()
 
             # Create a simple consciousness event record
@@ -573,15 +629,19 @@ class ConsciousnessIntegrator:
                 "content": event_content,
                 "timestamp": timestamp,
                 "integrator_id": self.integrator_id,
-                "current_state": self.current_state.value if hasattr(self.current_state, 'value') else str(self.current_state),
-                "processing_status": "processed"
+                "current_state": (
+                    self.current_state.value
+                    if hasattr(self.current_state, "value")
+                    else str(self.current_state)
+                ),
+                "processing_status": "processed",
             }
 
             # Log the event processing
             logger.info(f"Processed consciousness event: {event_type}")
 
             # Add to integration history if available
-            if hasattr(self, 'integration_history'):
+            if hasattr(self, "integration_history"):
                 # Note: This is simplified - actual implementation would create ConsciousnessEvent object
                 pass
 
@@ -589,7 +649,7 @@ class ConsciousnessIntegrator:
                 "success": True,
                 "processed_event": processed_event,
                 "message": f"Successfully processed {event_type} event",
-                "timestamp": timestamp
+                "timestamp": timestamp,
             }
 
         except Exception as e:
@@ -598,7 +658,7 @@ class ConsciousnessIntegrator:
                 "success": False,
                 "error": str(e),
                 "message": "Event processing failed",
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def get_consciousness_status(self) -> Dict[str, Any]:
@@ -610,7 +670,9 @@ class ConsciousnessIntegrator:
             "event_queue_size": self.event_queue.qsize(),
             "integration_history_size": len(self.integration_history),
             "uptime": (datetime.now() - self.start_time).total_seconds(),
-            "current_context": asdict(self.current_context) if self.current_context else None
+            "current_context": (
+                asdict(self.current_context) if self.current_context else None
+            ),
         }
 
     async def shutdown(self):
@@ -624,8 +686,10 @@ class ConsciousnessIntegrator:
 
         logger.info("Consciousness integrator shutdown complete")
 
+
 # Global instance for easy access
 consciousness_integrator: Optional[ConsciousnessIntegrator] = None
+
 
 async def get_consciousness_integrator() -> ConsciousnessIntegrator:
     """Get or create the global consciousness integrator instance"""
@@ -635,6 +699,7 @@ async def get_consciousness_integrator() -> ConsciousnessIntegrator:
         await consciousness_integrator.initialize_components()
     return consciousness_integrator
 
+
 if __name__ == "__main__":
     # Test the consciousness integrator
     async def test_consciousness():
@@ -643,7 +708,9 @@ if __name__ == "__main__":
         await integrator.start_consciousness_loop()
 
         # Create a test context
-        context = await integrator.create_integration_context("test_user", "test_session")
+        context = await integrator.create_integration_context(
+            "test_user", "test_session"
+        )
 
         # Submit a test event
         test_event = ConsciousnessEvent(
@@ -652,7 +719,7 @@ if __name__ == "__main__":
             event_type="test_event",
             source_module="test",
             data={"message": "Hello, consciousness!"},
-            priority=IntegrationPriority.MEDIUM
+            priority=IntegrationPriority.MEDIUM,
         )
 
         await integrator.submit_event(test_event)

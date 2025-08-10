@@ -7,14 +7,13 @@ This test validates the TODO #10 implementation following the established patter
 from previous testing.
 """
 
-import sys
-import os
 import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any
+import os
+import sys
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def test_enhanced_srd_basic():
     """Test basic Enhanced SRD functionality"""
@@ -23,9 +22,6 @@ def test_enhanced_srd_basic():
     try:
         from ethics.self_reflective_debugger import (
             EnhancedSelfReflectiveDebugger,
-            ReasoningStep,
-            EnhancedReasoningChain,
-            EnhancedAnomalyType
         )
 
         # Test initialization
@@ -38,7 +34,7 @@ def test_enhanced_srd_basic():
         print("✅ EnhancedSelfReflectiveDebugger configuration works")
 
         # Test correlation matrix initialization
-        assert hasattr(srd, 'cross_module_correlation_matrix')
+        assert hasattr(srd, "cross_module_correlation_matrix")
         print("✅ Correlation matrix properly initialized")
 
         return True
@@ -47,15 +43,16 @@ def test_enhanced_srd_basic():
         print(f"❌ Basic functionality test failed: {e}")
         return False
 
+
 async def test_correlation_analysis():
     """Test cross-module correlation analysis"""
     print("\n📋 Testing Cross-Module Correlation Analysis")
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain
         )
 
         # Initialize SRD
@@ -78,26 +75,23 @@ async def test_correlation_analysis():
                 "ppmv_calls": 1,
                 "xil_calls": 2,
                 "hitlo_calls": 1,
-
                 # Module states
                 "hds_scenario": "test_scenario",
                 "causal_graph": "test_graph",
                 "memory_access": "test_memory",
                 "explanation_generated": "test_explanation",
-
                 # Module latencies
                 "hds_latency": 0.1,
                 "cpi_latency": 0.2,
                 "ppmv_latency": 0.15,
                 "xil_latency": 0.12,
                 "hitlo_latency": 0.08,
-
                 # Data flow indicators
                 "hds_to_cpi_data": True,
                 "cpi_to_ppmv_data": True,
                 "ppmv_to_xil_data": True,
-                "xil_to_hitlo_data": False
-            }
+                "xil_to_hitlo_data": False,
+            },
         )
 
         # Add step to chain
@@ -110,13 +104,22 @@ async def test_correlation_analysis():
 
         # Validate correlation structure
         expected_correlation_keys = [
-            "hds_cpi_correlation", "cpi_ppmv_correlation", "ppmv_xil_correlation",
-            "xil_hitlo_correlation", "hds_hitlo_correlation",
-            "reasoning_pipeline_coherence", "decision_making_consistency",
-            "memory_explanation_alignment", "temporal_consistency",
-            "workflow_progression", "processing_time_correlation",
-            "confidence_module_correlation", "error_propagation_analysis",
-            "overall_integration_score", "anomaly_risk_score", "stability_index"
+            "hds_cpi_correlation",
+            "cpi_ppmv_correlation",
+            "ppmv_xil_correlation",
+            "xil_hitlo_correlation",
+            "hds_hitlo_correlation",
+            "reasoning_pipeline_coherence",
+            "decision_making_consistency",
+            "memory_explanation_alignment",
+            "temporal_consistency",
+            "workflow_progression",
+            "processing_time_correlation",
+            "confidence_module_correlation",
+            "error_propagation_analysis",
+            "overall_integration_score",
+            "anomaly_risk_score",
+            "stability_index",
         ]
 
         for key in expected_correlation_keys:
@@ -127,7 +130,11 @@ async def test_correlation_analysis():
 
         # Validate correlation values are in reasonable ranges
         for key, value in correlations.items():
-            if key.endswith("_correlation") or key.endswith("_score") or key.endswith("_index"):
+            if (
+                key.endswith("_correlation")
+                or key.endswith("_score")
+                or key.endswith("_index")
+            ):
                 if isinstance(value, (int, float)):
                     if not (0.0 <= value <= 1.0):
                         print(f"❌ Correlation value out of range: {key}={value}")
@@ -148,8 +155,10 @@ async def test_correlation_analysis():
     except Exception as e:
         print(f"❌ Correlation analysis test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_cross_module_anomaly_detection():
     """Test cross-module anomaly detection using correlations"""
@@ -157,10 +166,10 @@ async def test_cross_module_anomaly_detection():
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedAnomalyType,
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain,
-            EnhancedAnomalyType
         )
 
         # Initialize SRD
@@ -175,16 +184,31 @@ async def test_cross_module_anomaly_detection():
             operation="normal_operation",
             confidence=0.85,
             metadata={
-                "hds_calls": 1, "cpi_calls": 1, "ppmv_calls": 1, "xil_calls": 1, "hitlo_calls": 0,
-                "hds_scenario": "normal", "causal_graph": "normal", "memory_access": "normal",
-                "hds_latency": 0.1, "cpi_latency": 0.1, "ppmv_latency": 0.1, "xil_latency": 0.1,
-                "hds_to_cpi_data": True, "cpi_to_ppmv_data": True, "ppmv_to_xil_data": True
-            }
+                "hds_calls": 1,
+                "cpi_calls": 1,
+                "ppmv_calls": 1,
+                "xil_calls": 1,
+                "hitlo_calls": 0,
+                "hds_scenario": "normal",
+                "causal_graph": "normal",
+                "memory_access": "normal",
+                "hds_latency": 0.1,
+                "cpi_latency": 0.1,
+                "ppmv_latency": 0.1,
+                "xil_latency": 0.1,
+                "hds_to_cpi_data": True,
+                "cpi_to_ppmv_data": True,
+                "ppmv_to_xil_data": True,
+            },
         )
 
         chain_normal.steps.append(step_normal)
-        anomalies_normal = await srd._detect_cross_module_anomalies(chain_id_normal, step_normal)
-        print(f"✅ Normal operation: {len(anomalies_normal)} anomalies detected (expected: 0-2)")
+        anomalies_normal = await srd._detect_cross_module_anomalies(
+            chain_id_normal, step_normal
+        )
+        print(
+            f"✅ Normal operation: {len(anomalies_normal)} anomalies detected (expected: 0-2)"
+        )
 
         # Test case 2: Integration failure (should detect anomalies)
         chain_id_failure = "test_failure_chain"
@@ -195,17 +219,31 @@ async def test_cross_module_anomaly_detection():
             operation="failure_operation",
             confidence=0.3,
             metadata={
-                "hds_calls": 5, "cpi_calls": 0, "ppmv_calls": 3, "xil_calls": 0, "hitlo_calls": 2,
-                "hds_scenario": "failure", "memory_access": "failure",
-                "hds_latency": 2.0, "ppmv_latency": 0.5, "hitlo_latency": 1.0,
-                "hds_to_cpi_data": False, "cpi_to_ppmv_data": False, "ppmv_to_xil_data": False,
-                "hds_error": True, "ppmv_error": True
-            }
+                "hds_calls": 5,
+                "cpi_calls": 0,
+                "ppmv_calls": 3,
+                "xil_calls": 0,
+                "hitlo_calls": 2,
+                "hds_scenario": "failure",
+                "memory_access": "failure",
+                "hds_latency": 2.0,
+                "ppmv_latency": 0.5,
+                "hitlo_latency": 1.0,
+                "hds_to_cpi_data": False,
+                "cpi_to_ppmv_data": False,
+                "ppmv_to_xil_data": False,
+                "hds_error": True,
+                "ppmv_error": True,
+            },
         )
 
         chain_failure.steps.append(step_failure)
-        anomalies_failure = await srd._detect_cross_module_anomalies(chain_id_failure, step_failure)
-        print(f"✅ Integration failure: {len(anomalies_failure)} anomalies detected (expected: 3+)")
+        anomalies_failure = await srd._detect_cross_module_anomalies(
+            chain_id_failure, step_failure
+        )
+        print(
+            f"✅ Integration failure: {len(anomalies_failure)} anomalies detected (expected: 3+)"
+        )
 
         # Validate specific anomaly types
         anomaly_types = [anomaly.anomaly_type for anomaly in anomalies_failure]
@@ -213,7 +251,7 @@ async def test_cross_module_anomaly_detection():
             EnhancedAnomalyType.MODULE_INTEGRATION_FAILURE,
             EnhancedAnomalyType.WORKFLOW_SYNCHRONIZATION_ERROR,
             EnhancedAnomalyType.CROSS_MODULE_DATA_CORRUPTION,
-            EnhancedAnomalyType.INTEGRATION_PERFORMANCE_DEGRADATION
+            EnhancedAnomalyType.INTEGRATION_PERFORMANCE_DEGRADATION,
         ]
 
         detected_types = set(anomaly_types)
@@ -228,20 +266,36 @@ async def test_cross_module_anomaly_detection():
             operation="performance_operation",
             confidence=0.9,  # High confidence but poor performance
             metadata={
-                "hds_calls": 10, "cpi_calls": 8, "ppmv_calls": 6, "xil_calls": 5, "hitlo_calls": 3,
-                "hds_scenario": "perf", "causal_graph": "perf", "memory_access": "perf",
-                "hds_latency": 5.0, "cpi_latency": 0.1, "ppmv_latency": 3.0, "xil_latency": 0.1,
-                "hds_to_cpi_data": True, "cpi_to_ppmv_data": True, "ppmv_to_xil_data": True
-            }
+                "hds_calls": 10,
+                "cpi_calls": 8,
+                "ppmv_calls": 6,
+                "xil_calls": 5,
+                "hitlo_calls": 3,
+                "hds_scenario": "perf",
+                "causal_graph": "perf",
+                "memory_access": "perf",
+                "hds_latency": 5.0,
+                "cpi_latency": 0.1,
+                "ppmv_latency": 3.0,
+                "xil_latency": 0.1,
+                "hds_to_cpi_data": True,
+                "cpi_to_ppmv_data": True,
+                "ppmv_to_xil_data": True,
+            },
         )
 
         chain_perf.steps.append(step_perf)
-        anomalies_perf = await srd._detect_cross_module_anomalies(chain_id_perf, step_perf)
+        anomalies_perf = await srd._detect_cross_module_anomalies(
+            chain_id_perf, step_perf
+        )
         print(f"✅ Performance issues: {len(anomalies_perf)} anomalies detected")
 
         # Validate that performance anomalies are detected
         perf_anomaly_types = [anomaly.anomaly_type for anomaly in anomalies_perf]
-        has_performance_anomaly = EnhancedAnomalyType.INTEGRATION_PERFORMANCE_DEGRADATION in perf_anomaly_types
+        has_performance_anomaly = (
+            EnhancedAnomalyType.INTEGRATION_PERFORMANCE_DEGRADATION
+            in perf_anomaly_types
+        )
         print(f"✅ Performance degradation detected: {has_performance_anomaly}")
 
         return True
@@ -249,8 +303,10 @@ async def test_cross_module_anomaly_detection():
     except Exception as e:
         print(f"❌ Cross-module anomaly detection test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_correlation_matrix_updates():
     """Test correlation matrix updates and trend analysis"""
@@ -258,9 +314,9 @@ async def test_correlation_matrix_updates():
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain
         )
 
         # Initialize SRD
@@ -286,8 +342,8 @@ async def test_correlation_matrix_updates():
                     "hds_latency": 0.1 + (i * 0.05),
                     "cpi_latency": 0.1 + (i * 0.03),
                     "hds_to_cpi_data": True,
-                    "cpi_to_ppmv_data": i > 1
-                }
+                    "cpi_to_ppmv_data": i > 1,
+                },
             )
 
             chain.steps.append(step)
@@ -304,7 +360,12 @@ async def test_correlation_matrix_updates():
             return False
 
         matrix_entry = srd.cross_module_correlation_matrix[chain_id]
-        expected_matrix_keys = ["step_correlations", "summary_statistics", "trend_analysis", "last_updated"]
+        expected_matrix_keys = [
+            "step_correlations",
+            "summary_statistics",
+            "trend_analysis",
+            "last_updated",
+        ]
 
         for key in expected_matrix_keys:
             if key not in matrix_entry:
@@ -329,7 +390,13 @@ async def test_correlation_matrix_updates():
 
         # Validate trend analysis
         trends = matrix_entry["trend_analysis"]
-        expected_trend_keys = ["integration_trend", "risk_trend", "stability_trend", "coherence_trend", "alerts"]
+        expected_trend_keys = [
+            "integration_trend",
+            "risk_trend",
+            "stability_trend",
+            "coherence_trend",
+            "alerts",
+        ]
 
         for key in expected_trend_keys:
             if key not in trends:
@@ -350,15 +417,19 @@ async def test_correlation_matrix_updates():
     except Exception as e:
         print(f"❌ Correlation matrix test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_integration_with_reasoning_chain():
     """Test integration with complete reasoning chain workflow"""
     print("\n📋 Testing Integration with Complete Reasoning Chain")
 
     try:
-        from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
+        from ethics.self_reflective_debugger import (
+            EnhancedSelfReflectiveDebugger,
+        )
 
         # Initialize SRD
         srd = EnhancedSelfReflectiveDebugger()
@@ -367,7 +438,7 @@ async def test_integration_with_reasoning_chain():
         chain_id = srd.begin_enhanced_reasoning_chain(
             context="correlation_test_workflow",
             symbolic_tags=["correlation", "test", "integration"],
-            ceo_integration_config={"enable_all": True}
+            ceo_integration_config={"enable_all": True},
         )
         print("✅ Enhanced reasoning chain started")
 
@@ -377,34 +448,42 @@ async def test_integration_with_reasoning_chain():
                 "operation": "initial_analysis",
                 "confidence": 0.9,
                 "metadata": {
-                    "hds_calls": 1, "hds_scenario": "initial_scan",
-                    "hds_latency": 0.1, "hds_to_cpi_data": True
-                }
+                    "hds_calls": 1,
+                    "hds_scenario": "initial_scan",
+                    "hds_latency": 0.1,
+                    "hds_to_cpi_data": True,
+                },
             },
             {
                 "operation": "causal_modeling",
                 "confidence": 0.8,
                 "metadata": {
-                    "cpi_calls": 2, "causal_graph": "main_analysis",
-                    "cpi_latency": 0.15, "cpi_to_ppmv_data": True
-                }
+                    "cpi_calls": 2,
+                    "causal_graph": "main_analysis",
+                    "cpi_latency": 0.15,
+                    "cpi_to_ppmv_data": True,
+                },
             },
             {
                 "operation": "memory_integration",
                 "confidence": 0.75,
                 "metadata": {
-                    "ppmv_calls": 1, "memory_access": "integration_data",
-                    "ppmv_latency": 0.12, "ppmv_to_xil_data": True
-                }
+                    "ppmv_calls": 1,
+                    "memory_access": "integration_data",
+                    "ppmv_latency": 0.12,
+                    "ppmv_to_xil_data": True,
+                },
             },
             {
                 "operation": "explanation_generation",
                 "confidence": 0.85,
                 "metadata": {
-                    "xil_calls": 1, "explanation_generated": "workflow_explanation",
-                    "xil_latency": 0.08, "xil_to_hitlo_data": False
-                }
-            }
+                    "xil_calls": 1,
+                    "explanation_generated": "workflow_explanation",
+                    "xil_latency": 0.08,
+                    "xil_to_hitlo_data": False,
+                },
+            },
         ]
 
         for scenario in step_scenarios:
@@ -413,7 +492,7 @@ async def test_integration_with_reasoning_chain():
                 operation=scenario["operation"],
                 confidence=scenario["confidence"],
                 metadata=scenario["metadata"],
-                ceo_module_calls={"test_calls": scenario["metadata"]}
+                ceo_module_calls={"test_calls": scenario["metadata"]},
             )
             print(f"✅ Logged step: {scenario['operation']}")
 
@@ -427,8 +506,12 @@ async def test_integration_with_reasoning_chain():
             return False
 
         expected_analysis_keys = [
-            "chain_id", "summary", "performance_metrics",
-            "ceo_integration_analysis", "anomaly_summary", "recommendations"
+            "chain_id",
+            "summary",
+            "performance_metrics",
+            "ceo_integration_analysis",
+            "anomaly_summary",
+            "recommendations",
         ]
 
         for key in expected_analysis_keys:
@@ -444,7 +527,9 @@ async def test_integration_with_reasoning_chain():
             return False
 
         if len(chain_matrix["step_correlations"]) != len(step_scenarios):
-            print(f"❌ Expected {len(step_scenarios)} step correlations, got {len(chain_matrix['step_correlations'])}")
+            print(
+                f"❌ Expected {len(step_scenarios)} step correlations, got {len(chain_matrix['step_correlations'])}"
+            )
             return False
         print("✅ Correlation analysis properly integrated with reasoning chain")
 
@@ -460,8 +545,10 @@ async def test_integration_with_reasoning_chain():
     except Exception as e:
         print(f"❌ Integration test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def run_comprehensive_correlation_tests():
     """Run all correlation analysis tests"""
@@ -473,7 +560,7 @@ async def run_comprehensive_correlation_tests():
         ("Correlation Analysis", test_correlation_analysis),
         ("Cross-Module Anomaly Detection", test_cross_module_anomaly_detection),
         ("Correlation Matrix Updates", test_correlation_matrix_updates),
-        ("Integration with Reasoning Chain", test_integration_with_reasoning_chain)
+        ("Integration with Reasoning Chain", test_integration_with_reasoning_chain),
     ]
 
     results = {}
@@ -514,6 +601,7 @@ async def run_comprehensive_correlation_tests():
     else:
         print("⚠️ Some tests failed - review implementation")
         return False
+
 
 if __name__ == "__main__":
     print("🚀 Self-Reflective Debugger Correlation Analysis Test Suite")

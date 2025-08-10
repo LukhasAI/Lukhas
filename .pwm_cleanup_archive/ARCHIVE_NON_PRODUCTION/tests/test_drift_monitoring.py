@@ -1,6 +1,7 @@
 import time
 from trace.drift_metrics import DriftTracker
 
+
 def test_real_time_drift_monitoring():
     # Setup
     tracker = DriftTracker()

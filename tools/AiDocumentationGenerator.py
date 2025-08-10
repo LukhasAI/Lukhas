@@ -14,18 +14,19 @@ Copyright (c) 2025 LUKHlukhasS AI Research. All rights reserved.
 Licensed under the LUKHlukhasS Core License - see LICENSE.md for details.
 """
 
-import os
-import re
+import argparse
 import ast
-import sys
+import asyncio
 import json
 import logging
-import asyncio
-import argparse
-from pathlib import Path
-from typing import Dict, List, Optional, Any, NamedTuple
-from dataclasses import dataclass, asdict
+import os
+import re
+import sys
+from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Any
+from typing import Optional
 
 # Global constant for symbolic memory directory
 SYMBOLIC_MEMORY_DIR = ".lukhas"
@@ -34,23 +35,25 @@ os.makedirs(SYMBOLIC_MEMORY_DIR, exist_ok=True)
 # OpenAI imports and configuration
 try:
     from openai import OpenAI
+
     HAS_OPENAI = True
 
     # Load environment variables manually
+
     def load_env():
-        env_path = Path('.env')
+        env_path = Path(".env")
         if env_path.exists():
-            with open(env_path, 'r', encoding='utf-8') as f:
+            with open(env_path, encoding="utf-8") as f:
                 for line in f:
-                    if line.strip() and not line.startswith('#'):
-                        key, value = line.strip().split('=', 1)
+                    if line.strip() and not line.startswith("#"):
+                        key, value = line.strip().split("=", 1)
                         os.environ[key] = value
 
     load_env()
 
     # Configure OpenAI client
     openai_client = None
-    openai_api_key = os.getenv('OPENAI_API_KEY')
+    openai_api_key = os.getenv("OPENAI_API_KEY")
     if openai_api_key:
         openai_client = OpenAI(api_key=openai_api_key)
     else:
@@ -62,28 +65,33 @@ except ImportError:
     openai_client = None
     print("Warning: OpenAI not installed. Install with: pip install openai")
 
+
 @dataclass
 class CodeAnalysis:
     """Comprehensive code analysis structure"""
+
     file_path: str
     module_name: str
-    classes: List[Dict[str, Any]]
-    functions: List[Dict[str, Any]]
-    imports: List[str]
-    exports: List[str]
-    dependencies: List[str]
-    constants: List[str]
-    docstrings: List[str]
+    classes: list[dict[str, Any]]
+    functions: list[dict[str, Any]]
+    imports: list[str]
+    exports: list[str]
+    dependencies: list[str]
+    constants: list[str]
+    docstrings: list[str]
     complexity_score: int
     paradigm: str  # 'symbolic', 'neural', 'quantum', 'hybrid'
-    lukhας_components: List[str]  # DAST, NIAS, ABAS, Lukhas_ID, etc.
+    lukhας_components: list[str]  # DAST, NIAS, ABAS, Lukhas_ID, etc.
+
 
 @dataclass
 class DocumentationSection:
     """Rich documentation section"""
+
     title: str
     content: str
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
+
 
 class AIDocumentationGenerator:
     """AI-powered documentation generator with LUKHlukhasS consciousness"""
@@ -98,12 +106,12 @@ class AIDocumentationGenerator:
 
         # LUKHlukhasS-specific patterns
         self.lukhας_patterns = {
-            'symbolic': r'symbolic|memoria|reflection|dast|arbitrat',
-            'neural': r'neural|learning|cognitive|brain|spine',
-            'quantum': r'quantum|oscillator|consensus|enhanced',
-            'identity': r'lambda_identity|Lukhas_ID|identity|auth|verification',
-            'systems': r'nias|abas|dast|engine|orchestrator',
-            'commercial': r'vendor|affiliate|commercial|payment'
+            "symbolic": r"symbolic|memoria|reflection|dast|arbitrat",
+            "neural": r"neural|learning|cognitive|brain|spine",
+            "quantum": r"quantum|oscillator|consensus|enhanced",
+            "identity": r"lambda_identity|Lukhas_ID|identity|auth|verification",
+            "systems": r"nias|abas|dast|engine|orchestrator",
+            "commercial": r"vendor|affiliate|commercial|payment",
         }
 
         # Documentation templates
@@ -152,10 +160,7 @@ class AIDocumentationGenerator:
         # Determine if target_path is file or directory
         path = Path(target_path)
         all_collected_components = []
-        if path.is_dir():
-            py_files = list(path.rglob("*.py"))
-        else:
-            py_files = [path]
+        py_files = list(path.rglob("*.py")) if path.is_dir() else [path]
         for file in py_files:
             try:
                 loop = asyncio.get_event_loop()
@@ -197,7 +202,7 @@ class AIDocumentationGenerator:
             f"Uploading documentation for {target_path} to LUKHlukhasS sync endpoint (not implemented)."
         )
 
-    def _load_templates(self) -> Dict[str, str]:
+    def _load_templates(self) -> dict[str, str]:
         """Load LUKHlukhasS documentation templates"""
         return {
             "overview": """# {title} Overview\n\n{description}\n\n## Purpose\n\n{purpose}\n\n## Features\n\n{features}""",
@@ -208,7 +213,7 @@ class AIDocumentationGenerator:
     async def analyze_file(self, file_path: Path) -> CodeAnalysis:
         """Perform comprehensive code analysis"""
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -284,7 +289,7 @@ class AIDocumentationGenerator:
 
     async def generate_documentation_sections(
         self, analysis: CodeAnalysis
-    ) -> List[DocumentationSection]:
+    ) -> list[DocumentationSection]:
         """Generate documentation sections using OpenAI"""
         if not self.client:
             return []
@@ -374,7 +379,8 @@ class AIDocumentationGenerator:
                     messages=[
                         {
                             "role": "system",
-                            "content": "You are the LUKHlukhasS AI documentation system, specializing in comprehensive and philosophically aware technical documentation.",
+                            "content": "You are the LUKHlukhasS AI documentation system,
+                            specializing in comprehensive and philosophically aware technical documentation.",
                         },
                         {"role": "user", "content": prompt},
                     ],
@@ -389,7 +395,7 @@ class AIDocumentationGenerator:
 
     async def generate_comprehensive_docs(
         self, source_path: Path, output_dir: Path
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive documentation for all Python files in a directory"""
         self.logger.info("🚀 Starting comprehensive documentation generation...")
 
@@ -446,12 +452,18 @@ class AIDocumentationGenerator:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="🧠 LUKHlukhasS AI Documentation Generator")
+    parser = argparse.ArgumentParser(
+        description="🧠 LUKHlukhasS AI Documentation Generator"
+    )
     parser.add_argument(
         "--source", required=True, help="Source directory or file to analyze"
     )
-    parser.add_argument("--output", required=True, help="Output directory for documentation")
-    parser.add_argument("--api-key", help="OpenAI API key (or set OPENAI_API_KEY env var)")
+    parser.add_argument(
+        "--output", required=True, help="Output directory for documentation"
+    )
+    parser.add_argument(
+        "--api-key", help="OpenAI API key (or set OPENAI_API_KEY env var)"
+    )
     parser.add_argument(
         "--model", default="gpt-4-turbo-preview", help="OpenAI model to use"
     )
@@ -471,7 +483,9 @@ if __name__ == "__main__":
 
     # Setup logging
     level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    logging.basicConfig(
+        level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
 
     async def main():
         # Initialize generator

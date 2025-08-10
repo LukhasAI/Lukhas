@@ -12,9 +12,9 @@ from .registry import AgentRegistry
 from .types import AgentCapability, AgentContext, AgentResponse
 
 __all__ = [
-    'OrchestrationAgent',
-    'AgentRegistry',
-    'AgentCapability',
-    'AgentContext',
-    'AgentResponse'
+    "OrchestrationAgent",
+    "AgentRegistry",
+    "AgentCapability",
+    "AgentContext",
+    "AgentResponse",
 ]

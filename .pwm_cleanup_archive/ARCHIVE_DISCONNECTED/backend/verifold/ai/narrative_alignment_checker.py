@@ -6,8 +6,9 @@ Verifies GPT-generated replays do not diverge from original memory hashes.
 Ensures narrative authenticity and prevents AI hallucination injection.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
 import hashlib
+from typing import Dict, List, Optional
+
 
 class NarrativeAlignmentChecker:
     """Validates alignment between generated narratives and source memories."""
@@ -17,7 +18,12 @@ class NarrativeAlignmentChecker:
         self.hash_validator = None
         self.semantic_analyzer = None
 
-    def compute_narrative_fingerprint(self, narrative: str, model_info: Optional[str] = None, session_id: Optional[str] = None) -> str:
+    def compute_narrative_fingerprint(
+        self,
+        narrative: str,
+        model_info: Optional[str] = None,
+        session_id: Optional[str] = None,
+    ) -> str:
         """Compute fingerprint with provenance: content + GPT model + session ID."""
         fingerprint_input = f"{narrative}|{model_info or 'unknown_model'}|{session_id or 'unknown_session'}"
         return hashlib.sha256(fingerprint_input.encode()).hexdigest()
@@ -25,15 +31,13 @@ class NarrativeAlignmentChecker:
     def track_provenance_record(self, narrative: str, metadata: Dict) -> Dict:
         """Track narrative provenance including model, drift, and entropy snapshot."""
         fingerprint = self.compute_narrative_fingerprint(
-            narrative,
-            metadata.get("model"),
-            metadata.get("session_id")
+            narrative, metadata.get("model"), metadata.get("session_id")
         )
         return {
             "fingerprint": fingerprint,
             "model_used": metadata.get("model", "GPT-unknown"),
             "entropy_drift": metadata.get("entropy_drift", 0.0),
-            "replay_session": metadata.get("session_id", "unspecified")
+            "replay_session": metadata.get("session_id", "unspecified"),
         }
 
     def replay_signature_chain(self, frames: List[str], consent_hash: str) -> str:
@@ -51,7 +55,9 @@ class NarrativeAlignmentChecker:
         # TODO: Implement hallucination detection
         pass
 
-    def verify_emotional_authenticity(self, narrative: str, original_entropy: float) -> bool:
+    def verify_emotional_authenticity(
+        self, narrative: str, original_entropy: float
+    ) -> bool:
         """Verify emotional authenticity of generated narrative."""
         # TODO: Implement emotional verification
         pass
@@ -65,6 +71,7 @@ class NarrativeAlignmentChecker:
         """Create cryptographic proof of narrative authenticity."""
         # TODO: Implement authenticity proof generation
         pass
+
 
 # TODO: Add semantic similarity scoring
 # TODO: Implement multi-modal alignment checking

@@ -7,7 +7,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 💭 LUKHAS SYMBOLIC CORE: dream_refold.py
 📁 Path: /Users/grdm_admin/LUKHAS/core/dream_refold.py
@@ -23,6 +22,7 @@ dream fragments, offering creative recombination for emotional growth.
 """
 
 import random
+
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 💭 DREAM ENGINE CLASS
@@ -60,8 +60,10 @@ class DreamWeaver:
 # ▶️ USAGE EXAMPLE (DEV ONLY)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if __name__ == "__main__":
+
     class DummyMemory:
-        def __init__(self, content): self.content = content
+        def __init__(self, content):
+            self.content = content
 
     weaver = DreamWeaver()
     print(weaver.react("reflect", DummyMemory("a childhood mistake")))
@@ -75,12 +77,6 @@ Dreams are encrypted emotional mirrors — let LUKHAS reshape, not erase.
 
 Sleep with structure. Wake with clarity.
 """
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

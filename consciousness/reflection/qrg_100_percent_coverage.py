@@ -26,27 +26,22 @@ Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
 
-import unittest
-import sys
 import os
-import time
-import json
-import hashlib
-import secrets
+import sys
 import threading
-from unittest.mock import Mock, patch, MagicMock
-from typing import Dict, List, Any
-from datetime import datetime, timedelta
+import time
+import unittest
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import all modules for comprehensive testing
-from qrg_integration import (
-    LukhusQRGIntegrator, QRGType, SecurityLevel, QRGContext, QRGResult
-)
+from qrg_integration import LukhusQRGIntegrator, QRGType
+
 from quantum_steganographic_demo import (
-    QuantumQRInfluencer, SteganographicGlyphGenerator, GlyphStyle
+    GlyphStyle,
+    QuantumQRInfluencer,
+    SteganographicGlyphGenerator,
 )
 
 
@@ -63,8 +58,7 @@ class TestQRGEdgeCases(unittest.TestCase):
         for level in extreme_levels:
             with self.subTest(consciousness_level=level):
                 context = self.integrator.create_qrg_context(
-                    user_id=f"extreme_test_{level}",
-                    security_level="protected"
+                    user_id=f"extreme_test_{level}", security_level="protected"
                 )
                 context.consciousness_level = level
 
@@ -82,8 +76,7 @@ class TestQRGEdgeCases(unittest.TestCase):
             with self.subTest(security_level=level):
                 try:
                     context = self.integrator.create_qrg_context(
-                        user_id="invalid_test",
-                        security_level=level
+                        user_id="invalid_test", security_level=level
                     )
                     # Should either handle gracefully or raise appropriate exception
                     self.assertIsNotNone(context)
@@ -100,7 +93,7 @@ class TestQRGEdgeCases(unittest.TestCase):
                 try:
                     context = self.integrator.create_qrg_context(
                         user_id=empty_input or "fallback_user",
-                        security_level="protected"
+                        security_level="protected",
                     )
                     result = self.integrator.generate_consciousness_qrg(context)
                     self.assertIsNotNone(result)
@@ -113,8 +106,7 @@ class TestQRGEdgeCases(unittest.TestCase):
         long_user_id = "x" * 10000  # 10KB user ID
 
         context = self.integrator.create_qrg_context(
-            user_id=long_user_id,
-            security_level="protected"
+            user_id=long_user_id, security_level="protected"
         )
 
         result = self.integrator.generate_consciousness_qrg(context)
@@ -131,14 +123,13 @@ class TestQRGEdgeCases(unittest.TestCase):
             "user-with-dashes_and_underscores",
             "user with spaces",
             "ΑΒΓΔΕ",  # Greek
-            "🔮✨🌟💫"  # More emojis
+            "🔮✨🌟💫",  # More emojis
         ]
 
         for unicode_input in unicode_inputs:
             with self.subTest(user_id=unicode_input):
                 context = self.integrator.create_qrg_context(
-                    user_id=unicode_input,
-                    security_level="protected"
+                    user_id=unicode_input, security_level="protected"
                 )
                 result = self.integrator.generate_consciousness_qrg(context)
                 self.assertIsNotNone(result)
@@ -151,8 +142,7 @@ class TestQRGEdgeCases(unittest.TestCase):
         def generate_qrg(user_id):
             try:
                 context = self.integrator.create_qrg_context(
-                    user_id=f"stress_user_{user_id}",
-                    security_level="protected"
+                    user_id=f"stress_user_{user_id}", security_level="protected"
                 )
                 result = self.integrator.generate_consciousness_qrg(context)
                 results.append(result)
@@ -192,8 +182,7 @@ class TestQRGErrorHandling(unittest.TestCase):
         """Test graceful handling when dependencies are missing"""
         # This tests our mock implementations
         context = self.integrator.create_qrg_context(
-            user_id="dependency_test",
-            security_level="protected"
+            user_id="dependency_test", security_level="protected"
         )
 
         # Should work with mock implementations
@@ -209,7 +198,7 @@ class TestQRGErrorHandling(unittest.TestCase):
         context = self.integrator.create_qrg_context(
             user_id="memory_test",
             security_level="protected",
-            attention_focus=large_attention_focus
+            attention_focus=large_attention_focus,
         )
 
         # Should handle large inputs gracefully
@@ -223,8 +212,7 @@ class TestQRGErrorHandling(unittest.TestCase):
         circular_data["self"] = circular_data
 
         context = self.integrator.create_qrg_context(
-            user_id="circular_test",
-            security_level="protected"
+            user_id="circular_test", security_level="protected"
         )
 
         # Should handle without infinite loops
@@ -243,8 +231,7 @@ class TestQRGErrorHandling(unittest.TestCase):
 
         # Should recover gracefully
         context = self.integrator.create_qrg_context(
-            user_id="exception_test",
-            security_level="protected"
+            user_id="exception_test", security_level="protected"
         )
         result = self.integrator.generate_consciousness_qrg(context)
         self.assertIsNotNone(result)
@@ -265,14 +252,13 @@ class TestQRGSecurityValidation(unittest.TestCase):
 
         for i in range(100):
             context = self.integrator.create_qrg_context(
-                user_id=f"entropy_test_{i}",
-                security_level="protected"
+                user_id=f"entropy_test_{i}", security_level="protected"
             )
             result = self.integrator.generate_quantum_qrg(context)
             signatures.append(result.security_signature)
 
         # Check entropy quality
-        all_chars = ''.join(signatures)
+        all_chars = "".join(signatures)
         char_counts = {}
 
         for char in all_chars:
@@ -293,8 +279,7 @@ class TestQRGSecurityValidation(unittest.TestCase):
 
         for i in range(10):
             context = self.integrator.create_qrg_context(
-                user_id="temporal_test",
-                security_level="secret"
+                user_id="temporal_test", security_level="secret"
             )
             result = self.integrator.generate_quantum_qrg(context)
             time_signatures.append(result.security_signature)
@@ -310,8 +295,7 @@ class TestQRGSecurityValidation(unittest.TestCase):
 
         for level in levels:
             context = self.integrator.create_qrg_context(
-                user_id="escalation_test",
-                security_level=level
+                user_id="escalation_test", security_level=level
             )
             result = self.integrator.generate_quantum_qrg(context)
             results[level] = result
@@ -339,22 +323,32 @@ class TestQRGCulturalValidation(unittest.TestCase):
     def test_all_cultural_contexts(self):
         """Test all supported cultural contexts"""
         cultural_contexts = [
-            "east_asian", "chinese", "japanese", "korean",
-            "islamic", "middle_eastern", "arabic",
-            "indigenous", "native", "tribal",
-            "universal", "standard", "global",
-            "european", "african", "latin_american"
+            "east_asian",
+            "chinese",
+            "japanese",
+            "korean",
+            "islamic",
+            "middle_eastern",
+            "arabic",
+            "indigenous",
+            "native",
+            "tribal",
+            "universal",
+            "standard",
+            "global",
+            "european",
+            "african",
+            "latin_american",
         ]
 
         for context in cultural_contexts:
             with self.subTest(cultural_context=context):
                 qrg_context = self.integrator.create_qrg_context(
-                    user_id=f"cultural_test_{context}",
-                    security_level="protected"
+                    user_id=f"cultural_test_{context}", security_level="protected"
                 )
                 qrg_context.cultural_profile = {
                     "region": context,
-                    "preferences": {"respect": "high"}
+                    "preferences": {"respect": "high"},
                 }
 
                 result = self.integrator.generate_cultural_qrg(qrg_context)
@@ -374,8 +368,7 @@ class TestQRGCulturalValidation(unittest.TestCase):
         for case in edge_cases:
             with self.subTest(cultural_profile=case):
                 context = self.integrator.create_qrg_context(
-                    user_id="cultural_edge_test",
-                    security_level="protected"
+                    user_id="cultural_edge_test", security_level="protected"
                 )
                 context.cultural_profile = case
 
@@ -395,13 +388,12 @@ class TestQRGCulturalValidation(unittest.TestCase):
                 "patterns": ["non_figurative"],
                 "respect_level": "high",
                 "prayer_times": ["fajr", "dhuhr", "asr", "maghrib", "isha"],
-                "halal_compliance": True
-            }
+                "halal_compliance": True,
+            },
         }
 
         context = self.integrator.create_qrg_context(
-            user_id="detailed_cultural_test",
-            security_level="protected"
+            user_id="detailed_cultural_test", security_level="protected"
         )
         context.cultural_profile = detailed_preferences
 
@@ -409,10 +401,7 @@ class TestQRGCulturalValidation(unittest.TestCase):
 
         # Should reflect cultural preferences in metadata
         self.assertIn("adaptation_notes", result.metadata)
-        self.assertEqual(
-            result.metadata["cultural_context"],
-            "islamic"
-        )
+        self.assertEqual(result.metadata["cultural_context"], "islamic")
 
 
 class TestQuantumSteganographicCoverage(unittest.TestCase):
@@ -489,8 +478,12 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
                 self.assertGreater(len(set(styles)), 1)
 
                 # Consciousness layers should vary
-                consciousness_levels = [glyph.consciousness_layer for glyph in constellation]
-                self.assertGreater(max(consciousness_levels) - min(consciousness_levels), 0.1)
+                consciousness_levels = [
+                    glyph.consciousness_layer for glyph in constellation
+                ]
+                self.assertGreater(
+                    max(consciousness_levels) - min(consciousness_levels), 0.1
+                )
 
 
 class TestPerformanceOptimization(unittest.TestCase):
@@ -507,8 +500,7 @@ class TestPerformanceOptimization(unittest.TestCase):
         # Generate 1000 QRGs
         for i in range(1000):
             context = self.integrator.create_qrg_context(
-                user_id=f"large_scale_{i}",
-                security_level="protected"
+                user_id=f"large_scale_{i}", security_level="protected"
             )
             result = self.integrator.generate_consciousness_qrg(context)
             results.append(result)
@@ -536,8 +528,7 @@ class TestPerformanceOptimization(unittest.TestCase):
         results = []
         for i in range(100):
             context = self.integrator.create_qrg_context(
-                user_id=f"memory_test_{i}",
-                security_level="secret"
+                user_id=f"memory_test_{i}", security_level="secret"
             )
             result = self.integrator.generate_quantum_qrg(context)
             results.append(result)
@@ -568,8 +559,7 @@ class TestPerformanceOptimization(unittest.TestCase):
                 self.integrator.config.update(config)
 
                 context = self.integrator.create_qrg_context(
-                    user_id="config_test",
-                    security_level="protected"
+                    user_id="config_test", security_level="protected"
                 )
                 result = self.integrator.generate_consciousness_qrg(context)
 
@@ -593,8 +583,7 @@ class TestIntegrationBoundaries(unittest.TestCase):
         sessions = []
         for i in range(10):
             context = self.integrator.create_qrg_context(
-                user_id=f"session_user_{i}",
-                security_level="protected"
+                user_id=f"session_user_{i}", security_level="protected"
             )
             sessions.append(context.session_id)
 
@@ -609,8 +598,7 @@ class TestIntegrationBoundaries(unittest.TestCase):
         # Generate some QRGs to create statistics
         for i in range(5):
             context = self.integrator.create_qrg_context(
-                user_id=f"stats_user_{i}",
-                security_level="protected"
+                user_id=f"stats_user_{i}", security_level="protected"
             )
             self.integrator.generate_consciousness_qrg(context)
 
@@ -638,12 +626,12 @@ class TestIntegrationBoundaries(unittest.TestCase):
                 consciousness=consciousness,
                 security=security,
                 cognitive_load=cognitive_load,
-                attention=attention
+                attention=attention,
             ):
                 context = self.integrator.create_qrg_context(
                     user_id="adaptive_test",
                     security_level=security,
-                    attention_focus=attention
+                    attention_focus=attention,
                 )
                 context.consciousness_level = consciousness
                 context.cognitive_load = cognitive_load
@@ -673,7 +661,7 @@ def run_100_percent_coverage_suite():
         TestQRGCulturalValidation,
         TestQuantumSteganographicCoverage,
         TestPerformanceOptimization,
-        TestIntegrationBoundaries
+        TestIntegrationBoundaries,
     ]
 
     total_tests = 0
@@ -695,7 +683,7 @@ def run_100_percent_coverage_suite():
     total_passed = total_run - len(result.failures) - len(result.errors)
     coverage_percentage = (total_passed / total_run * 100) if total_run > 0 else 0
 
-    print(f"\n📊 100% Coverage Test Results:")
+    print("\n📊 100% Coverage Test Results:")
     print(f"   🧪 Total tests: {total_run}")
     print(f"   ✅ Passed: {total_passed}")
     print(f"   ❌ Failed: {len(result.failures)}")
@@ -705,17 +693,17 @@ def run_100_percent_coverage_suite():
 
     # Detailed failure analysis
     if result.failures:
-        print(f"\n❌ Test Failures:")
+        print("\n❌ Test Failures:")
         for test, error in result.failures:
             print(f"   • {test}: {error.split('AssertionError:')[-1].strip()[:100]}...")
 
     if result.errors:
-        print(f"\n🚨 Test Errors:")
+        print("\n🚨 Test Errors:")
         for test, error in result.errors:
             print(f"   • {test}: {error.split('Error:')[-1].strip()[:100]}...")
 
     # Coverage analysis
-    print(f"\n🎯 Coverage Analysis:")
+    print("\n🎯 Coverage Analysis:")
 
     coverage_areas = [
         ("🧠 Consciousness Adaptation", "✅ 100%"),
@@ -727,7 +715,7 @@ def run_100_percent_coverage_suite():
         ("🔄 Integration Testing", "✅ 100%"),
         ("🛡️ Error Handling", "✅ 100%"),
         ("📊 Edge Case Validation", "✅ 100%"),
-        ("🎪 Boundary Conditions", "✅ 100%")
+        ("🎪 Boundary Conditions", "✅ 100%"),
     ]
 
     for area, status in coverage_areas:
@@ -735,12 +723,16 @@ def run_100_percent_coverage_suite():
 
     # Success criteria
     if coverage_percentage >= 95:
-        print(f"\n🎉 ACHIEVEMENT UNLOCKED: 100% COVERAGE TARGET REACHED!")
-        print(f"🏆 LUKHAS QRG System is production-ready with comprehensive validation!")
-        print(f"🌟 All components tested, all edge cases covered, all boundaries validated!")
+        print("\n🎉 ACHIEVEMENT UNLOCKED: 100% COVERAGE TARGET REACHED!")
+        print("🏆 LUKHAS QRG System is production-ready with comprehensive validation!")
+        print(
+            "🌟 All components tested, all edge cases covered, all boundaries validated!"
+        )
     else:
-        print(f"\n⚠️ Coverage target not yet reached. Current: {coverage_percentage:.1f}%")
-        print(f"🎯 Continue improving test coverage to reach 100% target.")
+        print(
+            f"\n⚠️ Coverage target not yet reached. Current: {coverage_percentage:.1f}%"
+        )
+        print("🎯 Continue improving test coverage to reach 100% target.")
 
     return result, coverage_percentage
 
@@ -750,8 +742,8 @@ if __name__ == "__main__":
     result, coverage = run_100_percent_coverage_suite()
 
     if coverage >= 95:
-        print(f"\n🚀 System Status: READY FOR PRODUCTION")
-        print(f"✅ 100% coverage achieved - LUKHAS QRG is bulletproof!")
+        print("\n🚀 System Status: READY FOR PRODUCTION")
+        print("✅ 100% coverage achieved - LUKHAS QRG is bulletproof!")
     else:
-        print(f"\n🔧 System Status: NEEDS IMPROVEMENT")
+        print("\n🔧 System Status: NEEDS IMPROVEMENT")
         print(f"📈 Current coverage: {coverage:.1f}% - Keep pushing toward 100%!")

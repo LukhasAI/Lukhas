@@ -6,35 +6,32 @@ self-healing procedures based on tier-specific strategies.
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, List, Optional, Set, Callable
+import logging
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import psutil
+from typing import Any, Callable, Optional
+
 import numpy as np
-from collections import deque, defaultdict
+import psutil
 
 # Import self-healing components
-from core.self_healing import SelfHealingSystem, HealingStrategy, HealthStatus
-from core.event_bus import get_global_event_bus
+from core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
 
 # Import identity components
 from identity.core.events import (
-    IdentityEventPublisher, IdentityEventType,
-    IdentityEventPriority, get_identity_event_publisher
-)
-from identity.core.colonies import (
-    BiometricVerificationColony,
-    ConsciousnessVerificationColony,
-    DreamVerificationColony
+    IdentityEventPriority,
+    IdentityEventPublisher,
+    get_identity_event_publisher,
 )
 
-logger = logging.getLogger('LUKHAS_IDENTITY_HEALTH')
+logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 
 
 class ComponentType(Enum):
     """Types of identity system components."""
+
     COLONY = "colony"
     SWARM_HUB = "swarm_hub"
     EVENT_SYSTEM = "event_system"
@@ -47,6 +44,7 @@ class ComponentType(Enum):
 
 class HealthMetric(Enum):
     """Health metrics to monitor."""
+
     RESPONSE_TIME = "response_time"
     ERROR_RATE = "error_rate"
     SUCCESS_RATE = "success_rate"
@@ -60,23 +58,21 @@ class HealthMetric(Enum):
 @dataclass
 class ComponentHealth:
     """Health status of a system component."""
+
     component_id: str
     component_type: ComponentType
     status: HealthStatus
     health_score: float  # 0.0 to 1.0
     last_check: datetime
-    metrics: Dict[HealthMetric, float]
+    metrics: dict[HealthMetric, float]
     error_history: deque = field(default_factory=lambda: deque(maxlen=100))
     healing_attempts: int = 0
     last_healing: Optional[datetime] = None
-    tier_specific_data: Dict[int, Dict[str, Any]] = field(default_factory=dict)
+    tier_specific_data: dict[int, dict[str, Any]] = field(default_factory=dict)
 
     def add_error(self, error: str):
         """Add error to history."""
-        self.error_history.append({
-            "timestamp": datetime.utcnow(),
-            "error": error
-        })
+        self.error_history.append({"timestamp": datetime.utcnow(), "error": error})
 
     def calculate_health_score(self) -> float:
         """Calculate overall health score from metrics."""
@@ -85,7 +81,7 @@ class ComponentHealth:
             HealthMetric.SUCCESS_RATE: 0.3,
             HealthMetric.RESPONSE_TIME: -0.2,
             HealthMetric.RESOURCE_USAGE: -0.1,
-            HealthMetric.CONSENSUS_STRENGTH: 0.1
+            HealthMetric.CONSENSUS_STRENGTH: 0.1,
         }
 
         score = 0.5  # Base score
@@ -101,9 +97,10 @@ class ComponentHealth:
                     normalized = value  # Already 0-1
                 elif metric == HealthMetric.RESPONSE_TIME:
                     normalized = min(1.0, value / 1000)  # Convert ms, cap at 1s
-                elif metric == HealthMetric.RESOURCE_USAGE:
-                    normalized = value  # Already 0-1
-                elif metric == HealthMetric.CONSENSUS_STRENGTH:
+                elif (
+                    metric == HealthMetric.RESOURCE_USAGE
+                    or metric == HealthMetric.CONSENSUS_STRENGTH
+                ):
                     normalized = value  # Already 0-1
                 else:
                     normalized = 0.5  # Default
@@ -112,7 +109,8 @@ class ComponentHealth:
 
         # Consider error history
         recent_errors = sum(
-            1 for error in self.error_history
+            1
+            for error in self.error_history
             if error["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
         )
         if recent_errors > 10:
@@ -126,27 +124,30 @@ class ComponentHealth:
 @dataclass
 class HealingPlan:
     """Plan for healing a component."""
+
     plan_id: str
     component_id: str
     component_type: ComponentType
     strategy: HealingStrategy
     tier_level: int
-    steps: List[Dict[str, Any]]
+    steps: list[dict[str, Any]]
     priority: IdentityEventPriority
     deadline: datetime
-    dependencies: List[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
 
-    def add_step(self, action: str, params: Dict[str, Any], order: int):
+    def add_step(self, action: str, params: dict[str, Any], order: int):
         """Add a healing step."""
-        self.steps.append({
-            "order": order,
-            "action": action,
-            "params": params,
-            "status": "pending",
-            "started_at": None,
-            "completed_at": None,
-            "result": None
-        })
+        self.steps.append(
+            {
+                "order": order,
+                "action": action,
+                "params": params,
+                "status": "pending",
+                "started_at": None,
+                "completed_at": None,
+                "result": None,
+            }
+        )
         self.steps.sort(key=lambda x: x["order"])
 
 
@@ -160,12 +161,12 @@ class IdentityHealthMonitor:
         self.self_healing_system = SelfHealingSystem()
 
         # Component health tracking
-        self.component_health: Dict[str, ComponentHealth] = {}
-        self.health_history: List[Dict[str, Any]] = []
+        self.component_health: dict[str, ComponentHealth] = {}
+        self.health_history: list[dict[str, Any]] = []
 
         # Active healing plans
-        self.active_healing_plans: Dict[str, HealingPlan] = {}
-        self.healing_history: List[HealingPlan] = []
+        self.active_healing_plans: dict[str, HealingPlan] = {}
+        self.healing_history: list[HealingPlan] = []
 
         # Health thresholds by tier
         self.tier_thresholds = {
@@ -174,24 +175,24 @@ class IdentityHealthMonitor:
             2: {"critical": 0.4, "warning": 0.6, "healthy": 0.8},
             3: {"critical": 0.45, "warning": 0.65, "healthy": 0.85},
             4: {"critical": 0.5, "warning": 0.7, "healthy": 0.9},
-            5: {"critical": 0.55, "warning": 0.75, "healthy": 0.95}
+            5: {"critical": 0.55, "warning": 0.75, "healthy": 0.95},
         }
 
         # Healing strategies by component type
-        self.healing_strategies: Dict[ComponentType, List[Callable]] = {
+        self.healing_strategies: dict[ComponentType, list[Callable]] = {
             ComponentType.COLONY: [
                 self._heal_colony_restart,
                 self._heal_colony_agent_replacement,
-                self._heal_colony_consensus_adjustment
+                self._heal_colony_consensus_adjustment,
             ],
             ComponentType.SWARM_HUB: [
                 self._heal_swarm_task_redistribution,
-                self._heal_swarm_resource_reallocation
+                self._heal_swarm_resource_reallocation,
             ],
             ComponentType.AUTH_SERVICE: [
                 self._heal_auth_cache_clear,
-                self._heal_auth_session_cleanup
-            ]
+                self._heal_auth_session_cleanup,
+            ],
         }
 
         # System metrics
@@ -199,7 +200,7 @@ class IdentityHealthMonitor:
             "cpu_usage": 0.0,
             "memory_usage": 0.0,
             "disk_usage": 0.0,
-            "network_latency": 0.0
+            "network_latency": 0.0,
         }
 
         # Event publisher
@@ -228,7 +229,7 @@ class IdentityHealthMonitor:
         component_id: str,
         component_type: ComponentType,
         health_check_callback: Optional[Callable] = None,
-        tier_level: int = 0
+        tier_level: int = 0,
     ):
         """Register a component for health monitoring."""
 
@@ -239,7 +240,7 @@ class IdentityHealthMonitor:
                 status=HealthStatus.HEALTHY,
                 health_score=1.0,
                 last_check=datetime.utcnow(),
-                metrics={}
+                metrics={},
             )
 
         # Store health check callback if provided
@@ -249,16 +250,15 @@ class IdentityHealthMonitor:
         # Initialize tier-specific data
         self.component_health[component_id].tier_specific_data[tier_level] = {
             "registered_at": datetime.utcnow(),
-            "performance_baseline": {}
+            "performance_baseline": {},
         }
 
-        logger.info(f"Registered component {component_id} of type {component_type.value}")
+        logger.info(
+            f"Registered component {component_id} of type {component_type.value}"
+        )
 
     async def report_component_metrics(
-        self,
-        component_id: str,
-        metrics: Dict[HealthMetric, float],
-        tier_level: int = 0
+        self, component_id: str, metrics: dict[HealthMetric, float], tier_level: int = 0
     ):
         """Report metrics for a component."""
 
@@ -296,13 +296,15 @@ class IdentityHealthMonitor:
             await self._trigger_component_healing(component_id, tier_level)
 
         # Record in history
-        self.health_history.append({
-            "timestamp": datetime.utcnow(),
-            "component_id": component_id,
-            "health_score": component.health_score,
-            "status": component.status.value,
-            "tier_level": tier_level
-        })
+        self.health_history.append(
+            {
+                "timestamp": datetime.utcnow(),
+                "component_id": component_id,
+                "health_score": component.health_score,
+                "status": component.status.value,
+                "tier_level": tier_level,
+            }
+        )
 
         # Publish health update event if significant change
         if abs(old_score - component.health_score) > 0.1:
@@ -310,7 +312,7 @@ class IdentityHealthMonitor:
                 lambda_id="system",
                 tier_level=tier_level,
                 healing_reason=f"health_score_change_{component_id}",
-                healing_strategy=component.status.value
+                healing_strategy=component.status.value,
             )
 
     async def report_component_error(
@@ -318,7 +320,7 @@ class IdentityHealthMonitor:
         component_id: str,
         error: str,
         severity: str = "error",
-        tier_level: int = 0
+        tier_level: int = 0,
     ):
         """Report an error for a component."""
 
@@ -330,21 +332,30 @@ class IdentityHealthMonitor:
         component.add_error(f"{severity}: {error}")
 
         # Update error rate metric
-        error_count = len([e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(minutes=5)])
-        component.metrics[HealthMetric.ERROR_RATE] = error_count / 300  # Errors per second over 5 minutes
+        error_count = len(
+            [
+                e
+                for e in component.error_history
+                if e["timestamp"] > datetime.utcnow() - timedelta(minutes=5)
+            ]
+        )
+        # Errors per second over 5 minutes
+        component.metrics[HealthMetric.ERROR_RATE] = error_count / 300
 
         # Recalculate health
         component.health_score = component.calculate_health_score()
 
         # Immediate healing for critical errors
         if severity == "critical" or error_count > 20:
-            await self._trigger_component_healing(component_id, tier_level, priority=IdentityEventPriority.CRITICAL)
+            await self._trigger_component_healing(
+                component_id, tier_level, priority=IdentityEventPriority.CRITICAL
+            )
 
     async def _trigger_component_healing(
         self,
         component_id: str,
         tier_level: int,
-        priority: IdentityEventPriority = IdentityEventPriority.HIGH
+        priority: IdentityEventPriority = IdentityEventPriority.HIGH,
     ):
         """Trigger healing for a component."""
 
@@ -358,7 +369,10 @@ class IdentityHealthMonitor:
             return
 
         # Check healing cooldown
-        if component.last_healing and datetime.utcnow() - component.last_healing < timedelta(minutes=5):
+        if (
+            component.last_healing
+            and datetime.utcnow() - component.last_healing < timedelta(minutes=5)
+        ):
             logger.info(f"Component {component_id} in healing cooldown")
             return
 
@@ -371,15 +385,19 @@ class IdentityHealthMonitor:
             tier_level=tier_level,
             steps=[],
             priority=priority,
-            deadline=datetime.utcnow() + timedelta(minutes=30)
+            deadline=datetime.utcnow() + timedelta(minutes=30),
         )
 
         # Add healing steps based on component type
         if component.component_type in self.healing_strategies:
-            for i, strategy_func in enumerate(self.healing_strategies[component.component_type]):
+            for i, strategy_func in enumerate(
+                self.healing_strategies[component.component_type]
+            ):
                 steps = await strategy_func(component, tier_level)
                 for step in steps:
-                    plan.add_step(step["action"], step["params"], i * 10 + step.get("order", 0))
+                    plan.add_step(
+                        step["action"], step["params"], i * 10 + step.get("order", 0)
+                    )
 
         # Add to active plans
         self.active_healing_plans[plan.plan_id] = plan
@@ -390,17 +408,15 @@ class IdentityHealthMonitor:
         await self.event_publisher.publish_healing_event(
             lambda_id="system",
             tier_level=tier_level,
-            healing_reason=f"component_health_critical",
+            healing_reason="component_health_critical",
             correlation_id=plan.plan_id,
-            healing_strategy=plan.strategy.value
+            healing_strategy=plan.strategy.value,
         )
 
         logger.info(f"Created healing plan {plan.plan_id} for {component_id}")
 
     def _determine_healing_strategy(
-        self,
-        component: ComponentHealth,
-        tier_level: int
+        self, component: ComponentHealth, tier_level: int
     ) -> HealingStrategy:
         """Determine appropriate healing strategy."""
 
@@ -424,67 +440,66 @@ class IdentityHealthMonitor:
     # Healing strategy implementations
 
     async def _heal_colony_restart(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Restart colony healing strategy."""
         return [
             {
                 "action": "stop_colony",
                 "params": {"colony_id": component.component_id},
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "clear_colony_state",
                 "params": {"colony_id": component.component_id},
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "start_colony",
-                "params": {"colony_id": component.component_id, "tier_level": tier_level},
-                "order": 3
-            }
+                "params": {
+                    "colony_id": component.component_id,
+                    "tier_level": tier_level,
+                },
+                "order": 3,
+            },
         ]
 
     async def _heal_colony_agent_replacement(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Replace unhealthy agents in colony."""
         return [
             {
                 "action": "identify_unhealthy_agents",
                 "params": {"colony_id": component.component_id},
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "spawn_replacement_agents",
                 "params": {"colony_id": component.component_id, "count": 5},
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "migrate_agent_state",
                 "params": {"colony_id": component.component_id},
-                "order": 3
+                "order": 3,
             },
             {
                 "action": "terminate_unhealthy_agents",
                 "params": {"colony_id": component.component_id},
-                "order": 4
-            }
+                "order": 4,
+            },
         ]
 
     async def _heal_colony_consensus_adjustment(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Adjust consensus parameters for better performance."""
 
         # Lower consensus requirements temporarily
-        new_threshold = max(0.51, component.metrics.get(HealthMetric.CONSENSUS_STRENGTH, 0.67) - 0.1)
+        new_threshold = max(
+            0.51, component.metrics.get(HealthMetric.CONSENSUS_STRENGTH, 0.67) - 0.1
+        )
 
         return [
             {
@@ -492,123 +507,112 @@ class IdentityHealthMonitor:
                 "params": {
                     "colony_id": component.component_id,
                     "new_threshold": new_threshold,
-                    "duration_minutes": 30
+                    "duration_minutes": 30,
                 },
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "increase_voting_timeout",
-                "params": {
-                    "colony_id": component.component_id,
-                    "multiplier": 1.5
-                },
-                "order": 2
-            }
+                "params": {"colony_id": component.component_id, "multiplier": 1.5},
+                "order": 2,
+            },
         ]
 
     async def _heal_swarm_task_redistribution(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Redistribute tasks in swarm hub."""
         return [
             {
                 "action": "pause_task_acceptance",
                 "params": {"hub_id": component.component_id},
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "redistribute_pending_tasks",
                 "params": {
                     "hub_id": component.component_id,
-                    "strategy": "load_balanced"
+                    "strategy": "load_balanced",
                 },
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "resume_task_acceptance",
                 "params": {"hub_id": component.component_id},
-                "order": 3
-            }
+                "order": 3,
+            },
         ]
 
     async def _heal_swarm_resource_reallocation(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Reallocate resources in swarm hub."""
         return [
             {
                 "action": "analyze_resource_usage",
                 "params": {"hub_id": component.component_id},
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "scale_agent_pool",
                 "params": {
                     "hub_id": component.component_id,
-                    "scale_factor": 1.2 if tier_level >= 3 else 1.1
+                    "scale_factor": 1.2 if tier_level >= 3 else 1.1,
                 },
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "optimize_task_scheduling",
                 "params": {"hub_id": component.component_id},
-                "order": 3
-            }
+                "order": 3,
+            },
         ]
 
     async def _heal_auth_cache_clear(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Clear authentication caches."""
         return [
             {
                 "action": "clear_session_cache",
                 "params": {"service_id": component.component_id},
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "clear_permission_cache",
                 "params": {"service_id": component.component_id},
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "rebuild_cache_indices",
                 "params": {"service_id": component.component_id},
-                "order": 3
-            }
+                "order": 3,
+            },
         ]
 
     async def _heal_auth_session_cleanup(
-        self,
-        component: ComponentHealth,
-        tier_level: int
-    ) -> List[Dict[str, Any]]:
+        self, component: ComponentHealth, tier_level: int
+    ) -> list[dict[str, Any]]:
         """Clean up stale auth sessions."""
         return [
             {
                 "action": "identify_stale_sessions",
                 "params": {
                     "service_id": component.component_id,
-                    "max_age_hours": 24 if tier_level <= 2 else 48
+                    "max_age_hours": 24 if tier_level <= 2 else 48,
                 },
-                "order": 1
+                "order": 1,
             },
             {
                 "action": "terminate_stale_sessions",
                 "params": {"service_id": component.component_id},
-                "order": 2
+                "order": 2,
             },
             {
                 "action": "compact_session_storage",
                 "params": {"service_id": component.component_id},
-                "order": 3
-            }
+                "order": 3,
+            },
         ]
 
     async def _execute_healing_plans(self):
@@ -645,7 +649,7 @@ class IdentityHealthMonitor:
                         result = await self._execute_healing_action(
                             next_step["action"],
                             next_step["params"],
-                            plan.component_type
+                            plan.component_type,
                         )
 
                         next_step["status"] = "completed"
@@ -678,10 +682,7 @@ class IdentityHealthMonitor:
                 await asyncio.sleep(5)
 
     async def _execute_healing_action(
-        self,
-        action: str,
-        params: Dict[str, Any],
-        component_type: ComponentType
+        self, action: str, params: dict[str, Any], component_type: ComponentType
     ) -> Any:
         """Execute a specific healing action."""
 
@@ -699,8 +700,10 @@ class IdentityHealthMonitor:
             try:
                 # Get system metrics
                 self.system_metrics["cpu_usage"] = psutil.cpu_percent() / 100
-                self.system_metrics["memory_usage"] = psutil.virtual_memory().percent / 100
-                self.system_metrics["disk_usage"] = psutil.disk_usage('/').percent / 100
+                self.system_metrics["memory_usage"] = (
+                    psutil.virtual_memory().percent / 100
+                )
+                self.system_metrics["disk_usage"] = psutil.disk_usage("/").percent / 100
 
                 # Calculate network latency (simulated)
                 self.system_metrics["network_latency"] = np.random.normal(50, 10)  # ms
@@ -730,13 +733,11 @@ class IdentityHealthMonitor:
                                 await self.report_component_metrics(
                                     component_id,
                                     health_data.get("metrics", {}),
-                                    health_data.get("tier_level", 0)
+                                    health_data.get("tier_level", 0),
                                 )
                         except Exception as e:
                             await self.report_component_error(
-                                component_id,
-                                f"Health check failed: {e}",
-                                "error"
+                                component_id, f"Health check failed: {e}", "error"
                             )
 
                     # Check for stale components
@@ -756,7 +757,8 @@ class IdentityHealthMonitor:
             try:
                 # Analyze recent health history
                 recent_history = [
-                    h for h in self.health_history
+                    h
+                    for h in self.health_history
                     if h["timestamp"] > datetime.utcnow() - timedelta(hours=1)
                 ]
 
@@ -764,7 +766,9 @@ class IdentityHealthMonitor:
                     # Group by component
                     component_trends = defaultdict(list)
                     for entry in recent_history:
-                        component_trends[entry["component_id"]].append(entry["health_score"])
+                        component_trends[entry["component_id"]].append(
+                            entry["health_score"]
+                        )
 
                     # Detect declining trends
                     for component_id, scores in component_trends.items():
@@ -774,18 +778,20 @@ class IdentityHealthMonitor:
 
                             # Negative trend indicates declining health
                             if trend < -0.01:  # 1% decline per measurement
-                                logger.warning(f"Declining health trend for {component_id}: {trend}")
+                                logger.warning(
+                                    f"Declining health trend for {component_id}: {trend}"
+                                )
 
                                 # Preemptive healing for critical components
                                 component = self.component_health.get(component_id)
                                 if component and component.component_type in [
                                     ComponentType.COLONY,
-                                    ComponentType.AUTH_SERVICE
+                                    ComponentType.AUTH_SERVICE,
                                 ]:
                                     await self._trigger_component_healing(
                                         component_id,
                                         0,  # Default tier
-                                        IdentityEventPriority.NORMAL
+                                        IdentityEventPriority.NORMAL,
                                     )
 
                 await asyncio.sleep(300)  # Analyze every 5 minutes
@@ -800,7 +806,7 @@ class IdentityHealthMonitor:
             lambda_id="system",
             tier_level=0,
             healing_reason=f"system_{reason}",
-            healing_strategy="SYSTEM_OPTIMIZATION"
+            healing_strategy="SYSTEM_OPTIMIZATION",
         )
 
     async def _evaluate_component_health(self, component_id: str):
@@ -815,7 +821,7 @@ class IdentityHealthMonitor:
                 health_data = await component.health_check()
                 if health_data:
                     component.metrics.update(health_data.get("metrics", {}))
-            except:
+            except BaseException:
                 pass
 
         # Recalculate health score
@@ -826,12 +832,14 @@ class IdentityHealthMonitor:
             component.status = HealthStatus.HEALTHY
             logger.info(f"Component {component_id} recovered to healthy state")
 
-    def get_system_health_report(self) -> Dict[str, Any]:
+    def get_system_health_report(self) -> dict[str, Any]:
         """Get comprehensive system health report."""
 
         # Calculate overall system health
         component_scores = [c.health_score for c in self.component_health.values()]
-        overall_health = sum(component_scores) / len(component_scores) if component_scores else 0
+        overall_health = (
+            sum(component_scores) / len(component_scores) if component_scores else 0
+        )
 
         # Count components by status
         status_counts = defaultdict(int)
@@ -844,7 +852,12 @@ class IdentityHealthMonitor:
                 "plan_id": plan.plan_id,
                 "component": plan.component_id,
                 "strategy": plan.strategy.value,
-                "progress": sum(1 for s in plan.steps if s["status"] == "completed") / len(plan.steps) if plan.steps else 0
+                "progress": (
+                    sum(1 for s in plan.steps if s["status"] == "completed")
+                    / len(plan.steps)
+                    if plan.steps
+                    else 0
+                ),
             }
             for plan in self.active_healing_plans.values()
         ]
@@ -856,11 +869,17 @@ class IdentityHealthMonitor:
             "status_distribution": dict(status_counts),
             "active_healing_plans": len(self.active_healing_plans),
             "healing_details": active_healing,
-            "total_healing_attempts": sum(c.healing_attempts for c in self.component_health.values()),
-            "recent_errors": sum(len(c.error_history) for c in self.component_health.values())
+            "total_healing_attempts": sum(
+                c.healing_attempts for c in self.component_health.values()
+            ),
+            "recent_errors": sum(
+                len(c.error_history) for c in self.component_health.values()
+            ),
         }
 
-    def get_component_health_details(self, component_id: str) -> Optional[Dict[str, Any]]:
+    def get_component_health_details(
+        self, component_id: str
+    ) -> Optional[dict[str, Any]]:
         """Get detailed health information for a component."""
         component = self.component_health.get(component_id)
         if not component:
@@ -873,8 +892,16 @@ class IdentityHealthMonitor:
             "health_score": component.health_score,
             "last_check": component.last_check.isoformat(),
             "metrics": {k.value: v for k, v in component.metrics.items()},
-            "recent_errors": len([e for e in component.error_history if e["timestamp"] > datetime.utcnow() - timedelta(hours=1)]),
+            "recent_errors": len(
+                [
+                    e
+                    for e in component.error_history
+                    if e["timestamp"] > datetime.utcnow() - timedelta(hours=1)
+                ]
+            ),
             "healing_attempts": component.healing_attempts,
-            "last_healing": component.last_healing.isoformat() if component.last_healing else None,
-            "tier_data": component.tier_specific_data
+            "last_healing": (
+                component.last_healing.isoformat() if component.last_healing else None
+            ),
+            "tier_data": component.tier_specific_data,
         }

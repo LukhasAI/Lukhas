@@ -6,46 +6,47 @@ manages resource allocation, and coordinates cross-tier identity migration.
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, List, Optional, Set, Tuple
-from dataclasses import dataclass, field
+import logging
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-import json
+from typing import Any, Optional
+
+from core.enhanced_swarm import EnhancedSwarmHub
 
 # Import swarm infrastructure
-from core.swarm import SwarmHub, SwarmTask, TaskPriority, SwarmAgent
-from core.enhanced_swarm import EnhancedSwarmHub, ResourceRequirement
-from core.utils.metrics_aggregator import MetricsAggregator
-
-# Import identity components
-from identity.core.events import (
-    IdentityEventPublisher, IdentityEventType,
-    IdentityEventPriority, get_identity_event_publisher
-)
-from identity.core.tier import TierLevel
+from core.swarm import SwarmTask, TaskPriority
 from identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
-    DreamVerificationColony
+    DreamVerificationColony,
 )
 
-logger = logging.getLogger('LUKHAS_TIER_SWARM_HUB')
+# Import identity components
+from identity.core.events import (
+    IdentityEventPublisher,
+    IdentityEventType,
+    get_identity_event_publisher,
+)
+
+logger = logging.getLogger("LUKHAS_TIER_SWARM_HUB")
 
 
 class VerificationDepth(Enum):
     """Verification depth levels based on tier."""
-    MINIMAL = 1      # Tier 0: Basic checks
-    STANDARD = 2     # Tier 1: Standard verification
-    ENHANCED = 3     # Tier 2: Enhanced with multi-factor
-    DEEP = 4         # Tier 3: Deep verification with behavior
-    QUANTUM = 5      # Tier 4: Quantum-enhanced verification
-    TRANSCENDENT = 6 # Tier 5: Full consciousness verification
+
+    MINIMAL = 1  # Tier 0: Basic checks
+    STANDARD = 2  # Tier 1: Standard verification
+    ENHANCED = 3  # Tier 2: Enhanced with multi-factor
+    DEEP = 4  # Tier 3: Deep verification with behavior
+    QUANTUM = 5  # Tier 4: Quantum-enhanced verification
+    TRANSCENDENT = 6  # Tier 5: Full consciousness verification
 
 
 @dataclass
 class TierResourceAllocation:
     """Resource allocation profile for each tier."""
+
     tier_level: int
     max_agents: int
     priority_boost: float
@@ -61,28 +62,30 @@ class TierResourceAllocation:
 @dataclass
 class IdentitySwarmTask(SwarmTask):
     """Extended swarm task for identity verification."""
+
     lambda_id: str
     tier_level: int
     verification_type: str
-    required_colonies: List[str]
+    required_colonies: list[str]
     verification_depth: VerificationDepth
     session_id: Optional[str] = None
-    auth_context: Optional[Dict[str, Any]] = None
-    biometric_data: Optional[Dict[str, Any]] = None
-    consciousness_data: Optional[Dict[str, Any]] = None
-    dream_data: Optional[Dict[str, Any]] = None
+    auth_context: Optional[dict[str, Any]] = None
+    biometric_data: Optional[dict[str, Any]] = None
+    consciousness_data: Optional[dict[str, Any]] = None
+    dream_data: Optional[dict[str, Any]] = None
     tier_migration_target: Optional[int] = None
 
 
 @dataclass
 class ColonyOrchestration:
     """Orchestration plan for colony coordination."""
+
     task_id: str
-    colonies: List[str]
-    execution_order: List[str]
-    parallel_groups: List[List[str]]
-    consensus_requirements: Dict[str, float]
-    timeout_config: Dict[str, float]
+    colonies: list[str]
+    execution_order: list[str]
+    parallel_groups: list[list[str]]
+    consensus_requirements: dict[str, float]
+    timeout_config: dict[str, float]
     resource_allocation: TierResourceAllocation
 
 
@@ -96,18 +99,22 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         super().__init__(hub_id=hub_id)
 
         # Colony registry
-        self.colonies: Dict[str, Any] = {}
-        self.colony_health: Dict[str, Dict[str, Any]] = {}
+        self.colonies: dict[str, Any] = {}
+        self.colony_health: dict[str, dict[str, Any]] = {}
 
         # Tier resource profiles
-        self.tier_profiles: Dict[int, TierResourceAllocation] = self._initialize_tier_profiles()
+        self.tier_profiles: dict[int, TierResourceAllocation] = (
+            self._initialize_tier_profiles()
+        )
 
         # Active orchestrations
-        self.active_orchestrations: Dict[str, ColonyOrchestration] = {}
-        self.tier_task_queues: Dict[int, List[IdentitySwarmTask]] = {i: [] for i in range(6)}
+        self.active_orchestrations: dict[str, ColonyOrchestration] = {}
+        self.tier_task_queues: dict[int, list[IdentitySwarmTask]] = {
+            i: [] for i in range(6)
+        }
 
         # Performance tracking
-        self.tier_metrics: Dict[int, Dict[str, Any]] = {
+        self.tier_metrics: dict[int, dict[str, Any]] = {
             i: {"total_tasks": 0, "successful": 0, "failed": 0, "avg_duration": 0.0}
             for i in range(6)
         }
@@ -116,12 +123,12 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         self.event_publisher: Optional[IdentityEventPublisher] = None
 
         # Cross-tier migration tracking
-        self.migration_requests: Dict[str, Dict[str, Any]] = {}
-        self.migration_history: List[Dict[str, Any]] = []
+        self.migration_requests: dict[str, dict[str, Any]] = {}
+        self.migration_history: list[dict[str, Any]] = []
 
         logger.info(f"Tier-Aware Swarm Hub {hub_id} initialized")
 
-    def _initialize_tier_profiles(self) -> Dict[int, TierResourceAllocation]:
+    def _initialize_tier_profiles(self) -> dict[int, TierResourceAllocation]:
         """Initialize resource allocation profiles for each tier."""
         return {
             0: TierResourceAllocation(  # Guest
@@ -131,7 +138,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 timeout_seconds=30.0,
                 parallel_colonies=1,
                 verification_depth=VerificationDepth.MINIMAL,
-                healing_enabled=False
+                healing_enabled=False,
             ),
             1: TierResourceAllocation(  # Basic
                 tier_level=1,
@@ -140,7 +147,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 timeout_seconds=45.0,
                 parallel_colonies=2,
                 verification_depth=VerificationDepth.STANDARD,
-                healing_enabled=True
+                healing_enabled=True,
             ),
             2: TierResourceAllocation(  # Standard
                 tier_level=2,
@@ -149,7 +156,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 timeout_seconds=60.0,
                 parallel_colonies=3,
                 verification_depth=VerificationDepth.ENHANCED,
-                healing_enabled=True
+                healing_enabled=True,
             ),
             3: TierResourceAllocation(  # Professional
                 tier_level=3,
@@ -159,7 +166,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 parallel_colonies=5,
                 verification_depth=VerificationDepth.DEEP,
                 healing_enabled=True,
-                consciousness_resources=True
+                consciousness_resources=True,
             ),
             4: TierResourceAllocation(  # Premium
                 tier_level=4,
@@ -170,7 +177,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 verification_depth=VerificationDepth.QUANTUM,
                 healing_enabled=True,
                 quantum_resources=True,
-                consciousness_resources=True
+                consciousness_resources=True,
             ),
             5: TierResourceAllocation(  # Transcendent
                 tier_level=5,
@@ -182,8 +189,8 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 healing_enabled=True,
                 quantum_resources=True,
                 consciousness_resources=True,
-                dream_resources=True
-            )
+                dream_resources=True,
+            ),
         }
 
     async def initialize(self):
@@ -228,7 +235,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 "status": "healthy",
                 "last_check": datetime.utcnow(),
                 "success_rate": 1.0,
-                "active_tasks": 0
+                "active_tasks": 0,
             }
 
         logger.info(f"Initialized {len(self.colonies)} verification colonies")
@@ -239,8 +246,8 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         tier_level: int,
         verification_type: str,
         session_id: Optional[str] = None,
-        auth_data: Optional[Dict[str, Any]] = None,
-        priority_override: Optional[TaskPriority] = None
+        auth_data: Optional[dict[str, Any]] = None,
+        priority_override: Optional[TaskPriority] = None,
     ) -> str:
         """
         Submit an identity verification task with tier-aware orchestration.
@@ -274,7 +281,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             required_colonies=required_colonies,
             verification_depth=tier_profile.verification_depth,
             session_id=session_id,
-            auth_context=auth_data
+            auth_context=auth_data,
         )
 
         # Add biometric/consciousness/dream data if provided
@@ -300,8 +307,8 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             consensus_data={
                 "verification_type": verification_type,
                 "required_colonies": required_colonies,
-                "verification_depth": tier_profile.verification_depth.name
-            }
+                "verification_depth": tier_profile.verification_depth.name,
+            },
         )
 
         # Update metrics
@@ -315,7 +322,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         current_tier: int,
         target_tier: int,
         migration_reason: str,
-        verification_data: Dict[str, Any]
+        verification_data: dict[str, Any],
     ) -> str:
         """
         Submit a cross-tier identity migration request.
@@ -335,7 +342,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             "requested_at": datetime.utcnow(),
             "verification_data": verification_data,
             "status": "pending",
-            "verification_tasks": []
+            "verification_tasks": [],
         }
 
         self.migration_requests[migration_id] = migration_request
@@ -345,7 +352,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
         # Each tier upgrade requires additional verification
         for tier in range(current_tier + 1, target_tier + 1):
-            tier_profile = self.tier_profiles[tier]
+            self.tier_profiles[tier]
 
             # Create verification task for this tier level
             task_id = await self.submit_identity_verification_task(
@@ -357,18 +364,16 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     "migration_context": {
                         "from_tier": current_tier,
                         "to_tier": target_tier,
-                        "current_step": tier
+                        "current_step": tier,
                     },
-                    **verification_data
+                    **verification_data,
                 },
-                priority_override=TaskPriority.HIGH
+                priority_override=TaskPriority.HIGH,
             )
 
-            verification_tasks.append({
-                "tier": tier,
-                "task_id": task_id,
-                "status": "pending"
-            })
+            verification_tasks.append(
+                {"tier": tier, "task_id": task_id, "status": "pending"}
+            )
 
         migration_request["verification_tasks"] = verification_tasks
 
@@ -381,17 +386,15 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             consensus_data={
                 "target_tier": target_tier,
                 "migration_id": migration_id,
-                "verification_steps": len(verification_tasks)
-            }
+                "verification_steps": len(verification_tasks),
+            },
         )
 
         return migration_id
 
     def _determine_required_colonies(
-        self,
-        tier_level: int,
-        verification_type: str
-    ) -> List[str]:
+        self, tier_level: int, verification_type: str
+    ) -> list[str]:
         """Determine which colonies are required based on tier and type."""
         required = []
 
@@ -415,9 +418,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         return required
 
     def _calculate_tier_priority(
-        self,
-        base_priority: TaskPriority,
-        priority_boost: float
+        self, base_priority: TaskPriority, priority_boost: float
     ) -> TaskPriority:
         """Calculate adjusted priority based on tier boost."""
         priority_values = {
@@ -425,7 +426,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             TaskPriority.NORMAL: 2,
             TaskPriority.HIGH: 3,
             TaskPriority.CRITICAL: 4,
-            TaskPriority.EMERGENCY: 5
+            TaskPriority.EMERGENCY: 5,
         }
 
         base_value = priority_values[base_priority]
@@ -439,9 +440,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         return base_priority
 
     def _create_orchestration_plan(
-        self,
-        task: IdentitySwarmTask,
-        tier_profile: TierResourceAllocation
+        self, task: IdentitySwarmTask, tier_profile: TierResourceAllocation
     ) -> ColonyOrchestration:
         """Create orchestration plan for task execution."""
 
@@ -451,7 +450,10 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             execution_order = task.required_colonies
             parallel_groups = [[colony] for colony in task.required_colonies]
 
-        elif tier_profile.verification_depth in [VerificationDepth.STANDARD, VerificationDepth.ENHANCED]:
+        elif tier_profile.verification_depth in [
+            VerificationDepth.STANDARD,
+            VerificationDepth.ENHANCED,
+        ]:
             # Parallel biometric, then others
             execution_order = task.required_colonies
             parallel_groups = [["biometric"]]
@@ -471,7 +473,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             elif task.tier_level <= 4:
                 consensus_requirements[colony] = 0.67  # Two-thirds
             else:
-                consensus_requirements[colony] = 0.8   # 80% for Tier 5
+                consensus_requirements[colony] = 0.8  # 80% for Tier 5
 
         # Set timeouts
         timeout_config = {
@@ -486,7 +488,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             parallel_groups=parallel_groups,
             consensus_requirements=consensus_requirements,
             timeout_config=timeout_config,
-            resource_allocation=tier_profile
+            resource_allocation=tier_profile,
         )
 
     async def _tier_task_scheduler(self):
@@ -505,9 +507,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                             task = queue.pop(0)
 
                             # Execute task with orchestration
-                            asyncio.create_task(
-                                self._execute_orchestrated_task(task)
-                            )
+                            asyncio.create_task(self._execute_orchestrated_task(task))
 
                 await asyncio.sleep(0.1)  # Small delay between scheduling cycles
 
@@ -533,7 +533,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 lambda_id=task.lambda_id,
                 tier_level=task.tier_level,
                 colony_id=self.hub_id,
-                swarm_task_id=task.task_id
+                swarm_task_id=task.task_id,
             )
 
             # Execute colony groups in order
@@ -556,21 +556,21 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                             biometric_samples=task.biometric_data.get("samples", []),
                             reference_template=task.biometric_data.get("template", b""),
                             tier_level=task.tier_level,
-                            session_id=task.session_id
+                            session_id=task.session_id,
                         )
                     elif colony_name == "consciousness" and task.consciousness_data:
                         colony_task = colony.verify_consciousness_state(
                             lambda_id=task.lambda_id,
                             consciousness_data=task.consciousness_data,
                             tier_level=task.tier_level,
-                            session_id=task.session_id
+                            session_id=task.session_id,
                         )
                     elif colony_name == "dream" and task.dream_data:
                         colony_task = colony.verify_dream_authentication(
                             lambda_id=task.lambda_id,
                             dream_sequence=task.dream_data.get("sequence", []),
                             multiverse_branches=task.dream_data.get("branches", 7),
-                            session_id=task.session_id
+                            session_id=task.session_id,
                         )
                     else:
                         logger.warning(f"No data for colony {colony_name}")
@@ -582,7 +582,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 group_timeout = max(orchestration.timeout_config.values())
                 group_results = await asyncio.wait_for(
                     asyncio.gather(*group_tasks, return_exceptions=True),
-                    timeout=group_timeout
+                    timeout=group_timeout,
                 )
 
                 # Process results
@@ -605,7 +605,8 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             overall_confidence = 0.0
             if results:
                 confidences = [
-                    r.confidence_score for r in results.values()
+                    r.confidence_score
+                    for r in results.values()
                     if hasattr(r, "confidence_score")
                 ]
                 if confidences:
@@ -626,8 +627,8 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     "success": success,
                     "overall_confidence": overall_confidence,
                     "colony_results": len(results),
-                    "duration_seconds": duration
-                }
+                    "duration_seconds": duration,
+                },
             )
 
             # Handle tier migration if applicable
@@ -676,10 +677,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
         metrics["avg_duration"] = (current_avg * (total - 1) + duration) / total
 
     async def _handle_migration_result(
-        self,
-        task_id: str,
-        success: bool,
-        confidence: float
+        self, task_id: str, success: bool, confidence: float
     ):
         """Handle result of a migration verification task."""
         # Find migration request containing this task
@@ -734,14 +732,14 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 approval_required=True,
                 approver_id="tier_aware_swarm_hub",
                 benefits_delta={},
-                cooldown_period=timedelta(days=30)
+                cooldown_period=timedelta(days=30),
             )
 
             await self.event_publisher.publish_tier_change_event(
                 lambda_id=migration_request["lambda_id"],
                 tier_context=tier_context,
                 approved=migration_approved,
-                session_id=migration_request["migration_id"]
+                session_id=migration_request["migration_id"],
             )
 
     async def _trigger_orchestration_healing(self, task_id: str, reason: str):
@@ -756,7 +754,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             tier_level=0,
             healing_reason=f"orchestration_{reason}",
             correlation_id=task_id,
-            healing_strategy="COLONY_RESTART"
+            healing_strategy="COLONY_RESTART",
         )
 
         # Mark affected colonies for healing
@@ -778,7 +776,9 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
 
                     # Update health tracking
                     health["last_check"] = datetime.utcnow()
-                    health["success_rate"] = colony_status.get("performance_metrics", {}).get("success_rate", 1.0)
+                    health["success_rate"] = colony_status.get(
+                        "performance_metrics", {}
+                    ).get("success_rate", 1.0)
 
                     # Check if healing is needed
                     if colony_status["health_score"] < 0.6:
@@ -789,12 +789,15 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                             await self.event_publisher.publish_healing_event(
                                 lambda_id="system",
                                 tier_level=0,
-                                healing_reason=f"colony_health_degraded",
+                                healing_reason="colony_health_degraded",
                                 correlation_id=colony_name,
-                                healing_strategy="GRADUAL_RECOVERY"
+                                healing_strategy="GRADUAL_RECOVERY",
                             )
 
-                    elif health["status"] == "healing" and colony_status["health_score"] > 0.8:
+                    elif (
+                        health["status"] == "healing"
+                        and colony_status["health_score"] > 0.8
+                    ):
                         # Colony has recovered
                         health["status"] = "healthy"
                         logger.info(f"Colony {colony_name} recovered to healthy state")
@@ -805,7 +808,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 logger.error(f"Health monitor error: {e}")
                 await asyncio.sleep(5)
 
-    def get_hub_statistics(self) -> Dict[str, Any]:
+    def get_hub_statistics(self) -> dict[str, Any]:
         """Get comprehensive hub statistics."""
         return {
             "hub_id": self.hub_id,
@@ -819,10 +822,10 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
             "migration_history_count": len(self.migration_history),
             "total_tasks_processed": sum(
                 m["successful"] + m["failed"] for m in self.tier_metrics.values()
-            )
+            ),
         }
 
-    def get_tier_performance_report(self) -> Dict[str, Any]:
+    def get_tier_performance_report(self) -> dict[str, Any]:
         """Generate performance report by tier."""
         report = {}
 
@@ -835,9 +838,11 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                     "avg_duration_seconds": metrics["avg_duration"],
                     "resource_allocation": {
                         "max_agents": self.tier_profiles[tier].max_agents,
-                        "verification_depth": self.tier_profiles[tier].verification_depth.name,
-                        "parallel_colonies": self.tier_profiles[tier].parallel_colonies
-                    }
+                        "verification_depth": self.tier_profiles[
+                            tier
+                        ].verification_depth.name,
+                        "parallel_colonies": self.tier_profiles[tier].parallel_colonies,
+                    },
                 }
 
         return report

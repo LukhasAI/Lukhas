@@ -8,11 +8,10 @@ that provides simple text-based intent inference.
 
 from __future__ import annotations
 
-
 import re
 import uuid
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Dict
 
 
 @dataclass

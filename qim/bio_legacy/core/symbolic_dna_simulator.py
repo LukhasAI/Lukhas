@@ -1,9 +1,9 @@
 """DNA Simulator for symbolic tag generation."""
 
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional, Tuple
 
-from core.symbolism.tags import TagScope, TagPermission
 from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import TagPermission, TagScope
 
 
 class DNASimulator:
@@ -16,12 +16,19 @@ class DNASimulator:
         "T": "transcendence",
     }
 
-    def parse_sequence(self, sequence: str) -> Dict[str, Tuple[str, TagScope, TagPermission, Optional[float]]]:
+    def parse_sequence(
+        self, sequence: str
+    ) -> Dict[str, Tuple[str, TagScope, TagPermission, Optional[float]]]:
         tags: Dict[str, Tuple[str, TagScope, TagPermission, Optional[float]]] = {}
         for idx, char in enumerate(sequence):
             symbol = self.SYMBOL_MAP.get(char.upper())
             if symbol:
-                tags[f"dna_{idx}"] = (symbol, TagScope.GLOBAL, TagPermission.PUBLIC, None)
+                tags[f"dna_{idx}"] = (
+                    symbol,
+                    TagScope.GLOBAL,
+                    TagPermission.PUBLIC,
+                    None,
+                )
         return tags
 
     def entangle_with_colony(self, colony: BaseColony, sequence: str) -> None:

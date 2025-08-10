@@ -3,11 +3,10 @@
 Update documentation and README files across the codebase after reorganization.
 """
 
-import os
 import re
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple
+from pathlib import Path
+from typing import Dict, List
 
 # Module structure after reorganization
 MODULE_STRUCTURE = {
@@ -37,31 +36,30 @@ MODULE_STRUCTURE = {
     "simulation": "Simulation environments and testing",
     "tagging": "Tagging and categorization systems",
     "tools": "Development tools and utilities",
-    "trace": "Tracing, logging, and debugging systems"
+    "trace": "Tracing, logging, and debugging systems",
 }
+
 
 def analyze_module_imports(module_path: Path) -> Dict[str, List[str]]:
     """Analyze imports in a module to understand dependencies."""
-    imports = {
-        "internal": [],
-        "external": [],
-        "issues": []
-    }
+    imports = {"internal": [], "external": [], "issues": []}
 
     python_files = list(module_path.rglob("*.py"))
 
     for py_file in python_files:
-        if any(skip in str(py_file) for skip in ['.venv', '__pycache__', 'node_modules']):
+        if any(
+            skip in str(py_file) for skip in [".venv", "__pycache__", "node_modules"]
+        ):
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding="utf-8") as f:
                 content = f.read()
         except:
             continue
 
         # Find all imports
-        import_pattern = r'(?:from\s+(\S+)\s+import|import\s+(\S+))'
+        import_pattern = r"(?:from\s+(\S+)\s+import|import\s+(\S+))"
         matches = re.findall(import_pattern, content)
 
         for match in matches:
@@ -70,13 +68,13 @@ def analyze_module_imports(module_path: Path) -> Dict[str, List[str]]:
                 continue
 
             # Check if it's an old lukhas import
-            if 'lukhas.' in import_name:
+            if "lukhas." in import_name:
                 imports["issues"].append(f"{py_file.name}: Old import '{import_name}'")
             # Check if it's an internal module import
-            elif import_name.split('.')[0] in MODULE_STRUCTURE:
+            elif import_name.split(".")[0] in MODULE_STRUCTURE:
                 imports["internal"].append(import_name)
             # Otherwise it's external
-            elif not import_name.startswith('.'):
+            elif not import_name.startswith("."):
                 imports["external"].append(import_name)
 
     # Deduplicate
@@ -84,6 +82,7 @@ def analyze_module_imports(module_path: Path) -> Dict[str, List[str]]:
     imports["external"] = sorted(list(set(imports["external"])))
 
     return imports
+
 
 def generate_module_readme(module_name: str, module_path: Path) -> str:
     """Generate an updated README for a module."""
@@ -94,10 +93,18 @@ def generate_module_readme(module_name: str, module_path: Path) -> str:
 
     # Count Python files
     py_files = list(module_path.rglob("*.py"))
-    py_files = [f for f in py_files if not any(skip in str(f) for skip in ['.venv', '__pycache__'])]
+    py_files = [
+        f
+        for f in py_files
+        if not any(skip in str(f) for skip in [".venv", "__pycache__"])
+    ]
 
     # Find submodules
-    subdirs = [d for d in module_path.iterdir() if d.is_dir() and not d.name.startswith(('.', '__'))]
+    subdirs = [
+        d
+        for d in module_path.iterdir()
+        if d.is_dir() and not d.name.startswith((".", "__"))
+    ]
 
     readme_content = f"""# {module_name.upper()} Module
 
@@ -126,7 +133,7 @@ def generate_module_readme(module_name: str, module_path: Path) -> str:
     # Add dependencies section
     if imports["internal"]:
         readme_content += "## Internal Dependencies\n"
-        for dep in sorted(set(d.split('.')[0] for d in imports["internal"]))[:10]:
+        for dep in sorted(set(d.split(".")[0] for d in imports["internal"]))[:10]:
             readme_content += f"- `{dep}`\n"
         readme_content += "\n"
 
@@ -160,7 +167,9 @@ from {module_name} import ...
         if py_file.name == "__init__.py":
             continue
         readme_content += f"### `{py_file.stem}`\n"
-        readme_content += f"Module containing {py_file.stem.replace('_', ' ')} functionality.\n\n"
+        readme_content += (
+            f"Module containing {py_file.stem.replace('_', ' ')} functionality.\n\n"
+        )
 
     # Add development section
     readme_content += """## Development
@@ -183,6 +192,7 @@ pytest tests/test_{module_name}*.py
 """
 
     return readme_content
+
 
 def update_main_readme(base_path: Path):
     """Update the main README with current module structure."""
@@ -284,14 +294,19 @@ See [LICENSE.md](./LICENSE.md) for details.
 
     return content
 
+
 def main():
     """Main function to update documentation."""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Update documentation across the codebase')
-    parser.add_argument('--path', type=str, default='.', help='Base path')
-    parser.add_argument('--dry-run', action='store_true', help='Show what would be updated')
-    parser.add_argument('--modules', nargs='+', help='Specific modules to update')
+    parser = argparse.ArgumentParser(
+        description="Update documentation across the codebase"
+    )
+    parser.add_argument("--path", type=str, default=".", help="Base path")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show what would be updated"
+    )
+    parser.add_argument("--modules", nargs="+", help="Specific modules to update")
     args = parser.parse_args()
 
     base_path = Path(args.path).resolve()
@@ -299,7 +314,7 @@ def main():
     print("-" * 80)
 
     # Update main README
-    if not args.modules or 'README' in args.modules:
+    if not args.modules or "README" in args.modules:
         print("Updating main README.md...")
         new_content = update_main_readme(base_path)
         if args.dry_run:
@@ -313,7 +328,7 @@ def main():
     modules_to_update = args.modules if args.modules else MODULE_STRUCTURE.keys()
 
     for module_name in modules_to_update:
-        if module_name == 'README':
+        if module_name == "README":
             continue
 
         module_path = base_path / module_name
@@ -335,8 +350,9 @@ def main():
             readme_path.write_text(new_content)
             print(f"✅ Updated {module_name}/README.md")
 
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("Documentation update complete!")
+
 
 if __name__ == "__main__":
     main()

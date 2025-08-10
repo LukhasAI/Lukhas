@@ -1,4 +1,5 @@
-# ΛBLOCKED #ΛPENDING_PATCH - Standardize with headers/footers, structlog, and full ΛTAGS. Blocked by overwrite_file_with_block tool failures.
+# ΛBLOCKED #ΛPENDING_PATCH - Standardize with headers/footers, structlog,
+# and full ΛTAGS. Blocked by overwrite_file_with_block tool failures.
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: voice_renderer.py
@@ -26,9 +27,10 @@ Integration Date: 2025-05-31T07:55:30.641295
 │   3. Future expansion: speech synthesis API integration                   │
 └────────────────────────────────────────────────────────────────────────────┘
 """
- # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # 📌 FUNCTION: render_voice
 # -----------------------------------------------------------------------------
+
 
 def render_voice(emotion_state, context=None):
     """
@@ -47,7 +49,7 @@ def render_voice(emotion_state, context=None):
         "joyful": "😊 (Warm tone) That's exciting! Let’s dive in!",
         "sad": "😔 (Soft tone) I hear you... let’s take it gently.",
         "alert": "⚠️ (Firm tone) That may require attention. Shall we pause?",
-        "dreamy": "🌙 (Airy tone) Let’s drift through this idea together..."
+        "dreamy": "🌙 (Airy tone) Let’s drift through this idea together...",
     }
 
     return profiles.get(emotion_state, "🔈 (Default) How can I assist?")

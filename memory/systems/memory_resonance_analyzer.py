@@ -10,10 +10,10 @@
 # {ΛTRACE}
 # {ΛPERSIST}
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class MemoryResonanceAnalyzer:
     """
@@ -32,6 +32,7 @@ class MemoryResonanceAnalyzer:
         resonance_score = 0.8
         self.resonance_data[memory_id] = resonance_score
         return {"memory_id": memory_id, "resonance_score": resonance_score}
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: MemoryResonanceAnalyzer.py

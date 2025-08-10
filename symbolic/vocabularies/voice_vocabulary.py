@@ -6,10 +6,10 @@ providing the symbolic language elements used for voice synthesis,
 emotional expression, and vocal communication.
 """
 
-from typing import Dict, List, Any
 from dataclasses import dataclass
+from typing import Any, Dict, List
+
 from ..core import VoiceEmotion, VoiceProvider
-import openai
 
 
 @dataclass

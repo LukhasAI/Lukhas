@@ -24,9 +24,9 @@ import threading
 import time
 import uuid
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -40,17 +40,17 @@ class Event:
     event_id: str
     event_type: str
     aggregate_id: str
-    data: Dict[str, Any]
-    metadata: Dict[str, Any]
+    data: dict[str, Any]
+    metadata: dict[str, Any]
     timestamp: float
     version: int
     correlation_id: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Event":
+    def from_dict(cls, data: dict[str, Any]) -> "Event":
         return cls(**data)
 
 
@@ -140,7 +140,7 @@ class EventStore:
 
     def get_events_for_aggregate(
         self, aggregate_id: str, from_version: int = 0
-    ) -> List[Event]:
+    ) -> list[Event]:
         """
         Retrieve all events for a specific aggregate
         Enables state reconstruction through event replay
@@ -173,7 +173,7 @@ class EventStore:
 
         return events
 
-    def get_events_by_correlation_id(self, correlation_id: str) -> List[Event]:
+    def get_events_by_correlation_id(self, correlation_id: str) -> list[Event]:
         """
         Get all events with the same correlation ID
         Enables distributed tracing across the system
@@ -208,7 +208,7 @@ class EventStore:
 
     def get_events_in_time_range(
         self, start_time: float, end_time: float
-    ) -> List[Event]:
+    ) -> list[Event]:
         """
         Temporal queries: Get events within a specific time range
         Enables "as-of" reporting and historical analysis
@@ -252,7 +252,7 @@ class EventSourcedAggregate(ABC):
         self.aggregate_id = aggregate_id
         self.event_store = event_store
         self.version = 0
-        self.uncommitted_events: List[Event] = []
+        self.uncommitted_events: list[Event] = []
         self.replay_events()
 
     def replay_events(self):
@@ -268,12 +268,11 @@ class EventSourcedAggregate(ABC):
     @abstractmethod
     def apply_event(self, event: Event):
         """Apply an event to update internal state"""
-        pass
 
     def raise_event(
         self,
         event_type: str,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         correlation_id: Optional[str] = None,
     ):
         """
@@ -350,7 +349,7 @@ class AIAgentAggregate(EventSourcedAggregate):
                 self.capabilities.append(capability)
 
     def create_agent(
-        self, capabilities: List[str], correlation_id: Optional[str] = None
+        self, capabilities: list[str], correlation_id: Optional[str] = None
     ):
         """Create a new agent with specified capabilities"""
         self.raise_event("AgentCreated", {"capabilities": capabilities}, correlation_id)
@@ -358,24 +357,33 @@ class AIAgentAggregate(EventSourcedAggregate):
     def assign_task(
         self,
         task_id: str,
-        task_data: Dict[str, Any],
+        task_data: dict[str, Any],
         correlation_id: Optional[str] = None,
     ):
         """Assign a task to the agent"""
         self.raise_event(
-            "TaskAssigned", {"task_id": task_id, "task_data": task_data}, correlation_id
+            "TaskAssigned",
+            {"task_id": task_id, "task_data": task_data},
+            correlation_id,
         )
 
     def complete_task(
-        self, task_id: str, result: Dict[str, Any], correlation_id: Optional[str] = None
+        self,
+        task_id: str,
+        result: dict[str, Any],
+        correlation_id: Optional[str] = None,
     ):
         """Mark a task as completed"""
         self.raise_event(
-            "TaskCompleted", {"task_id": task_id, "result": result}, correlation_id
+            "TaskCompleted",
+            {"task_id": task_id, "result": result},
+            correlation_id,
         )
 
     def update_memory(
-        self, memory_update: Dict[str, Any], correlation_id: Optional[str] = None
+        self,
+        memory_update: dict[str, Any],
+        correlation_id: Optional[str] = None,
     ):
         """Update agent's memory"""
         self.raise_event(
@@ -418,7 +426,7 @@ class EventReplayService:
         aggregate = AIAgentAggregate(aggregate_id, temp_store)
         return aggregate
 
-    def get_causal_chain(self, correlation_id: str) -> List[Event]:
+    def get_causal_chain(self, correlation_id: str) -> list[Event]:
         """
         Get the full causal chain of events for distributed tracing
         """
@@ -426,7 +434,7 @@ class EventReplayService:
 
     def analyze_agent_behavior(
         self, agent_id: str, time_window: Optional[tuple] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Analyze agent behavior patterns from event history
         """
@@ -514,7 +522,9 @@ if __name__ == "__main__":
     )
     agent.update_memory({"last_task": "reasoning"}, correlation_id)
     agent.complete_task(
-        "task-001", {"status": "success", "output": "analysis_complete"}, correlation_id
+        "task-001",
+        {"status": "success", "output": "analysis_complete"},
+        correlation_id,
     )
 
     # Commit all events
@@ -526,9 +536,10 @@ if __name__ == "__main__":
 
     print("Agent Analysis:", json.dumps(analysis, indent=2))
     print(
-        "Causal Chain:", len(replay_service.get_causal_chain(correlation_id)), "events"
+        "Causal Chain:",
+        len(replay_service.get_causal_chain(correlation_id)),
+        "events",
     )
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

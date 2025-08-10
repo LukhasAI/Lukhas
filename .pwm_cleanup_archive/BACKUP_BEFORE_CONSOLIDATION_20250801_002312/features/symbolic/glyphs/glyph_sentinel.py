@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Glyph Sentinel
@@ -33,19 +32,17 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import asyncio
-import hashlib
 import logging
-import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Set, Tuple, Any, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from collections import defaultdict, deque
 import threading
+import time
+from collections import defaultdict
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
 
 # Internal imports
-from .glyph import Glyph, GlyphType, GlyphPriority, EmotionVector, TemporalStamp
+from .glyph import Glyph, GlyphPriority, GlyphType
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -53,34 +50,37 @@ logger = logging.getLogger(__name__)
 
 class DecayState(Enum):
     """States of glyph decay progression."""
-    FRESH = "fresh"           # Recently created, no decay
-    STABLE = "stable"         # Mature but stable
-    AGING = "aging"           # Showing signs of age
-    DEGRADING = "degrading"   # Active degradation
-    CRITICAL = "critical"     # Near expiration
-    EXPIRED = "expired"       # Past expiration threshold
+
+    FRESH = "fresh"  # Recently created, no decay
+    STABLE = "stable"  # Mature but stable
+    AGING = "aging"  # Showing signs of age
+    DEGRADING = "degrading"  # Active degradation
+    CRITICAL = "critical"  # Near expiration
+    EXPIRED = "expired"  # Past expiration threshold
 
 
 class PersistencePolicy(Enum):
     """Persistence policy types for glyphs."""
-    EPHEMERAL = "ephemeral"       # Short-term storage
-    STANDARD = "standard"         # Normal retention
-    PERSISTENT = "persistent"     # Long-term storage
-    PERMANENT = "permanent"       # Never expires
-    CONDITIONAL = "conditional"   # Depends on usage/conditions
+
+    EPHEMERAL = "ephemeral"  # Short-term storage
+    STANDARD = "standard"  # Normal retention
+    PERSISTENT = "persistent"  # Long-term storage
+    PERMANENT = "permanent"  # Never expires
+    CONDITIONAL = "conditional"  # Depends on usage/conditions
 
 
 @dataclass
 class DecayMetrics:
     """Metrics tracking glyph decay progression."""
+
     glyph_id: str
     decay_state: DecayState
-    decay_rate: float                    # Rate of decay (0.0-1.0 per day)
-    integrity_score: float               # Current integrity (0.0-1.0)
+    decay_rate: float  # Rate of decay (0.0-1.0 per day)
+    integrity_score: float  # Current integrity (0.0-1.0)
     last_accessed: datetime
-    access_frequency: float              # Accesses per day
-    stability_trend: List[float]         # Recent stability measurements
-    predicted_expiry: Optional[datetime] # Predicted expiration date
+    access_frequency: float  # Accesses per day
+    stability_trend: List[float]  # Recent stability measurements
+    predicted_expiry: Optional[datetime]  # Predicted expiration date
 
     def update_trend(self, stability: float):
         """Update stability trend with new measurement."""
@@ -93,14 +93,15 @@ class DecayMetrics:
 @dataclass
 class PersistenceProfile:
     """Profile defining persistence behavior for a glyph."""
+
     glyph_id: str
     policy: PersistencePolicy
-    retention_period: Optional[timedelta] # None for permanent
-    importance_weight: float              # Importance multiplier
-    usage_threshold: int                  # Min accesses to maintain
-    conditions: Dict[str, Any]            # Custom persistence conditions
-    auto_refresh: bool = False            # Auto-refresh on access
-    backup_priority: int = 3              # Backup priority (1-5)
+    retention_period: Optional[timedelta]  # None for permanent
+    importance_weight: float  # Importance multiplier
+    usage_threshold: int  # Min accesses to maintain
+    conditions: Dict[str, Any]  # Custom persistence conditions
+    auto_refresh: bool = False  # Auto-refresh on access
+    backup_priority: int = 3  # Backup priority (1-5)
 
 
 class GlyphSentinel:
@@ -111,9 +112,11 @@ class GlyphSentinel:
     symbolic integrity through continuous background operations.
     """
 
-    def __init__(self,
-                 monitoring_interval: float = 300.0,  # 5 minutes
-                 cleanup_interval: float = 3600.0):   # 1 hour
+    def __init__(
+        self,
+        monitoring_interval: float = 300.0,  # 5 minutes
+        cleanup_interval: float = 3600.0,
+    ):  # 1 hour
         """
         Initialize the Glyph Sentinel.
 
@@ -147,10 +150,12 @@ class GlyphSentinel:
 
         logger.info("Glyph Sentinel initialized")
 
-    def register_glyph(self,
-                       glyph: Glyph,
-                       persistence_policy: PersistencePolicy = PersistencePolicy.STANDARD,
-                       custom_conditions: Optional[Dict[str, Any]] = None) -> bool:
+    def register_glyph(
+        self,
+        glyph: Glyph,
+        persistence_policy: PersistencePolicy = PersistencePolicy.STANDARD,
+        custom_conditions: Optional[Dict[str, Any]] = None,
+    ) -> bool:
         """
         Register a glyph for monitoring and persistence management.
 
@@ -178,7 +183,7 @@ class GlyphSentinel:
             last_accessed=datetime.now(),
             access_frequency=0.0,
             stability_trend=[glyph.stability_index],
-            predicted_expiry=None
+            predicted_expiry=None,
         )
 
         # Create persistence profile
@@ -186,7 +191,9 @@ class GlyphSentinel:
             glyph, persistence_policy, custom_conditions
         )
 
-        logger.debug(f"Registered glyph {glyph.id} with policy {persistence_policy.value}")
+        logger.debug(
+            f"Registered glyph {glyph.id} with policy {persistence_policy.value}"
+        )
         return True
 
     def unregister_glyph(self, glyph_id: str) -> bool:
@@ -232,7 +239,9 @@ class GlyphSentinel:
         if time_since_last > 0:
             # Update access frequency (exponential moving average)
             daily_factor = 86400.0 / time_since_last  # Convert to per-day
-            metrics.access_frequency = (metrics.access_frequency * 0.7 + daily_factor * 0.3)
+            metrics.access_frequency = (
+                metrics.access_frequency * 0.7 + daily_factor * 0.3
+            )
 
         metrics.last_accessed = current_time
 
@@ -256,7 +265,9 @@ class GlyphSentinel:
             return False
 
         self.is_monitoring = True
-        self.monitoring_thread = threading.Thread(target=self._monitoring_loop, daemon=True)
+        self.monitoring_thread = threading.Thread(
+            target=self._monitoring_loop, daemon=True
+        )
         self.monitoring_thread.start()
 
         logger.info("Glyph Sentinel monitoring started")
@@ -298,16 +309,20 @@ class GlyphSentinel:
         profile = self.persistence_profiles[glyph_id]
 
         return {
-            'glyph_id': glyph_id,
-            'decay_state': metrics.decay_state.value,
-            'integrity_score': metrics.integrity_score,
-            'decay_rate': metrics.decay_rate,
-            'access_frequency': metrics.access_frequency,
-            'last_accessed': metrics.last_accessed.isoformat(),
-            'predicted_expiry': metrics.predicted_expiry.isoformat() if metrics.predicted_expiry else None,
-            'persistence_policy': profile.policy.value,
-            'importance_weight': profile.importance_weight,
-            'stability_trend': metrics.stability_trend
+            "glyph_id": glyph_id,
+            "decay_state": metrics.decay_state.value,
+            "integrity_score": metrics.integrity_score,
+            "decay_rate": metrics.decay_rate,
+            "access_frequency": metrics.access_frequency,
+            "last_accessed": metrics.last_accessed.isoformat(),
+            "predicted_expiry": (
+                metrics.predicted_expiry.isoformat()
+                if metrics.predicted_expiry
+                else None
+            ),
+            "persistence_policy": profile.policy.value,
+            "importance_weight": profile.importance_weight,
+            "stability_trend": metrics.stability_trend,
         }
 
     def get_endangered_glyphs(self) -> List[str]:
@@ -341,7 +356,9 @@ class GlyphSentinel:
 
         return self._refresh_glyph(glyph_id)
 
-    def add_decay_handler(self, decay_state: DecayState, handler: Callable[[str], None]):
+    def add_decay_handler(
+        self, decay_state: DecayState, handler: Callable[[str], None]
+    ):
         """
         Add event handler for decay state transitions.
 
@@ -369,10 +386,12 @@ class GlyphSentinel:
         """
         self.integrity_handlers.append(handler)
 
-    def _create_persistence_profile(self,
-                                    glyph: Glyph,
-                                    policy: PersistencePolicy,
-                                    conditions: Optional[Dict[str, Any]]) -> PersistenceProfile:
+    def _create_persistence_profile(
+        self,
+        glyph: Glyph,
+        policy: PersistencePolicy,
+        conditions: Optional[Dict[str, Any]],
+    ) -> PersistenceProfile:
         """Create persistence profile for a glyph."""
         # Calculate importance weight based on glyph properties
         importance = self._calculate_importance_weight(glyph)
@@ -383,7 +402,7 @@ class GlyphSentinel:
             PersistencePolicy.STANDARD: timedelta(days=30),
             PersistencePolicy.PERSISTENT: timedelta(days=365),
             PersistencePolicy.PERMANENT: None,
-            PersistencePolicy.CONDITIONAL: timedelta(days=7)  # Default for conditional
+            PersistencePolicy.CONDITIONAL: timedelta(days=7),  # Default for conditional
         }
 
         # Usage thresholds
@@ -392,7 +411,7 @@ class GlyphSentinel:
             PersistencePolicy.STANDARD: 5,
             PersistencePolicy.PERSISTENT: 2,
             PersistencePolicy.PERMANENT: 0,
-            PersistencePolicy.CONDITIONAL: 10
+            PersistencePolicy.CONDITIONAL: 10,
         }
 
         return PersistenceProfile(
@@ -402,8 +421,10 @@ class GlyphSentinel:
             importance_weight=importance,
             usage_threshold=usage_thresholds[policy],
             conditions=conditions or {},
-            auto_refresh=(policy in [PersistencePolicy.PERSISTENT, PersistencePolicy.PERMANENT]),
-            backup_priority=min(5, max(1, int(importance * 5)))
+            auto_refresh=(
+                policy in [PersistencePolicy.PERSISTENT, PersistencePolicy.PERMANENT]
+            ),
+            backup_priority=min(5, max(1, int(importance * 5))),
         )
 
     def _calculate_importance_weight(self, glyph: Glyph) -> float:
@@ -416,7 +437,7 @@ class GlyphSentinel:
             GlyphPriority.HIGH: 0.8,
             GlyphPriority.MEDIUM: 0.5,
             GlyphPriority.LOW: 0.3,
-            GlyphPriority.EPHEMERAL: 0.1
+            GlyphPriority.EPHEMERAL: 0.1,
         }
         weight += priority_weights.get(glyph.priority, 0.5) * 0.3
 
@@ -430,7 +451,7 @@ class GlyphSentinel:
             GlyphType.EMOTION: 0.4,
             GlyphType.DREAM: 0.3,
             GlyphType.ACTION: 0.5,
-            GlyphType.TEMPORAL: 0.6
+            GlyphType.TEMPORAL: 0.6,
         }
         weight += type_importance.get(glyph.glyph_type, 0.5) * 0.2
 
@@ -449,13 +470,13 @@ class GlyphSentinel:
 
         # Type-based decay rates
         type_rates = {
-            GlyphType.EPHEMERAL: 0.1,   # 10% per day
-            GlyphType.DREAM: 0.05,      # 5% per day
-            GlyphType.EMOTION: 0.03,    # 3% per day
-            GlyphType.ACTION: 0.02,     # 2% per day
-            GlyphType.MEMORY: 0.005,    # 0.5% per day
-            GlyphType.CAUSAL: 0.003,    # 0.3% per day
-            GlyphType.ETHICAL: 0.001    # 0.1% per day
+            GlyphType.EPHEMERAL: 0.1,  # 10% per day
+            GlyphType.DREAM: 0.05,  # 5% per day
+            GlyphType.EMOTION: 0.03,  # 3% per day
+            GlyphType.ACTION: 0.02,  # 2% per day
+            GlyphType.MEMORY: 0.005,  # 0.5% per day
+            GlyphType.CAUSAL: 0.003,  # 0.3% per day
+            GlyphType.ETHICAL: 0.001,  # 0.1% per day
         }
 
         rate = type_rates.get(glyph.glyph_type, base_rate)
@@ -470,7 +491,7 @@ class GlyphSentinel:
             GlyphPriority.HIGH: -0.003,
             GlyphPriority.MEDIUM: 0.0,
             GlyphPriority.LOW: 0.002,
-            GlyphPriority.EPHEMERAL: 0.05
+            GlyphPriority.EPHEMERAL: 0.05,
         }
         rate += priority_modifiers.get(glyph.priority, 0.0)
 
@@ -488,7 +509,9 @@ class GlyphSentinel:
                 self._perform_monitoring_cycle()
 
                 # Check if cleanup is needed
-                if (datetime.now() - self.last_cleanup).total_seconds() >= self.cleanup_interval:
+                if (
+                    datetime.now() - self.last_cleanup
+                ).total_seconds() >= self.cleanup_interval:
                     self._perform_cleanup_cycle()
                     self.last_cleanup = datetime.now()
 
@@ -527,7 +550,9 @@ class GlyphSentinel:
             except Exception as e:
                 logger.error(f"Error monitoring glyph {glyph_id}: {e}")
 
-    def _update_decay_metrics(self, glyph_id: str, glyph: Glyph, current_time: datetime):
+    def _update_decay_metrics(
+        self, glyph_id: str, glyph: Glyph, current_time: datetime
+    ):
         """Update decay metrics for a glyph."""
         metrics = self.decay_metrics[glyph_id]
 
@@ -590,8 +615,10 @@ class GlyphSentinel:
         profile = self.persistence_profiles[glyph_id]
 
         # Check if glyph needs refreshing based on usage
-        if (metrics.access_frequency >= profile.usage_threshold and
-            metrics.decay_state in [DecayState.DEGRADING, DecayState.CRITICAL]):
+        if (
+            metrics.access_frequency >= profile.usage_threshold
+            and metrics.decay_state in [DecayState.DEGRADING, DecayState.CRITICAL]
+        ):
             self._refresh_glyph(glyph_id)
 
     def _check_expiration(self, glyph_id: str, current_time: datetime):
@@ -637,7 +664,9 @@ class GlyphSentinel:
             # Remove expired glyph
             self._remove_expired_glyph(glyph_id)
 
-        logger.debug(f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs")
+        logger.debug(
+            f"Cleanup cycle completed, removed {len(expired_glyphs)} expired glyphs"
+        )
 
     def _refresh_glyph(self, glyph_id: str) -> bool:
         """Refresh a glyph to reset decay state."""
@@ -690,22 +719,22 @@ class GlyphSentinel:
         conditions = profile.conditions
 
         # Memory association condition
-        if conditions.get('require_memory_associations', False):
+        if conditions.get("require_memory_associations", False):
             if not glyph.memory_keys:
                 return False
 
         # Stability condition
-        min_stability = conditions.get('min_stability', 0.0)
+        min_stability = conditions.get("min_stability", 0.0)
         if glyph.stability_index < min_stability:
             return False
 
         # Access frequency condition
-        min_access_freq = conditions.get('min_access_frequency', 0.0)
+        min_access_freq = conditions.get("min_access_frequency", 0.0)
         if metrics.access_frequency < min_access_freq:
             return False
 
         # Importance condition
-        min_importance = conditions.get('min_importance', 0.0)
+        min_importance = conditions.get("min_importance", 0.0)
         if profile.importance_weight < min_importance:
             return False
 
@@ -745,21 +774,27 @@ class GlyphSentinel:
         avg_integrity = 0.0
         avg_access_freq = 0.0
         if total_glyphs > 0:
-            avg_integrity = sum(m.integrity_score for m in self.decay_metrics.values()) / total_glyphs
-            avg_access_freq = sum(m.access_frequency for m in self.decay_metrics.values()) / total_glyphs
+            avg_integrity = (
+                sum(m.integrity_score for m in self.decay_metrics.values())
+                / total_glyphs
+            )
+            avg_access_freq = (
+                sum(m.access_frequency for m in self.decay_metrics.values())
+                / total_glyphs
+            )
 
         return {
-            'total_monitored_glyphs': total_glyphs,
-            'monitoring_cycles': self.monitoring_cycles,
-            'cleanup_operations': self.cleanup_operations,
-            'expired_glyphs': self.expired_glyphs,
-            'integrity_violations': self.integrity_violations,
-            'decay_state_distribution': dict(decay_counts),
-            'persistence_policy_distribution': dict(policy_counts),
-            'average_integrity_score': avg_integrity,
-            'average_access_frequency': avg_access_freq,
-            'is_monitoring': self.is_monitoring,
-            'last_cleanup': self.last_cleanup.isoformat()
+            "total_monitored_glyphs": total_glyphs,
+            "monitoring_cycles": self.monitoring_cycles,
+            "cleanup_operations": self.cleanup_operations,
+            "expired_glyphs": self.expired_glyphs,
+            "integrity_violations": self.integrity_violations,
+            "decay_state_distribution": dict(decay_counts),
+            "persistence_policy_distribution": dict(policy_counts),
+            "average_integrity_score": avg_integrity,
+            "average_access_frequency": avg_access_freq,
+            "is_monitoring": self.is_monitoring,
+            "last_cleanup": self.last_cleanup.isoformat(),
         }
 
 

@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 lukhas AI System - Function Library
 File: test_integration_simple.py
 Path: development/sdk/test_integration_simple.py
@@ -31,25 +30,22 @@ Version: 1.0.0
 License: Proprietary
 """
 
-import sys
 import asyncio
-import tempfile
 import json
+import sys
+import tempfile
 from pathlib import Path
 
 # Add SDK to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
 
 def test_imports():
     """Test that all core modules can be imported"""
     print("🔧 Testing imports...")
 
     try:
-        from sdk.core.plugin_loader import LucasPluginLoader, PluginDiscoveryConfig
-        from sdk.core.types import PluginManifest, PluginType, PluginTier, PluginContext
-        from sdk.core.ethics_compliance_simple import EthicsComplianceEngine
-        from sdk.core.symbolic_validator import SymbolicValidator
-        from sdk.tools.plugin_generator import PluginGenerator, PluginConfig
+        pass
 
         print("✅ All imports successful")
         return True
@@ -64,25 +60,25 @@ def test_class_instantiation():
     print("\n🔧 Testing class instantiation...")
 
     try:
-        from sdk.core.plugin_loader import LucasPluginLoader, PluginDiscoveryConfig
         from sdk.core.ethics_compliance_simple import EthicsComplianceEngine
+        from sdk.core.plugin_loader import LucasPluginLoader, PluginDiscoveryConfig
         from sdk.core.symbolic_validator import SymbolicValidator
-        from sdk.tools.plugin_generator import PluginGenerator, PluginConfig
         from sdk.core.types import PluginType
+        from sdk.tools.plugin_generator import PluginConfig, PluginGenerator
 
         # Test instantiation
         config = PluginDiscoveryConfig()
-        loader = LucasPluginLoader(config)
-        ethics = EthicsComplianceEngine()
-        validator = SymbolicValidator()
-        generator = PluginGenerator()
+        LucasPluginLoader(config)
+        EthicsComplianceEngine()
+        SymbolicValidator()
+        PluginGenerator()
 
         # Test plugin config creation
-        plugin_config = PluginConfig(
-            plugin_name='test-plugin',
+        PluginConfig(
+            plugin_name="test-plugin",
             plugin_type=PluginType.UTILITY,
-            author='Test Author',
-            description='A test plugin'
+            author="Test Author",
+            description="A test plugin",
         )
 
         print("✅ All classes instantiated successfully")
@@ -91,6 +87,7 @@ def test_class_instantiation():
     except Exception as e:
         print(f"❌ Class instantiation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -100,18 +97,18 @@ async def test_plugin_generation():
     print("\n🔧 Testing plugin generation...")
 
     try:
-        from sdk.tools.plugin_generator import PluginGenerator, PluginConfig
         from sdk.core.types import PluginType
+        from sdk.tools.plugin_generator import PluginConfig, PluginGenerator
 
         generator = PluginGenerator()
 
         # Create test plugin config
         config = PluginConfig(
-            plugin_name='test-utility',
+            plugin_name="test-utility",
             plugin_type=PluginType.UTILITY,
-            author='Test Author',
-            description='A test utility plugin',
-            version='1.0.0'
+            author="Test Author",
+            description="A test utility plugin",
+            version="1.0.0",
         )
 
         # Generate plugin in temporary directory
@@ -122,10 +119,10 @@ async def test_plugin_generation():
             await generator.generate_plugin(config, temp_path)
 
             # Check if files were created
-            plugin_dir = temp_path / 'test-utility'
+            plugin_dir = temp_path / "test-utility"
             if plugin_dir.exists():
-                manifest_file = plugin_dir / 'manifest.json'
-                main_file = plugin_dir / 'main.py'
+                manifest_file = plugin_dir / "manifest.json"
+                main_file = plugin_dir / "main.py"
 
                 if manifest_file.exists() and main_file.exists():
                     print("✅ Plugin generation successful")
@@ -140,6 +137,7 @@ async def test_plugin_generation():
     except Exception as e:
         print(f"❌ Plugin generation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -160,7 +158,7 @@ async def test_ethics_validation():
             type=PluginType.UTILITY,
             version="1.0.0",
             description="Test plugin",
-            author="Test Author"
+            author="Test Author",
         )
 
         # Test manifest validation
@@ -176,6 +174,7 @@ async def test_ethics_validation():
     except Exception as e:
         print(f"❌ Ethics validation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -196,7 +195,7 @@ def test_symbolic_validation():
             type=PluginType.UTILITY,
             version="1.0.0",
             description="Test plugin",
-            author="Test Author"
+            author="Test Author",
         )
 
         # Test validation
@@ -212,6 +211,7 @@ def test_symbolic_validation():
     except Exception as e:
         print(f"❌ Symbolic validation failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -238,16 +238,16 @@ async def test_plugin_discovery():
                 "version": "1.0.0",
                 "description": "Test plugin",
                 "author": "Test Author",
-                "entry_point": "main.py"
+                "entry_point": "main.py",
             }
 
             manifest_file = plugin_dir / "manifest.json"
-            with open(manifest_file, 'w') as f:
+            with open(manifest_file, "w") as f:
                 json.dump(manifest, f, indent=2)
 
             # Create main.py file
             main_file = plugin_dir / "main.py"
-            with open(main_file, 'w') as f:
+            with open(main_file, "w") as f:
                 f.write('# Test plugin main file\nprint("Hello from test plugin")\n')
 
             # Test discovery
@@ -257,7 +257,9 @@ async def test_plugin_discovery():
             discovered = await loader.discover_plugins()
 
             if len(discovered) > 0:
-                print(f"✅ Plugin discovery successful (found {len(discovered)} plugin(s))")
+                print(
+                    f"✅ Plugin discovery successful (found {len(discovered)} plugin(s))"
+                )
                 return True
             else:
                 print("❌ No plugins discovered")
@@ -266,6 +268,7 @@ async def test_plugin_discovery():
     except Exception as e:
         print(f"❌ Plugin discovery failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 

@@ -3,10 +3,11 @@
 Analyze overlap between core/ modules and root directories to identify consolidation opportunities.
 """
 
-import os
-from pathlib import Path
-from collections import defaultdict
 import json
+import os
+from collections import defaultdict
+from pathlib import Path
+
 
 def analyze_core_modules(repo_path):
     """Analyze core modules and categorize them by domain."""
@@ -17,29 +18,29 @@ def analyze_core_modules(repo_path):
 
     # Get all root directories
     for item in Path(repo_path).iterdir():
-        if item.is_dir() and not item.name.startswith('.') and item.name != 'core':
+        if item.is_dir() and not item.name.startswith(".") and item.name != "core":
             root_dirs.add(item.name)
 
     # Categorize core modules by keywords
     keyword_mapping = {
-        'quantum': ['quantum', 'q_', 'qubit'],
-        'brain': ['brain', 'neural', 'neuro', 'oscillator'],
-        'consciousness': ['conscious', 'awareness', 'cognitive', 'meta_cognitive'],
-        'bridge': ['bridge', 'integration', 'fusion', 'adapter', 'wrapper'],
-        'memory': ['memory', 'cache', 'storage', 'recall'],
-        'dream': ['dream', 'oneiric', 'sleep'],
-        'emotion': ['emotion', 'affect', 'mood', 'feeling'],
-        'learning': ['learning', 'learn', 'meta_learn', 'adaptive'],
-        'creativity': ['creative', 'creation', 'imagination'],
-        'ethics': ['ethics', 'governance', 'safety', 'trust'],
-        'reasoning': ['reasoning', 'logic', 'inference'],
-        'bio': ['bio', 'biological', 'organism']
+        "quantum": ["quantum", "q_", "qubit"],
+        "brain": ["brain", "neural", "neuro", "oscillator"],
+        "consciousness": ["conscious", "awareness", "cognitive", "meta_cognitive"],
+        "bridge": ["bridge", "integration", "fusion", "adapter", "wrapper"],
+        "memory": ["memory", "cache", "storage", "recall"],
+        "dream": ["dream", "oneiric", "sleep"],
+        "emotion": ["emotion", "affect", "mood", "feeling"],
+        "learning": ["learning", "learn", "meta_learn", "adaptive"],
+        "creativity": ["creative", "creation", "imagination"],
+        "ethics": ["ethics", "governance", "safety", "trust"],
+        "reasoning": ["reasoning", "logic", "inference"],
+        "bio": ["bio", "biological", "organism"],
     }
 
     # Walk through core directory
     for root, dirs, files in os.walk(core_path):
         for file in files:
-            if file.endswith('.py') and not file.startswith('__'):
+            if file.endswith(".py") and not file.startswith("__"):
                 file_path = Path(root) / file
                 relative_path = file_path.relative_to(core_path)
 
@@ -55,9 +56,10 @@ def analyze_core_modules(repo_path):
                         break
 
                 if not categorized:
-                    core_modules['uncategorized'].append(str(relative_path))
+                    core_modules["uncategorized"].append(str(relative_path))
 
     return core_modules, root_dirs
+
 
 def generate_report(core_modules, root_dirs):
     """Generate a consolidation report."""
@@ -94,16 +96,23 @@ def generate_report(core_modules, root_dirs):
     report.append("\n## Consolidation Recommendations\n")
 
     for category, modules in sorted(core_modules.items()):
-        if modules and category != 'uncategorized':
+        if modules and category != "uncategorized":
             if category in root_dirs:
-                report.append(f"- **{category}**: Move {len(modules)} modules to existing `{category}/` directory")
+                report.append(
+                    f"- **{category}**: Move {len(modules)} modules to existing `{category}/` directory"
+                )
             else:
-                if category == 'bio':
-                    report.append(f"- **{category}**: Distribute {len(modules)} bio-related modules across brain/, consciousness/, etc.")
+                if category == "bio":
+                    report.append(
+                        f"- **{category}**: Distribute {len(modules)} bio-related modules across brain/, consciousness/, etc."
+                    )
                 else:
-                    report.append(f"- **{category}**: Consider creating `{category}/` directory for {len(modules)} modules")
+                    report.append(
+                        f"- **{category}**: Consider creating `{category}/` directory for {len(modules)} modules"
+                    )
 
     return "\n".join(report)
+
 
 def main():
     repo_path = "/Users/agi_dev/Downloads/Consolidation-Repo"
@@ -116,7 +125,7 @@ def main():
 
     # Save report
     report_path = Path(repo_path) / "core_analysis_report.md"
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         f.write(report)
 
     print(f"\nReport saved to: {report_path}")
@@ -125,14 +134,15 @@ def main():
     data = {
         "root_directories": sorted(list(root_dirs)),
         "core_modules": {k: v for k, v in core_modules.items()},
-        "total_modules": sum(len(modules) for modules in core_modules.values())
+        "total_modules": sum(len(modules) for modules in core_modules.values()),
     }
 
     json_path = Path(repo_path) / "core_analysis_data.json"
-    with open(json_path, 'w') as f:
+    with open(json_path, "w") as f:
         json.dump(data, f, indent=2)
 
     print(f"JSON data saved to: {json_path}")
+
 
 if __name__ == "__main__":
     main()

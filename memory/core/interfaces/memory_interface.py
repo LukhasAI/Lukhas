@@ -37,45 +37,43 @@
 """
 
 import asyncio
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
+from typing import Any, Callable, Dict, List, Optional, Set, Union
 from uuid import uuid4
-import time
-
-import structlog
-
-from core.common import get_logger
 
 
 class MemoryType(Enum):
     """Standard memory type classifications"""
-    EPISODIC = "episodic"           # Event-based memories with context
-    SEMANTIC = "semantic"           # Factual knowledge and concepts
-    PROCEDURAL = "procedural"       # Skills and procedures
-    WORKING = "working"             # Temporary active information
-    EMOTIONAL = "emotional"         # Emotion-tagged memories
-    SENSORY = "sensory"            # Raw sensory information
+
+    EPISODIC = "episodic"  # Event-based memories with context
+    SEMANTIC = "semantic"  # Factual knowledge and concepts
+    PROCEDURAL = "procedural"  # Skills and procedures
+    WORKING = "working"  # Temporary active information
+    EMOTIONAL = "emotional"  # Emotion-tagged memories
+    SENSORY = "sensory"  # Raw sensory information
     AUTOBIOGRAPHICAL = "autobiographical"  # Personal life events
-    PROSPECTIVE = "prospective"     # Future intentions and plans
+    PROSPECTIVE = "prospective"  # Future intentions and plans
 
 
 class MemoryState(Enum):
     """Memory lifecycle states"""
-    ENCODING = "encoding"           # Being created/stored
-    ACTIVE = "active"              # Available for operations
-    CONSOLIDATING = "consolidating" # Being transferred/strengthened
-    DORMANT = "dormant"            # Inactive but preserved
-    DECAYING = "decaying"          # Losing strength over time
-    ARCHIVED = "archived"          # Long-term stable storage
-    CORRUPTED = "corrupted"        # Integrity compromised
-    DELETED = "deleted"            # Marked for removal
+
+    ENCODING = "encoding"  # Being created/stored
+    ACTIVE = "active"  # Available for operations
+    CONSOLIDATING = "consolidating"  # Being transferred/strengthened
+    DORMANT = "dormant"  # Inactive but preserved
+    DECAYING = "decaying"  # Losing strength over time
+    ARCHIVED = "archived"  # Long-term stable storage
+    CORRUPTED = "corrupted"  # Integrity compromised
+    DELETED = "deleted"  # Marked for removal
 
 
 class ValidationResult(Enum):
     """Memory validation outcomes"""
+
     VALID = "valid"
     INVALID = "invalid"
     CORRUPTED = "corrupted"
@@ -86,6 +84,7 @@ class ValidationResult(Enum):
 @dataclass
 class MemoryMetadata:
     """Standard metadata for all memory types"""
+
     memory_id: str = field(default_factory=lambda: str(uuid4()))
     memory_type: MemoryType = MemoryType.EPISODIC
 
@@ -96,13 +95,13 @@ class MemoryMetadata:
     state: MemoryState = MemoryState.ENCODING
 
     # Content properties
-    importance: float = 0.5         # 0-1 importance score
-    confidence: float = 1.0         # 0-1 confidence in accuracy
-    stability: float = 0.0          # 0-1 consolidation level
+    importance: float = 0.5  # 0-1 importance score
+    confidence: float = 1.0  # 0-1 confidence in accuracy
+    stability: float = 0.0  # 0-1 consolidation level
 
     # Context
     tags: Set[str] = field(default_factory=set)
-    source: Optional[str] = None    # Origin of the memory
+    source: Optional[str] = None  # Origin of the memory
     context: Dict[str, Any] = field(default_factory=dict)
 
     # Colony distribution
@@ -151,8 +150,9 @@ class MemoryMetadata:
 @dataclass
 class MemoryOperation:
     """Standard memory operation request"""
+
     operation_id: str = field(default_factory=lambda: str(uuid4()))
-    operation_type: str = ""        # "create", "read", "update", "delete", etc.
+    operation_type: str = ""  # "create", "read", "update", "delete", etc.
     memory_id: Optional[str] = None
 
     # Operation data
@@ -175,6 +175,7 @@ class MemoryOperation:
 @dataclass
 class MemoryResponse:
     """Standard memory operation response"""
+
     operation_id: str
     success: bool = False
     error_message: Optional[str] = None
@@ -204,7 +205,7 @@ class BaseMemoryInterface(ABC):
         self,
         memory_type: MemoryType,
         colony_id: Optional[str] = None,
-        enable_distributed: bool = True
+        enable_distributed: bool = True,
     ):
         self.memory_type = memory_type
         self.colony_id = colony_id
@@ -222,25 +223,18 @@ class BaseMemoryInterface(ABC):
         logger.info(
             f"{memory_type.value} memory interface initialized",
             colony_id=colony_id,
-            distributed=enable_distributed
+            distributed=enable_distributed,
         )
 
     @abstractmethod
     async def create_memory(
-        self,
-        content: Any,
-        metadata: Optional[MemoryMetadata] = None,
-        **kwargs
+        self, content: Any, metadata: Optional[MemoryMetadata] = None, **kwargs
     ) -> MemoryResponse:
         """Create a new memory"""
         pass
 
     @abstractmethod
-    async def read_memory(
-        self,
-        memory_id: str,
-        **kwargs
-    ) -> MemoryResponse:
+    async def read_memory(self, memory_id: str, **kwargs) -> MemoryResponse:
         """Read an existing memory"""
         pass
 
@@ -250,17 +244,13 @@ class BaseMemoryInterface(ABC):
         memory_id: str,
         content: Any = None,
         metadata: Optional[MemoryMetadata] = None,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Update an existing memory"""
         pass
 
     @abstractmethod
-    async def delete_memory(
-        self,
-        memory_id: str,
-        **kwargs
-    ) -> MemoryResponse:
+    async def delete_memory(self, memory_id: str, **kwargs) -> MemoryResponse:
         """Delete a memory"""
         pass
 
@@ -270,26 +260,19 @@ class BaseMemoryInterface(ABC):
         query: Union[str, Dict[str, Any]],
         filters: Optional[Dict[str, Any]] = None,
         limit: int = 50,
-        **kwargs
+        **kwargs,
     ) -> List[MemoryResponse]:
         """Search for memories matching criteria"""
         pass
 
     @abstractmethod
-    async def validate_memory(
-        self,
-        memory_id: str,
-        **kwargs
-    ) -> ValidationResult:
+    async def validate_memory(self, memory_id: str, **kwargs) -> ValidationResult:
         """Validate memory integrity"""
         pass
 
     # Colony integration methods
 
-    async def distribute_operation(
-        self,
-        operation: MemoryOperation
-    ) -> MemoryResponse:
+    async def distribute_operation(self, operation: MemoryOperation) -> MemoryResponse:
         """Distribute operation across colonies"""
         if not self.enable_distributed or not operation.target_colonies:
             # Execute locally
@@ -300,24 +283,21 @@ class BaseMemoryInterface(ABC):
         tasks = []
 
         for colony_id in operation.target_colonies:
-            task = asyncio.create_task(
-                self._execute_in_colony(operation, colony_id)
-            )
+            task = asyncio.create_task(self._execute_in_colony(operation, colony_id))
             tasks.append((colony_id, task))
 
         # Wait for responses
         for colony_id, task in tasks:
             try:
                 response = await asyncio.wait_for(
-                    task,
-                    timeout=operation.timeout_seconds
+                    task, timeout=operation.timeout_seconds
                 )
                 responses[colony_id] = response
             except asyncio.TimeoutError:
                 responses[colony_id] = MemoryResponse(
                     operation_id=operation.operation_id,
                     success=False,
-                    error_message=f"Timeout in colony {colony_id}"
+                    error_message=f"Timeout in colony {colony_id}",
                 )
 
         # Consensus logic
@@ -333,7 +313,7 @@ class BaseMemoryInterface(ABC):
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
-                error_message="All colonies failed"
+                error_message="All colonies failed",
             )
 
     async def _execute_operation(self, operation: MemoryOperation) -> MemoryResponse:
@@ -345,40 +325,35 @@ class BaseMemoryInterface(ABC):
                 response = await self.create_memory(
                     content=operation.content,
                     metadata=operation.metadata,
-                    **operation.parameters
+                    **operation.parameters,
                 )
             elif operation.operation_type == "read":
                 response = await self.read_memory(
-                    memory_id=operation.memory_id,
-                    **operation.parameters
+                    memory_id=operation.memory_id, **operation.parameters
                 )
             elif operation.operation_type == "update":
                 response = await self.update_memory(
                     memory_id=operation.memory_id,
                     content=operation.content,
                     metadata=operation.metadata,
-                    **operation.parameters
+                    **operation.parameters,
                 )
             elif operation.operation_type == "delete":
                 response = await self.delete_memory(
-                    memory_id=operation.memory_id,
-                    **operation.parameters
+                    memory_id=operation.memory_id, **operation.parameters
                 )
             elif operation.operation_type == "search":
                 responses = await self.search_memories(
-                    query=operation.content,
-                    **operation.parameters
+                    query=operation.content, **operation.parameters
                 )
                 response = MemoryResponse(
-                    operation_id=operation.operation_id,
-                    success=True,
-                    content=responses
+                    operation_id=operation.operation_id, success=True, content=responses
                 )
             else:
                 response = MemoryResponse(
                     operation_id=operation.operation_id,
                     success=False,
-                    error_message=f"Unknown operation: {operation.operation_type}"
+                    error_message=f"Unknown operation: {operation.operation_type}",
                 )
 
             response.execution_time_ms = (time.time() - start_time) * 1000
@@ -397,15 +372,13 @@ class BaseMemoryInterface(ABC):
                 operation_id=operation.operation_id,
                 success=False,
                 error_message=str(e),
-                execution_time_ms=(time.time() - start_time) * 1000
+                execution_time_ms=(time.time() - start_time) * 1000,
             )
         finally:
             self.total_operations += 1
 
     async def _execute_in_colony(
-        self,
-        operation: MemoryOperation,
-        colony_id: str
+        self, operation: MemoryOperation, colony_id: str
     ) -> MemoryResponse:
         """Execute operation in specific colony"""
         # In a real implementation, this would route to the actual colony
@@ -415,9 +388,7 @@ class BaseMemoryInterface(ABC):
         return response
 
     def _achieve_consensus(
-        self,
-        operation: MemoryOperation,
-        responses: Dict[str, MemoryResponse]
+        self, operation: MemoryOperation, responses: Dict[str, MemoryResponse]
     ) -> MemoryResponse:
         """Achieve consensus across colony responses"""
         successful_responses = [r for r in responses.values() if r.success]
@@ -427,7 +398,7 @@ class BaseMemoryInterface(ABC):
             operation_id=operation.operation_id,
             success=success_rate >= operation.consensus_threshold,
             consensus_achieved=True,
-            colony_responses={k: v.success for k, v in responses.items()}
+            colony_responses={k: v.success for k, v in responses.items()},
         )
 
         if successful_responses:
@@ -445,7 +416,9 @@ class BaseMemoryInterface(ABC):
         """Register callback for operation events"""
         self.operation_callbacks.append(callback)
 
-    async def _notify_callbacks(self, operation: MemoryOperation, response: MemoryResponse):
+    async def _notify_callbacks(
+        self, operation: MemoryOperation, response: MemoryResponse
+    ):
         """Notify registered callbacks"""
         for callback in self.operation_callbacks:
             try:
@@ -455,9 +428,7 @@ class BaseMemoryInterface(ABC):
 
     def get_metrics(self) -> Dict[str, Any]:
         """Get interface metrics"""
-        success_rate = (
-            self.successful_operations / max(self.total_operations, 1)
-        )
+        success_rate = self.successful_operations / max(self.total_operations, 1)
 
         return {
             "memory_type": self.memory_type.value,
@@ -467,7 +438,7 @@ class BaseMemoryInterface(ABC):
             "failed_operations": self.failed_operations,
             "success_rate": success_rate,
             "active_operations": len(self.active_operations),
-            "distributed_enabled": self.enable_distributed
+            "distributed_enabled": self.enable_distributed,
         }
 
 
@@ -479,18 +450,14 @@ class MemoryInterfaceRegistry:
         self._factories: Dict[MemoryType, Callable] = {}
 
     def register_interface(
-        self,
-        memory_type: MemoryType,
-        interface: BaseMemoryInterface
+        self, memory_type: MemoryType, interface: BaseMemoryInterface
     ):
         """Register a memory interface implementation"""
         self._interfaces[memory_type] = interface
         logger.info(f"Registered {memory_type.value} memory interface")
 
     def register_factory(
-        self,
-        memory_type: MemoryType,
-        factory: Callable[..., BaseMemoryInterface]
+        self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]
     ):
         """Register a factory for creating memory interfaces"""
         self._factories[memory_type] = factory

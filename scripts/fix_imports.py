@@ -4,13 +4,13 @@ LUKHAS Import Fix Script
 Automatically fixes broken import statements in the governance module
 """
 
-import os
 import re
 from pathlib import Path
 
+
 def fix_import_namespaces():
     """Fix broken import namespace issues"""
-    
+
     # Define the mapping of incorrect imports to correct ones
     import_fixes = {
         # Identity imports that need governance prefix
@@ -32,41 +32,41 @@ def fix_import_namespaces():
         r'from identity\.core\.sent': 'from governance.identity.core.sent',
         r'from identity\.core\.visualization\.lukhas_orb': 'from governance.identity.core.visualization.lukhas_orb',
     }
-    
+
     # Find all Python files in governance directory
     governance_dir = Path('./governance')
     if not governance_dir.exists():
         print("❌ governance directory not found")
         return
-    
+
     fixed_files = []
-    
+
     for py_file in governance_dir.rglob('*.py'):
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding='utf-8') as f:
                 content = f.read()
-            
+
             original_content = content
-            
+
             # Apply each fix
             for pattern, replacement in import_fixes.items():
                 content = re.sub(pattern, replacement, content)
-            
+
             # If content changed, write it back
             if content != original_content:
                 with open(py_file, 'w', encoding='utf-8') as f:
                     f.write(content)
                 fixed_files.append(str(py_file))
                 print(f"✅ Fixed imports in {py_file}")
-                
+
         except Exception as e:
             print(f"❌ Error processing {py_file}: {e}")
-    
+
     return fixed_files
 
 def create_missing_bridge_files():
     """Create missing bridge files for broken imports"""
-    
+
     # Create bridge file for missing imports
     bridge_content = '''"""
 Temporary bridge file for missing identity imports
@@ -91,28 +91,28 @@ class AuditLogger:
 
 # Add more placeholders as needed
 '''
-    
+
     # Create the bridge file
     bridge_path = Path('./governance/identity/missing_imports_bridge.py')
     bridge_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(bridge_path, 'w') as f:
         f.write(bridge_content)
-    
+
     print(f"✅ Created bridge file: {bridge_path}")
 
 def validate_imports():
     """Test that imports can be resolved"""
-    
+
     import sys
     sys.path.insert(0, '.')
-    
+
     test_imports = [
         'governance.identity.interface',
         'governance.identity.connector',
         'governance.ethics_legacy.service',
     ]
-    
+
     for module_name in test_imports:
         try:
             __import__(module_name)
@@ -124,18 +124,18 @@ def validate_imports():
 
 if __name__ == "__main__":
     print("🚀 Starting LUKHAS import fixes...")
-    
+
     # Fix import namespaces
     fixed_files = fix_import_namespaces()
     print(f"📝 Fixed {len(fixed_files)} files")
-    
+
     # Create bridge files for missing imports
     create_missing_bridge_files()
-    
+
     # Validate that imports work
     print("\n🧪 Testing imports...")
     validate_imports()
-    
+
     print("\n✅ Import fixes completed!")
     print("📋 Next steps:")
     print("1. Review fixed files for correctness")

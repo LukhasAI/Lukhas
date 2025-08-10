@@ -11,7 +11,9 @@ Integration Date: 2025-05-31T07:55:27.741834
 🧾 DESCRIPTION : Entropy fine-tuning logic for EU AI Act compliance.
 """
 
+
 import numpy as np
+
 
 def final_entropy_tune(trauma_data, tweak_factor=0.05):
     """
@@ -29,6 +31,7 @@ def final_entropy_tune(trauma_data, tweak_factor=0.05):
         dampened_value = d * (1 - tweak_factor)
         tuned_trauma.append(dampened_value)
     return tuned_trauma
+
 
 def recheck_entropy(trauma_data):
     """

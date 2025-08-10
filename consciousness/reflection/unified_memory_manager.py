@@ -9,23 +9,19 @@
 Consolidated module for better performance
 """
 
-import asyncio
 import hashlib
 import json
-import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set
 
 import numpy as np
-import structlog
 
-from memory.memory_fold import MemoryFoldConfig, MemoryFoldSystem
+from memory.memory_fold import MemoryFoldConfig
 from memory.systems.memory_visualizer import (
     EnhancedMemoryVisualizer,
     VisualizationConfig,
 )
-from quantum.systems.quantum_engine import Quantumoscillator
 
 from .base_manager import BaseMemoryManager
 
@@ -354,7 +350,7 @@ class EnhancedMemoryManager:
             )
             raise FileNotFoundError(f"Memory package not found on disk: {memory_id}")
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 data = json.load(f)
             self.logger.info(
                 "Memory package loaded from disk.",
@@ -702,7 +698,7 @@ class EnhancedMemoryManager:
             )
             raise FileNotFoundError(f"Memory package not found on disk: {memory_id}")
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 data = json.load(f)
             self.logger.info(
                 "Memory package loaded from disk.",
@@ -1038,7 +1034,7 @@ class QuantumMemoryManager(BaseMemoryManager):
         )
         amplitude = np.random.rand(dimensions).tolist()
         phase = np.random.rand(dimensions).tolist()
-        norm = np.sqrt(sum((a**2 for a in amplitude)))
+        norm = np.sqrt(sum(a**2 for a in amplitude))
         amplitude = [a / norm for a in amplitude]
         return {
             "dimensions": dimensions,
@@ -1107,7 +1103,7 @@ class QuantumMemoryManager(BaseMemoryManager):
         quantum_stats = {
             **base_stats,
             "quantum_memories": len(self.quantum_like_states),
-            "total_entanglements": sum((len(e) for e in self.entanglements.values()))
+            "total_entanglements": sum(len(e) for e in self.entanglements.values())
             // 2,
             "average_coherence": (
                 np.mean(list(self.coherence_scores.values()))
@@ -1424,10 +1420,10 @@ class DriftMemoryManager(BaseMemoryManager):
         if drift_magnitudes:
             patterns["average_drift"] = total_drift / len(drift_magnitudes)
             patterns["drift_distribution"] = {
-                "minimal": sum((1 for d in drift_magnitudes if d < 0.1)),
-                "low": sum((1 for d in drift_magnitudes if 0.1 <= d < 0.3)),
-                "moderate": sum((1 for d in drift_magnitudes if 0.3 <= d < 0.5)),
-                "high": sum((1 for d in drift_magnitudes if d >= 0.5)),
+                "minimal": sum(1 for d in drift_magnitudes if d < 0.1),
+                "low": sum(1 for d in drift_magnitudes if 0.1 <= d < 0.3),
+                "moderate": sum(1 for d in drift_magnitudes if 0.3 <= d < 0.5),
+                "high": sum(1 for d in drift_magnitudes if d >= 0.5),
             }
         patterns["common_patterns"] = self._identify_common_drift_patterns()
         return patterns
@@ -1538,7 +1534,6 @@ class DriftMemoryManager(BaseMemoryManager):
 
     def _compute_data_hash(self, data: Dict[str, Any]) -> str:
         """Compute hash of data for change detection."""
-        import hashlib
 
         data_str = json.dumps(data, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]
@@ -1708,11 +1703,7 @@ class DriftMemoryManager(BaseMemoryManager):
             state.get("drift_magnitude", 0.0) for state in self.drift_states.values()
         ]
         drifting_count = sum(
-            (
-                1
-                for mag in drift_magnitudes
-                if mag > self.drift_config["drift_threshold"]
-            )
+            1 for mag in drift_magnitudes if mag > self.drift_config["drift_threshold"]
         )
         drift_stats = {
             **base_stats,
@@ -1721,6 +1712,6 @@ class DriftMemoryManager(BaseMemoryManager):
             "average_drift": np.mean(drift_magnitudes) if drift_magnitudes else 0.0,
             "max_drift": max(drift_magnitudes) if drift_magnitudes else 0.0,
             "drift_threshold": self.drift_config["drift_threshold"],
-            "total_drift_events": sum((len(h) for h in self.drift_history.values())),
+            "total_drift_events": sum(len(h) for h in self.drift_history.values()),
         }
         return drift_stats

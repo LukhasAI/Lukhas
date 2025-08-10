@@ -1,7 +1,5 @@
 """Test for dream convergence."""
 
-import pytest
-
 
 class TestDreamConvergence:
     """Test dream convergence functionality."""

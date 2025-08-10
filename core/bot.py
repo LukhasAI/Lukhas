@@ -3,21 +3,18 @@ Unified Bot System
 Integrates AI routing capabilities with multiple operational modes
 """
 
-import sys
-import os
 import logging
-import subprocess
-import json
-from pathlib import Path
-from typing import Optional, Dict, Any, List, Union
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 # Configure logging
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -25,28 +22,31 @@ if not logger.handlers:
 
 class BotMode(Enum):
     """Different modes of operation for the bot"""
-    CLASSIC = "classic"         # Original behavior
-    LAMBDA = "lambda"           # Enhanced with real AI routing
-    HYBRID = "hybrid"           # Best of both worlds
-    STUDIO = "studio"           # Integrated with Studio
-    ENTERPRISE = "enterprise"   # Full enterprise features
+
+    CLASSIC = "classic"  # Original behavior
+    LAMBDA = "lambda"  # Enhanced with real AI routing
+    HYBRID = "hybrid"  # Best of both worlds
+    STUDIO = "studio"  # Integrated with Studio
+    ENTERPRISE = "enterprise"  # Full enterprise features
 
 
 class TaskType(Enum):
     """Task types optimized for different AI models"""
-    CODE = "code"               # Programming, debugging, analysis
-    ETHICS = "ethics"           # Security, compliance, auditing
-    WEB = "web"                # Research, data gathering
-    CREATIVE = "creative"       # Content, documentation, ideas
-    GENERAL = "general"         # Chat, conversation, help
-    AUDIT = "ethics"           # Auditor functionality
-    DOCS = "creative"          # Doc functionality
-    WEB_MANAGE = "web"         # WebManager functionality
-    AGENT = "general"          # Agent functionality
+
+    CODE = "code"  # Programming, debugging, analysis
+    ETHICS = "ethics"  # Security, compliance, auditing
+    WEB = "web"  # Research, data gathering
+    CREATIVE = "creative"  # Content, documentation, ideas
+    GENERAL = "general"  # Chat, conversation, help
+    AUDIT = "ethics"  # Auditor functionality
+    DOCS = "creative"  # Doc functionality
+    WEB_MANAGE = "web"  # WebManager functionality
+    AGENT = "general"  # Agent functionality
 
 
 class ComponentType(Enum):
     """Component types"""
+
     BOT = "Bot"
     AUDITOR = "Auditor"
     DOC = "Doc"
@@ -59,9 +59,11 @@ class UnifiedBot:
     Unified bot system that combines classic and enhanced AI routing capabilities
     """
 
-    def __init__(self,
-                 mode: BotMode = BotMode.HYBRID,
-                 component: ComponentType = ComponentType.BOT):
+    def __init__(
+        self,
+        mode: BotMode = BotMode.HYBRID,
+        component: ComponentType = ComponentType.BOT,
+    ):
         self.mode = mode
         self.component = component
         self.setup_complete = False
@@ -76,17 +78,15 @@ class UnifiedBot:
         """Initialize AI routing capabilities"""
         try:
             # Check for OpenAI API availability
-            import openai
             self.ai_available = True
             logger.info("✅ AI routing available")
         except ImportError:
             self.ai_available = False
             logger.warning("⚠️ OpenAI not available, using fallback mode")
 
-    def process_task(self,
-                     prompt: str,
-                     task_type: TaskType = TaskType.GENERAL,
-                     **kwargs) -> Dict[str, Any]:
+    def process_task(
+        self, prompt: str, task_type: TaskType = TaskType.GENERAL, **kwargs
+    ) -> dict[str, Any]:
         """
         Process a task using appropriate routing based on mode and task type
 
@@ -107,23 +107,29 @@ class UnifiedBot:
             return self._process_ai(prompt, task_type, **kwargs)
         elif self.mode == BotMode.HYBRID:
             # Use AI for supported tasks, classic for others
-            if task_type in [TaskType.CODE, TaskType.CREATIVE, TaskType.GENERAL]:
+            if task_type in [
+                TaskType.CODE,
+                TaskType.CREATIVE,
+                TaskType.GENERAL,
+            ]:
                 return self._process_ai(prompt, task_type, **kwargs)
             else:
                 return self._process_classic(prompt, task_type, **kwargs)
         else:
             return self._process_enterprise(prompt, task_type, **kwargs)
 
-    def _process_classic(self, prompt: str, task_type: TaskType, **kwargs) -> Dict[str, Any]:
+    def _process_classic(
+        self, prompt: str, task_type: TaskType, **kwargs
+    ) -> dict[str, Any]:
         """Classic processing without AI"""
         return {
             "response": f"Processing {task_type.value} task classically",
             "mode": "classic",
             "task_type": task_type.value,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
-    def _process_ai(self, prompt: str, task_type: TaskType, **kwargs) -> Dict[str, Any]:
+    def _process_ai(self, prompt: str, task_type: TaskType, **kwargs) -> dict[str, Any]:
         """AI-enhanced processing"""
         if not self.ai_available:
             logger.warning("AI not available, falling back to classic mode")
@@ -141,17 +147,23 @@ class UnifiedBot:
                 "mode": "ai",
                 "model": model,
                 "task_type": task_type.value,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             logger.error(f"AI processing failed: {e}")
             return self._process_classic(prompt, task_type, **kwargs)
 
-    def _process_enterprise(self, prompt: str, task_type: TaskType, **kwargs) -> Dict[str, Any]:
+    def _process_enterprise(
+        self, prompt: str, task_type: TaskType, **kwargs
+    ) -> dict[str, Any]:
         """Enterprise processing with full features"""
         # Combine AI with additional enterprise features
         result = self._process_ai(prompt, task_type, **kwargs)
-        result["features"] = ["audit_trail", "compliance_check", "team_collaboration"]
+        result["features"] = [
+            "audit_trail",
+            "compliance_check",
+            "team_collaboration",
+        ]
         return result
 
     def _get_optimal_model(self, task_type: TaskType) -> str:
@@ -161,7 +173,7 @@ class UnifiedBot:
             TaskType.CREATIVE: "gpt-4",
             TaskType.ETHICS: "gpt-4",
             TaskType.GENERAL: "gpt-3.5-turbo",
-            TaskType.WEB: "gpt-3.5-turbo"
+            TaskType.WEB: "gpt-3.5-turbo",
         }
         return model_map.get(task_type, "gpt-3.5-turbo")
 
@@ -171,59 +183,61 @@ class UnifiedBot:
         # For now, return formatted response
         return f"AI response for '{prompt}' using {model}"
 
-    def run_component_task(self, task_config: Dict[str, Any]) -> Dict[str, Any]:
+    def run_component_task(self, task_config: dict[str, Any]) -> dict[str, Any]:
         """Run a component-specific task"""
         component_map = {
             ComponentType.AUDITOR: self._run_audit,
             ComponentType.DOC: self._run_documentation,
             ComponentType.WEB_MANAGER: self._run_web_management,
-            ComponentType.AGENT: self._run_agent_task
+            ComponentType.AGENT: self._run_agent_task,
         }
 
         handler = component_map.get(self.component, self._run_default)
         return handler(task_config)
 
-    def _run_audit(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def _run_audit(self, config: dict[str, Any]) -> dict[str, Any]:
         """Run security/compliance audit"""
         return self.process_task(
             prompt=config.get("prompt", "Run security audit"),
             task_type=TaskType.ETHICS,
-            audit_type=config.get("audit_type", "security")
+            audit_type=config.get("audit_type", "security"),
         )
 
-    def _run_documentation(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def _run_documentation(self, config: dict[str, Any]) -> dict[str, Any]:
         """Generate documentation"""
         return self.process_task(
             prompt=config.get("prompt", "Generate documentation"),
             task_type=TaskType.CREATIVE,
-            doc_format=config.get("format", "markdown")
+            doc_format=config.get("format", "markdown"),
         )
 
-    def _run_web_management(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def _run_web_management(self, config: dict[str, Any]) -> dict[str, Any]:
         """Manage web resources"""
         return self.process_task(
             prompt=config.get("prompt", "Manage web resources"),
             task_type=TaskType.WEB,
-            action=config.get("action", "fetch")
+            action=config.get("action", "fetch"),
         )
 
-    def _run_agent_task(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def _run_agent_task(self, config: dict[str, Any]) -> dict[str, Any]:
         """Run autonomous agent task"""
         return self.process_task(
             prompt=config.get("prompt", "Execute agent task"),
             task_type=TaskType.GENERAL,
-            autonomy_level=config.get("autonomy", "assisted")
+            autonomy_level=config.get("autonomy", "assisted"),
         )
 
-    def _run_default(self, config: Dict[str, Any]) -> Dict[str, Any]:
+    def _run_default(self, config: dict[str, Any]) -> dict[str, Any]:
         """Default task runner"""
         return self.process_task(
             prompt=config.get("prompt", "Execute task"),
-            task_type=TaskType.GENERAL
+            task_type=TaskType.GENERAL,
         )
 
 
 # Convenience functions for different components
+
+
 def create_bot(mode: BotMode = BotMode.HYBRID) -> UnifiedBot:
     """Create a standard bot instance"""
     return UnifiedBot(mode=mode, component=ComponentType.BOT)
@@ -251,13 +265,13 @@ def create_agent(mode: BotMode = BotMode.HYBRID) -> UnifiedBot:
 
 # Export main components
 __all__ = [
-    'UnifiedBot',
-    'BotMode',
-    'TaskType',
-    'ComponentType',
-    'create_bot',
-    'create_auditor',
-    'create_doc_generator',
-    'create_web_manager',
-    'create_agent'
+    "UnifiedBot",
+    "BotMode",
+    "TaskType",
+    "ComponentType",
+    "create_bot",
+    "create_auditor",
+    "create_doc_generator",
+    "create_web_manager",
+    "create_agent",
 ]

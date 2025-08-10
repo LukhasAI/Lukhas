@@ -39,11 +39,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
-import os
-from core.common import get_logger
 import requests
-from typing import Optional
+
 from .env_loader import get_api_key
 
 # Configure module logger
@@ -53,16 +53,23 @@ logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.perplexity")
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "perplexity_wrapper"
 
+
 class PerplexityWrapper:
+
     def __init__(self):
         """Initialize Perplexity wrapper with API key"""
-        self.api_key = get_api_key('perplexity')
+        self.api_key = get_api_key("perplexity")
         self.base_url = "https://api.perplexity.ai/chat/completions"
 
         if self.api_key:
             print(f"✅ Perplexity initialized with key: {self.api_key[:20]}...")
 
-    def generate_response(self, prompt: str, model: str = "llama-3.1-sonar-small-128k-online", **kwargs) -> str:
+    def generate_response(
+        self,
+        prompt: str,
+        model: str = "llama-3.1-sonar-small-128k-online",
+        **kwargs,
+    ) -> str:
         """Generate response using Perplexity API"""
         if not self.api_key:
             return "Perplexity API key not found. Please set PERPLEXITY_API_KEY environment variable."
@@ -70,17 +77,19 @@ class PerplexityWrapper:
         try:
             headers = {
                 "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
             data = {
                 "model": model,
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": kwargs.get('max_tokens', 2000),
-                "temperature": kwargs.get('temperature', 0.7)
+                "max_tokens": kwargs.get("max_tokens", 2000),
+                "temperature": kwargs.get("temperature", 0.7),
             }
 
-            response = requests.post(self.base_url, headers=headers, json=data, timeout=30)
+            response = requests.post(
+                self.base_url, headers=headers, json=data, timeout=30
+            )
             response.raise_for_status()
 
             return response.json()["choices"][0]["message"]["content"]
@@ -94,6 +103,7 @@ class PerplexityWrapper:
     def is_available(self) -> bool:
         """Check if Perplexity is available"""
         return self.api_key is not None
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

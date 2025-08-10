@@ -15,16 +15,16 @@
 """
 
 import asyncio
-import numpy as np
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple, Any, Callable
-from dataclasses import dataclass
-import structlog
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from .memory_safety_features import MemorySafetySystem, VerifoldEntry, DriftMetrics
+import numpy as np
+
 from .hybrid_memory_fold import HybridMemoryFold
-
-from core.common import get_logger
+from .memory_safety_features import (
+    MemorySafetySystem,
+    VerifoldEntry,
+)
 
 
 class VerifoldRegistryAdapter:
@@ -45,10 +45,7 @@ class VerifoldRegistryAdapter:
         self._trust_callbacks[module_name].append(callback)
 
     async def verify_for_module(
-        self,
-        module_name: str,
-        memory_id: str,
-        memory_data: Dict[str, Any]
+        self, module_name: str, memory_id: str, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """
         Verify memory for a specific module.
@@ -101,10 +98,7 @@ class VerifoldRegistryAdapter:
         return min(1.0, base_score)
 
     async def _notify_trust_update(
-        self,
-        module_name: str,
-        memory_id: str,
-        trust_score: float
+        self, module_name: str, memory_id: str, trust_score: float
     ):
         """Notify registered callbacks of trust updates"""
         if module_name in self._trust_callbacks:
@@ -113,9 +107,7 @@ class VerifoldRegistryAdapter:
                     await callback(memory_id, trust_score)
                 except Exception as e:
                     logger.error(
-                        "Trust callback failed",
-                        module=module_name,
-                        error=str(e)
+                        "Trust callback failed", module=module_name, error=str(e)
                     )
 
     def get_module_trust_report(self, module_name: str) -> Dict[str, Any]:
@@ -124,11 +116,17 @@ class VerifoldRegistryAdapter:
         return {
             "module": module_name,
             "total_verifications": len(self.safety.verifold_registry),
-            "average_trust": np.mean([
-                self._calculate_trust_score(e)
-                for e in self.safety.verifold_registry.values()
-            ]) if self.safety.verifold_registry else 1.0,
-            "callbacks_registered": len(self._trust_callbacks.get(module_name, []))
+            "average_trust": (
+                np.mean(
+                    [
+                        self._calculate_trust_score(e)
+                        for e in self.safety.verifold_registry.values()
+                    ]
+                )
+                if self.safety.verifold_registry
+                else 1.0
+            ),
+            "callbacks_registered": len(self._trust_callbacks.get(module_name, [])),
         }
 
 
@@ -155,11 +153,7 @@ class DriftMetricsAdapter:
         self._calibration_callbacks[module_name].append(callback)
 
     async def track_module_usage(
-        self,
-        module_name: str,
-        tag: str,
-        embedding: np.ndarray,
-        context: Dict[str, Any]
+        self, module_name: str, tag: str, embedding: np.ndarray, context: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
         Track drift for module-specific usage.
@@ -170,7 +164,7 @@ class DriftMetricsAdapter:
         enriched_context = {
             **context,
             "module": module_name,
-            "timestamp": datetime.now(timezone.utc)
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Track drift
@@ -178,8 +172,7 @@ class DriftMetricsAdapter:
 
         # Get module threshold
         threshold = self._drift_thresholds.get(
-            module_name,
-            self.safety.max_drift_threshold
+            module_name, self.safety.max_drift_threshold
         )
 
         # Check if calibration needed
@@ -193,7 +186,7 @@ class DriftMetricsAdapter:
             "drift_score": drift_score,
             "threshold": threshold,
             "needs_calibration": needs_calibration,
-            "recommendation": self._get_drift_recommendation(drift_score, threshold)
+            "recommendation": self._get_drift_recommendation(drift_score, threshold),
         }
 
     def _get_drift_recommendation(self, drift_score: float, threshold: float) -> str:
@@ -210,10 +203,7 @@ class DriftMetricsAdapter:
             return "calibrate"
 
     async def _trigger_calibration(
-        self,
-        module_name: str,
-        tag: str,
-        drift_score: float
+        self, module_name: str, tag: str, drift_score: float
     ):
         """Trigger calibration callbacks"""
         if module_name in self._calibration_callbacks:
@@ -225,7 +215,7 @@ class DriftMetricsAdapter:
                         "Calibration callback failed",
                         module=module_name,
                         tag=tag,
-                        error=str(e)
+                        error=str(e),
                     )
 
     def get_module_drift_report(self, module_name: str) -> Dict[str, Any]:
@@ -255,9 +245,8 @@ class DriftMetricsAdapter:
             "average_drift": np.mean(drift_scores) if drift_scores else 0.0,
             "max_drift": max(drift_scores) if drift_scores else 0.0,
             "threshold": self._drift_thresholds.get(
-                module_name,
-                self.safety.max_drift_threshold
-            )
+                module_name, self.safety.max_drift_threshold
+            ),
         }
 
 
@@ -288,10 +277,7 @@ class RealityAnchorsAdapter:
         self._validation_callbacks[module_name].append(callback)
 
     async def validate_output(
-        self,
-        module_name: str,
-        output_data: Dict[str, Any],
-        context: Dict[str, Any]
+        self, module_name: str, output_data: Dict[str, Any], context: Dict[str, Any]
     ) -> Tuple[bool, List[str]]:
         """
         Validate module output against reality anchors.
@@ -301,9 +287,7 @@ class RealityAnchorsAdapter:
         violations = []
 
         # Check global anchors
-        is_valid, error = await self.safety.prevent_hallucination(
-            output_data, context
-        )
+        is_valid, error = await self.safety.prevent_hallucination(output_data, context)
 
         if not is_valid:
             violations.append(error or "Failed global validation")
@@ -314,25 +298,14 @@ class RealityAnchorsAdapter:
                 if key in str(output_data):
                     # Simple check - in production would use NLI
                     if not self._check_consistency(output_data, key, truth):
-                        violations.append(
-                            f"Violates module anchor: {key} = {truth}"
-                        )
+                        violations.append(f"Violates module anchor: {key} = {truth}")
 
         # Notify callbacks
-        await self._notify_validation(
-            module_name,
-            len(violations) == 0,
-            violations
-        )
+        await self._notify_validation(module_name, len(violations) == 0, violations)
 
         return len(violations) == 0, violations
 
-    def _check_consistency(
-        self,
-        data: Dict[str, Any],
-        key: str,
-        truth: str
-    ) -> bool:
+    def _check_consistency(self, data: Dict[str, Any], key: str, truth: str) -> bool:
         """Check if data is consistent with anchor"""
         data_str = str(data).lower()
         key_lower = key.lower()
@@ -350,10 +323,7 @@ class RealityAnchorsAdapter:
         return True
 
     async def _notify_validation(
-        self,
-        module_name: str,
-        is_valid: bool,
-        violations: List[str]
+        self, module_name: str, is_valid: bool, violations: List[str]
     ):
         """Notify registered callbacks"""
         if module_name in self._validation_callbacks:
@@ -362,9 +332,7 @@ class RealityAnchorsAdapter:
                     await callback(is_valid, violations)
                 except Exception as e:
                     logger.error(
-                        "Validation callback failed",
-                        module=module_name,
-                        error=str(e)
+                        "Validation callback failed", module=module_name, error=str(e)
                     )
 
     def get_module_anchors(self, module_name: str) -> Dict[str, str]:
@@ -380,9 +348,7 @@ class ConsensusValidationAdapter:
     """
 
     def __init__(
-        self,
-        safety_system: MemorySafetySystem,
-        memory_fold: HybridMemoryFold
+        self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold
     ):
         self.safety = safety_system
         self.memory = memory_fold
@@ -397,7 +363,7 @@ class ConsensusValidationAdapter:
         self,
         memory_id: str,
         memory_data: Dict[str, Any],
-        participating_colonies: List[str]
+        participating_colonies: List[str],
     ) -> Tuple[bool, float, Dict[str, bool]]:
         """
         Validate memory across multiple colonies.
@@ -418,9 +384,7 @@ class ConsensusValidationAdapter:
                     colony_votes[colony_id] = bool(vote)
                 except Exception as e:
                     logger.error(
-                        "Colony validation failed",
-                        colony=colony_id,
-                        error=str(e)
+                        "Colony validation failed", colony=colony_id, error=str(e)
                     )
                     colony_votes[colony_id] = False
             else:
@@ -435,10 +399,7 @@ class ConsensusValidationAdapter:
         return consensus_reached, agreement_ratio, colony_votes
 
     async def distributed_memory_verification(
-        self,
-        query: str,
-        colonies: List[str],
-        min_consensus_memories: int = 3
+        self, query: str, colonies: List[str], min_consensus_memories: int = 3
     ) -> List[Tuple[Any, float]]:
         """
         Retrieve memories with distributed consensus validation.
@@ -447,8 +408,7 @@ class ConsensusValidationAdapter:
         """
         # Get candidate memories
         candidates = await self.memory.fold_out_semantic(
-            query,
-            top_k=min_consensus_memories * 3  # Get extra for filtering
+            query, top_k=min_consensus_memories * 3  # Get extra for filtering
         )
 
         verified_results = []
@@ -459,16 +419,12 @@ class ConsensusValidationAdapter:
 
             # Get similar memories for consensus
             similar_memories = [
-                (m.item_id, m.data, s)
-                for m, s in candidates
-                if m.item_id != memory_id
+                (m.item_id, m.data, s) for m, s in candidates if m.item_id != memory_id
             ][:min_consensus_memories]
 
             # Local consensus validation
             is_valid, confidence = await self.safety.consensus_validation(
-                memory_id,
-                memory_data,
-                similar_memories
+                memory_id, memory_data, similar_memories
             )
 
             if not is_valid:
@@ -476,9 +432,7 @@ class ConsensusValidationAdapter:
 
             # Colony consensus validation
             consensus_reached, agreement, votes = await self.validate_with_colonies(
-                memory_id,
-                memory_data,
-                colonies
+                memory_id, memory_data, colonies
             )
 
             if consensus_reached:
@@ -491,7 +445,7 @@ class ConsensusValidationAdapter:
                     memory_id=memory_id,
                     confidence=confidence,
                     agreement=agreement,
-                    colonies=len(votes)
+                    colonies=len(votes),
                 )
 
         # Sort by final score
@@ -509,7 +463,7 @@ class ConsensusValidationAdapter:
             "registered_colonies": len(self._colony_validators),
             "swarm_threshold": self._swarm_consensus_threshold,
             "consensus_mechanism": "distributed_voting",
-            "validation_strategy": "memory_similarity_and_colony_agreement"
+            "validation_strategy": "memory_similarity_and_colony_agreement",
         }
 
 
@@ -522,9 +476,7 @@ class MemorySafetyIntegration:
     """
 
     def __init__(
-        self,
-        safety_system: MemorySafetySystem,
-        memory_fold: HybridMemoryFold
+        self, safety_system: MemorySafetySystem, memory_fold: HybridMemoryFold
     ):
         self.safety = safety_system
         self.memory = memory_fold
@@ -538,9 +490,7 @@ class MemorySafetyIntegration:
         logger.info("Memory safety integration initialized")
 
     async def register_module(
-        self,
-        module_name: str,
-        config: Optional[Dict[str, Any]] = None
+        self, module_name: str, config: Optional[Dict[str, Any]] = None
     ):
         """Register a module for safety integration"""
         config = config or {}
@@ -548,8 +498,7 @@ class MemorySafetyIntegration:
         # Set module-specific configurations
         if "drift_threshold" in config:
             self.drift.set_module_drift_threshold(
-                module_name,
-                config["drift_threshold"]
+                module_name, config["drift_threshold"]
             )
 
         if "reality_anchors" in config:
@@ -562,7 +511,7 @@ class MemorySafetyIntegration:
         logger.info(
             "Module registered for safety integration",
             module=module_name,
-            config=config
+            config=config,
         )
 
     def get_integration_status(self) -> Dict[str, Any]:
@@ -571,20 +520,19 @@ class MemorySafetyIntegration:
             "safety_report": self.safety.get_safety_report(),
             "verifold_status": {
                 "total_modules": len(self.verifold._trust_callbacks),
-                "verifications": len(self.safety.verifold_registry)
+                "verifications": len(self.safety.verifold_registry),
             },
             "drift_tracking": {
                 "modules_tracked": len(self.drift._drift_thresholds),
-                "tags_monitored": len(self.safety.drift_metrics)
+                "tags_monitored": len(self.safety.drift_metrics),
             },
             "reality_anchors": {
                 "global_anchors": len(self.safety.reality_anchors),
                 "module_anchors": sum(
-                    len(anchors)
-                    for anchors in self.anchors._module_anchors.values()
-                )
+                    len(anchors) for anchors in self.anchors._module_anchors.values()
+                ),
             },
-            "consensus": self.consensus.get_consensus_report()
+            "consensus": self.consensus.get_consensus_report(),
         }
 
 
@@ -601,36 +549,42 @@ async def demonstrate_integration():
     integration = MemorySafetyIntegration(safety, memory)
 
     # Register modules
-    await integration.register_module("learning", {
-        "drift_threshold": 0.3,  # More sensitive for learning
-    })
+    await integration.register_module(
+        "learning",
+        {
+            "drift_threshold": 0.3,  # More sensitive for learning
+        },
+    )
 
-    await integration.register_module("creativity", {
-        "reality_anchors": {
-            "physics": "Objects fall down due to gravity",
-            "logic": "Contradictions cannot be true"
-        }
-    })
+    await integration.register_module(
+        "creativity",
+        {
+            "reality_anchors": {
+                "physics": "Objects fall down due to gravity",
+                "logic": "Contradictions cannot be true",
+            }
+        },
+    )
 
-    await integration.register_module("voice", {
-        "drift_threshold": 0.6,  # Less sensitive for voice variation
-    })
+    await integration.register_module(
+        "voice",
+        {
+            "drift_threshold": 0.6,  # Less sensitive for voice variation
+        },
+    )
 
     print("🔌 SAFETY INTEGRATION DEMONSTRATION")
-    print("="*60)
+    print("=" * 60)
 
     # Test verifold integration
     print("\n1. Verifold Registry Integration:")
 
-    test_memory = {
-        "content": "Learning about safety integration",
-        "module": "learning"
-    }
+    test_memory = {"content": "Learning about safety integration", "module": "learning"}
 
     mem_id = await memory.fold_in_with_embedding(
         data=test_memory,
         tags=["integration", "test"],
-        text_content=test_memory["content"]
+        text_content=test_memory["content"],
     )
 
     # Register in verifold
@@ -638,7 +592,7 @@ async def demonstrate_integration():
         memory_id=mem_id,
         collapse_hash=safety.compute_collapse_hash(test_memory),
         creation_time=datetime.now(timezone.utc),
-        last_verified=datetime.now(timezone.utc)
+        last_verified=datetime.now(timezone.utc),
     )
 
     # Verify for learning module
@@ -654,10 +608,7 @@ async def demonstrate_integration():
 
     embedding = np.random.randn(1024).astype(np.float32)
     drift_result = await integration.drift.track_module_usage(
-        "learning",
-        "integration",
-        embedding,
-        {"action": "test"}
+        "learning", "integration", embedding, {"action": "test"}
     )
 
     print(f"  Drift score: {drift_result['drift_score']:.3f}")
@@ -668,13 +619,11 @@ async def demonstrate_integration():
 
     creative_output = {
         "content": "Imagine objects floating upward naturally",
-        "type": "creative_idea"
+        "type": "creative_idea",
     }
 
     is_valid, violations = await integration.anchors.validate_output(
-        "creativity",
-        creative_output,
-        {"context": "brainstorming"}
+        "creativity", creative_output, {"context": "brainstorming"}
     )
 
     print(f"  Validation: {'✅' if is_valid else '❌'}")
@@ -686,7 +635,9 @@ async def demonstrate_integration():
     status = integration.get_integration_status()
     print(f"  Modules registered: {status['verifold_status']['total_modules']}")
     print(f"  Tags monitored: {status['drift_tracking']['tags_monitored']}")
-    print(f"  Reality anchors: {status['reality_anchors']['global_anchors'] + status['reality_anchors']['module_anchors']}")
+    print(
+        f"  Reality anchors: {status['reality_anchors']['global_anchors'] + status['reality_anchors']['module_anchors']}"
+    )
 
     print("\n✅ Integration demonstration complete!")
 

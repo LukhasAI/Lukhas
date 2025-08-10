@@ -6,10 +6,12 @@ with simulated cascade scenarios.
 """
 
 import asyncio
-from datetime import datetime, timezone, timedelta
-from prophet import Prophet
+from datetime import datetime, timedelta, timezone
+
 from symbolic_patterns.cascade_prediction import (
-    LambdaProphet, SymbolicMetrics, AlertLevel, CascadeType
+    AlertLevel,
+    LambdaProphet,
+    SymbolicMetrics,
 )
 
 
@@ -21,21 +23,21 @@ def generate_cascade_scenario() -> list:
     # Generate 15 metrics showing cascade buildup
     for i in range(15):
         progress = i / 15  # 0.0 to 1.0
-        timestamp = base_time + timedelta(minutes=i*5)
+        timestamp = base_time + timedelta(minutes=i * 5)
 
         # Simulate entropy spiral with accelerating risk (exponential curve)
-        accelerated_progress = progress ** 2  # Quadratic acceleration
+        accelerated_progress = progress**2  # Quadratic acceleration
 
         metrics = SymbolicMetrics(
             timestamp=timestamp,
-            entropy_level=0.2 + accelerated_progress * 0.75,    # 0.2 → 0.95
-            phase_drift=0.05 + accelerated_progress * 0.5,      # 0.05 → 0.55
+            entropy_level=0.2 + accelerated_progress * 0.75,  # 0.2 → 0.95
+            phase_drift=0.05 + accelerated_progress * 0.5,  # 0.05 → 0.55
             motif_conflicts=1 + int(accelerated_progress * 12),  # 1 → 13
-            emotion_volatility=0.1 + accelerated_progress * 0.85, # 0.1 → 0.95
-            contradiction_density=0.1 + accelerated_progress * 0.7, # 0.1 → 0.8
+            emotion_volatility=0.1 + accelerated_progress * 0.85,  # 0.1 → 0.95
+            contradiction_density=0.1 + accelerated_progress * 0.7,  # 0.1 → 0.8
             memory_fold_integrity=0.95 - accelerated_progress * 0.6,  # 0.95 → 0.35
-            governor_stress=0.05 + accelerated_progress * 0.8,   # 0.05 → 0.85
-            dream_convergence=0.1 + accelerated_progress * 0.75  # 0.1 → 0.85
+            governor_stress=0.05 + accelerated_progress * 0.8,  # 0.05 → 0.85
+            dream_convergence=0.1 + accelerated_progress * 0.75,  # 0.1 → 0.85
         )
         timeline.append(metrics)
 
@@ -85,7 +87,7 @@ async def run_prophet_demo():
     prediction = prophet.predict_cascade_risk(timeline)
 
     if prediction:
-        print(f"   🔮 CASCADE DETECTED!")
+        print("   🔮 CASCADE DETECTED!")
         print(f"   ✓ Type: {prediction.cascade_type.value}")
         print(f"   ✓ Confidence: {prediction.confidence:.3f}")
 
@@ -98,9 +100,16 @@ async def run_prophet_demo():
         for factor in prediction.contributing_factors[:3]:
             print(f"     • {factor}")
 
-        print(f"   ✓ Recommended Interventions: {len(prediction.recommended_interventions)}")
+        print(
+            f"   ✓ Recommended Interventions: {len(prediction.recommended_interventions)}"
+        )
         for intervention in prediction.recommended_interventions:
-            priority_emoji = {"EMERGENCY": "🚨", "CRITICAL": "🔴", "WARNING": "🟡", "INFO": "🔵"}
+            priority_emoji = {
+                "EMERGENCY": "🚨",
+                "CRITICAL": "🔴",
+                "WARNING": "🟡",
+                "INFO": "🔵",
+            }
             emoji = priority_emoji.get(intervention.priority.value, "⚪")
 
             print(f"     {emoji} {intervention.intervention_type.value}")
@@ -120,11 +129,14 @@ async def run_prophet_demo():
         else:
             alert_level = AlertLevel.INFO
 
-        signal = prophet.emit_prophet_signal(alert_level, {
-            "prediction": prediction,
-            "confidence": prediction.confidence,
-            "analysis": analysis
-        })
+        signal = prophet.emit_prophet_signal(
+            alert_level,
+            {
+                "prediction": prediction,
+                "confidence": prediction.confidence,
+                "analysis": analysis,
+            },
+        )
 
         print(f"   ✓ Signal Type: {signal.signal_type}")
         print(f"   ✓ Alert Level: {signal.alert_level.value}")

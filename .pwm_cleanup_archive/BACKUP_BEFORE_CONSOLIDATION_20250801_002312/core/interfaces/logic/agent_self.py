@@ -5,10 +5,10 @@ Advanced: agent_self.py
 Integration Date: 2025-05-31T07:55:30.358880
 """
 
-import streamlit as st
-from pathlib import Path
-from dotenv import load_dotenv
 import os
+
+import streamlit as st
+from dotenv import load_dotenv
 
 from core.lukhas_emotion_log import get_emotion_state
 from core.lukhas_widget_engine import create_symbolic_widget
@@ -54,7 +54,9 @@ st.sidebar.image("assets/logo.svg", use_column_width=True)
 st.sidebar.title("LUKHAS SYSTEMS")
 agent_enabled = st.sidebar.checkbox("🧠 Enable Symbolic Agent", value=False)
 user_tier = st.sidebar.selectbox("🔐 Access Tier", [0, 1, 2, 3, 4, 5], index=2)
-selected_module = st.sidebar.selectbox("📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"])
+selected_module = st.sidebar.selectbox(
+    "📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"]
+)
 
 if st.sidebar.button("🌙 Reflective Dream Scheduler"):
     st.info("Reflective dream scheduling initiated…")
@@ -67,6 +69,7 @@ st.markdown("> A modular AGI interface designed to reflect, assist, and adapt.")
 if agent_enabled:
     try:
         from core.lukhas_self import who_am_i
+
         st.success("🧠 Agent Online: " + who_am_i())
     except Exception as e:
         st.error("⚠️ Agent module could not load.")
@@ -78,6 +81,7 @@ prompt = st.text_input("💬 What would you like to ask?")
 if st.button("Ask GPT"):
     try:
         import openai
+
         openai.api_key = os.getenv("OPENAI_API_KEY")
         emotion_state = get_emotion_state()
         enriched_prompt = f"[Mood: {emotion_state.get('emotion', 'neutral')}] {prompt}"
@@ -85,8 +89,8 @@ if st.button("Ask GPT"):
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a friendly symbolic co-agent."},
-                {"role": "user", "content": enriched_prompt}
-            ]
+                {"role": "user", "content": enriched_prompt},
+            ],
         )
         st.markdown(f"**💡 LUKHAS says:** {chat.choices[0].message.content}")
     except Exception as e:

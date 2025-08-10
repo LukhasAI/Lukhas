@@ -3,10 +3,11 @@
 Simple test for dream engine integration without complex imports.
 """
 
-import sys
 import os
-import asyncio
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 # Simple test without importing the full reflection layer
 def test_dream_imports():
@@ -16,12 +17,13 @@ def test_dream_imports():
     # Test DreamDeliveryManager import
     try:
         from dream.core.dream_delivery_manager import DreamDeliveryManager
+
         print("✅ DreamDeliveryManager import successful")
 
         # Test basic initialization
         dream_config = {
             "output_channels": ["voice", "screen"],
-            "use_symbolic_world": False
+            "use_symbolic_world": False,
         }
         dream_delivery = DreamDeliveryManager(dream_config)
         print("✅ DreamDeliveryManager initialization successful")
@@ -31,10 +33,7 @@ def test_dream_imports():
             "dream_id": "test_001",
             "content": "Test dream content",
             "intent": "test",
-            "emotional_context": {
-                "primary_emotion": "neutral",
-                "intensity": 0.5
-            }
+            "emotional_context": {"primary_emotion": "neutral", "intensity": 0.5},
         }
 
         result = dream_delivery.deliver_dream(test_dream, channels=["screen"])
@@ -45,6 +44,7 @@ def test_dream_imports():
     except Exception as e:
         print(f"⚠️ DreamDeliveryManager test failed: {e}")
         return False
+
 
 if __name__ == "__main__":
     success = test_dream_imports()

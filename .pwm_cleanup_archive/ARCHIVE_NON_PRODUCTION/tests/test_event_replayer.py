@@ -1,7 +1,8 @@
 import time
 import uuid
-from core.event_sourcing import EventStore, Event
+
 from core.event_replayer import EventReplayer, replay_ethical_events
+from core.event_sourcing import Event, EventStore
 
 
 def test_filter_and_replay_ethical_events():

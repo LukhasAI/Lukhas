@@ -19,10 +19,12 @@
 └──────────────────────────────────────────────────────────────┘
 """
 
-import pandas as pd
-import matplotlib.pyplot as plt
 import os
 from datetime import datetime
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
 
 def load_drift_logs(file_path):
     """
@@ -30,23 +32,31 @@ def load_drift_logs(file_path):
     """
     return pd.read_csv(file_path)
 
+
 def plot_drift_scores(log_df, output_image):
     """
     Generates a line graph of drift scores over time.
     """
-    log_df['Date'] = pd.to_datetime(log_df['Date'])
+    log_df["Date"] = pd.to_datetime(log_df["Date"])
     plt.figure(figsize=(8, 4))
-    plt.plot(log_df['Date'], log_df['Cumulative Drift Score'], marker='o', color='red', label='Drift Score')
-    plt.axhline(y=0.3, color='orange', linestyle='--', label='Recalibration Threshold')
-    plt.axhline(y=0.6, color='red', linestyle='--', label='Escalation Threshold')
-    plt.xlabel('Date')
-    plt.ylabel('Cumulative Drift Score')
-    plt.title('LUKHAS_AGI_3 Compliance Drift Over Time')
+    plt.plot(
+        log_df["Date"],
+        log_df["Cumulative Drift Score"],
+        marker="o",
+        color="red",
+        label="Drift Score",
+    )
+    plt.axhline(y=0.3, color="orange", linestyle="--", label="Recalibration Threshold")
+    plt.axhline(y=0.6, color="red", linestyle="--", label="Escalation Threshold")
+    plt.xlabel("Date")
+    plt.ylabel("Cumulative Drift Score")
+    plt.title("LUKHAS_AGI_3 Compliance Drift Over Time")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(output_image)
     plt.close()
+
 
 def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
     """
@@ -98,9 +108,10 @@ def generate_report(log_df, base_report_dir="lucas_governance/reports/"):
         summary += f"| {row['Date']} | {row['Decision ID']} | {row['Subsystem']} | {row['Compliance Score']} | {row['Drift Increment']} | {row['Cumulative Drift Score']} | {row['Action Taken']} |\n"
 
     # Save Markdown report
-    with open(report_file, 'w') as f:
+    with open(report_file, "w") as f:
         f.write(summary)
     print(f"✅ Report and graph generated in {output_dir}")
+
 
 # 🔍 USAGE EXAMPLE:
 if __name__ == "__main__":

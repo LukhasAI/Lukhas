@@ -1,6 +1,4 @@
-import pytest
-
-from core.plugin_registry import PluginRegistry, Plugin, PluginType
+from core.plugin_registry import Plugin, PluginRegistry, PluginType
 
 
 class DummyPlugin(Plugin):

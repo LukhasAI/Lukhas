@@ -4,10 +4,7 @@ Integration test for LBot reasoning system with symbolic reasoning engine
 Tests the integration of ΛBotAdvancedReasoningOrchestrator with SymbolicEngine
 """
 
-import asyncio
-import os
 import sys
-import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 

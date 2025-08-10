@@ -6,27 +6,23 @@ Comprehensive tests for dream formation, memory linking, fragment processing,
 and integration analysis capabilities.
 """
 
+from unittest.mock import patch
+
 import pytest
-import asyncio
-import json
-import uuid
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
 
 # Import the dream integration system
 from memory.core_memory.dream_integration import (
     DreamIntegrator,
-    DreamSession,
-    DreamFragment,
-    DreamType,
-    DreamState,
     DreamMemoryLinker,
-    get_dream_integrator,
-    initiate_dream,
+    DreamState,
+    DreamType,
     add_fragment,
+    get_dream_integrator,
+    get_dream_status,
+    initiate_dream,
     integrate_dream,
-    get_dream_status
 )
+
 
 class TestDreamMemoryLinker:
     """Test suite for DreamMemoryLinker functionality."""
@@ -41,9 +37,7 @@ class TestDreamMemoryLinker:
         """Test creating bidirectional memory-dream links."""
         # Test successful link creation
         result = self.linker.create_memory_link(
-            self.test_dream_id,
-            self.test_memory_ids[0],
-            0.8
+            self.test_dream_id, self.test_memory_ids[0], 0.8
         )
 
         assert result is True
@@ -96,6 +90,7 @@ class TestDreamMemoryLinker:
         related_dreams = self.linker.find_related_dreams("non_existent_memory")
         assert related_dreams == []
 
+
 class TestDreamIntegrator:
     """Test suite for main DreamIntegrator functionality."""
 
@@ -104,7 +99,7 @@ class TestDreamIntegrator:
         self.config = {
             "max_active_dreams": 3,
             "formation_threshold": 0.6,
-            "integration_timeout": 1800
+            "integration_timeout": 1800,
         }
         self.integrator = DreamIntegrator(self.config)
         self.test_memory_ids = ["mem_001", "mem_002", "mem_003"]
@@ -122,9 +117,7 @@ class TestDreamIntegrator:
         """Test dream formation initiation."""
         # Test successful dream formation
         dream_id = self.integrator.initiate_dream_formation(
-            self.test_memory_ids,
-            DreamType.MEMORY_CONSOLIDATION,
-            self.emotional_context
+            self.test_memory_ids, DreamType.MEMORY_CONSOLIDATION, self.emotional_context
         )
 
         assert dream_id is not None
@@ -162,14 +155,14 @@ class TestDreamIntegrator:
         fragment_content = {
             "type": "symbolic_connection",
             "content": "Memory patterns showing learning progression",
-            "confidence": 0.8
+            "confidence": 0.8,
         }
 
         result = self.integrator.add_dream_fragment(
             dream_id,
             fragment_content,
             memory_sources=["mem_001", "mem_002"],
-            emotional_intensity=0.7
+            emotional_intensity=0.7,
         )
 
         assert result is True
@@ -187,8 +180,7 @@ class TestDreamIntegrator:
     def test_add_fragment_to_nonexistent_dream(self):
         """Test adding fragment to non-existent dream."""
         result = self.integrator.add_dream_fragment(
-            "non_existent_dream",
-            {"test": "content"}
+            "non_existent_dream", {"test": "content"}
         )
         assert result is False
 
@@ -201,7 +193,7 @@ class TestDreamIntegrator:
         fragments = [
             {"type": "pattern", "content": "Recurring behavior X"},
             {"type": "insight", "content": "Connection between A and B"},
-            {"type": "emotion", "content": "Positive reinforcement loop"}
+            {"type": "emotion", "content": "Positive reinforcement loop"},
         ]
 
         for fragment_content in fragments:
@@ -253,14 +245,18 @@ class TestDreamIntegrator:
         # Create multiple dreams with the target memory
         dream_ids = []
         for i in range(3):
-            dream_id = self.integrator.initiate_dream_formation([memory_id, f"other_mem_{i}"])
+            dream_id = self.integrator.initiate_dream_formation(
+                [memory_id, f"other_mem_{i}"]
+            )
             dream_ids.append(dream_id)
 
         # Find dreams by memory
         associated_dreams = self.integrator.find_dreams_by_memory(memory_id)
 
         assert len(associated_dreams) == 3
-        assert all(dream_info["dream_id"] in dream_ids for dream_info in associated_dreams)
+        assert all(
+            dream_info["dream_id"] in dream_ids for dream_info in associated_dreams
+        )
 
     def test_get_system_status(self):
         """Test system status reporting."""
@@ -291,6 +287,7 @@ class TestDreamIntegrator:
         assert config["integration_timeout"] == 1800
         assert config["max_active_dreams"] == 3
 
+
 class TestDreamTypes:
     """Test suite for dream type handling."""
 
@@ -305,15 +302,12 @@ class TestDreamTypes:
             DreamType.CREATIVE_SYNTHESIS,
             DreamType.PROBLEM_SOLVING,
             DreamType.EMOTIONAL_PROCESSING,
-            DreamType.SYMBOLIC_INTEGRATION
+            DreamType.SYMBOLIC_INTEGRATION,
         ]
 
         created_dreams = []
         for dream_type in dream_types:
-            dream_id = self.integrator.initiate_dream_formation(
-                ["mem_001"],
-                dream_type
-            )
+            dream_id = self.integrator.initiate_dream_formation(["mem_001"], dream_type)
             assert dream_id is not None
             created_dreams.append(dream_id)
 
@@ -324,13 +318,17 @@ class TestDreamTypes:
         assert len(created_dreams) == len(dream_types)
         assert len(set(created_dreams)) == len(dream_types)  # All unique
 
+
 class TestModuleLevelInterface:
     """Test module-level interface functions."""
 
     def setup_method(self):
         """Setup test fixtures."""
         # Reset the default integrator
-        from memory.core_memory.dream_integration import default_dream_integrator
+        from memory.core_memory.dream_integration import (
+            default_dream_integrator,
+        )
+
         default_dream_integrator.__init__()
 
     def test_get_dream_integrator(self):
@@ -341,9 +339,7 @@ class TestModuleLevelInterface:
     def test_initiate_dream_module_function(self):
         """Test module-level dream initiation."""
         dream_id = initiate_dream(
-            ["mem_001", "mem_002"],
-            "memory_consolidation",
-            {"curiosity": 0.7}
+            ["mem_001", "mem_002"], "memory_consolidation", {"curiosity": 0.7}
         )
 
         assert dream_id is not None
@@ -385,6 +381,7 @@ class TestModuleLevelInterface:
         assert "system_status" in status
         assert "module_version" in status
 
+
 class TestDreamStates:
     """Test dream state transitions."""
 
@@ -411,6 +408,7 @@ class TestDreamStates:
         assert archived_dream.state == DreamState.ARCHIVED
         assert archived_dream.completed_at is not None
 
+
 class TestDreamFragments:
     """Test dream fragment functionality."""
 
@@ -424,14 +422,14 @@ class TestDreamFragments:
         fragment_content = {
             "type": "insight",
             "description": "Connection discovered between concepts A and B",
-            "confidence": 0.85
+            "confidence": 0.85,
         }
 
         result = self.integrator.add_dream_fragment(
             self.dream_id,
             fragment_content,
             memory_sources=["mem_001", "mem_002"],
-            emotional_intensity=0.9
+            emotional_intensity=0.9,
         )
 
         assert result is True
@@ -452,7 +450,7 @@ class TestDreamFragments:
         fragment_contents = [
             {"type": "pattern", "content": "Recurring theme X"},
             {"type": "emotion", "content": "Positive association"},
-            {"type": "insight", "content": "Novel connection Y-Z"}
+            {"type": "insight", "content": "Novel connection Y-Z"},
         ]
 
         # Add multiple fragments
@@ -467,6 +465,7 @@ class TestDreamFragments:
         # Verify fragment order preserved
         for i, fragment in enumerate(dream_session.fragments):
             assert fragment.content == fragment_contents[i]
+
 
 class TestErrorHandling:
     """Test error handling and edge cases."""
@@ -494,8 +493,7 @@ class TestErrorHandling:
         """Test dream formation with invalid emotional context."""
         # The function will fail with invalid emotional context
         dream_id = self.integrator.initiate_dream_formation(
-            ["mem_001"],
-            emotional_context="invalid"  # Should be dict
+            ["mem_001"], emotional_context="invalid"  # Should be dict
         )
 
         # Expect None since the function catches the exception
@@ -511,6 +509,7 @@ class TestErrorHandling:
         assert result["success"] is True
         assert result["fragments_processed"] == 0
         # Should still generate some insights even without fragments
+
 
 class TestPerformanceAndScaling:
     """Test performance characteristics and scaling behavior."""
@@ -537,8 +536,7 @@ class TestPerformanceAndScaling:
         num_fragments = 50
         for i in range(num_fragments):
             result = self.integrator.add_dream_fragment(
-                dream_id,
-                {"fragment_id": i, "content": f"Fragment {i}"}
+                dream_id, {"fragment_id": i, "content": f"Fragment {i}"}
             )
             assert result is True
 
@@ -573,49 +571,63 @@ class TestPerformanceAndScaling:
         assert all(result["success"] for result in integration_results)
         assert len(self.integrator.dream_archive) == 10
 
+
 # Test fixtures and utilities
 @pytest.fixture
 def dream_integrator():
     """Fixture providing a fresh DreamIntegrator instance."""
-    return DreamIntegrator({
-        "max_active_dreams": 5,
-        "formation_threshold": 0.7,
-        "integration_timeout": 3600
-    })
+    return DreamIntegrator(
+        {
+            "max_active_dreams": 5,
+            "formation_threshold": 0.7,
+            "integration_timeout": 3600,
+        }
+    )
+
 
 @pytest.fixture
 def sample_memory_ids():
     """Fixture providing sample memory IDs."""
     return ["memory_001", "memory_002", "memory_003", "memory_004"]
 
+
 @pytest.fixture
 def sample_emotional_context():
     """Fixture providing sample emotional context."""
-    return {
-        "curiosity": 0.8,
-        "satisfaction": 0.6,
-        "engagement": 0.7
-    }
+    return {"curiosity": 0.8, "satisfaction": 0.6, "engagement": 0.7}
+
 
 # Integration tests
 class TestDreamSystemIntegration:
     """Integration tests for the complete dream system."""
 
-    def test_complete_dream_lifecycle(self, dream_integrator, sample_memory_ids, sample_emotional_context):
+    def test_complete_dream_lifecycle(
+        self, dream_integrator, sample_memory_ids, sample_emotional_context
+    ):
         """Test complete dream lifecycle from formation to integration."""
         # 1. Initiate dream formation
         dream_id = dream_integrator.initiate_dream_formation(
-            sample_memory_ids,
-            DreamType.CREATIVE_SYNTHESIS,
-            sample_emotional_context
+            sample_memory_ids, DreamType.CREATIVE_SYNTHESIS, sample_emotional_context
         )
         assert dream_id is not None
 
         # 2. Add multiple fragments
         fragments = [
-            {"type": "pattern", "content": "Cyclical behavior pattern", "confidence": 0.8},
-            {"type": "insight", "content": "Novel connection between domains", "confidence": 0.9},
-            {"type": "emotion", "content": "Positive reinforcement detected", "confidence": 0.7}
+            {
+                "type": "pattern",
+                "content": "Cyclical behavior pattern",
+                "confidence": 0.8,
+            },
+            {
+                "type": "insight",
+                "content": "Novel connection between domains",
+                "confidence": 0.9,
+            },
+            {
+                "type": "emotion",
+                "content": "Positive reinforcement detected",
+                "confidence": 0.7,
+            },
         ]
 
         for fragment in fragments:
@@ -653,7 +665,9 @@ class TestDreamSystemIntegration:
 
         # Verify bidirectional linking
         for memory_id in memory_ids:
-            related_dreams = dream_integrator.memory_linker.find_related_dreams(memory_id)
+            related_dreams = dream_integrator.memory_linker.find_related_dreams(
+                memory_id
+            )
             assert dream_id in related_dreams
 
     def test_system_recovery_after_errors(self, dream_integrator):
@@ -662,7 +676,7 @@ class TestDreamSystemIntegration:
         dream_id = dream_integrator.initiate_dream_formation(["mem_001"])
 
         # Simulate error during fragment addition (mock failure)
-        with patch.object(dream_integrator, 'add_dream_fragment', return_value=False):
+        with patch.object(dream_integrator, "add_dream_fragment", return_value=False):
             result = dream_integrator.add_dream_fragment(dream_id, {"test": "content"})
             assert result is False
 
@@ -673,6 +687,7 @@ class TestDreamSystemIntegration:
         # Should still be able to add fragments normally
         result = dream_integrator.add_dream_fragment(dream_id, {"recovery": "test"})
         assert result is True
+
 
 if __name__ == "__main__":
     # Run the tests

@@ -4,12 +4,11 @@ import pickle
 from collections import defaultdict
 from collections.abc import Sequence
 from itertools import chain
-from typing import Any, Callable, no_type_check, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Callable, no_type_check
 
 import torch
 import torch.nn as nn
 from torch.utils._python_dispatch import TorchDispatchMode
-
 
 if TYPE_CHECKING:
     from torch.utils.hooks import RemovableHandle

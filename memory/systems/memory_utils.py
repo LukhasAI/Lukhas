@@ -42,8 +42,9 @@
 
 import hashlib
 import json
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any, Dict
+
 
 class MemoryUtils:
     """Shared memory utility functions."""
@@ -58,22 +59,30 @@ class MemoryUtils:
         """Encrypt memory data."""
         # Simple encryption for demonstration
         data_str = json.dumps(data)
-        encrypted = ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(data_str, key * (len(data_str) // len(key) + 1)))
+        encrypted = "".join(
+            chr(ord(c) ^ ord(k))
+            for c, k in zip(data_str, key * (len(data_str) // len(key) + 1))
+        )
         return encrypted
 
     @staticmethod
     def decrypt_memory_data(encrypted_data: str, key: str) -> Dict[str, Any]:
         """Decrypt memory data."""
         # Simple decryption for demonstration
-        decrypted = ''.join(chr(ord(c) ^ ord(k)) for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1)))
+        decrypted = "".join(
+            chr(ord(c) ^ ord(k))
+            for c, k in zip(encrypted_data, key * (len(encrypted_data) // len(key) + 1))
+        )
         return json.loads(decrypted)
 
     @staticmethod
-    def validate_memory_access(user_id: str, memory_id: str, access_policy: Dict[str, Any]) -> bool:
+    def validate_memory_access(
+        user_id: str, memory_id: str, access_policy: Dict[str, Any]
+    ) -> bool:
         """Validate memory access permissions."""
-        if access_policy.get('public', False):
+        if access_policy.get("public", False):
             return True
-        if user_id in access_policy.get('allowed_users', []):
+        if user_id in access_policy.get("allowed_users", []):
             return True
         return False
 

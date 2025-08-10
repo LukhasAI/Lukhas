@@ -5,17 +5,18 @@ Comprehensive performance testing for the integrated LUKHAS AGI system
 """
 
 import asyncio
-import pytest
-import time
-import statistics
 import json
-from pathlib import Path
+import statistics
 import sys
-from typing import Dict, Any, List, Tuple
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -24,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 @dataclass
 class PerformanceMetrics:
     """Performance metrics collection"""
+
     operation: str
     samples: List[float] = field(default_factory=list)
     errors: int = 0
@@ -51,7 +53,9 @@ class PerformanceMetrics:
             return 0
         sorted_samples = sorted(self.samples)
         index = int(len(sorted_samples) * 0.95)
-        return sorted_samples[index] if index < len(sorted_samples) else sorted_samples[-1]
+        return (
+            sorted_samples[index] if index < len(sorted_samples) else sorted_samples[-1]
+        )
 
     @property
     def p99(self) -> float:
@@ -60,7 +64,9 @@ class PerformanceMetrics:
             return 0
         sorted_samples = sorted(self.samples)
         index = int(len(sorted_samples) * 0.99)
-        return sorted_samples[index] if index < len(sorted_samples) else sorted_samples[-1]
+        return (
+            sorted_samples[index] if index < len(sorted_samples) else sorted_samples[-1]
+        )
 
     def add_sample(self, latency_ms: float):
         """Add a latency sample"""
@@ -69,17 +75,21 @@ class PerformanceMetrics:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for reporting"""
         return {
-            'operation': self.operation,
-            'samples': self.count,
-            'mean_ms': round(self.mean, 2),
-            'median_ms': round(self.median, 2),
-            'stdev_ms': round(self.stdev, 2),
-            'p95_ms': round(self.p95, 2),
-            'p99_ms': round(self.p99, 2),
-            'min_ms': round(min(self.samples), 2) if self.samples else 0,
-            'max_ms': round(max(self.samples), 2) if self.samples else 0,
-            'errors': self.errors,
-            'success_rate': round((self.count / (self.count + self.errors) * 100), 2) if self.count + self.errors > 0 else 0
+            "operation": self.operation,
+            "samples": self.count,
+            "mean_ms": round(self.mean, 2),
+            "median_ms": round(self.median, 2),
+            "stdev_ms": round(self.stdev, 2),
+            "p95_ms": round(self.p95, 2),
+            "p99_ms": round(self.p99, 2),
+            "min_ms": round(min(self.samples), 2) if self.samples else 0,
+            "max_ms": round(max(self.samples), 2) if self.samples else 0,
+            "errors": self.errors,
+            "success_rate": (
+                round((self.count / (self.count + self.errors) * 100), 2)
+                if self.count + self.errors > 0
+                else 0
+            ),
         }
 
 
@@ -90,27 +100,26 @@ class TestPerformanceBenchmarks:
     def benchmark_config(self):
         """Benchmark configuration"""
         return {
-            'warmup_iterations': 10,
-            'test_iterations': 100,
-            'concurrent_users': [1, 5, 10, 20, 50],
-            'target_latency_ms': {
-                'hub_creation': 50,
-                'service_discovery': 10,
-                'event_processing': 20,
-                'bridge_communication': 30,
-                'workflow_execution': 100,
-                'health_check': 5
+            "warmup_iterations": 10,
+            "test_iterations": 100,
+            "concurrent_users": [1, 5, 10, 20, 50],
+            "target_latency_ms": {
+                "hub_creation": 50,
+                "service_discovery": 10,
+                "event_processing": 20,
+                "bridge_communication": 30,
+                "workflow_execution": 100,
+                "health_check": 5,
             },
-            'target_throughput': {
-                'events_per_second': 1000,
-                'requests_per_second': 500
-            }
+            "target_throughput": {
+                "events_per_second": 1000,
+                "requests_per_second": 500,
+            },
         }
 
     @pytest.fixture
     async def mock_system(self):
         """Mock system with realistic timing"""
-        from unittest.mock import AsyncMock
 
         class MockSystem:
             def __init__(self):
@@ -121,28 +130,28 @@ class TestPerformanceBenchmarks:
 
             async def create_hub(self, name: str):
                 await asyncio.sleep(self.hub_creation_time)
-                return {'hub': name, 'created': True}
+                return {"hub": name, "created": True}
 
             async def discover_service(self, name: str):
                 await asyncio.sleep(self.service_discovery_time)
-                return {'service': name, 'found': True}
+                return {"service": name, "found": True}
 
             async def process_event(self, event: Dict[str, Any]):
                 await asyncio.sleep(self.event_processing_time)
-                return {'processed': True, 'event_id': event.get('id')}
+                return {"processed": True, "event_id": event.get("id")}
 
             async def bridge_communicate(self, source: str, target: str, data: Any):
                 await asyncio.sleep(self.bridge_communication_time)
-                return {'forwarded': True, 'source': source, 'target': target}
+                return {"forwarded": True, "source": source, "target": target}
 
             async def execute_workflow(self, steps: int):
                 total_time = steps * self.event_processing_time
                 await asyncio.sleep(total_time)
-                return {'completed': True, 'steps': steps}
+                return {"completed": True, "steps": steps}
 
             async def health_check(self):
                 await asyncio.sleep(0.002)  # 2ms
-                return {'status': 'healthy'}
+                return {"status": "healthy"}
 
         return MockSystem()
 
@@ -154,7 +163,7 @@ class TestPerformanceBenchmarks:
             end = time.perf_counter()
             latency_ms = (end - start) * 1000
             return result, latency_ms
-        except Exception as e:
+        except Exception:
             end = time.perf_counter()
             latency_ms = (end - start) * 1000
             raise
@@ -162,26 +171,25 @@ class TestPerformanceBenchmarks:
     @pytest.mark.asyncio
     async def test_hub_creation_performance(self, mock_system, benchmark_config):
         """Benchmark hub creation performance"""
-        metrics = PerformanceMetrics('hub_creation')
+        metrics = PerformanceMetrics("hub_creation")
 
         # Warmup
-        for i in range(benchmark_config['warmup_iterations']):
-            await mock_system.create_hub(f'warmup_{i}')
+        for i in range(benchmark_config["warmup_iterations"]):
+            await mock_system.create_hub(f"warmup_{i}")
 
         # Benchmark
-        for i in range(benchmark_config['test_iterations']):
+        for i in range(benchmark_config["test_iterations"]):
             try:
                 _, latency = await self.measure_operation(
-                    mock_system.create_hub,
-                    f'hub_{i}'
+                    mock_system.create_hub, f"hub_{i}"
                 )
                 metrics.add_sample(latency)
             except Exception:
                 metrics.errors += 1
 
         # Assertions
-        assert metrics.mean < benchmark_config['target_latency_ms']['hub_creation']
-        assert metrics.p95 < benchmark_config['target_latency_ms']['hub_creation'] * 1.5
+        assert metrics.mean < benchmark_config["target_latency_ms"]["hub_creation"]
+        assert metrics.p95 < benchmark_config["target_latency_ms"]["hub_creation"] * 1.5
         assert metrics.errors == 0
 
         return metrics
@@ -189,45 +197,46 @@ class TestPerformanceBenchmarks:
     @pytest.mark.asyncio
     async def test_service_discovery_performance(self, mock_system, benchmark_config):
         """Benchmark service discovery performance"""
-        metrics = PerformanceMetrics('service_discovery')
+        metrics = PerformanceMetrics("service_discovery")
 
         # Warmup
-        for i in range(benchmark_config['warmup_iterations']):
-            await mock_system.discover_service(f'service_{i}')
+        for i in range(benchmark_config["warmup_iterations"]):
+            await mock_system.discover_service(f"service_{i}")
 
         # Benchmark
-        services = ['ai_interface', 'memory_manager', 'quantum_hub', 'safety_checker']
+        services = ["ai_interface", "memory_manager", "quantum_hub", "safety_checker"]
 
-        for i in range(benchmark_config['test_iterations']):
+        for i in range(benchmark_config["test_iterations"]):
             service = services[i % len(services)]
             try:
                 _, latency = await self.measure_operation(
-                    mock_system.discover_service,
-                    service
+                    mock_system.discover_service, service
                 )
                 metrics.add_sample(latency)
             except Exception:
                 metrics.errors += 1
 
         # Assertions
-        assert metrics.mean < benchmark_config['target_latency_ms']['service_discovery']
-        assert metrics.p99 < benchmark_config['target_latency_ms']['service_discovery'] * 2
+        assert metrics.mean < benchmark_config["target_latency_ms"]["service_discovery"]
+        assert (
+            metrics.p99 < benchmark_config["target_latency_ms"]["service_discovery"] * 2
+        )
 
         return metrics
 
     @pytest.mark.asyncio
     async def test_event_processing_throughput(self, mock_system, benchmark_config):
         """Benchmark event processing throughput"""
-        metrics = PerformanceMetrics('event_processing_throughput')
+        metrics = PerformanceMetrics("event_processing_throughput")
 
         # Test different concurrency levels
-        for concurrent_users in benchmark_config['concurrent_users']:
+        for concurrent_users in benchmark_config["concurrent_users"]:
             batch_start = time.perf_counter()
 
             # Create concurrent tasks
             tasks = []
             for i in range(concurrent_users):
-                event = {'id': f'event_{i}', 'type': 'test', 'data': 'payload'}
+                event = {"id": f"event_{i}", "type": "test", "data": "payload"}
                 task = self.measure_operation(mock_system.process_event, event)
                 tasks.append(task)
 
@@ -250,7 +259,7 @@ class TestPerformanceBenchmarks:
             print(f"Concurrency {concurrent_users}: {throughput:.2f} events/sec")
 
         # Assertions
-        assert metrics.mean < benchmark_config['target_latency_ms']['event_processing']
+        assert metrics.mean < benchmark_config["target_latency_ms"]["event_processing"]
         assert metrics.errors == 0
 
         return metrics
@@ -258,30 +267,34 @@ class TestPerformanceBenchmarks:
     @pytest.mark.asyncio
     async def test_bridge_communication_latency(self, mock_system, benchmark_config):
         """Benchmark bridge communication latency"""
-        metrics = PerformanceMetrics('bridge_communication')
+        metrics = PerformanceMetrics("bridge_communication")
 
         bridges = [
-            ('core', 'consciousness'),
-            ('consciousness', 'quantum'),
-            ('memory', 'learning'),
-            ('safety', 'core')
+            ("core", "consciousness"),
+            ("consciousness", "quantum"),
+            ("memory", "learning"),
+            ("safety", "core"),
         ]
 
         # Benchmark
-        for i in range(benchmark_config['test_iterations']):
+        for i in range(benchmark_config["test_iterations"]):
             source, target = bridges[i % len(bridges)]
             try:
                 _, latency = await self.measure_operation(
-                    mock_system.bridge_communicate,
-                    source, target, {'test': 'data'}
+                    mock_system.bridge_communicate, source, target, {"test": "data"}
                 )
                 metrics.add_sample(latency)
             except Exception:
                 metrics.errors += 1
 
         # Assertions
-        assert metrics.mean < benchmark_config['target_latency_ms']['bridge_communication']
-        assert metrics.p95 < benchmark_config['target_latency_ms']['bridge_communication'] * 1.5
+        assert (
+            metrics.mean < benchmark_config["target_latency_ms"]["bridge_communication"]
+        )
+        assert (
+            metrics.p95
+            < benchmark_config["target_latency_ms"]["bridge_communication"] * 1.5
+        )
 
         return metrics
 
@@ -293,13 +306,12 @@ class TestPerformanceBenchmarks:
         step_counts = [1, 3, 5, 10, 20]
 
         for steps in step_counts:
-            metrics = PerformanceMetrics(f'workflow_{steps}_steps')
+            metrics = PerformanceMetrics(f"workflow_{steps}_steps")
 
-            for i in range(benchmark_config['test_iterations'] // len(step_counts)):
+            for i in range(benchmark_config["test_iterations"] // len(step_counts)):
                 try:
                     _, latency = await self.measure_operation(
-                        mock_system.execute_workflow,
-                        steps
+                        mock_system.execute_workflow, steps
                     )
                     metrics.add_sample(latency)
                 except Exception:
@@ -308,7 +320,9 @@ class TestPerformanceBenchmarks:
             results[steps] = metrics
 
             # Assert linear scaling
-            expected_latency = steps * benchmark_config['target_latency_ms']['event_processing']
+            expected_latency = (
+                steps * benchmark_config["target_latency_ms"]["event_processing"]
+            )
             assert metrics.mean < expected_latency * 1.2  # Allow 20% overhead
 
         return results
@@ -316,7 +330,7 @@ class TestPerformanceBenchmarks:
     @pytest.mark.asyncio
     async def test_system_under_stress(self, mock_system, benchmark_config):
         """Stress test the system with high load"""
-        metrics = PerformanceMetrics('stress_test')
+        metrics = PerformanceMetrics("stress_test")
 
         # Generate high load
         stress_duration = 5  # seconds
@@ -331,11 +345,11 @@ class TestPerformanceBenchmarks:
             # Mix of operations
             for i in range(operations_per_batch):
                 if i % 4 == 0:
-                    task = mock_system.create_hub(f'stress_hub_{i}')
+                    task = mock_system.create_hub(f"stress_hub_{i}")
                 elif i % 4 == 1:
-                    task = mock_system.discover_service('test_service')
+                    task = mock_system.discover_service("test_service")
                 elif i % 4 == 2:
-                    task = mock_system.process_event({'id': f'stress_{i}'})
+                    task = mock_system.process_event({"id": f"stress_{i}"})
                 else:
                     task = mock_system.health_check()
 
@@ -347,7 +361,9 @@ class TestPerformanceBenchmarks:
             batch_end = time.perf_counter()
 
             batch_latency = (batch_end - batch_start) * 1000
-            metrics.add_sample(batch_latency / operations_per_batch)  # Per-operation latency
+            metrics.add_sample(
+                batch_latency / operations_per_batch
+            )  # Per-operation latency
 
             successful = sum(1 for r in results if not isinstance(r, Exception))
             total_operations += successful
@@ -366,39 +382,42 @@ class TestPerformanceBenchmarks:
         assert metrics.p99 < 100  # P99 latency under 100ms
 
         return {
-            'metrics': metrics,
-            'throughput': throughput,
-            'total_operations': total_operations
+            "metrics": metrics,
+            "throughput": throughput,
+            "total_operations": total_operations,
         }
 
     @pytest.mark.asyncio
     async def test_memory_usage_profile(self, mock_system, benchmark_config):
         """Profile memory usage during operations"""
-        import psutil
         import os
+
+        import psutil
 
         process = psutil.Process(os.getpid())
         memory_samples = []
 
         # Baseline memory
         baseline_memory = process.memory_info().rss / 1024 / 1024  # MB
-        memory_samples.append(('baseline', baseline_memory))
+        memory_samples.append(("baseline", baseline_memory))
 
         # Create many objects
         hubs = []
         for i in range(1000):
-            hub = await mock_system.create_hub(f'memory_test_{i}')
+            hub = await mock_system.create_hub(f"memory_test_{i}")
             hubs.append(hub)
 
             if i % 100 == 0:
                 current_memory = process.memory_info().rss / 1024 / 1024
-                memory_samples.append((f'hubs_{i}', current_memory))
+                memory_samples.append((f"hubs_{i}", current_memory))
 
         # Peak memory
         peak_memory = max(m[1] for m in memory_samples)
         memory_increase = peak_memory - baseline_memory
 
-        print(f"Memory usage - Baseline: {baseline_memory:.2f}MB, Peak: {peak_memory:.2f}MB")
+        print(
+            f"Memory usage - Baseline: {baseline_memory:.2f}MB, Peak: {peak_memory:.2f}MB"
+        )
         print(f"Memory increase: {memory_increase:.2f}MB for 1000 hubs")
 
         # Cleanup
@@ -406,7 +425,7 @@ class TestPerformanceBenchmarks:
         await asyncio.sleep(0.1)  # Allow GC
 
         final_memory = process.memory_info().rss / 1024 / 1024
-        memory_samples.append(('after_cleanup', final_memory))
+        memory_samples.append(("after_cleanup", final_memory))
 
         # Assertions
         assert memory_increase < 100  # Less than 100MB increase for 1000 objects
@@ -414,43 +433,48 @@ class TestPerformanceBenchmarks:
 
         return memory_samples
 
-    def generate_performance_report(self, all_metrics: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_performance_report(
+        self, all_metrics: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Generate comprehensive performance report"""
         report = {
-            'timestamp': datetime.now().isoformat(),
-            'summary': {
-                'total_operations': sum(
+            "timestamp": datetime.now().isoformat(),
+            "summary": {
+                "total_operations": sum(
                     m.count if isinstance(m, PerformanceMetrics) else 0
                     for m in all_metrics.values()
                 ),
-                'total_errors': sum(
+                "total_errors": sum(
                     m.errors if isinstance(m, PerformanceMetrics) else 0
                     for m in all_metrics.values()
-                )
+                ),
             },
-            'operations': {},
-            'recommendations': []
+            "operations": {},
+            "recommendations": [],
         }
 
         # Process each metric
         for name, metric in all_metrics.items():
             if isinstance(metric, PerformanceMetrics):
-                report['operations'][name] = metric.to_dict()
+                report["operations"][name] = metric.to_dict()
 
                 # Generate recommendations
                 if metric.mean > 50:
-                    report['recommendations'].append(
+                    report["recommendations"].append(
                         f"Optimize {name} - average latency {metric.mean:.2f}ms exceeds 50ms"
                     )
                 if metric.p99 > metric.mean * 3:
-                    report['recommendations'].append(
+                    report["recommendations"].append(
                         f"Investigate {name} tail latency - P99 is {metric.p99/metric.mean:.1f}x mean"
                     )
 
         return report
 
-    def plot_performance_results(self, metrics: Dict[str, PerformanceMetrics],
-                               output_path: str = "performance_results.png"):
+    def plot_performance_results(
+        self,
+        metrics: Dict[str, PerformanceMetrics],
+        output_path: str = "performance_results.png",
+    ):
         """Plot performance visualization"""
         operations = []
         means = []
@@ -470,14 +494,14 @@ class TestPerformanceBenchmarks:
         x = np.arange(len(operations))
         width = 0.25
 
-        bars1 = ax.bar(x - width, means, width, label='Mean', alpha=0.8)
-        bars2 = ax.bar(x, p95s, width, label='P95', alpha=0.8)
-        bars3 = ax.bar(x + width, p99s, width, label='P99', alpha=0.8)
+        bars1 = ax.bar(x - width, means, width, label="Mean", alpha=0.8)
+        bars2 = ax.bar(x, p95s, width, label="P95", alpha=0.8)
+        bars3 = ax.bar(x + width, p99s, width, label="P99", alpha=0.8)
 
-        ax.set_ylabel('Latency (ms)')
-        ax.set_title('Operation Performance Metrics')
+        ax.set_ylabel("Latency (ms)")
+        ax.set_title("Operation Performance Metrics")
         ax.set_xticks(x)
-        ax.set_xticklabels(operations, rotation=45, ha='right')
+        ax.set_xticklabels(operations, rotation=45, ha="right")
         ax.legend()
         ax.grid(True, alpha=0.3)
 
@@ -485,12 +509,15 @@ class TestPerformanceBenchmarks:
         for bars in [bars1, bars2, bars3]:
             for bar in bars:
                 height = bar.get_height()
-                ax.annotate(f'{height:.1f}',
-                          xy=(bar.get_x() + bar.get_width() / 2, height),
-                          xytext=(0, 3),
-                          textcoords="offset points",
-                          ha='center', va='bottom',
-                          fontsize=8)
+                ax.annotate(
+                    f"{height:.1f}",
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),
+                    textcoords="offset points",
+                    ha="center",
+                    va="bottom",
+                    fontsize=8,
+                )
 
         plt.tight_layout()
         plt.savefig(output_path, dpi=150)
@@ -512,10 +539,18 @@ async def test_full_performance_suite():
     print("Running performance benchmarks...")
 
     # Individual operation benchmarks
-    results['hub_creation'] = await benchmarks.test_hub_creation_performance(system, config)
-    results['service_discovery'] = await benchmarks.test_service_discovery_performance(system, config)
-    results['event_throughput'] = await benchmarks.test_event_processing_throughput(system, config)
-    results['bridge_latency'] = await benchmarks.test_bridge_communication_latency(system, config)
+    results["hub_creation"] = await benchmarks.test_hub_creation_performance(
+        system, config
+    )
+    results["service_discovery"] = await benchmarks.test_service_discovery_performance(
+        system, config
+    )
+    results["event_throughput"] = await benchmarks.test_event_processing_throughput(
+        system, config
+    )
+    results["bridge_latency"] = await benchmarks.test_bridge_communication_latency(
+        system, config
+    )
 
     # Scaling tests
     workflow_results = await benchmarks.test_workflow_execution_scaling(system, config)
@@ -523,14 +558,14 @@ async def test_full_performance_suite():
 
     # Stress test
     stress_results = await benchmarks.test_system_under_stress(system, config)
-    results['stress_test'] = stress_results['metrics']
+    results["stress_test"] = stress_results["metrics"]
 
     # Generate report
     report = benchmarks.generate_performance_report(results)
 
     # Save report
     report_path = Path("performance_benchmark_report.json")
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2)
 
     print(f"\nPerformance report saved to {report_path}")

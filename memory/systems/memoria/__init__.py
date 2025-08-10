@@ -16,7 +16,7 @@
 """
 
 # Module imports
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -43,7 +43,7 @@ __license__ = "LUKHAS Core License - Refer to LICENSE.md"
 __version__ = "1.1.0"
 __email__ = "dev@lukhas.ai"
 __status__ = "Development"
-__subsystem__ = "Memoria_Core_Subsystem" # Clarified subsystem name
+__subsystem__ = "Memoria_Core_Subsystem"  # Clarified subsystem name
 
 """
 This package, `lukhas.memory.core_memory.memoria`, comprises the LUKHAS Memoria Subsystem.
@@ -59,27 +59,47 @@ subsystem available for import at the package level.
 
 _exported_components_list: List[str] = []
 try:
-    from .lukhas_dreams import generate_dream, extract_visual_prompts, save_dream_log
-    _exported_components_list.extend(['generate_dream', 'extract_visual_prompts', 'save_dream_log'])
+    from .lukhas_dreams import (
+        extract_visual_prompts,
+        generate_dream,
+        save_dream_log,
+    )
+
+    _exported_components_list.extend(
+        ["generate_dream", "extract_visual_prompts", "save_dream_log"]
+    )
 
     from .lukhas_reflector import load_dream_memories, reflect_on_dreams
-    _exported_components_list.extend(['load_dream_memories', 'reflect_on_dreams'])
+
+    _exported_components_list.extend(["load_dream_memories", "reflect_on_dreams"])
 
     from .lukhas_replayer import load_recent_dreams, replay_dreams
-    _exported_components_list.extend(['load_recent_dreams', 'replay_dreams'])
+
+    _exported_components_list.extend(["load_recent_dreams", "replay_dreams"])
 
     from .gpt_reflection import generate_gpt_reflection
-    _exported_components_list.extend(['generate_gpt_reflection'])
 
-    log.debug("Successfully imported components for Memoria subsystem.", components=_exported_components_list)
+    _exported_components_list.extend(["generate_gpt_reflection"])
+
+    log.debug(
+        "Successfully imported components for Memoria subsystem.",
+        components=_exported_components_list,
+    )
 
 except ImportError as e:
-    log.error("Failed to import one or more Memoria components. Some functionalities may be unavailable.",
-              import_error=str(e), exc_info=True)
+    log.error(
+        "Failed to import one or more Memoria components. Some functionalities may be unavailable.",
+        import_error=str(e),
+        exc_info=True,
+    )
 
 __all__ = _exported_components_list
 
-log.info("LUKHAS Core Memoria Subsystem package initialized.", package_scope="...memory.core_memory.memoria", exports_defined=len(__all__))
+log.info(
+    "LUKHAS Core Memoria Subsystem package initialized.",
+    package_scope="...memory.core_memory.memoria",
+    exports_defined=len(__all__),
+)
 
 # --- LUKHAS AI System Footer ---
 # File Origin: LUKHAS Cognitive Architecture - Memoria Subsystem

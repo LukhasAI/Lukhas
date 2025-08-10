@@ -53,7 +53,7 @@ def test_dast_components():
             print(f"   Error: {e}")
 
     # Test legacy function compatibility
-    print(f"\n🔄 Testing Legacy Function Compatibility...")
+    print("\n🔄 Testing Legacy Function Compatibility...")
 
     legacy_tests = [
         (
@@ -83,11 +83,11 @@ def test_dast_components():
             print(f"❌ {component_name}: Legacy function {function_name} unavailable")
             print(f"   Error: {e}")
 
-    print(f"\n📊 Task 2A Results:")
+    print("\n📊 Task 2A Results:")
     print(f"   Class-based Components: {len(passed_components)}/4")
     print(f"   Successfully Integrated: {passed_components}")
 
-    print(f"\n✨ Task 2A: DAST Audit Embedding Integration")
+    print("\n✨ Task 2A: DAST Audit Embedding Integration")
     if len(passed_components) == 4:
         print("🎉 STATUS: COMPLETE - All DAST components class-based with hub support")
     else:
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # Run the test
     success = test_dast_components()
 
-    print(f"\n" + "=" * 60)
+    print("\n" + "=" * 60)
     print("TASK 2A SUMMARY: DAST Audit Embedding")
     print("=" * 60)
     print("GOAL: Integrate DAST components with audit/embedding system")

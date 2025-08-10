@@ -3,29 +3,27 @@ Memory-Identity Integration Module
 Provides integration between memory system and Lukhas_ID for identity-based access control
 """
 
-from core.common import get_logger
 import json
-import os
-import time
-import hashlib
-import uuid
-from typing import Dict, Any, List, Optional, Union, Set, Tuple
-from enum import Enum
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
 from cryptography.fernet import Fernet
 
-from .lukhas_id import LucasID, LucasIDRegistry, AccessTier
+from .lukhas_id import AccessTier, LucasIDRegistry
 
 logger = logging.getLogger("v1_AGI.identity.memory")
+
 
 class MemoryAccessPolicy(Enum):
     """
     Different access policy types for memory access control
     """
-    TIER_BASED = 1       # Standard tier-based access control
-    CONSENT_BASED = 2    # Requires explicit consent (e.g. for sensitive memories)
-    OWNER_ONLY = 3       # Only owner can access
-    CUSTOM = 4           # Custom access rules
+
+    TIER_BASED = 1  # Standard tier-based access control
+    CONSENT_BASED = 2  # Requires explicit consent (e.g. for sensitive memories)
+    OWNER_ONLY = 3  # Only owner can access
+    CUSTOM = 4  # Custom access rules
 
 
 class MemoryIdentityIntegration:
@@ -45,8 +43,8 @@ class MemoryIdentityIntegration:
 
         self.id_registry = id_registry
         self.memory_permissions = {}  # memory_key -> permission details
-        self.shared_memories = {}     # user_id -> set of shared memory keys
-        self.encryption_keys = {}     # memory_key -> encryption key
+        self.shared_memories = {}  # user_id -> set of shared memory keys
+        self.encryption_keys = {}  # memory_key -> encryption key
 
         # Create base encryption key (in production, this would be securely stored)
         self._master_key = Fernet.generate_key()
@@ -54,9 +52,14 @@ class MemoryIdentityIntegration:
 
         logger.info("Memory-Identity Integration initialized")
 
-    def register_memory(self, memory_key: str, owner_id: str,
-                       memory_type: str, access_policy: MemoryAccessPolicy,
-                       min_access_tier: AccessTier) -> bool:
+    def register_memory(
+        self,
+        memory_key: str,
+        owner_id: str,
+        memory_type: str,
+        access_policy: MemoryAccessPolicy,
+        min_access_tier: AccessTier,
+    ) -> bool:
         """
         Register a memory with identity-based access control.
 
@@ -86,15 +89,15 @@ class MemoryIdentityIntegration:
             "min_access_tier": min_access_tier.value,
             "shared_with": set(),
             "created_at": datetime.now().isoformat(),
-            "last_accessed": None
+            "last_accessed": None,
         }
 
         logger.debug(f"Memory registered: {memory_key}")
         return True
 
-    def verify_access_permission(self, memory_key: str,
-                               user_id: Optional[str],
-                               requesting_tier: AccessTier) -> bool:
+    def verify_access_permission(
+        self, memory_key: str, user_id: Optional[str], requesting_tier: AccessTier
+    ) -> bool:
         """
         Verify if a user has permission to access a memory.
 
@@ -176,12 +179,16 @@ class MemoryIdentityIntegration:
         # Check owner
         permission = self.memory_permissions[memory_key]
         if permission["owner_id"] != owner_id:
-            logger.warning(f"Cannot share memory {memory_key}: User {owner_id} is not the owner")
+            logger.warning(
+                f"Cannot share memory {memory_key}: User {owner_id} is not the owner"
+            )
             return False
 
         # Check if target user exists
         if not self.id_registry.get(target_user_id):
-            logger.warning(f"Cannot share memory: Target user {target_user_id} doesn't exist")
+            logger.warning(
+                f"Cannot share memory: Target user {target_user_id} doesn't exist"
+            )
             return False
 
         # Add target user to shared list
@@ -195,7 +202,9 @@ class MemoryIdentityIntegration:
         logger.debug(f"Memory {memory_key} shared with {target_user_id}")
         return True
 
-    def revoke_memory_access(self, memory_key: str, owner_id: str, target_user_id: str) -> bool:
+    def revoke_memory_access(
+        self, memory_key: str, owner_id: str, target_user_id: str
+    ) -> bool:
         """
         Revoke a user's access to a shared memory.
 
@@ -240,7 +249,9 @@ class MemoryIdentityIntegration:
         """
         return list(self.shared_memories.get(user_id, set()))
 
-    def encrypt_memory_content(self, memory_key: str, memory_content: Dict[str, Any]) -> Dict[str, Any]:
+    def encrypt_memory_content(
+        self, memory_key: str, memory_content: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Encrypt sensitive memory content.
 
@@ -283,7 +294,9 @@ class MemoryIdentityIntegration:
             logger.error(f"Error encrypting memory content: {str(e)}")
             return memory_content
 
-    def decrypt_memory_content(self, memory_key: str, encrypted_memory: Dict[str, Any]) -> Dict[str, Any]:
+    def decrypt_memory_content(
+        self, memory_key: str, encrypted_memory: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Decrypt encrypted memory content.
 
@@ -300,7 +313,9 @@ class MemoryIdentityIntegration:
 
         # Check if encryption key exists
         if memory_key not in self.encryption_keys:
-            logger.warning(f"Cannot decrypt memory {memory_key}: Missing encryption key")
+            logger.warning(
+                f"Cannot decrypt memory {memory_key}: Missing encryption key"
+            )
             return encrypted_memory
 
         try:
@@ -411,10 +426,14 @@ class MemoryIdentityIntegration:
         archived = 0
 
         for key in memory_keys:
-            if key in self.memory_permissions and not self.memory_permissions[key].get("archived", False):
+            if key in self.memory_permissions and not self.memory_permissions[key].get(
+                "archived", False
+            ):
                 # Mark the memory as archived rather than removing it
                 self.memory_permissions[key]["archived"] = True
-                self.memory_permissions[key]["archive_date"] = datetime.now().isoformat()
+                self.memory_permissions[key][
+                    "archive_date"
+                ] = datetime.now().isoformat()
                 self.memory_permissions[key]["archive_reason"] = "removal_notification"
 
                 # Remove from active shared memories while preserving the record
@@ -425,7 +444,9 @@ class MemoryIdentityIntegration:
                 archived += 1
 
         if archived > 0:
-            logger.info(f"Archived {archived} memory permissions based on removal notification")
+            logger.info(
+                f"Archived {archived} memory permissions based on removal notification"
+            )
 
     def get_permission_status(self, memory_key: str) -> Dict[str, Any]:
         """
@@ -447,6 +468,6 @@ class MemoryIdentityIntegration:
             permission["shared_with"] = list(permission["shared_with"])
 
         # Add encryption status
-        permission["is_encrypted"] = (memory_key in self.encryption_keys)
+        permission["is_encrypted"] = memory_key in self.encryption_keys
 
         return permission

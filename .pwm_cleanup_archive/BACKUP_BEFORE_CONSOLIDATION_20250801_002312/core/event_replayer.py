@@ -7,12 +7,11 @@ with ``ETHICAL`` for auditing purposes.
 
 from __future__ import annotations
 
-
 import json
 import logging
-from typing import List, Optional, Dict, Any
+from typing import List, Optional
 
-from core.event_sourcing import EventStore, Event, AIAgentAggregate
+from core.event_sourcing import AIAgentAggregate, Event, EventStore
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +52,9 @@ class EventReplayer:
             )
         return events
 
-    def filter_events_by_tag(self, tag: str, aggregate_id: Optional[str] = None) -> List[Event]:
+    def filter_events_by_tag(
+        self, tag: str, aggregate_id: Optional[str] = None
+    ) -> List[Event]:
         """Return all events that include the given symbolic tag."""
         events = self._load_events(aggregate_id)
         return [e for e in events if tag in e.metadata.get("tags", [])]
@@ -71,11 +72,12 @@ class EventReplayer:
     # ✅ TODO: extend with CLI interface for governance dashboard
 
 
-def replay_ethical_events(event_store: EventStore, aggregate_id: Optional[str] = None) -> AIAgentAggregate | List[Event]:
+def replay_ethical_events(
+    event_store: EventStore, aggregate_id: Optional[str] = None
+) -> AIAgentAggregate | List[Event]:
     """Filter and replay events tagged with ``ETHICAL``."""
     replayer = EventReplayer(event_store)
     ethical_events = replayer.filter_events_by_tag("ETHICAL", aggregate_id)
     if aggregate_id:
         return replayer.replay_events(ethical_events)
     return ethical_events
-

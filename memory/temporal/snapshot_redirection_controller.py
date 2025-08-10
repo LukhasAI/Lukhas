@@ -15,17 +15,15 @@ Description: Controller to detect emotional drift in dream snapshots and redirec
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from trace.drift_harmonizer import DriftHarmonizer
 from typing import Any, Dict, List, Optional
 
 import numpy as np
-
-from memory.emotional import EmotionalMemory, EmotionVector
-from dream.stability.redirect_forecaster import RedirectForecaster
 from dream.core.dream_snapshot import DreamSnapshotStore
-from trace.drift_harmonizer import DriftHarmonizer
-
+from dream.stability.redirect_forecaster import RedirectForecaster
 
 from core.common import get_logger
+from memory.emotional import EmotionalMemory, EmotionVector
 
 logger = get_logger(__name__)
 

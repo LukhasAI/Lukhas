@@ -20,25 +20,27 @@ Author: LUKHAS AI Team
 Date: 2025-07-27
 """
 
-from fastapi import FastAPI, HTTPException
+import logging
+from datetime import datetime
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from typing import Dict, Any
-from datetime import datetime
-import logging
-import os
-import openai
 
 # Initialize system integration hub
 from orchestration.integration_hub import get_integration_hub
+
 integration_hub = get_integration_hub()
 
 
 # Import API routers
 try:
-    from api import memory, dream, emotion, consciousness
+    from api import consciousness, dream, emotion, memory
     from orchestration import api as orchestrator_api
-    from orchestration.interfaces.orchestration_protocol import OrchestrationProtocol
+    from orchestration.interfaces.orchestration_protocol import (
+        OrchestrationProtocol,
+    )
+
     API_MODULES_AVAILABLE = True
 except ImportError as e:
     logging.error(f"Failed to import API modules: {e}")
@@ -47,8 +49,7 @@ except ImportError as e:
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("api")
 
@@ -59,7 +60,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
 )
 
 # CORS middleware configuration
@@ -82,6 +83,7 @@ if API_MODULES_AVAILABLE:
 else:
     logger.warning("⚠️ API modules not available - running in limited mode")
 
+
 @app.get("/")
 async def root():
     """Root endpoint with API information"""
@@ -93,8 +95,9 @@ async def root():
         "description": "Advanced AI system with symbolic integration capabilities",
         "api_docs": "/docs",
         "health_check": "/health",
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
     }
+
 
 @app.get("/health")
 async def health_check():
@@ -104,7 +107,7 @@ async def health_check():
         "timestamp": datetime.now().isoformat(),
         "tier": 5,
         "api_version": "1.0.0",
-        "modules": {}
+        "modules": {},
     }
 
     if API_MODULES_AVAILABLE:
@@ -112,57 +115,55 @@ async def health_check():
         try:
             # Memory system health
             from memory.core import MemoryFoldSystem
+
             memory_system = MemoryFoldSystem()
             stats = memory_system.get_system_statistics()
             health_status["modules"]["memory"] = {
                 "status": "operational",
                 "total_memories": stats.get("total_folds", 0),
-                "unique_emotions": stats.get("unique_emotions", 0)
+                "unique_emotions": stats.get("unique_emotions", 0),
             }
         except Exception as e:
-            health_status["modules"]["memory"] = {
-                "status": "error",
-                "error": str(e)
-            }
+            health_status["modules"]["memory"] = {"status": "error", "error": str(e)}
 
         # Dream system health
         health_status["modules"]["dreams"] = {
             "status": "operational",
             "consolidation": "available",
-            "pattern_analysis": "ready"
+            "pattern_analysis": "ready",
         }
 
         # Emotion system health
         health_status["modules"]["emotions"] = {
             "status": "operational",
             "landscape_mapping": "available",
-            "cluster_analysis": "ready"
+            "cluster_analysis": "ready",
         }
 
         # Consciousness system health
         health_status["modules"]["consciousness"] = {
             "status": "operational",
             "integration": "full",
-            "awareness_level": "tier_5"
+            "awareness_level": "tier_5",
         }
 
         # OpenAI integration health
         try:
-            from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+            from bridge.llm_wrappers.unified_openai_client import (
+                UnifiedOpenAIClient,
+            )
+
             openai_client = UnifiedOpenAIClient()
             health_status["modules"]["openai"] = {
                 "status": "available",
-                "note": "Project configuration issues resolved"
+                "note": "Project configuration issues resolved",
             }
         except Exception as e:
-            health_status["modules"]["openai"] = {
-                "status": "limited",
-                "error": str(e)
-            }
+            health_status["modules"]["openai"] = {"status": "limited", "error": str(e)}
     else:
         health_status["modules"] = {
             "error": "API modules not available",
-            "status": "limited"
+            "status": "limited",
         }
 
     # Determine overall health
@@ -181,6 +182,7 @@ async def health_check():
 
     return health_status
 
+
 @app.get("/api/v1/info")
 async def api_info():
     """API information and capabilities"""
@@ -190,26 +192,46 @@ async def api_info():
         "tier_level": 5,
         "capabilities": {
             "memory_system": {
-                "endpoints": ["/memory/create", "/memory/recall", "/memory/enhanced-recall", "/memory/statistics"],
-                "description": "Memory fold creation, recall, and statistics"
+                "endpoints": [
+                    "/memory/create",
+                    "/memory/recall",
+                    "/memory/enhanced-recall",
+                    "/memory/statistics",
+                ],
+                "description": "Memory fold creation, recall, and statistics",
             },
             "dream_processing": {
-                "endpoints": ["/dream/log", "/dream/consolidate", "/dream/patterns", "/dream/insights"],
-                "description": "Dream logging, consolidation, and pattern analysis"
+                "endpoints": [
+                    "/dream/log",
+                    "/dream/consolidate",
+                    "/dream/patterns",
+                    "/dream/insights",
+                ],
+                "description": "Dream logging, consolidation, and pattern analysis",
             },
             "emotion_analysis": {
-                "endpoints": ["/emotion/landscape", "/emotion/analyze", "/emotion/clusters", "/emotion/neighborhood"],
-                "description": "Emotional landscape mapping and analysis"
+                "endpoints": [
+                    "/emotion/landscape",
+                    "/emotion/analyze",
+                    "/emotion/clusters",
+                    "/emotion/neighborhood",
+                ],
+                "description": "Emotional landscape mapping and analysis",
             },
             "consciousness": {
-                "endpoints": ["/consciousness/state", "/consciousness/synthesize", "/consciousness/integrate"],
-                "description": "Consciousness state monitoring and pattern synthesis"
-            }
+                "endpoints": [
+                    "/consciousness/state",
+                    "/consciousness/synthesize",
+                    "/consciousness/integrate",
+                ],
+                "description": "Consciousness state monitoring and pattern synthesis",
+            },
         },
         "authentication": "Not implemented (development mode)",
         "rate_limiting": "Not implemented (development mode)",
-        "documentation": "/docs"
+        "documentation": "/docs",
     }
+
 
 @app.exception_handler(404)
 async def not_found_handler(request, exc):
@@ -220,9 +242,10 @@ async def not_found_handler(request, exc):
             "status": "error",
             "message": "Endpoint not found",
             "timestamp": datetime.now().isoformat(),
-            "suggestion": "Visit /docs for available endpoints"
-        }
+            "suggestion": "Visit /docs for available endpoints",
+        },
     )
+
 
 @app.exception_handler(500)
 async def internal_error_handler(request, exc):
@@ -234,9 +257,10 @@ async def internal_error_handler(request, exc):
             "status": "error",
             "message": "Internal server error",
             "timestamp": datetime.now().isoformat(),
-            "suggestion": "Check /health for system status"
-        }
+            "suggestion": "Check /health for system status",
+        },
     )
+
 
 # Startup event
 @app.on_event("startup")
@@ -252,6 +276,7 @@ async def startup_event():
     else:
         logger.warning("⚠️ Running in limited mode - some modules unavailable")
 
+
 # Shutdown event
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -259,14 +284,9 @@ async def shutdown_event():
     logger.info("🛑 LUKHAS AI API shutting down...")
     logger.info("💾 Cleanup completed")
 
+
 if __name__ == "__main__":
     import uvicorn
 
     # Development server configuration
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_level="info")

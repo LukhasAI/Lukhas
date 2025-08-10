@@ -5,11 +5,11 @@ Memory Trace Injector
 ΛMODULE: memory.core_memory.trace_injector
 """
 
-import json
 import hashlib
+import json
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -86,7 +86,7 @@ class TraceInjector:
             end_trace = self.inject_trace(
                 operation_type=f"END_{original_trace.operation_type.replace('START_', '')}",
                 memory_address=original_trace.memory_address,
-                symbolic_tag=f"ΛMEM_COMPLETE",
+                symbolic_tag="ΛMEM_COMPLETE",
                 metadata={
                     "original_trace_id": trace_id,
                     "result": str(result) if result is not None else None,

@@ -6,14 +6,16 @@ Tier-aware QR scanning with security warnings and access control.
 Provides progressive disclosure based on user clearance levels.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
+from typing import Any, Dict, Tuple
+
 
 class ScanResult(Enum):
     SUCCESS = "success"
     INSUFFICIENT_CLEARANCE = "insufficient_clearance"
     CORRUPTED_DATA = "corrupted_data"
     SECURITY_WARNING = "security_warning"
+
 
 class QRTierScanner:
     """Tier-aware QR scanning with security controls."""
@@ -23,7 +25,9 @@ class QRTierScanner:
         self.user_clearance_level = 1
         self.security_policies = {}
 
-    def scan_with_tier_check(self, qr_image: bytes, user_clearance: int) -> Tuple[ScanResult, Any]:
+    def scan_with_tier_check(
+        self, qr_image: bytes, user_clearance: int
+    ) -> Tuple[ScanResult, Any]:
         """Scan QR code with tier-based access control."""
         # TODO: Implement tier-aware scanning
         pass
@@ -42,6 +46,7 @@ class QRTierScanner:
         """Audit scan attempts for security monitoring."""
         # TODO: Implement scan auditing
         pass
+
 
 # TODO: Implement tier-based access control
 # TODO: Add progressive disclosure mechanisms

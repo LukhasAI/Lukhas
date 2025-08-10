@@ -1,8 +1,8 @@
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
-from orchestration.symbolic_kernel_bus import kernel_bus
 import importlib.util
 from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 TASKS_ROUTER_PATH = Path("lukhas/interfaces/api/v1/rest/routers/tasks.py")
 spec = importlib.util.spec_from_file_location("tasks_module", TASKS_ROUTER_PATH)

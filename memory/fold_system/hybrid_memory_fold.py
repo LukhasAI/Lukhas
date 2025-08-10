@@ -40,42 +40,46 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import numpy as np
 import hashlib
-import json
 import math
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple, Any, Union
-from dataclasses import dataclass, field
 from collections import defaultdict
-import structlog
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 
 # Base memory fold system
-from .memory_fold_system import MemoryFoldSystem, MemoryItem, TagInfo
+from .memory_fold_system import MemoryFoldSystem, MemoryItem
 
 # Neural components (stubbed for now - would use PyTorch/TensorFlow in production)
 try:
     import torch
     import torch.nn as nn
     import torch.nn.functional as F
+
     TORCH_AVAILABLE = True
 except ImportError:
     TORCH_AVAILABLE = False
+
     # Stub implementations for demo
     class nn:
-        class Module: pass
-        class Linear:
-            def __init__(self, *args): pass
-        class MultiheadAttention:
-            def __init__(self, *args, **kwargs): pass
+        class Module:
+            pass
 
-from core.common import get_logger
+        class Linear:
+            def __init__(self, *args):
+                pass
+
+        class MultiheadAttention:
+            def __init__(self, *args, **kwargs):
+                pass
 
 
 @dataclass
 class HybridMemoryItem(MemoryItem):
     """Extended memory item with vector embeddings"""
+
     # Vector representations
     text_embedding: Optional[np.ndarray] = None
     image_embedding: Optional[np.ndarray] = None
@@ -129,10 +133,7 @@ class VectorStorageLayer:
             self._rebuild_matrix()
 
     def search_similar(
-        self,
-        query_vector: np.ndarray,
-        top_k: int = 10,
-        threshold: float = 0.0
+        self, query_vector: np.ndarray, top_k: int = 10, threshold: float = 0.0
     ) -> List[Tuple[str, float]]:
         """Find similar vectors using cosine similarity"""
         if self.vector_matrix is None or len(self.vectors) == 0:
@@ -185,16 +186,14 @@ class MemoryAttentionLayer:
 
         if TORCH_AVAILABLE:
             self.attention = nn.MultiheadAttention(
-                embed_dim=hidden_dim,
-                num_heads=num_heads,
-                dropout=0.1
+                embed_dim=hidden_dim, num_heads=num_heads, dropout=0.1
             )
 
     def compute_attention_scores(
         self,
         query_embedding: np.ndarray,
         memory_embeddings: List[np.ndarray],
-        context: Dict[str, Any]
+        context: Dict[str, Any],
     ) -> List[float]:
         """Compute attention scores for memories given query"""
 
@@ -247,10 +246,7 @@ class ContinuousLearningEngine:
         self.max_weight = 10.0
 
     def update_tag_importance(
-        self,
-        tag: str,
-        feedback: float,  # -1 to 1
-        context: Dict[str, Any]
+        self, tag: str, feedback: float, context: Dict[str, Any]  # -1 to 1
     ):
         """Update tag weight based on feedback"""
         current_weight = self.tag_weights[tag]
@@ -263,7 +259,7 @@ class ContinuousLearningEngine:
         # Calculate update
         if feedback > 0:
             # Positive reinforcement
-            delta = self.usage_boost ** feedback
+            delta = self.usage_boost**feedback
             new_weight = current_weight * delta
         else:
             # Negative feedback or decay
@@ -278,7 +274,7 @@ class ContinuousLearningEngine:
             tag=tag,
             old_weight=current_weight,
             new_weight=self.tag_weights[tag],
-            feedback=feedback
+            feedback=feedback,
         )
 
     def get_tag_importance(self, tag: str) -> float:
@@ -306,7 +302,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         embedding_dim: int = 1024,
         enable_attention: bool = True,
         enable_continuous_learning: bool = True,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(**kwargs)
 
@@ -334,7 +330,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             "Hybrid Memory Fold initialized",
             embedding_dim=embedding_dim,
             attention_enabled=enable_attention,
-            learning_enabled=enable_continuous_learning
+            learning_enabled=enable_continuous_learning,
         )
 
     async def fold_in_with_embedding(
@@ -345,7 +341,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
         audio_content: Optional[np.ndarray] = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         """
         Enhanced fold-in with vector embeddings.
@@ -386,7 +382,7 @@ class HybridMemoryFold(MemoryFoldSystem):
             "Hybrid memory folded in",
             memory_id=memory_id,
             has_embedding=embedding is not None,
-            num_tags=len(tags)
+            num_tags=len(tags),
         )
 
         return memory_id
@@ -397,7 +393,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
     ) -> List[Tuple[MemoryItem, float]]:
         """
         Semantic search using vector embeddings.
@@ -437,9 +433,7 @@ class HybridMemoryFold(MemoryFoldSystem):
                 memory_embedding = self.embedding_cache.get(memory_id)
                 if memory_embedding is not None:
                     attention_scores = self.attention_layer.compute_attention_scores(
-                        query_embedding,
-                        [memory_embedding],
-                        context or {}
+                        query_embedding, [memory_embedding], context or {}
                     )
                     if attention_scores:
                         score *= attention_scores[0]
@@ -463,13 +457,13 @@ class HybridMemoryFold(MemoryFoldSystem):
             query_tags = query.lower().split()
             for tag in query_tags:
                 if tag in self.tag_name_index:
-                    tag_results = await self.fold_out_by_tag(
-                        tag, max_items=top_k
-                    )
+                    tag_results = await self.fold_out_by_tag(tag, max_items=top_k)
                     for tag_memory, _ in tag_results:
                         # Check if already in results
                         if not any(m[0].item_id == tag_memory.item_id for m in results):
-                            results.append((tag_memory, 0.5))  # Lower score for tag-only match
+                            results.append(
+                                (tag_memory, 0.5)
+                            )  # Lower score for tag-only match
 
         # Sort by score and return top-k
         results.sort(key=lambda x: x[1], reverse=True)
@@ -480,7 +474,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         cause_id: str,
         effect_id: str,
         strength: float = 1.0,
-        evidence: Optional[List[str]] = None
+        evidence: Optional[List[str]] = None,
     ):
         """Add causal relationship between memories"""
         if cause_id not in self.items or effect_id not in self.items:
@@ -494,30 +488,20 @@ class HybridMemoryFold(MemoryFoldSystem):
             raise ValueError("Cause must precede effect temporally")
 
         # Add to causal graph
-        self.causal_graph[cause_id]["effects"].append({
-            "id": effect_id,
-            "strength": strength,
-            "evidence": evidence or []
-        })
+        self.causal_graph[cause_id]["effects"].append(
+            {"id": effect_id, "strength": strength, "evidence": evidence or []}
+        )
 
-        self.causal_graph[effect_id]["causes"].append({
-            "id": cause_id,
-            "strength": strength,
-            "evidence": evidence or []
-        })
+        self.causal_graph[effect_id]["causes"].append(
+            {"id": cause_id, "strength": strength, "evidence": evidence or []}
+        )
 
         logger.info(
-            "Causal link added",
-            cause=cause_id,
-            effect=effect_id,
-            strength=strength
+            "Causal link added", cause=cause_id, effect=effect_id, strength=strength
         )
 
     async def trace_causal_chain(
-        self,
-        memory_id: str,
-        direction: str = "backward",
-        max_depth: int = 5
+        self, memory_id: str, direction: str = "backward", max_depth: int = 5
     ) -> List[List[Tuple[str, float]]]:
         """
         Trace causal chains from a memory.
@@ -538,7 +522,11 @@ class HybridMemoryFold(MemoryFoldSystem):
 
             # Get connections
             connections = self.causal_graph[current_id]
-            links = connections["causes"] if direction == "backward" else connections["effects"]
+            links = (
+                connections["causes"]
+                if direction == "backward"
+                else connections["effects"]
+            )
 
             if not links:
                 # Reached end of chain
@@ -556,10 +544,7 @@ class HybridMemoryFold(MemoryFoldSystem):
 
                     new_path = path + [(next_id, cumulative_strength * strength)]
                     trace_recursive(
-                        next_id,
-                        new_path,
-                        cumulative_strength * strength,
-                        depth + 1
+                        next_id, new_path, cumulative_strength * strength, depth + 1
                     )
 
         # Start tracing
@@ -571,10 +556,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         return paths
 
     async def update_memory_importance(
-        self,
-        memory_id: str,
-        feedback: float,
-        context: Optional[Dict[str, Any]] = None
+        self, memory_id: str, feedback: float, context: Optional[Dict[str, Any]] = None
     ):
         """Update memory importance based on usage feedback"""
         if memory_id not in self.items:
@@ -593,16 +575,14 @@ class HybridMemoryFold(MemoryFoldSystem):
                 tag_info = self.tag_registry.get(tag_id)
                 if tag_info:
                     self.learning_engine.update_tag_importance(
-                        tag_info.tag_name,
-                        feedback,
-                        context or {}
+                        tag_info.tag_name, feedback, context or {}
                     )
 
         logger.debug(
             "Updated memory importance",
             memory_id=memory_id,
             feedback=feedback,
-            access_count=memory.access_count
+            access_count=memory.access_count,
         )
 
     async def _generate_embedding(
@@ -610,7 +590,7 @@ class HybridMemoryFold(MemoryFoldSystem):
         data: Any,
         text: Optional[str] = None,
         image: Optional[np.ndarray] = None,
-        audio: Optional[np.ndarray] = None
+        audio: Optional[np.ndarray] = None,
     ) -> np.ndarray:
         """Generate unified embedding from multi-modal inputs"""
         embeddings = []
@@ -656,9 +636,9 @@ class HybridMemoryFold(MemoryFoldSystem):
         if len(embedding) < self.embedding_dim:
             # Repeat pattern
             repeats = self.embedding_dim // len(embedding) + 1
-            embedding = np.tile(embedding, repeats)[:self.embedding_dim]
+            embedding = np.tile(embedding, repeats)[: self.embedding_dim]
         else:
-            embedding = embedding[:self.embedding_dim]
+            embedding = embedding[: self.embedding_dim]
 
         # Normalize
         embedding = embedding / 255.0 - 0.5
@@ -686,26 +666,37 @@ class HybridMemoryFold(MemoryFoldSystem):
         base_stats["vector_stats"] = {
             "total_vectors": len(self.vector_store.vectors),
             "embedding_dim": self.embedding_dim,
-            "cache_size": len(self.embedding_cache)
+            "cache_size": len(self.embedding_cache),
         }
 
         # Add learning statistics
         if self.enable_continuous_learning:
             base_stats["learning_stats"] = {
                 "total_tag_weights": len(self.learning_engine.tag_weights),
-                "avg_tag_weight": np.mean(list(self.learning_engine.tag_weights.values())) if self.learning_engine.tag_weights else 0,
+                "avg_tag_weight": (
+                    np.mean(list(self.learning_engine.tag_weights.values()))
+                    if self.learning_engine.tag_weights
+                    else 0
+                ),
                 "most_important_tags": sorted(
                     self.learning_engine.tag_weights.items(),
                     key=lambda x: x[1],
-                    reverse=True
-                )[:10]
+                    reverse=True,
+                )[:10],
             }
 
         # Add causal statistics
         base_stats["causal_stats"] = {
-            "memories_with_causes": sum(1 for m in self.causal_graph.values() if m["causes"]),
-            "memories_with_effects": sum(1 for m in self.causal_graph.values() if m["effects"]),
-            "total_causal_links": sum(len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()) // 2
+            "memories_with_causes": sum(
+                1 for m in self.causal_graph.values() if m["causes"]
+            ),
+            "memories_with_effects": sum(
+                1 for m in self.causal_graph.values() if m["effects"]
+            ),
+            "total_causal_links": sum(
+                len(m["causes"]) + len(m["effects"]) for m in self.causal_graph.values()
+            )
+            // 2,
         }
 
         return base_stats
@@ -717,7 +708,7 @@ def create_hybrid_memory_fold(
     enable_attention: bool = True,
     enable_continuous_learning: bool = True,
     enable_conscience: bool = True,
-    **kwargs
+    **kwargs,
 ) -> HybridMemoryFold:
     """
     Create an AGI-ready hybrid memory fold system.
@@ -735,6 +726,7 @@ def create_hybrid_memory_fold(
     # Create structural conscience if requested
     if enable_conscience:
         from memory.structural_conscience import create_structural_conscience
+
         conscience = create_structural_conscience()
         kwargs["structural_conscience"] = conscience
 
@@ -742,5 +734,5 @@ def create_hybrid_memory_fold(
         embedding_dim=embedding_dim,
         enable_attention=enable_attention,
         enable_continuous_learning=enable_continuous_learning,
-        **kwargs
+        **kwargs,
     )

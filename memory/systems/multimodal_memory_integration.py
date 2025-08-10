@@ -3,21 +3,21 @@ Multimodal Memory Integration Module
 Provides integration wrapper for connecting the multimodal memory support to the memory hub
 """
 
-import asyncio
-from core.common import get_logger
-from typing import Dict, Any, Optional, List, Tuple, Union
 from datetime import datetime
-import numpy as np
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
+
+import numpy as np
+
+from core.common import get_logger
 
 from .multimodal_memory_support import (
-    ModalityType,
-    ModalityMetadata,
-    MultiModalMemoryData,
-    ImageProcessor,
     AudioProcessor,
+    ImageProcessor,
+    ModalityType,
+    MultiModalMemoryData,
     MultiModalMemoryProcessor,
-    create_multimodal_memory
+    create_multimodal_memory,
 )
 
 logger = get_logger(__name__)
@@ -32,37 +32,39 @@ class MultimodalMemoryIntegration:
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize the multimodal memory integration"""
         self.config = config or {
-            'enable_cross_modal_alignment': True,
-            'unified_embedding_dim': 1024,
-            'modal_embedding_dim': 512,
-            'max_memory_size_mb': 100,
-            'enable_compression': True
+            "enable_cross_modal_alignment": True,
+            "unified_embedding_dim": 1024,
+            "modal_embedding_dim": 512,
+            "max_memory_size_mb": 100,
+            "enable_compression": True,
         }
 
         # Initialize the multimodal memory processor
         self.processor = MultiModalMemoryProcessor(
-            enable_cross_modal_alignment=self.config['enable_cross_modal_alignment'],
-            unified_embedding_dim=self.config['unified_embedding_dim'],
-            modal_embedding_dim=self.config['modal_embedding_dim']
+            enable_cross_modal_alignment=self.config["enable_cross_modal_alignment"],
+            unified_embedding_dim=self.config["unified_embedding_dim"],
+            modal_embedding_dim=self.config["modal_embedding_dim"],
         )
 
         # Initialize individual processors with custom settings
         self.image_processor = ImageProcessor(
-            max_dimension=self.config.get('max_image_dimension', 512),
-            quality=self.config.get('image_quality', 85),
-            enable_feature_extraction=True
+            max_dimension=self.config.get("max_image_dimension", 512),
+            quality=self.config.get("image_quality", 85),
+            enable_feature_extraction=True,
         )
 
         self.audio_processor = AudioProcessor(
-            target_sample_rate=self.config.get('audio_sample_rate', 16000),
-            max_duration_seconds=self.config.get('max_audio_duration', 30.0),
-            enable_feature_extraction=True
+            target_sample_rate=self.config.get("audio_sample_rate", 16000),
+            max_duration_seconds=self.config.get("max_audio_duration", 30.0),
+            enable_feature_extraction=True,
         )
 
         self.is_initialized = False
         self.memory_cache = {}
 
-        logger.info("MultimodalMemoryIntegration initialized with config: %s", self.config)
+        logger.info(
+            "MultimodalMemoryIntegration initialized with config: %s", self.config
+        )
 
     async def initialize(self):
         """Initialize the multimodal memory system and its components"""
@@ -94,7 +96,7 @@ class MultimodalMemoryIntegration:
             "text": True,  # Always available
             "image": self._check_image_support(),
             "audio": self._check_audio_support(),
-            "video": self._check_video_support()
+            "video": self._check_video_support(),
         }
 
         logger.info("Modality support status: %s", support_status)
@@ -104,6 +106,7 @@ class MultimodalMemoryIntegration:
         """Check if image processing is available"""
         try:
             from PIL import Image
+
             return True
         except ImportError:
             logger.warning("PIL not available - image processing disabled")
@@ -114,6 +117,7 @@ class MultimodalMemoryIntegration:
         try:
             import librosa
             import soundfile
+
             return True
         except ImportError:
             logger.warning("Audio libraries not available - audio processing disabled")
@@ -123,6 +127,7 @@ class MultimodalMemoryIntegration:
         """Check if video processing is available"""
         try:
             import cv2
+
             return True
         except ImportError:
             logger.warning("OpenCV not available - video processing disabled")
@@ -132,9 +137,9 @@ class MultimodalMemoryIntegration:
         """Initialize memory optimization strategies"""
         # Set up compression policies
         self.compression_policies = {
-            ModalityType.IMAGE: {'enabled': True, 'quality': 85},
-            ModalityType.AUDIO: {'enabled': True, 'bitrate': 128},
-            ModalityType.VIDEO: {'enabled': True, 'codec': 'h264'}
+            ModalityType.IMAGE: {"enabled": True, "quality": 85},
+            ModalityType.AUDIO: {"enabled": True, "bitrate": 128},
+            ModalityType.VIDEO: {"enabled": True, "codec": "h264"},
         }
 
     async def _load_embedding_models(self):
@@ -142,13 +147,15 @@ class MultimodalMemoryIntegration:
         # This would load actual models in production
         logger.info("Loading embedding models (placeholder)")
 
-    async def create_memory(self,
-                          text: Optional[str] = None,
-                          image: Optional[Union[bytes, str, Path]] = None,
-                          audio: Optional[Union[bytes, str, Path]] = None,
-                          video: Optional[Union[bytes, str, Path]] = None,
-                          tags: Optional[List[str]] = None,
-                          metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def create_memory(
+        self,
+        text: Optional[str] = None,
+        image: Optional[Union[bytes, str, Path]] = None,
+        audio: Optional[Union[bytes, str, Path]] = None,
+        video: Optional[Union[bytes, str, Path]] = None,
+        tags: Optional[List[str]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Create a multimodal memory from various inputs
 
@@ -178,7 +185,7 @@ class MultimodalMemoryIntegration:
             audio_data=audio_bytes,
             video_data=video_bytes,
             tags=tags or [],
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         # Store in cache
@@ -186,10 +193,12 @@ class MultimodalMemoryIntegration:
         self.memory_cache[memory_id] = memory_item
 
         return {
-            'memory_id': memory_id,
-            'modalities': self._get_present_modalities(text, image_bytes, audio_bytes, video_bytes),
-            'tags': tags or [],
-            'created_at': datetime.now().isoformat()
+            "memory_id": memory_id,
+            "modalities": self._get_present_modalities(
+                text, image_bytes, audio_bytes, video_bytes
+            ),
+            "tags": tags or [],
+            "created_at": datetime.now().isoformat(),
         }
 
     async def _load_file_if_path(self, data: Union[bytes, str, Path]) -> bytes:
@@ -200,16 +209,24 @@ class MultimodalMemoryIntegration:
                 return path.read_bytes()
         return data
 
-    def _get_present_modalities(self, text: Any, image: Any, audio: Any, video: Any) -> List[str]:
+    def _get_present_modalities(
+        self, text: Any, image: Any, audio: Any, video: Any
+    ) -> List[str]:
         """Get list of modalities present in the memory"""
         modalities = []
-        if text: modalities.append("text")
-        if image: modalities.append("image")
-        if audio: modalities.append("audio")
-        if video: modalities.append("video")
+        if text:
+            modalities.append("text")
+        if image:
+            modalities.append("image")
+        if audio:
+            modalities.append("audio")
+        if video:
+            modalities.append("video")
         return modalities
 
-    async def process_multimodal_data(self, data: MultiModalMemoryData) -> Dict[str, Any]:
+    async def process_multimodal_data(
+        self, data: MultiModalMemoryData
+    ) -> Dict[str, Any]:
         """
         Process multimodal memory data
 
@@ -238,10 +255,12 @@ class MultimodalMemoryIntegration:
             return self.memory_cache[memory_id]
         return None
 
-    async def search_memories(self,
-                            query: Union[str, bytes, np.ndarray],
-                            modality: Optional[ModalityType] = None,
-                            top_k: int = 10) -> List[Dict[str, Any]]:
+    async def search_memories(
+        self,
+        query: Union[str, bytes, np.ndarray],
+        modality: Optional[ModalityType] = None,
+        top_k: int = 10,
+    ) -> List[Dict[str, Any]]:
         """
         Search memories using multimodal queries
 
@@ -263,13 +282,15 @@ class MultimodalMemoryIntegration:
         # Simple text search for demonstration
         if isinstance(query, str) and modality in [None, ModalityType.TEXT]:
             for memory_id, memory in self.memory_cache.items():
-                if hasattr(memory, 'text_content') and memory.text_content:
+                if hasattr(memory, "text_content") and memory.text_content:
                     if query.lower() in memory.text_content.lower():
-                        results.append({
-                            'memory_id': memory_id,
-                            'score': 0.8,  # Placeholder score
-                            'preview': memory.text_content[:100]
-                        })
+                        results.append(
+                            {
+                                "memory_id": memory_id,
+                                "score": 0.8,  # Placeholder score
+                                "preview": memory.text_content[:100],
+                            }
+                        )
 
         return results[:top_k]
 
@@ -280,16 +301,16 @@ class MultimodalMemoryIntegration:
     def get_memory_statistics(self) -> Dict[str, Any]:
         """Get statistics about stored memories"""
         stats = {
-            'total_memories': len(self.memory_cache),
-            'modality_counts': defaultdict(int),
-            'total_size_mb': 0.0
+            "total_memories": len(self.memory_cache),
+            "modality_counts": defaultdict(int),
+            "total_size_mb": 0.0,
         }
 
         for memory in self.memory_cache.values():
             # Count modalities
-            if hasattr(memory, 'modality_metadata'):
+            if hasattr(memory, "modality_metadata"):
                 for modality in memory.modality_metadata:
-                    stats['modality_counts'][modality.value] += 1
+                    stats["modality_counts"][modality.value] += 1
 
         return dict(stats)
 
@@ -305,7 +326,9 @@ class MultimodalMemoryIntegration:
         # In production, this would be more sophisticated
 
         after_size = len(self.memory_cache)
-        logger.info(f"Memory optimization complete. Removed {before_size - after_size} memories")
+        logger.info(
+            f"Memory optimization complete. Removed {before_size - after_size} memories"
+        )
 
     async def update_awareness(self, awareness_state: Dict[str, Any]):
         """
@@ -317,16 +340,18 @@ class MultimodalMemoryIntegration:
         # Adjust memory processing based on awareness level
         if awareness_state.get("level") == "active":
             # More detailed processing during active awareness
-            self.config['enable_cross_modal_alignment'] = True
-            self.config['unified_embedding_dim'] = 1024
+            self.config["enable_cross_modal_alignment"] = True
+            self.config["unified_embedding_dim"] = 1024
         elif awareness_state.get("level") == "passive":
             # Faster, less detailed processing during passive awareness
-            self.config['enable_cross_modal_alignment'] = False
-            self.config['unified_embedding_dim'] = 512
+            self.config["enable_cross_modal_alignment"] = False
+            self.config["unified_embedding_dim"] = 512
 
 
 # Factory function for creating the integration
-def create_multimodal_memory_integration(config: Optional[Dict[str, Any]] = None) -> MultimodalMemoryIntegration:
+def create_multimodal_memory_integration(
+    config: Optional[Dict[str, Any]] = None,
+) -> MultimodalMemoryIntegration:
     """Create and return a multimodal memory integration instance"""
     return MultimodalMemoryIntegration(config)
 

@@ -1,5 +1,4 @@
 import time
-from orchestration.symbolic_kernel_bus import kernel_bus
 
 
 def test_capability_and_task_announcements():

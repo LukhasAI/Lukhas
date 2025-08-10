@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🫀 LUKHAS AI - BIO MODULE SYMBOLIC VOCABULARY
 ║ Symbolic vocabulary for biometric monitoring and health tracking operations
@@ -55,7 +54,7 @@ BIO_SYMBOLS = {
     "📊": "health_analytics",
     "🎯": "calibration",
     "🔬": "bio_analysis",
-    "⏰": "monitoring_cycle"
+    "⏰": "monitoring_cycle",
 }
 
 # Emotional state symbols
@@ -69,7 +68,7 @@ EMOTION_SYMBOLS = {
     "😊": "excited",
     "😟": "anxious",
     "🧘": "meditative",
-    "💪": "energized"
+    "💪": "energized",
 }
 
 # Device type symbols
@@ -83,7 +82,7 @@ DEVICE_SYMBOLS = {
     "🩺": "medical_device",
     "🏃": "fitness_tracker",
     "💤": "sleep_monitor",
-    "🧠": "brain_monitor"
+    "🧠": "brain_monitor",
 }
 
 # Biometric type symbols
@@ -97,7 +96,7 @@ BIOMETRIC_SYMBOLS = {
     "👁️": "eye_gaze",
     "🖐️": "hand_gesture",
     "⌨️": "typing_pattern",
-    "👣": "gait_pattern"
+    "👣": "gait_pattern",
 }
 
 # Health metric symbols
@@ -111,7 +110,7 @@ HEALTH_SYMBOLS = {
     "🫁": "oxygen_level",
     "💨": "breathing_rate",
     "🧘": "hrv_score",
-    "⚖️": "body_weight"
+    "⚖️": "body_weight",
 }
 
 # Authentication status symbols
@@ -125,7 +124,7 @@ AUTH_SYMBOLS = {
     "👤": "user_verified",
     "🔓": "access_granted",
     "🛡️": "security_check",
-    "📋": "consent_given"
+    "📋": "consent_given",
 }
 
 # Data privacy symbols
@@ -139,7 +138,7 @@ PRIVACY_SYMBOLS = {
     "🔐": "access_controlled",
     "🏥": "medical_privacy",
     "🔄": "data_anonymized",
-    "📊": "usage_analytics"
+    "📊": "usage_analytics",
 }
 
 # Alert and notification symbols
@@ -153,7 +152,7 @@ ALERT_SYMBOLS = {
     "💧": "hydration_alert",
     "🧘": "stress_break",
     "🩺": "checkup_due",
-    "📈": "trend_alert"
+    "📈": "trend_alert",
 }
 
 # Complete symbolic vocabulary for Bio module
@@ -165,7 +164,7 @@ BIO_VOCABULARY = {
     **HEALTH_SYMBOLS,
     **AUTH_SYMBOLS,
     **PRIVACY_SYMBOLS,
-    **ALERT_SYMBOLS
+    **ALERT_SYMBOLS,
 }
 
 # Bio operation messages
@@ -183,16 +182,19 @@ BIO_MESSAGES = {
     "emotion_stressed": "😰 Emotional state: stress detected - monitoring closely",
     "data_encrypted": "🔒 Biometric data encrypted and secured",
     "monitoring_active": "🏥 Continuous health monitoring active",
-    "entropy_calculated": "🧬 Symbolic entropy extracted from bio signals"
+    "entropy_calculated": "🧬 Symbolic entropy extracted from bio signals",
 }
+
 
 def get_bio_symbol(key: str) -> str:
     """Get bio symbol for a given key."""
     return BIO_VOCABULARY.get(key, "🫀")
 
+
 def get_bio_message(key: str) -> str:
     """Get bio message for a given key."""
     return BIO_MESSAGES.get(key, f"🫀 Bio operation: {key}")
+
 
 def format_bio_log(operation: str, details: str = "") -> str:
     """Format a bio module log message."""

@@ -9,10 +9,11 @@ Usage:
     python test_all_interactive.py --report     # Generate report from last run
 """
 
+import os
 import subprocess
 import sys
-import os
 from pathlib import Path
+
 
 def check_dependencies():
     """Check and install required dependencies"""

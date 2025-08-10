@@ -1,11 +1,15 @@
 """Quorum-based override system for sensitive actions."""
+
 from typing import List
+
 import structlog
 
 log = structlog.get_logger(__name__)
 
+
 class QuorumOverride:
     """Simple multi-agent consensus check."""
+
     def __init__(self, required: int = 2):
         self.required = required
 

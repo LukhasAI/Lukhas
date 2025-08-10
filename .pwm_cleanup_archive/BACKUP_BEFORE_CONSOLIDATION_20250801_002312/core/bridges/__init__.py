@@ -1,13 +1,19 @@
 from typing import Optional
-from .core_consciousness_bridge import CoreConsciousnessBridge
+
 from .consciousness_quantum_bridge import ConsciousnessQuantumBridge
+from .core_consciousness_bridge import CoreConsciousnessBridge
 from .core_safety_bridge import CoreSafetyBridge
-from .memory_learning_bridge import MemoryLearningBridge, get_memory_learning_bridge
-from .memory_consciousness_bridge import get_memory_consciousness_bridge
-from .quantum_memory_bridge import get_quantum_memory_bridge
-from .nias_dream_bridge import get_nias_dream_bridge
 from .identity_core_bridge import IdentityCoreBridge
+from .memory_consciousness_bridge import get_memory_consciousness_bridge
+from .memory_learning_bridge import (
+    MemoryLearningBridge,
+    get_memory_learning_bridge,
+)
+from .nias_dream_bridge import get_nias_dream_bridge
+from .quantum_memory_bridge import get_quantum_memory_bridge
+
 # from .orchestration_core_bridge import OrchestrationCoreBridge
+
 
 class BridgeRegistry:
     """Central registry for all system bridges"""
@@ -62,6 +68,7 @@ def get_bridge_registry() -> BridgeRegistry:
     if _bridge_registry is None:
         _bridge_registry = BridgeRegistry()
     return _bridge_registry
+
 
 __all__ = [
     "CoreConsciousnessBridge",

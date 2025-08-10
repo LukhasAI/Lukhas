@@ -26,25 +26,28 @@
 
 import asyncio
 import json
-from core.common import get_logger
-import queue
 import threading
 import time
 import uuid
-import weakref
-from abc import ABC, abstractmethod
-from collections import defaultdict
+from abc import ABC
 from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Union
-from .p2p_communication import P2PNode, P2PMessage, MessageType
+
+from core.common import get_logger
+
+from .p2p_communication import P2PNode
 
 # Import mailbox components if available
 try:
     from .mailbox import (
-        Mailbox, MailboxType, MailboxFactory,
-        MessagePriority, BackPressureStrategy
+        BackPressureStrategy,
+        Mailbox,
+        MailboxFactory,
+        MailboxType,
+        MessagePriority,
     )
+
     ENHANCED_MAILBOX_AVAILABLE = True
 except ImportError:
     ENHANCED_MAILBOX_AVAILABLE = False
@@ -135,7 +138,9 @@ class ActorRef:
 
         try:
             # Send message with reply_to
-            await self.tell(message_type, payload, correlation_id, response_id, sender=self.actor_id)
+            await self.tell(
+                message_type, payload, correlation_id, response_id, sender=self.actor_id
+            )
 
             # Wait for response
             result = await asyncio.wait_for(response_future, timeout)
@@ -165,7 +170,9 @@ class Actor(ABC):
     3. Designate the behavior for the next message it receives (using `self.become`).
     """
 
-    def __init__(self, actor_id: str, mailbox: Optional[Union[asyncio.Queue, 'Mailbox']] = None):
+    def __init__(
+        self, actor_id: str, mailbox: Optional[Union[asyncio.Queue, "Mailbox"]] = None
+    ):
         self.actor_id = actor_id
         self.state = ActorState.CREATED
 
@@ -177,7 +184,7 @@ class Actor(ABC):
             self.mailbox = MailboxFactory.create_mailbox(
                 MailboxType.BOUNDED,
                 max_size=1000,
-                back_pressure_strategy=BackPressureStrategy.BLOCK
+                back_pressure_strategy=BackPressureStrategy.BLOCK,
             )
         else:
             # Fallback to standard asyncio queue
@@ -186,7 +193,7 @@ class Actor(ABC):
         self.message_handlers: Dict[str, Callable] = {}
         self.supervisor: Optional[ActorRef] = None
         self.children: Dict[str, ActorRef] = {}
-        self.actor_system: Optional["ActorSystem"] = None
+        self.actor_system: Optional[ActorSystem] = None
         self.supervision_strategy: SupervisionStrategy = SupervisionStrategy.RESTART
         self._running = False
         self._stats = {
@@ -238,7 +245,7 @@ class Actor(ABC):
         while self._running:
             try:
                 # Get message from mailbox
-                if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, 'get'):
+                if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "get"):
                     # Enhanced mailbox with built-in timeout handling
                     message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
                 else:
@@ -308,7 +315,7 @@ class Actor(ABC):
         """Add message to mailbox"""
         try:
             # Handle enhanced mailbox
-            if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, 'put'):
+            if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "put"):
                 return await self.mailbox.put(message)
             # Handle standard asyncio queue
             else:
@@ -387,10 +394,10 @@ class Actor(ABC):
         }
 
         # Get mailbox size
-        if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, 'qsize'):
+        if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "qsize"):
             stats["mailbox_size"] = self.mailbox.qsize()
             # Get detailed mailbox stats if available
-            if hasattr(self.mailbox, 'get_stats'):
+            if hasattr(self.mailbox, "get_stats"):
                 stats["mailbox_details"] = self.mailbox.get_stats()
         else:
             stats["mailbox_size"] = self.mailbox.qsize()
@@ -453,7 +460,6 @@ class ActorSystem:
             # This can happen during a restart, so we just log it and continue
             logger.warning(f"Actor {actor_id} already exists, it will be replaced.")
             await self.stop_actor(actor_id)
-
 
         # Check if actor should be on this node (sharding)
         shard = self._get_shard(actor_id)
@@ -539,7 +545,9 @@ class ActorSystem:
     async def handle_failure(self, failed_actor: Actor, reason: Exception):
         """Handle actor failure based on supervision strategy"""
         if not failed_actor.supervisor:
-            logger.error(f"Actor {failed_actor.actor_id} failed with no supervisor. Stopping.")
+            logger.error(
+                f"Actor {failed_actor.actor_id} failed with no supervisor. Stopping."
+            )
             await self.stop_actor(failed_actor.actor_id)
             return
 
@@ -550,21 +558,24 @@ class ActorSystem:
             return
 
         strategy = supervisor.supervision_strategy
-        logger.info(f"Supervisor {supervisor.actor_id} handling failure of {failed_actor.actor_id} with strategy {strategy.value}")
+        logger.info(
+            f"Supervisor {supervisor.actor_id} handling failure of {failed_actor.actor_id} with strategy {strategy.value}"
+        )
 
         if strategy == SupervisionStrategy.RESTART:
             await self.restart_actor(failed_actor.actor_id, reason)
         elif strategy == SupervisionStrategy.STOP:
             await self.stop_actor(failed_actor.actor_id)
         elif strategy == SupervisionStrategy.RESUME:
-            failed_actor.state = ActorState.RUNNING # Simplistic resume
+            failed_actor.state = ActorState.RUNNING  # Simplistic resume
         elif strategy == SupervisionStrategy.ESCALATE:
             if supervisor.supervisor:
                 await self.handle_failure(supervisor, reason)
             else:
-                logger.error(f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping.")
+                logger.error(
+                    f"Cannot escalate failure from {supervisor.actor_id}, no supervisor. Stopping."
+                )
                 await self.stop_actor(supervisor.actor_id)
-
 
     def get_system_stats(self) -> Dict[str, Any]:
         """Get system-wide statistics"""

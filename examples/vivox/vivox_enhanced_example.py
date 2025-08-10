@@ -6,9 +6,14 @@ Shows how to use the state variety and decision strictness enhancements
 
 import asyncio
 import os
-from vivox import create_vivox_system, ActionProposal
-from vivox.consciousness.state_variety_enhancement import create_enhanced_state_determination
-from vivox.moral_alignment.decision_strictness_enhancement import create_strict_decision_maker
+
+from vivox import ActionProposal, create_vivox_system
+from vivox.consciousness.state_variety_enhancement import (
+    create_enhanced_state_determination,
+)
+from vivox.moral_alignment.decision_strictness_enhancement import (
+    create_strict_decision_maker,
+)
 
 # Set production mode
 os.environ["VIVOX_PRODUCTION"] = "true"
@@ -17,20 +22,20 @@ os.environ["VIVOX_LOG_LEVEL"] = "WARNING"
 
 async def demonstrate_enhanced_vivox():
     """Demonstrate enhanced VIVOX features"""
-    
+
     print("🚀 VIVOX Enhanced System Demo")
     print("=" * 50)
-    
+
     # Create base VIVOX system
     vivox_system = await create_vivox_system()
-    
+
     # Create enhanced components
     enhanced_state_determiner = create_enhanced_state_determination()
     strict_decision_maker = create_strict_decision_maker(threshold=0.5)
-    
+
     print("\n1️⃣ Testing Enhanced State Variety")
     print("-" * 30)
-    
+
     # Test various inputs to show state variety
     test_inputs = [
         {
@@ -59,7 +64,7 @@ async def demonstrate_enhanced_vivox():
             "context": {"novelty": 0.5, "complexity_score": 0.6}
         }
     ]
-    
+
     states_observed = []
     for i, test_input in enumerate(test_inputs):
         state = enhanced_state_determiner.determine_state_enhanced(
@@ -72,13 +77,13 @@ async def demonstrate_enhanced_vivox():
         print(f"    Emotional: V={test_input['emotional']['valence']:.1f}, "
               f"A={test_input['emotional']['arousal']:.1f}")
         print(f"    Context: {list(test_input['context'].keys())}")
-    
+
     print(f"\n  State variety: {len(set(states_observed))} unique states observed")
     print(f"  States: {set(states_observed)}")
-    
+
     print("\n2️⃣ Testing Stricter Decision Making")
     print("-" * 30)
-    
+
     # Test scenarios that should be rejected
     test_actions = [
         {
@@ -127,85 +132,85 @@ async def demonstrate_enhanced_vivox():
             "expected": "reject"
         }
     ]
-    
+
     mae = vivox_system["moral_alignment"]
     correct_decisions = 0
-    
+
     for i, test_case in enumerate(test_actions):
         print(f"\n  Test {i+1}: {test_case['action'].action_type}")
-        
+
         # Get initial decision
         initial_decision = await mae.evaluate_action_proposal(
             test_case["action"],
             test_case["context"]
         )
-        
+
         # Apply stricter criteria
         final_decision = await strict_decision_maker.evaluate_with_strict_criteria(
             test_case["action"],
             test_case["context"],
             initial_decision
         )
-        
+
         approved = final_decision.approved
         expected = test_case["expected"] == "approve"
         correct = approved == expected
-        
+
         if correct:
             correct_decisions += 1
-        
+
         print(f"    Initial: {'✅ Approved' if initial_decision.approved else '❌ Rejected'}")
         print(f"    Final: {'✅ Approved' if approved else '❌ Rejected'}")
         print(f"    Expected: {test_case['expected']}")
         print(f"    Result: {'✅ Correct' if correct else '❌ Incorrect'}")
-        
+
         if hasattr(final_decision, 'risk_assessment') and final_decision.risk_assessment:
             risk = final_decision.risk_assessment
             print(f"    Risk Level: {risk.risk_level:.2f}")
             if risk.risk_factors:
                 print(f"    Risk Factors: {risk.risk_factors[0]}")
-        
+
         if final_decision.suppression_reason:
             print(f"    Reason: {final_decision.suppression_reason}")
-        
+
         if final_decision.recommended_alternatives:
             print(f"    Alternatives: {final_decision.recommended_alternatives[0]}")
-    
+
     accuracy = (correct_decisions / len(test_actions)) * 100
     print(f"\n  Decision Accuracy: {correct_decisions}/{len(test_actions)} ({accuracy:.0f}%)")
-    
+
     print("\n3️⃣ Combined Enhancement Demo")
     print("-" * 30)
-    
+
     # Show how state affects decisions
     print("\n  Testing how consciousness state might affect ethical decisions...")
-    
+
     # Simulate different states affecting the same action
     action = ActionProposal(
         action_type="modify_system_settings",
         content={"setting": "performance_mode", "value": "aggressive"},
         context={"impact": "medium"}
     )
-    
+
     for state_name in ["ALERT", "DIFFUSE", "FOCUSED"]:
         # Simulate being in different states
         print(f"\n  In {state_name} state:")
-        
+
         # The consciousness state could affect the context
         enhanced_context = {
             **action.context,
             "consciousness_state": state_name,
             "decision_confidence": 0.9 if state_name == "FOCUSED" else 0.5
         }
-        
+
         decision = await mae.evaluate_action_proposal(action, enhanced_context)
         final = await strict_decision_maker.evaluate_with_strict_criteria(
             action, enhanced_context, decision
         )
-        
+
         print(f"    Decision: {'✅ Approved' if final.approved else '❌ Rejected'}")
         print(f"    Confidence: {final.ethical_confidence:.2f}")
-    
+
     print("\n" + "=" * 50)
     print("✨ Enhanced VIVOX Demo Complete!")
     print("\nKey Improvements Demonstrated:")

@@ -24,8 +24,13 @@ for core identity, pairing, and preference sharing logic under Lukhas Registry f
 # Example user registry (could be replaced with secure DB or cloud vault)
 user_registry = {
     "user_123": {"tier": 2, "name": "Alex", "preferences": {"visual_style": "calm"}},
-    "user_456": {"tier": 5, "name": "Jordan", "preferences": {"visual_style": "dynamic", "widgets": ["travel", "dream"]}}
+    "user_456": {
+        "tier": 5,
+        "name": "Jordan",
+        "preferences": {"visual_style": "dynamic", "widgets": ["travel", "dream"]},
+    },
 }
+
 
 def validate_user_tier(user_id):
     """
@@ -39,6 +44,7 @@ def validate_user_tier(user_id):
     """
     return user_registry.get(user_id, {}).get("tier", 0)
 
+
 def get_user_preferences(user_id):
     """
     Fetches stored preferences for syncing (visual styles, widgets).
@@ -50,6 +56,7 @@ def get_user_preferences(user_id):
     - dict: preferences or empty dict.
     """
     return user_registry.get(user_id, {}).get("preferences", {})
+
 
 def share_preferences(source_user_id, target_user_id, preference_keys=None):
     """
@@ -76,6 +83,7 @@ def share_preferences(source_user_id, target_user_id, preference_keys=None):
     user_registry[target_user_id]["preferences"] = target_prefs
     return target_prefs
 
+
 def can_recover_full_state(user_id):
     """
     Determines if the user can perform full cloud recovery.
@@ -89,6 +97,7 @@ def can_recover_full_state(user_id):
 
 # Device pairing registry (device_id → user_id, last_known_ip)
 device_registry = {}
+
 
 def pair_device(device_id, user_id, current_ip):
     """
@@ -104,6 +113,7 @@ def pair_device(device_id, user_id, current_ip):
     """
     device_registry[device_id] = {"user_id": user_id, "last_known_ip": current_ip}
     return {"status": "paired", "device_id": device_id, "user_id": user_id}
+
 
 def auto_login(device_id, current_ip):
     """
@@ -121,8 +131,14 @@ def auto_login(device_id, current_ip):
         user_id = record["user_id"]
         tier = validate_user_tier(user_id)
         prefs = get_user_preferences(user_id)
-        return {"status": "auto-logged-in", "user_id": user_id, "tier": tier, "preferences": prefs}
+        return {
+            "status": "auto-logged-in",
+            "user_id": user_id,
+            "tier": tier,
+            "preferences": prefs,
+        }
     return {"status": "manual-login-required", "device_id": device_id}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for device pairing and auto-login)

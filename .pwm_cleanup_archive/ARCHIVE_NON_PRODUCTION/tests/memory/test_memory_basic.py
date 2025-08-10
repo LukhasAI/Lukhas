@@ -1,13 +1,17 @@
 """Basic tests for LUKHAS memory module."""
 
-import pytest
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import sleep
 
 from memory.basic import (
-    MemoryEntry, MemoryStore, InMemoryStore, MemoryManager,
-    memory_manager as global_memory_manager, remember, recall, search
+    InMemoryStore,
+    MemoryEntry,
+    MemoryManager,
+    recall,
+    remember,
+    search,
 )
+from memory.basic import memory_manager as global_memory_manager
 
 
 class TestMemoryEntry:
@@ -51,10 +55,10 @@ class TestMemoryEntry:
         # Convert to dict
         data = entry.to_dict()
 
-        assert data['id'] == entry.id
-        assert data['content'] == entry.content
-        assert data['metadata'] == entry.metadata
-        assert data['access_count'] == 1
+        assert data["id"] == entry.id
+        assert data["content"] == entry.content
+        assert data["metadata"] == entry.metadata
+        assert data["access_count"] == 1
 
         # Convert back from dict
         restored_entry = MemoryEntry.from_dict(data)
@@ -143,7 +147,7 @@ class TestInMemoryStore:
 
         # Should be sorted by creation time (newest first)
         for i in range(4):
-            assert all_memories[i].created_at >= all_memories[i+1].created_at
+            assert all_memories[i].created_at >= all_memories[i + 1].created_at
 
     def test_list_all_limit(self):
         """Test listing memories with limit."""
@@ -268,7 +272,7 @@ class TestMemoryManager:
         """Test getting memory statistics."""
         # Start with empty stats
         stats = self.manager.memory_stats()
-        assert stats['total_memories'] == 0
+        assert stats["total_memories"] == 0
 
         # Add some memories and access them
         id1 = self.manager.remember("memory 1")
@@ -280,11 +284,11 @@ class TestMemoryManager:
         self.manager.recall(id2)
 
         stats = self.manager.memory_stats()
-        assert stats['total_memories'] == 2
-        assert stats['total_accesses'] == 3
-        assert stats['avg_accesses'] == 1.5
-        assert stats['oldest_memory'] is not None
-        assert stats['newest_memory'] is not None
+        assert stats["total_memories"] == 2
+        assert stats["total_accesses"] == 3
+        assert stats["avg_accesses"] == 1.5
+        assert stats["oldest_memory"] is not None
+        assert stats["newest_memory"] is not None
 
 
 class TestGlobalFunctions:
@@ -292,7 +296,7 @@ class TestGlobalFunctions:
 
     def setup_method(self):
         """Clear global memory manager."""
-        if hasattr(global_memory_manager.store, 'clear'):
+        if hasattr(global_memory_manager.store, "clear"):
             global_memory_manager.store.clear()
 
     def test_global_remember_recall(self):
@@ -329,7 +333,9 @@ class TestMemoryIntegration:
         # Remember information
         work_id = manager.remember("Work on project X", {"priority": "high"})
         personal_id = manager.remember("Call mom", {"priority": "personal"})
-        research_id = manager.remember("Read about AI memory systems", {"priority": "research"})
+        research_id = manager.remember(
+            "Read about AI memory systems", {"priority": "research"}
+        )
 
         # Access some memories
         manager.recall(work_id)
@@ -347,8 +353,10 @@ class TestMemoryIntegration:
 
         # Check stats
         stats = manager.memory_stats()
-        assert stats['total_memories'] == 3
-        assert stats['total_accesses'] == 4  # work_id accessed twice, research_id once, personal_id once during creation
+        assert stats["total_memories"] == 3
+        assert (
+            stats["total_accesses"] == 4
+        )  # work_id accessed twice, research_id once, personal_id once during creation
 
         # Forget one memory
         success = manager.forget(personal_id)
@@ -359,7 +367,7 @@ class TestMemoryIntegration:
 
         # Stats should update
         stats = manager.memory_stats()
-        assert stats['total_memories'] == 2
+        assert stats["total_memories"] == 2
 
     def test_memory_with_complex_data(self):
         """Test memory with complex data structures."""
@@ -370,8 +378,8 @@ class TestMemoryIntegration:
             "preferences": ["coffee", "books", "hiking"],
             "history": [
                 {"action": "login", "timestamp": "2024-01-01"},
-                {"action": "search", "query": "memory systems"}
-            ]
+                {"action": "search", "query": "memory systems"},
+            ],
         }
 
         memory_id = manager.remember(complex_data, {"type": "user_profile"})

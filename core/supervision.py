@@ -8,15 +8,14 @@ enabling self-healing systems through hierarchical error handling.
 
 import asyncio
 import logging
-from typing import Dict, List, Optional, Union, Callable, Any
-from enum import Enum
-from dataclasses import dataclass, field
 import time
-import traceback
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Optional
 
-from core.actor_system import Actor, ActorRef, ActorSystem, ActorMessage
 from bio.bio_utilities import simulate_colony_self_repair
+from core.actor_system import Actor, ActorMessage, ActorRef
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +73,6 @@ class SupervisionDecider(ABC):
     @abstractmethod
     async def decide(self, failure: FailureInfo) -> SupervisionDirective:
         """Decide what to do with a failed actor"""
-        pass
 
 
 class DefaultSupervisionDecider(SupervisionDecider):
@@ -82,7 +80,7 @@ class DefaultSupervisionDecider(SupervisionDecider):
 
     def __init__(self, strategy: SupervisionStrategy):
         self.strategy = strategy
-        self.failure_history: Dict[str, List[float]] = {}
+        self.failure_history: dict[str, list[float]] = {}
 
     async def decide(self, failure: FailureInfo) -> SupervisionDirective:
         """Decide based on failure history and strategy"""
@@ -150,7 +148,7 @@ class RestForOneStrategy(SupervisionDecider):
 
     def __init__(self, strategy: SupervisionStrategy):
         self.default_decider = DefaultSupervisionDecider(strategy)
-        self.start_order: List[str] = []
+        self.start_order: list[str] = []
 
     def register_child(self, actor_id: str):
         """Register a child in start order"""
@@ -161,7 +159,7 @@ class RestForOneStrategy(SupervisionDecider):
         # This strategy requires special handling in the supervisor
         return await self.default_decider.decide(failure)
 
-    def get_affected_children(self, failed_actor_id: str) -> List[str]:
+    def get_affected_children(self, failed_actor_id: str) -> list[str]:
         """Get all children that should be stopped"""
         try:
             index = self.start_order.index(failed_actor_id)
@@ -250,7 +248,7 @@ class SupervisorActor(Actor):
         )
 
         # Track child actor metadata
-        self.child_metadata: Dict[str, Dict[str, Any]] = {}
+        self.child_metadata: dict[str, dict[str, Any]] = {}
         self.enable_self_repair = enable_self_repair
         self.health_metrics = {
             "attempts": 0,
@@ -269,7 +267,7 @@ class SupervisorActor(Actor):
         self,
         child_class: type,
         child_id: str,
-        restart_with_state: Optional[Dict[str, Any]] = None,
+        restart_with_state: Optional[dict[str, Any]] = None,
         *args,
         **kwargs,
     ) -> ActorRef:
@@ -303,11 +301,11 @@ class SupervisorActor(Actor):
 
             return child_ref
 
-        except Exception as e:
+        except Exception:
             self.circuit_breaker.record_failure()
             raise
 
-    async def _handle_child_failure(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_child_failure(self, message: ActorMessage) -> dict[str, Any]:
         """Handle child actor failure notification"""
         child_id = message.payload.get("child_id")
         error = message.payload.get("error", "Unknown error")
@@ -375,7 +373,7 @@ class SupervisorActor(Actor):
 
         return {"status": "handled", "directive": directive.value}
 
-    async def _restart_child(self, child_id: str, metadata: Dict[str, Any]):
+    async def _restart_child(self, child_id: str, metadata: dict[str, Any]):
         """Restart a failed child actor"""
         try:
             # Calculate restart delay
@@ -412,7 +410,8 @@ class SupervisorActor(Actor):
 
             # Notify child it was restarted
             await child_ref.tell(
-                "restarted", {"restart_count": restart_count, "previous_failure": True}
+                "restarted",
+                {"restart_count": restart_count, "previous_failure": True},
             )
 
         except Exception as e:
@@ -433,7 +432,7 @@ class SupervisorActor(Actor):
             if child_id in self.child_metadata:
                 del self.child_metadata[child_id]
 
-    async def _handle_child_terminated(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_child_terminated(self, message: ActorMessage) -> dict[str, Any]:
         """Handle normal child termination"""
         child_id = message.payload.get("child_id")
 
@@ -449,7 +448,7 @@ class SupervisorActor(Actor):
 
             return {"status": "acknowledged"}
 
-    async def _handle_supervise_child(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_supervise_child(self, message: ActorMessage) -> dict[str, Any]:
         """Handle request to supervise an existing actor"""
         child_id = message.payload.get("child_id")
         child_ref = self.actor_system.get_actor_ref(child_id)
@@ -480,7 +479,7 @@ class SupervisorActor(Actor):
         """Called before supervisor stops"""
         await self.stop_all_children()
 
-    def get_supervision_stats(self) -> Dict[str, Any]:
+    def get_supervision_stats(self) -> dict[str, Any]:
         """Get supervision-specific statistics"""
         stats = {
             "supervisor_id": self.actor_id,
@@ -521,7 +520,7 @@ class RootSupervisor(SupervisorActor):
         self.register_handler("system_shutdown", self._handle_system_shutdown)
         self.register_handler("emergency_stop", self._handle_emergency_stop)
 
-    async def _handle_system_shutdown(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_system_shutdown(self, message: ActorMessage) -> dict[str, Any]:
         """Graceful system shutdown"""
         logger.info("Root supervisor initiating system shutdown")
 
@@ -529,7 +528,7 @@ class RootSupervisor(SupervisorActor):
 
         return {"status": "shutdown_complete"}
 
-    async def _handle_emergency_stop(self, message: ActorMessage) -> Dict[str, Any]:
+    async def _handle_emergency_stop(self, message: ActorMessage) -> dict[str, Any]:
         """Emergency stop all actors"""
         logger.warning("Root supervisor executing emergency stop")
 
@@ -547,6 +546,8 @@ class RootSupervisor(SupervisorActor):
 
 
 # Example usage
+
+
 async def demo_supervision():
     """Demonstrate supervision hierarchies"""
     from .actor_system import get_global_actor_system
@@ -557,7 +558,9 @@ async def demo_supervision():
     root_ref = await system.create_actor(RootSupervisor, "root-supervisor")
 
     # Create a middle-tier supervisor with OneForOne strategy
+
     class DepartmentSupervisor(SupervisorActor):
+
         def __init__(self, actor_id: str, department: str):
             super().__init__(
                 actor_id,
@@ -573,7 +576,7 @@ async def demo_supervision():
             self.department = department
 
     # Create department supervisor under root
-    dept_ref = await root_ref.ask(
+    await root_ref.ask(
         "create_child",
         {
             "child_class": DepartmentSupervisor,

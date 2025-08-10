@@ -7,8 +7,8 @@
 """
 
 # import streamlit as st  # TODO: Install or implement streamlit
-import os
 import json
+import os
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 EXPORT_PATH = "exports/filtered_dreams.jsonl"
@@ -20,7 +20,9 @@ st.markdown("Filter and export symbolic dreams for analysis, reflection, or narr
 # Filters
 filter_tag = st.text_input("🔖 Filter by Tag (optional)")
 filter_tier = st.selectbox("🔐 Minimum Tier", options=[0, 1, 2, 3, 4, 5], index=0)
-suggest_voice_only = st.checkbox("🎙 Only dreams marked for Lukhas narration (suggest_voice: true)")
+suggest_voice_only = st.checkbox(
+    "🎙 Only dreams marked for Lukhas narration (suggest_voice: true)"
+)
 
 # Export trigger
 if st.button("📤 Export Filtered Dreams"):
@@ -30,7 +32,7 @@ if st.button("📤 Export Filtered Dreams"):
         os.makedirs(os.path.dirname(EXPORT_PATH), exist_ok=True)
         exported = []
 
-        with open(DREAM_LOG_PATH, "r") as f:
+        with open(DREAM_LOG_PATH) as f:
             for line in f:
                 dream = json.loads(line)
                 if dream.get("tier", 0) < filter_tier:

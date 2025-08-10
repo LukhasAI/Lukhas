@@ -8,27 +8,29 @@ This module provides the enhanced DAST (Dynamic Attention & Symbolic Tagging) sy
 with AI-powered task management, intelligent prioritization, and symbolic reasoning.
 """
 
-from .engine import LucasDASTEngine
-from .intelligence import (
-    TaskIntelligence,
-    PriorityOptimizer,
-    ContextTracker,
-    SymbolicReasoner,
-    WorkflowAnalyzer
-)
-from .processors import (
-    TaskProcessor,
-    TagProcessor,
-    AttentionProcessor,
-    SolutionProcessor
-)
 from .adapters import DASTAdapter
 from .api import LucasDASTAPI
+from .engine import LucasDASTEngine
+from .intelligence import (
+    ContextTracker,
+    PriorityOptimizer,
+    SymbolicReasoner,
+    TaskIntelligence,
+    WorkflowAnalyzer,
+)
+from .processors import (
+    AttentionProcessor,
+    SolutionProcessor,
+    TagProcessor,
+    TaskProcessor,
+)
 
 __version__ = "2.0.0"
 __author__ = "LUKHAS AGI Team"
 
 # Jobs-Level UX: One-line task management
+
+
 def track(task: str, context: dict = None, **kwargs):
     """
     Intelligent task tracking with AI-powered optimization.
@@ -49,7 +51,10 @@ def track(task: str, context: dict = None, **kwargs):
     engine = LucasDASTEngine()
     return engine.track(task, context, **kwargs)
 
+
 # Altman AGI Vision: Proactive AI assistance
+
+
 def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
     """
     AI-powered workflow optimization with predictive insights.
@@ -64,6 +69,7 @@ def optimize_workflow(workflow: str, constraints: dict = None, **kwargs):
     """
     engine = LucasDASTEngine()
     return engine.optimize_workflow(workflow, constraints, **kwargs)
+
 
 # Export main interface
 __all__ = [
@@ -80,5 +86,5 @@ __all__ = [
     "DASTAdapter",
     "LucasDASTAPI",
     "track",
-    "optimize_workflow"
+    "optimize_workflow",
 ]

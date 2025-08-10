@@ -4,12 +4,12 @@ Common utilities for LUKHAS PWM
 Centralized utility functions to reduce code duplication.
 """
 
-import logging
-import json
-from pathlib import Path
-from typing import Dict, Any, Optional
 import asyncio
+import json
+import logging
 from functools import wraps
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -29,16 +29,16 @@ def get_logger(name: str) -> logging.Logger:
 def load_config(config_path: Path, defaults: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """Load JSON configuration with defaults"""
     config = defaults or {}
-    
+
     if config_path.exists():
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 loaded_config = json.load(f)
                 config.update(loaded_config)
         except Exception as e:
             logger = get_logger(__name__)
             logger.error(f"Failed to load config from {config_path}: {e}")
-    
+
     return config
 
 
@@ -86,7 +86,7 @@ def sync_error_handler(func):
 class SingletonMeta(type):
     """Metaclass for singleton pattern"""
     _instances = {}
-    
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super().__call__(*args, **kwargs)
@@ -106,11 +106,11 @@ def ensure_path(path: Path) -> Path:
 def merge_dicts(dict1: Dict[str, Any], dict2: Dict[str, Any]) -> Dict[str, Any]:
     """Deep merge two dictionaries"""
     result = dict1.copy()
-    
+
     for key, value in dict2.items():
         if key in result and isinstance(result[key], dict) and isinstance(value, dict):
             result[key] = merge_dicts(result[key], value)
         else:
             result[key] = value
-    
+
     return result

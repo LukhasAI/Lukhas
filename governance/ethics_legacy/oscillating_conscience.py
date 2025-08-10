@@ -1,11 +1,7 @@
 """Oscillator-based ethical dynamics controller."""
+
 import math
-from datetime import datetime
-import structlog
 
-from bio.base_oscillator import OscillationType
-
-from core.common import get_logger
 
 class OscillatingConscience:
     """Simple conscience wave adjusting an ethical threshold."""

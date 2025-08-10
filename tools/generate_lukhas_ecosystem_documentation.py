@@ -19,23 +19,24 @@ three prototype plugins (Health Advisor, ΛEasyDoc, LukhasDoc) into the commerci
 import asyncio
 import json
 import logging
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, List
-import sys
+from pathlib import Path
+from typing import Any
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
 # Workspace paths
 WORKSPACE_ROOT = Path("/Users/A_G_I/LUKHAS_REBIRTH_Workspace")
 COMMERCIAL_PLATFORMS = WORKSPACE_ROOT / "commercial_platforms"
-LAMBDA_EASYDOC_PATH = COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_easydoc"
+LAMBDA_EASYDOC_PATH = (
+    COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_easydoc"
+)
 LAMBDA_DOC_PATH = COMMERCIAL_PLATFORMS / "lukhas_store" / "plugins" / "lambda_doc"
+
 
 class LUKHASDocumentationOrchestrator:
     """
@@ -54,43 +55,78 @@ class LUKHASDocumentationOrchestrator:
             "ecosystem_overview": {
                 "title": "LUKHAS Ecosystem Overview",
                 "description": "High-level overview of the entire LUKHAS ecosystem",
-                "files": ["README.md", "ECOSYSTEM_ARCHITECTURE.md", "GETTING_STARTED.md"]
+                "files": [
+                    "README.md",
+                    "ECOSYSTEM_ARCHITECTURE.md",
+                    "GETTING_STARTED.md",
+                ],
             },
             "commercial_platforms": {
                 "title": "Commercial Platforms",
-                "description": "Documentation for lukhas.dev, lukhas.store, lukhas.cloud",
-                "files": ["PLATFORM_OVERVIEW.md", "DEPLOYMENT_GUIDE.md", "INTEGRATION_API.md"]
+                "description": "Documentation for lukhas.dev, lukhas.store,
+                lukhas.cloud",
+                "files": [
+                    "PLATFORM_OVERVIEW.md",
+                    "DEPLOYMENT_GUIDE.md",
+                    "INTEGRATION_API.md",
+                ],
             },
             "plugin_system": {
                 "title": "Plugin System Documentation",
                 "description": "Complete plugin development and integration guide",
-                "files": ["PLUGIN_DEVELOPMENT_GUIDE.md", "SDK_REFERENCE.md", "PLUGIN_CATALOG.md"]
+                "files": [
+                    "PLUGIN_DEVELOPMENT_GUIDE.md",
+                    "SDK_REFERENCE.md",
+                    "PLUGIN_CATALOG.md",
+                ],
             },
             "integrated_plugins": {
                 "title": "Integrated Plugin Documentation",
-                "description": "Documentation for Health Advisor, ΛEasyDoc, and LukhasDoc plugins",
-                "files": ["HEALTH_ADVISOR_DOCS.md", "LAMBDA_EASYDOC_DOCS.md", "LAMBDA_DOC_DOCS.md"]
+                "description": "Documentation for Health Advisor, ΛEasyDoc,
+                and LukhasDoc plugins",
+                "files": [
+                    "HEALTH_ADVISOR_DOCS.md",
+                    "LAMBDA_EASYDOC_DOCS.md",
+                    "LAMBDA_DOC_DOCS.md",
+                ],
             },
             "sdk_components": {
                 "title": "LUKHAS SDK Documentation",
                 "description": "Multi-platform SDK and bridge components",
-                "files": ["SDK_ARCHITECTURE.md", "PLATFORM_BRIDGE_API.md", "SDK_INTEGRATION.md"]
+                "files": [
+                    "SDK_ARCHITECTURE.md",
+                    "PLATFORM_BRIDGE_API.md",
+                    "SDK_INTEGRATION.md",
+                ],
             },
             "marketplace": {
                 "title": "LUKHAS Marketplace Documentation",
-                "description": "Marketplace operations, revenue sharing, and developer resources",
-                "files": ["MARKETPLACE_GUIDE.md", "REVENUE_MODEL.md", "DEVELOPER_ONBOARDING.md"]
+                "description": "Marketplace operations, revenue sharing,
+                and developer resources",
+                "files": [
+                    "MARKETPLACE_GUIDE.md",
+                    "REVENUE_MODEL.md",
+                    "DEVELOPER_ONBOARDING.md",
+                ],
             },
             "testing_validation": {
                 "title": "Testing & Validation Framework",
                 "description": "Comprehensive testing and quality assurance documentation",
-                "files": ["TESTING_FRAMEWORK.md", "VALIDATION_PROCEDURES.md", "QUALITY_STANDARDS.md"]
+                "files": [
+                    "TESTING_FRAMEWORK.md",
+                    "VALIDATION_PROCEDURES.md",
+                    "QUALITY_STANDARDS.md",
+                ],
             },
             "deployment_operations": {
                 "title": "Deployment & Operations",
                 "description": "Production deployment and operational guides",
-                "files": ["DEPLOYMENT_ORCHESTRATOR.md", "OPERATIONS_GUIDE.md", "MONITORING.md"]
-            }
+                "files": [
+                    "DEPLOYMENT_ORCHESTRATOR.md",
+                    "OPERATIONS_GUIDE.md",
+                    "MONITORING.md",
+                ],
+            },
         }
 
     def _check_lambda_easydoc(self) -> bool:
@@ -125,10 +161,12 @@ class LUKHASDocumentationOrchestrator:
         # Generate metrics and statistics
         await self._generate_documentation_metrics()
 
-        logger.info(f"✅ LUKHAS Ecosystem Documentation Generation Complete!")
+        logger.info("✅ LUKHAS Ecosystem Documentation Generation Complete!")
         logger.info(f"📂 Documentation saved to: {self.output_dir}")
 
-    async def _generate_section_documentation(self, section_id: str, section_info: Dict[str, Any]):
+    async def _generate_section_documentation(
+        self, section_id: str, section_info: dict[str, Any]
+    ):
         """Generate documentation for a specific section."""
         logger.info(f"📝 Generating documentation for: {section_info['title']}")
 
@@ -138,17 +176,22 @@ class LUKHASDocumentationOrchestrator:
         # Generate each file in the section
         for filename in section_info["files"]:
             file_path = section_dir / filename
-            content = await self._generate_file_content(section_id, filename, section_info)
+            content = await self._generate_file_content(
+                section_id, filename, section_info
+            )
 
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
 
             logger.info(f"  ✅ Generated: {filename}")
 
-    async def _generate_file_content(self, section_id: str, filename: str, section_info: Dict[str, Any]) -> str:
+    async def _generate_file_content(
+        self, section_id: str, filename: str, section_info: dict[str, Any]
+    ) -> str:
         """Generate content for a specific documentation file."""
         # This is where we would integrate with ΛEasyDoc and LukhasDoc
-        # For now, we'll generate structured content based on the current ecosystem state
+        # For now, we'll generate structured content based on the current
+        # ecosystem state
 
         if section_id == "ecosystem_overview":
             return await self._generate_ecosystem_overview_content(filename)
@@ -167,7 +210,9 @@ class LUKHASDocumentationOrchestrator:
         elif section_id == "deployment_operations":
             return await self._generate_deployment_operations_content(filename)
         else:
-            return await self._generate_default_content(section_id, filename, section_info)
+            return await self._generate_default_content(
+                section_id, filename, section_info
+            )
 
     async def _generate_ecosystem_overview_content(self, filename: str) -> str:
         """Generate ecosystem overview content."""
@@ -474,6 +519,7 @@ lukhas-cli install-deps
 from core import LucasPlugin, LucasMemoryInterface
 
 class MyAwesomePlugin(LucasPlugin):
+
     def __init__(self, plugin_config=None):
         super().__init__(plugin_config)
         self.name = "My Awesome Plugin"
@@ -704,7 +750,9 @@ Choose your path:
         # Implementation for deployment operations documentation
         return f"# Deployment & Operations: {filename}\n\n[Generated deployment operations content]"
 
-    async def _generate_default_content(self, section_id: str, filename: str, section_info: Dict[str, Any]) -> str:
+    async def _generate_default_content(
+        self, section_id: str, filename: str, section_info: dict[str, Any]
+    ) -> str:
         """Generate default content for unknown sections."""
         return f"""# {section_info['title']}: {filename}
 
@@ -739,7 +787,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             index_content += f"### [{section_info['title']}]({section_id}/)\n"
             index_content += f"{section_info['description']}\n\n"
 
-            for filename in section_info['files']:
+            for filename in section_info["files"]:
                 index_content += f"- [{filename}]({section_id}/{filename})\n"
             index_content += "\n"
 
@@ -762,7 +810,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 *This index was automatically generated by the LUKHAS Documentation Orchestrator.*
 """
 
-        with open(self.output_dir / "INDEX.md", 'w', encoding='utf-8') as f:
+        with open(self.output_dir / "INDEX.md", "w", encoding="utf-8") as f:
             f.write(index_content)
 
     async def _generate_interactive_navigation(self):
@@ -773,35 +821,37 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             "version": "v2.0.0",
             "tools_used": {
                 "lambda_easydoc": self.lambda_easydoc_available,
-                "lambda_doc": self.lambda_doc_available
-            }
+                "lambda_doc": self.lambda_doc_available,
+            },
         }
 
-        with open(self.output_dir / "navigation.json", 'w', encoding='utf-8') as f:
+        with open(self.output_dir / "navigation.json", "w", encoding="utf-8") as f:
             json.dump(nav_content, f, indent=2)
 
     async def _generate_documentation_metrics(self):
         """Generate documentation metrics and statistics."""
-        total_files = sum(len(info['files']) for info in self.documentation_sections.values())
+        total_files = sum(
+            len(info["files"]) for info in self.documentation_sections.values()
+        )
 
         metrics = {
             "generation_metrics": {
                 "total_sections": len(self.documentation_sections),
                 "total_files": total_files,
                 "generation_timestamp": datetime.now().isoformat(),
-                "documentation_version": "v2.0.0"
+                "documentation_version": "v2.0.0",
             },
             "tool_availability": {
                 "lambda_easydoc_available": self.lambda_easydoc_available,
                 "lambda_doc_available": self.lambda_doc_available,
-                "lukhas_sdk_version": "1.1.0"
+                "lukhas_sdk_version": "1.1.0",
             },
             "ecosystem_status": {
                 "phase_1_complete": True,
                 "plugins_integrated": 3,
                 "platforms_supported": ["web", "desktop", "ios", "android", "cloud"],
                 "revenue_projection_y1": 275000,
-                "revenue_projection_y2": 750000
+                "revenue_projection_y2": 750000,
             },
             "documentation_coverage": {
                 "ecosystem_overview": "Complete",
@@ -811,11 +861,11 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
                 "sdk_components": "Complete",
                 "marketplace": "Complete",
                 "testing_validation": "Complete",
-                "deployment_operations": "Complete"
-            }
+                "deployment_operations": "Complete",
+            },
         }
 
-        with open(self.output_dir / "metrics.json", 'w', encoding='utf-8') as f:
+        with open(self.output_dir / "metrics.json", "w", encoding="utf-8") as f:
             json.dump(metrics, f, indent=2)
 
         # Also create a human-readable metrics report
@@ -846,7 +896,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 """
 
-        for section, status in metrics['documentation_coverage'].items():
+        for section, status in metrics["documentation_coverage"].items():
             metrics_md += f"- **{section.replace('_', ' ').title()}**: {status}\n"
 
         metrics_md += f"""
@@ -863,8 +913,9 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 *This metrics report was generated by the LUKHAS Documentation Orchestrator on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.*
 """
 
-        with open(self.output_dir / "METRICS.md", 'w', encoding='utf-8') as f:
+        with open(self.output_dir / "METRICS.md", "w", encoding="utf-8") as f:
             f.write(metrics_md)
+
 
 async def main():
     """Main function to run the LUKHAS ecosystem documentation generation."""

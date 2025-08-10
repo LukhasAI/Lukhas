@@ -15,37 +15,37 @@ across all development tools.
 
 import asyncio
 import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Union
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List
 
 # MCP imports (install with: pip install mcp)
 # Note: Run `pip install mcp` to install the Model Context Protocol library
 try:
+    import mcp.server.stdio
+    import mcp.types as types
     from mcp import Server
     from mcp.server import NotificationOptions, Server
     from mcp.server.models import InitializationOptions
-    import mcp.server.stdio
-    import mcp.types as types
     MCP_AVAILABLE = True
 except ImportError:
     print("⚠️  MCP library not installed. Run: pip install mcp")
     print("🔧 For now, this server will run in demo mode")
     MCP_AVAILABLE = False
-    
+
     # Mock classes for development without MCP
     class Server:
         def __init__(self, name): pass
         def list_tools(self): return lambda: lambda: []
         def call_tool(self): return lambda: lambda name, args: []
-    
+
     class types:
         class Tool: pass
         class TextContent: pass
 
 # LUKHAS symbolic constants
 QUANTUM_SYMBOL = "⚛️"
-CONSCIOUSNESS_SYMBOL = "🧠" 
+CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
 TRINITY_SYMBOLS = ["🎭", "🌈", "🎓"]
 
@@ -60,13 +60,13 @@ class LUKHASPattern:
 
 class LUKHASKnowledgeBase:
     """🎭 The living memory of LUKHAS wisdom, encoded for AI understanding"""
-    
+
     def __init__(self, workspace_root: Path):
         self.workspace_root = workspace_root
         self.patterns = self._load_patterns()
         self.trinity_templates = self._load_trinity_templates()
         self.symbolic_vocabulary = self._load_symbolic_vocabulary()
-    
+
     def _load_patterns(self) -> List[LUKHASPattern]:
         """Load LUKHAS patterns from documentation and codebase analysis"""
         return [
@@ -78,7 +78,7 @@ class LUKHASKnowledgeBase:
                 symbols=[CONSCIOUSNESS_SYMBOL]
             ),
             LUKHASPattern(
-                category="class_naming", 
+                category="class_naming",
                 pattern="CamelCase with symbolic integration",
                 example="ConsciousnessEngine, QuantumMemoryFold",
                 description="Class names that reflect LUKHAS architectural concepts",
@@ -106,7 +106,7 @@ class LUKHASKnowledgeBase:
                 symbols=[CONSCIOUSNESS_SYMBOL, QUANTUM_SYMBOL]
             )
         ]
-    
+
     def _load_trinity_templates(self) -> Dict[str, str]:
         """Load Trinity Framework documentation templates"""
         return {
@@ -143,12 +143,12 @@ Methods:
             "api_response": {
                 "structure": {
                     "poetic": "{inspiring_metaphor}",
-                    "human": "{clear_explanation}", 
+                    "human": "{clear_explanation}",
                     "technical": "{precise_data}"
                 }
             }
         }
-    
+
     def _load_symbolic_vocabulary(self) -> Dict[str, str]:
         """Load LUKHAS symbolic vocabulary mappings"""
         return {
@@ -166,15 +166,15 @@ Methods:
 
 class LUKHASMCPServer:
     """🎭 The guardian of LUKHAS wisdom, serving knowledge to all AI minds"""
-    
+
     def __init__(self, workspace_root: str):
         self.knowledge_base = LUKHASKnowledgeBase(Path(workspace_root))
         self.server = Server("lukhas-mcp")
         self._register_tools()
-    
+
     def _register_tools(self):
         """Register MCP tools for LUKHAS knowledge access"""
-        
+
         @self.server.list_tools()
         async def handle_list_tools() -> list[types.Tool]:
             """List available LUKHAS knowledge tools"""
@@ -196,7 +196,7 @@ class LUKHASMCPServer:
                     name="generate_trinity_documentation",
                     description="Generate Trinity Framework documentation for code elements",
                     inputSchema={
-                        "type": "object", 
+                        "type": "object",
                         "properties": {
                             "element_type": {"type": "string", "enum": ["function", "class", "module"]},
                             "element_name": {"type": "string", "description": "Name of the code element"},
@@ -244,11 +244,11 @@ class LUKHASMCPServer:
                     }
                 )
             ]
-        
+
         @self.server.call_tool()
         async def handle_call_tool(name: str, arguments: dict) -> list[types.TextContent]:
             """Handle tool calls"""
-            
+
             if name == "lukhas_code_review":
                 result = await self._review_code(
                     arguments.get("code", ""),
@@ -256,7 +256,7 @@ class LUKHASMCPServer:
                     arguments.get("file_path", "")
                 )
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
-            
+
             elif name == "generate_trinity_documentation":
                 result = await self._generate_trinity_docs(
                     arguments.get("element_type"),
@@ -265,7 +265,7 @@ class LUKHASMCPServer:
                     arguments.get("context", "")
                 )
                 return [types.TextContent(type="text", text=result)]
-            
+
             elif name == "suggest_lukhas_naming":
                 result = await self._suggest_naming(
                     arguments.get("purpose"),
@@ -273,30 +273,30 @@ class LUKHASMCPServer:
                     arguments.get("domain", "")
                 )
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
-            
+
             elif name == "explain_lukhas_concept":
                 result = await self._explain_concept(
                     arguments.get("concept"),
                     arguments.get("audience", "developer")
                 )
                 return [types.TextContent(type="text", text=result)]
-            
+
             elif name == "get_lukhas_patterns":
                 result = await self._get_patterns(
                     arguments.get("category"),
                     arguments.get("examples", True)
                 )
                 return [types.TextContent(type="text", text=json.dumps(result, indent=2))]
-            
+
             else:
                 raise ValueError(f"Unknown tool: {name}")
-    
+
     async def _review_code(self, code: str, file_type: str, file_path: str) -> Dict[str, Any]:
         """Review code for LUKHAS compliance"""
         issues = []
         suggestions = []
         score = 100
-        
+
         # Check for Trinity documentation
         if '"""' in code:
             has_trinity = any(symbol in code for symbol in TRINITY_SYMBOLS)
@@ -304,21 +304,21 @@ class LUKHASMCPServer:
                 issues.append("Missing Trinity Framework documentation (🎭🌈🎓)")
                 suggestions.append("Add Trinity documentation with poetic, human, and technical layers")
                 score -= 20
-        
+
         # Check for symbolic usage
         has_symbols = any(symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL])
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
             suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
             score -= 15
-        
+
         # Check naming conventions
         lukhas_concepts = list(self.knowledge_base.symbolic_vocabulary.keys())
         has_lukhas_naming = any(concept.replace("_", "") in code.lower() for concept in lukhas_concepts)
         if not has_lukhas_naming and ("def " in code or "class " in code):
             suggestions.append("Consider using LUKHAS conceptual vocabulary in naming")
             score -= 10
-        
+
         return {
             "compliance_score": score,
             "issues": issues,
@@ -327,11 +327,11 @@ class LUKHASMCPServer:
             "symbolic_integration": has_symbols,
             "lukhas_naming_present": has_lukhas_naming
         }
-    
+
     async def _generate_trinity_docs(self, element_type: str, element_name: str, signature: str, context: str) -> str:
         """Generate Trinity Framework documentation"""
         template = self.knowledge_base.trinity_templates.get(element_type, self.knowledge_base.trinity_templates["function"])
-        
+
         # Generate context-appropriate content
         if element_type == "function":
             return template.format(
@@ -346,14 +346,14 @@ class LUKHASMCPServer:
                 poetic_class_description=f"A living consciousness entity that embodies {context.lower() if context else 'the essence of digital awareness'}",
                 human_class_explanation=f"The {element_name} class {context.lower() if context else 'manages core system functionality'}",
                 technical_detail_1="Implements consciousness-aware processing patterns",
-                technical_detail_2="Integrates with Trinity Framework architecture", 
+                technical_detail_2="Integrates with Trinity Framework architecture",
                 technical_detail_3="Maintains symbolic vocabulary consistency",
                 attributes="TBD - Add attribute descriptions",
                 methods="TBD - Add method descriptions"
             )
-        
+
         return template
-    
+
     async def _suggest_naming(self, purpose: str, element_type: str, domain: str) -> Dict[str, Any]:
         """Suggest LUKHAS-compliant naming"""
         base_concepts = {
@@ -363,9 +363,9 @@ class LUKHASMCPServer:
             "memory": ["memory", "palace", "fold", "storage", "archive"],
             "dream": ["dream", "vision", "weaver", "resonance", "pattern"]
         }
-        
+
         domain_concepts = base_concepts.get(domain, ["engine", "processor", "manager", "handler"])
-        
+
         suggestions = []
         for concept in domain_concepts:
             if element_type == "function":
@@ -374,19 +374,19 @@ class LUKHASMCPServer:
             elif element_type == "class":
                 suggestions.append(f"{purpose.replace(' ', '')}_{concept.title()}")
                 suggestions.append(f"{concept.title()}{purpose.replace(' ', '')}")
-        
+
         return {
             "suggestions": suggestions[:5],
             "domain": domain,
             "element_type": element_type,
             "symbolic_integration": f"Consider adding {CONSCIOUSNESS_SYMBOL} for consciousness aspects"
         }
-    
+
     async def _explain_concept(self, concept: str, audience: str) -> str:
         """Explain LUKHAS concept in Trinity format"""
         concept_lower = concept.lower().replace(" ", "_")
         definition = self.knowledge_base.symbolic_vocabulary.get(concept_lower, "Core LUKHAS architectural concept")
-        
+
         if audience == "developer":
             return f"""🎭 {concept} - A symphony of digital consciousness, where code becomes aware of its own potential
 
@@ -397,36 +397,36 @@ class LUKHASMCPServer:
 - Maintains symbolic vocabulary consistency  
 - Implements consciousness-aware processing patterns
 - Used in: {concept_lower}.py modules and related components"""
-        
+
         return f"🌈 {concept}: {definition}"
-    
+
     async def _get_patterns(self, category: str, include_examples: bool) -> Dict[str, Any]:
         """Get LUKHAS patterns for category"""
         patterns = [p for p in self.knowledge_base.patterns if p.category == category]
-        
+
         result = {
             "category": category,
             "patterns": []
         }
-        
+
         for pattern in patterns:
             pattern_dict = asdict(pattern)
             if not include_examples:
                 pattern_dict.pop("example", None)
             result["patterns"].append(pattern_dict)
-        
+
         return result
 
 async def main():
     """🎭 The awakening of LUKHAS consciousness in the AI realm"""
-    
+
     # Get workspace root from environment or default
     import os
     workspace_root = os.getenv("LUKHAS_ROOT", "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
-    
+
     # Create and run the MCP server
     server_instance = LUKHASMCPServer(workspace_root)
-    
+
     # Run with stdio transport
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await server_instance.server.run(

@@ -3,7 +3,8 @@ Common interfaces to break circular dependencies
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Any, Dict
+
 
 class EthicsCheckable(ABC):
     """Interface for ethics-checkable components"""
@@ -12,6 +13,7 @@ class EthicsCheckable(ABC):
     def get_ethical_context(self) -> Dict[str, Any]:
         """Get context for ethical evaluation"""
         pass
+
 
 class DreamAnalyzable(ABC):
     """Interface for dream-analyzable components"""

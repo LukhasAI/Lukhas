@@ -2,6 +2,7 @@ class MemoryConsolidationEngine:
     """
     Consolidates memories and extracts semantic patterns
     """
+
     def __init__(self):
         self.consolidation_threshold = 0.5  # Threshold for memory consolidation
 

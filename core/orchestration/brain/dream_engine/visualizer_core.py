@@ -12,17 +12,18 @@ Integration Date: 2025-05-31T07:55:28.267934
 
 import json
 import os
-import openai
 
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
+
 
 def load_latest_flashback(path=FLASHBACK_LOG_PATH) -> dict:
     if not os.path.exists(path):
         print("❌ Flashback trace log not found.")
         return {}
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         lines = [json.loads(line) for line in f if line.strip()]
     return lines[-1] if lines else {}
+
 
 def build_visual_prompt(fb: dict) -> str:
     theme = fb.get("theme", "unknown dream")
@@ -36,6 +37,7 @@ def build_visual_prompt(fb: dict) -> str:
         f"The emotional alignment is scored at {score}. The style should be surreal, "
         f"emotionally abstract, and dreamlike, reflecting introspective symbolism."
     )
+
 
 if __name__ == "__main__":
     flashback = load_latest_flashback()

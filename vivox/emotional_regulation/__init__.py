@@ -10,45 +10,44 @@ This module provides:
 - Comprehensive audit trails and user transparency
 """
 
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
-# Core components
-from .vivox_ern_core import (
-    VIVOXEmotionalRegulationNetwork,
-    EmotionalRegulator,
-    VADVector,
-    RegulationStrategy,
-    RegulationResponse,
-    EmotionalMemory
+from .endocrine_integration import (
+    EmotionalHormoneMapping,
+    VIVOXEndocrineIntegration,
 )
 
 # Integration components
 from .event_integration import (
-    VIVOXEventBusIntegration,
-    VIVOXERNIntegratedSystem,
     VIVOXEmotionalEvent,
     VIVOXEmotionalShift,
-    VIVOXRegulationApplied
+    VIVOXERNIntegratedSystem,
+    VIVOXEventBusIntegration,
+    VIVOXRegulationApplied,
 )
-
 from .neuroplastic_integration import (
+    ColonyLearningPattern,
+    EmotionalPattern,
     VIVOXNeuroplasticLearner,
     VIVOXTagSystemIntegration,
-    EmotionalPattern,
-    ColonyLearningPattern
 )
-
-from .endocrine_integration import (
-    VIVOXEndocrineIntegration,
-    EmotionalHormoneMapping
-)
-
 from .transparency_audit import (
-    VIVOXAuditSystem,
-    UserTransparencyReport,
+    AuditEvent,
     TransparencyLevel,
-    AuditEvent
+    UserTransparencyReport,
+    VIVOXAuditSystem,
 )
+
+# Core components
+from .vivox_ern_core import (
+    EmotionalMemory,
+    EmotionalRegulator,
+    RegulationResponse,
+    RegulationStrategy,
+    VADVector,
+    VIVOXEmotionalRegulationNetwork,
+)
+
 
 # Main factory function
 def create_complete_vivox_ern_system(
@@ -71,35 +70,35 @@ def create_complete_vivox_ern_system(
     Returns:
         Fully integrated VIVOX.ERN system
     """
-    
+
     # Create core VIVOX.ERN
     vivox_ern = VIVOXEmotionalRegulationNetwork()
-    
+
     # Create event integration
     event_integration = VIVOXEventBusIntegration(event_bus)
-    
+
     # Create neuroplastic learning if enabled
     if enable_neuroplastic_learning:
         neuroplastic_learner = VIVOXNeuroplasticLearner()
         tag_integration = VIVOXTagSystemIntegration(neuroplastic_learner)
-        
+
         # Connect neuroplastic interfaces
         vivox_ern.set_integration_interface("neuroplastic_connector", neuroplastic_learner)
         vivox_ern.set_integration_interface("tag_integration", tag_integration)
-    
+
     # Create endocrine integration if hormone system provided
     if hormone_system:
         endocrine_integration = VIVOXEndocrineIntegration(hormone_system)
         vivox_ern.set_integration_interface("endocrine_system", endocrine_integration)
-    
+
     # Create audit system if enabled
     if enable_audit_trails:
         audit_system = VIVOXAuditSystem(storage_path)
         vivox_ern.set_integration_interface("audit_system", audit_system)
-    
+
     # Create integrated system
     integrated_system = VIVOXERNIntegratedSystem(vivox_ern, event_bus)
-    
+
     return integrated_system
 
 
@@ -112,7 +111,7 @@ __all__ = [
     'RegulationStrategy',
     'RegulationResponse',
     'EmotionalMemory',
-    
+
     # Integration classes
     'VIVOXEventBusIntegration',
     'VIVOXERNIntegratedSystem',
@@ -122,7 +121,7 @@ __all__ = [
     'VIVOXAuditSystem',
     'UserTransparencyReport',
     'TransparencyLevel',
-    
+
     # Factory function
     'create_complete_vivox_ern_system'
 ]

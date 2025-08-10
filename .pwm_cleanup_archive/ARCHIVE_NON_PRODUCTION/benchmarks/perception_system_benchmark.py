@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -34,19 +33,21 @@ For documentation and support: https://lukhas.ai/docs
 
 import asyncio
 import json
-import time
+import logging
 import os
 import sys
 from datetime import datetime
-from typing import Dict, Any, List, Optional
-import logging
+from typing import Any, Dict
 
 # Add parent directories to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class RealPerceptionSystemBenchmark:
     """REAL perception system benchmark - NO MOCKS ALLOWED"""
@@ -60,7 +61,7 @@ class RealPerceptionSystemBenchmark:
             "mock_mode": False,  # NEVER TRUE
             "tests": {},
             "summary": {},
-            "import_status": {}
+            "import_status": {},
         }
 
         # ATTEMPT REAL IMPORTS - NO FALLBACKS TO MOCKS
@@ -77,6 +78,7 @@ class RealPerceptionSystemBenchmark:
         # Try to import real multimodal processor
         try:
             from perception.multimodal import MultimodalProcessor
+
             self.multimodal_processor = MultimodalProcessor()
             self.results["import_status"]["multimodal_processor"] = "SUCCESS"
             print("  ✅ MultimodalProcessor loaded successfully")
@@ -87,6 +89,7 @@ class RealPerceptionSystemBenchmark:
         # Try to import real attention manager
         try:
             from perception.attention import AttentionManager
+
             self.attention_manager = AttentionManager()
             self.results["import_status"]["attention_manager"] = "SUCCESS"
             print("  ✅ AttentionManager loaded successfully")
@@ -97,6 +100,7 @@ class RealPerceptionSystemBenchmark:
         # Try to import real sensory integrator
         try:
             from perception.sensory_integration import SensoryIntegrator
+
             self.sensory_integrator = SensoryIntegrator()
             self.results["import_status"]["sensory_integrator"] = "SUCCESS"
             print("  ✅ SensoryIntegrator loaded successfully")
@@ -105,10 +109,16 @@ class RealPerceptionSystemBenchmark:
             print(f"  ❌ SensoryIntegrator failed: {e}")
 
         # Count successful imports
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         total_imports = len(self.results["import_status"])
 
-        print(f"📊 Real system status: {successful_imports}/{total_imports} perception components loaded")
+        print(
+            f"📊 Real system status: {successful_imports}/{total_imports} perception components loaded"
+        )
 
         if successful_imports == 0:
             print("🚨 CRITICAL: NO REAL PERCEPTION SYSTEMS AVAILABLE")
@@ -124,7 +134,7 @@ class RealPerceptionSystemBenchmark:
             return {
                 "error": "NO_REAL_MULTIMODAL_AVAILABLE",
                 "message": "Cannot test multimodal integration - no real processor loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         # Test multimodal processing
@@ -134,7 +144,7 @@ class RealPerceptionSystemBenchmark:
             "real_test": True,
             "integration_success": result.get("success", False) if result else False,
             "processing_time_ms": 100,  # placeholder
-            "real_errors": []
+            "real_errors": [],
         }
 
     async def run_real_comprehensive_benchmark(self) -> Dict[str, Any]:
@@ -147,13 +157,17 @@ class RealPerceptionSystemBenchmark:
         print()
 
         # Check if we have any real systems
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         if successful_imports == 0:
             error_result = {
                 "error": "NO_REAL_SYSTEMS_AVAILABLE",
                 "message": "Cannot run investor-grade benchmarks without real perception systems",
                 "import_failures": self.results["import_status"],
-                "recommendation": "Fix import dependencies and deploy real perception systems before investor presentation"
+                "recommendation": "Fix import dependencies and deploy real perception systems before investor presentation",
             }
             self.results["critical_error"] = error_result
             print("🚨 CRITICAL ERROR: No real perception systems available for testing")
@@ -181,24 +195,27 @@ class RealPerceptionSystemBenchmark:
                 error_result = {
                     "error": str(e),
                     "real_test": False,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
                 self.results["tests"][test_name] = error_result
                 print(f"❌ REAL {test_name} failed: {str(e)}")
 
         # Generate summary and save results
         self.results["summary"] = {
-            "import_success_rate": successful_imports / len(self.results["import_status"]),
-            "overall_system_health": "CRITICAL" if successful_imports == 0 else "DEGRADED",
-            "investor_ready": successful_imports >= 2
+            "import_success_rate": successful_imports
+            / len(self.results["import_status"]),
+            "overall_system_health": (
+                "CRITICAL" if successful_imports == 0 else "DEGRADED"
+            ),
+            "investor_ready": successful_imports >= 2,
         }
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"REAL_perception_system_benchmark_results_{timestamp}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(self.results, f, indent=2)
 
-        print(f"\\n🎉 REAL PERCEPTION SYSTEMS BENCHMARK COMPLETE!")
+        print("\\n🎉 REAL PERCEPTION SYSTEMS BENCHMARK COMPLETE!")
         print("=" * 80)
         print(f"💾 Results saved to: {filename}")
 

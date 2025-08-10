@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - SYMBOLIC_PARSER
 ║ Symbolic Parser for Cultural and Semantic Analysis
@@ -26,19 +25,20 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
 import re
 import unicodedata
-import logging
-from collections import Counter, defaultdict
-from typing import Dict, List, Any, Optional, Tuple, Set
+from collections import Counter
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Optional
 
 logger = logging.getLogger("ΛTRACE.SymbolicParser")
 
 
 class SymbolicCategory(Enum):
     """Categories for symbolic elements."""
+
     EMOJI = "emoji"
     WORD = "word"
     PHRASE = "phrase"
@@ -51,28 +51,30 @@ class SymbolicCategory(Enum):
 
 class SemanticType(Enum):
     """Semantic types for meaning analysis."""
-    PERSONAL = "personal"      # Names, personal info
-    EMOTIONAL = "emotional"    # Feelings, emotions
+
+    PERSONAL = "personal"  # Names, personal info
+    EMOTIONAL = "emotional"  # Feelings, emotions
     CONCEPTUAL = "conceptual"  # Abstract concepts
-    CULTURAL = "cultural"      # Cultural references
-    TEMPORAL = "temporal"      # Time-related
-    SPATIAL = "spatial"        # Location-related
-    NUMERICAL = "numerical"    # Numbers, quantities
-    TECHNICAL = "technical"    # Technical terms
-    NATURAL = "natural"        # Nature-related
-    SOCIAL = "social"          # Social concepts
+    CULTURAL = "cultural"  # Cultural references
+    TEMPORAL = "temporal"  # Time-related
+    SPATIAL = "spatial"  # Location-related
+    NUMERICAL = "numerical"  # Numbers, quantities
+    TECHNICAL = "technical"  # Technical terms
+    NATURAL = "natural"  # Nature-related
+    SOCIAL = "social"  # Social concepts
 
 
 @dataclass
 class ParsedSymbol:
     """Parsed symbolic element with analysis."""
+
     original_value: str
     normalized_value: str
     category: SymbolicCategory
     semantic_type: SemanticType
     cultural_context: Optional[str]
     complexity_score: float
-    unicode_scripts: Set[str]
+    unicode_scripts: set[str]
     contains_emoji: bool
     word_count: int
     character_diversity: float
@@ -81,10 +83,11 @@ class ParsedSymbol:
 @dataclass
 class CulturalAnalysis:
     """Cultural analysis of symbolic content."""
-    detected_scripts: Dict[str, int]
-    emoji_categories: Dict[str, int]
-    language_hints: List[str]
-    cultural_markers: List[str]
+
+    detected_scripts: dict[str, int]
+    emoji_categories: dict[str, int]
+    language_hints: list[str]
+    cultural_markers: list[str]
     diversity_score: float
 
 
@@ -100,61 +103,235 @@ class SymbolicParser:
 
         # Emoji category mappings
         self.emoji_categories = {
-            'face': ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇'],
-            'gesture': ['👍', '👎', '👌', '✌️', '🤞', '🤟', '🤘', '🤙', '👈', '👉'],
-            'heart': ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔'],
-            'animal': ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐻‍❄️', '🐨'],
-            'nature': ['🌸', '🌺', '🌻', '🌷', '🌹', '🥀', '🌾', '🌿', '🍀', '🍃'],
-            'food': ['🍎', '🍌', '🍊', '🍋', '🍉', '🍇', '🍓', '🫐', '🍈', '🍒'],
-            'activity': ['⚽', '🏀', '🏈', '⚾', '🥎', '🎾', '🏐', '🏉', '🥏', '🎱'],
-            'travel': ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐'],
-            'object': ['📱', '💻', '⌨️', '🖥️', '🖨️', '📷', '📸', '📹', '🎥', '📽️'],
-            'symbol': ['❤️', '💔', '💕', '💖', '💗', '💘', '💝', '💞', '💟', '♥️']
+            "face": [
+                "😀",
+                "😃",
+                "😄",
+                "😁",
+                "😆",
+                "😅",
+                "😂",
+                "🤣",
+                "😊",
+                "😇",
+            ],
+            "gesture": [
+                "👍",
+                "👎",
+                "👌",
+                "✌️",
+                "🤞",
+                "🤟",
+                "🤘",
+                "🤙",
+                "👈",
+                "👉",
+            ],
+            "heart": [
+                "❤️",
+                "🧡",
+                "💛",
+                "💚",
+                "💙",
+                "💜",
+                "🖤",
+                "🤍",
+                "🤎",
+                "💔",
+            ],
+            "animal": [
+                "🐶",
+                "🐱",
+                "🐭",
+                "🐹",
+                "🐰",
+                "🦊",
+                "🐻",
+                "🐼",
+                "🐻‍❄️",
+                "🐨",
+            ],
+            "nature": [
+                "🌸",
+                "🌺",
+                "🌻",
+                "🌷",
+                "🌹",
+                "🥀",
+                "🌾",
+                "🌿",
+                "🍀",
+                "🍃",
+            ],
+            "food": [
+                "🍎",
+                "🍌",
+                "🍊",
+                "🍋",
+                "🍉",
+                "🍇",
+                "🍓",
+                "🫐",
+                "🍈",
+                "🍒",
+            ],
+            "activity": [
+                "⚽",
+                "🏀",
+                "🏈",
+                "⚾",
+                "🥎",
+                "🎾",
+                "🏐",
+                "🏉",
+                "🥏",
+                "🎱",
+            ],
+            "travel": [
+                "🚗",
+                "🚕",
+                "🚙",
+                "🚌",
+                "🚎",
+                "🏎️",
+                "🚓",
+                "🚑",
+                "🚒",
+                "🚐",
+            ],
+            "object": ["📱", "💻", "⌨️", "🖥️", "🖨️", "📷", "📸", "📹", "🎥", "📽️"],
+            "symbol": [
+                "❤️",
+                "💔",
+                "💕",
+                "💖",
+                "💗",
+                "💘",
+                "💝",
+                "💞",
+                "💟",
+                "♥️",
+            ],
         }
 
         # Cultural script patterns
         self.cultural_scripts = {
-            'latin': r'[a-zA-ZÀ-ÿ]',
-            'arabic': r'[\u0600-\u06FF]',
-            'chinese': r'[\u4e00-\u9fff]',
-            'japanese': r'[\u3040-\u309f\u30a0-\u30ff]',
-            'korean': r'[\uac00-\ud7af]',
-            'cyrillic': r'[\u0400-\u04FF]',
-            'devanagari': r'[\u0900-\u097F]',
-            'thai': r'[\u0E00-\u0E7F]',
-            'hebrew': r'[\u0590-\u05FF]',
-            'greek': r'[\u0370-\u03FF]'
+            "latin": r"[a-zA-ZÀ-ÿ]",
+            "arabic": r"[\u0600-\u06FF]",
+            "chinese": r"[\u4e00-\u9fff]",
+            "japanese": r"[\u3040-\u309f\u30a0-\u30ff]",
+            "korean": r"[\uac00-\ud7af]",
+            "cyrillic": r"[\u0400-\u04FF]",
+            "devanagari": r"[\u0900-\u097F]",
+            "thai": r"[\u0E00-\u0E7F]",
+            "hebrew": r"[\u0590-\u05FF]",
+            "greek": r"[\u0370-\u03FF]",
         }
 
         # Semantic keywords for classification
         self.semantic_keywords = {
-            SemanticType.PERSONAL: ['name', 'me', 'my', 'i', 'self', 'identity', 'person'],
-            SemanticType.EMOTIONAL: ['love', 'happy', 'sad', 'angry', 'joy', 'fear', 'hope'],
-            SemanticType.CONCEPTUAL: ['idea', 'thought', 'concept', 'abstract', 'theory'],
-            SemanticType.CULTURAL: ['tradition', 'culture', 'heritage', 'custom', 'ritual'],
-            SemanticType.TEMPORAL: ['time', 'day', 'year', 'moment', 'future', 'past'],
-            SemanticType.SPATIAL: ['place', 'location', 'here', 'there', 'city', 'country'],
-            SemanticType.NUMERICAL: ['number', 'count', 'quantity', 'amount', 'measure'],
-            SemanticType.TECHNICAL: ['computer', 'software', 'code', 'digital', 'tech'],
-            SemanticType.NATURAL: ['nature', 'tree', 'water', 'earth', 'sky', 'animal'],
-            SemanticType.SOCIAL: ['friend', 'family', 'community', 'society', 'group']
+            SemanticType.PERSONAL: [
+                "name",
+                "me",
+                "my",
+                "i",
+                "self",
+                "identity",
+                "person",
+            ],
+            SemanticType.EMOTIONAL: [
+                "love",
+                "happy",
+                "sad",
+                "angry",
+                "joy",
+                "fear",
+                "hope",
+            ],
+            SemanticType.CONCEPTUAL: [
+                "idea",
+                "thought",
+                "concept",
+                "abstract",
+                "theory",
+            ],
+            SemanticType.CULTURAL: [
+                "tradition",
+                "culture",
+                "heritage",
+                "custom",
+                "ritual",
+            ],
+            SemanticType.TEMPORAL: [
+                "time",
+                "day",
+                "year",
+                "moment",
+                "future",
+                "past",
+            ],
+            SemanticType.SPATIAL: [
+                "place",
+                "location",
+                "here",
+                "there",
+                "city",
+                "country",
+            ],
+            SemanticType.NUMERICAL: [
+                "number",
+                "count",
+                "quantity",
+                "amount",
+                "measure",
+            ],
+            SemanticType.TECHNICAL: [
+                "computer",
+                "software",
+                "code",
+                "digital",
+                "tech",
+            ],
+            SemanticType.NATURAL: [
+                "nature",
+                "tree",
+                "water",
+                "earth",
+                "sky",
+                "animal",
+            ],
+            SemanticType.SOCIAL: [
+                "friend",
+                "family",
+                "community",
+                "society",
+                "group",
+            ],
         }
 
         # Common cultural markers
         self.cultural_markers = {
-            'american': ['usa', 'america', 'american', 'states', 'liberty'],
-            'british': ['uk', 'britain', 'british', 'england', 'london'],
-            'japanese': ['japan', 'japanese', 'tokyo', 'anime', 'sushi'],
-            'chinese': ['china', 'chinese', 'beijing', 'dragon', 'kung fu'],
-            'indian': ['india', 'indian', 'delhi', 'curry', 'bollywood'],
-            'arabic': ['arab', 'arabic', 'islam', 'mosque', 'desert'],
-            'spanish': ['spain', 'spanish', 'madrid', 'flamenco', 'siesta'],
-            'french': ['france', 'french', 'paris', 'cafe', 'croissant'],
-            'german': ['germany', 'german', 'berlin', 'oktoberfest', 'autobahn'],
-            'russian': ['russia', 'russian', 'moscow', 'vodka', 'kremlin']
+            "american": ["usa", "america", "american", "states", "liberty"],
+            "british": ["uk", "britain", "british", "england", "london"],
+            "japanese": ["japan", "japanese", "tokyo", "anime", "sushi"],
+            "chinese": ["china", "chinese", "beijing", "dragon", "kung fu"],
+            "indian": ["india", "indian", "delhi", "curry", "bollywood"],
+            "arabic": ["arab", "arabic", "islam", "mosque", "desert"],
+            "spanish": ["spain", "spanish", "madrid", "flamenco", "siesta"],
+            "french": ["france", "french", "paris", "cafe", "croissant"],
+            "german": [
+                "germany",
+                "german",
+                "berlin",
+                "oktoberfest",
+                "autobahn",
+            ],
+            "russian": ["russia", "russian", "moscow", "vodka", "kremlin"],
         }
 
-    def parse_symbolic_element(self, value: str, context: Optional[Dict[str, Any]] = None) -> ParsedSymbol:
+    def parse_symbolic_element(
+        self, value: str, context: Optional[dict[str, Any]] = None
+    ) -> ParsedSymbol:
         """
         # Parse individual symbolic element with full analysis
         # Returns detailed parsing information and classifications
@@ -191,7 +368,11 @@ class SymbolicParser:
 
             # Calculate complexity score
             complexity_score = self._calculate_complexity_score(
-                value, unicode_scripts, contains_emoji, word_count, character_diversity
+                value,
+                unicode_scripts,
+                contains_emoji,
+                word_count,
+                character_diversity,
             )
 
             return ParsedSymbol(
@@ -204,19 +385,21 @@ class SymbolicParser:
                 unicode_scripts=unicode_scripts,
                 contains_emoji=contains_emoji,
                 word_count=word_count,
-                character_diversity=character_diversity
+                character_diversity=character_diversity,
             )
 
         except Exception as e:
             logger.error(f"ΛTRACE: Symbolic parsing error: {e}")
             return self._create_empty_parsed_symbol(value)
 
-    def analyze_cultural_content(self, symbolic_vault: List[Any]) -> CulturalAnalysis:
+    def analyze_cultural_content(self, symbolic_vault: list[Any]) -> CulturalAnalysis:
         """
         # Analyze cultural diversity and content across symbolic vault
         # Provides cultural diversity metrics and recommendations
         """
-        logger.info(f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements")
+        logger.info(
+            f"ΛTRACE: Analyzing cultural content for {len(symbolic_vault)} elements"
+        )
 
         try:
             detected_scripts = Counter()
@@ -226,10 +409,10 @@ class SymbolicParser:
 
             for element in symbolic_vault:
                 # Extract value from element
-                if hasattr(element, 'value'):
+                if hasattr(element, "value"):
                     value = element.value
                 elif isinstance(element, dict):
-                    value = element.get('value', '')
+                    value = element.get("value", "")
                 else:
                     value = str(element)
 
@@ -267,22 +450,22 @@ class SymbolicParser:
                 emoji_categories=dict(emoji_categories),
                 language_hints=language_hints,
                 cultural_markers=cultural_markers,
-                diversity_score=diversity_score
+                diversity_score=diversity_score,
             )
 
         except Exception as e:
             logger.error(f"ΛTRACE: Cultural analysis error: {e}")
             return CulturalAnalysis({}, {}, [], [], 0.0)
 
-    def extract_patterns(self, value: str) -> List[str]:
+    def extract_patterns(self, value: str) -> list[str]:
         """Extract recognizable patterns from symbolic value."""
         patterns = []
 
         # Date patterns
         date_patterns = [
-            r'\d{1,2}[-/]\d{1,2}[-/]\d{2,4}',  # MM/DD/YYYY or MM-DD-YYYY
-            r'\d{4}[-/]\d{1,2}[-/]\d{1,2}',    # YYYY/MM/DD or YYYY-MM-DD
-            r'\d{1,2}\s+\w+\s+\d{4}'           # DD Month YYYY
+            r"\d{1,2}[-/]\d{1,2}[-/]\d{2,4}",  # MM/DD/YYYY or MM-DD-YYYY
+            r"\d{4}[-/]\d{1,2}[-/]\d{1,2}",  # YYYY/MM/DD or YYYY-MM-DD
+            r"\d{1,2}\s+\w+\s+\d{4}",  # DD Month YYYY
         ]
 
         for pattern in date_patterns:
@@ -291,9 +474,9 @@ class SymbolicParser:
 
         # Phone patterns
         phone_patterns = [
-            r'\(\d{3}\)\s*\d{3}-\d{4}',        # (123) 456-7890
-            r'\d{3}-\d{3}-\d{4}',              # 123-456-7890
-            r'\+\d{1,3}\s*\d{3,4}\s*\d{3,4}'  # International
+            r"\(\d{3}\)\s*\d{3}-\d{4}",  # (123) 456-7890
+            r"\d{3}-\d{3}-\d{4}",  # 123-456-7890
+            r"\+\d{1,3}\s*\d{3,4}\s*\d{3,4}",  # International
         ]
 
         for pattern in phone_patterns:
@@ -301,15 +484,15 @@ class SymbolicParser:
             patterns.extend(matches)
 
         # Email patterns
-        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
         email_matches = re.findall(email_pattern, value)
         patterns.extend(email_matches)
 
         # Number patterns
         number_patterns = [
-            r'\b\d{4}\b',          # 4-digit numbers (years, PINs)
-            r'\b\d{6,}\b',         # Long numbers (IDs, accounts)
-            r'\b\d+\.\d+\b'        # Decimal numbers
+            r"\b\d{4}\b",  # 4-digit numbers (years, PINs)
+            r"\b\d{6,}\b",  # Long numbers (IDs, accounts)
+            r"\b\d+\.\d+\b",  # Decimal numbers
         ]
 
         for pattern in number_patterns:
@@ -321,59 +504,59 @@ class SymbolicParser:
     def _normalize_value(self, value: str) -> str:
         """Normalize value for consistent processing."""
         # Unicode normalization
-        normalized = unicodedata.normalize('NFKC', value)
+        normalized = unicodedata.normalize("NFKC", value)
 
         # Basic cleanup while preserving essential characters
         normalized = normalized.strip()
 
         return normalized
 
-    def _analyze_unicode_scripts(self, value: str) -> Set[str]:
+    def _analyze_unicode_scripts(self, value: str) -> set[str]:
         """Analyze Unicode scripts present in the value."""
         scripts = set()
 
         for char in value:
             # Get Unicode character name
-            char_name = unicodedata.name(char, '')
+            unicodedata.name(char, "")
 
             # Determine script based on Unicode blocks
             code_point = ord(char)
 
             if 0x0000 <= code_point <= 0x007F:
-                scripts.add('ascii')
+                scripts.add("ascii")
             elif 0x0080 <= code_point <= 0x00FF:
-                scripts.add('latin_extended')
+                scripts.add("latin_extended")
             elif 0x0100 <= code_point <= 0x017F:
-                scripts.add('latin_extended_a')
+                scripts.add("latin_extended_a")
             elif 0x0400 <= code_point <= 0x04FF:
-                scripts.add('cyrillic')
+                scripts.add("cyrillic")
             elif 0x0590 <= code_point <= 0x05FF:
-                scripts.add('hebrew')
+                scripts.add("hebrew")
             elif 0x0600 <= code_point <= 0x06FF:
-                scripts.add('arabic')
+                scripts.add("arabic")
             elif 0x0900 <= code_point <= 0x097F:
-                scripts.add('devanagari')
+                scripts.add("devanagari")
             elif 0x4E00 <= code_point <= 0x9FFF:
-                scripts.add('cjk_unified')
+                scripts.add("cjk_unified")
             elif 0x3040 <= code_point <= 0x309F:
-                scripts.add('hiragana')
+                scripts.add("hiragana")
             elif 0x30A0 <= code_point <= 0x30FF:
-                scripts.add('katakana')
+                scripts.add("katakana")
             elif 0xAC00 <= code_point <= 0xD7AF:
-                scripts.add('hangul')
+                scripts.add("hangul")
             elif 0x1F600 <= code_point <= 0x1F64F:
-                scripts.add('emoji_emoticons')
+                scripts.add("emoji_emoticons")
             elif 0x1F300 <= code_point <= 0x1F5FF:
-                scripts.add('emoji_symbols')
+                scripts.add("emoji_symbols")
             else:
-                scripts.add('other')
+                scripts.add("other")
 
         return scripts
 
     def _contains_emoji(self, value: str) -> bool:
         """Check if value contains emoji characters."""
         for char in value:
-            if unicodedata.category(char) == 'So':  # Symbol, other
+            if unicodedata.category(char) == "So":  # Symbol, other
                 return True
             code_point = ord(char)
             if 0x1F000 <= code_point <= 0x1F9FF:  # Emoji blocks
@@ -390,7 +573,9 @@ class SymbolicParser:
 
         return unique_chars / total_chars
 
-    def _determine_category(self, value: str, word_count: int, contains_emoji: bool) -> SymbolicCategory:
+    def _determine_category(
+        self, value: str, word_count: int, contains_emoji: bool
+    ) -> SymbolicCategory:
         """Determine symbolic category based on content analysis."""
         if contains_emoji and word_count == 0:
             return SymbolicCategory.EMOJI
@@ -407,13 +592,15 @@ class SymbolicParser:
         else:
             return SymbolicCategory.ABSTRACT
 
-    def _determine_semantic_type(self, value: str, context: Optional[Dict[str, Any]]) -> SemanticType:
+    def _determine_semantic_type(
+        self, value: str, context: Optional[dict[str, Any]]
+    ) -> SemanticType:
         """Determine semantic type based on content and context."""
         value_lower = value.lower()
 
         # Check context hints first
         if context:
-            context_type = context.get('semantic_type')
+            context_type = context.get("semantic_type")
             if context_type:
                 try:
                     return SemanticType(context_type)
@@ -427,9 +614,9 @@ class SymbolicParser:
                     return semantic_type
 
         # Pattern-based classification
-        if re.search(r'\d{4}', value):  # Years
+        if re.search(r"\d{4}", value):  # Years
             return SemanticType.TEMPORAL
-        elif re.search(r'@\w+', value):  # Email/username
+        elif re.search(r"@\w+", value):  # Email/username
             return SemanticType.PERSONAL
         elif self._contains_emoji(value):
             return SemanticType.EMOTIONAL
@@ -439,23 +626,25 @@ class SymbolicParser:
         # Default classification
         return SemanticType.PERSONAL
 
-    def _extract_cultural_context(self, value: str, unicode_scripts: Set[str]) -> Optional[str]:
+    def _extract_cultural_context(
+        self, value: str, unicode_scripts: set[str]
+    ) -> Optional[str]:
         """Extract cultural context from value and scripts."""
         # Script-based cultural hints
-        if 'arabic' in unicode_scripts:
-            return 'arabic'
-        elif 'cjk_unified' in unicode_scripts:
-            return 'chinese'
-        elif 'hiragana' in unicode_scripts or 'katakana' in unicode_scripts:
-            return 'japanese'
-        elif 'hangul' in unicode_scripts:
-            return 'korean'
-        elif 'cyrillic' in unicode_scripts:
-            return 'russian'
-        elif 'devanagari' in unicode_scripts:
-            return 'indian'
-        elif 'hebrew' in unicode_scripts:
-            return 'hebrew'
+        if "arabic" in unicode_scripts:
+            return "arabic"
+        elif "cjk_unified" in unicode_scripts:
+            return "chinese"
+        elif "hiragana" in unicode_scripts or "katakana" in unicode_scripts:
+            return "japanese"
+        elif "hangul" in unicode_scripts:
+            return "korean"
+        elif "cyrillic" in unicode_scripts:
+            return "russian"
+        elif "devanagari" in unicode_scripts:
+            return "indian"
+        elif "hebrew" in unicode_scripts:
+            return "hebrew"
 
         # Content-based cultural markers
         value_lower = value.lower()
@@ -466,9 +655,14 @@ class SymbolicParser:
 
         return None
 
-    def _calculate_complexity_score(self, value: str, unicode_scripts: Set[str],
-                                   contains_emoji: bool, word_count: int,
-                                   character_diversity: float) -> float:
+    def _calculate_complexity_score(
+        self,
+        value: str,
+        unicode_scripts: set[str],
+        contains_emoji: bool,
+        word_count: int,
+        character_diversity: float,
+    ) -> float:
         """Calculate complexity score for symbolic element."""
         score = 0.0
 
@@ -513,11 +707,11 @@ class SymbolicParser:
         """Check if value contains special characters."""
         return any(not c.isalnum() and not c.isspace() for c in value)
 
-    def _extract_emojis(self, value: str) -> List[str]:
+    def _extract_emojis(self, value: str) -> list[str]:
         """Extract emoji characters from value."""
         emojis = []
         for char in value:
-            if unicodedata.category(char) == 'So' or (0x1F000 <= ord(char) <= 0x1F9FF):
+            if unicodedata.category(char) == "So" or (0x1F000 <= ord(char) <= 0x1F9FF):
                 emojis.append(char)
         return emojis
 
@@ -526,9 +720,9 @@ class SymbolicParser:
         for category, emoji_list in self.emoji_categories.items():
             if emoji in emoji_list:
                 return category
-        return 'other'
+        return "other"
 
-    def _detect_cultural_markers(self, value: str) -> List[str]:
+    def _detect_cultural_markers(self, value: str) -> list[str]:
         """Detect cultural markers in the value."""
         markers = []
         value_lower = value.lower()
@@ -541,7 +735,7 @@ class SymbolicParser:
 
         return markers
 
-    def _detect_language_hints(self, value: str) -> List[str]:
+    def _detect_language_hints(self, value: str) -> list[str]:
         """Detect language hints from script analysis."""
         hints = []
 
@@ -551,8 +745,9 @@ class SymbolicParser:
 
         return hints
 
-    def _calculate_cultural_diversity_score(self, scripts: Counter, emoji_categories: Counter,
-                                          markers: List[str]) -> float:
+    def _calculate_cultural_diversity_score(
+        self, scripts: Counter, emoji_categories: Counter, markers: list[str]
+    ) -> float:
         """Calculate cultural diversity score."""
         score = 0.0
 
@@ -585,7 +780,7 @@ class SymbolicParser:
             unicode_scripts=set(),
             contains_emoji=False,
             word_count=0,
-            character_diversity=0.0
+            character_diversity=0.0,
         )
 
 

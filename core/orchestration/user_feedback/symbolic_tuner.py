@@ -5,7 +5,6 @@ Fine-tunes symbolic parameters within compliance bounds using user feedback.
 """
 
 import os
-from typing import Dict
 
 SYMBOLIC_CONFIG_PATH = os.path.join(
     os.path.dirname(__file__), "../../symbolic_config.json"
@@ -15,11 +14,11 @@ SYMBOLIC_CONFIG_PATH = os.path.join(
 DEFAULT_CONFIG = {"affect_threshold": 0.5, "recursion_depth": 3}
 
 
-def apply_feedback_adjustments(user_id: str) -> Dict:
+def apply_feedback_adjustments(user_id: str) -> dict:
     """Modify symbolic config using feedback. Ensure symbolic-only and reversible."""
     # Load config
     if os.path.exists(SYMBOLIC_CONFIG_PATH):
-        with open(SYMBOLIC_CONFIG_PATH, "r", encoding="utf-8") as f:
+        with open(SYMBOLIC_CONFIG_PATH, encoding="utf-8") as f:
             config = json.load(f)
     else:
         config = DEFAULT_CONFIG.copy()

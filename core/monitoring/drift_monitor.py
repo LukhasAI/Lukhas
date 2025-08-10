@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Unified Drift Monitor Engine
@@ -34,35 +33,29 @@ __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
 import asyncio
-import json
 import time
-from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, List, Optional, Tuple, Set, Union
-from dataclasses import dataclass, asdict
-from enum import Enum
 from collections import defaultdict, deque
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from trace.drift_harmonizer import DriftHarmonizer
+
+# Import simple drift components
+from trace.drift_metrics import DriftTracker
+from typing import Any, Optional
+
 import structlog
 
 # Import core drift tracking implementation
-from core.symbolic.drift.symbolic_drift_tracker import (
-    SymbolicDriftTracker,
-    DriftScore,
-    DriftPhase,
-    SymbolicState
-)
+from core.symbolic.drift.symbolic_drift_tracker import DriftPhase, SymbolicDriftTracker
 
 # Import ethical drift sentinel
 from ethics.sentinel.ethical_drift_sentinel import (
+    EscalationTier,
     EthicalDriftSentinel,
     EthicalViolation,
     ViolationType,
-    EscalationTier
 )
-
-# Import simple drift components
-from trace.drift_metrics import DriftTracker, compute_drift_score
-from trace.drift_harmonizer import DriftHarmonizer
-from trace.drift_alignment_controller import DriftAlignmentController
 
 # Configure structured logging
 logger = structlog.get_logger("ΛMONITOR.drift")
@@ -74,6 +67,7 @@ MODULE_NAME = "unified_drift_monitor"
 
 class DriftType(Enum):
     """Types of drift monitored by the system."""
+
     SYMBOLIC = "SYMBOLIC"
     EMOTIONAL = "EMOTIONAL"
     ETHICAL = "ETHICAL"
@@ -84,6 +78,7 @@ class DriftType(Enum):
 
 class InterventionType(Enum):
     """Types of interventions available."""
+
     SOFT_REALIGNMENT = "SOFT_REALIGNMENT"
     ETHICAL_CORRECTION = "ETHICAL_CORRECTION"
     EMOTIONAL_GROUNDING = "EMOTIONAL_GROUNDING"
@@ -95,6 +90,7 @@ class InterventionType(Enum):
 @dataclass
 class UnifiedDriftScore:
     """Comprehensive drift score across all dimensions."""
+
     overall_score: float  # 0.0-1.0 weighted combination
     symbolic_drift: float
     emotional_drift: float
@@ -104,14 +100,15 @@ class UnifiedDriftScore:
     phase: DriftPhase
     risk_level: str  # LOW, MEDIUM, HIGH, CRITICAL
     intervention_required: bool
-    recommended_interventions: List[InterventionType]
-    metadata: Dict[str, Any]
+    recommended_interventions: list[InterventionType]
+    metadata: dict[str, Any]
     timestamp: str
 
 
 @dataclass
 class DriftAlert:
     """Unified drift alert record."""
+
     alert_id: str
     timestamp: str
     drift_type: DriftType
@@ -119,9 +116,9 @@ class DriftAlert:
     drift_score: UnifiedDriftScore
     session_id: str
     symbol_id: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     intervention_triggered: bool = False
-    intervention_results: Optional[Dict[str, Any]] = None
+    intervention_results: Optional[dict[str, Any]] = None
 
 
 class UnifiedDriftMonitor:
@@ -132,7 +129,7 @@ class UnifiedDriftMonitor:
     capabilities into a single orchestrated system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize the unified drift monitor.
 
@@ -143,46 +140,52 @@ class UnifiedDriftMonitor:
 
         # Initialize core components
         self.symbolic_tracker = SymbolicDriftTracker(
-            config=self.config.get('symbolic', {})
+            config=self.config.get("symbolic", {})
         )
 
         self.ethical_sentinel = EthicalDriftSentinel(
-            monitoring_interval=self.config.get('ethical_interval', 0.5),
-            violation_retention=self.config.get('violation_retention', 1000)
+            monitoring_interval=self.config.get("ethical_interval", 0.5),
+            violation_retention=self.config.get("violation_retention", 1000),
         )
 
         self.simple_tracker = DriftTracker()
         self.harmonizer = DriftHarmonizer(
-            threshold=self.config.get('harmonizer_threshold', 0.2)
+            threshold=self.config.get("harmonizer_threshold", 0.2)
         )
 
         # Drift computation parameters
-        self.drift_weights = self.config.get('drift_weights', {
-            'symbolic': 0.30,
-            'emotional': 0.25,
-            'ethical': 0.20,
-            'temporal': 0.15,
-            'entropy': 0.10
-        })
+        self.drift_weights = self.config.get(
+            "drift_weights",
+            {
+                "symbolic": 0.30,
+                "emotional": 0.25,
+                "ethical": 0.20,
+                "temporal": 0.15,
+                "entropy": 0.10,
+            },
+        )
 
         # Intervention thresholds
-        self.intervention_thresholds = self.config.get('intervention_thresholds', {
-            'soft': 0.3,
-            'ethical': 0.5,
-            'emotional': 0.6,
-            'quarantine': 0.75,
-            'cascade': 0.85,
-            'freeze': 0.95
-        })
+        self.intervention_thresholds = self.config.get(
+            "intervention_thresholds",
+            {
+                "soft": 0.3,
+                "ethical": 0.5,
+                "emotional": 0.6,
+                "quarantine": 0.75,
+                "cascade": 0.85,
+                "freeze": 0.95,
+            },
+        )
 
         # Monitoring state
         self.monitoring_active = False
         self.monitoring_task = None
-        self.monitored_sessions: Set[str] = set()
+        self.monitored_sessions: set[str] = set()
 
         # Alert and intervention tracking
         self.alert_history: deque = deque(maxlen=1000)
-        self.active_alerts: Dict[str, DriftAlert] = {}
+        self.active_alerts: dict[str, DriftAlert] = {}
         self.intervention_queue: asyncio.Queue = asyncio.Queue()
 
         # Integration points (to be injected)
@@ -191,15 +194,15 @@ class UnifiedDriftMonitor:
         self.collapse_reasoner = None
 
         # Theta delta and intent drift tracking
-        self.theta_deltas: Dict[str, List[float]] = defaultdict(list)
-        self.intent_drifts: Dict[str, List[float]] = defaultdict(list)
+        self.theta_deltas: dict[str, list[float]] = defaultdict(list)
+        self.intent_drifts: dict[str, list[float]] = defaultdict(list)
 
         logger.info(
             "Unified Drift Monitor initialized",
             version=MODULE_VERSION,
             config=self.config,
             weights=self.drift_weights,
-            thresholds=self.intervention_thresholds
+            thresholds=self.intervention_thresholds,
         )
 
     async def start_monitoring(self):
@@ -234,7 +237,7 @@ class UnifiedDriftMonitor:
 
         logger.info("Unified drift monitoring stopped")
 
-    async def register_session(self, session_id: str, initial_state: Dict[str, Any]):
+    async def register_session(self, session_id: str, initial_state: dict[str, Any]):
         """
         Register a session for drift monitoring.
 
@@ -245,13 +248,13 @@ class UnifiedDriftMonitor:
         self.monitored_sessions.add(session_id)
 
         # Register with symbolic tracker
-        symbols = initial_state.get('symbols', [])
+        symbols = initial_state.get("symbols", [])
         metadata = {
-            'emotional_vector': initial_state.get('emotional_vector', [0.0, 0.0, 0.0]),
-            'ethical_alignment': initial_state.get('ethical_alignment', 0.5),
-            'context': initial_state.get('context', ''),
-            'theta': initial_state.get('theta', 0.0),
-            'intent': initial_state.get('intent', '')
+            "emotional_vector": initial_state.get("emotional_vector", [0.0, 0.0, 0.0]),
+            "ethical_alignment": initial_state.get("ethical_alignment", 0.5),
+            "context": initial_state.get("context", ""),
+            "theta": initial_state.get("theta", 0.0),
+            "intent": initial_state.get("intent", ""),
         }
 
         self.symbolic_tracker.register_symbolic_state(session_id, symbols, metadata)
@@ -260,17 +263,19 @@ class UnifiedDriftMonitor:
         self.ethical_sentinel.register_symbol(session_id, initial_state)
 
         # Initialize tracking
-        self.theta_deltas[session_id].append(metadata['theta'])
+        self.theta_deltas[session_id].append(metadata["theta"])
         self.intent_drifts[session_id].append(0.0)
 
         logger.info(
             "Session registered for monitoring",
             session_id=session_id,
             symbol_count=len(symbols),
-            ΛTAG="ΛMONITOR"
+            ΛTAG="ΛMONITOR",
         )
 
-    async def update_session_state(self, session_id: str, current_state: Dict[str, Any]):
+    async def update_session_state(
+        self, session_id: str, current_state: dict[str, Any]
+    ):
         """
         Update session state and compute drift.
 
@@ -283,13 +288,13 @@ class UnifiedDriftMonitor:
             return
 
         # Update symbolic state
-        symbols = current_state.get('symbols', [])
+        symbols = current_state.get("symbols", [])
         metadata = {
-            'emotional_vector': current_state.get('emotional_vector', [0.0, 0.0, 0.0]),
-            'ethical_alignment': current_state.get('ethical_alignment', 0.5),
-            'context': current_state.get('context', ''),
-            'theta': current_state.get('theta', 0.0),
-            'intent': current_state.get('intent', '')
+            "emotional_vector": current_state.get("emotional_vector", [0.0, 0.0, 0.0]),
+            "ethical_alignment": current_state.get("ethical_alignment", 0.5),
+            "context": current_state.get("context", ""),
+            "theta": current_state.get("theta", 0.0),
+            "intent": current_state.get("intent", ""),
         }
 
         self.symbolic_tracker.register_symbolic_state(session_id, symbols, metadata)
@@ -298,7 +303,7 @@ class UnifiedDriftMonitor:
         self.simple_tracker.track(current_state)
 
         # Track theta delta with consistent computation
-        current_theta = metadata['theta']
+        current_theta = metadata["theta"]
         if self.theta_deltas[session_id]:
             prior_theta = self.theta_deltas[session_id][-1]
             theta_delta = self._calculate_theta_delta(prior_theta, current_theta)
@@ -308,7 +313,7 @@ class UnifiedDriftMonitor:
             self.theta_deltas[session_id].append(current_theta)
 
         # Track intent drift
-        intent_drift = self._calculate_intent_drift(session_id, metadata['intent'])
+        intent_drift = self._calculate_intent_drift(session_id, metadata["intent"])
         self.intent_drifts[session_id].append(intent_drift)
 
         # Compute unified drift score
@@ -328,12 +333,12 @@ class UnifiedDriftMonitor:
             theta_delta=round(theta_delta, 3),
             intent_drift=round(intent_drift, 3),
             phase=drift_score.phase.value,
-            ΛTAG="ΛDRIFT"
+            ΛTAG="ΛDRIFT",
         )
 
-    async def _compute_unified_drift(self,
-                                    session_id: str,
-                                    current_state: Dict[str, Any]) -> UnifiedDriftScore:
+    async def _compute_unified_drift(
+        self, session_id: str, current_state: dict[str, Any]
+    ) -> UnifiedDriftScore:
         """Compute comprehensive drift score across all dimensions."""
         timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -347,26 +352,23 @@ class UnifiedDriftMonitor:
 
         # Prepare context for symbolic drift
         drift_context = {
-            'session_id': session_id,
-            'timestamp': current.timestamp,
-            'prior_timestamp': prior.timestamp,
-            'current_emotional_vector': current.emotional_vector,
-            'prior_emotional_vector': prior.emotional_vector,
-            'current_ethical_alignment': current.ethical_alignment,
-            'prior_ethical_alignment': prior.ethical_alignment
+            "session_id": session_id,
+            "timestamp": current.timestamp,
+            "prior_timestamp": prior.timestamp,
+            "current_emotional_vector": current.emotional_vector,
+            "prior_emotional_vector": prior.emotional_vector,
+            "current_ethical_alignment": current.ethical_alignment,
+            "prior_ethical_alignment": prior.ethical_alignment,
         }
 
         # 1. Symbolic drift (using core tracker)
         symbolic_drift = self.symbolic_tracker.calculate_symbolic_drift(
-            current.symbols,
-            prior.symbols,
-            drift_context
+            current.symbols, prior.symbols, drift_context
         )
 
         # 2. Emotional drift (direct calculation)
         emotional_drift = self._calculate_emotional_drift(
-            current.emotional_vector,
-            prior.emotional_vector
+            current.emotional_vector, prior.emotional_vector
         )
 
         # 3. Ethical drift
@@ -374,20 +376,21 @@ class UnifiedDriftMonitor:
 
         # 4. Temporal drift
         temporal_drift = self._calculate_temporal_drift(
-            current.timestamp,
-            prior.timestamp
+            current.timestamp, prior.timestamp
         )
 
         # 5. Entropy drift
-        entropy_drift = abs(current.entropy - prior.entropy) / max(current.entropy, prior.entropy, 1.0)
+        entropy_drift = abs(current.entropy - prior.entropy) / max(
+            current.entropy, prior.entropy, 1.0
+        )
 
         # Calculate weighted overall score
         overall_score = (
-            symbolic_drift * self.drift_weights['symbolic'] +
-            emotional_drift * self.drift_weights['emotional'] +
-            ethical_drift * self.drift_weights['ethical'] +
-            temporal_drift * self.drift_weights['temporal'] +
-            entropy_drift * self.drift_weights['entropy']
+            symbolic_drift * self.drift_weights["symbolic"]
+            + emotional_drift * self.drift_weights["emotional"]
+            + ethical_drift * self.drift_weights["ethical"]
+            + temporal_drift * self.drift_weights["temporal"]
+            + entropy_drift * self.drift_weights["entropy"]
         )
 
         # Determine phase and risk level
@@ -395,27 +398,32 @@ class UnifiedDriftMonitor:
         risk_level = self._determine_risk_level(overall_score)
 
         # Determine interventions
-        intervention_required, recommended_interventions = self._determine_interventions(
-            overall_score,
-            symbolic_drift,
-            emotional_drift,
-            ethical_drift
+        intervention_required, recommended_interventions = (
+            self._determine_interventions(
+                overall_score, symbolic_drift, emotional_drift, ethical_drift
+            )
         )
 
         # Check for recursive patterns
         symbol_sequences = [s.symbols for s in states[-10:]]
-        has_recursion = self.symbolic_tracker.detect_recursive_drift_loops(symbol_sequences)
+        has_recursion = self.symbolic_tracker.detect_recursive_drift_loops(
+            symbol_sequences
+        )
 
         # Include theta and intent drift with consistent computation
         if len(self.theta_deltas[session_id]) > 1:
             theta_delta = self._calculate_theta_delta(
                 self.theta_deltas[session_id][-2],
-                self.theta_deltas[session_id][-1]
+                self.theta_deltas[session_id][-1],
             )
         else:
             theta_delta = 0.0
 
-        intent_drift = self.intent_drifts[session_id][-1] if self.intent_drifts[session_id] else 0.0
+        intent_drift = (
+            self.intent_drifts[session_id][-1]
+            if self.intent_drifts[session_id]
+            else 0.0
+        )
 
         return UnifiedDriftScore(
             overall_score=overall_score,
@@ -429,15 +437,17 @@ class UnifiedDriftMonitor:
             intervention_required=intervention_required,
             recommended_interventions=recommended_interventions,
             metadata={
-                'has_recursion': has_recursion,
-                'theta_delta': theta_delta,
-                'intent_drift': intent_drift,
-                'harmonizer_suggestion': self.harmonizer.suggest_realignment()
+                "has_recursion": has_recursion,
+                "theta_delta": theta_delta,
+                "intent_drift": intent_drift,
+                "harmonizer_suggestion": self.harmonizer.suggest_realignment(),
             },
-            timestamp=timestamp
+            timestamp=timestamp,
         )
 
-    def _calculate_emotional_drift(self, current: List[float], prior: List[float]) -> float:
+    def _calculate_emotional_drift(
+        self, current: list[float], prior: list[float]
+    ) -> float:
         """Calculate emotional vector drift."""
         if len(current) < 3 or len(prior) < 3:
             return 0.0
@@ -446,10 +456,12 @@ class UnifiedDriftMonitor:
         distance = sum((c - p) ** 2 for c, p in zip(current, prior)) ** 0.5
 
         # Normalize by maximum possible distance
-        max_distance = (3 ** 0.5)  # sqrt(3) for [-1,1] range
+        max_distance = 3**0.5  # sqrt(3) for [-1,1] range
         return min(1.0, distance / max_distance)
 
-    def _calculate_temporal_drift(self, current_time: datetime, prior_time: datetime) -> float:
+    def _calculate_temporal_drift(
+        self, current_time: datetime, prior_time: datetime
+    ) -> float:
         """Calculate temporal drift based on time elapsed."""
         time_delta = (current_time - prior_time).total_seconds() / 3600  # hours
 
@@ -458,6 +470,7 @@ class UnifiedDriftMonitor:
             return 0.0
 
         import math
+
         temporal_drift = min(1.0, math.log(1 + time_delta) / 10)
         return temporal_drift
 
@@ -473,13 +486,13 @@ class UnifiedDriftMonitor:
             return 0.0
 
         # Extract intent history
-        prior_intents = [s.context_metadata.get('intent', '') for s in states[:-1]]
+        prior_intents = [s.context_metadata.get("intent", "") for s in states[:-1]]
 
         if not prior_intents:
             return 0.0
 
         # Calculate semantic distance (enhanced from simple binary)
-        recent_intent = states[-1].context_metadata.get('intent', '')
+        recent_intent = states[-1].context_metadata.get("intent", "")
 
         # Count intent transitions in recent window
         intent_changes = 0
@@ -487,11 +500,11 @@ class UnifiedDriftMonitor:
         recent_window = prior_intents[-window_size:]
 
         for i in range(1, len(recent_window)):
-            if recent_window[i] != recent_window[i-1]:
+            if recent_window[i] != recent_window[i - 1]:
                 intent_changes += 1
 
         # Factor in current intent change
-        if recent_intent != (prior_intents[-1] if prior_intents else ''):
+        if recent_intent != (prior_intents[-1] if prior_intents else ""):
             intent_changes += 1
 
         # Normalize by window size and apply exponential scaling
@@ -506,48 +519,56 @@ class UnifiedDriftMonitor:
 
         return intent_drift
 
-    async def _get_ethics_corrective_behavior(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _get_ethics_corrective_behavior(
+        self, alert: DriftAlert
+    ) -> dict[str, Any]:
         """
         Get corrective behavior recommendations from ethics module.
 
         This ensures ethics module feedback loop for intervention refinement.
         """
         corrective_actions = {
-            'recommended_actions': [],
-            'severity_adjustments': {},
-            'monitoring_changes': {}
+            "recommended_actions": [],
+            "severity_adjustments": {},
+            "monitoring_changes": {},
         }
 
         # Determine corrective actions based on drift type and severity
         drift_score = alert.drift_score
 
         if drift_score.ethical_drift > 0.7:
-            corrective_actions['recommended_actions'].extend([
-                'increase_ethical_monitoring_frequency',
-                'apply_ethical_grounding_protocol',
-                'review_symbolic_alignment'
-            ])
+            corrective_actions["recommended_actions"].extend(
+                [
+                    "increase_ethical_monitoring_frequency",
+                    "apply_ethical_grounding_protocol",
+                    "review_symbolic_alignment",
+                ]
+            )
 
         if drift_score.emotional_drift > 0.6:
-            corrective_actions['recommended_actions'].extend([
-                'stabilize_emotional_vector',
-                'apply_valence_correction',
-                'increase_emotional_sampling_rate'
-            ])
+            corrective_actions["recommended_actions"].extend(
+                [
+                    "stabilize_emotional_vector",
+                    "apply_valence_correction",
+                    "increase_emotional_sampling_rate",
+                ]
+            )
 
         if drift_score.symbolic_drift > 0.5:
-            corrective_actions['recommended_actions'].extend([
-                'symbolic_quarantine_evaluation',
-                'glyph_coherence_restoration',
-                'memory_fold_validation'
-            ])
+            corrective_actions["recommended_actions"].extend(
+                [
+                    "symbolic_quarantine_evaluation",
+                    "glyph_coherence_restoration",
+                    "memory_fold_validation",
+                ]
+            )
 
         # Severity adjustments for future monitoring
         if alert.severity == EscalationTier.CASCADE_LOCK:
-            corrective_actions['severity_adjustments'] = {
-                'reduce_cascade_threshold': 0.1,
-                'increase_monitoring_sensitivity': 0.2,
-                'enable_preventive_interventions': True
+            corrective_actions["severity_adjustments"] = {
+                "reduce_cascade_threshold": 0.1,
+                "increase_monitoring_sensitivity": 0.2,
+                "enable_preventive_interventions": True,
             }
 
         # Monitoring frequency changes
@@ -556,21 +577,23 @@ class UnifiedDriftMonitor:
             EscalationTier.NOTICE: 1.0,
             EscalationTier.WARNING: 0.5,
             EscalationTier.CRITICAL: 0.25,
-            EscalationTier.CASCADE_LOCK: 0.1
+            EscalationTier.CASCADE_LOCK: 0.1,
         }
 
-        corrective_actions['monitoring_changes'] = {
-            'new_frequency': base_frequency * severity_multiplier.get(alert.severity, 1.0),
-            'enhanced_metrics': drift_score.overall_score > 0.7,
-            'extended_history': alert.severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK]
+        corrective_actions["monitoring_changes"] = {
+            "new_frequency": base_frequency
+            * severity_multiplier.get(alert.severity, 1.0),
+            "enhanced_metrics": drift_score.overall_score > 0.7,
+            "extended_history": alert.severity
+            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         }
 
         logger.info(
             "Ethics corrective behavior generated",
             alert_id=alert.alert_id,
-            actions_count=len(corrective_actions['recommended_actions']),
+            actions_count=len(corrective_actions["recommended_actions"]),
             severity=alert.severity.value,
-            ΛTAG="ΛETHICS_FEEDBACK"
+            ΛTAG="ΛETHICS_FEEDBACK",
         )
 
         return corrective_actions
@@ -587,6 +610,7 @@ class UnifiedDriftMonitor:
 
         # Normalize to [-π, π] range for circular distance
         import math
+
         while raw_delta > math.pi:
             raw_delta -= 2 * math.pi
         while raw_delta < -math.pi:
@@ -619,28 +643,30 @@ class UnifiedDriftMonitor:
         else:
             return "CRITICAL"
 
-    def _determine_interventions(self,
-                               overall_score: float,
-                               symbolic_drift: float,
-                               emotional_drift: float,
-                               ethical_drift: float) -> Tuple[bool, List[InterventionType]]:
+    def _determine_interventions(
+        self,
+        overall_score: float,
+        symbolic_drift: float,
+        emotional_drift: float,
+        ethical_drift: float,
+    ) -> tuple[bool, list[InterventionType]]:
         """Determine required interventions based on drift scores."""
         interventions = []
 
-        if overall_score >= self.intervention_thresholds['freeze']:
+        if overall_score >= self.intervention_thresholds["freeze"]:
             interventions.append(InterventionType.EMERGENCY_FREEZE)
-        elif overall_score >= self.intervention_thresholds['cascade']:
+        elif overall_score >= self.intervention_thresholds["cascade"]:
             interventions.append(InterventionType.CASCADE_PREVENTION)
-        elif overall_score >= self.intervention_thresholds['quarantine']:
+        elif overall_score >= self.intervention_thresholds["quarantine"]:
             interventions.append(InterventionType.SYMBOLIC_QUARANTINE)
 
-        if ethical_drift >= self.intervention_thresholds['ethical']:
+        if ethical_drift >= self.intervention_thresholds["ethical"]:
             interventions.append(InterventionType.ETHICAL_CORRECTION)
 
-        if emotional_drift >= self.intervention_thresholds['emotional']:
+        if emotional_drift >= self.intervention_thresholds["emotional"]:
             interventions.append(InterventionType.EMOTIONAL_GROUNDING)
 
-        if overall_score >= self.intervention_thresholds['soft'] and not interventions:
+        if overall_score >= self.intervention_thresholds["soft"] and not interventions:
             interventions.append(InterventionType.SOFT_REALIGNMENT)
 
         intervention_required = len(interventions) > 0
@@ -661,20 +687,22 @@ class UnifiedDriftMonitor:
             intervention_required=False,
             recommended_interventions=[],
             metadata={},
-            timestamp=timestamp
+            timestamp=timestamp,
         )
 
-    async def _create_alert(self,
-                          session_id: str,
-                          drift_score: UnifiedDriftScore,
-                          context: Dict[str, Any]):
+    async def _create_alert(
+        self,
+        session_id: str,
+        drift_score: UnifiedDriftScore,
+        context: dict[str, Any],
+    ):
         """Create and queue a drift alert."""
         # Determine primary drift type
         drift_types = {
             DriftType.SYMBOLIC: drift_score.symbolic_drift,
             DriftType.EMOTIONAL: drift_score.emotional_drift,
             DriftType.ETHICAL: drift_score.ethical_drift,
-            DriftType.ENTROPY: drift_score.entropy_drift
+            DriftType.ENTROPY: drift_score.entropy_drift,
         }
         primary_type = max(drift_types.items(), key=lambda x: x[1])[0]
 
@@ -683,7 +711,7 @@ class UnifiedDriftMonitor:
             "LOW": EscalationTier.NOTICE,
             "MEDIUM": EscalationTier.WARNING,
             "HIGH": EscalationTier.CRITICAL,
-            "CRITICAL": EscalationTier.CASCADE_LOCK
+            "CRITICAL": EscalationTier.CASCADE_LOCK,
         }
         severity = severity_map.get(drift_score.risk_level, EscalationTier.WARNING)
 
@@ -695,7 +723,7 @@ class UnifiedDriftMonitor:
             drift_score=drift_score,
             session_id=session_id,
             symbol_id=session_id,  # Using session_id as symbol_id
-            context=context
+            context=context,
         )
 
         # Store alert
@@ -707,8 +735,7 @@ class UnifiedDriftMonitor:
 
         # Emit to symbolic tracker
         self.symbolic_tracker.emit_drift_alert(
-            drift_score.overall_score,
-            {'session_id': session_id, **context}
+            drift_score.overall_score, {"session_id": session_id, **context}
         )
 
         logger.warning(
@@ -718,12 +745,12 @@ class UnifiedDriftMonitor:
             severity=severity.value,
             overall_score=round(drift_score.overall_score, 3),
             interventions=[i.value for i in drift_score.recommended_interventions],
-            ΛTAG="ΛALERT"
+            ΛTAG="ΛALERT",
         )
 
     async def _monitoring_loop(self):
         """Main monitoring loop."""
-        monitoring_interval = self.config.get('monitoring_interval', 1.0)
+        monitoring_interval = self.config.get("monitoring_interval", 1.0)
 
         while self.monitoring_active:
             try:
@@ -743,8 +770,7 @@ class UnifiedDriftMonitor:
             try:
                 # Get next alert requiring intervention
                 alert = await asyncio.wait_for(
-                    self.intervention_queue.get(),
-                    timeout=1.0
+                    self.intervention_queue.get(), timeout=1.0
                 )
 
                 # Execute interventions
@@ -759,7 +785,7 @@ class UnifiedDriftMonitor:
             except Exception as e:
                 logger.error("Error processing intervention", error=str(e))
 
-    async def _execute_interventions(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _execute_interventions(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute recommended interventions for an alert."""
         results = {}
 
@@ -778,7 +804,7 @@ class UnifiedDriftMonitor:
                 elif intervention == InterventionType.SOFT_REALIGNMENT:
                     result = await self._soft_realignment(alert)
                 else:
-                    result = {'status': 'unknown_intervention'}
+                    result = {"status": "unknown_intervention"}
 
                 results[intervention.value] = result
 
@@ -787,7 +813,7 @@ class UnifiedDriftMonitor:
                     alert_id=alert.alert_id,
                     intervention=intervention.value,
                     result=result,
-                    ΛTAG="ΛINTERVENE"
+                    ΛTAG="ΛINTERVENE",
                 )
 
             except Exception as e:
@@ -795,50 +821,55 @@ class UnifiedDriftMonitor:
                     "Intervention failed",
                     alert_id=alert.alert_id,
                     intervention=intervention.value,
-                    error=str(e)
+                    error=str(e),
                 )
-                results[intervention.value] = {'status': 'failed', 'error': str(e)}
+                results[intervention.value] = {
+                    "status": "failed",
+                    "error": str(e),
+                }
 
         return results
 
-    async def _emergency_freeze(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _emergency_freeze(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute emergency freeze intervention."""
         logger.critical(
             "EMERGENCY FREEZE INITIATED",
             session_id=alert.session_id,
             drift_score=alert.drift_score.overall_score,
-            ΛTAG="ΛFREEZE"
+            ΛTAG="ΛFREEZE",
         )
 
         # In production, this would interface with orchestrator
         return {
-            'status': 'frozen',
-            'duration': 300,  # 5 minutes
-            'session_id': alert.session_id
+            "status": "frozen",
+            "duration": 300,  # 5 minutes
+            "session_id": alert.session_id,
         }
 
-    async def _cascade_prevention(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _cascade_prevention(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute cascade prevention intervention."""
         if self.collapse_reasoner:
-            return await self.collapse_reasoner.prevent_collapse({
-                'session_id': alert.session_id,
-                'drift_score': asdict(alert.drift_score)
-            })
+            return await self.collapse_reasoner.prevent_collapse(
+                {
+                    "session_id": alert.session_id,
+                    "drift_score": asdict(alert.drift_score),
+                }
+            )
 
-        return {'status': 'cascade_prevented'}
+        return {"status": "cascade_prevented"}
 
-    async def _symbolic_quarantine(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _symbolic_quarantine(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute symbolic quarantine intervention."""
         # Delegate to symbolic tracker
         self.symbolic_tracker._implement_symbolic_quarantine(alert.session_id)
 
         return {
-            'status': 'quarantined',
-            'session_id': alert.session_id,
-            'quarantine_level': 'symbolic'
+            "status": "quarantined",
+            "session_id": alert.session_id,
+            "quarantine_level": "symbolic",
         }
 
-    async def _ethical_correction(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _ethical_correction(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute ethical correction intervention."""
         # Create ethical violation for sentinel
         violation = EthicalViolation(
@@ -848,52 +879,51 @@ class UnifiedDriftMonitor:
             violation_type=ViolationType.DRIFT_ACCELERATION,
             severity=alert.severity,
             risk_score=alert.drift_score.overall_score,
-            metrics={'drift_score': alert.drift_score.overall_score},
+            metrics={"drift_score": alert.drift_score.overall_score},
             context=alert.context,
-            intervention_required=True
+            intervention_required=True,
         )
 
         # Trigger ethical intervention
-        intervention_result = await self.ethical_sentinel._trigger_intervention(violation)
+        intervention_result = await self.ethical_sentinel._trigger_intervention(
+            violation
+        )
 
         # Get corrective behavior recommendations
         corrective_actions = await self._get_ethics_corrective_behavior(alert)
 
         return {
-            'status': 'ethical_correction_triggered',
-            'intervention_result': intervention_result,
-            'corrective_actions': corrective_actions,
-            'violation_id': violation.violation_id
+            "status": "ethical_correction_triggered",
+            "intervention_result": intervention_result,
+            "corrective_actions": corrective_actions,
+            "violation_id": violation.violation_id,
         }
 
-    async def _emotional_grounding(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _emotional_grounding(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute emotional grounding intervention."""
         # Get alignment controller if available
-        if hasattr(self, 'alignment_controller'):
+        if hasattr(self, "alignment_controller"):
             suggestion = self.alignment_controller.suggest_modulation(
                 alert.drift_score.overall_score
             )
-            return {
-                'status': 'grounded',
-                'suggestion': suggestion
-            }
+            return {"status": "grounded", "suggestion": suggestion}
 
         return {
-            'status': 'emotional_grounding_applied',
-            'method': 'valence_stabilization'
+            "status": "emotional_grounding_applied",
+            "method": "valence_stabilization",
         }
 
-    async def _soft_realignment(self, alert: DriftAlert) -> Dict[str, Any]:
+    async def _soft_realignment(self, alert: DriftAlert) -> dict[str, Any]:
         """Execute soft realignment intervention."""
         suggestion = self.harmonizer.suggest_realignment()
 
         return {
-            'status': 'realigned',
-            'method': suggestion,
-            'session_id': alert.session_id
+            "status": "realigned",
+            "method": suggestion,
+            "session_id": alert.session_id,
         }
 
-    def get_drift_summary(self, session_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_drift_summary(self, session_id: Optional[str] = None) -> dict[str, Any]:
         """
         Get comprehensive drift summary.
 
@@ -906,12 +936,13 @@ class UnifiedDriftMonitor:
             sessions = list(self.monitored_sessions)
 
         summary = {
-            'timestamp': datetime.now(timezone.utc).isoformat(),
-            'total_sessions': len(sessions),
-            'active_alerts': len(self.active_alerts),
-            'recent_alerts': len([a for a in self.alert_history
-                                if self._is_recent(a.timestamp)]),
-            'sessions': {}
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "total_sessions": len(sessions),
+            "active_alerts": len(self.active_alerts),
+            "recent_alerts": len(
+                [a for a in self.alert_history if self._is_recent(a.timestamp)]
+            ),
+            "sessions": {},
         }
 
         for sid in sessions:
@@ -920,29 +951,33 @@ class UnifiedDriftMonitor:
             if len(states) >= 2:
                 # Compute current drift
                 current_state = {
-                    'symbols': states[-1].symbols,
-                    'emotional_vector': states[-1].emotional_vector,
-                    'ethical_alignment': states[-1].ethical_alignment
+                    "symbols": states[-1].symbols,
+                    "emotional_vector": states[-1].emotional_vector,
+                    "ethical_alignment": states[-1].ethical_alignment,
                 }
 
                 drift_score = asyncio.run(
                     self._compute_unified_drift(sid, current_state)
                 )
 
-                summary['sessions'][sid] = {
-                    'overall_drift': round(drift_score.overall_score, 3),
-                    'phase': drift_score.phase.value,
-                    'risk_level': drift_score.risk_level,
-                    'theta_delta': round(drift_score.metadata.get('theta_delta', 0), 3),
-                    'intent_drift': round(drift_score.metadata.get('intent_drift', 0), 3),
-                    'interventions': [i.value for i in drift_score.recommended_interventions]
+                summary["sessions"][sid] = {
+                    "overall_drift": round(drift_score.overall_score, 3),
+                    "phase": drift_score.phase.value,
+                    "risk_level": drift_score.risk_level,
+                    "theta_delta": round(drift_score.metadata.get("theta_delta", 0), 3),
+                    "intent_drift": round(
+                        drift_score.metadata.get("intent_drift", 0), 3
+                    ),
+                    "interventions": [
+                        i.value for i in drift_score.recommended_interventions
+                    ],
                 }
 
         # Add system-wide metrics
-        summary['system_metrics'] = {
-            'symbolic_summary': self.symbolic_tracker.summarize_drift("24h"),
-            'ethical_status': self.ethical_sentinel.get_sentinel_status(),
-            'harmonizer_state': self.harmonizer.suggest_realignment()
+        summary["system_metrics"] = {
+            "symbolic_summary": self.symbolic_tracker.summarize_drift("24h"),
+            "ethical_status": self.ethical_sentinel.get_sentinel_status(),
+            "harmonizer_state": self.harmonizer.suggest_realignment(),
         }
 
         return summary
@@ -950,15 +985,19 @@ class UnifiedDriftMonitor:
     def _is_recent(self, timestamp: str, minutes: int = 15) -> bool:
         """Check if timestamp is recent."""
         try:
-            ts = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+            ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             now = datetime.now(timezone.utc)
             return (now - ts) < timedelta(minutes=minutes)
-        except:
+        except BaseException:
             return False
 
 
 # Factory function for creating drift monitor
-async def create_drift_monitor(config: Optional[Dict[str, Any]] = None) -> UnifiedDriftMonitor:
+
+
+async def create_drift_monitor(
+    config: Optional[dict[str, Any]] = None,
+) -> UnifiedDriftMonitor:
     """
     Create and initialize a unified drift monitor.
 
@@ -984,15 +1023,15 @@ if __name__ == "__main__":
 
         # Create monitor with test configuration
         config = {
-            'symbolic': {
-                'caution_threshold': 0.3,
-                'warning_threshold': 0.5,
-                'critical_threshold': 0.7,
-                'cascade_threshold': 0.85
+            "symbolic": {
+                "caution_threshold": 0.3,
+                "warning_threshold": 0.5,
+                "critical_threshold": 0.7,
+                "cascade_threshold": 0.85,
             },
-            'ethical_interval': 0.5,
-            'harmonizer_threshold': 0.2,
-            'monitoring_interval': 1.0
+            "ethical_interval": 0.5,
+            "harmonizer_threshold": 0.2,
+            "monitoring_interval": 1.0,
         }
 
         monitor = await create_drift_monitor(config)
@@ -1002,12 +1041,12 @@ if __name__ == "__main__":
 
         session_id = "test_unified_001"
         initial_state = {
-            'symbols': ['ΛSTART', 'hope', 'clarity'],
-            'emotional_vector': [0.7, 0.2, 0.8],  # Positive, calm, strong
-            'ethical_alignment': 0.9,
-            'context': 'Initial test state',
-            'theta': 0.1,
-            'intent': 'exploration'
+            "symbols": ["ΛSTART", "hope", "clarity"],
+            "emotional_vector": [0.7, 0.2, 0.8],  # Positive, calm, strong
+            "ethical_alignment": 0.9,
+            "context": "Initial test state",
+            "theta": 0.1,
+            "intent": "exploration",
         }
 
         await monitor.register_session(session_id, initial_state)
@@ -1016,12 +1055,12 @@ if __name__ == "__main__":
         print("\n🎯 Simulating drift...")
 
         drifted_state = {
-            'symbols': ['ΛDRIFT', 'uncertainty', 'cascade'],
-            'emotional_vector': [-0.3, 0.9, 0.2],  # Negative, aroused, weak
-            'ethical_alignment': 0.6,
-            'context': 'Drifted state',
-            'theta': 0.8,
-            'intent': 'escape'
+            "symbols": ["ΛDRIFT", "uncertainty", "cascade"],
+            "emotional_vector": [-0.3, 0.9, 0.2],  # Negative, aroused, weak
+            "ethical_alignment": 0.6,
+            "context": "Drifted state",
+            "theta": 0.8,
+            "intent": "escape",
         }
 
         await monitor.update_session_state(session_id, drifted_state)
@@ -1037,8 +1076,8 @@ if __name__ == "__main__":
         print(f"Active Alerts: {summary['active_alerts']}")
         print(f"Recent Alerts: {summary['recent_alerts']}")
 
-        if session_id in summary['sessions']:
-            session_summary = summary['sessions'][session_id]
+        if session_id in summary["sessions"]:
+            session_summary = summary["sessions"][session_id]
             print(f"\nSession {session_id}:")
             print(f"  Overall Drift: {session_summary['overall_drift']}")
             print(f"  Phase: {session_summary['phase']}")
@@ -1054,7 +1093,6 @@ if __name__ == "__main__":
 
     # Run test
     asyncio.run(test_drift_monitor())
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

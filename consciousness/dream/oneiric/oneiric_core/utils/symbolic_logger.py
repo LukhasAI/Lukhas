@@ -1,5 +1,5 @@
-
 """Minimal symbolic logger stub"""
+
 
 class DreamLogger:
     def __init__(self):

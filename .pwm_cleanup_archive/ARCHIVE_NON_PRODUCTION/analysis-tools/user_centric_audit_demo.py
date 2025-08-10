@@ -12,7 +12,6 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -356,7 +355,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
     else:
         drift_severity = AuditDriftSeverity.MODERATE
 
-    print(f"📊 DRIFT ANALYSIS:")
+    print("📊 DRIFT ANALYSIS:")
     print(f"   🔒 Compliance Score: {compliance_score:.2f}/1.0 (GDPR failure)")
     print(
         f"   😊 User Satisfaction: {user_satisfaction_score:.1f}/10.0 (below threshold)"
@@ -396,7 +395,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
                 f"EMOTIONAL_ESCALATION → Address {result['user']} {result['emotion']} state"
             )
 
-    print(f"🏥 SELF-HEALING ACTIONS TRIGGERED:")
+    print("🏥 SELF-HEALING ACTIONS TRIGGERED:")
     for i, action in enumerate(healing_actions, 1):
         print(f"   {i}. {action}")
     print()
@@ -439,7 +438,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
             },
         }
 
-        print(f"🚨 HITLO ESCALATION ACTIVATED:")
+        print("🚨 HITLO ESCALATION ACTIVATED:")
         print(f"   🆔 Escalation ID: {hitlo_escalation['escalation_id']}")
         print(f"   ⚠️  Severity: {hitlo_escalation['severity'].upper()}")
         print(f"   📝 Reason: {hitlo_escalation['escalation_reason']}")
@@ -453,7 +452,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
         )
         print()
 
-        print(f"📊 USER IMPACT ASSESSMENT:")
+        print("📊 USER IMPACT ASSESSMENT:")
         impact = hitlo_escalation["user_impact_assessment"]
         print(f"   👥 Total Affected Users: {impact['affected_users']}")
         print(
@@ -491,7 +490,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
         ],
     }
 
-    print(f"📚 LEARNING UPDATES APPLIED:")
+    print("📚 LEARNING UPDATES APPLIED:")
     print(
         f"   📈 User Feedback Patterns: {len(learning_updates['user_feedback_patterns'])} insights"
     )
@@ -537,7 +536,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
         "compliance_score": compliance_score,
     }
 
-    print(f"✅ USER-CENTRIC FEATURES:")
+    print("✅ USER-CENTRIC FEATURES:")
     print(f"   👥 Users Processed: {results['users_processed']} with different tiers")
     print(
         f"   👁️  Personalized Views: {results['personalized_views_generated']} tier-based explanations"
@@ -548,7 +547,7 @@ async def demonstrate_user_centric_audit_drift_self_healing():
     print(f"   🎯 User Satisfaction: {results['user_satisfaction_average']:.1f}/10")
     print()
 
-    print(f"✅ AUDIT DRIFT SELF-HEALING:")
+    print("✅ AUDIT DRIFT SELF-HEALING:")
     print(f"   🚨 Drift Severity: {results['drift_severity'].upper()}")
     print(
         f"   🏥 Healing Actions: {results['healing_actions_triggered']} autonomous responses"
@@ -561,14 +560,14 @@ async def demonstrate_user_centric_audit_drift_self_healing():
     )
     print()
 
-    print(f"✅ SYSTEM HEALTH METRICS:")
+    print("✅ SYSTEM HEALTH METRICS:")
     print(f"   😊 Emotional Health: {results['emotional_health_score']:.2f}/1.0")
     print(f"   🔒 Compliance Score: {results['compliance_score']:.2f}/1.0")
-    print(f"   ⚡ Response Time: <2 seconds for all operations")
-    print(f"   🎯 Accuracy: 95%+ in drift detection and user personalization")
+    print("   ⚡ Response Time: <2 seconds for all operations")
+    print("   🎯 Accuracy: 95%+ in drift detection and user personalization")
     print()
 
-    print(f"🎊 REVOLUTIONARY USER EMPOWERMENT ACHIEVED!")
+    print("🎊 REVOLUTIONARY USER EMPOWERMENT ACHIEVED!")
     print("=" * 60)
     print("✅ Users have REAL CONTROL over audit transparency")
     print("✅ Emotional feedback DRIVES system improvements")

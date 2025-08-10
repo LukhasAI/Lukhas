@@ -35,11 +35,11 @@
 """
 
 # Module imports
-from core.common import get_logger
-import asyncio
 import random
-from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
+from typing import Any, Dict
+
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -51,24 +51,38 @@ MODULE_NAME = "voice_personality"
 # Import personality components
 try:
     from core.personality.creative_expressions import NeuroHaikuGenerator
+
     HAIKU_AVAILABLE = True
 except ImportError:
     HAIKU_AVAILABLE = False
-    logger.warning("NeuroHaikuGenerator not available. Some creative features will be disabled.")
+    logger.warning(
+        "NeuroHaikuGenerator not available. Some creative features will be disabled."
+    )
 
 try:
-    from orchestration.brain.personality.personality_refiner import PersonalityRefiner
+    from orchestration.brain.personality.personality_refiner import (
+        PersonalityRefiner,
+    )
+
     PERSONALITY_REFINER_AVAILABLE = True
 except ImportError:
     PERSONALITY_REFINER_AVAILABLE = False
-    logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
+    logger.warning(
+        "PersonalityRefiner not available. Adaptive personality features will be disabled."
+    )
 
 try:
-    from orchestration.brain.orchestration.emotional_oscillator import EmotionalOscillator
+    from orchestration.brain.orchestration.emotional_oscillator import (
+        EmotionalOscillator,
+    )
+
     EMOTIONAL_OSC_AVAILABLE = True
 except ImportError:
     EMOTIONAL_OSC_AVAILABLE = False
-    logger.warning("EmotionalOscillator not available. Dynamic emotion modulation will be disabled.")
+    logger.warning(
+        "EmotionalOscillator not available. Dynamic emotion modulation will be disabled."
+    )
+
 
 class VoicePersonalityIntegrator:
     """
@@ -112,7 +126,7 @@ class VoicePersonalityIntegrator:
             "expressiveness": 0.6,
             "curiosity": 0.8,
             "humor": 0.6,
-            "reflectiveness": 0.7
+            "reflectiveness": 0.7,
         }
 
         # Adaptation parameters
@@ -158,7 +172,9 @@ class VoicePersonalityIntegrator:
             except Exception as e:
                 logger.error(f"Failed to initialize EmotionalOscillator: {e}")
 
-    async def enhance_voice_text(self, text: str, emotion: str, context: Dict[str, Any]) -> str:
+    async def enhance_voice_text(
+        self, text: str, emotion: str, context: Dict[str, Any]
+    ) -> str:
         """
         Enhance voice text with personality traits
 
@@ -214,7 +230,9 @@ class VoicePersonalityIntegrator:
 
         return enhanced_text
 
-    def get_voice_modulation(self, emotion: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def get_voice_modulation(
+        self, emotion: str, context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Get voice modulation parameters based on personality and emotion
 
@@ -231,7 +249,7 @@ class VoicePersonalityIntegrator:
             "rate_adjustment": 0.0,
             "volume_adjustment": 0.0,
             "expressiveness": 0.5,
-            "emphasis_words": []
+            "emphasis_words": [],
         }
 
         # Apply personality-based modulation
@@ -279,30 +297,41 @@ class VoicePersonalityIntegrator:
         # Update personality traits based on interaction
         if self.personality_refiner:
             try:
-                refined_traits = self.personality_refiner.refine_traits(interaction_data)
+                refined_traits = self.personality_refiner.refine_traits(
+                    interaction_data
+                )
                 if refined_traits:
                     # Gradually adapt traits
                     for trait, value in refined_traits.items():
                         if trait in self.personality_traits:
                             current = self.personality_traits[trait]
-                            self.personality_traits[trait] = current * (1 - self.adaptation_rate) + value * self.adaptation_rate
+                            self.personality_traits[trait] = (
+                                current * (1 - self.adaptation_rate)
+                                + value * self.adaptation_rate
+                            )
 
-                    logger.debug(f"Adapted personality traits: {self.personality_traits}")
+                    logger.debug(
+                        f"Adapted personality traits: {self.personality_traits}"
+                    )
             except Exception as e:
                 logger.warning(f"Failed to refine personality traits: {e}")
 
         # Record this adaptation
-        self.personality_memory.append({
-            "timestamp": datetime.now().isoformat(),
-            "traits": self.personality_traits.copy(),
-            "interaction_type": interaction_data.get("type", "unknown")
-        })
+        self.personality_memory.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "traits": self.personality_traits.copy(),
+                "interaction_type": interaction_data.get("type", "unknown"),
+            }
+        )
 
         # Keep memory bounded
         if len(self.personality_memory) > 100:
             self.personality_memory = self.personality_memory[-100:]
 
-    def _should_enhance_text(self, text: str, emotion: str, context: Dict[str, Any]) -> bool:
+    def _should_enhance_text(
+        self, text: str, emotion: str, context: Dict[str, Any]
+    ) -> bool:
         """Determine if text should be enhanced with personality"""
         # Don't enhance short responses
         if len(text) < 20:
@@ -313,12 +342,19 @@ class VoicePersonalityIntegrator:
             return False
 
         # Don't enhance pure functional responses
-        functional_indicators = ["here's the result", "error occurred", "command executed"]
+        functional_indicators = [
+            "here's the result",
+            "error occurred",
+            "command executed",
+        ]
         if any(indicator in text.lower() for indicator in functional_indicators):
             return False
 
         # Check user preferences if available
-        if context.get("user_preferences", {}).get("enhanced_personality", True) is False:
+        if (
+            context.get("user_preferences", {}).get("enhanced_personality", True)
+            is False
+        ):
             return False
 
         return True
@@ -382,7 +418,9 @@ class VoicePersonalityIntegrator:
         # Apply small random variations to keep personality dynamic
         for trait in self.personality_traits:
             variation = (random.random() - 0.5) * 0.5  # Small random adjustment
-            self.personality_traits[trait] = max(0.1, min(0.9, self.personality_traits[trait] + variation))
+            self.personality_traits[trait] = max(
+                0.1, min(0.9, self.personality_traits[trait] + variation)
+            )
 
 
 """

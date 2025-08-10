@@ -4,59 +4,34 @@ LUKHAS Revenue Tracker - Monitor monetization across all domains
 Real-time tracking of MRR, usage, and growth metrics
 """
 
-import json
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-import asyncio
+from datetime import datetime
+
 
 class LukhasRevenueTracker:
     """Track revenue across the LUKHAS ecosystem"""
-    
+
     def __init__(self):
         self.domains = {
             "lukhas.ai": {
                 "name": "Main AI Platform",
                 "products": ["NIΛS", "ΛBAS", "DΛST"],
-                "pricing": {
-                    "starter": 0,
-                    "pro": 299,
-                    "enterprise": 5000
-                },
-                "subscribers": {
-                    "starter": 0,
-                    "pro": 0,
-                    "enterprise": 0
-                },
+                "pricing": {"starter": 0, "pro": 299, "enterprise": 5000},
+                "subscribers": {"starter": 0, "pro": 0, "enterprise": 0},
                 "api_calls": 0,
-                "api_revenue": 0
+                "api_revenue": 0,
             },
             "lukhas.id": {
                 "name": "Identity Service",
                 "products": ["ΛiD"],
-                "pricing": {
-                    "verification": 0.50,
-                    "individual": 9.99,
-                    "business": 99
-                },
+                "pricing": {"verification": 0.50, "individual": 9.99, "business": 99},
                 "verifications": 0,
-                "subscribers": {
-                    "individual": 0,
-                    "business": 0
-                }
+                "subscribers": {"individual": 0, "business": 0},
             },
             "lukhas.dev": {
                 "name": "Developer Platform",
                 "products": ["SDK", "API", "Tools"],
-                "pricing": {
-                    "free": 0,
-                    "pro": 99,
-                    "team": 499
-                },
-                "subscribers": {
-                    "free": 0,
-                    "pro": 0,
-                    "team": 0
-                }
+                "pricing": {"free": 0, "pro": 99, "team": 499},
+                "subscribers": {"free": 0, "pro": 0, "team": 0},
             },
             "lukhas.store": {
                 "name": "App Marketplace",
@@ -64,38 +39,22 @@ class LukhasRevenueTracker:
                 "sales": [],
                 "commission_rate": 0.30,
                 "total_sales": 0,
-                "commission_earned": 0
+                "commission_earned": 0,
             },
             "lukhas.cloud": {
                 "name": "Cloud Services",
                 "products": ["Hosting", "Scaling", "Analytics"],
-                "pricing": {
-                    "starter": 99,
-                    "business": 999,
-                    "enterprise": 10000
-                },
-                "subscribers": {
-                    "starter": 0,
-                    "business": 0,
-                    "enterprise": 0
-                }
+                "pricing": {"starter": 99, "business": 999, "enterprise": 10000},
+                "subscribers": {"starter": 0, "business": 0, "enterprise": 0},
             },
             "lukhas.team": {
                 "name": "Team Collaboration",
                 "products": ["Workspace", "Admin", "Analytics"],
-                "pricing": {
-                    "small": 299,
-                    "medium": 999,
-                    "large": 2999
-                },
-                "teams": {
-                    "small": 0,
-                    "medium": 0,
-                    "large": 0
-                }
-            }
+                "pricing": {"small": 299, "medium": 999, "large": 2999},
+                "teams": {"small": 0, "medium": 0, "large": 0},
+            },
         }
-        
+
         self.metrics = {
             "total_mrr": 0,
             "total_arr": 0,
@@ -104,9 +63,9 @@ class LukhasRevenueTracker:
             "churn_rate": 0,
             "ltv": 0,
             "cac": 0,
-            "runway_months": 0
+            "runway_months": 0,
         }
-    
+
     def add_subscriber(self, domain: str, tier: str):
         """Add a new subscriber"""
         if domain in self.domains:
@@ -114,7 +73,7 @@ class LukhasRevenueTracker:
                 self.domains[domain]["subscribers"][tier] += 1
             elif "teams" in self.domains[domain]:
                 self.domains[domain]["teams"][tier] += 1
-    
+
     def add_api_usage(self, domain: str, calls: int):
         """Track API usage"""
         if domain == "lukhas.ai":
@@ -122,77 +81,82 @@ class LukhasRevenueTracker:
             # $0.01 per call after free tier
             revenue = max(0, (calls - 1000)) * 0.01
             self.domains[domain]["api_revenue"] += revenue
-    
+
     def add_marketplace_sale(self, amount: float):
         """Record marketplace sale"""
         domain = "lukhas.store"
-        self.domains[domain]["sales"].append({
-            "amount": amount,
-            "date": datetime.now().isoformat(),
-            "commission": amount * self.domains[domain]["commission_rate"]
-        })
+        self.domains[domain]["sales"].append(
+            {
+                "amount": amount,
+                "date": datetime.now().isoformat(),
+                "commission": amount * self.domains[domain]["commission_rate"],
+            }
+        )
         self.domains[domain]["total_sales"] += amount
-        self.domains[domain]["commission_earned"] += amount * self.domains[domain]["commission_rate"]
-    
+        self.domains[domain]["commission_earned"] += (
+            amount * self.domains[domain]["commission_rate"]
+        )
+
     def add_verification(self, count: int):
         """Track identity verifications"""
         domain = "lukhas.id"
         self.domains[domain]["verifications"] += count
-    
+
     def calculate_mrr(self) -> float:
         """Calculate total Monthly Recurring Revenue"""
         total_mrr = 0
-        
+
         # lukhas.ai
         ai = self.domains["lukhas.ai"]
         total_mrr += (
-            ai["subscribers"]["pro"] * ai["pricing"]["pro"] +
-            ai["subscribers"]["enterprise"] * ai["pricing"]["enterprise"] +
-            ai["api_revenue"]
+            ai["subscribers"]["pro"] * ai["pricing"]["pro"]
+            + ai["subscribers"]["enterprise"] * ai["pricing"]["enterprise"]
+            + ai["api_revenue"]
         )
-        
+
         # lukhas.id
         id_domain = self.domains["lukhas.id"]
         total_mrr += (
-            id_domain["subscribers"]["individual"] * id_domain["pricing"]["individual"] +
-            id_domain["subscribers"]["business"] * id_domain["pricing"]["business"] +
-            (id_domain["verifications"] * id_domain["pricing"]["verification"]) / 30  # Daily to monthly
+            id_domain["subscribers"]["individual"] * id_domain["pricing"]["individual"]
+            + id_domain["subscribers"]["business"] * id_domain["pricing"]["business"]
+            + (id_domain["verifications"] * id_domain["pricing"]["verification"])
+            / 30  # Daily to monthly
         )
-        
+
         # lukhas.dev
         dev = self.domains["lukhas.dev"]
         total_mrr += (
-            dev["subscribers"]["pro"] * dev["pricing"]["pro"] +
-            dev["subscribers"]["team"] * dev["pricing"]["team"]
+            dev["subscribers"]["pro"] * dev["pricing"]["pro"]
+            + dev["subscribers"]["team"] * dev["pricing"]["team"]
         )
-        
+
         # lukhas.store (marketplace commission)
         total_mrr += self.domains["lukhas.store"]["commission_earned"]
-        
+
         # lukhas.cloud
         cloud = self.domains["lukhas.cloud"]
         total_mrr += (
-            cloud["subscribers"]["starter"] * cloud["pricing"]["starter"] +
-            cloud["subscribers"]["business"] * cloud["pricing"]["business"]
+            cloud["subscribers"]["starter"] * cloud["pricing"]["starter"]
+            + cloud["subscribers"]["business"] * cloud["pricing"]["business"]
         )
-        
+
         # lukhas.team
         team = self.domains["lukhas.team"]
         total_mrr += (
-            team["teams"]["small"] * team["pricing"]["small"] +
-            team["teams"]["medium"] * team["pricing"]["medium"] +
-            team["teams"]["large"] * team["pricing"]["large"]
+            team["teams"]["small"] * team["pricing"]["small"]
+            + team["teams"]["medium"] * team["pricing"]["medium"]
+            + team["teams"]["large"] * team["pricing"]["large"]
         )
-        
+
         self.metrics["total_mrr"] = total_mrr
         self.metrics["total_arr"] = total_mrr * 12
-        
+
         return total_mrr
-    
+
     def generate_dashboard(self) -> str:
         """Generate revenue dashboard"""
         mrr = self.calculate_mrr()
-        
+
         dashboard = f"""
 # 📊 LUKHAS Revenue Dashboard
 Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
@@ -210,12 +174,12 @@ Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")}
 | Domain | Product | MRR | Customers | Growth |
 |--------|---------|-----|-----------|--------|
 """
-        
+
         for domain, data in self.domains.items():
             domain_mrr = self.calculate_domain_mrr(domain)
             customers = self.get_domain_customers(domain)
             dashboard += f"| **{domain}** | {data['name']} | ${domain_mrr:,.2f} | {customers} | +0% |\n"
-        
+
         dashboard += f"""
 
 ## 📈 Growth Trajectory
@@ -308,21 +272,25 @@ Week 4:
 | MRR | ${mrr:,.2f} | $50,000 | Product-led growth |
 | API Calls | 0 | 10M/month | Developer adoption |
 """
-        
+
         return dashboard
-    
+
     def calculate_domain_mrr(self, domain: str) -> float:
         """Calculate MRR for specific domain"""
         if domain == "lukhas.ai":
             d = self.domains[domain]
-            return (d["subscribers"]["pro"] * 299 + 
-                   d["subscribers"]["enterprise"] * 5000 +
-                   d["api_revenue"])
+            return (
+                d["subscribers"]["pro"] * 299
+                + d["subscribers"]["enterprise"] * 5000
+                + d["api_revenue"]
+            )
         elif domain == "lukhas.id":
             d = self.domains[domain]
-            return (d["subscribers"]["individual"] * 9.99 +
-                   d["subscribers"]["business"] * 99 +
-                   (d["verifications"] * 0.5) / 30)
+            return (
+                d["subscribers"]["individual"] * 9.99
+                + d["subscribers"]["business"] * 99
+                + (d["verifications"] * 0.5) / 30
+            )
         elif domain == "lukhas.dev":
             d = self.domains[domain]
             return d["subscribers"]["pro"] * 99 + d["subscribers"]["team"] * 499
@@ -333,9 +301,13 @@ Week 4:
             return d["subscribers"]["starter"] * 99 + d["subscribers"]["business"] * 999
         elif domain == "lukhas.team":
             d = self.domains[domain]
-            return d["teams"]["small"] * 299 + d["teams"]["medium"] * 999 + d["teams"]["large"] * 2999
+            return (
+                d["teams"]["small"] * 299
+                + d["teams"]["medium"] * 999
+                + d["teams"]["large"] * 2999
+            )
         return 0
-    
+
     def get_domain_customers(self, domain: str) -> int:
         """Get customer count for domain"""
         if "subscribers" in self.domains[domain]:
@@ -347,11 +319,11 @@ Week 4:
         elif domain == "lukhas.store":
             return len(self.domains[domain]["sales"])
         return 0
-    
+
     def get_total_customers(self) -> int:
         """Get total customer count"""
         return sum(self.get_domain_customers(d) for d in self.domains.keys())
-    
+
     def get_subscription_revenue(self, tier: str) -> float:
         """Get revenue from specific tier"""
         revenue = 0
@@ -360,36 +332,36 @@ Week 4:
                 if "pricing" in data and tier in data["pricing"]:
                     revenue += data["subscribers"][tier] * data["pricing"][tier]
         return revenue
-    
+
     def simulate_growth(self, months: int = 12):
         """Simulate revenue growth"""
         print(f"\n📈 Growth Simulation ({months} months)")
         print("=" * 50)
-        
+
         # Growth assumptions
         monthly_growth_rate = 0.30  # 30% month-over-month
-        
+
         for month in range(1, months + 1):
             # Add subscribers with growth
             self.add_subscriber("lukhas.ai", "pro")
             self.add_subscriber("lukhas.dev", "pro")
-            
+
             if month % 3 == 0:  # Enterprise every 3 months
                 self.add_subscriber("lukhas.ai", "enterprise")
-            
+
             # Add API usage
             self.add_api_usage("lukhas.ai", 10000 * month)
-            
+
             # Add marketplace sales
             for _ in range(month * 2):
                 self.add_marketplace_sale(199)
-            
+
             # Add verifications
             self.add_verification(1000 * month)
-            
+
             mrr = self.calculate_mrr()
             print(f"Month {month:2d}: ${mrr:>10,.2f} MRR | ${mrr*12:>12,.2f} ARR")
-            
+
             if mrr >= 83333:
                 print(f"\n🎉 Reached $1M ARR in month {month}!")
                 break
@@ -398,7 +370,7 @@ Week 4:
 # Example usage
 if __name__ == "__main__":
     tracker = LukhasRevenueTracker()
-    
+
     # Simulate some initial traction
     tracker.add_subscriber("lukhas.ai", "pro")
     tracker.add_subscriber("lukhas.ai", "pro")
@@ -407,14 +379,14 @@ if __name__ == "__main__":
     tracker.add_marketplace_sale(499)
     tracker.add_marketplace_sale(199)
     tracker.add_verification(1000)
-    
+
     # Generate dashboard
     dashboard = tracker.generate_dashboard()
     print(dashboard)
-    
+
     # Save to file
     with open("revenue_dashboard.md", "w") as f:
         f.write(dashboard)
-    
+
     # Run growth simulation
     tracker.simulate_growth(12)

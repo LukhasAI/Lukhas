@@ -4,18 +4,19 @@ NIAS Documentation Generator using LukhasDoc (LUKHAS Symbolic Documentation Engi
 Generates comprehensive interactive documentation for the enhanced NIAS plan
 """
 
-import os
-import sys
 import json
 import logging
-from pathlib import Path
+import sys
 from datetime import datetime
+from pathlib import Path
 
 # Configure logging
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -38,7 +39,7 @@ def generate_nias_documentation():
         logger.error("❌ NIAS_Plan.md not found!")
         return False
 
-    with open(nias_plan_path, "r", encoding="utf-8") as f:
+    with open(nias_plan_path, encoding="utf-8") as f:
         nias_content = f.read()
 
     # Create documentation structure

@@ -19,19 +19,26 @@
 
 import asyncio
 import logging
-from typing import Dict, List, Any, Optional, Set, Tuple
-from datetime import datetime, timedelta
-from pathlib import Path
-import json
+from datetime import datetime
+from typing import Any, Optional
 
 from .interfaces.agent_interface import (
-    AgentInterface, AgentStatus, AgentContext, AgentMessage, AgentCapability
+    AgentCapability,
+    AgentContext,
+    AgentInterface,
+    AgentMessage,
+    AgentStatus,
+)
+from .interfaces.orchestration_protocol import (
+    MessageBuilder,
+    MessageType,
+    OrchestrationMessage,
+    OrchestrationProtocol,
+    Priority,
+    TaskDefinition,
+    TaskResult,
 )
 from .interfaces.plugin_registry import PluginRegistry, PluginStatus
-from .interfaces.orchestration_protocol import (
-    OrchestrationProtocol, MessageType, Priority, TaskDefinition,
-    TaskResult, OrchestrationMessage, MessageBuilder
-)
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +61,8 @@ class AgentOrchestrator:
         self.session_id = f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
         # Agent management
-        self.agents: Dict[str, AgentInterface] = {}
-        self.agent_capabilities: Dict[AgentCapability, Set[str]] = {}
+        self.agents: dict[str, AgentInterface] = {}
+        self.agent_capabilities: dict[AgentCapability, set[str]] = {}
 
         # Plugin management
         self.plugin_registry = PluginRegistry()
@@ -65,8 +72,10 @@ class AgentOrchestrator:
 
         # Task management
         self.task_queue: asyncio.Queue = asyncio.Queue()
-        self.active_tasks: Dict[str, Tuple[TaskDefinition, str]] = {}  # task_id -> (task, agent_id)
-        self.task_results: Dict[str, TaskResult] = {}
+        self.active_tasks: dict[str, tuple[TaskDefinition, str]] = (
+            {}
+        )  # task_id -> (task, agent_id)
+        self.task_results: dict[str, TaskResult] = {}
 
         # System state
         self.is_running = False
@@ -79,7 +88,7 @@ class AgentOrchestrator:
             "task_timeout_default": 300,  # 5 minutes
             "heartbeat_interval": 30,  # seconds
             "plugin_dirs": ["lukhas/plugins", "plugins"],
-            "auto_discover_plugins": True
+            "auto_discover_plugins": True,
         }
 
         # Setup protocol handlers
@@ -90,13 +99,19 @@ class AgentOrchestrator:
         self.protocol.register_handler(MessageType.HEARTBEAT, self._handle_heartbeat)
         self.protocol.register_handler(MessageType.STATUS, self._handle_status_request)
         self.protocol.register_handler(MessageType.ERROR, self._handle_error)
-        self.protocol.register_handler(MessageType.TASK_COMPLETE, self._handle_task_completion)
-        self.protocol.register_handler(MessageType.REGISTRATION, self._handle_registration)
+        self.protocol.register_handler(
+            MessageType.TASK_COMPLETE, self._handle_task_completion
+        )
+        self.protocol.register_handler(
+            MessageType.REGISTRATION, self._handle_registration
+        )
 
     async def initialize(self) -> bool:
         """Initialize the orchestrator and all subsystems"""
         try:
-            self._logger.info(f"Initializing LUKHAS Agent Orchestrator - Session: {self.session_id}")
+            self._logger.info(
+                f"Initializing LUKHAS Agent Orchestrator - Session: {self.session_id}"
+            )
 
             # Start protocol
             self.protocol.start()
@@ -115,7 +130,9 @@ class AgentOrchestrator:
             return True
 
         except Exception as e:
-            self._logger.error(f"Orchestrator initialization failed: {e}", exc_info=True)
+            self._logger.error(
+                f"Orchestrator initialization failed: {e}", exc_info=True
+            )
             return False
 
     async def _initialize_plugins(self) -> None:
@@ -158,15 +175,18 @@ class AgentOrchestrator:
             context = AgentContext(
                 orchestrator_id=self.orchestrator_id,
                 session_id=self.session_id,
-                memory_access=AgentCapability.MEMORY_ACCESS in agent.metadata.capabilities,
+                memory_access=AgentCapability.MEMORY_ACCESS
+                in agent.metadata.capabilities,
                 resource_limits={
-                    "max_concurrent_tasks": self.config["max_concurrent_tasks_per_agent"],
+                    "max_concurrent_tasks": self.config[
+                        "max_concurrent_tasks_per_agent"
+                    ],
                     "max_memory_mb": 1024,
-                    "max_cpu_percent": 50
+                    "max_cpu_percent": 50,
                 },
                 shared_state={},
                 active_tasks=[],
-                message_queue=asyncio.Queue()
+                message_queue=asyncio.Queue(),
             )
 
             # Initialize agent
@@ -182,7 +202,9 @@ class AgentOrchestrator:
                 # Start agent message handler
                 asyncio.create_task(self._handle_agent_messages(agent))
 
-                self._logger.info(f"Registered agent: {agent.metadata.name} ({agent_id})")
+                self._logger.info(
+                    f"Registered agent: {agent.metadata.name} ({agent_id})"
+                )
 
                 # Broadcast registration
                 await self.protocol.broadcast(
@@ -190,8 +212,8 @@ class AgentOrchestrator:
                     {
                         "agent_id": agent_id,
                         "agent_name": agent.metadata.name,
-                        "capabilities": [c.value for c in agent.metadata.capabilities]
-                    }
+                        "capabilities": [c.value for c in agent.metadata.capabilities],
+                    },
                 )
 
                 return True
@@ -222,12 +244,15 @@ class AgentOrchestrator:
 
             # Check for active tasks
             active_agent_tasks = [
-                task_id for task_id, (_, assigned_agent) in self.active_tasks.items()
+                task_id
+                for task_id, (_, assigned_agent) in self.active_tasks.items()
                 if assigned_agent == agent_id
             ]
 
             if active_agent_tasks:
-                self._logger.warning(f"Agent {agent_id} has {len(active_agent_tasks)} active tasks")
+                self._logger.warning(
+                    f"Agent {agent_id} has {len(active_agent_tasks)} active tasks"
+                )
                 # TODO: Reassign or cancel tasks
 
             # Shutdown agent
@@ -237,7 +262,7 @@ class AgentOrchestrator:
             del self.agents[agent_id]
 
             # Update capability index
-            for capability, agent_set in self.agent_capabilities.items():
+            for _capability, agent_set in self.agent_capabilities.items():
                 agent_set.discard(agent_id)
 
             self._logger.info(f"Unregistered agent: {agent_id}")
@@ -262,7 +287,7 @@ class AgentOrchestrator:
         agent = self.agents.get("codex")
         if agent:
             self._logger.info(f"Found agent: {agent.metadata.agent_id}")
-            result = await self._execute_agent_task(agent, task)
+            await self._execute_agent_task(agent, task)
             return task.task_id
         else:
             self._logger.error("Codex agent not registered")
@@ -292,7 +317,9 @@ class AgentOrchestrator:
                     # Create task execution coroutine
                     asyncio.create_task(self._execute_agent_task(agent, task))
 
-                    self._logger.info(f"Task {task.task_id} assigned to agent {agent_id}")
+                    self._logger.info(
+                        f"Task {task.task_id} assigned to agent {agent_id}"
+                    )
                 else:
                     # No suitable agent, put back in queue
                     await self.task_queue.put(task)
@@ -331,7 +358,8 @@ class AgentOrchestrator:
                 except ValueError:
                     # Custom capability
                     custom_agents = {
-                        agent_id for agent_id, agent in self.agents.items()
+                        agent_id
+                        for agent_id, agent in self.agents.items()
                         if agent.has_capability(cap_str)
                     }
                     candidate_sets.append(custom_agents)
@@ -342,8 +370,10 @@ class AgentOrchestrator:
         else:
             # No specific requirements, all ready agents are suitable
             suitable_agents = [
-                agent_id for agent_id, agent in self.agents.items()
-                if agent.status == AgentStatus.READY and agent.metadata.agent_id == "codex"
+                agent_id
+                for agent_id, agent in self.agents.items()
+                if agent.status == AgentStatus.READY
+                and agent.metadata.agent_id == "codex"
             ]
 
         if not suitable_agents:
@@ -351,7 +381,7 @@ class AgentOrchestrator:
 
         # Select agent with lowest load
         best_agent = None
-        min_load = float('inf')
+        min_load = float("inf")
 
         for agent_id in suitable_agents:
             agent = self.agents[agent_id]
@@ -374,7 +404,9 @@ class AgentOrchestrator:
 
         return best_agent
 
-    async def _execute_agent_task(self, agent: AgentInterface, task: TaskDefinition) -> None:
+    async def _execute_agent_task(
+        self, agent: AgentInterface, task: TaskDefinition
+    ) -> None:
         """Execute a task on an agent"""
         start_time = datetime.now()
 
@@ -384,8 +416,7 @@ class AgentOrchestrator:
 
             # Execute task with timeout
             result_data = await asyncio.wait_for(
-                agent.process_task(task.to_dict()),
-                timeout=timeout
+                agent.process_task(task.to_dict()), timeout=timeout
             )
 
             # Create task result
@@ -393,7 +424,7 @@ class AgentOrchestrator:
                 task_id=task.task_id,
                 status="success",
                 result_data=result_data,
-                execution_time=(datetime.now() - start_time).total_seconds()
+                execution_time=(datetime.now() - start_time).total_seconds(),
             )
 
         except asyncio.TimeoutError:
@@ -401,14 +432,14 @@ class AgentOrchestrator:
                 task_id=task.task_id,
                 status="timeout",
                 error="Task execution timed out",
-                execution_time=(datetime.now() - start_time).total_seconds()
+                execution_time=(datetime.now() - start_time).total_seconds(),
             )
         except Exception as e:
             result = TaskResult(
                 task_id=task.task_id,
                 status="failure",
                 error=str(e),
-                execution_time=(datetime.now() - start_time).total_seconds()
+                execution_time=(datetime.now() - start_time).total_seconds(),
             )
 
         # Clean up
@@ -422,12 +453,14 @@ class AgentOrchestrator:
         )
 
         # Notify plugins
-        await self.plugin_registry.broadcast_signal({
-            "type": "task_complete",
-            "task_id": task.task_id,
-            "agent_id": agent.metadata.agent_id,
-            "result": result.to_dict()
-        })
+        await self.plugin_registry.broadcast_signal(
+            {
+                "type": "task_complete",
+                "task_id": task.task_id,
+                "agent_id": agent.metadata.agent_id,
+                "result": result.to_dict(),
+            }
+        )
 
         self.task_results[task.task_id] = result
 
@@ -441,8 +474,7 @@ class AgentOrchestrator:
             try:
                 # Get message from agent's queue
                 message = await asyncio.wait_for(
-                    agent.context.message_queue.get(),
-                    timeout=1.0
+                    agent.context.message_queue.get(), timeout=1.0
                 )
 
                 # Route message
@@ -477,7 +509,7 @@ class AgentOrchestrator:
                 sender_id=self.orchestrator_id,
                 recipient_id=message.sender_id,
                 message_type="status_response",
-                content=status
+                content=status,
             )
             if message.sender_id in self.agents:
                 await self.agents[message.sender_id].context.message_queue.put(response)
@@ -505,9 +537,7 @@ class AgentOrchestrator:
 
                 # Send heartbeat
                 await self.protocol.broadcast(
-                    MessageType.HEARTBEAT,
-                    status,
-                    Priority.LOW
+                    MessageType.HEARTBEAT, status, Priority.LOW
                 )
 
                 await asyncio.sleep(interval)
@@ -526,17 +556,23 @@ class AgentOrchestrator:
                         health = await agent.get_health_status()
 
                         if not health.get("healthy", True):
-                            self._logger.warning(f"Agent {agent_id} unhealthy: {health}")
+                            self._logger.warning(
+                                f"Agent {agent_id} unhealthy: {health}"
+                            )
 
                             # Consider unregistering if critical
                             if agent.status == AgentStatus.ERROR:
                                 await self.unregister_agent(agent_id)
 
                     except Exception as e:
-                        self._logger.error(f"Health check failed for agent {agent_id}: {e}")
+                        self._logger.error(
+                            f"Health check failed for agent {agent_id}: {e}"
+                        )
 
                 # Check plugin health
-                plugin_list = self.plugin_registry.list_plugins(status=PluginStatus.ERROR)
+                plugin_list = self.plugin_registry.list_plugins(
+                    status=PluginStatus.ERROR
+                )
                 if plugin_list:
                     self._logger.warning(f"{len(plugin_list)} plugins in error state")
 
@@ -559,7 +595,7 @@ class AgentOrchestrator:
             message_type=MessageType.RESPONSE,
             recipient_id=message.sender_id,
             correlation_id=message.message_id,
-            payload=status
+            payload=status,
         )
 
         await self.protocol.send_message(response)
@@ -570,23 +606,25 @@ class AgentOrchestrator:
         self._logger.error(f"Error from {message.sender_id}: {error_info}")
 
         # Notify plugins
-        await self.plugin_registry.broadcast_signal({
-            "type": "error",
-            "source": message.sender_id,
-            "error": error_info
-        })
+        await self.plugin_registry.broadcast_signal(
+            {"type": "error", "source": message.sender_id, "error": error_info}
+        )
 
     async def _handle_task_completion(self, message: OrchestrationMessage) -> None:
         """Handle task completion messages"""
         result = TaskResult(**message.payload)
-        self._logger.info(f"Task {result.task_id} completed with status: {result.status}")
+        self._logger.info(
+            f"Task {result.task_id} completed with status: {result.status}"
+        )
 
     async def _handle_registration(self, message: OrchestrationMessage) -> None:
         """Handle agent registration broadcasts"""
         reg_info = message.payload
-        self._logger.info(f"Agent registered: {reg_info.get('agent_name')} with capabilities: {reg_info.get('capabilities')}")
+        self._logger.info(
+            f"Agent registered: {reg_info.get('agent_name')} with capabilities: {reg_info.get('capabilities')}"
+        )
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get orchestrator status"""
         return {
             "orchestrator_id": self.orchestrator_id,
@@ -599,20 +637,20 @@ class AgentOrchestrator:
                 "capabilities": {
                     cap.value: len(agents)
                     for cap, agents in self.agent_capabilities.items()
-                }
+                },
             },
             "tasks": {
                 "queued": self.task_queue.qsize(),
-                "active": len(self.active_tasks)
+                "active": len(self.active_tasks),
             },
             "plugins": {
                 "loaded": len(self.plugin_registry.plugins),
-                "by_status": self._count_plugins_by_status()
+                "by_status": self._count_plugins_by_status(),
             },
-            "protocol": self.protocol.get_statistics()
+            "protocol": self.protocol.get_statistics(),
         }
 
-    def _count_agents_by_status(self) -> Dict[str, int]:
+    def _count_agents_by_status(self) -> dict[str, int]:
         """Count agents by status"""
         counts = {}
         for agent in self.agents.values():
@@ -620,7 +658,7 @@ class AgentOrchestrator:
             counts[status] = counts.get(status, 0) + 1
         return counts
 
-    def _count_plugins_by_status(self) -> Dict[str, int]:
+    def _count_plugins_by_status(self) -> dict[str, int]:
         """Count plugins by status"""
         counts = {}
         for plugin in self.plugin_registry.plugins.values():

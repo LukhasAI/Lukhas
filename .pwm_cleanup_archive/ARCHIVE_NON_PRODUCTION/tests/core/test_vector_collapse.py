@@ -2,7 +2,7 @@ import asyncio
 
 from core.colonies.reasoning_colony import ReasoningColony
 from core.symbolic.collapse.vector_ops import vector_collapse
-from core.symbolism.tags import TagScope, TagPermission
+from core.symbolism.tags import TagPermission, TagScope
 
 
 def test_vector_collapse_mapping():
@@ -28,4 +28,3 @@ def test_propagation_uses_vector_collapse():
     asyncio.run(run())
 
     assert colony.symbolic_carryover["demo_tag"][1] == TagScope.GLOBAL
-

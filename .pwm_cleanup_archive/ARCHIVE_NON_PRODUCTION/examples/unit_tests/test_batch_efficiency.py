@@ -4,7 +4,13 @@ Test script to demonstrate batch processing efficiency in vulnerability manageme
 """
 
 import time
-from orchestration_src.brain.github_vulnerability_manager import GitHubVulnerabilityManager, Vulnerability, VulnerabilitySeverity
+
+from orchestration_src.brain.github_vulnerability_manager import (
+    GitHubVulnerabilityManager,
+    Vulnerability,
+    VulnerabilitySeverity,
+)
+
 
 def create_test_vulnerabilities():
     """Create some test vulnerabilities for demonstration"""
@@ -19,7 +25,7 @@ def create_test_vulnerabilities():
             auto_fixable=True,
             estimated_fix_cost=0.02,
             affected_range="< 0.21.0",
-            fixed_version="0.21.0"
+            fixed_version="0.21.0",
         ),
         Vulnerability(
             id="GHSA-test-002",
@@ -31,7 +37,7 @@ def create_test_vulnerabilities():
             auto_fixable=True,
             estimated_fix_cost=0.02,
             affected_range="< 4.17.21",
-            fixed_version="4.17.21"
+            fixed_version="4.17.21",
         ),
         Vulnerability(
             id="GHSA-test-003",
@@ -43,7 +49,7 @@ def create_test_vulnerabilities():
             auto_fixable=True,
             estimated_fix_cost=0.03,
             affected_range="< 2.25.1",
-            fixed_version="2.25.1"
+            fixed_version="2.25.1",
         ),
         Vulnerability(
             id="GHSA-test-004",
@@ -55,7 +61,7 @@ def create_test_vulnerabilities():
             auto_fixable=True,
             estimated_fix_cost=0.02,
             affected_range="< 4.18.2",
-            fixed_version="4.18.2"
+            fixed_version="4.18.2",
         ),
         Vulnerability(
             id="GHSA-test-005",
@@ -67,10 +73,11 @@ def create_test_vulnerabilities():
             auto_fixable=True,
             estimated_fix_cost=0.03,
             affected_range="< 3.2.13",
-            fixed_version="3.2.13"
-        )
+            fixed_version="3.2.13",
+        ),
     ]
     return test_vulns
+
 
 def test_individual_processing():
     """Test individual vulnerability processing"""
@@ -91,13 +98,16 @@ def test_individual_processing():
     print(f"  ⏱️  Time taken: {end_time - start_time:.2f} seconds")
     print(f"  💰 Budget used: ${end_budget - start_budget:.4f}")
     print(f"  🔧 Fixes applied: {results['fixes_applied']}")
-    print(f"  📊 Cost per fix: ${(end_budget - start_budget) / max(results['fixes_applied'], 1):.4f}")
+    print(
+        f"  📊 Cost per fix: ${(end_budget - start_budget) / max(results['fixes_applied'], 1):.4f}"
+    )
 
     return {
-        'time': end_time - start_time,
-        'cost': end_budget - start_budget,
-        'fixes': results['fixes_applied']
+        "time": end_time - start_time,
+        "cost": end_budget - start_budget,
+        "fixes": results["fixes_applied"],
     }
+
 
 def test_batch_processing():
     """Test batch vulnerability processing"""
@@ -120,15 +130,18 @@ def test_batch_processing():
     print(f"  🔧 Fixes applied: {results['fixes_applied']}")
     print(f"  📋 Batches processed: {results['batches_processed']}")
     print(f"  📄 PRs created: {results['prs_created']}")
-    print(f"  📊 Cost per fix: ${(end_budget - start_budget) / max(results['fixes_applied'], 1):.4f}")
+    print(
+        f"  📊 Cost per fix: ${(end_budget - start_budget) / max(results['fixes_applied'], 1):.4f}"
+    )
 
     return {
-        'time': end_time - start_time,
-        'cost': end_budget - start_budget,
-        'fixes': results['fixes_applied'],
-        'batches': results['batches_processed'],
-        'prs': results['prs_created']
+        "time": end_time - start_time,
+        "cost": end_budget - start_budget,
+        "fixes": results["fixes_applied"],
+        "batches": results["batches_processed"],
+        "prs": results["prs_created"],
     }
+
 
 def main():
     """Run efficiency comparison"""
@@ -148,19 +161,30 @@ def main():
     print("\n📊 Efficiency Comparison:")
     print("=" * 30)
 
-    if individual_results['fixes'] > 0 and batch_results['fixes'] > 0:
-        time_efficiency = individual_results['time'] / batch_results['time']
-        cost_efficiency = individual_results['cost'] / batch_results['cost']
+    if individual_results["fixes"] > 0 and batch_results["fixes"] > 0:
+        time_efficiency = individual_results["time"] / batch_results["time"]
+        cost_efficiency = individual_results["cost"] / batch_results["cost"]
 
-        print(f"⚡ Time efficiency: {time_efficiency:.1f}x faster with batch processing")
-        print(f"💰 Cost efficiency: {cost_efficiency:.1f}x cheaper with batch processing")
+        print(
+            f"⚡ Time efficiency: {time_efficiency:.1f}x faster with batch processing"
+        )
+        print(
+            f"💰 Cost efficiency: {cost_efficiency:.1f}x cheaper with batch processing"
+        )
 
-    print(f"\nIndividual: {individual_results['fixes']} fixes, ${individual_results['cost']:.4f}")
-    print(f"Batch:      {batch_results['fixes']} fixes, ${batch_results['cost']:.4f} ({batch_results['batches']} batches)")
+    print(
+        f"\nIndividual: {individual_results['fixes']} fixes, ${individual_results['cost']:.4f}"
+    )
+    print(
+        f"Batch:      {batch_results['fixes']} fixes, ${batch_results['cost']:.4f} ({batch_results['batches']} batches)"
+    )
 
-    if batch_results['fixes'] > 0:
-        print(f"\n✅ Batch processing created {batch_results['prs']} PRs for {batch_results['fixes']} fixes")
+    if batch_results["fixes"] > 0:
+        print(
+            f"\n✅ Batch processing created {batch_results['prs']} PRs for {batch_results['fixes']} fixes"
+        )
         print(f"   (vs. {individual_results['fixes']} PRs for individual processing)")
+
 
 if __name__ == "__main__":
     main()

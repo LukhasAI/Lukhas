@@ -3,9 +3,9 @@
 Test actual AI functionality of LUKHAS modules
 """
 
-import sys
-import os
 import asyncio
+import os
+import sys
 from datetime import datetime
 
 # Add the lukhas directory to path
@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 print("=" * 80)
 print("LUKHAS AI FUNCTIONALITY TEST")
 print("=" * 80)
+
 
 async def test_core_functionality():
     """Test basic LUKHAS Core functionality"""
@@ -37,16 +38,17 @@ async def test_core_functionality():
         print(f"   ✗ Error: {e}")
         return False
 
+
 def test_memory_creation():
     """Test memory system functionality"""
     print("\n2. Testing Memory System...")
     try:
-        from memory.basic import MemoryEntry, InMemoryStore
+        from memory.basic import InMemoryStore, MemoryEntry
 
         # Create a memory entry
         entry = MemoryEntry(
             content="LUKHAS AI test memory",
-            metadata={"type": "test", "timestamp": datetime.now().isoformat()}
+            metadata={"type": "test", "timestamp": datetime.now().isoformat()},
         )
 
         # Create memory store (use concrete implementation)
@@ -64,6 +66,7 @@ def test_memory_creation():
     except Exception as e:
         print(f"   ✗ Error: {e}")
         return False
+
 
 def test_glyph_system():
     """Test GLYPH symbolic system"""
@@ -86,6 +89,7 @@ def test_glyph_system():
         print(f"   ✗ Error: {e}")
         return False
 
+
 def test_consciousness_state():
     """Test consciousness module state"""
     print("\n4. Testing Consciousness Module...")
@@ -94,9 +98,7 @@ def test_consciousness_state():
 
         # Create consciousness state
         state = ConsciousnessState(
-            level=0.5,
-            awareness_type="focused",
-            emotional_tone="neutral"
+            level=0.5, awareness_type="focused", emotional_tone="neutral"
         )
 
         print(f"   Consciousness level: {state.level}")
@@ -108,6 +110,7 @@ def test_consciousness_state():
     except Exception as e:
         print(f"   ✗ Error: {e}")
         return False
+
 
 def test_ethics_compliance():
     """Test ethics engine"""
@@ -121,7 +124,7 @@ def test_ethics_compliance():
         action = {
             "type": "response",
             "content": "Hello, I'm here to help!",
-            "context": {"user_intent": "greeting"}
+            "context": {"user_intent": "greeting"},
         }
 
         is_compliant = validator.validate(action)
@@ -134,6 +137,7 @@ def test_ethics_compliance():
     except Exception as e:
         print(f"   ✗ Error: {e}")
         return False
+
 
 # Run all tests
 async def main():
@@ -168,6 +172,7 @@ async def main():
         print(f"\n⚠️  {total - passed} tests failed")
 
     return passed == total
+
 
 # Run tests
 if __name__ == "__main__":

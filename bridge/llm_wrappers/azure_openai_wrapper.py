@@ -39,10 +39,9 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
-import os
-from core.common import get_logger
-from typing import Optional
 from .env_loader import get_azure_openai_config
 
 # Configure module logger
@@ -52,35 +51,40 @@ logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.azure_openai")
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "azure_openai_wrapper"
 
+
 class AzureOpenaiWrapper:
+
     def __init__(self):
-        """Initialize Azure OpenAI wrapper with API key, endpoint, org ID, and project ID"""
+        """Initialize Azure OpenAI wrapper with API key, endpoint, org ID,
+        and project ID"""
         self.client = None
         self.config = get_azure_openai_config()
 
-        if self.config['api_key'] and self.config['endpoint']:
+        if self.config["api_key"] and self.config["endpoint"]:
             try:
                 from openai import AzureOpenAI
 
                 # Initialize with org_id and project_id if available
                 client_kwargs = {
-                    'api_key': self.config['api_key'],
-                    'api_version': "2024-02-01",
-                    'azure_endpoint': self.config['endpoint']
+                    "api_key": self.config["api_key"],
+                    "api_version": "2024-02-01",
+                    "azure_endpoint": self.config["endpoint"],
                 }
 
-                if self.config['org_id']:
-                    client_kwargs['organization'] = self.config['org_id']
+                if self.config["org_id"]:
+                    client_kwargs["organization"] = self.config["org_id"]
 
-                if self.config['project_id']:
-                    client_kwargs['project'] = self.config['project_id']
+                if self.config["project_id"]:
+                    client_kwargs["project"] = self.config["project_id"]
 
                 self.client = AzureOpenAI(**client_kwargs)
 
-                print(f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}")
-                if self.config['org_id']:
+                print(
+                    f"✅ Azure OpenAI initialized with endpoint: {self.config['endpoint']}"
+                )
+                if self.config["org_id"]:
                     print(f"   Organization ID: {self.config['org_id']}")
-                if self.config['project_id']:
+                if self.config["project_id"]:
                     print(f"   Project ID: {self.config['project_id']}")
 
             except ImportError:
@@ -96,8 +100,8 @@ class AzureOpenaiWrapper:
             response = self.client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=kwargs.get('max_tokens', 2000),
-                temperature=kwargs.get('temperature', 0.7)
+                max_tokens=kwargs.get("max_tokens", 2000),
+                temperature=kwargs.get("temperature", 0.7),
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -106,6 +110,7 @@ class AzureOpenaiWrapper:
     def is_available(self) -> bool:
         """Check if Azure OpenAI is available"""
         return self.client is not None
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

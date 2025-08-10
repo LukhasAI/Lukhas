@@ -19,12 +19,13 @@ Features:
 - Verification protocols
 """
 
+
 class VeriFoldConnector:
     """Interface to VeriFold replay chain"""
 
     def __init__(self, config):
         self.config = config
-        self.chain_endpoint = config.get('verifold_endpoint')
+        self.chain_endpoint = config.get("verifold_endpoint")
         self.connection_pool = {}
 
     def connect_to_chain(self):

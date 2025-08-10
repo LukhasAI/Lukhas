@@ -5,9 +5,8 @@ Symbolic Test Scaffold Generator
 Generates basic unittest scaffolds with ΛTAG annotations.
 """
 
-import os
-from pathlib import Path
 import argparse
+from pathlib import Path
 
 TEMPLATE = """# ΛTAG: codex, tests
 import unittest
@@ -32,7 +31,7 @@ if __name__ == "__main__":
 def create_scaffold(module: str, test_dir: Path) -> Path:
     mod_path = Path(module)
     class_name = mod_path.stem.capitalize()
-    module_import = module.replace('/', '.').rstrip('.py')
+    module_import = module.replace("/", ".").rstrip(".py")
     dest = test_dir / f"test_{mod_path.stem}.py"
     if dest.exists():
         print(f"❌ {dest} already exists")

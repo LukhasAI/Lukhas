@@ -5,8 +5,8 @@
 
 import argparse
 import asyncio
-import os
 import json
+import os
 from datetime import datetime
 
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
@@ -20,14 +20,18 @@ EMOTION_VOICES = {
     "gentle": "en-GB-SoniaNeural",
     "urgent": "en-US-GuyNeural",
     "narrator": "en-US-DavisNeural",
-    "soft": "en-AU-NatashaNeural"
+    "soft": "en-AU-NatashaNeural",
 }
+
 
 async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lucas_output.mp3")
     if not preview:
-        os.system("afplay lucas_output.mp3")  # For macOS. Use another player for Linux/Win.
+        os.system(
+            "afplay lucas_output.mp3"
+        )  # For macOS. Use another player for Linux/Win.
+
 
 def log_output(text, tier, voice):
     entry = {
@@ -35,19 +39,31 @@ def log_output(text, tier, voice):
         "text": text,
         "tier": tier,
         "voice": voice,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.utcnow().isoformat() + "Z",
     }
     with open(LOG_PATH, "a") as f:
         f.write(json.dumps(entry) + "\n")
+
 
 def main():
     print("\n🎤 LUCAS VOICE MODE — Speak With Intention")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-    parser = argparse.ArgumentParser(description="🎤 Speak via symbolic voice system (Lucas voice)")
-    parser.add_argument("text", type=str, nargs="+", help="The phrase Lucas should speak aloud.")
-    parser.add_argument("--emotion", type=str, default="neutral", help="Symbolic emotion voice (gentle, urgent, soft, narrator)")
-    parser.add_argument("--preview", action="store_true", help="Preview voice without audio playback")
+    parser = argparse.ArgumentParser(
+        description="🎤 Speak via symbolic voice system (Lucas voice)"
+    )
+    parser.add_argument(
+        "text", type=str, nargs="+", help="The phrase Lucas should speak aloud."
+    )
+    parser.add_argument(
+        "--emotion",
+        type=str,
+        default="neutral",
+        help="Symbolic emotion voice (gentle, urgent, soft, narrator)",
+    )
+    parser.add_argument(
+        "--preview", action="store_true", help="Preview voice without audio playback"
+    )
     args = parser.parse_args()
 
     tier = get_user_tier()
@@ -64,6 +80,7 @@ def main():
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)
     print("📝 Logged to symbolic_output_log.jsonl\n")
+
 
 if __name__ == "__main__":
     main()

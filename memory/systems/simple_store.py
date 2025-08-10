@@ -15,37 +15,43 @@ DEPENDENCIES:
 """
 
 import asyncio
+import gzip
 import json
-from core.common import get_logger
 import mmap
 import time
 import uuid
-import gzip
 from collections import OrderedDict
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Union, Tuple
+from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class MemoryType(Enum):
     """Core memory types (simplified from 8 to 3)"""
-    EPISODIC = "episodic"      # Event-based memories
-    SEMANTIC = "semantic"      # Knowledge and concepts
-    EMOTIONAL = "emotional"    # Emotional experiences
+
+    EPISODIC = "episodic"  # Event-based memories
+    SEMANTIC = "semantic"  # Knowledge and concepts
+    EMOTIONAL = "emotional"  # Emotional experiences
+
 
 class MemoryPriority(Enum):
     """Memory priority levels (simplified from 5 to 4)"""
-    CRITICAL = "critical"      # Never delete
-    HIGH = "high"             # Important memories
-    MEDIUM = "medium"         # Standard memories
-    LOW = "low"               # Can be pruned
+
+    CRITICAL = "critical"  # Never delete
+    HIGH = "high"  # Important memories
+    MEDIUM = "medium"  # Standard memories
+    LOW = "low"  # Can be pruned
+
 
 @dataclass
 class MemoryEntry:
     """Simplified memory entry structure"""
+
     id: str
     user_id: str
     content: Dict[str, Any]
@@ -67,11 +73,11 @@ class MemoryEntry:
             "timestamp": self.timestamp,
             "last_accessed": self.last_accessed,
             "access_count": self.access_count,
-            "compressed": self.compressed
+            "compressed": self.compressed,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'MemoryEntry':
+    def from_dict(cls, data: Dict[str, Any]) -> "MemoryEntry":
         """Create from dictionary"""
         return cls(
             id=data["id"],
@@ -82,12 +88,14 @@ class MemoryEntry:
             timestamp=data["timestamp"],
             last_accessed=data["last_accessed"],
             access_count=data.get("access_count", 0),
-            compressed=data.get("compressed", False)
+            compressed=data.get("compressed", False),
         )
+
 
 @dataclass
 class MemoryConfig:
     """Unified memory manager configuration"""
+
     # Storage settings
     max_memories_per_user: int = 10000
     storage_path: str = "memory_store"
@@ -111,6 +119,7 @@ class MemoryConfig:
     enable_user_data_control: bool = True
     auto_anonymize_old_data: bool = True
     anonymize_after_days: int = 30
+
 
 class UnifiedMemoryManager:
     """
@@ -209,7 +218,7 @@ class UnifiedMemoryManager:
         content: Dict[str, Any],
         memory_type: MemoryType = MemoryType.EPISODIC,
         priority: MemoryPriority = MemoryPriority.MEDIUM,
-        memory_id: Optional[str] = None
+        memory_id: Optional[str] = None,
     ) -> str:
         """
         Store a memory entry.
@@ -238,12 +247,14 @@ class UnifiedMemoryManager:
                 memory_type=memory_type,
                 priority=priority,
                 timestamp=now,
-                last_accessed=now
+                last_accessed=now,
             )
 
             # Compress if enabled and content is large enough
-            if (self.config.enable_compression and
-                len(json.dumps(content)) > self.config.compression_threshold):
+            if (
+                self.config.enable_compression
+                and len(json.dumps(content)) > self.config.compression_threshold
+            ):
                 memory.content = await self._compress_content(content)
                 memory.compressed = True
 
@@ -270,7 +281,7 @@ class UnifiedMemoryManager:
         memory_id: Optional[str] = None,
         memory_type: Optional[MemoryType] = None,
         limit: int = 20,
-        include_old: bool = False
+        include_old: bool = False,
     ) -> List[MemoryEntry]:
         """
         Retrieve memories for a user.
@@ -298,7 +309,8 @@ class UnifiedMemoryManager:
             if memory_type:
                 type_memory_ids = self.type_index.get(memory_type, {}).get(user_id, [])
                 user_memories = OrderedDict(
-                    (mid, memory) for mid, memory in user_memories.items()
+                    (mid, memory)
+                    for mid, memory in user_memories.items()
                     if mid in type_memory_ids
                 )
 
@@ -313,9 +325,7 @@ class UnifiedMemoryManager:
 
             # Sort by last_accessed (most recent first) and limit
             sorted_memories = sorted(
-                user_memories.values(),
-                key=lambda m: m.last_accessed,
-                reverse=True
+                user_memories.values(), key=lambda m: m.last_accessed, reverse=True
             )[:limit]
 
             # Update access times
@@ -330,17 +340,23 @@ class UnifiedMemoryManager:
                         memory.content = await self._decompress_content(memory.content)
                         memory.compressed = False
                     except Exception as decompress_error:
-                        logger.error(f"Failed to decompress memory {memory.id}: {decompress_error}")
+                        logger.error(
+                            f"Failed to decompress memory {memory.id}: {decompress_error}"
+                        )
                         # Keep original content if decompression fails
 
-            logger.debug(f"Retrieved {len(sorted_memories)} memories for user {user_id}")
+            logger.debug(
+                f"Retrieved {len(sorted_memories)} memories for user {user_id}"
+            )
             return sorted_memories
 
         except Exception as e:
             logger.error(f"Failed to retrieve memories: {e}")
             return []
 
-    async def delete_user_memories(self, user_id: str, memory_ids: Optional[List[str]] = None) -> bool:
+    async def delete_user_memories(
+        self, user_id: str, memory_ids: Optional[List[str]] = None
+    ) -> bool:
         """
         Delete memories for GDPR compliance.
 
@@ -390,29 +406,37 @@ class UnifiedMemoryManager:
                     "user_id": user_id,
                     "total_memories": len(user_memories),
                     "memory_types": {
-                        mem_type.value: len([
-                            m for m in user_memories.values()
-                            if m.memory_type == mem_type
-                        ])
+                        mem_type.value: len(
+                            [
+                                m
+                                for m in user_memories.values()
+                                if m.memory_type == mem_type
+                            ]
+                        )
                         for mem_type in MemoryType
                     },
                     "memory_priorities": {
-                        priority.value: len([
-                            m for m in user_memories.values()
-                            if m.priority == priority
-                        ])
+                        priority.value: len(
+                            [
+                                m
+                                for m in user_memories.values()
+                                if m.priority == priority
+                            ]
+                        )
                         for priority in MemoryPriority
-                    }
+                    },
                 }
             else:
                 # Global stats
-                total_memories = sum(len(memories) for memories in self.lru_cache.values())
+                total_memories = sum(
+                    len(memories) for memories in self.lru_cache.values()
+                )
                 return {
                     "total_users": len(self.lru_cache),
                     "total_memories": total_memories,
                     "cache_size": len(self.lru_cache),
                     "storage_path": str(self.storage_path),
-                    "compression_enabled": self.config.enable_compression
+                    "compression_enabled": self.config.enable_compression,
                 }
 
         except Exception as e:
@@ -483,7 +507,7 @@ class UnifiedMemoryManager:
         if not self.enable_compression:
             return content
 
-        json_data = json.dumps(content).encode('utf-8')
+        json_data = json.dumps(content).encode("utf-8")
         return gzip.compress(json_data)
 
     async def _decompress_content(self, compressed_content: bytes) -> Dict[str, Any]:
@@ -493,10 +517,13 @@ class UnifiedMemoryManager:
 
         try:
             json_data = gzip.decompress(compressed_content)
-            return json.loads(json_data.decode('utf-8'))
+            return json.loads(json_data.decode("utf-8"))
         except Exception as e:
             logger.error(f"Failed to decompress content: {e}")
-            return {"error": "decompression_failed", "raw_data": str(compressed_content)}
+            return {
+                "error": "decompression_failed",
+                "raw_data": str(compressed_content),
+            }
 
     async def _is_memory_valid(self, memory: MemoryEntry, current_time: float) -> bool:
         """Check if memory is within TTL"""
@@ -509,7 +536,9 @@ class UnifiedMemoryManager:
 
         return (current_time - memory.timestamp) < ttl_seconds
 
-    async def _get_memory_by_id(self, user_id: str, memory_id: str) -> Optional[MemoryEntry]:
+    async def _get_memory_by_id(
+        self, user_id: str, memory_id: str
+    ) -> Optional[MemoryEntry]:
         """Get specific memory by ID"""
         user_memories = self.lru_cache.get(user_id, OrderedDict())
         memory = user_memories.get(memory_id)
@@ -526,7 +555,9 @@ class UnifiedMemoryManager:
                     memory.content = await self._decompress_content(memory.content)
                     memory.compressed = False
                 except Exception as decompress_error:
-                    logger.error(f"Failed to decompress memory {memory.id}: {decompress_error}")
+                    logger.error(
+                        f"Failed to decompress memory {memory.id}: {decompress_error}"
+                    )
                     # Keep original content if decompression fails
 
         return memory
@@ -546,10 +577,13 @@ class UnifiedMemoryManager:
             if memory.compressed and isinstance(memory.content, bytes):
                 # Convert bytes to base64 for JSON serialization
                 import base64
-                memory_dict['content'] = base64.b64encode(memory.content).decode('utf-8')
-                memory_dict['content_encoding'] = 'base64_gzip'
 
-            with open(memory_file, 'w') as f:
+                memory_dict["content"] = base64.b64encode(memory.content).decode(
+                    "utf-8"
+                )
+                memory_dict["content_encoding"] = "base64_gzip"
+
+            with open(memory_file, "w") as f:
                 json.dump(memory_dict, f)
 
         except Exception as e:
@@ -576,11 +610,14 @@ class UnifiedMemoryManager:
                                 memory_data = json.load(f)
 
                             # Handle compressed content
-                            if memory_data.get('content_encoding') == 'base64_gzip':
+                            if memory_data.get("content_encoding") == "base64_gzip":
                                 import base64
-                                memory_data['content'] = base64.b64decode(memory_data['content'])
-                                memory_data['compressed'] = True
-                                del memory_data['content_encoding']
+
+                                memory_data["content"] = base64.b64decode(
+                                    memory_data["content"]
+                                )
+                                memory_data["compressed"] = True
+                                del memory_data["content_encoding"]
 
                             memory = MemoryEntry.from_dict(memory_data)
                             await self._add_to_cache(memory)
@@ -640,7 +677,9 @@ class UnifiedMemoryManager:
                     del self.lru_cache[user_id]
 
             if removed_count > 0:
-                logger.info(f"Garbage collection removed {removed_count} expired memories")
+                logger.info(
+                    f"Garbage collection removed {removed_count} expired memories"
+                )
 
         except Exception as e:
             logger.error(f"Garbage collection failed: {e}")

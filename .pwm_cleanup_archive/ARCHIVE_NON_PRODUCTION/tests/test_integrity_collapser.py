@@ -45,6 +45,7 @@ class TestIntegrityCollapser(unittest.TestCase):
         self.assertLessEqual(score, 1.0)
         self.assertEqual(snapshot_entropy(recovered), [0.1])
 
+
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

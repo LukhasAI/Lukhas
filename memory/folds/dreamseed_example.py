@@ -53,21 +53,18 @@
 
 # Module imports
 import json
-from core.common import get_logger, GLYPHToken, create_glyph
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional
 
 # Import DREAMSEED components
 from memory.core_memory.dream_trace_linker import create_dream_trace_linker
-from memory.folds.fold_engine import (
-    fold_dream_experience,
-    MemoryFold,
-    MemoryType,
-    MemoryPriority,
-)
 from memory.emotional import EmotionalMemory
+from memory.folds.fold_engine import (
+    MemoryFold,
+    MemoryPriority,
+    MemoryType,
+    fold_dream_experience,
+)
 from memory.memory_dashboard import create_memory_dashboard
-import structlog
 
 # Configure module logger
 
@@ -118,7 +115,7 @@ def demonstrate_dreamseed_integration():
         dream_metadata=dream_example_1["dream_metadata"],
     )
 
-    print(f"✅ Dream Trace Created:")
+    print("✅ Dream Trace Created:")
     print(f"   • Dream ID: {trace_link_1.dream_id}")
     print(f"   • Trace ID: {trace_link_1.trace_id}")
     print(f"   • Drift Score: {trace_link_1.drift_score:.3f}")
@@ -156,7 +153,7 @@ def demonstrate_dreamseed_integration():
         emotional_memory=emotional_memory,
     )
 
-    print(f"✅ Dream Folding Completed:")
+    print("✅ Dream Folding Completed:")
     print(f"   • Success: {folding_result['success']}")
     print(f"   • Created Folds: {len(folding_result['created_folds'])}")
     print(f"   • Processing Stages: {list(folding_result['processing_stages'].keys())}")
@@ -190,7 +187,7 @@ def demonstrate_dreamseed_integration():
         content = test_fold.retrieve(tier_level=tier)
         if content:
             if isinstance(content, dict) and "core_content" in content:
-                print(f"      • Full contextual access with metadata")
+                print("      • Full contextual access with metadata")
                 print(
                     f"      • Memory Type: {content['memory_metadata']['memory_type']}"
                 )
@@ -198,10 +195,10 @@ def demonstrate_dreamseed_integration():
                     f"      • Importance: {content['memory_metadata']['importance_score']:.3f}"
                 )
             elif isinstance(content, dict) and "content" in content:
-                print(f"      • Emotional weighted access")
+                print("      • Emotional weighted access")
                 print(f"      • Weight: {content['emotional_weight']:.3f}")
             else:
-                print(f"      • Basic content access")
+                print("      • Basic content access")
         else:
             print(f"      • Access denied for tier {tier}")
 
@@ -227,7 +224,7 @@ def demonstrate_dreamseed_integration():
 
     dream_analytics = dashboard.get_dream_integration_analytics(days_back=1)
 
-    print(f"✅ Dream Integration Statistics:")
+    print("✅ Dream Integration Statistics:")
     print(f"   • Total Dreams Processed: {dream_analytics['total_dreams_processed']}")
     print(f"   • Success Rate: {dream_analytics['success_rate']:.1%}")
     print(
@@ -243,7 +240,7 @@ def demonstrate_dreamseed_integration():
     health_metrics = dashboard.get_memory_health_metrics()
     cascade_blocks = dashboard.list_active_cascade_blocks()
 
-    print(f"✅ System Health Status:")
+    print("✅ System Health Status:")
     print(f"   • Stability Score: {health_metrics.stability_score:.3f}")
     print(f"   • Active Folds: {health_metrics.active_folds}")
     print(f"   • Compression Efficiency: {health_metrics.compression_efficiency:.3f}")
@@ -257,7 +254,7 @@ def demonstrate_dreamseed_integration():
     # Get session analytics to show safeguard tracking
     session_analytics = dream_linker.get_session_analytics()
 
-    print(f"✅ Safeguard System Status:")
+    print("✅ Safeguard System Status:")
     print(f"   • Session ID: {session_analytics['session_id']}")
     print(
         f"   • Total GLYPH Usage: {sum(session_analytics['total_glyph_usage'].values())}"
@@ -284,7 +281,7 @@ def demonstrate_dreamseed_integration():
     test_fold._calculate_current_importance(dream_drift_feedback=dream_feedback)
     importance_change = test_fold.importance_score - original_importance
 
-    print(f"✅ Dream Drift Feedback Applied:")
+    print("✅ Dream Drift Feedback Applied:")
     print(f"   • Original Importance: {original_importance:.3f}")
     print(
         f"   • Feedback Applied: novelty={dream_feedback['novelty_score']:.1f}, "

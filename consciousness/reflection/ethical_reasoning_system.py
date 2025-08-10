@@ -41,33 +41,26 @@ cultural sensitivity assessment, and ethical drift monitoring to guide AI decisi
 """
 
 import asyncio
-import json
 
 # import logging # Replaced by structlog
 import time
 import uuid
-from abc import ABC, abstractmethod
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone  # Added timezone for UTC
 from enum import Enum, auto
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union  # Added Set
+from typing import (  # Added Set
+    Any,
+    Dict,
+    List,
+    Optional,
+)
 
 import numpy as np
 
 # Using structlog for structured logging
-import structlog
-from scipy.optimize import (
-    minimize,
-)  # Potentially for optimizing utility functions or balancing principles
-from scipy.spatial.distance import (
-    cosine,
-)  # For similarity measures, e.g., in value alignment or emotional state comparison
 
 # Ethical reasoning related libraries (SciPy is used)
-from scipy.stats import (
-    entropy,
-)  # Potentially for information-theoretic measures in decision uncertainty
 
 # AIMPORT_TODO (future): The following ML/DL imports (torch, sklearn, etc.) are commented out.
 # Evaluate if these dependencies are planned for future integration or if they represent
@@ -84,10 +77,8 @@ from scipy.stats import (
 # import networkx as nx
 # import pandas as pd
 # import matplotlib.pyplot as plt
-
-
 # Initialize ΛTRACE logger for this module using structlog
-from core.common import get_logger
+
 logger.info(
     "ΛTRACE: Initializing ethical_reasoning_system.py module.", module_path=__file__
 )
@@ -1483,7 +1474,7 @@ class ValueAlignmentSystem:
                     0.0  # Default if no changes or values
                 )
                 self.logger.debug(
-                    f"ΛTRACE: Value stability set to 0.0 due to no recent changes or learned values."
+                    "ΛTRACE: Value stability set to 0.0 due to no recent changes or learned values."
                 )
 
         avg_uncertainty = (
@@ -2264,7 +2255,7 @@ class EthicalReasoningSystem:
     ) -> Dict[MoralPrinciple, float]:
         self.logger.debug("ΛTRACE: Extracting principle weights.")
         # ... (original logic)
-        weights = {p: 0.5 for p in MoralPrinciple}  # Renamed
+        weights = dict.fromkeys(MoralPrinciple, 0.5)  # Renamed
         for framework, analysis in framework_analyses.items():
             if framework == EthicalFramework.DEONTOLOGICAL:
                 weights[MoralPrinciple.AUTONOMY] += 0.2

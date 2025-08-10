@@ -1,9 +1,10 @@
+import asyncio
 import os
 import sys
-import asyncio
-import pytest
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(
+    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 
 from memory.core_memory.adaptive_memory_engine import AdaptiveMemoryEngine
 from memory.core_memory.dream_memory_manager import DreamMemoryManager
@@ -25,4 +26,3 @@ def test_dream_memory_manager_basic():
     assert result["status"] == "success"
     asyncio.run(manager.shutdown())
     assert manager.active is False
-

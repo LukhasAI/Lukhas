@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : auth.py                                        │
@@ -10,14 +8,17 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from fastapi import APIRouter, HTTPException, Form
-from backend.app.id_generator import generate_lucas_id, generate_username_slug
 from backend.app.emailer import send_welcome_email
+from backend.app.id_generator import generate_lucas_id, generate_username_slug
+from fastapi import APIRouter, Form
 
 router = APIRouter()
 
+
 @router.post("/auth/signup")
-def signup(full_name: str = Form(...), email: str = Form(...), entity_type: str = Form("USR")):
+def signup(
+    full_name: str = Form(...), email: str = Form(...), entity_type: str = Form("USR")
+):
     """
     Create a new LucasID symbolic user and send a welcome email.
     """
@@ -28,14 +29,21 @@ def signup(full_name: str = Form(...), email: str = Form(...), entity_type: str 
     qrglyph_url = f"https://lukhasid.io/assets/qrglyphs/{username_slug}.png"
 
     # Send welcome email
-    send_welcome_email(to_email=email, username=username_slug, lukhas_id_code=lukhas_id_code, qrglyph_url=qrglyph_url)
+    send_welcome_email(
+        to_email=email,
+        username=username_slug,
+        lukhas_id_code=lukhas_id_code,
+        qrglyph_url=qrglyph_url,
+    )
 
     # Simulate database creation (to replace with real DB session later)
-    print(f"✅ New LucasID created: {lukhas_id_code} for {username_slug} ({entity_type})")
+    print(
+        f"✅ New LucasID created: {lukhas_id_code} for {username_slug} ({entity_type})"
+    )
 
     return {
         "message": "Signup successful",
         "identity_legacy_code": lukhas_id_code,
         "username_slug": username_slug,
-        "qrglyph_url": qrglyph_url
+        "qrglyph_url": qrglyph_url,
     }

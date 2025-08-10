@@ -9,9 +9,10 @@ EMOTION - regulation Submodule
 # Colony base for propagation
 from typing import Any, Dict, List
 
+
 class RegulationColony:
     """Base colony for regulation components"""
-    
+
     def __init__(self):
         self.colony_id = "EMOTION_regulation"
         self.propagation_enabled = True
@@ -21,7 +22,7 @@ class RegulationColony:
             'serotonin': 0.5,
             'oxytocin': 0.3
         }
-    
+
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
         return {

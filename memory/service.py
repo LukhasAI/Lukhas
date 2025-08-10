@@ -40,11 +40,9 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import os
-import sys
-from typing import Dict, Any, Optional, List, Union
 from datetime import datetime
-import json
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
 
 # Configure module logger
@@ -59,11 +57,17 @@ try:
 except ImportError:
     # Fallback for development
     class IdentityClient:
-        def verify_user_access(self, user_id: str, required_tier: str = "LAMBDA_TIER_1") -> bool:
+        def verify_user_access(
+            self, user_id: str, required_tier: str = "LAMBDA_TIER_1"
+        ) -> bool:
             return True
+
         def check_consent(self, user_id: str, action: str) -> bool:
             return True
-        def log_activity(self, activity_type: str, user_id: str, metadata: Dict[str, Any]) -> None:
+
+        def log_activity(
+            self, activity_type: str, user_id: str, metadata: Dict[str, Any]
+        ) -> None:
             logging.info(f"MEMORY_LOG: {activity_type} by {user_id}: {metadata}")
 
 
@@ -83,11 +87,16 @@ class MemoryService:
             "public": "LAMBDA_TIER_1",
             "personal": "LAMBDA_TIER_2",
             "sensitive": "LAMBDA_TIER_3",
-            "system": "LAMBDA_TIER_4"
+            "system": "LAMBDA_TIER_4",
         }
 
-    def store_memory(self, user_id: str, memory_type: str, content: Dict[str, Any],
-                    access_level: str = "personal") -> Dict[str, Any]:
+    def store_memory(
+        self,
+        user_id: str,
+        memory_type: str,
+        content: Dict[str, Any],
+        access_level: str = "personal",
+    ) -> Dict[str, Any]:
         """
         Store information in the memory system with appropriate access controls.
 
@@ -107,7 +116,10 @@ class MemoryService:
 
         # Check consent for memory storage
         if not self.identity_client.check_consent(user_id, "memory_storage"):
-            return {"success": False, "error": "User consent required for memory storage"}
+            return {
+                "success": False,
+                "error": "User consent required for memory storage",
+            }
 
         try:
             # Generate memory ID
@@ -123,34 +135,39 @@ class MemoryService:
                 "created_at": datetime.utcnow().isoformat(),
                 "metadata": {
                     "size": len(str(content)),
-                    "content_type": type(content).__name__
-                }
+                    "content_type": type(content).__name__,
+                },
             }
 
             # Store in memory system (placeholder)
             self.memory_store[memory_id] = memory_record
 
             # Log memory storage
-            self.identity_client.log_activity("memory_stored", user_id, {
-                "memory_id": memory_id,
-                "memory_type": memory_type,
-                "access_level": access_level,
-                "content_size": len(str(content))
-            })
+            self.identity_client.log_activity(
+                "memory_stored",
+                user_id,
+                {
+                    "memory_id": memory_id,
+                    "memory_type": memory_type,
+                    "access_level": access_level,
+                    "content_size": len(str(content)),
+                },
+            )
 
             return {
                 "success": True,
                 "memory_id": memory_id,
                 "access_level": access_level,
-                "created_at": memory_record["created_at"]
+                "created_at": memory_record["created_at"],
             }
 
         except Exception as e:
             error_msg = f"Memory storage error: {str(e)}"
-            self.identity_client.log_activity("memory_storage_error", user_id, {
-                "memory_type": memory_type,
-                "error": error_msg
-            })
+            self.identity_client.log_activity(
+                "memory_storage_error",
+                user_id,
+                {"memory_type": memory_type, "error": error_msg},
+            )
             return {"success": False, "error": error_msg}
 
     def retrieve_memory(self, user_id: str, memory_id: str) -> Dict[str, Any]:
@@ -172,26 +189,44 @@ class MemoryService:
             memory_record = self.memory_store[memory_id]
 
             # Check access permissions
-            required_tier = self.access_tiers.get(memory_record["access_level"], "LAMBDA_TIER_2")
+            required_tier = self.access_tiers.get(
+                memory_record["access_level"], "LAMBDA_TIER_2"
+            )
             if not self.identity_client.verify_user_access(user_id, required_tier):
-                return {"success": False, "error": "Insufficient access for memory retrieval"}
+                return {
+                    "success": False,
+                    "error": "Insufficient access for memory retrieval",
+                }
 
             # Check if user owns the memory or has system access
-            if (memory_record["user_id"] != user_id and
-                not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_4")):
-                return {"success": False, "error": "Access denied: Memory belongs to another user"}
+            if memory_record[
+                "user_id"
+            ] != user_id and not self.identity_client.verify_user_access(
+                user_id, "LAMBDA_TIER_4"
+            ):
+                return {
+                    "success": False,
+                    "error": "Access denied: Memory belongs to another user",
+                }
 
             # Check consent for memory access
             if not self.identity_client.check_consent(user_id, "memory_access"):
-                return {"success": False, "error": "User consent required for memory access"}
+                return {
+                    "success": False,
+                    "error": "User consent required for memory access",
+                }
 
             # Log memory retrieval
-            self.identity_client.log_activity("memory_retrieved", user_id, {
-                "memory_id": memory_id,
-                "memory_type": memory_record["type"],
-                "access_level": memory_record["access_level"],
-                "owner_id": memory_record["user_id"]
-            })
+            self.identity_client.log_activity(
+                "memory_retrieved",
+                user_id,
+                {
+                    "memory_id": memory_id,
+                    "memory_type": memory_record["type"],
+                    "access_level": memory_record["access_level"],
+                    "owner_id": memory_record["user_id"],
+                },
+            )
 
             return {
                 "success": True,
@@ -200,19 +235,26 @@ class MemoryService:
                 "content": memory_record["content"],
                 "access_level": memory_record["access_level"],
                 "created_at": memory_record["created_at"],
-                "metadata": memory_record["metadata"]
+                "metadata": memory_record["metadata"],
             }
 
         except Exception as e:
             error_msg = f"Memory retrieval error: {str(e)}"
-            self.identity_client.log_activity("memory_retrieval_error", user_id, {
-                "memory_id": memory_id,
-                "error": error_msg
-            })
+            self.identity_client.log_activity(
+                "memory_retrieval_error",
+                user_id,
+                {"memory_id": memory_id, "error": error_msg},
+            )
             return {"success": False, "error": error_msg}
 
-    def search_memory(self, user_id: str, query: str, memory_type: Optional[str] = None,
-                     access_level: Optional[str] = None, limit: int = 10) -> Dict[str, Any]:
+    def search_memory(
+        self,
+        user_id: str,
+        query: str,
+        memory_type: Optional[str] = None,
+        access_level: Optional[str] = None,
+        limit: int = 10,
+    ) -> Dict[str, Any]:
         """
         Search through memories with privacy controls.
 
@@ -232,7 +274,10 @@ class MemoryService:
 
         # Check consent for memory search
         if not self.identity_client.check_consent(user_id, "memory_search"):
-            return {"success": False, "error": "User consent required for memory search"}
+            return {
+                "success": False,
+                "error": "User consent required for memory search",
+            }
 
         try:
             results = []
@@ -243,13 +288,18 @@ class MemoryService:
                     break
 
                 # Check access to this memory
-                required_tier = self.access_tiers.get(memory_record["access_level"], "LAMBDA_TIER_2")
+                required_tier = self.access_tiers.get(
+                    memory_record["access_level"], "LAMBDA_TIER_2"
+                )
                 if not self.identity_client.verify_user_access(user_id, required_tier):
                     continue
 
                 # Check ownership or system access
-                if (memory_record["user_id"] != user_id and
-                    not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_4")):
+                if memory_record[
+                    "user_id"
+                ] != user_id and not self.identity_client.verify_user_access(
+                    user_id, "LAMBDA_TIER_4"
+                ):
                     continue
 
                 # Apply filters
@@ -262,23 +312,33 @@ class MemoryService:
                 # Simple search in content (would be more sophisticated in real implementation)
                 content_str = str(memory_record["content"]).lower()
                 if query.lower() in content_str:
-                    results.append({
-                        "memory_id": memory_id,
-                        "type": memory_record["type"],
-                        "access_level": memory_record["access_level"],
-                        "created_at": memory_record["created_at"],
-                        "preview": content_str[:100] + "..." if len(content_str) > 100 else content_str
-                    })
+                    results.append(
+                        {
+                            "memory_id": memory_id,
+                            "type": memory_record["type"],
+                            "access_level": memory_record["access_level"],
+                            "created_at": memory_record["created_at"],
+                            "preview": (
+                                content_str[:100] + "..."
+                                if len(content_str) > 100
+                                else content_str
+                            ),
+                        }
+                    )
                     search_count += 1
 
             # Log memory search
-            self.identity_client.log_activity("memory_searched", user_id, {
-                "query": query,
-                "memory_type": memory_type,
-                "access_level": access_level,
-                "results_count": len(results),
-                "limit": limit
-            })
+            self.identity_client.log_activity(
+                "memory_searched",
+                user_id,
+                {
+                    "query": query,
+                    "memory_type": memory_type,
+                    "access_level": access_level,
+                    "results_count": len(results),
+                    "limit": limit,
+                },
+            )
 
             return {
                 "success": True,
@@ -288,16 +348,15 @@ class MemoryService:
                 "search_metadata": {
                     "memory_type_filter": memory_type,
                     "access_level_filter": access_level,
-                    "limit": limit
-                }
+                    "limit": limit,
+                },
             }
 
         except Exception as e:
             error_msg = f"Memory search error: {str(e)}"
-            self.identity_client.log_activity("memory_search_error", user_id, {
-                "query": query,
-                "error": error_msg
-            })
+            self.identity_client.log_activity(
+                "memory_search_error", user_id, {"query": query, "error": error_msg}
+            )
             return {"success": False, "error": error_msg}
 
     def delete_memory(self, user_id: str, memory_id: str) -> Dict[str, Any]:
@@ -319,22 +378,35 @@ class MemoryService:
             memory_record = self.memory_store[memory_id]
 
             # Check if user owns the memory or has system access
-            if (memory_record["user_id"] != user_id and
-                not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_4")):
-                return {"success": False, "error": "Access denied: Cannot delete another user's memory"}
+            if memory_record[
+                "user_id"
+            ] != user_id and not self.identity_client.verify_user_access(
+                user_id, "LAMBDA_TIER_4"
+            ):
+                return {
+                    "success": False,
+                    "error": "Access denied: Cannot delete another user's memory",
+                }
 
             # Check consent for memory deletion
             if not self.identity_client.check_consent(user_id, "memory_deletion"):
-                return {"success": False, "error": "User consent required for memory deletion"}
+                return {
+                    "success": False,
+                    "error": "User consent required for memory deletion",
+                }
 
             # Log memory deletion before removing
-            self.identity_client.log_activity("memory_deleted", user_id, {
-                "memory_id": memory_id,
-                "memory_type": memory_record["type"],
-                "access_level": memory_record["access_level"],
-                "owner_id": memory_record["user_id"],
-                "deletion_timestamp": datetime.utcnow().isoformat()
-            })
+            self.identity_client.log_activity(
+                "memory_deleted",
+                user_id,
+                {
+                    "memory_id": memory_id,
+                    "memory_type": memory_record["type"],
+                    "access_level": memory_record["access_level"],
+                    "owner_id": memory_record["user_id"],
+                    "deletion_timestamp": datetime.utcnow().isoformat(),
+                },
+            )
 
             # Delete the memory
             del self.memory_store[memory_id]
@@ -342,15 +414,16 @@ class MemoryService:
             return {
                 "success": True,
                 "memory_id": memory_id,
-                "deleted_at": datetime.utcnow().isoformat()
+                "deleted_at": datetime.utcnow().isoformat(),
             }
 
         except Exception as e:
             error_msg = f"Memory deletion error: {str(e)}"
-            self.identity_client.log_activity("memory_deletion_error", user_id, {
-                "memory_id": memory_id,
-                "error": error_msg
-            })
+            self.identity_client.log_activity(
+                "memory_deletion_error",
+                user_id,
+                {"memory_id": memory_id, "error": error_msg},
+            )
             return {"success": False, "error": error_msg}
 
     def get_memory_stats(self, user_id: str) -> Dict[str, Any]:
@@ -364,10 +437,15 @@ class MemoryService:
             Dict: Memory statistics
         """
         if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_1"):
-            return {"success": False, "error": "Insufficient access for memory statistics"}
+            return {
+                "success": False,
+                "error": "Insufficient access for memory statistics",
+            }
 
         try:
-            user_memories = [m for m in self.memory_store.values() if m["user_id"] == user_id]
+            user_memories = [
+                m for m in self.memory_store.values() if m["user_id"] == user_id
+            ]
 
             stats = {
                 "total_memories": len(user_memories),
@@ -375,7 +453,7 @@ class MemoryService:
                 "by_access_level": {},
                 "total_size": 0,
                 "oldest_memory": None,
-                "newest_memory": None
+                "newest_memory": None,
             }
 
             for memory in user_memories:
@@ -385,7 +463,9 @@ class MemoryService:
 
                 # Count by access level
                 access_level = memory["access_level"]
-                stats["by_access_level"][access_level] = stats["by_access_level"].get(access_level, 0) + 1
+                stats["by_access_level"][access_level] = (
+                    stats["by_access_level"].get(access_level, 0) + 1
+                )
 
                 # Calculate size
                 stats["total_size"] += memory["metadata"]["size"]
@@ -398,36 +478,42 @@ class MemoryService:
                     stats["newest_memory"] = created_at
 
             # Log statistics request
-            self.identity_client.log_activity("memory_stats_requested", user_id, {
-                "total_memories": stats["total_memories"],
-                "total_size": stats["total_size"]
-            })
+            self.identity_client.log_activity(
+                "memory_stats_requested",
+                user_id,
+                {
+                    "total_memories": stats["total_memories"],
+                    "total_size": stats["total_size"],
+                },
+            )
 
             return {"success": True, "stats": stats}
 
         except Exception as e:
             error_msg = f"Memory statistics error: {str(e)}"
-            self.identity_client.log_activity("memory_stats_error", user_id, {"error": error_msg})
+            self.identity_client.log_activity(
+                "memory_stats_error", user_id, {"error": error_msg}
+            )
             return {"success": False, "error": error_msg}
 
     def configure_cross_module_storage(self) -> None:
         """Configure storage for different modules"""
         storage_config = {
-            'identity': {
-                'type': 'encrypted_vault',
-                'retention': 'permanent',
-                'backup': 'quantum_redundant'
+            "identity": {
+                "type": "encrypted_vault",
+                "retention": "permanent",
+                "backup": "quantum_redundant",
             },
-            'consciousness': {
-                'type': 'stream_buffer',
-                'retention': '30_days',
-                'compression': 'neural'
+            "consciousness": {
+                "type": "stream_buffer",
+                "retention": "30_days",
+                "compression": "neural",
             },
-            'ethics': {
-                'type': 'immutable_ledger',
-                'retention': 'permanent',
-                'verification': 'blockchain'
-            }
+            "ethics": {
+                "type": "immutable_ledger",
+                "retention": "permanent",
+                "verification": "blockchain",
+            },
         }
 
         for module, config in storage_config.items():
@@ -435,15 +521,14 @@ class MemoryService:
 
             # Log configuration
             logger.info(f"Configured storage for module {module}: {config}")
-            self.identity_client.log_activity("storage_configured", "system", {
-                "module": module,
-                "config": config
-            })
+            self.identity_client.log_activity(
+                "storage_configured", "system", {"module": module, "config": config}
+            )
 
     def configure_storage(self, module: str, config: Dict[str, Any]) -> None:
         """Configure storage for a specific module"""
         # Store configuration (in production, this would set up actual storage backends)
-        if not hasattr(self, 'storage_configs'):
+        if not hasattr(self, "storage_configs"):
             self.storage_configs = {}
 
         self.storage_configs[module] = config
@@ -453,27 +538,36 @@ class MemoryService:
             self.memory_store[f"_module_{module}"] = {
                 "config": config,
                 "created_at": datetime.utcnow().isoformat(),
-                "storage_type": config.get('type'),
-                "data": {}
+                "storage_type": config.get("type"),
+                "data": {},
             }
 
 
 # Module API functions for easy import
-def store_memory(user_id: str, memory_type: str, content: Dict[str, Any],
-                access_level: str = "personal") -> Dict[str, Any]:
+def store_memory(
+    user_id: str,
+    memory_type: str,
+    content: Dict[str, Any],
+    access_level: str = "personal",
+) -> Dict[str, Any]:
     """Simplified API for memory storage."""
     service = MemoryService()
     return service.store_memory(user_id, memory_type, content, access_level)
+
 
 def retrieve_memory(user_id: str, memory_id: str) -> Dict[str, Any]:
     """Simplified API for memory retrieval."""
     service = MemoryService()
     return service.retrieve_memory(user_id, memory_id)
 
-def search_memory(user_id: str, query: str, memory_type: Optional[str] = None) -> Dict[str, Any]:
+
+def search_memory(
+    user_id: str, query: str, memory_type: Optional[str] = None
+) -> Dict[str, Any]:
     """Simplified API for memory search."""
     service = MemoryService()
     return service.search_memory(user_id, query, memory_type)
+
 
 def delete_memory(user_id: str, memory_id: str) -> Dict[str, Any]:
     """Simplified API for memory deletion."""
@@ -492,7 +586,7 @@ if __name__ == "__main__":
         test_user,
         "conversation",
         {"dialogue": "Test conversation", "topic": "AGI development"},
-        "personal"
+        "personal",
     )
     logging.info(f"Memory storage: {result}")
 
@@ -505,11 +599,15 @@ if __name__ == "__main__":
 
         # Test memory search
         search_results = memory_service.search_memory(test_user, "conversation")
-        logging.info(f"Memory search found: {len(search_results.get('results', []))} results")
+        logging.info(
+            f"Memory search found: {len(search_results.get('results', []))} results"
+        )
 
         # Test statistics
         stats = memory_service.get_memory_stats(test_user)
-        logging.info(f"Memory stats: {stats.get('stats', {}).get('total_memories', 0)} memories")
+        logging.info(
+            f"Memory stats: {stats.get('stats', {}).get('total_memories', 0)} memories"
+        )
 
 
 """

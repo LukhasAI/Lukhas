@@ -9,7 +9,9 @@
 """
 
 from sqlalchemy.orm import Session
+
 from .models import User
+
 
 def get_user_by_slug(db: Session, slug: str):
     """
@@ -17,11 +19,13 @@ def get_user_by_slug(db: Session, slug: str):
     """
     return db.query(User).filter(User.username_slug == slug).first()
 
+
 def get_user_by_email(db: Session, email: str):
     """
     Retrieve a user by email address.
     """
     return db.query(User).filter(User.email == email).first()
+
 
 def create_user(db: Session, user_data: dict):
     """

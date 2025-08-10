@@ -1,4 +1,3 @@
 """
 Specialized Module
 """
-

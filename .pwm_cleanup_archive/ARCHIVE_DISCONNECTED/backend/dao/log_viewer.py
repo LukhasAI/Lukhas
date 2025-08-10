@@ -5,27 +5,30 @@
 🖋️ AUTHOR       : LUKHAS AID SYSTEMS
 """
 
-import json
 import argparse
+import json
 from pathlib import Path
 
 LOG_PATH = Path("dao/zk_approval_log.jsonl")
+
 
 def load_logs():
     if not LOG_PATH.exists():
         print("[⚠️] No log file found.")
         return []
-    with open(LOG_PATH, "r") as f:
+    with open(LOG_PATH) as f:
         return [json.loads(line.strip()) for line in f if line.strip()]
+
 
 def print_log(entry):
     print(f"\n[📌] Compound: {entry['compound']}")
     print(f"     Timestamp : {entry['timestamp']}")
     print(f"     Approved  : {'✅' if entry['approved'] else '❌'}")
-    print(f"     Votes     :")
+    print("     Votes     :")
     for agent, vote in entry["votes"].items():
         status = "🟢 YES" if vote else ("🔴 NO" if vote is False else "⚫️ NULL")
         print(f"       - {agent}: {status}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Symbolic Policy Log Viewer")

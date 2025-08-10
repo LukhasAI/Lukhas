@@ -51,19 +51,15 @@ IDEA: Add predictive risk modeling with 10-minute intervention forecasting
 
 import json
 import time
-import asyncio
 import uuid
-from typing import Dict, Any, List, Optional, Tuple, Set, Union
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
-from enum import Enum
 from collections import defaultdict, deque
-import numpy as np
-import structlog
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
 from pathlib import Path
+from typing import Any, Optional
 
 # Configure structured logging
-from core.common import get_logger
 
 
 class ActionDecision(Enum):
@@ -111,13 +107,13 @@ class EscalationSignal:
     entropy: float
     emotion_volatility: float
     contradiction_density: float
-    memory_ids: List[str]
-    symbol_ids: List[str]
-    context: Dict[str, Any]
+    memory_ids: list[str]
+    symbol_ids: list[str]
+    context: dict[str, Any]
     recommended_action: Optional[ActionDecision] = None
     confidence: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
@@ -159,14 +155,14 @@ class ArbitrationResponse:
     decision: ActionDecision
     confidence: float
     risk_score: float
-    intervention_tags: List[str]
+    intervention_tags: list[str]
     reasoning: str
-    affected_symbols: List[str]
-    quarantine_scope: Optional[Dict[str, Any]] = None
-    rollback_plan: Optional[Dict[str, Any]] = None
-    mesh_notifications: List[str] = field(default_factory=list)
+    affected_symbols: list[str]
+    quarantine_scope: Optional[dict[str, Any]] = None
+    rollback_plan: Optional[dict[str, Any]] = None
+    mesh_notifications: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {**asdict(self), "decision": self.decision.value}
 
@@ -180,11 +176,11 @@ class InterventionExecution:
     timestamp: str
     decision: ActionDecision
     execution_status: str  # pending, executing, completed, failed, rolled_back
-    affected_systems: List[str]
-    execution_log: List[Dict[str, Any]] = field(default_factory=list)
+    affected_systems: list[str]
+    execution_log: list[dict[str, Any]] = field(default_factory=list)
     rollback_available: bool = True
 
-    def add_log_entry(self, action: str, status: str, details: Dict[str, Any] = None):
+    def add_log_entry(self, action: str, status: str, details: dict[str, Any] = None):
         """Add execution log entry."""
         self.execution_log.append(
             {
@@ -223,16 +219,16 @@ class LambdaGovernor:
         self.audit_log_retention = audit_log_retention
 
         # State tracking
-        self.active_escalations: Dict[str, EscalationSignal] = {}
+        self.active_escalations: dict[str, EscalationSignal] = {}
         self.escalation_history: deque = deque(maxlen=escalation_retention)
-        self.arbitration_responses: Dict[str, ArbitrationResponse] = {}
-        self.intervention_executions: Dict[str, InterventionExecution] = {}
+        self.arbitration_responses: dict[str, ArbitrationResponse] = {}
+        self.intervention_executions: dict[str, InterventionExecution] = {}
 
         # System state
-        self.quarantined_symbols: Set[str] = set()
-        self.frozen_systems: Set[str] = set()
-        self.restructured_components: Set[str] = set()
-        self.shutdown_systems: Set[str] = set()
+        self.quarantined_symbols: set[str] = set()
+        self.frozen_systems: set[str] = set()
+        self.restructured_components: set[str] = set()
+        self.shutdown_systems: set[str] = set()
 
         # Safety thresholds
         self.safety_thresholds = {
@@ -244,10 +240,10 @@ class LambdaGovernor:
         }
 
         # Integration interfaces
-        self.mesh_routers: List[Any] = []
-        self.dream_coordinators: List[Any] = []
-        self.memory_managers: List[Any] = []
-        self.subsystem_callbacks: Dict[str, callable] = {}
+        self.mesh_routers: list[Any] = []
+        self.dream_coordinators: list[Any] = []
+        self.memory_managers: list[Any] = []
+        self.subsystem_callbacks: dict[str, callable] = {}
 
         # Audit logging
         self.audit_log_path = Path("logs/ethical_governor.jsonl")
@@ -457,7 +453,7 @@ class LambdaGovernor:
         return composite_risk
 
     async def authorize_action(
-        self, risk_score: float, context: Dict[str, Any]
+        self, risk_score: float, context: dict[str, Any]
     ) -> ActionDecision:
         """
         Determine intervention based on risk score and context.
@@ -489,12 +485,11 @@ class LambdaGovernor:
             if context.get("drift_score", 0) > self.safety_thresholds["drift_cascade"]:
                 return ActionDecision.QUARANTINE
 
-        if risk_score >= self.safety_thresholds["emotion_freeze"]:
-            if (
-                context.get("emotion_volatility", 0)
-                > self.safety_thresholds["emotion_freeze"]
-            ):
-                return ActionDecision.FREEZE
+        if risk_score >= self.safety_thresholds["emotion_freeze"] and (
+            context.get("emotion_volatility", 0)
+            > self.safety_thresholds["emotion_freeze"]
+        ):
+            return ActionDecision.FREEZE
 
         # Risk-based decision matrix
         if risk_score >= 0.8:
@@ -771,7 +766,7 @@ class LambdaGovernor:
         self.subsystem_callbacks[subsystem_name] = callback
         logger.info("Subsystem callback registered", subsystem=subsystem_name)
 
-    def get_governor_status(self) -> Dict[str, Any]:
+    def get_governor_status(self) -> dict[str, Any]:
         """Get current governor status and statistics."""
         return {
             "status": "active",
@@ -829,7 +824,7 @@ class LambdaGovernor:
 
     def _generate_intervention_tags(
         self, signal: EscalationSignal, decision: ActionDecision
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate intervention tags for the response."""
         tags = ["AINTERVENTION"]
 
@@ -888,7 +883,7 @@ class LambdaGovernor:
 
     def _determine_quarantine_scope(
         self, signal: EscalationSignal, decision: ActionDecision
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Determine quarantine scope for applicable decisions."""
         if decision not in [ActionDecision.QUARANTINE, ActionDecision.SHUTDOWN]:
             return None
@@ -909,7 +904,7 @@ class LambdaGovernor:
 
     def _create_rollback_plan(
         self, signal: EscalationSignal, decision: ActionDecision
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[dict[str, Any]]:
         """Create rollback plan for interventions."""
         if decision == ActionDecision.ALLOW:
             return None
@@ -950,7 +945,7 @@ class LambdaGovernor:
             ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             now = datetime.now(timezone.utc)
             return (now - ts) < timedelta(minutes=minutes)
-        except:
+        except BaseException:
             return False
 
 
@@ -972,9 +967,9 @@ def create_escalation_signal(
     entropy: float,
     emotion_volatility: float,
     contradiction_density: float,
-    symbol_ids: List[str],
-    memory_ids: List[str] = None,
-    context: Dict[str, Any] = None,
+    symbol_ids: list[str],
+    memory_ids: list[str] = None,
+    context: dict[str, Any] = None,
 ) -> EscalationSignal:
     """Create an escalation signal for governor processing."""
 

@@ -4,24 +4,25 @@ Analyze module dependencies and generate dependency report.
 """
 
 import ast
-import os
-import json
-from pathlib import Path
 from collections import defaultdict
-from typing import Dict, List, Set, Tuple
+from pathlib import Path
+from typing import Dict, List, Set
+
 try:
-    import networkx as nx
     import matplotlib.pyplot as plt
+    import networkx as nx
+
     HAS_GRAPH_LIBS = True
 except ImportError:
     HAS_GRAPH_LIBS = False
+
 
 def extract_imports(filepath: Path) -> List[str]:
     """Extract all import statements from a Python file."""
     imports = []
 
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding="utf-8") as f:
             tree = ast.parse(f.read())
     except:
         return imports
@@ -36,26 +37,47 @@ def extract_imports(filepath: Path) -> List[str]:
 
     return imports
 
+
 def categorize_import(import_name: str, internal_modules: Set[str]) -> str:
     """Categorize an import as internal, external, or standard library."""
     # Standard library modules (common ones)
     stdlib = {
-        'os', 'sys', 'json', 'datetime', 'time', 'random', 'math',
-        'collections', 'itertools', 'functools', 'typing', 'pathlib',
-        're', 'ast', 'logging', 'traceback', 'copy', 'pickle',
-        'subprocess', 'threading', 'asyncio', 'unittest', 'abc'
+        "os",
+        "sys",
+        "json",
+        "datetime",
+        "time",
+        "random",
+        "math",
+        "collections",
+        "itertools",
+        "functools",
+        "typing",
+        "pathlib",
+        "re",
+        "ast",
+        "logging",
+        "traceback",
+        "copy",
+        "pickle",
+        "subprocess",
+        "threading",
+        "asyncio",
+        "unittest",
+        "abc",
     }
 
-    base_module = import_name.split('.')[0]
+    base_module = import_name.split(".")[0]
 
     if base_module in stdlib:
-        return 'stdlib'
+        return "stdlib"
     elif base_module in internal_modules:
-        return 'internal'
-    elif import_name.startswith('.'):
-        return 'relative'
+        return "internal"
+    elif import_name.startswith("."):
+        return "relative"
     else:
-        return 'external'
+        return "external"
+
 
 def analyze_module_dependencies(base_path: Path) -> Dict[str, Dict]:
     """Analyze dependencies for all modules."""
@@ -63,18 +85,20 @@ def analyze_module_dependencies(base_path: Path) -> Dict[str, Dict]:
     modules = {
         d.name: d
         for d in base_path.iterdir()
-        if d.is_dir() and not d.name.startswith('.') and d.name not in ['scripts', 'tests', 'docs', 'examples']
+        if d.is_dir()
+        and not d.name.startswith(".")
+        and d.name not in ["scripts", "tests", "docs", "examples"]
     }
 
     internal_modules = set(modules.keys())
-    dependency_graph = defaultdict(lambda: {'imports': set(), 'imported_by': set()})
+    dependency_graph = defaultdict(lambda: {"imports": set(), "imported_by": set()})
     module_stats = {}
 
     for module_name, module_path in modules.items():
         print(f"Analyzing {module_name}...")
 
-        py_files = list(module_path.rglob('*.py'))
-        py_files = [f for f in py_files if '__pycache__' not in str(f)]
+        py_files = list(module_path.rglob("*.py"))
+        py_files = [f for f in py_files if "__pycache__" not in str(f)]
 
         imports_by_category = defaultdict(set)
         file_count = len(py_files)
@@ -87,20 +111,21 @@ def analyze_module_dependencies(base_path: Path) -> Dict[str, Dict]:
                 imports_by_category[category].add(imp)
 
                 # Track internal dependencies
-                if category == 'internal':
-                    imported_module = imp.split('.')[0]
-                    dependency_graph[module_name]['imports'].add(imported_module)
-                    dependency_graph[imported_module]['imported_by'].add(module_name)
+                if category == "internal":
+                    imported_module = imp.split(".")[0]
+                    dependency_graph[module_name]["imports"].add(imported_module)
+                    dependency_graph[imported_module]["imported_by"].add(module_name)
 
         module_stats[module_name] = {
-            'file_count': file_count,
-            'internal_deps': sorted(imports_by_category['internal']),
-            'external_deps': sorted(imports_by_category['external']),
-            'stdlib_deps': sorted(imports_by_category['stdlib']),
-            'relative_imports': len(imports_by_category['relative'])
+            "file_count": file_count,
+            "internal_deps": sorted(imports_by_category["internal"]),
+            "external_deps": sorted(imports_by_category["external"]),
+            "stdlib_deps": sorted(imports_by_category["stdlib"]),
+            "relative_imports": len(imports_by_category["relative"]),
         }
 
     return module_stats, dict(dependency_graph)
+
 
 def generate_dependency_report(module_stats: Dict, dependency_graph: Dict) -> str:
     """Generate a markdown report of module dependencies."""
@@ -116,9 +141,9 @@ This report analyzes the dependencies between modules in the LUKHAS system.
 """
 
     for module, stats in sorted(module_stats.items()):
-        internal = len([d for d in stats['internal_deps'] if '.' not in d])
-        external = len(stats['external_deps'])
-        stdlib = len(stats['stdlib_deps'])
+        internal = len([d for d in stats["internal_deps"] if "." not in d])
+        external = len(stats["external_deps"])
+        stdlib = len(stats["stdlib_deps"])
 
         report += f"| {module} | {stats['file_count']} | {internal} | {external} | {stdlib} |\n"
 
@@ -128,8 +153,10 @@ This report analyzes the dependencies between modules in the LUKHAS system.
     # Calculate connectivity
     connectivity = []
     for module, deps in dependency_graph.items():
-        total_connections = len(deps['imports']) + len(deps['imported_by'])
-        connectivity.append((module, total_connections, len(deps['imports']), len(deps['imported_by'])))
+        total_connections = len(deps["imports"]) + len(deps["imported_by"])
+        connectivity.append(
+            (module, total_connections, len(deps["imports"]), len(deps["imported_by"]))
+        )
 
     connectivity.sort(key=lambda x: x[1], reverse=True)
 
@@ -143,14 +170,16 @@ This report analyzes the dependencies between modules in the LUKHAS system.
 
     for module in sorted(dependency_graph.keys()):
         deps = dependency_graph[module]
-        if deps['imports'] or deps['imported_by']:
+        if deps["imports"] or deps["imported_by"]:
             report += f"#### {module}\n"
 
-            if deps['imports']:
+            if deps["imports"]:
                 report += f"- **Imports**: {', '.join(sorted(deps['imports']))}\n"
 
-            if deps['imported_by']:
-                report += f"- **Imported by**: {', '.join(sorted(deps['imported_by']))}\n"
+            if deps["imported_by"]:
+                report += (
+                    f"- **Imported by**: {', '.join(sorted(deps['imported_by']))}\n"
+                )
 
             report += "\n"
 
@@ -159,15 +188,16 @@ This report analyzes the dependencies between modules in the LUKHAS system.
 
     all_external = set()
     for stats in module_stats.values():
-        all_external.update(stats['external_deps'])
+        all_external.update(stats["external_deps"])
 
     if all_external:
         report += "### All External Packages Used\n"
         for pkg in sorted(all_external):
-            base_pkg = pkg.split('.')[0]
+            base_pkg = pkg.split(".")[0]
             report += f"- `{base_pkg}`\n"
 
     return report
+
 
 def visualize_dependencies(dependency_graph: Dict, output_path: Path):
     """Create a visual graph of module dependencies."""
@@ -179,7 +209,7 @@ def visualize_dependencies(dependency_graph: Dict, output_path: Path):
     # Add nodes and edges
     for module, deps in dependency_graph.items():
         G.add_node(module)
-        for imported in deps['imports']:
+        for imported in deps["imports"]:
             G.add_edge(module, imported)
 
     # Calculate layout
@@ -190,28 +220,35 @@ def visualize_dependencies(dependency_graph: Dict, output_path: Path):
 
     # Draw nodes
     node_sizes = [300 * (1 + G.degree(node)) for node in G.nodes()]
-    nx.draw_networkx_nodes(G, pos, node_size=node_sizes, node_color='lightblue', alpha=0.7)
+    nx.draw_networkx_nodes(
+        G, pos, node_size=node_sizes, node_color="lightblue", alpha=0.7
+    )
 
     # Draw edges
-    nx.draw_networkx_edges(G, pos, edge_color='gray', alpha=0.5, arrows=True)
+    nx.draw_networkx_edges(G, pos, edge_color="gray", alpha=0.5, arrows=True)
 
     # Draw labels
     nx.draw_networkx_labels(G, pos, font_size=8)
 
     plt.title("Module Dependency Graph")
-    plt.axis('off')
+    plt.axis("off")
     plt.tight_layout()
-    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
+
 
 def main():
     """Main function."""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Analyze module dependencies')
-    parser.add_argument('--path', type=str, default='.', help='Base path')
-    parser.add_argument('--output', type=str, default='dependency_report.md', help='Output report file')
-    parser.add_argument('--graph', action='store_true', help='Generate dependency graph visualization')
+    parser = argparse.ArgumentParser(description="Analyze module dependencies")
+    parser.add_argument("--path", type=str, default=".", help="Base path")
+    parser.add_argument(
+        "--output", type=str, default="dependency_report.md", help="Output report file"
+    )
+    parser.add_argument(
+        "--graph", action="store_true", help="Generate dependency graph visualization"
+    )
     args = parser.parse_args()
 
     base_path = Path(args.path).resolve()
@@ -239,22 +276,25 @@ def main():
             print("⚠️  matplotlib/networkx not installed, skipping graph generation")
 
     # Print summary
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("Summary:")
     print(f"- Analyzed {len(module_stats)} modules")
-    print(f"- Found {sum(len(d['imports']) for d in dependency_graph.values())} dependencies")
+    print(
+        f"- Found {sum(len(d['imports']) for d in dependency_graph.values())} dependencies"
+    )
 
     # Find potential issues
     circular_deps = []
     for module, deps in dependency_graph.items():
-        for imported in deps['imports']:
-            if module in dependency_graph.get(imported, {}).get('imports', []):
+        for imported in deps["imports"]:
+            if module in dependency_graph.get(imported, {}).get("imports", []):
                 circular_deps.append((module, imported))
 
     if circular_deps:
         print(f"\n⚠️  Found {len(circular_deps)} potential circular dependencies:")
         for a, b in circular_deps[:5]:
             print(f"  - {a} <-> {b}")
+
 
 if __name__ == "__main__":
     main()

@@ -8,15 +8,14 @@ enabling self-healing systems through hierarchical error handling.
 
 import asyncio
 import logging
-from typing import Dict, List, Optional, Union, Callable, Any
-from enum import Enum
-from dataclasses import dataclass, field
 import time
-import traceback
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from core.actor_system import Actor, ActorRef, ActorSystem, ActorMessage
 from bio.bio_utilities import simulate_colony_self_repair
+from core.actor_system import Actor, ActorMessage, ActorRef
 
 logger = logging.getLogger(__name__)
 
@@ -303,7 +302,7 @@ class SupervisorActor(Actor):
 
             return child_ref
 
-        except Exception as e:
+        except Exception:
             self.circuit_breaker.record_failure()
             raise
 

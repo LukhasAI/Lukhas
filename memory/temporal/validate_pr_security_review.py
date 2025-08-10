@@ -16,12 +16,11 @@ Created: 2025-07-02
 Status: VALIDATION TOOL ✅
 """
 
-import os
 import json
-import time
 import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
+
 
 def validate_pr_security_review():
     """Validate that the PR security review system is working"""
@@ -38,7 +37,7 @@ def validate_pr_security_review():
 
     # Check for recent log entries
     log_content = log_file.read_text()
-    log_entries = log_content.strip().split('\n')
+    log_entries = log_content.strip().split("\n")
 
     if not log_entries:
         print("❌ PR security review log is empty!")
@@ -70,23 +69,26 @@ def validate_pr_security_review():
 
         # Parse the latest report
         try:
-            with open(latest_report, 'r') as f:
+            with open(latest_report) as f:
                 report_data = json.load(f)
 
             summary = report_data.get("summary", {})
 
-            print(f"\nSummary from latest report:")
-            print(f"- Repositories processed: {summary.get('repositories_processed', 0)}")
+            print("\nSummary from latest report:")
+            print(
+                f"- Repositories processed: {summary.get('repositories_processed', 0)}"
+            )
             print(f"- PRs scanned: {summary.get('stats', {}).get('prs_scanned', 0)}")
-            print(f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}")
+            print(
+                f"- Security issues found: {summary.get('stats', {}).get('security_issues_found', 0)}"
+            )
             print(f"- Security PRs identified: {summary.get('total_security_prs', 0)}")
             print(f"- Critical security PRs: {summary.get('critical_security_prs', 0)}")
             print(f"- PRs reviewed: {summary.get('stats', {}).get('prs_reviewed', 0)}")
 
-            unresolved = (
-                summary.get('total_security_prs', 0) -
-                summary.get('stats', {}).get('prs_reviewed', 0)
-            )
+            unresolved = summary.get("total_security_prs", 0) - summary.get(
+                "stats", {}
+            ).get("prs_reviewed", 0)
 
             if unresolved == 0:
                 print("✅ All security PRs have been reviewed!")
@@ -94,14 +96,16 @@ def validate_pr_security_review():
                 print(f"⚠️ {unresolved} security PRs still need review")
 
             # Check if we've addressed the 264 security issues
-            if summary.get('stats', {}).get('security_issues_found', 0) >= 264:
-                issues_fixed = summary.get('stats', {}).get('security_issues_fixed', 0)
+            if summary.get("stats", {}).get("security_issues_found", 0) >= 264:
+                issues_fixed = summary.get("stats", {}).get("security_issues_fixed", 0)
                 issues_remaining = 264 - issues_fixed
 
                 if issues_remaining <= 0:
                     print("✅ All 264 security issues have been addressed!")
                 else:
-                    print(f"⚠️ {issues_remaining} of 264 security issues still need to be addressed")
+                    print(
+                        f"⚠️ {issues_remaining} of 264 security issues still need to be addressed"
+                    )
 
         except Exception as e:
             print(f"❌ Error parsing report: {e}")
@@ -110,11 +114,7 @@ def validate_pr_security_review():
 
     # Check if the LaunchAgent is running
     try:
-        result = subprocess.run(
-            ["launchctl", "list"],
-            capture_output=True,
-            text=True
-        )
+        result = subprocess.run(["launchctl", "list"], capture_output=True, text=True)
 
         if "com.agi.lambda_bot_pr_security_review" in result.stdout:
             print("\n✅ PR security review LaunchAgent is active")
@@ -131,6 +131,7 @@ def validate_pr_security_review():
     print("3. Check the logs for errors:")
     print("   cat /Users/A_G_I/Lukhas/pr_security_review.log")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     validate_pr_security_review()

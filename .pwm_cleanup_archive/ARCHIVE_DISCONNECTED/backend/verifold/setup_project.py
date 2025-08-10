@@ -14,13 +14,12 @@ TODO: Add dependency conflict resolution
 TODO: Add configuration validation
 """
 
-import os
-import sys
+import argparse
 import json
 import subprocess
-import argparse
+import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class CollapseHashSetup:
@@ -45,7 +44,7 @@ class CollapseHashSetup:
             "config_created": False,
             "directories_created": False,
             "test_vectors_loaded": False,
-            "web_templates_ready": False
+            "web_templates_ready": False,
         }
 
     def check_python_version(self) -> bool:
@@ -61,10 +60,14 @@ class CollapseHashSetup:
         current_version = sys.version_info[:2]
 
         if current_version < min_version:
-            print(f"❌ Python {min_version[0]}.{min_version[1]}+ required. Current: {current_version[0]}.{current_version[1]}")
+            print(
+                f"❌ Python {min_version[0]}.{min_version[1]}+ required. Current: {current_version[0]}.{current_version[1]}"
+            )
             return False
 
-        print(f"✅ Python version check passed: {current_version[0]}.{current_version[1]}")
+        print(
+            f"✅ Python version check passed: {current_version[0]}.{current_version[1]}"
+        )
         return True
 
     def install_dependencies(self, dev_mode: bool = False) -> bool:
@@ -89,7 +92,14 @@ class CollapseHashSetup:
 
         try:
             # Install core dependencies
-            cmd = [sys.executable, "-m", "pip", "install", "-r", str(self.requirements_file)]
+            cmd = [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "-r",
+                str(self.requirements_file),
+            ]
             if dev_mode:
                 print("  Installing development dependencies...")
 
@@ -121,7 +131,7 @@ class CollapseHashSetup:
             ("oqs", "liboqs-python"),
             ("hashlib", "built-in"),
             ("json", "built-in"),
-            ("numpy", "numpy")
+            ("numpy", "numpy"),
         ]
 
         failed_imports = []
@@ -161,7 +171,7 @@ class CollapseHashSetup:
             "qr_codes",
             "web_templates",
             "tests",
-            "docs"
+            "docs",
         ]
 
         try:
@@ -192,7 +202,7 @@ class CollapseHashSetup:
         if self.config_file.exists():
             print(f"  ℹ️ Configuration file already exists: {self.config_file}")
             response = input("  Overwrite existing config? (y/N): ").lower()
-            if response != 'y':
+            if response != "y":
                 print("  Keeping existing configuration")
                 self.setup_status["config_created"] = True
                 return True
@@ -208,35 +218,35 @@ class CollapseHashSetup:
             "verification": {
                 "timeout_seconds": 30,
                 "max_retries": 3,
-                "cache_results": True
+                "cache_results": True,
             },
             "logging": {
                 "level": "INFO",
                 "file": "logs/collapse_hash.log",
                 "max_size_mb": 10,
-                "backup_count": 5
+                "backup_count": 5,
             },
             "web_interface": {
                 "host": "0.0.0.0",
                 "port": 5000,
                 "debug": False,
-                "secret_key": "CHANGE_THIS_IN_PRODUCTION"
+                "secret_key": "CHANGE_THIS_IN_PRODUCTION",
             },
             "hardware": {
                 "use_tpm": False,
                 "use_yubikey": False,
-                "entropy_sources": ["system", "quantum"]
+                "entropy_sources": ["system", "quantum"],
             },
             "storage": {
                 "ledger_file": "collapse_logbook.jsonl",
                 "test_vectors": "test_vectors.json",
                 "backup_enabled": True,
-                "backup_interval_hours": 24
-            }
+                "backup_interval_hours": 24,
+            },
         }
 
         try:
-            with open(self.config_file, 'w') as f:
+            with open(self.config_file, "w") as f:
                 json.dump(default_config, f, indent=2)
 
             print(f"  ✅ Configuration created: {self.config_file}")
@@ -290,8 +300,7 @@ class CollapseHashSetup:
             # Test 1: Import core modules
             print("  Testing core module imports...")
             import collapse_hash_pq
-            import collapse_verifier
-            import collapse_hash_utils
+
             print("    ✅ Core modules import successfully")
 
             # Test 2: Basic hash generation
@@ -302,7 +311,7 @@ class CollapseHashSetup:
             # Test 3: Configuration loading
             print("  Testing configuration loading...")
             if self.config_file.exists():
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file) as f:
                     config = json.load(f)
                 print("    ✅ Configuration loads successfully")
 
@@ -319,9 +328,9 @@ class CollapseHashSetup:
         TODO: Add more detailed status reporting
         TODO: Add troubleshooting suggestions
         """
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print("📋 SETUP SUMMARY")
-        print("="*50)
+        print("=" * 50)
 
         for task, completed in self.setup_status.items():
             status = "✅" if completed else "❌"
@@ -347,7 +356,7 @@ class CollapseHashSetup:
 
         print(f"\nProject root: {self.project_root}")
         print(f"Configuration: {self.config_file}")
-        print("="*50)
+        print("=" * 50)
 
     def run_full_setup(self, dev_mode: bool = False, skip_deps: bool = False) -> bool:
         """
@@ -410,17 +419,21 @@ Examples:
   python setup_project.py --dev             # Setup with dev dependencies
   python setup_project.py --no-deps         # Setup without installing deps
   python setup_project.py --config-only     # Only create configuration
-        """
+        """,
     )
 
-    parser.add_argument("--dev", action="store_true",
-                       help="Install development dependencies")
-    parser.add_argument("--no-deps", action="store_true",
-                       help="Skip dependency installation")
-    parser.add_argument("--config-only", action="store_true",
-                       help="Only create configuration file")
-    parser.add_argument("--project-root", type=str,
-                       help="Specify project root directory")
+    parser.add_argument(
+        "--dev", action="store_true", help="Install development dependencies"
+    )
+    parser.add_argument(
+        "--no-deps", action="store_true", help="Skip dependency installation"
+    )
+    parser.add_argument(
+        "--config-only", action="store_true", help="Only create configuration file"
+    )
+    parser.add_argument(
+        "--project-root", type=str, help="Specify project root directory"
+    )
 
     args = parser.parse_args()
 
@@ -433,8 +446,7 @@ Examples:
         success = setup_manager.create_config()
     else:
         success = setup_manager.run_full_setup(
-            dev_mode=args.dev,
-            skip_deps=args.no_deps
+            dev_mode=args.dev, skip_deps=args.no_deps
         )
 
     # Exit with appropriate code

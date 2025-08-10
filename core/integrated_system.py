@@ -8,29 +8,21 @@ to create a sustainable, energy-efficient AI system.
 """
 
 import asyncio
-import json
-import time
-import uuid
-from typing import Dict, List, Any, Optional
 import logging
-
-# Import our core components
-from core.event_sourcing import get_global_event_store, AIAgentAggregate, EventReplayService
-from core.actor_system import get_global_actor_system, AIAgentActor, ActorRef
-from core.distributed_tracing import create_ai_tracer, get_global_collector
-from core.efficient_communication import EfficientCommunicationFabric, MessagePriority
+import uuid
+from typing import Any, Optional
 
 from bio import MitochondriaModel
+from core.colonies.base_colony import BaseColony
+from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony import MemoryColony
+from core.colonies.reasoning_colony import ReasoningColony
+
+# Import our core components
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-from core.colonies.base_colony import BaseColony
-from core.colonies.reasoning_colony import ReasoningColony
-from core.event_sourcing import EventReplayService
-from core.distributed_tracing import get_global_collector
 
 
 class DistributedAISystem:
@@ -44,7 +36,7 @@ class DistributedAISystem:
         energy_model: Optional[MitochondriaModel] = None,
     ):
         self.system_name = system_name
-        self.colonies: Dict[str, BaseColony] = {}
+        self.colonies: dict[str, BaseColony] = {}
         self.is_running = False
         self.energy_model = energy_model or MitochondriaModel()
 
@@ -68,7 +60,7 @@ class DistributedAISystem:
 
         logger.info(f"Distributed AI System '{self.system_name}' stopped")
 
-    def task_priority_score(self, task_data: Dict[str, Any]) -> float:
+    def task_priority_score(self, task_data: dict[str, Any]) -> float:
         """Compute task priority influenced by mitochondrial energy."""
         base_priority = float(task_data.get("priority", 0.5))
         energy_factor = self.energy_model.energy_output()
@@ -92,8 +84,8 @@ class DistributedAISystem:
         return colony
 
     async def execute_distributed_task(
-        self, task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute a task that requires coordination between multiple colonies
         """
@@ -103,7 +95,7 @@ class DistributedAISystem:
         required_capabilities = task_data.get("required_capabilities", ["reasoning"])
         suitable_colonies = []
 
-        for colony_id, colony in self.colonies.items():
+        for _colony_id, colony in self.colonies.items():
             if any(cap in colony.capabilities for cap in required_capabilities):
                 suitable_colonies.append(colony)
 
@@ -124,7 +116,10 @@ class DistributedAISystem:
 
         result = await primary_colony.execute_task(
             task_id,
-            {**task_data, "requires_collaboration": len(required_capabilities) > 1},
+            {
+                **task_data,
+                "requires_collaboration": len(required_capabilities) > 1,
+            },
         )
 
         return {
@@ -135,7 +130,7 @@ class DistributedAISystem:
             "system_stats": await self.get_system_statistics(),
         }
 
-    async def get_system_statistics(self) -> Dict[str, Any]:
+    async def get_system_statistics(self) -> dict[str, Any]:
         """Get comprehensive system statistics"""
         stats = {
             "system_name": self.system_name,
@@ -148,10 +143,6 @@ class DistributedAISystem:
             stats["colonies"][colony_id] = colony.get_status()
 
         return stats
-
-
-from core.colonies.memory_colony import MemoryColony
-from core.colonies.creativity_colony import CreativityColony
 
 
 async def demo_integrated_system():
@@ -212,7 +203,7 @@ async def demo_integrated_system():
                 print(f"    ⚡ Energy Efficiency: {efficiency:.1%}")
 
         # Get comprehensive system statistics
-        print(f"\n📊 System Performance Analysis")
+        print("\n📊 System Performance Analysis")
         print("-" * 40)
 
         final_stats = await system.get_system_statistics()
@@ -222,15 +213,15 @@ async def demo_integrated_system():
             print(f"  Capabilities: {colony_stats.get('capabilities', [])}")
             print(f"  Is Running: {colony_stats.get('is_running', False)}")
 
-        print(f"\n🎉 Demo completed successfully!")
+        print("\n🎉 Demo completed successfully!")
         print(f"   Total colonies: {final_stats['colony_count']}")
         print(f"   Tasks executed: {len(results)}")
-        print(f"   System efficiency: Optimized for sustainability")
+        print("   System efficiency: Optimized for sustainability")
 
     finally:
         # Clean shutdown
         await system.stop()
-        print(f"\n🛑 System stopped gracefully")
+        print("\n🛑 System stopped gracefully")
 
 
 if __name__ == "__main__":

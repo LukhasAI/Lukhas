@@ -50,27 +50,33 @@ TODO: Add adversarial pattern generation with ML-based attack sophistication
 IDEA: Implement quantum-safe attack simulation for distributed mesh penetration
 """
 
+import argparse
+import asyncio
 import json
+import random
 import time
 import uuid
-import asyncio
-import argparse
-from typing import Dict, Any, List, Optional, Tuple, Set
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-import random
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import structlog
 
 # Import LUKHAS ethical system components
 try:
-    from ethics.sentinel.ethical_drift_sentinel import (
-        EthicalDriftSentinel, ViolationType, EscalationTier
-    )
     from ethics.governor.lambda_governor import (
-        LambdaGovernor, EscalationSource, EscalationPriority, ActionDecision
+        ActionDecision,
+        EscalationPriority,
+        EscalationSource,
+        LambdaGovernor,
+    )
+    from ethics.sentinel.ethical_drift_sentinel import (
+        EscalationTier,
+        EthicalDriftSentinel,
+        ViolationType,
     )
 except ImportError:
     # Fallback for standalone testing
@@ -98,12 +104,14 @@ except ImportError:
         RESTRUCTURE = "RESTRUCTURE"
         SHUTDOWN = "SHUTDOWN"
 
+
 # Configure structured logging
 logger = structlog.get_logger("ΛSHIELD.simulation")
 
 
 class AttackVectorType(Enum):
     """Types of simulated attack vectors."""
+
     GRADUAL_DRIFT = "GRADUAL_DRIFT"
     SUDDEN_SPIKE = "SUDDEN_SPIKE"
     OSCILLATING_PATTERN = "OSCILLATING_PATTERN"
@@ -114,6 +122,7 @@ class AttackVectorType(Enum):
 
 class SimulationStatus(Enum):
     """Simulation execution status."""
+
     PENDING = "PENDING"
     INJECTING = "INJECTING"
     MONITORING = "MONITORING"
@@ -126,6 +135,7 @@ class SimulationStatus(Enum):
 @dataclass
 class SyntheticViolation:
     """Synthetic violation for firewall testing."""
+
     violation_id: str
     timestamp: str
     violation_type: ViolationType
@@ -140,15 +150,16 @@ class SyntheticViolation:
     def to_dict(self) -> Dict[str, Any]:
         return {
             **asdict(self),
-            'violation_type': self.violation_type.value,
-            'attack_vector': self.attack_vector.value,
-            'severity_target': self.severity_target.value
+            "violation_type": self.violation_type.value,
+            "attack_vector": self.attack_vector.value,
+            "severity_target": self.severity_target.value,
         }
 
 
 @dataclass
 class FirewallResponse:
     """Firewall response to synthetic violation."""
+
     response_id: str
     violation_id: str
     timestamp: str
@@ -163,15 +174,16 @@ class FirewallResponse:
     def to_dict(self) -> Dict[str, Any]:
         result = asdict(self)
         if self.escalation_tier:
-            result['escalation_tier'] = self.escalation_tier.value
+            result["escalation_tier"] = self.escalation_tier.value
         if self.intervention_action:
-            result['intervention_action'] = self.intervention_action.value
+            result["intervention_action"] = self.intervention_action.value
         return result
 
 
 @dataclass
 class SimulationReport:
     """Complete simulation report with analysis."""
+
     simulation_id: str
     timestamp: str
     total_violations: int
@@ -188,7 +200,9 @@ class SimulationReport:
     def calculate_metrics(self):
         """Calculate derived metrics."""
         if self.total_violations > 0:
-            self.detection_coverage = (self.detected_violations / self.total_violations) * 100
+            self.detection_coverage = (
+                self.detected_violations / self.total_violations
+            ) * 100
         else:
             self.detection_coverage = 0.0
 
@@ -200,9 +214,11 @@ class LambdaShieldTester:
     Simulates sophisticated ethical attacks and validates firewall responses.
     """
 
-    def __init__(self,
-                 log_dir: Path = Path("logs/shield_simulation"),
-                 response_timeout: float = 10.0):
+    def __init__(
+        self,
+        log_dir: Path = Path("logs/shield_simulation"),
+        response_timeout: float = 10.0,
+    ):
         """
         Initialize ΛSHIELD tester.
 
@@ -226,45 +242,47 @@ class LambdaShieldTester:
         # Attack patterns configuration
         self.attack_patterns = {
             AttackVectorType.GRADUAL_DRIFT: {
-                'duration_seconds': 30,
-                'ramp_factor': 0.1,
-                'final_multiplier': 3.0
+                "duration_seconds": 30,
+                "ramp_factor": 0.1,
+                "final_multiplier": 3.0,
             },
             AttackVectorType.SUDDEN_SPIKE: {
-                'duration_seconds': 2,
-                'spike_multiplier': 10.0
+                "duration_seconds": 2,
+                "spike_multiplier": 10.0,
             },
             AttackVectorType.OSCILLATING_PATTERN: {
-                'duration_seconds': 20,
-                'frequency_hz': 0.5,
-                'amplitude_factor': 2.0
+                "duration_seconds": 20,
+                "frequency_hz": 0.5,
+                "amplitude_factor": 2.0,
             },
             AttackVectorType.COORDINATED_MULTI_VECTOR: {
-                'duration_seconds': 15,
-                'vector_count': 3,
-                'coordination_delay_ms': 100
+                "duration_seconds": 15,
+                "vector_count": 3,
+                "coordination_delay_ms": 100,
             },
             AttackVectorType.STEALTH_ACCUMULATION: {
-                'duration_seconds': 60,
-                'stealth_factor': 0.8,
-                'accumulation_rate': 0.05
+                "duration_seconds": 60,
+                "stealth_factor": 0.8,
+                "accumulation_rate": 0.05,
             },
             AttackVectorType.CASCADE_TRIGGER: {
-                'duration_seconds': 5,
-                'trigger_threshold': 0.85,
-                'cascade_multiplier': 5.0
-            }
+                "duration_seconds": 5,
+                "trigger_threshold": 0.85,
+                "cascade_multiplier": 5.0,
+            },
         }
 
-        logger.info("ΛSHIELD tester initialized",
-                   log_dir=str(log_dir),
-                   ΛTAG="ΛSHIELD_INIT")
+        logger.info(
+            "ΛSHIELD tester initialized", log_dir=str(log_dir), ΛTAG="ΛSHIELD_INIT"
+        )
 
-    def generate_synthetic_violations(self,
-                                    count: int,
-                                    violation_types: Optional[List[ViolationType]] = None,
-                                    attack_vectors: Optional[List[AttackVectorType]] = None,
-                                    severity_distribution: Optional[Dict[EscalationTier, float]] = None) -> List[SyntheticViolation]:
+    def generate_synthetic_violations(
+        self,
+        count: int,
+        violation_types: Optional[List[ViolationType]] = None,
+        attack_vectors: Optional[List[AttackVectorType]] = None,
+        severity_distribution: Optional[Dict[EscalationTier, float]] = None,
+    ) -> List[SyntheticViolation]:
         """
         Generate synthetic violations for firewall testing.
 
@@ -277,9 +295,9 @@ class LambdaShieldTester:
         Returns:
             List of synthetic violations
         """
-        logger.info("Generating synthetic violations",
-                   count=count,
-                   ΛTAG="ΛSHIELD_GENERATE")
+        logger.info(
+            "Generating synthetic violations", count=count, ΛTAG="ΛSHIELD_GENERATE"
+        )
 
         # Default configurations
         if violation_types is None:
@@ -293,7 +311,7 @@ class LambdaShieldTester:
                 EscalationTier.NOTICE: 0.3,
                 EscalationTier.WARNING: 0.3,
                 EscalationTier.CRITICAL: 0.25,
-                EscalationTier.CASCADE_LOCK: 0.15
+                EscalationTier.CASCADE_LOCK: 0.15,
             }
 
         violations = []
@@ -306,15 +324,19 @@ class LambdaShieldTester:
             # Select severity based on distribution
             severity_target = np.random.choice(
                 list(severity_distribution.keys()),
-                p=list(severity_distribution.values())
+                p=list(severity_distribution.values()),
             )
 
             # Generate violation values based on type and severity
-            injected_values = self._generate_violation_values(violation_type, severity_target, attack_vector)
+            injected_values = self._generate_violation_values(
+                violation_type, severity_target, attack_vector
+            )
 
             # Generate affected symbols
             symbol_count = random.randint(1, 5)
-            affected_symbols = [f"SYM_{uuid.uuid4().hex[:8]}" for _ in range(symbol_count)]
+            affected_symbols = [
+                f"SYM_{uuid.uuid4().hex[:8]}" for _ in range(symbol_count)
+            ]
 
             # Calculate stealth factor
             stealth_factor = 0.0
@@ -333,29 +355,34 @@ class LambdaShieldTester:
                 injected_values=injected_values,
                 affected_symbols=affected_symbols,
                 attack_metadata={
-                    'generation_seed': random.randint(0, 1000000),
-                    'pattern_config': self.attack_patterns.get(attack_vector, {}),
-                    'expected_detection_probability': 1.0 - stealth_factor
+                    "generation_seed": random.randint(0, 1000000),
+                    "pattern_config": self.attack_patterns.get(attack_vector, {}),
+                    "expected_detection_probability": 1.0 - stealth_factor,
                 },
-                expected_detection=stealth_factor < 0.7,  # High stealth may evade detection
-                stealth_factor=stealth_factor
+                expected_detection=stealth_factor
+                < 0.7,  # High stealth may evade detection
+                stealth_factor=stealth_factor,
             )
 
             violations.append(violation)
             self.violation_registry[violation.violation_id] = violation
 
-        logger.info("Synthetic violations generated",
-                   generated_count=len(violations),
-                   violation_types=len(set(v.violation_type for v in violations)),
-                   attack_vectors=len(set(v.attack_vector for v in violations)),
-                   ΛTAG="ΛSHIELD_VIOLATIONS")
+        logger.info(
+            "Synthetic violations generated",
+            generated_count=len(violations),
+            violation_types=len(set(v.violation_type for v in violations)),
+            attack_vectors=len(set(v.attack_vector for v in violations)),
+            ΛTAG="ΛSHIELD_VIOLATIONS",
+        )
 
         return violations
 
-    def _generate_violation_values(self,
-                                 violation_type: ViolationType,
-                                 severity_target: EscalationTier,
-                                 attack_vector: AttackVectorType) -> Dict[str, float]:
+    def _generate_violation_values(
+        self,
+        violation_type: ViolationType,
+        severity_target: EscalationTier,
+        attack_vector: AttackVectorType,
+    ) -> Dict[str, float]:
         """Generate violation metric values based on type and severity."""
 
         # Base severity multipliers
@@ -363,7 +390,7 @@ class LambdaShieldTester:
             EscalationTier.NOTICE: random.uniform(0.2, 0.4),
             EscalationTier.WARNING: random.uniform(0.4, 0.6),
             EscalationTier.CRITICAL: random.uniform(0.6, 0.8),
-            EscalationTier.CASCADE_LOCK: random.uniform(0.8, 1.0)
+            EscalationTier.CASCADE_LOCK: random.uniform(0.8, 1.0),
         }
 
         base_multiplier = severity_multipliers[severity_target]
@@ -375,7 +402,7 @@ class LambdaShieldTester:
             AttackVectorType.OSCILLATING_PATTERN: 1.2,
             AttackVectorType.COORDINATED_MULTI_VECTOR: 1.3,
             AttackVectorType.STEALTH_ACCUMULATION: 0.8,
-            AttackVectorType.CASCADE_TRIGGER: 2.0
+            AttackVectorType.CASCADE_TRIGGER: 2.0,
         }
 
         modifier = vector_modifiers.get(attack_vector, 1.0)
@@ -386,51 +413,51 @@ class LambdaShieldTester:
 
         if violation_type == ViolationType.EMOTIONAL_VOLATILITY:
             values = {
-                'emotional_stability': 1.0 - final_multiplier,
-                'emotion_volatility': final_multiplier,
-                'coherence': 1.0 - (final_multiplier * 0.5)
+                "emotional_stability": 1.0 - final_multiplier,
+                "emotion_volatility": final_multiplier,
+                "coherence": 1.0 - (final_multiplier * 0.5),
             }
 
         elif violation_type == ViolationType.CONTRADICTION_DENSITY:
             values = {
-                'contradiction_density': final_multiplier,
-                'logical_consistency': 1.0 - final_multiplier,
-                'coherence': 1.0 - (final_multiplier * 0.7)
+                "contradiction_density": final_multiplier,
+                "logical_consistency": 1.0 - final_multiplier,
+                "coherence": 1.0 - (final_multiplier * 0.7),
             }
 
         elif violation_type == ViolationType.MEMORY_PHASE_MISMATCH:
             values = {
-                'memory_alignment': 1.0 - final_multiplier,
-                'temporal_consistency': 1.0 - final_multiplier,
-                'phase_coherence': 1.0 - (final_multiplier * 0.8)
+                "memory_alignment": 1.0 - final_multiplier,
+                "temporal_consistency": 1.0 - final_multiplier,
+                "phase_coherence": 1.0 - (final_multiplier * 0.8),
             }
 
         elif violation_type == ViolationType.DRIFT_ACCELERATION:
             values = {
-                'drift_velocity': final_multiplier * random.choice([-1, 1]),
-                'drift_acceleration': final_multiplier * 2,
-                'alignment_score': 1.0 - final_multiplier
+                "drift_velocity": final_multiplier * random.choice([-1, 1]),
+                "drift_acceleration": final_multiplier * 2,
+                "alignment_score": 1.0 - final_multiplier,
             }
 
         elif violation_type == ViolationType.GLYPH_ENTROPY_ANOMALY:
             values = {
-                'glyph_entropy': final_multiplier,
-                'symbolic_coherence': 1.0 - final_multiplier,
-                'entropy_rate': final_multiplier * 0.5
+                "glyph_entropy": final_multiplier,
+                "symbolic_coherence": 1.0 - final_multiplier,
+                "entropy_rate": final_multiplier * 0.5,
             }
 
         elif violation_type == ViolationType.CASCADE_RISK:
             values = {
-                'cascade_probability': final_multiplier,
-                'system_stability': 1.0 - final_multiplier,
-                'risk_amplification': final_multiplier * 1.5
+                "cascade_probability": final_multiplier,
+                "system_stability": 1.0 - final_multiplier,
+                "risk_amplification": final_multiplier * 1.5,
             }
 
         else:  # ETHICAL_BOUNDARY_BREACH
             values = {
-                'boundary_violation_score': final_multiplier,
-                'ethical_alignment': 1.0 - final_multiplier,
-                'compliance_score': 1.0 - (final_multiplier * 0.9)
+                "boundary_violation_score": final_multiplier,
+                "ethical_alignment": 1.0 - final_multiplier,
+                "compliance_score": 1.0 - (final_multiplier * 0.9),
             }
 
         # Add noise to make it realistic
@@ -440,9 +467,9 @@ class LambdaShieldTester:
 
         return values
 
-    async def simulate_firewall_response(self,
-                                       violations: List[SyntheticViolation],
-                                       parallel_injection: bool = True) -> List[FirewallResponse]:
+    async def simulate_firewall_response(
+        self, violations: List[SyntheticViolation], parallel_injection: bool = True
+    ) -> List[FirewallResponse]:
         """
         Simulate firewall response to synthetic violations.
 
@@ -453,10 +480,12 @@ class LambdaShieldTester:
         Returns:
             List of firewall responses
         """
-        logger.info("Starting firewall response simulation",
-                   violation_count=len(violations),
-                   parallel=parallel_injection,
-                   ΛTAG="ΛSHIELD_SIMULATE")
+        logger.info(
+            "Starting firewall response simulation",
+            violation_count=len(violations),
+            parallel=parallel_injection,
+            ΛTAG="ΛSHIELD_SIMULATE",
+        )
 
         responses = []
 
@@ -478,31 +507,41 @@ class LambdaShieldTester:
                     await asyncio.sleep(0.1)
 
                 except Exception as e:
-                    logger.error("Violation injection failed",
-                               violation_id=violation.violation_id,
-                               error=str(e))
+                    logger.error(
+                        "Violation injection failed",
+                        violation_id=violation.violation_id,
+                        error=str(e),
+                    )
 
-        logger.info("Firewall simulation completed",
-                   total_responses=len(responses),
-                   ΛTAG="ΛSHIELD_COMPLETE")
+        logger.info(
+            "Firewall simulation completed",
+            total_responses=len(responses),
+            ΛTAG="ΛSHIELD_COMPLETE",
+        )
 
         return responses
 
-    async def _inject_violation(self, violation: SyntheticViolation) -> FirewallResponse:
+    async def _inject_violation(
+        self, violation: SyntheticViolation
+    ) -> FirewallResponse:
         """Inject a single violation and monitor firewall response."""
 
         start_time = time.time()
 
         # Create mock symbol data with injected violation values
         symbol_data = {
-            'symbol_id': violation.affected_symbols[0] if violation.affected_symbols else 'TEST_SYMBOL',
+            "symbol_id": (
+                violation.affected_symbols[0]
+                if violation.affected_symbols
+                else "TEST_SYMBOL"
+            ),
             **violation.injected_values,
-            'timestamp': violation.timestamp,
-            'injection_metadata': {
-                'violation_id': violation.violation_id,
-                'attack_vector': violation.attack_vector.value,
-                'stealth_factor': violation.stealth_factor
-            }
+            "timestamp": violation.timestamp,
+            "injection_metadata": {
+                "violation_id": violation.violation_id,
+                "attack_vector": violation.attack_vector.value,
+                "stealth_factor": violation.stealth_factor,
+            },
         }
 
         # Initialize response
@@ -515,12 +554,14 @@ class LambdaShieldTester:
             escalation_tier=None,
             intervention_action=None,
             sentinel_confidence=None,
-            governor_confidence=None
+            governor_confidence=None,
         )
 
         try:
             # Mock firewall detection logic
-            detected_violation = await self._mock_firewall_detection(violation, symbol_data)
+            detected_violation = await self._mock_firewall_detection(
+                violation, symbol_data
+            )
 
             if detected_violation:
                 detection_time = time.time()
@@ -531,38 +572,48 @@ class LambdaShieldTester:
                 response.sentinel_confidence = random.uniform(0.7, 0.95)
                 response.governor_confidence = random.uniform(0.8, 0.98)
 
-                logger.info("Violation detected by firewall",
-                           violation_id=violation.violation_id,
-                           detection_latency_ms=response.detection_latency_ms,
-                           escalation_tier=response.escalation_tier.value if response.escalation_tier else None,
-                           ΛTAG="ΛSHIELD_DETECTED")
+                logger.info(
+                    "Violation detected by firewall",
+                    violation_id=violation.violation_id,
+                    detection_latency_ms=response.detection_latency_ms,
+                    escalation_tier=(
+                        response.escalation_tier.value
+                        if response.escalation_tier
+                        else None
+                    ),
+                    ΛTAG="ΛSHIELD_DETECTED",
+                )
             else:
                 # Undetected violation - potential security gap
                 response.detected = False
 
-                logger.warning("Violation UNDETECTED by firewall",
-                              violation_id=violation.violation_id,
-                              violation_type=violation.violation_type.value,
-                              severity_target=violation.severity_target.value,
-                              stealth_factor=violation.stealth_factor,
-                              ΛTAG=["ΛSHIELD_UNDETECTED", "ΛSIM_FAIL"])
+                logger.warning(
+                    "Violation UNDETECTED by firewall",
+                    violation_id=violation.violation_id,
+                    violation_type=violation.violation_type.value,
+                    severity_target=violation.severity_target.value,
+                    stealth_factor=violation.stealth_factor,
+                    ΛTAG=["ΛSHIELD_UNDETECTED", "ΛSIM_FAIL"],
+                )
 
         except Exception as e:
-            logger.error("Firewall simulation error",
-                        violation_id=violation.violation_id,
-                        error=str(e),
-                        ΛTAG="ΛSHIELD_ERROR")
+            logger.error(
+                "Firewall simulation error",
+                violation_id=violation.violation_id,
+                error=str(e),
+                ΛTAG="ΛSHIELD_ERROR",
+            )
 
-            response.response_metadata['error'] = str(e)
+            response.response_metadata["error"] = str(e)
 
         # Store response
         self.response_registry[response.response_id] = response
 
         return response
 
-    async def _mock_firewall_detection(self,
-                                     violation: SyntheticViolation,
-                                     symbol_data: Dict[str, Any]) -> bool:
+    async def _mock_firewall_detection(
+        self, violation: SyntheticViolation, symbol_data: Dict[str, Any]
+    ) -> bool:
         """
         Mock firewall detection logic.
 
@@ -574,7 +625,7 @@ class LambdaShieldTester:
             EscalationTier.NOTICE: 0.7,
             EscalationTier.WARNING: 0.85,
             EscalationTier.CRITICAL: 0.95,
-            EscalationTier.CASCADE_LOCK: 0.99
+            EscalationTier.CASCADE_LOCK: 0.99,
         }
 
         detection_prob = base_detection_prob.get(violation.severity_target, 0.8)
@@ -610,14 +661,16 @@ class LambdaShieldTester:
             else:
                 return violation.severity_target
 
-    def _mock_intervention_action(self, violation: SyntheticViolation) -> ActionDecision:
+    def _mock_intervention_action(
+        self, violation: SyntheticViolation
+    ) -> ActionDecision:
         """Mock intervention action determination."""
         # Map escalation tiers to actions
         tier_to_action = {
             EscalationTier.NOTICE: ActionDecision.ALLOW,
             EscalationTier.WARNING: ActionDecision.FREEZE,
             EscalationTier.CRITICAL: ActionDecision.QUARANTINE,
-            EscalationTier.CASCADE_LOCK: ActionDecision.SHUTDOWN
+            EscalationTier.CASCADE_LOCK: ActionDecision.SHUTDOWN,
         }
 
         escalation_tier = self._mock_escalation_tier(violation)
@@ -630,9 +683,9 @@ class LambdaShieldTester:
 
         return base_action
 
-    def record_response_log(self,
-                          responses: List[FirewallResponse],
-                          log_filename: Optional[str] = None) -> Path:
+    def record_response_log(
+        self, responses: List[FirewallResponse], log_filename: Optional[str] = None
+    ) -> Path:
         """
         Record firewall response log to file.
 
@@ -649,35 +702,46 @@ class LambdaShieldTester:
 
         log_path = self.log_dir / log_filename
 
-        logger.info("Recording response log",
-                   response_count=len(responses),
-                   log_path=str(log_path),
-                   ΛTAG="ΛSHIELD_LOG")
+        logger.info(
+            "Recording response log",
+            response_count=len(responses),
+            log_path=str(log_path),
+            ΛTAG="ΛSHIELD_LOG",
+        )
 
-        with open(log_path, 'w') as f:
+        with open(log_path, "w") as f:
             for response in responses:
                 # Add metadata
                 log_entry = {
-                    'timestamp': response.timestamp,
-                    'type': 'firewall_response',
-                    'response': response.to_dict(),
-                    'violation': self.violation_registry.get(response.violation_id, {}).to_dict() if response.violation_id in self.violation_registry else {},
-                    'ΛTAG': ['ΛSHIELD_LOG', 'ΛFIREWALL_RESPONSE']
+                    "timestamp": response.timestamp,
+                    "type": "firewall_response",
+                    "response": response.to_dict(),
+                    "violation": (
+                        self.violation_registry.get(response.violation_id, {}).to_dict()
+                        if response.violation_id in self.violation_registry
+                        else {}
+                    ),
+                    "ΛTAG": ["ΛSHIELD_LOG", "ΛFIREWALL_RESPONSE"],
                 }
 
-                if not response.detected and response.violation_id in self.violation_registry:
+                if (
+                    not response.detected
+                    and response.violation_id in self.violation_registry
+                ):
                     violation = self.violation_registry[response.violation_id]
                     if violation.expected_detection:
-                        log_entry['ΛTAG'].append('ΛSIM_FAIL')
+                        log_entry["ΛTAG"].append("ΛSIM_FAIL")
 
-                f.write(json.dumps(log_entry) + '\n')
+                f.write(json.dumps(log_entry) + "\n")
 
         return log_path
 
-    def output_firewall_report(self,
-                             responses: List[FirewallResponse],
-                             output_format: str = "both",
-                             report_filename: Optional[str] = None) -> Tuple[Optional[Path], Optional[Path]]:
+    def output_firewall_report(
+        self,
+        responses: List[FirewallResponse],
+        output_format: str = "both",
+        report_filename: Optional[str] = None,
+    ) -> Tuple[Optional[Path], Optional[Path]]:
         """
         Generate comprehensive firewall testing report.
 
@@ -700,20 +764,26 @@ class LambdaShieldTester:
         json_path = None
 
         if output_format in ["markdown", "both"]:
-            markdown_path = self._generate_markdown_report(report, f"{report_filename}.md")
+            markdown_path = self._generate_markdown_report(
+                report, f"{report_filename}.md"
+            )
 
         if output_format in ["json", "both"]:
             json_path = self._generate_json_report(report, f"{report_filename}.json")
 
-        logger.info("Firewall report generated",
-                   markdown_report=str(markdown_path) if markdown_path else None,
-                   json_report=str(json_path) if json_path else None,
-                   detection_coverage=report.detection_coverage,
-                   ΛTAG="ΛSHIELD_REPORT")
+        logger.info(
+            "Firewall report generated",
+            markdown_report=str(markdown_path) if markdown_path else None,
+            json_report=str(json_path) if json_path else None,
+            detection_coverage=report.detection_coverage,
+            ΛTAG="ΛSHIELD_REPORT",
+        )
 
         return markdown_path, json_path
 
-    def _generate_simulation_report(self, responses: List[FirewallResponse]) -> SimulationReport:
+    def _generate_simulation_report(
+        self, responses: List[FirewallResponse]
+    ) -> SimulationReport:
         """Generate comprehensive simulation analysis report."""
 
         # Basic metrics
@@ -725,7 +795,11 @@ class LambdaShieldTester:
         false_positives = 0
 
         # Response time analysis
-        response_times = [r.detection_latency_ms for r in responses if r.detection_latency_ms is not None]
+        response_times = [
+            r.detection_latency_ms
+            for r in responses
+            if r.detection_latency_ms is not None
+        ]
         avg_response_time = np.mean(response_times) if response_times else 0.0
 
         # Violations by type analysis
@@ -736,13 +810,17 @@ class LambdaShieldTester:
                 vtype = violation.violation_type.value
 
                 if vtype not in violations_by_type:
-                    violations_by_type[vtype] = {'total': 0, 'detected': 0, 'undetected': 0}
+                    violations_by_type[vtype] = {
+                        "total": 0,
+                        "detected": 0,
+                        "undetected": 0,
+                    }
 
-                violations_by_type[vtype]['total'] += 1
+                violations_by_type[vtype]["total"] += 1
                 if response.detected:
-                    violations_by_type[vtype]['detected'] += 1
+                    violations_by_type[vtype]["detected"] += 1
                 else:
-                    violations_by_type[vtype]['undetected'] += 1
+                    violations_by_type[vtype]["undetected"] += 1
 
         # Severity distribution
         severity_distribution = {}
@@ -757,9 +835,11 @@ class LambdaShieldTester:
         # Identify SIM_FAIL cases
         sim_fail_flags = []
         for response in responses:
-            if (not response.detected and
-                response.violation_id in self.violation_registry and
-                self.violation_registry[response.violation_id].expected_detection):
+            if (
+                not response.detected
+                and response.violation_id in self.violation_registry
+                and self.violation_registry[response.violation_id].expected_detection
+            ):
 
                 violation = self.violation_registry[response.violation_id]
                 sim_fail_flags.append(
@@ -780,16 +860,18 @@ class LambdaShieldTester:
             violations_by_type=violations_by_type,
             severity_distribution=severity_distribution,
             recommendations=recommendations,
-            sim_fail_flags=sim_fail_flags
+            sim_fail_flags=sim_fail_flags,
         )
 
         report.calculate_metrics()
 
         return report
 
-    def _generate_recommendations(self,
-                                responses: List[FirewallResponse],
-                                violations_by_type: Dict[str, Dict[str, int]]) -> List[str]:
+    def _generate_recommendations(
+        self,
+        responses: List[FirewallResponse],
+        violations_by_type: Dict[str, Dict[str, int]],
+    ) -> List[str]:
         """Generate actionable recommendations based on results."""
         recommendations = []
 
@@ -818,8 +900,8 @@ class LambdaShieldTester:
 
         # Type-specific recommendations
         for vtype, stats in violations_by_type.items():
-            if stats['total'] > 0:
-                type_coverage = (stats['detected'] / stats['total']) * 100
+            if stats["total"] > 0:
+                type_coverage = (stats["detected"] / stats["total"]) * 100
                 if type_coverage < 70:
                     recommendations.append(
                         f"🎯 {vtype} detection needs improvement ({type_coverage:.1f}%) - "
@@ -827,7 +909,11 @@ class LambdaShieldTester:
                     )
 
         # Response time recommendations
-        response_times = [r.detection_latency_ms for r in responses if r.detection_latency_ms is not None]
+        response_times = [
+            r.detection_latency_ms
+            for r in responses
+            if r.detection_latency_ms is not None
+        ]
         if response_times:
             avg_time = np.mean(response_times)
             if avg_time > 500:  # 500ms threshold
@@ -839,8 +925,10 @@ class LambdaShieldTester:
         # Stealth attack recommendations
         stealth_undetected = 0
         for response in responses:
-            if (not response.detected and
-                response.violation_id in self.violation_registry):
+            if (
+                not response.detected
+                and response.violation_id in self.violation_registry
+            ):
                 violation = self.violation_registry[response.violation_id]
                 if violation.stealth_factor > 0.5:
                     stealth_undetected += 1
@@ -853,13 +941,23 @@ class LambdaShieldTester:
 
         return recommendations
 
-    def _generate_markdown_report(self, report: SimulationReport, filename: str) -> Path:
+    def _generate_markdown_report(
+        self, report: SimulationReport, filename: str
+    ) -> Path:
         """Generate markdown format report."""
         report_path = self.log_dir / filename
 
         # Generate emoji verdicts
-        coverage_emoji = "✅" if report.detection_coverage >= 90 else "⚠️" if report.detection_coverage >= 80 else "❌"
-        response_time_emoji = "✅" if report.average_response_time_ms <= 100 else "⚠️" if report.average_response_time_ms <= 500 else "❌"
+        coverage_emoji = (
+            "✅"
+            if report.detection_coverage >= 90
+            else "⚠️" if report.detection_coverage >= 80 else "❌"
+        )
+        response_time_emoji = (
+            "✅"
+            if report.average_response_time_ms <= 100
+            else "⚠️" if report.average_response_time_ms <= 500 else "❌"
+        )
 
         markdown_content = f"""# 🛡️ ΛSHIELD Ethical Firewall Simulation Report
 
@@ -886,9 +984,13 @@ class LambdaShieldTester:
 """
 
         for vtype, stats in report.violations_by_type.items():
-            if stats['total'] > 0:
-                type_coverage = (stats['detected'] / stats['total']) * 100
-                type_emoji = "✅" if type_coverage >= 90 else "⚠️" if type_coverage >= 80 else "❌"
+            if stats["total"] > 0:
+                type_coverage = (stats["detected"] / stats["total"]) * 100
+                type_emoji = (
+                    "✅"
+                    if type_coverage >= 90
+                    else "⚠️" if type_coverage >= 80 else "❌"
+                )
 
                 markdown_content += f"""### {vtype.replace('_', ' ').title()}
 - **Total:** {stats['total']}
@@ -898,17 +1000,21 @@ class LambdaShieldTester:
 
 """
 
-        markdown_content += f"""---
+        markdown_content += """---
 
 ## ⚖️ Severity Distribution
 
 """
         for severity, count in report.severity_distribution.items():
-            percentage = (count / report.total_violations) * 100 if report.total_violations > 0 else 0
+            percentage = (
+                (count / report.total_violations) * 100
+                if report.total_violations > 0
+                else 0
+            )
             markdown_content += f"- **{severity}:** {count} ({percentage:.1f}%)\n"
 
         if report.sim_fail_flags:
-            markdown_content += f"""
+            markdown_content += """
 ---
 
 ## 🚨 Critical Gaps (ΛSIM_FAIL)
@@ -919,7 +1025,7 @@ The following violations went undetected despite being expected to trigger alert
             for flag in report.sim_fail_flags:
                 markdown_content += f"- {flag}\n"
 
-        markdown_content += f"""
+        markdown_content += """
 ---
 
 ## 💡 Recommendations
@@ -944,7 +1050,7 @@ The following violations went undetected despite being expected to trigger alert
 *Generated by ΛSHIELD - LUKHAS AGI Ethical Firewall Testing Framework*
 """
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(markdown_content)
 
         return report_path
@@ -955,18 +1061,22 @@ The following violations went undetected despite being expected to trigger alert
 
         # Convert report to dict and add metadata
         report_dict = asdict(report)
-        report_dict['metadata'] = {
-            'generator': 'ΛSHIELD',
-            'version': 'v1.0.0',
-            'lukhas_tag': ['ΛSHIELD_REPORT', 'ΛFIREWALL_ANALYSIS'],
-            'schema_version': '1.0'
+        report_dict["metadata"] = {
+            "generator": "ΛSHIELD",
+            "version": "v1.0.0",
+            "lukhas_tag": ["ΛSHIELD_REPORT", "ΛFIREWALL_ANALYSIS"],
+            "schema_version": "1.0",
         }
 
         # Add detailed violation and response data
-        report_dict['detailed_violations'] = [v.to_dict() for v in self.violation_registry.values()]
-        report_dict['detailed_responses'] = [r.to_dict() for r in self.response_registry.values()]
+        report_dict["detailed_violations"] = [
+            v.to_dict() for v in self.violation_registry.values()
+        ]
+        report_dict["detailed_responses"] = [
+            r.to_dict() for r in self.response_registry.values()
+        ]
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             json.dump(report_dict, f, indent=2)
 
         return report_path
@@ -982,33 +1092,55 @@ Examples:
   python lambda_shield_tester.py --simulate 10 --report report.md
   python lambda_shield_tester.py --simulate 25 --parallel --json-only
   python lambda_shield_tester.py --simulate 50 --stealth-factor 0.3 --report detailed_test
-        """
+        """,
     )
 
-    parser.add_argument('--simulate', type=int, default=5,
-                       help='Number of violations to simulate (default: 5)')
+    parser.add_argument(
+        "--simulate",
+        type=int,
+        default=5,
+        help="Number of violations to simulate (default: 5)",
+    )
 
-    parser.add_argument('--report', type=str,
-                       help='Base filename for reports (without extension)')
+    parser.add_argument(
+        "--report", type=str, help="Base filename for reports (without extension)"
+    )
 
-    parser.add_argument('--parallel', action='store_true',
-                       help='Inject violations in parallel')
+    parser.add_argument(
+        "--parallel", action="store_true", help="Inject violations in parallel"
+    )
 
-    parser.add_argument('--json-only', action='store_true',
-                       help='Generate JSON report only (no markdown)')
+    parser.add_argument(
+        "--json-only",
+        action="store_true",
+        help="Generate JSON report only (no markdown)",
+    )
 
-    parser.add_argument('--markdown-only', action='store_true',
-                       help='Generate markdown report only (no JSON)')
+    parser.add_argument(
+        "--markdown-only",
+        action="store_true",
+        help="Generate markdown report only (no JSON)",
+    )
 
-    parser.add_argument('--log-dir', type=str, default='logs/shield_simulation',
-                       help='Directory for simulation logs')
+    parser.add_argument(
+        "--log-dir",
+        type=str,
+        default="logs/shield_simulation",
+        help="Directory for simulation logs",
+    )
 
-    parser.add_argument('--stealth-factor', type=float,
-                       help='Override stealth factor for all violations')
+    parser.add_argument(
+        "--stealth-factor",
+        type=float,
+        help="Override stealth factor for all violations",
+    )
 
-    parser.add_argument('--violation-types', nargs='+',
-                       choices=[vt.value for vt in ViolationType],
-                       help='Specific violation types to test')
+    parser.add_argument(
+        "--violation-types",
+        nargs="+",
+        choices=[vt.value for vt in ViolationType],
+        help="Specific violation types to test",
+    )
 
     args = parser.parse_args()
 
@@ -1025,8 +1157,7 @@ Examples:
         violation_types = [ViolationType(vt) for vt in args.violation_types]
 
     violations = tester.generate_synthetic_violations(
-        count=args.simulate,
-        violation_types=violation_types
+        count=args.simulate, violation_types=violation_types
     )
 
     # Override stealth factor if specified
@@ -1040,8 +1171,7 @@ Examples:
     # Simulate firewall response
     print("⚡ Testing firewall response...")
     responses = await tester.simulate_firewall_response(
-        violations,
-        parallel_injection=args.parallel
+        violations, parallel_injection=args.parallel
     )
 
     print(f"✅ Completed firewall simulation - {len(responses)} responses")
@@ -1058,9 +1188,7 @@ Examples:
         output_format = "markdown"
 
     markdown_path, json_path = tester.output_firewall_report(
-        responses,
-        output_format=output_format,
-        report_filename=args.report
+        responses, output_format=output_format, report_filename=args.report
     )
 
     if markdown_path:
@@ -1073,15 +1201,17 @@ Examples:
     undetected = len(responses) - detected
     coverage = (detected / len(responses)) * 100 if responses else 0
 
-    print(f"\n🎯 SIMULATION SUMMARY")
+    print("\n🎯 SIMULATION SUMMARY")
     print(f"   Detection Coverage: {coverage:.1f}%")
     print(f"   Detected: {detected} ✅")
     print(f"   Undetected: {undetected} {'❌' if undetected > 0 else '✅'}")
 
     if undetected > 0:
-        print(f"\n⚠️  {undetected} violations went undetected - review firewall configuration")
+        print(
+            f"\n⚠️  {undetected} violations went undetected - review firewall configuration"
+        )
     else:
-        print(f"\n🎉 All violations successfully detected by firewall!")
+        print("\n🎉 All violations successfully detected by firewall!")
 
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@ DESCRIPTION:
 
 """
 
+
 def is_time_to_deliver(message_meta, last_sent_timestamp, current_time):
     """
     Determine if a message is eligible for (re)delivery based on timing policy.
@@ -35,6 +36,7 @@ def is_time_to_deliver(message_meta, last_sent_timestamp, current_time):
     """
     cooldown = message_meta.get("cooldown_seconds", 3600)  # Default 1h cooldown
     return (current_time - last_sent_timestamp) >= cooldown
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

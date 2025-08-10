@@ -28,12 +28,14 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import pytest
 import asyncio
 from datetime import datetime
-from unittest.mock import Mock, patch
 
-from core_unified_grammar.common.base_module import BaseLukhasModule, ModuleState
+import pytest
+from core_unified_grammar.common.base_module import (
+    BaseLukhasModule,
+    ModuleState,
+)
 
 
 class TestModule(BaseLukhasModule):
@@ -182,6 +184,7 @@ class TestModuleLifecycle:
 
     async def test_module_cleanup_on_error(self):
         """Test module cleanup on error."""
+
         class ErrorModule(BaseLukhasModule):
             async def startup(self):
                 await super().startup()
@@ -211,9 +214,7 @@ class TestModuleRegistry:
 
         # Register module
         success = await registry.register_module(
-            name="test",
-            module_class=TestModule,
-            config={}
+            name="test", module_class=TestModule, config={}
         )
 
         assert success

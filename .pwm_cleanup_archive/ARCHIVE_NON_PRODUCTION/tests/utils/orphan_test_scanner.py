@@ -8,7 +8,6 @@ Results are appended to docs/audit/ORPHAN_SCAN.md
 
 import ast
 from pathlib import Path
-import sys
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TEST_PATTERNS = ["test_*.py", "*_test.py"]

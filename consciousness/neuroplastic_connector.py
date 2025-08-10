@@ -3,42 +3,46 @@ Neuroplastic Connector for CONSCIOUSNESS Module
 Auto-generated connector that integrates isolated components
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class ConsciousnessConnector:
     """Connects isolated components into the CONSCIOUSNESS nervous system"""
-    
+
     def __init__(self):
         self.connected_components = {}
         self.hormone_tags = {}  # For neuroplastic responses
-        
+
     def connect_component(self, name: str, component: Any):
         """Connect an isolated component to this module"""
         self.connected_components[name] = component
         logger.info(f"Connected {name} to CONSCIOUSNESS module")
-        
+
     def emit_hormone(self, hormone: str, intensity: float = 1.0):
         """Emit hormone signal for neuroplastic response"""
         self.hormone_tags[hormone] = intensity
-        
+
     def get_stress_response(self) -> Dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {
-            'cortisol': self.hormone_tags.get('cortisol', 0.0),
-            'adrenaline': self.hormone_tags.get('adrenaline', 0.0),
-            'norepinephrine': self.hormone_tags.get('norepinephrine', 0.0)
+            "cortisol": self.hormone_tags.get("cortisol", 0.0),
+            "adrenaline": self.hormone_tags.get("adrenaline", 0.0),
+            "norepinephrine": self.hormone_tags.get("norepinephrine", 0.0),
         }
+
 
 # Global connector instance
 connector = ConsciousnessConnector()
 
 # Auto-import isolated components
 try:
-    from .connected.cognitive_updater import *
     from .connected.cognitive_sync_adapter import *
+    from .connected.cognitive_updater import *
+
     # Components will be added here during consolidation
     pass
 except ImportError as e:

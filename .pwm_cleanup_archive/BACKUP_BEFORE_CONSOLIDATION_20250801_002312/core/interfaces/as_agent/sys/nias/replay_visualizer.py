@@ -22,15 +22,13 @@ DESCRIPTION:
 """
 
 import json
-from pathlib import Path
 from collections import Counter
-from datetime import datetime, timezone
+from pathlib import Path
 
 REPLAY_PATH = Path("core/logs/replay_queue.jsonl")
 
-TIER_EMOJI = {
-    "0": "🧪", "1": "🌱", "2": "🔮", "3": "🕊", "4": "🌀", "5": "👁️"
-}
+TIER_EMOJI = {"0": "🧪", "1": "🌱", "2": "🔮", "3": "🕊", "4": "🌀", "5": "👁️"}
+
 
 def color_emotion(val, name):
     try:
@@ -46,13 +44,14 @@ def color_emotion(val, name):
     except:
         return val
 
+
 def visualize_replays(limit=10):
     if not REPLAY_PATH.exists():
         print(f"⚠️ Replay queue not found. Creating placeholder at {REPLAY_PATH}")
         REPLAY_PATH.parent.mkdir(parents=True, exist_ok=True)
         REPLAY_PATH.write_text("")
 
-    with open(REPLAY_PATH, "r") as f:
+    with open(REPLAY_PATH) as f:
         raw_lines = f.readlines()
 
     lines = [line for line in raw_lines if line.strip().startswith("{")]
@@ -68,12 +67,17 @@ def visualize_replays(limit=10):
             dream = json.loads(line.strip())
             emoji = TIER_EMOJI.get(str(dream.get("tier")), "•")
             print(f"\n🌀 {dream.get('timestamp')} | ID: {dream.get('message_id')}")
-            print(f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}")
+            print(
+                f"   Tier: {dream.get('tier')} {emoji} | Widget: {dream.get('source_widget')}"
+            )
             print(f"   Tags: {', '.join(dream.get('tags', []))}")
             ev = dream.get("emotion_vector", {})
-            print("   Emotions →", " | ".join(
-                f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()
-            ))
+            print(
+                "   Emotions →",
+                " | ".join(
+                    f"{k.capitalize()}: {color_emotion(v, k)}" for k, v in ev.items()
+                ),
+            )
             print(f"   Emoji: {dream.get('emoji')} | Notes: {dream.get('notes')}")
             tag_counter.update(dream.get("tags", []))
             emoji = dream.get("emoji")
@@ -84,6 +88,7 @@ def visualize_replays(limit=10):
 
     print("\n🔖 Top Tags:", dict(tag_counter.most_common(5)))
     print("🌈 Emoji Distribution:", dict(emoji_counter.most_common(5)))
+
 
 if __name__ == "__main__":
     visualize_replays(limit=10)

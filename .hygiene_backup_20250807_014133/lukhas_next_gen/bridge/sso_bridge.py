@@ -5,16 +5,14 @@ Provides symbolic glyph mapping for external identity providers
 """
 
 import json
-import hashlib
-import secrets
 import logging
+import secrets
+import uuid
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any, Union
-from dataclasses import dataclass, asdict
-from urllib.parse import urlencode, parse_qs
-import base64
-import uuid
+from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
 
@@ -33,13 +31,13 @@ class SSOProvider:
     scopes: List[str]
     glyph_mapping: Dict[str, str]  # Role/claim to glyph mapping
     metadata: Dict[str, Any] = None
-    
+
     def __post_init__(self):
         if self.metadata is None:
             self.metadata = {}
 
 
-@dataclass 
+@dataclass
 class SSOSession:
     """Active SSO session"""
     session_id: str
@@ -77,23 +75,23 @@ class SSOBridge:
     Single Sign-On bridge for enterprise identity providers
     Maps external claims to LUKHAS glyph-based permissions
     """
-    
+
     # Standard claim to glyph mappings
     STANDARD_GLYPH_MAPPINGS = {
         # OAuth2 / OpenID Connect standard claims
         "admin": "🔐",
-        "user": "🔓", 
+        "user": "🔓",
         "read": "👁️",
         "write": "✍️",
         "delete": "🗑️",
         "create": "✨",
-        
+
         # Enterprise role mappings
         "manager": "👑",
         "employee": "👤",
         "contractor": "🤝",
         "guest": "🚪",
-        
+
         # Department mappings
         "engineering": "⚙️",
         "security": "🛡️",
@@ -101,14 +99,14 @@ class SSOBridge:
         "hr": "👥",
         "marketing": "📢",
         "sales": "💼",
-        
+
         # Access levels
         "confidential": "🔒",
         "internal": "🏢",
         "public": "🌐",
         "restricted": "⛔"
     }
-    
+
     def __init__(self, config_file: str = "sso_config.json",
                  session_store: str = "sso_sessions.json"):
         self.config_file = Path(config_file)
@@ -116,21 +114,21 @@ class SSOBridge:
         self.providers: Dict[str, SSOProvider] = {}
         self.active_sessions: Dict[str, SSOSession] = {}
         self.transactions: Dict[str, SSOTransaction] = {}
-        
+
         # Load configuration
         self._load_configuration()
-        
+
         logger.info("🔗 SSO Bridge initialized")
         logger.info(f"   Configured providers: {len(self.providers)}")
         logger.info(f"   Standard glyph mappings: {len(self.STANDARD_GLYPH_MAPPINGS)}")
-    
+
     def _load_configuration(self):
         """Load SSO provider configurations"""
         if self.config_file.exists():
             try:
-                with open(self.config_file, 'r') as f:
+                with open(self.config_file) as f:
                     config = json.load(f)
-                
+
                 # Load providers
                 for provider_id, provider_config in config.get("providers", {}).items():
                     self.providers[provider_id] = SSOProvider(
@@ -146,16 +144,16 @@ class SSOBridge:
                         glyph_mapping=provider_config.get("glyph_mapping", {}),
                         metadata=provider_config.get("metadata", {})
                     )
-                
+
             except Exception as e:
                 logger.warning(f"Could not load SSO configuration: {e}")
                 self._create_default_configuration()
         else:
             self._create_default_configuration()
-        
+
         # Load sessions
         self._load_sessions()
-    
+
     def _create_default_configuration(self):
         """Create default SSO configuration with sample providers"""
         default_config = {
@@ -167,7 +165,7 @@ class SSOBridge:
                     "provider_name": "Azure Active Directory",
                     "provider_type": "oauth2",
                     "endpoint_auth": "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize",
-                    "endpoint_token": "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token", 
+                    "endpoint_token": "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token",
                     "endpoint_userinfo": "https://graph.microsoft.com/v1.0/me",
                     "client_id": "your-client-id",
                     "client_secret": "your-client-secret",
@@ -220,19 +218,19 @@ class SSOBridge:
                 }
             }
         }
-        
+
         with open(self.config_file, 'w') as f:
             json.dump(default_config, f, indent=2)
-        
+
         logger.info("📝 Created default SSO configuration")
-    
+
     def _load_sessions(self):
         """Load active SSO sessions"""
         if self.session_store.exists():
             try:
-                with open(self.session_store, 'r') as f:
+                with open(self.session_store) as f:
                     data = json.load(f)
-                
+
                 for session_id, session_data in data.get("sessions", {}).items():
                     self.active_sessions[session_id] = SSOSession(
                         session_id=session_data["session_id"],
@@ -249,10 +247,10 @@ class SSOBridge:
                         created_at=datetime.fromisoformat(session_data["created_at"]),
                         last_activity=datetime.fromisoformat(session_data["last_activity"])
                     )
-                
+
             except Exception as e:
                 logger.warning(f"Could not load SSO sessions: {e}")
-    
+
     def _save_sessions(self):
         """Save active SSO sessions"""
         data = {
@@ -260,7 +258,7 @@ class SSOBridge:
             "updated": datetime.utcnow().isoformat(),
             "sessions": {}
         }
-        
+
         for session_id, session in self.active_sessions.items():
             data["sessions"][session_id] = {
                 "session_id": session.session_id,
@@ -269,7 +267,7 @@ class SSOBridge:
                 "external_user_id": session.external_user_id,
                 "access_token": session.access_token,
                 "refresh_token": session.refresh_token,
-                "token_type": session.token_type, 
+                "token_type": session.token_type,
                 "expires_at": session.expires_at.isoformat(),
                 "scopes": session.scopes,
                 "user_claims": session.user_claims,
@@ -277,27 +275,27 @@ class SSOBridge:
                 "created_at": session.created_at.isoformat(),
                 "last_activity": session.last_activity.isoformat()
             }
-        
+
         with open(self.session_store, 'w') as f:
             json.dump(data, f, indent=2)
-    
+
     def initiate_sso_flow(self, provider_id: str, redirect_uri: str,
                           requested_scopes: Optional[List[str]] = None) -> Optional[Tuple[str, str]]:
         """Initiate SSO authentication flow"""
         if provider_id not in self.providers:
             logger.error(f"Unknown SSO provider: {provider_id}")
             return None
-        
+
         provider = self.providers[provider_id]
-        
+
         # Generate transaction
         transaction_id = str(uuid.uuid4())
         state = secrets.token_urlsafe(32)
         nonce = secrets.token_urlsafe(32)
-        
+
         # Use provider scopes if not specified
         scopes = requested_scopes or provider.scopes
-        
+
         transaction = SSOTransaction(
             transaction_id=transaction_id,
             provider_id=provider_id,
@@ -307,9 +305,9 @@ class SSOBridge:
             requested_scopes=scopes,
             created_at=datetime.utcnow()
         )
-        
+
         self.transactions[transaction_id] = transaction
-        
+
         # Build authorization URL
         auth_params = {
             "client_id": provider.client_id,
@@ -319,51 +317,51 @@ class SSOBridge:
             "state": state,
             "nonce": nonce
         }
-        
+
         auth_url = f"{provider.endpoint_auth}?{urlencode(auth_params)}"
-        
+
         logger.info(f"🚀 Initiated SSO flow: {provider_id}")
         logger.info(f"   Transaction: {transaction_id}")
         logger.info(f"   Scopes: {scopes}")
-        
+
         return auth_url, transaction_id
-    
+
     def handle_sso_callback(self, transaction_id: str, authorization_code: str,
                            state: str) -> Optional[SSOSession]:
         """Handle SSO callback and complete authentication"""
         if transaction_id not in self.transactions:
             logger.error(f"Unknown transaction: {transaction_id}")
             return None
-        
+
         transaction = self.transactions[transaction_id]
-        
+
         # Verify state parameter
         if state != transaction.state:
             logger.error("State parameter mismatch")
             transaction.error_message = "State mismatch"
             return None
-        
+
         provider = self.providers[transaction.provider_id]
-        
+
         # Exchange authorization code for tokens (simulated)
         token_response = self._exchange_code_for_tokens(
             provider, authorization_code, transaction.redirect_uri
         )
-        
+
         if not token_response:
             transaction.error_message = "Token exchange failed"
             return None
-        
+
         # Get user information (simulated)
         user_info = self._get_user_info(provider, token_response["access_token"])
-        
+
         if not user_info:
             transaction.error_message = "Failed to get user info"
             return None
-        
+
         # Map claims to glyphs
         assigned_glyphs = self._map_claims_to_glyphs(user_info, provider.glyph_mapping)
-        
+
         # Create session
         session_id = f"sso_{datetime.utcnow().timestamp()}_{provider.provider_id}"
         session = SSOSession(
@@ -381,30 +379,30 @@ class SSOBridge:
             created_at=datetime.utcnow(),
             last_activity=datetime.utcnow()
         )
-        
+
         # Store session
         self.active_sessions[session_id] = session
-        
+
         # Complete transaction
         transaction.completed_at = datetime.utcnow()
         transaction.success = True
-        
+
         # Save sessions
         self._save_sessions()
-        
+
         logger.info(f"✅ SSO authentication successful: {session.external_user_id}")
         logger.info(f"   Provider: {provider.provider_name}")
         logger.info(f"   Assigned glyphs: {' '.join(assigned_glyphs)}")
         logger.info(f"   Session: {session_id}")
-        
+
         return session
-    
-    def _exchange_code_for_tokens(self, provider: SSOProvider, code: str, 
+
+    def _exchange_code_for_tokens(self, provider: SSOProvider, code: str,
                                 redirect_uri: str) -> Optional[Dict]:
         """Exchange authorization code for access tokens (simulated)"""
         # In a real implementation, this would make an HTTP POST to the token endpoint
         logger.info("🔄 Simulating token exchange...")
-        
+
         # Simulate successful token response
         return {
             "access_token": f"at_{secrets.token_urlsafe(32)}",
@@ -413,12 +411,12 @@ class SSOBridge:
             "expires_in": 3600,
             "scope": " ".join(provider.scopes)
         }
-    
+
     def _get_user_info(self, provider: SSOProvider, access_token: str) -> Optional[Dict]:
         """Get user information from provider (simulated)"""
         # In a real implementation, this would make an HTTP GET to the userinfo endpoint
         logger.info("👤 Simulating user info retrieval...")
-        
+
         # Simulate user information based on provider
         if provider.provider_id == "azure_ad":
             return {
@@ -440,41 +438,41 @@ class SSOBridge:
         elif provider.provider_id == "google_workspace":
             return {
                 "sub": str(uuid.uuid4()),
-                "email": "user@company.com", 
+                "email": "user@company.com",
                 "name": "Bob Johnson",
                 "picture": "https://example.com/avatar.jpg"
             }
-        
+
         return None
-    
+
     def _map_claims_to_glyphs(self, user_claims: Dict, provider_mapping: Dict[str, str]) -> List[str]:
         """Map user claims to LUKHAS glyphs"""
         assigned_glyphs = []
-        
+
         # Check provider-specific mappings first
         for claim_value, glyph in provider_mapping.items():
             if self._claim_matches(user_claims, claim_value):
                 assigned_glyphs.append(glyph)
-        
+
         # Check standard mappings
         for claim_value, glyph in self.STANDARD_GLYPH_MAPPINGS.items():
             if self._claim_matches(user_claims, claim_value):
                 if glyph not in assigned_glyphs:
                     assigned_glyphs.append(glyph)
-        
+
         # Default glyph if no matches
         if not assigned_glyphs:
             assigned_glyphs.append("🔓")  # Basic user access
-        
+
         return assigned_glyphs
-    
+
     def _claim_matches(self, user_claims: Dict, target_value: str) -> bool:
         """Check if user claims contain a target value"""
         target_lower = target_value.lower()
-        
+
         # Check common claim fields
         claim_fields = ["roles", "groups", "department", "job_title", "role"]
-        
+
         for field in claim_fields:
             if field in user_claims:
                 claim_data = user_claims[field]
@@ -484,88 +482,88 @@ class SSOBridge:
                             return True
                 elif isinstance(claim_data, str) and target_lower in claim_data.lower():
                     return True
-        
+
         return False
-    
+
     def validate_session(self, session_id: str) -> Optional[SSOSession]:
         """Validate and return SSO session if still active"""
         if session_id not in self.active_sessions:
             return None
-        
+
         session = self.active_sessions[session_id]
-        
+
         # Check if session is expired
         if datetime.utcnow() > session.expires_at:
             logger.info(f"🕐 Session expired: {session_id}")
             del self.active_sessions[session_id]
             self._save_sessions()
             return None
-        
+
         # Update last activity
         session.last_activity = datetime.utcnow()
         self._save_sessions()
-        
+
         return session
-    
+
     def logout_session(self, session_id: str) -> bool:
         """Logout and invalidate SSO session"""
         if session_id not in self.active_sessions:
             return False
-        
+
         session = self.active_sessions[session_id]
         del self.active_sessions[session_id]
         self._save_sessions()
-        
+
         logger.info(f"🚪 SSO session logged out: {session.external_user_id}")
         return True
-    
+
     def get_user_glyphs(self, session_id: str) -> List[str]:
         """Get assigned glyphs for a session"""
         session = self.validate_session(session_id)
         return session.assigned_glyphs if session else []
-    
+
     def add_provider(self, provider: SSOProvider) -> bool:
         """Add a new SSO provider"""
         self.providers[provider.provider_id] = provider
-        
+
         # Update configuration file
         try:
-            with open(self.config_file, 'r') as f:
+            with open(self.config_file) as f:
                 config = json.load(f)
-            
+
             config["providers"][provider.provider_id] = asdict(provider)
-            
+
             with open(self.config_file, 'w') as f:
                 json.dump(config, f, indent=2)
-            
+
             logger.info(f"➕ Added SSO provider: {provider.provider_name}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to save provider: {e}")
             return False
-    
+
     def get_system_status(self) -> Dict[str, Any]:
         """Get SSO bridge system status"""
         active_session_count = len(self.active_sessions)
         expired_sessions = 0
-        
+
         for session in self.active_sessions.values():
             if datetime.utcnow() > session.expires_at:
                 expired_sessions += 1
-        
+
         # Provider statistics
         provider_usage = {}
         for session in self.active_sessions.values():
             provider_id = session.provider_id
             provider_usage[provider_id] = provider_usage.get(provider_id, 0) + 1
-        
+
         # Glyph distribution
         glyph_usage = {}
         for session in self.active_sessions.values():
             for glyph in session.assigned_glyphs:
                 glyph_usage[glyph] = glyph_usage.get(glyph, 0) + 1
-        
+
         return {
             "providers_configured": len(self.providers),
             "active_sessions": active_session_count,
@@ -580,26 +578,26 @@ class SSOBridge:
 # Example usage and testing
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(message)s')
-    
+
     # Create SSO bridge
     sso = SSOBridge(config_file="demo_sso_config.json", session_store="demo_sso_sessions.json")
-    
+
     print("🔗 SSO Bridge Demo")
     print("=" * 60)
-    
+
     # Test SSO flow
     print("\n🚀 Testing SSO authentication flow...")
-    
+
     # Initiate flow
     auth_url, transaction_id = sso.initiate_sso_flow(
         provider_id="azure_ad",
         redirect_uri="https://lukhas.ai/auth/callback",
         requested_scopes=["openid", "profile", "email"]
     )
-    
+
     print(f"   Auth URL: {auth_url[:80]}...")
     print(f"   Transaction: {transaction_id}")
-    
+
     # Simulate callback
     print("\n📥 Simulating SSO callback...")
     session = sso.handle_sso_callback(
@@ -607,22 +605,22 @@ if __name__ == "__main__":
         authorization_code="simulated_auth_code",
         state=sso.transactions[transaction_id].state
     )
-    
+
     if session:
-        print(f"   ✅ Authentication successful!")
+        print("   ✅ Authentication successful!")
         print(f"   User: {session.external_user_id}")
         print(f"   Glyphs: {' '.join(session.assigned_glyphs)}")
-        
+
         # Test session validation
         print("\n🔍 Testing session validation...")
         validated = sso.validate_session(session.session_id)
         print(f"   Session valid: {'✅ YES' if validated else '❌ NO'}")
-        
+
         # Test logout
         print("\n🚪 Testing logout...")
         logged_out = sso.logout_session(session.session_id)
         print(f"   Logout successful: {'✅ YES' if logged_out else '❌ NO'}")
-    
+
     # System status
     print("\n📊 SSO System Status:")
     status = sso.get_system_status()
@@ -633,7 +631,7 @@ if __name__ == "__main__":
                 print(f"     {k}: {v}")
         else:
             print(f"   {key}: {value}")
-    
+
     # Cleanup demo files
     import os
     try:

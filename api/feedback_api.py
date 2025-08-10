@@ -5,24 +5,21 @@ Feedback Collection API
 RESTful API for collecting multi-modal user feedback with compliance support.
 """
 
-from fastapi import FastAPI, HTTPException, Body, Query
+import uuid
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, validator
-from typing import Optional, List, Dict, Any, Union
-from datetime import datetime, timezone
-from enum import Enum
-import asyncio
-import uuid
 
+from core.common import get_logger
 from feedback.user_feedback_system import (
-    UserFeedbackSystem,
-    FeedbackType,
     ComplianceRegion,
     EmotionEmoji,
-    FeedbackItem,
-    FeedbackSummary
+    FeedbackType,
+    UserFeedbackSystem,
 )
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -56,7 +53,7 @@ class FeedbackRequest(BaseModel):
     content: Dict[str, Any] = Field(..., description="Feedback content")
     context: Dict[str, Any] = Field(..., description="Context about the action")
     region: Optional[ComplianceRegion] = Field(ComplianceRegion.GLOBAL, description="User's regulatory region")
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -77,7 +74,7 @@ class QuickFeedbackRequest(BaseModel):
     action_id: str
     thumbs_up: bool
     session_id: Optional[str] = None
-    
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -95,7 +92,7 @@ class EmojiFeedbackRequest(BaseModel):
     action_id: str
     emoji: str
     context: Optional[Dict[str, Any]] = None
-    
+
     @validator('emoji')
     def validate_emoji(cls, v):
         valid_emojis = [e.value for e in EmotionEmoji]
@@ -160,21 +157,21 @@ class ConsentRequest(BaseModel):
 async def startup_event():
     """Initialize feedback system on startup"""
     global feedback_system
-    
+
     logger.info("Starting Feedback Collection API...")
-    
+
     # Initialize feedback system
     feedback_system = UserFeedbackSystem(config={
         "enable_emoji": True,
         "enable_voice": False,  # Future feature
         "min_feedback_interval": 10  # 10 seconds minimum between feedback
     })
-    
+
     # Setup mock services for demo
     await _setup_mock_services()
-    
+
     await feedback_system.initialize()
-    
+
     logger.info("Feedback Collection API started successfully")
 
 
@@ -188,20 +185,21 @@ async def shutdown_event():
 
 async def _setup_mock_services():
     """Setup mock services for demo"""
-    from unittest.mock import Mock, AsyncMock
+    from unittest.mock import AsyncMock, Mock
+
     from core.interfaces.dependency_injection import register_service
-    
+
     # Mock natural language interface
     mock_nl = Mock()
     mock_nl._analyze_emotion = AsyncMock(return_value={
         "positive": 0.7,
         "negative": 0.3
     })
-    
+
     # Mock audit service
     mock_audit = Mock()
     mock_audit.log_event = AsyncMock()
-    
+
     register_service("nl_consciousness_interface", mock_nl)
     register_service("audit_service", mock_audit)
 
@@ -236,7 +234,7 @@ async def submit_feedback(request: FeedbackRequest):
     try:
         if not feedback_system or not feedback_system.operational:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         feedback_id = await feedback_system.collect_feedback(
             user_id=request.user_id,
             session_id=request.session_id,
@@ -246,13 +244,13 @@ async def submit_feedback(request: FeedbackRequest):
             context=request.context,
             region=request.region
         )
-        
+
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
             message="Feedback collected successfully"
         )
-        
+
     except Exception as e:
         logger.error(f"Error collecting feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -268,11 +266,11 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         # Convert to standard feedback
         rating = 5 if request.thumbs_up else 1
         session_id = request.session_id or f"quick_{uuid.uuid4().hex[:8]}"
-        
+
         feedback_id = await feedback_system.collect_feedback(
             user_id=request.user_id,
             session_id=session_id,
@@ -281,13 +279,13 @@ async def submit_quick_feedback(request: QuickFeedbackRequest):
             content={"rating": rating, "thumbs_up": request.thumbs_up},
             context={"quick_feedback": True}
         )
-        
+
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
             message="Quick feedback recorded"
         )
-        
+
     except Exception as e:
         logger.error(f"Error with quick feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -303,7 +301,7 @@ async def submit_emoji_feedback(request: EmojiFeedbackRequest):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         feedback_id = await feedback_system.collect_feedback(
             user_id=request.user_id,
             session_id=request.session_id,
@@ -312,13 +310,13 @@ async def submit_emoji_feedback(request: EmojiFeedbackRequest):
             content={"emoji": request.emoji},
             context=request.context or {"emoji_feedback": True}
         )
-        
+
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
             message=f"Emoji feedback {request.emoji} recorded"
         )
-        
+
     except Exception as e:
         logger.error(f"Error with emoji feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -334,7 +332,7 @@ async def submit_text_feedback(request: TextFeedbackRequest):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         feedback_id = await feedback_system.collect_feedback(
             user_id=request.user_id,
             session_id=request.session_id,
@@ -343,13 +341,13 @@ async def submit_text_feedback(request: TextFeedbackRequest):
             content={"text": request.text},
             context=request.context or {"text_feedback": True}
         )
-        
+
         return FeedbackResponse(
             success=True,
             feedback_id=feedback_id,
             message="Text feedback recorded"
         )
-        
+
     except Exception as e:
         logger.error(f"Error with text feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -361,19 +359,19 @@ async def edit_feedback(request: FeedbackEditRequest):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         success = await feedback_system.edit_feedback(
             feedback_id=request.feedback_id,
             user_id=request.user_id,
             new_content=request.new_content
         )
-        
+
         return FeedbackResponse(
             success=success,
             feedback_id=request.feedback_id,
             message="Feedback updated successfully" if success else "Failed to update feedback"
         )
-        
+
     except Exception as e:
         logger.error(f"Error editing feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -388,18 +386,18 @@ async def delete_feedback(
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         success = await feedback_system.delete_feedback(
             feedback_id=feedback_id,
             user_id=user_id
         )
-        
+
         return FeedbackResponse(
             success=success,
             feedback_id=feedback_id,
             message="Feedback deleted" if success else "Failed to delete feedback"
         )
-        
+
     except Exception as e:
         logger.error(f"Error deleting feedback: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -414,15 +412,15 @@ async def get_feedback_history(
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         history = await feedback_system.get_user_feedback_history(user_id, limit)
-        
+
         return FeedbackHistoryResponse(
             user_id=user_id,
             feedback_items=[item.to_audit_entry() for item in history],
             total_count=len(history)
         )
-        
+
     except Exception as e:
         logger.error(f"Error getting feedback history: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -434,9 +432,9 @@ async def get_feedback_summary(action_id: str):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         summary = await feedback_system.get_action_feedback(action_id)
-        
+
         return FeedbackSummaryResponse(
             action_id=action_id,
             total_feedback=summary.total_feedback,
@@ -446,7 +444,7 @@ async def get_feedback_summary(action_id: str):
             common_themes=summary.common_themes,
             improvement_suggestions=summary.improvement_suggestions
         )
-        
+
     except Exception as e:
         logger.error(f"Error getting feedback summary: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -458,10 +456,10 @@ async def update_consent(request: ConsentRequest):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         # Update user profile with consent
         from feedback.user_feedback_system import UserFeedbackProfile
-        
+
         profile = UserFeedbackProfile(
             user_id=request.user_id,
             preferred_feedback_types=set(),
@@ -469,20 +467,20 @@ async def update_consent(request: ConsentRequest):
             total_feedback_given=0,
             consent_given=request.consent_given,
             consent_timestamp=datetime.now(timezone.utc) if request.consent_given else None,
-            data_retention_days=request.data_retention_days or 
+            data_retention_days=request.data_retention_days or
                 feedback_system.compliance_rules[request.region]["data_retention_days"],
             allow_anonymized_usage=request.allow_anonymized_usage
         )
-        
+
         feedback_system.user_profiles[request.user_id] = profile
-        
+
         return {
             "success": True,
             "message": "Consent preferences updated",
             "user_id": request.user_id,
             "consent_given": request.consent_given
         }
-        
+
     except Exception as e:
         logger.error(f"Error updating consent: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -494,11 +492,11 @@ async def export_user_data(user_id: str):
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         user_data = await feedback_system.export_user_data(user_id)
-        
+
         return user_data
-        
+
     except Exception as e:
         logger.error(f"Error exporting user data: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -514,15 +512,15 @@ async def generate_feedback_report(
     try:
         if not feedback_system:
             raise HTTPException(status_code=503, detail="Feedback system not available")
-        
+
         report = await feedback_system.generate_feedback_report(
             start_date=start_date,
             end_date=end_date,
             anonymize=anonymize
         )
-        
+
         return report
-        
+
     except Exception as e:
         logger.error(f"Error generating report: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -533,7 +531,7 @@ async def get_status():
     """Get feedback system status."""
     if not feedback_system:
         return {"operational": False, "message": "System not initialized"}
-    
+
     status = await feedback_system.get_status()
     return status
 
@@ -552,10 +550,10 @@ async def health_check():
 async def get_rating_widget():
     """Get rating widget HTML."""
     from feedback.user_feedback_system import FeedbackWidget
-    
+
     if not feedback_system:
         raise HTTPException(status_code=503, detail="Feedback system not available")
-    
+
     widget = FeedbackWidget(feedback_system)
     return {"html": widget.render_rating_widget()}
 
@@ -564,10 +562,10 @@ async def get_rating_widget():
 async def get_emoji_widget():
     """Get emoji grid widget HTML."""
     from feedback.user_feedback_system import FeedbackWidget
-    
+
     if not feedback_system:
         raise HTTPException(status_code=503, detail="Feedback system not available")
-    
+
     widget = FeedbackWidget(feedback_system)
     return {"html": widget.render_emoji_grid()}
 
@@ -576,17 +574,17 @@ async def get_emoji_widget():
 async def get_quick_widget():
     """Get quick feedback widget HTML."""
     from feedback.user_feedback_system import FeedbackWidget
-    
+
     if not feedback_system:
         raise HTTPException(status_code=503, detail="Feedback system not available")
-    
+
     widget = FeedbackWidget(feedback_system)
     return {"html": widget.render_quick_feedback()}
 
 
 if __name__ == "__main__":
     import uvicorn
-    
+
     # Run the API
     uvicorn.run(
         app,

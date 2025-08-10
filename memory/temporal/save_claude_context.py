@@ -11,12 +11,10 @@ Save Claude Code Chat Context
 Saves the current Claude Code conversation context to a file for later reference.
 """
 
-import json
-import os
-from datetime import datetime
-from pathlib import Path
 import subprocess
 import sys
+from datetime import datetime
+from pathlib import Path
 
 
 def get_claude_context():
@@ -37,19 +35,19 @@ def save_context_manually():
     Guide user to manually save context.
     """
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    
+
     # Create contexts directory
     context_dir = Path("/Users/agi_dev/Lukhas_PWM/docs/claude_contexts")
     context_dir.mkdir(parents=True, exist_ok=True)
-    
+
     filename = f"claude_context_{timestamp}.md"
     filepath = context_dir / filename
-    
-    print(f"\nTo save your Claude Code context:")
-    print(f"1. Copy your entire conversation from the Claude Code interface")
+
+    print("\nTo save your Claude Code context:")
+    print("1. Copy your entire conversation from the Claude Code interface")
     print(f"2. I'll create a file at: {filepath}")
-    print(f"3. Paste your conversation content when prompted\n")
-    
+    print("3. Paste your conversation content when prompted\n")
+
     # Create template
     template = f"""# Claude Code Context - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
@@ -78,17 +76,17 @@ def save_context_manually():
 ## Follow-up Tasks
 [List any pending tasks or next steps]
 """
-    
+
     # Write template
-    with open(filepath, 'w') as f:
+    with open(filepath, "w") as f:
         f.write(template)
-    
+
     print(f"Template created at: {filepath}")
     print("\nYou can now:")
     print("1. Open the file and paste your conversation")
     print("2. Or use the command below to open in your default editor:")
     print(f"\n   open {filepath}")
-    
+
     # Try to open in default editor
     try:
         if sys.platform == "darwin":  # macOS
@@ -96,7 +94,7 @@ def save_context_manually():
             print("\nFile opened in your default editor!")
     except:
         pass
-    
+
     return filepath
 
 
@@ -143,11 +141,13 @@ function extractClaudeContext() {
 // Run the extractor
 extractClaudeContext();
 """
-    
-    script_path = Path("/Users/agi_dev/Lukhas_PWM/tools/scripts/claude_context_extractor.js")
-    with open(script_path, 'w') as f:
+
+    script_path = Path(
+        "/Users/agi_dev/Lukhas_PWM/tools/scripts/claude_context_extractor.js"
+    )
+    with open(script_path, "w") as f:
         f.write(script_content)
-    
+
     print(f"\nJavaScript extractor created at: {script_path}")
     print("To use it:")
     print("1. Open Claude Code in your browser")
@@ -159,13 +159,13 @@ extractClaudeContext();
 if __name__ == "__main__":
     print("Claude Code Context Saver")
     print("=" * 50)
-    
+
     # Create manual save template
     filepath = save_context_manually()
-    
+
     # Create browser extractor script
     create_context_script()
-    
+
     print("\n✅ Context saving tools created successfully!")
     print("\nFor automated extraction in the future, consider:")
     print("- Using browser automation tools (Selenium, Playwright)")

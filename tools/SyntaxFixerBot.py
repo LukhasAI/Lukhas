@@ -10,15 +10,11 @@
 ╚═══════════════════════════════════════════════════════════════════════════╝
 """
 
-import os
 import ast
-import re
-import sys
-import traceback
-from pathlib import Path
-from typing import List, Dict, Tuple, Optional
-import subprocess
 import logging
+import re
+import subprocess
+from pathlib import Path
 
 # Setup logging
 logging.basicConfig(
@@ -51,7 +47,7 @@ class SyntaxFixerBot:
             "patterns_applied": 0,
         }
 
-    def _initialize_error_patterns(self) -> Dict[str, Dict]:
+    def _initialize_error_patterns(self) -> dict[str, dict]:
         """Initialize common syntax error patterns and their fixes."""
         return {
             "unicode_chars": {
@@ -59,7 +55,6 @@ class SyntaxFixerBot:
                 "replacements": {
                     "—": "-",
                     "–": "-",
-                    '"': '"',
                     '"': '"',
                     """: "'", """: "'",
                     "•": "*",
@@ -110,7 +105,7 @@ class SyntaxFixerBot:
             "leading_zeros": {"pattern": r"\b0(\d+)\b", "replacement": r"\1"},
         }
 
-    def scan_workspace(self) -> List[Tuple[Path, str]]:
+    def scan_workspace(self) -> list[tuple[Path, str]]:
         """Scan workspace for Python files with syntax errors."""
         logger.info(f"🔍 Scanning workspace: {self.workspace_path}")
         error_files = []
@@ -118,7 +113,7 @@ class SyntaxFixerBot:
         for py_file in self.workspace_path.rglob("*.py"):
             self.stats["scanned"] += 1
             try:
-                with open(py_file, "r", encoding="utf-8", errors="ignore") as f:
+                with open(py_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
                 ast.parse(content)
             except (SyntaxError, UnicodeDecodeError) as e:
@@ -212,7 +207,7 @@ class SyntaxFixerBot:
         in_class = False
         class_indent = 0
 
-        for i, line in enumerate(lines):
+        for _i, line in enumerate(lines):
             # Detect class definition
             if line.strip().startswith("class "):
                 in_class = True
@@ -229,7 +224,7 @@ class SyntaxFixerBot:
                 if current_indent != expected_indent:
                     line = " " * expected_indent + line.lstrip()
                     self.stats["patterns_applied"] += 1
-                    logger.debug(f"🔧 Fixed method indentation")
+                    logger.debug("🔧 Fixed method indentation")
 
             # Detect end of class (non-indented line that's not empty)
             if (
@@ -298,7 +293,7 @@ class SyntaxFixerBot:
         """Fix a single file and return True if successful."""
         try:
             # Read original content
-            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 original_content = f.read()
 
             # Apply fixes
@@ -336,7 +331,7 @@ class SyntaxFixerBot:
             logger.error(f"❌ Error fixing {file_path}: {e}")
             return False
 
-    def run_comprehensive_fix(self) -> Dict[str, int]:
+    def run_comprehensive_fix(self) -> dict[str, int]:
         """Run comprehensive syntax fixing across the workspace."""
         logger.info("🚀 Starting lukhasI Syntax Fixer Bot...")
 
@@ -350,7 +345,7 @@ class SyntaxFixerBot:
         # Fix each file
         logger.info(f"🔧 Fixing {len(error_files)} files with syntax errors...")
 
-        for file_path, error_msg in error_files:
+        for file_path, _error_msg in error_files:
             logger.info(f"🔧 Fixing: {file_path.relative_to(self.workspace_path)}")
             self.fix_file(file_path)
 
@@ -398,7 +393,7 @@ def main():
     bot = SyntaxFixerBot(workspace)
 
     # Run comprehensive fix
-    stats = bot.run_comprehensive_fix()
+    bot.run_comprehensive_fix()
 
     # Generate and display report
     report = bot.generate_report()

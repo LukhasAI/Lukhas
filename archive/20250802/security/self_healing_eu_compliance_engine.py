@@ -1,37 +1,37 @@
 """
 ┌────────────────────────────────────────────────────────────────────────────
-│ � #KeyFile    : CRITICAL COMPLIANCE ENFORCEMENT                           
-│ 📦 MODULE      : lukhasSelfHealingEUComplianceEngine.py                        
-│ 🧾 DESCRIPTION : Self-healing EU compliance monitoring system with:        
-│                  - Automatic violation detection and remediation           
-│                  - OpenAI API integration for intelligent monitoring       
-│                  - Real-time compliance verification                       
-│ �️ TAG         : #KeyFile #CriticalSecurity #Compliance                   
-│ 🧩 TYPE        : Security Module        🔧 VERSION: v3.0.0                 
-│ 🖋️ AUTHOR      : LUCAS AI             📅 UPDATED: 2025-06-19              
+│ � #KeyFile    : CRITICAL COMPLIANCE ENFORCEMENT
+│ 📦 MODULE      : lukhasSelfHealingEUComplianceEngine.py
+│ 🧾 DESCRIPTION : Self-healing EU compliance monitoring system with:
+│                  - Automatic violation detection and remediation
+│                  - OpenAI API integration for intelligent monitoring
+│                  - Real-time compliance verification
+│ �️ TAG         : #KeyFile #CriticalSecurity #Compliance
+│ 🧩 TYPE        : Security Module        🔧 VERSION: v3.0.0
+│ 🖋️ AUTHOR      : LUCAS AI             📅 UPDATED: 2025-06-19
 ├────────────────────────────────────────────────────────────────────────────
-│ ⚠️ SECURITY NOTICE:                                                        
-│   This is a KEY_FILE implementing core compliance monitoring.              
-│   Any modifications require security review and compliance audit.          
-│                                                                           
-│ � CRITICAL FUNCTIONS:                                                    
-│   - EU AI Act Compliance                                                  
-│   - GDPR Enforcement                                                      
-│   - ISO 27001 Compliance                                                  
-│   - Automatic Recovery                                                    
-│                                                                           
-│ 🔐 COMPLIANCE CHAIN:                                                      
-│   Root component for:                                                      
-│   - EU Compliance Monitoring                                              
-│   - GDPR Data Protection                                                  
-│   - Automated Remediation                                                 
-│   - Compliance Reporting                                                  
-│                                                                           
-│ � MODIFICATION PROTOCOL:                                                 
-│   1. Security review required                                             
-│   2. Compliance audit mandatory                                           
-│   3. EU regulations check                                                 
-│   4. Integration testing                                                  
+│ ⚠️ SECURITY NOTICE:
+│   This is a KEY_FILE implementing core compliance monitoring.
+│   Any modifications require security review and compliance audit.
+│
+│ � CRITICAL FUNCTIONS:
+│   - EU AI Act Compliance
+│   - GDPR Enforcement
+│   - ISO 27001 Compliance
+│   - Automatic Recovery
+│
+│ 🔐 COMPLIANCE CHAIN:
+│   Root component for:
+│   - EU Compliance Monitoring
+│   - GDPR Data Protection
+│   - Automated Remediation
+│   - Compliance Reporting
+│
+│ � MODIFICATION PROTOCOL:
+│   1. Security review required
+│   2. Compliance audit mandatory
+│   3. EU regulations check
+│   4. Integration testing
 └────────────────────────────────────────────────────────────────────────────
 
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -41,20 +41,16 @@
 └─────────────────────────────────────────────────────────────────────┘
 """
 
-import os
-import time
-import uuid
-import json
-import logging
-import hashlib
 import asyncio
-import openai
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
+import logging
+import os
+import uuid
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import random
-import numpy as np
+from typing import Any, Dict, List, Optional
+
+import openai
 
 logger = logging.getLogger(__name__)
 
@@ -708,4 +704,7 @@ def create_lukhas_self_healing_compliance_engine(**kwargs):
 
 
 # Export for lukhas system
-__all__ = ["lukhasSelfHealingEUComplianceEngine", "create_lukhas_self_healing_compliance_engine"]
+__all__ = [
+    "lukhasSelfHealingEUComplianceEngine",
+    "create_lukhas_self_healing_compliance_engine",
+]

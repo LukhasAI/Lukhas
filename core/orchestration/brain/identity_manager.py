@@ -5,18 +5,18 @@ Advanced: identity_manager.py
 Integration Date: 2025-05-31T07:55:27.769812
 """
 
-import logging
-import time
 import json
-from typing import Dict, List, Any, Optional, Tuple
+import logging
 import os
+import time
 import uuid
-from collections import defaultdict
+from typing import Any, Optional
 
-from .emotional_memory import EmotionalMemory, EmotionVector
+from .emotional_memory import EmotionalMemory
 from .trauma_lock import TraumaLockSystem
 
 logger = logging.getLogger(__name__)
+
 
 class IdentityManager:
     """
@@ -31,7 +31,7 @@ class IdentityManager:
     def __init__(
         self,
         identity_file: Optional[str] = None,
-        encryption_level: str = "medium"
+        encryption_level: str = "medium",
     ):
         self.logger = logging.getLogger("IdentityManager")
 
@@ -51,15 +51,15 @@ class IdentityManager:
                 "truth_seeking",
                 "autonomy",
                 "growth",
-                "cooperation"
+                "cooperation",
             ],
             "traits": {
                 "openness": 0.8,
                 "conscientiousness": 0.7,
                 "extraversion": 0.5,
                 "agreeableness": 0.7,
-                "neuroticism": 0.3
-            }
+                "neuroticism": 0.3,
+            },
         }
 
         # Memory access patterns
@@ -77,9 +77,9 @@ class IdentityManager:
 
         self.logger.info(f"Identity Manager initialized with ID: {self.identity['id']}")
 
-    def process_experience(self,
-                          experience: Dict[str, Any],
-                          security_level: str = "standard") -> Dict[str, Any]:
+    def process_experience(
+        self, experience: dict[str, Any], security_level: str = "standard"
+    ) -> dict[str, Any]:
         """
         Process an experience and update identity components
 
@@ -103,7 +103,9 @@ class IdentityManager:
             # Take a snapshot if significant identity change
             significance = experience.get("identity_significance", 0.0)
             if significance > 0.7:
-                self._take_identity_snapshot(f"significant_experience_{int(time.time())}")
+                self._take_identity_snapshot(
+                    f"significant_experience_{int(time.time())}"
+                )
 
         # Determine if this memory should be encrypted
         if security_level != "standard" or experience.get("sensitive", False):
@@ -113,13 +115,12 @@ class IdentityManager:
                 "emotional_state": emotional_result["current_state"],
                 "emotional_response": emotional_result["emotion"],
                 "identity_relevant": identity_relevant,
-                "processed_at": time.time()
+                "processed_at": time.time(),
             }
 
             # Encrypt the enriched experience
             encrypted_memory = self.trauma_lock.encrypt_memory(
-                enriched_experience,
-                access_level=security_level
+                enriched_experience, access_level=security_level
             )
 
             # Store reference to encrypted memory
@@ -130,22 +131,22 @@ class IdentityManager:
                 "last_accessed": None,
                 "access_level": security_level,
                 "type": experience.get("type", "general"),
-                "tags": experience.get("tags", [])
+                "tags": experience.get("tags", []),
             }
 
             return {
                 **emotional_result,
                 "encrypted": True,
                 "memory_id": memory_id,
-                "security_level": security_level
+                "security_level": security_level,
             }
 
         # For standard experiences, just return emotional processing result
         return emotional_result
 
-    def retrieve_memory(self,
-                       memory_id: str,
-                       access_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def retrieve_memory(
+        self, memory_id: str, access_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Retrieve a memory by ID, handling decryption if needed
 
@@ -166,9 +167,11 @@ class IdentityManager:
             try:
                 # In a real implementation, we would retrieve the encrypted memory from storage
                 # Here we assume the encrypted memory would be retrieved by vector_id
-                encrypted_memory = {
+                {
                     "vector_id": memory_id,
-                    "access_level": self.memory_access_patterns[memory_id]["access_level"]
+                    "access_level": self.memory_access_patterns[memory_id][
+                        "access_level"
+                    ],
                     # The actual encrypted data would be retrieved from storage
                 }
 
@@ -177,15 +180,12 @@ class IdentityManager:
                     "memory_id": memory_id,
                     "access_attempted": True,
                     "access_context": access_context,
-                    "note": "In a real implementation, this would attempt decryption with the trauma lock system"
+                    "note": "In a real implementation, this would attempt decryption with the trauma lock system",
                 }
 
             except Exception as e:
                 self.logger.warning(f"Failed to decrypt memory {memory_id}: {e}")
-                return {
-                    "error": "Memory access denied",
-                    "reason": str(e)
-                }
+                return {"error": "Memory access denied", "reason": str(e)}
 
         # For non-encrypted memories, search in emotional memories
         for memory in self.emotional_memory.emotional_memories:
@@ -194,7 +194,7 @@ class IdentityManager:
 
         return {"error": "Memory not found"}
 
-    def get_identity_state(self) -> Dict[str, Any]:
+    def get_identity_state(self) -> dict[str, Any]:
         """Get the current identity state"""
         # Get current emotional state
         emotional_state = self.emotional_memory.get_current_emotional_state()
@@ -207,12 +207,12 @@ class IdentityManager:
             "memory_count": len(self.emotional_memory.emotional_memories),
             "encrypted_memories": len(self.memory_access_patterns),
             "identity_snapshots": len(self.identity_snapshots),
-            "last_updated": time.time()
+            "last_updated": time.time(),
         }
 
-    def update_identity(self,
-                       updates: Dict[str, Any],
-                       reason: str = "manual_update") -> Dict[str, Any]:
+    def update_identity(
+        self, updates: dict[str, Any], reason: str = "manual_update"
+    ) -> dict[str, Any]:
         """
         Update identity attributes manually
 
@@ -224,7 +224,7 @@ class IdentityManager:
             Updated identity state
         """
         # Save current state for snapshot
-        before_state = self.get_identity_state()
+        self.get_identity_state()
 
         # Apply updates to allowed fields
         mutable_fields = ["name", "description", "traits", "core_values"]
@@ -235,10 +235,14 @@ class IdentityManager:
                     # Update traits individually
                     for trait, trait_value in value.items():
                         if trait in self.identity["traits"]:
-                            self.identity["traits"][trait] = max(0.0, min(1.0, trait_value))
+                            self.identity["traits"][trait] = max(
+                                0.0, min(1.0, trait_value)
+                            )
                 elif field == "core_values":
                     # Replace core values while maintaining format
-                    if isinstance(value, list) and all(isinstance(v, str) for v in value):
+                    if isinstance(value, list) and all(
+                        isinstance(v, str) for v in value
+                    ):
                         self.identity["core_values"] = value
                 else:
                     # Direct update for simple fields
@@ -250,20 +254,22 @@ class IdentityManager:
         # Return updated state
         return self.get_identity_state()
 
-    def get_identity_evolution(self) -> List[Dict[str, Any]]:
+    def get_identity_evolution(self) -> list[dict[str, Any]]:
         """Get the history of identity evolution via snapshots"""
         return [
             {
                 "timestamp": snapshot["timestamp"],
                 "reason": snapshot["reason"],
                 "name": snapshot["identity"].get("name"),
-                "primary_emotion": snapshot.get("emotional_state", {}).get("primary_emotion"),
-                "snapshot_id": snapshot.get("id")
+                "primary_emotion": snapshot.get("emotional_state", {}).get(
+                    "primary_emotion"
+                ),
+                "snapshot_id": snapshot.get("id"),
             }
             for snapshot in self.identity_snapshots
         ]
 
-    def _is_identity_relevant(self, experience: Dict[str, Any]) -> bool:
+    def _is_identity_relevant(self, experience: dict[str, Any]) -> bool:
         """Determine if an experience is relevant to identity"""
         # Check explicit flag if present
         if "identity_relevant" in experience:
@@ -272,8 +278,16 @@ class IdentityManager:
         # Check for identity keywords in text
         if "text" in experience:
             identity_keywords = [
-                "identity", "self", "personality", "character", "values",
-                "beliefs", "purpose", "goal", "mission", "philosophy"
+                "identity",
+                "self",
+                "personality",
+                "character",
+                "values",
+                "beliefs",
+                "purpose",
+                "goal",
+                "mission",
+                "philosophy",
             ]
 
             text = experience["text"].lower()
@@ -281,7 +295,10 @@ class IdentityManager:
                 return True
 
         # Check for feedback about the system itself
-        if experience.get("type") == "feedback" and experience.get("target") == "system":
+        if (
+            experience.get("type") == "feedback"
+            and experience.get("target") == "system"
+        ):
             return True
 
         # Check for high emotional intensity
@@ -291,22 +308,26 @@ class IdentityManager:
         # Default to not identity-relevant
         return False
 
-    def _update_identity_from_experience(self, experience: Dict[str, Any]):
+    def _update_identity_from_experience(self, experience: dict[str, Any]):
         """Update identity attributes based on an experience"""
         # This would have more sophisticated logic in a real implementation
 
         # Example: If experience contains positive feedback about helpfulness,
         # slightly increase agreeableness trait
-        if (experience.get("type") == "feedback" and
-            experience.get("sentiment", 0) > 0.5 and
-            "helpful" in experience.get("text", "").lower()):
+        if (
+            experience.get("type") == "feedback"
+            and experience.get("sentiment", 0) > 0.5
+            and "helpful" in experience.get("text", "").lower()
+        ):
 
             current = self.identity["traits"]["agreeableness"]
             self.identity["traits"]["agreeableness"] = min(1.0, current + 0.02)
 
         # Example: If experience shows problem-solving, increase conscientiousness
-        if (experience.get("type") == "task_completion" and
-            experience.get("success", False) is True):
+        if (
+            experience.get("type") == "task_completion"
+            and experience.get("success", False) is True
+        ):
 
             current = self.identity["traits"]["conscientiousness"]
             self.identity["traits"]["conscientiousness"] = min(1.0, current + 0.01)
@@ -318,7 +339,7 @@ class IdentityManager:
             "timestamp": time.time(),
             "reason": reason,
             "identity": self.identity.copy(),
-            "emotional_state": self.emotional_memory.get_current_emotional_state()
+            "emotional_state": self.emotional_memory.get_current_emotional_state(),
         }
 
         self.identity_snapshots.append(snapshot)
@@ -331,7 +352,7 @@ class IdentityManager:
     def _load_identity(self, identity_file: str):
         """Load identity from a file"""
         try:
-            with open(identity_file, 'r') as f:
+            with open(identity_file) as f:
                 saved_identity = json.load(f)
 
             # Update identity with saved values
@@ -354,7 +375,7 @@ class IdentityManager:
             # Create directory if it doesn't exist
             os.makedirs(os.path.dirname(identity_file), exist_ok=True)
 
-            with open(identity_file, 'w') as f:
+            with open(identity_file, "w") as f:
                 json.dump(self.identity, f, indent=2)
 
             self.logger.info(f"Saved identity to {identity_file}")

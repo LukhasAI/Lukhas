@@ -49,15 +49,18 @@ intent, user trust tier, emotional state, and memory alignment.
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
-from typing import Tuple, Dict, Any # ΛMODIFICATION: Added typing
+from typing import Any, Dict, Tuple  # ΛMODIFICATION: Added typing
+
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
-DELEGATION_MIN_TIER = 2 # ΛCONFIG_PARAM_HARDCODED
-DELEGATION_MAX_EMOTION_SCORE = 0.8 # ΛCONFIG_PARAM_HARDCODED
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
+DELEGATION_MIN_TIER = 2  # ΛCONFIG_PARAM_HARDCODED
+DELEGATION_MAX_EMOTION_SCORE = 0.8  # ΛCONFIG_PARAM_HARDCODED
 # ΛCONFIG_END
+
 
 # ΛFUNCTIONS_START
 # -----------------------------------------------------------------------------
@@ -77,21 +80,42 @@ def can_delegate(intent: str, tier: int, emotion_score: float) -> Tuple[bool, st
     # ΛCAUTION: Uses hardcoded thresholds for tier and emotion score.
     if tier < DELEGATION_MIN_TIER:
         reason = f"Insufficient trust tier ({tier}) for delegation. Minimum required: {DELEGATION_MIN_TIER}."
-        log.info("can_delegate_check_failed_tier", intent=intent, tier=tier, emotion_score=emotion_score, reason=reason)
+        log.info(
+            "can_delegate_check_failed_tier",
+            intent=intent,
+            tier=tier,
+            emotion_score=emotion_score,
+            reason=reason,
+        )
         return False, reason
     if emotion_score > DELEGATION_MAX_EMOTION_SCORE:
         reason = f"Emotion score ({emotion_score}) too volatile for safe autonomous action. Maximum allowed: {DELEGATION_MAX_EMOTION_SCORE}."
-        log.info("can_delegate_check_failed_emotion", intent=intent, tier=tier, emotion_score=emotion_score, reason=reason)
+        log.info(
+            "can_delegate_check_failed_emotion",
+            intent=intent,
+            tier=tier,
+            emotion_score=emotion_score,
+            reason=reason,
+        )
         return False, reason
 
     reason = "Delegation conditions met."
-    log.info("can_delegate_check_passed", intent=intent, tier=tier, emotion_score=emotion_score, reason=reason)
+    log.info(
+        "can_delegate_check_passed",
+        intent=intent,
+        tier=tier,
+        emotion_score=emotion_score,
+        reason=reason,
+    )
     return True, reason
+
 
 # -----------------------------------------------------------------------------
 # 📌 FUNCTION: delegate_action
 # -----------------------------------------------------------------------------
-def delegate_action(intent: str, context: Any, user_profile: Dict[str, Any]) -> Dict[str, Any]:
+def delegate_action(
+    intent: str, context: Any, user_profile: Dict[str, Any]
+) -> Dict[str, Any]:
     """
     # ΛDOC: Executes or denies delegated action based on trust and emotion safety.
     # ΛARGS:
@@ -106,21 +130,25 @@ def delegate_action(intent: str, context: Any, user_profile: Dict[str, Any]) -> 
     """
     # ΛCAUTION: Relies on user_profile dict structure; .get() provides some safety.
     current_tier = user_profile.get("tier", 0)
-    current_emotion_score = user_profile.get("emotion", 0.0) # Default to neutral if not specified
+    current_emotion_score = user_profile.get(
+        "emotion", 0.0
+    )  # Default to neutral if not specified
 
-    log.debug("delegate_action_attempt", intent=intent, context_type=type(context).__name__, tier=current_tier, emotion=current_emotion_score)
-
-    can_act, reason = can_delegate(
-        intent,
-        current_tier,
-        current_emotion_score
+    log.debug(
+        "delegate_action_attempt",
+        intent=intent,
+        context_type=type(context).__name__,
+        tier=current_tier,
+        emotion=current_emotion_score,
     )
+
+    can_act, reason = can_delegate(intent, current_tier, current_emotion_score)
 
     if not can_act:
         result = {
-            "status": "denied", # ΛSTATUS_DENIED
+            "status": "denied",  # ΛSTATUS_DENIED
             "reason": reason,
-            "recommendation": "Seek explicit user confirmation or escalate." # ΛRECOMMENDATION
+            "recommendation": "Seek explicit user confirmation or escalate.",  # ΛRECOMMENDATION
         }
         log.warn("delegate_action_denied", intent=intent, reason=reason)
         return result
@@ -128,16 +156,22 @@ def delegate_action(intent: str, context: Any, user_profile: Dict[str, Any]) -> 
     # ΛPLACEHOLDER_LOGIC: Simulated behavior (future: dispatch task to DAST or executor)
     # AIO_NODE (simulated external action)
     action_message = f"🤖 Delegated intent activated: {intent}"
-    print(action_message) # ΛCONSOLE_OUTPUT
-    log.info("delegate_action_executed_symbolically", intent=intent, context_type=type(context).__name__)
+    print(action_message)  # ΛCONSOLE_OUTPUT
+    log.info(
+        "delegate_action_executed_symbolically",
+        intent=intent,
+        context_type=type(context).__name__,
+    )
 
     result = {
-        "status": "success", # ΛSTATUS_SUCCESS
+        "status": "success",  # ΛSTATUS_SUCCESS
         "action": intent,
         "context": context,
-        "executed_by": "delegate_logic"
+        "executed_by": "delegate_logic",
     }
     return result
+
+
 # ΛFUNCTIONS_END
 
 # ΛCLASSES_START

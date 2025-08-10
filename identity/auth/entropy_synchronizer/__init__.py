@@ -1,4 +1,3 @@
 """
 Entropy_Synchronizer Module
 """
-

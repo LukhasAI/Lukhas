@@ -6,6 +6,7 @@
 
 import numpy as np
 
+
 def final_entropy_tune(trauma_data, tweak_factor=0.05):
     """
     Apply final gentle amplitude adjustment to align entropy with EU AI Act safety band.

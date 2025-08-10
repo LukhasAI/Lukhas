@@ -3,16 +3,14 @@ Generated gRPC service classes for LUKHAS AGI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
 
-import asyncio
 import logging
-from typing import Any, Dict, Iterator
+from collections.abc import Iterator
 
 try:
     import grpc
 except ImportError:
     # Fallback for testing when grpc is not available
     grpc = None
-from . import core_pb2
 
 logger = logging.getLogger(__name__)
 

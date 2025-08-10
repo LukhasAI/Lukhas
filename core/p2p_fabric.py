@@ -10,7 +10,9 @@ the central event broker for data-intensive tasks.
 import socket
 import threading
 
+
 class P2PNode:
+
     def __init__(self, host, port):
         self.host = host
         self.port = port
@@ -30,7 +32,9 @@ class P2PNode:
             with self.lock:
                 self.peers.add(addr)
             print(f"P2PNode: Accepted connection from {addr}")
-            handler_thread = threading.Thread(target=self._handle_connection, args=(conn, addr))
+            handler_thread = threading.Thread(
+                target=self._handle_connection, args=(conn, addr)
+            )
             handler_thread.daemon = True
             handler_thread.start()
 
@@ -59,7 +63,8 @@ class P2PNode:
             peer_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             peer_sock.connect(peer_addr)
             print(f"P2PNode: Connected to {peer_addr}")
-            # In a real implementation, you would keep this socket open for communication
+            # In a real implementation, you would keep this socket open for
+            # communication
         except ConnectionRefusedError:
             with self.lock:
                 self.peers.remove(peer_addr)
@@ -76,6 +81,7 @@ class P2PNode:
                 except Exception as e:
                     print(f"P2PNode: Failed to send message to {peer_addr}: {e}")
 
+
 if __name__ == "__main__":
     node1 = P2PNode("localhost", 8001)
     node2 = P2PNode("localhost", 8002)
@@ -83,7 +89,8 @@ if __name__ == "__main__":
     node1.connect("localhost", 8002)
 
     import time
-    time.sleep(1) # Allow time for connection to be established
+
+    time.sleep(1)  # Allow time for connection to be established
 
     node1.broadcast("Hello from node 1!")
     node2.broadcast("Hello from node 2!")

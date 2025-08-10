@@ -6,18 +6,17 @@ Example showing how to integrate the identity system with a FastAPI application.
 Demonstrates protected routes and tier-based access control.
 """
 
-from fastapi import FastAPI, Depends
-from fastapi.responses import JSONResponse
 import uvicorn
+from fastapi import Depends, FastAPI
+from fastapi.responses import JSONResponse
 
 # Import identity system components
 from identity import (
-    identity_router,
-    get_current_user,
     AuthContext,
-    require_tier,
+    get_current_user,
+    identity_router,
     require_t3_or_above,
-    require_t5
+    require_t5,
 )
 
 # Create FastAPI app
@@ -105,26 +104,26 @@ async def process_data(
         "tier": user.tier,
         "input": data
     }
-    
+
     # Basic processing for all tiers
     result["basic_analysis"] = len(str(data))
-    
+
     # Enhanced processing for T2+
     if user.is_tier_or_above("T2"):
         result["enhanced_analysis"] = {
             "keys": list(data.keys()),
             "complexity": len(data.keys())
         }
-    
+
     # Consciousness processing for T3+
     if user.is_tier_or_above("T3"):
         result["consciousness_score"] = user.trinity_score
         result["emotional_context"] = "analyzed"
-    
+
     # Quantum processing for T4+
     if user.is_tier_or_above("T4"):
         result["quantum_analysis"] = "quantum_enhanced"
-    
+
     # Guardian insights for T5
     if user.tier == "T5":
         result["guardian_insights"] = {
@@ -132,7 +131,7 @@ async def process_data(
             "ethical_score": 1.0,
             "recommendation": "approved"
         }
-    
+
     return result
 
 # Error handler for authentication failures
@@ -168,6 +167,6 @@ if __name__ == "__main__":
     print("\nStarting server on http://localhost:8000")
     print("API documentation available at http://localhost:8000/docs")
     print("\n" + "=" * 50)
-    
+
     # Run the server
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -28,13 +28,14 @@
 """
 
 from enum import Enum
-from typing import Dict, Any, Optional
+
 
 class SecurityTier(Enum):
     TIER_1 = 1  # Basic security
     TIER_2 = 2  # Standard security
     TIER_3 = 3  # High security
     TIER_4 = 4  # Maximum security
+
 
 class CryptoRouter:
     """Routes cryptographic operations based on tier and context requirements."""
@@ -45,16 +46,18 @@ class CryptoRouter:
             SecurityTier.TIER_1: {"default": "sphincs+", "secure": "falcon"},
             SecurityTier.TIER_2: {"default": "falcon", "secure": "sphincs+"},
             SecurityTier.TIER_3: {"default": "falcon", "secure": "sphincs+"},
-            SecurityTier.TIER_4: {"default": "sphincs+", "secure": "falcon"}
+            SecurityTier.TIER_4: {"default": "sphincs+", "secure": "falcon"},
         }
         self.encryption_algorithms = {
             SecurityTier.TIER_1: {"default": "kyber"},
             SecurityTier.TIER_2: {"default": "kyber"},
             SecurityTier.TIER_3: {"default": "fs-pibe"},
-            SecurityTier.TIER_4: {"default": "fs-pibe"}
+            SecurityTier.TIER_4: {"default": "fs-pibe"},
         }
 
-    def select_signature_scheme(self, tier_level: SecurityTier, performance_req="balanced"):
+    def select_signature_scheme(
+        self, tier_level: SecurityTier, performance_req="balanced"
+    ):
         """Select optimal signature scheme for given tier and performance."""
         algorithms = self.signature_algorithms.get(tier_level, {})
         if performance_req == "secure":
@@ -75,9 +78,10 @@ class CryptoRouter:
             "sphincs+": 0.85,
             "falcon": 0.90,
             "kyber": 0.80,
-            "fs-pibe": 0.95
+            "fs-pibe": 0.95,
         }
         return resistance_table.get(algorithm.lower(), 0.0)
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

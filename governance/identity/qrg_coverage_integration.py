@@ -4,22 +4,23 @@ Provides integration wrapper for connecting the comprehensive QRG test suite to 
 """
 
 import asyncio
-from core.common import get_logger
-import time
-from typing import Dict, Any, Optional, List, Tuple
-from datetime import datetime
 import threading
+import time
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Optional
+
+from core.common import get_logger
 
 from .qrg_100_percent_coverage import (
+    TestIntegrationBoundaries,
+    TestPerformanceOptimization,
+    TestQRGCulturalValidation,
     TestQRGEdgeCases,
     TestQRGErrorHandling,
     TestQRGSecurityValidation,
-    TestQRGCulturalValidation,
     TestQuantumSteganographicCoverage,
-    TestPerformanceOptimization,
-    TestIntegrationBoundaries,
-    run_100_percent_coverage_suite
+    run_100_percent_coverage_suite,
 )
 
 logger = get_logger(__name__)
@@ -28,20 +29,22 @@ logger = get_logger(__name__)
 @dataclass
 class CoverageReport:
     """Data class for coverage test reports"""
+
     total_tests: int
     passed_tests: int
     failed_tests: int
     error_count: int
     coverage_percentage: float
     runtime_seconds: float
-    test_results: Dict[str, Any]
-    areas_covered: List[str]
+    test_results: dict[str, Any]
+    areas_covered: list[str]
     timestamp: datetime
 
 
 @dataclass
 class TestConfiguration:
     """Configuration for test execution"""
+
     enable_stress_testing: bool = True
     max_concurrent_threads: int = 50
     performance_timeout_seconds: float = 10.0
@@ -59,28 +62,30 @@ class QRGCoverageIntegration:
     Provides a simplified interface for the identity hub to manage comprehensive testing.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the QRG coverage integration"""
         self.config = TestConfiguration(**config) if config else TestConfiguration()
 
         # Initialize test suite components
         self.test_classes = {
-            'edge_cases': TestQRGEdgeCases,
-            'error_handling': TestQRGErrorHandling,
-            'security_validation': TestQRGSecurityValidation,
-            'cultural_validation': TestQRGCulturalValidation,
-            'quantum_steganographic': TestQuantumSteganographicCoverage,
-            'performance_optimization': TestPerformanceOptimization,
-            'integration_boundaries': TestIntegrationBoundaries
+            "edge_cases": TestQRGEdgeCases,
+            "error_handling": TestQRGErrorHandling,
+            "security_validation": TestQRGSecurityValidation,
+            "cultural_validation": TestQRGCulturalValidation,
+            "quantum_steganographic": TestQuantumSteganographicCoverage,
+            "performance_optimization": TestPerformanceOptimization,
+            "integration_boundaries": TestIntegrationBoundaries,
         }
 
         self.is_initialized = False
-        self.test_history: List[CoverageReport] = []
+        self.test_history: list[CoverageReport] = []
         self.current_test_status = "idle"
         self.lock = threading.Lock()
 
-        logger.info("QRGCoverageIntegration initialized with configuration: %s",
-                   self.config.__dict__)
+        logger.info(
+            "QRGCoverageIntegration initialized with configuration: %s",
+            self.config.__dict__,
+        )
 
     async def initialize(self):
         """Initialize the QRG coverage testing system"""
@@ -112,7 +117,11 @@ class QRGCoverageIntegration:
 
         # Check dependencies
         required_modules = [
-            'unittest', 'threading', 'tracemalloc', 'hashlib', 'secrets'
+            "unittest",
+            "threading",
+            "tracemalloc",
+            "hashlib",
+            "secrets",
         ]
 
         for module_name in required_modules:
@@ -137,11 +146,13 @@ class QRGCoverageIntegration:
             try:
                 # Test if we can instantiate the test class
                 test_instance = test_class()
-                if hasattr(test_instance, 'setUp'):
+                if hasattr(test_instance, "setUp"):
                     test_instance.setUp()
                 logger.debug(f"✅ Test component {test_name} initialized")
             except Exception as e:
-                logger.warning(f"⚠️ Test component {test_name} initialization issue: {e}")
+                logger.warning(
+                    f"⚠️ Test component {test_name} initialization issue: {e}"
+                )
 
         logger.info("Test component initialization complete")
 
@@ -151,18 +162,20 @@ class QRGCoverageIntegration:
 
         # Initialize monitoring data structures
         self.test_metrics = {
-            'total_executions': 0,
-            'average_runtime': 0.0,
-            'success_rate': 0.0,
-            'failure_patterns': {},
-            'performance_trends': []
+            "total_executions": 0,
+            "average_runtime": 0.0,
+            "success_rate": 0.0,
+            "failure_patterns": {},
+            "performance_trends": [],
         }
 
         logger.info("Test monitoring setup complete")
 
-    async def run_comprehensive_coverage_tests(self,
-                                             test_categories: Optional[List[str]] = None,
-                                             custom_config: Optional[Dict[str, Any]] = None) -> CoverageReport:
+    async def run_comprehensive_coverage_tests(
+        self,
+        test_categories: Optional[list[str]] = None,
+        custom_config: Optional[dict[str, Any]] = None,
+    ) -> CoverageReport:
         """
         Run comprehensive coverage tests
 
@@ -203,24 +216,36 @@ class QRGCoverageIntegration:
             # Create coverage report
             coverage_report = CoverageReport(
                 total_tests=test_result.testsRun,
-                passed_tests=test_result.testsRun - len(test_result.failures) - len(test_result.errors),
+                passed_tests=test_result.testsRun
+                - len(test_result.failures)
+                - len(test_result.errors),
                 failed_tests=len(test_result.failures),
                 error_count=len(test_result.errors),
                 coverage_percentage=coverage_percentage,
                 runtime_seconds=runtime,
                 test_results={
-                    'failures': [(str(test), error) for test, error in test_result.failures],
-                    'errors': [(str(test), error) for test, error in test_result.errors],
-                    'successful_areas': self._get_successful_test_areas(),
-                    'test_distribution': self._analyze_test_distribution(test_result)
+                    "failures": [
+                        (str(test), error) for test, error in test_result.failures
+                    ],
+                    "errors": [
+                        (str(test), error) for test, error in test_result.errors
+                    ],
+                    "successful_areas": self._get_successful_test_areas(),
+                    "test_distribution": self._analyze_test_distribution(test_result),
                 },
                 areas_covered=[
-                    "consciousness_adaptation", "cultural_sensitivity", "quantum_cryptography",
-                    "steganographic_glyphs", "security_validation", "performance_testing",
-                    "integration_testing", "error_handling", "edge_case_validation",
-                    "boundary_conditions"
+                    "consciousness_adaptation",
+                    "cultural_sensitivity",
+                    "quantum_cryptography",
+                    "steganographic_glyphs",
+                    "security_validation",
+                    "performance_testing",
+                    "integration_testing",
+                    "error_handling",
+                    "edge_case_validation",
+                    "boundary_conditions",
                 ],
-                timestamp=datetime.now()
+                timestamp=datetime.now(),
             )
 
             # Store in history
@@ -229,7 +254,9 @@ class QRGCoverageIntegration:
             # Update metrics
             await self._update_test_metrics(coverage_report)
 
-            logger.info(f"Coverage tests completed: {coverage_percentage:.1f}% in {runtime:.2f}s")
+            logger.info(
+                f"Coverage tests completed: {coverage_percentage:.1f}% in {runtime:.2f}s"
+            )
             return coverage_report
 
         except Exception as e:
@@ -238,25 +265,22 @@ class QRGCoverageIntegration:
         finally:
             self.current_test_status = "idle"
 
-    async def _run_test_suite_async(self,
-                                  test_categories: Optional[List[str]],
-                                  test_config: TestConfiguration) -> Tuple[Any, float]:
+    async def _run_test_suite_async(
+        self, test_categories: Optional[list[str]], test_config: TestConfiguration
+    ) -> tuple[Any, float]:
         """Run the test suite asynchronously"""
         loop = asyncio.get_event_loop()
 
         # Run the comprehensive test suite in a thread pool
         result = await loop.run_in_executor(
-            None,
-            self._run_test_suite_sync,
-            test_categories,
-            test_config
+            None, self._run_test_suite_sync, test_categories, test_config
         )
 
         return result
 
-    def _run_test_suite_sync(self,
-                           test_categories: Optional[List[str]],
-                           test_config: TestConfiguration) -> Tuple[Any, float]:
+    def _run_test_suite_sync(
+        self, test_categories: Optional[list[str]], test_config: TestConfiguration
+    ) -> tuple[Any, float]:
         """Synchronous test suite execution"""
         try:
             # Use the existing comprehensive test runner
@@ -266,11 +290,12 @@ class QRGCoverageIntegration:
             logger.error(f"Test suite execution error: {e}")
             # Return a mock result for error cases
             from unittest import TestResult
+
             error_result = TestResult()
             error_result.testsRun = 0
             return error_result, 0.0
 
-    def _get_successful_test_areas(self) -> List[str]:
+    def _get_successful_test_areas(self) -> list[str]:
         """Get list of successfully tested areas"""
         return [
             "consciousness_adaptation_tests",
@@ -282,10 +307,10 @@ class QRGCoverageIntegration:
             "error_recovery_mechanisms",
             "edge_case_handling",
             "security_entropy_validation",
-            "concurrent_execution_safety"
+            "concurrent_execution_safety",
         ]
 
-    def _analyze_test_distribution(self, test_result: Any) -> Dict[str, int]:
+    def _analyze_test_distribution(self, test_result: Any) -> dict[str, int]:
         """Analyze the distribution of tests across categories"""
         return {
             "edge_cases": 15,
@@ -294,37 +319,45 @@ class QRGCoverageIntegration:
             "cultural_validation": 10,
             "quantum_steganographic": 14,
             "performance_optimization": 6,
-            "integration_boundaries": 9
+            "integration_boundaries": 9,
         }
 
     async def _update_test_metrics(self, report: CoverageReport):
         """Update test execution metrics"""
-        self.test_metrics['total_executions'] += 1
+        self.test_metrics["total_executions"] += 1
 
         # Update average runtime
-        total_runtime = (self.test_metrics['average_runtime'] *
-                        (self.test_metrics['total_executions'] - 1) +
-                        report.runtime_seconds)
-        self.test_metrics['average_runtime'] = total_runtime / self.test_metrics['total_executions']
+        total_runtime = (
+            self.test_metrics["average_runtime"]
+            * (self.test_metrics["total_executions"] - 1)
+            + report.runtime_seconds
+        )
+        self.test_metrics["average_runtime"] = (
+            total_runtime / self.test_metrics["total_executions"]
+        )
 
         # Update success rate
         success_count = sum(1 for r in self.test_history if r.coverage_percentage >= 95)
-        self.test_metrics['success_rate'] = success_count / len(self.test_history)
+        self.test_metrics["success_rate"] = success_count / len(self.test_history)
 
         # Track performance trends
-        self.test_metrics['performance_trends'].append({
-            'timestamp': report.timestamp.isoformat(),
-            'coverage': report.coverage_percentage,
-            'runtime': report.runtime_seconds
-        })
+        self.test_metrics["performance_trends"].append(
+            {
+                "timestamp": report.timestamp.isoformat(),
+                "coverage": report.coverage_percentage,
+                "runtime": report.runtime_seconds,
+            }
+        )
 
         # Keep only last 100 trend points
-        if len(self.test_metrics['performance_trends']) > 100:
-            self.test_metrics['performance_trends'] = self.test_metrics['performance_trends'][-100:]
+        if len(self.test_metrics["performance_trends"]) > 100:
+            self.test_metrics["performance_trends"] = self.test_metrics[
+                "performance_trends"
+            ][-100:]
 
-    async def run_targeted_tests(self,
-                               test_category: str,
-                               specific_tests: Optional[List[str]] = None) -> Dict[str, Any]:
+    async def run_targeted_tests(
+        self, test_category: str, specific_tests: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Run tests for a specific category
 
@@ -344,71 +377,75 @@ class QRGCoverageIntegration:
         logger.info(f"Running targeted tests for category: {test_category}")
 
         try:
-            test_class = self.test_classes[test_category]
+            self.test_classes[test_category]
 
             # This would implement specific test execution
             # For now, return a summary
             return {
-                'category': test_category,
-                'status': 'completed',
-                'tests_run': 10,  # Placeholder
-                'tests_passed': 9,  # Placeholder
-                'coverage': 90.0,  # Placeholder
-                'runtime': 2.5,   # Placeholder
-                'timestamp': datetime.now().isoformat()
+                "category": test_category,
+                "status": "completed",
+                "tests_run": 10,  # Placeholder
+                "tests_passed": 9,  # Placeholder
+                "coverage": 90.0,  # Placeholder
+                "runtime": 2.5,  # Placeholder
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
             logger.error(f"Targeted test execution failed: {e}")
             return {
-                'category': test_category,
-                'status': 'failed',
-                'error': str(e),
-                'timestamp': datetime.now().isoformat()
+                "category": test_category,
+                "status": "failed",
+                "error": str(e),
+                "timestamp": datetime.now().isoformat(),
             }
 
-    async def get_coverage_statistics(self) -> Dict[str, Any]:
+    async def get_coverage_statistics(self) -> dict[str, Any]:
         """Get comprehensive coverage statistics"""
         if not self.test_history:
             return {
-                'total_runs': 0,
-                'average_coverage': 0.0,
-                'best_coverage': 0.0,
-                'latest_coverage': 0.0,
-                'trend': 'no_data'
+                "total_runs": 0,
+                "average_coverage": 0.0,
+                "best_coverage": 0.0,
+                "latest_coverage": 0.0,
+                "trend": "no_data",
             }
 
         coverages = [report.coverage_percentage for report in self.test_history]
 
         return {
-            'total_runs': len(self.test_history),
-            'average_coverage': sum(coverages) / len(coverages),
-            'best_coverage': max(coverages),
-            'latest_coverage': coverages[-1],
-            'trend': self._calculate_coverage_trend(),
-            'success_rate': len([c for c in coverages if c >= 95]) / len(coverages),
-            'metrics': self.test_metrics
+            "total_runs": len(self.test_history),
+            "average_coverage": sum(coverages) / len(coverages),
+            "best_coverage": max(coverages),
+            "latest_coverage": coverages[-1],
+            "trend": self._calculate_coverage_trend(),
+            "success_rate": len([c for c in coverages if c >= 95]) / len(coverages),
+            "metrics": self.test_metrics,
         }
 
     def _calculate_coverage_trend(self) -> str:
         """Calculate coverage trend over recent runs"""
         if len(self.test_history) < 2:
-            return 'insufficient_data'
+            return "insufficient_data"
 
         recent_coverages = [r.coverage_percentage for r in self.test_history[-5:]]
 
         if len(recent_coverages) >= 3:
-            first_third = sum(recent_coverages[:len(recent_coverages)//3]) / (len(recent_coverages)//3)
-            last_third = sum(recent_coverages[-len(recent_coverages)//3:]) / (len(recent_coverages)//3)
+            first_third = sum(recent_coverages[: len(recent_coverages) // 3]) / (
+                len(recent_coverages) // 3
+            )
+            last_third = sum(recent_coverages[-len(recent_coverages) // 3 :]) / (
+                len(recent_coverages) // 3
+            )
 
             if last_third > first_third + 2:
-                return 'improving'
+                return "improving"
             elif last_third < first_third - 2:
-                return 'declining'
+                return "declining"
 
-        return 'stable'
+        return "stable"
 
-    async def validate_system_readiness(self) -> Dict[str, Any]:
+    async def validate_system_readiness(self) -> dict[str, Any]:
         """Validate that the QRG system is ready for production"""
         if not self.is_initialized:
             await self.initialize()
@@ -417,41 +454,47 @@ class QRGCoverageIntegration:
 
         # Run a quick validation test
         validation_result = await self.run_comprehensive_coverage_tests(
-            test_categories=['security_validation', 'edge_cases'],
-            custom_config={'performance_timeout_seconds': 5.0}
+            test_categories=["security_validation", "edge_cases"],
+            custom_config={"performance_timeout_seconds": 5.0},
         )
 
         readiness_criteria = {
-            'coverage_threshold': validation_result.coverage_percentage >= 95,
-            'security_validation': validation_result.failed_tests == 0,
-            'performance_acceptable': validation_result.runtime_seconds < 5.0,
-            'error_free': validation_result.error_count == 0
+            "coverage_threshold": validation_result.coverage_percentage >= 95,
+            "security_validation": validation_result.failed_tests == 0,
+            "performance_acceptable": validation_result.runtime_seconds < 5.0,
+            "error_free": validation_result.error_count == 0,
         }
 
         overall_ready = all(readiness_criteria.values())
 
         return {
-            'ready_for_production': overall_ready,
-            'criteria': readiness_criteria,
-            'coverage_percentage': validation_result.coverage_percentage,
-            'validation_timestamp': datetime.now().isoformat(),
-            'recommendations': self._generate_readiness_recommendations(readiness_criteria)
+            "ready_for_production": overall_ready,
+            "criteria": readiness_criteria,
+            "coverage_percentage": validation_result.coverage_percentage,
+            "validation_timestamp": datetime.now().isoformat(),
+            "recommendations": self._generate_readiness_recommendations(
+                readiness_criteria
+            ),
         }
 
-    def _generate_readiness_recommendations(self, criteria: Dict[str, bool]) -> List[str]:
+    def _generate_readiness_recommendations(
+        self, criteria: dict[str, bool]
+    ) -> list[str]:
         """Generate recommendations based on readiness criteria"""
         recommendations = []
 
-        if not criteria['coverage_threshold']:
+        if not criteria["coverage_threshold"]:
             recommendations.append("Increase test coverage to achieve 95% threshold")
 
-        if not criteria['security_validation']:
+        if not criteria["security_validation"]:
             recommendations.append("Address security validation test failures")
 
-        if not criteria['performance_acceptable']:
-            recommendations.append("Optimize performance to meet execution time requirements")
+        if not criteria["performance_acceptable"]:
+            recommendations.append(
+                "Optimize performance to meet execution time requirements"
+            )
 
-        if not criteria['error_free']:
+        if not criteria["error_free"]:
             recommendations.append("Resolve system errors before production deployment")
 
         if not recommendations:
@@ -459,7 +502,9 @@ class QRGCoverageIntegration:
 
         return recommendations
 
-    async def get_test_history(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    async def get_test_history(
+        self, limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """Get test execution history"""
         history = self.test_history
         if limit:
@@ -467,18 +512,20 @@ class QRGCoverageIntegration:
 
         return [
             {
-                'timestamp': report.timestamp.isoformat(),
-                'coverage_percentage': report.coverage_percentage,
-                'total_tests': report.total_tests,
-                'passed_tests': report.passed_tests,
-                'runtime_seconds': report.runtime_seconds,
-                'areas_covered_count': len(report.areas_covered)
+                "timestamp": report.timestamp.isoformat(),
+                "coverage_percentage": report.coverage_percentage,
+                "total_tests": report.total_tests,
+                "passed_tests": report.passed_tests,
+                "runtime_seconds": report.runtime_seconds,
+                "areas_covered_count": len(report.areas_covered),
             }
             for report in history
         ]
 
 
 # Factory function for creating the integration
-def create_qrg_coverage_integration(config: Optional[Dict[str, Any]] = None) -> QRGCoverageIntegration:
+def create_qrg_coverage_integration(
+    config: Optional[dict[str, Any]] = None,
+) -> QRGCoverageIntegration:
     """Create and return a QRG coverage integration instance"""
     return QRGCoverageIntegration(config)

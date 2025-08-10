@@ -1,7 +1,8 @@
 import logging
-from typing import Optional, Dict
+from typing import Optional
 
 logger = logging.getLogger(__name__)
+
 
 class TextHandler:
     """
@@ -9,7 +10,7 @@ class TextHandler:
     Jobs-inspired focus on clear, intuitive communication.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         logger.info("TextHandler initialized")
 

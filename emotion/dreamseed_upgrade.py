@@ -34,22 +34,22 @@ SYMBOLIC TAGS IMPLEMENTED:
 LUKHAS_TAG: dreamseed_emotion_protocol, symbolic_affect_engine, ethical_safety
 """
 
-import json
 import hashlib
+import json
 import os
-from typing import Dict, Any, List, Optional, Set, Tuple, Union
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 import numpy as np
-import structlog
 
 # LUKHAS Core Imports
-from memory.emotional import EmotionalMemory, EmotionVector
-from memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
-
-from core.common import get_logger
-
+from memory.emotional import EmotionalMemory
+from memory.governance.ethical_drift_governor import (
+    EthicalDriftGovernor,
+    create_ethical_governor,
+)
 
 # TODO: Update to use unified tier system
 # - Replace EmotionalTier enum with imports from core.tier_unification_adapter

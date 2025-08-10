@@ -19,12 +19,18 @@ lukhas_context_sync.py
 # 🔄 CONNECTS TO: memory_log_filter, dream_engine, intent_router
 # ════════════════════════════════════════════════════════════════════════
 
-import os
 import json
+import os
 from datetime import datetime
-from memory_log_filter import summarize_recent, filter_by_tag, filter_by_date_range
+
+from memory_log_filter import (
+    filter_by_date_range,
+    filter_by_tag,
+    summarize_recent,
+)
 
 CONTEXT_PATH = "logs/daily_context_summary.json"
+
 
 def generate_daily_context(user_id="Commander"):
     context = {
@@ -36,7 +42,7 @@ def generate_daily_context(user_id="Commander"):
         "triggers": [],
         "intent_recommendations": [],
         "connected_user_flags": [],
-        "inferred_mood": "neutral"
+        "inferred_mood": "neutral",
     }
 
     try:
@@ -53,7 +59,11 @@ def generate_daily_context(user_id="Commander"):
             context["inferred_mood"] = "reflective"
 
         # Check for anniversary match
-        one_year_ago = (datetime.utcnow().replace(year=datetime.utcnow().year - 1)).date().isoformat()
+        one_year_ago = (
+            (datetime.utcnow().replace(year=datetime.utcnow().year - 1))
+            .date()
+            .isoformat()
+        )
         anniversary_memories = filter_by_date_range(one_year_ago, one_year_ago)
         if anniversary_memories:
             context["tags"].append("memory_anniversary")
@@ -65,7 +75,10 @@ def generate_daily_context(user_id="Commander"):
         context["triggers"].append("📍 Location-Aware Prompt")
 
         # Simulated connected users
-        context["connected_user_flags"] = ["Ava (tier 3, dream_shared)", "Mom (tier 2, calendar_shared)"]
+        context["connected_user_flags"] = [
+            "Ava (tier 3, dream_shared)",
+            "Mom (tier 2, calendar_shared)",
+        ]
         context["triggers"].append("🤝 Consider Sync Prompt")
 
         # Export context summary

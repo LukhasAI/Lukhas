@@ -9,24 +9,28 @@ This suite tests:
 """
 
 import asyncio
-import pytest
 import time
-from unittest.mock import MagicMock, AsyncMock
+from unittest.mock import AsyncMock
 
-from core.actor_system import Actor, ActorMessage, get_global_actor_system, ActorRef
-from core.supervision import (
-    SupervisionStrategy,
-    SupervisionDirective,
-    RestartPolicy,
-    FailureInfo,
-    DefaultSupervisionDecider,
-    OneForOneStrategy,
-    AllForOneStrategy,
-    RestForOneStrategy,
-    CircuitBreaker,
-    SupervisorActor,
-    RootSupervisor
+import pytest
+
+from core.actor_system import (
+    Actor,
 )
+from core.supervision import (
+    AllForOneStrategy,
+    CircuitBreaker,
+    DefaultSupervisionDecider,
+    FailureInfo,
+    OneForOneStrategy,
+    RestartPolicy,
+    RestForOneStrategy,
+    RootSupervisor,
+    SupervisionDirective,
+    SupervisionStrategy,
+    SupervisorActor,
+)
+
 
 # A simple worker actor for testing
 class WorkerActor(Actor):
@@ -47,12 +51,14 @@ class WorkerActor(Actor):
     async def get_state(self, message):
         return {"state": self.state}
 
+
 @pytest.fixture
 def event_loop():
     """Create a new event loop for each test."""
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
 
 @pytest.fixture(scope="function")
 async def actor_system(event_loop):
@@ -65,9 +71,7 @@ async def actor_system(event_loop):
 class TestSupervisionStrategy:
     def test_calculate_restart_delay(self):
         strategy = SupervisionStrategy(
-            restart_delay=0.1,
-            backoff_multiplier=2.0,
-            max_restart_delay=1.0
+            restart_delay=0.1, backoff_multiplier=2.0, max_restart_delay=1.0
         )
         assert strategy.calculate_restart_delay(1) == 0.1
         assert strategy.calculate_restart_delay(2) == 0.2
@@ -132,7 +136,7 @@ class TestDefaultSupervisionDecider:
         failure2 = FailureInfo("test-actor", Exception("fail2"), time.time(), 2)
         directive = await decider.decide(failure2)
 
-        assert directive == SupervisionDirective.RESTART # Should not stop
+        assert directive == SupervisionDirective.RESTART  # Should not stop
 
 
 class TestCircuitBreaker:
@@ -157,14 +161,16 @@ class TestCircuitBreaker:
             cb.record_failure()
 
         assert cb.state == "open"
-        await asyncio.sleep(0.15) # Wait for reset timeout
+        await asyncio.sleep(0.15)  # Wait for reset timeout
 
         assert cb.can_proceed() is True
         assert cb.state == "half_open"
 
     @pytest.mark.asyncio
     async def test_closes_from_half_open_after_success(self):
-        cb = CircuitBreaker(failure_threshold=3, reset_timeout=0.1, half_open_requests=2)
+        cb = CircuitBreaker(
+            failure_threshold=3, reset_timeout=0.1, half_open_requests=2
+        )
         for _ in range(3):
             cb.record_failure()
 
@@ -190,14 +196,14 @@ class TestCircuitBreaker:
         cb.record_failure()
         assert cb.state == "open"
 
+
 @pytest.mark.asyncio
 class TestSupervisorActor:
     async def test_create_child(self, actor_system):
         supervisor = await actor_system.create_actor(SupervisorActor, "supervisor-1")
-        child_ref = await supervisor.ask("create_child", {
-            "child_class": WorkerActor,
-            "child_id": "worker-1"
-        })
+        child_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
 
         assert child_ref is not None
         assert "worker-1" in supervisor.children
@@ -209,15 +215,15 @@ class TestSupervisorActor:
     async def test_one_for_one_restart(self, actor_system):
         strategy = SupervisionStrategy(max_failures=3, restart_delay=0.01)
         supervisor = await actor_system.create_actor(
-            SupervisorActor, "supervisor-1",
+            SupervisorActor,
+            "supervisor-1",
             supervision_strategy=strategy,
-            supervision_decider=OneForOneStrategy(strategy)
+            supervision_decider=OneForOneStrategy(strategy),
         )
 
-        child_ref = await supervisor.ask("create_child", {
-            "child_class": WorkerActor,
-            "child_id": "worker-1"
-        })
+        child_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
 
         # Change state
         await child_ref.tell("work", {"new_state": "dirty"})
@@ -226,11 +232,11 @@ class TestSupervisorActor:
 
         # Tell it to fail
         await child_ref.tell("fail", {})
-        await asyncio.sleep(0.1) # Give time for restart
+        await asyncio.sleep(0.1)  # Give time for restart
 
         # Check it was restarted
         state_after_fail = await child_ref.ask("get_state", {})
-        assert state_after_fail["state"] == "initial" # State is reset
+        assert state_after_fail["state"] == "initial"  # State is reset
 
         supervisor_actor = actor_system.get_actor("supervisor-1")
         child_meta = supervisor_actor.child_metadata["worker-1"]
@@ -239,13 +245,18 @@ class TestSupervisorActor:
     async def test_all_for_one_stop(self, actor_system):
         strategy = SupervisionStrategy(restart_policy=RestartPolicy.NEVER)
         supervisor = await actor_system.create_actor(
-            SupervisorActor, "supervisor-1",
+            SupervisorActor,
+            "supervisor-1",
             supervision_strategy=strategy,
-            supervision_decider=AllForOneStrategy()
+            supervision_decider=AllForOneStrategy(),
         )
 
-        child1_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-1"})
-        child2_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-2"})
+        child1_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
+        child2_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-2"}
+        )
 
         # Fail one child
         await child1_ref.tell("fail", {})
@@ -260,16 +271,23 @@ class TestSupervisorActor:
         strategy = SupervisionStrategy(restart_policy=RestartPolicy.NEVER)
         decider = RestForOneStrategy(strategy)
         supervisor = await actor_system.create_actor(
-            SupervisorActor, "supervisor-1",
+            SupervisorActor,
+            "supervisor-1",
             supervision_strategy=strategy,
-            supervision_decider=decider
+            supervision_decider=decider,
         )
 
         # Important: decider needs to know about children as they are created.
         # The supervisor actor does this automatically.
-        child1_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-1"})
-        child2_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-2"})
-        child3_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-3"})
+        child1_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
+        child2_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-2"}
+        )
+        child3_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-3"}
+        )
 
         # Fail the middle child
         await child2_ref.tell("fail", {})
@@ -291,7 +309,9 @@ class TestSupervisorActor:
             SupervisorActor, "supervisor-1", supervision_strategy=strategy
         )
 
-        child_ref = await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-1"})
+        child_ref = await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
 
         # Fail twice (should restart)
         await child_ref.tell("fail", {})
@@ -313,20 +333,24 @@ class TestSupervisorActor:
                 return SupervisionDirective.ESCALATE
 
         # Create a grand-parent supervisor
-        grand_supervisor = await actor_system.create_actor(SupervisorActor, "grand-supervisor-1")
+        grand_supervisor = await actor_system.create_actor(
+            SupervisorActor, "grand-supervisor-1"
+        )
 
         # Create parent supervisor under grand-parent
-        parent_ref = await grand_supervisor.ask("create_child", {
-            "child_class": SupervisorActor,
-            "child_id": "parent-supervisor-1",
-            "supervision_decider": EscalatingDecider(SupervisionStrategy())
-        })
+        parent_ref = await grand_supervisor.ask(
+            "create_child",
+            {
+                "child_class": SupervisorActor,
+                "child_id": "parent-supervisor-1",
+                "supervision_decider": EscalatingDecider(SupervisionStrategy()),
+            },
+        )
 
         # Create child under parent
-        child_ref = await parent_ref.ask("create_child", {
-            "child_class": WorkerActor,
-            "child_id": "worker-1"
-        })
+        child_ref = await parent_ref.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
 
         # Mock the grand-supervisor's failure handling
         grand_supervisor_actor = actor_system.get_actor("grand-supervisor-1")
@@ -344,7 +368,9 @@ class TestSupervisorActor:
 
     async def test_supervision_stats(self, actor_system):
         supervisor = await actor_system.create_actor(SupervisorActor, "supervisor-1")
-        await supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-1"})
+        await supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
 
         stats = await supervisor.ask("get_supervision_stats", {})
 
@@ -352,24 +378,35 @@ class TestSupervisorActor:
         assert stats["children_count"] == 1
         assert "worker-1" in stats["children"]
 
+
 @pytest.mark.asyncio
 class TestRootSupervisor:
     async def test_root_supervisor_creation(self, actor_system):
-        root_supervisor = await actor_system.create_actor(RootSupervisor, "root-supervisor")
+        root_supervisor = await actor_system.create_actor(
+            RootSupervisor, "root-supervisor"
+        )
         assert root_supervisor is not None
         assert root_supervisor.actor_id == "root-supervisor"
 
         # Check default strategy
         supervisor_actor = actor_system.get_actor("root-supervisor")
         assert supervisor_actor.supervision_strategy.max_failures == 10
-        assert supervisor_actor.supervision_strategy.restart_policy == RestartPolicy.ALWAYS
+        assert (
+            supervisor_actor.supervision_strategy.restart_policy == RestartPolicy.ALWAYS
+        )
 
     async def test_graceful_shutdown(self, actor_system):
-        root_supervisor = await actor_system.create_actor(RootSupervisor, "root-supervisor")
+        root_supervisor = await actor_system.create_actor(
+            RootSupervisor, "root-supervisor"
+        )
 
         # Create some children
-        await root_supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-1"})
-        await root_supervisor.ask("create_child", {"child_class": WorkerActor, "child_id": "worker-2"})
+        await root_supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-1"}
+        )
+        await root_supervisor.ask(
+            "create_child", {"child_class": WorkerActor, "child_id": "worker-2"}
+        )
 
         assert actor_system.get_actor("worker-1") is not None
         assert actor_system.get_actor("worker-2") is not None
@@ -382,6 +419,7 @@ class TestRootSupervisor:
         assert actor_system.get_actor("worker-1") is None
         assert actor_system.get_actor("worker-2") is None
         assert not root_supervisor.children
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

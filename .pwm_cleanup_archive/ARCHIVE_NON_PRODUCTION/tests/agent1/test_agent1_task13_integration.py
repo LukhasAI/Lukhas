@@ -15,12 +15,10 @@ Test Coverage:
 - Full reasoning process with trace logging
 """
 
-import sys
-import os
-import tempfile
 import json
+import os
+import sys
 from datetime import datetime
-from typing import Dict, Any, Optional
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -33,9 +31,6 @@ def test_symbolic_tracer_import():
     try:
         from features.symbolic.tracer import (
             SymbolicTracer,
-            InferenceStep,
-            SymbolicTrace,
-            DecisionTrail,
         )
 
         print("✅ SymbolicTracer imports successful")

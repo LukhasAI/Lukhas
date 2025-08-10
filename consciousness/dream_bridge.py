@@ -3,11 +3,11 @@
 Dream-Consciousness Bridge
 Implements the critical connection between dream synthesis and consciousness.
 """
-from typing import Dict, Any, Optional
-import asyncio
+from typing import Any, Dict
+
+from dream.engine import DreamEngine
 
 from consciousness.bridge import ConsciousnessBridge
-from dream.engine import DreamEngine
 from memory.core import MemoryCore
 
 
@@ -22,7 +22,9 @@ class DreamConsciousnessBridge:
         self.dream_engine = DreamEngine()
         self.memory = MemoryCore()
 
-    async def process_dream_to_consciousness(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_dream_to_consciousness(
+        self, dream_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process dream data through consciousness."""
         # Store dream in memory
         await self.memory.store_dream(dream_data)
@@ -35,7 +37,9 @@ class DreamConsciousnessBridge:
 
         return consciousness_result
 
-    async def process_consciousness_to_dream(self, consciousness_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_consciousness_to_dream(
+        self, consciousness_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Generate dreams from consciousness states."""
         # Analyze consciousness state
         dream_seed = await self.consciousness.extract_dream_seed(consciousness_data)
@@ -52,11 +56,13 @@ class DreamConsciousnessBridge:
 # 🔁 Cross-layer: Dream-consciousness integration
 from orchestration.integration_hub import get_integration_hub
 
+
 def register_with_hub():
     """Register this bridge with the integration hub."""
     hub = get_integration_hub()
     bridge = DreamConsciousnessBridge()
-    hub.register_component('dream_consciousness_bridge', bridge)
+    hub.register_component("dream_consciousness_bridge", bridge)
+
 
 # Auto-register on import
 register_with_hub()

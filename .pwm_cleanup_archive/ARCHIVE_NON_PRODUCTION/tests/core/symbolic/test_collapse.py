@@ -5,18 +5,20 @@ Tests stochastic and threshold-based collapse, boundary conditions,
 hysteresis, and multi-dimensional decision spaces for the LUKHAS collapse engine.
 """
 
-import pytest
 import random
-import numpy as np
-from unittest.mock import Mock, patch, MagicMock
-from datetime import datetime, timezone
-from typing import List, Dict, Any
 from dataclasses import dataclass
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+
+import numpy as np
+import pytest
+
 
 # Since collapse_engine.py is minimal, we'll create comprehensive test classes
 @dataclass
 class CollapseEvent:
     """Represents a collapse event."""
+
     collapsed: bool
     selected_action: str = None
     selected_state: Dict[str, Any] = None
@@ -31,6 +33,7 @@ class CollapseEvent:
 @dataclass
 class CollapseThreshold:
     """Collapse threshold configuration."""
+
     base: float = 0.7
     hysteresis: float = 0.1
 
@@ -43,7 +46,9 @@ class CollapseEngine:
     and stochastic modes.
     """
 
-    def __init__(self, base_threshold: float = 0.7, stochastic: bool = True, seed: int = None):
+    def __init__(
+        self, base_threshold: float = 0.7, stochastic: bool = True, seed: int = None
+    ):
         self.base_threshold = base_threshold
         self.stochastic = stochastic
         self.hysteresis = 0.1
@@ -77,12 +82,17 @@ class CollapseEngine:
 
         if collapsed:
             # Select outcome based on probabilities
-            selected_action = self._select_outcome(quantum_like_state.get("possibilities", []))
+            selected_action = self._select_outcome(
+                quantum_like_state.get("possibilities", [])
+            )
             selected_state = None
 
             # Find full state if action is part of complex state
             for possibility in quantum_like_state.get("possibilities", []):
-                if isinstance(possibility, dict) and possibility.get("action") == selected_action:
+                if (
+                    isinstance(possibility, dict)
+                    and possibility.get("action") == selected_action
+                ):
                     selected_state = possibility
                     break
 
@@ -91,7 +101,7 @@ class CollapseEngine:
             return CollapseEvent(
                 collapsed=True,
                 selected_action=selected_action,
-                selected_state=selected_state or {"action": selected_action}
+                selected_state=selected_state or {"action": selected_action},
             )
         else:
             return CollapseEvent(collapsed=False)
@@ -136,9 +146,7 @@ class TestCollapseMechanisms:
     def engine(self):
         """Create collapse engine instance."""
         return CollapseEngine(
-            base_threshold=0.7,
-            stochastic=True,
-            seed=42  # Deterministic for testing
+            base_threshold=0.7, stochastic=True, seed=42  # Deterministic for testing
         )
 
     @pytest.fixture
@@ -148,10 +156,10 @@ class TestCollapseMechanisms:
             "possibilities": [
                 {"action": "A", "probability": 0.3},
                 {"action": "B", "probability": 0.5},
-                {"action": "C", "probability": 0.2}
+                {"action": "C", "probability": 0.2},
             ],
             "uncertainty": 0.8,
-            "coherence": 0.6
+            "coherence": 0.6,
         }
 
     def test_threshold_collapse(self, engine, quantum_like_state):
@@ -220,7 +228,7 @@ class TestCollapseMechanisms:
         # Zero uncertainty - should collapse immediately
         certain_state = {
             "possibilities": [{"action": "X", "probability": 1.0}],
-            "uncertainty": 0.0
+            "uncertainty": 0.0,
         }
 
         # In deterministic mode
@@ -231,17 +239,14 @@ class TestCollapseMechanisms:
         # Maximum uncertainty with single option
         uncertain_state = {
             "possibilities": [{"action": "Y", "probability": 1.0}],
-            "uncertainty": 1.0
+            "uncertainty": 1.0,
         }
         result = engine.check_collapse(uncertain_state)
         assert result.collapsed == True
         assert result.selected_action == "Y"  # Only option
 
         # Empty possibilities
-        empty_state = {
-            "possibilities": [],
-            "uncertainty": 1.0
-        }
+        empty_state = {"possibilities": [], "uncertainty": 1.0}
         result = engine.check_collapse(empty_state)
         assert result.collapsed == True
         assert result.selected_action is None
@@ -271,10 +276,10 @@ class TestCollapseMechanisms:
         state = {
             "possibilities": [
                 {"action": "ON", "probability": 0.5},
-                {"action": "OFF", "probability": 0.5}
+                {"action": "OFF", "probability": 0.5},
             ],
             "uncertainty": 0.71,  # Just above threshold
-            "coherence": 1.0  # High coherence for predictable test
+            "coherence": 1.0,  # High coherence for predictable test
         }
 
         engine.stochastic = False
@@ -303,21 +308,17 @@ class TestCollapseMechanisms:
                     "action": "move",
                     "direction": "north",
                     "speed": "fast",
-                    "probability": 0.3
+                    "probability": 0.3,
                 },
                 {
                     "action": "move",
                     "direction": "south",
                     "speed": "slow",
-                    "probability": 0.4
+                    "probability": 0.4,
                 },
-                {
-                    "action": "wait",
-                    "duration": "long",
-                    "probability": 0.3
-                }
+                {"action": "wait", "duration": "long", "probability": 0.3},
             ],
-            "uncertainty": 0.9
+            "uncertainty": 0.9,
         }
 
         engine.stochastic = False
@@ -341,9 +342,9 @@ class TestCollapseMechanisms:
             "possibilities": [
                 {"action": "A", "probability": 0.2},
                 {"action": "B", "probability": 0.3},
-                {"action": "C", "probability": 0.1}  # Sum = 0.6
+                {"action": "C", "probability": 0.1},  # Sum = 0.6
             ],
-            "uncertainty": 1.0
+            "uncertainty": 1.0,
         }
 
         action_counts = {"A": 0, "B": 0, "C": 0}
@@ -368,9 +369,9 @@ class TestCollapseMechanisms:
             "possibilities": [
                 {"action": "A", "probability": 0.0},
                 {"action": "B", "probability": 0.0},
-                {"action": "C", "probability": 0.0}
+                {"action": "C", "probability": 0.0},
             ],
-            "uncertainty": 1.0
+            "uncertainty": 1.0,
         }
 
         result = engine.check_collapse(state)
@@ -379,12 +380,8 @@ class TestCollapseMechanisms:
 
         # Missing probabilities
         state_no_prob = {
-            "possibilities": [
-                {"action": "X"},
-                {"action": "Y"},
-                {"action": "Z"}
-            ],
-            "uncertainty": 1.0
+            "possibilities": [{"action": "X"}, {"action": "Y"}, {"action": "Z"}],
+            "uncertainty": 1.0,
         }
 
         result = engine.check_collapse(state_no_prob)
@@ -406,7 +403,7 @@ class TestCollapseMechanisms:
 
         # Check monotonic increase
         for i in range(1, len(y_values)):
-            assert y_values[i] >= y_values[i-1]
+            assert y_values[i] >= y_values[i - 1]
 
     def test_collapse_timing(self, engine, quantum_like_state):
         """Test that collapse events include timing information."""
@@ -417,26 +414,29 @@ class TestCollapseMechanisms:
 
         # Verify ISO format
         try:
-            datetime.fromisoformat(result.timestamp.replace('Z', '+00:00'))
+            datetime.fromisoformat(result.timestamp.replace("Z", "+00:00"))
         except ValueError:
             pytest.fail("Timestamp not in valid ISO format")
 
-    @pytest.mark.parametrize("threshold,uncertainty,should_collapse", [
-        (0.5, 0.4, False),
-        (0.5, 0.5, False),  # At threshold, deterministic requires strictly greater
-        (0.5, 0.6, True),
-        (0.8, 0.7, False),
-        (0.8, 0.9, True),
-        (0.2, 0.1, False),
-        (0.2, 0.3, True),
-    ])
+    @pytest.mark.parametrize(
+        "threshold,uncertainty,should_collapse",
+        [
+            (0.5, 0.4, False),
+            (0.5, 0.5, False),  # At threshold, deterministic requires strictly greater
+            (0.5, 0.6, True),
+            (0.8, 0.7, False),
+            (0.8, 0.9, True),
+            (0.2, 0.1, False),
+            (0.2, 0.3, True),
+        ],
+    )
     def test_deterministic_thresholds(self, threshold, uncertainty, should_collapse):
         """Test deterministic collapse at various thresholds."""
         engine = CollapseEngine(base_threshold=threshold, stochastic=False)
         state = {
             "possibilities": [{"action": "test", "probability": 1.0}],
             "uncertainty": uncertainty,
-            "coherence": 1.0  # Default coherence for predictable tests
+            "coherence": 1.0,  # Default coherence for predictable tests
         }
 
         result = engine.check_collapse(state)
@@ -451,17 +451,17 @@ class TestCollapseMechanisms:
                     "path": ["A", "B", "C"],
                     "cost": 10,
                     "risk": 0.3,
-                    "probability": 0.4
+                    "probability": 0.4,
                 },
                 {
                     "action": "navigate",
                     "path": ["X", "Y"],
                     "cost": 5,
                     "risk": 0.5,
-                    "probability": 0.6
-                }
+                    "probability": 0.6,
+                },
             ],
-            "uncertainty": 0.9
+            "uncertainty": 0.9,
         }
 
         engine.stochastic = False

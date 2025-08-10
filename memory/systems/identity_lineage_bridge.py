@@ -28,23 +28,21 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import hashlib
 import json
 import os
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional, Set, Tuple, Union
-from dataclasses import dataclass, asdict
 from enum import Enum
-import structlog
+from typing import Any, Dict, List, Optional
 
-from .causal_identity_tracker import CausalIdentityTracker, IdentityAnchor, IdentityLinkType
-from .fold_lineage_tracker import FoldLineageTracker, CausationType
+from .causal_identity_tracker import CausalIdentityTracker
+from .fold_lineage_tracker import FoldLineageTracker
 
-from core.common import get_logger
 
 class ProtectionLevel(Enum):
     """Identity protection levels against memory operations."""
+
     NONE = 0
     LOW = 1
     MEDIUM = 2
@@ -52,8 +50,10 @@ class ProtectionLevel(Enum):
     CRITICAL = 4
     LOCKED = 5
 
+
 class ThreatType(Enum):
     """Types of threats to identity stability."""
+
     MEMORY_COLLAPSE = "memory_collapse"
     TRAUMA_CASCADE = "trauma_cascade"
     ANCHOR_CORRUPTION = "anchor_corruption"
@@ -61,9 +61,11 @@ class ThreatType(Enum):
     SYMBOLIC_DRIFT = "symbolic_drift"
     CAUSAL_LOOP = "causal_loop"
 
+
 @dataclass
 class IdentityThreat:
     """Represents a detected threat to identity stability."""
+
     threat_id: str
     threat_type: ThreatType
     severity_level: float  # 0.0 - 1.0
@@ -73,9 +75,11 @@ class IdentityThreat:
     mitigation_required: bool
     protection_override: bool
 
+
 @dataclass
 class ProtectionAction:
     """Represents a protection action taken to preserve identity."""
+
     action_id: str
     action_type: str
     target_anchor_id: str
@@ -84,15 +88,18 @@ class ProtectionAction:
     success: bool
     recovery_links: List[str]
 
+
 class IdentityLineageBridge:
     """
     Bridge system that integrates memory lineage tracking with identity
     protection to prevent collapse/trauma from overwriting stable anchors.
     """
 
-    def __init__(self,
-                 identity_tracker: Optional[CausalIdentityTracker] = None,
-                 lineage_tracker: Optional[FoldLineageTracker] = None):
+    def __init__(
+        self,
+        identity_tracker: Optional[CausalIdentityTracker] = None,
+        lineage_tracker: Optional[FoldLineageTracker] = None,
+    ):
         """Initialize the identity lineage bridge."""
         self.identity_tracker = identity_tracker or CausalIdentityTracker()
         self.lineage_tracker = lineage_tracker or FoldLineageTracker()
@@ -109,14 +116,18 @@ class IdentityLineageBridge:
         self.threats_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/detected_threats.jsonl"
         self.protection_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/identity/protection_actions.jsonl"
 
-        logger.info("IdentityLineageBridge_initialized",
-                   identity_module_available=self.identity_module_available,
-                   protected_anchors_count=len(self.protected_anchors))
+        logger.info(
+            "IdentityLineageBridge_initialized",
+            identity_module_available=self.identity_module_available,
+            protected_anchors_count=len(self.protected_anchors),
+        )
 
-    def validate_memory_operation(self,
-                                fold_key: str,
-                                operation_type: str,
-                                operation_metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def validate_memory_operation(
+        self,
+        fold_key: str,
+        operation_type: str,
+        operation_metadata: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Validate a memory operation against identity protection policies.
 
@@ -139,15 +150,21 @@ class IdentityLineageBridge:
         stability_report = self.identity_tracker.get_identity_stability_report(fold_key)
 
         # Check for threats in the operation
-        threats = self._analyze_operation_threats(fold_key, operation_type, operation_metadata, stability_report)
+        threats = self._analyze_operation_threats(
+            fold_key, operation_type, operation_metadata, stability_report
+        )
 
         # Determine if operation should be blocked or modified
-        protection_response = self._evaluate_protection_response(threats, stability_report)
+        protection_response = self._evaluate_protection_response(
+            threats, stability_report
+        )
 
         # Apply protection actions if needed
         protection_actions = []
         if protection_response["requires_protection"]:
-            protection_actions = self._apply_protection_measures(fold_key, threats, protection_response)
+            protection_actions = self._apply_protection_measures(
+                fold_key, threats, protection_response
+            )
 
         validation_result = {
             "validation_id": validation_id,
@@ -160,25 +177,29 @@ class IdentityLineageBridge:
             "protection_actions": protection_actions,
             "stability_score": stability_report["overall_stability"],
             "recommendations": protection_response.get("recommendations", []),
-            "modified_operation": protection_response.get("modified_operation", {})
+            "modified_operation": protection_response.get("modified_operation", {}),
         }
 
         # Log validation result
         self._log_validation_result(validation_result)
 
-        logger.info("MemoryOperation_validated",
-                   validation_id=validation_id,
-                   fold_key=fold_key,
-                   approved=protection_response["approve_operation"],
-                   threats_count=len(threats),
-                   protection_actions_count=len(protection_actions))
+        logger.info(
+            "MemoryOperation_validated",
+            validation_id=validation_id,
+            fold_key=fold_key,
+            approved=protection_response["approve_operation"],
+            threats_count=len(threats),
+            protection_actions_count=len(protection_actions),
+        )
 
         return validation_result
 
-    def protect_identity_anchor(self,
-                              anchor_id: str,
-                              protection_level: ProtectionLevel,
-                              reason: str = "manual_protection") -> bool:
+    def protect_identity_anchor(
+        self,
+        anchor_id: str,
+        protection_level: ProtectionLevel,
+        reason: str = "manual_protection",
+    ) -> bool:
         """
         Apply protection to an identity anchor to prevent overwriting.
 
@@ -201,29 +222,31 @@ class IdentityLineageBridge:
 
             # Log protection action
             protection_action = ProtectionAction(
-                action_id=hashlib.sha256(f"protect_{anchor_id}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                action_id=hashlib.sha256(
+                    f"protect_{anchor_id}_{datetime.now().isoformat()}".encode()
+                ).hexdigest()[:12],
                 action_type="anchor_protection",
                 target_anchor_id=anchor_id,
                 source_threat_id="manual",
                 action_timestamp=datetime.now(timezone.utc).isoformat(),
                 success=True,
-                recovery_links=[]
+                recovery_links=[],
             )
 
             self.protection_actions[protection_action.action_id] = protection_action
             self._store_protection_action(protection_action)
 
-            logger.info("IdentityAnchor_protected",
-                       anchor_id=anchor_id,
-                       protection_level=protection_level.name,
-                       reason=reason)
+            logger.info(
+                "IdentityAnchor_protected",
+                anchor_id=anchor_id,
+                protection_level=protection_level.name,
+                reason=reason,
+            )
 
             return True
 
         except Exception as e:
-            logger.error("IdentityProtection_failed",
-                        anchor_id=anchor_id,
-                        error=str(e))
+            logger.error("IdentityProtection_failed", anchor_id=anchor_id, error=str(e))
             return False
 
     def detect_collapse_trauma_threats(self, fold_key: str) -> List[IdentityThreat]:
@@ -245,31 +268,37 @@ class IdentityLineageBridge:
         lineage_analysis = self.lineage_tracker.analyze_fold_lineage(fold_key)
 
         # Check for memory collapse threats
-        stability_score = lineage_analysis.get("stability_metrics", {}).get("stability_score", 1.0)
+        stability_score = lineage_analysis.get("stability_metrics", {}).get(
+            "stability_score", 1.0
+        )
         if stability_score < 0.3:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"collapse_{fold_key}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(
+                    f"collapse_{fold_key}_{datetime.now().isoformat()}".encode()
+                ).hexdigest()[:12],
                 threat_type=ThreatType.MEMORY_COLLAPSE,
                 severity_level=1.0 - stability_score,
                 affected_anchors=self._get_affected_anchors(fold_key),
                 source_memory_key=fold_key,
                 detection_timestamp=datetime.now(timezone.utc).isoformat(),
                 mitigation_required=True,
-                protection_override=stability_score < 0.1
+                protection_override=stability_score < 0.1,
             )
             threats.append(threat)
 
         # Check for trauma cascade threats
         if len(trauma_markers) > 2:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"trauma_{fold_key}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(
+                    f"trauma_{fold_key}_{datetime.now().isoformat()}".encode()
+                ).hexdigest()[:12],
                 threat_type=ThreatType.TRAUMA_CASCADE,
                 severity_level=min(1.0, len(trauma_markers) / 10.0),
                 affected_anchors=self._get_affected_anchors(fold_key),
                 source_memory_key=fold_key,
                 detection_timestamp=datetime.now(timezone.utc).isoformat(),
                 mitigation_required=True,
-                protection_override=len(trauma_markers) > 5
+                protection_override=len(trauma_markers) > 5,
             )
             threats.append(threat)
 
@@ -280,14 +309,16 @@ class IdentityLineageBridge:
                 anchor = self.identity_tracker.identity_anchors[anchor_id]
                 if anchor.stability_score < 0.4:
                     threat = IdentityThreat(
-                        threat_id=hashlib.sha256(f"corruption_{anchor_id}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                        threat_id=hashlib.sha256(
+                            f"corruption_{anchor_id}_{datetime.now().isoformat()}".encode()
+                        ).hexdigest()[:12],
                         threat_type=ThreatType.ANCHOR_CORRUPTION,
                         severity_level=1.0 - anchor.stability_score,
                         affected_anchors=[anchor_id],
                         source_memory_key=fold_key,
                         detection_timestamp=datetime.now(timezone.utc).isoformat(),
                         mitigation_required=True,
-                        protection_override=anchor.protection_level >= 4
+                        protection_override=anchor.protection_level >= 4,
                     )
                     threats.append(threat)
 
@@ -297,17 +328,21 @@ class IdentityLineageBridge:
             self._store_threat(threat)
 
         if threats:
-            logger.warning("IdentityThreats_detected",
-                          fold_key=fold_key,
-                          threats_count=len(threats),
-                          threat_types=[t.threat_type.value for t in threats])
+            logger.warning(
+                "IdentityThreats_detected",
+                fold_key=fold_key,
+                threats_count=len(threats),
+                threat_types=[t.threat_type.value for t in threats],
+            )
 
         return threats
 
-    def create_recovery_protocol(self,
-                               threatened_anchor_id: str,
-                               threat_type: ThreatType,
-                               recovery_strategy: str = "stabilize_and_recover") -> str:
+    def create_recovery_protocol(
+        self,
+        threatened_anchor_id: str,
+        threat_type: ThreatType,
+        recovery_strategy: str = "stabilize_and_recover",
+    ) -> str:
         """
         Create a recovery protocol for a threatened identity anchor.
 
@@ -325,7 +360,8 @@ class IdentityLineageBridge:
 
         # Find stable anchors to use as recovery sources
         stable_anchors = [
-            anchor_id for anchor_id, anchor in self.identity_tracker.identity_anchors.items()
+            anchor_id
+            for anchor_id, anchor in self.identity_tracker.identity_anchors.items()
             if anchor.stability_score > 0.7 and anchor_id != threatened_anchor_id
         ]
 
@@ -340,8 +376,8 @@ class IdentityLineageBridge:
                     recovery_metadata={
                         "recovery_protocol_id": recovery_protocol_id,
                         "threat_type": threat_type.value,
-                        "recovery_timestamp": datetime.now(timezone.utc).isoformat()
-                    }
+                        "recovery_timestamp": datetime.now(timezone.utc).isoformat(),
+                    },
                 )
                 recovery_links.append(recovery_link_id)
 
@@ -353,17 +389,19 @@ class IdentityLineageBridge:
             source_threat_id=threat_type.value,
             action_timestamp=datetime.now(timezone.utc).isoformat(),
             success=len(recovery_links) > 0,
-            recovery_links=recovery_links
+            recovery_links=recovery_links,
         )
 
         self.protection_actions[recovery_protocol_id] = protection_action
         self._store_protection_action(protection_action)
 
-        logger.info("RecoveryProtocol_created",
-                   recovery_protocol_id=recovery_protocol_id,
-                   threatened_anchor=threatened_anchor_id,
-                   threat_type=threat_type.value,
-                   recovery_links_count=len(recovery_links))
+        logger.info(
+            "RecoveryProtocol_created",
+            recovery_protocol_id=recovery_protocol_id,
+            threatened_anchor=threatened_anchor_id,
+            threat_type=threat_type.value,
+            recovery_links_count=len(recovery_links),
+        )
 
         return recovery_protocol_id
 
@@ -377,17 +415,25 @@ class IdentityLineageBridge:
         # Count protection levels
         protection_counts = {}
         for level in ProtectionLevel:
-            protection_counts[level.name] = sum(1 for p in self.protected_anchors.values() if p == level)
+            protection_counts[level.name] = sum(
+                1 for p in self.protected_anchors.values() if p == level
+            )
 
         # Count threat types
         threat_counts = {}
         for threat_type in ThreatType:
-            threat_counts[threat_type.value] = sum(1 for t in self.detected_threats.values() if t.threat_type == threat_type)
+            threat_counts[threat_type.value] = sum(
+                1
+                for t in self.detected_threats.values()
+                if t.threat_type == threat_type
+            )
 
         # Calculate overall system health
         total_anchors = len(self.identity_tracker.identity_anchors)
         protected_anchors = len(self.protected_anchors)
-        active_threats = len([t for t in self.detected_threats.values() if t.mitigation_required])
+        active_threats = len(
+            [t for t in self.detected_threats.values() if t.mitigation_required]
+        )
 
         if total_anchors > 0:
             protection_coverage = protected_anchors / total_anchors
@@ -411,7 +457,9 @@ class IdentityLineageBridge:
             "threat_ratio": round(threat_ratio, 3),
             "system_health_score": round(health_score, 3),
             "protection_actions_count": len(self.protection_actions),
-            "recommendations": self._generate_protection_recommendations(health_score, threat_ratio)
+            "recommendations": self._generate_protection_recommendations(
+                health_score, threat_ratio
+            ),
         }
 
         return status
@@ -423,15 +471,19 @@ class IdentityLineageBridge:
         try:
             # Try to import identity module components
             # This is a mock check - replace with actual identity module detection
-            return os.path.exists("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity")
+            return os.path.exists(
+                "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/identity"
+            )
         except Exception:
             return False
 
-    def _analyze_operation_threats(self,
-                                 fold_key: str,
-                                 operation_type: str,
-                                 operation_metadata: Dict[str, Any],
-                                 stability_report: Dict[str, Any]) -> List[IdentityThreat]:
+    def _analyze_operation_threats(
+        self,
+        fold_key: str,
+        operation_type: str,
+        operation_metadata: Dict[str, Any],
+        stability_report: Dict[str, Any],
+    ) -> List[IdentityThreat]:
         """Analyze memory operation for potential identity threats."""
         threats = []
 
@@ -444,22 +496,24 @@ class IdentityLineageBridge:
         # Check stability thresholds
         if stability_report["overall_stability"] < 0.5:
             threat = IdentityThreat(
-                threat_id=hashlib.sha256(f"op_threat_{fold_key}_{operation_type}_{datetime.now().isoformat()}".encode()).hexdigest()[:12],
+                threat_id=hashlib.sha256(
+                    f"op_threat_{fold_key}_{operation_type}_{datetime.now().isoformat()}".encode()
+                ).hexdigest()[:12],
                 threat_type=ThreatType.SYMBOLIC_DRIFT,
                 severity_level=1.0 - stability_report["overall_stability"],
                 affected_anchors=self._get_affected_anchors(fold_key),
                 source_memory_key=fold_key,
                 detection_timestamp=datetime.now(timezone.utc).isoformat(),
                 mitigation_required=True,
-                protection_override=False
+                protection_override=False,
             )
             threats.append(threat)
 
         return threats
 
-    def _evaluate_protection_response(self,
-                                    threats: List[IdentityThreat],
-                                    stability_report: Dict[str, Any]) -> Dict[str, Any]:
+    def _evaluate_protection_response(
+        self, threats: List[IdentityThreat], stability_report: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Evaluate what protection response is needed for detected threats."""
         max_severity = max([t.severity_level for t in threats] + [0.0])
         requires_override = any(t.protection_override for t in threats)
@@ -492,13 +546,15 @@ class IdentityLineageBridge:
             "approve_operation": approve_operation,
             "max_severity": max_severity,
             "recommendations": recommendations,
-            "modified_operation": {} if approve_operation else {"blocked": True}
+            "modified_operation": {} if approve_operation else {"blocked": True},
         }
 
-    def _apply_protection_measures(self,
-                                 fold_key: str,
-                                 threats: List[IdentityThreat],
-                                 protection_response: Dict[str, Any]) -> List[str]:
+    def _apply_protection_measures(
+        self,
+        fold_key: str,
+        threats: List[IdentityThreat],
+        protection_response: Dict[str, Any],
+    ) -> List[str]:
         """Apply protection measures based on threat analysis."""
         protection_actions = []
 
@@ -508,7 +564,9 @@ class IdentityLineageBridge:
             affected_anchors.update(threat.affected_anchors)
 
         for anchor_id in affected_anchors:
-            if self.protect_identity_anchor(anchor_id, protection_response["protection_level"]):
+            if self.protect_identity_anchor(
+                anchor_id, protection_response["protection_level"]
+            ):
                 protection_actions.append(f"protected_anchor_{anchor_id}")
 
         # Create recovery protocols for high-severity threats
@@ -533,25 +591,35 @@ class IdentityLineageBridge:
 
         # Find anchors through causal origins
         for origin in self.identity_tracker.causal_origins.values():
-            if (fold_key in origin.temporal_link or fold_key in origin.causal_origin_id) and origin.identity_anchor_id:
+            if (
+                fold_key in origin.temporal_link or fold_key in origin.causal_origin_id
+            ) and origin.identity_anchor_id:
                 if origin.identity_anchor_id not in affected_anchors:
                     affected_anchors.append(origin.identity_anchor_id)
 
         return affected_anchors
 
-    def _generate_protection_recommendations(self, health_score: float, threat_ratio: float) -> List[str]:
+    def _generate_protection_recommendations(
+        self, health_score: float, threat_ratio: float
+    ) -> List[str]:
         """Generate recommendations based on system health metrics."""
         recommendations = []
 
         if health_score < 0.3:
-            recommendations.append("CRITICAL: Implement immediate identity stabilization")
+            recommendations.append(
+                "CRITICAL: Implement immediate identity stabilization"
+            )
             recommendations.append("Create additional identity anchors for redundancy")
         elif health_score < 0.6:
-            recommendations.append("Increase protection coverage for vulnerable anchors")
+            recommendations.append(
+                "Increase protection coverage for vulnerable anchors"
+            )
             recommendations.append("Monitor threat detection more closely")
 
         if threat_ratio > 0.2:
-            recommendations.append("High threat environment detected - increase monitoring")
+            recommendations.append(
+                "High threat environment detected - increase monitoring"
+            )
             recommendations.append("Consider proactive recovery protocol deployment")
 
         if not recommendations:
@@ -563,8 +631,8 @@ class IdentityLineageBridge:
         """Log memory operation validation result."""
         try:
             os.makedirs(os.path.dirname(self.protection_log_path), exist_ok=True)
-            with open(self.protection_log_path, 'a') as f:
-                f.write(json.dumps(validation_result) + '\n')
+            with open(self.protection_log_path, "a") as f:
+                f.write(json.dumps(validation_result) + "\n")
         except Exception as e:
             logger.error("ValidationResult_log_failed", error=str(e))
 
@@ -575,8 +643,8 @@ class IdentityLineageBridge:
             threat_dict = asdict(threat)
             threat_dict["threat_type"] = threat.threat_type.value  # Convert enum
 
-            with open(self.threats_log_path, 'a') as f:
-                f.write(json.dumps(threat_dict) + '\n')
+            with open(self.threats_log_path, "a") as f:
+                f.write(json.dumps(threat_dict) + "\n")
         except Exception as e:
             logger.error("Threat_store_failed", error=str(e))
 
@@ -584,19 +652,19 @@ class IdentityLineageBridge:
         """Store protection action to persistent storage."""
         try:
             os.makedirs(os.path.dirname(self.protection_log_path), exist_ok=True)
-            with open(self.protection_log_path, 'a') as f:
-                f.write(json.dumps(asdict(action)) + '\n')
+            with open(self.protection_log_path, "a") as f:
+                f.write(json.dumps(asdict(action)) + "\n")
         except Exception as e:
             logger.error("ProtectionAction_store_failed", error=str(e))
 
 
 # Export classes and functions
 __all__ = [
-    'IdentityLineageBridge',
-    'IdentityThreat',
-    'ProtectionAction',
-    'ProtectionLevel',
-    'ThreatType'
+    "IdentityLineageBridge",
+    "IdentityThreat",
+    "ProtectionAction",
+    "ProtectionLevel",
+    "ThreatType",
 ]
 
 

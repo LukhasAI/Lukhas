@@ -6,16 +6,19 @@ Encrypted upload and hash anchoring to Filecoin or Web3 storage.
 Provides decentralized storage for VeriFold memory systems.
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Dict, List, Optional
+
 
 @dataclass
 class UploadResult:
     """Result of Filecoin upload operation"""
+
     cid: str
     deal_id: Optional[str]
     storage_cost: float
     retrieval_info: Dict
+
 
 class FilecoinUploader:
     """Handles encrypted uploads to Filecoin network."""
@@ -25,7 +28,9 @@ class FilecoinUploader:
         self.filecoin_client = None
         self.encryption_engine = None
 
-    def upload_encrypted_memory(self, memory_data: Dict, encryption_key: bytes) -> UploadResult:
+    def upload_encrypted_memory(
+        self, memory_data: Dict, encryption_key: bytes
+    ) -> UploadResult:
         """Upload encrypted memory data to Filecoin."""
         # TODO: Implement encrypted upload
         pass
@@ -49,6 +54,7 @@ class FilecoinUploader:
         """Monitor status of active storage deals."""
         # TODO: Implement deal monitoring
         pass
+
 
 # TODO: Add redundant storage across multiple providers
 # TODO: Implement automatic deal renewal

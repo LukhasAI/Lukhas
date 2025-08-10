@@ -6,7 +6,6 @@ Total Functions: 298
 """
 
 import logging
-from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -115,23 +114,62 @@ CREATIVITY_CLASS_ENTITIES = [
     ("dream.oneiric_engine.demo.dream_interpreter", "VoiceInput"),
     ("dream.oneiric_engine.demo.web_app", "WebDreamInterpreter"),
     ("dream.oneiric_engine.oneiric_core.db.user_repository", "UserRecord"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "BioOrchestrator"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamEngineSystem"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamMemoryManager"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamQuantumConfig"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamReflectionLoop"),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "BioOrchestrator",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "DreamEngineSystem",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "DreamMemoryManager",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "DreamQuantumConfig",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "DreamReflectionLoop",
+    ),
     ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamRequest"),
     ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "DreamResponse"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "EnhancedDreamEngine"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "QuantumBioOscillator"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "QuantumDreamAdapter"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "SnapshotRequest"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "SnapshotResponse"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "UnifiedIntegration"),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "EnhancedDreamEngine",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "QuantumBioOscillator",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "QuantumDreamAdapter",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "SnapshotRequest",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "SnapshotResponse",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "UnifiedIntegration",
+    ),
     ("dream.oneiric_engine.oneiric_core.engine.dream_engine_unified", "DreamRequest"),
     ("dream.oneiric_engine.oneiric_core.engine.dream_engine_unified", "DreamResponse"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_unified", "SnapshotRequest"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_unified", "SnapshotResponse"),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_unified",
+        "SnapshotRequest",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_unified",
+        "SnapshotResponse",
+    ),
     ("dream.oneiric_engine.oneiric_core.identity.auth_middleware", "AuthUser"),
     ("dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified", "AuthUser"),
     ("dream.oneiric_engine.oneiric_core.settings", "Config"),
@@ -279,7 +317,10 @@ CREATIVITY_CLASS_ENTITIES = [
     ("service", "CreativityService"),
     ("service", "IdentityClient"),
     ("services", "CreativityService"),
-    ("systems.creative_expressions_creativity_engine", "CreativeExpressionsCreativityEngine"),
+    (
+        "systems.creative_expressions_creativity_engine",
+        "CreativeExpressionsCreativityEngine",
+    ),
     ("systems.creative_expressions_creativity_engine", "CreativeExpressionsEngine"),
     ("systems.vocabulary_creativity_engine", "VocabularyCreativityEngine"),
     ("systems.vocabulary_creativity_engine", "VocabularyCreativityEngine"),
@@ -397,20 +438,50 @@ CREATIVITY_FUNCTION_ENTITIES = [
     ("dream.oneiric_engine.demo.web_app", "interpret_dream"),
     ("dream.oneiric_engine.demo.web_app", "to_json"),
     ("dream.oneiric_engine.oneiric_core.db.db", "init_db"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "get_dream_engine"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi", "reflection_loop"),
-    ("dream.oneiric_engine.oneiric_core.engine.dream_engine_unified", "get_dream_engine"),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "get_dream_engine",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi",
+        "reflection_loop",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.engine.dream_engine_unified",
+        "get_dream_engine",
+    ),
     ("dream.oneiric_engine.oneiric_core.identity.auth_middleware", "decorator"),
-    ("dream.oneiric_engine.oneiric_core.identity.auth_middleware", "lukhas_tier_required"),
+    (
+        "dream.oneiric_engine.oneiric_core.identity.auth_middleware",
+        "lukhas_tier_required",
+    ),
     ("dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified", "decorator"),
-    ("dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified", "oneiric_tier_required"),
-    ("dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified", "require_lambda_tier"),
+    (
+        "dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified",
+        "oneiric_tier_required",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.identity.auth_middleware_unified",
+        "require_lambda_tier",
+    ),
     ("dream.oneiric_engine.oneiric_core.migrations.env", "run_migrations_offline"),
     ("dream.oneiric_engine.oneiric_core.migrations.env", "run_migrations_online"),
-    ("dream.oneiric_engine.oneiric_core.migrations.versions.20250710_add_users_table", "downgrade"),
-    ("dream.oneiric_engine.oneiric_core.migrations.versions.20250710_add_users_table", "upgrade"),
-    ("dream.oneiric_engine.oneiric_core.migrations.versions.20250726_add_unified_tier_support", "downgrade"),
-    ("dream.oneiric_engine.oneiric_core.migrations.versions.20250726_add_unified_tier_support", "upgrade"),
+    (
+        "dream.oneiric_engine.oneiric_core.migrations.versions.20250710_add_users_table",
+        "downgrade",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.migrations.versions.20250710_add_users_table",
+        "upgrade",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.migrations.versions.20250726_add_unified_tier_support",
+        "downgrade",
+    ),
+    (
+        "dream.oneiric_engine.oneiric_core.migrations.versions.20250726_add_unified_tier_support",
+        "upgrade",
+    ),
     ("dream.oneiric_engine.oneiric_core.settings", "get_settings"),
     ("dream.oneiric_engine.oneiric_core.settings", "validate_database_url"),
     ("dream.oneiric_engine.oneiric_core.settings", "validate_secret_strength"),
@@ -600,7 +671,7 @@ class CreativityEntityActivator:
 
     def activate_all(self):
         """Activate all creativity entities"""
-        logger.info(f"Starting creativity entity activation...")
+        logger.info("Starting creativity entity activation...")
 
         # Activate classes
         self._activate_classes()
@@ -608,12 +679,14 @@ class CreativityEntityActivator:
         # Activate functions
         self._activate_functions()
 
-        logger.info(f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed")
+        logger.info(
+            f"{system_name} activation complete: {self.activated_count} activated, {self.failed_count} failed"
+        )
 
         return {
             "activated": self.activated_count,
             "failed": self.failed_count,
-            "total": len(CREATIVITY_CLASS_ENTITIES) + len(CREATIVITY_FUNCTION_ENTITIES)
+            "total": len(CREATIVITY_CLASS_ENTITIES) + len(CREATIVITY_FUNCTION_ENTITIES),
         }
 
     def _activate_classes(self):
@@ -621,7 +694,7 @@ class CreativityEntityActivator:
         for module_path, class_name in CREATIVITY_CLASS_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -646,7 +719,9 @@ class CreativityEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate {class_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate {class_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _activate_functions(self):
@@ -654,7 +729,7 @@ class CreativityEntityActivator:
         for module_path, func_name in CREATIVITY_FUNCTION_ENTITIES:
             try:
                 # Build full module path
-                if module_path.startswith('.'):
+                if module_path.startswith("."):
                     full_path = f"{system_name}{module_path}"
                 else:
                     full_path = f"{system_name}.{module_path}"
@@ -671,20 +746,23 @@ class CreativityEntityActivator:
                 self.activated_count += 1
 
             except Exception as e:
-                logger.warning(f"Failed to activate function {func_name} from {module_path}: {e}")
+                logger.warning(
+                    f"Failed to activate function {func_name} from {module_path}: {e}"
+                )
                 self.failed_count += 1
 
     def _generate_service_name(self, class_name: str) -> str:
         """Generate consistent service names"""
         import re
+
         # Convert CamelCase to snake_case
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', class_name)
-        name = re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()
+        name = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", class_name)
+        name = re.sub("([a-z0-9])([A-Z])", r"\1_\2", name).lower()
 
         # Remove common suffixes
-        for suffix in ['_manager', '_service', '_system', '_engine', '_handler']:
+        for suffix in ["_manager", "_service", "_system", "_engine", "_handler"]:
             if name.endswith(suffix):
-                name = name[:-len(suffix)]
+                name = name[: -len(suffix)]
                 break
 
         return name

@@ -3,7 +3,6 @@
 Simple security test runner without pytest dependency
 """
 
-import os
 import re
 import sys
 from pathlib import Path
@@ -37,7 +36,7 @@ def test_no_hardcoded_passwords():
             continue
 
         try:
-            with open(py_file, "r", encoding="utf-8") as f:
+            with open(py_file, encoding="utf-8") as f:
                 content = f.read()
 
             for pattern in password_patterns:
@@ -48,7 +47,7 @@ def test_no_hardcoded_passwords():
                         continue
                     violations.append(f"{py_file}: {match}")
 
-        except (UnicodeDecodeError, IOError):
+        except (OSError, UnicodeDecodeError):
             continue
 
     if violations:
@@ -69,7 +68,7 @@ def test_yubiseeder_security():
         print("⚠️  SKIPPED: YubiSeeder file not found")
         assert True
 
-    with open(yubi_file, "r", encoding="utf-8") as f:
+    with open(yubi_file, encoding="utf-8") as f:
         content = f.read()
 
     # Check that hardcoded password is removed
@@ -104,7 +103,7 @@ def test_subprocess_security():
         if not script_file.exists():
             continue
 
-        with open(script_file, "r", encoding="utf-8") as f:
+        with open(script_file, encoding="utf-8") as f:
             content = f.read()
 
         # Check for subprocess usage
@@ -133,7 +132,7 @@ def test_dependency_versions():
         print("⚠️  SKIPPED: requirements.txt not found")
         assert True
 
-    with open(req_file, "r", encoding="utf-8") as f:
+    with open(req_file, encoding="utf-8") as f:
         content = f.read()
 
     # Check for updated versions
@@ -179,14 +178,14 @@ def test_no_shell_injection():
             continue
 
         try:
-            with open(py_file, "r", encoding="utf-8") as f:
+            with open(py_file, encoding="utf-8") as f:
                 content = f.read()
 
             for pattern in dangerous_patterns:
                 if re.search(pattern, content):
                     violations.append(f"{py_file}: {pattern}")
 
-        except (UnicodeDecodeError, IOError):
+        except (OSError, UnicodeDecodeError):
             continue
 
     if violations:

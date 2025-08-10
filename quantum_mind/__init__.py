@@ -5,9 +5,9 @@ Stub module to resolve import warnings. Provides consciousness phase tracking
 for the memory system.
 """
 
+import time
 from enum import Enum
 from typing import Optional
-import time
 
 
 class ConsciousnessPhase(Enum):
@@ -27,7 +27,7 @@ def get_current_phase() -> ConsciousnessPhase:
     """
     # Simple time-based phase determination
     hour = time.localtime().tm_hour
-    
+
     if 0 <= hour < 6:
         return ConsciousnessPhase.DREAMING
     elif 6 <= hour < 9:
@@ -44,20 +44,20 @@ def get_current_phase() -> ConsciousnessPhase:
 
 class QuantumMindInterface:
     """Interface for quantum mind operations"""
-    
+
     def __init__(self):
         self.phase = ConsciousnessPhase.AWARE
         self.phase_history = []
-    
+
     def set_phase(self, phase: ConsciousnessPhase):
         """Set the consciousness phase"""
         self.phase_history.append((time.time(), self.phase))
         self.phase = phase
-    
+
     def get_phase(self) -> ConsciousnessPhase:
         """Get current phase"""
         return self.phase
-    
+
     def is_operational(self) -> bool:
         """Check if quantum mind is operational"""
         return self.phase not in [ConsciousnessPhase.DORMANT, ConsciousnessPhase.DREAMING]

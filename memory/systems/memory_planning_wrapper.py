@@ -3,20 +3,22 @@ Memory Planning Wrapper
 Provides integration layer for memory planning components
 """
 
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
-from typing import Dict, Any, Optional, List
 
 try:
     from .memory_planning import (
+        Allocation,
+        AllocationPool,
+        AllocationTreeNode,
+        Empty,
         LiveRange,
         LiveRanges,
-        AllocationTreeNode,
-        AllocationPool,
-        Allocation,
-        Empty,
+        SpatialSplit,
         TemporalSplit,
-        SpatialSplit
     )
+
     MEMORY_PLANNING_AVAILABLE = True
 except ImportError as e:
     MEMORY_PLANNING_AVAILABLE = False
@@ -70,9 +72,9 @@ class MemoryPlanner:
             "allocation_pools": len(self.allocation_pools),
             "tracked_tensors": len(self.live_ranges),
             "pools": {
-                name: {"size": len(pool.pools) if hasattr(pool, 'pools') else 0}
+                name: {"size": len(pool.pools) if hasattr(pool, "pools") else 0}
                 for name, pool in self.allocation_pools.items()
-            }
+            },
         }
 
     def optimize_memory_layout(self) -> Dict[str, Any]:
@@ -81,18 +83,20 @@ class MemoryPlanner:
         optimizations = {
             "reuse_opportunities": 0,
             "fragmentation_reduction": 0,
-            "suggested_merges": []
+            "suggested_merges": [],
         }
 
         # Check for non-overlapping tensors that could share memory
         tensor_ids = list(self.live_ranges.keys())
         for i, id1 in enumerate(tensor_ids):
-            for id2 in tensor_ids[i+1:]:
+            for id2 in tensor_ids[i + 1 :]:
                 if not self.check_overlaps(id1, id2):
                     optimizations["reuse_opportunities"] += 1
                     optimizations["suggested_merges"].append((id1, id2))
 
-        logger.info(f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities")
+        logger.info(
+            f"Memory optimization found {optimizations['reuse_opportunities']} reuse opportunities"
+        )
         return optimizations
 
 

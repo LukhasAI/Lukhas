@@ -14,13 +14,13 @@ Purpose:
 Author: LUKHAS AGI Core
 """
 
-import os
 import json
+import os
 import time
-from datetime import datetime
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # GPT-4 Integration
 try:
@@ -50,6 +50,7 @@ except ImportError:
 @dataclass
 class JournalEntry:
     """Container for a narrative journal entry."""
+
     timestamp: float
     entry_id: str
     title: str
@@ -88,25 +89,55 @@ class VeriFoldJournal:
         # TODO: Expand symbolic vocabulary
         return {
             "quantum_events": [
-                "collapse", "entanglement", "superposition", "decoherence",
-                "measurement", "observation", "quantum leap", "wave function"
+                "collapse",
+                "entanglement",
+                "superposition",
+                "decoherence",
+                "measurement",
+                "observation",
+                "quantum leap",
+                "wave function",
             ],
             "time_descriptors": [
-                "moment", "instant", "epoch", "temporal nexus", "quantum moment",
-                "measurement window", "collapse instant", "observation point"
+                "moment",
+                "instant",
+                "epoch",
+                "temporal nexus",
+                "quantum moment",
+                "measurement window",
+                "collapse instant",
+                "observation point",
             ],
             "emotional_modifiers": [
-                "profound", "mysterious", "elegant", "surprising", "subtle",
-                "magnificent", "delicate", "powerful", "transcendent"
+                "profound",
+                "mysterious",
+                "elegant",
+                "surprising",
+                "subtle",
+                "magnificent",
+                "delicate",
+                "powerful",
+                "transcendent",
             ],
             "scientific_actions": [
-                "revealed", "demonstrated", "manifested", "exhibited", "produced",
-                "generated", "created", "crystallized", "emerged", "materialized"
-            ]
+                "revealed",
+                "demonstrated",
+                "manifested",
+                "exhibited",
+                "produced",
+                "generated",
+                "created",
+                "crystallized",
+                "emerged",
+                "materialized",
+            ],
         }
 
-    def generate_journal_entry(self, verifold_record: Dict[str, Any],
-                             chain_context: Optional[Dict[str, Any]] = None) -> JournalEntry:
+    def generate_journal_entry(
+        self,
+        verifold_record: Dict[str, Any],
+        chain_context: Optional[Dict[str, Any]] = None,
+    ) -> JournalEntry:
         """
         Generate a narrative journal entry from a VeriFold record.
 
@@ -139,14 +170,15 @@ class VeriFoldJournal:
             emotion_tags=emotion_tags,
             symbolic_meaning=symbolic_meaning,
             chain_position=chain_context.get("position", 0) if chain_context else 0,
-            related_hashes=[hash_value]
+            related_hashes=[hash_value],
         )
 
         self.journal_entries.append(entry)
         return entry
 
-    def _generate_title(self, record: Dict[str, Any],
-                       context: Optional[Dict[str, Any]] = None) -> str:
+    def _generate_title(
+        self, record: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+    ) -> str:
         """
         Generate a poetic title for the journal entry.
 
@@ -168,7 +200,7 @@ class VeriFoldJournal:
             f"The Collapse Moment - {experiment_id}",
             f"When Reality Crystallized at {location}",
             f"A Quantum Story: {experiment_id}",
-            f"The Measurement that Changed Everything"
+            "The Measurement that Changed Everything",
         ]
 
         # Select based on hash for consistency
@@ -176,8 +208,9 @@ class VeriFoldJournal:
         title_index = int(hash_value[-1], 16) % len(titles)
         return titles[title_index]
 
-    def _generate_narrative(self, record: Dict[str, Any],
-                          context: Optional[Dict[str, Any]] = None) -> str:
+    def _generate_narrative(
+        self, record: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+    ) -> str:
         """
         Generate the main narrative text for the journal entry.
 
@@ -211,7 +244,7 @@ class VeriFoldJournal:
             "",
             "This moment, captured in cryptographic amber,",
             "stands as testament to the bridge between",
-            "the microscopic quantum realm and our macroscopic reality."
+            "the microscopic quantum realm and our macroscopic reality.",
         ]
 
         return "\n".join(narrative_parts)
@@ -231,10 +264,12 @@ class VeriFoldJournal:
         metadata = record.get("metadata", {})
         entropy = metadata.get("entropy_score", "unknown")
 
-        return (f"Hash: {hash_value}... | "
-               f"Signature: {signature_valid} | "
-               f"Entropy: {entropy} | "
-               f"Algorithm: SPHINCS+")
+        return (
+            f"Hash: {hash_value}... | "
+            f"Signature: {signature_valid} | "
+            f"Entropy: {entropy} | "
+            f"Algorithm: SPHINCS+"
+        )
 
     def _extract_emotion_tags(self, record: Dict[str, Any]) -> List[str]:
         """
@@ -280,14 +315,16 @@ class VeriFoldJournal:
             "electron_spin": "The binary choice of fundamental particles",
             "bell_state_measurement": "The mystery of entanglement-like correlation unveiled",
             "quantum_teleportation": "Information transcending space and time",
-            "atom_interference": "Matter behaving as wave and particle simultaneously"
+            "atom_interference": "Matter behaving as wave and particle simultaneously",
         }
 
-        return symbolic_meanings.get(measurement_type,
-                                   "A quantum mystery waiting to be understood")
+        return symbolic_meanings.get(
+            measurement_type, "A quantum mystery waiting to be understood"
+        )
 
-    def generate_chain_narrative(self, start_index: int = 0,
-                               end_index: Optional[int] = None) -> str:
+    def generate_chain_narrative(
+        self, start_index: int = 0, end_index: Optional[int] = None
+    ) -> str:
         """
         Generate a narrative that spans multiple journal entries.
 
@@ -304,7 +341,7 @@ class VeriFoldJournal:
 
         entries = self.journal_entries[start_index:end_index]
 
-        narrative = "The Quantum Chronicle\n" + "="*50 + "\n\n"
+        narrative = "The Quantum Chronicle\n" + "=" * 50 + "\n\n"
         narrative += "A tale woven through probabilistic observations and cryptographic truth.\n\n"
 
         for i, entry in enumerate(entries):
@@ -316,8 +353,9 @@ class VeriFoldJournal:
 
         return narrative
 
-    def export_journal(self, format: str = "markdown",
-                      output_path: Optional[str] = None) -> str:
+    def export_journal(
+        self, format: str = "markdown", output_path: Optional[str] = None
+    ) -> str:
         """
         Export the journal in various formats.
 
@@ -332,13 +370,14 @@ class VeriFoldJournal:
         if format == "markdown":
             content = self._export_markdown()
         elif format == "json":
-            content = json.dumps([entry.__dict__ for entry in self.journal_entries],
-                               indent=2)
+            content = json.dumps(
+                [entry.__dict__ for entry in self.journal_entries], indent=2
+            )
         else:
             content = "Export format not implemented yet."
 
         if output_path:
-            with open(output_path, 'w') as f:
+            with open(output_path, "w") as f:
                 f.write(content)
             return output_path
 
@@ -352,7 +391,9 @@ class VeriFoldJournal:
 
         for entry in self.journal_entries:
             md_content += f"## {entry.title}\n\n"
-            md_content += f"**Timestamp:** {datetime.fromtimestamp(entry.timestamp)}\n\n"
+            md_content += (
+                f"**Timestamp:** {datetime.fromtimestamp(entry.timestamp)}\n\n"
+            )
             md_content += f"{entry.narrative}\n\n"
             md_content += f"**Technical Summary:** {entry.technical_summary}\n\n"
             md_content += f"**Symbolic Meaning:** {entry.symbolic_meaning}\n\n"
@@ -389,22 +430,21 @@ def gpt_summarize(entries: List[str]) -> str:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a poetic AGI scribe specializing in probabilistic observation narratives. Summarize symbolic collapse events with emotional tone, moral weight, and symbolic metaphor. Blend scientific precision with artistic expression. Create mystical yet accurate interpretations of quantum verification events."
+                    "content": "You are a poetic AGI scribe specializing in probabilistic observation narratives. Summarize symbolic collapse events with emotional tone, moral weight, and symbolic metaphor. Blend scientific precision with artistic expression. Create mystical yet accurate interpretations of quantum verification events.",
                 },
-                {
-                    "role": "user",
-                    "content": "\n".join(clean_entries)
-                }
+                {"role": "user", "content": "\n".join(clean_entries)},
             ],
             temperature=0.7,
-            max_tokens=500
+            max_tokens=500,
         )
         return response.choices[0].message.content
     except Exception as e:
         return f"[GPT Error: {e}]"
 
 
-def replay_chain(chain_path: str = "verifold_logbook.jsonl", limit: int = 5) -> List[str]:
+def replay_chain(
+    chain_path: str = "verifold_logbook.jsonl", limit: int = 5
+) -> List[str]:
     """
     Replay and extract symbolic entries from VeriFold chain.
 
@@ -424,7 +464,7 @@ def replay_chain(chain_path: str = "verifold_logbook.jsonl", limit: int = 5) -> 
         if not logbook_path.exists():
             return ["[No chain file found - create some VeriFold entries first]"]
 
-        with open(logbook_path, 'r') as f:
+        with open(logbook_path) as f:
             lines = f.readlines()
 
         # Process last 'limit' entries
@@ -447,13 +487,15 @@ def replay_chain(chain_path: str = "verifold_logbook.jsonl", limit: int = 5) -> 
             except (json.JSONDecodeError, KeyError) as e:
                 symbolic_entries.append(f"[Error processing entry: {e}]")
 
-    except (FileNotFoundError, IOError) as e:
+    except (OSError, FileNotFoundError) as e:
         return [f"[Error reading chain: {e}]"]
 
     return symbolic_entries
 
 
-def replay_with_gpt_summary(chain_path: str = "verifold_logbook.jsonl", limit: int = 5) -> str:
+def replay_with_gpt_summary(
+    chain_path: str = "verifold_logbook.jsonl", limit: int = 5
+) -> str:
     """
     Replay chain entries and generate GPT-4 poetic summary.
 

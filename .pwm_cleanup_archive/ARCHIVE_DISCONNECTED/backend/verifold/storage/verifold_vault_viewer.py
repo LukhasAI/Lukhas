@@ -6,15 +6,16 @@ Timeline and journal viewer for VeriFold collapse records.
 Provides organized access to personal memory vault with privacy controls.
 """
 
-from typing import Dict, List, Any, Optional
-from datetime import datetime, timedelta
 from enum import Enum
+from typing import Dict, List
+
 
 class ViewMode(Enum):
     TIMELINE = "timeline"
     JOURNAL = "journal"
     GRAPH = "graph"
     EMOTIONAL_MAP = "emotional_map"
+
 
 class VeriFoldVaultViewer:
     """Interactive viewer for personal VeriFold memory vault."""
@@ -53,6 +54,7 @@ class VeriFoldVaultViewer:
         """Export vault summary for personal records."""
         # TODO: Implement vault export
         pass
+
 
 # TODO: Add privacy-preserving memory clustering
 # TODO: Implement consent-aware sharing features

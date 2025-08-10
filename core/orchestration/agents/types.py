@@ -5,7 +5,7 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class AgentCapability(Enum):
@@ -23,9 +23,9 @@ class AgentContext:
     """Context passed to orchestration agents."""
 
     task_id: str
-    symbolic_state: Dict[str, Any]
-    memory_context: Optional[Dict[str, Any]] = None
-    glyphs: Optional[List[str]] = None
+    symbolic_state: dict[str, Any]
+    memory_context: Optional[dict[str, Any]] = None
+    glyphs: Optional[list[str]] = None
 
 
 @dataclass
@@ -34,5 +34,5 @@ class AgentResponse:
 
     success: bool
     result: Any
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     drift_delta: float = 0.0

@@ -13,6 +13,7 @@ based on a folded trace from the memory system. It's a key component in the
 transformation of memories into dream narratives.
 """
 
+
 def generate_episodic_dream(trace):
     """
     Deep trace dream: realistic, memory-preserving (early sleep phase).
@@ -25,8 +26,9 @@ def generate_episodic_dream(trace):
         "resonance": trace.get("resonance", 0.0),
         "symbol": "🌙",
         "interpretation": "You are consolidating a key emotional memory.",
-        "mutation_suggestion": "reinforce empathy circuits"
+        "mutation_suggestion": "reinforce empathy circuits",
     }
+
 
 def generate_semantic_dream(trace):
     """
@@ -35,7 +37,13 @@ def generate_semantic_dream(trace):
     """
     collapse_id = trace.get("collapse_id", "unknown")
     resonance = trace.get("resonance", 0.0)
-    themes = ["a lost animal", "a flickering light", "a bridge between stars", "a recursive hallway", "a spinning coin"]
+    themes = [
+        "a lost animal",
+        "a flickering light",
+        "a bridge between stars",
+        "a recursive hallway",
+        "a spinning coin",
+    ]
     theme = themes[int(resonance * 10) % len(themes)]
     dream = f"You drift into a fragmented vision: {theme} (collapse {collapse_id})"
     return {
@@ -43,10 +51,11 @@ def generate_semantic_dream(trace):
         "resonance": resonance,
         "symbol": "💭",
         "interpretation": "This dream reveals unresolved tension or symbolic drift.",
-        "mutation_suggestion": "rebalance decision weightings"
+        "mutation_suggestion": "rebalance decision weightings",
     }
 
-#ΛSEED
+
+# ΛSEED
 def seed_dream(folded_trace, phase="late"):
     """
     Generates a symbolic dream report based on modeled sleep phase.
@@ -62,6 +71,7 @@ def seed_dream(folded_trace, phase="late"):
         return generate_episodic_dream(folded_trace)
     else:
         return generate_semantic_dream(folded_trace)
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: dream_seed.py

@@ -4,12 +4,12 @@ Advanced consciousness simulation and awareness tracking
 """
 
 from .consciousness_api import (
-    ConsciousnessPlatformAPI,
-    ConsciousnessLevel,
-    AwarenessType,
-    ConsciousnessState,
     AwarenessQuery,
-    ReflectionRequest
+    AwarenessType,
+    ConsciousnessLevel,
+    ConsciousnessPlatformAPI,
+    ConsciousnessState,
+    ReflectionRequest,
 )
 
 __all__ = [

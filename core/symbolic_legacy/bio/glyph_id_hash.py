@@ -5,8 +5,6 @@ Advanced: glyph_id_hash.py
 Integration Date: 2025-05-31T07:55:28.185300
 """
 
-
-
 """
 📦 MODULE      : glyph_id_hash.py
 🧠 DESCRIPTION : Cardiolipin-inspired cryptographic identity hashing for symbolic agents
@@ -15,10 +13,11 @@ Integration Date: 2025-05-31T07:55:28.185300
 📅 UPDATED     : 2025-05-07
 """
 
-import hashlib
-import time
-import random
 import base64
+import hashlib
+import random
+import time
+
 
 class GlyphIDHasher:
     """
@@ -48,11 +47,11 @@ class GlyphIDHasher:
             self._digest_component("vivox"),
             self._digest_component("oxintus"),
             hashlib.shake_128(str(self.timestamp).encode()).digest(4),
-            hashlib.shake_128(str(self.random_salt).encode()).digest(4)
+            hashlib.shake_128(str(self.random_salt).encode()).digest(4),
         ]
 
-        bonded = b''.join(
-            bytes([chains[i][j] ^ chains[(i+1) % 4][j] for j in range(4)])
+        bonded = b"".join(
+            bytes([chains[i][j] ^ chains[(i + 1) % 4][j] for j in range(4)])
             for i in range(4)
         )
         return bonded.hex()
@@ -66,6 +65,7 @@ class GlyphIDHasher:
         payload = f"{self.seed_components}-{self.timestamp}-{self.random_salt}".encode()
         hash_bytes = hashlib.blake2s(payload).digest()
         return base64.urlsafe_b64encode(hash_bytes).decode()[:32]
+
 
 # ─── Usage Example ────────────────────────────────────────────────────────────
 if __name__ == "__main__":

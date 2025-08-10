@@ -14,14 +14,13 @@ This module connects:
 - Security engines - Security-aware ethical decisions
 """
 
-import asyncio
-from core.common import get_logger
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # Import for synchronization
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
+from core.common import get_logger
 from ethics.compliance.engine import ComplianceEngine
 from ethics.governor.dao_controller import DAOController
 from ethics.governor.lambda_governor import LambdaGovernor
@@ -86,8 +85,8 @@ class EthicsIntegration:
         )  # Ethics decisions at 0.5Hz
 
         # Decision tracking
-        self.decision_history: List[Dict[str, Any]] = []
-        self.active_decisions: Dict[str, Dict[str, Any]] = {}
+        self.decision_history: list[dict[str, Any]] = []
+        self.active_decisions: dict[str, dict[str, Any]] = {}
 
         # Initialize connections
         self._establish_connections()
@@ -128,9 +127,9 @@ class EthicsIntegration:
         self,
         agent_id: str,
         action: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         urgency: str = "normal",
-    ) -> Tuple[bool, str, Dict[str, Any]]:
+    ) -> tuple[bool, str, dict[str, Any]]:
         """
         Evaluate an action through the unified ethics system.
 
@@ -230,7 +229,7 @@ class EthicsIntegration:
                 del self.active_decisions[decision_id]
 
     def _determine_decision_type(
-        self, action: str, context: Dict[str, Any], urgency: str
+        self, action: str, context: dict[str, Any], urgency: str
     ) -> EthicalDecisionType:
         """Determine the type of ethical decision required"""
         # Critical decisions that affect users or system integrity
@@ -256,8 +255,8 @@ class EthicsIntegration:
         return EthicalDecisionType.ROUTINE
 
     async def _evaluate_routine_decision(
-        self, agent_id: str, action: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_id: str, action: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate routine decisions through standard MEG process"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -273,8 +272,8 @@ class EthicsIntegration:
         }
 
     async def _evaluate_elevated_decision(
-        self, agent_id: str, action: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_id: str, action: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate elevated decisions with DAO consultation"""
         # MEG evaluation
         meg_result = await self.meg.evaluate_action(action, context)
@@ -297,8 +296,8 @@ class EthicsIntegration:
         }
 
     async def _evaluate_critical_decision(
-        self, agent_id: str, action: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_id: str, action: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate critical decisions requiring human oversight"""
         # MEG evaluation first
         meg_result = await self.meg.evaluate_action(action, context)
@@ -334,7 +333,7 @@ class EthicsIntegration:
             "decision_type": "critical",
         }
 
-    def _record_decision(self, decision_id: str, result: Dict[str, Any]):
+    def _record_decision(self, decision_id: str, result: dict[str, Any]):
         """Record decision in history"""
         decision_record = {
             "decision_id": decision_id,
@@ -349,7 +348,7 @@ class EthicsIntegration:
         if len(self.decision_history) > 1000:
             self.decision_history = self.decision_history[-1000:]
 
-    async def get_ethics_status(self) -> Dict[str, Any]:
+    async def get_ethics_status(self) -> dict[str, Any]:
         """Get current status of the ethics system"""
         # Check phase alignment of all components
         components = ["meg", "srd", "hitlo", "compliance", "dao"]

@@ -1,11 +1,13 @@
 import unittest
-from identity.utils.qrg_parser import QRGParser, GLYMPHParser
+
+from identity.utils.qrg_parser import GLYMPHParser, QRGParser
 
 CONFIG = {
     "qr_format": r"^[A-Z0-9|:{}\s]+$",
     "allowed_symbols": {"A", "B", "C"},
-    "symbol_map": {"A": "alpha", "B": "beta", "C": "gamma"}
+    "symbol_map": {"A": "alpha", "B": "beta", "C": "gamma"},
 }
+
 
 class TestQRGParser(unittest.TestCase):
     def setUp(self):
@@ -26,4 +28,3 @@ class TestQRGParser(unittest.TestCase):
         self.assertEqual(parsed["tokens"], ["A", "B", "C"])
         self.assertTrue(self.g_parser.validate_glymph_sequence(seq))
         self.assertEqual(self.g_parser.interpret_symbols(seq), "alpha beta gamma")
-

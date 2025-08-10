@@ -11,10 +11,6 @@ import time
 
 import numpy as np
 import structlog
-
-from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
-    DreamReflectionLoop,
-)
 from dream.core.dream_seed import seed_dream
 
 log = structlog.get_logger()
@@ -126,7 +122,7 @@ class DreamConvergenceTester:
                 f.write(
                     f"## Dream Drift Signature\n\n```json\n{json.dumps(signature, indent=2)}\n```\n\n"
                 )
-        except IOError as e:
+        except OSError as e:
             self.log.error("Could not write to drift log", error=e)
 
         return signature["signature"]

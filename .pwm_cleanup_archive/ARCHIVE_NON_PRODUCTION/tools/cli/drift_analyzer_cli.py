@@ -24,32 +24,32 @@
 import argparse
 import asyncio
 import json
-import sys
-from pathlib import Path
-from datetime import datetime
 import signal
-import os
+import sys
+from datetime import datetime
+from pathlib import Path
 
 # Add LUKHAS root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
 try:
     from rich.console import Console
-    from rich.table import Table
+    from rich.layout import Layout
     from rich.live import Live
     from rich.panel import Panel
-    from rich.layout import Layout
-    from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn
+    from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
     from rich.syntax import Syntax
+    from rich.table import Table
+
     HAS_RICH = True
 except ImportError:
     HAS_RICH = False
     print("Warning: 'rich' library not installed. Install with: pip install rich")
 
 from core.symbolic_drift_analyzer import (
-    SymbolicDriftAnalyzer,
     DriftAlertLevel,
-    PatternTrend
+    PatternTrend,
+    SymbolicDriftAnalyzer,
 )
 
 # Console for output
@@ -86,12 +86,13 @@ class DriftAnalyzerCLI:
 
         # Setup alert handler
         if self.console:
+
             def alert_handler(alert):
                 color = {
                     DriftAlertLevel.INFO: "blue",
                     DriftAlertLevel.WARNING: "yellow",
                     DriftAlertLevel.CRITICAL: "red",
-                    DriftAlertLevel.EMERGENCY: "bold red on white"
+                    DriftAlertLevel.EMERGENCY: "bold red on white",
                 }.get(alert.level, "white")
 
                 self.console.print(
@@ -121,12 +122,11 @@ class DriftAnalyzerCLI:
         layout.split_column(
             Layout(name="header", size=3),
             Layout(name="main"),
-            Layout(name="footer", size=3)
+            Layout(name="footer", size=3),
         )
 
         layout["main"].split_row(
-            Layout(name="metrics", ratio=2),
-            Layout(name="alerts", ratio=1)
+            Layout(name="metrics", ratio=2), Layout(name="alerts", ratio=1)
         )
 
         with Live(layout, refresh_per_second=1, console=self.console) as live:
@@ -136,7 +136,7 @@ class DriftAnalyzerCLI:
                     Panel(
                         f"[bold cyan]LUKHAS Symbolic Drift Analyzer[/bold cyan]\n"
                         f"[dim]{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}[/dim]",
-                        style="white on blue"
+                        style="white on blue",
                     )
                 )
 
@@ -152,7 +152,7 @@ class DriftAnalyzerCLI:
                 layout["footer"].update(
                     Panel(
                         "[dim]Press Ctrl+C to exit | 's' to save report | 'p' to pause[/dim]",
-                        style="white on grey23"
+                        style="white on grey23",
                     )
                 )
 
@@ -191,45 +191,80 @@ class DriftAnalyzerCLI:
             if len(self.analyzer.entropy_history) >= 2:
                 prev = self.analyzer.entropy_history[-2]
                 trends = {
-                    "total": "↗️" if latest.total_entropy > prev.total_entropy else "↘️" if latest.total_entropy < prev.total_entropy else "→",
-                    "shannon": "↗️" if latest.shannon_entropy > prev.shannon_entropy else "↘️" if latest.shannon_entropy < prev.shannon_entropy else "→",
-                    "tag": "↗️" if latest.tag_entropy > prev.tag_entropy else "↘️" if latest.tag_entropy < prev.tag_entropy else "→",
-                    "temporal": "↗️" if latest.temporal_entropy > prev.temporal_entropy else "↘️" if latest.temporal_entropy < prev.temporal_entropy else "→",
-                    "semantic": "↗️" if latest.semantic_entropy > prev.semantic_entropy else "↘️" if latest.semantic_entropy < prev.semantic_entropy else "→"
+                    "total": (
+                        "↗️"
+                        if latest.total_entropy > prev.total_entropy
+                        else "↘️" if latest.total_entropy < prev.total_entropy else "→"
+                    ),
+                    "shannon": (
+                        "↗️"
+                        if latest.shannon_entropy > prev.shannon_entropy
+                        else (
+                            "↘️"
+                            if latest.shannon_entropy < prev.shannon_entropy
+                            else "→"
+                        )
+                    ),
+                    "tag": (
+                        "↗️"
+                        if latest.tag_entropy > prev.tag_entropy
+                        else "↘️" if latest.tag_entropy < prev.tag_entropy else "→"
+                    ),
+                    "temporal": (
+                        "↗️"
+                        if latest.temporal_entropy > prev.temporal_entropy
+                        else (
+                            "↘️"
+                            if latest.temporal_entropy < prev.temporal_entropy
+                            else "→"
+                        )
+                    ),
+                    "semantic": (
+                        "↗️"
+                        if latest.semantic_entropy > prev.semantic_entropy
+                        else (
+                            "↘️"
+                            if latest.semantic_entropy < prev.semantic_entropy
+                            else "→"
+                        )
+                    ),
                 }
             else:
-                trends = {k: "→" for k in ["total", "shannon", "tag", "temporal", "semantic"]}
+                trends = dict.fromkeys(
+                    ["total", "shannon", "tag", "temporal", "semantic"], "→"
+                )
 
             # Add rows
             table.add_row(
                 "Total Entropy",
                 f"{latest.total_entropy:.3f}",
-                self._get_status_indicator(latest.total_entropy, thresholds["entropy_warning"], thresholds["entropy_critical"]),
-                trends["total"]
+                self._get_status_indicator(
+                    latest.total_entropy,
+                    thresholds["entropy_warning"],
+                    thresholds["entropy_critical"],
+                ),
+                trends["total"],
             )
             table.add_row(
                 "Shannon Entropy",
                 f"{latest.shannon_entropy:.3f}",
                 "📊",
-                trends["shannon"]
+                trends["shannon"],
             )
             table.add_row(
-                "Tag Entropy",
-                f"{latest.tag_entropy:.3f}",
-                "🏷️",
-                trends["tag"]
+                "Tag Entropy", f"{latest.tag_entropy:.3f}", "🏷️", trends["tag"]
             )
             table.add_row(
                 "Temporal Entropy",
                 f"{latest.temporal_entropy:.3f}",
                 "⏰",
-                trends["temporal"]
+                trends["temporal"],
             )
             table.add_row(
                 "Semantic Entropy",
                 f"{latest.semantic_entropy:.3f}",
                 "🧠",
-                trends["semantic"]
+                trends["semantic"],
             )
 
             # Add separator
@@ -240,25 +275,19 @@ class DriftAnalyzerCLI:
                 "Drift Phase",
                 self.analyzer.current_drift_phase.value,
                 self._get_phase_indicator(self.analyzer.current_drift_phase),
-                ""
+                "",
             )
 
             # Add pattern trend
             if self.analyzer.pattern_trends:
                 trend = self.analyzer.pattern_trends[-1]
                 table.add_row(
-                    "Pattern Trend",
-                    trend.name,
-                    self._get_trend_indicator(trend),
-                    ""
+                    "Pattern Trend", trend.name, self._get_trend_indicator(trend), ""
                 )
 
             # Add dreams analyzed
             table.add_row(
-                "Dreams Analyzed",
-                str(self.analyzer.total_dreams_analyzed),
-                "📊",
-                ""
+                "Dreams Analyzed", str(self.analyzer.total_dreams_analyzed), "📊", ""
             )
 
         return Panel(table, title="[bold]Drift Metrics[/bold]", border_style="cyan")
@@ -276,7 +305,7 @@ class DriftAnalyzerCLI:
                     DriftAlertLevel.INFO: "blue",
                     DriftAlertLevel.WARNING: "yellow",
                     DriftAlertLevel.CRITICAL: "red",
-                    DriftAlertLevel.EMERGENCY: "bold red"
+                    DriftAlertLevel.EMERGENCY: "bold red",
                 }.get(alert.level, "white")
 
                 time_str = alert.timestamp.strftime("%H:%M:%S")
@@ -289,10 +318,12 @@ class DriftAnalyzerCLI:
         return Panel(
             "\n".join(content),
             title="[bold]Recent Alerts[/bold]",
-            border_style="yellow"
+            border_style="yellow",
         )
 
-    def _get_status_indicator(self, value: float, warning: float, critical: float) -> str:
+    def _get_status_indicator(
+        self, value: float, warning: float, critical: float
+    ) -> str:
         """Get status indicator emoji"""
         if value >= critical:
             return "🔴"
@@ -303,12 +334,7 @@ class DriftAnalyzerCLI:
 
     def _get_phase_indicator(self, phase) -> str:
         """Get phase indicator"""
-        indicators = {
-            "EARLY": "🌱",
-            "MIDDLE": "🌿",
-            "LATE": "🍂",
-            "CASCADE": "🌪️"
-        }
+        indicators = {"EARLY": "🌱", "MIDDLE": "🌿", "LATE": "🍂", "CASCADE": "🌪️"}
         return indicators.get(phase.value, "❓")
 
     def _get_trend_indicator(self, trend: PatternTrend) -> str:
@@ -318,7 +344,7 @@ class DriftAnalyzerCLI:
             PatternTrend.STABLE: "➡️",
             PatternTrend.DIVERGING: "↗️",
             PatternTrend.OSCILLATING: "〰️",
-            PatternTrend.CHAOTIC: "🌀"
+            PatternTrend.CHAOTIC: "🌀",
         }
         return indicators.get(trend, "❓")
 
@@ -355,11 +381,17 @@ class DriftAnalyzerCLI:
         # Status
         self.console.print(f"\n[bold]Analysis Status:[/bold] {results['status']}")
         self.console.print(f"[bold]Timestamp:[/bold] {results.get('timestamp', 'N/A')}")
-        self.console.print(f"[bold]Dreams Analyzed:[/bold] {results.get('dreams_analyzed', 0)}")
+        self.console.print(
+            f"[bold]Dreams Analyzed:[/bold] {results.get('dreams_analyzed', 0)}"
+        )
 
         # Drift phase and trend
-        self.console.print(f"\n[bold]Current Drift Phase:[/bold] {results.get('current_drift_phase', 'Unknown')}")
-        self.console.print(f"[bold]Pattern Trend:[/bold] {results.get('pattern_trend', 'Unknown')}")
+        self.console.print(
+            f"\n[bold]Current Drift Phase:[/bold] {results.get('current_drift_phase', 'Unknown')}"
+        )
+        self.console.print(
+            f"[bold]Pattern Trend:[/bold] {results.get('pattern_trend', 'Unknown')}"
+        )
 
         # Entropy metrics
         if "entropy_metrics" in results:
@@ -379,9 +411,11 @@ class DriftAnalyzerCLI:
         # Tag variance
         if "tag_variance" in results:
             variance = results["tag_variance"]
-            self.console.print(f"\n[bold cyan]Tag Variance:[/bold cyan]")
+            self.console.print("\n[bold cyan]Tag Variance:[/bold cyan]")
             self.console.print(f"Unique Tags: {variance.get('unique_tags', 0)}")
-            self.console.print(f"Evolution Rate: {variance.get('tag_evolution_rate', 0):.3f}")
+            self.console.print(
+                f"Evolution Rate: {variance.get('tag_evolution_rate', 0):.3f}"
+            )
 
             if variance.get("dominant_tags"):
                 self.console.print("\n[bold]Dominant Tags:[/bold]")
@@ -393,7 +427,9 @@ class DriftAnalyzerCLI:
             ethical = results["ethical_drift"]
             score = ethical.get("score", 0)
             color = "red" if score > 0.6 else "yellow" if score > 0.3 else "green"
-            self.console.print(f"\n[bold cyan]Ethical Drift:[/bold cyan] [{color}]{score:.3f}[/{color}]")
+            self.console.print(
+                f"\n[bold cyan]Ethical Drift:[/bold cyan] [{color}]{score:.3f}[/{color}]"
+            )
 
             if ethical.get("violations"):
                 self.console.print("[bold red]Violations:[/bold red]")
@@ -402,16 +438,20 @@ class DriftAnalyzerCLI:
 
         # Alerts
         if results.get("alerts"):
-            self.console.print(f"\n[bold yellow]Alerts ({len(results['alerts'])}):[/bold yellow]")
+            self.console.print(
+                f"\n[bold yellow]Alerts ({len(results['alerts'])}):[/bold yellow]"
+            )
             for alert in results["alerts"][:5]:
                 level_color = {
                     "INFO": "blue",
                     "WARNING": "yellow",
                     "CRITICAL": "red",
-                    "EMERGENCY": "bold red"
+                    "EMERGENCY": "bold red",
                 }.get(alert.get("level", "INFO"), "white")
 
-                self.console.print(f"[{level_color}]• {alert.get('message', 'Unknown alert')}[/{level_color}]")
+                self.console.print(
+                    f"[{level_color}]• {alert.get('message', 'Unknown alert')}[/{level_color}]"
+                )
 
         # Recommendations
         if results.get("recommendations"):
@@ -440,21 +480,18 @@ class DriftAnalyzerCLI:
                 "tag_variance_critical": 0.8,
                 "ethical_drift_warning": 0.5,
                 "ethical_drift_critical": 0.75,
-                "pattern_divergence_rate": 0.3
+                "pattern_divergence_rate": 0.3,
             },
-            "weights": {
-                "shannon": 0.3,
-                "tag": 0.3,
-                "temporal": 0.2,
-                "semantic": 0.2
-            }
+            "weights": {"shannon": 0.3, "tag": 0.3, "temporal": 0.2, "semantic": 0.2},
         }
 
         if self.console and HAS_RICH:
             # Display with syntax highlighting
             json_str = json.dumps(default_config, indent=2)
             syntax = Syntax(json_str, "json", theme="monokai")
-            self.console.print(Panel(syntax, title="[bold]Default Configuration[/bold]"))
+            self.console.print(
+                Panel(syntax, title="[bold]Default Configuration[/bold]")
+            )
         else:
             print(json.dumps(default_config, indent=2))
 
@@ -480,49 +517,38 @@ Examples:
 
   # Use custom configuration
   %(prog)s monitor --config my_config.json
-        """
+        """,
     )
 
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 
     # Monitor command
     monitor_parser = subparsers.add_parser(
-        "monitor",
-        help="Run continuous drift monitoring with live dashboard"
+        "monitor", help="Run continuous drift monitoring with live dashboard"
     )
     monitor_parser.add_argument(
-        "--config",
-        type=Path,
-        help="Path to configuration file"
+        "--config", type=Path, help="Path to configuration file"
     )
     monitor_parser.add_argument(
         "--interval",
         type=float,
         default=60.0,
-        help="Analysis interval in seconds (default: 60)"
+        help="Analysis interval in seconds (default: 60)",
     )
 
     # Analyze command
     analyze_parser = subparsers.add_parser(
-        "analyze",
-        help="Run one-time analysis and generate report"
+        "analyze", help="Run one-time analysis and generate report"
     )
     analyze_parser.add_argument(
-        "--config",
-        type=Path,
-        help="Path to configuration file"
+        "--config", type=Path, help="Path to configuration file"
     )
     analyze_parser.add_argument(
-        "--output",
-        type=Path,
-        help="Path to export analysis report"
+        "--output", type=Path, help="Path to export analysis report"
     )
 
     # Config command
-    config_parser = subparsers.add_parser(
-        "config",
-        help="Show default configuration"
-    )
+    config_parser = subparsers.add_parser("config", help="Show default configuration")
 
     args = parser.parse_args()
 

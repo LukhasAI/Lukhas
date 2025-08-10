@@ -9,10 +9,12 @@ the swarm.
 
 from collections import defaultdict
 
+
 class TagConflictResolver:
     """
     Resolves conflicts when agents have diverging values for the same tag.
     """
+
     def __init__(self, strategy="majority_rule"):
         self.strategy = strategy
 
@@ -37,10 +39,12 @@ class TagConflictResolver:
     def _seniority_based(self, values):
         return max(values, key=lambda item: item[1])[0]
 
+
 class TagLineageTracker:
     """
     Tracks the lineage of a symbolic tag.
     """
+
     def __init__(self):
         self.lineage = []
 
@@ -49,6 +53,7 @@ class TagLineageTracker:
 
     def get_history(self):
         return self.lineage
+
 
 if __name__ == "__main__":
     # --- Conflict Resolution Example ---

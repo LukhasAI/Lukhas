@@ -4,11 +4,11 @@ Bio Systems Consolidator - Phase 2B-2
 Consolidate 9 bio system orchestration files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_bio_systems(dry_run=True):
     """Consolidate bio systems orchestrators"""
@@ -23,15 +23,15 @@ def consolidate_bio_systems(dry_run=True):
         "./bio/symbolic/bio_symbolic_orchestrator.py",
         "./bio/systems/orchestration/identity_aware_bio_orchestrator.py",
         "./voice/bio_core/oscillator/orchestrator.py",
-        "./bio/systems/orchestration/base_orchestrator.py"
+        "./bio/systems/orchestration/base_orchestrator.py",
     ]
 
     primary_file = "./quantum/bio_multi_orchestrator.py"
 
-    print(f"\\n🧬 BIO SYSTEMS CONSOLIDATION")
+    print("\\n🧬 BIO SYSTEMS CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(bio_files)}")
     print(f"{'='*60}")
@@ -45,7 +45,9 @@ def consolidate_bio_systems(dry_run=True):
         print(f"   📄 {file_path} ({size:.1f} KB)")
 
     if dry_run:
-        print(f"\\n🔍 Would consolidate {len(existing_files)-1} files into {primary_file}")
+        print(
+            f"\\n🔍 Would consolidate {len(existing_files)-1} files into {primary_file}"
+        )
         print(f"📊 Estimated reduction: {len(existing_files)-1} files eliminated")
         return
 
@@ -79,21 +81,29 @@ def consolidate_bio_systems(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 Bio systems consolidation complete!")
+    print("\\n📊 Bio systems consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate bio systems orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate bio systems orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     consolidate_bio_systems(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_bio_systems.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_bio_systems.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

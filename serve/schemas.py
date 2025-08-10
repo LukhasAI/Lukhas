@@ -1,9 +1,10 @@
-from typing import List, Dict, Any, Optional
+from typing import Any, Optional
+
 from pydantic import BaseModel
 
 
 class DreamRequest(BaseModel):
-    symbols: List[str]
+    symbols: list[str]
 
 
 class DreamResponse(BaseModel):
@@ -18,7 +19,7 @@ class GlyphFeedbackRequest(BaseModel):
 
 
 class GlyphFeedbackResponse(BaseModel):
-    suggestions: List[str]
+    suggestions: list[str]
 
 
 class TierAuthRequest(BaseModel):
@@ -26,12 +27,12 @@ class TierAuthRequest(BaseModel):
 
 
 class TierAuthResponse(BaseModel):
-    access_rights: List[str]
+    access_rights: list[str]
     tier: int
 
 
 class PluginLoadRequest(BaseModel):
-    symbols: List[str]
+    symbols: list[str]
 
 
 class PluginLoadResponse(BaseModel):
@@ -39,19 +40,19 @@ class PluginLoadResponse(BaseModel):
 
 
 class MemoryDumpResponse(BaseModel):
-    folds: List[Dict[str, Any]]
-    emotional_state: Dict[str, float]
+    folds: list[dict[str, Any]]
+    emotional_state: dict[str, float]
 
 
 # --- OpenAI Modulated Service Schemas ---
 class ModulatedChatRequest(BaseModel):
     prompt: str
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
     task: Optional[str] = None
 
 
 class ModulatedChatResponse(BaseModel):
     content: str
-    raw: Dict[str, Any]
-    modulation: Dict[str, Any]
-    metadata: Dict[str, Any]
+    raw: dict[str, Any]
+    modulation: dict[str, Any]
+    metadata: dict[str, Any]

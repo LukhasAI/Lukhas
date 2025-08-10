@@ -22,25 +22,22 @@
 
 import asyncio
 import json
-from core.common import get_logger
-import time
-import psutil
-import threading
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Union, Callable, Tuple
-from dataclasses import dataclass, asdict, field
-from pathlib import Path
 import os
-from enum import Enum
+import time
 import uuid
 from collections import defaultdict, deque
-import socket
-import subprocess
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
+
+import psutil
 
 # Advanced orchestration libraries
 try:
     import kubernetes
     from kubernetes import client, config
+
     KUBERNETES_AVAILABLE = True
 except ImportError:
     print("⚠️ Kubernetes not available")
@@ -48,6 +45,7 @@ except ImportError:
 
 try:
     import docker
+
     DOCKER_AVAILABLE = True
 except ImportError:
     print("⚠️ Docker not available")
@@ -56,6 +54,7 @@ except ImportError:
 try:
     import consul
     import etcd3
+
     SERVICE_DISCOVERY_AVAILABLE = True
 except ImportError:
     print("⚠️ Service discovery not available")
@@ -63,7 +62,8 @@ except ImportError:
 
 try:
     import prometheus_client
-    from prometheus_client import Counter, Histogram, Gauge, start_http_server
+    from prometheus_client import Counter, Gauge, Histogram, start_http_server
+
     PROMETHEUS_AVAILABLE = True
 except ImportError:
     print("⚠️ Prometheus not available")
@@ -73,6 +73,7 @@ try:
     import redis
     from celery import Celery
     from kombu import Queue
+
     TASK_QUEUE_AVAILABLE = True
 except ImportError:
     print("⚠️ Task queue not available")
@@ -84,6 +85,7 @@ try:
     import scikit_learn
     from sklearn.ensemble import IsolationForest
     from sklearn.preprocessing import StandardScaler
+
     ML_AVAILABLE = True
 except ImportError:
     print("⚠️ ML libraries not available")
@@ -91,19 +93,26 @@ except ImportError:
 
 # Import enterprise modules
 try:
-    from coreContentAutomationBot_ChatGPT import coreContentAutomationBot_ChatGPT
-    from coreContentCollaborationEngine import coreContentCollaborationEngine
     from coreContentAPIGateway import coreContentAPIGateway
-    from coreContentPerformanceMonitor import coreContentPerformanceMonitor
-    from coreContentDevOpsAutomation import coreContentDevOpsAutomation
-    from coreContentCustomerSuccess import coreContentCustomerSuccess
-    from coreContentRevenueAnalytics import coreContentRevenueAnalytics
-    from coreContentLicenseManager import coreContentLicenseManager
-    from coreContentSecurityCompliance import coreContentSecurityCompliance
-    from coreContentProductionDeployment import coreContentProductionDeployment
-    from coreContentPerformanceIntelligence import ContentPerformanceIntelligence
+    from coreContentAutomationBot_ChatGPT import (
+        coreContentAutomationBot_ChatGPT,
+    )
+    from coreContentCollaborationEngine import coreContentCollaborationEngine
     from coreContentCommunicationHub import coreContentCommunicationHub
-    from coreContentGlobalLocalizationEngine import coreContentGlobalLocalizationEngine
+    from coreContentCustomerSuccess import coreContentCustomerSuccess
+    from coreContentDevOpsAutomation import coreContentDevOpsAutomation
+    from coreContentGlobalLocalizationEngine import (
+        coreContentGlobalLocalizationEngine,
+    )
+    from coreContentLicenseManager import coreContentLicenseManager
+    from coreContentPerformanceIntelligence import (
+        ContentPerformanceIntelligence,
+    )
+    from coreContentPerformanceMonitor import coreContentPerformanceMonitor
+    from coreContentProductionDeployment import coreContentProductionDeployment
+    from coreContentRevenueAnalytics import coreContentRevenueAnalytics
+    from coreContentSecurityCompliance import coreContentSecurityCompliance
+
     ENTERPRISE_MODULES_AVAILABLE = True
 except ImportError:
     print("⚠️ Some enterprise modules not available")
@@ -112,6 +121,7 @@ except ImportError:
 
 class ServiceStatus(Enum):
     """Service health status"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CRITICAL = "critical"
@@ -121,6 +131,7 @@ class ServiceStatus(Enum):
 
 class ScalingAction(Enum):
     """Auto-scaling actions"""
+
     SCALE_UP = "scale_up"
     SCALE_DOWN = "scale_down"
     MAINTAIN = "maintain"
@@ -130,6 +141,7 @@ class ScalingAction(Enum):
 
 class Priority(Enum):
     """Task priorities"""
+
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -140,6 +152,7 @@ class Priority(Enum):
 @dataclass
 class ServiceMetrics:
     """Service performance metrics"""
+
     service_name: str
     cpu_usage: float = 0.0
     memory_usage: float = 0.0
@@ -154,6 +167,7 @@ class ServiceMetrics:
 @dataclass
 class ServiceHealth:
     """Service health check result"""
+
     service_name: str
     status: ServiceStatus
     last_check: datetime
@@ -165,6 +179,7 @@ class ServiceHealth:
 @dataclass
 class ScalingDecision:
     """Auto-scaling decision"""
+
     service_name: str
     action: ScalingAction
     current_instances: int
@@ -177,6 +192,7 @@ class ScalingDecision:
 @dataclass
 class OrchestrationTask:
     """Orchestration task"""
+
     task_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     task_type: str = ""
     priority: Priority = Priority.MEDIUM
@@ -214,8 +230,9 @@ class ServiceRegistry:
                 logger.warning(f"Failed to initialize etcd client: {e}")
                 pass
 
-    def register_service(self, name: str, host: str, port: int,
-                        metadata: Dict[str, Any] = None) -> bool:
+    def register_service(
+        self, name: str, host: str, port: int, metadata: Dict[str, Any] = None
+    ) -> bool:
         """Register a service"""
         service_info = {
             "name": name,
@@ -223,7 +240,7 @@ class ServiceRegistry:
             "port": port,
             "metadata": metadata or {},
             "registered_at": datetime.now(),
-            "health_check_url": f"http://{host}:{port}/health"
+            "health_check_url": f"http://{host}:{port}/health",
         }
 
         self.services[name] = service_info
@@ -240,8 +257,9 @@ class ServiceRegistry:
                     service_id=f"{name}-{host}-{port}",
                     address=host,
                     port=port,
-                    check=consul.Check.http(f"http://{host}:{port}/health",
-                                          interval="10s")
+                    check=consul.Check.http(
+                        f"http://{host}:{port}/health", interval="10s"
+                    ),
                 )
             except Exception as e:
                 logging.warning(f"Failed to register with Consul: {e}")
@@ -256,8 +274,10 @@ class ServiceRegistry:
         if self.consul_client and not endpoints:
             try:
                 _, services = self.consul_client.health.service(name, passing=True)
-                endpoints = [f"{s['Service']['Address']}:{s['Service']['Port']}"
-                           for s in services]
+                endpoints = [
+                    f"{s['Service']['Address']}:{s['Service']['Port']}"
+                    for s in services
+                ]
             except (KeyError, ConnectionError, Exception) as e:
                 logger.warning(f"Failed to discover services: {e}")
                 pass
@@ -289,8 +309,9 @@ class LoadBalancer:
         self.round_robin_counters: Dict[str, int] = defaultdict(int)
         self.health_status: Dict[str, bool] = {}
 
-    def get_endpoint(self, service_name: str,
-                    strategy: str = "round_robin") -> Optional[str]:
+    def get_endpoint(
+        self, service_name: str, strategy: str = "round_robin"
+    ) -> Optional[str]:
         """Get an endpoint for a service"""
         endpoints = self.service_registry.discover_service(service_name)
 
@@ -298,8 +319,7 @@ class LoadBalancer:
             return None
 
         # Filter healthy endpoints
-        healthy_endpoints = [ep for ep in endpoints
-                           if self.health_status.get(ep, True)]
+        healthy_endpoints = [ep for ep in endpoints if self.health_status.get(ep, True)]
 
         if not healthy_endpoints:
             healthy_endpoints = endpoints  # Fallback to all endpoints
@@ -312,6 +332,7 @@ class LoadBalancer:
 
         elif strategy == "random":
             import random
+
             return random.choice(healthy_endpoints)
 
         else:
@@ -351,10 +372,12 @@ class AutoScaler:
         current_instances = 1  # Simplified for demo
 
         # Scale up conditions
-        if (metrics.cpu_usage > cpu_threshold_high or
-            metrics.memory_usage > memory_threshold_high or
-            metrics.error_rate > error_rate_threshold or
-            metrics.response_time > response_time_threshold):
+        if (
+            metrics.cpu_usage > cpu_threshold_high
+            or metrics.memory_usage > memory_threshold_high
+            or metrics.error_rate > error_rate_threshold
+            or metrics.response_time > response_time_threshold
+        ):
 
             return ScalingDecision(
                 service_name=metrics.service_name,
@@ -362,16 +385,18 @@ class AutoScaler:
                 current_instances=current_instances,
                 target_instances=min(current_instances + 1, 10),
                 reason=f"High resource usage: CPU={metrics.cpu_usage}%, "
-                       f"Memory={metrics.memory_usage}%, "
-                       f"ErrorRate={metrics.error_rate}%",
-                confidence=0.8
+                f"Memory={metrics.memory_usage}%, "
+                f"ErrorRate={metrics.error_rate}%",
+                confidence=0.8,
             )
 
         # Scale down conditions
-        elif (metrics.cpu_usage < cpu_threshold_low and
-              metrics.memory_usage < 50.0 and
-              metrics.error_rate < 1.0 and
-              current_instances > 1):
+        elif (
+            metrics.cpu_usage < cpu_threshold_low
+            and metrics.memory_usage < 50.0
+            and metrics.error_rate < 1.0
+            and current_instances > 1
+        ):
 
             return ScalingDecision(
                 service_name=metrics.service_name,
@@ -379,8 +404,8 @@ class AutoScaler:
                 current_instances=current_instances,
                 target_instances=max(current_instances - 1, 1),
                 reason=f"Low resource usage: CPU={metrics.cpu_usage}%, "
-                       f"Memory={metrics.memory_usage}%",
-                confidence=0.7
+                f"Memory={metrics.memory_usage}%",
+                confidence=0.7,
             )
 
         # No scaling needed
@@ -391,7 +416,7 @@ class AutoScaler:
                 current_instances=current_instances,
                 target_instances=current_instances,
                 reason="Metrics within normal ranges",
-                confidence=0.9
+                confidence=0.9,
             )
 
     def execute_scaling(self, decision: ScalingDecision) -> bool:
@@ -399,12 +424,16 @@ class AutoScaler:
         try:
             if decision.action == ScalingAction.SCALE_UP:
                 # Implementation would interact with container orchestrator
-                logging.info(f"🔼 Scaling up {decision.service_name} "
-                           f"from {decision.current_instances} to {decision.target_instances}")
+                logging.info(
+                    f"🔼 Scaling up {decision.service_name} "
+                    f"from {decision.current_instances} to {decision.target_instances}"
+                )
 
             elif decision.action == ScalingAction.SCALE_DOWN:
-                logging.info(f"🔽 Scaling down {decision.service_name} "
-                           f"from {decision.current_instances} to {decision.target_instances}")
+                logging.info(
+                    f"🔽 Scaling down {decision.service_name} "
+                    f"from {decision.current_instances} to {decision.target_instances}"
+                )
 
             self.scaling_history.append(decision)
             return True
@@ -417,8 +446,12 @@ class AutoScaler:
 class CircuitBreaker:
     """Circuit breaker pattern for service resilience"""
 
-    def __init__(self, failure_threshold: int = 5,
-                 timeout: int = 60, expected_exception: Exception = Exception):
+    def __init__(
+        self,
+        failure_threshold: int = 5,
+        timeout: int = 60,
+        expected_exception: Exception = Exception,
+    ):
         self.failure_threshold = failure_threshold
         self.timeout = timeout
         self.expected_exception = expected_exception
@@ -470,19 +503,19 @@ class TaskQueue:
         self.processing: Dict[str, OrchestrationTask] = {}
 
         if redis_url is None:
-            redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
+            redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 
         if TASK_QUEUE_AVAILABLE:
             try:
-                self.celery_app = Celery('orchestrator')
+                self.celery_app = Celery("orchestrator")
                 self.celery_app.conf.broker_url = redis_url
                 self.celery_app.conf.result_backend = redis_url
 
                 # Define task routing
                 self.celery_app.conf.task_routes = {
-                    'orchestration.*': {'queue': 'orchestration'},
-                    'scaling.*': {'queue': 'scaling'},
-                    'monitoring.*': {'queue': 'monitoring'},
+                    "orchestration.*": {"queue": "orchestration"},
+                    "scaling.*": {"queue": "scaling"},
+                    "monitoring.*": {"queue": "monitoring"},
                 }
 
             except Exception as e:
@@ -500,8 +533,8 @@ class TaskQueue:
                 self.celery_app.send_task(
                     task_name,
                     args=[asdict(task)],
-                    queue='orchestration',
-                    priority=self._get_priority_value(task.priority)
+                    queue="orchestration",
+                    priority=self._get_priority_value(task.priority),
                 )
                 return True
             except Exception as e:
@@ -517,9 +550,9 @@ class TaskQueue:
             return None
 
         # Sort by priority
-        sorted_tasks = sorted(self.tasks,
-                            key=lambda t: self._get_priority_value(t.priority),
-                            reverse=True)
+        sorted_tasks = sorted(
+            self.tasks, key=lambda t: self._get_priority_value(t.priority), reverse=True
+        )
 
         task = sorted_tasks[0]
         self.tasks.remove(task)
@@ -527,8 +560,9 @@ class TaskQueue:
 
         return task
 
-    def complete_task(self, task_id: str, result: Dict[str, Any] = None,
-                     error: str = None):
+    def complete_task(
+        self, task_id: str, result: Dict[str, Any] = None, error: str = None
+    ):
         """Mark task as completed"""
         if task_id in self.processing:
             task = self.processing[task_id]
@@ -546,7 +580,7 @@ class TaskQueue:
             Priority.HIGH: 4,
             Priority.MEDIUM: 3,
             Priority.LOW: 2,
-            Priority.BACKGROUND: 1
+            Priority.BACKGROUND: 1,
         }
         return priority_map.get(priority, 3)
 
@@ -607,33 +641,53 @@ class ContentEnterpriseOrchestrator:
                 "health_check_timeout": 5,
                 "auto_scaling_enabled": True,
                 "circuit_breaker_enabled": True,
-                "prometheus_port": 8000
+                "prometheus_port": 8000,
             },
             "services": {
-                "content_bot": {"enabled": True, "min_instances": 1, "max_instances": 5},
-                "api_gateway": {"enabled": True, "min_instances": 2, "max_instances": 10},
-                "collaboration": {"enabled": True, "min_instances": 1, "max_instances": 3},
-                "performance_monitor": {"enabled": True, "min_instances": 1, "max_instances": 2},
-                "security_compliance": {"enabled": True, "min_instances": 1, "max_instances": 2}
+                "content_bot": {
+                    "enabled": True,
+                    "min_instances": 1,
+                    "max_instances": 5,
+                },
+                "api_gateway": {
+                    "enabled": True,
+                    "min_instances": 2,
+                    "max_instances": 10,
+                },
+                "collaboration": {
+                    "enabled": True,
+                    "min_instances": 1,
+                    "max_instances": 3,
+                },
+                "performance_monitor": {
+                    "enabled": True,
+                    "min_instances": 1,
+                    "max_instances": 2,
+                },
+                "security_compliance": {
+                    "enabled": True,
+                    "min_instances": 1,
+                    "max_instances": 2,
+                },
             },
             "scaling": {
                 "cpu_threshold_high": 80.0,
                 "cpu_threshold_low": 20.0,
                 "memory_threshold_high": 85.0,
                 "error_rate_threshold": 5.0,
-                "cooldown_period": 300
+                "cooldown_period": 300,
             },
             "alerting": {
                 "enabled": True,
                 "webhook_url": "",
                 "email_recipients": [],
-                "severity_levels": ["critical", "warning", "info"]
-            }
+                "severity_levels": ["critical", "warning", "info"],
+            },
         }
 
         if config_path and os.path.exists(config_path):
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     user_config = json.load(f)
                     default_config.update(user_config)
             except Exception as e:
@@ -649,7 +703,7 @@ class ContentEnterpriseOrchestrator:
         if not logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
             )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
@@ -665,7 +719,9 @@ class ContentEnterpriseOrchestrator:
         try:
             # Initialize core modules
             if self.config["services"]["content_bot"]["enabled"]:
-                self.enterprise_modules["content_bot"] = lukhasContentAutomationBot_ChatGPT()
+                self.enterprise_modules["content_bot"] = (
+                    lukhasContentAutomationBot_ChatGPT()
+                )
                 self.logger.info("✅ Content Bot module initialized")
 
             if self.config["services"]["api_gateway"]["enabled"]:
@@ -673,35 +729,58 @@ class ContentEnterpriseOrchestrator:
                 self.logger.info("✅ API Gateway module initialized")
 
             if self.config["services"]["collaboration"]["enabled"]:
-                self.enterprise_modules["collaboration"] = lukhasContentCollaborationEngine()
+                self.enterprise_modules["collaboration"] = (
+                    lukhasContentCollaborationEngine()
+                )
                 self.logger.info("✅ Collaboration Engine initialized")
 
             if self.config["services"]["performance_monitor"]["enabled"]:
-                self.enterprise_modules["performance_monitor"] = lukhasContentPerformanceMonitor()
+                self.enterprise_modules["performance_monitor"] = (
+                    lukhasContentPerformanceMonitor()
+                )
                 self.logger.info("✅ Performance Monitor initialized")
 
             if self.config["services"]["security_compliance"]["enabled"]:
-                self.enterprise_modules["security_compliance"] = lukhasContentSecurityCompliance()
+                self.enterprise_modules["security_compliance"] = (
+                    lukhasContentSecurityCompliance()
+                )
                 self.logger.info("✅ Security Compliance initialized")
 
             # Initialize new enterprise modules
-            if self.config["services"].get("performance_intelligence", {}).get("enabled", True):
-                self.enterprise_modules["performance_intelligence"] = ContentPerformanceIntelligence()
+            if (
+                self.config["services"]
+                .get("performance_intelligence", {})
+                .get("enabled", True)
+            ):
+                self.enterprise_modules["performance_intelligence"] = (
+                    ContentPerformanceIntelligence()
+                )
                 self.logger.info("✅ Performance Intelligence module initialized")
 
-            if self.config["services"].get("communication_hub", {}).get("enabled", True):
-                self.enterprise_modules["communication_hub"] = lukhasContentCommunicationHub()
+            if (
+                self.config["services"]
+                .get("communication_hub", {})
+                .get("enabled", True)
+            ):
+                self.enterprise_modules["communication_hub"] = (
+                    lukhasContentCommunicationHub()
+                )
                 self.logger.info("✅ Communication Hub module initialized")
 
-            if self.config["services"].get("localization_engine", {}).get("enabled", True):
-                self.enterprise_modules["localization_engine"] = lukhasContentGlobalLocalizationEngine()
+            if (
+                self.config["services"]
+                .get("localization_engine", {})
+                .get("enabled", True)
+            ):
+                self.enterprise_modules["localization_engine"] = (
+                    lukhasContentGlobalLocalizationEngine()
+                )
                 self.logger.info("✅ Global Localization Engine initialized")
 
             # Create circuit breakers for each module
             for service_name in self.enterprise_modules:
                 self.circuit_breakers[service_name] = CircuitBreaker(
-                    failure_threshold=5,
-                    timeout=60
+                    failure_threshold=5, timeout=60
                 )
 
         except Exception as e:
@@ -712,33 +791,35 @@ class ContentEnterpriseOrchestrator:
         try:
             # Service metrics
             self.prom_request_count = Counter(
-                'orchestrator_requests_total',
-                'Total requests processed',
-                ['service', 'method', 'status']
+                "orchestrator_requests_total",
+                "Total requests processed",
+                ["service", "method", "status"],
             )
 
             self.prom_response_time = Histogram(
-                'orchestrator_response_time_seconds',
-                'Response time distribution',
-                ['service', 'method']
+                "orchestrator_response_time_seconds",
+                "Response time distribution",
+                ["service", "method"],
             )
 
             self.prom_service_health = Gauge(
-                'orchestrator_service_health',
-                'Service health status (1=healthy, 0=unhealthy)',
-                ['service']
+                "orchestrator_service_health",
+                "Service health status (1=healthy, 0=unhealthy)",
+                ["service"],
             )
 
             self.prom_active_instances = Gauge(
-                'orchestrator_active_instances',
-                'Number of active service instances',
-                ['service']
+                "orchestrator_active_instances",
+                "Number of active service instances",
+                ["service"],
             )
 
             # Start Prometheus metrics server
             prometheus_port = self.config["orchestrator"]["prometheus_port"]
             start_http_server(prometheus_port)
-            self.logger.info(f"📊 Prometheus metrics server started on port {prometheus_port}")
+            self.logger.info(
+                f"📊 Prometheus metrics server started on port {prometheus_port}"
+            )
 
         except Exception as e:
             self.logger.error(f"❌ Failed to setup Prometheus metrics: {e}")
@@ -753,7 +834,7 @@ class ContentEnterpriseOrchestrator:
             asyncio.create_task(self._monitor_services()),
             asyncio.create_task(self._process_tasks()),
             asyncio.create_task(self._auto_scale_services()),
-            asyncio.create_task(self._health_check_loop())
+            asyncio.create_task(self._health_check_loop()),
         ]
 
         try:
@@ -774,9 +855,11 @@ class ContentEnterpriseOrchestrator:
                     self.service_metrics[service_name].append(metrics)
 
                     # Update Prometheus metrics
-                    if PROMETHEUS_AVAILABLE and hasattr(self, 'prom_service_health'):
+                    if PROMETHEUS_AVAILABLE and hasattr(self, "prom_service_health"):
                         health_value = 1 if metrics else 0
-                        self.prom_service_health.labels(service=service_name).set(health_value)
+                        self.prom_service_health.labels(service=service_name).set(
+                            health_value
+                        )
 
                 await asyncio.sleep(self.config["orchestrator"]["monitoring_interval"])
 
@@ -784,7 +867,9 @@ class ContentEnterpriseOrchestrator:
                 self.logger.error(f"❌ Monitoring error: {e}")
                 await asyncio.sleep(5)
 
-    async def _collect_service_metrics(self, service_name: str) -> Optional[ServiceMetrics]:
+    async def _collect_service_metrics(
+        self, service_name: str
+    ) -> Optional[ServiceMetrics]:
         """Collect metrics for a specific service"""
         try:
             # Get system metrics
@@ -798,10 +883,10 @@ class ContentEnterpriseOrchestrator:
                 cpu_usage=cpu_usage,
                 memory_usage=memory_usage,
                 request_rate=10.0,  # Placeholder
-                error_rate=1.0,     # Placeholder
+                error_rate=1.0,  # Placeholder
                 response_time=100.0,  # Placeholder
-                uptime=99.9,        # Placeholder
-                throughput=50.0     # Placeholder
+                uptime=99.9,  # Placeholder
+                throughput=50.0,  # Placeholder
             )
 
             return metrics
@@ -844,7 +929,7 @@ class ContentEnterpriseOrchestrator:
                 status=status,
                 last_check=datetime.now(),
                 response_time=response_time,
-                dependencies_healthy=True
+                dependencies_healthy=True,
             )
 
         except Exception as e:
@@ -852,7 +937,7 @@ class ContentEnterpriseOrchestrator:
                 service_name=service_name,
                 status=ServiceStatus.CRITICAL,
                 last_check=datetime.now(),
-                error_message=str(e)
+                error_message=str(e),
             )
 
     async def _handle_unhealthy_service(self, service_name: str, health: ServiceHealth):
@@ -865,7 +950,7 @@ class ContentEnterpriseOrchestrator:
             priority=Priority.HIGH,
             service_name=service_name,
             action="restart",
-            parameters={"health_status": health.status.value}
+            parameters={"health_status": health.status.value},
         )
 
         self.task_queue.enqueue_task(recovery_task)
@@ -880,7 +965,9 @@ class ContentEnterpriseOrchestrator:
                 for service_name, metrics_history in self.service_metrics.items():
                     if metrics_history:
                         latest_metrics = metrics_history[-1]
-                        scaling_decision = self.auto_scaler.analyze_scaling_need(latest_metrics)
+                        scaling_decision = self.auto_scaler.analyze_scaling_need(
+                            latest_metrics
+                        )
 
                         if scaling_decision.action != ScalingAction.MAINTAIN:
                             await self._execute_scaling_decision(scaling_decision)
@@ -894,8 +981,10 @@ class ContentEnterpriseOrchestrator:
     async def _execute_scaling_decision(self, decision: ScalingDecision):
         """Execute auto-scaling decision"""
         try:
-            self.logger.info(f"🔄 Executing scaling decision for {decision.service_name}: "
-                           f"{decision.action.value}")
+            self.logger.info(
+                f"🔄 Executing scaling decision for {decision.service_name}: "
+                f"{decision.action.value}"
+            )
 
             # Create scaling task
             scaling_task = OrchestrationTask(
@@ -903,7 +992,7 @@ class ContentEnterpriseOrchestrator:
                 priority=Priority.HIGH,
                 service_name=decision.service_name,
                 action=decision.action.value,
-                parameters=asdict(decision)
+                parameters=asdict(decision),
             )
 
             self.task_queue.enqueue_task(scaling_task)
@@ -929,7 +1018,9 @@ class ContentEnterpriseOrchestrator:
     async def _execute_task(self, task: OrchestrationTask):
         """Execute an orchestration task"""
         try:
-            self.logger.info(f"🔧 Executing task: {task.task_type} for {task.service_name}")
+            self.logger.info(
+                f"🔧 Executing task: {task.task_type} for {task.service_name}"
+            )
 
             if task.task_type == "scaling":
                 result = await self._handle_scaling_task(task)
@@ -989,8 +1080,11 @@ class ContentEnterpriseOrchestrator:
     def get_orchestration_status(self) -> Dict[str, Any]:
         """Get current orchestration status"""
         total_services = len(self.enterprise_modules)
-        healthy_services = sum(1 for health in self.service_health.values()
-                             if health.status == ServiceStatus.HEALTHY)
+        healthy_services = sum(
+            1
+            for health in self.service_health.values()
+            if health.status == ServiceStatus.HEALTHY
+        )
 
         return {
             "orchestrator_status": "running" if self.running else "stopped",
@@ -1004,18 +1098,26 @@ class ContentEnterpriseOrchestrator:
                 name: {
                     "status": health.status.value,
                     "last_check": health.last_check.isoformat(),
-                    "response_time": health.response_time
+                    "response_time": health.response_time,
                 }
                 for name, health in self.service_health.items()
             },
             "metrics_summary": {
                 name: {
-                    "cpu_avg": sum(m.cpu_usage for m in metrics) / len(metrics) if metrics else 0,
-                    "memory_avg": sum(m.memory_usage for m in metrics) / len(metrics) if metrics else 0,
-                    "error_rate": metrics[-1].error_rate if metrics else 0
+                    "cpu_avg": (
+                        sum(m.cpu_usage for m in metrics) / len(metrics)
+                        if metrics
+                        else 0
+                    ),
+                    "memory_avg": (
+                        sum(m.memory_usage for m in metrics) / len(metrics)
+                        if metrics
+                        else 0
+                    ),
+                    "error_rate": metrics[-1].error_rate if metrics else 0,
                 }
                 for name, metrics in self.service_metrics.items()
-            }
+            },
         }
 
     async def emergency_shutdown(self):
@@ -1027,7 +1129,7 @@ class ContentEnterpriseOrchestrator:
         # Stop all enterprise modules
         for service_name, module in self.enterprise_modules.items():
             try:
-                if hasattr(module, 'shutdown'):
+                if hasattr(module, "shutdown"):
                     await module.shutdown()
                 self.logger.info(f"✅ {service_name} shutdown complete")
             except Exception as e:
@@ -1041,10 +1143,16 @@ async def main():
     """CLI interface for enterprise orchestrator"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="lukhas Content Enterprise Orchestrator")
+    parser = argparse.ArgumentParser(
+        description="lukhas Content Enterprise Orchestrator"
+    )
     parser.add_argument("--config", help="Configuration file path")
-    parser.add_argument("--action", choices=["start", "status", "shutdown"],
-                       default="start", help="Action to perform")
+    parser.add_argument(
+        "--action",
+        choices=["start", "status", "shutdown"],
+        default="start",
+        help="Action to perform",
+    )
 
     args = parser.parse_args()
 

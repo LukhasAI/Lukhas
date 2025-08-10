@@ -5,21 +5,21 @@ Tests the core functionality of dream session analysis, anomaly detection,
 and report generation for the Jules-13 system.
 """
 
-import pytest
 import json
-from datetime import datetime, timezone, timedelta
+import shutil
+import tempfile
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import Mock, patch
-import tempfile
-import shutil
 
+import pytest
 from dream.tools.symbolic_anomaly_explorer import (
-    SymbolicAnomalyExplorer,
+    AnomalySeverity,
+    AnomalyType,
     DreamSession,
     SymbolicAnomaly,
-    AnomalyType,
-    AnomalySeverity,
-    analyze_recent_dreams
+    SymbolicAnomalyExplorer,
+    analyze_recent_dreams,
 )
 
 
@@ -44,7 +44,7 @@ def sample_dream_sessions():
             emotional_state={"curiosity": 0.8, "anxiety": 0.2},
             content="Dream exploring eye_watcher and golden_spiral with ΛDRIFT patterns",
             drift_score=0.3,
-            narrative_elements=["exploration", "discovery", "wonder"]
+            narrative_elements=["exploration", "discovery", "wonder"],
         ),
         DreamSession(
             session_id="DREAM_002",
@@ -53,7 +53,7 @@ def sample_dream_sessions():
             emotional_state={"fear": 0.9, "curiosity": 0.1},
             content="Conflicting symbols eye_watcher and shattered_circle with ΛFEAR",
             drift_score=0.6,
-            narrative_elements=["conflict", "tension", "uncertainty"]
+            narrative_elements=["conflict", "tension", "uncertainty"],
         ),
         DreamSession(
             session_id="DREAM_003",
@@ -62,8 +62,8 @@ def sample_dream_sessions():
             emotional_state={"confusion": 0.7, "fear": 0.8, "hope": 0.1},
             content="Recursive patterns with void_whisper creating ΛLOOP structures",
             drift_score=0.85,
-            narrative_elements=["repetition", "loop", "escape"]
-        )
+            narrative_elements=["repetition", "loop", "escape"],
+        ),
     ]
 
     return sessions
@@ -81,8 +81,7 @@ class TestSymbolicAnomalyExplorer:
     def test_initialization(self, temp_storage):
         """Test explorer initialization."""
         explorer = SymbolicAnomalyExplorer(
-            storage_path=temp_storage,
-            drift_integration=False
+            storage_path=temp_storage, drift_integration=False
         )
 
         assert explorer.storage_path == Path(temp_storage)
@@ -100,7 +99,7 @@ class TestSymbolicAnomalyExplorer:
             emotional_state={"test": 0.5},
             content="Test content with ΛTEST tag",
             drift_score=0.4,
-            narrative_elements=["test_narrative"]
+            narrative_elements=["test_narrative"],
         )
 
         assert session.session_id == "TEST_001"
@@ -117,22 +116,24 @@ class TestSymbolicAnomalyExplorer:
         assert all(d.session_id.startswith("DREAM_") for d in dreams)
         assert all(len(d.symbolic_tags) > 0 for d in dreams)
 
-    def test_load_dreams_from_files(self, explorer, temp_storage, sample_dream_sessions):
+    def test_load_dreams_from_files(
+        self, explorer, temp_storage, sample_dream_sessions
+    ):
         """Test loading dreams from JSON files."""
         # Create sample JSON files
         for i, session in enumerate(sample_dream_sessions):
             file_path = Path(temp_storage) / f"dream_{i:03d}.json"
             session_data = {
-                'session_id': session.session_id,
-                'timestamp': session.timestamp,
-                'symbolic_tags': session.symbolic_tags,
-                'emotional_state': session.emotional_state,
-                'content': session.content,
-                'drift_score': session.drift_score,
-                'narrative_elements': session.narrative_elements
+                "session_id": session.session_id,
+                "timestamp": session.timestamp,
+                "symbolic_tags": session.symbolic_tags,
+                "emotional_state": session.emotional_state,
+                "content": session.content,
+                "drift_score": session.drift_score,
+                "narrative_elements": session.narrative_elements,
             }
 
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 json.dump(session_data, f)
 
         # Load dreams
@@ -147,12 +148,17 @@ class TestSymbolicAnomalyExplorer:
         anomalies = explorer.detect_symbolic_anomalies(sample_dream_sessions)
 
         # Should detect conflict in DREAM_002 (eye_watcher vs shattered_circle)
-        conflict_anomalies = [a for a in anomalies if a.anomaly_type == AnomalyType.SYMBOLIC_CONFLICT]
+        conflict_anomalies = [
+            a for a in anomalies if a.anomaly_type == AnomalyType.SYMBOLIC_CONFLICT
+        ]
         assert len(conflict_anomalies) > 0
 
         # Check conflict anomaly details
         conflict = conflict_anomalies[0]
-        assert conflict.severity in [AnomalySeverity.MODERATE, AnomalySeverity.SIGNIFICANT]
+        assert conflict.severity in [
+            AnomalySeverity.MODERATE,
+            AnomalySeverity.SIGNIFICANT,
+        ]
         assert "DREAM_002" in conflict.affected_sessions
         assert len(conflict.recommendations) > 0
 
@@ -164,18 +170,21 @@ class TestSymbolicAnomalyExplorer:
             session = DreamSession(
                 session_id=f"LOOP_{i:03d}",
                 timestamp=datetime.now().isoformat(),
-                symbolic_tags=["recursive_mirror", "void_whisper"] * 2,  # Repeating pattern
+                symbolic_tags=["recursive_mirror", "void_whisper"]
+                * 2,  # Repeating pattern
                 emotional_state={"confusion": 0.7},
                 content="Recursive mirror patterns",
                 drift_score=0.5,
-                narrative_elements=["loop", "repetition"]
+                narrative_elements=["loop", "repetition"],
             )
             loop_sessions.append(session)
 
         anomalies = explorer.detect_symbolic_anomalies(loop_sessions)
 
         # Should detect recursive loops
-        loop_anomalies = [a for a in anomalies if a.anomaly_type == AnomalyType.RECURSIVE_LOOP]
+        loop_anomalies = [
+            a for a in anomalies if a.anomaly_type == AnomalyType.RECURSIVE_LOOP
+        ]
         assert len(loop_anomalies) > 0
 
         loop_anomaly = loop_anomalies[0]
@@ -187,7 +196,9 @@ class TestSymbolicAnomalyExplorer:
         anomalies = explorer.detect_symbolic_anomalies(sample_dream_sessions)
 
         # DREAM_003 has high fear (0.8) and low hope (0.1) - should trigger dissonance
-        dissonance_anomalies = [a for a in anomalies if a.anomaly_type == AnomalyType.EMOTIONAL_DISSONANCE]
+        dissonance_anomalies = [
+            a for a in anomalies if a.anomaly_type == AnomalyType.EMOTIONAL_DISSONANCE
+        ]
         assert len(dissonance_anomalies) > 0
 
         dissonance = dissonance_anomalies[0]
@@ -199,11 +210,16 @@ class TestSymbolicAnomalyExplorer:
         anomalies = explorer.detect_symbolic_anomalies(sample_dream_sessions)
 
         # Sessions have drift scores: 0.3 -> 0.6 -> 0.85 (acceleration)
-        drift_anomalies = [a for a in anomalies if a.anomaly_type == AnomalyType.DRIFT_ACCELERATION]
+        drift_anomalies = [
+            a for a in anomalies if a.anomaly_type == AnomalyType.DRIFT_ACCELERATION
+        ]
         assert len(drift_anomalies) > 0
 
         drift_anomaly = drift_anomalies[0]
-        assert drift_anomaly.severity in [AnomalySeverity.SIGNIFICANT, AnomalySeverity.CRITICAL]
+        assert drift_anomaly.severity in [
+            AnomalySeverity.SIGNIFICANT,
+            AnomalySeverity.CRITICAL,
+        ]
         assert "acceleration" in drift_anomaly.description.lower()
 
     def test_generate_anomaly_report(self, explorer, sample_dream_sessions):
@@ -222,13 +238,13 @@ class TestSymbolicAnomalyExplorer:
         """Test symbolic trend analysis."""
         trends = explorer.summarize_symbolic_trends(sample_dream_sessions)
 
-        assert trends['sessions_analyzed'] == 3
-        assert trends['total_symbols'] > 0
-        assert trends['unique_symbols'] > 0
-        assert 'top_symbols' in trends
-        assert 'lambda_frequency' in trends
-        assert trends['drift_trend'] in ['stable', 'increasing', 'decreasing']
-        assert 0 <= trends['average_drift_score'] <= 1
+        assert trends["sessions_analyzed"] == 3
+        assert trends["total_symbols"] > 0
+        assert trends["unique_symbols"] > 0
+        assert "top_symbols" in trends
+        assert "lambda_frequency" in trends
+        assert trends["drift_trend"] in ["stable", "increasing", "decreasing"]
+        assert 0 <= trends["average_drift_score"] <= 1
 
     def test_export_report_json(self, explorer, temp_storage):
         """Test JSON report export."""
@@ -243,7 +259,7 @@ class TestSymbolicAnomalyExplorer:
             symbolic_trends={},
             overall_risk_score=0.3,
             summary="Test report",
-            recommendations=["Test recommendation"]
+            recommendations=["Test recommendation"],
         )
 
         json_path = explorer.export_report_json(report)
@@ -254,9 +270,9 @@ class TestSymbolicAnomalyExplorer:
         with open(json_path) as f:
             data = json.load(f)
 
-        assert data['report_id'] == "TEST_REPORT"
-        assert data['overall_risk_score'] == 0.3
-        assert data['summary'] == "Test report"
+        assert data["report_id"] == "TEST_REPORT"
+        assert data["overall_risk_score"] == 0.3
+        assert data["summary"] == "Test report"
 
     def test_export_summary_markdown(self, explorer, temp_storage):
         """Test Markdown summary export."""
@@ -272,7 +288,7 @@ class TestSymbolicAnomalyExplorer:
             affected_sessions=["TEST_001"],
             symbolic_elements=["test_symbol"],
             metrics={"test_metric": 0.5},
-            recommendations=["Test recommendation"]
+            recommendations=["Test recommendation"],
         )
 
         report = AnomalyReport(
@@ -283,7 +299,7 @@ class TestSymbolicAnomalyExplorer:
             symbolic_trends={},
             overall_risk_score=0.4,
             summary="Test report with anomaly",
-            recommendations=["Overall recommendation"]
+            recommendations=["Overall recommendation"],
         )
 
         md_path = explorer.export_summary_markdown(report)
@@ -311,7 +327,7 @@ class TestSymbolicAnomalyExplorer:
                 description="Minor anomaly",
                 affected_sessions=["TEST_001"],
                 symbolic_elements=[],
-                metrics={}
+                metrics={},
             ),
             SymbolicAnomaly(
                 anomaly_id="CRITICAL_001",
@@ -321,8 +337,8 @@ class TestSymbolicAnomalyExplorer:
                 description="Critical anomaly",
                 affected_sessions=["TEST_002"],
                 symbolic_elements=[],
-                metrics={}
-            )
+                metrics={},
+            ),
         ]
 
         from dream.tools.symbolic_anomaly_explorer import AnomalyReport
@@ -335,7 +351,7 @@ class TestSymbolicAnomalyExplorer:
             symbolic_trends={},
             overall_risk_score=0.6,
             summary="Test heatmap",
-            recommendations=[]
+            recommendations=[],
         )
 
         heatmap = explorer.display_ascii_heatmap(report)
@@ -369,16 +385,13 @@ class TestSymbolicAnomalyExplorer:
 
     def test_threshold_customization(self, temp_storage):
         """Test threshold customization."""
-        custom_thresholds = {
-            'emotional_dissonance': 0.2,
-            'symbolic_conflict': 0.1
-        }
+        custom_thresholds = {"emotional_dissonance": 0.2, "symbolic_conflict": 0.1}
 
         explorer = SymbolicAnomalyExplorer(storage_path=temp_storage)
         explorer.thresholds.update(custom_thresholds)
 
-        assert explorer.thresholds['emotional_dissonance'] == 0.2
-        assert explorer.thresholds['symbolic_conflict'] == 0.1
+        assert explorer.thresholds["emotional_dissonance"] == 0.2
+        assert explorer.thresholds["symbolic_conflict"] == 0.1
 
     def test_empty_sessions_handling(self, explorer):
         """Test handling of empty session lists."""
@@ -397,7 +410,7 @@ class TestSymbolicAnomalyExplorer:
 class TestConvenienceFunctions:
     """Test convenience functions for CLI usage."""
 
-    @patch('symbolic_anomaly_explorer.SymbolicAnomalyExplorer')
+    @patch("symbolic_anomaly_explorer.SymbolicAnomalyExplorer")
     def test_analyze_recent_dreams(self, mock_explorer_class):
         """Test analyze_recent_dreams convenience function."""
         # Mock the explorer and its methods
@@ -427,7 +440,7 @@ class TestEdgeCases:
         """Test handling of invalid session data."""
         # Create invalid JSON file
         invalid_file = Path(temp_storage) / "invalid.json"
-        with open(invalid_file, 'w') as f:
+        with open(invalid_file, "w") as f:
             f.write("invalid json content")
 
         # Should handle gracefully
@@ -438,19 +451,21 @@ class TestEdgeCases:
         """Test handling of missing fields in session data."""
         # Create session with missing fields
         minimal_session = {
-            'session_id': 'MINIMAL_001'
+            "session_id": "MINIMAL_001"
             # Missing other required fields
         }
 
         session_file = Path(temp_storage) / "minimal.json"
-        with open(session_file, 'w') as f:
+        with open(session_file, "w") as f:
             json.dump(minimal_session, f)
 
         dreams = explorer.load_recent_dreams(10)
 
         # Should load successfully with defaults
         assert len(dreams) > 0
-        loaded_session = next((d for d in dreams if d.session_id == 'MINIMAL_001'), None)
+        loaded_session = next(
+            (d for d in dreams if d.session_id == "MINIMAL_001"), None
+        )
         if loaded_session:
             assert loaded_session.symbolic_tags == []
             assert loaded_session.emotional_state == {}
@@ -464,7 +479,7 @@ class TestEdgeCases:
             emotional_state={"extreme": 1.0},
             content="Extreme test",
             drift_score=2.0,  # Invalid high value
-            narrative_elements=["extreme"]
+            narrative_elements=["extreme"],
         )
 
         # Should handle gracefully

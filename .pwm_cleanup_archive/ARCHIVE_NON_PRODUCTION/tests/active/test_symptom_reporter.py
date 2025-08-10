@@ -1,10 +1,12 @@
 import asyncio
 import logging
+
 from core.interaction.symptom_reporter import SymptomReporter
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 async def test_symptom_reporting():
     """Test the symptom reporting flow"""
@@ -21,6 +23,7 @@ async def test_symptom_reporting():
 
     logger.info(f"Session completed with result: {result}")
     return result
+
 
 if __name__ == "__main__":
     # Run the test

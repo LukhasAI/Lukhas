@@ -11,7 +11,7 @@ import sys
 import time
 import traceback
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 
 def test_module_import(module_path: Path) -> Tuple[bool, str, List[str]]:
@@ -220,7 +220,7 @@ def analyze_core_modules():
     with open("core_module_analysis.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\n💾 Detailed results saved to core_module_analysis.json")
+    print("\n💾 Detailed results saved to core_module_analysis.json")
 
     return results
 

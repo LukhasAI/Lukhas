@@ -8,11 +8,12 @@ Implements Trinity Framework security with symbolic tracking.
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
-from fastapi import Request, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from functools import wraps
-from typing import Optional, Callable, List
 import logging
+from functools import wraps
+from typing import Callable, Optional
+
+from fastapi import Depends, HTTPException, Request
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .user_db import user_db
 from .verify import get_tier_permissions
@@ -24,7 +25,7 @@ security = HTTPBearer()
 
 class AuthContext:
     """Authentication context injected into requests."""
-    
+
     def __init__(self, user_data: dict):
         self.user_id = user_data["email"].split('@')[0].replace('.', '_').lower()
         self.email = user_data["email"]
@@ -35,11 +36,11 @@ class AuthContext:
         self.permissions = get_tier_permissions(self.tier)
         self.metadata = user_data["metadata"]
         self.raw_data = user_data
-    
+
     def has_permission(self, permission: str) -> bool:
         """Check if user has specific permission."""
         return self.permissions.get(permission, False)
-    
+
     def is_tier_or_above(self, min_tier: str) -> bool:
         """Check if user tier is at or above minimum."""
         tier_levels = {"T1": 1, "T2": 2, "T3": 3, "T4": 4, "T5": 5}
@@ -60,7 +61,7 @@ async def get_current_user(
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token
         user_data = user_db.verify_token(token)
         if not user_data:
@@ -69,10 +70,10 @@ async def get_current_user(
                 detail="Invalid or expired token",
                 headers={"WWW-Authenticate": "Bearer"}
             )
-        
+
         # Create auth context
         return AuthContext(user_data)
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -159,12 +160,12 @@ class TierGate:
                 # Execute T3+ code
                 result = await advanced_function()
     """
-    
+
     def __init__(self, user: AuthContext, min_tier: str):
         self.user = user
         self.min_tier = min_tier
         self.allowed = user.is_tier_or_above(min_tier)
-    
+
     async def __aenter__(self):
         if not self.allowed:
             logger.warning(
@@ -172,7 +173,7 @@ class TierGate:
                 f"attempted to access {self.min_tier} content"
             )
         return self
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         pass
 

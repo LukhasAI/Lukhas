@@ -3,21 +3,23 @@ Memory Profiler Wrapper
 Provides integration layer for memory profiler components
 """
 
-from core.common import get_logger
-from typing import Dict, Any, Optional, List, Tuple
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 try:
     from .memory_profiler import (
-        Category,
         Action,
-        TensorKey,
-        DataFlowNode,
+        Category,
         DataFlowEdge,
-        SchemaMatcher,
+        DataFlowNode,
         OpTree,
-        SizeMap
+        SchemaMatcher,
+        SizeMap,
+        TensorKey,
     )
+
     MEMORY_PROFILER_AVAILABLE = True
 except ImportError as e:
     MEMORY_PROFILER_AVAILABLE = False
@@ -44,14 +46,16 @@ class MemoryProfiler:
 
         logger.info("MemoryProfiler initialized")
 
-    def record_allocation(self, tensor_id: str, size: int, category: Optional[Category] = None) -> None:
+    def record_allocation(
+        self, tensor_id: str, size: int, category: Optional[Category] = None
+    ) -> None:
         """Record a memory allocation event"""
         event = {
             "timestamp": datetime.now(),
             "action": Action.CREATE,
             "tensor_id": tensor_id,
             "size": size,
-            "category": category or Category.TEMPORARY
+            "category": category or Category.TEMPORARY,
         }
 
         self.memory_events.append(event)
@@ -68,7 +72,7 @@ class MemoryProfiler:
         event = {
             "timestamp": datetime.now(),
             "action": Action.DELETE,
-            "tensor_id": tensor_id
+            "tensor_id": tensor_id,
         }
 
         self.memory_events.append(event)
@@ -87,7 +91,7 @@ class MemoryProfiler:
             cat.name: {
                 "count": stats["count"],
                 "total_size_mb": stats["total_size"] / (1024 * 1024),
-                "percentage": 0  # Will calculate based on total
+                "percentage": 0,  # Will calculate based on total
             }
             for cat, stats in self.category_stats.items()
         }
@@ -99,12 +103,16 @@ class MemoryProfiler:
     def analyze_memory_patterns(self) -> Dict[str, Any]:
         """Analyze memory usage patterns"""
         analysis = {
-            "total_allocations": sum(1 for e in self.memory_events if e.get("action") == Action.CREATE),
-            "total_deallocations": sum(1 for e in self.memory_events if e.get("action") == Action.DELETE),
+            "total_allocations": sum(
+                1 for e in self.memory_events if e.get("action") == Action.CREATE
+            ),
+            "total_deallocations": sum(
+                1 for e in self.memory_events if e.get("action") == Action.DELETE
+            ),
             "peak_memory_usage": 0,
             "fragmentation_score": 0,
             "category_distribution": self.get_memory_usage_by_category(),
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Calculate peak memory usage
@@ -123,15 +131,23 @@ class MemoryProfiler:
 
         # Generate recommendations
         if analysis["total_deallocations"] < analysis["total_allocations"] * 0.8:
-            analysis["recommendations"].append("Consider more aggressive memory cleanup")
+            analysis["recommendations"].append(
+                "Consider more aggressive memory cleanup"
+            )
 
-        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get("total_size", 0)
+        temp_usage = self.category_stats.get(Category.TEMPORARY, {}).get(
+            "total_size", 0
+        )
         total_usage = sum(s["total_size"] for s in self.category_stats.values())
 
         if total_usage > 0 and temp_usage / total_usage > 0.5:
-            analysis["recommendations"].append("High temporary memory usage detected - consider optimization")
+            analysis["recommendations"].append(
+                "High temporary memory usage detected - consider optimization"
+            )
 
-        logger.info(f"Memory analysis complete: {analysis['total_allocations']} allocations, peak {analysis['peak_memory_usage_mb']:.2f} MB")
+        logger.info(
+            f"Memory analysis complete: {analysis['total_allocations']} allocations, peak {analysis['peak_memory_usage_mb']:.2f} MB"
+        )
 
         return analysis
 
@@ -139,9 +155,7 @@ class MemoryProfiler:
         """Reset profiler state"""
         self.memory_events.clear()
         self.data_flow_nodes.clear()
-        self.category_stats = {
-            cat: {"count": 0, "total_size": 0} for cat in Category
-        }
+        self.category_stats = {cat: {"count": 0, "total_size": 0} for cat in Category}
         logger.info("Memory profiler reset")
 
 

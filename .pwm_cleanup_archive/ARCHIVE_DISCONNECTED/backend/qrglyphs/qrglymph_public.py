@@ -26,13 +26,15 @@
 # python qrglymph_public.py --payload myfile.pdf --output outpath/
 #
 # ============================================================================
-import os
-import json
-import base64
 import argparse
+import base64
+import json
+import os
 from pathlib import Path
-from cryptography.fernet import Fernet
+
 import segno  # QR code generator
+from cryptography.fernet import Fernet
+
 # import requests  # for real IPFS upload if using web3.storage or Pinata
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -41,11 +43,13 @@ import segno  # QR code generator
 DEFAULT_OUTPUT = "./output"
 MOCK_IPFS_GATEWAY = "https://demo-ipfs.io/ipfs/"
 
+
 # ─────────────────────────────────────────────────────────────────────────────
 # ENCRYPTION UTILS
 # ─────────────────────────────────────────────────────────────────────────────
 def generate_key():
     return Fernet.generate_key()
+
 
 def encrypt_file(file_path, key):
     with open(file_path, "rb") as f:
@@ -53,18 +57,21 @@ def encrypt_file(file_path, key):
     encrypted = Fernet(key).encrypt(data)
     return encrypted
 
+
 def save_encrypted_file(encrypted_data, output_path):
     with open(output_path, "wb") as f:
         f.write(encrypted_data)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # IPFS MOCK (Replace with real API if needed)
 # ─────────────────────────────────────────────────────────────────────────────
 def mock_ipfs_upload(encrypted_data, filename="payload.enc"):
     # Save locally, then pretend we uploaded to IPFS
-    ipfs_hash = base64.urlsafe_b64encode(os.urandom(12)).decode('utf-8').rstrip("=")
+    ipfs_hash = base64.urlsafe_b64encode(os.urandom(12)).decode("utf-8").rstrip("=")
     ipfs_link = f"{MOCK_IPFS_GATEWAY}{ipfs_hash}"
     return ipfs_link
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # QR CODE GENERATION
@@ -72,6 +79,7 @@ def mock_ipfs_upload(encrypted_data, filename="payload.enc"):
 def generate_qr_code(data, output_path):
     qr = segno.make(data)
     qr.save(os.path.join(output_path, "qrglyph_qr.png"))
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MAIN WORKFLOW
@@ -85,13 +93,11 @@ def create_qrglyph(payload_path, output_dir):
     save_encrypted_file(encrypted, encrypted_file_path)
 
     ipfs_link = mock_ipfs_upload(encrypted, "payload.enc")
-    qr_data = json.dumps({
-        "ipfs": ipfs_link,
-        "key": key.decode()
-    })
+    qr_data = json.dumps({"ipfs": ipfs_link, "key": key.decode()})
     generate_qr_code(qr_data, output_dir)
     print(f"✅ Qrglyph created: {ipfs_link}")
-    print(f"🔑 Decryption key saved in QR or separately as needed.")
+    print("🔑 Decryption key saved in QR or separately as needed.")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # ENTRY POINT

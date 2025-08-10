@@ -6,7 +6,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - SYMBOLIC REASONING ADAPTER
 ║ Bridge between symbolic representations and logical reasoning engines
@@ -50,10 +49,9 @@
 """
 
 import logging
-from typing import Dict, Any
 from dataclasses import dataclass
 from enum import Enum
-
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_reasoning")
@@ -74,9 +72,9 @@ class ReasoningContext:
 
     context_id: str
     mode: ReasoningMode
-    symbolic_input: Dict[str, Any]
-    logical_output: Dict[str, Any]
-    adaptation_metadata: Dict[str, Any]
+    symbolic_input: dict[str, Any]
+    logical_output: dict[str, Any]
+    adaptation_metadata: dict[str, Any]
 
 
 class SymbolicReasoningAdapter:
@@ -91,15 +89,15 @@ class SymbolicReasoningAdapter:
 
     def __init__(self):
         # ΛTRACE: Reasoning adapter initialization
-        self.reasoning_contexts: Dict[str, ReasoningContext] = {}
+        self.reasoning_contexts: dict[str, ReasoningContext] = {}
         self.adaptation_cache = {}
         self.coherence_threshold = 0.85
 
         logger.info("SymbolicReasoningAdapter initialized - SCAFFOLD MODE")
 
     def adapt_symbolic_reasoning(
-        self, symbolic_input: Dict[str, Any], target_mode: ReasoningMode
-    ) -> Dict[str, Any]:
+        self, symbolic_input: dict[str, Any], target_mode: ReasoningMode
+    ) -> dict[str, Any]:
         """
         Adapt symbolic reasoning to target reasoning mode
 

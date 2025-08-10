@@ -12,19 +12,19 @@ This script identifies all method signature mismatches and generates fixes.
 """
 
 import ast
-import os
-import re
-import json
-from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
-from dataclasses import dataclass, field
-from collections import defaultdict
 import difflib
+import json
+import os
+from collections import defaultdict
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
 
 
 @dataclass
 class APICall:
     """Represents an API call found in test files"""
+
     file_path: str
     line_number: int
     class_name: str
@@ -36,11 +36,12 @@ class APICall:
 @dataclass
 class MethodSignature:
     """Represents an actual method signature in implementation"""
+
     file_path: str
     line_number: int
     class_name: str
     method_name: str
-    parameters: List[str]
+    parameters: list[str]
     is_async: bool
     docstring: Optional[str]
 
@@ -48,9 +49,10 @@ class MethodSignature:
 @dataclass
 class APIMismatch:
     """Represents a mismatch between test and implementation"""
+
     test_call: APICall
     expected_method: str
-    actual_methods: List[str]
+    actual_methods: list[str]
     suggested_fix: str
     confidence: float
 
@@ -60,11 +62,11 @@ class TestAPIExtractor(ast.NodeVisitor):
 
     def __init__(self, file_path: str):
         self.file_path = file_path
-        self.api_calls: List[APICall] = []
+        self.api_calls: list[APICall] = []
         self.current_class = None
         self.lines = None
 
-    def extract_calls(self, source: str) -> List[APICall]:
+    def extract_calls(self, source: str) -> list[APICall]:
         """Extract all API calls from source code"""
         self.lines = source.splitlines()
         tree = ast.parse(source)
@@ -80,11 +82,24 @@ class TestAPIExtractor(ast.NodeVisitor):
                 method_name = node.func.attr
 
                 # Common test object patterns
-                if any(pattern in obj_name.lower() for pattern in
-                       ['actor', 'ref', 'fabric', 'agent', 'system', 'colony']):
+                if any(
+                    pattern in obj_name.lower()
+                    for pattern in [
+                        "actor",
+                        "ref",
+                        "fabric",
+                        "agent",
+                        "system",
+                        "colony",
+                    ]
+                ):
 
                     # Get the full line for context
-                    line_content = self.lines[node.lineno - 1] if node.lineno <= len(self.lines) else ""
+                    line_content = (
+                        self.lines[node.lineno - 1]
+                        if node.lineno <= len(self.lines)
+                        else ""
+                    )
 
                     api_call = APICall(
                         file_path=self.file_path,
@@ -92,7 +107,7 @@ class TestAPIExtractor(ast.NodeVisitor):
                         class_name=self._infer_class_name(obj_name),
                         method_name=method_name,
                         full_call=f"{obj_name}.{method_name}",
-                        context=line_content.strip()
+                        context=line_content.strip(),
                     )
                     self.api_calls.append(api_call)
 
@@ -105,8 +120,10 @@ class TestAPIExtractor(ast.NodeVisitor):
             attr_name = node.attr
 
             # Look for attribute access patterns in assertions
-            if any(pattern in obj_name.lower() for pattern in
-                   ['stats', 'fabric', 'agent', 'result']):
+            if any(
+                pattern in obj_name.lower()
+                for pattern in ["stats", "fabric", "agent", "result"]
+            ):
 
                 api_call = APICall(
                     file_path=self.file_path,
@@ -114,7 +131,7 @@ class TestAPIExtractor(ast.NodeVisitor):
                     class_name=self._infer_class_name(obj_name),
                     method_name=attr_name,
                     full_call=f"{obj_name}.{attr_name}",
-                    context="attribute_access"
+                    context="attribute_access",
                 )
                 self.api_calls.append(api_call)
 
@@ -123,21 +140,21 @@ class TestAPIExtractor(ast.NodeVisitor):
     def _infer_class_name(self, obj_name: str) -> str:
         """Infer the class name from object variable name"""
         # Common patterns
-        if 'actor_ref' in obj_name:
-            return 'ActorRef'
-        elif 'actor_system' in obj_name:
-            return 'ActorSystem'
-        elif 'fabric' in obj_name:
-            return 'EfficientCommunicationFabric'
-        elif 'agent' in obj_name:
-            return 'DistributedAIAgent'
-        elif 'colony' in obj_name:
-            return 'BaseColony'
-        elif 'system' in obj_name:
-            return 'DistributedAISystem'
+        if "actor_ref" in obj_name:
+            return "ActorRef"
+        elif "actor_system" in obj_name:
+            return "ActorSystem"
+        elif "fabric" in obj_name:
+            return "EfficientCommunicationFabric"
+        elif "agent" in obj_name:
+            return "DistributedAIAgent"
+        elif "colony" in obj_name:
+            return "BaseColony"
+        elif "system" in obj_name:
+            return "DistributedAISystem"
         else:
             # Capitalize and remove underscores
-            return ''.join(word.capitalize() for word in obj_name.split('_'))
+            return "".join(word.capitalize() for word in obj_name.split("_"))
 
 
 class ImplementationAnalyzer(ast.NodeVisitor):
@@ -145,10 +162,10 @@ class ImplementationAnalyzer(ast.NodeVisitor):
 
     def __init__(self, file_path: str):
         self.file_path = file_path
-        self.signatures: List[MethodSignature] = []
+        self.signatures: list[MethodSignature] = []
         self.current_class = None
 
-    def extract_signatures(self, source: str) -> List[MethodSignature]:
+    def extract_signatures(self, source: str) -> list[MethodSignature]:
         """Extract all method signatures from source code"""
         tree = ast.parse(source)
         self.visit(tree)
@@ -163,11 +180,11 @@ class ImplementationAnalyzer(ast.NodeVisitor):
 
     def visit_FunctionDef(self, node):
         """Visit function definitions"""
-        if self.current_class and not node.name.startswith('_'):
+        if self.current_class and not node.name.startswith("_"):
             # Extract parameters
             params = []
             for arg in node.args.args:
-                if arg.arg != 'self':
+                if arg.arg != "self":
                     params.append(arg.arg)
 
             # Get docstring
@@ -180,7 +197,7 @@ class ImplementationAnalyzer(ast.NodeVisitor):
                 method_name=node.name,
                 parameters=params,
                 is_async=False,
-                docstring=docstring
+                docstring=docstring,
             )
             self.signatures.append(signature)
 
@@ -188,10 +205,10 @@ class ImplementationAnalyzer(ast.NodeVisitor):
 
     def visit_AsyncFunctionDef(self, node):
         """Visit async function definitions"""
-        if self.current_class and not node.name.startswith('_'):
+        if self.current_class and not node.name.startswith("_"):
             params = []
             for arg in node.args.args:
-                if arg.arg != 'self':
+                if arg.arg != "self":
                     params.append(arg.arg)
 
             docstring = ast.get_docstring(node)
@@ -203,7 +220,7 @@ class ImplementationAnalyzer(ast.NodeVisitor):
                 method_name=node.name,
                 parameters=params,
                 is_async=True,
-                docstring=docstring
+                docstring=docstring,
             )
             self.signatures.append(signature)
 
@@ -215,9 +232,9 @@ class APIDiffAnalyzer:
 
     def __init__(self, core_path: str):
         self.core_path = Path(core_path)
-        self.test_calls: List[APICall] = []
-        self.implementations: Dict[str, List[MethodSignature]] = defaultdict(list)
-        self.mismatches: List[APIMismatch] = []
+        self.test_calls: list[APICall] = []
+        self.implementations: dict[str, list[MethodSignature]] = defaultdict(list)
+        self.mismatches: list[APIMismatch] = []
 
     def analyze(self):
         """Run the complete analysis"""
@@ -230,7 +247,9 @@ class APIDiffAnalyzer:
         # Step 2: Extract implementation signatures
         self._extract_implementations()
         total_methods = sum(len(methods) for methods in self.implementations.values())
-        print(f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n")
+        print(
+            f"📚 Found {total_methods} methods in {len(self.implementations)} classes\n"
+        )
 
         # Step 3: Find mismatches
         self._find_mismatches()
@@ -243,7 +262,12 @@ class APIDiffAnalyzer:
     def _extract_test_calls(self):
         """Extract all API calls from test files"""
         # Look in test files and validation scripts
-        test_patterns = ['*test*.py', '*Test*.py', '*validation*.py', 'research_*.py']
+        test_patterns = [
+            "*test*.py",
+            "*Test*.py",
+            "*validation*.py",
+            "research_*.py",
+        ]
 
         for pattern in test_patterns:
             for test_file in self.core_path.parent.rglob(pattern):
@@ -260,14 +284,14 @@ class APIDiffAnalyzer:
         """Extract all method signatures from implementations"""
         # Core implementation files
         impl_files = [
-            'actor_system.py',
-            'efficient_communication.py',
-            'integrated_system.py',
-            'event_sourcing.py',
-            'distributed_tracing.py',
-            'tiered_state_management.py',
-            'p2p_communication.py',
-            'lightweight_concurrency.py'
+            "actor_system.py",
+            "efficient_communication.py",
+            "integrated_system.py",
+            "event_sourcing.py",
+            "distributed_tracing.py",
+            "tiered_state_management.py",
+            "p2p_communication.py",
+            "lightweight_concurrency.py",
         ]
 
         for impl_file in impl_files:
@@ -309,20 +333,22 @@ class APIDiffAnalyzer:
                         expected_method=method_name,
                         actual_methods=sorted(impl_method_names),
                         suggested_fix=suggested_method,
-                        confidence=confidence
+                        confidence=confidence,
                     )
                     self.mismatches.append(mismatch)
 
-    def _find_best_match(self, expected: str, actual_methods: Set[str]) -> Tuple[str, float]:
+    def _find_best_match(
+        self, expected: str, actual_methods: set[str]
+    ) -> tuple[str, float]:
         """Find the best matching method name"""
         if not actual_methods:
             return "NO_METHODS_FOUND", 0.0
 
         # Special cases we know about
         known_mappings = {
-            'send_message': 'tell',
-            'handle_message': 'register_handler',
-            'process_task': 'execute_task',
+            "send_message": "tell",
+            "handle_message": "register_handler",
+            "process_task": "execute_task",
         }
 
         if expected in known_mappings:
@@ -344,7 +370,7 @@ class APIDiffAnalyzer:
         """Generate detailed mismatch report"""
         report_path = self.core_path / "API_MISMATCH_REPORT.md"
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write("# 🔍 API Mismatch Analysis Report\n\n")
             f.write(f"**Generated:** {self._get_timestamp()}\n")
             f.write(f"**Total Mismatches:** {len(self.mismatches)}\n\n")
@@ -361,22 +387,32 @@ class APIDiffAnalyzer:
                 for mismatch in class_mismatches:
                     f.write(f"- **{mismatch.expected_method}** → ")
                     if mismatch.confidence > 0.8:
-                        f.write(f"✅ `{mismatch.suggested_fix}` (confidence: {mismatch.confidence:.0%})\n")
+                        f.write(
+                            f"✅ `{mismatch.suggested_fix}` (confidence: {mismatch.confidence:.0%})\n"
+                        )
                     else:
-                        f.write(f"❓ `{mismatch.suggested_fix}` (low confidence: {mismatch.confidence:.0%})\n")
+                        f.write(
+                            f"❓ `{mismatch.suggested_fix}` (low confidence: {mismatch.confidence:.0%})\n"
+                        )
                 f.write("\n")
 
             # Detailed section
             f.write("## Detailed Mismatches\n\n")
 
             for i, mismatch in enumerate(self.mismatches, 1):
-                f.write(f"### {i}. {mismatch.test_call.class_name}.{mismatch.expected_method}\n\n")
+                f.write(
+                    f"### {i}. {mismatch.test_call.class_name}.{mismatch.expected_method}\n\n"
+                )
                 f.write(f"**Test File:** `{mismatch.test_call.file_path}`\n")
                 f.write(f"**Line:** {mismatch.test_call.line_number}\n")
                 f.write(f"**Context:** `{mismatch.test_call.context}`\n")
-                f.write(f"**Suggested Fix:** `{mismatch.expected_method}` → `{mismatch.suggested_fix}`\n")
+                f.write(
+                    f"**Suggested Fix:** `{mismatch.expected_method}` → `{mismatch.suggested_fix}`\n"
+                )
                 f.write(f"**Confidence:** {mismatch.confidence:.0%}\n")
-                f.write(f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods)[:5])}...\n\n")
+                f.write(
+                    f"**Available Methods:** {', '.join(sorted(mismatch.actual_methods)[:5])}...\n\n"
+                )
 
         print(f"📝 Report saved to: {report_path}")
 
@@ -387,9 +423,9 @@ class APIDiffAnalyzer:
             "metadata": {
                 "generated": self._get_timestamp(),
                 "total_mismatches": len(self.mismatches),
-                "analyzer_version": "1.0.0"
+                "analyzer_version": "1.0.0",
             },
-            "fixes": []
+            "fixes": [],
         }
 
         for mismatch in self.mismatches:
@@ -399,12 +435,12 @@ class APIDiffAnalyzer:
                 "new_method": mismatch.suggested_fix,
                 "confidence": mismatch.confidence,
                 "test_file": mismatch.test_call.file_path,
-                "line_number": mismatch.test_call.line_number
+                "line_number": mismatch.test_call.line_number,
             }
             fixes_data["fixes"].append(fix_entry)
 
         fixes_path = self.core_path / "api_fixes.json"
-        with open(fixes_path, 'w') as f:
+        with open(fixes_path, "w") as f:
             json.dump(fixes_data, f, indent=2)
 
         print(f"🔧 Fix data saved to: {fixes_path}")
@@ -416,8 +452,9 @@ class APIDiffAnalyzer:
         """Generate Python script to apply fixes"""
         script_path = self.core_path / "apply_api_fixes.py"
 
-        with open(script_path, 'w') as f:
-            f.write('''#!/usr/bin/env python3
+        with open(script_path, "w") as f:
+            f.write(
+                '''#!/usr/bin/env python3
 """
 Automated API Fix Application Script
 Generated by API Diff Analyzer
@@ -426,7 +463,6 @@ Generated by API Diff Analyzer
 import re
 import json
 from pathlib import Path
-
 
 def apply_fixes():
     """Apply all API fixes to test files"""
@@ -476,10 +512,10 @@ def apply_fixes():
 
     print("\n✅ All fixes applied!")
 
-
 if __name__ == "__main__":
     apply_fixes()
-''')
+'''
+            )
 
         # Make executable
         os.chmod(script_path, 0o755)
@@ -488,6 +524,7 @@ if __name__ == "__main__":
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
         from datetime import datetime
+
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -496,10 +533,7 @@ def main():
     import sys
 
     # Get core path
-    if len(sys.argv) > 1:
-        core_path = sys.argv[1]
-    else:
-        core_path = Path(__file__).parent
+    core_path = sys.argv[1] if len(sys.argv) > 1 else Path(__file__).parent
 
     # Run analysis
     analyzer = APIDiffAnalyzer(core_path)

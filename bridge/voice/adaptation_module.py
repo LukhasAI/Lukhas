@@ -15,7 +15,11 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+import time
+
+
 class VoiceAdaptationModule:
+
     def __init__(self):
         self.emotion_map = load_initial_emotion_map()
         self.resonator_weights = load_initial_resonator_weights()
@@ -25,15 +29,19 @@ class VoiceAdaptationModule:
         settings = self.modulate_voice_properties(emotion, emoji)
         return settings
 
-    def record_feedback(self, context, emotion, params_used, feedback_score, emoji_used=None):
-        self.interaction_log.append({
-            "context": context,
-            "emotion": emotion,
-            "params": params_used,
-            "feedback": feedback_score,
-            "emoji": emoji_used,
-            "timestamp": time.time()
-        })
+    def record_feedback(
+        self, context, emotion, params_used, feedback_score, emoji_used=None
+    ):
+        self.interaction_log.append(
+            {
+                "context": context,
+                "emotion": emotion,
+                "params": params_used,
+                "feedback": feedback_score,
+                "emoji": emoji_used,
+                "timestamp": time.time(),
+            }
+        )
         self.adapt_parameters(feedback_score, params_used, emotion)
 
     def adapt_parameters(self, feedback_score, params_used, emotion):
@@ -49,6 +57,7 @@ class VoiceAdaptationModule:
 
     def log_awakening_event(self, event_type, details):
         logger.info(f"AWAKENING EVENT ({event_type}): {details}")
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

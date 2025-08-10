@@ -1,5 +1,11 @@
 import unittest
-from symbolic.vocabularies.emotion_vocabulary import get_emotion_symbol, get_guardian_weight, EMOTION_VOCABULARY
+
+from symbolic.vocabularies.emotion_vocabulary import (
+    EMOTION_VOCABULARY,
+    get_emotion_symbol,
+    get_guardian_weight,
+)
+
 
 class TestEmotionVocabulary(unittest.TestCase):
 
@@ -35,5 +41,6 @@ class TestEmotionVocabulary(unittest.TestCase):
             self.assertIsInstance(data["guardian_weight"], float)
             self.assertIsInstance(data["contexts"], list)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

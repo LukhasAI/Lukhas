@@ -7,7 +7,15 @@ and timing logic. Logs all delivery or block outcomes.
 Author: You
 """
 
-from . import consent_filter, emotional_sorter, symbolic_matcher, delivery_loop, trace_logger, context_builder
+from . import (
+    consent_filter,
+    context_builder,
+    delivery_loop,
+    emotional_sorter,
+    symbolic_matcher,
+    trace_logger,
+)
+
 
 def push(msg, user_id="default"):
     user_context = context_builder.build_user_context(user_id)

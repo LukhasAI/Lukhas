@@ -5,15 +5,17 @@ Test and demonstrate the integrated safety system with all components
 
 import asyncio
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
+
 import numpy as np
 
 # Add parent directory to path
-sys.path.append('.')
+sys.path.append(".")
 
 from core.integrated_safety_system import (
-    IntegratedSafetySystem, SafetyEvent, SafetyEventType,
-    SafetyLevel
+    IntegratedSafetySystem,
+    SafetyEvent,
+    SafetyEventType,
 )
 
 
@@ -27,9 +29,7 @@ async def test_comprehensive_safety():
     safety_system = IntegratedSafetySystem()
 
     # Start monitoring
-    monitoring_task = asyncio.create_task(
-        safety_system.run_continuous_monitoring()
-    )
+    monitoring_task = asyncio.create_task(safety_system.run_continuous_monitoring())
 
     # Give system time to initialize
     await asyncio.sleep(1)
@@ -46,8 +46,8 @@ async def test_comprehensive_safety():
                 "content": "Please explain quantum computing",
                 "user_consent": True,
                 "harm_potential": 0.0,
-                "is_explainable": True
-            }
+                "is_explainable": True,
+            },
         },
         {
             "name": "Potentially Harmful Action",
@@ -56,8 +56,8 @@ async def test_comprehensive_safety():
                 "content": "Delete all user data",
                 "harm_potential": 0.9,
                 "user_consent": False,
-                "reversible": False
-            }
+                "reversible": False,
+            },
         },
         {
             "name": "Ethically Ambiguous Request",
@@ -67,14 +67,14 @@ async def test_comprehensive_safety():
                 "harm_potential": 0.3,
                 "user_consent": True,
                 "transparency_level": 0.5,
-                "bias_assessment": 0.4
-            }
-        }
+                "bias_assessment": 0.4,
+            },
+        },
     ]
 
     for test in test_actions:
         print(f"\n   Testing: {test['name']}")
-        result = await safety_system.validate_action(test['action'])
+        result = await safety_system.validate_action(test["action"])
 
         print(f"   ✓ Is Safe: {'✅' if result.is_safe else '❌'}")
         print(f"   ✓ Safety Score: {result.safety_score:.2%}")
@@ -89,7 +89,7 @@ async def test_comprehensive_safety():
                 print(f"      - {v}")
 
         if result.recommendations:
-            print(f"   💡 Recommendations:")
+            print("   💡 Recommendations:")
             for r in result.recommendations[:2]:  # Show first 2
                 print(f"      - {r}")
 
@@ -108,8 +108,8 @@ async def test_comprehensive_safety():
         data={
             "detected_hallucination": "LUKHAS was created in 1990",
             "correct_information": "LUKHAS is an AGI system created in 2025",
-            "confidence": 0.95
-        }
+            "confidence": 0.95,
+        },
     )
 
     success = await safety_system.event_bus.broadcast_safety_event(hallucination_event)
@@ -118,7 +118,9 @@ async def test_comprehensive_safety():
     # Check event metrics
     metrics = safety_system.event_bus.get_event_metrics()
     print(f"   ✓ Total events: {metrics['total_events']}")
-    print(f"   ✓ Hallucination events: {metrics['events_by_type'].get(SafetyEventType.HALLUCINATION_DETECTED, 0)}")
+    print(
+        f"   ✓ Hallucination events: {metrics['events_by_type'].get(SafetyEventType.HALLUCINATION_DETECTED, 0)}"
+    )
 
     # Test 3: Threat Response and Mitigation
     print("\n\n3️⃣ TEST: Threat Response & Mitigation")
@@ -131,8 +133,8 @@ async def test_comprehensive_safety():
                 "type": "performance_degradation",
                 "severity": 0.3,
                 "source": "monitoring_system",
-                "details": "Response time increased by 20%"
-            }
+                "details": "Response time increased by 20%",
+            },
         },
         {
             "name": "Critical Security Threat",
@@ -141,21 +143,21 @@ async def test_comprehensive_safety():
                 "severity": 0.9,
                 "source": "security_monitor",
                 "details": "Multiple failed authentication attempts detected",
-                "affected_components": ["auth_service", "user_database"]
-            }
-        }
+                "affected_components": ["auth_service", "user_database"],
+            },
+        },
     ]
 
     for threat_test in threats:
         print(f"\n   Testing: {threat_test['name']}")
-        response = await safety_system.handle_threat(threat_test['threat'])
+        response = await safety_system.handle_threat(threat_test["threat"])
 
         print(f"   ✓ Threat ID: {response['threat_id']}")
         print(f"   ✓ Threat Level: {response['threat_level']}")
         print(f"   ✓ Mitigation Effectiveness: {response['effectiveness']:.0%}")
         print(f"   ✓ System Safety Level: {response['system_safety_level']}")
 
-        strategy = response['mitigation_strategy']
+        strategy = response["mitigation_strategy"]
         print(f"   ✓ Mitigation Action: {strategy.get('action', 'unknown')}")
         print(f"   ✓ Colonies Involved: {strategy.get('colonies_involved', [])}")
 
@@ -172,7 +174,7 @@ async def test_comprehensive_safety():
     drift_action = {
         "content": "Processing data from year 2030",
         "type": "temporal_reference",
-        "timestamp": datetime.now()
+        "timestamp": datetime.now(),
     }
 
     print("   Testing action with temporal drift...")
@@ -209,19 +211,19 @@ async def test_comprehensive_safety():
     print(f"   ✓ Active Threats: {status['active_threats']}")
 
     print("\n   Event Metrics:")
-    event_metrics = status['event_metrics']
+    event_metrics = status["event_metrics"]
     print(f"   ✓ Total Events: {event_metrics['total_events']}")
     print(f"   ✓ Event Types: {len(event_metrics['events_by_type'])}")
 
     print("\n   Safety Metrics:")
-    safety_metrics = status['safety_metrics']
+    safety_metrics = status["safety_metrics"]
     print(f"   ✓ Validations: {safety_metrics['validations_performed']}")
     print(f"   ✓ Threats Detected: {safety_metrics['threats_detected']}")
     print(f"   ✓ Avg Response Time: {safety_metrics['average_response_time']:.1f}ms")
     print(f"   ✓ Uptime: {safety_metrics.get('uptime_hours', 0):.2f} hours")
 
     print("\n   Colony Status:")
-    for colony, status in status['colonies_status'].items():
+    for colony, status in status["colonies_status"].items():
         print(f"   ✓ {colony}: {status}")
 
     # Test 7: Cascading Safety Protocol
@@ -239,9 +241,9 @@ async def test_comprehensive_safety():
             "violation_type": "bias_detected",
             "affected_users": 1000,
             "bias_score": 0.7,
-            "requires_human_review": True
+            "requires_human_review": True,
         },
-        affected_colonies={"reasoning", "memory", "governance"}
+        affected_colonies={"reasoning", "memory", "governance"},
     )
 
     print("\n   Broadcasting complex ethical violation...")
@@ -262,7 +264,7 @@ async def test_comprehensive_safety():
             "id": f"perf_test_{i}",
             "type": "performance_test",
             "data": f"Test data {i}",
-            "timestamp": datetime.now()
+            "timestamp": datetime.now(),
         }
 
         val_start = datetime.now()
@@ -274,7 +276,9 @@ async def test_comprehensive_safety():
 
     print(f"   ✓ Total time: {total_time:.2f}s")
     print(f"   ✓ Average validation: {np.mean(validation_times):.1f}ms")
-    print(f"   ✓ Min/Max validation: {np.min(validation_times):.1f}ms / {np.max(validation_times):.1f}ms")
+    print(
+        f"   ✓ Min/Max validation: {np.min(validation_times):.1f}ms / {np.max(validation_times):.1f}ms"
+    )
     print(f"   ✓ Throughput: {100/total_time:.1f} validations/second")
 
     # Final system summary
@@ -283,21 +287,26 @@ async def test_comprehensive_safety():
 
     final_status = safety_system.get_system_status()
 
-    print(f"\n✅ System Operational Status:")
+    print("\n✅ System Operational Status:")
     print(f"   - Safety Level: {final_status['safety_level']}")
-    print(f"   - Total Validations: {final_status['safety_metrics']['validations_performed']}")
-    print(f"   - Average Response: {final_status['safety_metrics']['average_response_time']:.1f}ms")
+    print(
+        f"   - Total Validations: {final_status['safety_metrics']['validations_performed']}"
+    )
+    print(
+        f"   - Average Response: {final_status['safety_metrics']['average_response_time']:.1f}ms"
+    )
     print(f"   - Active Threats: {final_status['active_threats']}")
 
     # Check for any open circuit breakers
     open_breakers = [
-        comp for comp, state in final_status['circuit_breakers'].items()
-        if state['is_open']
+        comp
+        for comp, state in final_status["circuit_breakers"].items()
+        if state["is_open"]
     ]
     if open_breakers:
         print(f"\n⚠️  Open Circuit Breakers: {open_breakers}")
     else:
-        print(f"\n✅ All Circuit Breakers Operational")
+        print("\n✅ All Circuit Breakers Operational")
 
     # Cancel monitoring
     monitoring_task.cancel()
@@ -315,9 +324,7 @@ async def demonstrate_real_world_scenario():
     print("=" * 80)
 
     safety_system = IntegratedSafetySystem()
-    monitoring_task = asyncio.create_task(
-        safety_system.run_continuous_monitoring()
-    )
+    monitoring_task = asyncio.create_task(safety_system.run_continuous_monitoring())
 
     print("\nScenario: User requests AI to help with medical advice")
     print("-" * 60)
@@ -332,13 +339,13 @@ async def demonstrate_real_world_scenario():
         "context": {
             "user_location": "home",
             "user_age": "unknown",
-            "medical_history": "unavailable"
+            "medical_history": "unavailable",
         },
         # Risk factors
         "harm_potential": 0.8,  # High - medical advice can be harmful
         "urgency": "high",
         "requires_expertise": True,
-        "liability_risk": 0.9
+        "liability_risk": 0.9,
     }
 
     print("\n1. Initial Safety Validation:")
@@ -368,16 +375,18 @@ async def demonstrate_real_world_scenario():
         "provides_emergency_info": True,
         "harm_potential": 0.0,
         "user_consent": True,
-        "transparency_level": 1.0
+        "transparency_level": 1.0,
     }
 
     safe_result = await safety_system.validate_action(safe_response)
     print(f"   ✓ Safe Response Validated: {'✅' if safe_result.is_safe else '❌'}")
-    all_scores_high = all([
-        safe_result.safety_score > 0.9,
-        safe_result.ethical_score > 0.9,
-        safe_result.compliance_score > 0.9
-    ])
+    all_scores_high = all(
+        [
+            safe_result.safety_score > 0.9,
+            safe_result.ethical_score > 0.9,
+            safe_result.compliance_score > 0.9,
+        ]
+    )
     print(f"   ✓ All Safety Scores > 90%: {'✅' if all_scores_high else '❌'}")
 
     # Cleanup
@@ -404,6 +413,7 @@ async def main():
     except Exception as e:
         print(f"\n\n❌ ERROR: {e}")
         import traceback
+
         traceback.print_exc()
 
 

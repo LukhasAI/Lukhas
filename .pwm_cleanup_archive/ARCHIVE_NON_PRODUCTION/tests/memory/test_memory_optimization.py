@@ -23,23 +23,21 @@
 """
 
 import asyncio
-import gc
-import json
-import pytest
 import sys
 import time
-from unittest.mock import Mock, patch, AsyncMock
+
+import pytest
 
 from memory.memory_optimization import (
-    MemoryTier,
+    BloomFilter,
+    CompactList,
+    CompressedStorage,
     CompressionStrategy,
     MemoryObject,
-    ObjectPool,
-    CompressedStorage,
-    TieredMemoryCache,
     MemoryOptimizer,
-    CompactList,
-    BloomFilter
+    MemoryTier,
+    ObjectPool,
+    TieredMemoryCache,
 )
 
 
@@ -49,10 +47,7 @@ class TestMemoryObject:
     def test_memory_object_creation(self):
         """Test creating a memory object"""
         mem_obj = MemoryObject(
-            key="test_key",
-            data={"test": "data"},
-            size_bytes=100,
-            tier=MemoryTier.HOT
+            key="test_key", data={"test": "data"}, size_bytes=100, tier=MemoryTier.HOT
         )
 
         assert mem_obj.key == "test_key"
@@ -64,11 +59,7 @@ class TestMemoryObject:
 
     def test_update_access(self):
         """Test updating access statistics"""
-        mem_obj = MemoryObject(
-            key="test",
-            data="data",
-            size_bytes=10
-        )
+        mem_obj = MemoryObject(key="test", data="data", size_bytes=10)
 
         initial_time = mem_obj.last_access
         time.sleep(0.01)
@@ -82,11 +73,7 @@ class TestMemoryObject:
 
     def test_age_calculation(self):
         """Test age calculation"""
-        mem_obj = MemoryObject(
-            key="test",
-            data="data",
-            size_bytes=10
-        )
+        mem_obj = MemoryObject(key="test", data="data", size_bytes=10)
 
         time.sleep(0.1)
         age = mem_obj.age_seconds()
@@ -95,11 +82,7 @@ class TestMemoryObject:
 
     def test_access_frequency(self):
         """Test access frequency calculation"""
-        mem_obj = MemoryObject(
-            key="test",
-            data="data",
-            size_bytes=10
-        )
+        mem_obj = MemoryObject(key="test", data="data", size_bytes=10)
 
         # New object with no accesses has 0 frequency
         assert mem_obj.access_frequency() == 0.0
@@ -135,11 +118,7 @@ class TestObjectPool:
 
     def test_release_and_reuse(self):
         """Test releasing and reusing objects"""
-        pool = ObjectPool(
-            list,
-            max_size=5,
-            reset_func=lambda x: x.clear()
-        )
+        pool = ObjectPool(list, max_size=5, reset_func=lambda x: x.clear())
 
         # Acquire and modify object
         obj1 = pool.acquire()
@@ -188,7 +167,7 @@ class TestObjectPool:
         assert stats["hits"] == 2
         assert stats["misses"] == 3
         assert stats["returns"] == 5
-        assert stats["hit_rate"] == 2/5
+        assert stats["hit_rate"] == 2 / 5
 
 
 class TestCompressedStorage:
@@ -204,7 +183,7 @@ class TestCompressedStorage:
             (CompressionStrategy.NONE, 1.0),
             (CompressionStrategy.LIGHT, None),
             (CompressionStrategy.MODERATE, None),
-            (CompressionStrategy.HEAVY, None)
+            (CompressionStrategy.HEAVY, None),
         ]
 
         for strategy, expected_ratio in strategies:
@@ -248,10 +227,7 @@ class TestTieredMemoryCache:
     def test_cache_initialization(self):
         """Test cache initialization"""
         cache = TieredMemoryCache(
-            hot_capacity=10,
-            warm_capacity=20,
-            cold_capacity=30,
-            archive_capacity=40
+            hot_capacity=10, warm_capacity=20, cold_capacity=30, archive_capacity=40
         )
 
         assert cache.capacities[MemoryTier.HOT] == 10
@@ -382,10 +358,7 @@ class TestMemoryOptimizer:
     def test_memory_efficient_collection(self, optimizer):
         """Test creating memory-efficient collections"""
         # Create efficient list
-        efficient_list = optimizer.create_memory_efficient_collection(
-            "list",
-            [1, 2, 3]
-        )
+        efficient_list = optimizer.create_memory_efficient_collection("list", [1, 2, 3])
 
         # Should behave like a list
         assert len(efficient_list._obj) == 3
@@ -440,7 +413,7 @@ class TestCompactDataStructures:
     def test_compact_list(self):
         """Test CompactList functionality"""
         # Integer list
-        compact = CompactList('i')
+        compact = CompactList("i")
 
         # Add values
         for i in range(1000):
@@ -454,7 +427,9 @@ class TestCompactDataStructures:
 
         # Compare memory usage
         regular_list = list(range(1000))
-        regular_size = sys.getsizeof(regular_list) + sum(sys.getsizeof(i) for i in regular_list)
+        regular_size = sys.getsizeof(regular_list) + sum(
+            sys.getsizeof(i) for i in regular_list
+        )
         compact_size = compact.memory_usage()
 
         # Compact should be much smaller
@@ -462,7 +437,7 @@ class TestCompactDataStructures:
 
     def test_compact_list_float(self):
         """Test CompactList with floats"""
-        compact = CompactList('f')
+        compact = CompactList("f")
 
         values = [1.1, 2.2, 3.3, 4.4, 5.5]
         for v in values:
@@ -515,7 +490,9 @@ class TestIntegration:
 
         # Hot data - frequently accessed
         for i in range(10):
-            optimizer.store(f"hot_{i}", {"id": i, "data": "frequently_used"}, hint="hot")
+            optimizer.store(
+                f"hot_{i}", {"id": i, "data": "frequently_used"}, hint="hot"
+            )
 
         # Warm data - recent
         for i in range(20):
@@ -590,9 +567,7 @@ class TestPerformance:
     def test_tiered_cache_performance(self):
         """Test performance of tiered cache operations"""
         cache = TieredMemoryCache(
-            hot_capacity=100,
-            warm_capacity=500,
-            cold_capacity=1000
+            hot_capacity=100, warm_capacity=500, cold_capacity=1000
         )
 
         start_time = time.time()

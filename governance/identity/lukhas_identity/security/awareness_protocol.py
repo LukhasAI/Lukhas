@@ -2,6 +2,7 @@
 # 🧾 DESCRIPTION : Context-aware tier fallback + symbolic awareness for post-recovery access
 # 🧩 TYPE        : Security Middleware        🔧 VERSION: v0.1.0
 
+
 class LUKHASAwarenessProtocol:
     def __init__(self, user_id, session_data, symbolic_trace_engine, memory_context):
         self.user_id = user_id
@@ -17,13 +18,15 @@ class LUKHASAwarenessProtocol:
         self.confidence_score = self._calculate_confidence(context_vector)
         self.access_tier = self._determine_tier()
 
-        self.symbolic_trace.log_awareness_trace({
-            "user_id": self.user_id,
-            "confidence_score": self.confidence_score,
-            "tier_granted": self.access_tier,
-            "recovery_mode": True,
-            "timestamp": self.session_data["timestamp"]
-        })
+        self.symbolic_trace.log_awareness_trace(
+            {
+                "user_id": self.user_id,
+                "confidence_score": self.confidence_score,
+                "tier_granted": self.access_tier,
+                "recovery_mode": True,
+                "timestamp": self.session_data["timestamp"],
+            }
+        )
 
         return self.access_tier
 
@@ -38,11 +41,11 @@ class LUKHASAwarenessProtocol:
 
     def _calculate_confidence(self, context_vector):
         score = (
-            0.3 * context_vector["location_trusted"] +
-            0.3 * context_vector["voice_resonance"] +
-            0.2 * context_vector["device_fingerprint_match"] +
-            0.1 * context_vector["gesture_pattern"] +
-            0.1 * context_vector["recent_activity"]
+            0.3 * context_vector["location_trusted"]
+            + 0.3 * context_vector["voice_resonance"]
+            + 0.2 * context_vector["device_fingerprint_match"]
+            + 0.1 * context_vector["gesture_pattern"]
+            + 0.1 * context_vector["recent_activity"]
         )
         return round(score, 2)
 

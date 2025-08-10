@@ -3,14 +3,10 @@ Reasoning Hub
 Central coordination for reasoning subsystem components
 """
 
-from typing import Dict, Any, Optional, List
-import asyncio
-import structlog
+from typing import Any, Dict, List, Optional
 
-from .LBot_reasoning_processed import ΛBotAdvancedReasoningOrchestrator
 from .ethical_reasoning_integration import create_ethical_reasoning_integration
-
-from core.common import get_logger
+from .LBot_reasoning_processed import ΛBotAdvancedReasoningOrchestrator
 
 
 class ReasoningHub:
@@ -44,7 +40,7 @@ class ReasoningHub:
             return
 
         # Initialize ethical reasoning system
-        if hasattr(self.ethical_reasoning, 'initialize'):
+        if hasattr(self.ethical_reasoning, "initialize"):
             await self.ethical_reasoning.initialize()
             logger.info("ethical_reasoning_initialized")
 
@@ -55,7 +51,10 @@ class ReasoningHub:
     async def _register_with_service_discovery(self) -> None:
         """Register services globally for cross-hub access"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from core.integration.service_discovery import (
+                get_service_discovery,
+            )
+
             discovery = get_service_discovery()
             discovery.register_service_globally(
                 "advanced_orchestrator", self.advanced_orchestrator, "reasoning"

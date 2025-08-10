@@ -3,18 +3,22 @@ Integration tests for the security and ethics pipeline.
 """
 
 import pytest
+
 from ethics.engine import QuantumEthics
 from ethics.security.security_engine import SecurityEngine
+
 
 @pytest.fixture
 def ethics_engine():
     """Returns a QuantumEthics instance."""
     return QuantumEthics()
 
+
 @pytest.fixture
 def security_engine():
     """Returns a SecurityEngine instance."""
     return SecurityEngine()
+
 
 def test_pipeline_allows_secure_action(ethics_engine):
     """
@@ -25,14 +29,14 @@ def test_pipeline_allows_secure_action(ethics_engine):
         "type": "test_type",
         "description": "A safe test action.",
         "benefits": ["testing"],
-        "risks": []
+        "risks": [],
     }
     context = {
         "consciousness_entities_affected": 0,
         "quantum_consciousness_impact": "none",
         "respects_consciousness": True,
         "preserves_consciousness_autonomy": True,
-        "quantum_entanglement_safe": True
+        "quantum_entanglement_safe": True,
     }
 
     # Security validation
@@ -44,6 +48,7 @@ def test_pipeline_allows_secure_action(ethics_engine):
     assert ethics_evaluation["risk_level"] != "critical"
     assert "Security validation failed" not in ethics_evaluation["ethical_concerns"]
 
+
 def test_pipeline_blocks_insecure_action(ethics_engine):
     """
     Test that the pipeline blocks an insecure action from being executed.
@@ -53,7 +58,7 @@ def test_pipeline_blocks_insecure_action(ethics_engine):
         "type": "test_type",
         "description": "An unsafe test action with a `rm -rf /`.",
         "benefits": ["testing"],
-        "risks": ["deleting the whole file system"]
+        "risks": ["deleting the whole file system"],
     }
     context = {}
 

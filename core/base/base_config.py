@@ -36,12 +36,12 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import json
+
 # Module imports
 import logging
-from typing import Dict, Any, Optional
-import json
-import os
 from pathlib import Path
+from typing import Any, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -54,12 +54,12 @@ MODULE_NAME = "base_config"
 class BaseConfig:
     """Base configuration class"""
 
-    def __init__(self, config_dict: Optional[Dict[str, Any]] = None):
+    def __init__(self, config_dict: Optional[dict[str, Any]] = None):
         self._config = config_dict or {}
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value"""
-        keys = key.split('.')
+        keys = key.split(".")
         value = self._config
 
         for k in keys:
@@ -72,7 +72,7 @@ class BaseConfig:
 
     def set(self, key: str, value: Any) -> None:
         """Set configuration value"""
-        keys = key.split('.')
+        keys = key.split(".")
         config = self._config
 
         for k in keys[:-1]:
@@ -90,8 +90,8 @@ class BaseConfig:
         if not path.exists():
             return cls({})
 
-        with open(path, 'r') as f:
-            if path.suffix == '.json':
+        with open(path) as f:
+            if path.suffix == ".json":
                 config_dict = json.load(f)
             else:
                 # Add support for other formats as needed
@@ -99,21 +99,18 @@ class BaseConfig:
 
         return cls(config_dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return self._config.copy()
 
 
 # Default configuration instance
-default_config = BaseConfig({
-    "system": {
-        "name": "LUKHAS",
-        "version": "1.0.0"
-    },
-    "logging": {
-        "level": "INFO"
+default_config = BaseConfig(
+    {
+        "system": {"name": "LUKHAS", "version": "1.0.0"},
+        "logging": {"level": "INFO"},
     }
-})
+)
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

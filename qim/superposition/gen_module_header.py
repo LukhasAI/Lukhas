@@ -8,11 +8,11 @@
 
 
 ─────────────────────────────────────────────────────────────────────
- 📦 MODULE      : gen_module_header.py                                
-  🧾 DESCRIPTION : Generator for LUKHAS_AGI module docstring templates  
+ 📦 MODULE      : gen_module_header.py
+  🧾 DESCRIPTION : Generator for LUKHAS_AGI module docstring templates
 ─────────────────────────────────────────────────────────────────────────────
- 📚 DEPENDENCIES: None                                                 
-   - Outputs ready-to-paste docstring templates                       
+ 📚 DEPENDENCIES: None
+   - Outputs ready-to-paste docstring templates
 ─────────────────────────────────────────────────────────────────────
 """
 
@@ -35,6 +35,7 @@
 # 🏷️ GUIDE TAG:
 #    #guide:gen_module_header
 # ==============================================================================
+
 
 def generate_module_header():
     module_name = input("📦 Enter the MODULE name (e.g., compliance_hooks.py): ")
@@ -70,6 +71,7 @@ def generate_module_header():
     print("\n✅ Your LUKHAS_AGI module header is ready:\n")
     print(header)
     print("\n🚀 Copy and paste this into your new module!")
+
 
 if __name__ == "__main__":
     generate_module_header()

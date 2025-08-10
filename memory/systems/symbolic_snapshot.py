@@ -43,10 +43,10 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class SymbolicSnapshot:
     """
@@ -64,6 +64,7 @@ class SymbolicSnapshot:
         # In a real implementation, this would involve serializing the memory state.
         self.snapshots[snapshot_id] = memory_state
         return {"snapshot_id": snapshot_id, "status": "created"}
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: symbolic_snapshot.py

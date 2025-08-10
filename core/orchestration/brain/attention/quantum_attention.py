@@ -5,10 +5,10 @@ This module provides quantum-inspired attention processing for the AI system,
 implementing attention gates, superposition, and entanglement-based processing.
 """
 
-import numpy as np
 import copy
 from datetime import datetime
-from typing import Dict, Any, Optional
+
+import numpy as np
 
 
 class QuantumInspiredAttention:
@@ -37,7 +37,7 @@ class QuantumInspiredAttention:
             self.superposition_matrix, axis=1, keepdims=True
         )
 
-    def attend(self, input_data: Dict, context: Dict) -> Dict:
+    def attend(self, input_data: dict, context: dict) -> dict:
         """Apply quantum-inspired attention to input data"""
         # Extract features for attention
         features = self._extract_features(input_data)
@@ -58,7 +58,7 @@ class QuantumInspiredAttention:
 
         return attended_data
 
-    def _extract_features(self, input_data: Dict) -> Dict:
+    def _extract_features(self, input_data: dict) -> dict:
         """Extract features from input data for attention processing"""
         features = {}
         features["semantic"] = (
@@ -72,7 +72,7 @@ class QuantumInspiredAttention:
         return features
 
     def _calculate_attention_distribution(
-        self, features: Dict, context: Dict
+        self, features: dict, context: dict
     ) -> np.ndarray:
         """Calculate attention distribution based on features"""
         gate_keys = list(self.attention_gates.keys())
@@ -93,8 +93,8 @@ class QuantumInspiredAttention:
             return attention_distribution
 
     def _apply_attention_gates(
-        self, input_data: Dict, attention_weights: np.ndarray
-    ) -> Dict:
+        self, input_data: dict, attention_weights: np.ndarray
+    ) -> dict:
         """Apply attention gates to input data"""
         attended_data = copy.deepcopy(input_data)
         gate_keys = list(self.attention_gates.keys())
@@ -105,7 +105,7 @@ class QuantumInspiredAttention:
         attended_data["attention_applied"] = True
         return attended_data
 
-    def _update_entanglement_map(self, input_data: Dict, attended_data: Dict):
+    def _update_entanglement_map(self, input_data: dict, attended_data: dict):
         """Update entanglement relationships"""
         input_hash = hash(str(input_data))
         self.entanglement_map[input_hash] = {
@@ -113,7 +113,7 @@ class QuantumInspiredAttention:
             "attention_pattern": attended_data.get("attention_weights", {}),
         }
 
-    def get_attention_state(self) -> Dict:
+    def get_attention_state(self) -> dict:
         """Get current attention state for monitoring"""
         return {
             "gates": self.attention_gates.copy(),
@@ -121,7 +121,7 @@ class QuantumInspiredAttention:
             "superposition_enabled": self.superposition_matrix is not None,
         }
 
-    def adjust_attention_gates(self, adjustments: Dict[str, float]):
+    def adjust_attention_gates(self, adjustments: dict[str, float]):
         """Dynamically adjust attention gate weights"""
         for gate, adjustment in adjustments.items():
             if gate in self.attention_gates:

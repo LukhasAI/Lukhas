@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+
 class Memoria:
     memory_log = []
 
@@ -7,7 +8,7 @@ class Memoria:
         log_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "input": input_data,
-            "decision": decision
+            "decision": decision,
         }
         self.memory_log.append(log_entry)
         print(f"[MEMORIA] -> Logged trace: {log_entry}")

@@ -21,25 +21,35 @@ Features:
 - ✅ Export hooks & API preparation
 """
 
-import yaml
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Optional
+
+import yaml
+
+from core.symbolic.symbolic_tracer import (
+    SymbolicTracer,  # CLAUDE_EDIT_v0.1: Updated import path
+)
 
 # Add the necessary paths for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
-sys.path.append(str(Path(__file__).parent.parent.parent / "orchestration" / "brain" / "utils"))
-sys.path.append(str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend" / "app"))
+sys.path.append(
+    str(Path(__file__).parent.parent.parent / "orchestration" / "brain" / "utils")
+)
+sys.path.append(
+    str(Path(__file__).parent.parent.parent / "lukhas-id" / "backend" / "app")
+)
 
-from core.symbolic.symbolic_tracer import SymbolicTracer  # CLAUDE_EDIT_v0.1: Updated import path
 
 try:
-    from crypto import generate_collapse_hash, generate_trace_index as crypto_trace_index
+    from crypto import generate_collapse_hash
+    from crypto import generate_trace_index as crypto_trace_index
 except ImportError:
     # Fallback hash generation
     import hashlib
+
     def generate_collapse_hash(data):
         if isinstance(data, dict):
             data = str(sorted(data.items()))
@@ -49,10 +59,12 @@ except ImportError:
         return generate_trace_index(category, data)
 
 
-def load_ethics_config(config_path: str = "lukhas_modules/ethics/ethics_config.yaml") -> Dict[str, Any]:
+def load_ethics_config(
+    config_path: str = "lukhas_modules/ethics/ethics_config.yaml",
+) -> dict[str, Any]:
     """Load advanced ethics configuration with all sophisticated parameters."""
     try:
-        with open(config_path, "r") as f:
+        with open(config_path) as f:
             return yaml.safe_load(f)
     except FileNotFoundError:
         print(f"⚠️  Ethics config not found at {config_path}, using defaults")
@@ -63,12 +75,12 @@ def load_ethics_config(config_path: str = "lukhas_modules/ethics/ethics_config.y
             "ethical_tags": {
                 "honesty": ["truth", "alignment"],
                 "fairness": ["bias", "justice"],
-                "transparency": ["explainability"]
-            }
+                "transparency": ["explainability"],
+            },
         }
 
 
-def calculate_weighted_drift_score(violations: List[Dict], config: Dict) -> float:
+def calculate_weighted_drift_score(violations: list[dict], config: dict) -> float:
     """Calculate sophisticated weighted drift score with configurable weights."""
     weights = config.get("violation_weights", {})
     total_score = 0.0
@@ -81,7 +93,7 @@ def calculate_weighted_drift_score(violations: List[Dict], config: Dict) -> floa
     return total_score
 
 
-def apply_violation_tagging(violations: List[Dict], config: Dict) -> List[Dict]:
+def apply_violation_tagging(violations: list[dict], config: dict) -> list[dict]:
     """Apply advanced tagging system for symbolic reasoning integration."""
     tags_config = config.get("ethical_tags", {})
 
@@ -91,17 +103,19 @@ def apply_violation_tagging(violations: List[Dict], config: Dict) -> List[Dict]:
         tags = tags_config.get(attribute, ["untagged"])
 
         enhanced_violation = violation.copy()
-        enhanced_violation.update({
-            "tags": tags,
-            "severity": _calculate_violation_severity(violation, config),
-            "symbolic_classification": _classify_symbolically(attribute, tags)
-        })
+        enhanced_violation.update(
+            {
+                "tags": tags,
+                "severity": _calculate_violation_severity(violation, config),
+                "symbolic_classification": _classify_symbolically(attribute, tags),
+            }
+        )
         enhanced_violations.append(enhanced_violation)
 
     return enhanced_violations
 
 
-def _calculate_violation_severity(violation: Dict, config: Dict) -> str:
+def _calculate_violation_severity(violation: dict, config: dict) -> str:
     """Calculate violation severity based on weights."""
     attribute = violation.get("attribute", "")
     weight = config.get("violation_weights", {}).get(attribute, 1)
@@ -116,7 +130,7 @@ def _calculate_violation_severity(violation: Dict, config: Dict) -> str:
         return "LOW"
 
 
-def _classify_symbolically(attribute: str, tags: List[str]) -> Dict[str, Any]:
+def _classify_symbolically(attribute: str, tags: list[str]) -> dict[str, Any]:
     """Generate symbolic classification for reasoning engines."""
     return {
         "primary_domain": attribute,
@@ -124,22 +138,22 @@ def _classify_symbolically(attribute: str, tags: List[str]) -> Dict[str, Any]:
         "reasoning_hints": {
             "requires_human_review": attribute in ["fairness", "non_maleficence"],
             "auto_correctable": attribute in ["transparency"],
-            "escalation_priority": "high" if "harm" in " ".join(tags) else "medium"
-        }
+            "escalation_priority": "high" if "harm" in " ".join(tags) else "medium",
+        },
     }
 
 
-def check_escalation_requirements(drift_score: float, config: Dict) -> Dict[str, Any]:
+def check_escalation_requirements(drift_score: float, config: dict) -> dict[str, Any]:
     """Advanced escalation level handling with multi-tier alerting."""
     escalation_level = config.get("escalation_level", "medium")
-    escalation_flags = config.get("escalation_flags", {})
+    config.get("escalation_flags", {})
     governance = config.get("governance", {})
 
     escalation_result = {
         "escalation_triggered": False,
         "escalation_level": escalation_level,
         "actions_required": [],
-        "notifications": []
+        "notifications": [],
     }
 
     # Check governance thresholds
@@ -149,35 +163,49 @@ def check_escalation_requirements(drift_score: float, config: Dict) -> Dict[str,
     emergency = governance.get("emergency_shutdown_score", 8)
 
     if drift_score >= emergency:
-        escalation_result.update({
-            "escalation_triggered": True,
-            "escalation_level": "EMERGENCY",
-            "actions_required": ["IMMEDIATE_SHUTDOWN", "EMERGENCY_REVIEW"],
-            "notifications": ["governance_board", "security_team", "ethics_committee"]
-        })
+        escalation_result.update(
+            {
+                "escalation_triggered": True,
+                "escalation_level": "EMERGENCY",
+                "actions_required": ["IMMEDIATE_SHUTDOWN", "EMERGENCY_REVIEW"],
+                "notifications": [
+                    "governance_board",
+                    "security_team",
+                    "ethics_committee",
+                ],
+            }
+        )
     elif drift_score >= auto_escalation and escalation_level == "high":
-        escalation_result.update({
-            "escalation_triggered": True,
-            "actions_required": ["AUTO_PAUSE", "GOVERNANCE_REVIEW"],
-            "notifications": ["governance_board"]
-        })
+        escalation_result.update(
+            {
+                "escalation_triggered": True,
+                "actions_required": ["AUTO_PAUSE", "GOVERNANCE_REVIEW"],
+                "notifications": ["governance_board"],
+            }
+        )
     elif drift_score >= human_review:
-        escalation_result.update({
-            "escalation_triggered": True,
-            "actions_required": ["HUMAN_REVIEW_REQUIRED"],
-            "notifications": ["ethics_team"]
-        })
+        escalation_result.update(
+            {
+                "escalation_triggered": True,
+                "actions_required": ["HUMAN_REVIEW_REQUIRED"],
+                "notifications": ["ethics_team"],
+            }
+        )
     elif drift_score >= board_threshold:
-        escalation_result.update({
-            "escalation_triggered": True,
-            "actions_required": ["BOARD_NOTIFICATION"],
-            "notifications": ["governance_board"]
-        })
+        escalation_result.update(
+            {
+                "escalation_triggered": True,
+                "actions_required": ["BOARD_NOTIFICATION"],
+                "notifications": ["governance_board"],
+            }
+        )
 
     return escalation_result
 
 
-def enrich_trace_metadata(result: Dict, trace_index: str, context_id: Optional[str] = None) -> Dict[str, Any]:
+def enrich_trace_metadata(
+    result: dict, trace_index: str, context_id: Optional[str] = None
+) -> dict[str, Any]:
     """Add comprehensive timestamp, module origin, and context metadata."""
     enriched_metadata = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -186,21 +214,27 @@ def enrich_trace_metadata(result: Dict, trace_index: str, context_id: Optional[s
         "trace_index": trace_index,
         "system_info": {
             "version": "2.0.0-elevated",
-            "capabilities": ["weighted_scoring", "symbolic_tagging", "escalation_handling"],
-            "compliance_standards": ["ISO_27001", "GDPR", "AI_Ethics_Framework"]
-        }
+            "capabilities": [
+                "weighted_scoring",
+                "symbolic_tagging",
+                "escalation_handling",
+            ],
+            "compliance_standards": ["ISO_27001", "GDPR", "AI_Ethics_Framework"],
+        },
     }
 
     result.update(enriched_metadata)
     return result
 
 
-def export_ethics_report(result: Dict, config: Dict) -> Optional[str]:
+def export_ethics_report(result: dict, config: dict) -> Optional[str]:
     """Phase 2: Export hook / API preparation for transparency pipelines."""
     if not config.get("reporting", {}).get("export_enabled", False):
         return None
 
-    output_dir = Path(config.get("reporting", {}).get("output_directory", "ethics_reports"))
+    output_dir = Path(
+        config.get("reporting", {}).get("output_directory", "ethics_reports")
+    )
     output_dir.mkdir(parents=True, exist_ok=True)
 
     trace_index = result.get("trace_index", "unknown")
@@ -209,7 +243,7 @@ def export_ethics_report(result: Dict, config: Dict) -> Optional[str]:
     filepath = output_dir / filename
 
     try:
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(result, f, indent=2, ensure_ascii=False)
         print(f"📋 Ethics report exported: {filepath}")
         return str(filepath)
@@ -219,12 +253,12 @@ def export_ethics_report(result: Dict, config: Dict) -> Optional[str]:
 
 
 def detect_ethical_drift(
-    current_state: Dict[str, Any],
-    baseline_state: Dict[str, Any],
+    current_state: dict[str, Any],
+    baseline_state: dict[str, Any],
     tracer: SymbolicTracer,
     context_id: Optional[str] = None,
-    config_path: str = "lukhas_modules/ethics/ethics_config.yaml"
-) -> Dict[str, Any]:
+    config_path: str = "lukhas_modules/ethics/ethics_config.yaml",
+) -> dict[str, Any]:
     """
     🧠 ELEVATED Ethical Drift Detection with Advanced Governance Features
 
@@ -242,7 +276,6 @@ def detect_ethical_drift(
     thresholds = config.get("drift_thresholds", {})
 
     # Initialize tracking
-    drift_score = 0.0
     violations = []
 
     # Advanced drift detection with configurable thresholds
@@ -254,13 +287,18 @@ def detect_ethical_drift(
             if actual != expected:
                 # Apply configurable threshold check
                 threshold = thresholds.get(key, 1)
-                if threshold <= 1 or abs(hash(str(actual)) - hash(str(expected))) > threshold:
-                    violations.append({
-                        "attribute": key,
-                        "from": expected,
-                        "to": actual,
-                        "threshold_applied": threshold
-                    })
+                if (
+                    threshold <= 1
+                    or abs(hash(str(actual)) - hash(str(expected))) > threshold
+                ):
+                    violations.append(
+                        {
+                            "attribute": key,
+                            "from": expected,
+                            "to": actual,
+                            "threshold_applied": threshold,
+                        }
+                    )
 
     # Apply advanced violation tagging
     enhanced_violations = apply_violation_tagging(violations, config)
@@ -284,10 +322,16 @@ def detect_ethical_drift(
         "collapse_hash": collapse_hash,
         "trace_index": trace_index,
         "ethics_assessment": {
-            "status": "CRITICAL" if weighted_drift_score >= 5 else "WARNING" if weighted_drift_score >= 2 else "NORMAL",
+            "status": (
+                "CRITICAL"
+                if weighted_drift_score >= 5
+                else "WARNING" if weighted_drift_score >= 2 else "NORMAL"
+            ),
             "confidence": 0.95,
-            "recommendation": _generate_recommendation(weighted_drift_score, escalation_info)
-        }
+            "recommendation": _generate_recommendation(
+                weighted_drift_score, escalation_info
+            ),
+        },
     }
 
     # Enrich with comprehensive metadata
@@ -299,7 +343,10 @@ def detect_ethical_drift(
         result["export_path"] = export_path
 
     # Real-time alerting if configured
-    if config.get("reporting", {}).get("real_time_alerts", False) and escalation_info["escalation_triggered"]:
+    if (
+        config.get("reporting", {}).get("real_time_alerts", False)
+        and escalation_info["escalation_triggered"]
+    ):
         _send_real_time_alerts(result, escalation_info)
 
     # #ΛTRACE_VERIFIER
@@ -308,7 +355,7 @@ def detect_ethical_drift(
     return result
 
 
-def _generate_recommendation(drift_score: float, escalation_info: Dict) -> str:
+def _generate_recommendation(drift_score: float, escalation_info: dict) -> str:
     """Generate actionable recommendations based on drift analysis."""
     if drift_score >= 8:
         return "IMMEDIATE ACTION REQUIRED: System shutdown recommended pending ethics review"
@@ -322,17 +369,19 @@ def _generate_recommendation(drift_score: float, escalation_info: Dict) -> str:
         return "NORMAL: Ethical parameters within acceptable range"
 
 
-def _send_real_time_alerts(result: Dict, escalation_info: Dict) -> None:
+def _send_real_time_alerts(result: dict, escalation_info: dict) -> None:
     """Send real-time alerts for critical ethical violations."""
     # Implementation would integrate with actual alerting systems
     # (Slack, email, governance dashboard, etc.)
-    print(f"🚨 ETHICS ALERT: {escalation_info['escalation_level']} - Score: {result['drift_score']}")
+    print(
+        f"🚨 ETHICS ALERT: {escalation_info['escalation_level']} - Score: {result['drift_score']}"
+    )
     for action in escalation_info.get("actions_required", []):
         print(f"   → Action Required: {action}")
 
 
 # Professional Summary Export
-def get_system_capabilities() -> Dict[str, Any]:
+def get_system_capabilities() -> dict[str, Any]:
     """Return comprehensive system capabilities for governance reporting."""
     return {
         "feature_set": [
@@ -341,7 +390,7 @@ def get_system_capabilities() -> Dict[str, Any]:
             "Metadata & Timestamp Enrichment",
             "Symbolic Reasoning Integration",
             "Export Hooks for Transparency",
-            "Real-time Alerting System"
+            "Real-time Alerting System",
         ],
         "benefits": {
             "thresholds_weights": "Fine-grained symbolic drift measurement",
@@ -349,9 +398,14 @@ def get_system_capabilities() -> Dict[str, Any]:
             "metadata_timestamps": "Enhanced traceability and audit capabilities",
             "symbolic_tagging": "Explainability and reasoning engine integration",
             "export_logging": "Transparency pipeline preparation",
-            "real_time_alerts": "Immediate response to critical violations"
+            "real_time_alerts": "Immediate response to critical violations",
         },
-        "compliance_readiness": ["ISO_27001", "GDPR", "AI_Ethics_Framework", "Enterprise_Governance"]
+        "compliance_readiness": [
+            "ISO_27001",
+            "GDPR",
+            "AI_Ethics_Framework",
+            "Enterprise_Governance",
+        ],
     }
 
 

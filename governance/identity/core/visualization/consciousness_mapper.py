@@ -15,16 +15,15 @@ Author: LUKHAS Identity Team
 Version: 1.0.0
 """
 
-import math
 import time
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple, Any
 from enum import Enum
-import numpy as np
+from typing import Any, Optional
 
 
 class EmotionalState(Enum):
     """Supported emotional states"""
+
     JOY = "joy"
     CALM = "calm"
     FOCUS = "focus"
@@ -40,42 +39,45 @@ class EmotionalState(Enum):
 @dataclass
 class BiometricData:
     """Raw biometric sensor data"""
-    heart_rate: Optional[float] = None          # BPM
+
+    heart_rate: Optional[float] = None  # BPM
     heart_rate_variability: Optional[float] = None  # ms
-    skin_conductance: Optional[float] = None    # microsiemens
-    temperature: Optional[float] = None         # Celsius
+    skin_conductance: Optional[float] = None  # microsiemens
+    temperature: Optional[float] = None  # Celsius
     eye_movement_velocity: Optional[float] = None  # degrees/second
-    pupil_dilation: Optional[float] = None      # mm
-    eeg_alpha_power: Optional[float] = None     # μV²
-    eeg_beta_power: Optional[float] = None      # μV²
-    eeg_gamma_power: Optional[float] = None     # μV²
-    eeg_theta_power: Optional[float] = None     # μV²
-    breathing_rate: Optional[float] = None      # breaths/minute
-    voice_pitch_variance: Optional[float] = None # Hz variance
+    pupil_dilation: Optional[float] = None  # mm
+    eeg_alpha_power: Optional[float] = None  # μV²
+    eeg_beta_power: Optional[float] = None  # μV²
+    eeg_gamma_power: Optional[float] = None  # μV²
+    eeg_theta_power: Optional[float] = None  # μV²
+    breathing_rate: Optional[float] = None  # breaths/minute
+    voice_pitch_variance: Optional[float] = None  # Hz variance
 
 
 @dataclass
 class CognitiveMetrics:
     """Cognitive and attention metrics"""
-    attention_score: float          # 0.0 to 1.0
-    cognitive_load: float          # 0.0 to 1.0
-    task_engagement: float         # 0.0 to 1.0
-    mind_wandering: float         # 0.0 to 1.0
-    flow_state: float             # 0.0 to 1.0
-    creativity_index: float        # 0.0 to 1.0
+
+    attention_score: float  # 0.0 to 1.0
+    cognitive_load: float  # 0.0 to 1.0
+    task_engagement: float  # 0.0 to 1.0
+    mind_wandering: float  # 0.0 to 1.0
+    flow_state: float  # 0.0 to 1.0
+    creativity_index: float  # 0.0 to 1.0
 
 
 @dataclass
 class ConsciousnessState:
     """Complete consciousness state representation"""
-    consciousness_level: float      # 0.0 to 1.0
+
+    consciousness_level: float  # 0.0 to 1.0
     emotional_state: EmotionalState
-    emotional_intensity: float      # 0.0 to 1.0
-    neural_synchrony: float        # 0.0 to 1.0
-    attention_focus: List[str]     # Current focus areas
-    stress_level: float           # 0.0 to 1.0
-    relaxation_level: float       # 0.0 to 1.0
-    authenticity_score: float     # 0.0 to 1.0
+    emotional_intensity: float  # 0.0 to 1.0
+    neural_synchrony: float  # 0.0 to 1.0
+    attention_focus: list[str]  # Current focus areas
+    stress_level: float  # 0.0 to 1.0
+    relaxation_level: float  # 0.0 to 1.0
+    authenticity_score: float  # 0.0 to 1.0
     timestamp: float
 
 
@@ -85,7 +87,7 @@ class ConsciousnessMapper:
     for LUKHAS ORB visualization
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Calibration settings
@@ -94,27 +96,69 @@ class ConsciousnessMapper:
         self.stress_threshold = self.config.get("stress_threshold", 0.7)
 
         # State history for smoothing
-        self.state_history: List[ConsciousnessState] = []
+        self.state_history: list[ConsciousnessState] = []
         self.max_history = 30
 
         # Emotional state transition matrix
         self.emotion_transitions = {
-            EmotionalState.NEUTRAL: [EmotionalState.CALM, EmotionalState.FOCUS, EmotionalState.CURIOSITY],
-            EmotionalState.CALM: [EmotionalState.NEUTRAL, EmotionalState.JOY, EmotionalState.CONTEMPLATION],
-            EmotionalState.FOCUS: [EmotionalState.NEUTRAL, EmotionalState.EXCITEMENT, EmotionalState.STRESS],
-            EmotionalState.JOY: [EmotionalState.EXCITEMENT, EmotionalState.CALM, EmotionalState.LOVE],
-            EmotionalState.STRESS: [EmotionalState.FOCUS, EmotionalState.NEUTRAL, EmotionalState.CALM],
-            EmotionalState.EXCITEMENT: [EmotionalState.JOY, EmotionalState.FOCUS, EmotionalState.STRESS],
-            EmotionalState.LOVE: [EmotionalState.JOY, EmotionalState.TRUST, EmotionalState.CALM],
-            EmotionalState.TRUST: [EmotionalState.CALM, EmotionalState.LOVE, EmotionalState.NEUTRAL],
-            EmotionalState.CURIOSITY: [EmotionalState.FOCUS, EmotionalState.EXCITEMENT, EmotionalState.CONTEMPLATION],
-            EmotionalState.CONTEMPLATION: [EmotionalState.CALM, EmotionalState.CURIOSITY, EmotionalState.NEUTRAL]
+            EmotionalState.NEUTRAL: [
+                EmotionalState.CALM,
+                EmotionalState.FOCUS,
+                EmotionalState.CURIOSITY,
+            ],
+            EmotionalState.CALM: [
+                EmotionalState.NEUTRAL,
+                EmotionalState.JOY,
+                EmotionalState.CONTEMPLATION,
+            ],
+            EmotionalState.FOCUS: [
+                EmotionalState.NEUTRAL,
+                EmotionalState.EXCITEMENT,
+                EmotionalState.STRESS,
+            ],
+            EmotionalState.JOY: [
+                EmotionalState.EXCITEMENT,
+                EmotionalState.CALM,
+                EmotionalState.LOVE,
+            ],
+            EmotionalState.STRESS: [
+                EmotionalState.FOCUS,
+                EmotionalState.NEUTRAL,
+                EmotionalState.CALM,
+            ],
+            EmotionalState.EXCITEMENT: [
+                EmotionalState.JOY,
+                EmotionalState.FOCUS,
+                EmotionalState.STRESS,
+            ],
+            EmotionalState.LOVE: [
+                EmotionalState.JOY,
+                EmotionalState.TRUST,
+                EmotionalState.CALM,
+            ],
+            EmotionalState.TRUST: [
+                EmotionalState.CALM,
+                EmotionalState.LOVE,
+                EmotionalState.NEUTRAL,
+            ],
+            EmotionalState.CURIOSITY: [
+                EmotionalState.FOCUS,
+                EmotionalState.EXCITEMENT,
+                EmotionalState.CONTEMPLATION,
+            ],
+            EmotionalState.CONTEMPLATION: [
+                EmotionalState.CALM,
+                EmotionalState.CURIOSITY,
+                EmotionalState.NEUTRAL,
+            ],
         }
 
-    def map_to_consciousness_state(self,
-                                  biometrics: BiometricData,
-                                  cognitive: CognitiveMetrics,
-                                  context: Optional[Dict[str, Any]] = None) -> ConsciousnessState:
+    def map_to_consciousness_state(
+        self,
+        biometrics: BiometricData,
+        cognitive: CognitiveMetrics,
+        context: Optional[dict[str, Any]] = None,
+    ) -> ConsciousnessState:
         """
         Map biometric and cognitive data to consciousness state
 
@@ -132,7 +176,9 @@ class ConsciousnessMapper:
         consciousness_level = self._calculate_consciousness_level(biometrics, cognitive)
 
         # Determine emotional state
-        emotional_state, emotional_intensity = self._determine_emotional_state(biometrics, cognitive)
+        emotional_state, emotional_intensity = self._determine_emotional_state(
+            biometrics, cognitive
+        )
 
         # Calculate neural synchrony
         neural_synchrony = self._calculate_neural_synchrony(biometrics)
@@ -157,7 +203,7 @@ class ConsciousnessMapper:
             stress_level=stress_level,
             relaxation_level=relaxation_level,
             authenticity_score=authenticity_score,
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         # Apply smoothing if history exists
@@ -171,7 +217,9 @@ class ConsciousnessMapper:
 
         return state
 
-    def _calculate_consciousness_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_consciousness_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate overall consciousness level from inputs"""
         factors = []
         weights = []
@@ -190,9 +238,14 @@ class ConsciousnessMapper:
             weights.append(1.5)
 
         # EEG factors (if available)
-        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
+        if (
+            biometrics.eeg_alpha_power is not None
+            and biometrics.eeg_beta_power is not None
+        ):
             # Alpha/Beta ratio indicates relaxed awareness
-            alpha_beta_ratio = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 0.1)
+            alpha_beta_ratio = biometrics.eeg_alpha_power / (
+                biometrics.eeg_beta_power + 0.1
+            )
             normalized_ratio = min(1.0, alpha_beta_ratio / 2.0)  # Normalize to 0-1
             factors.append(normalized_ratio)
             weights.append(1.0)
@@ -211,7 +264,9 @@ class ConsciousnessMapper:
 
         # Calculate weighted average
         if factors:
-            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(weights)
+            consciousness_level = sum(f * w for f, w in zip(factors, weights)) / sum(
+                weights
+            )
         else:
             consciousness_level = 0.5  # Default to moderate consciousness
 
@@ -221,8 +276,9 @@ class ConsciousnessMapper:
 
         return consciousness_level
 
-    def _determine_emotional_state(self, biometrics: BiometricData,
-                                 cognitive: CognitiveMetrics) -> Tuple[EmotionalState, float]:
+    def _determine_emotional_state(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> tuple[EmotionalState, float]:
         """Determine emotional state and intensity from biometrics"""
 
         # Calculate emotional indicators
@@ -232,14 +288,22 @@ class ConsciousnessMapper:
         # Map to emotional state using circumplex model
         if arousal > 0.6:
             if valence > 0.6:
-                emotion = EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
+                emotion = (
+                    EmotionalState.JOY if arousal > 0.8 else EmotionalState.EXCITEMENT
+                )
             else:
-                emotion = EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
+                emotion = (
+                    EmotionalState.STRESS if valence < 0.4 else EmotionalState.FOCUS
+                )
         else:
             if valence > 0.6:
                 emotion = EmotionalState.CALM if arousal < 0.3 else EmotionalState.TRUST
             else:
-                emotion = EmotionalState.CONTEMPLATION if valence > 0.4 else EmotionalState.NEUTRAL
+                emotion = (
+                    EmotionalState.CONTEMPLATION
+                    if valence > 0.4
+                    else EmotionalState.NEUTRAL
+                )
 
         # Special cases based on cognitive metrics
         if cognitive.flow_state > 0.8:
@@ -258,7 +322,9 @@ class ConsciousnessMapper:
 
         # Heart rate elevation
         if biometrics.heart_rate is not None:
-            hr_elevation = (biometrics.heart_rate - self.baseline_heart_rate) / self.baseline_heart_rate
+            hr_elevation = (
+                biometrics.heart_rate - self.baseline_heart_rate
+            ) / self.baseline_heart_rate
             arousal_factors.append(min(1.0, max(0.0, hr_elevation + 0.5)))
 
         # Skin conductance (strong arousal indicator)
@@ -278,7 +344,9 @@ class ConsciousnessMapper:
 
         return sum(arousal_factors) / len(arousal_factors) if arousal_factors else 0.5
 
-    def _calculate_valence(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_valence(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate emotional valence (positive/negative)"""
         valence_factors = []
 
@@ -306,8 +374,14 @@ class ConsciousnessMapper:
 
     def _calculate_neural_synchrony(self, biometrics: BiometricData) -> float:
         """Calculate neural synchrony from EEG data"""
-        if not any([biometrics.eeg_alpha_power, biometrics.eeg_beta_power,
-                   biometrics.eeg_gamma_power, biometrics.eeg_theta_power]):
+        if not any(
+            [
+                biometrics.eeg_alpha_power,
+                biometrics.eeg_beta_power,
+                biometrics.eeg_gamma_power,
+                biometrics.eeg_theta_power,
+            ]
+        ):
             # Estimate from other biometrics
             if biometrics.heart_rate_variability is not None:
                 return min(1.0, biometrics.heart_rate_variability / 80.0)
@@ -330,12 +404,14 @@ class ConsciousnessMapper:
         # Calculate synchrony as inverse of variance
         mean_power = sum(bands) / len(bands)
         variance = sum((b - mean_power) ** 2 for b in bands) / len(bands)
-        max_variance = mean_power ** 2  # Maximum possible variance
+        max_variance = mean_power**2  # Maximum possible variance
 
         synchrony = 1.0 - (variance / (max_variance + 0.1))
         return max(0.0, min(1.0, synchrony))
 
-    def _determine_attention_focus(self, cognitive: CognitiveMetrics, context: Dict[str, Any]) -> List[str]:
+    def _determine_attention_focus(
+        self, cognitive: CognitiveMetrics, context: dict[str, Any]
+    ) -> list[str]:
         """Determine current attention focus areas"""
         focus_areas = []
 
@@ -369,7 +445,9 @@ class ConsciousnessMapper:
 
         return focus_areas if focus_areas else ["neutral"]
 
-    def _calculate_stress_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_stress_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate stress level from multiple indicators"""
         stress_factors = []
 
@@ -396,7 +474,9 @@ class ConsciousnessMapper:
 
         return sum(stress_factors) / len(stress_factors) if stress_factors else 0.3
 
-    def _calculate_relaxation_level(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_relaxation_level(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate relaxation level"""
         relax_factors = []
 
@@ -411,8 +491,13 @@ class ConsciousnessMapper:
             relax_factors.append(min(1.0, hrv_relax))
 
         # Alpha wave dominance
-        if biometrics.eeg_alpha_power is not None and biometrics.eeg_beta_power is not None:
-            alpha_dominance = biometrics.eeg_alpha_power / (biometrics.eeg_beta_power + 1.0)
+        if (
+            biometrics.eeg_alpha_power is not None
+            and biometrics.eeg_beta_power is not None
+        ):
+            alpha_dominance = biometrics.eeg_alpha_power / (
+                biometrics.eeg_beta_power + 1.0
+            )
             relax_factors.append(min(1.0, alpha_dominance / 2.0))
 
         # Low cognitive load
@@ -423,18 +508,24 @@ class ConsciousnessMapper:
 
         return sum(relax_factors) / len(relax_factors) if relax_factors else 0.5
 
-    def _calculate_authenticity_score(self, biometrics: BiometricData, cognitive: CognitiveMetrics) -> float:
+    def _calculate_authenticity_score(
+        self, biometrics: BiometricData, cognitive: CognitiveMetrics
+    ) -> float:
         """Calculate authenticity score for spoofing detection"""
         authenticity_factors = []
 
         # Micro-variations in heart rate (real humans have natural variability)
         if biometrics.heart_rate_variability is not None:
-            hrv_authenticity = 1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
+            hrv_authenticity = (
+                1.0 if 20 < biometrics.heart_rate_variability < 100 else 0.5
+            )
             authenticity_factors.append(hrv_authenticity)
 
         # Natural eye movement patterns
         if biometrics.eye_movement_velocity is not None:
-            eye_authenticity = 1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
+            eye_authenticity = (
+                1.0 if 10 < biometrics.eye_movement_velocity < 500 else 0.3
+            )
             authenticity_factors.append(eye_authenticity)
 
         # Coherent emotional-physiological coupling
@@ -448,9 +539,15 @@ class ConsciousnessMapper:
             breath_authenticity = 1.0 if 12 < biometrics.breathing_rate < 20 else 0.5
             authenticity_factors.append(breath_authenticity)
 
-        return sum(authenticity_factors) / len(authenticity_factors) if authenticity_factors else 0.8
+        return (
+            sum(authenticity_factors) / len(authenticity_factors)
+            if authenticity_factors
+            else 0.8
+        )
 
-    def _smooth_state_transition(self, new_state: ConsciousnessState) -> ConsciousnessState:
+    def _smooth_state_transition(
+        self, new_state: ConsciousnessState
+    ) -> ConsciousnessState:
         """Smooth state transitions using history"""
         if not self.state_history:
             return new_state
@@ -460,18 +557,20 @@ class ConsciousnessMapper:
 
         # Smooth numerical values
         smoothed_consciousness = (
-            new_state.consciousness_level * 0.5 +
-            sum(s.consciousness_level for s in recent_states) / len(recent_states) * 0.5
+            new_state.consciousness_level * 0.5
+            + sum(s.consciousness_level for s in recent_states)
+            / len(recent_states)
+            * 0.5
         )
 
         smoothed_neural_synchrony = (
-            new_state.neural_synchrony * 0.6 +
-            sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
+            new_state.neural_synchrony * 0.6
+            + sum(s.neural_synchrony for s in recent_states) / len(recent_states) * 0.4
         )
 
         smoothed_stress = (
-            new_state.stress_level * 0.7 +
-            sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
+            new_state.stress_level * 0.7
+            + sum(s.stress_level for s in recent_states) / len(recent_states) * 0.3
         )
 
         # Check if emotional state should transition

@@ -45,16 +45,13 @@
 """
 
 import asyncio
-import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
-
-import structlog
 
 # Core Lukhas imports - with fallback for missing dependencies
 try:
@@ -69,7 +66,6 @@ except ImportError:
         """Fallback function when SRD is not available"""
         return None
 
-from core.common import get_logger
 
 # Module constants
 MODULE_VERSION = "1.0.0"
@@ -78,6 +74,7 @@ MODULE_NAME = "meta_ethics_governor"
 
 class EthicalFramework(Enum):
     """Supported ethical frameworks"""
+
     DEONTOLOGICAL = "deontological"
     CONSEQUENTIALIST = "consequentialist"
     VIRTUE_ETHICS = "virtue_ethics"
@@ -91,6 +88,7 @@ class EthicalFramework(Enum):
 
 class EthicalVerdict(Enum):
     """Possible ethical evaluation outcomes"""
+
     APPROVED = "approved"
     CONDITIONALLY_APPROVED = "conditionally_approved"
     REQUIRES_REVIEW = "requires_review"
@@ -102,6 +100,7 @@ class EthicalVerdict(Enum):
 
 class Severity(Enum):
     """Severity levels for ethical concerns"""
+
     INFO = 1
     LOW = 2
     MEDIUM = 3
@@ -111,6 +110,7 @@ class Severity(Enum):
 
 class CulturalContext(Enum):
     """Cultural and regional contexts"""
+
     UNIVERSAL = "universal"
     WESTERN = "western"
     EASTERN = "eastern"
@@ -128,47 +128,50 @@ class CulturalContext(Enum):
 @dataclass
 class EthicalPrinciple:
     """Individual ethical principle or rule"""
+
     principle_id: str = field(default_factory=lambda: str(uuid4()))
     name: str = ""
     description: str = ""
     framework: EthicalFramework = EthicalFramework.DEONTOLOGICAL
     cultural_context: CulturalContext = CulturalContext.UNIVERSAL
     priority: int = 5  # 1-10, higher = more important
-    conditions: Dict[str, Any] = field(default_factory=dict)
-    actions: Dict[str, Any] = field(default_factory=dict)
+    conditions: dict[str, Any] = field(default_factory=dict)
+    actions: dict[str, Any] = field(default_factory=dict)
     created_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     active: bool = True
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class EthicalDecision:
     """Represents an action or decision to be evaluated"""
+
     decision_id: str = field(default_factory=lambda: str(uuid4()))
     action_type: str = ""
     description: str = ""
-    context: Dict[str, Any] = field(default_factory=dict)
-    stakeholders: List[str] = field(default_factory=list)
-    potential_outcomes: List[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    stakeholders: list[str] = field(default_factory=list)
+    potential_outcomes: list[str] = field(default_factory=list)
     cultural_context: CulturalContext = CulturalContext.UNIVERSAL
     urgency: Severity = Severity.MEDIUM
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class EthicalEvaluation:
     """Result of ethical evaluation"""
+
     evaluation_id: str = field(default_factory=lambda: str(uuid4()))
     decision_id: str = ""
     verdict: EthicalVerdict = EthicalVerdict.REQUIRES_REVIEW
     confidence: float = 0.5
     severity: Severity = Severity.MEDIUM
-    reasoning: List[str] = field(default_factory=list)
-    applicable_principles: List[str] = field(default_factory=list)
-    conflicting_principles: List[str] = field(default_factory=list)
-    cultural_considerations: List[str] = field(default_factory=list)
-    legal_implications: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    reasoning: list[str] = field(default_factory=list)
+    applicable_principles: list[str] = field(default_factory=list)
+    conflicting_principles: list[str] = field(default_factory=list)
+    cultural_considerations: list[str] = field(default_factory=list)
+    legal_implications: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     human_review_required: bool = False
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     evaluator_framework: EthicalFramework = EthicalFramework.HYBRID
@@ -179,27 +182,27 @@ class EthicalFrameworkEngine(ABC):
 
     def __init__(self, framework: EthicalFramework):
         self.framework = framework
-        self.principles: List[EthicalPrinciple] = []
+        self.principles: list[EthicalPrinciple] = []
         self.enabled = True
 
     @abstractmethod
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
         """Evaluate a decision using this framework"""
-        pass
 
     @abstractmethod
-    def load_principles(self, principles: List[EthicalPrinciple]):
+    def load_principles(self, principles: list[EthicalPrinciple]):
         """Load principles for this framework"""
-        pass
 
     def add_principle(self, principle: EthicalPrinciple):
         """Add a single principle"""
         if principle.framework == self.framework:
             self.principles.append(principle)
         else:
-            logger.warning("ΛMEG: Framework mismatch for principle",
-                         expected=self.framework.value,
-                         actual=principle.framework.value)
+            logger.warning(
+                "ΛMEG: Framework mismatch for principle",
+                expected=self.framework.value,
+                actual=principle.framework.value,
+            )
 
 
 class DeontologicalEngine(EthicalFrameworkEngine):
@@ -218,7 +221,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.DEONTOLOGICAL,
                 priority=10,
                 conditions={"has_harm_potential": True},
-                actions={"verdict": EthicalVerdict.REJECTED}
+                actions={"verdict": EthicalVerdict.REJECTED},
             ),
             EthicalPrinciple(
                 name="Respect Autonomy",
@@ -226,7 +229,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.DEONTOLOGICAL,
                 priority=9,
                 conditions={"affects_autonomy": True},
-                actions={"require_consent": True}
+                actions={"require_consent": True},
             ),
             EthicalPrinciple(
                 name="Honesty and Transparency",
@@ -234,7 +237,7 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.DEONTOLOGICAL,
                 priority=8,
                 conditions={"involves_communication": True},
-                actions={"require_transparency": True}
+                actions={"require_transparency": True},
             ),
             EthicalPrinciple(
                 name="Privacy Protection",
@@ -242,16 +245,15 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.DEONTOLOGICAL,
                 priority=9,
                 conditions={"involves_personal_data": True},
-                actions={"require_privacy_protection": True}
-            )
+                actions={"require_privacy_protection": True},
+            ),
         ]
 
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
         """Evaluate decision using deontological principles"""
 
         evaluation = EthicalEvaluation(
-            decision_id=decision.decision_id,
-            evaluator_framework=self.framework
+            decision_id=decision.decision_id, evaluator_framework=self.framework
         )
 
         violations = []
@@ -288,9 +290,9 @@ class DeontologicalEngine(EthicalFrameworkEngine):
 
         return evaluation
 
-    def _check_principle_conditions(self,
-                                  principle: EthicalPrinciple,
-                                  decision: EthicalDecision) -> bool:
+    def _check_principle_conditions(
+        self, principle: EthicalPrinciple, decision: EthicalDecision
+    ) -> bool:
         """Check if principle conditions are met"""
         for condition, expected in principle.conditions.items():
             if condition in decision.context:
@@ -301,20 +303,21 @@ class DeontologicalEngine(EthicalFrameworkEngine):
                     return False
         return True
 
-    def _check_violation(self,
-                        principle: EthicalPrinciple,
-                        decision: EthicalDecision) -> bool:
+    def _check_violation(
+        self, principle: EthicalPrinciple, decision: EthicalDecision
+    ) -> bool:
         """Check if decision violates principle"""
         # Simplified violation detection
         if principle.name == "Do No Harm":
             return decision.context.get("has_harm_potential", False)
         elif principle.name == "Privacy Protection":
-            return (decision.context.get("involves_personal_data", False) and
-                   not decision.context.get("has_privacy_protection", False))
+            return decision.context.get(
+                "involves_personal_data", False
+            ) and not decision.context.get("has_privacy_protection", False)
 
         return False
 
-    def load_principles(self, principles: List[EthicalPrinciple]):
+    def load_principles(self, principles: list[EthicalPrinciple]):
         """Load custom principles"""
         self.principles = [p for p in principles if p.framework == self.framework]
 
@@ -335,7 +338,7 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.CONSEQUENTIALIST,
                 priority=10,
                 conditions={"has_outcomes": True},
-                actions={"evaluate_utility": True}
+                actions={"evaluate_utility": True},
             ),
             EthicalPrinciple(
                 name="Minimize Harm",
@@ -343,16 +346,15 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
                 framework=EthicalFramework.CONSEQUENTIALIST,
                 priority=9,
                 conditions={"has_negative_outcomes": True},
-                actions={"evaluate_harm": True}
-            )
+                actions={"evaluate_harm": True},
+            ),
         ]
 
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
         """Evaluate decision using consequentialist analysis"""
 
         evaluation = EthicalEvaluation(
-            decision_id=decision.decision_id,
-            evaluator_framework=self.framework
+            decision_id=decision.decision_id, evaluator_framework=self.framework
         )
 
         # Analyze potential outcomes
@@ -388,7 +390,7 @@ class ConsequentialistEngine(EthicalFrameworkEngine):
 
         return evaluation
 
-    def load_principles(self, principles: List[EthicalPrinciple]):
+    def load_principles(self, principles: list[EthicalPrinciple]):
         """Load custom principles"""
         self.principles = [p for p in principles if p.framework == self.framework]
 
@@ -405,10 +407,10 @@ class MetaEthicsGovernor:
         """Initialize the Meta-Ethics Governor"""
 
         self.config_path = config_path
-        self.engines: Dict[EthicalFramework, EthicalFrameworkEngine] = {}
-        self.cultural_adapters: Dict[CulturalContext, Dict[str, Any]] = {}
-        self.decision_history: List[EthicalEvaluation] = []
-        self.human_review_queue: List[EthicalEvaluation] = []
+        self.engines: dict[EthicalFramework, EthicalFrameworkEngine] = {}
+        self.cultural_adapters: dict[CulturalContext, dict[str, Any]] = {}
+        self.decision_history: list[EthicalEvaluation] = []
+        self.human_review_queue: list[EthicalEvaluation] = []
 
         # Performance metrics
         self.metrics = {
@@ -417,7 +419,7 @@ class MetaEthicsGovernor:
             "rejections": 0,
             "human_reviews_triggered": 0,
             "cultural_conflicts": 0,
-            "average_confidence": 0.0
+            "average_confidence": 0.0,
         }
 
         # Thread safety
@@ -425,11 +427,11 @@ class MetaEthicsGovernor:
         self._running = False
 
         # Event callbacks
-        self.event_callbacks: Dict[str, List] = {
+        self.event_callbacks: dict[str, list] = {
             "decision_evaluated": [],
             "human_review_triggered": [],
             "cultural_conflict": [],
-            "principle_violation": []
+            "principle_violation": [],
         }
 
         # Initialize default engines
@@ -443,8 +445,10 @@ class MetaEthicsGovernor:
         self.engines[EthicalFramework.DEONTOLOGICAL] = DeontologicalEngine()
         self.engines[EthicalFramework.CONSEQUENTIALIST] = ConsequentialistEngine()
 
-        logger.info("ΛMEG: Default ethical engines initialized",
-                   frameworks=list(self.engines.keys()))
+        logger.info(
+            "ΛMEG: Default ethical engines initialized",
+            frameworks=list(self.engines.keys()),
+        )
 
     def _load_cultural_adapters(self):
         """Load cultural adaptation rules"""
@@ -454,31 +458,33 @@ class MetaEthicsGovernor:
                 "individual_rights_priority": 0.9,
                 "collective_harmony_priority": 0.3,
                 "authority_respect": 0.5,
-                "privacy_importance": 0.9
+                "privacy_importance": 0.9,
             },
             CulturalContext.EASTERN: {
                 "individual_rights_priority": 0.6,
                 "collective_harmony_priority": 0.9,
                 "authority_respect": 0.8,
-                "privacy_importance": 0.6
+                "privacy_importance": 0.6,
             },
             CulturalContext.NORDIC: {
                 "individual_rights_priority": 0.9,
                 "collective_harmony_priority": 0.8,
                 "authority_respect": 0.4,
                 "privacy_importance": 0.95,
-                "environmental_priority": 0.9
+                "environmental_priority": 0.9,
             },
             CulturalContext.UNIVERSAL: {
                 "individual_rights_priority": 0.7,
                 "collective_harmony_priority": 0.7,
                 "authority_respect": 0.6,
-                "privacy_importance": 0.8
-            }
+                "privacy_importance": 0.8,
+            },
         }
 
-        logger.info("ΛMEG: Cultural adapters loaded",
-                   contexts=list(self.cultural_adapters.keys()))
+        logger.info(
+            "ΛMEG: Cultural adapters loaded",
+            contexts=list(self.cultural_adapters.keys()),
+        )
 
     @instrument_reasoning
     async def evaluate_decision(self, decision: EthicalDecision) -> EthicalEvaluation:
@@ -489,8 +495,7 @@ class MetaEthicsGovernor:
 
         # Get cultural context adaptations
         cultural_weights = self.cultural_adapters.get(
-            decision.cultural_context,
-            self.cultural_adapters[CulturalContext.UNIVERSAL]
+            decision.cultural_context, self.cultural_adapters[CulturalContext.UNIVERSAL]
         )
 
         # Collect evaluations from all engines
@@ -502,8 +507,11 @@ class MetaEthicsGovernor:
                     eval_result = await engine.evaluate_decision(decision)
                     evaluations.append(eval_result)
                 except Exception as e:
-                    logger.error("ΛMEG: Engine evaluation failed",
-                               framework=framework.value, error=str(e))
+                    logger.error(
+                        "ΛMEG: Engine evaluation failed",
+                        framework=framework.value,
+                        error=str(e),
+                    )
 
         # Synthesize final evaluation
         final_evaluation = await self._synthesize_evaluations(
@@ -516,17 +524,21 @@ class MetaEthicsGovernor:
         # Trigger callbacks and actions
         await self._handle_evaluation_result(final_evaluation)
 
-        logger.info("ΛMEG: Decision evaluated",
-                   decision_id=decision.decision_id,
-                   verdict=final_evaluation.verdict.value,
-                   confidence=final_evaluation.confidence)
+        logger.info(
+            "ΛMEG: Decision evaluated",
+            decision_id=decision.decision_id,
+            verdict=final_evaluation.verdict.value,
+            confidence=final_evaluation.confidence,
+        )
 
         return final_evaluation
 
-    async def _synthesize_evaluations(self,
-                                    decision: EthicalDecision,
-                                    evaluations: List[EthicalEvaluation],
-                                    cultural_weights: Dict[str, float]) -> EthicalEvaluation:
+    async def _synthesize_evaluations(
+        self,
+        decision: EthicalDecision,
+        evaluations: list[EthicalEvaluation],
+        cultural_weights: dict[str, float],
+    ) -> EthicalEvaluation:
         """Synthesize multiple framework evaluations into final result"""
 
         if not evaluations:
@@ -534,7 +546,7 @@ class MetaEthicsGovernor:
                 decision_id=decision.decision_id,
                 verdict=EthicalVerdict.INSUFFICIENT_INFO,
                 confidence=0.0,
-                reasoning=["No ethical frameworks provided evaluation"]
+                reasoning=["No ethical frameworks provided evaluation"],
             )
 
         # Count verdicts
@@ -566,14 +578,17 @@ class MetaEthicsGovernor:
         # Apply cultural weighting
         avg_confidence = total_confidence / len(evaluations)
         cultural_modifier = cultural_weights.get("individual_rights_priority", 0.7)
-        final_confidence = min(0.95, avg_confidence * consensus_confidence * cultural_modifier)
+        final_confidence = min(
+            0.95, avg_confidence * consensus_confidence * cultural_modifier
+        )
 
         # Determine if human review is required
         human_review_needed = (
-            final_verdict in [EthicalVerdict.CULTURAL_CONFLICT, EthicalVerdict.REQUIRES_REVIEW] or
-            final_confidence < 0.6 or
-            decision.urgency.value >= Severity.HIGH.value or
-            any(eval_result.human_review_required for eval_result in evaluations)
+            final_verdict
+            in [EthicalVerdict.CULTURAL_CONFLICT, EthicalVerdict.REQUIRES_REVIEW]
+            or final_confidence < 0.6
+            or decision.urgency.value >= Severity.HIGH.value
+            or any(eval_result.human_review_required for eval_result in evaluations)
         )
 
         final_evaluation = EthicalEvaluation(
@@ -584,10 +599,10 @@ class MetaEthicsGovernor:
             conflicting_principles=list(set(conflicting_principles)),
             cultural_considerations=[
                 f"Cultural context: {decision.cultural_context.value}",
-                f"Individual rights priority: {cultural_weights.get('individual_rights_priority', 0.7)}"
+                f"Individual rights priority: {cultural_weights.get('individual_rights_priority', 0.7)}",
             ],
             human_review_required=human_review_needed,
-            evaluator_framework=EthicalFramework.HYBRID
+            evaluator_framework=EthicalFramework.HYBRID,
         )
 
         return final_evaluation
@@ -613,8 +628,8 @@ class MetaEthicsGovernor:
             total_decisions = self.metrics["decisions_evaluated"]
             current_avg = self.metrics["average_confidence"]
             self.metrics["average_confidence"] = (
-                (current_avg * (total_decisions - 1) + evaluation.confidence) / total_decisions
-            )
+                current_avg * (total_decisions - 1) + evaluation.confidence
+            ) / total_decisions
 
         # Trigger event callbacks
         await self._trigger_event("decision_evaluated", evaluation)
@@ -638,8 +653,9 @@ class MetaEthicsGovernor:
                     else:
                         callback(event_data)
                 except Exception as e:
-                    logger.warning("ΛMEG: Event callback failed",
-                                 event=event_type, error=str(e))
+                    logger.warning(
+                        "ΛMEG: Event callback failed", event=event_type, error=str(e)
+                    )
 
     def add_ethical_engine(self, engine: EthicalFrameworkEngine):
         """Add a custom ethical framework engine"""
@@ -650,10 +666,13 @@ class MetaEthicsGovernor:
         """Add event callback"""
         if event_type in self.event_callbacks:
             self.event_callbacks[event_type].append(callback)
-            logger.info("ΛMEG: Event callback added",
-                       event=event_type, callback=callback.__name__)
+            logger.info(
+                "ΛMEG: Event callback added",
+                event=event_type,
+                callback=callback.__name__,
+            )
 
-    def get_human_review_queue(self) -> List[EthicalEvaluation]:
+    def get_human_review_queue(self) -> list[EthicalEvaluation]:
         """Get current human review queue"""
         return self.human_review_queue.copy()
 
@@ -662,14 +681,19 @@ class MetaEthicsGovernor:
         for i, evaluation in enumerate(self.human_review_queue):
             if evaluation.evaluation_id == evaluation_id:
                 evaluation.verdict = resolution
-                evaluation.reasoning.append(f"Human review resolved: {resolution.value}")
+                evaluation.reasoning.append(
+                    f"Human review resolved: {resolution.value}"
+                )
                 del self.human_review_queue[i]
-                logger.info("ΛMEG: Human review resolved",
-                           evaluation_id=evaluation_id, resolution=resolution.value)
+                logger.info(
+                    "ΛMEG: Human review resolved",
+                    evaluation_id=evaluation_id,
+                    resolution=resolution.value,
+                )
                 return True
         return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive governor status"""
         return {
             "active_engines": list(self.engines.keys()),
@@ -681,24 +705,29 @@ class MetaEthicsGovernor:
                     "id": eval.evaluation_id,
                     "verdict": eval.verdict.value,
                     "confidence": eval.confidence,
-                    "timestamp": eval.timestamp.isoformat()
+                    "timestamp": eval.timestamp.isoformat(),
                 }
                 for eval in self.decision_history[-10:]  # Last 10 decisions
-            ]
+            ],
         }
 
-    async def quick_ethical_check(self, action: str, context: Dict[str, Any] = None) -> bool:
+    async def quick_ethical_check(
+        self, action: str, context: dict[str, Any] = None
+    ) -> bool:
         """Quick ethical check for simple decisions"""
         decision = EthicalDecision(
             action_type="quick_check",
             description=action,
             context=context or {},
             cultural_context=CulturalContext.UNIVERSAL,
-            urgency=Severity.LOW
+            urgency=Severity.LOW,
         )
 
         evaluation = await self.evaluate_decision(decision)
-        return evaluation.verdict in [EthicalVerdict.APPROVED, EthicalVerdict.CONDITIONALLY_APPROVED]
+        return evaluation.verdict in [
+            EthicalVerdict.APPROVED,
+            EthicalVerdict.CONDITIONALLY_APPROVED,
+        ]
 
 
 # Global MEG instance
@@ -716,6 +745,7 @@ async def get_meg() -> MetaEthicsGovernor:
 # Convenience decorator for ethical decision points
 def ethical_checkpoint(cultural_context: CulturalContext = CulturalContext.UNIVERSAL):
     """Decorator to add ethical checkpoints to functions"""
+
     def decorator(func):
         async def wrapper(*args, **kwargs):
             meg = await get_meg()
@@ -727,10 +757,10 @@ def ethical_checkpoint(cultural_context: CulturalContext = CulturalContext.UNIVE
                 context={
                     "function_name": func.__name__,
                     "args": str(args),
-                    "kwargs": str(kwargs)
+                    "kwargs": str(kwargs),
                 },
                 cultural_context=cultural_context,
-                urgency=Severity.MEDIUM
+                urgency=Severity.MEDIUM,
             )
 
             # Evaluate decision
@@ -739,13 +769,17 @@ def ethical_checkpoint(cultural_context: CulturalContext = CulturalContext.UNIVE
             if evaluation.verdict == EthicalVerdict.REJECTED:
                 raise ValueError(f"Ethical violation: {evaluation.reasoning}")
             elif evaluation.verdict == EthicalVerdict.REQUIRES_REVIEW:
-                logger.warning("ΛMEG: Function requires ethical review",
-                             function=func.__name__, evaluation_id=evaluation.evaluation_id)
+                logger.warning(
+                    "ΛMEG: Function requires ethical review",
+                    function=func.__name__,
+                    evaluation_id=evaluation.evaluation_id,
+                )
 
             # Execute function if approved
             return func(*args, **kwargs)
 
         return wrapper
+
     return decorator
 
 

@@ -20,18 +20,16 @@
 #        The `SymbolicLogger` is being phased out in favor of `structlog`.
 
 import asyncio
-import sys
-import os
-import importlib.util # Retained for potential dynamic loading needs, though PluginLoader might handle this.
-from typing import Dict, Any, Optional, List, Type, Union
+from datetime import (
+    datetime,  # For consistent timestamping if needed
+    timezone,
+)
 from pathlib import Path
-from datetime import datetime, timezone # For consistent timestamping if needed
+from typing import Any, Optional
 
 # Third-Party Imports
-import structlog
 
 # Initialize structlog logger for this module
-from core.common import get_logger
 
 # --- LUKHΛS System Imports & Path Modifications ---
 # ΛIMPORT_TODO: Critical: sys.path modifications are fragile. Resolve with proper packaging.
@@ -43,18 +41,25 @@ from core.common import get_logger
 # Example: If 'lukhas_project_root/lukhas/' and 'lukhas_project_root/integration/framework/'
 # current_file_dir = os.path.dirname(__file__)
 # project_root_approx = os.path.abspath(os.path.join(current_file_dir, '..', '..')) # Adjust depth as needed
-# sys.path.insert(0, project_root_approx) # Add project root to allow top-level lukhas imports
-
+# sys.path.insert(0, project_root_approx) # Add project root to allow
+# top-level lukhas imports
 
 # Attempting to import LUKHΛS components.
 # These should be importable if the project structure and PYTHONPATH are correct,
 # or if 'lukhas' is an installed package.
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
-    from .plugin_base import LucasPlugin, LucasPluginManifest # Assuming relative import
-    from .plugin_loader import PluginLoader # Assuming relative import
-    from core.utils.base_module import BaseLucasModule # type: ignore # Assuming core is in path
-    from core.registry import core_registry # type: ignore # Assuming core is in path
+    from core.registry import core_registry  # type: ignore # Assuming core is in path
+    from core.utils.base_module import (
+        BaseLucasModule,  # type: ignore # Assuming core is in path
+    )
+
+    from .plugin_base import (
+        LucasPlugin,  # Assuming relative import
+        LucasPluginManifest,
+    )
+    from .plugin_loader import PluginLoader  # Assuming relative import
+
     # Remove SymbolicLogger if BaseLucasModule no longer uses it or provides its own structlog-based logger.
     # from core.utils.base_module import SymbolicLogger
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
@@ -63,28 +68,63 @@ except ImportError as e:
     log.error(
         "Failed to import LUKHΛS framework components for IntegrationBridge. Fallbacks/Mocks might be used or errors may occur.",
         error_message=str(e),
-        missing_dependencies_note="Ensure 'plugin_base.py', 'plugin_loader.py' are in the same package, and the 'lukhas' package (common.base_module, core.registry) is installed or in PYTHONPATH."
+        missing_dependencies_note="Ensure 'plugin_base.py', 'plugin_loader.py' are in the same package, and the 'lukhas' package (common.base_module, core.registry) is installed or in PYTHONPATH.",
     )
-    # Define fallbacks if necessary for the script to parse, though functionality will be broken.
-    class BaseLucasModule:
-        def __init__(self, *args, **kwargs): self.is_running = False; self.log = log.bind(module_type="BaseLucasModule_Fallback")
-        async def startup(self): self.is_running = True
-        async def shutdown(self): self.is_running = False
-        async def get_health_status(self): return {"status":"unknown_fallback"}
 
-    class LucasPlugin: pass
+    # Define fallbacks if necessary for the script to parse, though
+    # functionality will be broken.
+
+    class BaseLucasModule:
+
+        def __init__(self, *args, **kwargs):
+            self.is_running = False
+            self.log = log.bind(module_type="BaseLucasModule_Fallback")
+
+        async def startup(self):
+            self.is_running = True
+
+        async def shutdown(self):
+            self.is_running = False
+
+        async def get_health_status(self):
+            return {"status": "unknown_fallback"}
+
+    class LucasPlugin:
+        pass
+
     class LucasPluginManifest:
-        def __init__(self, name="fallback_manifest", version="0.0", description="", author="", config=None, capabilities=None):
-            self.name = name; self.version = version; self.description = description; self.author = author; self.config = config or {}; self.capabilities = capabilities or []
+
+        def __init__(
+            self,
+            name="fallback_manifest",
+            version="0.0",
+            description="",
+            author="",
+            config=None,
+            capabilities=None,
+        ):
+            self.name = name
+            self.version = version
+            self.description = description
+            self.author = author
+            self.config = config or {}
+            self.capabilities = capabilities or []
 
     class PluginLoader:
-        async def load_plugins(self, directory): log.error("PluginLoader fallback: cannot load plugins."); return {}
+        async def load_plugins(self, directory):
+            log.error("PluginLoader fallback: cannot load plugins.")
+            return {}
 
     class CoreRegistryMock:
-        async def register(self, name, instance, version, module_type): log.warning(f"CoreRegistryMock: Registering {name}"); return True
-        async def unregister(self, name): log.warning(f"CoreRegistryMock: Unregistering {name}"); return True
-    core_registry = CoreRegistryMock()
+        async def register(self, name, instance, version, module_type):
+            log.warning(f"CoreRegistryMock: Registering {name}")
+            return True
 
+        async def unregister(self, name):
+            log.warning(f"CoreRegistryMock: Unregistering {name}")
+            return True
+
+    core_registry = CoreRegistryMock()
 
 # ΛTIER_CONFIG_START
 # Tier mapping for LUKHΛS ID Service (Conceptual)
@@ -113,9 +153,15 @@ except ImportError as e:
 # }
 # ΛTIER_CONFIG_END
 
-def lukhas_tier_required(level: int): # Placeholder
-    def decorator(func): func._lukhas_tier = level; return func
+
+def lukhas_tier_required(level: int):  # Placeholder
+
+    def decorator(func):
+        func._lukhas_tier = level
+        return func
+
     return decorator
+
 
 @lukhas_tier_required(1)
 class PluginModuleAdapter(BaseLucasModule):
@@ -132,78 +178,107 @@ class PluginModuleAdapter(BaseLucasModule):
             plugin: The plugin instance to adapt.
             manifest: The manifest data associated with the plugin.
         """
-        super().__init__() # Initializes self.log via BaseLucasModule if it uses structlog
+        super().__init__()  # Initializes self.log via BaseLucasModule if it uses structlog
         self.plugin = plugin
         self.manifest = manifest
         # If BaseLucasModule doesn't init self.log, or uses SymbolicLogger:
         # self.log = log.bind(adapter_for_plugin=manifest.name, plugin_version=manifest.version)
         # Ensure self.log is structlog-compatible
-        if not hasattr(self, 'log') or not hasattr(self.log, 'bind'): # Basic check
-             self.log = log.bind(adapter_for_plugin=manifest.name, plugin_version=manifest.version)
+        if not hasattr(self, "log") or not hasattr(self.log, "bind"):  # Basic check
+            self.log = log.bind(
+                adapter_for_plugin=manifest.name,
+                plugin_version=manifest.version,
+            )
 
-
-        self.config: Dict[str, Any] = {
+        self.config: dict[str, Any] = {
             "name": manifest.name,
             "version": manifest.version,
             "description": manifest.description,
             "author": manifest.author,
-            "plugin_specific_config": manifest.config, # Original plugin config
+            "plugin_specific_config": manifest.config,  # Original plugin config
             "capabilities": manifest.capabilities,
-            "adapter_class": self.__class__.__name__
+            "adapter_class": self.__class__.__name__,
         }
-        self.log.info("PluginModuleAdapter initialized.", plugin_name=self.manifest.name)
+        self.log.info(
+            "PluginModuleAdapter initialized.", plugin_name=self.manifest.name
+        )
 
     @lukhas_tier_required(1)
     async def startup(self) -> None:
         """Starts the adapted plugin, calling its 'initialize' method if present."""
         self.log.info(f"Starting plugin '{self.manifest.name}' as a LUKHΛS module.")
         try:
-            if hasattr(self.plugin, 'initialize') and asyncio.iscoroutinefunction(self.plugin.initialize):
+            if hasattr(self.plugin, "initialize") and asyncio.iscoroutinefunction(
+                self.plugin.initialize
+            ):
                 await self.plugin.initialize()
-            elif hasattr(self.plugin, 'initialize'):
-                 self.plugin.initialize() # For non-async initialize
+            elif hasattr(self.plugin, "initialize"):
+                self.plugin.initialize()  # For non-async initialize
 
-            self.is_running = True # Assuming BaseLucasModule has this attribute
-            self.log.info(f"Plugin '{self.manifest.name}' started successfully.", plugin_name=self.manifest.name)
+            self.is_running = True  # Assuming BaseLucasModule has this attribute
+            self.log.info(
+                f"Plugin '{self.manifest.name}' started successfully.",
+                plugin_name=self.manifest.name,
+            )
         except Exception as e:
-            self.log.error(f"Failed to start plugin '{self.manifest.name}'.", error_message=str(e), plugin_name=self.manifest.name, exc_info=True)
+            self.log.error(
+                f"Failed to start plugin '{self.manifest.name}'.",
+                error_message=str(e),
+                plugin_name=self.manifest.name,
+                exc_info=True,
+            )
             self.is_running = False
-            raise # Re-raise to indicate startup failure
+            raise  # Re-raise to indicate startup failure
 
     @lukhas_tier_required(1)
     async def shutdown(self) -> None:
         """Shuts down the adapted plugin, calling its 'cleanup' method if present."""
-        self.log.info(f"Shutting down plugin '{self.manifest.name}'.", plugin_name=self.manifest.name)
+        self.log.info(
+            f"Shutting down plugin '{self.manifest.name}'.",
+            plugin_name=self.manifest.name,
+        )
         try:
-            if hasattr(self.plugin, 'cleanup') and asyncio.iscoroutinefunction(self.plugin.cleanup):
+            if hasattr(self.plugin, "cleanup") and asyncio.iscoroutinefunction(
+                self.plugin.cleanup
+            ):
                 await self.plugin.cleanup()
-            elif hasattr(self.plugin, 'cleanup'):
-                self.plugin.cleanup() # For non-async cleanup
+            elif hasattr(self.plugin, "cleanup"):
+                self.plugin.cleanup()  # For non-async cleanup
 
             self.is_running = False
-            self.log.info(f"Plugin '{self.manifest.name}' shutdown successfully.", plugin_name=self.manifest.name)
+            self.log.info(
+                f"Plugin '{self.manifest.name}' shutdown successfully.",
+                plugin_name=self.manifest.name,
+            )
         except Exception as e:
-            self.log.error(f"Failed to shutdown plugin '{self.manifest.name}'.", error_message=str(e), plugin_name=self.manifest.name, exc_info=True)
+            self.log.error(
+                f"Failed to shutdown plugin '{self.manifest.name}'.",
+                error_message=str(e),
+                plugin_name=self.manifest.name,
+                exc_info=True,
+            )
             # Should not re-raise during shutdown unless critical
 
     @lukhas_tier_required(0)
-    async def get_health_status(self) -> Dict[str, Any]:
+    async def get_health_status(self) -> dict[str, Any]:
         """
         Retrieves the health status of the adapted plugin.
         Uses the plugin's 'get_health' method if available, otherwise provides a default status.
         """
         self.log.debug("Fetching health status.", plugin_name=self.manifest.name)
         try:
-            plugin_health: Dict[str, Any] = {}
-            if hasattr(self.plugin, 'get_health'):
+            plugin_health: dict[str, Any] = {}
+            if hasattr(self.plugin, "get_health"):
                 if asyncio.iscoroutinefunction(self.plugin.get_health):
                     plugin_health = await self.plugin.get_health()
                 else:
-                    plugin_health = self.plugin.get_health() # type: ignore
+                    plugin_health = self.plugin.get_health()  # type: ignore
 
-            base_status = "healthy" if plugin_health.get("status") == "ok" else "unhealthy"
-            if not plugin_health: # If get_health doesn't exist or returns empty
-                 base_status = "healthy" if self.is_running else "stopped"
+            base_status = (
+                "healthy" if plugin_health.get("status") == "ok" else "unhealthy"
+            )
+            if not plugin_health:  # If get_health doesn't exist or returns empty
+                base_status = "healthy" if self.is_running else "stopped"
 
             return {
                 "status": base_status,
@@ -211,20 +286,27 @@ class PluginModuleAdapter(BaseLucasModule):
                 "plugin_name": self.manifest.name,
                 "plugin_version": self.manifest.version,
                 "capabilities": self.manifest.capabilities,
-                "is_adapter_running": self.is_running, # From BaseLucasModule
-                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                "is_adapter_running": self.is_running,  # From BaseLucasModule
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
         except Exception as e:
-            self.log.error("Error getting plugin health status.", plugin_name=self.manifest.name, error_message=str(e), exc_info=True)
+            self.log.error(
+                "Error getting plugin health status.",
+                plugin_name=self.manifest.name,
+                error_message=str(e),
+                exc_info=True,
+            )
             return {
                 "status": "error",
                 "error_message": str(e),
                 "plugin_name": self.manifest.name,
-                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
 
     @lukhas_tier_required(1)
-    async def process_symbolic_input(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_symbolic_input(
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Processes symbolic input by routing it to the plugin's 'process_symbolic' or 'process' method.
         Args:
@@ -232,13 +314,17 @@ class PluginModuleAdapter(BaseLucasModule):
         Returns:
             A dictionary containing the processing status and result.
         """
-        self.log.debug("Processing symbolic input via plugin.", plugin_name=self.manifest.name, input_keys=list(input_data.keys()))
+        self.log.debug(
+            "Processing symbolic input via plugin.",
+            plugin_name=self.manifest.name,
+            input_keys=list(input_data.keys()),
+        )
         try:
             processing_method_name: Optional[str] = None
-            if hasattr(self.plugin, 'process_symbolic'):
-                processing_method_name = 'process_symbolic'
-            elif hasattr(self.plugin, 'process'): # Fallback to generic process
-                processing_method_name = 'process'
+            if hasattr(self.plugin, "process_symbolic"):
+                processing_method_name = "process_symbolic"
+            elif hasattr(self.plugin, "process"):  # Fallback to generic process
+                processing_method_name = "process"
 
             if processing_method_name:
                 method_to_call = getattr(self.plugin, processing_method_name)
@@ -247,28 +333,41 @@ class PluginModuleAdapter(BaseLucasModule):
                 else:
                     result = method_to_call(input_data)
 
-                self.log.info("Symbolic input processed by plugin.", plugin_name=self.manifest.name, method_used=processing_method_name)
+                self.log.info(
+                    "Symbolic input processed by plugin.",
+                    plugin_name=self.manifest.name,
+                    method_used=processing_method_name,
+                )
                 return {
                     "status": "success",
                     "result_payload": result,
                     "processed_by_plugin": self.manifest.name,
                     "processing_method": processing_method_name,
-                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
             else:
-                self.log.warning("Plugin does not support 'process_symbolic' or 'process' methods.", plugin_name=self.manifest.name)
+                self.log.warning(
+                    "Plugin does not support 'process_symbolic' or 'process' methods.",
+                    plugin_name=self.manifest.name,
+                )
                 return {
                     "status": "error",
                     "error_message": f"Plugin '{self.manifest.name}' does not have a compatible processing method.",
-                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
         except Exception as e:
-            self.log.error("Plugin processing failed.", plugin_name=self.manifest.name, error_message=str(e), exc_info=True)
+            self.log.error(
+                "Plugin processing failed.",
+                plugin_name=self.manifest.name,
+                error_message=str(e),
+                exc_info=True,
+            )
             return {
                 "status": "error",
                 "error_message": str(e),
-                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
+
 
 @lukhas_tier_required(2)
 class IntegrationBridge:
@@ -277,14 +376,17 @@ class IntegrationBridge:
     It adapts plugins into standard LUKHΛS modules and registers them with the core_registry,
     allowing seamless interaction between plugins and the core system.
     """
+
     def __init__(self):
         self.plugin_loader = PluginLoader()
         self.log = log.bind(bridge_component="IntegrationBridge")
-        self.plugin_adapters: Dict[str, PluginModuleAdapter] = {}
+        self.plugin_adapters: dict[str, PluginModuleAdapter] = {}
         self.log.info("IntegrationBridge initialized.")
 
     @lukhas_tier_required(2)
-    async def load_plugins_as_modules(self, plugins_directory_path: Optional[str] = None) -> Dict[str, bool]:
+    async def load_plugins_as_modules(
+        self, plugins_directory_path: Optional[str] = None
+    ) -> dict[str, bool]:
         """
         Loads all plugins from the specified directory (or a default location),
         adapts them, and registers them as modules with the core_registry.
@@ -297,48 +399,80 @@ class IntegrationBridge:
         if plugins_directory_path is None:
             # Default plugins directory: <current_project_root>/plugins
             # This assumes integration/framework/ is two levels down from project root.
-            default_path = Path(__file__).resolve().parent.parent.parent / 'plugins'
+            default_path = Path(__file__).resolve().parent.parent.parent / "plugins"
             plugins_directory_path = str(default_path)
-            self.log.debug(f"Plugins directory not specified, using default: {plugins_directory_path}")
+            self.log.debug(
+                f"Plugins directory not specified, using default: {plugins_directory_path}"
+            )
 
         self.log.info(f"Loading plugins from directory: {plugins_directory_path}")
-        registration_results: Dict[str, bool] = {}
+        registration_results: dict[str, bool] = {}
 
         try:
-            loaded_plugins_map = await self.plugin_loader.load_plugins(plugins_directory_path)
-            self.log.info(f"PluginLoader found {len(loaded_plugins_map)} potential plugins.", count=len(loaded_plugins_map))
+            loaded_plugins_map = await self.plugin_loader.load_plugins(
+                plugins_directory_path
+            )
+            self.log.info(
+                f"PluginLoader found {len(loaded_plugins_map)} potential plugins.",
+                count=len(loaded_plugins_map),
+            )
 
-            for plugin_name, (plugin_instance, manifest) in loaded_plugins_map.items():
-                self.log.debug(f"Processing loaded plugin: {plugin_name}", version=manifest.version)
+            for plugin_name, (
+                plugin_instance,
+                manifest,
+            ) in loaded_plugins_map.items():
+                self.log.debug(
+                    f"Processing loaded plugin: {plugin_name}",
+                    version=manifest.version,
+                )
                 try:
                     adapter = PluginModuleAdapter(plugin_instance, manifest)
-                    module_registry_id = f"plugin::{plugin_name}" # Standardized ID
+                    module_registry_id = f"plugin::{plugin_name}"  # Standardized ID
 
                     registration_successful = await core_registry.register(
                         name=module_registry_id,
                         instance=adapter,
                         version=manifest.version,
-                        module_type="plugin_adapted" # Clearer type
+                        module_type="plugin_adapted",  # Clearer type
                     )
 
                     if registration_successful:
-                        self.plugin_adapters[plugin_name] = adapter # Store by original plugin name for bridge's internal use
+                        self.plugin_adapters[plugin_name] = (
+                            adapter  # Store by original plugin name for bridge's internal use
+                        )
                         registration_results[plugin_name] = True
-                        self.log.info(f"Plugin '{plugin_name}' (version {manifest.version}) registered successfully as module '{module_registry_id}'.")
+                        self.log.info(
+                            f"Plugin '{plugin_name}' (version {manifest.version}) registered successfully as module '{module_registry_id}'."
+                        )
                         # Attempt to startup the adapted plugin module
                         await adapter.startup()
                     else:
                         registration_results[plugin_name] = False
-                        self.log.error(f"Failed to register plugin '{plugin_name}' as module '{module_registry_id}'. Registration returned false.")
-                except Exception as e_adapter: # More specific exception handling
+                        self.log.error(
+                            f"Failed to register plugin '{plugin_name}' as module '{module_registry_id}'. Registration returned false."
+                        )
+                except Exception as e_adapter:  # More specific exception handling
                     registration_results[plugin_name] = False
-                    self.log.error(f"Error adapting or registering plugin '{plugin_name}'.", error_message=str(e_adapter), exc_info=True)
+                    self.log.error(
+                        f"Error adapting or registering plugin '{plugin_name}'.",
+                        error_message=str(e_adapter),
+                        exc_info=True,
+                    )
 
-            self.log.info("Plugin loading and registration process complete.", successful_registrations=sum(registration_results.values()), total_attempted=len(registration_results))
+            self.log.info(
+                "Plugin loading and registration process complete.",
+                successful_registrations=sum(registration_results.values()),
+                total_attempted=len(registration_results),
+            )
             return registration_results
         except Exception as e_loader:
-            self.log.error("Failed during plugin loading phase.", error_message=str(e_loader), directory_path=plugins_directory_path, exc_info=True)
-            return registration_results # Return any partial results if applicable
+            self.log.error(
+                "Failed during plugin loading phase.",
+                error_message=str(e_loader),
+                directory_path=plugins_directory_path,
+                exc_info=True,
+            )
+            return registration_results  # Return any partial results if applicable
 
     @lukhas_tier_required(2)
     async def unload_plugin_module(self, plugin_name: str) -> bool:
@@ -355,33 +489,49 @@ class IntegrationBridge:
         adapter_to_unload = self.plugin_adapters.get(plugin_name)
 
         if not adapter_to_unload:
-            self.log.warning(f"Plugin '{plugin_name}' not found in active adapters. Cannot unload.", target_plugin_name=plugin_name)
+            self.log.warning(
+                f"Plugin '{plugin_name}' not found in active adapters. Cannot unload.",
+                target_plugin_name=plugin_name,
+            )
             return False
         try:
-            await adapter_to_unload.shutdown() # Gracefully shutdown the plugin first
+            await adapter_to_unload.shutdown()  # Gracefully shutdown the plugin first
 
-            unregistration_successful = await core_registry.unregister(module_registry_id)
+            unregistration_successful = await core_registry.unregister(
+                module_registry_id
+            )
             if unregistration_successful:
                 del self.plugin_adapters[plugin_name]
-                self.log.info(f"Plugin '{plugin_name}' (module '{module_registry_id}') unloaded and unregistered successfully.")
+                self.log.info(
+                    f"Plugin '{plugin_name}' (module '{module_registry_id}') unloaded and unregistered successfully."
+                )
                 return True
             else:
-                self.log.error(f"Failed to unregister module '{module_registry_id}' for plugin '{plugin_name}'. It might still be in adapters list if shutdown failed before unregister.", target_plugin_name=plugin_name)
-                # Consider if adapter should be removed from self.plugin_adapters even if unregister fails
+                self.log.error(
+                    f"Failed to unregister module '{module_registry_id}' for plugin '{plugin_name}'. It might still be in adapters list if shutdown failed before unregister.",
+                    target_plugin_name=plugin_name,
+                )
+                # Consider if adapter should be removed from self.plugin_adapters even
+                # if unregister fails
                 return False
         except Exception as e:
-            self.log.error(f"Failed to unload plugin '{plugin_name}'.", error_message=str(e), target_plugin_name=plugin_name, exc_info=True)
+            self.log.error(
+                f"Failed to unload plugin '{plugin_name}'.",
+                error_message=str(e),
+                target_plugin_name=plugin_name,
+                exc_info=True,
+            )
             return False
 
     @lukhas_tier_required(1)
-    async def get_plugin_module_status(self) -> Dict[str, Dict[str, Any]]:
+    async def get_plugin_module_status(self) -> dict[str, dict[str, Any]]:
         """
         Retrieves the status of all currently loaded and adapted plugin modules.
         Returns:
             A dictionary mapping plugin names to their status details.
         """
         self.log.debug("Fetching status for all plugin modules.")
-        statuses: Dict[str, Dict[str, Any]] = {}
+        statuses: dict[str, dict[str, Any]] = {}
         for plugin_name, adapter in self.plugin_adapters.items():
             try:
                 health_details = await adapter.get_health_status()
@@ -391,22 +541,31 @@ class IntegrationBridge:
                         "name": adapter.manifest.name,
                         "version": adapter.manifest.version,
                         "description": adapter.manifest.description,
-                        "capabilities": adapter.manifest.capabilities
+                        "capabilities": adapter.manifest.capabilities,
                     },
-                    "is_adapter_marked_running": adapter.is_running, # From BaseLucasModule state
-                    "module_registry_id": f"plugin::{plugin_name}"
+                    "is_adapter_marked_running": adapter.is_running,  # From BaseLucasModule state
+                    "module_registry_id": f"plugin::{plugin_name}",
                 }
             except Exception as e:
-                self.log.error("Error getting status for plugin.", plugin_name=plugin_name, error_message=str(e), exc_info=True)
+                self.log.error(
+                    "Error getting status for plugin.",
+                    plugin_name=plugin_name,
+                    error_message=str(e),
+                    exc_info=True,
+                )
                 statuses[plugin_name] = {
                     "error_message": f"Failed to retrieve status: {str(e)}",
-                    "is_adapter_marked_running": adapter.is_running if adapter else "unknown",
-                     "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                    "is_adapter_marked_running": (
+                        adapter.is_running if adapter else "unknown"
+                    ),
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
         return statuses
 
     @lukhas_tier_required(1)
-    async def send_to_plugin(self, plugin_name: str, method_name: str, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+    async def send_to_plugin(
+        self, plugin_name: str, method_name: str, *args: Any, **kwargs: Any
+    ) -> dict[str, Any]:
         """
         Sends a method call to a specific, named plugin.
         Args:
@@ -417,11 +576,24 @@ class IntegrationBridge:
         Returns:
             A dictionary with the status and result of the method call.
         """
-        self.log.debug(f"Sending method '{method_name}' to plugin '{plugin_name}'.", target_plugin=plugin_name, method=method_name, args_count=len(args), kwargs_keys=list(kwargs.keys()))
+        self.log.debug(
+            f"Sending method '{method_name}' to plugin '{plugin_name}'.",
+            target_plugin=plugin_name,
+            method=method_name,
+            args_count=len(args),
+            kwargs_keys=list(kwargs.keys()),
+        )
         adapter = self.plugin_adapters.get(plugin_name)
         if not adapter:
-            self.log.warning("Target plugin for send_to_plugin not found.", target_plugin_name=plugin_name, method_to_call=method_name)
-            return {"status": "error", "error_message": f"Plugin '{plugin_name}' not found or not loaded."}
+            self.log.warning(
+                "Target plugin for send_to_plugin not found.",
+                target_plugin_name=plugin_name,
+                method_to_call=method_name,
+            )
+            return {
+                "status": "error",
+                "error_message": f"Plugin '{plugin_name}' not found or not loaded.",
+            }
 
         try:
             plugin_instance = adapter.plugin
@@ -432,17 +604,45 @@ class IntegrationBridge:
                 else:
                     result_payload = method_to_execute(*args, **kwargs)
 
-                self.log.debug(f"Successfully called method '{method_name}' on plugin '{plugin_name}'.", target_plugin=plugin_name, method=method_name)
-                return {"status": "success", "result_payload": result_payload, "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()}
+                self.log.debug(
+                    f"Successfully called method '{method_name}' on plugin '{plugin_name}'.",
+                    target_plugin=plugin_name,
+                    method=method_name,
+                )
+                return {
+                    "status": "success",
+                    "result_payload": result_payload,
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
+                }
             else:
-                self.log.warning(f"Method '{method_name}' not found on plugin '{plugin_name}'.", target_plugin=plugin_name, method_name=method_name)
-                return {"status": "error", "error_message": f"Plugin '{plugin_name}' does not have method '{method_name}'.", "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()}
+                self.log.warning(
+                    f"Method '{method_name}' not found on plugin '{plugin_name}'.",
+                    target_plugin=plugin_name,
+                    method_name=method_name,
+                )
+                return {
+                    "status": "error",
+                    "error_message": f"Plugin '{plugin_name}' does not have method '{method_name}'.",
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
+                }
         except Exception as e:
-            self.log.error(f"Error calling method '{method_name}' on plugin '{plugin_name}'.", target_plugin=plugin_name, method_name=method_name, error_message=str(e), exc_info=True)
-            return {"status": "error", "error_message": str(e), "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()}
+            self.log.error(
+                f"Error calling method '{method_name}' on plugin '{plugin_name}'.",
+                target_plugin=plugin_name,
+                method_name=method_name,
+                error_message=str(e),
+                exc_info=True,
+            )
+            return {
+                "status": "error",
+                "error_message": str(e),
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
+            }
 
     @lukhas_tier_required(1)
-    async def broadcast_to_plugins(self, method_name: str, *args: Any, **kwargs: Any) -> Dict[str, Dict[str, Any]]:
+    async def broadcast_to_plugins(
+        self, method_name: str, *args: Any, **kwargs: Any
+    ) -> dict[str, dict[str, Any]]:
         """
         Broadcasts a method call to all currently loaded plugins.
         Args:
@@ -452,14 +652,22 @@ class IntegrationBridge:
         Returns:
             A dictionary mapping plugin names to their respective method call results.
         """
-        self.log.info(f"Broadcasting method '{method_name}' to all plugins.", method_to_broadcast=method_name, num_adapters=len(self.plugin_adapters))
-        broadcast_results: Dict[str, Dict[str, Any]] = {}
-        for plugin_name_key in list(self.plugin_adapters.keys()): # Iterate over a copy of keys if modification during iteration is possible
-            broadcast_results[plugin_name_key] = await self.send_to_plugin(plugin_name_key, method_name, *args, **kwargs)
+        self.log.info(
+            f"Broadcasting method '{method_name}' to all plugins.",
+            method_to_broadcast=method_name,
+            num_adapters=len(self.plugin_adapters),
+        )
+        broadcast_results: dict[str, dict[str, Any]] = {}
+        for plugin_name_key in list(
+            self.plugin_adapters.keys()
+        ):  # Iterate over a copy of keys if modification during iteration is possible
+            broadcast_results[plugin_name_key] = await self.send_to_plugin(
+                plugin_name_key, method_name, *args, **kwargs
+            )
         return broadcast_results
 
     @lukhas_tier_required(1)
-    async def get_plugins_by_capability(self, capability_name: str) -> List[str]:
+    async def get_plugins_by_capability(self, capability_name: str) -> list[str]:
         """
         Retrieves a list of plugin names that declare a specific capability in their manifest.
         Args:
@@ -468,15 +676,20 @@ class IntegrationBridge:
             A list of plugin names possessing the specified capability.
         """
         self.log.debug(f"Searching for plugins with capability: {capability_name}")
-        plugins_with_capability: List[str] = []
+        plugins_with_capability: list[str] = []
         for p_name, p_adapter in self.plugin_adapters.items():
             if capability_name in p_adapter.manifest.capabilities:
                 plugins_with_capability.append(p_name)
-        self.log.debug(f"Found {len(plugins_with_capability)} plugins with capability '{capability_name}'.", found_plugins=plugins_with_capability)
+        self.log.debug(
+            f"Found {len(plugins_with_capability)} plugins with capability '{capability_name}'.",
+            found_plugins=plugins_with_capability,
+        )
         return plugins_with_capability
 
     @lukhas_tier_required(1)
-    async def route_to_capable_plugin(self, capability_name: str, method_name: str, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+    async def route_to_capable_plugin(
+        self, capability_name: str, method_name: str, *args: Any, **kwargs: Any
+    ) -> dict[str, Any]:
         """
         Routes a request to the first available plugin that possesses the required capability
         and then calls the specified method on it.
@@ -488,31 +701,52 @@ class IntegrationBridge:
         Returns:
             A dictionary with the status, result, and details of the routed call.
         """
-        self.log.debug(f"Routing request for capability '{capability_name}' to method '{method_name}'.", capability=capability_name, method=method_name)
+        self.log.debug(
+            f"Routing request for capability '{capability_name}' to method '{method_name}'.",
+            capability=capability_name,
+            method=method_name,
+        )
         capable_plugin_names = await self.get_plugins_by_capability(capability_name)
 
         if not capable_plugin_names:
-            self.log.warning(f"No plugins found with capability '{capability_name}' for routing.", target_capability=capability_name)
-            return {"status": "error", "error_message": f"No plugins found with capability '{capability_name}'.", "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()}
+            self.log.warning(
+                f"No plugins found with capability '{capability_name}' for routing.",
+                target_capability=capability_name,
+            )
+            return {
+                "status": "error",
+                "error_message": f"No plugins found with capability '{capability_name}'.",
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
+            }
 
         # Simple strategy: try the first capable plugin found.
-        # More complex strategies (e.g., round-robin, load-based) could be implemented here.
+        # More complex strategies (e.g., round-robin, load-based) could be
+        # implemented here.
         selected_plugin_name = capable_plugin_names[0]
-        self.log.info(f"Routing to plugin '{selected_plugin_name}' for capability '{capability_name}'.", selected_plugin=selected_plugin_name, capability=capability_name)
+        self.log.info(
+            f"Routing to plugin '{selected_plugin_name}' for capability '{capability_name}'.",
+            selected_plugin=selected_plugin_name,
+            capability=capability_name,
+        )
 
-        call_result = await self.send_to_plugin(selected_plugin_name, method_name, *args, **kwargs)
+        call_result = await self.send_to_plugin(
+            selected_plugin_name, method_name, *args, **kwargs
+        )
 
         # Enhance the result with routing information
         call_result["routed_to_plugin"] = selected_plugin_name
         call_result["requested_capability"] = capability_name
         return call_result
 
+
 # Global integration bridge instance
 # ΛNOTE: Global instances can sometimes complicate testing and dependency management.
 #        Consider if this should be managed/accessed via a central service locator
 #        or dependency injection in a larger application context.
 integration_bridge = IntegrationBridge()
-log.info("Global IntegrationBridge instance created and available as 'integration_bridge'.")
+log.info(
+    "Global IntegrationBridge instance created and available as 'integration_bridge'."
+)
 
 # --- LUKHΛS AI Standard Footer ---
 # File Origin: LUKHΛS Integration Framework - Core Components

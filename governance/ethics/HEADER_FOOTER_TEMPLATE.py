@@ -23,8 +23,8 @@
 """
 
 # Module imports
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)

@@ -5,9 +5,8 @@ Test suite runner for LUKHAS AGI.
 This script provides convenient test execution with various options.
 """
 
-import sys
 import subprocess
-from pathlib import Path
+import sys
 
 
 def run_tests(args=None):
@@ -18,11 +17,7 @@ def run_tests(args=None):
     base_cmd = [sys.executable, "-m", "pytest"]
 
     # Add default arguments
-    default_args = [
-        "-v",
-        "--tb=short",
-        "--strict-markers"
-    ]
+    default_args = ["-v", "--tb=short", "--strict-markers"]
 
     cmd = base_cmd + default_args + args
 
@@ -38,8 +33,12 @@ def main():
     parser.add_argument("--quick", action="store_true", help="Run quick tests only")
     parser.add_argument("--memory", action="store_true", help="Run memory tests only")
     parser.add_argument("--fold", action="store_true", help="Run fold tests only")
-    parser.add_argument("--integration", action="store_true", help="Run integration tests only")
-    parser.add_argument("--coverage", action="store_true", help="Run with coverage report")
+    parser.add_argument(
+        "--integration", action="store_true", help="Run integration tests only"
+    )
+    parser.add_argument(
+        "--coverage", action="store_true", help="Run with coverage report"
+    )
     parser.add_argument("--parallel", action="store_true", help="Run tests in parallel")
     parser.add_argument("args", nargs="*", help="Additional pytest arguments")
 

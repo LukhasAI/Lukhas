@@ -17,50 +17,57 @@ This demo serves as the ultimate validation and showcase of the
 LUKHΛS QRG system's readiness for production deployment.
 """
 
-import sys
-import os
 import time
-import threading
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List
 
 # Import core QRG system components
 try:
-    from qrg_integration import QRGIntegrator
     from qrg_generators import (
-        QuantumQRInfluencer,
-        SteganographicGlyphGenerator,
         ConsciousnessQRGGenerator,
         CulturalQRGGenerator,
-        SecurityQRGGenerator
+        QuantumQRInfluencer,
+        SecurityQRGGenerator,
+        SteganographicGlyphGenerator,
     )
+    from qrg_integration import QRGIntegrator
+
     MOCK_MODE = False
 except ImportError:
     print("⚠️ Core modules not available, using mock implementations")
     MOCK_MODE = True
 
     # Mock implementations for demo purposes
-    import random
     import hashlib
+    import random
 
     class MockQRGResult:
         def __init__(self, user_id, security_level):
-            self.qr_pattern = f"MOCK_QR_PATTERN_{hashlib.md5(user_id.encode()).hexdigest()[:16]}"
+            self.qr_pattern = (
+                f"MOCK_QR_PATTERN_{hashlib.md5(user_id.encode()).hexdigest()[:16]}"
+            )
             self.consciousness_resonance = random.uniform(0.3, 0.95)
             self.security_level = security_level
             self.cultural_adaptation = random.uniform(0.4, 0.9)
-            self.pattern_style = random.choice(["geometric", "organic", "symbolic", "minimal"])
-            self.security_strength = {"basic": 0.3, "protected": 0.6, "secret": 0.85, "cosmic": 0.95}.get(security_level, 0.5)
+            self.pattern_style = random.choice(
+                ["geometric", "organic", "symbolic", "minimal"]
+            )
+            self.security_strength = {
+                "basic": 0.3,
+                "protected": 0.6,
+                "secret": 0.85,
+                "cosmic": 0.95,
+            }.get(security_level, 0.5)
             self.encryption_level = f"{security_level}_encryption"
 
     class MockQRGContext:
         def __init__(self, user_id, security_level):
             self.user_id = user_id
             self.security_level = security_level
-            self.consciousness_data = {'awareness_level': random.uniform(0.2, 0.9)}
-            self.cultural_profile = {'region': 'universal'}
-            self.integration_context = 'demo'
+            self.consciousness_data = {"awareness_level": random.uniform(0.2, 0.9)}
+            self.cultural_profile = {"region": "universal"}
+            self.integration_context = "demo"
 
     class MockQuantumInfluence:
         def __init__(self, security_level):
@@ -76,10 +83,17 @@ except ImportError:
                 "cultural_motifs": ["🦅", "⭐", "🔮", "🌿"],
                 "natural_forms": ["🌙", "⚡", "🌻", "🍀"],
                 "mathematical_forms": ["ψ", "φ", "π", "∫"],
-                "consciousness_mandalas": ["🔯", "☸", "💎", "🌟"]
+                "consciousness_mandalas": ["🔯", "☸", "💎", "🌟"],
             }
             self.base_glyph = random.choice(glyphs_by_style.get(style, ["🔮"]))
-            self.embedding_method = random.choice(["LSB_substitution", "transform_domain", "phase_encoding", "quantum_superposition"])
+            self.embedding_method = random.choice(
+                [
+                    "LSB_substitution",
+                    "transform_domain",
+                    "phase_encoding",
+                    "quantum_superposition",
+                ]
+            )
             self.detection_difficulty = random.uniform(0.4, 0.99)
 
     class QRGIntegrator:
@@ -106,14 +120,17 @@ except ImportError:
         def hide_qr_in_glyph(self, qr_data, glyph_style, cultural_context):
             return MockGlyphResult(glyph_style)
 
+
 @dataclass
 class DemoResult:
     """Result of a demo test"""
+
     test_name: str
     passed: bool
     execution_time: float
     details: Dict[str, Any]
     errors: List[str] = None
+
 
 class LUKHASQRGFinalDemo:
     """
@@ -174,7 +191,7 @@ class LUKHASQRGFinalDemo:
             test_users = [
                 ("alice_basic", "protected"),
                 ("bob_standard", "protected"),
-                ("charlie_secure", "secret")
+                ("charlie_secure", "secret"),
             ]
 
             generated_qrgs = []
@@ -183,30 +200,38 @@ class LUKHASQRGFinalDemo:
                 print(f"🧠 Generating QRG for {user_id} (security: {security_level})")
 
                 context = self.integrator.create_qrg_context(
-                    user_id=user_id,
-                    security_level=security_level
+                    user_id=user_id, security_level=security_level
                 )
 
                 qrg_result = self.integrator.generate_consciousness_qrg(context)
                 generated_qrgs.append(qrg_result)
 
                 print(f"   ✅ Generated: {qrg_result.qr_pattern[:20]}...")
-                print(f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}")
+                print(
+                    f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}"
+                )
                 print(f"   🔐 Security level: {qrg_result.security_level}")
                 print()
 
             execution_time = time.time() - start_time
 
-            self.results.append(DemoResult(
-                test_name="Basic QRG Generation",
-                passed=len(generated_qrgs) == len(test_users),
-                execution_time=execution_time,
-                details={
-                    "qrgs_generated": len(generated_qrgs),
-                    "average_consciousness": sum(q.consciousness_resonance for q in generated_qrgs) / len(generated_qrgs),
-                    "security_levels_tested": len(set(security for _, security in test_users))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Basic QRG Generation",
+                    passed=len(generated_qrgs) == len(test_users),
+                    execution_time=execution_time,
+                    details={
+                        "qrgs_generated": len(generated_qrgs),
+                        "average_consciousness": sum(
+                            q.consciousness_resonance for q in generated_qrgs
+                        )
+                        / len(generated_qrgs),
+                        "security_levels_tested": len(
+                            set(security for _, security in test_users)
+                        ),
+                    },
+                )
+            )
 
             print(f"✅ Basic generation demo completed in {execution_time:.2f}s")
 
@@ -214,13 +239,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Basic generation demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Basic QRG Generation",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Basic QRG Generation",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -239,15 +266,14 @@ class LUKHASQRGFinalDemo:
                 print(f"🧠 Testing consciousness level: {level}")
 
                 context = self.integrator.create_qrg_context(
-                    user_id=f"consciousness_test_{level}",
-                    security_level="protected"
+                    user_id=f"consciousness_test_{level}", security_level="protected"
                 )
 
                 # Manually set consciousness level for testing
                 context.consciousness_data = {
-                    'awareness_level': level,
-                    'cognitive_load': 0.3,
-                    'attention_focus': ['learning']
+                    "awareness_level": level,
+                    "cognitive_load": 0.3,
+                    "attention_focus": ["learning"],
                 }
 
                 qrg_result = self.integrator.generate_consciousness_qrg(context)
@@ -260,33 +286,43 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
 
             # Validate that higher consciousness levels produce different patterns
-            resonances = [result[1].consciousness_resonance for result in adaptation_results]
-            adaptation_quality = len(set(resonances)) / len(resonances)  # Diversity metric
+            resonances = [
+                result[1].consciousness_resonance for result in adaptation_results
+            ]
+            adaptation_quality = len(set(resonances)) / len(
+                resonances
+            )  # Diversity metric
 
-            self.results.append(DemoResult(
-                test_name="Consciousness Adaptation",
-                passed=adaptation_quality > 0.5,  # At least 50% unique values
-                execution_time=execution_time,
-                details={
-                    "consciousness_levels_tested": len(consciousness_levels),
-                    "adaptation_quality": adaptation_quality,
-                    "resonance_range": (min(resonances), max(resonances))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Consciousness Adaptation",
+                    passed=adaptation_quality > 0.5,  # At least 50% unique values
+                    execution_time=execution_time,
+                    details={
+                        "consciousness_levels_tested": len(consciousness_levels),
+                        "adaptation_quality": adaptation_quality,
+                        "resonance_range": (min(resonances), max(resonances)),
+                    },
+                )
+            )
 
-            print(f"✅ Consciousness adaptation demo completed in {execution_time:.2f}s")
+            print(
+                f"✅ Consciousness adaptation demo completed in {execution_time:.2f}s"
+            )
 
         except Exception as e:
             execution_time = time.time() - start_time
             print(f"❌ Consciousness adaptation demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Consciousness Adaptation",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Consciousness Adaptation",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -299,8 +335,12 @@ class LUKHASQRGFinalDemo:
 
         try:
             cultural_contexts = [
-                "western", "east_asian", "middle_eastern",
-                "indigenous", "african", "universal"
+                "western",
+                "east_asian",
+                "middle_eastern",
+                "indigenous",
+                "african",
+                "universal",
             ]
 
             cultural_results = []
@@ -309,24 +349,25 @@ class LUKHASQRGFinalDemo:
                 print(f"🌍 Testing cultural context: {culture}")
 
                 context = self.integrator.create_qrg_context(
-                    user_id=f"cultural_test_{culture}",
-                    security_level="protected"
+                    user_id=f"cultural_test_{culture}", security_level="protected"
                 )
 
                 # Set cultural profile
                 context.cultural_profile = {
-                    'region': culture,
-                    'preferences': {
-                        'visual_complexity': 'moderate',
-                        'symbol_familiarity': 'high',
-                        'color_preferences': ['blue', 'green']
-                    }
+                    "region": culture,
+                    "preferences": {
+                        "visual_complexity": "moderate",
+                        "symbol_familiarity": "high",
+                        "color_preferences": ["blue", "green"],
+                    },
                 }
 
                 qrg_result = self.integrator.generate_cultural_qrg(context)
                 cultural_results.append((culture, qrg_result))
 
-                print(f"   🎨 Cultural adaptation: {qrg_result.cultural_adaptation:.3f}")
+                print(
+                    f"   🎨 Cultural adaptation: {qrg_result.cultural_adaptation:.3f}"
+                )
                 print(f"   🎭 Pattern style: {qrg_result.pattern_style}")
                 print()
 
@@ -336,16 +377,18 @@ class LUKHASQRGFinalDemo:
             adaptations = [result[1].cultural_adaptation for result in cultural_results]
             cultural_diversity = len(set(adaptations)) / len(adaptations)
 
-            self.results.append(DemoResult(
-                test_name="Cultural Sensitivity",
-                passed=cultural_diversity > 0.4,  # Good cultural variation
-                execution_time=execution_time,
-                details={
-                    "cultures_tested": len(cultural_contexts),
-                    "cultural_diversity": cultural_diversity,
-                    "adaptation_range": (min(adaptations), max(adaptations))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Cultural Sensitivity",
+                    passed=cultural_diversity > 0.4,  # Good cultural variation
+                    execution_time=execution_time,
+                    details={
+                        "cultures_tested": len(cultural_contexts),
+                        "cultural_diversity": cultural_diversity,
+                        "adaptation_range": (min(adaptations), max(adaptations)),
+                    },
+                )
+            )
 
             print(f"✅ Cultural sensitivity demo completed in {execution_time:.2f}s")
 
@@ -353,13 +396,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Cultural sensitivity demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Cultural Sensitivity",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Cultural Sensitivity",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -378,8 +423,7 @@ class LUKHASQRGFinalDemo:
                 print(f"🔐 Testing security level: {level}")
 
                 context = self.integrator.create_qrg_context(
-                    user_id=f"security_test_{level}",
-                    security_level=level
+                    user_id=f"security_test_{level}", security_level=level
                 )
 
                 qrg_result = self.integrator.generate_security_qrg(context)
@@ -393,18 +437,22 @@ class LUKHASQRGFinalDemo:
 
             # Validate security escalation
             strengths = [result[1].security_strength for result in security_results]
-            proper_escalation = all(strengths[i] <= strengths[i+1] for i in range(len(strengths)-1))
+            proper_escalation = all(
+                strengths[i] <= strengths[i + 1] for i in range(len(strengths) - 1)
+            )
 
-            self.results.append(DemoResult(
-                test_name="Security Level Testing",
-                passed=proper_escalation,
-                execution_time=execution_time,
-                details={
-                    "security_levels_tested": len(security_levels),
-                    "proper_escalation": proper_escalation,
-                    "strength_range": (min(strengths), max(strengths))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Security Level Testing",
+                    passed=proper_escalation,
+                    execution_time=execution_time,
+                    details={
+                        "security_levels_tested": len(security_levels),
+                        "proper_escalation": proper_escalation,
+                        "strength_range": (min(strengths), max(strengths)),
+                    },
+                )
+            )
 
             print(f"✅ Security level demo completed in {execution_time:.2f}s")
 
@@ -412,13 +460,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Security level demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Security Level Testing",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Security Level Testing",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -433,7 +483,7 @@ class LUKHASQRGFinalDemo:
             quantum_configs = [
                 {"security_level": "protected", "entropy_bits": 256},
                 {"security_level": "secret", "entropy_bits": 512},
-                {"security_level": "cosmic", "entropy_bits": 1024}
+                {"security_level": "cosmic", "entropy_bits": 1024},
             ]
 
             quantum_results = []
@@ -444,13 +494,17 @@ class LUKHASQRGFinalDemo:
                 # Generate quantum-influenced QR pattern
                 influence_result = self.quantum_influencer.influence_qr_pattern(
                     qr_pattern="sample_pattern_for_quantum_test",
-                    security_level=config["security_level"]
+                    security_level=config["security_level"],
                 )
 
                 quantum_results.append(influence_result)
 
-                print(f"   🌊 Quantum coherence: {influence_result.quantum_coherence:.3f}")
-                print(f"   🔐 Security enhancement: {influence_result.security_enhancement:.1%}")
+                print(
+                    f"   🌊 Quantum coherence: {influence_result.quantum_coherence:.3f}"
+                )
+                print(
+                    f"   🔐 Security enhancement: {influence_result.security_enhancement:.1%}"
+                )
                 print(f"   ⚛️ Entanglement pairs: {influence_result.entanglement_pairs}")
                 print()
 
@@ -460,16 +514,18 @@ class LUKHASQRGFinalDemo:
             enhancements = [result.security_enhancement for result in quantum_results]
             avg_enhancement = sum(enhancements) / len(enhancements)
 
-            self.results.append(DemoResult(
-                test_name="Quantum Cryptography",
-                passed=avg_enhancement > 0.8,  # 80%+ enhancement
-                execution_time=execution_time,
-                details={
-                    "quantum_configs_tested": len(quantum_configs),
-                    "average_enhancement": avg_enhancement,
-                    "enhancement_range": (min(enhancements), max(enhancements))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Quantum Cryptography",
+                    passed=avg_enhancement > 0.8,  # 80%+ enhancement
+                    execution_time=execution_time,
+                    details={
+                        "quantum_configs_tested": len(quantum_configs),
+                        "average_enhancement": avg_enhancement,
+                        "enhancement_range": (min(enhancements), max(enhancements)),
+                    },
+                )
+            )
 
             print(f"✅ Quantum cryptography demo completed in {execution_time:.2f}s")
 
@@ -477,13 +533,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Quantum cryptography demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Quantum Cryptography",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Quantum Cryptography",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -496,8 +554,12 @@ class LUKHASQRGFinalDemo:
 
         try:
             glyph_styles = [
-                "ancient_symbols", "geometric_patterns", "cultural_motifs",
-                "natural_forms", "mathematical_forms", "consciousness_mandalas"
+                "ancient_symbols",
+                "geometric_patterns",
+                "cultural_motifs",
+                "natural_forms",
+                "mathematical_forms",
+                "consciousness_mandalas",
             ]
 
             glyph_results = []
@@ -509,14 +571,16 @@ class LUKHASQRGFinalDemo:
                 hidden_result = self.glyph_generator.hide_qr_in_glyph(
                     qr_data="test_qr_data_for_hiding",
                     glyph_style=style,
-                    cultural_context="universal"
+                    cultural_context="universal",
                 )
 
                 glyph_results.append(hidden_result)
 
                 print(f"   🎨 Base glyph: {hidden_result.base_glyph}")
                 print(f"   🔧 Embedding method: {hidden_result.embedding_method}")
-                print(f"   🔍 Detection difficulty: {hidden_result.detection_difficulty:.3f}")
+                print(
+                    f"   🔍 Detection difficulty: {hidden_result.detection_difficulty:.3f}"
+                )
                 print()
 
             execution_time = time.time() - start_time
@@ -525,16 +589,18 @@ class LUKHASQRGFinalDemo:
             difficulties = [result.detection_difficulty for result in glyph_results]
             avg_difficulty = sum(difficulties) / len(difficulties)
 
-            self.results.append(DemoResult(
-                test_name="Steganographic Glyphs",
-                passed=avg_difficulty > 0.7,  # 70%+ detection difficulty
-                execution_time=execution_time,
-                details={
-                    "glyph_styles_tested": len(glyph_styles),
-                    "average_detection_difficulty": avg_difficulty,
-                    "difficulty_range": (min(difficulties), max(difficulties))
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Steganographic Glyphs",
+                    passed=avg_difficulty > 0.7,  # 70%+ detection difficulty
+                    execution_time=execution_time,
+                    details={
+                        "glyph_styles_tested": len(glyph_styles),
+                        "average_detection_difficulty": avg_difficulty,
+                        "difficulty_range": (min(difficulties), max(difficulties)),
+                    },
+                )
+            )
 
             print(f"✅ Steganographic glyphs demo completed in {execution_time:.2f}s")
 
@@ -542,13 +608,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Steganographic glyphs demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Steganographic Glyphs",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Steganographic Glyphs",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -567,8 +635,7 @@ class LUKHASQRGFinalDemo:
             single_thread_results = []
             for i in range(20):  # Generate 20 QRGs sequentially
                 context = self.integrator.create_qrg_context(
-                    user_id=f"perf_test_{i}",
-                    security_level="protected"
+                    user_id=f"perf_test_{i}", security_level="protected"
                 )
                 qrg_result = self.integrator.generate_consciousness_qrg(context)
                 single_thread_results.append(qrg_result)
@@ -576,7 +643,9 @@ class LUKHASQRGFinalDemo:
             single_duration = time.time() - single_start
             single_qps = len(single_thread_results) / single_duration
 
-            print(f"   ⚡ Generated {len(single_thread_results)} QRGs in {single_duration:.2f}s")
+            print(
+                f"   ⚡ Generated {len(single_thread_results)} QRGs in {single_duration:.2f}s"
+            )
             print(f"   📈 Single-thread QPS: {single_qps:.1f}")
             print()
 
@@ -586,8 +655,7 @@ class LUKHASQRGFinalDemo:
 
             def generate_qrg(i):
                 context = self.integrator.create_qrg_context(
-                    user_id=f"multi_perf_test_{i}",
-                    security_level="protected"
+                    user_id=f"multi_perf_test_{i}", security_level="protected"
                 )
                 return self.integrator.generate_consciousness_qrg(context)
 
@@ -597,24 +665,30 @@ class LUKHASQRGFinalDemo:
             multi_duration = time.time() - multi_start
             multi_qps = len(multi_thread_results) / multi_duration
 
-            print(f"   ⚡ Generated {len(multi_thread_results)} QRGs in {multi_duration:.2f}s")
+            print(
+                f"   ⚡ Generated {len(multi_thread_results)} QRGs in {multi_duration:.2f}s"
+            )
             print(f"   📈 Multi-thread QPS: {multi_qps:.1f}")
             print(f"   🚀 Speedup: {multi_qps/single_qps:.1f}x")
             print()
 
             execution_time = time.time() - start_time
 
-            self.results.append(DemoResult(
-                test_name="Performance Testing",
-                passed=single_qps > 5 and multi_qps > single_qps,  # Reasonable performance
-                execution_time=execution_time,
-                details={
-                    "single_thread_qps": single_qps,
-                    "multi_thread_qps": multi_qps,
-                    "speedup_factor": multi_qps / single_qps,
-                    "total_qrgs_generated": len(single_thread_results) + len(multi_thread_results)
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Performance Testing",
+                    passed=single_qps > 5
+                    and multi_qps > single_qps,  # Reasonable performance
+                    execution_time=execution_time,
+                    details={
+                        "single_thread_qps": single_qps,
+                        "multi_thread_qps": multi_qps,
+                        "speedup_factor": multi_qps / single_qps,
+                        "total_qrgs_generated": len(single_thread_results)
+                        + len(multi_thread_results),
+                    },
+                )
+            )
 
             print(f"✅ Performance testing demo completed in {execution_time:.2f}s")
 
@@ -622,13 +696,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Performance testing demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Performance Testing",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Performance Testing",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -646,29 +722,41 @@ class LUKHASQRGFinalDemo:
                     "user_id": "mobile_user_123",
                     "security_level": "protected",
                     "context": "mobile_app",
-                    "cultural_profile": {"region": "universal", "preferences": {"complexity": "low"}}
+                    "cultural_profile": {
+                        "region": "universal",
+                        "preferences": {"complexity": "low"},
+                    },
                 },
                 {
                     "name": "Enterprise Security",
                     "user_id": "enterprise_admin",
                     "security_level": "secret",
                     "context": "enterprise_system",
-                    "cultural_profile": {"region": "western", "preferences": {"complexity": "high"}}
+                    "cultural_profile": {
+                        "region": "western",
+                        "preferences": {"complexity": "high"},
+                    },
                 },
                 {
                     "name": "IoT Device Access",
                     "user_id": "iot_device_001",
                     "security_level": "protected",
                     "context": "iot_network",
-                    "cultural_profile": {"region": "global", "preferences": {"complexity": "minimal"}}
+                    "cultural_profile": {
+                        "region": "global",
+                        "preferences": {"complexity": "minimal"},
+                    },
                 },
                 {
                     "name": "Research Platform",
                     "user_id": "researcher_jane",
                     "security_level": "cosmic",
                     "context": "research_platform",
-                    "cultural_profile": {"region": "academic", "preferences": {"complexity": "maximal"}}
-                }
+                    "cultural_profile": {
+                        "region": "academic",
+                        "preferences": {"complexity": "maximal"},
+                    },
+                },
             ]
 
             integration_results = []
@@ -679,7 +767,7 @@ class LUKHASQRGFinalDemo:
                 # Create comprehensive context
                 context = self.integrator.create_qrg_context(
                     user_id=scenario["user_id"],
-                    security_level=scenario["security_level"]
+                    security_level=scenario["security_level"],
                 )
 
                 # Add scenario-specific context
@@ -690,10 +778,14 @@ class LUKHASQRGFinalDemo:
                 qrg_result = self.integrator.generate_adaptive_qrg(context)
                 integration_results.append((scenario["name"], qrg_result))
 
-                print(f"   ✅ QRG generated successfully")
+                print("   ✅ QRG generated successfully")
                 print(f"   🔐 Security level: {qrg_result.security_level}")
-                print(f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}")
-                print(f"   🌍 Cultural adaptation: {qrg_result.cultural_adaptation:.3f}")
+                print(
+                    f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}"
+                )
+                print(
+                    f"   🌍 Cultural adaptation: {qrg_result.cultural_adaptation:.3f}"
+                )
                 print()
 
             execution_time = time.time() - start_time
@@ -702,16 +794,18 @@ class LUKHASQRGFinalDemo:
             successful_integrations = len(integration_results)
             all_scenarios_passed = successful_integrations == len(scenarios)
 
-            self.results.append(DemoResult(
-                test_name="Integration Scenarios",
-                passed=all_scenarios_passed,
-                execution_time=execution_time,
-                details={
-                    "scenarios_tested": len(scenarios),
-                    "successful_integrations": successful_integrations,
-                    "success_rate": successful_integrations / len(scenarios)
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Integration Scenarios",
+                    passed=all_scenarios_passed,
+                    execution_time=execution_time,
+                    details={
+                        "scenarios_tested": len(scenarios),
+                        "successful_integrations": successful_integrations,
+                        "success_rate": successful_integrations / len(scenarios),
+                    },
+                )
+            )
 
             print(f"✅ Integration scenarios demo completed in {execution_time:.2f}s")
 
@@ -719,13 +813,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Integration scenarios demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Integration Scenarios",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Integration Scenarios",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -738,10 +834,22 @@ class LUKHASQRGFinalDemo:
 
         try:
             error_scenarios = [
-                {"name": "Invalid User ID", "user_id": "", "security_level": "protected"},
-                {"name": "Invalid Security Level", "user_id": "test_user", "security_level": "invalid_level"},
+                {
+                    "name": "Invalid User ID",
+                    "user_id": "",
+                    "security_level": "protected",
+                },
+                {
+                    "name": "Invalid Security Level",
+                    "user_id": "test_user",
+                    "security_level": "invalid_level",
+                },
                 {"name": "Null Inputs", "user_id": None, "security_level": None},
-                {"name": "Extreme Values", "user_id": "x" * 1000, "security_level": "cosmic"}
+                {
+                    "name": "Extreme Values",
+                    "user_id": "x" * 1000,
+                    "security_level": "cosmic",
+                },
             ]
 
             error_handling_results = []
@@ -752,22 +860,28 @@ class LUKHASQRGFinalDemo:
                 try:
                     context = self.integrator.create_qrg_context(
                         user_id=scenario["user_id"] or "fallback_user",
-                        security_level=scenario["security_level"] or "protected"
+                        security_level=scenario["security_level"] or "protected",
                     )
 
                     qrg_result = self.integrator.generate_consciousness_qrg(context)
 
                     # If we get here, the system handled the error gracefully
-                    error_handling_results.append((scenario["name"], True, "Graceful handling"))
-                    print(f"   ✅ Handled gracefully")
+                    error_handling_results.append(
+                        (scenario["name"], True, "Graceful handling")
+                    )
+                    print("   ✅ Handled gracefully")
 
                 except Exception as e:
                     # Check if this is expected error handling
                     if "fallback" in str(e).lower() or "validation" in str(e).lower():
-                        error_handling_results.append((scenario["name"], True, f"Expected error: {e}"))
+                        error_handling_results.append(
+                            (scenario["name"], True, f"Expected error: {e}")
+                        )
                         print(f"   ✅ Expected error handled: {e}")
                     else:
-                        error_handling_results.append((scenario["name"], False, f"Unexpected error: {e}"))
+                        error_handling_results.append(
+                            (scenario["name"], False, f"Unexpected error: {e}")
+                        )
                         print(f"   ❌ Unexpected error: {e}")
 
                 print()
@@ -775,19 +889,24 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
 
             # Validate error handling
-            successful_handling = sum(1 for _, success, _ in error_handling_results if success)
+            successful_handling = sum(
+                1 for _, success, _ in error_handling_results if success
+            )
             error_handling_rate = successful_handling / len(error_scenarios)
 
-            self.results.append(DemoResult(
-                test_name="Error Handling",
-                passed=error_handling_rate >= 0.75,  # 75%+ error scenarios handled well
-                execution_time=execution_time,
-                details={
-                    "error_scenarios_tested": len(error_scenarios),
-                    "successful_handling": successful_handling,
-                    "error_handling_rate": error_handling_rate
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Error Handling",
+                    passed=error_handling_rate
+                    >= 0.75,  # 75%+ error scenarios handled well
+                    execution_time=execution_time,
+                    details={
+                        "error_scenarios_tested": len(error_scenarios),
+                        "successful_handling": successful_handling,
+                        "error_handling_rate": error_handling_rate,
+                    },
+                )
+            )
 
             print(f"✅ Error handling demo completed in {execution_time:.2f}s")
 
@@ -795,13 +914,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Error handling demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Error Handling",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Error Handling",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -817,23 +938,23 @@ class LUKHASQRGFinalDemo:
                 {
                     "name": "Unicode User ID",
                     "user_id": "用户测试🧠⚛️",
-                    "security_level": "protected"
+                    "security_level": "protected",
                 },
                 {
                     "name": "Very Long User ID",
                     "user_id": "very_long_user_id_" + "x" * 200,
-                    "security_level": "protected"
+                    "security_level": "protected",
                 },
                 {
                     "name": "Special Characters",
                     "user_id": "user@domain.com!#$%",
-                    "security_level": "secret"
+                    "security_level": "secret",
                 },
                 {
                     "name": "Extreme Consciousness",
                     "user_id": "extreme_consciousness_test",
-                    "security_level": "cosmic"
-                }
+                    "security_level": "cosmic",
+                },
             ]
 
             edge_case_results = []
@@ -843,15 +964,16 @@ class LUKHASQRGFinalDemo:
 
                 try:
                     context = self.integrator.create_qrg_context(
-                        user_id=case["user_id"],
-                        security_level=case["security_level"]
+                        user_id=case["user_id"], security_level=case["security_level"]
                     )
 
                     qrg_result = self.integrator.generate_consciousness_qrg(context)
                     edge_case_results.append((case["name"], True, qrg_result))
 
-                    print(f"   ✅ Edge case handled successfully")
-                    print(f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}")
+                    print("   ✅ Edge case handled successfully")
+                    print(
+                        f"   🧠 Consciousness resonance: {qrg_result.consciousness_resonance:.3f}"
+                    )
 
                 except Exception as e:
                     edge_case_results.append((case["name"], False, str(e)))
@@ -862,19 +984,23 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
 
             # Validate edge case handling
-            successful_edge_cases = sum(1 for _, success, _ in edge_case_results if success)
+            successful_edge_cases = sum(
+                1 for _, success, _ in edge_case_results if success
+            )
             edge_case_success_rate = successful_edge_cases / len(edge_cases)
 
-            self.results.append(DemoResult(
-                test_name="Edge Cases",
-                passed=edge_case_success_rate >= 0.75,  # 75%+ edge cases handled
-                execution_time=execution_time,
-                details={
-                    "edge_cases_tested": len(edge_cases),
-                    "successful_cases": successful_edge_cases,
-                    "success_rate": edge_case_success_rate
-                }
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Edge Cases",
+                    passed=edge_case_success_rate >= 0.75,  # 75%+ edge cases handled
+                    execution_time=execution_time,
+                    details={
+                        "edge_cases_tested": len(edge_cases),
+                        "successful_cases": successful_edge_cases,
+                        "success_rate": edge_case_success_rate,
+                    },
+                )
+            )
 
             print(f"✅ Edge cases demo completed in {execution_time:.2f}s")
 
@@ -882,13 +1008,15 @@ class LUKHASQRGFinalDemo:
             execution_time = time.time() - start_time
             print(f"❌ Edge cases demo failed: {e}")
 
-            self.results.append(DemoResult(
-                test_name="Edge Cases",
-                passed=False,
-                execution_time=execution_time,
-                details={},
-                errors=[str(e)]
-            ))
+            self.results.append(
+                DemoResult(
+                    test_name="Edge Cases",
+                    passed=False,
+                    execution_time=execution_time,
+                    details={},
+                    errors=[str(e)],
+                )
+            )
 
         print()
 
@@ -905,7 +1033,7 @@ class LUKHASQRGFinalDemo:
         success_rate = (passed_tests / total_tests) * 100 if total_tests > 0 else 0
 
         # Overall summary
-        print(f"🎯 Overall Demo Results:")
+        print("🎯 Overall Demo Results:")
         print(f"   📊 Total tests: {total_tests}")
         print(f"   ✅ Passed: {passed_tests}")
         print(f"   ❌ Failed: {failed_tests}")
@@ -914,7 +1042,7 @@ class LUKHASQRGFinalDemo:
         print()
 
         # Detailed results
-        print(f"📋 Detailed Test Results:")
+        print("📋 Detailed Test Results:")
         print("-" * 40)
 
         for result in self.results:
@@ -936,7 +1064,7 @@ class LUKHASQRGFinalDemo:
             print()
 
         # Feature coverage summary
-        print(f"🎯 Feature Coverage Summary:")
+        print("🎯 Feature Coverage Summary:")
         print("-" * 40)
 
         feature_categories = {
@@ -948,7 +1076,7 @@ class LUKHASQRGFinalDemo:
             "⚡ Performance": ["Performance Testing"],
             "🔄 Integration": ["Integration Scenarios"],
             "🛡️ Error Handling": ["Error Handling"],
-            "🎪 Edge Cases": ["Edge Cases"]
+            "🎪 Edge Cases": ["Edge Cases"],
         }
 
         for category, test_names in feature_categories.items():
@@ -961,16 +1089,27 @@ class LUKHASQRGFinalDemo:
         print()
 
         # Production readiness assessment
-        print(f"🚀 Production Readiness Assessment:")
+        print("🚀 Production Readiness Assessment:")
         print("-" * 40)
 
         readiness_criteria = {
             "Core Features": success_rate >= 80,
-            "Performance": any(r.test_name == "Performance Testing" and r.passed for r in self.results),
-            "Security": any(r.test_name == "Security Level Testing" and r.passed for r in self.results),
-            "Error Handling": any(r.test_name == "Error Handling" and r.passed for r in self.results),
-            "Cultural Adaptation": any(r.test_name == "Cultural Sensitivity" and r.passed for r in self.results),
-            "Quantum Features": any(r.test_name == "Quantum Cryptography" and r.passed for r in self.results)
+            "Performance": any(
+                r.test_name == "Performance Testing" and r.passed for r in self.results
+            ),
+            "Security": any(
+                r.test_name == "Security Level Testing" and r.passed
+                for r in self.results
+            ),
+            "Error Handling": any(
+                r.test_name == "Error Handling" and r.passed for r in self.results
+            ),
+            "Cultural Adaptation": any(
+                r.test_name == "Cultural Sensitivity" and r.passed for r in self.results
+            ),
+            "Quantum Features": any(
+                r.test_name == "Quantum Cryptography" and r.passed for r in self.results
+            ),
         }
 
         readiness_score = sum(1 for criterion, met in readiness_criteria.items() if met)
@@ -981,7 +1120,9 @@ class LUKHASQRGFinalDemo:
             print(f"{status} {criterion}")
 
         print()
-        print(f"🎯 Production Readiness Score: {readiness_score}/{total_criteria} ({(readiness_score/total_criteria)*100:.1f}%)")
+        print(
+            f"🎯 Production Readiness Score: {readiness_score}/{total_criteria} ({(readiness_score/total_criteria)*100:.1f}%)"
+        )
 
         if readiness_score >= total_criteria * 0.8:  # 80%+ criteria met
             print("🚀 SYSTEM IS PRODUCTION READY!")
@@ -995,6 +1136,7 @@ class LUKHASQRGFinalDemo:
         print("🎯 LUKHΛS QRG Final Demo Complete")
         print("=" * 60)
 
+
 def main():
     """Main demonstration entry point"""
     print("🎯 LUKHΛS QRG Authentication System")
@@ -1004,6 +1146,7 @@ def main():
 
     demo = LUKHASQRGFinalDemo()
     demo.run_complete_demo()
+
 
 if __name__ == "__main__":
     main()

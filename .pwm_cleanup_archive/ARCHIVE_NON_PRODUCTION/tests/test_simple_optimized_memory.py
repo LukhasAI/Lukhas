@@ -3,23 +3,28 @@
 Simple test for OptimizedMemoryItem functionality.
 """
 
-import sys
 import os
-import numpy as np
+import sys
 from datetime import datetime, timezone
 
+import numpy as np
+
 # Add memory systems to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'memory', 'systems'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "memory", "systems"))
 
 # Import OptimizedMemoryItem
-from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
+from optimized_memory_item import create_optimized_memory
+
 
 def test_basic_functionality():
     """Test basic OptimizedMemoryItem functionality"""
     print("🧪 Testing OptimizedMemoryItem...")
 
     # Test data
-    content = "This is a test memory with some substantial content that will be compressed. " * 5
+    content = (
+        "This is a test memory with some substantial content that will be compressed. "
+        * 5
+    )
     tags = ["test", "optimization", "memory", "validation", "performance"]
     embedding = np.random.randn(1024).astype(np.float32)
     metadata = {
@@ -28,16 +33,13 @@ def test_basic_functionality():
         "access_count": 5,
         "emotion": "joy",
         "type": "knowledge",
-        "drift_score": 0.1
+        "drift_score": 0.1,
     }
 
     # Create optimized memory
     print("  Creating optimized memory...")
     optimized_memory = create_optimized_memory(
-        content=content,
-        tags=tags,
-        embedding=embedding,
-        metadata=metadata
+        content=content, tags=tags, embedding=embedding, metadata=metadata
     )
 
     print(f"  Memory size: {optimized_memory.memory_usage_kb:.1f} KB")
@@ -72,9 +74,12 @@ def test_basic_functionality():
         "content_preserved": recovered_content == content,
         "tags_preserved": recovered_tags == tags,
         "metadata_preserved": recovered_metadata is not None,
-        "embedding_similarity": embedding_similarity if recovered_embedding is not None else 0,
-        "integrity_valid": integrity_valid
+        "embedding_similarity": (
+            embedding_similarity if recovered_embedding is not None else 0
+        ),
+        "integrity_valid": integrity_valid,
     }
+
 
 def test_compression_ratios():
     """Test compression ratios with different content types"""
@@ -83,9 +88,12 @@ def test_compression_ratios():
     test_cases = [
         ("Short text", "Short memory content"),
         ("Medium text", "This is a medium-length memory content " * 10),
-        ("Long text", "This is a long memory content with lots of repetitive text " * 50),
+        (
+            "Long text",
+            "This is a long memory content with lots of repetitive text " * 50,
+        ),
         ("Code-like", "def function():\n    return 'test'\n" * 20),
-        ("Numbers", "1234567890 " * 100)
+        ("Numbers", "1234567890 " * 100),
     ]
 
     results = []
@@ -93,12 +101,12 @@ def test_compression_ratios():
     for name, content in test_cases:
         # Create standard memory representation size estimate
         legacy_size = (
-            len(content.encode('utf-8')) +  # Content
-            100 +  # Tags
-            4096 +  # Embedding (1024 float32)
-            200 +   # Metadata
-            500 +   # Python overhead
-            1000    # System overhead
+            len(content.encode("utf-8"))  # Content
+            + 100  # Tags
+            + 4096  # Embedding (1024 float32)
+            + 200  # Metadata
+            + 500  # Python overhead
+            + 1000  # System overhead
         )
 
         # Create optimized memory
@@ -106,25 +114,30 @@ def test_compression_ratios():
             content=content,
             tags=["test", "compression"],
             embedding=np.random.randn(1024).astype(np.float32),
-            metadata={"importance": 0.5}
+            metadata={"importance": 0.5},
         )
 
         optimized_size = optimized_memory.memory_usage
         compression_ratio = legacy_size / optimized_size
 
-        print(f"  {name:12}: {legacy_size/1024:6.1f}KB → {optimized_size/1024:6.1f}KB ({compression_ratio:4.1f}x)")
+        print(
+            f"  {name:12}: {legacy_size/1024:6.1f}KB → {optimized_size/1024:6.1f}KB ({compression_ratio:4.1f}x)"
+        )
 
-        results.append({
-            "name": name,
-            "legacy_size_kb": legacy_size / 1024,
-            "optimized_size_kb": optimized_size / 1024,
-            "compression_ratio": compression_ratio
-        })
+        results.append(
+            {
+                "name": name,
+                "legacy_size_kb": legacy_size / 1024,
+                "optimized_size_kb": optimized_size / 1024,
+                "compression_ratio": compression_ratio,
+            }
+        )
 
     avg_compression = np.mean([r["compression_ratio"] for r in results])
     print(f"  Average compression: {avg_compression:.1f}x")
 
     return results
+
 
 def main():
     """Run all tests"""
@@ -139,38 +152,46 @@ def main():
         compression_results = test_compression_ratios()
 
         # Summary
-        print(f"\n📊 TEST SUMMARY")
+        print("\n📊 TEST SUMMARY")
         print("=" * 50)
         print(f"✅ Memory size: {basic_results['memory_size_kb']:.1f}KB per memory")
-        print(f"✅ All data preserved: {all([basic_results['content_preserved'], basic_results['tags_preserved'], basic_results['metadata_preserved']])}")
+        print(
+            f"✅ All data preserved: {all([basic_results['content_preserved'], basic_results['tags_preserved'], basic_results['metadata_preserved']])}"
+        )
         print(f"✅ Embedding similarity: {basic_results['embedding_similarity']:.6f}")
-        print(f"✅ Average compression: {np.mean([r['compression_ratio'] for r in compression_results]):.1f}x")
+        print(
+            f"✅ Average compression: {np.mean([r['compression_ratio'] for r in compression_results]):.1f}x"
+        )
 
         # Success metrics
         success = (
-            basic_results['memory_size_kb'] < 50 and  # Under 50KB
-            basic_results['embedding_similarity'] > 0.99 and  # High quality
-            all([basic_results['content_preserved'], basic_results['tags_preserved']])  # Data integrity
+            basic_results["memory_size_kb"] < 50  # Under 50KB
+            and basic_results["embedding_similarity"] > 0.99  # High quality
+            and all(
+                [basic_results["content_preserved"], basic_results["tags_preserved"]]
+            )  # Data integrity
         )
 
         if success:
-            print(f"\n🎉 OPTIMIZATION SUCCESS!")
-            print(f"Memory usage reduced significantly while preserving quality!")
+            print("\n🎉 OPTIMIZATION SUCCESS!")
+            print("Memory usage reduced significantly while preserving quality!")
         else:
-            print(f"\n⚠️  Optimization needs improvement")
+            print("\n⚠️  Optimization needs improvement")
 
         return success
 
     except Exception as e:
         print(f"❌ Test failed: {str(e)}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 if __name__ == "__main__":
     success = main()
     if success:
-        print(f"\n✅ All tests completed successfully!")
+        print("\n✅ All tests completed successfully!")
     else:
-        print(f"\n❌ Tests failed!")
+        print("\n❌ Tests failed!")
         exit(1)

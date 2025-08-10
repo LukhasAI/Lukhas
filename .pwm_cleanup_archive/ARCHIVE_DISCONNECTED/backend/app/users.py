@@ -8,11 +8,11 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from fastapi import APIRouter, HTTPException
-from backend.database.models import User
 from backend.database.crud import get_user_by_slug
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
+
 
 @router.get("/users/{username_slug}")
 def get_user_profile(username_slug: str):
@@ -29,5 +29,5 @@ def get_user_profile(username_slug: str):
         "entity_type": user.entity_type,
         "tier": user.tier,
         "qrglyph_url": user.qrglyph_url,
-        "created_at": user.created_at
+        "created_at": user.created_at,
     }

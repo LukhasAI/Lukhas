@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Formal Symbolic Interface (FSI) for the Symbiotic Swarm
 Addresses Phase Δ, Step 1
 
@@ -15,23 +14,27 @@ across the LUKHΛS ecosystem.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Dict, Any
+from typing import Any
+
 
 @dataclass
 class SymbolicContract:
     """
     Defines a formal contract for a symbolic tag.
     """
+
     tag_name: str
     description: str
     version: str = "1.0"
 
     # Propagation rules
     max_propagation_depth: int = -1  # -1 for infinite
-    allowed_colonies: List[str] = field(default_factory=list) # Empty list means all colonies
+    allowed_colonies: list[str] = field(
+        default_factory=list
+    )  # Empty list means all colonies
 
     # Meaning and interpretation
-    schema: Dict[str, Any] = field(default_factory=dict)
+    schema: dict[str, Any] = field(default_factory=dict)
 
     # Lineage and provenance
     author: str = "LUKHΛS Core"
@@ -40,11 +43,12 @@ class SymbolicContract:
         """
         Checks if a tag can be propagated further.
         """
-        if self.max_propagation_depth != -1 and current_depth >= self.max_propagation_depth:
+        if (
+            self.max_propagation_depth != -1
+            and current_depth >= self.max_propagation_depth
+        ):
             return False
-        if self.allowed_colonies and colony_id not in self.allowed_colonies:
-            return False
-        return True
+        return not (self.allowed_colonies and colony_id not in self.allowed_colonies)
 
     def validate_payload(self, payload):
         """
@@ -57,12 +61,14 @@ class SymbolicContract:
                 return False
         return True
 
+
 class SymbolicContractRegistry:
     """
     A registry for all symbolic contracts in the system.
     """
+
     def __init__(self):
-        self._contracts: Dict[str, SymbolicContract] = {}
+        self._contracts: dict[str, SymbolicContract] = {}
 
     def register(self, contract: SymbolicContract):
         self._contracts[contract.tag_name] = contract
@@ -73,7 +79,12 @@ class SymbolicContractRegistry:
     def to_json(self) -> str:
         import json
         from dataclasses import asdict
-        return json.dumps({name: asdict(contract) for name, contract in self._contracts.items()}, indent=2)
+
+        return json.dumps(
+            {name: asdict(contract) for name, contract in self._contracts.items()},
+            indent=2,
+        )
+
 
 if __name__ == "__main__":
     # Example usage
@@ -82,7 +93,7 @@ if __name__ == "__main__":
         description="Represents the ethical drift score of an agent or colony.",
         schema={"score": float, "agent_id": str},
         max_propagation_depth=5,
-        allowed_colonies=["ethics", "governance"]
+        allowed_colonies=["ethics", "governance"],
     )
 
     contract2 = SymbolicContract(
@@ -96,21 +107,21 @@ if __name__ == "__main__":
         description="Represents an emotion regulation action.",
         schema={"emotion": str, "intensity": float, "agent_id": str},
         max_propagation_depth=2,
-        allowed_colonies=["ethics", "consciousness"]
+        allowed_colonies=["ethics", "consciousness"],
     )
 
     contract4 = SymbolicContract(
         tag_name="PrivacyTag",
         description="A tag that indicates that the associated data is private.",
         schema={"data_id": str, "privacy_level": str},
-        max_propagation_depth=0, # Should not be propagated
+        max_propagation_depth=0,  # Should not be propagated
     )
 
     contract5 = SymbolicContract(
         tag_name="DreamPropagation",
         description="A tag that indicates that a dream can be propagated to other agents.",
         schema={"dream_id": str, "source_agent_id": str},
-        allowed_colonies=["creativity", "consciousness"]
+        allowed_colonies=["creativity", "consciousness"],
     )
 
     registry = SymbolicContractRegistry()

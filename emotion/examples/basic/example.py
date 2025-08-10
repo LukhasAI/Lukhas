@@ -3,6 +3,7 @@
 
 from emotion import *
 
+
 def main():
     print("Using emotion module")
     # TODO: Add example

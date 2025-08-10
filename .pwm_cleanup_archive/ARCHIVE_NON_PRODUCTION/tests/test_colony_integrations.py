@@ -4,17 +4,20 @@ Tests consciousness, memory, and quantum colony integrations
 """
 
 import asyncio
-import pytest
 import logging
-from datetime import datetime, timedelta
-import numpy as np
+from datetime import datetime
+
+import pytest
 
 # Import all integration modules
-from consciousness.systems.consciousness_colony_integration import DistributedConsciousnessEngine
-from memory.systems.distributed_memory import DistributedMemorySystem, MemoryType
+from consciousness.systems.consciousness_colony_integration import (
+    DistributedConsciousnessEngine,
+)
+from memory.systems.distributed_memory import (
+    DistributedMemorySystem,
+    MemoryType,
+)
 from quantum.quantum_colony import QuantumColony
-from core.swarm import SwarmHub
-from orchestration.symbolic_kernel_bus import kernel_bus
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +40,7 @@ class TestColonyIntegrations:
                 "type": "test_experience",
                 "content": "Testing distributed consciousness",
                 "emotional_context": {"curiosity": 0.8},
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
             reflection_result = await engine.perform_distributed_reflection(experience)
@@ -53,12 +56,14 @@ class TestColonyIntegrations:
             awareness_data = {
                 "stimuli": [
                     {"type": "visual", "intensity": 0.7},
-                    {"type": "auditory", "intensity": 0.5}
+                    {"type": "auditory", "intensity": 0.5},
                 ],
-                "mode": "focused"
+                "mode": "focused",
             }
 
-            awareness_result = await engine.process_consciousness_task("awareness", awareness_data)
+            awareness_result = await engine.process_consciousness_task(
+                "awareness", awareness_data
+            )
 
             assert awareness_result is not None
             assert "consensus_awareness" in awareness_result
@@ -73,7 +78,9 @@ class TestColonyIntegrations:
             assert "creativity" in status["colonies"]
             assert status["total_distributed_tasks"] > 0
 
-            logger.info(f"Consciousness colony test passed. Tasks: {status['total_distributed_tasks']}")
+            logger.info(
+                f"Consciousness colony test passed. Tasks: {status['total_distributed_tasks']}"
+            )
 
         finally:
             await engine.stop()
@@ -94,11 +101,11 @@ class TestColonyIntegrations:
                 content={
                     "event": "test_event",
                     "details": "Testing distributed memory",
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 },
                 memory_type=MemoryType.EPISODIC,
                 importance=0.8,
-                tags=["test", "episodic"]
+                tags=["test", "episodic"],
             )
             memories_stored.append(episodic_id)
 
@@ -107,11 +114,11 @@ class TestColonyIntegrations:
                 content={
                     "concept": "distributed_systems",
                     "definition": "Systems that operate across multiple nodes",
-                    "properties": ["scalable", "fault-tolerant"]
+                    "properties": ["scalable", "fault-tolerant"],
                 },
                 memory_type=MemoryType.SEMANTIC,
                 importance=0.9,
-                tags=["test", "semantic", "technical"]
+                tags=["test", "semantic", "technical"],
             )
             memories_stored.append(semantic_id)
 
@@ -120,11 +127,11 @@ class TestColonyIntegrations:
                 content={
                     "skill": "memory_storage",
                     "steps": ["generate_id", "create_object", "store_in_colony"],
-                    "complexity": "medium"
+                    "complexity": "medium",
                 },
                 memory_type=MemoryType.PROCEDURAL,
                 importance=0.7,
-                tags=["test", "procedural"]
+                tags=["test", "procedural"],
             )
             memories_stored.append(procedural_id)
 
@@ -137,8 +144,7 @@ class TestColonyIntegrations:
 
             # Test search
             search_results = await memory_system.search_memories(
-                query={"text": "distributed test"},
-                limit=5
+                query={"text": "distributed test"}, limit=5
             )
 
             assert len(search_results) > 0
@@ -151,7 +157,9 @@ class TestColonyIntegrations:
             assert stats["by_type"][MemoryType.SEMANTIC.value] >= 1
             assert stats["by_type"][MemoryType.PROCEDURAL.value] >= 1
 
-            logger.info(f"Memory system test passed. Total memories: {stats['total_memories']}")
+            logger.info(
+                f"Memory system test passed. Total memories: {stats['total_memories']}"
+            )
 
         finally:
             await memory_system.shutdown()
@@ -173,11 +181,7 @@ class TestColonyIntegrations:
                 return x == 15  # Search for 15
 
             search_result = await colony.execute_quantum_algorithm(
-                "grover_search",
-                {
-                    "search_space": list(range(20)),
-                    "oracle": oracle
-                }
+                "grover_search", {"search_space": list(range(20)), "oracle": oracle}
             )
 
             assert search_result["algorithm"] == "grover_search"
@@ -194,12 +198,14 @@ class TestColonyIntegrations:
                 {
                     "cost_function": simple_cost,
                     "initial_state": {"x": 0},
-                    "temperature": [10, 1, 0.1]
-                }
+                    "temperature": [10, 1, 0.1],
+                },
             )
 
             assert annealing_result["algorithm"] == "quantum_annealing"
-            assert abs(annealing_result["best_state"]["x"] - 5) < 1.0  # Close to optimal
+            assert (
+                abs(annealing_result["best_state"]["x"] - 5) < 1.0
+            )  # Close to optimal
 
             # Test entanglement measurement
             entanglement = await colony.measure_entanglement()
@@ -211,7 +217,9 @@ class TestColonyIntegrations:
             # Test coherence maintenance
             await colony.maintain_coherence()
 
-            logger.info(f"Quantum colony test passed. Entangled agents: {len(entangled_agents)}")
+            logger.info(
+                f"Quantum colony test passed. Entangled agents: {len(entangled_agents)}"
+            )
 
         finally:
             await colony.stop()
@@ -239,7 +247,7 @@ class TestColonyIntegrations:
                 "quantum_state": {"superposition": True, "entangled": True},
                 "requires_memory": True,
                 "requires_creativity": True,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
             # Process through consciousness system
@@ -251,11 +259,11 @@ class TestColonyIntegrations:
             memory_id = await memory.store_memory(
                 content={
                     "experience": complex_experience,
-                    "consciousness_result": consciousness_result
+                    "consciousness_result": consciousness_result,
                 },
                 memory_type=MemoryType.EPISODIC,
                 importance=0.9,
-                tags=["integrated", "quantum", "consciousness"]
+                tags=["integrated", "quantum", "consciousness"],
             )
 
             # Use quantum colony to analyze the consciousness pattern
@@ -266,10 +274,10 @@ class TestColonyIntegrations:
                         {"pattern": "coherent", "value": 1},
                         {"pattern": "entangled", "value": 2},
                         {"pattern": "superposed", "value": 3},
-                        {"pattern": "collapsed", "value": 4}
+                        {"pattern": "collapsed", "value": 4},
                     ],
-                    "oracle": lambda x: x["value"] == 2  # Looking for entangled
-                }
+                    "oracle": lambda x: x["value"] == 2,  # Looking for entangled
+                },
             )
 
             # Verify integration results
@@ -281,17 +289,16 @@ class TestColonyIntegrations:
             quantum_memory_id = await memory.store_memory(
                 content={
                     "quantum_analysis": quantum_analysis,
-                    "related_consciousness": consciousness_result["task_id"]
+                    "related_consciousness": consciousness_result["task_id"],
                 },
                 memory_type=MemoryType.SEMANTIC,
                 importance=0.85,
-                tags=["quantum_analysis", "integrated"]
+                tags=["quantum_analysis", "integrated"],
             )
 
             # Search for integrated memories
             integrated_memories = await memory.search_memories(
-                query={"text": "integrated quantum consciousness"},
-                limit=10
+                query={"text": "integrated quantum consciousness"}, limit=10
             )
 
             assert len(integrated_memories) >= 2  # At least our two stored memories
@@ -301,12 +308,14 @@ class TestColonyIntegrations:
             memory_stats = await memory.get_memory_statistics()
             quantum_entanglement = await quantum.measure_entanglement()
 
-            logger.info(f"""
+            logger.info(
+                f"""
             Integrated test completed successfully:
             - Consciousness tasks: {consciousness_status['total_distributed_tasks']}
             - Memories stored: {memory_stats['total_memories']}
             - Quantum agents entangled: {len(quantum_entanglement)}
-            """)
+            """
+            )
 
         finally:
             await consciousness.stop()
@@ -327,12 +336,12 @@ class TestColonyIntegrations:
                 experience = {
                     "type": "fault_test",
                     "id": i,
-                    "fail_probability": 0.3 if i % 3 == 0 else 0.0
+                    "fail_probability": 0.3 if i % 3 == 0 else 0.0,
                 }
 
                 task = consciousness.process_consciousness_task(
                     "reflection" if i % 2 == 0 else "awareness",
-                    {"experience": experience}
+                    {"experience": experience},
                 )
                 tasks.append(task)
 
@@ -350,7 +359,9 @@ class TestColonyIntegrations:
             assert successes > failures  # Most should succeed
             assert avg_success_rate > 0.5  # System should remain healthy
 
-            logger.info(f"Fault tolerance test: {successes} successes, {failures} failures")
+            logger.info(
+                f"Fault tolerance test: {successes} successes, {failures} failures"
+            )
 
         finally:
             await consciousness.stop()
@@ -362,11 +373,14 @@ async def run_all_integration_tests():
     test_suite = TestColonyIntegrations()
 
     tests = [
-        ("Consciousness Colony Integration", test_suite.test_consciousness_colony_integration),
+        (
+            "Consciousness Colony Integration",
+            test_suite.test_consciousness_colony_integration,
+        ),
         ("Distributed Memory System", test_suite.test_distributed_memory_system),
         ("Quantum Colony Operations", test_suite.test_quantum_colony_operations),
         ("Integrated Systems", test_suite.test_integrated_consciousness_memory_quantum),
-        ("Fault Tolerance", test_suite.test_colony_fault_tolerance)
+        ("Fault Tolerance", test_suite.test_colony_fault_tolerance),
     ]
 
     results = []

@@ -10,12 +10,7 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import hashlib
-import secrets
-import math
-from typing import Dict, List, Tuple, Any
-import json
-import binascii
+from typing import Any, Dict, Tuple
 
 
 def generate_entropy_score(data: bytes) -> float:
@@ -32,8 +27,13 @@ def generate_entropy_score(data: bytes) -> float:
     pass
 
 
-def format_collapse_record(hash_value: str, signature: str, public_key: str,
-                          timestamp: float, metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+def format_collapse_record(
+    hash_value: str,
+    signature: str,
+    public_key: str,
+    timestamp: float,
+    metadata: Dict[str, Any] = None,
+) -> Dict[str, Any]:
     """
     Format a complete CollapseHash record for storage.
 

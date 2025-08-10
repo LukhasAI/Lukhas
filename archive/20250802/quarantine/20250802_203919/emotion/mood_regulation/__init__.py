@@ -1,4 +1,3 @@
 """
 Mood Regulation Module
 """
-

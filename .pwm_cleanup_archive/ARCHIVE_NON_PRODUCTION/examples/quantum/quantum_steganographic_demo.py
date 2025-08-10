@@ -18,21 +18,20 @@ Author: LUKHΛS AI System
 License: LUKHΛS Commercial License
 """
 
+import base64
 import hashlib
-import secrets
-import json
 import math
-import time
 import random
-from typing import Dict, List, Tuple, Any, Optional
-from datetime import datetime
+import secrets
+import time
 from dataclasses import dataclass
 from enum import Enum
-import base64
+from typing import Any, Dict, List, Tuple
 
 
 class QuantumInfluence(Enum):
     """How quantum cryptography influences QR generation"""
+
     ENTROPY_INJECTION = "entropy_injection"
     PATTERN_ENTANGLEMENT = "pattern_entanglement"
     QUANTUM_KEY_EMBEDDING = "quantum_key_embedding"
@@ -42,6 +41,7 @@ class QuantumInfluence(Enum):
 
 class GlyphStyle(Enum):
     """Glyph styles for steganographic embedding"""
+
     ANCIENT_SYMBOLS = "ancient_symbols"
     GEOMETRIC_PATTERNS = "geometric_patterns"
     CULTURAL_MOTIFS = "cultural_motifs"
@@ -53,6 +53,7 @@ class GlyphStyle(Enum):
 @dataclass
 class QuantumQRInfluence:
     """Data class representing quantum influence on QR generation"""
+
     entropy_bits: int
     quantum_seed: bytes
     entanglement_pairs: List[Tuple[int, int]]
@@ -66,6 +67,7 @@ class QuantumQRInfluence:
 @dataclass
 class SteganographicGlyph:
     """Data class for steganographic glyph representation"""
+
     base_glyph: str
     hidden_qr_data: str
     embedding_method: str
@@ -96,11 +98,13 @@ class QuantumQRInfluencer:
             "key_encapsulation": ["Kyber-512", "Kyber-768", "Kyber-1024"],
             "digital_signatures": ["Dilithium-2", "Dilithium-3", "Dilithium-5"],
             "hash_functions": ["SHAKE-128", "SHAKE-256", "SHA3-512"],
-            "stream_ciphers": ["ChaCha20-Poly1305", "AES-256-GCM"]
+            "stream_ciphers": ["ChaCha20-Poly1305", "AES-256-GCM"],
         }
 
         print("⚛️ Quantum QR Influencer initialized")
-        print(f"🔐 Post-quantum-inspired algorithms: {len(sum(self.pq_algorithms.values(), []))}")
+        print(
+            f"🔐 Post-quantum-inspired algorithms: {len(sum(self.pq_algorithms.values(), []))}"
+        )
         print(f"🧠 Coherence threshold: {self.coherence_threshold}")
 
     def generate_quantum_entropy(self, bits: int = 512) -> bytes:
@@ -118,17 +122,19 @@ class QuantumQRInfluencer:
 
         # Add quantum-specific entropy enhancement
         enhanced_entropy = hashlib.shake_256(
-            quantum_entropy +
-            str(time.time_ns()).encode() +
-            b"LUKHAS_QUANTUM_SOURCE"
+            quantum_entropy + str(time.time_ns()).encode() + b"LUKHAS_QUANTUM_SOURCE"
         ).digest(bits // 8)
 
         print(f"   🎲 Generated {len(enhanced_entropy)} bytes of quantum entropy")
-        print(f"   🔬 Entropy quality: {self._measure_entropy_quality(enhanced_entropy):.3f}")
+        print(
+            f"   🔬 Entropy quality: {self._measure_entropy_quality(enhanced_entropy):.3f}"
+        )
 
         return enhanced_entropy
 
-    def create_quantum_influence(self, qr_data: str, security_level: str = "cosmic") -> QuantumQRInfluence:
+    def create_quantum_influence(
+        self, qr_data: str, security_level: str = "cosmic"
+    ) -> QuantumQRInfluence:
         """
         Create quantum influence parameters for QR generation
 
@@ -155,7 +161,9 @@ class QuantumQRInfluencer:
         superposition_states = self._create_superposition_states(qr_data, quantum_seed)
 
         # Generate post-quantum keys
-        post_quantum_keys = self._generate_post_quantum_keys(quantum_seed, security_level)
+        post_quantum_keys = self._generate_post_quantum_keys(
+            quantum_seed, security_level
+        )
 
         # Calculate decoherence protection
         decoherence_protection = self._calculate_decoherence_protection(
@@ -175,19 +183,23 @@ class QuantumQRInfluencer:
             superposition_states=superposition_states,
             post_quantum_keys=post_quantum_keys,
             decoherence_protection=decoherence_protection,
-            quantum_signature=quantum_signature
+            quantum_signature=quantum_signature,
         )
 
         print(f"   ⚛️ Entropy bits: {entropy_bits}")
         print(f"   🔗 Entanglement pairs: {len(entanglement_pairs)}")
-        print(f"   📊 Coherence matrix: {len(coherence_matrix)}x{len(coherence_matrix[0])}")
+        print(
+            f"   📊 Coherence matrix: {len(coherence_matrix)}x{len(coherence_matrix[0])}"
+        )
         print(f"   🌊 Superposition states: {len(superposition_states)}")
         print(f"   🔐 Post-quantum keys: {len(post_quantum_keys)}")
         print(f"   🛡️ Decoherence protection: {decoherence_protection:.3f}")
 
         return influence
 
-    def apply_quantum_influence_to_qr(self, qr_pattern: str, influence: QuantumQRInfluence) -> str:
+    def apply_quantum_influence_to_qr(
+        self, qr_pattern: str, influence: QuantumQRInfluence
+    ) -> str:
         """
         Apply quantum influence directly to QR pattern generation
 
@@ -197,7 +209,7 @@ class QuantumQRInfluencer:
         print("🔬 Applying quantum influence to QR pattern...")
 
         # Convert QR pattern to binary
-        qr_binary = ''.join(format(ord(c), '08b') for c in qr_pattern)
+        qr_binary = "".join(format(ord(c), "08b") for c in qr_pattern)
         qr_bits = list(map(int, qr_binary))
 
         # Apply quantum entropy injection
@@ -218,13 +230,17 @@ class QuantumQRInfluencer:
         # Convert back to pattern
         quantum_influenced_pattern = self._bits_to_pattern(qr_bits)
 
-        print(f"   🔄 Pattern length: {len(qr_pattern)} → {len(quantum_influenced_pattern)}")
-        print(f"   ⚛️ Quantum modifications applied: 5")
+        print(
+            f"   🔄 Pattern length: {len(qr_pattern)} → {len(quantum_influenced_pattern)}"
+        )
+        print("   ⚛️ Quantum modifications applied: 5")
         print(f"   🔐 Security enhancement: {influence.decoherence_protection:.1%}")
 
         return quantum_influenced_pattern
 
-    def _generate_entanglement_pairs(self, data: str, quantum_seed: bytes) -> List[Tuple[int, int]]:
+    def _generate_entanglement_pairs(
+        self, data: str, quantum_seed: bytes
+    ) -> List[Tuple[int, int]]:
         """Generate entanglement-like correlation pairs for QR modules"""
         pairs = []
         data_length = len(data)
@@ -251,55 +267,46 @@ class QuantumQRInfluencer:
 
         return matrix
 
-    def _create_superposition_states(self, data: str, quantum_seed: bytes) -> Dict[str, Any]:
+    def _create_superposition_states(
+        self, data: str, quantum_seed: bytes
+    ) -> Dict[str, Any]:
         """Create superposition-like state states"""
         states = {}
 
         # Alpha state (primary information)
-        states["alpha"] = {
-            "probability": 0.7,
-            "data": data,
-            "phase": 0.0
-        }
+        states["alpha"] = {"probability": 0.7, "data": data, "phase": 0.0}
 
         # Beta state (secondary information)
-        beta_data = hashlib.sha256(data.encode() + quantum_seed).hexdigest()[:len(data)]
-        states["beta"] = {
-            "probability": 0.3,
-            "data": beta_data,
-            "phase": math.pi / 2
-        }
+        beta_data = hashlib.sha256(data.encode() + quantum_seed).hexdigest()[
+            : len(data)
+        ]
+        states["beta"] = {"probability": 0.3, "data": beta_data, "phase": math.pi / 2}
 
         return states
 
-    def _generate_post_quantum_keys(self, quantum_seed: bytes, security_level: str) -> Dict[str, str]:
+    def _generate_post_quantum_keys(
+        self, quantum_seed: bytes, security_level: str
+    ) -> Dict[str, str]:
         """Generate post-quantum cryptographic keys"""
         keys = {}
 
         # Key Encapsulation Mechanism (KEM)
-        kem_key = hashlib.blake2b(
-            quantum_seed + b"KEM_KEY",
-            digest_size=64
-        ).hexdigest()
+        kem_key = hashlib.blake2b(quantum_seed + b"KEM_KEY", digest_size=64).hexdigest()
         keys["kem_key"] = kem_key
 
         # Digital signature key
-        sig_key = hashlib.blake2b(
-            quantum_seed + b"SIG_KEY",
-            digest_size=32
-        ).hexdigest()
+        sig_key = hashlib.blake2b(quantum_seed + b"SIG_KEY", digest_size=32).hexdigest()
         keys["signature_key"] = sig_key
 
         # Symmetric encryption key
-        sym_key = hashlib.blake2b(
-            quantum_seed + b"SYM_KEY",
-            digest_size=32
-        ).hexdigest()
+        sym_key = hashlib.blake2b(quantum_seed + b"SYM_KEY", digest_size=32).hexdigest()
         keys["symmetric_key"] = sym_key
 
         return keys
 
-    def _calculate_decoherence_protection(self, entropy_bits: int, entanglement_pairs: int) -> float:
+    def _calculate_decoherence_protection(
+        self, entropy_bits: int, entanglement_pairs: int
+    ) -> float:
         """Calculate quantum decoherence protection level"""
         base_protection = 0.9
         entropy_factor = min(0.05, entropy_bits / 10000)
@@ -307,19 +314,24 @@ class QuantumQRInfluencer:
 
         return min(0.999, base_protection + entropy_factor + entanglement_factor)
 
-    def _create_quantum_signature(self, quantum_seed: bytes,
-                                entanglement_pairs: List[Tuple[int, int]],
-                                coherence_matrix: List[List[float]]) -> str:
+    def _create_quantum_signature(
+        self,
+        quantum_seed: bytes,
+        entanglement_pairs: List[Tuple[int, int]],
+        coherence_matrix: List[List[float]],
+    ) -> str:
         """Create quantum cryptographic signature"""
         signature_data = (
-            quantum_seed +
-            str(entanglement_pairs).encode() +
-            str(coherence_matrix).encode()
+            quantum_seed
+            + str(entanglement_pairs).encode()
+            + str(coherence_matrix).encode()
         )
 
         return hashlib.sha3_512(signature_data).hexdigest()
 
-    def _inject_quantum_entropy(self, qr_bits: List[int], quantum_seed: bytes) -> List[int]:
+    def _inject_quantum_entropy(
+        self, qr_bits: List[int], quantum_seed: bytes
+    ) -> List[int]:
         """Inject quantum entropy into QR bits"""
         for i in range(len(qr_bits)):
             if i < len(quantum_seed) * 8:
@@ -333,7 +345,9 @@ class QuantumQRInfluencer:
 
         return qr_bits
 
-    def _apply_entanglement(self, qr_bits: List[int], entanglement_pairs: List[Tuple[int, int]]) -> List[int]:
+    def _apply_entanglement(
+        self, qr_bits: List[int], entanglement_pairs: List[Tuple[int, int]]
+    ) -> List[int]:
         """Apply entanglement-like correlation to QR bits"""
         for pair in entanglement_pairs:
             if pair[0] < len(qr_bits) and pair[1] < len(qr_bits):
@@ -343,14 +357,18 @@ class QuantumQRInfluencer:
 
         return qr_bits
 
-    def _optimize_coherence(self, qr_bits: List[int], coherence_matrix: List[List[float]]) -> List[int]:
+    def _optimize_coherence(
+        self, qr_bits: List[int], coherence_matrix: List[List[float]]
+    ) -> List[int]:
         """Optimize QR pattern using coherence-inspired processing"""
         # Apply coherence-based smoothing
         matrix_size = len(coherence_matrix)
 
         for i in range(min(len(qr_bits), matrix_size)):
-            coherence_sum = sum(coherence_matrix[i][j] * qr_bits[min(j, len(qr_bits) - 1)]
-                              for j in range(matrix_size))
+            coherence_sum = sum(
+                coherence_matrix[i][j] * qr_bits[min(j, len(qr_bits) - 1)]
+                for j in range(matrix_size)
+            )
 
             # Apply coherence threshold
             if coherence_sum > self.coherence_threshold * matrix_size / 2:
@@ -363,9 +381,7 @@ class QuantumQRInfluencer:
     def _embed_pq_keys(self, qr_bits: List[int], pq_keys: Dict[str, str]) -> List[int]:
         """Embed post-quantum keys into QR pattern"""
         # Embed key fingerprints at specific positions
-        key_fingerprint = hashlib.sha256(
-            ''.join(pq_keys.values()).encode()
-        ).digest()
+        key_fingerprint = hashlib.sha256("".join(pq_keys.values()).encode()).digest()
 
         # Embed fingerprint bits at evenly spaced intervals
         interval = max(1, len(qr_bits) // (len(key_fingerprint) * 8))
@@ -381,7 +397,9 @@ class QuantumQRInfluencer:
 
         return qr_bits
 
-    def _encode_superposition(self, qr_bits: List[int], superposition_states: Dict[str, Any]) -> List[int]:
+    def _encode_superposition(
+        self, qr_bits: List[int], superposition_states: Dict[str, Any]
+    ) -> List[int]:
         """Encode superposition-like state states"""
         alpha_prob = superposition_states["alpha"]["probability"]
 
@@ -399,9 +417,11 @@ class QuantumQRInfluencer:
         # Group bits into bytes and convert to characters
         pattern = ""
         for i in range(0, len(qr_bits), 8):
-            byte_bits = qr_bits[i:i+8]
+            byte_bits = qr_bits[i : i + 8]
             if len(byte_bits) == 8:
-                byte_val = sum(bit * (2 ** (7-pos)) for pos, bit in enumerate(byte_bits))
+                byte_val = sum(
+                    bit * (2 ** (7 - pos)) for pos, bit in enumerate(byte_bits)
+                )
                 pattern += chr(max(32, min(126, byte_val)))  # Printable ASCII range
 
         return pattern
@@ -437,41 +457,99 @@ class SteganographicGlyphGenerator:
         """Initialize glyph generator with cultural symbol libraries"""
         self.glyph_libraries = {
             GlyphStyle.ANCIENT_SYMBOLS: [
-                "☥", "☯", "☪", "✡", "☦", "🕎", "☮", "♰", "⚛", "☥"
+                "☥",
+                "☯",
+                "☪",
+                "✡",
+                "☦",
+                "🕎",
+                "☮",
+                "♰",
+                "⚛",
+                "☥",
             ],
             GlyphStyle.GEOMETRIC_PATTERNS: [
-                "◯", "△", "▽", "◇", "◈", "⬟", "⬢", "⬡", "⬠", "⬣"
+                "◯",
+                "△",
+                "▽",
+                "◇",
+                "◈",
+                "⬟",
+                "⬢",
+                "⬡",
+                "⬠",
+                "⬣",
             ],
             GlyphStyle.CULTURAL_MOTIFS: [
-                "🌸", "🍃", "🌙", "☀", "⭐", "🔮", "🌿", "🦅", "🐉", "🦋"
+                "🌸",
+                "🍃",
+                "🌙",
+                "☀",
+                "⭐",
+                "🔮",
+                "🌿",
+                "🦅",
+                "🐉",
+                "🦋",
             ],
             GlyphStyle.NATURAL_FORMS: [
-                "🌊", "🏔", "🌲", "🌺", "🍀", "🌻", "🌙", "⚡", "❄", "🔥"
+                "🌊",
+                "🏔",
+                "🌲",
+                "🌺",
+                "🍀",
+                "🌻",
+                "🌙",
+                "⚡",
+                "❄",
+                "🔥",
             ],
             GlyphStyle.MATHEMATICAL_FORMS: [
-                "∞", "∑", "∆", "∇", "∫", "π", "φ", "ψ", "Ω", "α"
+                "∞",
+                "∑",
+                "∆",
+                "∇",
+                "∫",
+                "π",
+                "φ",
+                "ψ",
+                "Ω",
+                "α",
             ],
             GlyphStyle.CONSCIOUSNESS_MANDALAS: [
-                "⚡", "🔮", "🌀", "💫", "✨", "🌟", "💎", "🔯", "☸", "🕉"
-            ]
+                "⚡",
+                "🔮",
+                "🌀",
+                "💫",
+                "✨",
+                "🌟",
+                "💎",
+                "🔯",
+                "☸",
+                "🕉",
+            ],
         }
 
         self.embedding_methods = [
-            "LSB_substitution",     # Least Significant Bit
-            "frequency_modulation", # Frequency domain hiding
-            "spatial_correlation", # Spatial pattern correlation
-            "phase_encoding",      # Phase-based encoding
-            "transform_domain",    # Transform domain hiding
-            "quantum_superposition" # Quantum state encoding
+            "LSB_substitution",  # Least Significant Bit
+            "frequency_modulation",  # Frequency domain hiding
+            "spatial_correlation",  # Spatial pattern correlation
+            "phase_encoding",  # Phase-based encoding
+            "transform_domain",  # Transform domain hiding
+            "quantum_superposition",  # Quantum state encoding
         ]
 
         print("🎭 Steganographic Glyph Generator initialized")
         print(f"🎨 Glyph styles available: {len(self.glyph_libraries)}")
         print(f"🔧 Embedding methods: {len(self.embedding_methods)}")
 
-    def hide_qr_in_glyph(self, qr_data: str, style: GlyphStyle,
-                        cultural_context: str = "universal",
-                        consciousness_level: float = 0.5) -> SteganographicGlyph:
+    def hide_qr_in_glyph(
+        self,
+        qr_data: str,
+        style: GlyphStyle,
+        cultural_context: str = "universal",
+        consciousness_level: float = 0.5,
+    ) -> SteganographicGlyph:
         """
         Hide QR code data within a cultural glyph
 
@@ -481,7 +559,9 @@ class SteganographicGlyphGenerator:
         print(f"🎭 Hiding QR in {style.value} glyph (context: {cultural_context})")
 
         # Select appropriate base glyph
-        base_glyph = self._select_base_glyph(style, cultural_context, consciousness_level)
+        base_glyph = self._select_base_glyph(
+            style, cultural_context, consciousness_level
+        )
 
         # Choose embedding method based on consciousness level
         embedding_method = self._choose_embedding_method(consciousness_level)
@@ -508,7 +588,7 @@ class SteganographicGlyphGenerator:
             consciousness_layer=consciousness_level,
             detection_difficulty=detection_difficulty,
             extraction_key=extraction_key,
-            visual_camouflage=visual_camouflage
+            visual_camouflage=visual_camouflage,
         )
 
         print(f"   🎨 Base glyph: {base_glyph}")
@@ -518,7 +598,9 @@ class SteganographicGlyphGenerator:
 
         return glyph
 
-    def create_glyph_constellation(self, qr_data: str, constellation_size: int = 9) -> List[SteganographicGlyph]:
+    def create_glyph_constellation(
+        self, qr_data: str, constellation_size: int = 9
+    ) -> List[SteganographicGlyph]:
         """
         Create a constellation of glyphs that collectively encode a QR code
 
@@ -535,13 +617,15 @@ class SteganographicGlyphGenerator:
 
         for i, segment in enumerate(data_segments):
             style = styles[i % len(styles)]
-            consciousness_layer = 0.3 + (i * 0.7 / constellation_size)  # Varying consciousness
+            consciousness_layer = 0.3 + (
+                i * 0.7 / constellation_size
+            )  # Varying consciousness
 
             glyph = self.hide_qr_in_glyph(
                 segment,
                 style,
                 cultural_context="constellation",
-                consciousness_level=consciousness_layer
+                consciousness_level=consciousness_layer,
             )
 
             constellation.append(glyph)
@@ -551,14 +635,16 @@ class SteganographicGlyphGenerator:
 
         return constellation
 
-    def generate_ascii_glyph_pattern(self, glyph: SteganographicGlyph, size: int = 20) -> str:
+    def generate_ascii_glyph_pattern(
+        self, glyph: SteganographicGlyph, size: int = 20
+    ) -> str:
         """Generate ASCII representation of steganographic glyph"""
 
         # Create pattern based on glyph characteristics
         pattern_chars = {
             "high": ["█", "▓", "▒", "░"],
             "medium": ["●", "◐", "◑", "○"],
-            "low": ["▲", "△", "▼", "▽"]
+            "low": ["▲", "△", "▼", "▽"],
         }
 
         # Determine pattern intensity based on consciousness level
@@ -598,7 +684,9 @@ class SteganographicGlyphGenerator:
 
         return pattern
 
-    def _select_base_glyph(self, style: GlyphStyle, cultural_context: str, consciousness_level: float) -> str:
+    def _select_base_glyph(
+        self, style: GlyphStyle, cultural_context: str, consciousness_level: float
+    ) -> str:
         """Select appropriate base glyph"""
         available_glyphs = self.glyph_libraries[style]
 
@@ -624,7 +712,9 @@ class SteganographicGlyphGenerator:
         key_material = qr_data + base_glyph + str(time.time())
         return hashlib.sha256(key_material.encode()).hexdigest()
 
-    def _create_visual_camouflage(self, style: GlyphStyle, cultural_context: str) -> Dict[str, Any]:
+    def _create_visual_camouflage(
+        self, style: GlyphStyle, cultural_context: str
+    ) -> Dict[str, Any]:
         """Create visual camouflage parameters"""
         return {
             "style_influence": style.value,
@@ -632,12 +722,12 @@ class SteganographicGlyphGenerator:
             "color_palette": ["sacred", "traditional", "harmonious"],
             "pattern_flow": "organic",
             "visual_noise": 0.1,
-            "aesthetic_preservation": 0.95
+            "aesthetic_preservation": 0.95,
         }
 
-    def _calculate_detection_difficulty(self, embedding_method: str,
-                                      consciousness_level: float,
-                                      cultural_context: str) -> float:
+    def _calculate_detection_difficulty(
+        self, embedding_method: str, consciousness_level: float, cultural_context: str
+    ) -> float:
         """Calculate how difficult it is to detect the hidden QR"""
         base_difficulty = {
             "LSB_substitution": 0.3,
@@ -645,7 +735,7 @@ class SteganographicGlyphGenerator:
             "spatial_correlation": 0.6,
             "phase_encoding": 0.7,
             "transform_domain": 0.8,
-            "quantum_superposition": 0.95
+            "quantum_superposition": 0.95,
         }[embedding_method]
 
         consciousness_factor = consciousness_level * 0.2
@@ -653,7 +743,9 @@ class SteganographicGlyphGenerator:
 
         return min(0.99, base_difficulty + consciousness_factor + cultural_factor)
 
-    def _embed_qr_data(self, qr_data: str, base_glyph: str, embedding_method: str) -> str:
+    def _embed_qr_data(
+        self, qr_data: str, base_glyph: str, embedding_method: str
+    ) -> str:
         """Perform steganographic embedding of QR data"""
         # Simulate embedding process
         embedding_key = hashlib.sha256((qr_data + base_glyph).encode()).hexdigest()
@@ -707,14 +799,16 @@ def demonstrate_quantum_influence():
         influence = quantum_influencer.create_quantum_influence(test_qr_data, level)
 
         # Apply influence to QR pattern
-        quantum_qr = quantum_influencer.apply_quantum_influence_to_qr(test_qr_data, influence)
+        quantum_qr = quantum_influencer.apply_quantum_influence_to_qr(
+            test_qr_data, influence
+        )
 
         print(f"🔄 Quantum-influenced QR: {quantum_qr[:50]}...")
         print(f"🔐 Quantum signature: {influence.quantum_signature[:32]}...")
         print(f"🛡️ Decoherence protection: {influence.decoherence_protection:.1%}")
 
         # Show key influences
-        print(f"📊 Quantum Influences Applied:")
+        print("📊 Quantum Influences Applied:")
         print(f"   • Entropy injection: {influence.entropy_bits} bits")
         print(f"   • Entanglement pairs: {len(influence.entanglement_pairs)}")
         print(f"   • Superposition states: {len(influence.superposition_states)}")
@@ -739,7 +833,7 @@ def demonstrate_steganographic_glyphs():
         (GlyphStyle.CONSCIOUSNESS_MANDALAS, "meditation", 0.9),
         (GlyphStyle.ANCIENT_SYMBOLS, "east_asian", 0.7),
         (GlyphStyle.GEOMETRIC_PATTERNS, "islamic", 0.6),
-        (GlyphStyle.NATURAL_FORMS, "indigenous", 0.8)
+        (GlyphStyle.NATURAL_FORMS, "indigenous", 0.8),
     ]
 
     for style, context, consciousness in test_styles:
@@ -756,14 +850,16 @@ def demonstrate_steganographic_glyphs():
         print(ascii_pattern)
 
     # Demonstrate constellation encoding
-    print(f"\n🌌 Constellation Encoding Demonstration")
+    print("\n🌌 Constellation Encoding Demonstration")
     print("-" * 50)
 
     constellation = glyph_generator.create_glyph_constellation(test_qr_data, 6)
 
-    print(f"🌟 Constellation Summary:")
+    print("🌟 Constellation Summary:")
     for i, glyph in enumerate(constellation):
-        print(f"   {i+1}. {glyph.base_glyph} ({glyph.embedding_method}) - Difficulty: {glyph.detection_difficulty:.3f}")
+        print(
+            f"   {i+1}. {glyph.base_glyph} ({glyph.embedding_method}) - Difficulty: {glyph.detection_difficulty:.3f}"
+        )
 
 
 def main():
@@ -780,22 +876,22 @@ def main():
     # Demonstrate steganographic glyphs
     demonstrate_steganographic_glyphs()
 
-    print(f"\n🎉 Demonstration Complete!")
-    print(f"⚛️ Quantum cryptography influences QR patterns through:")
-    print(f"   • Entropy injection for true randomness")
-    print(f"   • Quantum entanglement of pattern elements")
-    print(f"   • Post-quantum key embedding")
-    print(f"   • Coherence optimization")
-    print(f"   • Superposition state encoding")
+    print("\n🎉 Demonstration Complete!")
+    print("⚛️ Quantum cryptography influences QR patterns through:")
+    print("   • Entropy injection for true randomness")
+    print("   • Quantum entanglement of pattern elements")
+    print("   • Post-quantum key embedding")
+    print("   • Coherence optimization")
+    print("   • Superposition state encoding")
 
-    print(f"\n🎭 Steganographic glyphs hide QR codes in:")
-    print(f"   • Cultural symbols and motifs")
-    print(f"   • Consciousness-adapted patterns")
-    print(f"   • Distributed glyph constellations")
-    print(f"   • Quantum superposition encoding")
-    print(f"   • Phase-based information hiding")
+    print("\n🎭 Steganographic glyphs hide QR codes in:")
+    print("   • Cultural symbols and motifs")
+    print("   • Consciousness-adapted patterns")
+    print("   • Distributed glyph constellations")
+    print("   • Quantum superposition encoding")
+    print("   • Phase-based information hiding")
 
-    print(f"\n🌟 Ready for advanced consciousness-aware authentication!")
+    print("\n🌟 Ready for advanced consciousness-aware authentication!")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,14 @@
 """Entry point for Lukhas commercial API"""
 
-from fastapi import FastAPI, Depends, HTTPException, Header
 import logging
 import os
 from typing import Optional
 
-from .routes import router
-from .openai_routes import router as openai_router
+from fastapi import FastAPI, Header, HTTPException
+
 from .feedback_routes import router as feedback_router
+from .openai_routes import router as openai_router
+from .routes import router
 
 logging.basicConfig(level=logging.INFO)
 

@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - ENTROPY_CALCULATOR
 ║ Entropy Calculator for Symbolic Vault Security Assessment
@@ -26,13 +25,14 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
 import math
 import re
 import unicodedata
-import logging
 from collections import Counter
-from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger("ΛTRACE.EntropyCalculator")
 
@@ -40,6 +40,7 @@ logger = logging.getLogger("ΛTRACE.EntropyCalculator")
 @dataclass
 class EntropyScore:
     """Detailed entropy assessment for symbolic elements."""
+
     value: float
     character_entropy: float
     pattern_entropy: float
@@ -60,43 +61,45 @@ class EntropyCalculator:
 
         # Character set mappings for entropy calculation
         self.character_sets = {
-            'ascii_lowercase': set('abcdefghijklmnopqrstuvwxyz'),
-            'ascii_uppercase': set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-            'digits': set('0123456789'),
-            'punctuation': set('!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'),
-            'emoji': set(),  # Will be populated dynamically
-            'unicode_symbols': set(),  # Will be populated dynamically
-            'cultural_chars': set()  # Cultural-specific characters
+            "ascii_lowercase": set("abcdefghijklmnopqrstuvwxyz"),
+            "ascii_uppercase": set("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+            "digits": set("0123456789"),
+            "punctuation": set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"),
+            "emoji": set(),  # Will be populated dynamically
+            "unicode_symbols": set(),  # Will be populated dynamically
+            "cultural_chars": set(),  # Cultural-specific characters
         }
 
         # Common password patterns (reduce entropy)
         self.common_patterns = [
-            r'\d{4}',  # 4 digits (years, pins)
-            r'password|123456|qwerty|admin|login',  # Common passwords
-            r'(.)\1{2,}',  # Repeated characters
-            r'\d{1,2}[-/]\d{1,2}[-/]\d{2,4}',  # Dates
-            r'[a-zA-Z]+\d+$',  # Word followed by numbers
-            r'\d+[a-zA-Z]+$'   # Numbers followed by word
+            r"\d{4}",  # 4 digits (years, pins)
+            r"password|123456|qwerty|admin|login",  # Common passwords
+            r"(.)\1{2,}",  # Repeated characters
+            r"\d{1,2}[-/]\d{1,2}[-/]\d{2,4}",  # Dates
+            r"[a-zA-Z]+\d+$",  # Word followed by numbers
+            r"\d+[a-zA-Z]+$",  # Numbers followed by word
         ]
 
         # Semantic categories (higher entropy for diverse categories)
         self.semantic_categories = {
-            'person': ['name', 'firstname', 'lastname', 'username'],
-            'place': ['city', 'country', 'address', 'location'],
-            'thing': ['object', 'item', 'product', 'brand'],
-            'concept': ['idea', 'feeling', 'concept', 'abstract'],
-            'action': ['verb', 'activity', 'process', 'motion'],
-            'time': ['date', 'time', 'period', 'moment'],
-            'nature': ['animal', 'plant', 'weather', 'landscape'],
-            'tech': ['computer', 'software', 'device', 'digital']
+            "person": ["name", "firstname", "lastname", "username"],
+            "place": ["city", "country", "address", "location"],
+            "thing": ["object", "item", "product", "brand"],
+            "concept": ["idea", "feeling", "concept", "abstract"],
+            "action": ["verb", "activity", "process", "motion"],
+            "time": ["date", "time", "period", "moment"],
+            "nature": ["animal", "plant", "weather", "landscape"],
+            "tech": ["computer", "software", "device", "digital"],
         }
 
-    def calculate_vault_entropy(self, symbolic_vault: List[Any]) -> float:
+    def calculate_vault_entropy(self, symbolic_vault: list[Any]) -> float:
         """
         # Calculate overall entropy score for entire symbolic vault
         # Considers element diversity, uniqueness, and security strength
         """
-        logger.info(f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault)} elements")
+        logger.info(
+            f"ΛTRACE: Calculating vault entropy for {len(symbolic_vault)} elements"
+        )
 
         if not symbolic_vault:
             return 0.0
@@ -108,22 +111,22 @@ class EntropyCalculator:
 
             for vault_entry in symbolic_vault:
                 # Get value from vault entry
-                if hasattr(vault_entry, 'value'):
-                    value = vault_entry.value
-                    entry_type = getattr(vault_entry, 'entry_type', None)
+                if hasattr(vault_entry, "value"):
+                    vault_entry.value
+                    entry_type = getattr(vault_entry, "entry_type", None)
                 elif isinstance(vault_entry, dict):
-                    value = vault_entry.get('value', '')
-                    entry_type = vault_entry.get('type', 'unknown')
+                    vault_entry.get("value", "")
+                    entry_type = vault_entry.get("type", "unknown")
                 else:
-                    value = str(vault_entry)
-                    entry_type = 'unknown'
+                    str(vault_entry)
+                    entry_type = "unknown"
 
                 # Calculate entropy for this element
                 element_entropy = self.calculate_entry_entropy(vault_entry)
                 element_entropies.append(element_entropy)
 
                 # Track category distribution
-                if hasattr(entry_type, 'value'):
+                if hasattr(entry_type, "value"):
                     category_distribution[entry_type.value] += 1
                 else:
                     category_distribution[str(entry_type)] += 1
@@ -138,10 +141,10 @@ class EntropyCalculator:
             # Uniqueness bonus (all elements unique)
             values = []
             for vault_entry in symbolic_vault:
-                if hasattr(vault_entry, 'value'):
+                if hasattr(vault_entry, "value"):
                     values.append(vault_entry.value)
                 elif isinstance(vault_entry, dict):
-                    values.append(vault_entry.get('value', ''))
+                    values.append(vault_entry.get("value", ""))
                 else:
                     values.append(str(vault_entry))
 
@@ -153,9 +156,15 @@ class EntropyCalculator:
             size_bonus = min(len(symbolic_vault) / 20.0, 1.0) * 0.1  # Max 10% bonus
 
             # Calculate final entropy score
-            final_entropy = min(base_entropy + diversity_bonus + uniqueness_bonus + size_bonus, 1.0)
+            final_entropy = min(
+                base_entropy + diversity_bonus + uniqueness_bonus + size_bonus,
+                1.0,
+            )
 
-            logger.info(f"ΛTRACE: Vault entropy calculated - Base: {base_entropy:.3f}, Final: {final_entropy:.3f}")
+            logger.info(
+                f"ΛTRACE: Vault entropy calculated - Base: {base_entropy: .3f},
+                Final: {final_entropy: .3f}"
+            )
             return final_entropy
 
         except Exception as e:
@@ -169,17 +178,17 @@ class EntropyCalculator:
         """
         try:
             # Extract value from vault entry
-            if hasattr(vault_entry, 'value'):
+            if hasattr(vault_entry, "value"):
                 value = vault_entry.value
-                entry_type = getattr(vault_entry, 'entry_type', None)
-                cultural_context = getattr(vault_entry, 'cultural_context', None)
+                entry_type = getattr(vault_entry, "entry_type", None)
+                cultural_context = getattr(vault_entry, "cultural_context", None)
             elif isinstance(vault_entry, dict):
-                value = vault_entry.get('value', '')
-                entry_type = vault_entry.get('type', 'unknown')
-                cultural_context = vault_entry.get('cultural_context')
+                value = vault_entry.get("value", "")
+                entry_type = vault_entry.get("type", "unknown")
+                cultural_context = vault_entry.get("cultural_context")
             else:
                 value = str(vault_entry)
-                entry_type = 'unknown'
+                entry_type = "unknown"
                 cultural_context = None
 
             if not value:
@@ -202,11 +211,11 @@ class EntropyCalculator:
 
             # Weighted combination
             final_entropy = (
-                char_entropy * 0.3 +
-                pattern_entropy * 0.2 +
-                semantic_entropy * 0.2 +
-                cultural_entropy * 0.15 +
-                uniqueness_score * 0.15
+                char_entropy * 0.3
+                + pattern_entropy * 0.2
+                + semantic_entropy * 0.2
+                + cultural_entropy * 0.15
+                + uniqueness_score * 0.15
             )
 
             return min(final_entropy, 1.0)
@@ -223,20 +232,20 @@ class EntropyCalculator:
         # Identify character sets used
         used_sets = set()
         for char in value:
-            if char in self.character_sets['ascii_lowercase']:
-                used_sets.add('ascii_lowercase')
-            elif char in self.character_sets['ascii_uppercase']:
-                used_sets.add('ascii_uppercase')
-            elif char in self.character_sets['digits']:
-                used_sets.add('digits')
-            elif char in self.character_sets['punctuation']:
-                used_sets.add('punctuation')
-            elif unicodedata.category(char).startswith('Sm'):  # Math symbols
-                used_sets.add('unicode_symbols')
-            elif unicodedata.category(char).startswith('So'):  # Other symbols (emoji)
-                used_sets.add('emoji')
+            if char in self.character_sets["ascii_lowercase"]:
+                used_sets.add("ascii_lowercase")
+            elif char in self.character_sets["ascii_uppercase"]:
+                used_sets.add("ascii_uppercase")
+            elif char in self.character_sets["digits"]:
+                used_sets.add("digits")
+            elif char in self.character_sets["punctuation"]:
+                used_sets.add("punctuation")
+            elif unicodedata.category(char).startswith("Sm"):  # Math symbols
+                used_sets.add("unicode_symbols")
+            elif unicodedata.category(char).startswith("So"):  # Other symbols (emoji)
+                used_sets.add("emoji")
             else:
-                used_sets.add('unicode_other')
+                used_sets.add("unicode_other")
 
         # Character frequency analysis
         char_freq = Counter(value)
@@ -286,20 +295,17 @@ class EntropyCalculator:
         semantic_score = 0.5
 
         # Type-based adjustments
-        if hasattr(entry_type, 'value'):
-            type_str = entry_type.value
-        else:
-            type_str = str(entry_type)
+        type_str = entry_type.value if hasattr(entry_type, "value") else str(entry_type)
 
         type_bonuses = {
-            'phrase': 0.3,      # Phrases have higher semantic entropy
-            'word': 0.2,        # Single words moderate
-            'emoji': 0.25,      # Emojis have cultural meaning
-            'number': -0.1,     # Numbers generally lower
-            'email': 0.1,       # Structured but personal
-            'phone': 0.05,      # Structured format
-            'passport': 0.15,   # Government issued
-            'biometric': 0.4    # Unique biological
+            "phrase": 0.3,  # Phrases have higher semantic entropy
+            "word": 0.2,  # Single words moderate
+            "emoji": 0.25,  # Emojis have cultural meaning
+            "number": -0.1,  # Numbers generally lower
+            "email": 0.1,  # Structured but personal
+            "phone": 0.05,  # Structured format
+            "passport": 0.15,  # Government issued
+            "biometric": 0.4,  # Unique biological
         }
 
         semantic_score += type_bonuses.get(type_str, 0.0)
@@ -311,14 +317,16 @@ class EntropyCalculator:
             semantic_score += 0.2
 
         # Word/phrase analysis
-        if type_str in ['word', 'phrase']:
+        if type_str in ["word", "phrase"]:
             words = value.lower().split()
             if len(words) > 1:
                 semantic_score += 0.1 * min(len(words), 5)  # Multi-word bonus
 
         return min(semantic_score, 1.0)
 
-    def _calculate_cultural_entropy(self, value: str, cultural_context: Optional[str]) -> float:
+    def _calculate_cultural_entropy(
+        self, value: str, cultural_context: Optional[str]
+    ) -> float:
         """Calculate entropy bonus for cultural diversity."""
         cultural_score = 0.5  # Base score
 
@@ -329,7 +337,11 @@ class EntropyCalculator:
         # Unicode diversity analysis
         scripts = set()
         for char in value:
-            script = unicodedata.name(char, '').split()[0] if unicodedata.name(char, '') else 'UNKNOWN'
+            script = (
+                unicodedata.name(char, "").split()[0]
+                if unicodedata.name(char, "")
+                else "UNKNOWN"
+            )
             scripts.add(script)
 
         # Multiple scripts bonus
@@ -337,7 +349,7 @@ class EntropyCalculator:
             cultural_score += 0.2
 
         # Emoji diversity
-        emoji_count = sum(1 for char in value if unicodedata.category(char) == 'So')
+        emoji_count = sum(1 for char in value if unicodedata.category(char) == "So")
         if emoji_count > 0:
             cultural_score += min(emoji_count * 0.1, 0.3)
 
@@ -355,7 +367,14 @@ class EntropyCalculator:
         uniqueness += char_uniqueness * 0.3
 
         # Avoid dictionary words (simplified check)
-        if value.lower() in ['password', 'admin', 'user', 'test', 'hello', 'world']:
+        if value.lower() in [
+            "password",
+            "admin",
+            "user",
+            "test",
+            "hello",
+            "world",
+        ]:
             uniqueness -= 0.4
 
         # Special character bonus
@@ -372,17 +391,17 @@ class EntropyCalculator:
         """
         try:
             # Extract value from vault entry
-            if hasattr(vault_entry, 'value'):
+            if hasattr(vault_entry, "value"):
                 value = vault_entry.value
-                entry_type = getattr(vault_entry, 'entry_type', None)
-                cultural_context = getattr(vault_entry, 'cultural_context', None)
+                entry_type = getattr(vault_entry, "entry_type", None)
+                cultural_context = getattr(vault_entry, "cultural_context", None)
             elif isinstance(vault_entry, dict):
-                value = vault_entry.get('value', '')
-                entry_type = vault_entry.get('type', 'unknown')
-                cultural_context = vault_entry.get('cultural_context')
+                value = vault_entry.get("value", "")
+                entry_type = vault_entry.get("type", "unknown")
+                cultural_context = vault_entry.get("cultural_context")
             else:
                 value = str(vault_entry)
-                entry_type = 'unknown'
+                entry_type = "unknown"
                 cultural_context = None
 
             # Calculate individual components
@@ -394,11 +413,11 @@ class EntropyCalculator:
 
             # Overall value
             overall_value = (
-                character_entropy * 0.3 +
-                pattern_entropy * 0.2 +
-                semantic_entropy * 0.2 +
-                cultural_entropy * 0.15 +
-                uniqueness_score * 0.15
+                character_entropy * 0.3
+                + pattern_entropy * 0.2
+                + semantic_entropy * 0.2
+                + cultural_entropy * 0.15
+                + uniqueness_score * 0.15
             )
 
             return EntropyScore(
@@ -407,14 +426,14 @@ class EntropyCalculator:
                 pattern_entropy=pattern_entropy,
                 semantic_entropy=semantic_entropy,
                 cultural_entropy=cultural_entropy,
-                uniqueness_score=uniqueness_score
+                uniqueness_score=uniqueness_score,
             )
 
         except Exception as e:
             logger.error(f"ΛTRACE: Entropy assessment error: {e}")
             return EntropyScore(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
-    def recommend_entropy_improvements(self, symbolic_vault: List[Any]) -> List[str]:
+    def recommend_entropy_improvements(self, symbolic_vault: list[Any]) -> list[str]:
         """Recommend ways to improve vault entropy."""
         recommendations = []
 
@@ -425,7 +444,9 @@ class EntropyCalculator:
             recommendations.append("Include emoji, special characters, or phrases")
 
         if vault_entropy < 0.5:
-            recommendations.append("Add elements from different categories (personal, cultural, abstract)")
+            recommendations.append(
+                "Add elements from different categories (personal, cultural, abstract)"
+            )
             recommendations.append("Increase length of text-based elements")
 
         if vault_entropy < 0.7:
@@ -435,10 +456,10 @@ class EntropyCalculator:
         # Check for specific issues
         values = []
         for entry in symbolic_vault:
-            if hasattr(entry, 'value'):
+            if hasattr(entry, "value"):
                 values.append(entry.value)
             elif isinstance(entry, dict):
-                values.append(entry.get('value', ''))
+                values.append(entry.get("value", ""))
             else:
                 values.append(str(entry))
 
@@ -446,7 +467,9 @@ class EntropyCalculator:
             recommendations.append("Remove duplicate elements for better uniqueness")
 
         if len(symbolic_vault) < 5:
-            recommendations.append("Add more symbolic elements (aim for 10+ for good security)")
+            recommendations.append(
+                "Add more symbolic elements (aim for 10+ for good security)"
+            )
 
         return recommendations
 

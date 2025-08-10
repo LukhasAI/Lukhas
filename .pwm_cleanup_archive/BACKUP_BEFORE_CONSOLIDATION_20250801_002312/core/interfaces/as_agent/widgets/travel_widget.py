@@ -23,10 +23,16 @@ Integration Date: 2025-05-31T07:55:30.487056
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-from datetime import datetime, timedelta
 import uuid
+from datetime import datetime, timedelta
 
-def suggest_travel_action(current_location="Home", meeting_location="City Centre", meeting_time="10:00", user_tier=2):
+
+def suggest_travel_action(
+    current_location="Home",
+    meeting_location="City Centre",
+    meeting_time="10:00",
+    user_tier=2,
+):
     """
     Suggests a local travel method or alert based on symbolic context.
 
@@ -67,15 +73,18 @@ def suggest_long_distance_travel(intent_context=None, user_tier=3):
     - dict: travel suggestion payload including vendor tracking, DST metadata, and message
     """
     if user_tier < 3:
-        return {"status": "locked", "message": "✈️ Long-distance travel planning is available for Tier 3+ only."}
+        return {
+            "status": "locked",
+            "message": "✈️ Long-distance travel planning is available for Tier 3+ only.",
+        }
 
     # Simulate vendor recommendation and DST metadata
     suggestion = {
         "status": "active",
         "message": (
             "🌍 Based on your dreams, a nature retreat near the Alps may be ideal. View routes?"
-            if intent_context else
-            "🛫 Would you like to see symbolic getaways for your next break?"
+            if intent_context
+            else "🛫 Would you like to see symbolic getaways for your next break?"
         ),
         "vendor": "Skyscanner",
         "ethics_score": "💚 88%",  # placeholder ethics scoring
@@ -83,11 +92,12 @@ def suggest_long_distance_travel(intent_context=None, user_tier=3):
             "tracking_id": str(uuid.uuid4()),
             "last_checked": datetime.utcnow().isoformat(),
             "next_check_due": (datetime.utcnow() + timedelta(hours=2)).isoformat(),
-            "tracking_window": "active"
-        }
+            "tracking_window": "active",
+        },
     }
 
     return suggestion
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_travel_widget.py)

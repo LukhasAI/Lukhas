@@ -13,17 +13,18 @@ Purpose:
 Author: LUKHAS AGI Core
 """
 
-import os
 import hashlib
+import os
+import platform
 import secrets
-from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
-import platform
+from typing import Any, Dict, List, Optional
 
 
 class HardwareType(Enum):
     """Types of hardware entropy sources."""
+
     TPM_20 = "tpm_2.0"
     TPM_12 = "tpm_1.2"
     HSM_NETWORK = "hsm_network"
@@ -36,6 +37,7 @@ class HardwareType(Enum):
 @dataclass
 class EntropySource:
     """Configuration for a hardware entropy source."""
+
     hardware_type: HardwareType
     device_path: str
     device_name: str
@@ -105,24 +107,22 @@ class HardwareEntropySeeder:
         sources = []
 
         # Check common TPM device paths
-        tpm_paths = [
-            "/dev/tpm0",
-            "/dev/tpmrm0",
-            "\\\\?\\TPM"  # Windows TPM path
-        ]
+        tpm_paths = ["/dev/tpm0", "/dev/tpmrm0", "\\\\?\\TPM"]  # Windows TPM path
 
         for path in tpm_paths:
             if self._check_device_available(path):
                 # Determine TPM version
                 tpm_version = self._detect_tpm_version(path)
-                sources.append(EntropySource(
-                    hardware_type=tpm_version,
-                    device_path=path,
-                    device_name=f"TPM {tpm_version.value}",
-                    available=True,
-                    entropy_rate=1000.0,  # bits/sec
-                    quality_score=0.95
-                ))
+                sources.append(
+                    EntropySource(
+                        hardware_type=tpm_version,
+                        device_path=path,
+                        device_name=f"TPM {tpm_version.value}",
+                        available=True,
+                        entropy_rate=1000.0,  # bits/sec
+                        quality_score=0.95,
+                    )
+                )
 
         return sources
 
@@ -164,14 +164,16 @@ class HardwareEntropySeeder:
 
         for path in trng_paths:
             if self._check_device_available(path) and self._is_hardware_backed(path):
-                sources.append(EntropySource(
-                    hardware_type=HardwareType.TRNG_DEVICE,
-                    device_path=path,
-                    device_name=f"Hardware RNG ({path})",
-                    available=True,
-                    entropy_rate=2000.0,  # bits/sec
-                    quality_score=0.90
-                ))
+                sources.append(
+                    EntropySource(
+                        hardware_type=HardwareType.TRNG_DEVICE,
+                        device_path=path,
+                        device_name=f"Hardware RNG ({path})",
+                        available=True,
+                        entropy_rate=2000.0,  # bits/sec
+                        quality_score=0.90,
+                    )
+                )
 
         return sources
 
@@ -187,14 +189,16 @@ class HardwareEntropySeeder:
 
         # Check for Intel RDRAND instruction
         if self._has_rdrand_support():
-            sources.append(EntropySource(
-                hardware_type=HardwareType.INTEL_RDRAND,
-                device_path="cpu:rdrand",
-                device_name="Intel RDRAND",
-                available=True,
-                entropy_rate=500.0,  # bits/sec
-                quality_score=0.85
-            ))
+            sources.append(
+                EntropySource(
+                    hardware_type=HardwareType.INTEL_RDRAND,
+                    device_path="cpu:rdrand",
+                    device_name="Intel RDRAND",
+                    available=True,
+                    entropy_rate=500.0,  # bits/sec
+                    quality_score=0.85,
+                )
+            )
 
         return sources
 
@@ -205,7 +209,9 @@ class HardwareEntropySeeder:
         Returns:
             EntropySource: System entropy source
         """
-        system_path = "/dev/urandom" if platform.system() != "Windows" else "CryptGenRandom"
+        system_path = (
+            "/dev/urandom" if platform.system() != "Windows" else "CryptGenRandom"
+        )
 
         return EntropySource(
             hardware_type=HardwareType.SYSTEM_ENTROPY,
@@ -213,7 +219,7 @@ class HardwareEntropySeeder:
             device_name="System Entropy Pool",
             available=True,
             entropy_rate=100.0,  # bits/sec (conservative estimate)
-            quality_score=0.70
+            quality_score=0.70,
         )
 
     def _check_device_available(self, device_path: str) -> bool:
@@ -272,8 +278,9 @@ class HardwareEntropySeeder:
         try:
             # This is a placeholder - actual implementation would check CPU features
             import cpuinfo
+
             cpu_info = cpuinfo.get_cpu_info()
-            return 'rdrand' in cpu_info.get('flags', [])
+            return "rdrand" in cpu_info.get("flags", [])
         except ImportError:
             return False
 
@@ -283,20 +290,23 @@ class HardwareEntropySeeder:
             return
 
         # Sort by quality score (descending)
-        sorted_sources = sorted(self.available_sources,
-                              key=lambda s: s.quality_score, reverse=True)
+        sorted_sources = sorted(
+            self.available_sources, key=lambda s: s.quality_score, reverse=True
+        )
 
         # Prefer hardware sources over system entropy
-        hardware_sources = [s for s in sorted_sources
-                          if s.hardware_type != HardwareType.SYSTEM_ENTROPY]
+        hardware_sources = [
+            s for s in sorted_sources if s.hardware_type != HardwareType.SYSTEM_ENTROPY
+        ]
 
         if hardware_sources:
             self.preferred_source = hardware_sources[0]
         else:
             self.preferred_source = sorted_sources[0]
 
-    def generate_entropy_seed(self, byte_count: int = 32,
-                            source: Optional[EntropySource] = None) -> bytes:
+    def generate_entropy_seed(
+        self, byte_count: int = 32, source: Optional[EntropySource] = None
+    ) -> bytes:
         """
         Generate entropy seed from hardware source.
 
@@ -315,12 +325,15 @@ class HardwareEntropySeeder:
         if not target_source:
             raise RuntimeError("No entropy sources available")
 
-        print(f"🎲 Generating {byte_count} bytes of entropy from {target_source.device_name}")
+        print(
+            f"🎲 Generating {byte_count} bytes of entropy from {target_source.device_name}"
+        )
 
         # Generate entropy based on source type
-        if target_source.hardware_type == HardwareType.TPM_20:
-            return self._generate_tpm_entropy(target_source, byte_count)
-        elif target_source.hardware_type == HardwareType.TPM_12:
+        if (
+            target_source.hardware_type == HardwareType.TPM_20
+            or target_source.hardware_type == HardwareType.TPM_12
+        ):
             return self._generate_tpm_entropy(target_source, byte_count)
         elif target_source.hardware_type == HardwareType.HSM_USB:
             return self._generate_hsm_entropy(target_source, byte_count)
@@ -351,22 +364,22 @@ class HardwareEntropySeeder:
         # TODO: Implement actual TRNG entropy generation
         print(f"  → Using TRNG device: {source.device_path}")
         try:
-            with open(source.device_path, 'rb') as f:
+            with open(source.device_path, "rb") as f:
                 return f.read(byte_count)
-        except (IOError, OSError):
+        except OSError:
             return self._generate_system_entropy(byte_count)
 
     def _generate_rdrand_entropy(self, source: EntropySource, byte_count: int) -> bytes:
         """Generate entropy from Intel RDRAND."""
         # TODO: Implement actual RDRAND entropy generation
-        print(f"  → Using CPU RDRAND instruction")
+        print("  → Using CPU RDRAND instruction")
         # Placeholder: mix system entropy with simulated RDRAND
         system_entropy = secrets.token_bytes(byte_count)
         return hashlib.sha256(system_entropy + b"rdrand_seed").digest()[:byte_count]
 
     def _generate_system_entropy(self, byte_count: int) -> bytes:
         """Generate entropy from system source."""
-        print(f"  → Using system entropy pool")
+        print("  → Using system entropy pool")
         return secrets.token_bytes(byte_count)
 
     def get_entropy_quality_report(self) -> Dict[str, Any]:
@@ -383,9 +396,19 @@ class HardwareEntropySeeder:
             "discovery_timestamp": None,  # TODO: Add timestamp
             "total_sources": len(self.available_sources),
             "preferred_source": {
-                "name": self.preferred_source.device_name if self.preferred_source else None,
-                "type": self.preferred_source.hardware_type.value if self.preferred_source else None,
-                "quality_score": self.preferred_source.quality_score if self.preferred_source else 0.0
+                "name": (
+                    self.preferred_source.device_name if self.preferred_source else None
+                ),
+                "type": (
+                    self.preferred_source.hardware_type.value
+                    if self.preferred_source
+                    else None
+                ),
+                "quality_score": (
+                    self.preferred_source.quality_score
+                    if self.preferred_source
+                    else 0.0
+                ),
             },
             "sources": [
                 {
@@ -394,11 +417,11 @@ class HardwareEntropySeeder:
                     "path": source.device_path,
                     "available": source.available,
                     "entropy_rate": source.entropy_rate,
-                    "quality_score": source.quality_score
+                    "quality_score": source.quality_score,
                 }
                 for source in self.available_sources
             ],
-            "recommendations": self._generate_recommendations()
+            "recommendations": self._generate_recommendations(),
         }
 
         return report
@@ -407,17 +430,26 @@ class HardwareEntropySeeder:
         """Generate recommendations for entropy configuration."""
         recommendations = []
 
-        hardware_sources = [s for s in self.available_sources
-                          if s.hardware_type != HardwareType.SYSTEM_ENTROPY]
+        hardware_sources = [
+            s
+            for s in self.available_sources
+            if s.hardware_type != HardwareType.SYSTEM_ENTROPY
+        ]
 
         if not hardware_sources:
-            recommendations.append("Consider installing a hardware entropy source (TPM, HSM, or TRNG)")
+            recommendations.append(
+                "Consider installing a hardware entropy source (TPM, HSM, or TRNG)"
+            )
 
         if self.preferred_source and self.preferred_source.quality_score < 0.8:
-            recommendations.append("Current entropy source has lower quality - consider upgrading")
+            recommendations.append(
+                "Current entropy source has lower quality - consider upgrading"
+            )
 
         if len(self.available_sources) == 1:
-            recommendations.append("Multiple entropy sources recommended for redundancy")
+            recommendations.append(
+                "Multiple entropy sources recommended for redundancy"
+            )
 
         return recommendations
 
@@ -437,7 +469,9 @@ if __name__ == "__main__":
     for source in sources:
         status = "✅" if source.available else "❌"
         print(f"  {status} {source.device_name} ({source.hardware_type.value})")
-        print(f"      Quality: {source.quality_score:.2f}, Rate: {source.entropy_rate:.0f} bits/sec")
+        print(
+            f"      Quality: {source.quality_score:.2f}, Rate: {source.entropy_rate:.0f} bits/sec"
+        )
 
     # Show preferred source
     if seeder.preferred_source:
@@ -453,14 +487,14 @@ if __name__ == "__main__":
 
     # Get quality report
     quality_report = seeder.get_entropy_quality_report()
-    print(f"\nEntropy Quality Report:")
+    print("\nEntropy Quality Report:")
     print(f"  Total sources: {quality_report['total_sources']}")
     print(f"  Preferred: {quality_report['preferred_source']['name']}")
     print(f"  Quality score: {quality_report['preferred_source']['quality_score']:.2f}")
 
-    if quality_report['recommendations']:
-        print(f"\nRecommendations:")
-        for rec in quality_report['recommendations']:
+    if quality_report["recommendations"]:
+        print("\nRecommendations:")
+        for rec in quality_report["recommendations"]:
             print(f"  • {rec}")
 
     print("\nReady for hardware entropy seeding operations.")

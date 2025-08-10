@@ -3,11 +3,11 @@
 Capture and save DALL-E 3 generated dream images
 """
 
-import os
 import asyncio
-import requests
 from datetime import datetime
 from pathlib import Path
+
+import requests
 from dotenv import load_dotenv
 
 # Load environment
@@ -15,122 +15,123 @@ load_dotenv()
 
 from openai import OpenAI
 
+
 async def generate_and_save_dream_images():
     """Generate dream images and save them locally"""
-    
-    print("\n" + "="*80)
+
+    print("\n" + "=" * 80)
     print("🎨 NIAS DREAM IMAGE GENERATION & CAPTURE")
-    print("="*80 + "\n")
-    
+    print("=" * 80 + "\n")
+
     client = OpenAI()
-    
+
     # Create directory for dream images
     images_dir = Path("dream_images")
     images_dir.mkdir(exist_ok=True)
-    
+
     # Define dream scenarios
     dream_prompts = [
         {
             "name": "winter_comfort",
             "prompt": "A dreamlike ethereal scene of a soft cashmere sweater floating in pastel winter clouds, "
-                     "watercolor style, gentle morning light, peaceful and serene, no text, artistic and poetic",
-            "product": "Cashmere Sweater"
+            "watercolor style, gentle morning light, peaceful and serene, no text, artistic and poetic",
+            "product": "Cashmere Sweater",
         },
         {
             "name": "wellness_journey",
             "prompt": "Abstract dreamscape of organic wellness elements - floating herbs, soft golden light, "
-                     "zen garden atmosphere, minimalist and calming, watercolor meditation scene, no text",
-            "product": "Wellness Bundle"
+            "zen garden atmosphere, minimalist and calming, watercolor meditation scene, no text",
+            "product": "Wellness Bundle",
         },
         {
             "name": "holiday_gift",
             "prompt": "Magical gift box opening with soft light and stardust, dreamy holiday atmosphere, "
-                     "warm candlelight glow, ethereal and festive, painted in soft pastels, no text",
-            "product": "Holiday Gift Set"
+            "warm candlelight glow, ethereal and festive, painted in soft pastels, no text",
+            "product": "Holiday Gift Set",
         },
         {
             "name": "adventure_calling",
             "prompt": "Surreal landscape where mountains meet clouds, path leading to adventure, "
-                     "golden hour lighting, dreamlike and inspiring, impressionist painting style, no text",
-            "product": "Adventure Package"
-        }
+            "golden hour lighting, dreamlike and inspiring, impressionist painting style, no text",
+            "product": "Adventure Package",
+        },
     ]
-    
+
     generated_images = []
-    
+
     for i, scenario in enumerate(dream_prompts, 1):
         print(f"\n{'─'*60}")
         print(f"Scenario {i}: {scenario['name'].replace('_', ' ').title()}")
         print(f"Product: {scenario['product']}")
         print(f"{'─'*60}")
-        
-        print(f"\n⏳ Generating dream image with DALL-E 3...")
+
+        print("\n⏳ Generating dream image with DALL-E 3...")
         print(f"Prompt: '{scenario['prompt'][:100]}...'")
-        
+
         try:
             # Generate image
             response = client.images.generate(
                 model="dall-e-3",
-                prompt=scenario['prompt'],
+                prompt=scenario["prompt"],
                 size="1024x1024",
                 quality="hd",  # High quality for better dreams
                 n=1,
-                style="vivid"  # More artistic style
+                style="vivid",  # More artistic style
             )
-            
+
             image_url = response.data[0].url
             revised_prompt = response.data[0].revised_prompt
-            
-            print(f"\n✅ Image generated successfully!")
+
+            print("\n✅ Image generated successfully!")
             print(f"URL: {image_url[:80]}...")
-            
+
             # Download and save image
-            print(f"\n📥 Downloading image...")
+            print("\n📥 Downloading image...")
             image_response = requests.get(image_url)
-            
+
             if image_response.status_code == 200:
                 # Save with timestamp and scenario name
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"dream_{scenario['name']}_{timestamp}.png"
                 filepath = images_dir / filename
-                
-                with open(filepath, 'wb') as f:
+
+                with open(filepath, "wb") as f:
                     f.write(image_response.content)
-                
+
                 print(f"💾 Saved as: {filepath}")
-                
+
                 # Store metadata
                 metadata = {
                     "filename": filename,
-                    "scenario": scenario['name'],
-                    "product": scenario['product'],
-                    "original_prompt": scenario['prompt'],
+                    "scenario": scenario["name"],
+                    "product": scenario["product"],
+                    "original_prompt": scenario["prompt"],
                     "revised_prompt": revised_prompt,
                     "url": image_url,
                     "timestamp": timestamp,
-                    "path": str(filepath)
+                    "path": str(filepath),
                 }
-                
+
                 generated_images.append(metadata)
-                
-                print(f"\n📊 Image Details:")
-                print(f"   Size: 1024x1024 pixels")
-                print(f"   Quality: HD")
-                print(f"   Style: Vivid (artistic)")
-                
+
+                print("\n📊 Image Details:")
+                print("   Size: 1024x1024 pixels")
+                print("   Quality: HD")
+                print("   Style: Vivid (artistic)")
+
             else:
                 print(f"❌ Failed to download image: {image_response.status_code}")
-                
+
         except Exception as e:
             print(f"❌ Error generating image: {e}")
             continue
-    
+
     # Create HTML gallery
     if generated_images:
         print(f"\n\n{'='*80}")
         print("📸 CREATING DREAM GALLERY")
-        print("="*80)
-        
+        print("=" * 80)
+
         html_content = """<!DOCTYPE html>
 <html>
 <head>
@@ -212,9 +213,9 @@ async def generate_and_save_dream_images():
         
         <div class="gallery">
 """
-        
+
         for img in generated_images:
-            dream_title = img['scenario'].replace('_', ' ').title()
+            dream_title = img["scenario"].replace("_", " ").title()
             html_content += f"""
             <div class="dream-card">
                 <img src="{img['filename']}" alt="{dream_title}" class="dream-image">
@@ -224,7 +225,7 @@ async def generate_and_save_dream_images():
                 <div class="timestamp">Generated: {img['timestamp']}</div>
             </div>
 """
-        
+
         html_content += """
         </div>
         
@@ -236,42 +237,44 @@ async def generate_and_save_dream_images():
 </body>
 </html>
 """
-        
+
         gallery_path = images_dir / "dream_gallery.html"
-        with open(gallery_path, 'w') as f:
+        with open(gallery_path, "w") as f:
             f.write(html_content)
-        
+
         print(f"\n🌐 HTML Gallery created: {gallery_path}")
         print(f"   Open in browser: file://{gallery_path.absolute()}")
-    
+
     # Save metadata JSON
     if generated_images:
         import json
+
         metadata_path = images_dir / "dream_metadata.json"
-        with open(metadata_path, 'w') as f:
+        with open(metadata_path, "w") as f:
             json.dump(generated_images, f, indent=2)
         print(f"\n📄 Metadata saved: {metadata_path}")
-    
+
     print(f"\n\n{'='*80}")
     print("✅ DREAM IMAGE CAPTURE COMPLETE")
-    print("="*80)
+    print("=" * 80)
     print(f"\n📁 Images saved in: {images_dir.absolute()}")
     print(f"   • {len(generated_images)} dream images generated")
-    print(f"   • HTML gallery created")
-    print(f"   • Metadata JSON saved")
-    
+    print("   • HTML gallery created")
+    print("   • Metadata JSON saved")
+
     print("\n🎨 The NIAS system has successfully:")
     print("   • Generated ethereal dream imagery (not product photos)")
     print("   • Created poetic visual experiences")
     print("   • Saved dreams for offline viewing")
     print("   • Built a beautiful gallery showcase")
-    
+
     return generated_images
+
 
 if __name__ == "__main__":
     print("🚀 Starting NIAS Dream Image Capture...")
     results = asyncio.run(generate_and_save_dream_images())
-    
+
     if results:
         print(f"\n💫 Success! Generated {len(results)} dream images")
         print("\n🌟 These aren't ads - they're visual poems about products")

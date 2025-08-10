@@ -4,13 +4,18 @@ Simple test to validate orchestrator migration patterns
 Tests basic instantiation and method availability
 """
 
-import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+import sys
 
-from dataclasses import dataclass
-from enum import Enum
+sys.path.insert(
+    0,
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    ),
+)
+
 import asyncio
+from dataclasses import dataclass
 
 
 def test_base_patterns():
@@ -21,7 +26,12 @@ def test_base_patterns():
 
     # Test 1: Import base classes
     try:
-        from orchestration.base import BaseOrchestrator, OrchestratorConfig, OrchestratorState
+        from orchestration.base import (
+            BaseOrchestrator,
+            OrchestratorConfig,
+            OrchestratorState,
+        )
+
         print("✓ Base orchestrator imported")
     except Exception as e:
         print(f"✗ Failed to import base: {e}")
@@ -55,8 +65,8 @@ def test_base_patterns():
 
         assert orchestrator.config.name == "TestOrch"
         assert orchestrator.state == OrchestratorState.UNINITIALIZED
-        assert hasattr(orchestrator, 'metrics')
-        assert hasattr(orchestrator, 'components')
+        assert hasattr(orchestrator, "metrics")
+        assert hasattr(orchestrator, "components")
 
         print("✓ Test orchestrator created successfully")
         print(f"  - Name: {orchestrator.config.name}")
@@ -77,16 +87,16 @@ def test_memory_orchestrator_simple():
     print("=" * 60)
 
     try:
+        from orchestration.migrated.memory_orchestrator import (
+            MemoryOrchestrator,
+        )
         from orchestration.module_orchestrator import ModuleOrchestratorConfig
-        from orchestration.migrated.memory_orchestrator import MemoryOrchestrator
 
         print("✓ MemoryOrchestrator imported")
 
         # Create simple config without post_init issues
         config = ModuleOrchestratorConfig(
-            name="TestMemory",
-            description="Test Memory",
-            module_name="memory"
+            name="TestMemory", description="Test Memory", module_name="memory"
         )
 
         orchestrator = MemoryOrchestrator(config)
@@ -95,11 +105,13 @@ def test_memory_orchestrator_simple():
         print(f"  - Type: {type(orchestrator).__name__}")
         print(f"  - Config name: {orchestrator.config.name}")
         print(f"  - Has process method: {hasattr(orchestrator, 'process')}")
-        print(f"  - Has required lifecycle methods: {hasattr(orchestrator, 'initialize')}")
+        print(
+            f"  - Has required lifecycle methods: {hasattr(orchestrator, 'initialize')}"
+        )
 
         # Check inheritance
-        from orchestration.module_orchestrator import ModuleOrchestrator
         from orchestration.base import BaseOrchestrator
+        from orchestration.module_orchestrator import ModuleOrchestrator
 
         assert isinstance(orchestrator, ModuleOrchestrator)
         assert isinstance(orchestrator, BaseOrchestrator)
@@ -110,6 +122,7 @@ def test_memory_orchestrator_simple():
     except Exception as e:
         print(f"✗ Failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
@@ -121,7 +134,11 @@ async def test_lifecycle():
     print("=" * 60)
 
     try:
-        from orchestration.base import BaseOrchestrator, OrchestratorConfig, OrchestratorState
+        from orchestration.base import (
+            BaseOrchestrator,
+            OrchestratorConfig,
+            OrchestratorState,
+        )
 
         class SimpleTestOrchestrator(BaseOrchestrator):
             def __init__(self, config):
@@ -182,6 +199,7 @@ async def test_lifecycle():
     except Exception as e:
         print(f"✗ Lifecycle test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 

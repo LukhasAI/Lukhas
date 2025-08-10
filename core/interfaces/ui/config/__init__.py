@@ -15,16 +15,17 @@ such as dashboard settings or UI behavior parameters.
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
 
 # ΛMAIN_LOGIC_START
 # # Auto-generated __init__.py (Original comment)
-log.debug("core.interfaces.ui.config package initialized.") # ΛMODIFICATION: Logging
+log.debug("core.interfaces.ui.config package initialized.")  # ΛMODIFICATION: Logging
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

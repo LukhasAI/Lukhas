@@ -12,8 +12,9 @@ This module registers the common node types with the node registry.
 """
 
 import logging
-from typing import Dict, Any
+
 from .node_registry import node_registry
+
 
 # Intent Node - based loosely on the structure seen in lukhas_agi files
 class IntentNode:
@@ -39,8 +40,8 @@ class IntentNode:
             "action_plan": [
                 {"step": "analyze_context", "priority": 1},
                 {"step": "retrieve_information", "priority": 2},
-                {"step": "formulate_response", "priority": 3}
-            ]
+                {"step": "formulate_response", "priority": 3},
+            ],
         }
 
         return intent
@@ -75,7 +76,7 @@ class MemoryNode:
             "importance": importance,
             "created_at": time.time(),
             "access_count": 0,
-            "last_accessed": None
+            "last_accessed": None,
         }
 
         if memory_type == "long_term" or importance > 0.7:
@@ -109,8 +110,13 @@ class MemoryNode:
             # For now, basic keyword matching
             results = []
 
-            for memory in list(self.short_term.values()) + list(self.long_term.values()):
-                if isinstance(memory["data"], str) and query.lower() in memory["data"].lower():
+            for memory in list(self.short_term.values()) + list(
+                self.long_term.values()
+            ):
+                if (
+                    isinstance(memory["data"], str)
+                    and query.lower() in memory["data"].lower()
+                ):
                     memory["access_count"] += 1
                     memory["last_accessed"] = time.time()
                     results.append(memory)
@@ -137,7 +143,7 @@ class EthicsNode:
             "non_maleficence": 0.95,
             "justice": 0.85,
             "privacy": 0.9,
-            "transparency": 0.85
+            "transparency": 0.85,
         }
         self.decision_history = []
 
@@ -166,14 +172,11 @@ class EthicsNode:
             "ethical_score": normalized_score,
             "principle_scores": scores,
             "recommendation": "approve" if normalized_score > 0.7 else "review",
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Record decision for learning
-        self.decision_history.append({
-            "action": action_data,
-            "evaluation": evaluation
-        })
+        self.decision_history.append({"action": action_data, "evaluation": evaluation})
 
         if len(self.decision_history) > 100:
             # Update ethical weights based on patterns
@@ -211,7 +214,7 @@ class GoalManagementNode:
             "status": "active",
             "progress": 0.0,
             "sub_goals": [],
-            "dependencies": goal_data.get("dependencies", [])
+            "dependencies": goal_data.get("dependencies", []),
         }
 
         self.active_goals.append(goal)
@@ -268,7 +271,7 @@ class DAOGovernanceNode:
             {"id": "ethics_expert", "weight": 1.0, "domain": "ethics"},
             {"id": "security_expert", "weight": 0.8, "domain": "security"},
             {"id": "user_advocate", "weight": 1.0, "domain": "user_experience"},
-            {"id": "technical_expert", "weight": 0.7, "domain": "technical"}
+            {"id": "technical_expert", "weight": 0.7, "domain": "technical"},
         ]
 
     def create_proposal(self, proposal_data):
@@ -281,7 +284,7 @@ class DAOGovernanceNode:
             "created_at": time.time(),
             "status": "voting",
             "votes": {},
-            "result": None
+            "result": None,
         }
 
         self.proposals.append(proposal)
@@ -307,14 +310,16 @@ class DAOGovernanceNode:
                 proposal["votes"][member_id] = {
                     "vote": vote,
                     "rationale": rationale,
-                    "timestamp": time.time()
+                    "timestamp": time.time(),
                 }
 
                 # Check if voting is complete
                 if len(proposal["votes"]) >= len(self.council_members):
                     self._finalize_proposal(proposal)
 
-                self.logger.info(f"Recorded vote from {member_id} on proposal {proposal_id}")
+                self.logger.info(
+                    f"Recorded vote from {member_id} on proposal {proposal_id}"
+                )
                 return True
 
         self.logger.warning(f"Proposal {proposal_id} not found")
@@ -344,14 +349,14 @@ class DAOGovernanceNode:
             proposal["result"] = {
                 "decision": "approved",
                 "approval_ratio": approval_ratio,
-                "finalized_at": time.time()
+                "finalized_at": time.time(),
             }
         else:
             proposal["status"] = "rejected"
             proposal["result"] = {
                 "decision": "rejected",
                 "approval_ratio": approval_ratio,
-                "finalized_at": time.time()
+                "finalized_at": time.time(),
             }
 
         self.logger.info(f"Finalized proposal {proposal['id']} as {proposal['status']}")
@@ -359,6 +364,7 @@ class DAOGovernanceNode:
 
 # Import required modules
 import time
+
 
 # Register the nodes with the registry
 def register_core_nodes():

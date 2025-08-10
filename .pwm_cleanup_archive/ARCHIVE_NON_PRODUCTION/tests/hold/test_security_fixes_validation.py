@@ -12,13 +12,9 @@ This test suite validates that all critical security vulnerabilities have been f
 
 import os
 import re
-import ast
-import json
-import tempfile
 import subprocess
+import tempfile
 from pathlib import Path
-from typing import List, Dict, Any
-import openai
 
 
 def test_no_hardcoded_credentials():
@@ -27,15 +23,15 @@ def test_no_hardcoded_credentials():
 
     # Pattern to detect potential hardcoded tokens/secrets
     dangerous_patterns = [
-        r'ghp_[a-zA-Z0-9]{36}',  # GitHub Personal Access Tokens
-        r'github_pat_[a-zA-Z0-9_]{82}',  # GitHub Fine-grained PATs
-        r'ghs_[a-zA-Z0-9]{36}',  # GitHub App Installation tokens
-        r'gho_[a-zA-Z0-9]{36}',  # GitHub OAuth tokens
-        r'ghu_[a-zA-Z0-9]{36}',  # GitHub User-to-server tokens
-        r'glpat-[a-zA-Z0-9_-]{20}',  # GitLab Personal Access Tokens
-        r'AKIA[0-9A-Z]{16}',  # AWS Access Key IDs
-        r'sk-[a-zA-Z0-9]{48}',  # OpenAI API keys
-        r'xox[bpoa]-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-z0-9]{32}',  # Slack tokens
+        r"ghp_[a-zA-Z0-9]{36}",  # GitHub Personal Access Tokens
+        r"github_pat_[a-zA-Z0-9_]{82}",  # GitHub Fine-grained PATs
+        r"ghs_[a-zA-Z0-9]{36}",  # GitHub App Installation tokens
+        r"gho_[a-zA-Z0-9]{36}",  # GitHub OAuth tokens
+        r"ghu_[a-zA-Z0-9]{36}",  # GitHub User-to-server tokens
+        r"glpat-[a-zA-Z0-9_-]{20}",  # GitLab Personal Access Tokens
+        r"AKIA[0-9A-Z]{16}",  # AWS Access Key IDs
+        r"sk-[a-zA-Z0-9]{48}",  # OpenAI API keys
+        r"xox[bpoa]-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-z0-9]{32}",  # Slack tokens
     ]
 
     repo_root = Path("/home/runner/work/AGI-Consolidation-Repo/AGI-Consolidation-Repo")
@@ -45,18 +41,26 @@ def test_no_hardcoded_credentials():
         result = subprocess.run(
             ["grep", "-r", "-E", pattern, str(repo_root), "--exclude-dir=.git"],
             capture_output=True,
-            text=True
+            text=True,
         )
 
         if result.returncode == 0:
-            violations.extend(result.stdout.strip().split('\n'))
+            violations.extend(result.stdout.strip().split("\n"))
 
     # Filter out test files and comments that mention patterns
     filtered_violations = []
     for violation in violations:
-        if not any(exclude in violation.lower() for exclude in [
-            'test_security_fixes', 'validation', 'example', 'comment', '#', 'documentation'
-        ]):
+        if not any(
+            exclude in violation.lower()
+            for exclude in [
+                "test_security_fixes",
+                "validation",
+                "example",
+                "comment",
+                "#",
+                "documentation",
+            ]
+        ):
             filtered_violations.append(violation)
 
     if filtered_violations:
@@ -77,26 +81,30 @@ def test_no_dangerous_eval_exec():
     violations = []
 
     for py_file in repo_root.rglob("*.py"):
-        if any(exclude in str(py_file) for exclude in [
-            'test_security_fixes', 'validation', '.git', '__pycache__'
-        ]):
+        if any(
+            exclude in str(py_file)
+            for exclude in ["test_security_fixes", "validation", ".git", "__pycache__"]
+        ):
             continue
 
         try:
-            with open(py_file, 'r', encoding='utf-8') as f:
+            with open(py_file, encoding="utf-8") as f:
                 content = f.read()
 
             # Check for dangerous eval/exec usage
-            lines = content.split('\n')
+            lines = content.split("\n")
             for i, line in enumerate(lines, 1):
                 # Skip comments and safe usage patterns
-                if line.strip().startswith('#') or 'ΛSECURITY' in line:
+                if line.strip().startswith("#") or "ΛSECURITY" in line:
                     continue
 
                 # Look for dangerous patterns
-                if re.search(r'\beval\s*\(', line) and 'ast.literal_eval' not in line:
-                    violations.append(f"{py_file}:{i}: {line.strip()}")
-                elif re.search(r'\bexec\s*\(', line) and 'exec_module' not in line:
+                if (
+                    re.search(r"\beval\s*\(", line)
+                    and "ast.literal_eval" not in line
+                    or re.search(r"\bexec\s*\(", line)
+                    and "exec_module" not in line
+                ):
                     violations.append(f"{py_file}:{i}: {line.strip()}")
 
         except Exception as e:
@@ -122,18 +130,18 @@ def test_secure_parsing_implementation():
 
         # Test with safe literal
         result = legacy_parse_lukhas_command("CMD:test_action PARAMS:{'key': 'value'}")
-        assert result['command'] == 'test_action'
-        assert result['params']['key'] == 'value'
+        assert result["command"] == "test_action"
+        assert result["params"]["key"] == "value"
 
         # Test with JSON
         result = legacy_parse_lukhas_command('CMD:json_test PARAMS:{"key": "value"}')
-        assert result['command'] == 'json_test'
-        assert result['params']['key'] == 'value'
+        assert result["command"] == "json_test"
+        assert result["params"]["key"] == "value"
 
         # Test with invalid params
         result = legacy_parse_lukhas_command("CMD:invalid_test PARAMS:invalid_json")
-        assert result['command'] == 'invalid_test'
-        assert result['params']['error'] == 'param_parse_failed'
+        assert result["command"] == "invalid_test"
+        assert result["params"]["error"] == "param_parse_failed"
 
         print("✅ Secure parsing implementation works correctly")
         return True
@@ -149,8 +157,10 @@ def test_batch_planner_security():
 
     try:
         # Create a temporary test file with file_moves data
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-            f.write("file_moves = [{'source': 'test.py', 'destination': 'new_test.py'}]\n")
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
+            f.write(
+                "file_moves = [{'source': 'test.py', 'destination': 'new_test.py'}]\n"
+            )
             temp_file = f.name
 
         try:
@@ -160,8 +170,8 @@ def test_batch_planner_security():
             moves = planner.load_file_moves()
 
             assert len(moves) == 1
-            assert moves[0]['source'] == 'test.py'
-            assert moves[0]['destination'] == 'new_test.py'
+            assert moves[0]["source"] == "test.py"
+            assert moves[0]["destination"] == "new_test.py"
 
             print("✅ Batch planner security implementation works correctly")
             return True

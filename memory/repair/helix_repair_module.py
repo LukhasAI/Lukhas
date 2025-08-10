@@ -1,11 +1,10 @@
 """Autonomous repair routines for the Healix memory helix."""
-from typing import Dict, Any
+
 from datetime import datetime, timezone
-import structlog
+from typing import Any, Dict
 
 from memory.systems.healix_memory_core import HealixMemoryCore
 
-from core.common import get_logger
 
 class HelixRepairModule:
     """Detects and repairs basic inconsistencies in the memory helix."""

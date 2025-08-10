@@ -40,24 +40,21 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
+import hashlib
 import json
-import time
-import uuid
 import struct
+import uuid
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Set, Any, Optional, Tuple, Union
-import hashlib
-import structlog
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # Import fold import/export modules
 try:
-    from .foldout import export_folds, create_fold_bundle
+    from .foldout import create_fold_bundle, export_folds
 except ImportError:
-    from .foldout_simple import export_folds, create_fold_bundle
+    from .foldout_simple import export_folds
 
 try:
     from .foldin import import_folds, verify_lkf_pack
@@ -65,31 +62,36 @@ except ImportError:
     # Simple import function
     async def import_folds(path):
         import gzip
-        with open(path, 'rb') as f:
+
+        with open(path, "rb") as f:
             magic = f.read(4)
             size = struct.unpack(">I", f.read(4))[0]
             compressed = f.read(size)
             data = json.loads(gzip.decompress(compressed))
-            for fold in data.get('folds', []):
+            for fold in data.get("folds", []):
                 yield fold
 
     def verify_lkf_pack(path):
         return True  # Simple verification
 
+
 # Import structural conscience for critical decisions
 try:
-    from memory.structural_conscience import StructuralConscience, ConscienceSeverity, MoralDecisionType
+    from memory.structural_conscience import (
+        ConscienceSeverity,
+        MoralDecisionType,
+        StructuralConscience,
+    )
 except ImportError:
     StructuralConscience = None
     ConscienceSeverity = None
     MoralDecisionType = None
 
-from core.common import get_logger
-
 
 @dataclass
 class MemoryItem:
     """Individual memory item with metadata."""
+
     item_id: str
     data: Any
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -103,6 +105,7 @@ class MemoryItem:
 @dataclass
 class TagInfo:
     """Information about a tag in the global registry."""
+
     tag_id: str
     tag_name: str
     reference_count: int = 0
@@ -126,7 +129,7 @@ class MemoryFoldSystem:
         self,
         structural_conscience: Optional[StructuralConscience] = None,
         enable_auto_tagging: bool = True,
-        max_tag_depth: int = 5
+        max_tag_depth: int = 5,
     ):
         """
         Initialize Memory Fold System.
@@ -138,13 +141,21 @@ class MemoryFoldSystem:
         """
         # Core data structures
         self.items: Dict[str, MemoryItem] = {}  # item_id -> MemoryItem
-        self.item_tags: Dict[str, Set[str]] = defaultdict(set)  # item_id -> set of tag_ids
-        self.tag_items: Dict[str, Set[str]] = defaultdict(set)  # tag_id -> set of item_ids
+        self.item_tags: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # item_id -> set of tag_ids
+        self.tag_items: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # tag_id -> set of item_ids
         self.tag_registry: Dict[str, TagInfo] = {}  # tag_id -> TagInfo
-        self.tag_name_index: Dict[str, str] = {}  # tag_name -> tag_id (for deduplication)
+        self.tag_name_index: Dict[str, str] = (
+            {}
+        )  # tag_name -> tag_id (for deduplication)
 
         # Tag relationships (for semantic network)
-        self.tag_relationships: Dict[str, Dict[str, float]] = defaultdict(dict)  # tag_id -> {related_tag_id: weight}
+        self.tag_relationships: Dict[str, Dict[str, float]] = defaultdict(
+            dict
+        )  # tag_id -> {related_tag_id: weight}
 
         # Configuration
         self.enable_auto_tagging = enable_auto_tagging
@@ -157,13 +168,13 @@ class MemoryFoldSystem:
             "total_tags": 0,
             "deduplication_saves": 0,
             "fold_in_operations": 0,
-            "fold_out_operations": 0
+            "fold_out_operations": 0,
         }
 
         logger.info(
             "Memory Fold System initialized",
             has_conscience=bool(structural_conscience),
-            auto_tagging=enable_auto_tagging
+            auto_tagging=enable_auto_tagging,
         )
 
     def _generate_item_id(self) -> str:
@@ -194,7 +205,7 @@ class MemoryFoldSystem:
         tags: List[str],
         emotional_weight: float = 0.0,
         colony_source: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
         Fold new memory into the system with deduplication.
@@ -228,7 +239,7 @@ class MemoryFoldSystem:
                 logger.info(
                     "Duplicate content detected, updating tags only",
                     existing_id=existing_id,
-                    new_tags=tags
+                    new_tags=tags,
                 )
                 self.stats["deduplication_saves"] += 1
 
@@ -243,7 +254,7 @@ class MemoryFoldSystem:
             data=data,
             emotional_weight=emotional_weight,
             colony_source=colony_source,
-            content_hash=content_hash
+            content_hash=content_hash,
         )
 
         # Store item
@@ -261,22 +272,26 @@ class MemoryFoldSystem:
 
         # Record significant memories in structural conscience
         if self.structural_conscience and emotional_weight > 0.7:
-            severity = ConscienceSeverity.SIGNIFICANT if emotional_weight > 0.9 else ConscienceSeverity.NOTABLE
+            severity = (
+                ConscienceSeverity.SIGNIFICANT
+                if emotional_weight > 0.9
+                else ConscienceSeverity.NOTABLE
+            )
 
             await self.structural_conscience.record_moral_decision(
                 decision={
                     "action": "memory_fold_in",
                     "item_id": item_id,
                     "tags": tags,
-                    "emotional_weight": emotional_weight
+                    "emotional_weight": emotional_weight,
                 },
                 context={
                     "colony_source": colony_source,
                     "content_hash": content_hash,
-                    "metadata": metadata
+                    "metadata": metadata,
                 },
                 decision_type=MoralDecisionType.SYSTEM_ACTION,
-                severity=severity
+                severity=severity,
             )
 
         logger.info(
@@ -284,7 +299,7 @@ class MemoryFoldSystem:
             item_id=item_id,
             tags=tags,
             emotional_weight=emotional_weight,
-            colony_source=colony_source
+            colony_source=colony_source,
         )
 
         return item_id
@@ -301,11 +316,7 @@ class MemoryFoldSystem:
             else:
                 # Create new tag
                 tag_id = self._generate_tag_id(tag_name)
-                tag_info = TagInfo(
-                    tag_id=tag_id,
-                    tag_name=tag_name,
-                    reference_count=1
-                )
+                tag_info = TagInfo(tag_id=tag_id, tag_name=tag_name, reference_count=1)
 
                 # Determine semantic category
                 tag_info.semantic_category = self._infer_semantic_category(tag_name)
@@ -328,11 +339,9 @@ class MemoryFoldSystem:
 
         # Time-based tags
         now = datetime.now(timezone.utc)
-        auto_tags.extend([
-            str(now.year),
-            now.strftime("%B").lower(),
-            now.strftime("%A").lower()
-        ])
+        auto_tags.extend(
+            [str(now.year), now.strftime("%B").lower(), now.strftime("%A").lower()]
+        )
 
         # Content-based tags (simplified - real implementation would use NLP)
         if isinstance(data, str):
@@ -358,7 +367,7 @@ class MemoryFoldSystem:
             "emotional": ["happy", "sad", "fear", "joy", "anger", "love"],
             "technical": ["code", "algorithm", "data", "system", "network"],
             "biological": ["neural", "brain", "cell", "dna", "protein"],
-            "spatial": ["north", "south", "location", "place", "area"]
+            "spatial": ["north", "south", "location", "place", "area"],
         }
 
         tag_lower = tag_name.lower()
@@ -374,15 +383,19 @@ class MemoryFoldSystem:
             if other_tag_id != tag_id:
                 # Increase relationship weight
                 current_weight = self.tag_relationships[tag_id].get(other_tag_id, 0.0)
-                self.tag_relationships[tag_id][other_tag_id] = min(current_weight + 0.1, 1.0)
-                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[tag_id][other_tag_id]
+                self.tag_relationships[tag_id][other_tag_id] = min(
+                    current_weight + 0.1, 1.0
+                )
+                self.tag_relationships[other_tag_id][tag_id] = self.tag_relationships[
+                    tag_id
+                ][other_tag_id]
 
     async def fold_out_by_tag(
         self,
         tag_name: str,
         max_items: Optional[int] = None,
         include_related: bool = True,
-        min_relationship_weight: float = 0.5
+        min_relationship_weight: float = 0.5,
     ) -> List[Tuple[MemoryItem, Set[str]]]:
         """
         Retrieve memories by tag with optional related tag expansion.
@@ -450,22 +463,20 @@ class MemoryFoldSystem:
         # Sort by relevance (emotional weight * access count)
         results.sort(
             key=lambda x: x[0].emotional_weight * (1 + x[0].access_count * 0.1),
-            reverse=True
+            reverse=True,
         )
 
         logger.info(
             "Fold-out completed",
             tag_name=tag_name,
             tags_searched=len(tags_to_search),
-            items_found=len(results)
+            items_found=len(results),
         )
 
         return results
 
     async def fold_out_by_colony(
-        self,
-        colony_name: str,
-        time_range: Optional[Tuple[datetime, datetime]] = None
+        self, colony_name: str, time_range: Optional[Tuple[datetime, datetime]] = None
     ) -> List[MemoryItem]:
         """Retrieve all memories from a specific colony."""
         results = []
@@ -481,10 +492,7 @@ class MemoryFoldSystem:
         return results
 
     async def export_archive(
-        self,
-        path: Path,
-        filter_tags: Optional[List[str]] = None,
-        **kwargs
+        self, path: Path, filter_tags: Optional[List[str]] = None, **kwargs
     ) -> Dict[str, Any]:
         """
         Export memory folds to LKF-Pack archive.
@@ -504,8 +512,7 @@ class MemoryFoldSystem:
             # Apply tag filter if specified
             if filter_tags:
                 item_tag_names = {
-                    self.tag_registry[tid].tag_name
-                    for tid in self.item_tags[item_id]
+                    self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
                 }
                 if not any(tag in item_tag_names for tag in filter_tags):
                     continue
@@ -516,13 +523,12 @@ class MemoryFoldSystem:
                 "data": item.data,
                 "timestamp": item.timestamp.isoformat(),
                 "tags": [
-                    self.tag_registry[tid].tag_name
-                    for tid in self.item_tags[item_id]
+                    self.tag_registry[tid].tag_name for tid in self.item_tags[item_id]
                 ],
                 "emotional_weight": item.emotional_weight,
                 "colony_source": item.colony_source,
                 "content_hash": item.content_hash,
-                "access_count": item.access_count
+                "access_count": item.access_count,
             }
 
             folds_to_export.append(fold)
@@ -531,10 +537,7 @@ class MemoryFoldSystem:
         return export_folds(folds_to_export, path, **kwargs)
 
     async def import_archive(
-        self,
-        path: Path,
-        overwrite: bool = False,
-        merge_tags: bool = True
+        self, path: Path, overwrite: bool = False, merge_tags: bool = True
     ) -> Dict[str, Any]:
         """
         Import memory folds from LKF-Pack archive.
@@ -547,11 +550,7 @@ class MemoryFoldSystem:
         Returns:
             Import statistics
         """
-        import_stats = {
-            "imported": 0,
-            "skipped": 0,
-            "errors": 0
-        }
+        import_stats = {"imported": 0, "skipped": 0, "errors": 0}
 
         # Verify archive first
         verification = verify_lkf_pack(path)
@@ -581,7 +580,7 @@ class MemoryFoldSystem:
                         tags=fold.get("tags", []),
                         emotional_weight=fold.get("emotional_weight", 0.0),
                         colony_source=fold.get("colony_source"),
-                        metadata=fold
+                        metadata=fold,
                     )
                     import_stats["imported"] += 1
 
@@ -596,12 +595,12 @@ class MemoryFoldSystem:
         stats = self.stats.copy()
 
         # Calculate additional metrics
-        stats["average_tags_per_item"] = (
-            sum(len(tags) for tags in self.item_tags.values()) / max(len(self.items), 1)
-        )
-        stats["average_items_per_tag"] = (
-            sum(len(items) for items in self.tag_items.values()) / max(len(self.tag_registry), 1)
-        )
+        stats["average_tags_per_item"] = sum(
+            len(tags) for tags in self.item_tags.values()
+        ) / max(len(self.items), 1)
+        stats["average_items_per_tag"] = sum(
+            len(items) for items in self.tag_items.values()
+        ) / max(len(self.tag_registry), 1)
         stats["tag_categories"] = defaultdict(int)
         for tag_info in self.tag_registry.values():
             stats["tag_categories"][tag_info.semantic_category] += 1
@@ -611,8 +610,7 @@ class MemoryFoldSystem:
 
 # Factory function
 def create_memory_fold_system(
-    enable_conscience: bool = True,
-    enable_auto_tagging: bool = True
+    enable_conscience: bool = True, enable_auto_tagging: bool = True
 ) -> MemoryFoldSystem:
     """
     Create a configured Memory Fold System.
@@ -627,9 +625,9 @@ def create_memory_fold_system(
     conscience = None
     if enable_conscience and StructuralConscience:
         from memory.structural_conscience import create_structural_conscience
+
         conscience = create_structural_conscience()
 
     return MemoryFoldSystem(
-        structural_conscience=conscience,
-        enable_auto_tagging=enable_auto_tagging
+        structural_conscience=conscience, enable_auto_tagging=enable_auto_tagging
     )

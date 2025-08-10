@@ -3,14 +3,15 @@
 Quick targeted import fix focusing on known patterns
 """
 
-import os
+import logging
 import re
 from pathlib import Path
-import logging
-import json
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class QuickImportFixer:
     def __init__(self, root_path: Path, dry_run: bool = True):
@@ -22,17 +23,15 @@ class QuickImportFixer:
         # Known problematic patterns from our analysis
         self.import_patterns = {
             # Remove lukhas prefix
-            r'from lukhas\.(\w+)': r'from \1',
-            r'import lukhas\.(\w+)': r'import \1',
-
+            r"from lukhas\.(\w+)": r"from \1",
+            r"import lukhas\.(\w+)": r"import \1",
             # Common renames we know about
-            r'from core\.memory\.memory_fold': 'from features.memory.memory_fold',
-            r'from bio\.hippocampus\.': 'from bio.',
-            r'from memory\.episodic\.': 'from memory.',
-            r'from quantum\.quantum_': 'from quantum.',
-
+            r"from core\.memory\.memory_fold": "from features.memory.memory_fold",
+            r"from bio\.hippocampus\.": "from bio.",
+            r"from memory\.episodic\.": "from memory.",
+            r"from quantum\.quantum_": "from quantum.",
             # Remove redundant paths
-            r'from (\w+)\.(\w+)\.\2': r'from \1.\2',  # e.g., bio.hippocampus.hippocampus -> bio.hippocampus
+            r"from (\w+)\.(\w+)\.\2": r"from \1.\2",  # e.g., bio.hippocampus.hippocampus -> bio.hippocampus
         }
 
     def run(self):
@@ -43,7 +42,7 @@ class QuickImportFixer:
         logger.info(f"Mode: {'DRY RUN' if self.dry_run else 'LIVE RUN'}")
 
         # Process Python files
-        py_files = list(self.root_path.rglob('*.py'))
+        py_files = list(self.root_path.rglob("*.py"))
         logger.info(f"Processing {len(py_files)} Python files...")
 
         for i, py_file in enumerate(py_files):
@@ -69,7 +68,7 @@ class QuickImportFixer:
     def _fix_file(self, file_path: Path):
         """Fix imports in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content
@@ -89,7 +88,7 @@ class QuickImportFixer:
             # If content changed, save it
             if content != original_content:
                 if not self.dry_run:
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(content)
 
                 self.fixed_files += 1
@@ -106,7 +105,7 @@ class QuickImportFixer:
         # Pattern: from x.y.some_module import SomeClass
         # Where some_module.py was renamed to SomeClass.py
 
-        import_regex = r'from\s+([\w.]+)\.(\w+)\s+import\s+(\w+)'
+        import_regex = r"from\s+([\w.]+)\.(\w+)\s+import\s+(\w+)"
 
         def fix_import(match):
             base_path = match.group(1)
@@ -116,7 +115,7 @@ class QuickImportFixer:
             # Check if module name is snake_case version of class name
             if module_name == self._to_snake_case(class_name):
                 # The file was likely renamed from snake_case to PascalCase
-                return f'from {base_path}.{class_name} import {class_name}'
+                return f"from {base_path}.{class_name} import {class_name}"
 
             return match.group(0)  # No change
 
@@ -125,34 +124,37 @@ class QuickImportFixer:
     def _to_snake_case(self, name: str) -> str:
         """Convert PascalCase to snake_case"""
         # Handle acronyms and numbers
-        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+        s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+        return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'visualizations', 'analysis_output'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "visualizations",
+            "analysis_output",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(
-        description='Quick targeted import fixes'
+
+    parser = argparse.ArgumentParser(description="Quick targeted import fixes")
+    parser.add_argument(
+        "path", nargs="?", default=".", help="Root path (default: current directory)"
     )
     parser.add_argument(
-        'path',
-        nargs='?',
-        default='.',
-        help='Root path (default: current directory)'
-    )
-    parser.add_argument(
-        '--fix',
-        action='store_true',
-        help='Apply fixes (default is dry run)'
+        "--fix", action="store_true", help="Apply fixes (default is dry run)"
     )
 
     args = parser.parse_args()
@@ -161,5 +163,6 @@ def main():
     fixer = QuickImportFixer(root_path, dry_run=not args.fix)
     fixer.run()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -15,11 +15,10 @@ Date: 2025-06-05
 Version: 1.0.0
 """
 
-import os
 import re
-from pathlib import Path
-from typing import Dict, List, Set
 from collections import defaultdict
+from pathlib import Path
+
 
 class OrganizationScanner:
     """Comprehensive scanner for organizational issues"""
@@ -36,7 +35,7 @@ class OrganizationScanner:
             "inconsistent_naming": [],
             "duplicate_names": defaultdict(list),
             "large_files": [],
-            "orphaned_files": []
+            "orphaned_files": [],
         }
 
     def scan_pascal_case_issues(self):
@@ -51,11 +50,13 @@ class OrganizationScanner:
             if re.match(r"^[A-Z][a-zA-Z0-9]*([A-Z][a-zA-Z0-9]*)*$", py_file.stem):
                 relative_path = py_file.relative_to(self.workspace_root)
                 suggested_name = self._pascal_to_snake(py_file.stem)
-                self.issues["pascal_case_files"].append({
-                    "file": str(relative_path),
-                    "current": py_file.stem,
-                    "suggested": suggested_name
-                })
+                self.issues["pascal_case_files"].append(
+                    {
+                        "file": str(relative_path),
+                        "current": py_file.stem,
+                        "suggested": suggested_name,
+                    }
+                )
 
     def scan_directory_naming(self):
         """Find directories with naming issues"""
@@ -71,12 +72,16 @@ class OrganizationScanner:
 
                 # Check for mixed case in directory names
                 if re.search(r"[A-Z].*[a-z]", dir_name) and "_" in dir_name:
-                    self.issues["mixed_case_dirs"].append(str(dir_path.relative_to(self.workspace_root)))
+                    self.issues["mixed_case_dirs"].append(
+                        str(dir_path.relative_to(self.workspace_root))
+                    )
 
                 # Check if directory is empty
                 try:
                     if not any(dir_path.iterdir()):
-                        self.issues["empty_directories"].append(str(dir_path.relative_to(self.workspace_root)))
+                        self.issues["empty_directories"].append(
+                            str(dir_path.relative_to(self.workspace_root))
+                        )
                 except PermissionError:
                     pass
 
@@ -88,9 +93,16 @@ class OrganizationScanner:
             relative_path = md_file.relative_to(self.workspace_root)
 
             # Check if .md file is in core directories (suspicious)
-            if "/core/" in str(relative_path) and md_file.name not in ["README.md", "ARCHITECTURE.md", "API.md"]:
+            if "/core/" in str(relative_path) and md_file.name not in [
+                "README.md",
+                "ARCHITECTURE.md",
+                "API.md",
+            ]:
                 # Additional checks for legitimate docs
-                if not any(keyword in md_file.name.upper() for keyword in ["AUDIT", "ARCHITECTURE", "DESIGN", "SPEC"]):
+                if not any(
+                    keyword in md_file.name.upper()
+                    for keyword in ["AUDIT", "ARCHITECTURE", "DESIGN", "SPEC"]
+                ):
                     self.issues["misplaced_md_files"].append(str(relative_path))
 
     def scan_duplicate_names(self):
@@ -101,7 +113,9 @@ class OrganizationScanner:
 
         for file_path in self.lukhas_path.rglob("*"):
             if file_path.is_file():
-                name_locations[file_path.name].append(str(file_path.relative_to(self.workspace_root)))
+                name_locations[file_path.name].append(
+                    str(file_path.relative_to(self.workspace_root))
+                )
 
         for name, locations in name_locations.items():
             if len(locations) > 1:
@@ -117,10 +131,12 @@ class OrganizationScanner:
                     size = file_path.stat().st_size
                     if size > 1024 * 1024:  # Files larger than 1MB
                         size_mb = size / (1024 * 1024)
-                        self.issues["large_files"].append({
-                            "file": str(file_path.relative_to(self.workspace_root)),
-                            "size_mb": round(size_mb, 2)
-                        })
+                        self.issues["large_files"].append(
+                            {
+                                "file": str(file_path.relative_to(self.workspace_root)),
+                                "size_mb": round(size_mb, 2),
+                            }
+                        )
                 except OSError:
                     pass
 
@@ -134,7 +150,7 @@ class OrganizationScanner:
             (r".*config.*\.py$", "config"),
             (r".*setup.*\.py$", "deployment"),
             (r".*main.*\.py$", "applications"),
-            (r".*cli.*\.py$", "interface")
+            (r".*cli.*\.py$", "interface"),
         ]
 
         for file_path in self.lukhas_path.rglob("*.py"):
@@ -143,18 +159,22 @@ class OrganizationScanner:
             for pattern, expected_category in suspicious_patterns:
                 if re.search(pattern, file_path.name, re.IGNORECASE):
                     if expected_category not in relative_path:
-                        self.issues["orphaned_files"].append({
-                            "file": relative_path,
-                            "current_location": str(file_path.parent.relative_to(self.workspace_root)),
-                            "suggested_category": expected_category,
-                            "reason": f"Matches pattern: {pattern}"
-                        })
+                        self.issues["orphaned_files"].append(
+                            {
+                                "file": relative_path,
+                                "current_location": str(
+                                    file_path.parent.relative_to(self.workspace_root)
+                                ),
+                                "suggested_category": expected_category,
+                                "reason": f"Matches pattern: {pattern}",
+                            }
+                        )
 
     def _pascal_to_snake(self, name: str) -> str:
         """Convert PascalCase to snake_case"""
         # Insert underscore before uppercase letters (except first)
-        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+        s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+        return re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1).lower()
 
     def generate_report(self) -> str:
         """Generate comprehensive organization report"""
@@ -190,7 +210,9 @@ class OrganizationScanner:
             for issue in self.issues["pascal_case_files"][:10]:
                 report += f"- `{issue['file']}` → `{issue['suggested']}.py`\n"
             if len(self.issues["pascal_case_files"]) > 10:
-                report += f"- ... and {len(self.issues['pascal_case_files']) - 10} more\n"
+                report += (
+                    f"- ... and {len(self.issues['pascal_case_files']) - 10} more\n"
+                )
 
         if self.issues["mixed_case_dirs"]:
             report += "\n### 📁 Mixed Case Directories:\n"
@@ -214,13 +236,17 @@ class OrganizationScanner:
                 report += f"- `{md_file}`\n"
 
         if self.issues["large_files"]:
-            report += f"\n### 📊 Large Files (>1MB) ({len(self.issues['large_files'])})\n"
-            for large_file in sorted(self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True)[:5]:
+            report += (
+                f"\n### 📊 Large Files (>1MB) ({len(self.issues['large_files'])})\n"
+            )
+            for large_file in sorted(
+                self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True
+            )[:5]:
                 report += f"- `{large_file['file']}` ({large_file['size_mb']} MB)\n"
 
         # Show some duplicate names
         if self.issues["duplicate_names"]:
-            report += f"\n### 🔄 Duplicate Names (showing top 5)\n"
+            report += "\n### 🔄 Duplicate Names (showing top 5)\n"
             count = 0
             for name, locations in self.issues["duplicate_names"].items():
                 if count >= 5:
@@ -269,6 +295,7 @@ class OrganizationScanner:
     def get_timestamp(self) -> str:
         """Get current timestamp"""
         from datetime import datetime
+
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def execute_scan(self) -> str:
@@ -286,14 +313,18 @@ class OrganizationScanner:
 
         # Save report
         from datetime import datetime
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        report_path = self.workspace_root / f"lukhas_ORGANIZATION_SCAN_REPORT_{timestamp}.md"
 
-        with open(report_path, 'w', encoding='utf-8') as f:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        report_path = (
+            self.workspace_root / f"lukhas_ORGANIZATION_SCAN_REPORT_{timestamp}.md"
+        )
+
+        with open(report_path, "w", encoding="utf-8") as f:
             f.write(report)
 
         print(f"📋 Report saved: {report_path}")
         return str(report_path)
+
 
 def main():
     """Execute organization scan"""
@@ -302,15 +333,17 @@ def main():
     scanner = lukhasOrganizationScanner(workspace_root)
     report_path = scanner.execute_scan()
 
-    print(f"\n🎉 ORGANIZATION SCAN COMPLETE!")
+    print("\n🎉 ORGANIZATION SCAN COMPLETE!")
     print(f"📋 Report: {report_path}")
 
     # Print summary
-    total_issues = sum(len(v) if isinstance(v, list) else len(v) for v in scanner.issues.values())
+    total_issues = sum(
+        len(v) if isinstance(v, list) else len(v) for v in scanner.issues.values()
+    )
     print(f"🔍 Total Issues Found: {total_issues}")
+
 
 if __name__ == "__main__":
     main()
-
 
 # Λ Systems 2025 www.lukhas.ai

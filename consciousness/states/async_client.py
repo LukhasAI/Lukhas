@@ -34,10 +34,20 @@ Integration Date: 2025-05-31T07:55:28.056913
 # WARNING
 import asyncio
 import base64
-from core.common import get_logger
 import re
 import warnings
-from typing import TYPE_CHECKING, Any, AsyncIterable, Dict, List, Literal, Optional, Set, Union, overload
+from collections.abc import AsyncIterable
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    Set,
+    Union,
+    overload,
+)
 
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
@@ -99,13 +109,22 @@ from huggingface_hub.inference._generated.types import (
     ZeroShotClassificationOutputElement,
     ZeroShotImageClassificationOutputElement,
 )
-from huggingface_hub.inference._providers import PROVIDER_T, HFInferenceTask, get_provider_helper
-from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_status
+from huggingface_hub.inference._providers import (
+    PROVIDER_T,
+    HFInferenceTask,
+    get_provider_helper,
+)
+from huggingface_hub.utils import (
+    build_hf_headers,
+    get_session,
+    hf_raise_for_status,
+)
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
-from .._common import _async_yield_from, _import_aiohttp
+from core.common import get_logger
 
+from .._common import _async_yield_from, _import_aiohttp
 
 if TYPE_CHECKING:
     import numpy as np
@@ -115,7 +134,9 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-MODEL_KWARGS_NOT_USED_REGEX = re.compile(r"The following `model_kwargs` are not used by the model: \[(.*?)\]")
+MODEL_KWARGS_NOT_USED_REGEX = re.compile(
+    r"The following `model_kwargs` are not used by the model: \[(.*?)\]"
+)
 
 
 class AsyncInferenceClient:
@@ -241,7 +262,7 @@ class AsyncInferenceClient:
         self.proxies = proxies
 
         # Keep track of the sessions to close them properly
-        self._sessions: Dict["ClientSession", Set["ClientResponse"]] = dict()
+        self._sessions: Dict[ClientSession, Set[ClientResponse]] = dict()
 
     def __repr__(self):
         return f"<InferenceClient(model='{self.model if self.model else ''}', timeout={self.timeout})>"
@@ -346,7 +367,10 @@ class AsyncInferenceClient:
         aiohttp = _import_aiohttp()
 
         # TODO: this should be handled in provider helpers directly
-        if request_parameters.task in TASKS_EXPECTING_IMAGES and "Accept" not in request_parameters.headers:
+        if (
+            request_parameters.task in TASKS_EXPECTING_IMAGES
+            and "Accept" not in request_parameters.headers
+        ):
             request_parameters.headers["Accept"] = "image/png"
 
         with _open_as_binary(request_parameters.data) as data_as_binary:
@@ -356,12 +380,17 @@ class AsyncInferenceClient:
 
             try:
                 response = await session.post(
-                    request_parameters.url, json=request_parameters.json, data=data_as_binary, proxy=self.proxies
+                    request_parameters.url,
+                    json=request_parameters.json,
+                    data=data_as_binary,
+                    proxy=self.proxies,
                 )
                 response_error_payload = None
                 if response.status != 200:
                     try:
-                        response_error_payload = await response.json()  # get payload before connection closed
+                        response_error_payload = (
+                            await response.json()
+                        )  # get payload before connection closed
                     except Exception:
                         pass
                 response.raise_for_status()
@@ -455,7 +484,9 @@ class AsyncInferenceClient:
         ]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="audio-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="audio-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=audio,
             parameters={"function_to_apply": function_to_apply, "top_k": top_k},
@@ -555,7 +586,9 @@ class AsyncInferenceClient:
         "hello world"
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="automatic-speech-recognition")
+        provider_helper = get_provider_helper(
+            self.provider, task="automatic-speech-recognition"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=audio,
             parameters={**(extra_body or {})},
@@ -584,7 +617,11 @@ class AsyncInferenceClient:
         stop: Optional[List[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
+        tool_choice: Optional[
+            Union[
+                ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"
+            ]
+        ] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[List[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -610,7 +647,11 @@ class AsyncInferenceClient:
         stop: Optional[List[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
+        tool_choice: Optional[
+            Union[
+                ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"
+            ]
+        ] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[List[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -636,7 +677,11 @@ class AsyncInferenceClient:
         stop: Optional[List[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
+        tool_choice: Optional[
+            Union[
+                ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"
+            ]
+        ] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[List[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -662,7 +707,11 @@ class AsyncInferenceClient:
         stop: Optional[List[str]] = None,
         stream_options: Optional[ChatCompletionInputStreamOptions] = None,
         temperature: Optional[float] = None,
-        tool_choice: Optional[Union[ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"]] = None,
+        tool_choice: Optional[
+            Union[
+                ChatCompletionInputToolChoiceClass, "ChatCompletionInputToolChoiceEnum"
+            ]
+        ] = None,
         tool_prompt: Optional[str] = None,
         tools: Optional[List[ChatCompletionInputTool]] = None,
         top_logprobs: Optional[int] = None,
@@ -1117,7 +1166,9 @@ class AsyncInferenceClient:
         ```
         """
         inputs: Dict[str, Any] = {"question": question, "image": _b64_encode(image)}
-        provider_helper = get_provider_helper(self.provider, task="document-question-answering")
+        provider_helper = get_provider_helper(
+            self.provider, task="document-question-answering"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=inputs,
             parameters={
@@ -1305,7 +1356,9 @@ class AsyncInferenceClient:
         [ImageClassificationOutputElement(label='Blenheim spaniel', score=0.9779096841812134), ...]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="image-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="image-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=image,
             parameters={"function_to_apply": function_to_apply, "top_k": top_k},
@@ -1462,7 +1515,9 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_image(response)
 
-    async def image_to_text(self, image: ContentT, *, model: Optional[str] = None) -> ImageToTextOutput:
+    async def image_to_text(
+        self, image: ContentT, *, model: Optional[str] = None
+    ) -> ImageToTextOutput:
         """
         Takes an input image and return text.
 
@@ -1509,7 +1564,11 @@ class AsyncInferenceClient:
         return output[0] if isinstance(output, list) else output
 
     async def object_detection(
-        self, image: ContentT, *, model: Optional[str] = None, threshold: Optional[float] = None
+        self,
+        image: ContentT,
+        *,
+        model: Optional[str] = None,
+        threshold: Optional[float] = None,
     ) -> List[ObjectDetectionOutputElement]:
         """
         Perform object detection on the given image using the specified model.
@@ -1806,10 +1865,17 @@ class AsyncInferenceClient:
         TableQuestionAnsweringOutputElement(answer='36542', coordinates=[[0, 1]], cells=['36542'], aggregator='AVERAGE')
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="table-question-answering")
+        provider_helper = get_provider_helper(
+            self.provider, task="table-question-answering"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=None,
-            parameters={"model": model, "padding": padding, "sequential": sequential, "truncation": truncation},
+            parameters={
+                "model": model,
+                "padding": padding,
+                "sequential": sequential,
+                "truncation": truncation,
+            },
             extra_payload={"query": query, "table": table},
             headers=self.headers,
             model=model or self.model,
@@ -1818,7 +1884,9 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return TableQuestionAnsweringOutputElement.parse_obj_as_instance(response)
 
-    async def tabular_classification(self, table: Dict[str, Any], *, model: Optional[str] = None) -> List[str]:
+    async def tabular_classification(
+        self, table: Dict[str, Any], *, model: Optional[str] = None
+    ) -> List[str]:
         """
         Classifying a target category (a group) based on a set of attributes.
 
@@ -1861,7 +1929,9 @@ class AsyncInferenceClient:
         ["5", "5", "5"]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="tabular-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="tabular-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=None,
             extra_payload={"table": table},
@@ -1873,7 +1943,9 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         return _bytes_to_list(response)
 
-    async def tabular_regression(self, table: Dict[str, Any], *, model: Optional[str] = None) -> List[float]:
+    async def tabular_regression(
+        self, table: Dict[str, Any], *, model: Optional[str] = None
+    ) -> List[float]:
         """
         Predicting a numerical target value given a set of attributes/features in a table.
 
@@ -2158,7 +2230,12 @@ class AsyncInferenceClient:
         truncate: Optional[int] = None,
         typical_p: Optional[float] = None,
         watermark: Optional[bool] = None,
-    ) -> Union[str, TextGenerationOutput, AsyncIterable[str], AsyncIterable[TextGenerationStreamOutput]]:
+    ) -> Union[
+        str,
+        TextGenerationOutput,
+        AsyncIterable[str],
+        AsyncIterable[TextGenerationStreamOutput],
+    ]:
         """
         Given a prompt, generate the following text.
 
@@ -2431,9 +2508,13 @@ class AsyncInferenceClient:
         try:
             bytes_output = await self._inner_post(request_parameters, stream=stream)
         except _import_aiohttp().ClientResponseError as e:
-            match = MODEL_KWARGS_NOT_USED_REGEX.search(e.response_error_payload["error"])
+            match = MODEL_KWARGS_NOT_USED_REGEX.search(
+                e.response_error_payload["error"]
+            )
             if e.status == 400 and match:
-                unused_params = [kwarg.strip("' ") for kwarg in match.group(1).split(",")]
+                unused_params = [
+                    kwarg.strip("' ") for kwarg in match.group(1).split(",")
+                ]
                 _set_unsupported_text_generation_kwargs(model, unused_params)
                 return await self.text_generation(  # type: ignore
                     prompt=prompt,
@@ -2471,7 +2552,11 @@ class AsyncInferenceClient:
         if isinstance(data, list):
             data = data[0]
         response = provider_helper.get_response(data, request_parameters)
-        return TextGenerationOutput.parse_obj_as_instance(response) if details else response["generated_text"]
+        return (
+            TextGenerationOutput.parse_obj_as_instance(response)
+            if details
+            else response["generated_text"]
+        )
 
     async def text_to_image(
         self,
@@ -2981,7 +3066,9 @@ class AsyncInferenceClient:
         ]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="token-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="token-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=text,
             parameters={
@@ -3063,10 +3150,14 @@ class AsyncInferenceClient:
         """
         # Throw error if only one of `src_lang` and `tgt_lang` was given
         if src_lang is not None and tgt_lang is None:
-            raise ValueError("You cannot specify `src_lang` without specifying `tgt_lang`.")
+            raise ValueError(
+                "You cannot specify `src_lang` without specifying `tgt_lang`."
+            )
 
         if src_lang is None and tgt_lang is not None:
-            raise ValueError("You cannot specify `tgt_lang` without specifying `src_lang`.")
+            raise ValueError(
+                "You cannot specify `tgt_lang` without specifying `src_lang`."
+            )
 
         provider_helper = get_provider_helper(self.provider, task="translation")
         request_parameters = provider_helper.prepare_request(
@@ -3132,7 +3223,9 @@ class AsyncInferenceClient:
         ]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="visual-question-answering")
+        provider_helper = get_provider_helper(
+            self.provider, task="visual-question-answering"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=image,
             parameters={"top_k": top_k},
@@ -3232,7 +3325,9 @@ class AsyncInferenceClient:
         ]
         ```
         """
-        provider_helper = get_provider_helper(self.provider, task="zero-shot-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="zero-shot-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=text,
             parameters={
@@ -3247,7 +3342,9 @@ class AsyncInferenceClient:
         response = await self._inner_post(request_parameters)
         output = _bytes_to_dict(response)
         return [
-            ZeroShotClassificationOutputElement.parse_obj_as_instance({"label": label, "score": score})
+            ZeroShotClassificationOutputElement.parse_obj_as_instance(
+                {"label": label, "score": score}
+            )
             for label, score in zip(output["labels"], output["scores"])
         ]
 
@@ -3304,7 +3401,9 @@ class AsyncInferenceClient:
         if len(candidate_labels) < 2:
             raise ValueError("You must specify at least 2 classes to compare.")
 
-        provider_helper = get_provider_helper(self.provider, task="zero-shot-image-classification")
+        provider_helper = get_provider_helper(
+            self.provider, task="zero-shot-image-classification"
+        )
         request_parameters = provider_helper.prepare_request(
             inputs=image,
             parameters={
@@ -3378,7 +3477,9 @@ class AsyncInferenceClient:
         ```
         """
         if self.provider != "hf-inference":
-            raise ValueError(f"Listing deployed models is not supported on '{self.provider}'.")
+            raise ValueError(
+                f"Listing deployed models is not supported on '{self.provider}'."
+            )
 
         # Resolve which frameworks to check
         if frameworks is None:
@@ -3397,14 +3498,21 @@ class AsyncInferenceClient:
                 if framework == "sentence-transformers":
                     # Model running with the `sentence-transformers` framework can work with both tasks even if not
                     # branded as such in the API response
-                    models_by_task.setdefault("feature-extraction", []).append(model["model_id"])
-                    models_by_task.setdefault("sentence-similarity", []).append(model["model_id"])
+                    models_by_task.setdefault("feature-extraction", []).append(
+                        model["model_id"]
+                    )
+                    models_by_task.setdefault("sentence-similarity", []).append(
+                        model["model_id"]
+                    )
                 else:
-                    models_by_task.setdefault(model["task"], []).append(model["model_id"])
+                    models_by_task.setdefault(model["task"], []).append(
+                        model["model_id"]
+                    )
 
         for framework in frameworks:
             response = get_session().get(
-                f"{constants.INFERENCE_ENDPOINT}/framework/{framework}", headers=build_hf_headers(token=self.token)
+                f"{constants.INFERENCE_ENDPOINT}/framework/{framework}",
+                headers=build_hf_headers(token=self.token),
             )
             hf_raise_for_status(response)
             _unpack_response(framework, response.json())
@@ -3500,7 +3608,9 @@ class AsyncInferenceClient:
         ```
         """
         if self.provider != "hf-inference":
-            raise ValueError(f"Getting endpoint info is not supported on '{self.provider}'.")
+            raise ValueError(
+                f"Getting endpoint info is not supported on '{self.provider}'."
+            )
 
         model = model or self.model
         if model is None:
@@ -3510,7 +3620,9 @@ class AsyncInferenceClient:
         else:
             url = f"{constants.INFERENCE_ENDPOINT}/models/{model}/info"
 
-        async with self._get_client_session(headers=build_hf_headers(token=self.token)) as client:
+        async with self._get_client_session(
+            headers=build_hf_headers(token=self.token)
+        ) as client:
             response = await client.get(url, proxy=self.proxies)
             response.raise_for_status()
             return await response.json()
@@ -3550,7 +3662,9 @@ class AsyncInferenceClient:
             )
         url = model.rstrip("/") + "/health"
 
-        async with self._get_client_session(headers=build_hf_headers(token=self.token)) as client:
+        async with self._get_client_session(
+            headers=build_hf_headers(token=self.token)
+        ) as client:
             response = await client.get(url, proxy=self.proxies)
             return response.status == 200
 
@@ -3593,16 +3707,22 @@ class AsyncInferenceClient:
         ```
         """
         if self.provider != "hf-inference":
-            raise ValueError(f"Getting model status is not supported on '{self.provider}'.")
+            raise ValueError(
+                f"Getting model status is not supported on '{self.provider}'."
+            )
 
         model = model or self.model
         if model is None:
             raise ValueError("Model id not provided.")
         if model.startswith("https://"):
-            raise NotImplementedError("Model status is only available for Inference API endpoints.")
+            raise NotImplementedError(
+                "Model status is only available for Inference API endpoints."
+            )
         url = f"{constants.INFERENCE_ENDPOINT}/status/{model}"
 
-        async with self._get_client_session(headers=build_hf_headers(token=self.token)) as client:
+        async with self._get_client_session(
+            headers=build_hf_headers(token=self.token)
+        ) as client:
             response = await client.get(url, proxy=self.proxies)
             response.raise_for_status()
             response_data = await response.json()

@@ -6,13 +6,15 @@ Integration Date: 2025-05-31T07:55:27.762144
 """
 
 import asyncio
-from typing import Dict, List, Optional, Union
 import logging
+from typing import Optional
+
 from integrations.openai.dalle_client import DALLEClient
+
 from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient as GPTClient
-import openai
 
 logger = logging.getLogger(__name__)
+
 
 class AdaptiveImageGenerator:
     """
@@ -39,10 +41,10 @@ class AdaptiveImageGenerator:
         # Style mapping for DALL-E
         self.style_mapping = {
             "minimalist": "natural",  # DALL-E style parameter
-            "futuristic": "vivid",    # DALL-E style parameter
+            "futuristic": "vivid",  # DALL-E style parameter
             "natural": "natural",
             "professional": "natural",
-            "vibrant": "vivid"
+            "vibrant": "vivid",
         }
 
     async def generate_image(
@@ -50,9 +52,9 @@ class AdaptiveImageGenerator:
         prompt: str,
         style: Optional[str] = None,
         size: str = "1024x1024",
-        user_context: Optional[Dict] = None,
-        priority: int = 1
-    ) -> Dict:
+        user_context: Optional[dict] = None,
+        priority: int = 1,
+    ) -> dict:
         """
         Generate an image based on text prompt with contextual awareness
         """
@@ -71,15 +73,15 @@ class AdaptiveImageGenerator:
         try:
             async with self.request_limiter:
                 # Enhance prompt based on user context
-                enhanced_prompt = await self._enhance_prompt(prompt, user_context, style)
+                enhanced_prompt = await self._enhance_prompt(
+                    prompt, user_context, style
+                )
 
                 logger.info(f"Generating image with prompt: {enhanced_prompt[:50]}...")
 
                 # Call DALL-E API for actual generation
                 image_result = await self._generate_with_dalle(
-                    enhanced_prompt,
-                    size,
-                    style
+                    enhanced_prompt, size, style
                 )
 
                 # Add to cache
@@ -91,19 +93,21 @@ class AdaptiveImageGenerator:
             logger.error(f"Error generating image: {str(e)}")
             return {
                 "error": str(e),
-                "fallback_image_url": "https://example.com/error-placeholder.png"
+                "fallback_image_url": "https://example.com/error-placeholder.png",
             }
         finally:
             self.active_requests.remove(request_id)
 
-    async def _enhance_prompt(self, prompt: str, user_context: Optional[Dict], style: str) -> str:
+    async def _enhance_prompt(
+        self, prompt: str, user_context: Optional[dict], style: str
+    ) -> str:
         """Enhance the prompt with style guidance and user context"""
         style_guidance = {
             "minimalist": "clean, simple lines, lots of white space, elegant typography",
             "futuristic": "sleek, advanced technology aesthetic, subtle glow effects",
             "natural": "organic forms, earthy colors, soft lighting",
             "professional": "clean, corporate style, muted colors, structured layout",
-            "vibrant": "bold colors, dynamic composition, energetic feel"
+            "vibrant": "bold colors, dynamic composition, energetic feel",
         }
 
         style_prompt = style_guidance.get(style, style_guidance["minimalist"])
@@ -111,15 +115,15 @@ class AdaptiveImageGenerator:
         # Integrate user preferences if available
         user_style = ""
         if user_context:
-            if 'visual_preferences' in user_context:
+            if "visual_preferences" in user_context:
                 user_style = f", {user_context['visual_preferences']}"
 
             # Include user's aesthetic preferences if available
-            if 'aesthetic_preference' in user_context:
+            if "aesthetic_preference" in user_context:
                 user_style += f", {user_context['aesthetic_preference']} aesthetic"
 
             # Adapt to user's color preferences if available
-            if 'color_preference' in user_context:
+            if "color_preference" in user_context:
                 user_style += f", {user_context['color_preference']} color palette"
 
         base_prompt = f"{prompt}, {style_prompt}{user_style}, high quality"
@@ -129,10 +133,12 @@ class AdaptiveImageGenerator:
             optimized_prompt = await self.gpt_client.generate_image_prompt(base_prompt)
             return optimized_prompt
         except Exception as e:
-            logger.warning(f"Error optimizing prompt with GPT: {str(e)}. Using base prompt.")
+            logger.warning(
+                f"Error optimizing prompt with GPT: {str(e)}. Using base prompt."
+            )
             return base_prompt
 
-    async def _generate_with_dalle(self, prompt: str, size: str, style: str) -> Dict:
+    async def _generate_with_dalle(self, prompt: str, size: str, style: str) -> dict:
         """Generate image using DALL-E"""
         # Map our style to DALL-E's style parameter
         dalle_style = self.style_mapping.get(style, "natural")
@@ -143,7 +149,7 @@ class AdaptiveImageGenerator:
             size=size,
             quality=self.generation_quality,
             style=dalle_style,
-            n=1
+            n=1,
         )
 
         # Check for errors
@@ -151,22 +157,24 @@ class AdaptiveImageGenerator:
             logger.error(f"DALL-E generation error: {dalle_result['error']}")
             return {
                 "error": dalle_result["error"],
-                "fallback_image_url": "https://example.com/error-placeholder.png"
+                "fallback_image_url": "https://example.com/error-placeholder.png",
             }
 
         # Format the result
         result = {
-            "image_url": dalle_result["urls"][0] if dalle_result["urls"] else None,
-            "local_path": dalle_result["local_paths"][0] if dalle_result["local_paths"] else None,
+            "image_url": (dalle_result["urls"][0] if dalle_result["urls"] else None),
+            "local_path": (
+                dalle_result["local_paths"][0] if dalle_result["local_paths"] else None
+            ),
             "prompt": prompt,
             "style": style,
             "size": size,
-            "created_at": dalle_result["timestamp"]
+            "created_at": dalle_result["timestamp"],
         }
 
         return result
 
-    def _update_cache(self, key: str, result: Dict) -> None:
+    def _update_cache(self, key: str, result: dict) -> None:
         """Update the generation cache with LRU policy"""
         if len(self.cached_generations) >= self.max_cache_size:
             # Remove oldest item (simple implementation)
@@ -177,6 +185,7 @@ class AdaptiveImageGenerator:
     def _generate_request_id(self) -> str:
         """Generate a unique ID for the request"""
         import uuid
+
         return str(uuid.uuid4())
 
     async def close(self):

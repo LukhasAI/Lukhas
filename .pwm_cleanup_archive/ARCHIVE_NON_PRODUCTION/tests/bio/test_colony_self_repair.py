@@ -1,9 +1,9 @@
-import unittest
 import asyncio
+import unittest
 
 from bio.bio_utilities import simulate_colony_self_repair
+from core.actor_system import Actor, get_global_actor_system
 from core.supervision import SupervisorActor
-from core.actor_system import get_global_actor_system, Actor
 
 
 class FailingUnit(Actor):

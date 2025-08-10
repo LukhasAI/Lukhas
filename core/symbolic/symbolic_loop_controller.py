@@ -5,45 +5,50 @@ Central control node for managing all symbolic loops in the system.
 Routes symbolic terms (fold, drift, collapse) and ensures coherent processing.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
-from enum import Enum
-from dataclasses import dataclass
-from datetime import datetime
 import asyncio
 import logging
-
-from hub.service_registry import get_service
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class SymbolicTerm(Enum):
     """Core symbolic terms used throughout the system"""
-    FOLD = "fold"                # Memory integration/compression
-    DRIFT = "drift"              # Semantic evolution over time
-    COLLAPSE = "collapse"        # State resolution/consolidation
-    LINEAGE = "lineage"         # Causal chain tracking
-    ENTANGLE = "entangle"       # Quantum-like correlation
-    GROUND = "ground"           # Symbol-to-experience binding
-    SYNTHESIZE = "synthesize"   # Creative generation
-    INTEGRATE = "integrate"     # Holistic combination
+
+    FOLD = "fold"  # Memory integration/compression
+    DRIFT = "drift"  # Semantic evolution over time
+    COLLAPSE = "collapse"  # State resolution/consolidation
+    LINEAGE = "lineage"  # Causal chain tracking
+    ENTANGLE = "entangle"  # Quantum-like correlation
+    GROUND = "ground"  # Symbol-to-experience binding
+    SYNTHESIZE = "synthesize"  # Creative generation
+    INTEGRATE = "integrate"  # Holistic combination
 
 
 class LoopType(Enum):
     """Types of symbolic loops in the system"""
-    META_LEARNING = "meta_learning"          # Learning → Dream → Creativity → Memory
-    SYMBOLIC_GROUNDING = "symbolic_grounding" # Symbolic → Bio → Quantum → Consciousness
-    SAFETY_MONITORING = "safety_monitoring"   # Identity → Ethics → Consciousness → Safety
-    DREAM_SYNTHESIS = "dream_synthesis"       # Memory → Dream → Consciousness → Memory
+
+    META_LEARNING = "meta_learning"  # Learning → Dream → Creativity → Memory
+    SYMBOLIC_GROUNDING = (
+        "symbolic_grounding"  # Symbolic → Bio → Quantum → Consciousness
+    )
+    SAFETY_MONITORING = (
+        "safety_monitoring"  # Identity → Ethics → Consciousness → Safety
+    )
+    DREAM_SYNTHESIS = "dream_synthesis"  # Memory → Dream → Consciousness → Memory
 
 
 @dataclass
 class SymbolicOperation:
     """Represents a symbolic operation to be processed"""
+
     term: SymbolicTerm
     loop_type: LoopType
     agent_id: str
-    data: Dict[str, Any]
+    data: dict[str, Any]
     priority: int = 5
     timestamp: datetime = None
 
@@ -55,13 +60,14 @@ class SymbolicOperation:
 @dataclass
 class SymbolicResult:
     """Result of a symbolic operation"""
+
     operation_id: str
     term: SymbolicTerm
     success: bool
     result: Optional[Any] = None
     error: Optional[str] = None
     processing_time: float = 0.0
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
 
 class SymbolicLoopController:
@@ -77,19 +83,19 @@ class SymbolicLoopController:
 
     def __init__(self):
         # Loop handlers
-        self._loop_handlers: Dict[LoopType, Any] = {}
+        self._loop_handlers: dict[LoopType, Any] = {}
 
         # Operation queue
         self._operation_queue = asyncio.Queue()
 
         # Active operations
-        self._active_operations: Dict[str, SymbolicOperation] = {}
+        self._active_operations: dict[str, SymbolicOperation] = {}
 
         # Loop status
-        self._loop_status: Dict[LoopType, Dict[str, Any]] = {}
+        self._loop_status: dict[LoopType, dict[str, Any]] = {}
 
         # Symbolic vocabulary state
-        self._symbolic_state: Dict[str, Any] = {}
+        self._symbolic_state: dict[str, Any] = {}
 
         # Background processor
         self._processor_task = None
@@ -101,11 +107,15 @@ class SymbolicLoopController:
         try:
             # Meta-learning loop
             from consciousness.loop_meta_learning import get_meta_learning_loop
+
             self._loop_handlers[LoopType.META_LEARNING] = get_meta_learning_loop()
 
             # Symbolic grounding loop
             from symbolic.loop_engine import get_symbolic_loop_engine
-            self._loop_handlers[LoopType.SYMBOLIC_GROUNDING] = get_symbolic_loop_engine()
+
+            self._loop_handlers[LoopType.SYMBOLIC_GROUNDING] = (
+                get_symbolic_loop_engine()
+            )
 
             # Initialize loop status
             for loop_type in LoopType:
@@ -113,7 +123,7 @@ class SymbolicLoopController:
                     "available": loop_type in self._loop_handlers,
                     "operations_processed": 0,
                     "last_operation": None,
-                    "average_processing_time": 0.0
+                    "average_processing_time": 0.0,
                 }
 
             # Start processor
@@ -139,11 +149,13 @@ class SymbolicLoopController:
             await self._processor_task
         logger.info("Symbolic processor stopped")
 
-    async def process_symbolic_term(self,
-                                  term: SymbolicTerm,
-                                  agent_id: str,
-                                  data: Dict[str, Any],
-                                  loop_type: Optional[LoopType] = None) -> SymbolicResult:
+    async def process_symbolic_term(
+        self,
+        term: SymbolicTerm,
+        agent_id: str,
+        data: dict[str, Any],
+        loop_type: Optional[LoopType] = None,
+    ) -> SymbolicResult:
         """
         Process a symbolic term through the appropriate loop.
 
@@ -156,16 +168,15 @@ class SymbolicLoopController:
 
         # Create operation
         operation = SymbolicOperation(
-            term=term,
-            loop_type=loop_type,
-            agent_id=agent_id,
-            data=data
+            term=term, loop_type=loop_type, agent_id=agent_id, data=data
         )
 
         # Process based on term type
         return await self._route_operation(operation)
 
-    def _determine_loop_type(self, term: SymbolicTerm, data: Dict[str, Any]) -> LoopType:
+    def _determine_loop_type(
+        self, term: SymbolicTerm, data: dict[str, Any]
+    ) -> LoopType:
         """Determine appropriate loop type for a symbolic term"""
         # Map terms to their primary loops
         term_loop_map = {
@@ -176,7 +187,7 @@ class SymbolicLoopController:
             SymbolicTerm.ENTANGLE: LoopType.SYMBOLIC_GROUNDING,
             SymbolicTerm.GROUND: LoopType.SYMBOLIC_GROUNDING,
             SymbolicTerm.SYNTHESIZE: LoopType.DREAM_SYNTHESIS,
-            SymbolicTerm.INTEGRATE: LoopType.META_LEARNING
+            SymbolicTerm.INTEGRATE: LoopType.META_LEARNING,
         }
 
         # Check data for hints
@@ -190,7 +201,9 @@ class SymbolicLoopController:
 
     async def _route_operation(self, operation: SymbolicOperation) -> SymbolicResult:
         """Route operation to appropriate loop handler"""
-        operation_id = f"{operation.term.value}_{operation.agent_id}_{datetime.now().timestamp()}"
+        operation_id = (
+            f"{operation.term.value}_{operation.agent_id}_{datetime.now().timestamp()}"
+        )
 
         try:
             # Check if loop is available
@@ -199,7 +212,7 @@ class SymbolicLoopController:
                     operation_id=operation_id,
                     term=operation.term,
                     success=False,
-                    error=f"Loop {operation.loop_type.value} not available"
+                    error=f"Loop {operation.loop_type.value} not available",
                 )
 
             # Get handler
@@ -209,7 +222,7 @@ class SymbolicLoopController:
                     operation_id=operation_id,
                     term=operation.term,
                     success=False,
-                    error=f"No handler for loop {operation.loop_type.value}"
+                    error=f"No handler for loop {operation.loop_type.value}",
                 )
 
             # Track operation
@@ -230,7 +243,7 @@ class SymbolicLoopController:
                 term=operation.term,
                 success=True,
                 result=result,
-                processing_time=processing_time
+                processing_time=processing_time,
             )
 
         except Exception as e:
@@ -239,12 +252,14 @@ class SymbolicLoopController:
                 operation_id=operation_id,
                 term=operation.term,
                 success=False,
-                error=str(e)
+                error=str(e),
             )
         finally:
             self._active_operations.pop(operation_id, None)
 
-    async def _execute_term_operation(self, handler: Any, operation: SymbolicOperation) -> Any:
+    async def _execute_term_operation(
+        self, handler: Any, operation: SymbolicOperation
+    ) -> Any:
         """Execute specific term operation on handler"""
         term = operation.term
         data = operation.data
@@ -253,14 +268,14 @@ class SymbolicLoopController:
         # Route based on term type
         if term == SymbolicTerm.FOLD:
             # Memory folding operation
-            if hasattr(handler, 'execute_cycle'):
+            if hasattr(handler, "execute_cycle"):
                 return await handler.execute_cycle(agent_id, data)
             else:
                 return {"error": "Handler doesn't support folding"}
 
         elif term == SymbolicTerm.GROUND:
             # Symbol grounding operation
-            if hasattr(handler, 'ground_symbol'):
+            if hasattr(handler, "ground_symbol"):
                 symbol = data.get("symbol", "")
                 return await handler.ground_symbol(symbol, data.get("context"))
             else:
@@ -268,7 +283,7 @@ class SymbolicLoopController:
 
         elif term == SymbolicTerm.SYNTHESIZE:
             # Synthesis operation
-            if hasattr(handler, 'synthesize'):
+            if hasattr(handler, "synthesize"):
                 return await handler.synthesize(agent_id, data)
             else:
                 return {"error": "Handler doesn't support synthesis"}
@@ -298,12 +313,11 @@ class SymbolicLoopController:
             try:
                 # Get next operation with timeout
                 operation = await asyncio.wait_for(
-                    self._operation_queue.get(),
-                    timeout=1.0
+                    self._operation_queue.get(), timeout=1.0
                 )
 
                 # Process the operation
-                result = await self._route_operation(operation)
+                await self._route_operation(operation)
 
                 # Could store result or notify listeners here
 
@@ -312,19 +326,19 @@ class SymbolicLoopController:
             except Exception as e:
                 logger.error(f"Operation processor error: {e}")
 
-    async def get_loop_status(self) -> Dict[LoopType, Dict[str, Any]]:
+    async def get_loop_status(self) -> dict[LoopType, dict[str, Any]]:
         """Get status of all loops"""
         return self._loop_status.copy()
 
-    async def get_symbolic_state(self) -> Dict[str, Any]:
+    async def get_symbolic_state(self) -> dict[str, Any]:
         """Get current state of symbolic processing"""
         return {
             "active_operations": len(self._active_operations),
             "loop_status": await self.get_loop_status(),
-            "symbolic_vocabulary": self._get_active_vocabulary()
+            "symbolic_vocabulary": self._get_active_vocabulary(),
         }
 
-    def _get_active_vocabulary(self) -> Dict[str, int]:
+    def _get_active_vocabulary(self) -> dict[str, int]:
         """Get currently active symbolic vocabulary with usage counts"""
         vocab = {}
 
@@ -335,9 +349,11 @@ class SymbolicLoopController:
 
         return vocab
 
-    async def coordinate_multi_loop_operation(self,
-                                            operations: List[Tuple[SymbolicTerm, LoopType, Dict[str, Any]]],
-                                            agent_id: str) -> List[SymbolicResult]:
+    async def coordinate_multi_loop_operation(
+        self,
+        operations: list[tuple[SymbolicTerm, LoopType, dict[str, Any]]],
+        agent_id: str,
+    ) -> list[SymbolicResult]:
         """
         Coordinate operations across multiple loops.
 
@@ -373,44 +389,42 @@ def get_symbolic_controller() -> SymbolicLoopController:
 
 
 # Convenience functions
-async def fold_memory(agent_id: str, memory_data: Dict[str, Any]) -> SymbolicResult:
+
+
+async def fold_memory(agent_id: str, memory_data: dict[str, Any]) -> SymbolicResult:
     """Convenience function for memory folding"""
     controller = get_symbolic_controller()
     return await controller.process_symbolic_term(
-        SymbolicTerm.FOLD,
-        agent_id,
-        memory_data
+        SymbolicTerm.FOLD, agent_id, memory_data
     )
 
 
-async def ground_symbol(symbol: str, context: Optional[Dict[str, Any]] = None) -> SymbolicResult:
+async def ground_symbol(
+    symbol: str, context: Optional[dict[str, Any]] = None
+) -> SymbolicResult:
     """Convenience function for symbol grounding"""
     controller = get_symbolic_controller()
     return await controller.process_symbolic_term(
         SymbolicTerm.GROUND,
         "system",  # System-level grounding
-        {"symbol": symbol, "context": context or {}}
+        {"symbol": symbol, "context": context or {}},
     )
 
 
-async def track_drift(agent_id: str, state: Dict[str, Any]) -> SymbolicResult:
+async def track_drift(agent_id: str, state: dict[str, Any]) -> SymbolicResult:
     """Convenience function for drift tracking"""
     controller = get_symbolic_controller()
-    return await controller.process_symbolic_term(
-        SymbolicTerm.DRIFT,
-        agent_id,
-        state
-    )
+    return await controller.process_symbolic_term(SymbolicTerm.DRIFT, agent_id, state)
 
 
 __all__ = [
-    'SymbolicLoopController',
-    'SymbolicTerm',
-    'LoopType',
-    'SymbolicOperation',
-    'SymbolicResult',
-    'get_symbolic_controller',
-    'fold_memory',
-    'ground_symbol',
-    'track_drift'
+    "SymbolicLoopController",
+    "SymbolicTerm",
+    "LoopType",
+    "SymbolicOperation",
+    "SymbolicResult",
+    "get_symbolic_controller",
+    "fold_memory",
+    "ground_symbol",
+    "track_drift",
 ]

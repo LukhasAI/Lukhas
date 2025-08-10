@@ -50,8 +50,6 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-import structlog
-
 # LUKHAS Imports
 try:
     from memory.folds.fold_engine import MemoryFold
@@ -60,10 +58,8 @@ except ImportError as e:
     MemoryFold = None
 
 # LUKHAS_TAG: memory_audit_core
-from core.common import get_logger
 
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
 class MemoryDriftAuditor:
     """
     ΛAUDITOR: Advanced memory drift detection and collapse analysis system.
@@ -653,7 +649,7 @@ class MemoryDriftAuditor:
         snapshots = []
 
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 if file_path.endswith(".jsonl"):
                     # JSONL format - one JSON object per line
                     for line in f:
@@ -732,7 +728,9 @@ class MemoryDriftAuditor:
                     if current_dt < previous_dt:
                         return False
                 except (ValueError, KeyError) as e:
-                    logger.debug(f"Failed to parse timestamp in chronological check: {e}")
+                    logger.debug(
+                        f"Failed to parse timestamp in chronological check: {e}"
+                    )
                     continue
 
         return True
@@ -1538,7 +1536,7 @@ class MemoryDriftAuditor:
         if associations:
             # Use first association as family identifier
             assoc_key = associations[0]
-            prefix = assoc_key.split('_')[0] if '_' in assoc_key else assoc_key[:8]
+            prefix = assoc_key.split("_")[0] if "_" in assoc_key else assoc_key[:8]
             return f"family_{prefix}"
 
         return f"family_{key_prefix}"
@@ -1833,10 +1831,9 @@ class MemoryDriftAuditor:
                     self.collapse_events
                 ),
                 "event_types": self._get_event_type_distribution(self.collapse_events),
-                "recovery_potential": len([
-                    e for e in self.collapse_events
-                    if e.get("severity") != "critical"
-                ]),
+                "recovery_potential": len(
+                    [e for e in self.collapse_events if e.get("severity") != "critical"]
+                ),
             },
             "integrity_status": {
                 "overall_health": self._assess_overall_health(),
@@ -1885,7 +1882,9 @@ class MemoryDriftAuditor:
                     )
                     timestamps.append(timestamp)
                 except (ValueError, KeyError) as e:
-                    logger.debug(f"Failed to parse timestamp for frequency analysis: {e}")
+                    logger.debug(
+                        f"Failed to parse timestamp for frequency analysis: {e}"
+                    )
                     continue
 
         if len(timestamps) < 2:
@@ -2360,7 +2359,7 @@ Examples:
 
     logger.info(
         "🧠 ΛAUDITOR Memory Drift Auditor & Memory Collapse Tracer",
-        tag="ΛAUDITOR_CLI_START"
+        tag="ΛAUDITOR_CLI_START",
     )
     logger.info("═" * 60, tag="ΛAUDITOR_CLI_HEADER")
 
@@ -2380,47 +2379,49 @@ Examples:
 
     try:
         logger.info(
-            f"📂 Loading memory snapshots from: {args.dir}",
-            tag="ΛAUDITOR_CLI_LOAD"
+            f"📂 Loading memory snapshots from: {args.dir}", tag="ΛAUDITOR_CLI_LOAD"
         )
         loading_results = auditor.load_memory_snapshots(args.dir)
 
         logger.info(
             f"   ✓ Loaded {loading_results['snapshots_loaded']} snapshots",
-            tag="ΛAUDITOR_CLI_LOAD_SUCCESS"
+            tag="ΛAUDITOR_CLI_LOAD_SUCCESS",
         )
         if loading_results["invalid_snapshots"] > 0:
             logger.warning(
                 f"   ⚠ Skipped {loading_results['invalid_snapshots']} invalid snapshots",
-                tag="ΛAUDITOR_CLI_LOAD_WARNING"
+                tag="ΛAUDITOR_CLI_LOAD_WARNING",
             )
         if loading_results["loading_errors"]:
             logger.error(
                 f"   ❌ {len(loading_results['loading_errors'])} loading errors",
-                tag="ΛAUDITOR_CLI_LOAD_ERROR"
+                tag="ΛAUDITOR_CLI_LOAD_ERROR",
             )
 
         if loading_results["snapshots_loaded"] == 0:
-            logger.error("❌ No valid memory snapshots found. Exiting.", tag="ΛAUDITOR_CLI_NO_DATA")
+            logger.error(
+                "❌ No valid memory snapshots found. Exiting.",
+                tag="ΛAUDITOR_CLI_NO_DATA",
+            )
             return
 
         logger.info(
             f"🔍 Analyzing memory drift (window: {args.window})",
-            tag="ΛAUDITOR_CLI_DRIFT_START"
+            tag="ΛAUDITOR_CLI_DRIFT_START",
         )
         drift_analysis = auditor.detect_memory_drift(args.window)
 
         drift_events = len(drift_analysis.get("drift_events", []))
         logger.info(
             f"   ✓ Detected {drift_events} drift events",
-            tag="ΛAUDITOR_CLI_DRIFT_RESULT"
+            tag="ΛAUDITOR_CLI_DRIFT_RESULT",
         )
 
         anomalies = len(drift_analysis.get("anomalies_detected", []))
         if anomalies > 0:
             logger.warning(
                 f"   ⚠ {anomalies} anomalous patterns detected",
-                tag="ΛAUDITOR_CLI_DRIFT_ANOMALIES"
+                tag="ΛAUDITOR_CLI_DRIFT_ANOMALIES",
             )
 
         logger.info("💥 Tracing collapse events", tag="ΛAUDITOR_CLI_COLLAPSE_START")
@@ -2429,28 +2430,31 @@ Examples:
         collapse_events = len(collapse_analysis.get("collapse_events", []))
         logger.info(
             f"   ✓ Detected {collapse_events} collapse events",
-            tag="ΛAUDITOR_CLI_COLLAPSE_RESULT"
+            tag="ΛAUDITOR_CLI_COLLAPSE_RESULT",
         )
 
         recovery_ops = len(collapse_analysis.get("recovery_opportunities", []))
         if recovery_ops > 0:
             logger.info(
                 f"   🔄 {recovery_ops} recovery opportunities identified",
-                tag="ΛAUDITOR_CLI_RECOVERY"
+                tag="ΛAUDITOR_CLI_RECOVERY",
             )
 
         logger.info(
-            f"📊 Generating audit report: {args.out}",
-            tag="ΛAUDITOR_CLI_REPORT_START"
+            f"📊 Generating audit report: {args.out}", tag="ΛAUDITOR_CLI_REPORT_START"
         )
         report_results = auditor.generate_audit_report(args.out, args.format)
 
         if report_results["report_generated"]:
-            logger.info("   ✓ Report generated successfully", tag="ΛAUDITOR_CLI_REPORT_SUCCESS")
+            logger.info(
+                "   ✓ Report generated successfully", tag="ΛAUDITOR_CLI_REPORT_SUCCESS"
+            )
             for output_file in report_results["output_files"]:
                 logger.info(f"   📄 {output_file}", tag="ΛAUDITOR_CLI_REPORT_FILE")
         else:
-            logger.error("   ❌ Report generation failed", tag="ΛAUDITOR_CLI_REPORT_FAIL")
+            logger.error(
+                "   ❌ Report generation failed", tag="ΛAUDITOR_CLI_REPORT_FAIL"
+            )
             for error in report_results.get("generation_errors", []):
                 logger.error(f"      Error: {error}", tag="ΛAUDITOR_CLI_REPORT_ERROR")
 
@@ -2474,20 +2478,23 @@ Examples:
         logger.info("📋 Audit Summary", tag="ΛAUDITOR_CLI_SUMMARY")
         logger.info(
             f"   Overall Health: {health_emoji} {overall_health}",
-            tag="ΛAUDITOR_CLI_HEALTH"
+            tag="ΛAUDITOR_CLI_HEALTH",
         )
         logger.info(
             f"   Total Drift Events: {summary_stats.get('total_drift_events', 0)}",
-            tag="ΛAUDITOR_CLI_DRIFT_COUNT"
+            tag="ΛAUDITOR_CLI_DRIFT_COUNT",
         )
         logger.info(
             f"   Total Collapse Events: {summary_stats.get('total_collapse_events', 0)}",
-            tag="ΛAUDITOR_CLI_COLLAPSE_COUNT"
+            tag="ΛAUDITOR_CLI_COLLAPSE_COUNT",
         )
-        logger.info(f"   Critical Issues: {summary_stats.get('critical_issues', 0)}", tag="ΛAUDITOR_CLI_CRITICAL")
+        logger.info(
+            f"   Critical Issues: {summary_stats.get('critical_issues', 0)}",
+            tag="ΛAUDITOR_CLI_CRITICAL",
+        )
         logger.info(
             f"   Temporal Coverage: {summary_stats.get('temporal_coverage_ratio', 0):.1%}",
-            tag="ΛAUDITOR_CLI_COVERAGE"
+            tag="ΛAUDITOR_CLI_COVERAGE",
         )
 
         # Display warnings/recommendations
@@ -2497,10 +2504,14 @@ Examples:
             for rec in recommendations:
                 logger.warning(f"   • {rec}", tag="ΛAUDITOR_CLI_REC")
 
-        logger.info("✅ ΛAUDITOR analysis completed successfully", tag="ΛAUDITOR_CLI_COMPLETE")
+        logger.info(
+            "✅ ΛAUDITOR analysis completed successfully", tag="ΛAUDITOR_CLI_COMPLETE"
+        )
 
     except Exception as e:
-        logger.error(f"❌ Critical error during audit: {e}", tag="ΛAUDITOR_CLI_CRITICAL_ERROR")
+        logger.error(
+            f"❌ Critical error during audit: {e}", tag="ΛAUDITOR_CLI_CRITICAL_ERROR"
+        )
         logger.error("Critical audit error", error=str(e), tag="ΛAUDITOR_CRITICAL")
         return 1
 

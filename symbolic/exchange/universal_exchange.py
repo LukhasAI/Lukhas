@@ -9,18 +9,19 @@ Based on GPT5 audit recommendations for universal symbolic communication.
 
 import asyncio
 import hashlib
-import time
+import logging
 import random
-from typing import Dict, List, Set, Optional, Tuple, Any
+import time
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-import logging
-from collections import defaultdict
+from typing import Any, Dict, List, Optional, Set, Tuple
+
 import numpy as np
 
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+
 # Import our components
-from symbolic.personal.symbol_dictionary import PersonalSymbolDictionary
-from orchestration.signals.signal_bus import SignalBus, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -64,26 +65,26 @@ class UniversalSymbolExchange:
     Manages privacy-preserving symbol exchange between users.
     Discovers common symbolic patterns while protecting individual privacy.
     """
-    
+
     def __init__(self, signal_bus: Optional[SignalBus] = None):
         self.signal_bus = signal_bus or SignalBus()
-        
+
         # Exchange tracking
         self.active_sessions: Dict[str, ExchangeSession] = {}
         self.symbol_candidates: Dict[str, SymbolCandidate] = {}
         self.user_contributions: Dict[str, Set[str]] = defaultdict(set)
-        
+
         # Privacy settings
         self.min_k_anonymity = 3  # Minimum users before revealing symbol
         self.noise_factor = 0.1  # Noise for differential privacy
         self.hash_rounds = 1000  # Rounds for hash computation
-        
+
         # Colony integration
         self.colony_validators: List[Any] = []  # Colony instances for validation
-        
+
         # Universal vocabulary (discovered symbols)
         self.universal_vocabulary: Dict[str, float] = {}
-        
+
     async def initiate_exchange(
         self,
         initiator_id: str,
@@ -94,25 +95,25 @@ class UniversalSymbolExchange:
         session_id = hashlib.sha256(
             f"{initiator_id}:{time.time()}".encode()
         ).hexdigest()[:16]
-        
+
         session = ExchangeSession(
             session_id=session_id,
             participants=set([initiator_id] + participant_ids),
             protocol=protocol
         )
-        
+
         self.active_sessions[session_id] = session
-        
+
         # Emit signal about exchange
         await self._emit_signal(
             SignalType.NOVELTY,
             0.3,
             {'action': 'exchange_initiated', 'protocol': protocol.value}
         )
-        
+
         logger.info(f"Initiated exchange session {session_id} with {len(participant_ids)} participants")
         return session_id
-    
+
     async def contribute_symbols(
         self,
         session_id: str,
@@ -122,18 +123,18 @@ class UniversalSymbolExchange:
         """Contribute symbols to an exchange session"""
         if session_id not in self.active_sessions:
             return False
-        
+
         session = self.active_sessions[session_id]
         if user_id not in session.participants:
             return False
-        
+
         # Apply privacy protocol
         processed_symbols = await self._apply_privacy_protocol(
             symbols,
             session.protocol,
             session.privacy_budget
         )
-        
+
         # Add to candidates
         for symbol, hash_sig in processed_symbols.items():
             if symbol not in self.symbol_candidates:
@@ -141,22 +142,22 @@ class UniversalSymbolExchange:
                     symbol=symbol,
                     hash_signature=hash_sig
                 )
-            
+
             candidate = self.symbol_candidates[symbol]
             candidate.support_count += 1
             candidate.origins.add(user_id)
             candidate.last_seen = time.time()
-            
+
             # Track user contribution
             self.user_contributions[user_id].add(symbol)
-        
+
         session.symbols_exchanged += len(processed_symbols)
-        
+
         # Check for consensus
         await self._check_consensus(session_id)
-        
+
         return True
-    
+
     async def _apply_privacy_protocol(
         self,
         symbols: Dict[str, str],
@@ -164,11 +165,11 @@ class UniversalSymbolExchange:
         privacy_budget: float
     ) -> Dict[str, str]:
         """Apply privacy-preserving protocol to symbols"""
-        
+
         if protocol == ExchangeProtocol.DIRECT:
             # No modification for trusted exchange
             return symbols
-        
+
         elif protocol == ExchangeProtocol.HASHED:
             # Apply additional hashing rounds
             processed = {}
@@ -177,7 +178,7 @@ class UniversalSymbolExchange:
                     meaning_hash = hashlib.sha256(meaning_hash.encode()).hexdigest()
                 processed[symbol] = meaning_hash[:16]  # Truncate for privacy
             return processed
-        
+
         elif protocol == ExchangeProtocol.DIFFERENTIAL:
             # Add noise for differential privacy
             processed = {}
@@ -185,29 +186,29 @@ class UniversalSymbolExchange:
                 # Add random symbols with probability based on noise factor
                 if random.random() > self.noise_factor:
                     processed[symbol] = meaning_hash
-                
+
                 # Add fake symbols for plausible deniability
                 if random.random() < self.noise_factor * privacy_budget:
                     fake_symbol = self._generate_fake_symbol()
                     processed[fake_symbol] = hashlib.sha256(
                         f"fake:{time.time()}".encode()
                     ).hexdigest()[:16]
-            
+
             return processed
-        
+
         elif protocol == ExchangeProtocol.FEDERATED:
             # Federated learning style - only share aggregated info
             processed = {}
             symbol_list = list(symbols.keys())
-            
+
             # Share only top-k symbols
             k = min(5, len(symbol_list))
             for symbol in random.sample(symbol_list, k):
                 # Generalize the hash
                 processed[symbol] = symbols[symbol][:8] + "********"
-            
+
             return processed
-        
+
         elif protocol == ExchangeProtocol.COLONY:
             # Use colony consensus for validation
             processed = {}
@@ -219,37 +220,37 @@ class UniversalSymbolExchange:
                         processed[symbol] = meaning_hash
                 else:
                     processed[symbol] = meaning_hash
-            
+
             return processed
-        
+
         return symbols
-    
+
     async def _check_consensus(self, session_id: str):
         """Check if consensus reached for any symbols"""
         session = self.active_sessions.get(session_id)
         if not session:
             return
-        
+
         discovered_symbols = []
-        
+
         for symbol, candidate in self.symbol_candidates.items():
             # Check k-anonymity
             if len(candidate.origins) < self.min_k_anonymity:
                 continue
-            
+
             # Calculate confidence
             participation_rate = len(candidate.origins) / len(session.participants)
             candidate.confidence = participation_rate
-            
+
             # Check threshold
             if participation_rate >= session.consensus_threshold:
                 # Symbol discovered!
                 discovered_symbols.append(symbol)
                 self.universal_vocabulary[symbol] = candidate.confidence
-                
+
                 logger.info(f"Universal symbol discovered: {symbol} "
                           f"(confidence: {candidate.confidence:.2f})")
-        
+
         if discovered_symbols:
             # Emit discovery signal
             await self._emit_signal(
@@ -261,7 +262,7 @@ class UniversalSymbolExchange:
                     'symbols': discovered_symbols[:5]  # Share top 5
                 }
             )
-    
+
     async def get_recommendations(
         self,
         user_id: str,
@@ -269,10 +270,10 @@ class UniversalSymbolExchange:
     ) -> List[Tuple[str, float]]:
         """Get symbol recommendations for a user"""
         recommendations = []
-        
+
         # Get user's contributed symbols
         user_symbols = self.user_contributions.get(user_id, set())
-        
+
         # Find symbols with high confidence not yet adopted by user
         for symbol, confidence in self.universal_vocabulary.items():
             if symbol not in user_symbols and confidence > 0.5:
@@ -282,27 +283,27 @@ class UniversalSymbolExchange:
                     candidate = self.symbol_candidates[symbol]
                     if context in candidate.contexts:
                         adjusted_confidence *= 1.2  # Boost for matching context
-                
+
                 recommendations.append((symbol, adjusted_confidence))
-        
+
         # Sort by confidence
         recommendations.sort(key=lambda x: x[1], reverse=True)
-        
+
         return recommendations[:10]  # Top 10 recommendations
-    
+
     def get_privacy_metrics(self, session_id: str) -> Dict[str, Any]:
         """Get privacy metrics for a session"""
         session = self.active_sessions.get(session_id)
         if not session:
             return {}
-        
+
         # Calculate privacy metrics
         total_symbols = len(self.symbol_candidates)
         revealed_symbols = len([
             s for s, c in self.symbol_candidates.items()
             if len(c.origins) >= self.min_k_anonymity
         ])
-        
+
         return {
             'session_id': session_id,
             'protocol': session.protocol.value,
@@ -314,12 +315,12 @@ class UniversalSymbolExchange:
             'participants': len(session.participants),
             'symbols_exchanged': session.symbols_exchanged
         }
-    
+
     async def _validate_through_colony(self, symbol: str) -> bool:
         """Validate symbol through colony consensus"""
         if not self.colony_validators:
             return True
-        
+
         # Get validation from first available colony
         # In production, would aggregate from multiple colonies
         for colony in self.colony_validators:
@@ -329,9 +330,9 @@ class UniversalSymbolExchange:
                     return result.get('valid', True)
                 except:
                     pass
-        
+
         return True
-    
+
     def _generate_fake_symbol(self) -> str:
         """Generate a fake symbol for differential privacy"""
         # Use existing emoji ranges
@@ -341,15 +342,15 @@ class UniversalSymbolExchange:
             (0x1F680, 0x1F6FF),  # Transport
             (0x1F900, 0x1F9FF),  # Supplemental symbols
         ]
-        
+
         range_start, range_end = random.choice(emoji_ranges)
         code_point = random.randint(range_start, range_end)
-        
+
         try:
             return chr(code_point)
         except:
             return "❓"  # Fallback
-    
+
     async def _emit_signal(self, signal_type: SignalType, level: float, metadata: Dict):
         """Emit signal through signal bus"""
         if self.signal_bus:
@@ -360,22 +361,22 @@ class UniversalSymbolExchange:
                 metadata=metadata
             )
             self.signal_bus.publish(signal)
-    
+
     def get_universal_stats(self) -> Dict[str, Any]:
         """Get statistics about universal symbol adoption"""
         total_candidates = len(self.symbol_candidates)
         adopted_symbols = len(self.universal_vocabulary)
-        
+
         # Calculate adoption metrics
         avg_confidence = np.mean(list(self.universal_vocabulary.values())) if self.universal_vocabulary else 0
-        
+
         # Find most popular symbols
         popular_symbols = sorted(
             self.symbol_candidates.items(),
             key=lambda x: x[1].support_count,
             reverse=True
         )[:5]
-        
+
         return {
             'total_candidates': total_candidates,
             'adopted_symbols': adopted_symbols,
@@ -397,56 +398,56 @@ class UniversalSymbolExchange:
 # Demo usage
 async def demo_universal_exchange():
     """Demonstrate universal symbol exchange"""
-    
+
     # Create exchange system
     exchange = UniversalSymbolExchange()
-    
+
     # Simulate multiple users contributing symbols
     users = ["alice", "bob", "charlie", "diana", "eve"]
-    
+
     # Initiate exchange session
     session_id = await exchange.initiate_exchange(
         initiator_id="alice",
         participant_ids=users[1:],
         protocol=ExchangeProtocol.DIFFERENTIAL
     )
-    
+
     print(f"📡 Started exchange session: {session_id}")
-    
+
     # Each user contributes their symbols
     common_symbols = {
-        "🎯": hashlib.sha256("focus".encode()).hexdigest()[:16],
-        "💪": hashlib.sha256("strength".encode()).hexdigest()[:16],
-        "🌟": hashlib.sha256("excellence".encode()).hexdigest()[:16],
+        "🎯": hashlib.sha256(b"focus").hexdigest()[:16],
+        "💪": hashlib.sha256(b"strength").hexdigest()[:16],
+        "🌟": hashlib.sha256(b"excellence").hexdigest()[:16],
     }
-    
+
     for user in users:
         # Add some common and unique symbols
         user_symbols = common_symbols.copy()
-        
+
         # Add unique symbol
         unique = f"symbol_{user}"
-        user_symbols[f"🔤"] = hashlib.sha256(unique.encode()).hexdigest()[:16]
-        
+        user_symbols["🔤"] = hashlib.sha256(unique.encode()).hexdigest()[:16]
+
         # Contribute
         await exchange.contribute_symbols(session_id, user, user_symbols)
-    
+
     # Check discovered universal symbols
     stats = exchange.get_universal_stats()
     print(f"🌍 Universal symbols discovered: {stats['adopted_symbols']}")
     print(f"📊 Average confidence: {stats['average_confidence']:.2f}")
-    
+
     # Get recommendations for a user
     recommendations = await exchange.get_recommendations("alice")
     if recommendations:
-        print(f"💡 Recommendations for Alice:")
+        print("💡 Recommendations for Alice:")
         for symbol, confidence in recommendations[:3]:
             print(f"  {symbol}: {confidence:.2f}")
-    
+
     # Check privacy metrics
     privacy = exchange.get_privacy_metrics(session_id)
     print(f"🔒 Privacy preservation rate: {privacy['privacy_preservation_rate']:.1%}")
-    
+
     return exchange
 
 

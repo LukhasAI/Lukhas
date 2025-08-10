@@ -3,13 +3,12 @@ Usage Analytics Loop for ABAS
 Continuous learning from user behavior to identify and fix pain points
 """
 
-from typing import Dict, List, Optional, Tuple, Any, Set
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum
 import statistics
-import json
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Tuple
 
 
 class AnalyticsMetric(Enum):
@@ -93,14 +92,14 @@ class UsageAnalyticsLoop:
     Continuous analytics loop that learns from usage patterns
     and automatically identifies optimization opportunities
     """
-    
+
     def __init__(self):
         self.usage_data: Dict[str, List[Dict]] = defaultdict(list)
         self.pain_points: Dict[str, PainPoint] = {}
         self.usage_patterns: List[UsagePattern] = []
         self.recommendations: List[OptimizationRecommendation] = []
         self.metrics_history: Dict[str, List[Tuple[datetime, float]]] = defaultdict(list)
-        
+
         # Thresholds for pain point detection
         self.thresholds = {
             "high_error_rate": 0.2,  # 20% errors
@@ -111,12 +110,12 @@ class UsageAnalyticsLoop:
             "short_session": 60.0,  # 1 minute sessions
             "high_bounce": 0.5  # 50% bounce rate
         }
-        
+
         # Learning parameters
         self.pattern_min_occurrences = 5
         self.pattern_min_users = 3
         self.recommendation_confidence_threshold = 0.7
-    
+
     def track_usage_event(
         self,
         user_id: str,
@@ -130,15 +129,15 @@ class UsageAnalyticsLoop:
             "timestamp": datetime.now(),
             "data": event_data
         }
-        
+
         self.usage_data[event_type].append(event)
-        
+
         # Real-time pattern detection
         self._detect_patterns_realtime(event)
-        
+
         # Update metrics
         self._update_metrics(event)
-    
+
     def analyze_usage_patterns(self) -> Dict[str, Any]:
         """
         Analyze all usage data to identify patterns and pain points
@@ -149,40 +148,40 @@ class UsageAnalyticsLoop:
             "metrics": {},
             "recommendations": []
         }
-        
+
         # Analyze different aspects
         task_patterns = self._analyze_task_patterns()
         error_patterns = self._analyze_error_patterns()
         navigation_patterns = self._analyze_navigation_patterns()
         feature_patterns = self._analyze_feature_usage()
         search_patterns = self._analyze_search_patterns()
-        
+
         # Combine patterns
         all_patterns = task_patterns + error_patterns + navigation_patterns + \
                       feature_patterns + search_patterns
-        
+
         # Filter significant patterns
         significant_patterns = self._filter_significant_patterns(all_patterns)
         analysis["patterns"] = significant_patterns
-        
+
         # Identify pain points from patterns
         pain_points = self._identify_pain_points_from_patterns(significant_patterns)
         analysis["pain_points"] = pain_points
-        
+
         # Calculate current metrics
         analysis["metrics"] = self._calculate_current_metrics()
-        
+
         # Generate recommendations
         recommendations = self._generate_optimization_recommendations(pain_points)
         analysis["recommendations"] = recommendations
-        
+
         # Store for future reference
         self.usage_patterns = significant_patterns
         self.pain_points = {pp.pain_point_id: pp for pp in pain_points}
         self.recommendations = recommendations
-        
+
         return analysis
-    
+
     def get_real_time_insights(self) -> Dict[str, Any]:
         """Get real-time insights based on current data"""
         insights = {
@@ -191,10 +190,10 @@ class UsageAnalyticsLoop:
             "improving_areas": [],
             "alerts": []
         }
-        
+
         # Check for current issues
         current_metrics = self._calculate_current_metrics()
-        
+
         # High error rate alert
         if current_metrics.get("error_rate", 0) > self.thresholds["high_error_rate"]:
             insights["alerts"].append({
@@ -203,7 +202,7 @@ class UsageAnalyticsLoop:
                 "message": f"Error rate is {current_metrics['error_rate']:.1%}",
                 "action": "Investigate error causes immediately"
             })
-        
+
         # High abandonment alert
         if current_metrics.get("abandonment_rate", 0) > self.thresholds["high_abandonment"]:
             insights["alerts"].append({
@@ -212,36 +211,36 @@ class UsageAnalyticsLoop:
                 "message": f"Abandonment rate is {current_metrics['abandonment_rate']:.1%}",
                 "action": "Review user flow for friction points"
             })
-        
+
         # Trending problems (getting worse)
         trending = self._identify_trending_problems()
         insights["trending_problems"] = trending
-        
+
         # Improving areas (getting better)
         improving = self._identify_improving_areas()
         insights["improving_areas"] = improving
-        
+
         # Current active issues
         insights["current_issues"] = self._get_active_issues()
-        
+
         return insights
-    
+
     def generate_improvement_plan(self) -> List[Dict[str, Any]]:
         """
         Generate prioritized improvement plan based on analytics
         """
         if not self.recommendations:
             self.analyze_usage_patterns()
-        
+
         # Sort by priority and impact
         sorted_recs = sorted(
             self.recommendations,
             key=lambda r: (r.priority, -sum(r.metrics_improvement.values())),
             reverse=True
         )
-        
+
         improvement_plan = []
-        
+
         for rec in sorted_recs[:10]:  # Top 10 improvements
             plan_item = {
                 "id": rec.recommendation_id,
@@ -256,27 +255,27 @@ class UsageAnalyticsLoop:
                 "success_criteria": self._generate_success_criteria(rec)
             }
             improvement_plan.append(plan_item)
-        
+
         return improvement_plan
-    
+
     def _detect_patterns_realtime(self, event: Dict) -> None:
         """Detect patterns in real-time as events come in"""
         # Check for repeated errors
         if event["event_type"] == "error":
             self._check_error_pattern(event)
-        
+
         # Check for search patterns
         elif event["event_type"] == "search":
             self._check_search_pattern(event)
-        
+
         # Check for navigation loops
         elif event["event_type"] == "navigation":
             self._check_navigation_loop(event)
-    
+
     def _update_metrics(self, event: Dict) -> None:
         """Update metrics with new event"""
         timestamp = event["timestamp"]
-        
+
         # Update relevant metrics based on event type
         if event["event_type"] == "error":
             self._update_error_metrics(timestamp)
@@ -284,30 +283,30 @@ class UsageAnalyticsLoop:
             self._update_task_metrics(timestamp, event["data"])
         elif event["event_type"] == "session_end":
             self._update_session_metrics(timestamp, event["data"])
-    
+
     def _analyze_task_patterns(self) -> List[UsagePattern]:
         """Analyze task completion patterns"""
         patterns = []
-        
+
         task_events = self.usage_data.get("task_complete", [])
         if not task_events:
             return patterns
-        
+
         # Group by task type
         tasks_by_type = defaultdict(list)
         for event in task_events:
             task_type = event["data"].get("task_type", "unknown")
             tasks_by_type[task_type].append(event)
-        
+
         # Analyze each task type
         for task_type, events in tasks_by_type.items():
             if len(events) < self.pattern_min_occurrences:
                 continue
-            
+
             # Calculate statistics
             completion_times = [e["data"].get("duration", 0) for e in events]
             avg_time = statistics.mean(completion_times)
-            
+
             # Check if slow
             if avg_time > self.thresholds["slow_task"]:
                 pattern = UsagePattern(
@@ -324,28 +323,28 @@ class UsageAnalyticsLoop:
                     }
                 )
                 patterns.append(pattern)
-        
+
         return patterns
-    
+
     def _analyze_error_patterns(self) -> List[UsagePattern]:
         """Analyze error patterns"""
         patterns = []
-        
+
         error_events = self.usage_data.get("error", [])
         if not error_events:
             return patterns
-        
+
         # Group by error type
         errors_by_type = defaultdict(list)
         for event in error_events:
             error_type = event["data"].get("error_type", "unknown")
             errors_by_type[error_type].append(event)
-        
+
         # Find recurring errors
         for error_type, events in errors_by_type.items():
             if len(events) < self.pattern_min_occurrences:
                 continue
-            
+
             pattern = UsagePattern(
                 pattern_id=f"recurring_error_{error_type}",
                 pattern_type="recurring_error",
@@ -359,30 +358,30 @@ class UsageAnalyticsLoop:
                 }
             )
             patterns.append(pattern)
-        
+
         return patterns
-    
+
     def _analyze_navigation_patterns(self) -> List[UsagePattern]:
         """Analyze navigation patterns"""
         patterns = []
-        
+
         nav_events = self.usage_data.get("navigation", [])
         if not nav_events:
             return patterns
-        
+
         # Detect circular navigation
         user_paths = defaultdict(list)
         for event in nav_events:
             user_paths[event["user_id"]].append(event["data"].get("page", ""))
-        
+
         circular_count = 0
         users_with_circular = set()
-        
+
         for user_id, path in user_paths.items():
             if self._has_circular_navigation(path):
                 circular_count += 1
                 users_with_circular.add(user_id)
-        
+
         if circular_count >= self.pattern_min_occurrences:
             pattern = UsagePattern(
                 pattern_id="circular_navigation",
@@ -394,25 +393,25 @@ class UsageAnalyticsLoop:
                 context={"issue": "Users navigating in circles"}
             )
             patterns.append(pattern)
-        
+
         return patterns
-    
+
     def _analyze_feature_usage(self) -> List[UsagePattern]:
         """Analyze feature usage patterns"""
         patterns = []
-        
+
         feature_events = self.usage_data.get("feature_use", [])
         if not feature_events:
             return patterns
-        
+
         # Count feature usage
         feature_counts = Counter(e["data"].get("feature", "") for e in feature_events)
         total_users = len(set(e["user_id"] for e in feature_events))
-        
+
         # Find underused features
         for feature, count in feature_counts.items():
             usage_rate = count / total_users if total_users > 0 else 0
-            
+
             if usage_rate < self.thresholds["low_feature_usage"]:
                 pattern = UsagePattern(
                     pattern_id=f"underused_feature_{feature}",
@@ -428,21 +427,21 @@ class UsageAnalyticsLoop:
                     }
                 )
                 patterns.append(pattern)
-        
+
         return patterns
-    
+
     def _analyze_search_patterns(self) -> List[UsagePattern]:
         """Analyze search patterns"""
         patterns = []
-        
+
         search_events = self.usage_data.get("search", [])
         if not search_events:
             return patterns
-        
+
         # Analyze search queries
         queries = [e["data"].get("query", "") for e in search_events]
         query_counts = Counter(queries)
-        
+
         # Find frequently searched items (indicating they're hard to find)
         for query, count in query_counts.most_common(10):
             if count >= self.pattern_min_occurrences:
@@ -459,36 +458,36 @@ class UsageAnalyticsLoop:
                     }
                 )
                 patterns.append(pattern)
-        
+
         return patterns
-    
+
     def _filter_significant_patterns(
         self,
         patterns: List[UsagePattern]
     ) -> List[UsagePattern]:
         """Filter patterns to keep only significant ones"""
         significant = []
-        
+
         for pattern in patterns:
             # Check minimum thresholds
             if (pattern.frequency >= self.pattern_min_occurrences and
                 pattern.users_affected >= self.pattern_min_users):
                 significant.append(pattern)
-        
+
         return significant
-    
+
     def _identify_pain_points_from_patterns(
         self,
         patterns: List[UsagePattern]
     ) -> List[PainPoint]:
         """Convert patterns into actionable pain points"""
         pain_points = []
-        
+
         # Group patterns by type
         patterns_by_type = defaultdict(list)
         for pattern in patterns:
             patterns_by_type[pattern.pattern_type].append(pattern)
-        
+
         # Create pain points for each pattern type
         for pattern_type, type_patterns in patterns_by_type.items():
             if pattern_type == "slow_task":
@@ -516,7 +515,7 @@ class UsageAnalyticsLoop:
                         ]
                     )
                     pain_points.append(pain_point)
-            
+
             elif pattern_type == "recurring_error":
                 for pattern in type_patterns:
                     pain_point = PainPoint(
@@ -542,7 +541,7 @@ class UsageAnalyticsLoop:
                         ]
                     )
                     pain_points.append(pain_point)
-            
+
             elif pattern_type == "frequent_search":
                 for pattern in type_patterns:
                     pain_point = PainPoint(
@@ -563,45 +562,45 @@ class UsageAnalyticsLoop:
                         ]
                     )
                     pain_points.append(pain_point)
-        
+
         return pain_points
-    
+
     def _calculate_current_metrics(self) -> Dict[str, float]:
         """Calculate current metric values"""
         metrics = {}
-        
+
         # Error rate
         total_events = sum(len(events) for events in self.usage_data.values())
         error_events = len(self.usage_data.get("error", []))
         metrics["error_rate"] = error_events / total_events if total_events > 0 else 0
-        
+
         # Task completion time
         task_events = self.usage_data.get("task_complete", [])
         if task_events:
             completion_times = [e["data"].get("duration", 0) for e in task_events]
             metrics["avg_task_time"] = statistics.mean(completion_times)
-        
+
         # Abandonment rate
         started_tasks = len(self.usage_data.get("task_start", []))
         completed_tasks = len(self.usage_data.get("task_complete", []))
         if started_tasks > 0:
             metrics["abandonment_rate"] = 1 - (completed_tasks / started_tasks)
-        
+
         # Session duration
         session_events = self.usage_data.get("session_end", [])
         if session_events:
             durations = [e["data"].get("duration", 0) for e in session_events]
             metrics["avg_session_duration"] = statistics.mean(durations)
-        
+
         return metrics
-    
+
     def _generate_optimization_recommendations(
         self,
         pain_points: List[PainPoint]
     ) -> List[OptimizationRecommendation]:
         """Generate optimization recommendations from pain points"""
         recommendations = []
-        
+
         for pain_point in pain_points:
             # Create recommendation for each suggested fix
             for i, fix in enumerate(pain_point.suggested_fixes):
@@ -622,36 +621,36 @@ class UsageAnalyticsLoop:
                     }]
                 )
                 recommendations.append(rec)
-        
+
         return recommendations
-    
+
     def _has_circular_navigation(self, path: List[str]) -> bool:
         """Check if navigation path is circular"""
         if len(path) < 4:
             return False
-        
+
         # Check for A-B-A-B pattern
         for i in range(len(path) - 3):
             if path[i] == path[i+2] and path[i+1] == path[i+3]:
                 return True
-        
+
         return False
-    
+
     def _check_error_pattern(self, event: Dict) -> None:
         """Check for error patterns in real-time"""
         # Would implement real-time error pattern detection
         pass
-    
+
     def _check_search_pattern(self, event: Dict) -> None:
         """Check for search patterns in real-time"""
         # Would implement real-time search pattern detection
         pass
-    
+
     def _check_navigation_loop(self, event: Dict) -> None:
         """Check for navigation loops in real-time"""
         # Would implement real-time navigation loop detection
         pass
-    
+
     def _update_error_metrics(self, timestamp: datetime) -> None:
         """Update error-related metrics"""
         # Calculate current error rate
@@ -661,38 +660,38 @@ class UsageAnalyticsLoop:
                 e for e in events
                 if (timestamp - e["timestamp"]).total_seconds() < 3600
             ])
-        
+
         if recent_events:
             error_count = sum(1 for e in recent_events if e["event_type"] == "error")
             error_rate = error_count / len(recent_events)
             self.metrics_history["error_rate"].append((timestamp, error_rate))
-    
+
     def _update_task_metrics(self, timestamp: datetime, data: Dict) -> None:
         """Update task-related metrics"""
         if "duration" in data:
             self.metrics_history["task_duration"].append((timestamp, data["duration"]))
-    
+
     def _update_session_metrics(self, timestamp: datetime, data: Dict) -> None:
         """Update session-related metrics"""
         if "duration" in data:
             self.metrics_history["session_duration"].append((timestamp, data["duration"]))
-    
+
     def _identify_trending_problems(self) -> List[Dict]:
         """Identify problems that are getting worse"""
         trending = []
-        
+
         for metric_name, history in self.metrics_history.items():
             if len(history) < 10:
                 continue
-            
+
             # Compare recent vs older values
             recent_values = [v for t, v in history[-5:]]
             older_values = [v for t, v in history[-10:-5]]
-            
+
             if recent_values and older_values:
                 recent_avg = statistics.mean(recent_values)
                 older_avg = statistics.mean(older_values)
-                
+
                 # Check if getting worse (depends on metric)
                 if metric_name == "error_rate" and recent_avg > older_avg * 1.2:
                     trending.append({
@@ -701,25 +700,25 @@ class UsageAnalyticsLoop:
                         "change": f"+{(recent_avg - older_avg) / older_avg * 100:.1f}%",
                         "severity": "high"
                     })
-        
+
         return trending
-    
+
     def _identify_improving_areas(self) -> List[Dict]:
         """Identify areas that are improving"""
         improving = []
-        
+
         for metric_name, history in self.metrics_history.items():
             if len(history) < 10:
                 continue
-            
+
             # Compare recent vs older values
             recent_values = [v for t, v in history[-5:]]
             older_values = [v for t, v in history[-10:-5]]
-            
+
             if recent_values and older_values:
                 recent_avg = statistics.mean(recent_values)
                 older_avg = statistics.mean(older_values)
-                
+
                 # Check if improving (depends on metric)
                 if metric_name == "task_duration" and recent_avg < older_avg * 0.8:
                     improving.append({
@@ -728,13 +727,13 @@ class UsageAnalyticsLoop:
                         "change": f"-{(older_avg - recent_avg) / older_avg * 100:.1f}%",
                         "impact": "positive"
                     })
-        
+
         return improving
-    
+
     def _get_active_issues(self) -> List[Dict]:
         """Get currently active issues"""
         active = []
-        
+
         # Check recent pain points
         for pain_point in self.pain_points.values():
             # Check if still occurring
@@ -742,7 +741,7 @@ class UsageAnalyticsLoop:
                 (datetime.now() - p.last_occurrence).total_seconds() < 3600
                 for p in pain_point.patterns
             )
-            
+
             if recent_occurrence:
                 active.append({
                     "id": pain_point.pain_point_id,
@@ -750,9 +749,9 @@ class UsageAnalyticsLoop:
                     "severity": pain_point.severity.value,
                     "users_affected": pain_point.users_affected
                 })
-        
+
         return active
-    
+
     def _generate_implementation_steps(
         self,
         recommendation: OptimizationRecommendation
@@ -780,25 +779,25 @@ class UsageAnalyticsLoop:
                 "Track usage changes"
             ]
         }
-        
+
         return steps_map.get(recommendation.optimization_type, ["Implement recommendation"])
-    
+
     def _generate_success_criteria(
         self,
         recommendation: OptimizationRecommendation
     ) -> List[str]:
         """Generate success criteria for recommendation"""
         criteria = []
-        
+
         for metric, improvement in recommendation.metrics_improvement.items():
             if improvement > 0:
                 criteria.append(f"{metric} improves by {improvement:.1%}")
-        
+
         if not criteria:
             criteria.append("User satisfaction increases")
-        
+
         return criteria
-    
+
     def _estimate_effort(self, fix_type: str) -> str:
         """Estimate implementation effort"""
         effort_map = {
@@ -810,7 +809,7 @@ class UsageAnalyticsLoop:
             "documentation": "low"
         }
         return effort_map.get(fix_type, "medium")
-    
+
     def _calculate_priority(self, pain_point: PainPoint) -> int:
         """Calculate priority score (1-10)"""
         base_priority = {
@@ -820,17 +819,17 @@ class UsageAnalyticsLoop:
             PainPointSeverity.LOW: 3,
             PainPointSeverity.INFO: 1
         }
-        
+
         priority = base_priority[pain_point.severity]
-        
+
         # Adjust based on impact
         if pain_point.users_affected > 100:
             priority = min(10, priority + 2)
         elif pain_point.users_affected > 50:
             priority = min(10, priority + 1)
-        
+
         return priority
-    
+
     def _estimate_metrics_improvement(
         self,
         pain_point: PainPoint,
@@ -838,7 +837,7 @@ class UsageAnalyticsLoop:
     ) -> Dict[str, float]:
         """Estimate metrics improvement from fix"""
         improvements = {}
-        
+
         if fix["type"] == "error_handling":
             improvements["error_rate"] = -0.5  # 50% reduction
         elif fix["type"] == "workflow_simplification":
@@ -846,17 +845,17 @@ class UsageAnalyticsLoop:
             improvements["abandonment_rate"] = -0.2  # 20% reduction
         elif fix["type"] == "feature_surface":
             improvements["search_rate"] = -0.4  # 40% reduction
-        
+
         return improvements
 
 
 # Example usage
 if __name__ == "__main__":
     analytics = UsageAnalyticsLoop()
-    
+
     # Simulate usage events
     import random
-    
+
     # Some users complete tasks slowly
     for i in range(10):
         analytics.track_usage_event(
@@ -864,7 +863,7 @@ if __name__ == "__main__":
             "task_complete",
             {"task_type": "data_export", "duration": 45.0}  # Slow task
         )
-    
+
     # Some users encounter errors
     for i in range(8):
         analytics.track_usage_event(
@@ -872,7 +871,7 @@ if __name__ == "__main__":
             "error",
             {"error_type": "validation_error", "location": "form_submit"}
         )
-    
+
     # Users searching for features
     for i in range(15):
         analytics.track_usage_event(
@@ -880,27 +879,27 @@ if __name__ == "__main__":
             "search",
             {"query": "export data"}
         )
-    
+
     # Analyze patterns
     analysis = analytics.analyze_usage_patterns()
-    
+
     print("Identified Pain Points:")
     for pain_point in analysis["pain_points"]:
         print(f"- {pain_point.description} (Severity: {pain_point.severity.value})")
         print(f"  Users affected: {pain_point.users_affected}")
-    
+
     print("\nRecommendations:")
     for rec in analysis["recommendations"][:3]:
         print(f"- {rec.title}")
         print(f"  {rec.description}")
         print(f"  Priority: {rec.priority}, Effort: {rec.implementation_effort}")
-    
+
     # Get real-time insights
     insights = analytics.get_real_time_insights()
     print("\nReal-time Alerts:")
     for alert in insights["alerts"]:
         print(f"- {alert['severity'].upper()}: {alert['message']}")
-    
+
     # Generate improvement plan
     plan = analytics.generate_improvement_plan()
     print("\nImprovement Plan:")

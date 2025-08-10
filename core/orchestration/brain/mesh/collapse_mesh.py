@@ -13,7 +13,8 @@
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Optional
+
 
 class CollapseNode:
     """
@@ -32,7 +33,7 @@ class CollapseNode:
         self.node_type: str = node_type
         self.status: str = "online"
         self.last_heartbeat: datetime = datetime.now(timezone.utc)
-        self.neighbors: List["CollapseNode"] = []
+        self.neighbors: list[CollapseNode] = []
 
     def add_neighbor(self, neighbor: "CollapseNode") -> None:
         """
@@ -49,6 +50,7 @@ class CollapseNode:
         """
         self.last_heartbeat = datetime.now(timezone.utc)
 
+
 class CollapseMesh:
     """
     The symbolic collapse mesh.
@@ -58,7 +60,7 @@ class CollapseMesh:
         """
         Initializes the CollapseMesh.
         """
-        self.nodes: Dict[str, CollapseNode] = {}
+        self.nodes: dict[str, CollapseNode] = {}
 
     def add_node(self, node_id: str, node_type: str) -> None:
         """

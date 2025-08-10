@@ -13,8 +13,9 @@ Render theta delta (memory compression metric) over time.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
+from typing import List, Tuple
 
-from typing import Iterable, Tuple, List
 
 # LUKHAS_TAG: fold_entropy_visualizer
 class FoldEntropyVisualizer:

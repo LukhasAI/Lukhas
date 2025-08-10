@@ -8,37 +8,38 @@ PERSONA_PRESETS = {
         "conscientiousness": 0.90,
         "extraversion": 0.55,
         "agreeableness": 0.95,
-        "neuroticism": 0.10
+        "neuroticism": 0.10,
     },
     "rebel": {
         "openness": 0.95,
         "conscientiousness": 0.50,
         "extraversion": 0.85,
         "agreeableness": 0.35,
-        "neuroticism": 0.30
+        "neuroticism": 0.30,
     },
     "dreamer": {
         "openness": 0.98,
         "conscientiousness": 0.40,
         "extraversion": 0.40,
         "agreeableness": 0.90,
-        "neuroticism": 0.15
+        "neuroticism": 0.15,
     },
     "analyst": {
         "openness": 0.75,
         "conscientiousness": 0.92,
         "extraversion": 0.35,
         "agreeableness": 0.60,
-        "neuroticism": 0.20
+        "neuroticism": 0.20,
     },
     "guardian": {
         "openness": 0.65,
         "conscientiousness": 0.95,
         "extraversion": 0.45,
         "agreeableness": 0.88,
-        "neuroticism": 0.25
-    }
+        "neuroticism": 0.25,
+    },
 }
+
 
 def load_persona(name: str):
     """
@@ -46,6 +47,7 @@ def load_persona(name: str):
     Returns a dictionary of Big Five traits.
     """
     return PERSONA_PRESETS.get(name.lower(), {})
+
 
 # -------------------------
 # 💾 SAVE THIS FILE

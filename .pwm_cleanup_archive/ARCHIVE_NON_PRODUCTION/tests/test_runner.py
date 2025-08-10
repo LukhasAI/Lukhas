@@ -1,5 +1,6 @@
-import pytest
 import os
+
+import pytest
 
 if __name__ == "__main__":
     os.environ["PYTHONPATH"] = os.getcwd()

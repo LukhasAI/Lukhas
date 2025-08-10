@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -30,17 +29,18 @@ For more information, visit: https://lukhas.ai
 
 import json
 import os
-import openai
 
 FLASHBACK_LOG_PATH = "logs/flashbacks/flashback_trace.jsonl"
+
 
 def load_latest_flashback(path=FLASHBACK_LOG_PATH) -> dict:
     if not os.path.exists(path):
         print("❌ Flashback trace log not found.")
         return {}
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         lines = [json.loads(line) for line in f if line.strip()]
     return lines[-1] if lines else {}
+
 
 def build_visual_prompt(fb: dict) -> str:
     theme = fb.get("theme", "unknown dream")
@@ -55,17 +55,13 @@ def build_visual_prompt(fb: dict) -> str:
         f"emotionally abstract, and dreamlike, reflecting introspective symbolism."
     )
 
+
 if __name__ == "__main__":
     flashback = load_latest_flashback()
     if flashback:
         prompt = build_visual_prompt(flashback)
         print("\n🎨 Generated Prompt for Visual Synthesis:\n")
         print(prompt)
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

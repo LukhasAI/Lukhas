@@ -29,8 +29,10 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
-from typing import Any, Dict, List, Optional
+
 from .meg_guard import meg
 
 logger = get_logger(__name__)
@@ -38,6 +40,7 @@ logger = get_logger(__name__)
 # Import OpenAI if available
 try:
     import openai
+
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
@@ -60,10 +63,12 @@ def meg_chat_completion(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock response: OpenAI not available"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock response: OpenAI not available"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing OpenAI chat completion")
@@ -79,10 +84,12 @@ def meg_chat_completion_critical(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock response: Critical operation"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock response: Critical operation"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing critical OpenAI chat completion")
@@ -98,10 +105,12 @@ def meg_chat_completion_extended(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock response: Extended operation"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock response: Extended operation"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing extended OpenAI chat completion")
@@ -117,10 +126,12 @@ def meg_chat_completion_long(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock response: Long operation"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock response: Long operation"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing long OpenAI chat completion")
@@ -136,10 +147,12 @@ async def meg_chat_completion_async(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock async response: OpenAI not available"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock async response: OpenAI not available"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing async OpenAI chat completion")
@@ -155,10 +168,12 @@ async def meg_chat_completion_async_long(**kwargs) -> Dict[str, Any]:
     """
     if not OPENAI_AVAILABLE:
         return {
-            "choices": [{
-                "message": {"content": "Mock async response: Long operation"},
-                "finish_reason": "stop"
-            }]
+            "choices": [
+                {
+                    "message": {"content": "Mock async response: Long operation"},
+                    "finish_reason": "stop",
+                }
+            ]
         }
 
     logger.info("MEG.guard: Executing long async OpenAI chat completion")
@@ -172,7 +187,7 @@ def meg_generate_text(
     temperature: float = 0.7,
     max_tokens: int = 1000,
     timeout: int = TIMEOUT_STANDARD,
-    **kwargs
+    **kwargs,
 ) -> Optional[str]:
     """
     Simplified MEG-guarded text generation.
@@ -188,6 +203,7 @@ def meg_generate_text(
     Returns:
         Generated text or None on failure
     """
+
     @meg.guard(timeout=timeout, fallback_value=None)
     def _generate():
         if not OPENAI_AVAILABLE:
@@ -198,7 +214,7 @@ def meg_generate_text(
             messages=[{"role": "user", "content": prompt}],
             temperature=temperature,
             max_tokens=max_tokens,
-            **kwargs
+            **kwargs,
         )
         return response["choices"][0]["message"]["content"]
 
@@ -210,7 +226,7 @@ def meg_complete_with_system(
     system_prompt: str = "You are a helpful assistant",
     model: str = "gpt-4",
     timeout: int = TIMEOUT_STANDARD,
-    **kwargs
+    **kwargs,
 ) -> Optional[str]:
     """
     MEG-guarded completion with system message.
@@ -225,6 +241,7 @@ def meg_complete_with_system(
     Returns:
         Generated text or None on failure
     """
+
     @meg.guard(timeout=timeout, fallback_value=None)
     def _complete():
         if not OPENAI_AVAILABLE:
@@ -234,9 +251,9 @@ def meg_complete_with_system(
             model=model,
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
-            **kwargs
+            **kwargs,
         )
         return response["choices"][0]["message"]["content"]
 
@@ -270,7 +287,7 @@ def patch_openai_with_meg():
         return
 
     # Store originals
-    if not hasattr(openai.ChatCompletion, '_original_create'):
+    if not hasattr(openai.ChatCompletion, "_original_create"):
         openai.ChatCompletion._original_create = openai.ChatCompletion.create
         openai.ChatCompletion._original_acreate = openai.ChatCompletion.acreate
 
@@ -286,11 +303,11 @@ def unpatch_openai():
     if not OPENAI_AVAILABLE:
         return
 
-    if hasattr(openai.ChatCompletion, '_original_create'):
+    if hasattr(openai.ChatCompletion, "_original_create"):
         openai.ChatCompletion.create = openai.ChatCompletion._original_create
         openai.ChatCompletion.acreate = openai.ChatCompletion._original_acreate
-        delattr(openai.ChatCompletion, '_original_create')
-        delattr(openai.ChatCompletion, '_original_acreate')
+        delattr(openai.ChatCompletion, "_original_create")
+        delattr(openai.ChatCompletion, "_original_acreate")
 
     logger.info("OpenAI MEG patches removed")
 

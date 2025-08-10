@@ -9,9 +9,10 @@ EMOTION - vad Submodule
 # Colony base for propagation
 from typing import Any, Dict, List
 
+
 class VadColony:
     """Base colony for vad components"""
-    
+
     def __init__(self):
         self.colony_id = "EMOTION_vad"
         self.propagation_enabled = True
@@ -21,7 +22,7 @@ class VadColony:
             'serotonin': 0.5,
             'oxytocin': 0.3
         }
-    
+
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
         return {

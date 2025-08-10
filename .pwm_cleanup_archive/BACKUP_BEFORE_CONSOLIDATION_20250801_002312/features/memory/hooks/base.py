@@ -6,18 +6,19 @@ process memory items during storage and retrieval operations.
 ΛTAG: memory_hook_base
 """
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, List, Set
-from dataclasses import dataclass, field
-from datetime import datetime
 import logging
 import uuid
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class HookExecutionError(Exception):
     """Raised when hook execution fails"""
+
     pass
 
 
@@ -28,6 +29,7 @@ class MemoryItem:
     This dataclass encapsulates all information about a memory,
     including content, metadata, and symbolic annotations.
     """
+
     content: Any
     metadata: Dict[str, Any] = field(default_factory=dict)
     fold_level: Optional[int] = None
@@ -93,14 +95,12 @@ class MemoryItem:
         """Calculate overall symbolic weight of memory"""
         # Weighted combination of symbolic metrics
         weight = (
-            self.coherence * 0.4 +
-            self.resonance * 0.3 +
-            (1.0 - self.entropy) * 0.3
+            self.coherence * 0.4 + self.resonance * 0.3 + (1.0 - self.entropy) * 0.3
         )
 
         # Adjust for emotional intensity if present
         if self.emotional_intensity is not None:
-            weight *= (1.0 + self.emotional_intensity * 0.2)
+            weight *= 1.0 + self.emotional_intensity * 0.2
 
         return min(weight, 1.0)
 
@@ -116,10 +116,10 @@ class MemoryHook(ABC):
     def __init__(self):
         self._enabled = True
         self._metrics = {
-            'before_store_count': 0,
-            'after_recall_count': 0,
-            'errors_count': 0,
-            'total_processing_time': 0.0
+            "before_store_count": 0,
+            "after_recall_count": 0,
+            "errors_count": 0,
+            "total_processing_time": 0.0,
         }
 
     @abstractmethod
@@ -200,7 +200,9 @@ class MemoryHook(ABC):
         # Check compression ratio is reasonable
         if item.compression_ratio is not None:
             if item.compression_ratio <= 0 or item.compression_ratio > 100:
-                logger.warning(f"Suspicious compression ratio: {item.compression_ratio}")
+                logger.warning(
+                    f"Suspicious compression ratio: {item.compression_ratio}"
+                )
                 return False
 
         # Check fold signature exists for compressed items
@@ -228,9 +230,9 @@ class MemoryHook(ABC):
         if item.glyphs:
             # Ensure no contradictory glyphs
             contradiction_pairs = [
-                ('🌱', '💀'),  # Growth vs Death
-                ('🛡️', '🔥'),  # Protection vs Destruction
-                ('✓', '❌'),   # Success vs Failure
+                ("🌱", "💀"),  # Growth vs Death
+                ("🛡️", "🔥"),  # Protection vs Destruction
+                ("✓", "❌"),  # Success vs Failure
             ]
 
             for glyph1, glyph2 in contradiction_pairs:
@@ -241,7 +243,9 @@ class MemoryHook(ABC):
         # Check symbolic metric consistency
         # High entropy should correlate with low coherence
         if item.entropy > 0.8 and item.coherence > 0.8:
-            logger.warning("Inconsistent symbolic metrics: high entropy with high coherence")
+            logger.warning(
+                "Inconsistent symbolic metrics: high entropy with high coherence"
+            )
             return False
 
         return True
@@ -263,29 +267,30 @@ class MemoryHook(ABC):
     def get_metrics(self) -> Dict[str, Any]:
         """Get hook performance metrics"""
         total_calls = (
-            self._metrics['before_store_count'] +
-            self._metrics['after_recall_count']
+            self._metrics["before_store_count"] + self._metrics["after_recall_count"]
         )
 
         if total_calls > 0:
-            avg_time = self._metrics['total_processing_time'] / total_calls
-            error_rate = self._metrics['errors_count'] / total_calls
+            avg_time = self._metrics["total_processing_time"] / total_calls
+            error_rate = self._metrics["errors_count"] / total_calls
         else:
             avg_time = 0.0
             error_rate = 0.0
 
         return {
-            'hook_name': self.get_hook_name(),
-            'hook_version': self.get_hook_version(),
-            'enabled': self._enabled,
-            'before_store_count': self._metrics['before_store_count'],
-            'after_recall_count': self._metrics['after_recall_count'],
-            'errors_count': self._metrics['errors_count'],
-            'average_processing_time_ms': avg_time * 1000,
-            'error_rate': error_rate
+            "hook_name": self.get_hook_name(),
+            "hook_version": self.get_hook_version(),
+            "enabled": self._enabled,
+            "before_store_count": self._metrics["before_store_count"],
+            "after_recall_count": self._metrics["after_recall_count"],
+            "errors_count": self._metrics["errors_count"],
+            "average_processing_time_ms": avg_time * 1000,
+            "error_rate": error_rate,
         }
 
-    def _update_metrics(self, operation: str, processing_time: float, error: bool = False) -> None:
+    def _update_metrics(
+        self, operation: str, processing_time: float, error: bool = False
+    ) -> None:
         """Update internal metrics
 
         Args:
@@ -293,12 +298,12 @@ class MemoryHook(ABC):
             processing_time: Time taken in seconds
             error: Whether an error occurred
         """
-        if operation == 'before_store':
-            self._metrics['before_store_count'] += 1
-        elif operation == 'after_recall':
-            self._metrics['after_recall_count'] += 1
+        if operation == "before_store":
+            self._metrics["before_store_count"] += 1
+        elif operation == "after_recall":
+            self._metrics["after_recall_count"] += 1
 
-        self._metrics['total_processing_time'] += processing_time
+        self._metrics["total_processing_time"] += processing_time
 
         if error:
-            self._metrics['errors_count'] += 1
+            self._metrics["errors_count"] += 1

@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .analyze_core_isolation import AnalyzeCoreIsolation
+
     logger.debug("Imported AnalyzeCoreIsolation from .analyze_core_isolation")
 except ImportError as e:
     logger.warning(f"Could not import AnalyzeCoreIsolation: {e}")
     AnalyzeCoreIsolation = None
 
 __all__ = [
-    'AnalyzeCoreIsolation',
+    "AnalyzeCoreIsolation",
 ]
 
 # Filter out None values from __all__ if imports failed

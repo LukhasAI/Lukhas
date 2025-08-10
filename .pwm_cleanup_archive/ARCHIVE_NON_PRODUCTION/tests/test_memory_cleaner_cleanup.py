@@ -4,18 +4,22 @@ Test for memory_cleaner cleanup implementation.
 Tests the memory cleanup and optimization functionality.
 """
 
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import json
 from datetime import datetime
 
+
 def test_memory_cleanup():
     """Test the memory cleanup implementation."""
 
     # Import the memory cleaner
-    from orchestration.monitoring.sub_agents.memory_cleaner import MemoryCleaner
+    from orchestration.monitoring.sub_agents.memory_cleaner import (
+        MemoryCleaner,
+    )
 
     # Create test instance
     cleaner = MemoryCleaner(
@@ -23,8 +27,8 @@ def test_memory_cleanup():
         task_data={
             "memory_issue": "high_fragmentation",
             "severity": "high",
-            "requested_action": "cleanup"
-        }
+            "requested_action": "cleanup",
+        },
     )
 
     # First run analysis to see the state before cleanup
@@ -33,7 +37,9 @@ def test_memory_cleanup():
     print(f"   - Fragmentation: {analysis_before['fragmentation_level']:.1%}")
     print(f"   - Corrupted segments: {len(analysis_before['corrupted_segments'])}")
     print(f"   - Redundant memories: {len(analysis_before['redundant_memories'])}")
-    print(f"   - Optimization potential: {analysis_before['optimization_potential']:.1%}")
+    print(
+        f"   - Optimization potential: {analysis_before['optimization_potential']:.1%}"
+    )
 
     # Perform cleanup
     print("\n🧹 Performing cleanup...")
@@ -52,7 +58,7 @@ def test_memory_cleanup():
         "segments_cleaned",
         "memories_consolidated",
         "space_recovered_mb",
-        "errors_fixed"
+        "errors_fixed",
     ]
 
     for field in required_fields:
@@ -60,7 +66,9 @@ def test_memory_cleanup():
 
     # Validate stats values
     assert stats["segments_cleaned"] >= 0, "Segments cleaned should be non-negative"
-    assert stats["memories_consolidated"] >= 0, "Memories consolidated should be non-negative"
+    assert (
+        stats["memories_consolidated"] >= 0
+    ), "Memories consolidated should be non-negative"
     assert stats["space_recovered_mb"] >= 0, "Space recovered should be non-negative"
     assert stats["errors_fixed"] >= 0, "Errors fixed should be non-negative"
 
@@ -77,7 +85,7 @@ def test_memory_cleanup():
 
     # Run analysis again to see improvement
     analysis_after = cleaner.analyze_memory_fragmentation()
-    print(f"\n📊 Memory State After Cleanup:")
+    print("\n📊 Memory State After Cleanup:")
     print(f"   - Fragmentation: {analysis_after['fragmentation_level']:.1%}")
     print(f"   - Corrupted segments: {len(analysis_after['corrupted_segments'])}")
     print(f"   - Redundant memories: {len(analysis_after['redundant_memories'])}")
@@ -86,7 +94,7 @@ def test_memory_cleanup():
         "before": analysis_before,
         "after": analysis_after,
         "cleanup_stats": stats,
-        "success": success
+        "success": success,
     }
 
 
@@ -98,5 +106,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Test failed: {e}")
         import traceback
+
         traceback.print_exc()
         sys.exit(1)

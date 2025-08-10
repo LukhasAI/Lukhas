@@ -10,10 +10,10 @@
 # {ΛTRACE}
 # {ΛPERSIST}
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class RecallHandler:
     """
@@ -32,6 +32,7 @@ class RecallHandler:
         recalled_memory = {"memory_id": memory_id, "content": "recalled_memory_content"}
         self.recalled_memories.append(recalled_memory)
         return recalled_memory
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: recall_handler.py

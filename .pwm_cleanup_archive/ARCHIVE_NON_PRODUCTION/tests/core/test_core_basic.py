@@ -1,10 +1,11 @@
 """Basic tests for LUKHAS core module functionality."""
 
-import pytest
 import os
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 
-from core.plugin_registry import PluginRegistry, Plugin, PluginType
+import pytest
+
+from core.plugin_registry import Plugin, PluginRegistry, PluginType
 
 
 class TestCoreBasics:
@@ -27,10 +28,10 @@ class TestCoreBasics:
     def test_plugin_types_enum(self):
         """Test that all required plugin types are defined."""
         expected_types = {
-            'ETHICS_POLICY',
-            'MEMORY_HOOK',
-            'ORCHESTRATION_AGENT',
-            'SYMBOLIC_PROCESSOR'
+            "ETHICS_POLICY",
+            "MEMORY_HOOK",
+            "ORCHESTRATION_AGENT",
+            "SYMBOLIC_PROCESSOR",
         }
 
         actual_types = {pt.name for pt in PluginType}
@@ -38,6 +39,7 @@ class TestCoreBasics:
 
     def test_plugin_base_class(self):
         """Test that Plugin base class has required abstract methods."""
+
         class TestPlugin(Plugin):
             def get_plugin_type(self) -> PluginType:
                 return PluginType.SYMBOLIC_PROCESSOR
@@ -74,8 +76,8 @@ class TestCoreIntegration:
     def test_core_module_imports(self):
         """Test that core module can be imported without errors."""
         # These should not raise import errors
-        from core.plugin_registry import PluginRegistry, PluginType
         from config import settings
+        from core.plugin_registry import PluginRegistry, PluginType
 
         assert PluginRegistry is not None
         assert PluginType is not None
@@ -147,16 +149,20 @@ class TestCorePluginSystem:
         class Plugin1(Plugin):
             def get_plugin_type(self) -> PluginType:
                 return PluginType.MEMORY_HOOK
+
             def get_plugin_name(self) -> str:
                 return "plugin1"
+
             def get_version(self) -> str:
                 return "1.0.0"
 
         class Plugin2(Plugin):
             def get_plugin_type(self) -> PluginType:
                 return PluginType.MEMORY_HOOK
+
             def get_plugin_name(self) -> str:
                 return "plugin2"
+
             def get_version(self) -> str:
                 return "1.0.0"
 
@@ -183,16 +189,20 @@ class TestCorePluginSystem:
         class OriginalPlugin(Plugin):
             def get_plugin_type(self) -> PluginType:
                 return PluginType.SYMBOLIC_PROCESSOR
+
             def get_plugin_name(self) -> str:
                 return "processor"
+
             def get_version(self) -> str:
                 return "1.0.0"
 
         class UpdatedPlugin(Plugin):
             def get_plugin_type(self) -> PluginType:
                 return PluginType.SYMBOLIC_PROCESSOR
+
             def get_plugin_name(self) -> str:
                 return "processor"
+
             def get_version(self) -> str:
                 return "2.0.0"
 
@@ -207,7 +217,7 @@ class TestCorePluginSystem:
         assert retrieved is updated
         assert retrieved.get_version() == "2.0.0"
 
-    @patch('lukhas.core.plugin_registry.importlib.metadata.entry_points')
+    @patch("lukhas.core.plugin_registry.importlib.metadata.entry_points")
     def test_entry_point_loading(self, mock_entry_points):
         """Test loading plugins from entry points."""
         # Mock entry points
@@ -230,7 +240,9 @@ class TestCoreErrorHandling:
 
     def test_plugin_load_error_handling(self):
         """Test that plugin loading errors are handled gracefully."""
-        with patch('lukhas.core.plugin_registry.importlib.metadata.entry_points') as mock_ep:
+        with patch(
+            "lukhas.core.plugin_registry.importlib.metadata.entry_points"
+        ) as mock_ep:
             mock_ep.side_effect = Exception("Failed to load entry points")
 
             # Should not raise exception

@@ -13,17 +13,18 @@ Purpose:
 Author: LUKHAS AGI Core
 """
 
-import time
 import hashlib
-import secrets
 import os
-from typing import Dict, List, Any, Optional, Tuple
+import secrets
+import time
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class YubiDeviceType(Enum):
     """Types of Yubico devices supported."""
+
     YUBIHSM2 = "yubihsm2"
     YUBIKEY_5 = "yubikey_5"
     YUBIKEY_4 = "yubikey_4"
@@ -32,6 +33,7 @@ class YubiDeviceType(Enum):
 
 class YubiOperation(Enum):
     """Operations supported on Yubico devices."""
+
     GENERATE_RANDOM = "generate_random"
     SIGN_DATA = "sign_data"
     DERIVE_KEY = "derive_key"
@@ -42,6 +44,7 @@ class YubiOperation(Enum):
 @dataclass
 class YubiDevice:
     """Container for Yubico device information."""
+
     device_type: YubiDeviceType
     serial_number: str
     firmware_version: str
@@ -53,6 +56,7 @@ class YubiDevice:
 @dataclass
 class YubiSession:
     """Container for active Yubico device session."""
+
     device: YubiDevice
     session_id: str
     authenticated: bool
@@ -124,18 +128,20 @@ class YubiSeeder:
 
         # Placeholder device for testing
         if self._check_yubihsm_simulator():
-            devices.append(YubiDevice(
-                device_type=YubiDeviceType.YUBIHSM2,
-                serial_number="simulator_001",
-                firmware_version="2.4.0",
-                available=True,
-                capabilities=[
-                    YubiOperation.GENERATE_RANDOM,
-                    YubiOperation.SIGN_DATA,
-                    YubiOperation.DERIVE_KEY
-                ],
-                connection_type="usb"
-            ))
+            devices.append(
+                YubiDevice(
+                    device_type=YubiDeviceType.YUBIHSM2,
+                    serial_number="simulator_001",
+                    firmware_version="2.4.0",
+                    available=True,
+                    capabilities=[
+                        YubiOperation.GENERATE_RANDOM,
+                        YubiOperation.SIGN_DATA,
+                        YubiOperation.DERIVE_KEY,
+                    ],
+                    connection_type="usb",
+                )
+            )
 
         return devices
 
@@ -161,17 +167,19 @@ class YubiSeeder:
 
         # Placeholder device for testing
         if self._check_yubikey_simulator():
-            devices.append(YubiDevice(
-                device_type=YubiDeviceType.YUBIKEY_5,
-                serial_number="yubikey_001",
-                firmware_version="5.4.3",
-                available=True,
-                capabilities=[
-                    YubiOperation.GENERATE_RANDOM,
-                    YubiOperation.AUTHENTICATE
-                ],
-                connection_type="usb"
-            ))
+            devices.append(
+                YubiDevice(
+                    device_type=YubiDeviceType.YUBIKEY_5,
+                    serial_number="yubikey_001",
+                    firmware_version="5.4.3",
+                    available=True,
+                    capabilities=[
+                        YubiOperation.GENERATE_RANDOM,
+                        YubiOperation.AUTHENTICATE,
+                    ],
+                    connection_type="usb",
+                )
+            )
 
         return devices
 
@@ -185,9 +193,12 @@ class YubiSeeder:
         # TODO: Implement actual simulator detection
         return False  # Placeholder
 
-    def create_session(self, device: YubiDevice,
-                      auth_key_id: Optional[int] = None,
-                      password: Optional[str] = None) -> YubiSession:
+    def create_session(
+        self,
+        device: YubiDevice,
+        auth_key_id: Optional[int] = None,
+        password: Optional[str] = None,
+    ) -> YubiSession:
         """
         Create an authenticated session with a Yubico device.
 
@@ -199,7 +210,9 @@ class YubiSeeder:
         Returns:
             YubiSession: Created session
         """
-        print(f"🔐 Creating session with {device.device_type.value} ({device.serial_number})")
+        print(
+            f"🔐 Creating session with {device.device_type.value} ({device.serial_number})"
+        )
 
         session_id = f"session_{device.serial_number}_{int(time.time())}"
 
@@ -211,15 +224,18 @@ class YubiSeeder:
             session_id=session_id,
             authenticated=authenticated,
             created_time=time.time(),
-            last_activity=time.time()
+            last_activity=time.time(),
         )
 
         self.active_sessions[session_id] = session
         return session
 
-    def _authenticate_device(self, device: YubiDevice,
-                           auth_key_id: Optional[int] = None,
-                           password: Optional[str] = None) -> bool:
+    def _authenticate_device(
+        self,
+        device: YubiDevice,
+        auth_key_id: Optional[int] = None,
+        password: Optional[str] = None,
+    ) -> bool:
         """
         Authenticate with a Yubico device.
 
@@ -241,20 +257,24 @@ class YubiSeeder:
         else:
             return False
 
-    def _authenticate_yubihsm(self, device: YubiDevice,
-                            auth_key_id: Optional[int],
-                            password: Optional[str]) -> bool:
+    def _authenticate_yubihsm(
+        self, device: YubiDevice, auth_key_id: Optional[int], password: Optional[str]
+    ) -> bool:
         """Authenticate with YubiHSM device."""
         # TODO: Implement YubiHSM authentication
         # Default auth key ID is typically 1
         default_auth_key = auth_key_id or 1
         # Use provided password or environment variable, fallback to prompt user
         if password is None:
-            password = os.getenv('YUBIHSM_PASSWORD')
+            password = os.getenv("YUBIHSM_PASSWORD")
             if password is None:
-                print("  → Warning: No YubiHSM password provided. Set YUBIHSM_PASSWORD environment variable.")
+                print(
+                    "  → Warning: No YubiHSM password provided. Set YUBIHSM_PASSWORD environment variable."
+                )
                 # For development/testing only - real implementation should prompt user
-                default_password = os.getenv('YUBIHSM_DEV_PASSWORD', 'dev-password-change-me')
+                default_password = os.getenv(
+                    "YUBIHSM_DEV_PASSWORD", "dev-password-change-me"
+                )
             else:
                 default_password = password
         else:
@@ -265,16 +285,18 @@ class YubiSeeder:
         # Placeholder authentication
         return True
 
-    def _authenticate_yubikey(self, device: YubiDevice,
-                            password: Optional[str]) -> bool:
+    def _authenticate_yubikey(
+        self, device: YubiDevice, password: Optional[str]
+    ) -> bool:
         """Authenticate with YubiKey device."""
         # TODO: Implement YubiKey authentication
-        print(f"  → Authenticating with YubiKey PIN")
+        print("  → Authenticating with YubiKey PIN")
         # Placeholder authentication
         return True
 
-    def generate_entropy_from_yubi(self, session: YubiSession,
-                                  byte_count: int = 32) -> bytes:
+    def generate_entropy_from_yubi(
+        self, session: YubiSession, byte_count: int = 32
+    ) -> bytes:
         """
         Generate entropy using Yubico device.
 
@@ -310,11 +332,10 @@ class YubiSeeder:
         # TODO: Implement actual YubiHSM entropy generation
         # hsm.get_pseudo_random(byte_count)
 
-        print(f"  → Using YubiHSM hardware RNG")
+        print("  → Using YubiHSM hardware RNG")
         # Placeholder: mix system entropy with device-specific data
         device_entropy = hashlib.sha256(
-            session.device.serial_number.encode() +
-            str(time.time()).encode()
+            session.device.serial_number.encode() + str(time.time()).encode()
         ).digest()
 
         system_entropy = secrets.token_bytes(byte_count)
@@ -327,15 +348,15 @@ class YubiSeeder:
         # TODO: Implement actual YubiKey entropy generation
         # Note: YubiKeys have limited entropy generation capabilities
 
-        print(f"  → Using YubiKey challenge-response for entropy")
+        print("  → Using YubiKey challenge-response for entropy")
         # Placeholder: use YubiKey challenge-response for entropy
         challenge = secrets.token_bytes(32)
 
         # Simulate challenge-response
         response = hashlib.sha256(
-            challenge +
-            session.device.serial_number.encode() +
-            str(time.time()).encode()
+            challenge
+            + session.device.serial_number.encode()
+            + str(time.time()).encode()
         ).digest()
 
         # Mix with system entropy
@@ -344,8 +365,9 @@ class YubiSeeder:
 
         return mixed_entropy[:byte_count]
 
-    def sign_with_yubi(self, session: YubiSession, data: bytes,
-                      key_id: Optional[int] = None) -> bytes:
+    def sign_with_yubi(
+        self, session: YubiSession, data: bytes, key_id: Optional[int] = None
+    ) -> bytes:
         """
         Sign data using Yubico device.
 
@@ -377,8 +399,9 @@ class YubiSeeder:
         else:
             raise RuntimeError(f"Unsupported device type: {device.device_type}")
 
-    def _sign_with_yubihsm(self, session: YubiSession, data: bytes,
-                          key_id: Optional[int]) -> bytes:
+    def _sign_with_yubihsm(
+        self, session: YubiSession, data: bytes, key_id: Optional[int]
+    ) -> bytes:
         """Sign data with YubiHSM device."""
         # TODO: Implement actual YubiHSM signing
         # hsm.sign_ecdsa(key_id, data)
@@ -388,9 +411,7 @@ class YubiSeeder:
 
         # Placeholder signature
         signature_data = hashlib.sha256(
-            data +
-            session.device.serial_number.encode() +
-            str(signing_key_id).encode()
+            data + session.device.serial_number.encode() + str(signing_key_id).encode()
         ).digest()
 
         return signature_data
@@ -400,13 +421,11 @@ class YubiSeeder:
         # TODO: Implement actual YubiKey signing
         # This would use PIV or OpenPGP applet
 
-        print(f"  → Signing with YubiKey PIV")
+        print("  → Signing with YubiKey PIV")
 
         # Placeholder signature
         signature_data = hashlib.sha256(
-            data +
-            session.device.serial_number.encode() +
-            b"yubikey_sign"
+            data + session.device.serial_number.encode() + b"yubikey_sign"
         ).digest()
 
         return signature_data
@@ -443,7 +462,7 @@ class YubiSeeder:
                     "firmware": device.firmware_version,
                     "available": device.available,
                     "capabilities": [op.value for op in device.capabilities],
-                    "connection": device.connection_type
+                    "connection": device.connection_type,
                 }
                 for device in self.discovered_devices
             ],
@@ -453,10 +472,10 @@ class YubiSeeder:
                     "device_serial": session.device.serial_number,
                     "authenticated": session.authenticated,
                     "created": session.created_time,
-                    "last_activity": session.last_activity
+                    "last_activity": session.last_activity,
                 }
                 for session in self.active_sessions.values()
-            ]
+            ],
         }
 
 
@@ -486,8 +505,10 @@ if __name__ == "__main__":
 
         try:
             # Create session with environment variable for password
-            test_password = os.getenv('YUBIHSM_PASSWORD', 'test-password')
-            session = seeder.create_session(test_device, auth_key_id=1, password=test_password)
+            test_password = os.getenv("YUBIHSM_PASSWORD", "test-password")
+            session = seeder.create_session(
+                test_device, auth_key_id=1, password=test_password
+            )
 
             print(f"Session created: {session.session_id}")
 
@@ -510,7 +531,7 @@ if __name__ == "__main__":
 
     # Get device status
     status = seeder.get_device_status()
-    print(f"\nDevice Status Summary:")
+    print("\nDevice Status Summary:")
     print(f"  Total devices: {status['total_devices']}")
     print(f"  Active sessions: {status['active_sessions']}")
 

@@ -19,21 +19,11 @@ Integration Date: 2025-05-31T07:55:30.569930
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Dict, List, Optional, Set
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 # Since the constants.py file contains placeholder values and symbolic_utils.py
 # doesn't have the referenced functions, we'll import what exists
-from core.interfaces.as_agent.utils.constants import (
-    DEFAULT_COOLDOWN_SECONDS,
-    SEED_TAG_VOCAB,
-    SYMBOLIC_THRESHOLDS,
-    SYMBOLIC_TIERS,
-)
-from core.interfaces.as_agent.utils.symbolic_utils import (
-    summarize_emotion_vector,
-    tier_label,
-)
 
 # Import connectivity features with graceful degradation
 try:

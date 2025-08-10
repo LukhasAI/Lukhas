@@ -15,11 +15,11 @@ Integration Date: 2025-05-31T07:55:30.643311
 # ║ 🔄 UPDATED: 2025-04-22                                            ║
 # ╚═══════════════════════════════════════════════════════════════════╝
 
+import re
+import subprocess
+
 # import streamlit as st  # TODO: Install or implement streamlit
 from pathlib import Path
-import subprocess
-import re
-import os
 
 st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")
 
@@ -35,7 +35,9 @@ st.sidebar.title("Settings")
 # Optional: Light/Dark mode (assume already handled elsewhere)
 
 # ─── Tabs Layout ──────────────────────────────────────────────────────
-tab_docs, tab_tests, tab_compliance, tab_tools = st.tabs(["Documentation 📚", "Testing 🧪", "Compliance 🛡️", "Dev Tools 🧰"])
+tab_docs, tab_tests, tab_compliance, tab_tools = st.tabs(
+    ["Documentation 📚", "Testing 🧪", "Compliance 🛡️", "Dev Tools 🧰"]
+)
 
 # ──────────────────────────────
 # 📚 DOCUMENTATION TAB
@@ -50,7 +52,9 @@ with tab_docs:
         with manual_path.open("r") as f:
             content = f.read()
         # Extract modules with header and footer blocks
-        module_blocks = re.findall(r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL)
+        module_blocks = re.findall(
+            r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL
+        )
         modules = [m[1].strip() for m in module_blocks]
         selected_module = st.selectbox("📦 Select Module", modules)
         # Display selected module content
@@ -62,8 +66,12 @@ with tab_docs:
         if selected_block:
             full_header, body = selected_block
             # Attempt to split body into header info and footer (usage guide)
-            header_info_match = re.search(r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL)
-            usage_guide_match = re.search(r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL)
+            header_info_match = re.search(
+                r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
+            )
+            usage_guide_match = re.search(
+                r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
+            )
             st.markdown(f"## 📘 Details for `{selected_module}`")
             if header_info_match:
                 st.markdown(header_info_match.group(1))
@@ -80,7 +88,11 @@ with tab_docs:
             if st.button("🔄 Sync manual.md to Notion"):
                 with st.spinner("Syncing with Notion..."):
                     try:
-                        result = subprocess.run(["python3", "tools/notion_sync.py"], capture_output=True, text=True)
+                        result = subprocess.run(
+                            ["python3", "tools/notion_sync.py"],
+                            capture_output=True,
+                            text=True,
+                        )
                         if result.returncode == 0:
                             st.success("✅ Notion sync complete!")
                         else:
@@ -91,7 +103,10 @@ with tab_docs:
             if st.button("📤 Export manual.md as PDF"):
                 try:
                     import pypandoc
-                    output = pypandoc.convert_file('manual.md', 'pdf', outputfile='Document_Manual.pdf')
+
+                    output = pypandoc.convert_file(
+                        "manual.md", "pdf", outputfile="Document_Manual.pdf"
+                    )
                     st.success("📄 Exported to Document_Manual.pdf")
                 except Exception as e:
                     st.error(f"❌ PDF export failed: {e}")
@@ -99,7 +114,11 @@ with tab_docs:
             if st.button("🛠️ Build/Update manual.md"):
                 with st.spinner("Building manual..."):
                     try:
-                        result = subprocess.run(["python3", "tools/build_manual.py"], capture_output=True, text=True)
+                        result = subprocess.run(
+                            ["python3", "tools/build_manual.py"],
+                            capture_output=True,
+                            text=True,
+                        )
                         if result.returncode == 0:
                             st.success("✅ manual.md built/updated!")
                         else:
@@ -119,12 +138,17 @@ with tab_tests:
                 # Use subprocess and stream output
                 result = subprocess.run(
                     ["python3", "-m", "unittest", "discover", "-s", "tests"],
-                    capture_output=True, text=True
+                    capture_output=True,
+                    text=True,
                 )
                 if result.returncode == 0:
-                    test_output_placeholder.success("✅ All tests passed!\n\n" + result.stdout)
+                    test_output_placeholder.success(
+                        "✅ All tests passed!\n\n" + result.stdout
+                    )
                 else:
-                    test_output_placeholder.error("❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr)
+                    test_output_placeholder.error(
+                        "❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr
+                    )
             except Exception as e:
                 test_output_placeholder.error(f"❌ Error running tests: {e}")
 
@@ -141,7 +165,9 @@ with tab_compliance:
         with compliance_path.open("r") as f:
             compliance_md = f.read()
         # Try to find a markdown table
-        table_match = re.search(r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md)
+        table_match = re.search(
+            r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md
+        )
         if table_match:
             table_md = table_match.group(1)
             st.markdown(table_md)
@@ -184,9 +210,14 @@ with tab_tools:
     if trace_path.exists():
         try:
             import pandas as pd
+
             df_trace = pd.read_csv(trace_path)
             st.dataframe(df_trace)
-            st.download_button("📥 Download Trace CSV", df_trace.to_csv(index=False), file_name="symbolic_trace_dashboard.csv")
+            st.download_button(
+                "📥 Download Trace CSV",
+                df_trace.to_csv(index=False),
+                file_name="symbolic_trace_dashboard.csv",
+            )
         except Exception as e:
             st.error(f"❌ Failed to load trace file: {e}")
     else:

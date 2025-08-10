@@ -31,13 +31,9 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import json
-from core.common import get_logger
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Set
 from dataclasses import dataclass, field
-import numpy as np
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional, Set
 
 # Core memory systems
 from memory.core import MemoryFoldSystem
@@ -45,8 +41,8 @@ from memory.systems.dream_memory_fold import DreamMemoryFold, DreamSnapshot
 
 # Consciousness systems
 try:
-    from consciousness.core_consciousness.lambda_mirror import LambdaMirror
     from consciousness.awareness.awareness_engine import AwarenessEngine
+    from consciousness.core_consciousness.lambda_mirror import LambdaMirror
 
     lambda_mirror_available = True
 except ImportError:

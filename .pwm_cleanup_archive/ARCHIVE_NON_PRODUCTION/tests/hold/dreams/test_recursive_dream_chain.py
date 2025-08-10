@@ -1,5 +1,9 @@
 import unittest
-from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import DreamReflectionLoop
+
+from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import (
+    DreamReflectionLoop,
+)
+
 
 class TestRecursiveDreamChain(unittest.TestCase):
     def test_recursive_dream_chain(self):
@@ -11,6 +15,7 @@ class TestRecursiveDreamChain(unittest.TestCase):
 
         # Wait for dream cycle to complete
         import time
+
         time.sleep(65)
 
         self.assertGreater(dream_loop.stats["total_dream_cycles"], 0)
@@ -22,5 +27,6 @@ class TestRecursiveDreamChain(unittest.TestCase):
 
         self.assertGreater(dream_loop.stats["total_dream_cycles"], 1)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

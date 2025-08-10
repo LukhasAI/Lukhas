@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Core Symbolic Glyphs Package
@@ -40,9 +39,9 @@ from .glyph import (
     GlyphType,
     TemporalStamp,
 )
+from .glyph_engine import GlyphEngine
 from .glyph_sentinel import DecayState, GlyphSentinel, PersistencePolicy
 from .symbolic_foundry import SymbolicFoundry
-from .glyph_engine import GlyphEngine
 
 # GLYPH_MAP for backward compatibility with tests
 # This provides the central glyph mapping that was previously in glyphs.py

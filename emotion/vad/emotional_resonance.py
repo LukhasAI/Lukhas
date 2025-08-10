@@ -26,16 +26,13 @@ Valence-Arousal Model:
 - Arousal: Low (0.0) to High (1.0)
 """
 
-import json
-import math
-import random
-import time
-from datetime import datetime
-from typing import Dict, List, Tuple, Any, Optional
-import numpy as np
-import matplotlib.pyplot as plt
-from io import BytesIO
 import base64
+import math
+from datetime import datetime
+from io import BytesIO
+from typing import Any, Dict, List, Optional
+
+import matplotlib.pyplot as plt
 
 # Try importing related modules that might exist in the codebase
 try:

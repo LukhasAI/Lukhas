@@ -8,8 +8,8 @@ API explicit.
 """
 
 from .intent_node import IntentNode
-from .voice_node import VoiceNode
 from .node_manager import NodeManager
+from .voice_node import VoiceNode
 
 __all__ = [
     "IntentNode",

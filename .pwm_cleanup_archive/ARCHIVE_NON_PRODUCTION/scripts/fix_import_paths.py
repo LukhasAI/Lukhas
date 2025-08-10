@@ -5,7 +5,6 @@ Fix relative import issues in core modules
 
 import os
 import re
-from pathlib import Path
 
 # List of files with relative import issues
 FILES_TO_FIX = [
@@ -29,17 +28,18 @@ FILES_TO_FIX = [
     "core/test_enhanced_swarm.py",
     "core/test_event_bus.py",
     "core/test_event_sourcing.py",
-    "core/test_swarm.py"
+    "core/test_swarm.py",
 ]
 
 # Pattern to match relative imports
-RELATIVE_IMPORT_PATTERN = re.compile(r'^from\s+\.([\w.]+)\s+import', re.MULTILINE)
+RELATIVE_IMPORT_PATTERN = re.compile(r"^from\s+\.([\w.]+)\s+import", re.MULTILINE)
+
 
 def fix_relative_imports(file_path):
     """Fix relative imports in a Python file"""
 
     # Read the file
-    with open(file_path, 'r') as f:
+    with open(file_path) as f:
         content = f.read()
 
     # Track if we made changes
@@ -47,24 +47,29 @@ def fix_relative_imports(file_path):
 
     # Fix relative imports
     # Replace "from .module import" with "from core.module import"
-    content = RELATIVE_IMPORT_PATTERN.sub(r'from core.\1 import', content)
+    content = RELATIVE_IMPORT_PATTERN.sub(r"from core.\1 import", content)
 
     # Also fix "from .. import" patterns
-    content = re.sub(r'^from\s+\.\.\s+import', 'from core import', content, flags=re.MULTILINE)
-    content = re.sub(r'^from\s+\.\.([\w.]+)\s+import', r'from \1 import', content, flags=re.MULTILINE)
+    content = re.sub(
+        r"^from\s+\.\.\s+import", "from core import", content, flags=re.MULTILINE
+    )
+    content = re.sub(
+        r"^from\s+\.\.([\w.]+)\s+import", r"from \1 import", content, flags=re.MULTILINE
+    )
 
     # If we made changes, write the file back
     if content != original_content:
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             f.write(content)
         return True
     return False
+
 
 def fix_no_module_imports(file_path):
     """Fix 'No module named core' errors"""
 
     # Read the file
-    with open(file_path, 'r') as f:
+    with open(file_path) as f:
         content = f.read()
 
     # Track if we made changes
@@ -72,18 +77,29 @@ def fix_no_module_imports(file_path):
 
     # Fix imports like "from core import" when we're already in core
     # These should be relative imports or direct module imports
-    content = re.sub(r'^from\s+core\s+import\s+([\w_]+)', r'from .\1 import \1', content, flags=re.MULTILINE)
+    content = re.sub(
+        r"^from\s+core\s+import\s+([\w_]+)",
+        r"from .\1 import \1",
+        content,
+        flags=re.MULTILINE,
+    )
 
     # Fix imports like "from core.module import"
     # If we're in core/, these can be simplified
-    content = re.sub(r'^from\s+core\.([\w_]+)\s+import', r'from .\1 import', content, flags=re.MULTILINE)
+    content = re.sub(
+        r"^from\s+core\.([\w_]+)\s+import",
+        r"from .\1 import",
+        content,
+        flags=re.MULTILINE,
+    )
 
     # If we made changes, write the file back
     if content != original_content:
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             f.write(content)
         return True
     return False
+
 
 def main():
     """Main function to fix import issues"""
@@ -110,7 +126,7 @@ def main():
     no_module_files = [
         "core/swarm.py",
         "core/resource_scheduler.py",
-        "core/resource_optimization_integration.py"
+        "core/resource_optimization_integration.py",
     ]
 
     for file_path in no_module_files:
@@ -127,24 +143,30 @@ def main():
     init_file = "core/__init__.py"
     if os.path.exists(init_file):
         print(f"\n📝 Fixing {init_file}...")
-        with open(init_file, 'r') as f:
+        with open(init_file) as f:
             content = f.read()
 
         # Remove or comment out the test_module import
-        content = re.sub(r'^from\s+test_module\s+import.*$', '# from test_module import ...  # Removed: module not found', content, flags=re.MULTILINE)
+        content = re.sub(
+            r"^from\s+test_module\s+import.*$",
+            "# from test_module import ...  # Removed: module not found",
+            content,
+            flags=re.MULTILINE,
+        )
 
-        with open(init_file, 'w') as f:
+        with open(init_file, "w") as f:
             f.write(content)
         print(f"   ✅ Fixed: {init_file}")
         fixed_count += 1
 
-    print(f"\n" + "=" * 50)
-    print(f"📊 Summary:")
+    print("\n" + "=" * 50)
+    print("📊 Summary:")
     print(f"   - Files fixed: {fixed_count}")
     print(f"   - Total files checked: {len(FILES_TO_FIX) + len(no_module_files) + 1}")
 
     print("\n✅ Import path fixes complete!")
     print("   Next step: Run the module analyzer again to verify fixes")
+
 
 if __name__ == "__main__":
     main()

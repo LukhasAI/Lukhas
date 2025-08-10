@@ -11,17 +11,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import logging
-import numpy as np
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
-from collections import deque
-import asyncio
 import json
+import logging
+from collections import deque
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
+
+import numpy as np
 
 from core.colonies.base_colony import BaseColony
-from core.symbolism.tags import TagScope, TagPermission
-from core.symbolism.methylation_model import MethylationModel
+from core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger("ΛTRACE.bio.threshold")
 
@@ -35,53 +34,57 @@ class AdaptiveThresholdColony(BaseColony):
     def __init__(self, colony_id: str = "adaptive_threshold_colony"):
         super().__init__(
             colony_id,
-            capabilities=["threshold_adaptation", "context_analysis", "colony_consensus"]
+            capabilities=[
+                "threshold_adaptation",
+                "context_analysis",
+                "colony_consensus",
+            ],
         )
 
         # Multi-tier threshold architecture
         self.thresholds = {
             # Tier 1: Individual signal thresholds
-            'tier1_signals': {
-                'heart_rate': {'low': 0.3, 'high': 0.7, 'critical': 0.9},
-                'temperature': {'low': 0.2, 'high': 0.8, 'critical': 0.95},
-                'energy_level': {'low': 0.4, 'high': 0.8, 'critical': 0.95},
-                'cortisol': {'low': 0.3, 'high': 0.6, 'critical': 0.8},
-                'ph': {'low': 0.1, 'high': 0.9, 'critical': 0.98}
+            "tier1_signals": {
+                "heart_rate": {"low": 0.3, "high": 0.7, "critical": 0.9},
+                "temperature": {"low": 0.2, "high": 0.8, "critical": 0.95},
+                "energy_level": {"low": 0.4, "high": 0.8, "critical": 0.95},
+                "cortisol": {"low": 0.3, "high": 0.6, "critical": 0.8},
+                "ph": {"low": 0.1, "high": 0.9, "critical": 0.98},
             },
             # Tier 2: Combined state thresholds
-            'tier2_combined': {
-                'stress_state': {'low': 0.4, 'high': 0.7, 'critical': 0.85},
-                'energy_state': {'low': 0.35, 'high': 0.75, 'critical': 0.9},
-                'homeostatic': {'low': 0.2, 'high': 0.8, 'critical': 0.95}
+            "tier2_combined": {
+                "stress_state": {"low": 0.4, "high": 0.7, "critical": 0.85},
+                "energy_state": {"low": 0.35, "high": 0.75, "critical": 0.9},
+                "homeostatic": {"low": 0.2, "high": 0.8, "critical": 0.95},
             },
             # Tier 3: Holistic consciousness thresholds
-            'tier3_holistic': {
-                'coherence': {'low': 0.5, 'high': 0.7, 'critical': 0.85},
-                'consciousness': {'low': 0.4, 'high': 0.75, 'critical': 0.9}
+            "tier3_holistic": {
+                "coherence": {"low": 0.5, "high": 0.7, "critical": 0.85},
+                "consciousness": {"low": 0.4, "high": 0.75, "critical": 0.9},
             },
             # Tier 4: Quantum coherence thresholds
-            'tier4_quantum': {
-                'entanglement': {'low': 0.6, 'high': 0.8, 'critical': 0.95},
-                'superposition': {'low': 0.5, 'high': 0.85, 'critical': 0.98}
-            }
+            "tier4_quantum": {
+                "entanglement": {"low": 0.6, "high": 0.8, "critical": 0.95},
+                "superposition": {"low": 0.5, "high": 0.85, "critical": 0.98},
+            },
         }
 
         # Context factors for threshold adjustment
         self.context_modifiers = {
-            'circadian': self._calculate_circadian_modifier,
-            'stress_history': self._calculate_stress_modifier,
-            'colony_consensus': self._calculate_colony_modifier,
-            'methylation': self._calculate_methylation_modifier,
-            'user_calibration': self._calculate_user_modifier
+            "circadian": self._calculate_circadian_modifier,
+            "stress_history": self._calculate_stress_modifier,
+            "colony_consensus": self._calculate_colony_modifier,
+            "methylation": self._calculate_methylation_modifier,
+            "user_calibration": self._calculate_user_modifier,
         }
 
         # Learning parameters (for PPO-based optimization)
         self.learning_config = {
-            'learning_rate': 0.001,
-            'discount_factor': 0.99,
-            'experience_buffer': deque(maxlen=1000),
-            'update_frequency': 100,
-            'exploration_rate': 0.1
+            "learning_rate": 0.001,
+            "discount_factor": 0.99,
+            "experience_buffer": deque(maxlen=1000),
+            "update_frequency": 100,
+            "exploration_rate": 0.1,
         }
 
         # Stress history tracking
@@ -99,7 +102,9 @@ class AdaptiveThresholdColony(BaseColony):
 
         logger.info(f"🎯 AdaptiveThresholdColony '{colony_id}' initialized")
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Calculate dynamic thresholds based on context.
 
@@ -114,8 +119,8 @@ class AdaptiveThresholdColony(BaseColony):
             self.tracer.add_tag(span, "task_id", task_id)
 
             # Extract context
-            bio_data = task_data.get('bio_data', {})
-            context = task_data.get('context', {})
+            bio_data = task_data.get("bio_data", {})
+            context = task_data.get("context", {})
 
             # Calculate base thresholds
             base_thresholds = self._get_base_thresholds(bio_data)
@@ -130,9 +135,9 @@ class AdaptiveThresholdColony(BaseColony):
                 adapted_thresholds = self._apply_ab_tests(adapted_thresholds)
 
             # Learn from feedback if available
-            if 'feedback' in task_data:
+            if "feedback" in task_data:
                 await self._update_from_feedback(
-                    task_data['feedback'], adapted_thresholds, context
+                    task_data["feedback"], adapted_thresholds, context
                 )
 
             # Calculate confidence in thresholds
@@ -141,18 +146,16 @@ class AdaptiveThresholdColony(BaseColony):
             )
 
             # Apply methylation-based persistence
-            adapted_thresholds = self._apply_methylation(
-                adapted_thresholds, confidence
-            )
+            adapted_thresholds = self._apply_methylation(adapted_thresholds, confidence)
 
             # Prepare result
             result = {
-                'task_id': task_id,
-                'thresholds': adapted_thresholds,
-                'confidence': confidence,
-                'context_modifiers': await self._get_modifier_values(context, bio_data),
-                'timestamp': datetime.utcnow().isoformat(),
-                'colony_id': self.colony_id
+                "task_id": task_id,
+                "thresholds": adapted_thresholds,
+                "confidence": confidence,
+                "context_modifiers": await self._get_modifier_values(context, bio_data),
+                "timestamp": datetime.utcnow().isoformat(),
+                "colony_id": self.colony_id,
             }
 
             # Tag threshold quality
@@ -160,30 +163,38 @@ class AdaptiveThresholdColony(BaseColony):
 
             return result
 
-    def _get_base_thresholds(self, bio_data: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+    def _get_base_thresholds(
+        self, bio_data: Dict[str, Any]
+    ) -> Dict[str, Dict[str, float]]:
         """Get base thresholds for given bio data types."""
         base = {}
 
         # Tier 1: Individual signals
         tier1 = {}
-        for signal in bio_data.keys():
-            if signal in self.thresholds['tier1_signals']:
-                tier1[signal] = self.thresholds['tier1_signals'][signal].copy()
-        base['tier1'] = tier1
+        for signal in bio_data:
+            if signal in self.thresholds["tier1_signals"]:
+                tier1[signal] = self.thresholds["tier1_signals"][signal].copy()
+        base["tier1"] = tier1
 
         # Tier 2: Combined states (if relevant data present)
         tier2 = {}
-        if 'cortisol' in bio_data or 'heart_rate' in bio_data:
-            tier2['stress_state'] = self.thresholds['tier2_combined']['stress_state'].copy()
-        if 'energy_level' in bio_data or 'atp_level' in bio_data:
-            tier2['energy_state'] = self.thresholds['tier2_combined']['energy_state'].copy()
-        if 'temperature' in bio_data and 'ph' in bio_data:
-            tier2['homeostatic'] = self.thresholds['tier2_combined']['homeostatic'].copy()
-        base['tier2'] = tier2
+        if "cortisol" in bio_data or "heart_rate" in bio_data:
+            tier2["stress_state"] = self.thresholds["tier2_combined"][
+                "stress_state"
+            ].copy()
+        if "energy_level" in bio_data or "atp_level" in bio_data:
+            tier2["energy_state"] = self.thresholds["tier2_combined"][
+                "energy_state"
+            ].copy()
+        if "temperature" in bio_data and "ph" in bio_data:
+            tier2["homeostatic"] = self.thresholds["tier2_combined"][
+                "homeostatic"
+            ].copy()
+        base["tier2"] = tier2
 
         # Tier 3 & 4: Always include for holistic processing
-        base['tier3'] = self.thresholds['tier3_holistic'].copy()
-        base['tier4'] = self.thresholds['tier4_quantum'].copy()
+        base["tier3"] = self.thresholds["tier3_holistic"].copy()
+        base["tier4"] = self.thresholds["tier4_quantum"].copy()
 
         return base
 
@@ -191,7 +202,7 @@ class AdaptiveThresholdColony(BaseColony):
         self,
         base_thresholds: Dict[str, Dict[str, float]],
         context: Dict[str, Any],
-        bio_data: Dict[str, Any]
+        bio_data: Dict[str, Any],
     ) -> Dict[str, Dict[str, float]]:
         """Apply all context modifiers to thresholds."""
         modified = {}
@@ -211,10 +222,10 @@ class AdaptiveThresholdColony(BaseColony):
                     composite_modifier = np.prod(list(modifiers.values()))
 
                     # Adjust threshold based on level
-                    if level == 'low':
+                    if level == "low":
                         # Lower thresholds become more sensitive
                         modified_value = value * (2 - composite_modifier)
-                    elif level == 'high':
+                    elif level == "high":
                         # Higher thresholds become less sensitive
                         modified_value = value * composite_modifier
                     else:  # critical
@@ -229,22 +240,22 @@ class AdaptiveThresholdColony(BaseColony):
         return modified
 
     async def _get_modifier_values(
-        self,
-        context: Dict[str, Any],
-        bio_data: Dict[str, Any]
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
     ) -> Dict[str, float]:
         """Calculate all context modifier values."""
         modifiers = {}
 
         for name, calc_func in self.context_modifiers.items():
-            if name == 'colony_consensus':
+            if name == "colony_consensus":
                 modifiers[name] = await calc_func(context, bio_data)
             else:
                 modifiers[name] = calc_func(context, bio_data)
 
         return modifiers
 
-    def _calculate_circadian_modifier(self, context: Dict[str, Any], bio_data: Dict[str, Any]) -> float:
+    def _calculate_circadian_modifier(
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+    ) -> float:
         """Calculate circadian rhythm modifier."""
         current_hour = datetime.utcnow().hour
 
@@ -252,19 +263,21 @@ class AdaptiveThresholdColony(BaseColony):
         circadian_value = 0.5 + 0.5 * np.sin((current_hour - 6) * np.pi / 12)
 
         # Adjust based on user's chronotype if available
-        if 'chronotype' in context:
-            if context['chronotype'] == 'morning':
+        if "chronotype" in context:
+            if context["chronotype"] == "morning":
                 circadian_value = 0.5 + 0.5 * np.sin((current_hour - 4) * np.pi / 12)
-            elif context['chronotype'] == 'evening':
+            elif context["chronotype"] == "evening":
                 circadian_value = 0.5 + 0.5 * np.sin((current_hour - 8) * np.pi / 12)
 
         return np.clip(circadian_value, 0.3, 1.0)
 
-    def _calculate_stress_modifier(self, context: Dict[str, Any], bio_data: Dict[str, Any]) -> float:
+    def _calculate_stress_modifier(
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+    ) -> float:
         """Calculate stress history modifier."""
         # Add current stress to history
-        if 'cortisol' in bio_data:
-            self.stress_history.append(bio_data['cortisol'])
+        if "cortisol" in bio_data:
+            self.stress_history.append(bio_data["cortisol"])
 
         if len(self.stress_history) < 5:
             return 1.0  # Neutral modifier if insufficient history
@@ -281,7 +294,9 @@ class AdaptiveThresholdColony(BaseColony):
         else:
             return 1.0  # Neutral
 
-    async def _calculate_colony_modifier(self, context: Dict[str, Any], bio_data: Dict[str, Any]) -> float:
+    async def _calculate_colony_modifier(
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+    ) -> float:
         """Calculate colony consensus modifier."""
         # Check cache first
         cache_key = f"{json.dumps(sorted(bio_data.items()))}"
@@ -300,62 +315,62 @@ class AdaptiveThresholdColony(BaseColony):
 
         return consensus_value
 
-    def _calculate_methylation_modifier(self, context: Dict[str, Any], bio_data: Dict[str, Any]) -> float:
+    def _calculate_methylation_modifier(
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+    ) -> float:
         """Calculate methylation-based modifier."""
         # Get methylation decay factor from model
         decay_factor = self.methylation_model.genetic_decay_factor
 
         # Recent high-coherence patterns get "methylated" (more persistent)
-        if 'coherence_history' in context:
-            recent_coherence = np.mean(context['coherence_history'][-10:])
+        if "coherence_history" in context:
+            recent_coherence = np.mean(context["coherence_history"][-10:])
             if recent_coherence > 0.8:
                 return 1.0 + (1 - decay_factor) * 0.2  # Boost stability
 
         return 1.0
 
-    def _calculate_user_modifier(self, context: Dict[str, Any], bio_data: Dict[str, Any]) -> float:
+    def _calculate_user_modifier(
+        self, context: Dict[str, Any], bio_data: Dict[str, Any]
+    ) -> float:
         """Calculate user-specific calibration modifier."""
-        if 'user_id' in context and context['user_id'] in self.user_calibration:
-            calibration = self.user_calibration[context['user_id']]
+        if "user_id" in context and context["user_id"] in self.user_calibration:
+            calibration = self.user_calibration[context["user_id"]]
 
             # Apply user's personal sensitivity settings
-            return calibration.get('sensitivity', 1.0)
+            return calibration.get("sensitivity", 1.0)
 
         return 1.0  # Default neutral
 
     def _calculate_threshold_confidence(
-        self,
-        thresholds: Dict[str, Dict[str, float]],
-        context: Dict[str, Any]
+        self, thresholds: Dict[str, Dict[str, float]], context: Dict[str, Any]
     ) -> float:
         """Calculate confidence in the adapted thresholds."""
         confidence_factors = []
 
         # Factor 1: Data completeness
-        if 'data_completeness' in context:
-            confidence_factors.append(context['data_completeness'])
+        if "data_completeness" in context:
+            confidence_factors.append(context["data_completeness"])
 
         # Factor 2: Historical stability
-        if hasattr(self, 'threshold_history'):
+        if hasattr(self, "threshold_history"):
             # Check how stable thresholds have been
             stability = 1.0  # Placeholder
             confidence_factors.append(stability)
 
         # Factor 3: Colony consensus strength
-        if 'colony_consensus_strength' in context:
-            confidence_factors.append(context['colony_consensus_strength'])
+        if "colony_consensus_strength" in context:
+            confidence_factors.append(context["colony_consensus_strength"])
 
         # Factor 4: Learning convergence
-        if len(self.learning_config['experience_buffer']) > 100:
-            convergence = min(len(self.learning_config['experience_buffer']) / 500, 1.0)
+        if len(self.learning_config["experience_buffer"]) > 100:
+            convergence = min(len(self.learning_config["experience_buffer"]) / 500, 1.0)
             confidence_factors.append(convergence)
 
         return np.mean(confidence_factors) if confidence_factors else 0.7
 
     def _apply_methylation(
-        self,
-        thresholds: Dict[str, Dict[str, float]],
-        confidence: float
+        self, thresholds: Dict[str, Dict[str, float]], confidence: float
     ) -> Dict[str, Dict[str, float]]:
         """Apply methylation-based persistence to thresholds."""
         if confidence > 0.8:
@@ -366,51 +381,54 @@ class AdaptiveThresholdColony(BaseColony):
 
     def _tag_for_methylation(self, thresholds: Dict[str, Any], confidence: float):
         """Tag thresholds for methylation persistence."""
-        tag_name = 'ΛTHRESHOLD_METHYLATED'
+        tag_name = "ΛTHRESHOLD_METHYLATED"
         self.symbolic_carryover[tag_name] = (
             tag_name,
             TagScope.GENETIC,
             TagPermission.PROTECTED,
             confidence,
-            3600.0  # 1 hour persistence
+            3600.0,  # 1 hour persistence
         )
 
     def _tag_threshold_quality(self, confidence: float):
         """Tag threshold quality based on confidence."""
         if confidence >= 0.8:
-            tag = 'ΛTHRESHOLD_HIGH_CONFIDENCE'
+            tag = "ΛTHRESHOLD_HIGH_CONFIDENCE"
         elif confidence >= 0.6:
-            tag = 'ΛTHRESHOLD_MEDIUM_CONFIDENCE'
+            tag = "ΛTHRESHOLD_MEDIUM_CONFIDENCE"
         else:
-            tag = 'ΛTHRESHOLD_LOW_CONFIDENCE'
+            tag = "ΛTHRESHOLD_LOW_CONFIDENCE"
 
         self.symbolic_carryover[tag] = (
             tag,
             TagScope.LOCAL,
             TagPermission.PUBLIC,
             confidence,
-            None
+            None,
         )
 
     async def _update_from_feedback(
         self,
         feedback: Dict[str, Any],
         thresholds: Dict[str, Dict[str, float]],
-        context: Dict[str, Any]
+        context: Dict[str, Any],
     ):
         """Update thresholds based on feedback (reinforcement learning)."""
         # Store experience
         experience = {
-            'state': context,
-            'thresholds': thresholds,
-            'reward': feedback.get('reward', 0.0),
-            'timestamp': datetime.utcnow()
+            "state": context,
+            "thresholds": thresholds,
+            "reward": feedback.get("reward", 0.0),
+            "timestamp": datetime.utcnow(),
         }
 
-        self.learning_config['experience_buffer'].append(experience)
+        self.learning_config["experience_buffer"].append(experience)
 
         # Update if enough experiences
-        if len(self.learning_config['experience_buffer']) >= self.learning_config['update_frequency']:
+        if (
+            len(self.learning_config["experience_buffer"])
+            >= self.learning_config["update_frequency"]
+        ):
             await self._ppo_update()
 
     async def _ppo_update(self):
@@ -418,8 +436,8 @@ class AdaptiveThresholdColony(BaseColony):
         # This is a placeholder for actual PPO implementation
         # In production, this would use a neural network policy
 
-        experiences = list(self.learning_config['experience_buffer'])
-        rewards = [exp['reward'] for exp in experiences]
+        experiences = list(self.learning_config["experience_buffer"])
+        rewards = [exp["reward"] for exp in experiences]
 
         # Simple adaptation: adjust thresholds based on average reward
         avg_reward = np.mean(rewards)
@@ -438,11 +456,17 @@ class AdaptiveThresholdColony(BaseColony):
             for signal_thresholds in tier.values():
                 for level in signal_thresholds:
                     signal_thresholds[level] *= adjustment
-                    signal_thresholds[level] = np.clip(signal_thresholds[level], 0.01, 0.99)
+                    signal_thresholds[level] = np.clip(
+                        signal_thresholds[level], 0.01, 0.99
+                    )
 
-        logger.info(f"PPO update complete. Avg reward: {avg_reward:.3f}, Adjustment: {adjustment}")
+        logger.info(
+            f"PPO update complete. Avg reward: {avg_reward:.3f}, Adjustment: {adjustment}"
+        )
 
-    def _apply_ab_tests(self, thresholds: Dict[str, Dict[str, float]]) -> Dict[str, Dict[str, float]]:
+    def _apply_ab_tests(
+        self, thresholds: Dict[str, Dict[str, float]]
+    ) -> Dict[str, Dict[str, float]]:
         """Apply A/B test overrides to thresholds."""
         # Placeholder for A/B testing framework
         # In production, this would randomly assign variants and track results
@@ -451,12 +475,7 @@ class AdaptiveThresholdColony(BaseColony):
     def _load_user_calibration(self) -> Dict[str, Dict[str, Any]]:
         """Load user-specific calibration data."""
         # In production, this would load from a database
-        return {
-            'default_user': {
-                'sensitivity': 1.0,
-                'chronotype': 'neutral'
-            }
-        }
+        return {"default_user": {"sensitivity": 1.0, "chronotype": "neutral"}}
 
 
 # Colony instance factory

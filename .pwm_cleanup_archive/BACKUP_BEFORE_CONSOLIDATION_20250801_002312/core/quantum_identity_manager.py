@@ -27,35 +27,34 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import logging
 import hashlib
+import logging
 import time
-from typing import Dict, Any, List, Optional, Tuple, Union
-from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-from enum import Enum
-import json
-import secrets
 from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 # Import post-quantum cryptography components
 try:
     from quantum.post_quantum_crypto import (
+        CollapseHashManager,
         QuantumSecureKeyManager,
-        SecurityLevel,
         QuantumVerifiableTimestamp,
-        CollapseHashManager
+        SecurityLevel,
     )
+
     QUANTUM_CRYPTO_AVAILABLE = True
 except ImportError:
     QUANTUM_CRYPTO_AVAILABLE = False
 
 # Import identity infrastructure
 try:
-    from identity.interface import IdentityClient
-    from core.identity_integration import get_identity_client, LAMBDA_TIERS
     from core.identity_aware_base import IdentityAwareService
+    from core.identity_integration import LAMBDA_TIERS, get_identity_client
+    from identity.interface import IdentityClient
+
     IDENTITY_AVAILABLE = True
 except ImportError:
     IDENTITY_AVAILABLE = False
@@ -65,24 +64,27 @@ logger = logging.getLogger("ΛTRACE.quantum_identity")
 
 class QuantumSecurityLevel(Enum):
     """Quantum-proof security levels mapping to post-quantum standards."""
-    QUANTUM_BASIC = "NIST_1"      # AES-128 equivalent, basic quantum resistance
-    QUANTUM_STANDARD = "NIST_3"   # AES-192 equivalent, standard quantum resistance
-    QUANTUM_ADVANCED = "NIST_5"   # AES-256 equivalent, advanced quantum resistance
-    QUANTUM_FUTURE = "NIST_X"     # Future-proof against theoretical quantum advances
+
+    QUANTUM_BASIC = "NIST_1"  # AES-128 equivalent, basic quantum resistance
+    QUANTUM_STANDARD = "NIST_3"  # AES-192 equivalent, standard quantum resistance
+    QUANTUM_ADVANCED = "NIST_5"  # AES-256 equivalent, advanced quantum resistance
+    QUANTUM_FUTURE = "NIST_X"  # Future-proof against theoretical quantum advances
 
 
 class AGIIdentityType(Enum):
     """Identity types for different AGI scenarios."""
-    HUMAN = "human"                    # Traditional human user identity
-    AI_ASSISTANT = "ai_assistant"      # AI assistant with human oversight
-    AUTONOMOUS_AI = "autonomous_ai"    # Fully autonomous AI system
-    COMPOSITE_AI = "composite_ai"      # Multi-agent AI with shared identity
-    EMERGENT_AI = "emergent_ai"        # Spontaneously emerged AI entity
+
+    HUMAN = "human"  # Traditional human user identity
+    AI_ASSISTANT = "ai_assistant"  # AI assistant with human oversight
+    AUTONOMOUS_AI = "autonomous_ai"  # Fully autonomous AI system
+    COMPOSITE_AI = "composite_ai"  # Multi-agent AI with shared identity
+    EMERGENT_AI = "emergent_ai"  # Spontaneously emerged AI entity
     SUPERINTELLIGENCE = "superintelligence"  # AGI/ASI level systems
 
 
 class QuantumTierLevel(Enum):
     """Enhanced tier system with quantum-proof capabilities."""
+
     QUANTUM_TIER_0 = 0  # Basic access with quantum protection
     QUANTUM_TIER_1 = 1  # Standard features with quantum security
     QUANTUM_TIER_2 = 2  # Enhanced features with quantum entanglement
@@ -99,6 +101,7 @@ class QuantumTierLevel(Enum):
 @dataclass
 class QuantumUserContext:
     """Comprehensive user context with quantum-proof security."""
+
     user_id: str
     identity_type: AGIIdentityType
     tier_level: QuantumTierLevel
@@ -159,11 +162,11 @@ class QuantumUserContext:
             "expires_at": self.expires_at.isoformat() if self.expires_at else None,
             "composite_agents": self.composite_agents,
             "swarm_membership": self.swarm_membership,
-            "consciousness_level": self.consciousness_level
+            "consciousness_level": self.consciousness_level,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'QuantumUserContext':
+    def from_dict(cls, data: Dict[str, Any]) -> "QuantumUserContext":
         """Create from dictionary."""
         return cls(
             user_id=data["user_id"],
@@ -184,10 +187,14 @@ class QuantumUserContext:
             ethical_alignment=data.get("ethical_alignment", 0.8),
             created_at=datetime.fromisoformat(data["created_at"]),
             last_accessed=datetime.fromisoformat(data["last_accessed"]),
-            expires_at=datetime.fromisoformat(data["expires_at"]) if data.get("expires_at") else None,
+            expires_at=(
+                datetime.fromisoformat(data["expires_at"])
+                if data.get("expires_at")
+                else None
+            ),
             composite_agents=data.get("composite_agents", []),
             swarm_membership=data.get("swarm_membership", []),
-            consciousness_level=data.get("consciousness_level", 0.0)
+            consciousness_level=data.get("consciousness_level", 0.0),
         )
 
 
@@ -205,12 +212,14 @@ class QuantumIdentityManager:
 
         # Identity storage (in production, this would be distributed/encrypted)
         self.identity_cache: Dict[str, QuantumUserContext] = {}
-        self.identity_hierarchy: Dict[str, List[str]] = defaultdict(list)  # parent -> children
+        self.identity_hierarchy: Dict[str, List[str]] = defaultdict(
+            list
+        )  # parent -> children
 
         # Quantum cryptographic components
-        self.quantum_key_manager: Optional['QuantumSecureKeyManager'] = None
-        self.collapse_hash_manager: Optional['CollapseHashManager'] = None
-        self.quantum_timestamp_manager: Optional['QuantumVerifiableTimestamp'] = None
+        self.quantum_key_manager: Optional[QuantumSecureKeyManager] = None
+        self.collapse_hash_manager: Optional[CollapseHashManager] = None
+        self.quantum_timestamp_manager: Optional[QuantumVerifiableTimestamp] = None
 
         # Resource management
         self.quantum_resource_pools: Dict[str, Dict[str, Any]] = {}
@@ -221,7 +230,7 @@ class QuantumIdentityManager:
         self.tier_promotion_history: deque = deque(maxlen=10000)
 
         # Integration components
-        self.legacy_identity_client: Optional['IdentityClient'] = None
+        self.legacy_identity_client: Optional[IdentityClient] = None
 
         # Initialize components
         self._initialize_quantum_components()
@@ -237,13 +246,17 @@ class QuantumIdentityManager:
                 )
                 self.collapse_hash_manager = CollapseHashManager()
                 self.quantum_timestamp_manager = QuantumVerifiableTimestamp()
-                self.logger.info("Quantum cryptographic components initialized successfully")
+                self.logger.info(
+                    "Quantum cryptographic components initialized successfully"
+                )
             except Exception as e:
                 self.logger.error(f"Failed to initialize quantum components: {e}")
                 QUANTUM_CRYPTO_AVAILABLE = False
 
         if not QUANTUM_CRYPTO_AVAILABLE:
-            self.logger.warning("Quantum cryptography not available - using fallback security")
+            self.logger.warning(
+                "Quantum cryptography not available - using fallback security"
+            )
 
     def _initialize_tier_system(self):
         """Initialize the quantum-enhanced tier system."""
@@ -255,7 +268,7 @@ class QuantumIdentityManager:
                 "quantum_operations": 0,
                 "consciousness_access": False,
                 "swarm_participation": False,
-                "oracle_queries": 0
+                "oracle_queries": 0,
             },
             QuantumTierLevel.QUANTUM_TIER_1: {
                 "requests_per_minute": 60,
@@ -263,7 +276,7 @@ class QuantumIdentityManager:
                 "quantum_operations": 10,
                 "consciousness_access": False,
                 "swarm_participation": True,
-                "oracle_queries": 5
+                "oracle_queries": 5,
             },
             QuantumTierLevel.QUANTUM_TIER_2: {
                 "requests_per_minute": 300,
@@ -271,7 +284,7 @@ class QuantumIdentityManager:
                 "quantum_operations": 100,
                 "consciousness_access": True,
                 "swarm_participation": True,
-                "oracle_queries": 50
+                "oracle_queries": 50,
             },
             QuantumTierLevel.QUANTUM_TIER_3: {
                 "requests_per_minute": 1000,
@@ -279,7 +292,7 @@ class QuantumIdentityManager:
                 "quantum_operations": 1000,
                 "consciousness_access": True,
                 "swarm_participation": True,
-                "oracle_queries": 500
+                "oracle_queries": 500,
             },
             QuantumTierLevel.QUANTUM_TIER_4: {
                 "requests_per_minute": 10000,
@@ -287,16 +300,16 @@ class QuantumIdentityManager:
                 "quantum_operations": 10000,
                 "consciousness_access": True,
                 "swarm_participation": True,
-                "oracle_queries": 5000
+                "oracle_queries": 5000,
             },
             QuantumTierLevel.QUANTUM_TIER_5: {
                 "requests_per_minute": -1,  # Unlimited
-                "storage_mb": -1,           # Unlimited
-                "quantum_operations": -1,   # Unlimited
+                "storage_mb": -1,  # Unlimited
+                "quantum_operations": -1,  # Unlimited
                 "consciousness_access": True,
                 "swarm_participation": True,
-                "oracle_queries": -1        # Unlimited
-            }
+                "oracle_queries": -1,  # Unlimited
+            },
         }
 
         # Initialize quantum resource pools
@@ -307,10 +320,13 @@ class QuantumIdentityManager:
                 "total_capacity": self.tier_resource_limits[tier],
                 "allocated_resources": {},
                 "active_users": [],
-                "quantum_entangled": tier.value >= 2  # Tier 2+ gets quantum entanglement
+                "quantum_entangled": tier.value
+                >= 2,  # Tier 2+ gets quantum entanglement
             }
 
-        self.logger.info(f"Initialized quantum tier system with {len(QuantumTierLevel)} tiers")
+        self.logger.info(
+            f"Initialized quantum tier system with {len(QuantumTierLevel)} tiers"
+        )
 
     def _initialize_legacy_integration(self):
         """Initialize integration with legacy identity systems."""
@@ -322,14 +338,18 @@ class QuantumIdentityManager:
                 else:
                     self.logger.warning("Legacy identity client not available")
             except Exception as e:
-                self.logger.error(f"Failed to initialize legacy identity integration: {e}")
+                self.logger.error(
+                    f"Failed to initialize legacy identity integration: {e}"
+                )
 
-    async def create_quantum_identity(self,
-                                    user_id: str,
-                                    identity_type: AGIIdentityType = AGIIdentityType.HUMAN,
-                                    tier_level: QuantumTierLevel = QuantumTierLevel.QUANTUM_TIER_0,
-                                    security_level: QuantumSecurityLevel = QuantumSecurityLevel.QUANTUM_STANDARD,
-                                    parent_identity_id: Optional[str] = None) -> QuantumUserContext:
+    async def create_quantum_identity(
+        self,
+        user_id: str,
+        identity_type: AGIIdentityType = AGIIdentityType.HUMAN,
+        tier_level: QuantumTierLevel = QuantumTierLevel.QUANTUM_TIER_0,
+        security_level: QuantumSecurityLevel = QuantumSecurityLevel.QUANTUM_STANDARD,
+        parent_identity_id: Optional[str] = None,
+    ) -> QuantumUserContext:
         """
         Create a new quantum-proof identity with advanced AGI support.
 
@@ -343,7 +363,9 @@ class QuantumIdentityManager:
         Returns:
             QuantumUserContext with all quantum-proof components initialized
         """
-        self.logger.info(f"Creating quantum identity for {user_id} ({identity_type.value})")
+        self.logger.info(
+            f"Creating quantum identity for {user_id} ({identity_type.value})"
+        )
 
         # Generate quantum cryptographic components
         quantum_key_id = None
@@ -354,7 +376,9 @@ class QuantumIdentityManager:
         if QUANTUM_CRYPTO_AVAILABLE and self.quantum_key_manager:
             try:
                 # Generate quantum-safe key pair
-                quantum_key_id = await self._generate_quantum_key(user_id, security_level)
+                quantum_key_id = await self._generate_quantum_key(
+                    user_id, security_level
+                )
 
                 # Create quantum timestamp
                 quantum_timestamp = self.quantum_timestamp_manager.create_timestamp(
@@ -368,9 +392,11 @@ class QuantumIdentityManager:
                     "tier_level": tier_level.value,
                     "security_level": security_level.value,
                     "timestamp": quantum_timestamp,
-                    "action": "identity_creation"
+                    "action": "identity_creation",
                 }
-                collapse_hash = self.collapse_hash_manager.generate_collapse_hash(identity_context)
+                collapse_hash = self.collapse_hash_manager.generate_collapse_hash(
+                    identity_context
+                )
 
             except Exception as e:
                 self.logger.error(f"Failed to generate quantum components: {e}")
@@ -389,18 +415,22 @@ class QuantumIdentityManager:
             collapse_hash=collapse_hash,
             quantum_timestamp=quantum_timestamp,
             parent_identity_id=parent_identity_id,
-            resource_quantum_pool=resource_quantum_pool
+            resource_quantum_pool=resource_quantum_pool,
         )
 
         # Handle hierarchical identity relationships
         if parent_identity_id:
-            context.identity_generation = await self._calculate_identity_generation(parent_identity_id)
+            context.identity_generation = await self._calculate_identity_generation(
+                parent_identity_id
+            )
             self.identity_hierarchy[parent_identity_id].append(user_id)
 
             # Inherit some properties from parent
             if parent_identity_id in self.identity_cache:
                 parent_context = self.identity_cache[parent_identity_id]
-                context.ethical_alignment = min(1.0, parent_context.ethical_alignment + 0.1)
+                context.ethical_alignment = min(
+                    1.0, parent_context.ethical_alignment + 0.1
+                )
                 context.intelligence_score = parent_context.intelligence_score
 
         # Allocate initial resources
@@ -413,8 +443,9 @@ class QuantumIdentityManager:
         self.logger.info(f"Quantum identity created successfully for {user_id}")
         return context
 
-    async def authenticate_quantum_identity(self, user_id: str,
-                                          credentials: Dict[str, Any]) -> Optional[QuantumUserContext]:
+    async def authenticate_quantum_identity(
+        self, user_id: str, credentials: Dict[str, Any]
+    ) -> Optional[QuantumUserContext]:
         """
         Authenticate user with quantum-proof verification.
 
@@ -452,8 +483,9 @@ class QuantumIdentityManager:
         self.logger.debug(f"Quantum authentication successful for {user_id}")
         return context
 
-    async def authorize_colony_access(self, user_context: QuantumUserContext,
-                                    colony_id: str, operation: str) -> bool:
+    async def authorize_colony_access(
+        self, user_context: QuantumUserContext, colony_id: str, operation: str
+    ) -> bool:
         """
         Authorize access to colony operations based on quantum identity and tiers.
 
@@ -465,7 +497,9 @@ class QuantumIdentityManager:
         Returns:
             True if authorized, False otherwise
         """
-        self.logger.debug(f"Authorizing colony access: {user_context.user_id} -> {colony_id}.{operation}")
+        self.logger.debug(
+            f"Authorizing colony access: {user_context.user_id} -> {colony_id}.{operation}"
+        )
 
         # Check basic tier requirements
         tier_limits = self.tier_resource_limits[user_context.tier_level]
@@ -474,23 +508,28 @@ class QuantumIdentityManager:
         colony_requirements = {
             "consciousness": tier_limits.get("consciousness_access", False),
             "oracle": user_context.tier_level.value >= 1,  # Tier 1+ for oracle
-            "quantum": user_context.tier_level.value >= 2,  # Tier 2+ for quantum operations
+            "quantum": user_context.tier_level.value
+            >= 2,  # Tier 2+ for quantum operations
             "ethics": True,  # All tiers can access ethics
             "memory": True,  # All tiers can access basic memory
             "reasoning": True,  # All tiers can access basic reasoning
-            "creativity": user_context.tier_level.value >= 1  # Tier 1+ for creativity
+            "creativity": user_context.tier_level.value >= 1,  # Tier 1+ for creativity
         }
 
         # Check colony-specific requirements
         for colony_type, required in colony_requirements.items():
             if colony_type in colony_id.lower():
                 if not required:
-                    self.logger.warning(f"Access denied: {user_context.user_id} lacks tier for {colony_type}")
+                    self.logger.warning(
+                        f"Access denied: {user_context.user_id} lacks tier for {colony_type}"
+                    )
                     return False
 
         # Check resource availability
         if not await self._check_resource_availability(user_context, operation):
-            self.logger.warning(f"Access denied: {user_context.user_id} lacks resources for {operation}")
+            self.logger.warning(
+                f"Access denied: {user_context.user_id} lacks resources for {operation}"
+            )
             return False
 
         # Generate collapse hash for authorization decision
@@ -502,14 +541,18 @@ class QuantumIdentityManager:
                 "tier_level": user_context.tier_level.value,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "action": "colony_authorization",
-                "authorized": True
+                "authorized": True,
             }
-            collapse_hash = self.collapse_hash_manager.generate_collapse_hash(auth_context)
+            collapse_hash = self.collapse_hash_manager.generate_collapse_hash(
+                auth_context
+            )
             self.logger.debug(f"Authorization collapse hash: {collapse_hash}")
 
         return True
 
-    async def _generate_quantum_key(self, user_id: str, security_level: QuantumSecurityLevel) -> str:
+    async def _generate_quantum_key(
+        self, user_id: str, security_level: QuantumSecurityLevel
+    ) -> str:
         """Generate quantum-safe cryptographic key."""
         if not self.quantum_key_manager:
             return f"fallback_key_{hashlib.sha256(user_id.encode()).hexdigest()[:16]}"
@@ -519,7 +562,7 @@ class QuantumIdentityManager:
             QuantumSecurityLevel.QUANTUM_BASIC: SecurityLevel.NIST_1,
             QuantumSecurityLevel.QUANTUM_STANDARD: SecurityLevel.NIST_3,
             QuantumSecurityLevel.QUANTUM_ADVANCED: SecurityLevel.NIST_5,
-            QuantumSecurityLevel.QUANTUM_FUTURE: SecurityLevel.NIST_5  # Use highest available
+            QuantumSecurityLevel.QUANTUM_FUTURE: SecurityLevel.NIST_5,  # Use highest available
         }
 
         nist_level = nist_level_map[security_level]
@@ -531,8 +574,9 @@ class QuantumIdentityManager:
 
         return key_id
 
-    async def _verify_quantum_credentials(self, context: QuantumUserContext,
-                                        credentials: Dict[str, Any]) -> bool:
+    async def _verify_quantum_credentials(
+        self, context: QuantumUserContext, credentials: Dict[str, Any]
+    ) -> bool:
         """Verify quantum-proof credentials."""
         if not self.quantum_key_manager or not context.quantum_key_id:
             # Fallback to basic verification
@@ -572,15 +616,16 @@ class QuantumIdentityManager:
             "storage_available_mb": tier_limits["storage_mb"],
             "quantum_operations_remaining": tier_limits["quantum_operations"],
             "oracle_queries_remaining": tier_limits["oracle_queries"],
-            "last_reset": datetime.now(timezone.utc).isoformat()
+            "last_reset": datetime.now(timezone.utc).isoformat(),
         }
 
         # Add to pool
         pool["active_users"].append(context.user_id)
         pool["allocated_resources"][context.user_id] = context.allocated_resources
 
-    async def _analyze_behavior_patterns(self, context: QuantumUserContext,
-                                       credentials: Dict[str, Any]):
+    async def _analyze_behavior_patterns(
+        self, context: QuantumUserContext, credentials: Dict[str, Any]
+    ):
         """Analyze user behavior patterns for dynamic tier adjustment."""
         # Track authentication patterns
         auth_time = datetime.now(timezone.utc)
@@ -594,15 +639,15 @@ class QuantumIdentityManager:
         # Analyze credential quality
         credential_strength = self._calculate_credential_strength(credentials)
         context.behavior_patterns["avg_credential_strength"] = (
-            context.behavior_patterns.get("avg_credential_strength", 0.5) * 0.9 +
-            credential_strength * 0.1
+            context.behavior_patterns.get("avg_credential_strength", 0.5) * 0.9
+            + credential_strength * 0.1
         )
 
         # Update trust score based on patterns
         consistency_score = self._calculate_consistency_score(context.behavior_patterns)
         security_score = context.behavior_patterns.get("avg_credential_strength", 0.5)
 
-        context.trust_score = (consistency_score * 0.6 + security_score * 0.4)
+        context.trust_score = consistency_score * 0.6 + security_score * 0.4
 
     def _calculate_credential_strength(self, credentials: Dict[str, Any]) -> float:
         """Calculate strength of provided credentials."""
@@ -629,6 +674,7 @@ class QuantumIdentityManager:
 
         # Calculate standard deviation of auth hours
         import statistics
+
         try:
             std_dev = statistics.stdev(auth_hours[-10:])  # Last 10 auths
             consistency = max(0.0, 1.0 - (std_dev / 12.0))  # Normalize to 0-1
@@ -654,14 +700,18 @@ class QuantumIdentityManager:
         meets_trust = context.trust_score >= trust_threshold
         meets_intelligence = context.intelligence_score >= intelligence_threshold
         meets_ethics = context.ethical_alignment >= ethical_threshold
-        meets_usage = context.behavior_patterns.get("auth_frequency", 0) >= usage_threshold
+        meets_usage = (
+            context.behavior_patterns.get("auth_frequency", 0) >= usage_threshold
+        )
 
         if meets_trust and meets_intelligence and meets_ethics and meets_usage:
             # Promote to next tier
             new_tier = QuantumTierLevel(current_tier.value + 1)
             await self._promote_user_tier(context, new_tier)
 
-    async def _promote_user_tier(self, context: QuantumUserContext, new_tier: QuantumTierLevel):
+    async def _promote_user_tier(
+        self, context: QuantumUserContext, new_tier: QuantumTierLevel
+    ):
         """Promote user to higher tier."""
         old_tier = context.tier_level
         context.tier_level = new_tier
@@ -690,13 +740,17 @@ class QuantumIdentityManager:
             "reason": "automatic_promotion",
             "trust_score": context.trust_score,
             "intelligence_score": context.intelligence_score,
-            "ethical_alignment": context.ethical_alignment
+            "ethical_alignment": context.ethical_alignment,
         }
         self.tier_promotion_history.append(promotion_record)
 
-        self.logger.info(f"User {context.user_id} promoted from {old_tier.name} to {new_tier.name}")
+        self.logger.info(
+            f"User {context.user_id} promoted from {old_tier.name} to {new_tier.name}"
+        )
 
-    async def _check_resource_availability(self, context: QuantumUserContext, operation: str) -> bool:
+    async def _check_resource_availability(
+        self, context: QuantumUserContext, operation: str
+    ) -> bool:
         """Check if user has sufficient resources for operation."""
         allocated = context.allocated_resources
 
@@ -715,7 +769,9 @@ class QuantumIdentityManager:
 
         return True
 
-    async def _load_identity_from_storage(self, user_id: str) -> Optional[QuantumUserContext]:
+    async def _load_identity_from_storage(
+        self, user_id: str
+    ) -> Optional[QuantumUserContext]:
         """Load identity from persistent storage."""
         # In production, this would load from distributed database
         # For now, try legacy system
@@ -730,7 +786,9 @@ class QuantumIdentityManager:
 
         return None
 
-    async def _convert_legacy_identity(self, legacy_identity: Dict[str, Any]) -> QuantumUserContext:
+    async def _convert_legacy_identity(
+        self, legacy_identity: Dict[str, Any]
+    ) -> QuantumUserContext:
         """Convert legacy identity to quantum context."""
         # Map legacy tier to quantum tier
         legacy_tier = legacy_identity.get("tier", "LAMBDA_TIER_0")
@@ -740,7 +798,7 @@ class QuantumIdentityManager:
             "LAMBDA_TIER_2": QuantumTierLevel.QUANTUM_TIER_2,
             "LAMBDA_TIER_3": QuantumTierLevel.QUANTUM_TIER_3,
             "LAMBDA_TIER_4": QuantumTierLevel.QUANTUM_TIER_4,
-            "LAMBDA_TIER_5": QuantumTierLevel.QUANTUM_TIER_5
+            "LAMBDA_TIER_5": QuantumTierLevel.QUANTUM_TIER_5,
         }
 
         quantum_tier = tier_mapping.get(legacy_tier, QuantumTierLevel.QUANTUM_TIER_0)
@@ -752,7 +810,7 @@ class QuantumIdentityManager:
             tier_level=quantum_tier,
             security_level=QuantumSecurityLevel.QUANTUM_STANDARD,
             trust_score=legacy_identity.get("trust_score", 0.5),
-            ethical_alignment=legacy_identity.get("ethical_alignment", 0.8)
+            ethical_alignment=legacy_identity.get("ethical_alignment", 0.8),
         )
 
         return context
@@ -769,12 +827,14 @@ class QuantumIdentityManager:
                 "trust_score": context.trust_score,
                 "ethical_alignment": context.ethical_alignment,
                 "last_accessed": context.last_accessed.isoformat(),
-                "quantum_enabled": True
+                "quantum_enabled": True,
             }
 
             # Update legacy system (if method exists)
-            if hasattr(self.legacy_identity_client, 'update_user_identity'):
-                self.legacy_identity_client.update_user_identity(context.user_id, legacy_data)
+            if hasattr(self.legacy_identity_client, "update_user_identity"):
+                self.legacy_identity_client.update_user_identity(
+                    context.user_id, legacy_data
+                )
         except Exception as e:
             self.logger.error(f"Failed to sync with legacy system: {e}")
 
@@ -788,7 +848,7 @@ class QuantumIdentityManager:
             "identity_type_distribution": defaultdict(int),
             "security_level_distribution": defaultdict(int),
             "recent_promotions": len(self.tier_promotion_history),
-            "quantum_pools": len(self.quantum_resource_pools)
+            "quantum_pools": len(self.quantum_resource_pools),
         }
 
         # Analyze identity distribution
@@ -800,7 +860,9 @@ class QuantumIdentityManager:
         # Convert defaultdicts to regular dicts
         stats["tier_distribution"] = dict(stats["tier_distribution"])
         stats["identity_type_distribution"] = dict(stats["identity_type_distribution"])
-        stats["security_level_distribution"] = dict(stats["security_level_distribution"])
+        stats["security_level_distribution"] = dict(
+            stats["security_level_distribution"]
+        )
 
         return stats
 
@@ -818,19 +880,25 @@ def get_quantum_identity_manager() -> QuantumIdentityManager:
 
 
 # Convenience functions for common operations
-async def create_agi_identity(user_id: str, identity_type: AGIIdentityType = AGIIdentityType.HUMAN) -> QuantumUserContext:
+async def create_agi_identity(
+    user_id: str, identity_type: AGIIdentityType = AGIIdentityType.HUMAN
+) -> QuantumUserContext:
     """Create AGI-ready identity with quantum security."""
     manager = get_quantum_identity_manager()
     return await manager.create_quantum_identity(user_id, identity_type)
 
 
-async def authenticate_quantum_user(user_id: str, credentials: Dict[str, Any]) -> Optional[QuantumUserContext]:
+async def authenticate_quantum_user(
+    user_id: str, credentials: Dict[str, Any]
+) -> Optional[QuantumUserContext]:
     """Authenticate user with quantum-proof verification."""
     manager = get_quantum_identity_manager()
     return await manager.authenticate_quantum_identity(user_id, credentials)
 
 
-async def authorize_quantum_access(user_context: QuantumUserContext, colony_id: str, operation: str) -> bool:
+async def authorize_quantum_access(
+    user_context: QuantumUserContext, colony_id: str, operation: str
+) -> bool:
     """Authorize colony access with quantum identity validation."""
     manager = get_quantum_identity_manager()
     return await manager.authorize_colony_access(user_context, colony_id, operation)

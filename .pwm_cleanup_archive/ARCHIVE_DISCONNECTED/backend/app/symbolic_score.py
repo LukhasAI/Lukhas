@@ -8,9 +8,8 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from datetime import datetime
-
 symbolic_scores = {}
+
 
 def update_symbolic_score(user_id: int, category: str, value: float):
     """
@@ -26,6 +25,7 @@ def update_symbolic_score(user_id: int, category: str, value: float):
     print(f"🔮 Symbolic Score Updated: {user_id} → {category} = {new_score}")
     return new_score
 
+
 def get_symbolic_score(user_id: int, category: str = None):
     """
     Retrieve symbolic scores for a user (by category or all).
@@ -35,6 +35,7 @@ def get_symbolic_score(user_id: int, category: str = None):
     if category:
         return symbolic_scores[user_id].get(category, 0.0)
     return symbolic_scores[user_id]
+
 
 def reset_scores(user_id: int):
     """

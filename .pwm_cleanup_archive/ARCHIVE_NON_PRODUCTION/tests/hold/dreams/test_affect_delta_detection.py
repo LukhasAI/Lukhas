@@ -1,6 +1,9 @@
 import unittest
-from consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop
-from memory.core_memory.emotional_memory import EmotionalMemory, EmotionVector
+
+from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
+    DreamReflectionLoop,
+)
+
 
 class TestAffectDeltaDetection(unittest.TestCase):
     def test_affect_delta_detection(self):
@@ -14,6 +17,7 @@ class TestAffectDeltaDetection(unittest.TestCase):
 
         # Wait for dream cycle to complete
         import time
+
         time.sleep(65)
 
         final_affect_delta = dream_loop.stats["affect_delta"]
@@ -21,5 +25,6 @@ class TestAffectDeltaDetection(unittest.TestCase):
         self.assertNotEqual(initial_affect_delta, final_affect_delta)
         self.assertIsNotNone(dream_loop.stats["affect_delta"])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

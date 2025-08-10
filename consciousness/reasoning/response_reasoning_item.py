@@ -39,8 +39,10 @@ within a larger AI response.
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
+
 from typing_extensions import Literal
 
+# Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
 # ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
@@ -49,11 +51,10 @@ from typing_extensions import Literal
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
 from core.models import BaseModel
 
-import structlog
-
-# Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_item.py module (Data Model Definition).",
+    module_path=__file__,
+)
 
 __all__ = ["ResponseReasoningItem", "Summary"]
 
@@ -64,6 +65,7 @@ class Summary(BaseModel):
     """
     Represents a short summary of reasoning text content.
     """
+
     # ΛNOTE: The `text` field holds the actual symbolic summary string.
     text: str
     """
@@ -74,7 +76,11 @@ class Summary(BaseModel):
     type: Literal["summary_text"]
     """The type of the object. Always `summary_text`."""
     # Human-readable comment: Fixed literal type for discriminating this model.
-logger.debug("Summary data model class defined.", class_name="Summary") # Removed manual ΛTRACE prefix
+
+
+logger.debug(
+    "Summary data model class defined.", class_name="Summary"
+)  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: The `ResponseReasoningItem` class is a core symbolic data model representing a discrete unit
@@ -85,6 +91,7 @@ class ResponseReasoningItem(BaseModel):
     Represents a single item or step in the reasoning process that contributes
     to a generated response. It can include summaries, encrypted content, and status.
     """
+
     # AIDENTITY: `id` provides a unique symbolic identifier for this specific reasoning item or thought node.
     id: str
     """The unique identifier of this specific reasoning content/item."""
@@ -118,7 +125,12 @@ class ResponseReasoningItem(BaseModel):
     This field is typically populated when items are returned via an API,
     especially in streaming or progressive responses.
     """
-logger.debug("ResponseReasoningItem data model class defined.", class_name="ResponseReasoningItem") # Removed manual ΛTRACE prefix
+
+
+logger.debug(
+    "ResponseReasoningItem data model class defined.",
+    class_name="ResponseReasoningItem",
+)  # Removed manual ΛTRACE prefix
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Response Reasoning Item Model

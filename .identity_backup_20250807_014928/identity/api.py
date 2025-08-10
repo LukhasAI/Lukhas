@@ -8,12 +8,14 @@ Provides unified authentication and identity management.
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
-from fastapi import APIRouter
 import logging
+
+from fastapi import APIRouter
+
+from .login import router as login_router
 
 # Import all identity routers
 from .registration import router as registration_router
-from .login import router as login_router
 from .verify import router as verify_router
 
 logger = logging.getLogger(__name__)

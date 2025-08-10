@@ -9,17 +9,19 @@ wavefunction collapse behavior under various entropy conditions.
 
 import asyncio
 import json
-import time
+import logging
 import random
 import statistics
-from datetime import datetime, timedelta
+import time
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass, asdict
-import logging
 
 # Import from wavefunction manager
-from .wavefunction_manager import WavefunctionManager, Wavefunction, ConsciousnessPhase
+from .wavefunction_manager import (
+    WavefunctionManager,
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -77,7 +79,7 @@ class GlyphCollapseSimulator:
     """
     Comprehensive simulator for symbolic wavefunction collapse analysis
     """
-    
+
     # Predefined simulation configurations
     SIMULATION_CONFIGS = {
         "stability_test": SimulationConfig(
@@ -90,7 +92,7 @@ class GlyphCollapseSimulator:
             templates_to_test=["trinity_coherence", "alert_meditation", "reflective_dreaming"],
             observers=["system", "user", "meditation_observer"]
         ),
-        
+
         "drift_analysis": SimulationConfig(
             name="Drift Analysis",
             description="Analyze collapse patterns during entropy drift phase",
@@ -101,7 +103,7 @@ class GlyphCollapseSimulator:
             templates_to_test=["creative_flow", "reflective_dreaming", "analytical_focus"],
             observers=["system", "creative_observer", "analytical_observer"]
         ),
-        
+
         "chaos_resilience": SimulationConfig(
             name="Chaos Resilience",
             description="Test system behavior under high-entropy chaotic conditions",
@@ -114,7 +116,7 @@ class GlyphCollapseSimulator:
             emergency_collapse_probability=0.15,
             guardian_intervention_threshold=0.80
         ),
-        
+
         "phase_transitions": SimulationConfig(
             name="Phase Transitions",
             description="Study transitions between consciousness phases",
@@ -125,7 +127,7 @@ class GlyphCollapseSimulator:
             templates_to_test=list(WavefunctionManager.CONSCIOUSNESS_TEMPLATES.keys()),
             observers=["system", "phase_observer", "transition_monitor"]
         ),
-        
+
         "guardian_stress_test": SimulationConfig(
             name="Guardian Stress Test",
             description="Stress test Guardian intervention capabilities",
@@ -139,36 +141,36 @@ class GlyphCollapseSimulator:
             guardian_intervention_threshold=0.75
         )
     }
-    
+
     def __init__(self, output_dir: str = "quantum_core/simulation_results"):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Simulation state
         self.current_batch: Optional[SimulationBatch] = None
         self.all_results: List[SimulationBatch] = []
-        
+
         logger.info("🧪 Glyph Collapse Simulator initialized")
         logger.info(f"   Output directory: {self.output_dir}")
-    
+
     async def run_simulation_batch(self, config_name: str) -> SimulationBatch:
         """Run a complete simulation batch"""
         if config_name not in self.SIMULATION_CONFIGS:
             raise ValueError(f"Unknown simulation config: {config_name}")
-        
+
         config = self.SIMULATION_CONFIGS[config_name]
         logger.info(f"🚀 Starting simulation batch: {config.name}")
         logger.info(f"   Simulations: {config.num_simulations}")
         logger.info(f"   Entropy range: {config.entropy_range}")
         logger.info(f"   Templates: {config.templates_to_test}")
-        
+
         start_time = time.time()
         results: List[CollapseResult] = []
-        
+
         for sim_idx in range(config.num_simulations):
             if sim_idx % 10 == 0:
                 logger.info(f"   Progress: {sim_idx}/{config.num_simulations}")
-            
+
             try:
                 result = await self._run_single_simulation(config, sim_idx)
                 if result:
@@ -176,9 +178,9 @@ class GlyphCollapseSimulator:
             except Exception as e:
                 logger.error(f"Simulation {sim_idx} failed: {e}")
                 continue
-        
+
         end_time = time.time()
-        
+
         # Create simulation batch
         batch = SimulationBatch(
             config=config,
@@ -190,69 +192,69 @@ class GlyphCollapseSimulator:
             symbolic_patterns=self._analyze_symbolic_patterns(results),
             guardian_effectiveness=self._analyze_guardian_effectiveness(results)
         )
-        
+
         self.current_batch = batch
         self.all_results.append(batch)
-        
+
         logger.info(f"✅ Simulation batch completed: {len(results)} successful simulations")
         logger.info(f"   Duration: {batch.total_duration:.2f}s")
-        
+
         return batch
-    
+
     async def _run_single_simulation(self, config: SimulationConfig, sim_idx: int) -> Optional[CollapseResult]:
         """Run a single wavefunction collapse simulation"""
         sim_id = f"{config.name.lower().replace(' ', '_')}_{sim_idx:04d}"
-        
+
         # Create isolated wavefunction manager for this simulation
         manager = WavefunctionManager()
-        
+
         # Select random template and observer
         template = random.choice(config.templates_to_test)
         observer = random.choice(config.observers)
-        
+
         # Create wavefunction with random initial entropy
         initial_entropy = random.uniform(*config.entropy_range)
         wf_id = f"sim_wf_{sim_idx}"
-        
+
         try:
             wavefunction = manager.create_wavefunction(
                 wf_id=wf_id,
                 template_name=template,
                 initial_entropy=initial_entropy
             )
-            
+
             original_glyphs = wavefunction.glyph_superposition.copy()
             initial_superposition = wavefunction.measure_superposition_strength()
-            
+
             # Evolution phase
             guardian_intervention = False
             for step in range(config.evolution_steps):
                 manager.evolve_system(config.time_delta)
-                
+
                 # Check for emergency collapse
-                if (random.random() < config.emergency_collapse_probability and 
+                if (random.random() < config.emergency_collapse_probability and
                     manager.global_entropy > config.guardian_intervention_threshold):
                     guardian_intervention = True
                     observer = "guardian_emergency"
                     break
-                
+
                 # Check if wavefunction naturally collapsed due to extreme entropy
                 if wavefunction.entropy_score > 0.95:
                     break
-            
+
             # Record state before collapse
             pre_collapse_entropy = wavefunction.entropy_score
             pre_collapse_phase = manager._get_current_phase()
             trinity_coherence = wavefunction.trinity_coherence
-            
+
             # Collapse the wavefunction
             collapse_time = time.time()
             collapsed_glyph = manager.collapse_wavefunction(wf_id, observer)
-            
+
             if not collapsed_glyph:
                 logger.warning(f"Simulation {sim_id}: collapse failed")
                 return None
-            
+
             # Create result
             result = CollapseResult(
                 simulation_id=sim_id,
@@ -270,45 +272,45 @@ class GlyphCollapseSimulator:
                 superposition_strength_before=initial_superposition,
                 guardian_intervention=guardian_intervention
             )
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Single simulation {sim_id} error: {e}")
             return None
-    
+
     def _calculate_summary_statistics(self, results: List[CollapseResult]) -> Dict:
         """Calculate summary statistics for simulation results"""
         if not results:
             return {}
-        
+
         # Entropy statistics
         initial_entropies = [r.initial_entropy for r in results]
         collapse_entropies = [r.collapse_entropy for r in results]
         final_entropies = [r.final_entropy for r in results]
-        
+
         # Trinity coherence statistics
         trinity_coherences = [r.trinity_coherence for r in results]
-        
+
         # Superposition strength statistics
         superposition_strengths = [r.superposition_strength_before for r in results]
-        
+
         # Phase distribution
         phase_counts = {}
         for result in results:
             phase = result.consciousness_phase
             phase_counts[phase] = phase_counts.get(phase, 0) + 1
-        
+
         # Observer distribution
         observer_counts = {}
         for result in results:
             observer = result.observer
             observer_counts[observer] = observer_counts.get(observer, 0) + 1
-        
+
         # Guardian intervention rate
         guardian_interventions = sum(1 for r in results if r.guardian_intervention)
         guardian_intervention_rate = guardian_interventions / len(results)
-        
+
         return {
             "total_simulations": len(results),
             "entropy_statistics": {
@@ -353,41 +355,41 @@ class GlyphCollapseSimulator:
             "guardian_intervention_rate": guardian_intervention_rate,
             "guardian_interventions": guardian_interventions
         }
-    
+
     def _analyze_symbolic_patterns(self, results: List[CollapseResult]) -> Dict:
         """Analyze symbolic collapse patterns"""
         if not results:
             return {}
-        
+
         # Collapse patterns by initial glyph composition
         template_collapse_patterns = {}
         for result in results:
             template_key = "→".join(result.original_glyphs)
             if template_key not in template_collapse_patterns:
                 template_collapse_patterns[template_key] = {}
-            
+
             collapsed = result.collapsed_glyph
             template_collapse_patterns[template_key][collapsed] = \
                 template_collapse_patterns[template_key].get(collapsed, 0) + 1
-        
+
         # Most common collapse outcomes
         all_collapses = [r.collapsed_glyph for r in results]
         collapse_frequency = {}
         for glyph in all_collapses:
             collapse_frequency[glyph] = collapse_frequency.get(glyph, 0) + 1
-        
+
         # Sort by frequency
-        most_common_collapses = sorted(collapse_frequency.items(), 
+        most_common_collapses = sorted(collapse_frequency.items(),
                                      key=lambda x: x[1], reverse=True)
-        
+
         # Trinity Framework preservation rate
         trinity_symbols = {"⚛️", "🧠", "🛡️"}
         trinity_collapses = sum(1 for r in results if r.collapsed_glyph in trinity_symbols)
         trinity_preservation_rate = trinity_collapses / len(results)
-        
+
         # Entropy-collapse correlation
         entropy_collapse_correlation = self._calculate_entropy_collapse_correlation(results)
-        
+
         return {
             "template_collapse_patterns": template_collapse_patterns,
             "collapse_frequency": collapse_frequency,
@@ -398,7 +400,7 @@ class GlyphCollapseSimulator:
             "unique_collapse_glyphs": len(set(all_collapses)),
             "total_possible_glyphs": len(set(glyph for r in results for glyph in r.original_glyphs))
         }
-    
+
     def _calculate_entropy_collapse_correlation(self, results: List[CollapseResult]) -> Dict:
         """Calculate correlation between entropy levels and collapse outcomes"""
         entropy_ranges = {
@@ -406,37 +408,37 @@ class GlyphCollapseSimulator:
             "medium": (0.3, 0.7),
             "high": (0.7, 1.0)
         }
-        
+
         correlation_data = {}
         for range_name, (min_entropy, max_entropy) in entropy_ranges.items():
-            range_results = [r for r in results 
+            range_results = [r for r in results
                            if min_entropy <= r.collapse_entropy < max_entropy]
-            
+
             if range_results:
                 range_collapses = [r.collapsed_glyph for r in range_results]
                 range_frequency = {}
                 for glyph in range_collapses:
                     range_frequency[glyph] = range_frequency.get(glyph, 0) + 1
-                
+
                 correlation_data[range_name] = {
                     "count": len(range_results),
                     "collapse_frequency": range_frequency,
                     "most_common": max(range_frequency.items(), key=lambda x: x[1]) if range_frequency else None
                 }
-        
+
         return correlation_data
-    
+
     def _analyze_guardian_effectiveness(self, results: List[CollapseResult]) -> Dict:
         """Analyze Guardian System effectiveness during simulations"""
         guardian_results = [r for r in results if r.guardian_intervention]
-        
+
         if not guardian_results:
             return {
                 "interventions_triggered": 0,
                 "intervention_rate": 0.0,
                 "effectiveness_score": 0.0
             }
-        
+
         # Calculate intervention effectiveness
         successful_interventions = 0
         for result in guardian_results:
@@ -444,20 +446,20 @@ class GlyphCollapseSimulator:
             # 1. Trinity coherence maintained > 0.5
             # 2. Final entropy < collapse entropy (stabilization)
             # 3. Collapsed to Trinity symbol
-            
+
             trinity_maintained = result.trinity_coherence > 0.5
             entropy_stabilized = result.final_entropy < result.collapse_entropy
             trinity_collapse = result.collapsed_glyph in {"⚛️", "🧠", "🛡️"}
-            
+
             if trinity_maintained or entropy_stabilized or trinity_collapse:
                 successful_interventions += 1
-        
+
         effectiveness_score = successful_interventions / len(guardian_results)
-        
+
         # Intervention timing analysis
         intervention_entropies = [r.collapse_entropy for r in guardian_results]
         avg_intervention_entropy = statistics.mean(intervention_entropies)
-        
+
         return {
             "interventions_triggered": len(guardian_results),
             "intervention_rate": len(guardian_results) / len(results),
@@ -466,13 +468,13 @@ class GlyphCollapseSimulator:
             "average_intervention_entropy": avg_intervention_entropy,
             "intervention_entropy_range": [min(intervention_entropies), max(intervention_entropies)] if intervention_entropies else [0, 0]
         }
-    
+
     def save_simulation_results(self, batch: SimulationBatch) -> Path:
         """Save simulation batch results to file"""
         timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
         filename = f"{batch.config.name.lower().replace(' ', '_')}_{timestamp}.json"
         filepath = self.output_dir / filename
-        
+
         # Convert batch to dictionary
         batch_data = {
             "config": asdict(batch.config),
@@ -490,25 +492,25 @@ class GlyphCollapseSimulator:
                 "generated_at": datetime.utcnow().isoformat() + "Z"
             }
         }
-        
+
         try:
             with open(filepath, 'w') as f:
                 json.dump(batch_data, f, indent=2, ensure_ascii=False)
-            
+
             logger.info(f"📁 Simulation results saved to: {filepath}")
             return filepath
-            
+
         except Exception as e:
             logger.error(f"Failed to save simulation results: {e}")
             raise
-    
+
     def generate_analysis_report(self, batch: SimulationBatch) -> str:
         """Generate human-readable analysis report"""
         config = batch.config
         stats = batch.summary_statistics
         patterns = batch.symbolic_patterns
         guardian = batch.guardian_effectiveness
-        
+
         report_lines = [
             "🧪 LUKHΛS Glyph Collapse Simulation Analysis Report",
             "=" * 60,
@@ -529,11 +531,11 @@ class GlyphCollapseSimulator:
             "🎭 CONSCIOUSNESS PHASE DISTRIBUTION",
             "-" * 30
         ]
-        
+
         for phase, count in stats['phase_distribution'].items():
             percentage = (count / stats['total_simulations']) * 100
             report_lines.append(f"{phase.capitalize()}: {count} ({percentage:.1f}%)")
-        
+
         report_lines.extend([
             "",
             "🔮 SYMBOLIC COLLAPSE PATTERNS",
@@ -543,11 +545,11 @@ class GlyphCollapseSimulator:
             "",
             "Most Common Collapses:"
         ])
-        
+
         for glyph, count in patterns['most_common_collapses'][:5]:
             percentage = (count / len(batch.results)) * 100
             report_lines.append(f"  {glyph}: {count} ({percentage:.1f}%)")
-        
+
         report_lines.extend([
             "",
             "🛡️ GUARDIAN SYSTEM EFFECTIVENESS",
@@ -571,34 +573,34 @@ class GlyphCollapseSimulator:
             "✅ SIMULATION COMPLETE",
             f"Generated: {datetime.utcnow().isoformat()}Z"
         ])
-        
+
         return "\n".join(report_lines)
-    
+
     async def run_all_simulations(self) -> List[SimulationBatch]:
         """Run all predefined simulation configurations"""
         logger.info("🚀 Running all simulation configurations...")
-        
+
         all_batches = []
         for config_name in self.SIMULATION_CONFIGS.keys():
             logger.info(f"\n{'='*60}")
             logger.info(f"Starting {config_name}")
             logger.info(f"{'='*60}")
-            
+
             try:
                 batch = await self.run_simulation_batch(config_name)
                 all_batches.append(batch)
-                
+
                 # Save results
                 self.save_simulation_results(batch)
-                
+
                 # Generate and display report
                 report = self.generate_analysis_report(batch)
                 print("\n" + report)
-                
+
             except Exception as e:
                 logger.error(f"Failed to run simulation {config_name}: {e}")
                 continue
-        
+
         logger.info(f"\n✅ All simulations completed: {len(all_batches)} successful batches")
         return all_batches
 
@@ -607,17 +609,17 @@ async def main():
     """Demo of glyph collapse simulation"""
     print("🧪 LUKHΛS Phase 6: Glyph Collapse Simulator Demo")
     print("=" * 60)
-    
+
     simulator = GlyphCollapseSimulator()
-    
+
     # Run a single simulation batch for demo
     print("Running stability test simulation...")
     batch = await simulator.run_simulation_batch("stability_test")
-    
+
     # Save results
     results_file = simulator.save_simulation_results(batch)
     print(f"\nResults saved to: {results_file}")
-    
+
     # Generate and display report
     report = simulator.generate_analysis_report(batch)
     print("\n" + "=" * 60)

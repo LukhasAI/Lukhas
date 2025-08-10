@@ -10,12 +10,11 @@
 # {ΛTRACE}
 # {ΛPERSIST}
 
-import json
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+
 class MemoryDriftStabilizer:
     """
     A class to analyze memory drift and apply stabilizing actions.
@@ -44,6 +43,7 @@ class MemoryDriftStabilizer:
             logger.info("Real patch mode: Applying changes.")
         # In a real implementation, this would involve creating temporary memory folds or applying other corrective actions.
         return {"status": "success", "stabilized_nodes": unstable_nodes}
+
 
 # ═══════════════════════════════════════════════════
 # FILENAME: memory_drift_stabilizer.py

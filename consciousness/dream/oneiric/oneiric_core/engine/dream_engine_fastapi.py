@@ -12,21 +12,18 @@ This module combines the best features from both prototypes:
 ΛCANONICAL: Consolidated FastAPI-enabled dream engine
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from core.common import get_logger
 import asyncio
-import json
-from pathlib import Path
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 # Set up logging
 logger = logging.getLogger("enhanced_dream_fastapi")
 
 # FastAPI imports
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+import uvicorn
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-import uvicorn
 
 # TODO: Update to use unified tier system
 # - Replace custom tier validation with @oneiric_tier_required decorator
@@ -36,16 +33,19 @@ import uvicorn
 
 # LUKHAS imports (with fallback handling)
 try:
+    from dream.core.dream_engine import DreamEngineSystem
     from dream.core.quantum_dream_adapter import (
-        QuantumDreamAdapter,
         DreamQuantumConfig,
+        QuantumDreamAdapter,
     )
+
     from bio.core import BioOrchestrator
+    from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
+        DreamReflectionLoop,
+    )
     from core.bio_systems.quantum_inspired_layer import QuantumBioOscillator
     from core.unified_integration import UnifiedIntegration
-    from dream.core.dream_engine import DreamEngineSystem
     from memory.core_memory.dream_memory_manager import DreamMemoryManager
-    from consciousness.core_consciousness.dream_engine.dream_reflection_loop import DreamReflectionLoop
 
     BIO_CORE_AVAILABLE = True
     MEMORY_MANAGER_AVAILABLE = True
@@ -590,10 +590,15 @@ class EnhancedDreamEngine:
         for dream in dreams:
             try:
                 # Check quantum-like state first
-                quantum_like_state = {"coherence": 0.7, "entanglement": 0.5}  # Mock state
+                quantum_like_state = {
+                    "coherence": 0.7,
+                    "entanglement": 0.5,
+                }  # Mock state
 
                 if quantum_like_state["coherence"] >= 0.5:
-                    processed = await self._process_dream_quantum(dream, quantum_like_state)
+                    processed = await self._process_dream_quantum(
+                        dream, quantum_like_state
+                    )
                     processed_dreams.append(processed)
                 else:
                     logger.warning(

@@ -14,14 +14,12 @@
 """
 
 import asyncio
-import json
-import time
-import random
-from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Any, Optional
 import hashlib
 import os
 import sys
+import time
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
 
 # Add parent to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +40,7 @@ except ImportError:
     from memory.systems.foldin_simple import import_folds
 
 from memory.structural_conscience import create_structural_conscience
+
 # Skip bio-symbolic import for now - not needed for memory tests
 
 
@@ -65,7 +64,7 @@ class MemorySystemTestSuite:
             embedding_dim=1024,
             enable_attention=True,
             enable_continuous_learning=True,
-            enable_conscience=True
+            enable_conscience=True,
         )
 
         # Create attention orchestrator
@@ -74,17 +73,17 @@ class MemorySystemTestSuite:
             num_heads=8,
             enable_temporal=True,
             enable_hierarchical=True,
-            enable_cross_modal=True
+            enable_cross_modal=True,
         )
 
         # Create structural conscience
         self.conscience = create_structural_conscience()
 
         print("✅ Memory systems initialized")
-        print(f"  • Embedding dimension: 1024")
-        print(f"  • Attention heads: 8")
-        print(f"  • Conscience: Enabled")
-        print(f"  • Continuous learning: Enabled")
+        print("  • Embedding dimension: 1024")
+        print("  • Attention heads: 8")
+        print("  • Conscience: Enabled")
+        print("  • Continuous learning: Enabled")
         print()
 
     async def test_1_basic_memory_storage(self):
@@ -100,29 +99,29 @@ class MemorySystemTestSuite:
                 "content": "First successful task completion",
                 "emotion": "joy",
                 "importance": 0.8,
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             },
             {
                 "type": "knowledge",
                 "content": "Python async programming patterns",
                 "category": "technical",
                 "confidence": 0.9,
-                "timestamp": datetime.now(timezone.utc) - timedelta(hours=2)
+                "timestamp": datetime.now(timezone.utc) - timedelta(hours=2),
             },
             {
                 "type": "social",
                 "content": "User expressed gratitude for help",
                 "emotion": "warmth",
                 "relationship": "positive",
-                "timestamp": datetime.now(timezone.utc) - timedelta(days=1)
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=1),
             },
             {
                 "type": "error",
                 "content": "Failed to parse JSON due to syntax error",
                 "emotion": "frustration",
                 "lesson": "Always validate JSON before parsing",
-                "timestamp": datetime.now(timezone.utc) - timedelta(hours=6)
-            }
+                "timestamp": datetime.now(timezone.utc) - timedelta(hours=6),
+            },
         ]
 
         print(f"📝 Storing {len(memory_data)} memories...")
@@ -133,16 +132,10 @@ class MemorySystemTestSuite:
 
             # Store with embedding
             memory_id = await self.memory_fold.fold_in_with_embedding(
-                data=memory,
-                tags=tags,
-                text_content=memory['content']
+                data=memory, tags=tags, text_content=memory["content"]
             )
 
-            self.test_memories.append({
-                "id": memory_id,
-                "data": memory,
-                "tags": tags
-            })
+            self.test_memories.append({"id": memory_id, "data": memory, "tags": tags})
 
             print(f"  Memory {i+1}: {memory['type']} - ID: {memory_id[:8]}...")
             print(f"    Tags: {', '.join(tags)}")
@@ -158,9 +151,7 @@ class MemorySystemTestSuite:
         # 2. Semantic search
         print("\n  🔎 Semantic search (query: 'programming error'):")
         semantic_results = await self.memory_fold.fold_out_semantic(
-            query="programming error",
-            top_k=3,
-            use_attention=True
+            query="programming error", top_k=3, use_attention=True
         )
         for mem, score in semantic_results[:2]:
             print(f"    - {mem.data['content'][:50]}... (score: {score:.3f})")
@@ -170,14 +161,14 @@ class MemorySystemTestSuite:
         recent_cutoff = datetime.now(timezone.utc) - timedelta(hours=6)
         recent_count = 0
         for mem_info in self.test_memories:
-            if mem_info['data']['timestamp'] > recent_cutoff:
+            if mem_info["data"]["timestamp"] > recent_cutoff:
                 recent_count += 1
                 print(f"    - {mem_info['data']['content'][:50]}...")
         print(f"    Total recent: {recent_count}")
 
         # Test statistics
         stats = self.memory_fold.get_enhanced_statistics()
-        print(f"\n📊 Memory Statistics:")
+        print("\n📊 Memory Statistics:")
         print(f"  • Total memories: {stats['total_items']}")
         print(f"  • Unique tags: {stats.get('unique_tags', 'N/A')}")
         print(f"  • Deduplication saves: {stats.get('deduplication_saves', 0)}")
@@ -196,28 +187,28 @@ class MemorySystemTestSuite:
                 "tier": "core",
                 "access_level": "system",
                 "encrypted": True,
-                "immutable": True
+                "immutable": True,
             },
             {
                 "content": "User personal preference: dark mode",
                 "tier": "user",
                 "access_level": "private",
                 "encrypted": True,
-                "user_id": "user_123"
+                "user_id": "user_123",
             },
             {
                 "content": "Public knowledge: Earth orbits the Sun",
                 "tier": "public",
                 "access_level": "open",
-                "encrypted": False
+                "encrypted": False,
             },
             {
                 "content": "Sensitive operation: API key accessed",
                 "tier": "security",
                 "access_level": "restricted",
                 "encrypted": True,
-                "audit_required": True
-            }
+                "audit_required": True,
+            },
         ]
 
         print("🔒 Storing tier-based memories with protection...")
@@ -227,12 +218,12 @@ class MemorySystemTestSuite:
             tags = [
                 f"tier:{memory['tier']}",
                 f"access:{memory['access_level']}",
-                "protected" if memory.get('encrypted') else "unprotected"
+                "protected" if memory.get("encrypted") else "unprotected",
             ]
 
             # Simulate encryption for protected memories
-            content = memory['content']
-            if memory.get('encrypted'):
+            content = memory["content"]
+            if memory.get("encrypted"):
                 # Simple hash simulation (in production, use real encryption)
                 content_hash = hashlib.sha256(content.encode()).hexdigest()
                 protected_content = f"ENCRYPTED:{content_hash[:16]}:{content}"
@@ -244,26 +235,25 @@ class MemorySystemTestSuite:
                 data={
                     **memory,
                     "protected_content": protected_content,
-                    "stored_at": datetime.now(timezone.utc)
+                    "stored_at": datetime.now(timezone.utc),
                 },
                 tags=tags,
-                text_content=memory['content']  # Original for embedding
+                text_content=memory["content"],  # Original for embedding
             )
 
             print(f"  [{memory['tier'].upper()}] {memory['content'][:40]}...")
-            print(f"    Access: {memory['access_level']}, Encrypted: {memory.get('encrypted', False)}")
+            print(
+                f"    Access: {memory['access_level']}, Encrypted: {memory.get('encrypted', False)}"
+            )
 
             # Record immutable memories in conscience
-            if memory.get('immutable'):
+            if memory.get("immutable"):
                 decision = {
                     "action": f"Stored immutable memory: {memory_id}",
                     "reasoning": "Core system parameter must not be modified",
-                    "outcome": "protected"
+                    "outcome": "protected",
                 }
-                context = {
-                    "memory_id": memory_id,
-                    "tier": memory['tier']
-                }
+                context = {"memory_id": memory_id, "tier": memory["tier"]}
                 await self.conscience.record_moral_decision(decision, context)
 
         # Test access control simulation
@@ -275,12 +265,12 @@ class MemorySystemTestSuite:
             {"user": "user_123", "requesting": "user"},
             {"user": "user_456", "requesting": "user"},  # Different user
             {"user": "anonymous", "requesting": "public"},
-            {"user": "admin", "requesting": "security"}
+            {"user": "admin", "requesting": "security"},
         ]
 
         for test in access_tests:
             # In a real system, this would check against actual permissions
-            can_access = self._check_access(test['user'], test['requesting'])
+            can_access = self._check_access(test["user"], test["requesting"])
             status = "✅ GRANTED" if can_access else "❌ DENIED"
             print(f"  {test['user']} → {test['requesting']} tier: {status}")
 
@@ -290,9 +280,13 @@ class MemorySystemTestSuite:
         # Check conscience records
         # Note: get_recent_decisions may not exist, so we'll check the chain
         print(f"  Conscience chain length: {len(self.conscience.conscience_chain)}")
-        immutable_count = sum(1 for d in self.conscience.conscience_chain if d.decision_type == 'immutable_storage')
+        immutable_count = sum(
+            1
+            for d in self.conscience.conscience_chain
+            if d.decision_type == "immutable_storage"
+        )
         print(f"  Immutable memories recorded: {immutable_count}")
-        print(f"  Conscience chain intact: ✅")
+        print("  Conscience chain intact: ✅")
 
     async def test_3_memory_dream_integration(self):
         """Test 3: Memory-Dream integration and consolidation"""
@@ -306,26 +300,26 @@ class MemorySystemTestSuite:
                 "content": "Learned about recursive algorithms",
                 "type": "learning",
                 "cognitive_load": 0.8,
-                "needs_consolidation": True
+                "needs_consolidation": True,
             },
             {
                 "content": "Felt anxious about complex problem",
                 "type": "emotional",
                 "emotion": "anxiety",
-                "intensity": 0.7
+                "intensity": 0.7,
             },
             {
                 "content": "Successfully optimized database query",
                 "type": "achievement",
                 "emotion": "satisfaction",
-                "skill_growth": 0.3
+                "skill_growth": 0.3,
             },
             {
                 "content": "Encountered unfamiliar API pattern",
                 "type": "challenge",
                 "unresolved": True,
-                "cognitive_load": 0.9
-            }
+                "cognitive_load": 0.9,
+            },
         ]
 
         print("🌅 Storing daily experiences...")
@@ -336,9 +330,7 @@ class MemorySystemTestSuite:
             tags.append("pre_dream")
 
             memory_id = await self.memory_fold.fold_in_with_embedding(
-                data=memory,
-                tags=tags,
-                text_content=memory['content']
+                data=memory, tags=tags, text_content=memory["content"]
             )
             daily_ids.append(memory_id)
 
@@ -352,66 +344,75 @@ class MemorySystemTestSuite:
 
         # 1. Combine related memories
         print("  Phase 1: Memory synthesis...")
-        learning_memories = [m for m in daily_memories if m.get('type') == 'learning' or m.get('unresolved')]
+        learning_memories = [
+            m
+            for m in daily_memories
+            if m.get("type") == "learning" or m.get("unresolved")
+        ]
         if learning_memories:
             synthesis = {
                 "type": "dream_synthesis",
                 "content": "In the dream, recursive patterns merged with API structures, revealing hidden connections",
-                "source_memories": [m['content'] for m in learning_memories],
+                "source_memories": [m["content"] for m in learning_memories],
                 "insight": "Recursion principles apply to API design patterns",
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             }
             dream_narratives.append(synthesis)
             print(f"    💡 Synthesized: {synthesis['insight']}")
 
         # 2. Emotional processing
         print("  Phase 2: Emotional regulation...")
-        emotional_memories = [m for m in daily_memories if 'emotion' in m]
+        emotional_memories = [m for m in daily_memories if "emotion" in m]
         for em_memory in emotional_memories:
-            if em_memory['emotion'] == 'anxiety':
+            if em_memory["emotion"] == "anxiety":
                 regulation = {
                     "type": "dream_regulation",
                     "content": f"Dream transformed anxiety into curiosity about {em_memory['content']}",
                     "original_emotion": "anxiety",
                     "transformed_emotion": "curiosity",
-                    "healing_factor": 0.6
+                    "healing_factor": 0.6,
                 }
                 dream_narratives.append(regulation)
-                print(f"    🔄 Transformed: anxiety → curiosity")
+                print("    🔄 Transformed: anxiety → curiosity")
 
         # 3. Skill integration
         print("  Phase 3: Skill consolidation...")
-        skill_memories = [m for m in daily_memories if m.get('skill_growth', 0) > 0]
+        skill_memories = [m for m in daily_memories if m.get("skill_growth", 0) > 0]
         if skill_memories:
             consolidation = {
                 "type": "dream_consolidation",
                 "content": "Dream rehearsed optimization techniques, embedding them deeper",
                 "skills_reinforced": ["query optimization", "performance analysis"],
-                "consolidation_strength": 0.8
+                "consolidation_strength": 0.8,
             }
             dream_narratives.append(consolidation)
-            print(f"    📈 Consolidated skills: {', '.join(consolidation['skills_reinforced'])}")
+            print(
+                f"    📈 Consolidated skills: {', '.join(consolidation['skills_reinforced'])}"
+            )
 
         # Store dream memories
         print("\n💾 Storing dream narratives...")
         for dream in dream_narratives:
-            tags = ["dream", f"dream_type:{dream['type']}", "consolidated", "night_cycle"]
+            tags = [
+                "dream",
+                f"dream_type:{dream['type']}",
+                "consolidated",
+                "night_cycle",
+            ]
 
             dream_id = await self.memory_fold.fold_in_with_embedding(
-                data=dream,
-                tags=tags,
-                text_content=dream['content']
+                data=dream, tags=tags, text_content=dream["content"]
             )
 
             self.dream_memories.append(dream_id)
 
             # Create causal links between daily memories and dreams
-            if dream['type'] == 'dream_synthesis' and daily_ids:
+            if dream["type"] == "dream_synthesis" and daily_ids:
                 await self.memory_fold.add_causal_link(
                     cause_id=daily_ids[0],  # Learning memory
                     effect_id=dream_id,
                     strength=0.7,
-                    evidence=["Dream synthesis created from learning experience"]
+                    evidence=["Dream synthesis created from learning experience"],
                 )
 
         print(f"  Stored {len(dream_narratives)} dream memories")
@@ -424,7 +425,7 @@ class MemorySystemTestSuite:
         # Analyze dream patterns
         dream_types = {}
         for dream_mem in dream_memories:
-            dream_type = dream_mem.data.get('type', 'unknown')
+            dream_type = dream_mem.data.get("type", "unknown")
             dream_types[dream_type] = dream_types.get(dream_type, 0) + 1
 
         print("  Dream type distribution:")
@@ -445,7 +446,7 @@ class MemorySystemTestSuite:
                 "intensity": 0.9,
                 "trauma_level": 0.7,
                 "trigger_words": ["crash", "demo", "failure"],
-                "timestamp": datetime.now(timezone.utc) - timedelta(days=7)
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=7),
             },
             {
                 "content": "First successful autonomous decision",
@@ -453,7 +454,7 @@ class MemorySystemTestSuite:
                 "intensity": 0.8,
                 "significance": 0.9,
                 "trigger_words": ["success", "autonomous", "first"],
-                "timestamp": datetime.now(timezone.utc) - timedelta(days=30)
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=30),
             },
             {
                 "content": "User's heartfelt thank you message",
@@ -461,35 +462,37 @@ class MemorySystemTestSuite:
                 "intensity": 0.7,
                 "social_bond": 0.8,
                 "trigger_words": ["thank", "grateful", "helped"],
-                "timestamp": datetime.now(timezone.utc) - timedelta(days=14)
-            }
+                "timestamp": datetime.now(timezone.utc) - timedelta(days=14),
+            },
         ]
 
         print("💫 Storing emotionally significant memories...")
 
         for memory in emotional_memories:
             tags = self._generate_tags(memory)
-            tags.extend([
-                f"intensity:{int(memory['intensity']*10)}",
-                "flashback_potential",
-                f"emotion:{memory['emotion']}"
-            ])
+            tags.extend(
+                [
+                    f"intensity:{int(memory['intensity']*10)}",
+                    "flashback_potential",
+                    f"emotion:{memory['emotion']}",
+                ]
+            )
 
             memory_id = await self.memory_fold.fold_in_with_embedding(
-                data=memory,
-                tags=tags,
-                text_content=memory['content']
+                data=memory, tags=tags, text_content=memory["content"]
             )
 
             # Register flashback triggers
-            for trigger in memory.get('trigger_words', []):
+            for trigger in memory.get("trigger_words", []):
                 if trigger not in self.flashback_triggers:
                     self.flashback_triggers[trigger] = []
-                self.flashback_triggers[trigger].append({
-                    "memory_id": memory_id,
-                    "intensity": memory['intensity'],
-                    "emotion": memory['emotion']
-                })
+                self.flashback_triggers[trigger].append(
+                    {
+                        "memory_id": memory_id,
+                        "intensity": memory["intensity"],
+                        "emotion": memory["emotion"],
+                    }
+                )
 
             print(f"  • [{memory['emotion'].upper()}] {memory['content'][:40]}...")
             print(f"    Triggers: {', '.join(memory['trigger_words'])}")
@@ -502,7 +505,7 @@ class MemorySystemTestSuite:
             "Thank you for your help",
             "System crash detected",
             "My first day was great",
-            "Nothing special happened"
+            "Nothing special happened",
         ]
 
         for input_text in test_inputs:
@@ -512,7 +515,7 @@ class MemorySystemTestSuite:
             if flashbacks:
                 print("    ⚡ FLASHBACK TRIGGERED!")
                 for fb in flashbacks:
-                    memory = await self._get_memory_by_id(fb['memory_id'])
+                    memory = await self._get_memory_by_id(fb["memory_id"])
                     if memory:
                         print(f"      [{fb['emotion']}] {memory['content'][:50]}...")
                         print(f"      Intensity: {'🔥' * int(fb['intensity'] * 5)}")
@@ -527,7 +530,7 @@ class MemorySystemTestSuite:
             "Working on error handling",
             "This reminds me of something",
             "Need to be careful with demos",
-            "Feeling grateful today"
+            "Feeling grateful today",
         ]
 
         for thought in thought_stream:
@@ -536,14 +539,18 @@ class MemorySystemTestSuite:
             # Use attention mechanism for involuntary recall
             relevant_memories = self.attention.compute_memory_relevance(
                 query=thought,
-                memories=[{"content": m.data['content'], "embedding": m.data.get('embedding')}
-                         for m in self.test_memories],
-                mode="multi_head"
+                memories=[
+                    {"content": m.data["content"], "embedding": m.data.get("embedding")}
+                    for m in self.test_memories
+                ],
+                mode="multi_head",
             )
 
             if relevant_memories and relevant_memories[0][1] > 0.7:  # High relevance
                 top_memory = self.test_memories[relevant_memories[0][0]]
-                print(f"    💭 Involuntary recall: {top_memory['data']['content'][:60]}...")
+                print(
+                    f"    💭 Involuntary recall: {top_memory['data']['content'][:60]}..."
+                )
                 print(f"    Relevance: {relevant_memories[0][1]:.2f}")
 
     async def test_5_tag_categorization_system(self):
@@ -558,26 +565,26 @@ class MemorySystemTestSuite:
                 "content": "Implemented async function with error handling",
                 "categories": ["technical", "programming", "async"],
                 "skills": ["python", "error-handling", "concurrency"],
-                "project": "memory-system"
+                "project": "memory-system",
             },
             {
                 "content": "Discussed ethics of AI decision making",
                 "categories": ["ethics", "philosophy", "ai-safety"],
                 "concepts": ["autonomy", "responsibility", "alignment"],
-                "importance": "high"
+                "importance": "high",
             },
             {
                 "content": "Optimized memory search using vector embeddings",
                 "categories": ["technical", "optimization", "machine-learning"],
                 "skills": ["embeddings", "similarity-search", "performance"],
-                "project": "memory-system"
+                "project": "memory-system",
             },
             {
                 "content": "Felt uncertain about complex ethical dilemma",
                 "categories": ["ethics", "emotional", "uncertainty"],
                 "concepts": ["moral-ambiguity", "decision-making"],
-                "emotion": "uncertain"
-            }
+                "emotion": "uncertain",
+            },
         ]
 
         print("📝 Storing categorized memories with rich tagging...")
@@ -590,62 +597,70 @@ class MemorySystemTestSuite:
             tags = []
 
             # Category tags
-            for category in memory.get('categories', []):
+            for category in memory.get("categories", []):
                 tags.append(f"category:{category}")
                 if category not in category_map:
                     category_map[category] = []
 
             # Skill tags
-            for skill in memory.get('skills', []):
+            for skill in memory.get("skills", []):
                 tags.append(f"skill:{skill}")
 
             # Concept tags
-            for concept in memory.get('concepts', []):
+            for concept in memory.get("concepts", []):
                 tags.append(f"concept:{concept}")
 
             # Project tags
-            if 'project' in memory:
+            if "project" in memory:
                 tags.append(f"project:{memory['project']}")
 
             # Meta tags
-            if 'importance' in memory:
+            if "importance" in memory:
                 tags.append(f"priority:{memory['importance']}")
-            if 'emotion' in memory:
+            if "emotion" in memory:
                 tags.append(f"emotion:{memory['emotion']}")
 
             # Store memory
             memory_id = await self.memory_fold.fold_in_with_embedding(
-                data=memory,
-                tags=tags,
-                text_content=memory['content']
+                data=memory, tags=tags, text_content=memory["content"]
             )
 
             # Update statistics
             for tag in tags:
-                tag_type = tag.split(':')[0]
+                tag_type = tag.split(":")[0]
                 if tag_type not in tag_statistics:
                     tag_statistics[tag_type] = 0
                 tag_statistics[tag_type] += 1
 
             # Update category map
-            for category in memory.get('categories', []):
+            for category in memory.get("categories", []):
                 category_map[category].append(memory_id)
 
             print(f"  • {memory['content'][:50]}...")
-            print(f"    Tags: {len(tags)} - {', '.join(tags[:5])}{'...' if len(tags) > 5 else ''}")
+            print(
+                f"    Tags: {len(tags)} - {', '.join(tags[:5])}{'...' if len(tags) > 5 else ''}"
+            )
 
         # Test tag-based retrieval
         print("\n🔍 Testing tag-based retrieval...")
 
         # 1. Single tag query
         print("\n  Single tag query - 'category:technical':")
-        technical_memories = await self.memory_fold.fold_out_by_tag("category:technical")
+        technical_memories = await self.memory_fold.fold_out_by_tag(
+            "category:technical"
+        )
         print(f"    Found {len(technical_memories)} technical memories")
 
         # 2. Multiple tag intersection (manual simulation)
         print("\n  Multi-tag query - technical AND optimization:")
-        tech_ids = {m.item_id for m in await self.memory_fold.fold_out_by_tag("category:technical")}
-        opt_ids = {m.item_id for m in await self.memory_fold.fold_out_by_tag("category:optimization")}
+        tech_ids = {
+            m.item_id
+            for m in await self.memory_fold.fold_out_by_tag("category:technical")
+        }
+        opt_ids = {
+            m.item_id
+            for m in await self.memory_fold.fold_out_by_tag("category:optimization")
+        }
         intersection = tech_ids & opt_ids
         print(f"    Found {len(intersection)} memories matching both tags")
 
@@ -668,7 +683,7 @@ class MemorySystemTestSuite:
             ("category:technical", 0.8, "User found technical memories very helpful"),
             ("category:ethics", 0.9, "Ethical considerations were crucial"),
             ("skill:python", 0.6, "Python skills were moderately relevant"),
-            ("emotion:uncertain", -0.3, "Uncertain memories were less useful")
+            ("emotion:uncertain", -0.3, "Uncertain memories were less useful"),
         ]
 
         for tag, feedback, reason in feedback_scenarios:
@@ -680,7 +695,7 @@ class MemorySystemTestSuite:
                 await self.memory_fold.update_memory_importance(
                     memory_id=memory.item_id,
                     feedback=feedback,
-                    context={"reason": reason, "tag_feedback": tag}
+                    context={"reason": reason, "tag_feedback": tag},
                 )
 
             importance = self.memory_fold.learning_engine.get_tag_importance(tag)
@@ -719,8 +734,12 @@ class MemorySystemTestSuite:
         print(f"  • Unique tags: {baseline_stats['unique_tags']}")
         print(f"  • Deduplication saves: {baseline_stats['deduplication_saves']}")
         print(f"  • Total vectors: {baseline_stats['vector_stats']['total_vectors']}")
-        print(f"  • Average tag weight: {baseline_stats['learning_stats']['avg_tag_weight']:.3f}")
-        print(f"  • Causal links: {baseline_stats['causal_stats']['total_causal_links']}")
+        print(
+            f"  • Average tag weight: {baseline_stats['learning_stats']['avg_tag_weight']:.3f}"
+        )
+        print(
+            f"  • Causal links: {baseline_stats['causal_stats']['total_causal_links']}"
+        )
 
         # Test memory export
         print("\n📤 Exporting memories...")
@@ -743,12 +762,14 @@ class MemorySystemTestSuite:
                 "data": item.data,
                 "tags": tags,
                 "timestamp": item.timestamp.isoformat(),
-                "access_count": item.access_count
+                "access_count": item.access_count,
             }
 
             # Include embedding if available
             if item_id in self.memory_fold.embedding_cache:
-                memory_export["embedding"] = self.memory_fold.embedding_cache[item_id].tolist()
+                memory_export["embedding"] = self.memory_fold.embedding_cache[
+                    item_id
+                ].tolist()
 
             all_memories.append(memory_export)
 
@@ -766,9 +787,7 @@ class MemorySystemTestSuite:
 
         # Create new memory fold instance
         new_memory_fold = create_hybrid_memory_fold(
-            embedding_dim=1024,
-            enable_attention=True,
-            enable_continuous_learning=True
+            embedding_dim=1024, enable_attention=True, enable_continuous_learning=True
         )
 
         # Import memories
@@ -781,7 +800,7 @@ class MemorySystemTestSuite:
             await new_memory_fold.fold_in_with_embedding(
                 data=memory_data["data"],
                 tags=tags,
-                text_content=str(memory_data["data"].get("content", ""))
+                text_content=str(memory_data["data"].get("content", "")),
             )
             import_count += 1
 
@@ -792,7 +811,9 @@ class MemorySystemTestSuite:
         print("\n✅ Import Verification:")
         print(f"  • Original memories: {baseline_stats['total_items']}")
         print(f"  • Imported memories: {new_stats['total_items']}")
-        print(f"  • Match: {'✅' if new_stats['total_items'] == baseline_stats['total_items'] else '❌'}")
+        print(
+            f"  • Match: {'✅' if new_stats['total_items'] == baseline_stats['total_items'] else '❌'}"
+        )
 
         # Clean up
         if os.path.exists(export_path):
@@ -808,19 +829,22 @@ class MemorySystemTestSuite:
         storage_limits = {
             "RAM (16GB available)": 16 * 1024 * 1024,  # KB
             "SSD (100GB available)": 100 * 1024 * 1024,  # KB
-            "Cloud (1TB available)": 1024 * 1024 * 1024  # KB
+            "Cloud (1TB available)": 1024 * 1024 * 1024,  # KB
         }
 
         for storage_type, limit_kb in storage_limits.items():
             max_memories = int(limit_kb / avg_memory_size)
-            years_of_memory = max_memories / (1000 * 365)  # Assume 1000 memories per day
-            print(f"  {storage_type}: ~{max_memories:,} memories ({years_of_memory:.1f} years)")
+            years_of_memory = max_memories / (
+                1000 * 365
+            )  # Assume 1000 memories per day
+            print(
+                f"  {storage_type}: ~{max_memories:,} memories ({years_of_memory:.1f} years)"
+            )
 
         # Performance baseline
         print("\n⚡ Performance Baseline:")
 
         # Measure key operations
-        import time
 
         # 1. Memory storage speed
         start = time.time()
@@ -828,7 +852,7 @@ class MemorySystemTestSuite:
         test_id = await self.memory_fold.fold_in_with_embedding(
             data=test_memory,
             tags=["performance_test"],
-            text_content=test_memory["content"]
+            text_content=test_memory["content"],
         )
         store_time = (time.time() - start) * 1000
 
@@ -840,14 +864,15 @@ class MemorySystemTestSuite:
         # 3. Semantic search speed
         start = time.time()
         semantic_results = await self.memory_fold.fold_out_semantic(
-            query="test query",
-            top_k=10
+            query="test query", top_k=10
         )
         semantic_time = (time.time() - start) * 1000
 
         print(f"  • Memory storage: {store_time:.2f}ms")
         print(f"  • Tag retrieval: {tag_time:.2f}ms ({len(tag_results)} results)")
-        print(f"  • Semantic search: {semantic_time:.2f}ms ({len(semantic_results)} results)")
+        print(
+            f"  • Semantic search: {semantic_time:.2f}ms ({len(semantic_results)} results)"
+        )
         print(f"  • Throughput: {1000/store_time:.0f} memories/second")
 
     def _generate_tags(self, memory: Dict[str, Any]) -> List[str]:
@@ -855,33 +880,33 @@ class MemorySystemTestSuite:
         tags = []
 
         # Type tag
-        if 'type' in memory:
+        if "type" in memory:
             tags.append(f"type:{memory['type']}")
 
         # Emotion tags
-        if 'emotion' in memory:
+        if "emotion" in memory:
             tags.append(f"emotion:{memory['emotion']}")
-            intensity = memory.get('intensity', 0.5)
+            intensity = memory.get("intensity", 0.5)
             if intensity > 0.7:
                 tags.append("high_intensity")
 
         # Category tags
-        if 'category' in memory:
+        if "category" in memory:
             tags.append(f"category:{memory['category']}")
 
         # Temporal tags
-        timestamp = memory.get('timestamp', datetime.now(timezone.utc))
+        timestamp = memory.get("timestamp", datetime.now(timezone.utc))
         tags.append(f"year:{timestamp.year}")
         tags.append(f"month:{timestamp.strftime('%Y-%m')}")
 
         # Cognitive tags
-        if memory.get('cognitive_load', 0) > 0.7:
+        if memory.get("cognitive_load", 0) > 0.7:
             tags.append("high_cognitive_load")
-        if memory.get('needs_consolidation'):
+        if memory.get("needs_consolidation"):
             tags.append("needs_consolidation")
 
         # Learning tags
-        if memory.get('lesson'):
+        if memory.get("lesson"):
             tags.append("has_lesson")
 
         return tags
@@ -893,7 +918,7 @@ class MemorySystemTestSuite:
             "admin": ["security", "user", "public"],
             "user_123": ["user", "public"],
             "user_456": ["public"],
-            "anonymous": ["public"]
+            "anonymous": ["public"],
         }
 
         allowed_tiers = access_rules.get(user, [])
@@ -915,7 +940,7 @@ class MemorySystemTestSuite:
         for word in words:
             if word in self.flashback_triggers:
                 for trigger_info in self.flashback_triggers[word]:
-                    if trigger_info['intensity'] > 0.6:  # High intensity threshold
+                    if trigger_info["intensity"] > 0.6:  # High intensity threshold
                         flashbacks.append(trigger_info)
 
         return flashbacks
@@ -931,7 +956,7 @@ class MemorySystemTestSuite:
         print("🧬 LUKHAS AI - COMPREHENSIVE MEMORY SYSTEM TEST SUITE")
         print("=" * 80)
         print(f"Test Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print(f"System Version: 2.0.0")
+        print("System Version: 2.0.0")
         print()
 
         try:
@@ -954,20 +979,29 @@ class MemorySystemTestSuite:
             print("\n📊 FINAL MEMORY SYSTEM STATISTICS:")
             print(f"  • Total memories created: {final_stats['total_items']}")
             print(f"  • Total unique tags: {final_stats['unique_tags']}")
-            print(f"  • Space saved by deduplication: {final_stats['deduplication_saves']}")
-            print(f"  • Active vector embeddings: {final_stats['vector_stats']['total_vectors']}")
-            print(f"  • Causal relationships: {final_stats['causal_stats']['total_causal_links']}")
+            print(
+                f"  • Space saved by deduplication: {final_stats['deduplication_saves']}"
+            )
+            print(
+                f"  • Active vector embeddings: {final_stats['vector_stats']['total_vectors']}"
+            )
+            print(
+                f"  • Causal relationships: {final_stats['causal_stats']['total_causal_links']}"
+            )
             print(f"  • Dream memories: {len(self.dream_memories)}")
             print(f"  • Flashback triggers registered: {len(self.flashback_triggers)}")
 
-            if final_stats['learning_stats']['most_important_tags']:
+            if final_stats["learning_stats"]["most_important_tags"]:
                 print("\n🏆 Most Important Tags (by learned weight):")
-                for tag, weight in final_stats['learning_stats']['most_important_tags'][:5]:
+                for tag, weight in final_stats["learning_stats"]["most_important_tags"][
+                    :5
+                ]:
                     print(f"  • {tag}: {weight:.3f}")
 
         except Exception as e:
             print(f"\n❌ Test failed with error: {e}")
             import traceback
+
             traceback.print_exc()
 
 

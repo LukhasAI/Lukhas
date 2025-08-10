@@ -8,12 +8,15 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import pytest
 import os
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
+
+import pytest
+
 # from testcontainers.postgres import PostgresContainer  # Skipping for now
 # from creativity.dream.oneiric_engine.oneiric_core.main import app
 # from creativity.dream.oneiric_engine.oneiric_core.db.db import init_db
+
 
 @pytest.fixture(scope="session")
 def db_url():
@@ -22,15 +25,18 @@ def db_url():
     os.environ["DATABASE_URL"] = url
     yield url
 
+
 @pytest.fixture(scope="session", autouse=True)
 def apply_migrations(db_url):
     """Skip migrations for mock testing"""
     print("Skipping migrations for mock test database")
 
+
 @pytest.fixture(scope="session", autouse=True)
 def reset_pool(db_url):
     """Skip pool reset for mock testing"""
     pass  # Skip for mock testing
+
 
 @pytest.fixture
 async def client():
@@ -42,20 +48,19 @@ async def client():
     mock_client.delete = Mock(return_value=Mock(status_code=200, json=lambda: {}))
     yield mock_client
 
+
 @pytest.fixture(autouse=True)
 def override_dependency(monkeypatch):
     """Override external dependencies for testing"""
+
     async def fake_clerk_verify(token):
         # Always returns a fixed profile for testing
-        return {
-            "sub": "test_user_123",
-            "email": "test@example.com"
-        }
+        return {"sub": "test_user_123", "email": "test@example.com"}
 
     monkeypatch.setattr(
-        "oneiric_core.identity.auth_middleware.clerk_verify",
-        fake_clerk_verify
+        "oneiric_core.identity.auth_middleware.clerk_verify", fake_clerk_verify
     )
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: conftest.py

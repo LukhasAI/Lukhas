@@ -135,8 +135,8 @@ Consolidated from 124 files:
 - tools/activation_modules/memory_activation.py
 """
 
-from typing import Dict, List, Any, Optional
-import asyncio
+from typing import Any, Dict, Optional
+
 
 class ConsolidatedUnifiedmemorycore:
     def __init__(self):
@@ -147,6 +147,7 @@ class ConsolidatedUnifiedmemorycore:
         """Process memory through consolidated pipeline"""
         # TODO: Implement consolidated memory processing
         return None
+
 
 # Global instance
 unified_memory_core_instance = ConsolidatedUnifiedmemorycore()

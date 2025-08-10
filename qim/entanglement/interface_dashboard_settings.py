@@ -29,6 +29,7 @@ Integration Date: 2025-05-31T07:55:27.731081
 # In-memory storage for user dashboard settings.
 user_dashboard_settings = {}
 
+
 def set_user_preference(user_id, key, value):
     """
     Set a persistent user dashboard preference.
@@ -37,17 +38,20 @@ def set_user_preference(user_id, key, value):
         user_dashboard_settings[user_id] = {}
     user_dashboard_settings[user_id][key] = value
 
+
 def get_user_preference(user_id, key, default=None):
     """
     Retrieve a user dashboard preference.
     """
     return user_dashboard_settings.get(user_id, {}).get(key, default)
 
+
 def toggle_widget_visibility(user_id, widget_type, visible=True):
     """
     Show or hide a dashboard widget for a user.
     """
     set_user_preference(user_id, f"widget:{widget_type}", visible)
+
 
 def list_active_widgets(user_id):
     """
@@ -60,6 +64,7 @@ def list_active_widgets(user_id):
         if k.startswith("widget:") and v
     }
 
+
 def store_paired_app(user_id, app_name):
     """
     Add an app to the user's list of paired apps.
@@ -71,11 +76,13 @@ def store_paired_app(user_id, app_name):
         new_apps = apps + [app_name]
         set_user_preference(user_id, paired_key, new_apps)
 
+
 def get_paired_apps(user_id):
     """
     Return a list of all paired apps for the user.
     """
     return user_dashboard_settings.get(user_id, {}).get("paired_apps", [])
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for settings.py)

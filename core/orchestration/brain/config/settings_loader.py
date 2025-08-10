@@ -12,19 +12,21 @@ Integration Date: 2025-05-31T07:55:28.120950
 # ════════════════════════════════════════════════════════════════════════
 
 import json
-import os
 
 SETTINGS_PATH = "lukhas_settings.json"
 
+
 def load_settings(path=SETTINGS_PATH):
     try:
-        with open(path, "r") as f:
+        with open(path) as f:
             return json.load(f)
     except Exception as e:
         print(f"[Settings Loader Error] {str(e)}")
         return {}
 
+
 SETTINGS = load_settings()
+
 
 def get_setting(key_path, default=None):
     """
@@ -41,20 +43,30 @@ def get_setting(key_path, default=None):
     log_setting_access(key_path)
     return value
 
+
 def is_module_enabled(module_name):
     return SETTINGS.get("modules", {}).get(module_name, False)
+
 
 def print_all_settings():
     print(json.dumps(SETTINGS, indent=2))
 
+
 def validate_settings(required_keys=None):
     if required_keys is None:
-        required_keys = ["version", "created", "modules", "privacy", "permissions"]
+        required_keys = [
+            "version",
+            "created",
+            "modules",
+            "privacy",
+            "permissions",
+        ]
     missing = [key for key in required_keys if key not in SETTINGS]
     if missing:
         print(f"[Settings Validation Warning] Missing keys: {missing}")
     else:
         print("✅ Settings validation passed.")
+
 
 def log_setting_access(key_path):
     if SETTINGS.get("privacy", {}).get("user_analytics_logging", False):
@@ -64,13 +76,16 @@ def log_setting_access(key_path):
         except Exception as e:
             print(f"[Log Access Error] {str(e)}")
 
+
 def preview_defaults():
     tone = get_setting("default_tone", "symbolic")
     lang = get_setting("default_language", "en")
     mood = get_setting("persona.mood_palette", ["curious"])
     return f"🧠 Lukhas starts in '{tone}' tone, speaks '{lang}', and feels '{mood[0]}'."
 
+
 def list_all_keys():
+
     def flatten(d, prefix=""):
         keys = []
         for k, v in d.items():
@@ -79,7 +94,9 @@ def list_all_keys():
             else:
                 keys.append(prefix + k)
         return keys
+
     return flatten(SETTINGS)
+
 
 # Example usage (can be removed in prod):
 if __name__ == "__main__":

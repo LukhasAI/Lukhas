@@ -9,18 +9,19 @@ Version: 1.0.0
 License: Proprietary
 """
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
-from abc import ABC, abstractmethod
-
+from typing import Any, Optional
 
 # ==================== PLUGIN ENUMS ====================
 
+
 class PluginType(Enum):
     """Plugin category types"""
+
     ETHICS_GUARDIAN = "ethics_guardian"
     MEMORY_COGNITION = "memory_cognition"
     VOICE_SYSTEM = "voice_system"
@@ -36,6 +37,7 @@ class PluginType(Enum):
 
 class PluginTier(Enum):
     """Plugin pricing/access tiers"""
+
     BASIC = "basic"
     PRO = "pro"
     PROFESSIONAL = "professional"
@@ -45,6 +47,7 @@ class PluginTier(Enum):
 
 class PluginState(Enum):
     """Plugin lifecycle states"""
+
     UNLOADED = "unloaded"
     LOADING = "loading"
     LOADED = "loaded"
@@ -56,6 +59,7 @@ class PluginState(Enum):
 
 class PluginStatus(Enum):
     """Plugin status states (alias for PluginState for compatibility)"""
+
     UNLOADED = "unloaded"
     LOADING = "loading"
     LOADED = "loaded"
@@ -67,6 +71,7 @@ class PluginStatus(Enum):
 
 class ConsciousnessState(Enum):
     """Lukhas consciousness states that plugins can interact with"""
+
     INACTIVE = "inactive"
     ACTIVE = "active"
     DREAMING = "dreaming"
@@ -77,6 +82,7 @@ class ConsciousnessState(Enum):
 
 class ComplianceLevel(Enum):
     """Regulatory compliance levels"""
+
     BASIC = "basic"
     GDPR = "gdpr"
     HIPAA = "hipaa"
@@ -87,20 +93,22 @@ class ComplianceLevel(Enum):
 
 # ==================== PLUGIN DATA STRUCTURES ====================
 
+
 @dataclass
 class SymbolicMetadata:
     """Symbolic consciousness metadata for plugin integration"""
+
     dream_tag: Optional[str] = None
-    memory_vector: Optional[List[float]] = None
+    memory_vector: Optional[list[float]] = None
     ethics_class: Optional[str] = None
     consciousness_signature: Optional[str] = None
     symbolic_weight: float = 1.0
-    emotional_resonance: Optional[Dict[str, float]] = None
+    emotional_resonance: Optional[dict[str, float]] = None
     # Additional attributes required by validators
     consciousness_integration: bool = True
     consciousness_aware: bool = True
     symbolic_resonance: Optional[float] = None
-    symbolic_patterns: Optional[List[str]] = None
+    symbolic_patterns: Optional[list[str]] = None
 
     def __post_init__(self):
         if self.emotional_resonance is None:
@@ -112,9 +120,10 @@ class SymbolicMetadata:
 @dataclass
 class PluginCapabilities:
     """Plugin capabilities and features"""
-    features: List[str] = field(default_factory=list)
-    permissions: List[str] = field(default_factory=list)
-    lukhas_modules: List[str] = field(default_factory=list)
+
+    features: list[str] = field(default_factory=list)
+    permissions: list[str] = field(default_factory=list)
+    lukhas_modules: list[str] = field(default_factory=list)
     symbolic_integration: bool = True
     consciousness_aware: bool = True
     memory_access: bool = False
@@ -132,11 +141,12 @@ class PluginCapabilities:
 @dataclass
 class PluginPricing:
     """Plugin pricing and commercial information"""
+
     tier: PluginTier
     price_monthly: Optional[float] = None
     price_annual: Optional[float] = None
-    free_tier_limits: Optional[Dict[str, Any]] = None
-    enterprise_features: Optional[List[str]] = None
+    free_tier_limits: Optional[dict[str, Any]] = None
+    enterprise_features: Optional[list[str]] = None
     revenue_share: float = 0.7  # Developer gets 70% by default
 
     def __post_init__(self):
@@ -149,11 +159,12 @@ class PluginPricing:
 @dataclass
 class PluginDependencies:
     """Plugin dependency requirements"""
+
     lukhas_compatibility: str  # Semver range like ">=1.0.0,<2.0.0"
     python_version: str = ">=3.9"
-    system_requirements: Optional[Dict[str, str]] = None
-    external_services: Optional[List[str]] = None
-    other_plugins: Optional[List[str]] = None
+    system_requirements: Optional[dict[str, str]] = None
+    external_services: Optional[list[str]] = None
+    other_plugins: Optional[list[str]] = None
 
     def __post_init__(self):
         if self.system_requirements is None:
@@ -167,17 +178,18 @@ class PluginDependencies:
 @dataclass
 class PluginSecurity:
     """Plugin security and compliance information"""
+
     code_signed: bool = False
     sandbox_required: bool = True
     level: str = "medium"  # "low", "medium", "high"
     network_access: bool = False
     file_system_access: bool = False
-    compliance_standards: List[str] = field(default_factory=list)
+    compliance_standards: list[str] = field(default_factory=list)
     security_audit_date: Optional[str] = None
     vulnerability_scan_passed: bool = False
     network_access: bool = False
     file_system_access: bool = False
-    compliance_standards: List[str] = field(default_factory=list)
+    compliance_standards: list[str] = field(default_factory=list)
     security_audit_date: Optional[str] = None
     vulnerability_scan_passed: bool = False
 
@@ -189,6 +201,7 @@ class PluginSecurity:
 @dataclass
 class PluginManifest:
     """Complete plugin manifest structure"""
+
     # Required fields
     name: str
     type: PluginType
@@ -211,7 +224,7 @@ class PluginManifest:
 
     # Security & Compliance
     security: Optional[PluginSecurity] = None
-    compliance: Optional[List[str]] = None
+    compliance: Optional[list[str]] = None
 
     # Plugin files
     entry_point: str = "main.py"
@@ -251,14 +264,16 @@ class PluginManifest:
 
 # ==================== EXECUTION CONTEXT ====================
 
+
 @dataclass
 class LucasSystemState:
     """Current state of the Lukhas AI system"""
+
     consciousness_state: ConsciousnessState
     memory_usage: float  # Percentage
     active_dreams: int
     symbolic_coherence: float  # 0.0 to 1.0
-    emotional_state: Dict[str, float]
+    emotional_state: dict[str, float]
     reasoning_mode: str
     last_decision: Optional[str] = None
 
@@ -270,12 +285,13 @@ class LucasSystemState:
 @dataclass
 class UserSession:
     """User session information"""
+
     user_id: Optional[str]
     session_id: str
     tier: PluginTier
     compliance_level: ComplianceLevel
-    permissions: List[str]
-    preferences: Dict[str, Any]
+    permissions: list[str]
+    preferences: dict[str, Any]
     start_time: datetime
 
     def __post_init__(self):
@@ -288,9 +304,10 @@ class UserSession:
 @dataclass
 class PluginContext:
     """Context for plugin execution within Lukhas system"""
+
     lukhas_state: LucasSystemState
     user_session: UserSession
-    plugin_config: Dict[str, Any]
+    plugin_config: dict[str, Any]
     environment: str = "production"  # "production", "staging", "development"
     debug_mode: bool = False
     trace_enabled: bool = True
@@ -309,9 +326,10 @@ class PluginContext:
 @dataclass
 class PluginExecutionContext:
     """Complete context for plugin execution"""
+
     lukhas_state: LucasSystemState
     user_session: UserSession
-    plugin_config: Dict[str, Any]
+    plugin_config: dict[str, Any]
     environment: str = "production"  # "production", "staging", "development"
     debug_mode: bool = False
     trace_enabled: bool = True
@@ -323,9 +341,11 @@ class PluginExecutionContext:
 
 # ==================== VALIDATION SCHEMAS ====================
 
+
 @dataclass
 class ValidationRule:
     """Plugin validation rule definition"""
+
     name: str
     description: str
     rule_type: str  # "required", "format", "range", "custom"
@@ -336,27 +356,38 @@ class ValidationRule:
 @dataclass
 class PluginValidationSchema:
     """Schema for validating plugin manifests and behavior"""
+
     version: str = "1.0.0"
-    required_fields: List[str] = field(default_factory=list)
-    optional_fields: List[str] = field(default_factory=list)
-    validation_rules: List[ValidationRule] = field(default_factory=list)
-    compliance_checks: List[str] = field(default_factory=list)
+    required_fields: list[str] = field(default_factory=list)
+    optional_fields: list[str] = field(default_factory=list)
+    validation_rules: list[ValidationRule] = field(default_factory=list)
+    compliance_checks: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         if not self.required_fields:
             self.required_fields = [
-                'name', 'type', 'version', 'description',
-                'dependencies.lukhas_compatibility'
+                "name",
+                "type",
+                "version",
+                "description",
+                "dependencies.lukhas_compatibility",
             ]
         if not self.compliance_checks:
-            self.compliance_checks = ['GDPR', 'SEEDRA-v3']
+            self.compliance_checks = ["GDPR", "SEEDRA-v3"]
 
 
 # ==================== ERROR TYPES ====================
 
+
 class PluginError(Exception):
     """Base exception for plugin-related errors"""
-    def __init__(self, message: str, plugin_name: Optional[str] = None, error_code: Optional[str] = None):
+
+    def __init__(
+        self,
+        message: str,
+        plugin_name: Optional[str] = None,
+        error_code: Optional[str] = None,
+    ):
         super().__init__(message)
         self.plugin_name = plugin_name
         self.error_code = error_code
@@ -364,37 +395,35 @@ class PluginError(Exception):
 
 class PluginLoadError(PluginError):
     """Error during plugin loading"""
-    pass
 
 
 class PluginValidationError(PluginError):
     """Error during plugin validation"""
-    pass
 
 
 class PluginExecutionError(PluginError):
     """Error during plugin execution"""
-    pass
 
 
 class PluginComplianceError(PluginError):
     """Error related to compliance violations"""
-    pass
 
 
 # ==================== SYMBOLIC TRACE TYPES ====================
 
+
 @dataclass
 class SymbolicTrace:
     """Symbolic execution trace for plugin monitoring"""
+
     plugin_id: str
     execution_id: str
     timestamp: datetime
-    consciousness_impact: Optional[Dict[str, Any]] = None
-    memory_operations: Optional[List[Dict[str, Any]]] = None
-    dream_interactions: Optional[List[Dict[str, Any]]] = None
-    ethical_decisions: Optional[List[Dict[str, Any]]] = None
-    symbolic_signatures: Optional[List[str]] = None
+    consciousness_impact: Optional[dict[str, Any]] = None
+    memory_operations: Optional[list[dict[str, Any]]] = None
+    dream_interactions: Optional[list[dict[str, Any]]] = None
+    ethical_decisions: Optional[list[dict[str, Any]]] = None
+    symbolic_signatures: Optional[list[str]] = None
 
     def __post_init__(self):
         if self.memory_operations is None:
@@ -410,8 +439,9 @@ class SymbolicTrace:
 @dataclass
 class ConsciousnessMapping:
     """Mapping between consciousness states and plugin parameters"""
+
     state: ConsciousnessState
-    parameter_adjustments: Dict[str, float]
+    parameter_adjustments: dict[str, float]
     activation_threshold: float = 0.5
     response_delay_ms: int = 100
     priority_boost: float = 1.0
@@ -423,13 +453,15 @@ class ConsciousnessMapping:
 
 # ==================== PLUGIN COMMUNICATION ====================
 
+
 @dataclass
 class PluginMessage:
     """Message format for inter-plugin communication"""
+
     sender_plugin_id: str
     recipient_plugin_id: Optional[str]  # None for broadcast
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timestamp: datetime
     priority: int = 1  # 1=low, 5=high
     requires_response: bool = False
@@ -440,16 +472,18 @@ class PluginMessage:
             self.payload = {}
         if self.correlation_id is None:
             import uuid
+
             self.correlation_id = str(uuid.uuid4())
 
 
 @dataclass
 class PluginResponse:
     """Response format for plugin message responses"""
+
     correlation_id: str
     sender_plugin_id: str
     success: bool
-    data: Optional[Dict[str, Any]] = None
+    data: Optional[dict[str, Any]] = None
     error: Optional[str] = None
     timestamp: datetime = field(default_factory=datetime.now)
 
@@ -460,10 +494,11 @@ class PluginResponse:
 
 # ==================== PLUGIN BASE CLASSES ====================
 
+
 class BaseLucasPlugin(ABC):
     """Base class for all Lukhas plugins"""
 
-    def __init__(self, context: 'PluginContext'):
+    def __init__(self, context: "PluginContext"):
         self.context = context
         self._loaded = False
         self.plugin_id = f"plugin_{id(self)}"  # Generate unique ID
@@ -471,19 +506,16 @@ class BaseLucasPlugin(ABC):
     @abstractmethod
     async def initialize(self) -> bool:
         """Initialize the plugin. Return True if successful."""
-        pass
 
     @abstractmethod
-    async def execute(self, **kwargs) -> Dict[str, Any]:
+    async def execute(self, **kwargs) -> dict[str, Any]:
         """Execute plugin main functionality"""
-        pass
 
     @abstractmethod
     async def cleanup(self) -> None:
         """Clean up plugin resources"""
-        pass
 
-    async def load(self, context: 'PluginContext') -> None:
+    async def load(self, context: "PluginContext") -> None:
         """Load the plugin with given context"""
         self.context = context
         await self.initialize()
@@ -494,25 +526,23 @@ class BaseLucasPlugin(ABC):
         await self.cleanup()
         self._loaded = False
 
-    async def map_consciousness_state(self) -> Dict[str, Any]:
+    async def map_consciousness_state(self) -> dict[str, Any]:
         """Map current consciousness state to plugin parameters"""
         return {
             "consciousness_state": self.context.lukhas_state.consciousness_state.value,
             "symbolic_coherence": self.context.lukhas_state.symbolic_coherence,
-            "emotional_state": self.context.lukhas_state.emotional_state
+            "emotional_state": self.context.lukhas_state.emotional_state,
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get plugin status information"""
-        return {
-            "loaded": self._loaded,
-            "plugin_type": self.__class__.__name__
-        }
+        return {"loaded": self._loaded, "plugin_type": self.__class__.__name__}
 
 
 @dataclass
 class LoadedPlugin:
     """Represents a loaded plugin instance"""
+
     plugin_id: str
     instance: Optional[BaseLucasPlugin]
     manifest: Optional[PluginManifest]
@@ -522,9 +552,9 @@ class LoadedPlugin:
     file_path: Optional[Path] = None
     file_hash: str = ""
     error: Optional[str] = None
-    symbolic_state: Dict[str, Any] = field(default_factory=dict)
-    consciousness_mapping: Dict[str, Any] = field(default_factory=dict)
+    symbolic_state: dict[str, Any] = field(default_factory=dict)
+    consciousness_mapping: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
-        if not hasattr(self, 'load_time'):
+        if not hasattr(self, "load_time"):
             self.load_time = datetime.now()

@@ -4,11 +4,11 @@ System Orchestration Consolidator - Phase 2C-3
 Consolidate 3 system orchestration files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_system_orchestration(dry_run=True):
     """Consolidate system orchestration orchestrators"""
@@ -17,15 +17,15 @@ def consolidate_system_orchestration(dry_run=True):
     system_files = [
         "./quantum/system_orchestrator.py",
         "./orchestration/core_modules/system_orchestrator.py",
-        "./orchestration/system_orchestrator.py"
+        "./orchestration/system_orchestrator.py",
     ]
 
     primary_file = "./quantum/system_orchestrator.py"  # Quantum-enhanced version
 
-    print(f"\\n⚙️  SYSTEM ORCHESTRATION CONSOLIDATION")
+    print("\\n⚙️  SYSTEM ORCHESTRATION CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(system_files)}")
     print(f"{'='*60}")
@@ -75,22 +75,30 @@ def consolidate_system_orchestration(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 System orchestration consolidation complete!")
+    print("\\n📊 System orchestration consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
     return archived_count
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate system orchestration orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate system orchestration orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     result = consolidate_system_orchestration(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_system_orchestration.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_system_orchestration.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

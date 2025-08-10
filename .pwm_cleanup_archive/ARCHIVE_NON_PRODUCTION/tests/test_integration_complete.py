@@ -9,29 +9,33 @@ Tests the complete integration of Claude and Codex implementations.
 import asyncio
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pytest
-from orchestration.interfaces.agent_interface import (
-    AgentInterface, AgentContext, AgentMessage
-)
-from orchestration.interfaces.plugin_registry import (
-    PluginRegistry, PluginInterface, PluginMetadata
-)
-from orchestration.interfaces.orchestration_protocol import (
-    OrchestrationProtocol, Priority
-)
+
+from core.plugin_registry import Plugin, PluginType
+from core.plugin_registry import PluginRegistry as CorePluginRegistry
 from orchestration.agent_orchestrator import AgentOrchestrator
 from orchestration.agents.base import OrchestrationAgent
 from orchestration.agents.registry import AgentRegistry
-from orchestration.agents.types import (
-    AgentCapability, AgentContext as CodexContext, AgentResponse
+from orchestration.agents.types import AgentCapability, AgentResponse
+from orchestration.agents.types import AgentContext as CodexContext
+from orchestration.interfaces.agent_interface import (
+    AgentContext,
+    AgentInterface,
+    AgentMessage,
 )
-from core.plugin_registry import (
-    PluginRegistry as CorePluginRegistry, Plugin, PluginType
+from orchestration.interfaces.orchestration_protocol import (
+    OrchestrationProtocol,
+    Priority,
+)
+from orchestration.interfaces.plugin_registry import (
+    PluginInterface,
+    PluginMetadata,
+    PluginRegistry,
 )
 
 
@@ -53,7 +57,7 @@ class TestOrchestrationIntegration:
                 return AgentMessage(
                     sender_id="test_agent",
                     recipient_id=message.sender_id,
-                    content={"echo": message.content}
+                    content={"echo": message.content},
                 )
 
             async def get_health_status(self) -> Dict[str, Any]:
@@ -69,13 +73,17 @@ class TestOrchestrationIntegration:
                 return ["test", "echo"]
 
         agent = TestAgent()
-        context = AgentContext(orchestrator_id="test_orchestrator", session_id="test_session")
+        context = AgentContext(
+            orchestrator_id="test_orchestrator", session_id="test_session"
+        )
 
         assert await agent.initialize(context)
         result = await agent.process_task({"id": "123", "action": "test"})
         assert result["task_id"] == "123"
 
-        msg = AgentMessage(sender_id="user", recipient_id="test_agent", content={"msg": "hello"})
+        msg = AgentMessage(
+            sender_id="user", recipient_id="test_agent", content={"msg": "hello"}
+        )
         response = await agent.handle_message(msg)
         assert response.content["echo"]["msg"] == "hello"
 
@@ -104,7 +112,7 @@ class TestOrchestrationIntegration:
                     name="test_plugin",
                     version="1.0.0",
                     description="Test plugin",
-                    capabilities=["test"]
+                    capabilities=["test"],
                 )
 
         registry = PluginRegistry()
@@ -124,14 +132,17 @@ class TestOrchestrationIntegration:
         assert plugin.get_metadata().name == "test_plugin"
 
         # Process with plugin via broadcast
-        result = await registry.broadcast_signal({"plugin": "test_plugin", "data": "test"})
+        result = await registry.broadcast_signal(
+            {"plugin": "test_plugin", "data": "test"}
+        )
         assert len(result) > 0
 
     @pytest.mark.asyncio
     async def test_orchestration_protocol(self):
         """Test the orchestration protocol."""
         from orchestration.interfaces.orchestration_protocol import (
-            OrchestrationMessage, MessageType
+            MessageType,
+            OrchestrationMessage,
         )
 
         protocol = OrchestrationProtocol(node_id="test_node")
@@ -142,7 +153,7 @@ class TestOrchestrationIntegration:
             sender_id="agent1",
             recipient_id="agent2",
             payload={"action": "process"},
-            priority=Priority.HIGH
+            priority=Priority.HIGH,
         )
 
         assert msg.sender_id == "agent1"
@@ -150,9 +161,7 @@ class TestOrchestrationIntegration:
 
         # Test broadcast
         msg_id = await protocol.broadcast(
-            MessageType.STATUS,
-            {"status": "active"},
-            Priority.NORMAL
+            MessageType.STATUS, {"status": "active"}, Priority.NORMAL
         )
         assert msg_id is not None
 
@@ -226,17 +235,14 @@ class TestCodexIntegration:
                 return AgentResponse(
                     success=True,
                     result={"processed": context.task_id},
-                    metadata={"agent": "test_codex"}
+                    metadata={"agent": "test_codex"},
                 )
 
             def validate_context(self, context: CodexContext) -> bool:
                 return context.task_id is not None
 
         agent = TestCodexAgent()
-        context = CodexContext(
-            task_id="test123",
-            symbolic_state={"mode": "test"}
-        )
+        context = CodexContext(task_id="test123", symbolic_state={"mode": "test"})
 
         assert agent.validate_context(context)
         response = agent.process(context)
@@ -333,8 +339,7 @@ class TestCombinedIntegration:
             async def process_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
                 # Adapt to Codex context
                 codex_context = CodexContext(
-                    task_id=task.get("id", "unknown"),
-                    symbolic_state=task
+                    task_id=task.get("id", "unknown"), symbolic_state=task
                 )
                 response = self.process(codex_context)
                 return {"success": response.success, "result": response.result}
@@ -357,9 +362,7 @@ class TestCombinedIntegration:
 
             def process(self, context: CodexContext) -> AgentResponse:
                 return AgentResponse(
-                    success=True,
-                    result={"unified": True},
-                    metadata={}
+                    success=True, result={"unified": True}, metadata={}
                 )
 
             def validate_context(self, context: CodexContext) -> bool:

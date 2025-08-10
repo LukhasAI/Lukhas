@@ -9,16 +9,11 @@ with optional trust filtering ("PaLM-like" bias) and logs collision cases.
 
 from __future__ import annotations
 
-
 import asyncio
 import random
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple
 
-from core.efficient_communication import (
-    EfficientCommunicationFabric,
-    MessagePriority,
-)
+from core.efficient_communication import EfficientCommunicationFabric, MessagePriority
 from core.symbolism.tags import TagScope
 
 
@@ -27,8 +22,8 @@ class SimAgent:
     """Lightweight agent for tag propagation tests."""
 
     agent_id: str
-    network: "SwarmNetwork"
-    tags: Dict[str, str] = field(default_factory=dict)
+    network: SwarmNetwork
+    tags: dict[str, str] = field(default_factory=dict)
     # ΛTAG: survival_score influences swarm trust
     survival_score: float = 1.0
 
@@ -56,9 +51,9 @@ class SwarmNetwork:
         self.fabric = EfficientCommunicationFabric("swarm-net")
         self.high_trust_filter = high_trust_filter
         self.value_bias = value_bias
-        self.agents: Dict[str, SimAgent] = {}
-        self.collisions: List[Tuple[str, str, str]] = []
-        self.tag_counts: Dict[str, Dict[str, int]] = {}
+        self.agents: dict[str, SimAgent] = {}
+        self.collisions: list[tuple[str, str, str]] = []
+        self.tag_counts: dict[str, dict[str, int]] = {}
 
     async def start(self) -> None:
         await self.fabric.start()
@@ -96,7 +91,7 @@ class SwarmNetwork:
     def log_collision(self, tag: str, old_value: str, new_value: str) -> None:
         self.collisions.append((tag, old_value, new_value))
 
-    def consensus(self) -> Dict[str, str]:
+    def consensus(self) -> dict[str, str]:
         result = {}
         for tag, values in self.tag_counts.items():
             total = sum(values.values())
@@ -112,7 +107,7 @@ async def simulate_swarm(
     *,
     high_trust_filter: bool = False,
     value_bias: float = 1.0,
-) -> Dict[str, int]:
+) -> dict[str, int]:
     """Run the swarm tag propagation simulation."""
     network = SwarmNetwork(high_trust_filter=high_trust_filter, value_bias=value_bias)
     await network.start()

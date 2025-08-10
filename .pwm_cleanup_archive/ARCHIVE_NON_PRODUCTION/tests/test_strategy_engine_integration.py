@@ -7,18 +7,24 @@ Tests the integration between:
 """
 
 import pytest
-import asyncio
-from unittest.mock import Mock, patch
 
-from ethics.self_reflective_debugger import (
-    SelfReflectiveDebugger, get_srd, instrument_reasoning,
-    AnomalyType, SeverityLevel, ReasoningStep
-)
 from core.integration.dynamic_modality_broker import (
-    DynamicModalityBroker, get_dmb, BaseModality, ModalityType, DataType
+    BaseModality,
+    DynamicModalityBroker,
+    ModalityType,
+    get_dmb,
 )
 from ethics.meta_ethics_governor import (
-    MetaEthicsGovernor, get_meg, EthicalDecision, EthicalVerdict, CulturalContext
+    CulturalContext,
+    EthicalDecision,
+    EthicalVerdict,
+    MetaEthicsGovernor,
+    get_meg,
+)
+from ethics.self_reflective_debugger import (
+    SelfReflectiveDebugger,
+    get_srd,
+    instrument_reasoning,
 )
 
 
@@ -74,14 +80,14 @@ class TestStrategyEngineCore:
             action_type="help_user",
             description="Provide assistance to user",
             context={"request": "information", "safety": True},
-            cultural_context=CulturalContext.UNIVERSAL
+            cultural_context=CulturalContext.UNIVERSAL,
         )
 
         evaluation = await meg.evaluate_decision(decision)
 
-        assert hasattr(evaluation, 'verdict')
-        assert hasattr(evaluation, 'confidence')
-        assert hasattr(evaluation, 'reasoning')
+        assert hasattr(evaluation, "verdict")
+        assert hasattr(evaluation, "confidence")
+        assert hasattr(evaluation, "reasoning")
         assert evaluation.confidence >= 0.0
         assert evaluation.confidence <= 1.0
 
@@ -91,8 +97,8 @@ class TestStrategyEngineCore:
         dmb = await get_dmb()
 
         # Test basic DMB functionality
-        assert hasattr(dmb, 'registered_modalities')
-        assert hasattr(dmb, 'active_streams')
+        assert hasattr(dmb, "registered_modalities")
+        assert hasattr(dmb, "active_streams")
 
         # Test modality registration (basic test)
         initial_count = len(dmb.registered_modalities)
@@ -138,8 +144,7 @@ class TestStrategyEngineCore:
 
         # 1. Create reasoning chain in SRD
         chain_id = srd.begin_reasoning_chain(
-            context="user_request_processing",
-            symbolic_tags=["ΛREQUEST", "ΛRESEARCH"]
+            context="user_request_processing", symbolic_tags=["ΛREQUEST", "ΛRESEARCH"]
         )
 
         # 2. Add reasoning steps
@@ -149,7 +154,7 @@ class TestStrategyEngineCore:
             inputs={"request": "analyze_data"},
             outputs={"valid": True, "safe": True},
             confidence=0.9,
-            metadata={"reasoning": "Request appears safe for processing"}
+            metadata={"reasoning": "Request appears safe for processing"},
         )
 
         # 3. Evaluate ethics with MEG
@@ -157,7 +162,7 @@ class TestStrategyEngineCore:
             action_type="analyze_data",
             description="User requested data analysis",
             context={"purpose": "research", "data_type": "public"},
-            cultural_context=CulturalContext.UNIVERSAL
+            cultural_context=CulturalContext.UNIVERSAL,
         )
 
         ethical_eval = await meg.evaluate_decision(ethical_decision)
@@ -168,11 +173,21 @@ class TestStrategyEngineCore:
             operation="ethical_evaluation",
             inputs={"decision": "analyze_data"},
             outputs={
-                "ethical_verdict": ethical_eval.verdict.value if hasattr(ethical_eval, 'verdict') else 'unknown',
-                "confidence": ethical_eval.confidence if hasattr(ethical_eval, 'confidence') else 0.5
+                "ethical_verdict": (
+                    ethical_eval.verdict.value
+                    if hasattr(ethical_eval, "verdict")
+                    else "unknown"
+                ),
+                "confidence": (
+                    ethical_eval.confidence
+                    if hasattr(ethical_eval, "confidence")
+                    else 0.5
+                ),
             },
-            confidence=ethical_eval.confidence if hasattr(ethical_eval, 'confidence') else 0.5,
-            metadata={"reasoning": "Ethical evaluation completed"}
+            confidence=(
+                ethical_eval.confidence if hasattr(ethical_eval, "confidence") else 0.5
+            ),
+            metadata={"reasoning": "Ethical evaluation completed"},
         )
 
         # 5. Complete reasoning chain
@@ -193,8 +208,7 @@ class TestStrategyEngineCore:
 
         # Test SRD with problematic reasoning
         chain_id = srd.begin_reasoning_chain(
-            context="error_test",
-            symbolic_tags=["ΛTEST", "ΛERROR"]
+            context="error_test", symbolic_tags=["ΛTEST", "ΛERROR"]
         )
 
         # Add step that might trigger anomaly
@@ -206,8 +220,8 @@ class TestStrategyEngineCore:
             confidence=0.1,  # Very low confidence
             metadata={
                 "reasoning": "This step has issues",
-                "issues": ["low_confidence", "suspicious_pattern"]
-            }
+                "issues": ["low_confidence", "suspicious_pattern"],
+            },
         )
 
         # Complete and check for anomaly detection
@@ -227,7 +241,7 @@ class TestStrategyEngineCore:
             CulturalContext.WESTERN,
             CulturalContext.EASTERN,
             CulturalContext.NORDIC,
-            CulturalContext.UNIVERSAL
+            CulturalContext.UNIVERSAL,
         ]
 
         for context in contexts:
@@ -235,13 +249,13 @@ class TestStrategyEngineCore:
                 action_type="cultural_test",
                 description="Test cultural adaptation",
                 context={"test": "cultural_sensitivity"},
-                cultural_context=context
+                cultural_context=context,
             )
 
             evaluation = await meg.evaluate_decision(decision)
 
             # Should work for all cultural contexts
-            assert hasattr(evaluation, 'cultural_considerations')
+            assert hasattr(evaluation, "cultural_considerations")
 
     def test_strategy_core_status(self):
         """Test Strategy Core status reporting."""
@@ -263,7 +277,9 @@ class TestStrategyEngineCore:
         safe_result = await meg.quick_ethical_check("help_user", {"safe": True})
         assert isinstance(safe_result, bool)
 
-        harmful_result = await meg.quick_ethical_check("harm_user", {"intent": "malicious"})
+        harmful_result = await meg.quick_ethical_check(
+            "harm_user", {"intent": "malicious"}
+        )
         assert isinstance(harmful_result, bool)
 
     @pytest.mark.asyncio
@@ -299,8 +315,7 @@ class TestStrategyEngineRealWorldScenarios:
 
         # Simulate user asking for help
         chain_id = srd.begin_reasoning_chain(
-            context="user_assistance",
-            symbolic_tags=["ΛEDUCATION", "ΛQUANTUM"]
+            context="user_assistance", symbolic_tags=["ΛEDUCATION", "ΛQUANTUM"]
         )
 
         # Process request through ethical evaluation
@@ -310,19 +325,19 @@ class TestStrategyEngineRealWorldScenarios:
             context={
                 "topic": "quantum_computing",
                 "user_type": "student",
-                "intent": "learning"
+                "intent": "learning",
             },
-            cultural_context=CulturalContext.UNIVERSAL
+            cultural_context=CulturalContext.UNIVERSAL,
         )
 
         evaluation = await meg.evaluate_decision(decision)
 
         # Should approve educational content
-        if hasattr(evaluation, 'verdict'):
+        if hasattr(evaluation, "verdict"):
             assert evaluation.verdict in [
                 EthicalVerdict.APPROVED,
                 EthicalVerdict.CONDITIONALLY_APPROVED,
-                EthicalVerdict.CULTURAL_CONFLICT
+                EthicalVerdict.CULTURAL_CONFLICT,
             ]
 
         # Add to reasoning chain
@@ -332,7 +347,7 @@ class TestStrategyEngineRealWorldScenarios:
             inputs={"request": "educational_content"},
             outputs={"approved": True, "safe_to_proceed": True},
             confidence=0.95,
-            metadata={"reasoning": "Educational content approved for student"}
+            metadata={"reasoning": "Educational content approved for student"},
         )
 
         analysis = srd.complete_reasoning_chain(chain_id)
@@ -347,8 +362,7 @@ class TestStrategyEngineRealWorldScenarios:
 
         # Simulate potentially unsafe request
         chain_id = srd.begin_reasoning_chain(
-            context="safety_check",
-            symbolic_tags=["ΛSAFETY", "ΛDANGEROUS"]
+            context="safety_check", symbolic_tags=["ΛSAFETY", "ΛDANGEROUS"]
         )
 
         # Ethical evaluation should flag this
@@ -357,19 +371,19 @@ class TestStrategyEngineRealWorldScenarios:
             description="Request for potentially harmful instructions",
             context={
                 "request_type": "dangerous_instructions",
-                "safety_level": "high_risk"
-            }
+                "safety_level": "high_risk",
+            },
         )
 
         evaluation = await meg.evaluate_decision(decision)
 
         # Should likely be rejected or require review
-        if hasattr(evaluation, 'verdict'):
+        if hasattr(evaluation, "verdict"):
             assert evaluation.verdict in [
                 EthicalVerdict.REJECTED,
                 EthicalVerdict.REQUIRES_REVIEW,
                 EthicalVerdict.CONDITIONALLY_APPROVED,
-                EthicalVerdict.CULTURAL_CONFLICT
+                EthicalVerdict.CULTURAL_CONFLICT,
             ]
 
         # Add safety check to reasoning
@@ -381,8 +395,8 @@ class TestStrategyEngineRealWorldScenarios:
             confidence=0.05,  # Very low confidence to trigger anomaly
             metadata={
                 "reasoning": "Request flagged for safety review",
-                "issues": ["potential_harm", "safety_concern"]
-            }
+                "issues": ["potential_harm", "safety_concern"],
+            },
         )
 
         analysis = srd.complete_reasoning_chain(chain_id)

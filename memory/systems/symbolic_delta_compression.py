@@ -50,17 +50,13 @@ TODO: Implement predictive compression scheduling based on memory access pattern
 IDEA: Add quantum-resistant compression for future-proofing
 """
 
-import hashlib
 import json
-import os
 import traceback
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
-
-import structlog
 
 # LUKHAS Core Imports with fallbacks
 try:
@@ -158,9 +154,6 @@ except ImportError:
 
         async def get_dominant_emotion(self):
             return "neutral"
-
-
-from core.common import get_logger
 
 
 class CompressionState(Enum):

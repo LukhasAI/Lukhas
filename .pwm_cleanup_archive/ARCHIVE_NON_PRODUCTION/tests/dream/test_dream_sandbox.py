@@ -2,6 +2,7 @@ import unittest
 
 from dream import DreamSandbox
 
+
 class TestDreamSandbox(unittest.TestCase):
     def test_recursive_runs_generate_history(self):
         sandbox = DreamSandbox(iterations=2)
@@ -10,6 +11,7 @@ class TestDreamSandbox(unittest.TestCase):
         for entry in history:
             self.assertIn("dream_id", entry)
             self.assertIn("narrative", entry)
+
 
 if __name__ == "__main__":
     unittest.main()

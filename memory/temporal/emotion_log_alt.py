@@ -25,10 +25,7 @@ DEPENDENCIES:
 """
 
 # Sample emotion log structure
-emotion_db = {
-    "current": "neutral",
-    "log": []
-}
+emotion_db = {"current": "neutral", "log": []}
 
 emotion_logging_enabled = True  # Default to enabled, but allow users to opt out
 
@@ -36,9 +33,12 @@ from datetime import datetime, timedelta
 
 last_logged_time = None
 
+
 def log_emotion(state, source="manual", intensity=1):
     global last_logged_time
-    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(seconds=10):
+    if last_logged_time and datetime.utcnow() - last_logged_time < timedelta(
+        seconds=10
+    ):
         logging.warning("Emotion logging rate limit exceeded.")
         return None
     last_logged_time = datetime.utcnow()
@@ -59,11 +59,12 @@ def log_emotion(state, source="manual", intensity=1):
         "state": state,
         "source": source,
         "intensity": intensity,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
     emotion_db["current"] = state
     emotion_db["log"].append(entry)
     return emotion_db
+
 
 def decay_emotion(threshold_minutes=60):
     """
@@ -77,41 +78,51 @@ def decay_emotion(threshold_minutes=60):
         if emotion_db["current"] != "neutral":
             log_emotion("neutral", source="decay")
 
+
 from cryptography.fernet import Fernet
 
 # Generate a key and save it securely
 key = Fernet.generate_key()
 cipher = Fernet(key)
 
+
 def save_emotion_log(filepath="emotion_log.json"):
     """
     Saves the emotion log to an encrypted JSON file.
     """
     import json
+
     encrypted_data = cipher.encrypt(json.dumps(emotion_db).encode())
     with open(filepath, "wb") as f:
         f.write(encrypted_data)
+
 
 def load_emotion_log(filepath="emotion_log.json"):
     """
     Loads the emotion log from an encrypted JSON file.
     """
     import json
+
     global emotion_db
     with open(filepath, "rb") as f:
         encrypted_data = f.read()
     emotion_db = json.loads(cipher.decrypt(encrypted_data).decode())
+
 
 def blend_emotions():
     """
     Blends recent emotions to calculate a weighted current state.
     """
     from collections import Counter
-    recent_emotions = [entry["state"] for entry in emotion_db["log"][-5:]]  # Last 5 emotions
+
+    recent_emotions = [
+        entry["state"] for entry in emotion_db["log"][-5:]
+    ]  # Last 5 emotions
     if not recent_emotions:
         return "neutral"
     emotion_counts = Counter(recent_emotions)
     return emotion_counts.most_common(1)[0][0]  # Return the most common emotion
+
 
 def search_emotions(criteria: Dict[str, str]) -> List[Dict]:
     """
@@ -124,9 +135,11 @@ def search_emotions(criteria: Dict[str, str]) -> List[Dict]:
         list: A list of matching emotion log entries.
     """
     return [
-        entry for entry in emotion_db["log"]
+        entry
+        for entry in emotion_db["log"]
         if all(entry.get(key) == value for key, value in criteria.items())
     ]
+
 
 def summarize_emotions():
     """
@@ -136,8 +149,10 @@ def summarize_emotions():
         dict: A dictionary with emotion counts.
     """
     from collections import Counter
+
     emotion_counts = Counter(entry["state"] for entry in emotion_db["log"])
     return dict(emotion_counts)
+
 
 import atexit
 
@@ -161,8 +176,6 @@ except FileNotFoundError:
 #       - lukhas_duet_conductor.py to shape voice handoffs.
 #       - lukhas_voice_duet.py for tone modulation.
 #
-
-
 
 
 #    - Trigger emotion resets based on scheduler tasks#    - Link persistent logs with GPT filtering#    - Enhance decay with emotion weight and blend# 📦 FUTURE:#

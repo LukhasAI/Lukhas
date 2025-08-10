@@ -3,13 +3,14 @@
 Fix remaining specific import issues
 """
 
-import os
-import re
-from pathlib import Path
 import logging
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class RemainingImportFixer:
     def __init__(self, root_path: Path, dry_run: bool = True):
@@ -45,9 +46,9 @@ class RemainingImportFixer:
         logger.info("\nFixing bio.orchestration imports...")
 
         mappings = {
-            'from bio.orchestration.bio_orchestrator': 'from bio.systems.orchestration.bio_orchestrator',
-            'from bio.orchestration.base_orchestrator': 'from bio.systems.orchestration.base_orchestrator',
-            'from bio.orchestration.': 'from bio.systems.orchestration.',
+            "from bio.orchestration.bio_orchestrator": "from bio.systems.orchestration.bio_orchestrator",
+            "from bio.orchestration.base_orchestrator": "from bio.systems.orchestration.base_orchestrator",
+            "from bio.orchestration.": "from bio.systems.orchestration.",
         }
 
         self._apply_fixes(mappings)
@@ -57,9 +58,9 @@ class RemainingImportFixer:
         logger.info("\nFixing remaining core.memory imports...")
 
         mappings = {
-            'from core.memory.dream_memory_fold': 'from memory.systems.dream_memory_fold',
-            'from core.memory_learning.memory_manager': 'from memory.systems.memory_learning.memory_manager',
-            'from core.memory.': 'from memory.',
+            "from core.memory.dream_memory_fold": "from memory.systems.dream_memory_fold",
+            "from core.memory_learning.memory_manager": "from memory.systems.memory_learning.memory_manager",
+            "from core.memory.": "from memory.",
         }
 
         self._apply_fixes(mappings)
@@ -69,14 +70,23 @@ class RemainingImportFixer:
         logger.info("\nFixing single import statements...")
 
         specific_files = {
-            'demo_documentation_update.py': [
-                ('import Path', 'from pathlib import Path')
+            "demo_documentation_update.py": [
+                ("import Path", "from pathlib import Path")
             ],
-            'memory_system_demo.py': [
-                ('import create_hybrid_memory_fold', 'from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold'),
-                ('import create_attention_orchestrator', 'from memory.systems.attention_memory_layer import create_attention_orchestrator'),
-                ('import create_structural_conscience', 'from memory.structural_conscience import create_structural_conscience')
-            ]
+            "memory_system_demo.py": [
+                (
+                    "import create_hybrid_memory_fold",
+                    "from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold",
+                ),
+                (
+                    "import create_attention_orchestrator",
+                    "from memory.systems.attention_memory_layer import create_attention_orchestrator",
+                ),
+                (
+                    "import create_structural_conscience",
+                    "from memory.structural_conscience import create_structural_conscience",
+                ),
+            ],
         }
 
         for filename, fixes in specific_files.items():
@@ -87,7 +97,7 @@ class RemainingImportFixer:
     def _fix_specific_file(self, file_path: Path, fixes: list):
         """Apply specific fixes to a file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content
@@ -97,7 +107,7 @@ class RemainingImportFixer:
 
             if content != original_content:
                 if not self.dry_run:
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(content)
 
                 self.files_fixed += 1
@@ -109,12 +119,12 @@ class RemainingImportFixer:
 
     def _apply_fixes(self, mappings: dict):
         """Apply import mappings to all Python files"""
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 original_content = content
@@ -128,7 +138,7 @@ class RemainingImportFixer:
 
                 if content != original_content:
                     if not self.dry_run:
-                        with open(py_file, 'w', encoding='utf-8') as f:
+                        with open(py_file, "w", encoding="utf-8") as f:
                             f.write(content)
 
                     self.files_fixed += 1
@@ -144,27 +154,32 @@ class RemainingImportFixer:
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'visualizations', 'analysis_output', 'scripts'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "visualizations",
+            "analysis_output",
+            "scripts",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(
-        description='Fix remaining import issues'
+
+    parser = argparse.ArgumentParser(description="Fix remaining import issues")
+    parser.add_argument(
+        "--fix", action="store_true", help="Apply fixes (default is dry run)"
     )
     parser.add_argument(
-        '--fix',
-        action='store_true',
-        help='Apply fixes (default is dry run)'
-    )
-    parser.add_argument(
-        '--path',
-        default='.',
-        help='Root path (default: current directory)'
+        "--path", default=".", help="Root path (default: current directory)"
     )
 
     args = parser.parse_args()
@@ -173,5 +188,6 @@ def main():
     fixer = RemainingImportFixer(root_path, dry_run=not args.fix)
     fixer.fix_imports()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

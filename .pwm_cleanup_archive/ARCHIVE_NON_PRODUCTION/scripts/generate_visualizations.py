@@ -3,55 +3,55 @@
 Generate comprehensive dependency visualizations for the codebase
 """
 
-import os
-import sys
-import json
 import ast
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
 import logging
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import networkx as nx
-from networkx.drawing.nx_agraph import graphviz_layout
-import community as community_louvain
-import numpy as np
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Set
+
+import community as community_louvain
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
 
 class DependencyVisualizer:
     """Generate various dependency visualizations for the codebase"""
 
     def __init__(self, root_path: Path):
         self.root_path = root_path
-        self.output_dir = root_path / 'visualizations' / datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.output_dir = (
+            root_path / "visualizations" / datetime.now().strftime("%Y%m%d_%H%M%S")
+        )
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         # Module colors for consistency
         self.module_colors = {
-            'bio': '#2ecc71',          # Green - biological systems
-            'core': '#e74c3c',         # Red - core infrastructure
-            'memory': '#3498db',       # Blue - memory systems
-            'quantum': '#9b59b6',      # Purple - quantum systems
-            'orchestration': '#f39c12', # Orange - orchestration
-            'consciousness': '#1abc9c', # Turquoise - consciousness
-            'creativity': '#e91e63',    # Pink - creativity
-            'ethics': '#34495e',       # Dark gray - ethics
-            'identity': '#16a085',     # Dark turquoise - identity
-            'learning': '#f1c40f',     # Yellow - learning
-            'bridge': '#795548',       # Brown - bridge systems
-            'reasoning': '#607d8b',    # Blue gray - reasoning
-            'emotion': '#ff5722',      # Deep orange - emotion
-            'features': '#8bc34a',     # Light green - features
-            'interfaces': '#00bcd4',   # Cyan - interfaces
-            'dashboard': '#673ab7',    # Deep purple - dashboard
-            'symbolic': '#ff9800',     # Amber - symbolic
+            "bio": "#2ecc71",  # Green - biological systems
+            "core": "#e74c3c",  # Red - core infrastructure
+            "memory": "#3498db",  # Blue - memory systems
+            "quantum": "#9b59b6",  # Purple - quantum systems
+            "orchestration": "#f39c12",  # Orange - orchestration
+            "consciousness": "#1abc9c",  # Turquoise - consciousness
+            "creativity": "#e91e63",  # Pink - creativity
+            "ethics": "#34495e",  # Dark gray - ethics
+            "identity": "#16a085",  # Dark turquoise - identity
+            "learning": "#f1c40f",  # Yellow - learning
+            "bridge": "#795548",  # Brown - bridge systems
+            "reasoning": "#607d8b",  # Blue gray - reasoning
+            "emotion": "#ff5722",  # Deep orange - emotion
+            "features": "#8bc34a",  # Light green - features
+            "interfaces": "#00bcd4",  # Cyan - interfaces
+            "dashboard": "#673ab7",  # Deep purple - dashboard
+            "symbolic": "#ff9800",  # Amber - symbolic
         }
 
     def generate_all_visualizations(self):
@@ -83,7 +83,7 @@ class DependencyVisualizer:
         """Build dependency graph from Python files"""
         graph = nx.DiGraph()
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip_path(py_file):
                 continue
 
@@ -91,17 +91,19 @@ class DependencyVisualizer:
             imports = self._extract_imports(py_file)
 
             # Add node with metadata
-            graph.add_node(module_name,
-                          file_path=str(py_file),
-                          size=py_file.stat().st_size,
-                          module_type=self._get_module_type(py_file))
+            graph.add_node(
+                module_name,
+                file_path=str(py_file),
+                size=py_file.stat().st_size,
+                module_type=self._get_module_type(py_file),
+            )
 
             # Add edges for imports
             for imported in imports:
-                if imported.startswith('.'):
+                if imported.startswith("."):
                     # Relative import
-                    base = '.'.join(module_name.split('.')[:-1])
-                    if imported == '.':
+                    base = ".".join(module_name.split(".")[:-1])
+                    if imported == ".":
                         imported = base
                     else:
                         imported = base + imported
@@ -115,7 +117,7 @@ class DependencyVisualizer:
         imports = set()
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 tree = ast.parse(f.read())
 
             for node in ast.walk(tree):
@@ -136,7 +138,11 @@ class DependencyVisualizer:
         plt.figure(figsize=(24, 18))
 
         # Filter to only internal modules
-        internal_nodes = [n for n in graph.nodes() if any(n.startswith(m) for m in self.module_colors.keys())]
+        internal_nodes = [
+            n
+            for n in graph.nodes()
+            if any(n.startswith(m) for m in self.module_colors.keys())
+        ]
         subgraph = graph.subgraph(internal_nodes)
 
         # Use spring layout for better visualization
@@ -145,22 +151,33 @@ class DependencyVisualizer:
         # Draw nodes colored by module
         for module_prefix, color in self.module_colors.items():
             nodes = [n for n in subgraph.nodes() if n.startswith(module_prefix)]
-            nx.draw_networkx_nodes(subgraph, pos, nodelist=nodes,
-                                 node_color=color, node_size=100, alpha=0.8)
+            nx.draw_networkx_nodes(
+                subgraph,
+                pos,
+                nodelist=nodes,
+                node_color=color,
+                node_size=100,
+                alpha=0.8,
+            )
 
         # Draw edges with transparency
-        nx.draw_networkx_edges(subgraph, pos, alpha=0.2, arrows=True,
-                             arrowsize=10, edge_color='gray')
+        nx.draw_networkx_edges(
+            subgraph, pos, alpha=0.2, arrows=True, arrowsize=10, edge_color="gray"
+        )
 
         # Add legend
-        patches = [mpatches.Patch(color=color, label=module)
-                  for module, color in self.module_colors.items()]
-        plt.legend(handles=patches, loc='upper left', bbox_to_anchor=(1, 1))
+        patches = [
+            mpatches.Patch(color=color, label=module)
+            for module, color in self.module_colors.items()
+        ]
+        plt.legend(handles=patches, loc="upper left", bbox_to_anchor=(1, 1))
 
         plt.title("Full Dependency Graph", fontsize=20)
-        plt.axis('off')
+        plt.axis("off")
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'full_dependency_graph.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "full_dependency_graph.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_module_hierarchy(self, graph: nx.DiGraph):
@@ -171,39 +188,47 @@ class DependencyVisualizer:
         hierarchy = nx.DiGraph()
 
         for node in graph.nodes():
-            parts = node.split('.')
+            parts = node.split(".")
             for i in range(len(parts)):
-                parent = '.'.join(parts[:i]) if i > 0 else 'root'
-                child = '.'.join(parts[:i+1])
+                parent = ".".join(parts[:i]) if i > 0 else "root"
+                child = ".".join(parts[: i + 1])
                 hierarchy.add_edge(parent, child)
 
         # Use hierarchical layout
-        pos = self._hierarchical_layout(hierarchy, 'root')
+        pos = self._hierarchical_layout(hierarchy, "root")
 
         # Draw nodes
         for node in hierarchy.nodes():
-            if node == 'root':
+            if node == "root":
                 continue
 
-            depth = len(node.split('.'))
+            depth = len(node.split("."))
             color = self._get_node_color(node)
             size = 300 / depth  # Smaller nodes for deeper levels
 
-            nx.draw_networkx_nodes(hierarchy, pos, nodelist=[node],
-                                 node_color=color, node_size=size, alpha=0.8)
+            nx.draw_networkx_nodes(
+                hierarchy,
+                pos,
+                nodelist=[node],
+                node_color=color,
+                node_size=size,
+                alpha=0.8,
+            )
 
         # Draw edges
-        nx.draw_networkx_edges(hierarchy, pos, alpha=0.3, edge_color='gray')
+        nx.draw_networkx_edges(hierarchy, pos, alpha=0.3, edge_color="gray")
 
         # Add labels for top-level modules
-        top_level = [n for n in hierarchy.nodes() if n != 'root' and '.' not in n]
+        top_level = [n for n in hierarchy.nodes() if n != "root" and "." not in n]
         labels = {n: n for n in top_level}
         nx.draw_networkx_labels(hierarchy, pos, labels, font_size=10)
 
         plt.title("Module Hierarchy", fontsize=20)
-        plt.axis('off')
+        plt.axis("off")
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'module_hierarchy.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "module_hierarchy.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_circular_dependencies(self, graph: nx.DiGraph):
@@ -214,8 +239,15 @@ class DependencyVisualizer:
         cycles = list(nx.simple_cycles(graph))
 
         if not cycles:
-            plt.text(0.5, 0.5, 'No circular dependencies found!',
-                    ha='center', va='center', fontsize=20, color='green')
+            plt.text(
+                0.5,
+                0.5,
+                "No circular dependencies found!",
+                ha="center",
+                va="center",
+                fontsize=20,
+                color="green",
+            )
         else:
             # Create subgraph with only nodes involved in cycles
             cycle_nodes = set()
@@ -230,35 +262,50 @@ class DependencyVisualizer:
             # Draw nodes
             for node in cycle_graph.nodes():
                 color = self._get_node_color(node)
-                nx.draw_networkx_nodes(cycle_graph, pos, nodelist=[node],
-                                     node_color=color, node_size=300, alpha=0.8)
+                nx.draw_networkx_nodes(
+                    cycle_graph,
+                    pos,
+                    nodelist=[node],
+                    node_color=color,
+                    node_size=300,
+                    alpha=0.8,
+                )
 
             # Draw edges, highlighting cycles
             all_edges = list(cycle_graph.edges())
             cycle_edges = []
             for cycle in cycles:
                 for i in range(len(cycle)):
-                    edge = (cycle[i], cycle[(i+1) % len(cycle)])
+                    edge = (cycle[i], cycle[(i + 1) % len(cycle)])
                     if edge in all_edges:
                         cycle_edges.append(edge)
 
             # Draw regular edges
             regular_edges = [e for e in all_edges if e not in cycle_edges]
-            nx.draw_networkx_edges(cycle_graph, pos, edgelist=regular_edges,
-                                 alpha=0.3, edge_color='gray')
+            nx.draw_networkx_edges(
+                cycle_graph, pos, edgelist=regular_edges, alpha=0.3, edge_color="gray"
+            )
 
             # Draw cycle edges in red
-            nx.draw_networkx_edges(cycle_graph, pos, edgelist=cycle_edges,
-                                 alpha=0.8, edge_color='red', width=2)
+            nx.draw_networkx_edges(
+                cycle_graph,
+                pos,
+                edgelist=cycle_edges,
+                alpha=0.8,
+                edge_color="red",
+                width=2,
+            )
 
             # Add labels
-            labels = {n: n.split('.')[-1] for n in cycle_graph.nodes()}
+            labels = {n: n.split(".")[-1] for n in cycle_graph.nodes()}
             nx.draw_networkx_labels(cycle_graph, pos, labels, font_size=8)
 
         plt.title(f"Circular Dependencies ({len(cycles)} cycles found)", fontsize=20)
-        plt.axis('off')
+        plt.axis("off")
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'circular_dependencies.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "circular_dependencies.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_community_structure(self, graph: nx.DiGraph):
@@ -269,8 +316,11 @@ class DependencyVisualizer:
         undirected = graph.to_undirected()
 
         # Filter to internal modules only
-        internal_nodes = [n for n in undirected.nodes()
-                         if any(n.startswith(m) for m in self.module_colors.keys())]
+        internal_nodes = [
+            n
+            for n in undirected.nodes()
+            if any(n.startswith(m) for m in self.module_colors.keys())
+        ]
         subgraph = undirected.subgraph(internal_nodes)
 
         # Detect communities
@@ -283,12 +333,17 @@ class DependencyVisualizer:
         cmap = plt.cm.tab20
         for com in set(partition.values()):
             nodes = [n for n in partition.keys() if partition[n] == com]
-            nx.draw_networkx_nodes(subgraph, pos, nodelist=nodes,
-                                 node_color=[cmap(com % 20)] * len(nodes),
-                                 node_size=100, alpha=0.8)
+            nx.draw_networkx_nodes(
+                subgraph,
+                pos,
+                nodelist=nodes,
+                node_color=[cmap(com % 20)] * len(nodes),
+                node_size=100,
+                alpha=0.8,
+            )
 
         # Draw edges
-        nx.draw_networkx_edges(subgraph, pos, alpha=0.1, edge_color='gray')
+        nx.draw_networkx_edges(subgraph, pos, alpha=0.1, edge_color="gray")
 
         # Add community labels
         com_centers = {}
@@ -300,14 +355,22 @@ class DependencyVisualizer:
         # Calculate center of each community
         for com, positions in com_centers.items():
             center = np.mean(positions, axis=0)
-            plt.text(center[0], center[1], f'C{com}',
-                    fontsize=16, ha='center', va='center',
-                    bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+            plt.text(
+                center[0],
+                center[1],
+                f"C{com}",
+                fontsize=16,
+                ha="center",
+                va="center",
+                bbox=dict(boxstyle="round", facecolor="white", alpha=0.8),
+            )
 
         plt.title("Community Structure (Louvain Algorithm)", fontsize=20)
-        plt.axis('off')
+        plt.axis("off")
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'community_structure.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "community_structure.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_complexity_heatmap(self, graph: nx.DiGraph):
@@ -331,27 +394,34 @@ class DependencyVisualizer:
 
         # Create heatmap
         plt.figure(figsize=(12, 10))
-        im = plt.imshow(matrix, cmap='YlOrRd', aspect='auto')
+        im = plt.imshow(matrix, cmap="YlOrRd", aspect="auto")
 
         # Set ticks and labels
-        plt.xticks(range(len(modules)), modules, rotation=45, ha='right')
+        plt.xticks(range(len(modules)), modules, rotation=45, ha="right")
         plt.yticks(range(len(modules)), modules)
 
         # Add colorbar
-        plt.colorbar(im, label='Number of Dependencies')
+        plt.colorbar(im, label="Number of Dependencies")
 
         # Add values to cells
         for i in range(len(modules)):
             for j in range(len(modules)):
-                text = plt.text(j, i, int(matrix[i, j]),
-                              ha='center', va='center',
-                              color='white' if matrix[i, j] > matrix.max()/2 else 'black')
+                text = plt.text(
+                    j,
+                    i,
+                    int(matrix[i, j]),
+                    ha="center",
+                    va="center",
+                    color="white" if matrix[i, j] > matrix.max() / 2 else "black",
+                )
 
         plt.title("Module Dependency Heatmap", fontsize=16)
         plt.xlabel("Target Module")
         plt.ylabel("Source Module")
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'complexity_heatmap.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "complexity_heatmap.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_module_coupling_matrix(self, graph: nx.DiGraph):
@@ -381,38 +451,44 @@ class DependencyVisualizer:
             cohesion = internal_edges / total_edges if total_edges > 0 else 0
             coupling = external_edges / total_edges if total_edges > 0 else 0
 
-            coupling_data.append({
-                'module': module,
-                'nodes': len(module_nodes),
-                'cohesion': cohesion,
-                'coupling': coupling,
-                'internal_edges': internal_edges,
-                'external_edges': external_edges
-            })
+            coupling_data.append(
+                {
+                    "module": module,
+                    "nodes": len(module_nodes),
+                    "cohesion": cohesion,
+                    "coupling": coupling,
+                    "internal_edges": internal_edges,
+                    "external_edges": external_edges,
+                }
+            )
 
         # Create bar chart
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10))
 
-        modules = [d['module'] for d in coupling_data]
-        cohesion = [d['cohesion'] for d in coupling_data]
-        coupling = [d['coupling'] for d in coupling_data]
+        modules = [d["module"] for d in coupling_data]
+        cohesion = [d["cohesion"] for d in coupling_data]
+        coupling = [d["coupling"] for d in coupling_data]
 
         # Cohesion chart
-        bars1 = ax1.bar(modules, cohesion, color='green', alpha=0.7)
-        ax1.set_ylabel('Cohesion Score')
-        ax1.set_title('Module Cohesion (Internal Dependencies)')
+        bars1 = ax1.bar(modules, cohesion, color="green", alpha=0.7)
+        ax1.set_ylabel("Cohesion Score")
+        ax1.set_title("Module Cohesion (Internal Dependencies)")
         ax1.set_ylim(0, 1)
 
         # Coupling chart
-        bars2 = ax2.bar(modules, coupling, color='red', alpha=0.7)
-        ax2.set_ylabel('Coupling Score')
-        ax2.set_title('Module Coupling (External Dependencies)')
+        bars2 = ax2.bar(modules, coupling, color="red", alpha=0.7)
+        ax2.set_ylabel("Coupling Score")
+        ax2.set_title("Module Coupling (External Dependencies)")
         ax2.set_ylim(0, 1)
         ax2.set_xticks(range(len(modules)))
-        ax2.set_xticklabels(modules, rotation=45, ha='right')
+        ax2.set_xticklabels(modules, rotation=45, ha="right")
 
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'module_coupling_analysis.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "module_coupling_analysis.png",
+            dpi=300,
+            bbox_inches="tight",
+        )
         plt.close()
 
     def _generate_layered_architecture(self, graph: nx.DiGraph):
@@ -421,11 +497,11 @@ class DependencyVisualizer:
 
         # Define architectural layers
         layers = {
-            'interfaces': ['interfaces', 'dashboard', 'bridge'],
-            'application': ['orchestration', 'reasoning', 'creativity'],
-            'domain': ['consciousness', 'emotion', 'learning', 'ethics'],
-            'infrastructure': ['core', 'memory', 'identity'],
-            'foundation': ['bio', 'quantum', 'symbolic']
+            "interfaces": ["interfaces", "dashboard", "bridge"],
+            "application": ["orchestration", "reasoning", "creativity"],
+            "domain": ["consciousness", "emotion", "learning", "ethics"],
+            "infrastructure": ["core", "memory", "identity"],
+            "foundation": ["bio", "quantum", "symbolic"],
         }
 
         # Create layered graph
@@ -434,7 +510,7 @@ class DependencyVisualizer:
 
         for layer_name, modules in layers.items():
             for module in modules:
-                module_nodes = [n for n in graph.nodes() if n.split('.')[0] == module]
+                module_nodes = [n for n in graph.nodes() if n.split(".")[0] == module]
                 for node in module_nodes:
                     layer_graph.add_node(node)
                     node_layers[node] = layer_name
@@ -446,8 +522,13 @@ class DependencyVisualizer:
 
         # Calculate positions
         pos = {}
-        layer_y = {'interfaces': 4, 'application': 3, 'domain': 2,
-                   'infrastructure': 1, 'foundation': 0}
+        layer_y = {
+            "interfaces": 4,
+            "application": 3,
+            "domain": 2,
+            "infrastructure": 1,
+            "foundation": 0,
+        }
 
         for layer_name, y in layer_y.items():
             nodes_in_layer = [n for n, l in node_layers.items() if l == layer_name]
@@ -459,33 +540,49 @@ class DependencyVisualizer:
         for layer_name, y in layer_y.items():
             nodes = [n for n, l in node_layers.items() if l == layer_name]
             colors = [self._get_node_color(n) for n in nodes]
-            nx.draw_networkx_nodes(layer_graph, pos, nodelist=nodes,
-                                 node_color=colors, node_size=50, alpha=0.8)
+            nx.draw_networkx_nodes(
+                layer_graph,
+                pos,
+                nodelist=nodes,
+                node_color=colors,
+                node_size=50,
+                alpha=0.8,
+            )
 
         # Draw edges
-        nx.draw_networkx_edges(layer_graph, pos, alpha=0.1,
-                             edge_color='gray', arrows=True)
+        nx.draw_networkx_edges(
+            layer_graph, pos, alpha=0.1, edge_color="gray", arrows=True
+        )
 
         # Add layer labels
         for layer_name, y in layer_y.items():
-            plt.text(-10, y, layer_name.upper(), fontsize=14,
-                    ha='right', va='center', weight='bold')
+            plt.text(
+                -10,
+                y,
+                layer_name.upper(),
+                fontsize=14,
+                ha="right",
+                va="center",
+                weight="bold",
+            )
 
         # Add layer boundaries
         for y in layer_y.values():
-            plt.axhline(y - 0.5, color='lightgray', linestyle='--', alpha=0.5)
+            plt.axhline(y - 0.5, color="lightgray", linestyle="--", alpha=0.5)
 
         plt.title("Layered Architecture View", fontsize=20)
-        plt.axis('off')
+        plt.axis("off")
         plt.xlim(-12, 12)
         plt.ylim(-1, 5)
         plt.tight_layout()
-        plt.savefig(self.output_dir / 'layered_architecture.png', dpi=300, bbox_inches='tight')
+        plt.savefig(
+            self.output_dir / "layered_architecture.png", dpi=300, bbox_inches="tight"
+        )
         plt.close()
 
     def _generate_index_html(self):
         """Generate HTML index for all visualizations"""
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         html_content = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -604,7 +701,7 @@ class DependencyVisualizer:
 </body>
 </html>"""
 
-        with open(self.output_dir / 'index.html', 'w') as f:
+        with open(self.output_dir / "index.html", "w") as f:
             f.write(html_content)
 
     def _path_to_module(self, path: Path) -> str:
@@ -612,7 +709,7 @@ class DependencyVisualizer:
         try:
             relative = path.relative_to(self.root_path)
             parts = list(relative.parts[:-1]) + [relative.stem]
-            return '.'.join(parts)
+            return ".".join(parts)
         except ValueError:
             return path.stem
 
@@ -620,23 +717,33 @@ class DependencyVisualizer:
         """Get the top-level module type"""
         try:
             relative = path.relative_to(self.root_path)
-            return relative.parts[0] if relative.parts else 'unknown'
+            return relative.parts[0] if relative.parts else "unknown"
         except ValueError:
-            return 'unknown'
+            return "unknown"
 
     def _get_node_color(self, node: str) -> str:
         """Get color for a node based on its module"""
         for module, color in self.module_colors.items():
             if node.startswith(module):
                 return color
-        return '#cccccc'  # Default gray
+        return "#cccccc"  # Default gray
 
     def _should_skip_path(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.venv', 'venv', 'env', 'node_modules',
-            '.git', 'build', 'dist', '.eggs', '.pytest_cache',
-            '.mypy_cache', 'visualizations', 'analysis_output'
+            "__pycache__",
+            ".venv",
+            "venv",
+            "env",
+            "node_modules",
+            ".git",
+            "build",
+            "dist",
+            ".eggs",
+            ".pytest_cache",
+            ".mypy_cache",
+            "visualizations",
+            "analysis_output",
         }
 
         return any(part in skip_dirs for part in path.parts)
@@ -645,8 +752,17 @@ class DependencyVisualizer:
         """Create hierarchical layout for tree"""
         pos = {}
 
-        def _hierarchy_pos(G, root, width=1., vert_gap=0.2, vert_loc=0,
-                          xcenter=0.5, pos=None, parent=None, parsed=[]):
+        def _hierarchy_pos(
+            G,
+            root,
+            width=1.0,
+            vert_gap=0.2,
+            vert_loc=0,
+            xcenter=0.5,
+            pos=None,
+            parent=None,
+            parsed=[],
+        ):
             if pos is None:
                 pos = {root: (xcenter, vert_loc)}
             else:
@@ -657,29 +773,38 @@ class DependencyVisualizer:
                 children.remove(parent)
 
             if len(children) != 0:
-                dx = width/len(children)
-                nextx = xcenter - width/2 - dx/2
+                dx = width / len(children)
+                nextx = xcenter - width / 2 - dx / 2
                 for child in children:
                     nextx += dx
-                    pos = _hierarchy_pos(G, child, width=dx, vert_gap=vert_gap,
-                                       vert_loc=vert_loc-vert_gap, xcenter=nextx,
-                                       pos=pos, parent=root, parsed=parsed)
+                    pos = _hierarchy_pos(
+                        G,
+                        child,
+                        width=dx,
+                        vert_gap=vert_gap,
+                        vert_loc=vert_loc - vert_gap,
+                        xcenter=nextx,
+                        pos=pos,
+                        parent=root,
+                        parsed=parsed,
+                    )
             return pos
 
         return _hierarchy_pos(G, root)
+
 
 def main():
     """Main entry point"""
     import argparse
 
     parser = argparse.ArgumentParser(
-        description='Generate dependency visualizations for the codebase'
+        description="Generate dependency visualizations for the codebase"
     )
     parser.add_argument(
-        'path',
-        nargs='?',
-        default='.',
-        help='Repository root path (default: current directory)'
+        "path",
+        nargs="?",
+        default=".",
+        help="Repository root path (default: current directory)",
     )
 
     args = parser.parse_args()
@@ -692,5 +817,6 @@ def main():
     visualizer = DependencyVisualizer(root_path)
     visualizer.generate_all_visualizations()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

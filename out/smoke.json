@@ -1,0 +1,67 @@
+{
+  "app": {
+    "loaded": true,
+    "route_count": 18,
+    "routes_sample": [
+      "/docs",
+      "/docs/oauth2-redirect",
+      "/feedback/batch",
+      "/feedback/capture",
+      "/feedback/health",
+      "/feedback/metrics",
+      "/feedback/report/{user_id}",
+      "/feedback/trigger-learning",
+      "/generate-dream/",
+      "/glyph-feedback/",
+      "/memory-dump/",
+      "/openai/chat",
+      "/openai/chat/stream",
+      "/openai/metrics",
+      "/openapi.json",
+      "/plugin-load/",
+      "/redoc",
+      "/tier-auth/"
+    ]
+  },
+  "feedback_health": {
+    "json": {
+      "status": "healthy",
+      "system_active": true,
+      "total_cards": 0
+    },
+    "status_code": 200
+  },
+  "llm_block_test": {
+    "elapsed_ms": 2.49,
+    "incidents": 1,
+    "tightened": true
+  },
+  "llm_wrapper_import": {
+    "imported": true
+  },
+  "offline_governance": {
+    "incidents": 1,
+    "tightened": true
+  },
+  "ok": true,
+  "routes": {
+    "count": 18
+  },
+  "signal_bus": {
+    "active_signals": 1,
+    "published": true,
+    "signals_published_diff": 1,
+    "subscribers": 0
+  },
+  "steps": [
+    "import_app",
+    "feedback_health",
+    "llm_wrapper_import",
+    "signal_bus",
+    "llm_block_test"
+  ],
+  "timings": {
+    "feedback_health_ms": 7.94,
+    "import_app_ms": 984.18
+  }
+}

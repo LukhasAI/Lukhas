@@ -3,12 +3,13 @@ Integration tests for Dream Bridge in Consciousness Hub
 Tests the complete integration of dream bridge with consciousness system
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
-from datetime import datetime
+from unittest.mock import AsyncMock, Mock, patch
 
-from consciousness.consciousness_hub import ConsciousnessHub, get_consciousness_hub
+import pytest
+
+from consciousness.consciousness_hub import (
+    ConsciousnessHub,
+)
 from consciousness.dream_bridge_adapter import DreamBridge
 
 
@@ -45,12 +46,14 @@ class TestDreamBridgeIntegration:
         # Verify registration
         assert "test_dream_bridge" in consciousness_hub.cognitive_components
         assert "cognitive_test_dream_bridge" in consciousness_hub.services
-        assert consciousness_hub.cognitive_components["test_dream_bridge"] == mock_bridge
+        assert (
+            consciousness_hub.cognitive_components["test_dream_bridge"] == mock_bridge
+        )
 
     @pytest.mark.asyncio
     async def test_integrate_dream_bridge_success(self, consciousness_hub):
         """Test successful integration of dream bridge"""
-        with patch('consciousness.consciousness_hub.DreamBridge') as mock_bridge_class:
+        with patch("consciousness.consciousness_hub.DreamBridge") as mock_bridge_class:
             mock_bridge = AsyncMock()
             mock_bridge.initialize = AsyncMock()
             mock_bridge_class.return_value = mock_bridge
@@ -59,7 +62,7 @@ class TestDreamBridgeIntegration:
             await consciousness_hub.integrate_dream_bridge()
 
             # Verify integration
-            assert hasattr(consciousness_hub, 'dream_bridge')
+            assert hasattr(consciousness_hub, "dream_bridge")
             assert consciousness_hub.dream_bridge == mock_bridge
             assert "dream_bridge" in consciousness_hub.services
             assert "dream_bridge" in consciousness_hub.cognitive_components
@@ -68,15 +71,17 @@ class TestDreamBridgeIntegration:
     @pytest.mark.asyncio
     async def test_integrate_dream_bridge_failure(self, consciousness_hub):
         """Test handling of dream bridge integration failure"""
-        with patch('consciousness.consciousness_hub.logger') as mock_logger:
+        with patch("consciousness.consciousness_hub.logger") as mock_logger:
             # Force an import error
-            with patch('consciousness.consciousness_hub.DreamBridge', side_effect=ImportError("Test error")):
+            with patch(
+                "consciousness.consciousness_hub.DreamBridge",
+                side_effect=ImportError("Test error"),
+            ):
                 await consciousness_hub.integrate_dream_bridge()
 
                 # Verify error was logged
                 mock_logger.error.assert_called_with(
-                    "dream_bridge_integration_failed",
-                    error="Test error"
+                    "dream_bridge_integration_failed", error="Test error"
                 )
 
     @pytest.mark.asyncio
@@ -142,7 +147,7 @@ class TestDreamBridgeIntegration:
     async def test_consciousness_hub_dream_integration_flow(self):
         """Test the complete integration flow in consciousness hub"""
         # Create hub with mocked components
-        with patch('consciousness.consciousness_hub.DreamBridge') as mock_bridge_class:
+        with patch("consciousness.consciousness_hub.DreamBridge") as mock_bridge_class:
             mock_bridge = AsyncMock()
             mock_bridge.initialize = AsyncMock()
             mock_bridge.update_awareness = AsyncMock()
@@ -186,13 +191,11 @@ class TestDreamBridgeIntegration:
         states = [
             {"level": "active", "id": 1},
             {"level": "passive", "id": 2},
-            {"level": "dream", "id": 3}
+            {"level": "dream", "id": 3},
         ]
 
         dream_bridge.bridge.process_consciousness_to_dream = AsyncMock(
-            side_effect=[
-                {"content": f"dream_{i}"} for i in range(3)
-            ]
+            side_effect=[{"content": f"dream_{i}"} for i in range(3)]
         )
 
         dream_ids = []

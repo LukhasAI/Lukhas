@@ -1,6 +1,9 @@
 # import streamlit as st  # TODO: Install or implement streamlit
-from reasoning.reasoning_metrics import logic_drift_index, recall_efficiency_score
-from memory.folds.fold_engine import AGIMemory
+from reasoning.reasoning_metrics import (
+    logic_drift_index,
+    recall_efficiency_score,
+)
+
 
 def render_dashboard():
     """
@@ -23,6 +26,7 @@ def render_dashboard():
     optimal_memories = [{"key": "a"}, {"key": "b"}, {"key": "c"}]
     score = recall_efficiency_score(invoked_memories, optimal_memories)
     st.metric("Recall Efficiency", score)
+
 
 if __name__ == "__main__":
     render_dashboard()

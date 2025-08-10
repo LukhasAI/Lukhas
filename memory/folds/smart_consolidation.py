@@ -13,12 +13,11 @@ This script analyzes file content and purpose before merging,
 avoiding incompatible combinations like trauma repair + API services.
 """
 
-import os
-import json
 import ast
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
 from collections import defaultdict
+from pathlib import Path
+from typing import Dict, List
+
 
 class SmartConsolidator:
     def __init__(self, root_path: Path):
@@ -28,7 +27,7 @@ class SmartConsolidator:
     def analyze_file_purpose(self, file_path: Path) -> Dict[str, any]:
         """Analyze what a file actually does"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Parse AST to understand structure
@@ -54,7 +53,9 @@ class SmartConsolidator:
                         imports.append(node.module)
 
             # Categorize by actual purpose
-            purpose = self._categorize_purpose(file_path.name, content, classes, functions)
+            purpose = self._categorize_purpose(
+                file_path.name, content, classes, functions
+            )
 
             return {
                 "type": purpose,
@@ -63,16 +64,29 @@ class SmartConsolidator:
                 "imports": imports,
                 "size": len(content),
                 "has_main": "__main__" in content,
-                "is_config": any(x in content.lower() for x in ["config", "settings", "yaml", "json"]),
+                "is_config": any(
+                    x in content.lower() for x in ["config", "settings", "yaml", "json"]
+                ),
                 "is_test": any(x in file_path.name.lower() for x in ["test", "spec"]),
-                "is_api": any(x in content.lower() for x in ["fastapi", "flask", "endpoint", "router"]),
-                "is_database": any(x in content.lower() for x in ["sqlalchemy", "database", "db", "crud"]),
-                "is_ui": any(x in content.lower() for x in ["streamlit", "html", "css", "javascript"])
+                "is_api": any(
+                    x in content.lower()
+                    for x in ["fastapi", "flask", "endpoint", "router"]
+                ),
+                "is_database": any(
+                    x in content.lower()
+                    for x in ["sqlalchemy", "database", "db", "crud"]
+                ),
+                "is_ui": any(
+                    x in content.lower()
+                    for x in ["streamlit", "html", "css", "javascript"]
+                ),
             }
         except Exception as e:
             return {"type": "error", "error": str(e)}
 
-    def _categorize_purpose(self, filename: str, content: str, classes: List[str], functions: List[str]) -> str:
+    def _categorize_purpose(
+        self, filename: str, content: str, classes: List[str], functions: List[str]
+    ) -> str:
         """Determine the actual purpose of a file"""
         filename_lower = filename.lower()
         content_lower = content.lower()
@@ -84,9 +98,13 @@ class SmartConsolidator:
             return "resonance_system"
         if "semantic" in filename_lower and "extract" in filename_lower:
             return "semantic_extraction"
-        if "api" in filename_lower and any(x in content_lower for x in ["fastapi", "router", "endpoint"]):
+        if "api" in filename_lower and any(
+            x in content_lower for x in ["fastapi", "router", "endpoint"]
+        ):
             return "api_service"
-        if "service" in filename_lower and any(x in content_lower for x in ["class", "def start", "def stop"]):
+        if "service" in filename_lower and any(
+            x in content_lower for x in ["class", "def start", "def stop"]
+        ):
             return "system_service"
         if "bridge" in filename_lower:
             return "system_bridge"
@@ -112,8 +130,10 @@ class SmartConsolidator:
             return "demo_example"
 
         # Only merge truly generic engines
-        if "engine" in filename_lower and not any(specific in filename_lower for specific in
-                                                ["trauma", "resonance", "semantic", "api", "bridge", "auth"]):
+        if "engine" in filename_lower and not any(
+            specific in filename_lower
+            for specific in ["trauma", "resonance", "semantic", "api", "bridge", "auth"]
+        ):
             return "generic_engine"
 
         return "specific_component"
@@ -149,7 +169,7 @@ class SmartConsolidator:
     def undo_bad_consolidation(self):
         """Restore incorrectly consolidated files back to their original locations"""
         print("🔄 UNDOING INCORRECT CONSOLIDATION")
-        print("="*50)
+        print("=" * 50)
 
         if not self.archived_path.exists():
             print("No archived files found")
@@ -173,6 +193,7 @@ class SmartConsolidator:
 
                 # Copy file back
                 import shutil
+
                 shutil.copy2(archived_file, original_location)
                 print(f"✅ Restored: {relative_path}")
                 restored_count += 1
@@ -186,11 +207,20 @@ class SmartConsolidator:
             if dir_path.exists():
                 # Only remove consolidated files, keep original ones
                 for file in dir_path.glob("*.py"):
-                    if file.name in ["core_engine.py", "commerce_api.py", "visualization.py",
-                                   "consciousness_engine.py", "creative_engine.py", "identity_engine.py",
-                                   "learning_engine.py", "communication_engine.py",
-                                   "unified_memory_core.py", "memory_colonies.py",
-                                   "memory_visualization.py", "episodic_memory.py"]:
+                    if file.name in [
+                        "core_engine.py",
+                        "commerce_api.py",
+                        "visualization.py",
+                        "consciousness_engine.py",
+                        "creative_engine.py",
+                        "identity_engine.py",
+                        "learning_engine.py",
+                        "communication_engine.py",
+                        "unified_memory_core.py",
+                        "memory_colonies.py",
+                        "memory_visualization.py",
+                        "episodic_memory.py",
+                    ]:
                         file.unlink()
                         print(f"🗑️  Removed bad consolidation: {file}")
 
@@ -199,7 +229,7 @@ class SmartConsolidator:
         safe_merges = self.find_safe_merges()
 
         print("🧠 SMART CONSOLIDATION ANALYSIS")
-        print("="*50)
+        print("=" * 50)
         print("Files that should NOT be merged:")
 
         if not self.archived_path.exists():
@@ -210,9 +240,17 @@ class SmartConsolidator:
         for file_path in self.archived_path.rglob("*.py"):
             if file_path.is_file():
                 analysis = self.analyze_file_purpose(file_path)
-                if analysis["type"] in ["trauma_repair", "resonance_system", "semantic_extraction",
-                                     "api_service", "system_service", "system_bridge", "auth_system",
-                                     "database_system", "validation_system"]:
+                if analysis["type"] in [
+                    "trauma_repair",
+                    "resonance_system",
+                    "semantic_extraction",
+                    "api_service",
+                    "system_service",
+                    "system_bridge",
+                    "auth_system",
+                    "database_system",
+                    "validation_system",
+                ]:
                     incompatible_files.append((file_path, analysis["type"]))
 
         print(f"\n❌ Files that should remain separate ({len(incompatible_files)}):")
@@ -229,21 +267,24 @@ class SmartConsolidator:
 
         return safe_merges
 
+
 def main():
     root_path = Path(__file__).parent
     consolidator = SmartConsolidator(root_path)
 
     print("🧠 SMART CONSOLIDATION TOOL")
     print("Fixes the overly aggressive consolidation")
-    print("="*50)
+    print("=" * 50)
 
     import sys
+
     if len(sys.argv) > 1 and sys.argv[1] == "--undo":
         consolidator.undo_bad_consolidation()
     else:
         consolidator.generate_smart_consolidation_plan()
         print("\nTo undo the bad consolidation, run:")
         print("python3 smart_consolidation.py --undo")
+
 
 if __name__ == "__main__":
     main()

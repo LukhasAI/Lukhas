@@ -37,11 +37,10 @@
 """
 
 # Module imports
-import logging
-from typing import Dict, Any, Optional
 import json
-import os
+import logging
 from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -59,7 +58,7 @@ class BaseConfig:
 
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value"""
-        keys = key.split('.')
+        keys = key.split(".")
         value = self._config
 
         for k in keys:
@@ -72,7 +71,7 @@ class BaseConfig:
 
     def set(self, key: str, value: Any) -> None:
         """Set configuration value"""
-        keys = key.split('.')
+        keys = key.split(".")
         config = self._config
 
         for k in keys[:-1]:
@@ -90,8 +89,8 @@ class BaseConfig:
         if not path.exists():
             return cls({})
 
-        with open(path, 'r') as f:
-            if path.suffix == '.json':
+        with open(path) as f:
+            if path.suffix == ".json":
                 config_dict = json.load(f)
             else:
                 # Add support for other formats as needed
@@ -105,15 +104,9 @@ class BaseConfig:
 
 
 # Default configuration instance
-default_config = BaseConfig({
-    "system": {
-        "name": "LUKHAS",
-        "version": "1.0.0"
-    },
-    "logging": {
-        "level": "INFO"
-    }
-})
+default_config = BaseConfig(
+    {"system": {"name": "LUKHAS", "version": "1.0.0"}, "logging": {"level": "INFO"}}
+)
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

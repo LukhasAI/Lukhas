@@ -43,24 +43,23 @@
 """
 
 import asyncio
-import numpy as np
-import time
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
-from uuid import uuid4
-from collections import deque
 import heapq
 import math
+import time
+from collections import deque
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set
+from uuid import uuid4
 
-import structlog
+import numpy as np
 
 # Import LUKHAS components
 try:
     from memory.hippocampal.hippocampal_buffer import EpisodicMemory
     from memory.neocortical.neocortical_network import SemanticMemory
     from memory.scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
+
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
@@ -69,33 +68,35 @@ except ImportError as e:
     # Minimal stubs
     class EpisodicMemory:
         pass
+
     class SemanticMemory:
         pass
-
-from core.common import get_logger
 
 
 class ReplayMode(Enum):
     """Replay sampling modes"""
-    UNIFORM = "uniform"           # Random uniform sampling
-    PRIORITIZED = "prioritized"   # Priority-based sampling
-    TEMPORAL = "temporal"         # Recent experiences favored
-    CURIOSITY = "curiosity"       # High surprise/error experiences
-    SEMANTIC = "semantic"         # Semantic similarity based
+
+    UNIFORM = "uniform"  # Random uniform sampling
+    PRIORITIZED = "prioritized"  # Priority-based sampling
+    TEMPORAL = "temporal"  # Recent experiences favored
+    CURIOSITY = "curiosity"  # High surprise/error experiences
+    SEMANTIC = "semantic"  # Semantic similarity based
 
 
 class ExperienceType(Enum):
     """Types of experiences in replay buffer"""
-    EPISODIC = "episodic"         # Episodic memories
-    SEMANTIC = "semantic"         # Semantic memories
-    TRANSITION = "transition"     # State transitions
-    REWARD = "reward"            # Reward experiences
-    ERROR = "error"              # Prediction errors
+
+    EPISODIC = "episodic"  # Episodic memories
+    SEMANTIC = "semantic"  # Semantic memories
+    TRANSITION = "transition"  # State transitions
+    REWARD = "reward"  # Reward experiences
+    ERROR = "error"  # Prediction errors
 
 
 @dataclass
 class Experience:
     """Single experience in replay buffer"""
+
     experience_id: str = field(default_factory=lambda: str(uuid4()))
     timestamp: float = field(default_factory=time.time)
 
@@ -126,7 +127,7 @@ class Experience:
 
     def calculate_sampling_weight(self, alpha: float = 0.6) -> float:
         """Calculate sampling weight based on priority"""
-        return self.priority ** alpha
+        return self.priority**alpha
 
     def update_priority(self, td_error: float, surprise: float = 0.0):
         """Update experience priority based on learning metrics"""
@@ -134,17 +135,20 @@ class Experience:
         self.surprise = surprise
 
         # Combine TD error and surprise
-        self.priority = self.td_error + 0.1 * self.surprise + 1e-6  # Small constant for stability
+        self.priority = (
+            self.td_error + 0.1 * self.surprise + 1e-6
+        )  # Small constant for stability
 
         # Boost recent experiences
         age = time.time() - self.timestamp
         recency_factor = math.exp(-age / 3600)  # Decay over hours
-        self.priority *= (1 + 0.5 * recency_factor)
+        self.priority *= 1 + 0.5 * recency_factor
 
 
 @dataclass
 class ReplayBatch:
     """Batch of experiences for replay"""
+
     batch_id: str = field(default_factory=lambda: str(uuid4()))
     experiences: List[Experience] = field(default_factory=list)
 
@@ -184,12 +188,12 @@ class ReplayBuffer:
         self,
         capacity: int = 100000,
         alpha: float = 0.6,  # Priority exponent
-        beta: float = 0.4,   # Importance sampling exponent
+        beta: float = 0.4,  # Importance sampling exponent
         beta_increment: float = 0.001,
         enable_prioritized: bool = True,
         enable_clustering: bool = True,
         min_buffer_size: int = 1000,
-        scaffold: Optional[Any] = None
+        scaffold: Optional[Any] = None,
     ):
         self.capacity = capacity
         self.alpha = alpha
@@ -229,7 +233,7 @@ class ReplayBuffer:
             "ReplayBuffer initialized",
             capacity=capacity,
             prioritized=enable_prioritized,
-            clustering=enable_clustering
+            clustering=enable_clustering,
         )
 
     async def start(self):
@@ -255,7 +259,7 @@ class ReplayBuffer:
         logger.info(
             "ReplayBuffer stopped",
             total_experiences=len(self.experiences),
-            total_samples=self.total_samples
+            total_samples=self.total_samples,
         )
 
     def add_experience(
@@ -267,7 +271,7 @@ class ReplayBuffer:
         done: bool = False,
         experience_type: ExperienceType = ExperienceType.EPISODIC,
         source_id: Optional[str] = None,
-        priority: Optional[float] = None
+        priority: Optional[float] = None,
     ) -> str:
         """Add new experience to buffer"""
 
@@ -280,7 +284,7 @@ class ReplayBuffer:
             done=done,
             experience_type=experience_type,
             source_id=source_id,
-            priority=priority or self.max_priority
+            priority=priority or self.max_priority,
         )
 
         # Add to buffer
@@ -292,14 +296,16 @@ class ReplayBuffer:
 
         # Update priority tracking
         if self.enable_prioritized:
-            heapq.heappush(self.priority_tree, (-experience.priority, experience.experience_id))
+            heapq.heappush(
+                self.priority_tree, (-experience.priority, experience.experience_id)
+            )
             self.max_priority = max(self.max_priority, experience.priority)
 
         logger.debug(
             "Experience added",
             experience_id=experience.experience_id[:8],
             type=experience_type.value,
-            priority=experience.priority
+            priority=experience.priority,
         )
 
         return experience.experience_id
@@ -310,24 +316,22 @@ class ReplayBuffer:
         return self.add_experience(
             state=memory.content,
             experience_type=ExperienceType.EPISODIC,
-            source_id=memory.memory_id if hasattr(memory, 'memory_id') else None,
-            priority=getattr(memory, 'encoding_strength', 1.0)
+            source_id=memory.memory_id if hasattr(memory, "memory_id") else None,
+            priority=getattr(memory, "encoding_strength", 1.0),
         )
 
     def add_semantic_memory(self, memory: SemanticMemory) -> str:
         """Add semantic memory as experience"""
 
         return self.add_experience(
-            state=memory.concept if hasattr(memory, 'concept') else memory,
+            state=memory.concept if hasattr(memory, "concept") else memory,
             experience_type=ExperienceType.SEMANTIC,
-            source_id=memory.memory_id if hasattr(memory, 'memory_id') else None,
-            priority=getattr(memory, 'stability', 1.0)
+            source_id=memory.memory_id if hasattr(memory, "memory_id") else None,
+            priority=getattr(memory, "stability", 1.0),
         )
 
     def sample_batch(
-        self,
-        batch_size: int,
-        mode: ReplayMode = ReplayMode.PRIORITIZED
+        self, batch_size: int, mode: ReplayMode = ReplayMode.PRIORITIZED
     ) -> ReplayBatch:
         """Sample batch of experiences for replay"""
 
@@ -347,25 +351,26 @@ class ReplayBuffer:
             sampled_experiences = self._sample_uniform(batch_size)
 
         # Create batch
-        batch = ReplayBatch(
-            experiences=sampled_experiences,
-            sampling_mode=mode
-        )
+        batch = ReplayBatch(experiences=sampled_experiences, sampling_mode=mode)
 
         # Calculate importance weights if prioritized
         if mode == ReplayMode.PRIORITIZED and self.enable_prioritized:
-            batch.importance_weights = self._calculate_importance_weights(sampled_experiences)
+            batch.importance_weights = self._calculate_importance_weights(
+                sampled_experiences
+            )
 
         batch.calculate_metrics()
 
         # Update statistics
         self.total_samples += len(sampled_experiences)
-        self.sampling_history.append({
-            'timestamp': time.time(),
-            'mode': mode.value,
-            'batch_size': len(sampled_experiences),
-            'avg_priority': batch.avg_priority
-        })
+        self.sampling_history.append(
+            {
+                "timestamp": time.time(),
+                "mode": mode.value,
+                "batch_size": len(sampled_experiences),
+                "avg_priority": batch.avg_priority,
+            }
+        )
 
         # Update beta for importance sampling
         self.beta = min(1.0, self.beta + self.beta_increment)
@@ -374,7 +379,7 @@ class ReplayBuffer:
             "Batch sampled",
             batch_id=batch.batch_id[:8],
             size=len(sampled_experiences),
-            mode=mode.value
+            mode=mode.value,
         )
 
         return batch
@@ -401,7 +406,7 @@ class ReplayBuffer:
         self,
         target_experience: Experience,
         similarity_threshold: float = 0.7,
-        max_results: int = 10
+        max_results: int = 10,
     ) -> List[Experience]:
         """Find experiences similar to target"""
 
@@ -485,10 +490,7 @@ class ReplayBuffer:
         # Sample based on weights
         sample_size = min(batch_size, len(experiences))
         indices = np.random.choice(
-            len(experiences),
-            size=sample_size,
-            replace=False,
-            p=weights
+            len(experiences), size=sample_size, replace=False, p=weights
         )
 
         sampled = [experiences[i] for i in indices]
@@ -505,10 +507,7 @@ class ReplayBuffer:
         experiences = list(self.experiences.values())
 
         # Sort by surprise and TD error
-        experiences.sort(
-            key=lambda x: x.surprise + x.td_error,
-            reverse=True
-        )
+        experiences.sort(key=lambda x: x.surprise + x.td_error, reverse=True)
 
         # Take top experiences
         sample_size = min(batch_size, len(experiences))
@@ -543,18 +542,13 @@ class ReplayBuffer:
             if cluster_experiences:
                 cluster_sample_size = min(samples_per_cluster, len(cluster_experiences))
                 cluster_sample = np.random.choice(
-                    cluster_experiences,
-                    size=cluster_sample_size,
-                    replace=False
+                    cluster_experiences, size=cluster_sample_size, replace=False
                 )
                 sampled.extend(cluster_sample)
 
         # Fill remaining slots if needed
         while len(sampled) < batch_size and len(sampled) < len(self.experiences):
-            remaining = [
-                exp for exp in self.experiences.values()
-                if exp not in sampled
-            ]
+            remaining = [exp for exp in self.experiences.values() if exp not in sampled]
             if remaining:
                 sampled.append(np.random.choice(remaining))
 
@@ -564,7 +558,9 @@ class ReplayBuffer:
 
         return sampled[:batch_size]
 
-    def _calculate_importance_weights(self, experiences: List[Experience]) -> np.ndarray:
+    def _calculate_importance_weights(
+        self, experiences: List[Experience]
+    ) -> np.ndarray:
         """Calculate importance sampling weights"""
 
         if not self.enable_prioritized:
@@ -576,7 +572,8 @@ class ReplayBuffer:
 
         for exp in experiences:
             prob = exp.calculate_sampling_weight(self.alpha) / sum(
-                e.calculate_sampling_weight(self.alpha) for e in self.experiences.values()
+                e.calculate_sampling_weight(self.alpha)
+                for e in self.experiences.values()
             )
             weight = (1.0 / (N * prob)) ** self.beta
             weights.append(weight)
@@ -606,7 +603,9 @@ class ReplayBuffer:
 
         return np.array(features, dtype=float)
 
-    def _calculate_similarity(self, features1: np.ndarray, features2: np.ndarray) -> float:
+    def _calculate_similarity(
+        self, features1: np.ndarray, features2: np.ndarray
+    ) -> float:
         """Calculate cosine similarity between feature vectors"""
 
         dot_product = np.dot(features1, features2)
@@ -681,13 +680,15 @@ class ReplayBuffer:
             "eviction_count": self.eviction_count,
             "priority_updates": self.priority_updates,
             "max_priority": self.max_priority,
-            "current_beta": self.beta
+            "current_beta": self.beta,
         }
 
         # Experience type distribution
         type_counts = {}
         for exp in self.experiences.values():
-            type_counts[exp.experience_type.value] = type_counts.get(exp.experience_type.value, 0) + 1
+            type_counts[exp.experience_type.value] = (
+                type_counts.get(exp.experience_type.value, 0) + 1
+            )
         metrics["experience_types"] = type_counts
 
         # Priority statistics
@@ -705,7 +706,9 @@ class ReplayBuffer:
         # Clustering metrics
         if self.experience_clusters:
             metrics["num_clusters"] = len(self.experience_clusters)
-            cluster_sizes = [len(cluster) for cluster in self.experience_clusters.values()]
+            cluster_sizes = [
+                len(cluster) for cluster in self.experience_clusters.values()
+            ]
             metrics["avg_cluster_size"] = np.mean(cluster_sizes)
 
         return metrics
@@ -716,9 +719,7 @@ async def demonstrate_replay_buffer():
     """Demonstrate replay buffer functionality"""
 
     buffer = ReplayBuffer(
-        capacity=1000,
-        enable_prioritized=True,
-        enable_clustering=True
+        capacity=1000, enable_prioritized=True, enable_clustering=True
     )
 
     await buffer.start()
@@ -744,20 +745,27 @@ async def demonstrate_replay_buffer():
             action=f"action_{i}",
             reward=reward,
             experience_type=exp_type,
-            priority=np.random.uniform(0.1, 2.0)
+            priority=np.random.uniform(0.1, 2.0),
         )
 
         if i < 5:
             print(f"Added: {exp_id[:8]}... ({exp_type.value})")
 
     # Sample different batches
-    print(f"\n--- Sampling Batches ---")
+    print("\n--- Sampling Batches ---")
 
-    modes = [ReplayMode.UNIFORM, ReplayMode.PRIORITIZED, ReplayMode.TEMPORAL, ReplayMode.CURIOSITY]
+    modes = [
+        ReplayMode.UNIFORM,
+        ReplayMode.PRIORITIZED,
+        ReplayMode.TEMPORAL,
+        ReplayMode.CURIOSITY,
+    ]
 
     for mode in modes:
         batch = buffer.sample_batch(10, mode=mode)
-        print(f"{mode.value}: {len(batch.experiences)} experiences, avg_priority={batch.avg_priority:.2f}")
+        print(
+            f"{mode.value}: {len(batch.experiences)} experiences, avg_priority={batch.avg_priority:.2f}"
+        )
 
     # Update priorities
     print("\n--- Updating Priorities ---")

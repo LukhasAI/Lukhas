@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 
-
 import importlib.metadata
 import logging
 from abc import ABC, abstractmethod
@@ -47,7 +46,9 @@ class PluginRegistry:
     """Registry handling plugin discovery and access."""
 
     def __init__(self) -> None:
-        self._plugins: Dict[PluginType, Dict[str, Plugin]] = {pt: {} for pt in PluginType}
+        self._plugins: Dict[PluginType, Dict[str, Plugin]] = {
+            pt: {} for pt in PluginType
+        }
         self._load_entry_points()
 
     def _load_entry_points(self) -> None:

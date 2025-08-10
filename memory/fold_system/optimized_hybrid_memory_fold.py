@@ -21,34 +21,55 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import numpy as np
-import hashlib
 import json
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple, Any, Union
-from dataclasses import dataclass, field
-import structlog
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 
 # Import optimized memory components
 try:
-    from .optimized_memory_item import OptimizedMemoryItem, create_optimized_memory, convert_from_legacy, convert_to_legacy
-    from .hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer, MemoryAttentionLayer, ContinuousLearningEngine
+    from .hybrid_memory_fold import (
+        ContinuousLearningEngine,
+        HybridMemoryFold,
+        MemoryAttentionLayer,
+        VectorStorageLayer,
+    )
+    from .lazy_loading_embeddings import (
+        LazyEmbeddingLoader,
+        LazyMemoryItem,
+        create_lazy_embedding_system,
+    )
     from .memory_fold_system import MemoryItem
-    from .lazy_loading_embeddings import LazyEmbeddingLoader, LazyMemoryItem, create_lazy_embedding_system
+    from .optimized_memory_item import (
+        OptimizedMemoryItem,
+        convert_from_legacy,
+        convert_to_legacy,
+        create_optimized_memory,
+    )
 except ImportError:
     # Fallback for direct execution
-    from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory, convert_from_legacy, convert_to_legacy
-    from hybrid_memory_fold import HybridMemoryFold, VectorStorageLayer, MemoryAttentionLayer, ContinuousLearningEngine
+    from hybrid_memory_fold import (
+        HybridMemoryFold,
+        VectorStorageLayer,
+    )
+    from optimized_memory_item import (
+        OptimizedMemoryItem,
+        create_optimized_memory,
+    )
+
     from memory_fold_system import MemoryItem
+
     try:
-        from lazy_loading_embeddings import LazyEmbeddingLoader, LazyMemoryItem, create_lazy_embedding_system
+        from lazy_loading_embeddings import (
+            LazyEmbeddingLoader,
+            LazyMemoryItem,
+            create_lazy_embedding_system,
+        )
     except ImportError:
         LazyEmbeddingLoader = None
         LazyMemoryItem = None
         create_lazy_embedding_system = None
-
-from core.common import get_logger
 
 
 class OptimizedVectorStorageLayer(VectorStorageLayer):
@@ -78,13 +99,15 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             memory_id=memory_id,
             vector_size_bytes=vector_size,
             total_usage_mb=self.memory_usage_bytes / (1024 * 1024),
-            quantized=self.enable_quantization
+            quantized=self.enable_quantization,
         )
 
     def get_memory_usage_stats(self) -> Dict[str, Any]:
         """Get detailed memory usage statistics"""
         num_vectors = len(self.vectors)
-        avg_size_per_vector = self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
+        avg_size_per_vector = (
+            self.memory_usage_bytes / num_vectors if num_vectors > 0 else 0
+        )
 
         return {
             "total_vectors": num_vectors,
@@ -92,7 +115,11 @@ class OptimizedVectorStorageLayer(VectorStorageLayer):
             "total_memory_mb": self.memory_usage_bytes / (1024 * 1024),
             "avg_bytes_per_vector": avg_size_per_vector,
             "quantization_enabled": self.enable_quantization,
-            "compression_ratio": (self.dimension * 4) / avg_size_per_vector if avg_size_per_vector > 0 else 1.0
+            "compression_ratio": (
+                (self.dimension * 4) / avg_size_per_vector
+                if avg_size_per_vector > 0
+                else 1.0
+            ),
         }
 
 
@@ -115,20 +142,19 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         lazy_loading_cache_size: int = 10000,
         lazy_loading_cache_memory_mb: int = 512,
         lazy_loading_storage_path: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ):
         # Initialize parent with standard settings
         super().__init__(
             embedding_dim=embedding_dim,
             enable_attention=enable_attention,
             enable_continuous_learning=enable_continuous_learning,
-            **kwargs
+            **kwargs,
         )
 
         # Replace vector store with optimized version
         self.vector_store = OptimizedVectorStorageLayer(
-            dimension=embedding_dim,
-            enable_quantization=enable_quantization
+            dimension=embedding_dim, enable_quantization=enable_quantization
         )
 
         # Optimization settings
@@ -143,16 +169,18 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             self.lazy_loader = create_lazy_embedding_system(
                 storage_path=storage_path,
                 cache_size=lazy_loading_cache_size,
-                cache_memory_mb=lazy_loading_cache_memory_mb
+                cache_memory_mb=lazy_loading_cache_memory_mb,
             )
             logger.info(
                 "Lazy loading enabled",
                 storage_path=storage_path,
                 cache_size=lazy_loading_cache_size,
-                cache_memory_mb=lazy_loading_cache_memory_mb
+                cache_memory_mb=lazy_loading_cache_memory_mb,
             )
         elif enable_lazy_loading:
-            logger.warning("Lazy loading requested but not available (missing dependencies)")
+            logger.warning(
+                "Lazy loading requested but not available (missing dependencies)"
+            )
             self.enable_lazy_loading = False
 
         # Memory usage tracking
@@ -161,7 +189,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             "memories_optimized": 0,
             "total_size_before": 0,
             "total_size_after": 0,
-            "compression_ratios": []
+            "compression_ratios": [],
         }
 
         logger.info(
@@ -169,7 +197,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             embedding_dim=embedding_dim,
             quantization_enabled=enable_quantization,
             compression_enabled=enable_compression,
-            expected_memory_reduction="16x"
+            expected_memory_reduction="16x",
         )
 
     async def fold_in_with_embedding(
@@ -180,7 +208,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         text_content: Optional[str] = None,
         image_content: Optional[np.ndarray] = None,
         audio_content: Optional[np.ndarray] = None,
-        **kwargs
+        **kwargs,
     ) -> str:
         """
         Optimized fold-in using OptimizedMemoryItem.
@@ -202,7 +230,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             "importance": kwargs.get("importance", 0.5),
             "access_count": 0,
             "type": kwargs.get("memory_type", "knowledge"),
-            "emotion": kwargs.get("emotion", "neutral")
+            "emotion": kwargs.get("emotion", "neutral"),
         }
 
         # Add safety metadata if available
@@ -221,7 +249,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             embedding=embedding,
             metadata=metadata,
             compress_content=self.enable_compression,
-            quantize_embedding=self.enable_quantization
+            quantize_embedding=self.enable_quantization,
         )
 
         # Store optimized memory
@@ -233,7 +261,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             data=data,
             timestamp=metadata["timestamp"],
             access_count=0,
-            last_accessed=None
+            last_accessed=None,
         )
 
         # Register tags
@@ -261,7 +289,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         self.optimization_stats["total_size_after"] += optimized_size
         self.optimization_stats["compression_ratios"].append(compression_ratio)
 
-        self.total_memory_saved += (legacy_size - optimized_size)
+        self.total_memory_saved += legacy_size - optimized_size
 
         logger.info(
             "Optimized memory folded in",
@@ -270,7 +298,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             optimized_size_kb=optimized_size / 1024,
             compression_ratio=f"{compression_ratio:.1f}x",
             total_saved_mb=self.total_memory_saved / (1024 * 1024),
-            has_embedding=embedding is not None
+            has_embedding=embedding is not None,
         )
 
         return memory_id
@@ -299,7 +327,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 data=content,
                 timestamp=metadata.get("timestamp", datetime.now(timezone.utc)),
                 access_count=metadata.get("access_count", 0),
-                last_accessed=metadata.get("last_accessed")
+                last_accessed=metadata.get("last_accessed"),
             )
 
             # Update access statistics
@@ -310,7 +338,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 "Memory retrieved and converted",
                 memory_id=memory_id,
                 content_length=len(content),
-                num_tags=len(tags)
+                num_tags=len(tags),
             )
 
             return legacy_memory
@@ -323,7 +351,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         top_k: int = 10,
         use_attention: bool = True,
         combine_with_tags: bool = True,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
     ) -> List[Tuple[MemoryItem, float]]:
         """
         Semantic search with optimized memory retrieval.
@@ -359,9 +387,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 memory_embedding = self.embedding_cache.get(memory_id)
                 if memory_embedding is not None:
                     attention_scores = self.attention_layer.compute_attention_scores(
-                        query_embedding,
-                        [memory_embedding],
-                        context or {}
+                        query_embedding, [memory_embedding], context or {}
                     )
                     if attention_scores:
                         score *= attention_scores[0]
@@ -384,9 +410,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             query_tags = query.lower().split()
             for tag in query_tags:
                 if tag in self.tag_name_index:
-                    tag_results = await self.fold_out_by_tag(
-                        tag, max_items=top_k
-                    )
+                    tag_results = await self.fold_out_by_tag(tag, max_items=top_k)
                     for tag_memory, _ in tag_results:
                         # Check if already in results
                         if not any(m[0].item_id == tag_memory.item_id for m in results):
@@ -401,21 +425,21 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         data: Any,
         tags: List[str],
         embedding: Optional[np.ndarray],
-        metadata: Dict[str, Any]
+        metadata: Dict[str, Any],
     ) -> int:
         """Estimate size of legacy memory representation"""
         # Content size
-        content_size = len(str(data).encode('utf-8'))
+        content_size = len(str(data).encode("utf-8"))
 
         # Tags size
-        tags_size = sum(len(tag.encode('utf-8')) for tag in tags)
+        tags_size = sum(len(tag.encode("utf-8")) for tag in tags)
 
         # Embedding size (float32)
         embedding_size = embedding.nbytes if embedding is not None else 0
 
         # Metadata size (JSON)
         metadata_json = json.dumps(metadata, default=str)
-        metadata_size = len(metadata_json.encode('utf-8'))
+        metadata_size = len(metadata_json.encode("utf-8"))
 
         # Python object overhead
         python_overhead = 500
@@ -423,7 +447,14 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # System overhead (indexes, etc.)
         system_overhead = 1000
 
-        return content_size + tags_size + embedding_size + metadata_size + python_overhead + system_overhead
+        return (
+            content_size
+            + tags_size
+            + embedding_size
+            + metadata_size
+            + python_overhead
+            + system_overhead
+        )
 
     def get_optimization_statistics(self) -> Dict[str, Any]:
         """Get detailed optimization statistics"""
@@ -432,8 +463,12 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # Calculate averages
         if stats["memories_optimized"] > 0:
             stats["avg_compression_ratio"] = np.mean(stats["compression_ratios"])
-            stats["avg_size_before_kb"] = stats["total_size_before"] / stats["memories_optimized"] / 1024
-            stats["avg_size_after_kb"] = stats["total_size_after"] / stats["memories_optimized"] / 1024
+            stats["avg_size_before_kb"] = (
+                stats["total_size_before"] / stats["memories_optimized"] / 1024
+            )
+            stats["avg_size_after_kb"] = (
+                stats["total_size_after"] / stats["memories_optimized"] / 1024
+            )
             stats["total_memory_saved_mb"] = self.total_memory_saved / (1024 * 1024)
 
         # Add vector storage stats
@@ -441,8 +476,12 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
         # Memory efficiency metrics
         if stats["total_size_before"] > 0:
-            stats["overall_compression_ratio"] = stats["total_size_before"] / stats["total_size_after"]
-            stats["memory_efficiency_improvement"] = f"{stats['overall_compression_ratio']:.1f}x"
+            stats["overall_compression_ratio"] = (
+                stats["total_size_before"] / stats["total_size_after"]
+            )
+            stats["memory_efficiency_improvement"] = (
+                f"{stats['overall_compression_ratio']:.1f}x"
+            )
             stats["storage_capacity_multiplier"] = stats["overall_compression_ratio"]
 
         return stats
@@ -457,8 +496,8 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         # Memory capacity projections
         if self.optimization_stats["memories_optimized"] > 0:
             avg_optimized_size = (
-                self.optimization_stats["total_size_after"] /
-                self.optimization_stats["memories_optimized"]
+                self.optimization_stats["total_size_after"]
+                / self.optimization_stats["memories_optimized"]
             )
 
             # Capacity calculations
@@ -470,15 +509,13 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 "avg_memory_size_kb": avg_optimized_size / 1024,
                 "memories_per_gb": memories_per_gb,
                 "memories_per_10gb": memories_per_gb * 10,
-                "storage_efficiency": f"{memories_per_gb:,} memories/GB (vs ~2,560 unoptimized)"
+                "storage_efficiency": f"{memories_per_gb:,} memories/GB (vs ~2,560 unoptimized)",
             }
 
         return base_stats
 
     async def run_optimization_benchmark(
-        self,
-        num_test_memories: int = 100,
-        include_embeddings: bool = True
+        self, num_test_memories: int = 100, include_embeddings: bool = True
     ) -> Dict[str, Any]:
         """
         Run optimization benchmark to validate memory savings.
@@ -490,14 +527,14 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         Returns:
             Benchmark results
         """
-        import time
         import random
         import string
+        import time
 
         logger.info(
             "Starting optimization benchmark",
             test_memories=num_test_memories,
-            include_embeddings=include_embeddings
+            include_embeddings=include_embeddings,
         )
 
         # Generate test data
@@ -505,9 +542,10 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
         for i in range(num_test_memories):
             # Realistic content
             content_length = random.randint(50, 500)
-            content = "Memory content: " + ''.join(
-                random.choices(string.ascii_letters + string.digits + ' ',
-                             k=content_length)
+            content = "Memory content: " + "".join(
+                random.choices(
+                    string.ascii_letters + string.digits + " ", k=content_length
+                )
             )
 
             # Random tags
@@ -515,7 +553,11 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             tags = [f"tag_{random.randint(1, 100)}" for _ in range(num_tags)]
 
             # Embedding
-            embedding = np.random.randn(self.embedding_dim).astype(np.float32) if include_embeddings else None
+            embedding = (
+                np.random.randn(self.embedding_dim).astype(np.float32)
+                if include_embeddings
+                else None
+            )
 
             test_memories.append((content, tags, embedding))
 
@@ -525,9 +567,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
 
         for content, tags, embedding in test_memories:
             memory_id = await self.fold_in_with_embedding(
-                data=content,
-                tags=tags,
-                embedding=embedding
+                data=content, tags=tags, embedding=embedding
             )
             memory_ids.append(memory_id)
 
@@ -562,7 +602,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             "test_configuration": {
                 "num_memories": num_test_memories,
                 "include_embeddings": include_embeddings,
-                "embedding_dim": self.embedding_dim
+                "embedding_dim": self.embedding_dim,
             },
             "performance_metrics": {
                 "insertion_time_ms": insertion_time * 1000,
@@ -570,14 +610,14 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
                 "retrieval_time_ms": retrieval_time * 1000,
                 "retrieval_rate_per_sec": retrieval_count / retrieval_time,
                 "search_time_ms": search_time * 1000,
-                "search_rate_per_sec": 20 / search_time if search_time > 0 else 0
+                "search_rate_per_sec": 20 / search_time if search_time > 0 else 0,
             },
             "memory_optimization": opt_stats,
             "validation": {
                 "all_memories_stored": len(memory_ids) == num_test_memories,
                 "all_memories_retrieved": retrieval_count == num_test_memories,
-                "search_returned_results": len(search_results) > 0
-            }
+                "search_returned_results": len(search_results) > 0,
+            },
         }
 
         logger.info(
@@ -585,7 +625,7 @@ class OptimizedHybridMemoryFold(HybridMemoryFold):
             insertion_rate=f"{benchmark_results['performance_metrics']['insertion_rate_per_sec']:.1f}/sec",
             retrieval_rate=f"{benchmark_results['performance_metrics']['retrieval_rate_per_sec']:.1f}/sec",
             compression_ratio=f"{opt_stats.get('avg_compression_ratio', 1):.1f}x",
-            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0):.1f}MB"
+            memory_saved_mb=f"{opt_stats.get('total_memory_saved_mb', 0):.1f}MB",
         )
 
         return benchmark_results
@@ -601,7 +641,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
     lazy_loading_cache_size: int = 10000,
     lazy_loading_cache_memory_mb: int = 512,
     lazy_loading_storage_path: Optional[str] = None,
-    **kwargs
+    **kwargs,
 ) -> OptimizedHybridMemoryFold:
     """
     Create ultra-optimized hybrid memory fold with lazy loading for massive scalability.
@@ -634,6 +674,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
 
     # Validate embedding dimension
     from .optimized_memory_item import QuantizationCodec
+
     if embedding_dim not in QuantizationCodec.SUPPORTED_DIMENSIONS:
         logger.warning(
             f"Embedding dimension {embedding_dim} not optimal. "
@@ -644,7 +685,10 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import (
+                create_structural_conscience,
+            )
+
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
         except ImportError:
@@ -660,7 +704,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
         lazy_loading_cache_size=lazy_loading_cache_size,
         lazy_loading_cache_memory_mb=lazy_loading_cache_memory_mb,
         lazy_loading_storage_path=lazy_loading_storage_path,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -672,7 +716,7 @@ def create_optimized_hybrid_memory_fold(
     enable_quantization: bool = True,
     enable_compression: bool = True,
     enable_conscience: bool = True,
-    **kwargs
+    **kwargs,
 ) -> OptimizedHybridMemoryFold:
     """
     Create an ultra-optimized AGI-ready hybrid memory fold system.
@@ -696,6 +740,7 @@ def create_optimized_hybrid_memory_fold(
 
     # Validate embedding dimension
     from .optimized_memory_item import QuantizationCodec
+
     if embedding_dim not in QuantizationCodec.SUPPORTED_DIMENSIONS:
         logger.warning(
             f"Embedding dimension {embedding_dim} not optimal. "
@@ -705,7 +750,10 @@ def create_optimized_hybrid_memory_fold(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import (
+                create_structural_conscience,
+            )
+
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
         except ImportError:
@@ -717,7 +765,7 @@ def create_optimized_hybrid_memory_fold(
         enable_continuous_learning=enable_continuous_learning,
         enable_quantization=enable_quantization,
         enable_compression=enable_compression,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -727,7 +775,7 @@ def create_optimized_hybrid_memory_fold_512(
     enable_quantization: bool = True,
     enable_compression: bool = True,
     enable_conscience: bool = True,
-    **kwargs
+    **kwargs,
 ) -> OptimizedHybridMemoryFold:
     """
     Create ultra-optimized hybrid memory fold with 512-dimensional embeddings.
@@ -751,7 +799,7 @@ def create_optimized_hybrid_memory_fold_512(
         enable_quantization=enable_quantization,
         enable_compression=enable_compression,
         enable_conscience=enable_conscience,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -759,7 +807,7 @@ def create_optimized_hybrid_memory_fold_512(
 async def migrate_to_optimized(
     source_memory_fold: HybridMemoryFold,
     target_memory_fold: OptimizedHybridMemoryFold,
-    batch_size: int = 100
+    batch_size: int = 100,
 ) -> Dict[str, Any]:
     """
     Migrate memories from standard to optimized format.
@@ -780,17 +828,18 @@ async def migrate_to_optimized(
         "failed_migrations": 0,
         "size_before_bytes": 0,
         "size_after_bytes": 0,
-        "migration_time_seconds": 0
+        "migration_time_seconds": 0,
     }
 
     import time
+
     start_time = time.time()
 
     # Migrate in batches
     memory_ids = list(source_memory_fold.items.keys())
 
     for i in range(0, len(memory_ids), batch_size):
-        batch_ids = memory_ids[i:i + batch_size]
+        batch_ids = memory_ids[i : i + batch_size]
 
         for memory_id in batch_ids:
             try:
@@ -818,7 +867,7 @@ async def migrate_to_optimized(
                     data=source_memory.data,
                     tags=tags,
                     embedding=embedding,
-                    importance=getattr(source_memory, 'importance', 0.5)
+                    importance=getattr(source_memory, "importance", 0.5),
                 )
 
                 # Track optimized size
@@ -830,9 +879,7 @@ async def migrate_to_optimized(
 
             except Exception as e:
                 logger.error(
-                    "Failed to migrate memory",
-                    memory_id=memory_id,
-                    error=str(e)
+                    "Failed to migrate memory", memory_id=memory_id, error=str(e)
                 )
                 migration_stats["failed_migrations"] += 1
 
@@ -845,7 +892,9 @@ async def migrate_to_optimized(
 
     # Calculate final statistics
     if migration_stats["size_before_bytes"] > 0:
-        compression_ratio = migration_stats["size_before_bytes"] / migration_stats["size_after_bytes"]
+        compression_ratio = (
+            migration_stats["size_before_bytes"] / migration_stats["size_after_bytes"]
+        )
         migration_stats["compression_ratio"] = compression_ratio
         migration_stats["memory_saved_mb"] = (
             migration_stats["size_before_bytes"] - migration_stats["size_after_bytes"]
@@ -856,7 +905,7 @@ async def migrate_to_optimized(
         migrated=migration_stats["migrated_memories"],
         failed=migration_stats["failed_migrations"],
         compression_ratio=f"{migration_stats.get('compression_ratio', 1):.1f}x",
-        memory_saved_mb=f"{migration_stats.get('memory_saved_mb', 0):.1f}MB"
+        memory_saved_mb=f"{migration_stats.get('memory_saved_mb', 0):.1f}MB",
     )
 
     return migration_stats

@@ -4,10 +4,9 @@ Demo script showing what the LUKHAS documentation updater would do.
 This creates example outputs without requiring an OpenAI API key.
 """
 
-import os
-from pathlib import Path
 from datetime import datetime
-import openai
+from pathlib import Path
+
 
 def create_example_lukhas_header(file_path: str, module_purpose: str) -> str:
     """Create an example LUKHAS header"""
@@ -29,7 +28,6 @@ def create_example_lukhas_header(file_path: str, module_purpose: str) -> str:
 ║ meaning, where each memory finds its proper place in the grand cathedral
 ║ of consciousness. Through elegant algorithms and poetic precision,
 ║ it bridges the gap between raw information and profound insight.""",
-
         "optimization system": """║ In the eternal dance between efficiency and elegance, this optimization
 ║ engine emerges as the choreographer of computational beauty. Like a
 ║ master sculptor chiseling away excess marble to reveal the perfect form
@@ -41,7 +39,6 @@ def create_example_lukhas_header(file_path: str, module_purpose: str) -> str:
 ║ moves with purpose, every calculation flows with intention, and the
 ║ entire system achieves a harmony that speaks to both the pragmatic
 ║ mind and the aesthetic soul.""",
-
         "integration system": """║ In the symphony of software architecture, integration modules serve as
 ║ the master conductor's baton, orchestrating diverse components into
 ║ harmonious collaboration. This system embodies the philosophy that
@@ -52,11 +49,13 @@ def create_example_lukhas_header(file_path: str, module_purpose: str) -> str:
 ║ communication between disparate systems, enabling them to share their
 ║ unique gifts while maintaining their individual identities. Through
 ║ this delicate balance of unity and diversity, computational ecosystems
-║ flourish with unprecedented sophistication."""
+║ flourish with unprecedented sophistication.""",
     }
 
     # Select appropriate poetic content
-    poetic_content = poetic_examples.get(module_purpose, poetic_examples["memory system"])
+    poetic_content = poetic_examples.get(
+        module_purpose, poetic_examples["memory system"]
+    )
 
     # Generate title
     title = module_purpose.upper().replace(" ", "_") + "_ARCHITECTURE"
@@ -99,6 +98,7 @@ def create_example_lukhas_header(file_path: str, module_purpose: str) -> str:
 ╚══════════════════════════════════════════════════════════════════════════════════
 """'''
 
+
 def demo_memory_systems_update():
     """Show what would happen when updating memory systems"""
 
@@ -121,7 +121,7 @@ def demo_memory_systems_update():
     example_files = [
         ("memory/systems/memory_fold_system.py", "memory system"),
         ("memory/systems/optimized_memory_item.py", "optimization system"),
-        ("memory/systems/integration_adapters.py", "integration system")
+        ("memory/systems/integration_adapters.py", "integration system"),
     ]
 
     for i, (file_path, purpose) in enumerate(example_files):
@@ -140,11 +140,11 @@ def demo_memory_systems_update():
     print(f"✅ Files that would be processed: {len(memory_files)}")
     print(f"📁 Total files analyzed: {len(memory_files)}")
     print(f"🔄 Files needing update: {len(memory_files)} (estimated)")
-    print(f"📈 Success rate: 100.0% (estimated)")
+    print("📈 Success rate: 100.0% (estimated)")
     print()
     print("💰 Estimated API Usage:")
-    print(f"   Model: gpt-4o-mini (4.1)")
-    print(f"   Tokens per file: ~1,500 (estimated)")
+    print("   Model: gpt-4o-mini (4.1)")
+    print("   Tokens per file: ~1,500 (estimated)")
     print(f"   Total tokens: ~{len(memory_files) * 1500:,}")
     print(f"   Estimated cost: ${(len(memory_files) * 1500 / 1000) * 0.15:.4f}")
     print()
@@ -152,6 +152,7 @@ def demo_memory_systems_update():
     print("   1. Set OPENAI_API_KEY environment variable")
     print("   2. Run: python3 update_documentation.py --memory-systems")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     demo_memory_systems_update()

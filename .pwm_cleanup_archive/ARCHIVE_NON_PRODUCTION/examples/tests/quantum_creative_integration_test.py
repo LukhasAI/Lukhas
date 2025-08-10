@@ -10,12 +10,9 @@ Creator: Gonzalo R. Dominguez Marchan
 Testing: Quantum creativity enhancements
 """
 
-import sys
-import asyncio
-from pathlib import Path
 import importlib.util
-from typing import Dict, Any
-import traceback
+import sys
+from pathlib import Path
 
 
 class QuantumCreativeIntegrationTest:
@@ -250,7 +247,7 @@ class QuantumCreativeIntegrationTest:
         success_rate = (passed / total) * 100 if total > 0 else 0
 
         print("=" * 60)
-        print(f"🏆 QUANTUM INTEGRATION TEST SUMMARY")
+        print("🏆 QUANTUM INTEGRATION TEST SUMMARY")
         print(f"✅ Passed: {passed}/{total} ({success_rate:.1f}%)")
         print()
 

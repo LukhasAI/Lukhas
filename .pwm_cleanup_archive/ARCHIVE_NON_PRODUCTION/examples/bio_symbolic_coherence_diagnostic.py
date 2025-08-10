@@ -5,11 +5,13 @@ Analyzes why coherence is low and provides optimization strategies
 """
 
 import sys
-sys.path.append('.')
 
-from bio.symbolic.bio_symbolic import bio_symbolic, SymbolicGlyph
+sys.path.append(".")
+
 import json
 from datetime import datetime
+
+from bio.symbolic.bio_symbolic import bio_symbolic
 
 
 def diagnose_coherence():
@@ -21,16 +23,18 @@ def diagnose_coherence():
 
     # Get current statistics
     stats = bio_symbolic.get_statistics()
-    avg_coherence = stats['average_coherence']
-    threshold = stats['coherence_threshold']
+    avg_coherence = stats["average_coherence"]
+    threshold = stats["coherence_threshold"]
 
-    print(f"\n📊 CURRENT STATUS:")
+    print("\n📊 CURRENT STATUS:")
     print(f"  Average Coherence: {avg_coherence:.2%}")
     print(f"  Target Threshold: {threshold:.2%}")
-    print(f"  Status: {'❌ BELOW TARGET' if avg_coherence < threshold else '✅ MEETS TARGET'}")
+    print(
+        f"  Status: {'❌ BELOW TARGET' if avg_coherence < threshold else '✅ MEETS TARGET'}"
+    )
 
     # Analyze why coherence is low
-    print(f"\n🔍 COHERENCE ANALYSIS:")
+    print("\n🔍 COHERENCE ANALYSIS:")
     print(f"\nThe average coherence of {avg_coherence:.2%} is LOW because:")
 
     print("\n1. CALCULATION METHOD:")
@@ -44,51 +48,53 @@ def diagnose_coherence():
     # Simulate different scenarios to show coherence variation
     test_cases = [
         {
-            'name': 'Optimal State',
-            'data': {
-                'type': 'energy',
-                'atp_level': 0.9,
-                'efficiency': 0.9,
-                'stress': 0.1
-            }
+            "name": "Optimal State",
+            "data": {
+                "type": "energy",
+                "atp_level": 0.9,
+                "efficiency": 0.9,
+                "stress": 0.1,
+            },
         },
         {
-            'name': 'Stressed State',
-            'data': {
-                'type': 'energy',
-                'atp_level': 0.3,
-                'efficiency': 0.4,
-                'stress': 0.8
-            }
+            "name": "Stressed State",
+            "data": {
+                "type": "energy",
+                "atp_level": 0.3,
+                "efficiency": 0.4,
+                "stress": 0.8,
+            },
         },
         {
-            'name': 'Perfect Homeostasis',
-            'data': {
-                'type': 'homeostasis',
-                'temperature': 37.0,
-                'ph': 7.4,
-                'glucose': 90
-            }
+            "name": "Perfect Homeostasis",
+            "data": {
+                "type": "homeostasis",
+                "temperature": 37.0,
+                "ph": 7.4,
+                "glucose": 90,
+            },
         },
         {
-            'name': 'Disrupted Homeostasis',
-            'data': {
-                'type': 'homeostasis',
-                'temperature': 38.5,
-                'ph': 7.2,
-                'glucose': 150
-            }
-        }
+            "name": "Disrupted Homeostasis",
+            "data": {
+                "type": "homeostasis",
+                "temperature": 38.5,
+                "ph": 7.2,
+                "glucose": 150,
+            },
+        },
     ]
 
     coherence_values = []
     for test in test_cases:
-        result = bio_symbolic.process(test['data'])
-        coherence = result.get('coherence', 0)
+        result = bio_symbolic.process(test["data"])
+        coherence = result.get("coherence", 0)
         coherence_values.append(coherence)
         print(f"\n   {test['name']}:")
         print(f"     Coherence: {coherence:.2%}")
-        print(f"     Status: {'✅ Good' if coherence > 0.7 else '⚠️ Low' if coherence > 0.5 else '❌ Poor'}")
+        print(
+            f"     Status: {'✅ Good' if coherence > 0.7 else '⚠️ Low' if coherence > 0.5 else '❌ Poor'}"
+        )
 
     # Calculate coherence distribution
     high_coherence = sum(1 for c in coherence_values if c > 0.7)
@@ -139,14 +145,14 @@ def diagnose_coherence():
     print("\nExample of optimal bio-symbolic state:")
 
     optimal_bio = {
-        'heart_rate': 65,
-        'temperature': 37.0,
-        'cortisol': 8,
-        'energy_level': 0.85,
-        'efficiency': 0.9,
-        'stress': 0.15,
-        'ph': 7.4,
-        'glucose': 95
+        "heart_rate": 65,
+        "temperature": 37.0,
+        "cortisol": 8,
+        "energy_level": 0.85,
+        "efficiency": 0.9,
+        "stress": 0.15,
+        "ph": 7.4,
+        "glucose": 95,
     }
 
     # Process each component
@@ -160,7 +166,7 @@ def diagnose_coherence():
     print("  Moderate: 50-70% - Needs optimization")
     print("  Poor: <50% - Significant issues")
 
-    print(f"\n🎯 CONCLUSION:")
+    print("\n🎯 CONCLUSION:")
     print(f"Current {avg_coherence:.2%} coherence indicates the system needs")
     print("significant optimization to reach the {threshold:.2%} target.")
     print("\nThis is expected in early testing phases where we're")
@@ -168,23 +174,23 @@ def diagnose_coherence():
 
     # Save diagnostic report
     diagnostic_report = {
-        'diagnostic_id': f"COHERENCE_DIAG_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
-        'timestamp': datetime.utcnow().isoformat(),
-        'current_coherence': avg_coherence,
-        'target_coherence': threshold,
-        'status': 'NEEDS_OPTIMIZATION',
-        'recommendations': [
-            'Improve data quality',
-            'Tune coherence calculations',
-            'Enhance symbolic mappings',
-            'Implement feedback loops'
-        ]
+        "diagnostic_id": f"COHERENCE_DIAG_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+        "timestamp": datetime.utcnow().isoformat(),
+        "current_coherence": avg_coherence,
+        "target_coherence": threshold,
+        "status": "NEEDS_OPTIMIZATION",
+        "recommendations": [
+            "Improve data quality",
+            "Tune coherence calculations",
+            "Enhance symbolic mappings",
+            "Implement feedback loops",
+        ],
     }
 
-    with open('logs/coherence_diagnostic.json', 'w') as f:
+    with open("logs/coherence_diagnostic.json", "w") as f:
         json.dump(diagnostic_report, f, indent=2)
 
-    print(f"\n📊 Diagnostic report saved to: logs/coherence_diagnostic.json")
+    print("\n📊 Diagnostic report saved to: logs/coherence_diagnostic.json")
 
 
 if __name__ == "__main__":

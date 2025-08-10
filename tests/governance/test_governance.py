@@ -7,15 +7,19 @@ Quick test to validate the governance integration.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add governance to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'governance'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "governance"))
 
 try:
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'governance', 'guardian'))
+    sys.path.insert(
+        0,
+        os.path.join(os.path.dirname(__file__), "..", "..", "governance", "guardian"),
+    )
     from pwm_workspace_guardian import PWMWorkspaceGuardian
+
     # protect_my_workspace is in the same guardian.core module
     print("✅ Governance modules imported successfully")
 except ImportError as e:
@@ -26,28 +30,30 @@ except ImportError as e:
 async def test_governance():
     """Test basic governance functionality."""
     print("\n🛡️ Testing PWM Workspace Guardian...")
-    
+
     try:
         # Initialize guardian
         guardian = PWMWorkspaceGuardian()
         print("✅ Guardian initialized")
-        
+
         # Test file protection (mock test - no actual deletion)
         protection_result = await guardian.check_file_operation("delete", "README.md")
-        print(f"📁 README.md protection: {protection_result['allowed']} - {protection_result['reason']}")
-        
+        print(
+            f"📁 README.md protection: {protection_result['allowed']} - {protection_result['reason']}"
+        )
+
         # Test workspace health
         health = await guardian.analyze_workspace_health()
         print(f"🏥 Workspace health: {health['symbolic']}")
         print(f"📊 Health score: {health['health_score']:.2f}")
-        
+
         # Test cleanup suggestions
         cleanup = await guardian.suggest_cleanup()
         print(f"🧹 Cleanup suggestions: {len(cleanup['suggestions'])}")
-        
+
         print("\n🎯 PWM Governance system is working correctly!")
         return True
-        
+
     except Exception as e:
         print(f"❌ Test failed: {e}")
         return False

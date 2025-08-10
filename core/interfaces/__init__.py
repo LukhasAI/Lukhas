@@ -12,6 +12,46 @@ Components:
 - Additional protocol interfaces
 """
 
+from .core_interface import CoreInterface
+from .core_interface import get_module as get_core_module
+from .core_interface import register_module as register_core_module
+
+# Import dependency injection system
+from .dependency_injection import (
+    LazyProxy,
+    ServiceLocator,
+    ServiceRegistry,
+    clear_registry,
+    consciousness_service,
+    get_by_interface,
+    get_service,
+    guardian_service,
+    inject,
+    lazy_service,
+    memory_service,
+    orchestration_service,
+    register_factory,
+    register_interface,
+    register_service,
+)
+from .encrypted_perception_interface import Encrypted_PerceptionInterface
+from .encrypted_perception_interface import (
+    get_module as get_encrypted_perception_module,
+)
+from .encrypted_perception_interface import (
+    register_module as register_encrypted_perception_module,
+)
+from .memory_interface import MemoryInterface
+
+# Import interface modules for circular dependency resolution
+from .memory_interface import get_module as get_memory_module
+from .memory_interface import register_module as register_memory_module
+from .moral_alignment_interface import Moral_AlignmentInterface
+from .moral_alignment_interface import get_module as get_moral_alignment_module
+from .moral_alignment_interface import (
+    register_module as register_moral_alignment_module,
+)
+
 # Import protocol interfaces
 from .protocols import (
     AwarenessAssessor,
@@ -42,31 +82,6 @@ from .registries import (
     create_engine_info,
     get_global_registry,
 )
-
-# Import dependency injection system
-from .dependency_injection import (
-    ServiceRegistry,
-    ServiceLocator,
-    LazyProxy,
-    inject,
-    register_service,
-    register_factory,
-    register_interface,
-    get_service,
-    get_by_interface,
-    clear_registry,
-    lazy_service,
-    memory_service,
-    consciousness_service,
-    guardian_service,
-    orchestration_service,
-)
-
-# Import interface modules for circular dependency resolution
-from .memory_interface import MemoryInterface, register_module as register_memory_module, get_module as get_memory_module
-from .core_interface import CoreInterface, register_module as register_core_module, get_module as get_core_module
-from .encrypted_perception_interface import Encrypted_PerceptionInterface, register_module as register_encrypted_perception_module, get_module as get_encrypted_perception_module
-from .moral_alignment_interface import Moral_AlignmentInterface, register_module as register_moral_alignment_module, get_module as get_moral_alignment_module
 
 # Interface Nodes - commented out due to missing module
 # from .nodes import IntentNode, VoiceNode, NodeManager
@@ -99,7 +114,7 @@ __all__ = [
     "create_capability",
     # Dependency Injection
     "ServiceRegistry",
-    "ServiceLocator", 
+    "ServiceLocator",
     "LazyProxy",
     "inject",
     "register_service",
@@ -115,13 +130,13 @@ __all__ = [
     "orchestration_service",
     # Interface Modules
     "MemoryInterface",
-    "CoreInterface", 
+    "CoreInterface",
     "Encrypted_PerceptionInterface",
     "Moral_AlignmentInterface",
     "register_memory_module",
     "get_memory_module",
     "register_core_module",
-    "get_core_module", 
+    "get_core_module",
     "register_encrypted_perception_module",
     "get_encrypted_perception_module",
     "register_moral_alignment_module",

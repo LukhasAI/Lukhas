@@ -4,10 +4,11 @@ Symbolic Entropy Observer for LUKHAS AGI system.
 This module provides an observer for the symbolic entropy of the system.
 """
 
-from typing import Dict, List
 import json
+from typing import Dict, List
 
-#LUKHAS_TAG: symbolic_entropy
+
+# LUKHAS_TAG: symbolic_entropy
 class SymbolicEntropyObserver:
     """
     The Symbolic Entropy Observer.
@@ -26,13 +27,15 @@ class SymbolicEntropyObserver:
         latest_snapshot = {}
         latest_snapshot = {}
         try:
-            with open(self.log_file, "r") as f:
+            with open(self.log_file) as f:
                 for line in f:
                     try:
                         log_entry = json.loads(line)
                         latest_snapshot = log_entry["entropy_snapshot"]
                     except json.JSONDecodeError:
-                        logger.warning(f"Could not decode line in {self.log_file}: {line}")
+                        logger.warning(
+                            f"Could not decode line in {self.log_file}: {line}"
+                        )
         except FileNotFoundError:
             logger.warning(f"Log file not found: {self.log_file}")
         return latest_snapshot
@@ -45,7 +48,7 @@ class SymbolicEntropyObserver:
             A list of entropy snapshots.
         """
         history = []
-        with open(self.log_file, "r") as f:
+        with open(self.log_file) as f:
             for line in f:
                 log_entry = json.loads(line)
                 history.append(log_entry["entropy_snapshot"])

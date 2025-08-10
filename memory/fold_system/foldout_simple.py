@@ -3,19 +3,23 @@
 Simple version of foldout without external dependencies
 """
 
-import json
-import gzip
-import struct
-import binascii
-from pathlib import Path
-from datetime import datetime
-from typing import Iterable, Dict, Any, Optional
 import asyncio
+import binascii
+import gzip
+import json
+import struct
+from collections.abc import Iterable
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
 
 # Magic bytes for LKF-Pack format
 MAGIC = b"LKF\x01"
 
-async def export_folds(folds: Iterable[Dict[str, Any]], path: str, codec: str = "gzip") -> Dict[str, Any]:
+
+async def export_folds(
+    folds: Iterable[Dict[str, Any]], path: str, codec: str = "gzip"
+) -> Dict[str, Any]:
     """Export memory folds using built-in compression"""
 
     # Convert to list to count
@@ -26,11 +30,11 @@ async def export_folds(folds: Iterable[Dict[str, Any]], path: str, codec: str = 
         "version": "1.0",
         "created": datetime.utcnow().isoformat() + "Z",
         "entries": len(folds_list),
-        "folds": folds_list
+        "folds": folds_list,
     }
 
     # Serialize to JSON
-    json_data = json.dumps(data, separators=(',', ':')).encode('utf-8')
+    json_data = json.dumps(data, separators=(",", ":")).encode("utf-8")
 
     # Compress
     if codec == "gzip":
@@ -53,8 +57,9 @@ async def export_folds(folds: Iterable[Dict[str, Any]], path: str, codec: str = 
         "entries": len(folds_list),
         "compressed_size": len(compressed),
         "uncompressed_size": len(json_data),
-        "compression_ratio": len(compressed) / len(json_data) if json_data else 1.0
+        "compression_ratio": len(compressed) / len(json_data) if json_data else 1.0,
     }
+
 
 def create_fold_bundle(folds, bundle_name, output_dir, **kwargs):
     """Create a memory fold bundle"""
@@ -63,7 +68,6 @@ def create_fold_bundle(folds, bundle_name, output_dir, **kwargs):
     output_path = Path(output_dir) / filename
 
     # Use async export
-    import asyncio
     stats = asyncio.run(export_folds(folds, str(output_path)))
 
     return output_path

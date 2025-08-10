@@ -3,20 +3,22 @@ Brain Identity Connector Integration Module
 Provides integration wrapper for connecting the brain identity connector to the identity hub
 """
 
-import asyncio
-from core.common import get_logger
-from typing import Dict, Any, Optional, List
-from datetime import datetime
+import logging
 import uuid
+from datetime import datetime
+from typing import Any, Optional
+
+from core.common import get_logger
 
 try:
     from .brain_identity_connector import (
-        BrainIdentityConnector,
-        MemoryIdentityIntegration,
         AccessTier,
+        BrainIdentityConnector,
         MemoryAccessPolicy,
-        MemoryOperation
+        MemoryIdentityIntegration,
+        MemoryOperation,
     )
+
     BRAIN_IDENTITY_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Brain identity connector not available: {e}")
@@ -50,6 +52,7 @@ except ImportError as e:
         MODIFY = "modify"
         DELETE = "delete"
 
+
 logger = get_logger(__name__)
 
 
@@ -59,25 +62,25 @@ class BrainIdentityIntegration:
     Provides a simplified interface for the identity hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the brain identity integration"""
         self.config = config or {
-            'enable_access_logging': True,
-            'max_log_entries': 1000,
-            'default_tier_requirements': {
-                'read': 1,
-                'write': 2,
-                'modify': 3,
-                'delete': 3
+            "enable_access_logging": True,
+            "max_log_entries": 1000,
+            "default_tier_requirements": {
+                "read": 1,
+                "write": 2,
+                "modify": 3,
+                "delete": 3,
             },
-            'memory_type_tiers': {
-                'EPISODIC': {'read': 2, 'write': 2},
-                'EMOTIONAL': {'read': 2, 'write': 2, 'modify': 3},
-                'IDENTITY': {'read': 3, 'write': 4, 'modify': 4, 'delete': 5},
-                'SYSTEM': {'read': 3, 'write': 4, 'modify': 4, 'delete': 5}
+            "memory_type_tiers": {
+                "EPISODIC": {"read": 2, "write": 2},
+                "EMOTIONAL": {"read": 2, "write": 2, "modify": 3},
+                "IDENTITY": {"read": 3, "write": 4, "modify": 4, "delete": 5},
+                "SYSTEM": {"read": 3, "write": 4, "modify": 4, "delete": 5},
             },
-            'enable_encryption': True,
-            'audit_sensitive_operations': True
+            "enable_encryption": True,
+            "audit_sensitive_operations": True,
         }
 
         # Initialize mock registry and brain integration
@@ -87,13 +90,10 @@ class BrainIdentityIntegration:
         # Initialize the brain identity connector
         if BRAIN_IDENTITY_AVAILABLE:
             self.connector = BrainIdentityConnector(
-                self.id_registry,
-                self.brain_integration,
-                self.config
+                self.id_registry, self.brain_integration, self.config
             )
             self.memory_integration = MemoryIdentityIntegration(
-                self.id_registry,
-                self.brain_integration
+                self.id_registry, self.brain_integration
             )
         else:
             logger.warning("Using mock implementations for brain identity components")
@@ -108,6 +108,7 @@ class BrainIdentityIntegration:
 
     def _create_mock_registry(self):
         """Create a mock ID registry for testing purposes"""
+
         class MockIDRegistry:
             def __init__(self):
                 self.users = {}
@@ -119,7 +120,7 @@ class BrainIdentityIntegration:
             def validate_session(self, session_id: str):
                 return self.sessions.get(session_id)
 
-            def register_user(self, user_id: str, user_data: Dict[str, Any]):
+            def register_user(self, user_id: str, user_data: dict[str, Any]):
                 self.users[user_id] = user_data
                 return True
 
@@ -127,6 +128,7 @@ class BrainIdentityIntegration:
 
     def _create_mock_brain(self):
         """Create a mock brain integration for testing purposes"""
+
         class MockBrainIntegration:
             def __init__(self):
                 self.memory_manager = MockMemoryManager()
@@ -188,7 +190,7 @@ class BrainIdentityIntegration:
         logger.info("Initializing connector settings...")
 
         # Apply configuration to connector if available
-        if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, 'config'):
+        if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, "config"):
             self.connector.config.update(self.config)
 
         logger.info("Connector settings initialized")
@@ -199,36 +201,36 @@ class BrainIdentityIntegration:
 
         # Configure tier requirements for different memory types
         self.memory_policies = {
-            'default': {
-                'read': AccessTier.TIER_1,
-                'write': AccessTier.TIER_2,
-                'modify': AccessTier.TIER_3,
-                'delete': AccessTier.TIER_3
+            "default": {
+                "read": AccessTier.TIER_1,
+                "write": AccessTier.TIER_2,
+                "modify": AccessTier.TIER_3,
+                "delete": AccessTier.TIER_3,
             },
-            'episodic': {
-                'read': AccessTier.TIER_2,
-                'write': AccessTier.TIER_2,
-                'modify': AccessTier.TIER_3,
-                'delete': AccessTier.TIER_4
+            "episodic": {
+                "read": AccessTier.TIER_2,
+                "write": AccessTier.TIER_2,
+                "modify": AccessTier.TIER_3,
+                "delete": AccessTier.TIER_4,
             },
-            'emotional': {
-                'read': AccessTier.TIER_2,
-                'write': AccessTier.TIER_2,
-                'modify': AccessTier.TIER_3,
-                'delete': AccessTier.TIER_4
+            "emotional": {
+                "read": AccessTier.TIER_2,
+                "write": AccessTier.TIER_2,
+                "modify": AccessTier.TIER_3,
+                "delete": AccessTier.TIER_4,
             },
-            'identity': {
-                'read': AccessTier.TIER_3,
-                'write': AccessTier.TIER_4,
-                'modify': AccessTier.TIER_4,
-                'delete': AccessTier.TIER_5
+            "identity": {
+                "read": AccessTier.TIER_3,
+                "write": AccessTier.TIER_4,
+                "modify": AccessTier.TIER_4,
+                "delete": AccessTier.TIER_5,
             },
-            'system': {
-                'read': AccessTier.TIER_3,
-                'write': AccessTier.TIER_4,
-                'modify': AccessTier.TIER_4,
-                'delete': AccessTier.TIER_5
-            }
+            "system": {
+                "read": AccessTier.TIER_3,
+                "write": AccessTier.TIER_4,
+                "modify": AccessTier.TIER_4,
+                "delete": AccessTier.TIER_5,
+            },
         }
 
         logger.info("Memory access policies configured")
@@ -238,10 +240,12 @@ class BrainIdentityIntegration:
         logger.info("Initializing audit system...")
 
         self.audit_config = {
-            'log_all_access': self.config.get('enable_access_logging', True),
-            'log_denied_access': True,
-            'log_sensitive_operations': self.config.get('audit_sensitive_operations', True),
-            'max_log_entries': self.config.get('max_log_entries', 1000)
+            "log_all_access": self.config.get("enable_access_logging", True),
+            "log_denied_access": True,
+            "log_sensitive_operations": self.config.get(
+                "audit_sensitive_operations", True
+            ),
+            "max_log_entries": self.config.get("max_log_entries", 1000),
         }
 
         logger.info("Audit system initialized")
@@ -251,7 +255,9 @@ class BrainIdentityIntegration:
         logger.info("Setting up security wrappers...")
 
         # Apply security wrappers if available
-        if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, 'apply_secure_wrappers'):
+        if BRAIN_IDENTITY_AVAILABLE and hasattr(
+            self.memory_integration, "apply_secure_wrappers"
+        ):
             try:
                 self.memory_integration.apply_secure_wrappers()
                 logger.info("Security wrappers applied successfully")
@@ -260,13 +266,15 @@ class BrainIdentityIntegration:
 
         logger.info("Security wrapper setup complete")
 
-    async def authorize_memory_operation(self,
-                                       user_id: str,
-                                       operation: str,
-                                       memory_key: str,
-                                       memory_type: Optional[str] = None,
-                                       memory_owner: Optional[str] = None,
-                                       access_policy: Optional[str] = None) -> Dict[str, Any]:
+    async def authorize_memory_operation(
+        self,
+        user_id: str,
+        operation: str,
+        memory_key: str,
+        memory_type: Optional[str] = None,
+        memory_owner: Optional[str] = None,
+        access_policy: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Authorize a memory operation for a user
 
@@ -297,14 +305,16 @@ class BrainIdentityIntegration:
                 policy_enum = self._get_access_policy_enum(access_policy)
 
             # Authorize through connector if available
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, 'authorize_memory_operation'):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(
+                self.connector, "authorize_memory_operation"
+            ):
                 authorized = self.connector.authorize_memory_operation(
                     user_identity=user_identity,
                     operation=operation_enum,
                     memory_key=memory_key,
                     memory_type=memory_type,
                     memory_owner=memory_owner,
-                    access_policy=policy_enum
+                    access_policy=policy_enum,
                 )
             else:
                 # Fallback authorization logic
@@ -313,31 +323,34 @@ class BrainIdentityIntegration:
                 )
 
             result = {
-                'authorized': authorized,
-                'user_id': user_id,
-                'operation': operation,
-                'memory_key': memory_key,
-                'memory_type': memory_type,
-                'timestamp': datetime.now().isoformat(),
-                'session_id': self._get_user_session(user_id)
+                "authorized": authorized,
+                "user_id": user_id,
+                "operation": operation,
+                "memory_key": memory_key,
+                "memory_type": memory_type,
+                "timestamp": datetime.now().isoformat(),
+                "session_id": self._get_user_session(user_id),
             }
 
             if not authorized:
-                result['reason'] = 'Insufficient access tier or policy violation'
+                result["reason"] = "Insufficient access tier or policy violation"
 
-            logger.info(f"Memory operation authorization: {authorized} for {user_id}/{operation}/{memory_key}")
+            logger.info(
+                f"Memory operation authorization: {authorized} for {user_id}/{operation}/{memory_key}"
+            )
             return result
 
         except Exception as e:
             logger.error(f"Error authorizing memory operation: {e}")
             return {
-                'authorized': False,
-                'error': str(e),
-                'timestamp': datetime.now().isoformat()
+                "authorized": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat(),
             }
 
     def _create_mock_identity(self, user_id: str):
         """Create a mock user identity"""
+
         class MockIdentity:
             def __init__(self, user_id: str):
                 self.user_id = user_id
@@ -347,7 +360,7 @@ class BrainIdentityIntegration:
                 return self.user_id
 
             def has_access_to_tier(self, required_tier):
-                if hasattr(required_tier, 'value'):
+                if hasattr(required_tier, "value"):
                     return self.tier.value >= required_tier.value
                 return True  # Fallback for mock scenarios
 
@@ -356,25 +369,31 @@ class BrainIdentityIntegration:
     def _get_operation_enum(self, operation: str):
         """Convert operation string to enum value"""
         operation_map = {
-            'read': MemoryOperation.READ,
-            'write': MemoryOperation.WRITE,
-            'modify': MemoryOperation.MODIFY,
-            'delete': MemoryOperation.DELETE
+            "read": MemoryOperation.READ,
+            "write": MemoryOperation.WRITE,
+            "modify": MemoryOperation.MODIFY,
+            "delete": MemoryOperation.DELETE,
         }
         return operation_map.get(operation.lower(), operation)
 
     def _get_access_policy_enum(self, policy: str):
         """Convert access policy string to enum value"""
         policy_map = {
-            'tier_based': MemoryAccessPolicy.TIER_BASED,
-            'owner_only': MemoryAccessPolicy.OWNER_ONLY,
-            'public': MemoryAccessPolicy.PUBLIC,
-            'private': MemoryAccessPolicy.PRIVATE
+            "tier_based": MemoryAccessPolicy.TIER_BASED,
+            "owner_only": MemoryAccessPolicy.OWNER_ONLY,
+            "public": MemoryAccessPolicy.PUBLIC,
+            "private": MemoryAccessPolicy.PRIVATE,
         }
         return policy_map.get(policy.lower(), policy)
 
-    def _fallback_authorization(self, user_id: str, operation: str, memory_key: str,
-                              memory_type: Optional[str], memory_owner: Optional[str]) -> bool:
+    def _fallback_authorization(
+        self,
+        user_id: str,
+        operation: str,
+        memory_key: str,
+        memory_type: Optional[str],
+        memory_owner: Optional[str],
+    ) -> bool:
         """Fallback authorization logic when main connector is not available"""
         logger.info("Using fallback authorization logic")
 
@@ -384,15 +403,15 @@ class BrainIdentityIntegration:
             return True
 
         # System operations allowed for read
-        if operation.lower() == 'read':
+        if operation.lower() == "read":
             return True
 
         # Write operations require basic validation
-        if operation.lower() in ['write', 'modify']:
+        if operation.lower() in ["write", "modify"]:
             return user_id is not None and len(user_id) > 0
 
         # Delete operations are more restrictive
-        if operation.lower() == 'delete':
+        if operation.lower() == "delete":
             return memory_owner and user_id == memory_owner
 
         return False
@@ -403,12 +422,14 @@ class BrainIdentityIntegration:
             self.user_sessions[user_id] = f"session_{uuid.uuid4().hex[:16]}"
         return self.user_sessions[user_id]
 
-    async def register_memory(self,
-                            memory_key: str,
-                            memory_owner: str,
-                            memory_type: str,
-                            access_policy: str = "tier_based",
-                            min_tier: int = 1) -> Dict[str, Any]:
+    async def register_memory(
+        self,
+        memory_key: str,
+        memory_owner: str,
+        memory_type: str,
+        access_policy: str = "tier_based",
+        min_tier: int = 1,
+    ) -> dict[str, Any]:
         """
         Register a memory with the identity system
 
@@ -427,11 +448,11 @@ class BrainIdentityIntegration:
 
         try:
             # Convert min_tier to AccessTier if needed
-            tier_enum = getattr(AccessTier, f'TIER_{min_tier}', AccessTier.TIER_1)
+            tier_enum = getattr(AccessTier, f"TIER_{min_tier}", AccessTier.TIER_1)
             policy_enum = self._get_access_policy_enum(access_policy)
 
             # Register with connector if available
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, 'register_memory'):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, "register_memory"):
                 success = self.connector.register_memory(
                     memory_key, memory_owner, memory_type, policy_enum, tier_enum
                 )
@@ -443,36 +464,42 @@ class BrainIdentityIntegration:
 
             # Store in local registry
             self.memory_registry[memory_key] = {
-                'owner': memory_owner,
-                'type': memory_type,
-                'access_policy': access_policy,
-                'min_tier': min_tier,
-                'registered_at': datetime.now().isoformat()
+                "owner": memory_owner,
+                "type": memory_type,
+                "access_policy": access_policy,
+                "min_tier": min_tier,
+                "registered_at": datetime.now().isoformat(),
             }
 
             logger.info(f"Memory registered: {memory_key} by {memory_owner}")
             return {
-                'success': success,
-                'memory_key': memory_key,
-                'registered_at': datetime.now().isoformat()
+                "success": success,
+                "memory_key": memory_key,
+                "registered_at": datetime.now().isoformat(),
             }
 
         except Exception as e:
             logger.error(f"Error registering memory: {e}")
             return {
-                'success': False,
-                'error': str(e),
-                'timestamp': datetime.now().isoformat()
+                "success": False,
+                "error": str(e),
+                "timestamp": datetime.now().isoformat(),
             }
 
-    def _fallback_register_memory(self, memory_key: str, memory_owner: str,
-                                memory_type: str, access_policy: str, min_tier: int) -> bool:
+    def _fallback_register_memory(
+        self,
+        memory_key: str,
+        memory_owner: str,
+        memory_type: str,
+        access_policy: str,
+        min_tier: int,
+    ) -> bool:
         """Fallback memory registration"""
         logger.info(f"Fallback memory registration: {memory_key}")
         # Simple registration - just log it
         return True
 
-    async def get_access_logs(self, limit: int = 100) -> List[Dict[str, Any]]:
+    async def get_access_logs(self, limit: int = 100) -> list[dict[str, Any]]:
         """
         Get memory access logs
 
@@ -486,7 +513,7 @@ class BrainIdentityIntegration:
             await self.initialize()
 
         try:
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, 'get_access_logs'):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.connector, "get_access_logs"):
                 logs = self.connector.get_access_logs(limit)
             else:
                 # Fallback - return mock logs
@@ -498,20 +525,20 @@ class BrainIdentityIntegration:
             logger.error(f"Error getting access logs: {e}")
             return []
 
-    def _get_fallback_logs(self, limit: int) -> List[Dict[str, Any]]:
+    def _get_fallback_logs(self, limit: int) -> list[dict[str, Any]]:
         """Get fallback access logs"""
         return [
             {
-                'timestamp': datetime.now().isoformat(),
-                'user_id': 'mock_user',
-                'operation': 'read',
-                'memory_key': 'mock_memory',
-                'authorized': True,
-                'reason': 'Fallback log entry'
+                "timestamp": datetime.now().isoformat(),
+                "user_id": "mock_user",
+                "operation": "read",
+                "memory_key": "mock_memory",
+                "authorized": True,
+                "reason": "Fallback log entry",
             }
         ][:limit]
 
-    async def get_access_metrics(self) -> Dict[str, Any]:
+    async def get_access_metrics(self) -> dict[str, Any]:
         """
         Get access metrics for the brain identity system
 
@@ -522,45 +549,43 @@ class BrainIdentityIntegration:
             await self.initialize()
 
         try:
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, 'get_access_metrics'):
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(
+                self.memory_integration, "get_access_metrics"
+            ):
                 metrics = self.memory_integration.get_access_metrics()
             else:
                 # Fallback metrics
                 metrics = self._get_fallback_metrics()
 
             # Add system information
-            metrics.update({
-                'system_status': 'active',
-                'brain_identity_available': BRAIN_IDENTITY_AVAILABLE,
-                'memory_registry_size': len(self.memory_registry),
-                'active_sessions': len(self.user_sessions),
-                'last_updated': datetime.now().isoformat()
-            })
+            metrics.update(
+                {
+                    "system_status": "active",
+                    "brain_identity_available": BRAIN_IDENTITY_AVAILABLE,
+                    "memory_registry_size": len(self.memory_registry),
+                    "active_sessions": len(self.user_sessions),
+                    "last_updated": datetime.now().isoformat(),
+                }
+            )
 
             return metrics
 
         except Exception as e:
             logger.error(f"Error getting access metrics: {e}")
-            return {
-                'error': str(e),
-                'timestamp': datetime.now().isoformat()
-            }
+            return {"error": str(e), "timestamp": datetime.now().isoformat()}
 
-    def _get_fallback_metrics(self) -> Dict[str, Any]:
+    def _get_fallback_metrics(self) -> dict[str, Any]:
         """Get fallback access metrics"""
         return {
-            'total_accesses': 0,
-            'authorized_accesses': 0,
-            'denied_accesses': 0,
-            'operation_counts': {
-                'read': 0,
-                'write': 0,
-                'modify': 0,
-                'delete': 0
-            }
+            "total_accesses": 0,
+            "authorized_accesses": 0,
+            "denied_accesses": 0,
+            "operation_counts": {"read": 0, "write": 0, "modify": 0, "delete": 0},
         }
 
-    async def encrypt_memory_content(self, memory_key: str, content: Dict[str, Any]) -> Dict[str, Any]:
+    async def encrypt_memory_content(
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Encrypt memory content for secure storage
 
@@ -575,8 +600,12 @@ class BrainIdentityIntegration:
             await self.initialize()
 
         try:
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, 'encrypt_memory_content'):
-                encrypted_content = self.memory_integration.encrypt_memory_content(memory_key, content)
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(
+                self.memory_integration, "encrypt_memory_content"
+            ):
+                encrypted_content = self.memory_integration.encrypt_memory_content(
+                    memory_key, content
+                )
             else:
                 # Fallback encryption (mock)
                 encrypted_content = self._fallback_encrypt(memory_key, content)
@@ -588,15 +617,19 @@ class BrainIdentityIntegration:
             logger.error(f"Error encrypting memory content: {e}")
             return content  # Return original content on error
 
-    def _fallback_encrypt(self, memory_key: str, content: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_encrypt(
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Fallback encryption (mock implementation)"""
         content_copy = content.copy()
-        content_copy['_encrypted'] = True
-        content_copy['_encryption_timestamp'] = datetime.now().isoformat()
-        content_copy['_encryption_key'] = memory_key
+        content_copy["_encrypted"] = True
+        content_copy["_encryption_timestamp"] = datetime.now().isoformat()
+        content_copy["_encryption_key"] = memory_key
         return content_copy
 
-    async def decrypt_memory_content(self, memory_key: str, content: Dict[str, Any]) -> Dict[str, Any]:
+    async def decrypt_memory_content(
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Decrypt memory content for access
 
@@ -611,8 +644,12 @@ class BrainIdentityIntegration:
             await self.initialize()
 
         try:
-            if BRAIN_IDENTITY_AVAILABLE and hasattr(self.memory_integration, 'decrypt_memory_content'):
-                decrypted_content = self.memory_integration.decrypt_memory_content(memory_key, content)
+            if BRAIN_IDENTITY_AVAILABLE and hasattr(
+                self.memory_integration, "decrypt_memory_content"
+            ):
+                decrypted_content = self.memory_integration.decrypt_memory_content(
+                    memory_key, content
+                )
             else:
                 # Fallback decryption (mock)
                 decrypted_content = self._fallback_decrypt(memory_key, content)
@@ -624,16 +661,20 @@ class BrainIdentityIntegration:
             logger.error(f"Error decrypting memory content: {e}")
             return content  # Return original content on error
 
-    def _fallback_decrypt(self, memory_key: str, content: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_decrypt(
+        self, memory_key: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Fallback decryption (mock implementation)"""
         content_copy = content.copy()
-        if '_encrypted' in content_copy:
-            content_copy['_encrypted'] = False
-            content_copy['_decryption_timestamp'] = datetime.now().isoformat()
+        if "_encrypted" in content_copy:
+            content_copy["_encrypted"] = False
+            content_copy["_decryption_timestamp"] = datetime.now().isoformat()
         return content_copy
 
 
 # Factory function for creating the integration
-def create_brain_identity_integration(config: Optional[Dict[str, Any]] = None) -> BrainIdentityIntegration:
+def create_brain_identity_integration(
+    config: Optional[dict[str, Any]] = None,
+) -> BrainIdentityIntegration:
     """Create and return a brain identity integration instance"""
     return BrainIdentityIntegration(config)

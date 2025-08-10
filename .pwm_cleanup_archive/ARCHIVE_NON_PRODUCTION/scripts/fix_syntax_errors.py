@@ -3,12 +3,14 @@
 Fix syntax errors in recently updated files
 """
 
-import os
-from pathlib import Path
 import logging
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class SyntaxErrorFixer:
     def __init__(self, root_path: Path, dry_run: bool = True):
@@ -23,17 +25,23 @@ class SyntaxErrorFixer:
 
         # Fix specific files with known issues
         fixes = {
-            'demo_documentation_update.py': [
-                ('from pathlib from pathlib import Path', 'from pathlib import Path')
+            "demo_documentation_update.py": [
+                ("from pathlib from pathlib import Path", "from pathlib import Path")
             ],
-            'memory_system_demo.py': [
-                ('from memory.systems.hybrid_memory_fold from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold',
-                 'from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold'),
-                ('from memory.systems.attention_memory_layer from memory.systems.attention_memory_layer import create_attention_orchestrator',
-                 'from memory.systems.attention_memory_layer import create_attention_orchestrator'),
-                ('from memory.structural_conscience from memory.structural_conscience import create_structural_conscience',
-                 'from memory.structural_conscience import create_structural_conscience')
-            ]
+            "memory_system_demo.py": [
+                (
+                    "from memory.systems.hybrid_memory_fold from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold",
+                    "from memory.systems.hybrid_memory_fold import create_hybrid_memory_fold",
+                ),
+                (
+                    "from memory.systems.attention_memory_layer from memory.systems.attention_memory_layer import create_attention_orchestrator",
+                    "from memory.systems.attention_memory_layer import create_attention_orchestrator",
+                ),
+                (
+                    "from memory.structural_conscience from memory.structural_conscience import create_structural_conscience",
+                    "from memory.structural_conscience import create_structural_conscience",
+                ),
+            ],
         }
 
         for filename, replacements in fixes.items():
@@ -50,7 +58,7 @@ class SyntaxErrorFixer:
     def _fix_file(self, file_path: Path, replacements: list):
         """Fix a specific file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content
@@ -60,7 +68,7 @@ class SyntaxErrorFixer:
 
             if content != original_content:
                 if not self.dry_run:
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(content)
 
                 self.files_fixed += 1
@@ -69,20 +77,16 @@ class SyntaxErrorFixer:
         except Exception as e:
             logger.error(f"Error fixing {file_path}: {e}")
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(
-        description='Fix syntax errors in Python files'
+
+    parser = argparse.ArgumentParser(description="Fix syntax errors in Python files")
+    parser.add_argument(
+        "--fix", action="store_true", help="Apply fixes (default is dry run)"
     )
     parser.add_argument(
-        '--fix',
-        action='store_true',
-        help='Apply fixes (default is dry run)'
-    )
-    parser.add_argument(
-        '--path',
-        default='.',
-        help='Root path (default: current directory)'
+        "--path", default=".", help="Root path (default: current directory)"
     )
 
     args = parser.parse_args()
@@ -91,5 +95,6 @@ def main():
     fixer = SyntaxErrorFixer(root_path, dry_run=not args.fix)
     fixer.fix_syntax_errors()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

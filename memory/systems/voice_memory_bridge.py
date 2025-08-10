@@ -3,6 +3,7 @@
 Enhanced coupling between voice processing and memory systems
 """
 
+
 class VoiceMemoryBridge:
     """Bridge between voice processing and memory systems"""
 
@@ -15,8 +16,10 @@ class VoiceMemoryBridge:
         # Your bio-symbolic processing magic happens here
         return {
             "enhanced_understanding": True,
-            "emotional_resonance": self._calculate_resonance(voice_input, memory_context),
-            "symbolic_mapping": self._create_symbolic_map(voice_input)
+            "emotional_resonance": self._calculate_resonance(
+                voice_input, memory_context
+            ),
+            "symbolic_mapping": self._create_symbolic_map(voice_input),
         }
 
     def _calculate_resonance(self, voice_input, memory_context):

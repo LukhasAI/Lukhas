@@ -1,10 +1,14 @@
-import numpy as np
 import json
+
+import numpy as np
 
 # JULES05_NOTE: Loop-safe guard added
 DEFAULT_TOKEN_BUDGET = 10000
 
-def compute_drift_score(state1: dict, state2: dict, max_tokens: int = DEFAULT_TOKEN_BUDGET) -> float:
+
+def compute_drift_score(
+    state1: dict, state2: dict, max_tokens: int = DEFAULT_TOKEN_BUDGET
+) -> float:
     """
     Computes a drift score between two states.
     This is a simplified implementation.
@@ -22,7 +26,9 @@ def compute_drift_score(state1: dict, state2: dict, max_tokens: int = DEFAULT_TO
         tokens_used += len(json.dumps({key: val1})) / 4
         tokens_used += len(json.dumps({key: val2})) / 4
         if tokens_used > max_tokens:
-            print(f"Token budget exceeded in drift computation: {tokens_used} > {max_tokens}")
+            print(
+                f"Token budget exceeded in drift computation: {tokens_used} > {max_tokens}"
+            )
             break
 
         if isinstance(val1, (int, float)) and isinstance(val2, (int, float)):
@@ -38,6 +44,7 @@ def compute_drift_score(state1: dict, state2: dict, max_tokens: int = DEFAULT_TO
                     pass
 
     return total_drift
+
 
 class DriftTracker:
     def __init__(self):

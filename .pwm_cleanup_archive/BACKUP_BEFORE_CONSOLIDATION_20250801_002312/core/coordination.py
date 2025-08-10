@@ -1,5 +1,3 @@
-import time
-
 class ContractNetInitiator:
     def __init__(self, task, timeout=5):
         self.task = task
@@ -21,10 +19,11 @@ class ContractNetInitiator:
             return None
 
         # Simple selection criteria: choose the best proposal (e.g., lowest bid)
-        best_proposal = min(self.proposals, key=lambda p: p.get("bid", float('inf')))
+        best_proposal = min(self.proposals, key=lambda p: p.get("bid", float("inf")))
         print(f"Initiator: Awarding contract to: {best_proposal['participant_id']}")
         # In a real system, this would send a message to the winning participant
         return best_proposal
+
 
 class ContractNetParticipant:
     def __init__(self, participant_id, capabilities):
@@ -32,7 +31,9 @@ class ContractNetParticipant:
         self.capabilities = capabilities
 
     def handle_call_for_proposals(self, task):
-        print(f"Participant {self.participant_id}: Received call for proposals for task: {task}")
+        print(
+            f"Participant {self.participant_id}: Received call for proposals for task: {task}"
+        )
         if self.can_perform_task(task):
             bid = self.calculate_bid(task)
             return {"participant_id": self.participant_id, "bid": bid}
@@ -44,4 +45,4 @@ class ContractNetParticipant:
 
     def calculate_bid(self, task):
         # Simple bid calculation
-        return len(task.get("data", "")) * 0.1 # Example: 10 cents per character
+        return len(task.get("data", "")) * 0.1  # Example: 10 cents per character

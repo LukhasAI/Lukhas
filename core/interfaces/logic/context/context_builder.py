@@ -1,4 +1,6 @@
 # core/interfaces/logic/context/context_builder.py
+from typing import Any
+
 # ΛAGENT: Jules-[01]
 # ΛPURPOSE: Aggregates and synthesizes user context (emotional, consent, symbolic tags, tier state) for various agent operations.
 # ΛTAGS: ΛCONTEXT_MANAGEMENT, ΛUSER_STATE, ΛPLACEHOLDER_LOGIC, AIO_NODE (placeholder for future DB/memory interaction), AINTEROP, ΛSYMBOLIC_ECHO
@@ -40,8 +42,6 @@ DESCRIPTION:
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
-from typing import Dict, Any, List # ΛMODIFICATION: Added typing
 
 # AIMPORT_TODO: These imports are commented out in the original or point to future modules.
 # from core.utils.constants import *  # SYMBOLIC_TIERS, DEFAULT_TAGS, etc. (future)
@@ -49,11 +49,17 @@ from typing import Dict, Any, List # ΛMODIFICATION: Added typing
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+
+
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
 
 # ΛFUNCTIONS_START
-def build_user_context(user_id: str) -> Dict[str, Any]:
+
+
+def build_user_context(user_id: str) -> dict[str, Any]:
     """
     # ΛDOC: Build and return a symbolic user context object.
     # Currently uses placeholder logic. Future versions should dynamically link
@@ -70,22 +76,30 @@ def build_user_context(user_id: str) -> Dict[str, Any]:
     # ΛCAUTION: Current implementation returns static placeholder data.
     context_data = {
         "user_id": user_id,
-        "tier": 2, # ΛPLACEHOLDER_DATA
-        "emotional_vector": { # ΛPLACEHOLDER_DATA
+        "tier": 2,  # ΛPLACEHOLDER_DATA
+        "emotional_vector": {  # ΛPLACEHOLDER_DATA
             "joy": 0.65,
             "stress": 0.25,
             "calm": 0.5,
-            "longing": 0.2
+            "longing": 0.2,
         },
-        "active_tags": ["focus", "health", "seasonal"], # ΛPLACEHOLDER_DATA
-        "consent_level": "partial" # ΛPLACEHOLDER_DATA
+        "active_tags": ["focus", "health", "seasonal"],  # ΛPLACEHOLDER_DATA
+        "consent_level": "partial",  # ΛPLACEHOLDER_DATA
     }
-    log.info("build_user_context_called", user_id=user_id, context_tier=context_data["tier"], context_consent=context_data["consent_level"])
+    log.info(
+        "build_user_context_called",
+        user_id=user_id,
+        context_tier=context_data["tier"],
+        context_consent=context_data["consent_level"],
+    )
     return context_data
+
+
 # ΛFUNCTIONS_END
 
 # ΛCLASSES_START
 # ΛCLASSES_END
+
 
 # ΛMAIN_LOGIC_START
 log.info("context_builder_module_loaded")

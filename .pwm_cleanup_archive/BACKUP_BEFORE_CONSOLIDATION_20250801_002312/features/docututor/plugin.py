@@ -4,25 +4,27 @@ Implements core integration patterns for connecting with Lukhas's systems.
 """
 
 import logging
-from typing import Optional, Dict, Any
 from enum import Enum
+from typing import Any, Dict, Optional
+
 from pydantic import BaseModel
 
 # Import Lukhas interfaces (these would be provided by Lukhas AGI)
 from core.common import (
-    LUKHASPlugin,
-    LUKHASMemoryInterface,
-    LUKHASVoiceInterface,
-    LUKHASIdentityInterface,
     LUKHASBioOscillatorInterface,
-    LUKHASComplianceInterface
+    LUKHASComplianceInterface,
+    LUKHASIdentityInterface,
+    LUKHASMemoryInterface,
+    LUKHASPlugin,
+    LUKHASVoiceInterface,
 )
 
-from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph
 from .content_generation_engine.doc_generator import DocGenerator
+from .symbolic_knowledge_core.knowledge_graph import SystemKnowledgeGraph
 from .tutoring_engine.tutor import TutorEngine
 
 logger = logging.getLogger(__name__)
+
 
 class ContentType(str, Enum):
     DOCUMENTATION = "documentation"
@@ -30,11 +32,13 @@ class ContentType(str, Enum):
     EXPLANATION = "explanation"
     REFERENCE = "reference"
 
+
 class UserLevel(str, Enum):
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
+
 
 class GenerationConfig(BaseModel):
     content_type: ContentType
@@ -43,6 +47,7 @@ class GenerationConfig(BaseModel):
     bio_oscillator_aware: bool = True
     max_complexity: Optional[int] = None
     cultural_context: Optional[str] = None
+
 
 class DocuTutorPlugin(LUKHASPlugin):
     """
@@ -73,15 +78,15 @@ class DocuTutorPlugin(LUKHASPlugin):
             schema={
                 "type": "documentation",
                 "version": "1.0",
-                "fields": ["content", "context", "timestamp"]
-            }
+                "fields": ["content", "context", "timestamp"],
+            },
         )
 
         logger.info("DocuTutor plugin initialized and connected to Lukhas systems")
 
-    async def generate_documentation(self,
-                                  source_path: str,
-                                  config: GenerationConfig) -> str:
+    async def generate_documentation(
+        self, source_path: str, config: GenerationConfig
+    ) -> str:
         """
         Generate documentation using Lukhas's advanced capabilities.
         """
@@ -102,27 +107,26 @@ class DocuTutorPlugin(LUKHASPlugin):
         # Enhance with voice if enabled
         if config.voice_enabled:
             voice_config = self.voice.create_config(
-                emotional_style="educational",
-                cultural_context=config.cultural_context
+                emotional_style="educational", cultural_context=config.cultural_context
             )
             docs = self.voice.enhance_content(docs, voice_config)
 
         # Store in memory helix
-        await self.doc_helix.store_memory({
-            "content": docs,
-            "context": {
-                "source": source_path,
-                "config": config.dict(),
-                "user": user.id
-            },
-            "timestamp": self.memory.get_current_timestamp()
-        })
+        await self.doc_helix.store_memory(
+            {
+                "content": docs,
+                "context": {
+                    "source": source_path,
+                    "config": config.dict(),
+                    "user": user.id,
+                },
+                "timestamp": self.memory.get_current_timestamp(),
+            }
+        )
 
         return docs
 
-    async def start_learning_session(self,
-                                   topic: str,
-                                   config: GenerationConfig) -> Any:
+    async def start_learning_session(self, topic: str, config: GenerationConfig) -> Any:
         """
         Start an interactive learning session using Lukhas's tutoring capabilities.
         """
@@ -132,16 +136,13 @@ class DocuTutorPlugin(LUKHASPlugin):
 
         # Create personalized session
         session = self.tutor.create_session(
-            topic=topic,
-            user_level=config.user_level,
-            knowledge_profile=profile
+            topic=topic, user_level=config.user_level, knowledge_profile=profile
         )
 
         # Enable voice interaction if requested
         if config.voice_enabled:
             voice_personality = self.voice.create_tutor_personality(
-                style="encouraging",
-                cultural_context=config.cultural_context
+                style="encouraging", cultural_context=config.cultural_context
             )
             session.enable_voice(voice_personality)
 
@@ -149,8 +150,7 @@ class DocuTutorPlugin(LUKHASPlugin):
         if config.bio_oscillator_aware:
             session.set_bio_monitor(
                 self.bio.create_session_monitor(
-                    session_type="learning",
-                    user_id=user.id
+                    session_type="learning", user_id=user.id
                 )
             )
 
@@ -171,9 +171,7 @@ class DocuTutorPlugin(LUKHASPlugin):
 
         # Apply feedback using Lukhas's learning patterns
         updated_content = self.doc_generator.apply_feedback(
-            content=content,
-            feedback=feedback,
-            user_profile=user.profile
+            content=content, feedback=feedback, user_profile=user.profile
         )
 
         # Store updated version in memory helix
@@ -183,8 +181,8 @@ class DocuTutorPlugin(LUKHASPlugin):
             evolution_context={
                 "feedback": feedback,
                 "user": user.id,
-                "timestamp": self.memory.get_current_timestamp()
-            }
+                "timestamp": self.memory.get_current_timestamp(),
+            },
         )
 
         return updated_content
@@ -197,8 +195,7 @@ class DocuTutorPlugin(LUKHASPlugin):
         knowledge_level = self.memory.get_topic_knowledge_level(user_id, topic)
 
         return self.tutor.calculate_optimal_complexity(
-            bio_state=user_state,
-            knowledge_level=knowledge_level
+            bio_state=user_state, knowledge_level=knowledge_level
         )
 
     async def cleanup(self):

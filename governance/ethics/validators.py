@@ -21,7 +21,9 @@
 ║ This module contains functions to validate the LUKHAS configuration.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 """Validation helpers for configuration."""
+
 
 from .settings import Settings
 
@@ -41,13 +43,15 @@ def validate_config(settings: Settings) -> None:
 def validate_optional_config(settings: Settings) -> dict:
     """Validate optional configuration and return status."""
     status = {
-        'openai_configured': settings.OPENAI_API_KEY is not None,
-        'database_configured': 'localhost' not in settings.DATABASE_URL,
-        'redis_configured': 'localhost' not in settings.REDIS_URL,
-        'debug_mode': settings.DEBUG,
-        'log_level': settings.LOG_LEVEL
+        "openai_configured": settings.OPENAI_API_KEY is not None,
+        "database_configured": "localhost" not in settings.DATABASE_URL,
+        "redis_configured": "localhost" not in settings.REDIS_URL,
+        "debug_mode": settings.DEBUG,
+        "log_level": settings.LOG_LEVEL,
     }
     return status
+
+
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

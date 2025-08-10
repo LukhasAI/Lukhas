@@ -5,8 +5,6 @@ Advanced: stress_gate.py
 Integration Date: 2025-05-31T07:55:28.182187
 """
 
-
-
 """
 📦 MODULE      : stress_gate.py
 🧠 DESCRIPTION : Symbolic stress override and safety response modeled on mitochondrial uncoupling proteins
@@ -15,7 +13,6 @@ Integration Date: 2025-05-31T07:55:28.182187
 📅 UPDATED     : 2025-05-07
 """
 
-import numpy as np
 
 class StressGate:
     """
@@ -74,8 +71,9 @@ class StressGate:
         """
         return {
             "stress_level": round(self.stress_level, 3),
-            "fallback_triggered": self.last_fallback
+            "fallback_triggered": self.last_fallback,
         }
+
 
 # ─── Example ──────────────────────────────────────────────────────────────────
 if __name__ == "__main__":

@@ -6,9 +6,8 @@ Fuzz testing for replay operations without valid tier clearance or consent.
 Automated security testing for consent boundary enforcement.
 """
 
-from typing import Dict, List, Any, Optional
-import random
-import string
+from typing import Dict, List
+
 
 class ConsentFuzzTester:
     """Automated fuzz testing for consent validation systems."""
@@ -42,6 +41,7 @@ class ConsentFuzzTester:
         """Run complete fuzzing test suite."""
         # TODO: Implement comprehensive testing
         pass
+
 
 # TODO: Add timing attack detection
 # TODO: Implement consent token manipulation tests

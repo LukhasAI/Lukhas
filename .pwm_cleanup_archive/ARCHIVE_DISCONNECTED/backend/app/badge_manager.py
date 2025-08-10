@@ -8,18 +8,19 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
 
 # ── Load Badge Definitions ────────────────────────────────────
 
 BADGE_REGISTRY_PATH = Path(__file__).parent.parent / "data" / "badge_registry.json"
 
-with open(BADGE_REGISTRY_PATH, "r") as f:
+with open(BADGE_REGISTRY_PATH) as f:
     BADGES = json.load(f)
 
 # ── Badge Management Functions ─────────────────────────────────
+
 
 def assign_badge(user_id: int, badge_code: str) -> dict:
     """
@@ -33,10 +34,11 @@ def assign_badge(user_id: int, badge_code: str) -> dict:
         "badge_code": badge_code,
         "badge_name": BADGES[badge_code]["label"],
         "tier_required": BADGES[badge_code]["tier_required"],
-        "awarded_at": datetime.utcnow()
+        "awarded_at": datetime.utcnow(),
     }
     print(f"🏅 Badge '{BADGES[badge_code]['label']}' assigned to user {user_id}.")
     return awarded
+
 
 def list_available_badges() -> dict:
     """

@@ -3,11 +3,11 @@
 # Purpose: To trace and log memory collapse events, where multiple memory states are resolved into a singular state.
 # ΛPLACEHOLDER_FILLED
 
+import hashlib
 import logging
 import uuid
-import hashlib
-from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

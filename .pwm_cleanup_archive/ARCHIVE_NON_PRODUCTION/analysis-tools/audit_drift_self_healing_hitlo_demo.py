@@ -15,7 +15,6 @@ Key Features:
 """
 
 import asyncio
-import json
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
@@ -652,13 +651,13 @@ async def demonstrate_audit_drift_self_healing_with_hitlo():
             if "escalate" in action["action_type"]:
                 review_id = action["parameters"].get("review_id", "N/A")
                 print(f"      🚨 EMERGENCY ESCALATION: {review_id}")
-                print(f"      💰 Auto-Escrow Activated: High-stakes integrity crisis")
+                print("      💰 Auto-Escrow Activated: High-stakes integrity crisis")
     print()
 
     # Summary
     print("📊 SYSTEM SUMMARY")
     print("-" * 50)
-    print(f"Total Audits Processed: 3")
+    print("Total Audits Processed: 3")
     print(
         f"Drift Incidents Detected: {sum(1 for r in [result1, result2, result3] if r['drift_detected'])}"
     )

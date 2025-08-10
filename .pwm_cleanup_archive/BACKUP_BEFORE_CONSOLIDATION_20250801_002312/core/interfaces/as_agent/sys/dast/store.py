@@ -5,7 +5,6 @@ Advanced: store.py
 Integration Date: 2025-05-31T07:55:30.568236
 """
 
-import asyncio
 import json
 
 # TODO: Enable when hub dependencies are resolved
@@ -83,7 +82,7 @@ class DASTStore:
         """
         filename = filename or self.default_filename
         try:
-            with open(filename, "r") as f:
+            with open(filename) as f:
                 return json.load(f)
         except FileNotFoundError:
             return []

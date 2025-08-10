@@ -19,8 +19,8 @@ Purpose:
 - Supports Jules-03 ↔ Jules-05 loop through introspective convergence
 """
 
+
 from memory.emotional import EmotionalMemory
-from trace.drift_metrics import compute_drift_score
 
 
 class DriftAlignmentController:

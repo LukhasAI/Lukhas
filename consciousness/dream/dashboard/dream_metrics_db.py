@@ -55,4 +55,3 @@ class DreamMetricsDB:
                 (dream_id, drift_score, entropy_delta, alignment_score, ts),
             )
             conn.commit()
-

@@ -4,7 +4,7 @@
 # ΛPLACEHOLDER_FILLED
 
 import logging
-from typing import Dict, Any, List, Optional, Callable
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -14,10 +14,10 @@ class RecallHooks:
     A class to manage and execute recall hooks.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.pre_recall_hooks: List[Callable] = []
-        self.post_recall_hooks: List[Callable] = []
+        self.pre_recall_hooks: list[Callable] = []
+        self.post_recall_hooks: list[Callable] = []
         logger.info("RecallHooks initialized. config=%s", self.config)
 
     def add_pre_recall_hook(self, hook: Callable) -> None:
@@ -41,7 +41,8 @@ class RecallHooks:
         logger.info("Post-recall hook added. hook_name=%s", hook.__name__)
 
     # ΛRECALL_LOOP
-    def execute_pre_recall_hooks(self, recall_query: Dict[str, Any]) -> Dict[str, Any]:
+
+    def execute_pre_recall_hooks(self, recall_query: dict[str, Any]) -> dict[str, Any]:
         """
         Executes all pre-recall hooks.
 
@@ -58,9 +59,10 @@ class RecallHooks:
         return modified_query
 
     # ΛRECALL_LOOP
+
     def execute_post_recall_hooks(
-        self, recall_results: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, recall_results: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """
         Executes all post-recall hooks.
 

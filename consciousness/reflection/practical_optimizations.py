@@ -26,27 +26,36 @@
 
 import asyncio
 import gc
-import hashlib
 import json
-from core.common import get_logger
 import pickle
 import threading
 import time
-import weakref
 from abc import ABC, abstractmethod
 from collections import OrderedDict, defaultdict
 from contextlib import contextmanager
 from dataclasses import dataclass, field
-from functools import lru_cache, wraps
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, TypeVar, Union
+from functools import wraps
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    TypeVar,
+    Union,
+)
 
 import numpy as np
+
+from core.common import get_logger
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class OptimizationStrategy(ABC):
@@ -66,6 +75,7 @@ class OptimizationStrategy(ABC):
 @dataclass
 class CacheEntry:
     """Entry in adaptive cache with metadata"""
+
     key: str
     value: Any
     size: int
@@ -231,7 +241,7 @@ class AdaptiveCache(OptimizationStrategy):
             return
 
         # Find entry with lowest score
-        min_score = float('inf')
+        min_score = float("inf")
         evict_key = None
 
         for key, entry in self.cache.items():
@@ -259,8 +269,7 @@ class AdaptiveCache(OptimizationStrategy):
         """Clear all expired entries"""
         with self.lock:
             expired_keys = [
-                key for key, entry in self.cache.items()
-                if entry.is_expired()
+                key for key, entry in self.cache.items() if entry.is_expired()
             ]
 
             for key in expired_keys:
@@ -412,7 +421,7 @@ class LazyComputation(OptimizationStrategy):
     @staticmethod
     def lazy_property(func):
         """Decorator for lazy property evaluation"""
-        attr_name = f'_lazy_{func.__name__}'
+        attr_name = f"_lazy_{func.__name__}"
 
         @wraps(func)
         def wrapper(self):
@@ -422,12 +431,12 @@ class LazyComputation(OptimizationStrategy):
 
         return property(wrapper)
 
-    def defer(self, compute_fn: Callable[[], T]) -> 'DeferredComputation[T]':
+    def defer(self, compute_fn: Callable[[], T]) -> "DeferredComputation[T]":
         """Create deferred computation"""
         self.deferred_computations += 1
         return DeferredComputation(compute_fn, self)
 
-    def apply(self, compute_fn: Callable) -> 'DeferredComputation':
+    def apply(self, compute_fn: Callable) -> "DeferredComputation":
         """Apply lazy computation strategy"""
         return self.defer(compute_fn)
 
@@ -437,8 +446,11 @@ class LazyComputation(OptimizationStrategy):
             "deferred": self.deferred_computations,
             "executed": self.executed_computations,
             "saved": self.saved_computations,
-            "savings_rate": self.saved_computations / self.deferred_computations
-            if self.deferred_computations > 0 else 0,
+            "savings_rate": (
+                self.saved_computations / self.deferred_computations
+                if self.deferred_computations > 0
+                else 0
+            ),
         }
 
 
@@ -535,14 +547,14 @@ class BatchProcessor(OptimizationStrategy):
 
                 # Check if we should process
                 should_process = (
-                    len(self.pending_items) >= self.batch_size or
-                    time.time() - self._last_process_time > self.timeout
+                    len(self.pending_items) >= self.batch_size
+                    or time.time() - self._last_process_time > self.timeout
                 )
 
                 if should_process:
                     # Extract batch
-                    batch_items = self.pending_items[:self.batch_size]
-                    self.pending_items = self.pending_items[self.batch_size:]
+                    batch_items = self.pending_items[: self.batch_size]
+                    self.pending_items = self.pending_items[self.batch_size :]
 
                     # Process batch
                     items = [item for item, _ in batch_items]
@@ -558,9 +570,9 @@ class BatchProcessor(OptimizationStrategy):
                         # Update metrics
                         self.total_batches += 1
                         self.average_batch_size = (
-                            (self.average_batch_size * (self.total_batches - 1) +
-                             len(items)) / self.total_batches
-                        )
+                            self.average_batch_size * (self.total_batches - 1)
+                            + len(items)
+                        ) / self.total_batches
                     except Exception as e:
                         # Set exception on all futures
                         for future in futures:
@@ -582,8 +594,9 @@ class BatchProcessor(OptimizationStrategy):
             "total_items": self.total_items,
             "total_batches": self.total_batches,
             "average_batch_size": self.average_batch_size,
-            "efficiency": self.average_batch_size / self.batch_size
-            if self.batch_size > 0 else 0,
+            "efficiency": (
+                self.average_batch_size / self.batch_size if self.batch_size > 0 else 0
+            ),
             "pending_items": len(self.pending_items),
         }
 
@@ -613,6 +626,7 @@ class MemoryMappedStorage(OptimizationStrategy):
 
         # Create base directory
         import os
+
         os.makedirs(base_path, exist_ok=True)
 
     def store_array(
@@ -631,7 +645,7 @@ class MemoryMappedStorage(OptimizationStrategy):
         mmap = np.memmap(
             filepath,
             dtype=dtype,
-            mode='w+',
+            mode="w+",
             shape=array.shape,
         )
 
@@ -652,7 +666,7 @@ class MemoryMappedStorage(OptimizationStrategy):
     def get_array(
         self,
         key: str,
-        mode: str = 'r',
+        mode: str = "r",
     ) -> Optional[np.memmap]:
         """Get memory-mapped array"""
         with self.lock:
@@ -723,6 +737,7 @@ class ComputationReuse(OptimizationStrategy):
 
     def memoize(self, key_prefix: str = ""):
         """Decorator for memoizing function results"""
+
         def decorator(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
@@ -756,6 +771,7 @@ class ComputationReuse(OptimizationStrategy):
                     return result
 
             return wrapper
+
         return decorator
 
     def share_computation(
@@ -812,15 +828,20 @@ class ComputationReuse(OptimizationStrategy):
     def get_metrics(self) -> Dict[str, Any]:
         """Get computation reuse metrics"""
         with self.lock:
-            hit_rate = (self.cache_hits /
-                       (self.cache_hits + self.cache_misses)
-                       if (self.cache_hits + self.cache_misses) > 0 else 0)
+            hit_rate = (
+                self.cache_hits / (self.cache_hits + self.cache_misses)
+                if (self.cache_hits + self.cache_misses) > 0
+                else 0
+            )
 
             return {
                 "computations_saved": self.computations_saved,
                 "total_computations": self.total_computations,
-                "savings_rate": (self.computations_saved / self.total_computations
-                               if self.total_computations > 0 else 0),
+                "savings_rate": (
+                    self.computations_saved / self.total_computations
+                    if self.total_computations > 0
+                    else 0
+                ),
                 "cache_size": len(self.cache),
                 "hit_rate": hit_rate,
                 "dependency_graph_size": len(self.computation_graph),
@@ -871,6 +892,7 @@ class ResourceManager:
             # Get current resource usage
             try:
                 import psutil
+
                 process = psutil.Process()
                 memory_mb = process.memory_info().rss / 1024 / 1024
                 cpu_percent = process.cpu_percent()
@@ -913,8 +935,7 @@ class ResourceManager:
     def get_all_metrics(self) -> Dict[str, Dict[str, Any]]:
         """Get metrics from all strategies"""
         return {
-            name: strategy.get_metrics()
-            for name, strategy in self.strategies.items()
+            name: strategy.get_metrics() for name, strategy in self.strategies.items()
         }
 
     def optimize_computation(
@@ -953,7 +974,8 @@ class ResourceManager:
 
         # Cache result
         self.strategies["cache"].put(
-            cache_key, result,
+            cache_key,
+            result,
             ttl=hints.get("cache_ttl", 3600),
         )
 
@@ -1000,26 +1022,28 @@ class ResourceManager:
 
         # Cache efficiency
         cache_metrics = metrics.get("cache", {})
-        report += f"CACHE EFFICIENCY:\n"
+        report += "CACHE EFFICIENCY:\n"
         report += f"  Hit Rate: {cache_metrics.get('hit_rate', 0):.2%}\n"
         report += f"  Size: {cache_metrics.get('current_size_mb', 0):.1f} MB\n"
         report += f"  Entries: {cache_metrics.get('entries', 0)}\n\n"
 
         # Object pooling
         pool_metrics = metrics.get("object_pool", {})
-        report += f"OBJECT POOLING:\n"
+        report += "OBJECT POOLING:\n"
         report += f"  Reuse Rate: {pool_metrics.get('reuse_rate', 0):.2%}\n"
         report += f"  Pool Size: {pool_metrics.get('pool_size', 0)}\n\n"
 
         # Computation reuse
         reuse_metrics = metrics.get("reuse", {})
-        report += f"COMPUTATION REUSE:\n"
+        report += "COMPUTATION REUSE:\n"
         report += f"  Savings Rate: {reuse_metrics.get('savings_rate', 0):.2%}\n"
-        report += f"  Computations Saved: {reuse_metrics.get('computations_saved', 0)}\n\n"
+        report += (
+            f"  Computations Saved: {reuse_metrics.get('computations_saved', 0)}\n\n"
+        )
 
         # Memory efficiency
         mmap_metrics = metrics.get("mmap", {})
-        report += f"MEMORY OPTIMIZATION:\n"
+        report += "MEMORY OPTIMIZATION:\n"
         report += f"  Memory Saved: {mmap_metrics.get('memory_saved_mb', 0):.1f} MB\n"
 
         return report
@@ -1032,6 +1056,7 @@ def optimize_swarm_communication(payload: Dict[str, Any]) -> bytes:
     Uses compression and efficient serialization
     """
     import zlib
+
     import msgpack
 
     # Use msgpack for efficient serialization
@@ -1041,17 +1066,18 @@ def optimize_swarm_communication(payload: Dict[str, Any]) -> bytes:
     if len(packed) > 1024:  # Only compress if > 1KB
         compressed = zlib.compress(packed, level=6)
         if len(compressed) < len(packed) * 0.9:  # 10% savings threshold
-            return b'Z' + compressed  # Prefix to indicate compression
+            return b"Z" + compressed  # Prefix to indicate compression
 
-    return b'U' + packed  # Uncompressed
+    return b"U" + packed  # Uncompressed
 
 
 def deserialize_swarm_message(data: bytes) -> Dict[str, Any]:
     """Deserialize optimized swarm message"""
     import zlib
+
     import msgpack
 
-    if data[0] == ord('Z'):
+    if data[0] == ord("Z"):
         # Compressed
         packed = zlib.decompress(data[1:])
     else:
@@ -1074,7 +1100,7 @@ if __name__ == "__main__":
 
     def expensive_computation(x):
         time.sleep(0.1)  # Simulate expensive operation
-        return x ** 2
+        return x**2
 
     # First call - cache miss
     start = time.time()
@@ -1156,6 +1182,7 @@ if __name__ == "__main__":
     }
 
     import json
+
     json_size = len(json.dumps(test_payload).encode())
     optimized = optimize_swarm_communication(test_payload)
     optimized_size = len(optimized)
@@ -1166,4 +1193,6 @@ if __name__ == "__main__":
 
     # Verify deserialization
     restored = deserialize_swarm_message(optimized)
-    print(f"   Deserialization successful: {restored['node_id'] == test_payload['node_id']}")
+    print(
+        f"   Deserialization successful: {restored['node_id'] == test_payload['node_id']}"
+    )

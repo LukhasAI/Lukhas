@@ -29,16 +29,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import os
-import logging
-from core.common import get_logger
-import json
-import uuid
 import asyncio
+import json
+import logging
+import os
+import uuid
+from collections.abc import AsyncIterator
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Any, Optional, List, AsyncIterator, Union
-from dataclasses import dataclass, asdict
-import aiohttp
+from typing import Any, Optional, Union
+
 from openai import AsyncOpenAI, OpenAI
 
 logger = logging.getLogger("ΛTRACE.bridge.unified_openai")
@@ -47,22 +47,24 @@ logger = logging.getLogger("ΛTRACE.bridge.unified_openai")
 @dataclass
 class ConversationMessage:
     """Represents a single message in a conversation"""
+
     role: str  # "system", "user", "assistant", "function"
     content: str
     timestamp: str
     message_id: str
-    metadata: Optional[Dict[str, Any]] = None
-    function_call: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
+    function_call: Optional[dict[str, Any]] = None
 
 
 @dataclass
 class ConversationState:
     """Represents the state of a conversation"""
+
     conversation_id: str
     session_id: str
     user_id: str
-    messages: List[ConversationMessage]
-    context: Dict[str, Any]
+    messages: list[ConversationMessage]
+    context: dict[str, Any]
     created_at: str
     updated_at: str
     total_tokens: int = 0
@@ -77,15 +79,15 @@ class UnifiedOpenAIClient:
 
     # Task-specific model configurations
     TASK_MODELS = {
-        'reasoning': 'gpt-4',
-        'creativity': 'gpt-4',
-        'consciousness': 'gpt-4',
-        'memory': 'gpt-3.5-turbo',
-        'ethics': 'gpt-4',
-        'coding': 'gpt-4',
-        'voice_processing': 'gpt-3.5-turbo',
-        'symbolic_reasoning': 'gpt-4',
-        'general': 'gpt-3.5-turbo'
+        "reasoning": "gpt-4",
+        "creativity": "gpt-4",
+        "consciousness": "gpt-4",
+        "memory": "gpt-3.5-turbo",
+        "ethics": "gpt-4",
+        "coding": "gpt-4",
+        "voice_processing": "gpt-3.5-turbo",
+        "symbolic_reasoning": "gpt-4",
+        "general": "gpt-3.5-turbo",
     }
 
     def __init__(self, api_key: Optional[str] = None):
@@ -96,27 +98,29 @@ class UnifiedOpenAIClient:
             api_key: Optional API key. If not provided, will use OPENAI_API_KEY env var.
         """
         # Get API key from parameter or environment
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
-        self.organization = os.getenv('ORGANIZATION_ID')
-        self.project = os.getenv('PROJECT_ID')
-        
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.organization = os.getenv("ORGANIZATION_ID")
+        self.project = os.getenv("PROJECT_ID")
+
         if not self.api_key:
-            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
+            raise ValueError(
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+            )
 
         # Initialize clients with organization from .env
         client_kwargs = {"api_key": self.api_key}
         if self.organization:
             client_kwargs["organization"] = self.organization
-        
+
         # For sync client
         self.client = OpenAI(**client_kwargs)
         self.async_client = AsyncOpenAI(**client_kwargs)
-        
+
         # Store project ID for headers if needed
         self.project_id = self.project
 
         # Conversation management
-        self.conversations: Dict[str, ConversationState] = {}
+        self.conversations: dict[str, ConversationState] = {}
 
         # Default parameters
         self.default_temperature = 0.7
@@ -140,14 +144,19 @@ class UnifiedOpenAIClient:
             messages=[],
             context={},
             created_at=now,
-            updated_at=now
+            updated_at=now,
         )
 
         logger.info(f"Created conversation {conversation_id} for user {user_id}")
         return conversation_id
 
-    def add_message(self, conversation_id: str, role: str, content: str,
-                   function_call: Optional[Dict] = None) -> ConversationMessage:
+    def add_message(
+        self,
+        conversation_id: str,
+        role: str,
+        content: str,
+        function_call: Optional[dict] = None,
+    ) -> ConversationMessage:
         """Add a message to a conversation"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
@@ -157,7 +166,7 @@ class UnifiedOpenAIClient:
             content=content,
             timestamp=datetime.utcnow().isoformat(),
             message_id=str(uuid.uuid4()),
-            function_call=function_call
+            function_call=function_call,
         )
 
         self.conversations[conversation_id].messages.append(message)
@@ -165,8 +174,9 @@ class UnifiedOpenAIClient:
 
         return message
 
-    def get_conversation_messages(self, conversation_id: str,
-                                 max_tokens: int = 4000) -> List[Dict[str, Any]]:
+    def get_conversation_messages(
+        self, conversation_id: str, max_tokens: int = 4000
+    ) -> list[dict[str, Any]]:
         """Get conversation messages formatted for OpenAI API"""
         if conversation_id not in self.conversations:
             raise ValueError(f"Conversation {conversation_id} not found")
@@ -176,10 +186,7 @@ class UnifiedOpenAIClient:
 
         # Add messages in reverse order until we hit token limit
         for msg in reversed(self.conversations[conversation_id].messages):
-            msg_dict = {
-                "role": msg.role,
-                "content": msg.content
-            }
+            msg_dict = {"role": msg.role, "content": msg.content}
             if msg.function_call:
                 msg_dict["function_call"] = msg.function_call
 
@@ -197,18 +204,18 @@ class UnifiedOpenAIClient:
 
     async def chat_completion(
         self,
-        messages: Union[List[Dict[str, Any]], str],
+        messages: Union[list[dict[str, Any]], str],
         model: Optional[str] = None,
         task: Optional[str] = None,
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
         stream: bool = False,
-        functions: Optional[List[Dict[str, Any]]] = None,
-        function_call: Optional[Union[str, Dict[str, str]]] = None,
-        tools: Optional[List[Dict[str, Any]]] = None,
-        tool_choice: Optional[Union[str, Dict[str, str]]] = None,
-        **kwargs
-    ) -> Union[Dict[str, Any], AsyncIterator[Dict[str, Any]]]:
+        functions: Optional[list[dict[str, Any]]] = None,
+        function_call: Optional[Union[str, dict[str, str]]] = None,
+        tools: Optional[list[dict[str, Any]]] = None,
+        tool_choice: Optional[Union[str, dict[str, str]]] = None,
+        **kwargs,
+    ) -> Union[dict[str, Any], AsyncIterator[dict[str, Any]]]:
         """
         Create a chat completion with the OpenAI API.
 
@@ -232,10 +239,12 @@ class UnifiedOpenAIClient:
 
         # Select model based on task
         if model is None:
-            model = self.TASK_MODELS.get(task, self.TASK_MODELS['general'])
+            model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
 
         # Set defaults
-        temperature = temperature if temperature is not None else self.default_temperature
+        temperature = (
+            temperature if temperature is not None else self.default_temperature
+        )
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         # Prepare request parameters
@@ -244,7 +253,7 @@ class UnifiedOpenAIClient:
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
-            **kwargs
+            **kwargs,
         }
 
         # Add function calling parameters if provided
@@ -252,7 +261,7 @@ class UnifiedOpenAIClient:
             params["functions"] = functions
         if function_call is not None:
             params["function_call"] = function_call
-            
+
         # Add tools (newer function calling API) if provided
         if tools:
             params["tools"] = tools
@@ -264,8 +273,7 @@ class UnifiedOpenAIClient:
             try:
                 if stream:
                     return await self.async_client.chat.completions.create(
-                        **params,
-                        stream=True
+                        **params, stream=True
                     )
                 else:
                     response = await self.async_client.chat.completions.create(**params)
@@ -280,21 +288,23 @@ class UnifiedOpenAIClient:
 
     def chat_completion_sync(
         self,
-        messages: Union[List[Dict[str, Any]], str],
+        messages: Union[list[dict[str, Any]], str],
         model: Optional[str] = None,
         task: Optional[str] = None,
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
-        **kwargs
-    ) -> Dict[str, Any]:
+        **kwargs,
+    ) -> dict[str, Any]:
         """Synchronous version of chat_completion"""
         if isinstance(messages, str):
             messages = [{"role": "user", "content": messages}]
 
         if model is None:
-            model = self.TASK_MODELS.get(task, self.TASK_MODELS['general'])
+            model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
 
-        temperature = temperature if temperature is not None else self.default_temperature
+        temperature = (
+            temperature if temperature is not None else self.default_temperature
+        )
         max_tokens = max_tokens if max_tokens is not None else self.default_max_tokens
 
         response = self.client.chat.completions.create(
@@ -302,80 +312,87 @@ class UnifiedOpenAIClient:
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
-            **kwargs
+            **kwargs,
         )
 
         return response.model_dump()
 
     # Task-Specific Methods
 
-    async def reasoning_task(self, prompt: str, context: Optional[Dict] = None) -> str:
+    async def reasoning_task(self, prompt: str, context: Optional[dict] = None) -> str:
         """Execute a reasoning task with appropriate model and parameters"""
-        system_prompt = "You are an advanced reasoning system. Analyze the problem step by step."
+        system_prompt = (
+            "You are an advanced reasoning system. Analyze the problem step by step."
+        )
 
-        messages = [
-            {"role": "system", "content": system_prompt}
-        ]
+        messages = [{"role": "system", "content": system_prompt}]
 
         if context:
-            messages.append({"role": "system", "content": f"Context: {json.dumps(context)}"})
+            messages.append(
+                {
+                    "role": "system",
+                    "content": f"Context: {json.dumps(context)}",
+                }
+            )
 
         messages.append({"role": "user", "content": prompt})
 
         response = await self.chat_completion(
             messages=messages,
-            task='reasoning',
-            temperature=0.2  # Lower temperature for reasoning
+            task="reasoning",
+            temperature=0.2,  # Lower temperature for reasoning
         )
 
-        return response['choices'][0]['message']['content']
+        return response["choices"][0]["message"]["content"]
 
     async def creative_task(self, prompt: str, style: Optional[str] = None) -> str:
         """Execute a creative task with appropriate parameters"""
-        system_prompt = "You are a creative AI assistant capable of generating imaginative content."
+        system_prompt = (
+            "You are a creative AI assistant capable of generating imaginative content."
+        )
 
         if style:
             system_prompt += f" Generate content in the style of: {style}"
 
         messages = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": prompt},
         ]
 
         response = await self.chat_completion(
             messages=messages,
-            task='creativity',
-            temperature=0.9  # Higher temperature for creativity
+            task="creativity",
+            temperature=0.9,  # Higher temperature for creativity
         )
 
-        return response['choices'][0]['message']['content']
+        return response["choices"][0]["message"]["content"]
 
-    async def ethics_check(self, action: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def ethics_check(
+        self, action: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Check ethical implications of an action"""
         messages = [
             {
                 "role": "system",
-                "content": "You are an ethical reasoning system. Analyze the ethical implications of actions."
+                "content": "You are an ethical reasoning system. Analyze the ethical implications of actions.",
             },
             {
                 "role": "user",
-                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context)}"
-            }
+                "content": f"Analyze the ethical implications of: {action}\nContext: {json.dumps(context)}",
+            },
         ]
 
         response = await self.chat_completion(
-            messages=messages,
-            task='ethics',
-            temperature=0.3
+            messages=messages, task="ethics", temperature=0.3
         )
 
-        content = response['choices'][0]['message']['content']
+        content = response["choices"][0]["message"]["content"]
 
         # Parse response for ethical assessment
         return {
             "action": action,
             "assessment": content,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
     # Utility Methods
@@ -386,15 +403,19 @@ class UnifiedOpenAIClient:
         # In production, use tiktoken library for accurate counting
         return len(text) // 4
 
-    def get_model_info(self, task: Optional[str] = None) -> Dict[str, Any]:
+    def get_model_info(self, task: Optional[str] = None) -> dict[str, Any]:
         """Get information about available models and current configuration"""
         return {
             "task_models": self.TASK_MODELS,
-            "selected_model": self.TASK_MODELS.get(task, self.TASK_MODELS['general']) if task else None,
+            "selected_model": (
+                self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
+                if task
+                else None
+            ),
             "organization_id": self.organization_id,
             "project_id": self.project_id,
             "default_temperature": self.default_temperature,
-            "default_max_tokens": self.default_max_tokens
+            "default_max_tokens": self.default_max_tokens,
         }
 
     async def close(self):

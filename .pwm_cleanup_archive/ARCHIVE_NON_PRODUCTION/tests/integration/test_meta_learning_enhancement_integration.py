@@ -3,7 +3,6 @@ Integration tests for Meta-Learning Enhancement System
 Tests for Agent 1 Task 4: core/meta_learning/enhancement_system.py integration
 """
 
-import asyncio
 import sys
 from pathlib import Path
 
@@ -187,9 +186,7 @@ class TestMetaLearningEnhancementIntegration:
         """Test that all required integration points are satisfied"""
         # Verify all required classes are importable
         from core.meta_learning.enhancement_system import (
-            EnhancementMode,
             MetaLearningEnhancementSystem,
-            SystemIntegrationStatus,
         )
 
         # Verify key functions exist
@@ -227,8 +224,12 @@ class TestMetaLearningEnhancementIntegration:
         assert enhancement.symbolic_feedback is not None
 
         # Test that components are from the correct modules
-        from core.meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
-        from core.meta_learning.rate_modulator import DynamicLearningRateModulator
+        from core.meta_learning.monitor_dashboard import (
+            MetaLearningMonitorDashboard,
+        )
+        from core.meta_learning.rate_modulator import (
+            DynamicLearningRateModulator,
+        )
         from core.meta_learning.symbolic_feedback import SymbolicFeedbackSystem
 
         assert isinstance(enhancement.monitor_dashboard, MetaLearningMonitorDashboard)

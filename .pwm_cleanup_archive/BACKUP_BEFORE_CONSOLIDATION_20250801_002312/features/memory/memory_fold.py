@@ -1,5 +1,4 @@
-#\!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# \!/usr/bin/env python3
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -82,16 +81,16 @@ import hashlib
 import json
 import logging
 import sqlite3
+
 try:
     import numpy as np
 except ImportError:
     np = None
-from collections import defaultdict, deque
-from datetime import date, datetime, timedelta
+from collections import defaultdict
+from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union, Tuple
 from threading import Lock
-import os
+from typing import Any, Dict, List, Optional
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.spine.memory_fold")
@@ -102,10 +101,13 @@ logger.info("ΛTRACE: Initializing enhanced memory_fold module.")
 # CONFIGURATION MANAGEMENT
 # ═══════════════════════════════════════════════════════════════════════════
 
+
 class MemoryFoldConfig:
     """Manages configuration for the memory fold system."""
 
-    DEFAULT_CONFIG_PATH = Path(__file__).parent.parent.parent / "config" / "memory_fold_config.json"
+    DEFAULT_CONFIG_PATH = (
+        Path(__file__).parent.parent.parent / "config" / "memory_fold_config.json"
+    )
 
     @classmethod
     def load_config(cls, config_path: Optional[Path] = None) -> Dict[str, Any]:
@@ -114,7 +116,7 @@ class MemoryFoldConfig:
 
         try:
             if config_path.exists():
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     config = json.load(f)
                 logger.info(f"Loaded configuration from {config_path}")
                 return config
@@ -134,14 +136,14 @@ class MemoryFoldConfig:
                 "type": "database",
                 "db_path": "lukhas_memory_folds.db",
                 "max_folds": 10000,
-                "cleanup_interval_hours": 24
+                "cleanup_interval_hours": 24,
             },
             "tier_thresholds": {
                 "context_access": 2,
                 "emotional_mapping": 3,
                 "cluster_analysis": 4,
-                "full_access": 5
-            }
+                "full_access": 5,
+            },
         }
 
     @classmethod
@@ -156,7 +158,7 @@ class MemoryFoldConfig:
                 "sadness": [-0.8, -0.7, -0.2],
                 "disgust": [-0.6, -0.5, 0.0],
                 "anger": [-0.8, 0.7, 0.3],
-                "anticipation": [0.6, 0.8, 0.0]
+                "anticipation": [0.6, 0.8, 0.0],
             },
             "secondary": {
                 "reflective": [0.2, 0.0, -0.4],
@@ -169,8 +171,8 @@ class MemoryFoldConfig:
                 "determined": [0.6, 0.2, -0.2],
                 "confused": [-0.2, 0.4, 0.1],
                 "nostalgic": [0.3, -0.2, -0.6],
-                "hopeful": [0.7, 0.2, 0.1]
-            }
+                "hopeful": [0.7, 0.2, 0.1],
+            },
         }
 
 
@@ -178,11 +180,13 @@ class MemoryFoldConfig:
 # DATABASE STORAGE MANAGER
 # ═══════════════════════════════════════════════════════════════════════════
 
+
 class MemoryFoldDatabase:
     """Handles database operations for memory folds."""
 
-    def __init__(self, db_path: str, max_folds: int = 10000,
-                 cleanup_interval_hours: int = 24):
+    def __init__(
+        self, db_path: str, max_folds: int = 10000, cleanup_interval_hours: int = 24
+    ):
         """Initialize database connection and schema."""
         self.db_path = db_path
         self.max_folds = max_folds
@@ -197,7 +201,8 @@ class MemoryFoldDatabase:
         """Create database schema if not exists."""
         with sqlite3.connect(self.db_path) as conn:
             # Main memory folds table
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS memory_folds (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id TEXT NOT NULL,
@@ -213,24 +218,32 @@ class MemoryFoldDatabase:
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     UNIQUE(user_id, hash)
                 )
-            """)
+            """
+            )
 
             # Indexes for performance
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_user_timestamp
                 ON memory_folds(user_id, timestamp DESC)
-            """)
-            conn.execute("""
+            """
+            )
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_emotion
                 ON memory_folds(emotion)
-            """)
-            conn.execute("""
+            """
+            )
+            conn.execute(
+                """
                 CREATE INDEX IF NOT EXISTS idx_relevance
                 ON memory_folds(relevance_score DESC)
-            """)
+            """
+            )
 
             # Emotion clusters table
-            conn.execute("""
+            conn.execute(
+                """
                 CREATE TABLE IF NOT EXISTS emotion_clusters (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cluster_name TEXT NOT NULL,
@@ -238,7 +251,8 @@ class MemoryFoldDatabase:
                     tier_level INTEGER NOT NULL,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                 )
-            """)
+            """
+            )
 
             conn.commit()
 
@@ -249,26 +263,31 @@ class MemoryFoldDatabase:
                 with sqlite3.connect(self.db_path) as conn:
                     # Serialize emotion vector if present
                     emotion_vector = None
-                    if 'emotion_vector' in fold:
-                        emotion_vector = json.dumps(fold['emotion_vector'].tolist()
-                                                  if hasattr(fold['emotion_vector'], 'tolist')
-                                                  else fold['emotion_vector'])
+                    if "emotion_vector" in fold:
+                        emotion_vector = json.dumps(
+                            fold["emotion_vector"].tolist()
+                            if hasattr(fold["emotion_vector"], "tolist")
+                            else fold["emotion_vector"]
+                        )
 
-                    conn.execute("""
+                    conn.execute(
+                        """
                         INSERT OR REPLACE INTO memory_folds
                         (user_id, timestamp, emotion, context, hash, emotion_vector,
                          relevance_score, metadata)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """, (
-                        fold.get('user_id', 'system'),
-                        fold['timestamp'],
-                        fold['emotion'],
-                        fold['context'],
-                        fold['hash'],
-                        emotion_vector,
-                        fold.get('relevance_score', 1.0),
-                        json.dumps(fold.get('metadata', {}))
-                    ))
+                    """,
+                        (
+                            fold.get("user_id", "system"),
+                            fold["timestamp"],
+                            fold["emotion"],
+                            fold["context"],
+                            fold["hash"],
+                            emotion_vector,
+                            fold.get("relevance_score", 1.0),
+                            json.dumps(fold.get("metadata", {})),
+                        ),
+                    )
                     conn.commit()
 
                 # Check if cleanup is needed
@@ -281,11 +300,14 @@ class MemoryFoldDatabase:
                 logger.error(f"Failed to add fold to database: {e}")
                 return False
 
-    def get_folds(self, user_id: Optional[str] = None,
-                  filter_emotion: Optional[str] = None,
-                  min_relevance: float = 0.0,
-                  limit: int = 100,
-                  offset: int = 0) -> List[Dict[str, Any]]:
+    def get_folds(
+        self,
+        user_id: Optional[str] = None,
+        filter_emotion: Optional[str] = None,
+        min_relevance: float = 0.0,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> List[Dict[str, Any]]:
         """Retrieve memory folds with filtering and pagination."""
         query_parts = ["SELECT * FROM memory_folds WHERE 1=1"]
         params = []
@@ -316,42 +338,47 @@ class MemoryFoldDatabase:
                 folds = []
                 for row in cursor:
                     fold = {
-                        'id': row['id'],
-                        'timestamp': row['timestamp'],
-                        'emotion': row['emotion'],
-                        'context': row['context'],
-                        'hash': row['hash'],
-                        'user_id': row['user_id'],
-                        'relevance_score': row['relevance_score'],
-                        'access_count': row['access_count']
+                        "id": row["id"],
+                        "timestamp": row["timestamp"],
+                        "emotion": row["emotion"],
+                        "context": row["context"],
+                        "hash": row["hash"],
+                        "user_id": row["user_id"],
+                        "relevance_score": row["relevance_score"],
+                        "access_count": row["access_count"],
                     }
 
                     # Deserialize emotion vector
-                    if row['emotion_vector']:
-                        fold['emotion_vector'] = np.array(json.loads(row['emotion_vector']))
+                    if row["emotion_vector"]:
+                        fold["emotion_vector"] = np.array(
+                            json.loads(row["emotion_vector"])
+                        )
 
                     # Deserialize metadata
-                    if row['metadata']:
-                        fold['metadata'] = json.loads(row['metadata'])
+                    if row["metadata"]:
+                        fold["metadata"] = json.loads(row["metadata"])
 
                     folds.append(fold)
 
                 # Update access count and last accessed time
                 if folds:
                     # CLAUDE_EDIT_v0.13: Fixed SQL injection vulnerability - use individual updates in transaction
-                    fold_ids = [f['id'] for f in folds]
+                    fold_ids = [f["id"] for f in folds]
                     timestamp = datetime.utcnow().isoformat()
 
                     # Execute updates in a transaction for efficiency
                     conn.execute("BEGIN TRANSACTION")
                     try:
                         for fold_id in fold_ids:
-                            conn.execute("""
+                            conn.execute(
+                                """
                                 UPDATE memory_folds
                                 SET access_count = access_count + 1,
                                     last_accessed = ?
                                 WHERE id = ?
-                            """, (timestamp, fold_id))
+                            """,
+                                (timestamp, fold_id),
+                            )
                         conn.commit()
                     except Exception:
                         conn.rollback()
@@ -367,11 +394,14 @@ class MemoryFoldDatabase:
         """Apply time-based decay to relevance scores."""
         try:
             with sqlite3.connect(self.db_path) as conn:
-                conn.execute("""
+                conn.execute(
+                    """
                     UPDATE memory_folds
                     SET relevance_score = relevance_score * ?
                     WHERE julianday('now') - julianday(timestamp) > 1
-                """, (decay_factor,))
+                """,
+                    (decay_factor,),
+                )
                 conn.commit()
                 logger.debug("Applied relevance decay to memory folds")
         except sqlite3.Error as e:
@@ -384,19 +414,23 @@ class MemoryFoldDatabase:
         try:
             with sqlite3.connect(self.db_path) as conn:
                 # Find users with too many folds
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT user_id, COUNT(*) as fold_count
                     FROM memory_folds
                     GROUP BY user_id
                     HAVING fold_count > ?
-                """, (self.max_folds,))
+                """,
+                    (self.max_folds,),
+                )
 
                 for row in cursor.fetchall():
                     user_id = row[0]
                     excess = row[1] - self.max_folds
 
                     # Delete lowest relevance folds first
-                    conn.execute("""
+                    conn.execute(
+                        """
                         DELETE FROM memory_folds
                         WHERE user_id = ? AND id IN (
                             SELECT id FROM memory_folds
@@ -404,10 +438,12 @@ class MemoryFoldDatabase:
                             ORDER BY relevance_score ASC, timestamp ASC
                             LIMIT ?
                         )
-                    """, (user_id, user_id, excess))
+                    """,
+                        (user_id, user_id, excess),
+                    )
 
                 conn.commit()
-                logger.info(f"Cleanup completed, removed old folds")
+                logger.info("Cleanup completed, removed old folds")
 
         except sqlite3.Error as e:
             logger.error(f"Cleanup failed: {e}")
@@ -420,51 +456,57 @@ class MemoryFoldDatabase:
 
                 # Total folds
                 cursor = conn.execute("SELECT COUNT(*) FROM memory_folds")
-                stats['total_folds'] = cursor.fetchone()[0]
+                stats["total_folds"] = cursor.fetchone()[0]
 
                 # Folds by user
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT user_id, COUNT(*) as count,
                            AVG(relevance_score) as avg_relevance,
                            AVG(access_count) as avg_access
                     FROM memory_folds
                     GROUP BY user_id
-                """)
-                stats['users'] = {}
+                """
+                )
+                stats["users"] = {}
                 for row in cursor:
-                    stats['users'][row[0]] = {
-                        'fold_count': row[1],
-                        'avg_relevance': round(row[2], 3),
-                        'avg_access_count': round(row[3], 1)
+                    stats["users"][row[0]] = {
+                        "fold_count": row[1],
+                        "avg_relevance": round(row[2], 3),
+                        "avg_access_count": round(row[3], 1),
                     }
 
                 # Emotion distribution
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT emotion, COUNT(*) as count,
                            AVG(relevance_score) as avg_relevance
                     FROM memory_folds
                     GROUP BY emotion
                     ORDER BY count DESC
-                """)
-                stats['emotions'] = {}
+                """
+                )
+                stats["emotions"] = {}
                 for row in cursor:
-                    stats['emotions'][row[0]] = {
-                        'count': row[1],
-                        'avg_relevance': round(row[2], 3)
+                    stats["emotions"][row[0]] = {
+                        "count": row[1],
+                        "avg_relevance": round(row[2], 3),
                     }
 
                 # Most accessed memories
-                cursor = conn.execute("""
+                cursor = conn.execute(
+                    """
                     SELECT emotion, context, access_count
                     FROM memory_folds
                     ORDER BY access_count DESC
                     LIMIT 5
-                """)
-                stats['most_accessed'] = [
+                """
+                )
+                stats["most_accessed"] = [
                     {
-                        'emotion': row[0],
-                        'context': row[1][:50] + '...' if len(row[1]) > 50 else row[1],
-                        'access_count': row[2]
+                        "emotion": row[0],
+                        "context": row[1][:50] + "..." if len(row[1]) > 50 else row[1],
+                        "access_count": row[2],
                     }
                     for row in cursor
                 ]
@@ -480,13 +522,17 @@ class MemoryFoldDatabase:
 # VISION PROMPT MANAGER
 # ═══════════════════════════════════════════════════════════════════════════
 
+
 class VisionPromptManager:
     """Manages visual prompts for memory folds."""
 
     def __init__(self, prompts_path: Optional[str] = None):
         """Initialize with configurable prompts path."""
-        self.prompts_path = Path(prompts_path) if prompts_path else \
-                          Path("core/vision/lukhas_vision_prompts.json")
+        self.prompts_path = (
+            Path(prompts_path)
+            if prompts_path
+            else Path("core/vision/lukhas_vision_prompts.json")
+        )
         self.prompts_cache = None
         self._load_prompts()
 
@@ -494,7 +540,7 @@ class VisionPromptManager:
         """Load prompts from JSON file with fallback."""
         try:
             if self.prompts_path.exists():
-                with open(self.prompts_path, 'r') as f:
+                with open(self.prompts_path) as f:
                     self.prompts_cache = json.load(f)
                 logger.info(f"Loaded vision prompts from {self.prompts_path}")
             else:
@@ -516,7 +562,6 @@ class VisionPromptManager:
             "emotion_surprise": "✨ Explosive prismatic burst, rainbow fractals",
             "emotion_disgust": "🌫️ Murky greens and browns, twisted forms",
             "emotion_anticipation": "🌅 Dawn colors spreading across horizon",
-
             # Secondary emotion prompts
             "emotion_reflective": "🪞 Mirror-like surfaces with depth illusions",
             "emotion_neutral": "☁️ Balanced grays in flowing patterns",
@@ -529,26 +574,28 @@ class VisionPromptManager:
             "emotion_confused": "🌀 Swirling mists and unclear shapes",
             "emotion_nostalgic": "📷 Sepia tones with soft focus edges",
             "emotion_hopeful": "🌱 New growth reaching toward light",
-
             # Time-specific variations
             "joy_morning_spring": "🌸 Cherry blossoms in golden morning light",
             "sadness_night_winter": "❄️ Lone snowflake in moonlit darkness",
             "peaceful_evening_summer": "🌅 Warm sunset over calm lake",
-
             # Default fallback
-            "default": "🎨 Abstract emotional landscape"
+            "default": "🎨 Abstract emotional landscape",
         }
 
-    def get_prompt_for_fold(self, fold: Dict[str, Any], user_tier: int = 0) -> Dict[str, Any]:
+    def get_prompt_for_fold(
+        self, fold: Dict[str, Any], user_tier: int = 0
+    ) -> Dict[str, Any]:
         """Generate appropriate vision prompt for a memory fold."""
-        emotion = fold.get('emotion', 'neutral')
-        timestamp = fold.get('timestamp', datetime.utcnow().isoformat())
+        emotion = fold.get("emotion", "neutral")
+        timestamp = fold.get("timestamp", datetime.utcnow().isoformat())
 
         # Parse timestamp
         try:
-            dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+            dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         except (ValueError, AttributeError) as e:
-            logger.warning(f"Failed to parse timestamp '{timestamp}': {e}. Using current time.")
+            logger.warning(
+                f"Failed to parse timestamp '{timestamp}': {e}. Using current time."
+            )
             dt = datetime.utcnow()
 
         # Determine time context
@@ -580,7 +627,7 @@ class VisionPromptManager:
         # Get prompt with fallback
         prompt = self.prompts_cache.get(
             specific_key,
-            self.prompts_cache.get(general_key, self.prompts_cache.get("default"))
+            self.prompts_cache.get(general_key, self.prompts_cache.get("default")),
         )
 
         # Build metadata based on tier
@@ -589,33 +636,35 @@ class VisionPromptManager:
             "emotion": emotion,
             "time_context": time_period,
             "season_context": season,
-            "ambient_ready": user_tier >= 3
+            "ambient_ready": user_tier >= 3,
         }
 
         if user_tier >= 4:
-            metadata.update({
-                "emotion_blend": True,
-                "transition_style": "emotional_morph",
-                "particle_effects": True
-            })
+            metadata.update(
+                {
+                    "emotion_blend": True,
+                    "transition_style": "emotional_morph",
+                    "particle_effects": True,
+                }
+            )
 
         if user_tier >= 5:
-            metadata.update({
-                "advanced_synthesis": True,
-                "memory_projection": True,
-                "temporal_weaving": True,
-                "symbolic_depth": "maximum"
-            })
+            metadata.update(
+                {
+                    "advanced_synthesis": True,
+                    "memory_projection": True,
+                    "temporal_weaving": True,
+                    "symbolic_depth": "maximum",
+                }
+            )
 
-        return {
-            "vision_prompt": prompt,
-            "visual_metadata": metadata
-        }
+        return {"vision_prompt": prompt, "visual_metadata": metadata}
 
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TIER MANAGEMENT SYSTEM
 # ═══════════════════════════════════════════════════════════════════════════
+
 
 class TierManager:
     """Manages tier-based access control for memory operations."""
@@ -626,11 +675,12 @@ class TierManager:
             "context_access": 2,
             "emotional_mapping": 3,
             "cluster_analysis": 4,
-            "full_access": 5
+            "full_access": 5,
         }
 
-    def validate_access(self, required_level: int, user_tier: int,
-                       operation: str = "unknown") -> bool:
+    def validate_access(
+        self, required_level: int, user_tier: int, operation: str = "unknown"
+    ) -> bool:
         """Validate if user has required tier level."""
         has_access = user_tier >= required_level
 
@@ -646,7 +696,9 @@ class TierManager:
 
         return has_access
 
-    def filter_data_by_tier(self, data: Dict[str, Any], user_tier: int) -> Dict[str, Any]:
+    def filter_data_by_tier(
+        self, data: Dict[str, Any], user_tier: int
+    ) -> Dict[str, Any]:
         """Filter data based on user's tier level."""
         filtered = data.copy()
 
@@ -683,6 +735,7 @@ class TierManager:
 # MAIN MEMORY FOLD SYSTEM
 # ═══════════════════════════════════════════════════════════════════════════
 
+
 class MemoryFoldSystem:
     """
     Complete memory fold system with database storage, emotion vectors,
@@ -697,28 +750,28 @@ class MemoryFoldSystem:
 
         # Initialize emotion vectors
         self.emotion_vectors = {}
-        for category in ['primary', 'secondary']:
-            for emotion, vector in self.config['emotion_vectors'].get(category, {}).items():
+        for category in ["primary", "secondary"]:
+            for emotion, vector in (
+                self.config["emotion_vectors"].get(category, {}).items()
+            ):
                 self.emotion_vectors[emotion] = np.array(vector)
         logger.info(f"Loaded {len(self.emotion_vectors)} emotion vectors")
 
         # Initialize database
-        storage_config = self.config.get('storage', {})
+        storage_config = self.config.get("storage", {})
         self.database = MemoryFoldDatabase(
-            db_path=storage_config.get('db_path', 'lukhas_memory_folds.db'),
-            max_folds=storage_config.get('max_folds', 10000),
-            cleanup_interval_hours=storage_config.get('cleanup_interval_hours', 24)
+            db_path=storage_config.get("db_path", "lukhas_memory_folds.db"),
+            max_folds=storage_config.get("max_folds", 10000),
+            cleanup_interval_hours=storage_config.get("cleanup_interval_hours", 24),
         )
 
         # Initialize vision prompt manager
         self.vision_manager = VisionPromptManager(
-            self.config.get('vision_prompts_path')
+            self.config.get("vision_prompts_path")
         )
 
         # Initialize tier manager
-        self.tier_manager = TierManager(
-            self.config.get('tier_thresholds')
-        )
+        self.tier_manager = TierManager(self.config.get("tier_thresholds"))
 
         # Cache for emotion state service
         self._emotion_state_cache = {}
@@ -726,8 +779,9 @@ class MemoryFoldSystem:
 
         logger.info("MemoryFoldSystem initialization complete")
 
-    def log_dream(self, dream_type: str = "reflective",
-                  user_id: Optional[str] = None) -> Dict[str, Any]:
+    def log_dream(
+        self, dream_type: str = "reflective", user_id: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Log a dream insight as a memory fold.
 
@@ -744,21 +798,27 @@ class MemoryFoldSystem:
         emotion_state = self._get_emotion_state(user_id)
         current_emotion = emotion_state.get("emotion", "neutral")
 
-        context = f"Dream log initiated for {dream_type} cycle. Mood: {current_emotion}."
+        context = (
+            f"Dream log initiated for {dream_type} cycle. Mood: {current_emotion}."
+        )
 
         fold = self.create_memory_fold(
             emotion=current_emotion,
             context_snippet=context,
             user_id=user_id,
-            metadata={"dream_type": dream_type, "auto_generated": True}
+            metadata={"dream_type": dream_type, "auto_generated": True},
         )
 
         logger.info(f"Dream logged: {fold['hash'][:10]}...")
         return fold
 
-    def create_memory_fold(self, emotion: str, context_snippet: str,
-                          user_id: Optional[str] = None,
-                          metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def create_memory_fold(
+        self,
+        emotion: str,
+        context_snippet: str,
+        user_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """
         Create a memory fold with emotional context.
 
@@ -775,12 +835,14 @@ class MemoryFoldSystem:
 
         # Ensure emotion is in vector space
         if emotion not in self.emotion_vectors:
-            logger.warning(f"Unknown emotion '{emotion}', adding with interpolated vector")
+            logger.warning(
+                f"Unknown emotion '{emotion}', adding with interpolated vector"
+            )
             self._add_dynamic_emotion(emotion)
 
         # Create fold structure
         fold_content = f"{timestamp}-{emotion}-{context_snippet}"
-        fold_hash = hashlib.sha256(fold_content.encode('utf-8')).hexdigest()
+        fold_hash = hashlib.sha256(fold_content.encode("utf-8")).hexdigest()
 
         fold = {
             "timestamp": timestamp,
@@ -790,7 +852,7 @@ class MemoryFoldSystem:
             "user_id": user_id or "system",
             "emotion_vector": self.emotion_vectors[emotion],
             "relevance_score": 1.0,
-            "metadata": metadata or {}
+            "metadata": metadata or {},
         }
 
         # Store in database
@@ -801,10 +863,13 @@ class MemoryFoldSystem:
 
         return fold
 
-    def recall_memory_folds(self, user_id: Optional[str] = None,
-                           filter_emotion: Optional[str] = None,
-                           user_tier: int = 0,
-                           limit: int = 100) -> List[Dict[str, Any]]:
+    def recall_memory_folds(
+        self,
+        user_id: Optional[str] = None,
+        filter_emotion: Optional[str] = None,
+        user_tier: int = 0,
+        limit: int = 100,
+    ) -> List[Dict[str, Any]]:
         """
         Recall memory folds with filtering and tier-based access.
 
@@ -817,7 +882,9 @@ class MemoryFoldSystem:
         Returns:
             List of memory folds with appropriate data filtering
         """
-        logger.info(f"Recalling folds: user={user_id}, emotion={filter_emotion}, tier={user_tier}")
+        logger.info(
+            f"Recalling folds: user={user_id}, emotion={filter_emotion}, tier={user_tier}"
+        )
 
         # Validate tier access
         if not self.tier_manager.validate_access(1, user_tier, "recall_memory_folds"):
@@ -825,9 +892,7 @@ class MemoryFoldSystem:
 
         # Get folds from database
         folds = self.database.get_folds(
-            user_id=user_id,
-            filter_emotion=filter_emotion,
-            limit=limit
+            user_id=user_id, filter_emotion=filter_emotion, limit=limit
         )
 
         # Process each fold
@@ -838,26 +903,33 @@ class MemoryFoldSystem:
             fold.update(vision_data)
 
             # Calculate temporal relevance
-            fold_time = datetime.fromisoformat(fold['timestamp'].replace('Z', '+00:00'))
-            time_diff = (datetime.utcnow().replace(tzinfo=fold_time.tzinfo) - fold_time).total_seconds()
-            fold['relevance_score_time'] = max(0.0, 1.0 - (time_diff / (60 * 60 * 24 * 7)))
+            fold_time = datetime.fromisoformat(fold["timestamp"].replace("Z", "+00:00"))
+            time_diff = (
+                datetime.utcnow().replace(tzinfo=fold_time.tzinfo) - fold_time
+            ).total_seconds()
+            fold["relevance_score_time"] = max(
+                0.0, 1.0 - (time_diff / (60 * 60 * 24 * 7))
+            )
 
             # Apply tier-based filtering
             filtered_fold = self.tier_manager.filter_data_by_tier(fold, user_tier)
             processed_folds.append(filtered_fold)
 
         # Sort by relevance
-        processed_folds.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
+        processed_folds.sort(key=lambda x: x.get("relevance_score", 0), reverse=True)
 
         logger.info(f"Recalled {len(processed_folds)} memory folds")
         return processed_folds
 
-    def enhanced_recall_memory_folds(self, user_id: Optional[str] = None,
-                                    target_emotion: Optional[str] = None,
-                                    user_tier: int = 0,
-                                    emotion_threshold: float = 0.6,
-                                    context_query: Optional[str] = None,
-                                    max_results: Optional[int] = None) -> List[Dict[str, Any]]:
+    def enhanced_recall_memory_folds(
+        self,
+        user_id: Optional[str] = None,
+        target_emotion: Optional[str] = None,
+        user_tier: int = 0,
+        emotion_threshold: float = 0.6,
+        context_query: Optional[str] = None,
+        max_results: Optional[int] = None,
+    ) -> List[Dict[str, Any]]:
         """
         Enhanced recall with emotional similarity and context search.
 
@@ -872,16 +944,20 @@ class MemoryFoldSystem:
         Returns:
             List of emotionally similar memory folds
         """
-        logger.info(f"Enhanced recall: target_emotion={target_emotion}, threshold={emotion_threshold}")
+        logger.info(
+            f"Enhanced recall: target_emotion={target_emotion}, threshold={emotion_threshold}"
+        )
 
         # Validate tier access for enhanced features
         if not self.tier_manager.validate_access(
             self.tier_manager.thresholds["emotional_mapping"],
             user_tier,
-            "enhanced_recall"
+            "enhanced_recall",
         ):
             # Fall back to basic recall
-            return self.recall_memory_folds(user_id, target_emotion, user_tier, max_results or 100)
+            return self.recall_memory_folds(
+                user_id, target_emotion, user_tier, max_results or 100
+            )
 
         # Get all relevant folds
         all_folds = self.database.get_folds(user_id=user_id, limit=500)
@@ -895,8 +971,7 @@ class MemoryFoldSystem:
             # Find similar emotions
             if user_tier >= self.tier_manager.thresholds["emotional_mapping"]:
                 neighborhood = self.get_emotional_neighborhood(
-                    target_emotion,
-                    threshold=emotion_threshold
+                    target_emotion, threshold=emotion_threshold
                 )
                 related_emotions.update(neighborhood.keys())
 
@@ -910,37 +985,40 @@ class MemoryFoldSystem:
         # Filter and score folds
         enhanced_folds = []
         for fold in all_folds:
-            fold_emotion = fold.get('emotion')
+            fold_emotion = fold.get("emotion")
 
             # Check emotion match
             if target_emotion and fold_emotion not in related_emotions:
                 continue
 
             # Check context query
-            if context_query and context_query.lower() not in fold.get('context', '').lower():
+            if (
+                context_query
+                and context_query.lower() not in fold.get("context", "").lower()
+            ):
                 continue
 
             # Calculate emotional distance if target specified
             if target_emotion and fold_emotion:
                 distance = self.calculate_emotion_distance(target_emotion, fold_emotion)
-                fold['emotion_distance_to_target'] = distance
-                fold['emotion_similarity_to_target'] = max(0.0, 1.0 - (distance / 2.0))
+                fold["emotion_distance_to_target"] = distance
+                fold["emotion_similarity_to_target"] = max(0.0, 1.0 - (distance / 2.0))
 
             # Add vision prompt
             vision_data = self.vision_manager.get_prompt_for_fold(fold, user_tier)
             fold.update(vision_data)
 
             # Calculate combined relevance
-            time_relevance = fold.get('relevance_score_time', 0.5)
-            emotion_relevance = fold.get('emotion_similarity_to_target', 0.5)
-            fold['combined_relevance'] = (0.7 * emotion_relevance + 0.3 * time_relevance)
+            time_relevance = fold.get("relevance_score_time", 0.5)
+            emotion_relevance = fold.get("emotion_similarity_to_target", 0.5)
+            fold["combined_relevance"] = 0.7 * emotion_relevance + 0.3 * time_relevance
 
             # Apply tier filtering
             filtered_fold = self.tier_manager.filter_data_by_tier(fold, user_tier)
             enhanced_folds.append(filtered_fold)
 
         # Sort by combined relevance
-        enhanced_folds.sort(key=lambda x: x.get('combined_relevance', 0), reverse=True)
+        enhanced_folds.sort(key=lambda x: x.get("combined_relevance", 0), reverse=True)
 
         # Limit results
         if max_results:
@@ -976,8 +1054,9 @@ class MemoryFoldSystem:
 
         return float(np.clip(distance, 0.0, 2.0))
 
-    def get_emotional_neighborhood(self, target_emotion: str,
-                                  threshold: float = 0.5) -> Dict[str, float]:
+    def get_emotional_neighborhood(
+        self, target_emotion: str, threshold: float = 0.5
+    ) -> Dict[str, float]:
         """
         Find emotions within threshold distance of target.
 
@@ -1019,7 +1098,7 @@ class MemoryFoldSystem:
             return {
                 "positive_basic": ["joy", "trust", "excited", "peaceful", "hopeful"],
                 "negative_basic": ["fear", "sadness", "disgust", "anger", "anxious"],
-                "neutral_exploratory": ["neutral", "reflective", "curious"]
+                "neutral_exploratory": ["neutral", "reflective", "curious"],
             }
 
         # Detailed clusters for mid tiers
@@ -1033,7 +1112,7 @@ class MemoryFoldSystem:
                 "surprise_complex": ["surprise", "confused"],
                 "anticipation_complex": ["anticipation", "curious"],
                 "reflective_complex": ["reflective", "nostalgic"],
-                "neutral_core": ["neutral"]
+                "neutral_core": ["neutral"],
             }
 
         # Dynamic clustering for high tiers
@@ -1056,9 +1135,12 @@ class MemoryFoldSystem:
 
         return clusters
 
-    def dream_consolidate_memories(self, hours_limit: int = 24,
-                                   max_memories: int = 100,
-                                   user_id: Optional[str] = None) -> Dict[str, Any]:
+    def dream_consolidate_memories(
+        self,
+        hours_limit: int = 24,
+        max_memories: int = 100,
+        user_id: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """
         Consolidate recent memories through dream-like processing.
 
@@ -1070,32 +1152,33 @@ class MemoryFoldSystem:
         Returns:
             Consolidation results
         """
-        logger.info(f"Starting dream consolidation: hours={hours_limit}, max={max_memories}")
+        logger.info(
+            f"Starting dream consolidation: hours={hours_limit}, max={max_memories}"
+        )
 
         # Get recent memories
-        recent_folds = self.database.get_folds(
-            user_id=user_id,
-            limit=max_memories
-        )
+        recent_folds = self.database.get_folds(user_id=user_id, limit=max_memories)
 
         # Filter by time
         cutoff_time = datetime.utcnow() - timedelta(hours=hours_limit)
         recent_folds = [
-            f for f in recent_folds
-            if datetime.fromisoformat(f['timestamp'].replace('Z', '+00:00')) > cutoff_time
+            f
+            for f in recent_folds
+            if datetime.fromisoformat(f["timestamp"].replace("Z", "+00:00"))
+            > cutoff_time
         ]
 
         if not recent_folds:
             return {
                 "success": True,
                 "message": "No recent memories to consolidate",
-                "consolidated_count": 0
+                "consolidated_count": 0,
             }
 
         # Group by emotional similarity
         emotion_groups = defaultdict(list)
         for fold in recent_folds:
-            emotion_groups[fold['emotion']].append(fold)
+            emotion_groups[fold["emotion"]].append(fold)
 
         # Find cross-emotion patterns
         consolidated = []
@@ -1123,15 +1206,19 @@ class MemoryFoldSystem:
                         "type": "consolidated",
                         "source_count": len(base_folds) + len(related_folds),
                         "themes": themes,
-                        "consolidation_time": datetime.utcnow().isoformat()
-                    }
+                        "consolidation_time": datetime.utcnow().isoformat(),
+                    },
                 )
 
-                consolidated.append({
-                    "consolidated_key": consolidated_fold['hash'],
-                    "source_emotions": list(set([base_emotion] + list(neighborhood.keys()))),
-                    "theme_count": len(themes)
-                })
+                consolidated.append(
+                    {
+                        "consolidated_key": consolidated_fold["hash"],
+                        "source_emotions": list(
+                            set([base_emotion] + list(neighborhood.keys()))
+                        ),
+                        "theme_count": len(themes),
+                    }
+                )
 
         # Update relevance scores
         self.database.update_relevance_scores()
@@ -1140,7 +1227,7 @@ class MemoryFoldSystem:
             "success": True,
             "consolidated_count": len(consolidated),
             "consolidated_memories": consolidated,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
     def get_system_statistics(self) -> Dict[str, Any]:
@@ -1148,11 +1235,30 @@ class MemoryFoldSystem:
         stats = self.database.get_statistics()
 
         # Add emotion vector statistics
-        stats['emotion_vectors'] = {
-            'total': len(self.emotion_vectors),
-            'primary': len([e for e in self.emotion_vectors if e in self.config['emotion_vectors'].get('primary', {})]),
-            'secondary': len([e for e in self.emotion_vectors if e in self.config['emotion_vectors'].get('secondary', {})]),
-            'dynamic': len([e for e in self.emotion_vectors if e not in self.config['emotion_vectors'].get('primary', {}) and e not in self.config['emotion_vectors'].get('secondary', {})])
+        stats["emotion_vectors"] = {
+            "total": len(self.emotion_vectors),
+            "primary": len(
+                [
+                    e
+                    for e in self.emotion_vectors
+                    if e in self.config["emotion_vectors"].get("primary", {})
+                ]
+            ),
+            "secondary": len(
+                [
+                    e
+                    for e in self.emotion_vectors
+                    if e in self.config["emotion_vectors"].get("secondary", {})
+                ]
+            ),
+            "dynamic": len(
+                [
+                    e
+                    for e in self.emotion_vectors
+                    if e not in self.config["emotion_vectors"].get("primary", {})
+                    and e not in self.config["emotion_vectors"].get("secondary", {})
+                ]
+            ),
         }
 
         return stats
@@ -1179,8 +1285,8 @@ class MemoryFoldSystem:
                 # Use most common recent emotion
                 emotion_counts = defaultdict(int)
                 for fold in recent_folds:
-                    emotion_counts[fold['emotion']] += 1
-                emotion_state['emotion'] = max(emotion_counts, key=emotion_counts.get)
+                    emotion_counts[fold["emotion"]] += 1
+                emotion_state["emotion"] = max(emotion_counts, key=emotion_counts.get)
         except Exception as e:
             logger.error(f"Error getting emotion state: {e}")
 
@@ -1225,7 +1331,7 @@ class MemoryFoldSystem:
         word_counts = defaultdict(int)
 
         for fold in folds:
-            context = fold.get('context', '')
+            context = fold.get("context", "")
             # Simple tokenization
             words = context.lower().split()
             for word in words:
@@ -1256,8 +1362,8 @@ class MemoryFoldSystem:
                 # Use most common recent emotion
                 emotion_counts = defaultdict(int)
                 for fold in recent_folds:
-                    emotion_counts[fold['emotion']] += 1
-                emotion_state['emotion'] = max(emotion_counts, key=emotion_counts.get)
+                    emotion_counts[fold["emotion"]] += 1
+                emotion_state["emotion"] = max(emotion_counts, key=emotion_counts.get)
         except Exception as e:
             logger.error(f"Error getting emotion state: {e}")
 
@@ -1305,7 +1411,7 @@ class MemoryFoldSystem:
         word_counts = defaultdict(int)
 
         for fold in folds:
-            context = fold.get('context', '')
+            context = fold.get("context", "")
             # Simple tokenization
             words = context.lower().split()
             for word in words:
@@ -1324,6 +1430,7 @@ class MemoryFoldSystem:
 # Global instance for backward compatibility
 _global_system = None
 
+
 def _get_global_system() -> MemoryFoldSystem:
     """Get or create global system instance."""
     global _global_system
@@ -1331,47 +1438,64 @@ def _get_global_system() -> MemoryFoldSystem:
         _global_system = MemoryFoldSystem()
     return _global_system
 
+
 def log_dream(dream_type: str = "reflective", user_id: Optional[str] = None) -> None:
     """Legacy function for dream logging."""
     system = _get_global_system()
     system.log_dream(dream_type, user_id)
 
-def create_memory_fold(emotion: str, context_snippet: str,
-                      user_id: Optional[str] = None) -> Dict[str, Any]:
+
+def create_memory_fold(
+    emotion: str, context_snippet: str, user_id: Optional[str] = None
+) -> Dict[str, Any]:
     """Legacy function for creating memory fold."""
     system = _get_global_system()
     return system.create_memory_fold(emotion, context_snippet, user_id)
 
-def recall_memory_folds(user_id: Optional[str] = None,
-                       filter_emotion: Optional[str] = None,
-                       user_tier: int = 0) -> List[Dict[str, Any]]:
+
+def recall_memory_folds(
+    user_id: Optional[str] = None,
+    filter_emotion: Optional[str] = None,
+    user_tier: int = 0,
+) -> List[Dict[str, Any]]:
     """Legacy function for recalling memory folds."""
     system = _get_global_system()
     return system.recall_memory_folds(user_id, filter_emotion, user_tier)
 
-def enhanced_recall_memory_folds(user_id: Optional[str] = None,
-                                target_emotion: Optional[str] = None,
-                                user_tier: int = 0,
-                                emotion_threshold: float = 0.6,
-                                context_query: Optional[str] = None,
-                                max_results: Optional[int] = None) -> List[Dict[str, Any]]:
+
+def enhanced_recall_memory_folds(
+    user_id: Optional[str] = None,
+    target_emotion: Optional[str] = None,
+    user_tier: int = 0,
+    emotion_threshold: float = 0.6,
+    context_query: Optional[str] = None,
+    max_results: Optional[int] = None,
+) -> List[Dict[str, Any]]:
     """Legacy function for enhanced recall."""
     system = _get_global_system()
     return system.enhanced_recall_memory_folds(
-        user_id, target_emotion, user_tier,
-        emotion_threshold, context_query, max_results
+        user_id,
+        target_emotion,
+        user_tier,
+        emotion_threshold,
+        context_query,
+        max_results,
     )
+
 
 def calculate_emotion_distance(emotion1: str, emotion2: str) -> float:
     """Legacy function for emotion distance calculation."""
     system = _get_global_system()
     return system.calculate_emotion_distance(emotion1, emotion2)
 
-def get_emotional_neighborhood(target_emotion: str,
-                              threshold: float = 0.5) -> Dict[str, float]:
+
+def get_emotional_neighborhood(
+    target_emotion: str, threshold: float = 0.5
+) -> Dict[str, float]:
     """Legacy function for emotional neighborhood."""
     system = _get_global_system()
     return system.get_emotional_neighborhood(target_emotion, threshold)
+
 
 def create_emotion_clusters(tier_level: int = 0) -> Dict[str, List[str]]:
     """Legacy function for emotion clustering."""

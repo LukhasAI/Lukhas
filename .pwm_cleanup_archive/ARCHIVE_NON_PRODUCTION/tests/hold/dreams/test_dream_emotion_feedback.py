@@ -1,6 +1,11 @@
 import unittest
-from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import DreamReflectionLoop
-from memory.core_memory.emotional_memory import EmotionalMemory, EmotionVector
+
+from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import (
+    DreamReflectionLoop,
+)
+
+from memory.core_memory.emotional_memory import EmotionalMemory
+
 
 class TestDreamEmotionFeedback(unittest.TestCase):
     def test_emotion_feedback_loop(self):
@@ -15,11 +20,13 @@ class TestDreamEmotionFeedback(unittest.TestCase):
 
         # Wait for dream cycle to complete
         import time
+
         time.sleep(65)
 
         final_emotion = emotional_memory.get_current_emotional_state()
 
         self.assertNotEqual(initial_emotion, final_emotion)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

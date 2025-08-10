@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -33,26 +32,23 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-
-
 from hashlib import sha3_256
+
 import rlp
-from eth_keys import keys
+
 
 class QuantumSafeAuditBlockchain:
     """
     Immutable audit trail with post-quantum signatures
     """
+
     def __init__(self):
         self.chain: List[Block] = [self._create_genesis_block()]
         self.pending_transactions: List[Transaction] = []
         self.pqc_signer = PostQuantumSigner()
-        
+
     async def log_ai_decision(
-        self,
-        decision: AIDecision,
-        context: DecisionContext,
-        user_consent: ConsentProof
+        self, decision: AIDecision, context: DecisionContext, user_consent: ConsentProof
     ) -> str:
         """
         Create immutable record of AI decision
@@ -66,58 +62,53 @@ class QuantumSafeAuditBlockchain:
             "context_hash": sha3_256(context.serialize()).hexdigest(),
             "user_consent_proof": user_consent.zero_knowledge_proof,
             "model_version": decision.model_version,
-            "quantum_advantage_used": decision.used_quantum_processing
+            "quantum_advantage_used": decision.used_quantum_processing,
         }
-        
+
         # 2. Sign with post-quantum signature
         signature = await self.pqc_signer.sign(
-            rlp.encode(audit_data),
-            include_timestamp=True
+            rlp.encode(audit_data), include_timestamp=True
         )
-        
+
         # 3. Create transaction
         transaction = Transaction(
-            data=audit_data,
-            signature=signature,
-            transaction_type="ai_decision_audit"
+            data=audit_data, signature=signature, transaction_type="ai_decision_audit"
         )
-        
+
         # 4. Add to pending and mine if threshold reached
         self.pending_transactions.append(transaction)
         if len(self.pending_transactions) >= self.config.block_size:
             await self._mine_block()
-            
+
         return transaction.hash
-    
+
     async def generate_compliance_report(
-        self,
-        time_range: TimeRange,
-        compliance_framework: str  # GDPR, CCPA, etc.
+        self, time_range: TimeRange, compliance_framework: str  # GDPR, CCPA, etc.
     ) -> ComplianceReport:
         """
         Generate cryptographically verifiable compliance report
         """
         relevant_blocks = self._get_blocks_in_range(time_range)
-        
+
         # Build Merkle tree of all decisions
         decision_tree = MerkleTree()
         for block in relevant_blocks:
             for tx in block.transactions:
                 if tx.type == "ai_decision_audit":
                     decision_tree.add_leaf(tx.data)
-                    
+
         # Generate zero-knowledge proof of compliance
         compliance_proof = await self._generate_compliance_proof(
-            decision_tree,
-            compliance_framework
+            decision_tree, compliance_framework
         )
-        
+
         return ComplianceReport(
             merkle_root=decision_tree.root,
             compliance_proof=compliance_proof,
             block_range=(relevant_blocks[0].number, relevant_blocks[-1].number),
-            cryptographic_attestation=await self._sign_report(decision_tree.root)
+            cryptographic_attestation=await self._sign_report(decision_tree.root),
         )
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════
@@ -157,10 +148,10 @@ class QuantumSafeAuditBlockchain:
 """
 
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -168,14 +159,15 @@ def __validate_module__():
         "quantum_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
-        "tier_2_access": True
+        "tier_2_access": True,
     }
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {failed}")
-    
+
     return len(failed) == 0
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Health and Monitoring
@@ -186,7 +178,7 @@ MODULE_HEALTH = {
     "quantum_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

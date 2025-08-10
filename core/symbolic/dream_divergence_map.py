@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ═══════════════════════════════════════════════════════════════════════════════════
 🔍 MODULE: dream.tools.dream_divergence_map
 📄 FILENAME: dream_divergence_map.py
@@ -56,22 +55,21 @@ TODO: Add temporal correlation weighting for chronological proximity
 IDEA: Implement recursive pattern detection across divergence peaks
 """
 
+import argparse
 import json
 import math
-import argparse
-from typing import Dict, List, Any, Optional, Tuple, Set
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from collections import Counter
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from collections import defaultdict, Counter
+from typing import Any, Optional
+
 import numpy as np
 import structlog
-from itertools import combinations
 
 # Visualization imports
 try:
     import matplotlib.pyplot as plt
-    import seaborn as sns
 
     MATPLOTLIB_AVAILABLE = True
 except ImportError:
@@ -79,8 +77,6 @@ except ImportError:
 
 try:
     import plotly.graph_objects as go
-    import plotly.express as px
-    from plotly.subplots import make_subplots
 
     PLOTLY_AVAILABLE = True
 except ImportError:
@@ -95,12 +91,12 @@ class DreamSession:
 
     session_id: str
     timestamp: str
-    symbolic_tags: List[str]
-    emotional_state: Dict[str, float]
+    symbolic_tags: list[str]
+    emotional_state: dict[str, float]
     content: str
     drift_score: float
-    narrative_elements: List[str]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    narrative_elements: list[str]
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def calculate_entropy(self) -> float:
         """Calculate symbolic entropy of the session."""
@@ -122,7 +118,7 @@ class DreamSession:
 
         return math.sqrt(sum(value**2 for value in self.emotional_state.values()))
 
-    def extract_phase_markers(self) -> List[str]:
+    def extract_phase_markers(self) -> list[str]:
         """Extract phase markers (ΛTAGS) from content."""
         import re
 
@@ -134,7 +130,7 @@ class DreamSession:
 class DriftScore:
     """Represents drift between two sessions."""
 
-    session_pair: Tuple[str, str]
+    session_pair: tuple[str, str]
     symbolic_overlap: float
     emotional_delta: float
     entropy_delta: float
@@ -142,7 +138,7 @@ class DriftScore:
     phase_transition_score: float
     total_drift: float
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -150,24 +146,27 @@ class DriftScore:
 class DriftMatrix:
     """Contains complete drift analysis matrix."""
 
-    sessions: List[DreamSession]
+    sessions: list[DreamSession]
     drift_scores: np.ndarray
-    session_ids: List[str]
-    drift_details: Dict[Tuple[str, str], DriftScore]
-    summary_stats: Dict[str, float]
+    session_ids: list[str]
+    drift_details: dict[tuple[str, str], DriftScore]
+    summary_stats: dict[str, float]
 
-    def get_max_drift_pair(self) -> Tuple[str, str, float]:
+    def get_max_drift_pair(self) -> tuple[str, str, float]:
         """Find session pair with maximum drift."""
         max_idx = np.unravel_index(
             np.argmax(self.drift_scores), self.drift_scores.shape
         )
         max_drift = self.drift_scores[max_idx]
-        session_pair = (self.session_ids[max_idx[0]], self.session_ids[max_idx[1]])
+        session_pair = (
+            self.session_ids[max_idx[0]],
+            self.session_ids[max_idx[1]],
+        )
         return (*session_pair, max_drift)
 
     def get_high_drift_pairs(
         self, threshold: float = 0.7
-    ) -> List[Tuple[str, str, float]]:
+    ) -> list[tuple[str, str, float]]:
         """Get all session pairs above drift threshold."""
         high_drift_pairs = []
         for i in range(len(self.session_ids)):
@@ -184,7 +183,7 @@ class DriftMatrix:
 class DreamDivergenceMapper:
     """Maps symbolic drift patterns across dream sessions."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.drift_weights = {
             "symbolic_overlap": 0.3,
@@ -196,7 +195,7 @@ class DreamDivergenceMapper:
 
     def load_dream_sessions(
         self, directory: str, limit: int = 20
-    ) -> List[DreamSession]:
+    ) -> list[DreamSession]:
         """Load and normalize recent dream sessions from disk."""
         sessions = []
         dream_dir = Path(directory)
@@ -210,7 +209,7 @@ class DreamDivergenceMapper:
 
         for json_file in json_files:
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
+                with open(json_file, encoding="utf-8") as f:
                     session_data = json.load(f)
 
                 # Normalize session data structure
@@ -229,7 +228,7 @@ class DreamDivergenceMapper:
         return sessions
 
     def _normalize_session_data(
-        self, data: Dict[str, Any], file_id: str
+        self, data: dict[str, Any], file_id: str
     ) -> DreamSession:
         """Normalize session data to standard format."""
         return DreamSession(
@@ -243,7 +242,7 @@ class DreamDivergenceMapper:
             metadata=data.get("metadata", {}),
         )
 
-    def _generate_sample_sessions(self, count: int) -> List[DreamSession]:
+    def _generate_sample_sessions(self, count: int) -> list[DreamSession]:
         """Generate sample dream sessions for testing."""
         import random
 
@@ -271,7 +270,14 @@ class DreamDivergenceMapper:
             "ΛLOOP_DETECTED",
         ]
 
-        sample_emotions = ["joy", "fear", "sadness", "anger", "surprise", "disgust"]
+        sample_emotions = [
+            "joy",
+            "fear",
+            "sadness",
+            "anger",
+            "surprise",
+            "disgust",
+        ]
 
         sessions = []
         base_time = datetime.now(timezone.utc)
@@ -307,7 +313,7 @@ class DreamDivergenceMapper:
 
         return sessions
 
-    def compute_drift_matrix(self, sessions: List[DreamSession]) -> DriftMatrix:
+    def compute_drift_matrix(self, sessions: list[DreamSession]) -> DriftMatrix:
         """Compute pairwise symbolic drift scores between sessions."""
         n_sessions = len(sessions)
         drift_matrix = np.zeros((n_sessions, n_sessions))
@@ -426,7 +432,7 @@ class DreamDivergenceMapper:
             total_drift=total_drift,
         )
 
-    def extract_recurring_symbols(self, matrix: DriftMatrix) -> List[str]:
+    def extract_recurring_symbols(self, matrix: DriftMatrix) -> list[str]:
         """Find symbols appearing in high-drift transition points."""
         high_drift_pairs = matrix.get_high_drift_pairs(threshold=0.6)
 
@@ -449,7 +455,7 @@ class DreamDivergenceMapper:
         return [symbol for symbol, count in symbol_counter.most_common(10)]
 
     def render_divergence_map(
-        self, matrix: DriftMatrix, symbols: List[str], out_path: str
+        self, matrix: DriftMatrix, symbols: list[str], out_path: str
     ) -> None:
         """Generate visual matrix with entropy and phase overlays."""
         if PLOTLY_AVAILABLE:
@@ -460,7 +466,7 @@ class DreamDivergenceMapper:
             self._render_ascii_matrix(matrix, symbols, out_path)
 
     def _render_with_plotly(
-        self, matrix: DriftMatrix, symbols: List[str], out_path: str
+        self, matrix: DriftMatrix, symbols: list[str], out_path: str
     ):
         """Render interactive matrix with Plotly."""
         fig = go.Figure()
@@ -473,7 +479,7 @@ class DreamDivergenceMapper:
                 y=matrix.session_ids,
                 colorscale="Viridis",
                 showscale=True,
-                colorbar=dict(title="Drift Score"),
+                colorbar={"title": "Drift Score"},
                 hovertemplate=(
                     "Session 1: %{y}<br>"
                     "Session 2: %{x}<br>"
@@ -492,20 +498,20 @@ class DreamDivergenceMapper:
             j = matrix.session_ids.index(session2)
 
             annotations.append(
-                dict(
-                    x=j,
-                    y=i,
-                    text=f"⚠️{drift_score:.2f}",
-                    showarrow=False,
-                    font=dict(color="white", size=10),
-                )
+                {
+                    "x": j,
+                    "y": i,
+                    "text": f"⚠️{drift_score:.2f}",
+                    "showarrow": False,
+                    "font": {"color": "white", "size": 10},
+                }
             )
 
         fig.update_layout(
-            title=dict(
-                text=f"Dream Divergence Matrix<br><sub>Top Symbols: {', '.join(symbols[:5])}</sub>",
-                x=0.5,
-            ),
+            title={
+                "text": f"Dream Divergence Matrix < br > <sub > Top Symbols: {',                                                                               '.join(symbols[:5])} < /sub >",
+                "x": 0.5,
+            },
             xaxis_title="Dream Sessions",
             yaxis_title="Dream Sessions",
             width=800,
@@ -526,7 +532,7 @@ class DreamDivergenceMapper:
             logger.warning(f"Could not save static image: {e}")
 
     def _render_with_matplotlib(
-        self, matrix: DriftMatrix, symbols: List[str], out_path: str
+        self, matrix: DriftMatrix, symbols: list[str], out_path: str
     ):
         """Render matrix with matplotlib."""
         plt.figure(figsize=(10, 8))
@@ -539,7 +545,10 @@ class DreamDivergenceMapper:
 
         # Set labels
         plt.xticks(
-            range(len(matrix.session_ids)), matrix.session_ids, rotation=45, ha="right"
+            range(len(matrix.session_ids)),
+            matrix.session_ids,
+            rotation=45,
+            ha="right",
         )
         plt.yticks(range(len(matrix.session_ids)), matrix.session_ids)
 
@@ -570,7 +579,7 @@ class DreamDivergenceMapper:
         logger.info(f"Matrix visualization saved to {out_path}")
 
     def _render_ascii_matrix(
-        self, matrix: DriftMatrix, symbols: List[str], out_path: str
+        self, matrix: DriftMatrix, symbols: list[str], out_path: str
     ):
         """Render ASCII matrix as fallback."""
         output_lines = []
@@ -615,8 +624,8 @@ class DreamDivergenceMapper:
         logger.info(f"ASCII matrix saved to {text_path}")
 
     def generate_summary_json(
-        self, matrix: DriftMatrix, symbols: List[str]
-    ) -> Dict[str, Any]:
+        self, matrix: DriftMatrix, symbols: list[str]
+    ) -> dict[str, Any]:
         """Generate summary JSON report."""
         max_drift_pair = matrix.get_max_drift_pair()
         high_drift_pairs = matrix.get_high_drift_pairs(threshold=0.6)
@@ -674,7 +683,10 @@ def main():
         help="Directory containing dream session files",
     )
     parser.add_argument(
-        "--limit", type=int, default=12, help="Maximum number of sessions to analyze"
+        "--limit",
+        type=int,
+        default=12,
+        help="Maximum number of sessions to analyze",
     )
     parser.add_argument(
         "--out", default="results/divergence.svg", help="Output file path"
@@ -738,7 +750,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 # CLAUDE CHANGELOG
 # - Created dream_divergence_map.py with comprehensive drift matrix analysis # CLAUDE_EDIT_v0.1

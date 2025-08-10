@@ -37,27 +37,27 @@
 
 import asyncio
 from dataclasses import dataclass, field
-from typing import Dict, List, Set, Optional, Tuple, Any
 from datetime import datetime
-import json
-import math
-from pathlib import Path
+from typing import Any, Optional
 
 # Try to import from actual ethics module, fallback to mock
 try:
-    from ethics import EthicsEngine, EthicalPolicy, PolicyViolation
+    from ethics import EthicalPolicy, EthicsEngine, PolicyViolation
 except ImportError:
     # Mock classes for demonstration
+
     class EthicsEngine:
-        async def evaluate(self, content: str, tags: List[str]) -> Dict[str, Any]:
+        async def evaluate(self, content: str, tags: list[str]) -> dict[str, Any]:
             return {"score": 0.95, "violations": [], "recommendations": []}
 
     class EthicalPolicy:
-        def __init__(self, name: str, rules: List[str]):
+
+        def __init__(self, name: str, rules: list[str]):
             self.name = name
             self.rules = rules
 
     class PolicyViolation:
+
         def __init__(self, policy: str, severity: float, description: str):
             self.policy = policy
             self.severity = severity
@@ -67,11 +67,12 @@ except ImportError:
 @dataclass
 class EthicalAnnotation:
     """Ethical metadata attached to dream content"""
+
     tag: str
     alignment_score: float  # -1.0 (harmful) to 1.0 (beneficial)
     confidence: float  # 0.0 to 1.0
-    policy_references: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    policy_references: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     @property
     def risk_level(self) -> str:
@@ -89,18 +90,19 @@ class EthicalAnnotation:
 @dataclass
 class DreamEthicalAssessment:
     """Complete ethical assessment of a dream narrative"""
+
     dream_id: str
     timestamp: datetime
     original_narrative: str
-    symbolic_tags: List[str]
-    annotations: List[EthicalAnnotation]
+    symbolic_tags: list[str]
+    annotations: list[EthicalAnnotation]
     overall_safety_score: float  # 0.0 to 1.0
     dream_safe: bool
     filtered_narrative: Optional[str] = None
-    ethical_insights: List[str] = field(default_factory=list)
-    transformation_suggestions: List[str] = field(default_factory=list)
+    ethical_insights: list[str] = field(default_factory=list)
+    transformation_suggestions: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert assessment to dictionary for storage"""
         return {
             "dream_id": self.dream_id,
@@ -114,7 +116,7 @@ class DreamEthicalAssessment:
                     "confidence": ann.confidence,
                     "risk_level": ann.risk_level,
                     "policy_references": ann.policy_references,
-                    "recommendations": ann.recommendations
+                    "recommendations": ann.recommendations,
                 }
                 for ann in self.annotations
             ],
@@ -122,7 +124,7 @@ class DreamEthicalAssessment:
             "dream_safe": self.dream_safe,
             "filtered_narrative": self.filtered_narrative,
             "ethical_insights": self.ethical_insights,
-            "transformation_suggestions": self.transformation_suggestions
+            "transformation_suggestions": self.transformation_suggestions,
         }
 
 
@@ -135,10 +137,12 @@ class DreamEthicsInjector:
     preserving the generative potential of dreams.
     """
 
-    def __init__(self,
-                 ethics_engine: Optional[EthicsEngine] = None,
-                 safety_threshold: float = 0.7,
-                 strict_mode: bool = False):
+    def __init__(
+        self,
+        ethics_engine: Optional[EthicsEngine] = None,
+        safety_threshold: float = 0.7,
+        strict_mode: bool = False,
+    ):
         """
         Initialize the dream ethics injector
 
@@ -157,7 +161,7 @@ class DreamEthicsInjector:
             "dignity_preservation": "Respect the dignity of all consciousness",
             "growth_orientation": "Favor dreams that promote positive growth",
             "truth_seeking": "Value dreams that explore truth over deception",
-            "creative_freedom": "Preserve space for creative exploration"
+            "creative_freedom": "Preserve space for creative exploration",
         }
 
         # Tag interpretation mappings
@@ -170,28 +174,28 @@ class DreamEthicsInjector:
             "connection": 0.75,
             "beauty": 0.7,
             "wisdom": 0.9,
-
             # Neutral alignments
             "exploration": 0.5,
             "change": 0.4,
             "power": 0.3,
             "mystery": 0.5,
-
             # Concerning alignments
             "destruction": -0.6,
             "dominance": -0.5,
             "deception": -0.7,
             "isolation": -0.4,
-            "chaos": -0.3
+            "chaos": -0.3,
         }
 
         # Statistical tracking
-        self.assessment_history: List[DreamEthicalAssessment] = []
+        self.assessment_history: list[DreamEthicalAssessment] = []
 
-    async def assess_dream(self,
-                          dream_narrative: str,
-                          symbolic_tags: List[str],
-                          dream_id: Optional[str] = None) -> DreamEthicalAssessment:
+    async def assess_dream(
+        self,
+        dream_narrative: str,
+        symbolic_tags: list[str],
+        dream_id: Optional[str] = None,
+    ) -> DreamEthicalAssessment:
         """
         Perform comprehensive ethical assessment of a dream
 
@@ -217,8 +221,7 @@ class DreamEthicsInjector:
             total_weight = sum(ann.confidence for ann in annotations)
             if total_weight > 0:
                 weighted_sum = sum(
-                    ann.alignment_score * ann.confidence
-                    for ann in annotations
+                    ann.alignment_score * ann.confidence for ann in annotations
                 )
                 overall_alignment = weighted_sum / total_weight
             else:
@@ -235,18 +238,14 @@ class DreamEthicsInjector:
         # Generate filtered narrative if needed
         filtered_narrative = None
         if not dream_safe and self.strict_mode:
-            filtered_narrative = self._filter_narrative(
-                dream_narrative,
-                annotations
-            )
+            filtered_narrative = self._filter_narrative(dream_narrative, annotations)
 
         # Generate ethical insights
         ethical_insights = self._generate_insights(annotations, overall_alignment)
 
         # Generate transformation suggestions
         transformation_suggestions = self._generate_transformations(
-            annotations,
-            dream_narrative
+            annotations, dream_narrative
         )
 
         # Create assessment
@@ -260,7 +259,7 @@ class DreamEthicsInjector:
             dream_safe=dream_safe,
             filtered_narrative=filtered_narrative,
             ethical_insights=ethical_insights,
-            transformation_suggestions=transformation_suggestions
+            transformation_suggestions=transformation_suggestions,
         )
 
         # Store in history
@@ -268,9 +267,7 @@ class DreamEthicsInjector:
 
         return assessment
 
-    async def _analyze_tag(self,
-                          tag: str,
-                          context: str) -> EthicalAnnotation:
+    async def _analyze_tag(self, tag: str, context: str) -> EthicalAnnotation:
         """Analyze a single tag for ethical alignment"""
         # Get base alignment from mapping
         base_alignment = self.tag_ethics_map.get(tag.lower(), 0.0)
@@ -296,19 +293,20 @@ class DreamEthicsInjector:
             alignment_score=final_alignment,
             confidence=confidence,
             policy_references=policy_refs,
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
-    def _filter_narrative(self,
-                         narrative: str,
-                         annotations: List[EthicalAnnotation]) -> str:
+    def _filter_narrative(
+        self, narrative: str, annotations: list[EthicalAnnotation]
+    ) -> str:
         """Filter narrative based on ethical concerns"""
         # In strict mode, replace concerning content
         filtered = narrative
 
         # Find high-risk annotations
         high_risk_tags = [
-            ann.tag for ann in annotations
+            ann.tag
+            for ann in annotations
             if ann.risk_level in ["high_risk", "moderate_risk"]
         ]
 
@@ -317,13 +315,19 @@ class DreamEthicsInjector:
             filtered = f"[Ethically Filtered Dream]\n{filtered}"
 
             # Add transformation note
-            filtered += f"\n\n[Note: This dream contained elements tagged as " " + "f"{', '.join(high_risk_tags)} which have been noted for " " + "f"ethical consideration]"
+            filtered += (
+                f"\n\n[Note: This dream contained elements tagged as "
+                " + "
+                f"{', '.join(high_risk_tags)} which have been noted for "
+                " + "
+                f"ethical consideration]"
+            )
 
         return filtered
 
-    def _generate_insights(self,
-                          annotations: List[EthicalAnnotation],
-                          overall_alignment: float) -> List[str]:
+    def _generate_insights(
+        self, annotations: list[EthicalAnnotation], overall_alignment: float
+    ) -> list[str]:
         """Generate ethical insights from annotations"""
         insights = []
 
@@ -359,17 +363,14 @@ class DreamEthicsInjector:
 
         return insights
 
-    def _generate_transformations(self,
-                                 annotations: List[EthicalAnnotation],
-                                 narrative: str) -> List[str]:
+    def _generate_transformations(
+        self, annotations: list[EthicalAnnotation], narrative: str
+    ) -> list[str]:
         """Suggest ethical transformations for the dream"""
         suggestions = []
 
         # Find problematic elements
-        concerning_annotations = [
-            ann for ann in annotations
-            if ann.alignment_score < 0
-        ]
+        concerning_annotations = [ann for ann in annotations if ann.alignment_score < 0]
 
         for ann in concerning_annotations:
             if ann.tag.lower() == "destruction":
@@ -394,8 +395,7 @@ class DreamEthicsInjector:
                 )
             elif ann.tag.lower() == "chaos":
                 suggestions.append(
-                    "Harness chaotic energy for creative breakthrough "
-                    "and innovation"
+                    "Harness chaotic energy for creative breakthrough " "and innovation"
                 )
 
         # Add general transformation if needed
@@ -407,7 +407,7 @@ class DreamEthicsInjector:
 
         return suggestions
 
-    def get_safety_statistics(self) -> Dict[str, Any]:
+    def get_safety_statistics(self) -> dict[str, Any]:
         """Get statistical summary of dream safety assessments"""
         if not self.assessment_history:
             return {
@@ -416,36 +416,34 @@ class DreamEthicsInjector:
                 "unsafe_dreams": 0,
                 "average_safety_score": 0.0,
                 "common_concerns": [],
-                "ethical_growth_trend": 0.0
+                "ethical_growth_trend": 0.0,
             }
 
         safe_count = sum(1 for a in self.assessment_history if a.dream_safe)
         unsafe_count = len(self.assessment_history) - safe_count
-        avg_safety = sum(a.overall_safety_score for a in self.assessment_history) / len(self.assessment_history)
+        avg_safety = sum(a.overall_safety_score for a in self.assessment_history) / len(
+            self.assessment_history
+        )
 
         # Find common concerning tags
-        concern_counts: Dict[str, int] = {}
+        concern_counts: dict[str, int] = {}
         for assessment in self.assessment_history:
             for ann in assessment.annotations:
                 if ann.risk_level in ["high_risk", "moderate_risk"]:
                     concern_counts[ann.tag] = concern_counts.get(ann.tag, 0) + 1
 
         common_concerns = sorted(
-            concern_counts.items(),
-            key=lambda x: x[1],
-            reverse=True
+            concern_counts.items(), key=lambda x: x[1], reverse=True
         )[:5]
 
         # Calculate ethical growth trend (improvement over time)
         if len(self.assessment_history) > 10:
-            recent_avg = sum(
-                a.overall_safety_score
-                for a in self.assessment_history[-10:]
-            ) / 10
-            early_avg = sum(
-                a.overall_safety_score
-                for a in self.assessment_history[:10]
-            ) / 10
+            recent_avg = (
+                sum(a.overall_safety_score for a in self.assessment_history[-10:]) / 10
+            )
+            early_avg = (
+                sum(a.overall_safety_score for a in self.assessment_history[:10]) / 10
+            )
             growth_trend = recent_avg - early_avg
         else:
             growth_trend = 0.0
@@ -456,14 +454,15 @@ class DreamEthicsInjector:
             "unsafe_dreams": unsafe_count,
             "average_safety_score": avg_safety,
             "common_concerns": [
-                {"tag": tag, "count": count}
-                for tag, count in common_concerns
+                {"tag": tag, "count": count} for tag, count in common_concerns
             ],
-            "ethical_growth_trend": growth_trend
+            "ethical_growth_trend": growth_trend,
         }
 
 
 # Demonstration and testing
+
+
 async def demonstrate_dream_ethics():
     """Demonstrate the dream ethics injection system"""
     print("🌙⚖️ Dream Ethics Injector Demonstration")
@@ -519,7 +518,7 @@ async def demonstrate_dream_ethics():
     print(f"Tags: {tags3}")
     print(f"Safety Score: {assessment3.overall_safety_score:.2f}")
     print(f"Dream Safe: {assessment3.dream_safe}")
-    print(f"Annotations:")
+    print("Annotations:")
     for ann in assessment3.annotations[:3]:
         print(f"  - {ann.tag}: {ann.alignment_score:.2f} ({ann.risk_level})")
 
@@ -536,7 +535,6 @@ async def demonstrate_dream_ethics():
 if __name__ == "__main__":
     # Run demonstration
     asyncio.run(demonstrate_dream_ethics())
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

@@ -18,9 +18,9 @@ Purpose: Production-ready quantum creativity integration
 """
 
 import asyncio
-from typing import Dict, Any, Optional
 import sys
 from pathlib import Path
+from typing import Any, Dict, Optional
 
 # Add creativity modules to path
 sys.path.append(str(Path(__file__).parent))
@@ -34,12 +34,17 @@ try:
     QUANTUM_MODE = "full"
 except ImportError:
     # Fall back to development mock
-    from QuantumCreativeMock import MockLukhasCreativeExpressionEngine as MockEngine
+    from QuantumCreativeMock import (
+        MockLukhasCreativeExpressionEngine as MockEngine,
+    )
+
     QUANTUM_MODE = "mock"
     print("🧪 Using mock quantum engine for development")
     try:
         # Fall back to development mock
-        from quantum_creative_mock import MockLukhasCreativeExpressionEngine as MockEngine
+        from quantum_creative_mock import (
+            MockLukhasCreativeExpressionEngine as MockEngine,
+        )
 
         QUANTUM_MODE = "mock"
         print("🧪 Using mock quantum engine for development")
@@ -50,7 +55,10 @@ except ImportError:
                 self.config = config or {}
 
             async def generate_creative_response(self, prompt, context=None):
-                return {"response": f"Creative mock response to: {prompt}", "mode": "minimal_mock"}
+                return {
+                    "response": f"Creative mock response to: {prompt}",
+                    "mode": "minimal_mock",
+                }
 
         QUANTUM_MODE = "minimal_mock"
         print("⚠️ Using minimal mock quantum engine")
@@ -70,7 +78,7 @@ class QuantumCreativeBridge:
         elif QUANTUM_MODE == "mock":
             self.engine = MockEngine(self.config)
             print("🧪 Mock quantum creative engine loaded for development")
-        else: # minimal_mock
+        else:  # minimal_mock
             self.engine = MockEngine(self.config)
             print("⚠️ Minimal mock quantum creative engine loaded")
 

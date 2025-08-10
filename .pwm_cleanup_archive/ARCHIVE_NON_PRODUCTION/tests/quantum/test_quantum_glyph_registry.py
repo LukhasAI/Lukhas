@@ -1,5 +1,3 @@
-import pytest
-
 from quantum.quantum_glyph_registry import QuantumGlyphRegistry
 
 
@@ -10,8 +8,12 @@ def test_registry_sync_and_recombine():
     ]
     registry = QuantumGlyphRegistry(configs)
 
-    registry.register_glyph_state("A", {"dream_fragment": "alpha", "driftScore": 0.2, "affect_delta": 0.1})
-    registry.register_glyph_state("B", {"dream_fragment": "beta", "driftScore": 0.4, "affect_delta": 0.2})
+    registry.register_glyph_state(
+        "A", {"dream_fragment": "alpha", "driftScore": 0.2, "affect_delta": 0.1}
+    )
+    registry.register_glyph_state(
+        "B", {"dream_fragment": "beta", "driftScore": 0.4, "affect_delta": 0.2}
+    )
 
     # Ensure retrieval works
     assert registry.get_glyph_state("A")["dream_fragment"] == "alpha"
@@ -26,4 +28,3 @@ def test_registry_sync_and_recombine():
     assert "beta" in result["dream"]
     assert result["driftScore"] > 0
     assert result["affect_delta"] > 0
-

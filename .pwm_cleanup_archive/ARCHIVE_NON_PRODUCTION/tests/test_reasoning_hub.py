@@ -1,6 +1,7 @@
-import pytest
+from reasoning.LBot_reasoning_processed import (
+    ΛBotAdvancedReasoningOrchestrator,
+)
 from reasoning.reasoning_hub import get_reasoning_hub
-from reasoning.LBot_reasoning_processed import ΛBotAdvancedReasoningOrchestrator
 
 
 def test_reasoning_hub_registration():

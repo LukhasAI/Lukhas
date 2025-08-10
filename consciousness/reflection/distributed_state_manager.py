@@ -47,21 +47,19 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import hashlib
 import json
-from core.common import get_logger
 import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional
 
-from core.event_sourcing import Event, EventStore, get_global_event_store
 from core.cluster_sharding import ShardManager
+from core.common import get_logger
+from core.event_sourcing import Event, EventStore, get_global_event_store
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -70,6 +68,7 @@ logger = get_logger(__name__)
 
 class StateType(Enum):
     """Types of state data for optimization"""
+
     HOT = "hot"  # Frequently accessed, keep in memory
     WARM = "warm"  # Occasionally accessed, cache with TTL
     COLD = "cold"  # Rarely accessed, fetch from event store
@@ -78,6 +77,7 @@ class StateType(Enum):
 @dataclass
 class StateEntry:
     """In-memory state entry with metadata"""
+
     key: str
     value: Any
     version: int
@@ -101,6 +101,7 @@ class StateEntry:
 @dataclass
 class StateSnapshot:
     """Snapshot of distributed state for recovery"""
+
     snapshot_id: str
     timestamp: float
     shard_states: Dict[int, Dict[str, StateEntry]]
@@ -187,7 +188,9 @@ class DistributedStateManager:
         self._background_tasks.append(snapshot_task)
 
         # Access pattern analysis task
-        analysis_task = threading.Thread(target=self._analyze_access_patterns, daemon=True)
+        analysis_task = threading.Thread(
+            target=self._analyze_access_patterns, daemon=True
+        )
         analysis_task.start()
         self._background_tasks.append(analysis_task)
 
@@ -224,7 +227,10 @@ class DistributedStateManager:
         while self._running:
             try:
                 time.sleep(300)  # Check every 5 minutes
-                if self.event_counter - self.last_snapshot_version >= self.snapshot_interval:
+                if (
+                    self.event_counter - self.last_snapshot_version
+                    >= self.snapshot_interval
+                ):
                     self._create_snapshot()
             except Exception as e:
                 logger.error(f"Error in snapshot creation: {e}")
@@ -318,7 +324,8 @@ class DistributedStateManager:
                 value=value,
                 version=event.version,
                 state_type=state_type,
-                ttl=ttl or (self.default_cache_ttl if state_type != StateType.HOT else None),
+                ttl=ttl
+                or (self.default_cache_ttl if state_type != StateType.HOT else None),
             )
             self.memory_shards[shard_id][key] = entry
             self.event_counter = event.version
@@ -411,8 +418,12 @@ class DistributedStateManager:
             shard = self.memory_shards[shard_id]
 
             hot_count = sum(1 for e in shard.values() if e.state_type == StateType.HOT)
-            warm_count = sum(1 for e in shard.values() if e.state_type == StateType.WARM)
-            cold_count = sum(1 for e in shard.values() if e.state_type == StateType.COLD)
+            warm_count = sum(
+                1 for e in shard.values() if e.state_type == StateType.WARM
+            )
+            cold_count = sum(
+                1 for e in shard.values() if e.state_type == StateType.COLD
+            )
 
             return {
                 "total_keys": len(shard),
@@ -439,9 +450,8 @@ class DistributedStateManager:
             total_keys += shard_stats["total_keys"]
 
         stats["total_keys"] = total_keys
-        stats["cache_hit_rate"] = (
-            self.metrics["cache_hits"] /
-            max(self.metrics["cache_hits"] + self.metrics["cache_misses"], 1)
+        stats["cache_hit_rate"] = self.metrics["cache_hits"] / max(
+            self.metrics["cache_hits"] + self.metrics["cache_misses"], 1
         )
 
         return stats
@@ -516,7 +526,9 @@ class DistributedStateManager:
         snapshot_data = snapshot_event.data
 
         # Restore shard states
-        for shard_id_str, shard_entries in snapshot_data.get("shard_states", {}).items():
+        for shard_id_str, shard_entries in snapshot_data.get(
+            "shard_states", {}
+        ).items():
             shard_id = int(shard_id_str)
             with self.shard_locks[shard_id]:
                 self.memory_shards[shard_id] = {
@@ -663,11 +675,13 @@ if __name__ == "__main__":
     print("\nGlobal stats:", json.dumps(manager.get_global_stats(), indent=2))
 
     # Multi-node example
-    multi_manager = MultiNodeStateManager([
-        {"node_id": "node-001", "num_shards": 4},
-        {"node_id": "node-002", "num_shards": 4},
-        {"node_id": "node-003", "num_shards": 4},
-    ])
+    multi_manager = MultiNodeStateManager(
+        [
+            {"node_id": "node-001", "num_shards": 4},
+            {"node_id": "node-002", "num_shards": 4},
+            {"node_id": "node-003", "num_shards": 4},
+        ]
+    )
 
     # Distribute some data
     for i in range(10):

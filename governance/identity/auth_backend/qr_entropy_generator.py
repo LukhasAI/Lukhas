@@ -10,15 +10,10 @@ Purpose: Server-side steganographic QR code generation with entropy
 Status: PLACEHOLDER - Implementation needed
 """
 
-import qrcode
-import numpy as np
-import hashlib
-from typing import Dict, List, Optional, Tuple, Any
-from datetime import datetime
-from PIL import Image, ImageDraw
-import io
-import base64
-import secrets
+from typing import Any, Optional
+
+from PIL import Image
+
 
 class QREntropyGenerator:
     """
@@ -31,14 +26,11 @@ class QREntropyGenerator:
     def __init__(self):
         self.entropy_layers = 3  # Number of steganographic layers
         self.refresh_interval = 2.0  # Seconds between refreshes
-        self.active_codes: Dict[str, Dict] = {}  # Session -> QR data
+        self.active_codes: dict[str, dict] = {}  # Session -> QR data
 
     def generate_authentication_qr(
-        self,
-        session_id: str,
-        entropy_data: bytes,
-        user_context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, session_id: str, entropy_data: bytes, user_context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Generate authentication QR code with embedded entropy.
 
@@ -56,12 +48,8 @@ class QREntropyGenerator:
         # - Apply constitutional validation
         # - Generate refresh tokens
 
-        pass
-
     def embed_steganographic_layers(
-        self,
-        qr_image: Image.Image,
-        entropy_data: bytes
+        self, qr_image: Image.Image, entropy_data: bytes
     ) -> Image.Image:
         """
         Embed steganographic entropy layers in QR image.
@@ -78,8 +66,6 @@ class QREntropyGenerator:
         # - Distribute entropy across multiple layers
         # - Maintain QR code readability
         # - Add error correction
-
-        pass
 
     def validate_qr_scan(self, session_id: str, scan_data: str) -> bool:
         """
@@ -98,7 +84,6 @@ class QREntropyGenerator:
         # - Validate timing constraints
         # - Apply constitutional checks
 
-        pass
 
 # Export the main class
-__all__ = ['QREntropyGenerator']
+__all__ = ["QREntropyGenerator"]

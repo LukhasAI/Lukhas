@@ -1,0 +1,37 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203,E501,W503,W291,W293,F401,F403,E722,E741
+    
+per-file-ignores =
+    # __init__ files often have unused imports for API exposure
+    __init__.py:F401,F403
+    # Test files can have different standards
+    test_*.py:F401,E501
+    tests/*:F401,E501
+    # Generated or external files
+    */migrations/*:E501
+    
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    build,
+    dist,
+    *.egg-info,
+    .mypy_cache,
+    .pytest_cache,
+    .ruff_cache,
+    test_metadata,
+    lukhas_pwm/flags,
+    node_modules,
+    htmlcov,
+    .coverage,
+    *backup*,
+    .lukhas_backup,
+    .event_bus_backup*,
+    .hygiene_backup*,
+    *.bak
+    
+# Don't check these files at all
+filename = *.py

@@ -9,16 +9,18 @@ Design inspired by:
 - OpenAI's sophisticated vector-based memory architectures
 """
 
-from typing import Dict, List, Any, Optional, Union, Tuple
-from core.common import get_logger
-import time
 import hashlib
+import time
 import uuid
 from collections import deque
+from typing import Any, Dict, List, Optional
+
 import numpy as np
-import openai
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class MemoryNode:
     """
@@ -52,16 +54,18 @@ class MemoryNode:
             "short_term_accesses": 0,
             "long_term_accesses": 0,
             "successful_retrievals": 0,
-            "failed_retrievals": 0
+            "failed_retrievals": 0,
         }
 
         logger.info("Memory Node initialized")
 
-    def store(self,
-             data: Dict[str, Any],
-             memory_type: str = "default",
-             metadata: Optional[Dict[str, Any]] = None,
-             encrypt: bool = True) -> str:
+    def store(
+        self,
+        data: Dict[str, Any],
+        memory_type: str = "default",
+        metadata: Optional[Dict[str, Any]] = None,
+        encrypt: bool = True,
+    ) -> str:
         """
         Store a new memory entry
 
@@ -79,11 +83,13 @@ class MemoryNode:
 
         # Prepare metadata
         metadata = metadata or {}
-        metadata.update({
-            "created_at": time.time(),
-            "memory_type": memory_type,
-            "encrypted": encrypt and self.encryption_enabled
-        })
+        metadata.update(
+            {
+                "created_at": time.time(),
+                "memory_type": memory_type,
+                "encrypted": encrypt and self.encryption_enabled,
+            }
+        )
 
         # Calculate importance
         importance = self._calculate_importance(data, metadata)
@@ -91,11 +97,15 @@ class MemoryNode:
         # Create the memory entry
         memory_entry = {
             "id": memory_id,
-            "data": self._encrypt_data(data) if encrypt and self.encryption_enabled else data,
+            "data": (
+                self._encrypt_data(data)
+                if encrypt and self.encryption_enabled
+                else data
+            ),
             "metadata": metadata,
             "importance": importance,
             "access_count": 0,
-            "last_accessed": None
+            "last_accessed": None,
         }
 
         # Store in appropriate memory systems
@@ -106,15 +116,16 @@ class MemoryNode:
             self.long_term_memory.append(memory_entry)
             # In a real implementation, we would compute embeddings here
             embedding = self._generate_embedding(data)
-            self.memory_embeddings.append({
-                "memory_id": memory_id,
-                "embedding": embedding
-            })
+            self.memory_embeddings.append(
+                {"memory_id": memory_id, "embedding": embedding}
+            )
 
         # Update stats
         self.stats["total_memories"] += 1
 
-        logger.debug(f"Stored new memory: {memory_id} (type: {memory_type}, importance: {importance:.2f})")
+        logger.debug(
+            f"Stored new memory: {memory_id} (type: {memory_type}, importance: {importance:.2f})"
+        )
         return memory_id
 
     def retrieve(self, memory_id: str) -> Optional[Dict[str, Any]]:
@@ -175,7 +186,9 @@ class MemoryNode:
 
         return [self._prepare_memory_for_return(memory) for memory in recent]
 
-    def retrieve_by_type(self, memory_type: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def retrieve_by_type(
+        self, memory_type: str, limit: int = 10
+    ) -> List[Dict[str, Any]]:
         """
         Retrieve memories of a specific type
 
@@ -197,7 +210,10 @@ class MemoryNode:
         # If we need more, check long-term memory
         if len(matches) < limit:
             for memory in reversed(self.long_term_memory):
-                if memory["id"] not in [m["id"] for m in matches] and memory["metadata"].get("memory_type") == memory_type:
+                if (
+                    memory["id"] not in [m["id"] for m in matches]
+                    and memory["metadata"].get("memory_type") == memory_type
+                ):
                     matches.append(memory)
                     if len(matches) >= limit:
                         break
@@ -230,7 +246,9 @@ class MemoryNode:
         # Calculate similarity with all memory embeddings
         similarities = []
         for idx, embedding_data in enumerate(self.memory_embeddings):
-            similarity = self._calculate_similarity(query_embedding, embedding_data["embedding"])
+            similarity = self._calculate_similarity(
+                query_embedding, embedding_data["embedding"]
+            )
             similarities.append((similarity, embedding_data["memory_id"]))
 
         # Sort by similarity (descending)
@@ -259,7 +277,10 @@ class MemoryNode:
         removed = False
 
         # Check and remove from short-term memory
-        self.short_term_memory = deque([m for m in self.short_term_memory if m["id"] != memory_id], maxlen=self.short_term_memory.maxlen)
+        self.short_term_memory = deque(
+            [m for m in self.short_term_memory if m["id"] != memory_id],
+            maxlen=self.short_term_memory.maxlen,
+        )
 
         # Check and remove from working memory
         working_before = len(self.working_memory)
@@ -269,12 +290,16 @@ class MemoryNode:
 
         # Check and remove from long-term memory
         long_term_before = len(self.long_term_memory)
-        self.long_term_memory = [m for m in self.long_term_memory if m["id"] != memory_id]
+        self.long_term_memory = [
+            m for m in self.long_term_memory if m["id"] != memory_id
+        ]
         if long_term_before > len(self.long_term_memory):
             removed = True
 
             # Also remove from embeddings
-            self.memory_embeddings = [e for e in self.memory_embeddings if e["memory_id"] != memory_id]
+            self.memory_embeddings = [
+                e for e in self.memory_embeddings if e["memory_id"] != memory_id
+            ]
 
         if removed:
             logger.info(f"Removed memory: {memory_id}")
@@ -320,11 +345,13 @@ class MemoryNode:
         self.working_memory = []
         logger.info(f"Cleared {count} items from working memory")
 
-    def update_memory(self,
-                     memory_id: str,
-                     data: Optional[Dict[str, Any]] = None,
-                     metadata: Optional[Dict[str, Any]] = None,
-                     importance: Optional[float] = None) -> bool:
+    def update_memory(
+        self,
+        memory_id: str,
+        data: Optional[Dict[str, Any]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        importance: Optional[float] = None,
+    ) -> bool:
         """
         Update an existing memory
 
@@ -340,7 +367,11 @@ class MemoryNode:
         memory = None
 
         # Find memory in all systems
-        for mem_system in [self.short_term_memory, self.working_memory, self.long_term_memory]:
+        for mem_system in [
+            self.short_term_memory,
+            self.working_memory,
+            self.long_term_memory,
+        ]:
             for mem in mem_system:
                 if mem["id"] == memory_id:
                     memory = mem
@@ -354,7 +385,11 @@ class MemoryNode:
 
         # Update fields
         if data is not None:
-            memory["data"] = self._encrypt_data(data) if memory["metadata"].get("encrypted", False) else data
+            memory["data"] = (
+                self._encrypt_data(data)
+                if memory["metadata"].get("encrypted", False)
+                else data
+            )
 
         if metadata is not None:
             memory["metadata"].update(metadata)
@@ -369,15 +404,22 @@ class MemoryNode:
                 # Add to long-term memory
                 self.long_term_memory.append(memory)
                 # Generate and add embedding
-                embedding = self._generate_embedding(self._decrypt_data(memory["data"]) if memory["metadata"].get("encrypted", False) else memory["data"])
-                self.memory_embeddings.append({
-                    "memory_id": memory_id,
-                    "embedding": embedding
-                })
+                embedding = self._generate_embedding(
+                    self._decrypt_data(memory["data"])
+                    if memory["metadata"].get("encrypted", False)
+                    else memory["data"]
+                )
+                self.memory_embeddings.append(
+                    {"memory_id": memory_id, "embedding": embedding}
+                )
             elif importance <= 0.7 and in_long_term:
                 # Remove from long-term memory
-                self.long_term_memory = [m for m in self.long_term_memory if m["id"] != memory_id]
-                self.memory_embeddings = [e for e in self.memory_embeddings if e["memory_id"] != memory_id]
+                self.long_term_memory = [
+                    m for m in self.long_term_memory if m["id"] != memory_id
+                ]
+                self.memory_embeddings = [
+                    e for e in self.memory_embeddings if e["memory_id"] != memory_id
+                ]
 
         # Add update timestamp
         memory["metadata"]["updated_at"] = time.time()
@@ -401,12 +443,14 @@ class MemoryNode:
                 "short_term_accesses": self.stats["short_term_accesses"],
                 "long_term_accesses": self.stats["long_term_accesses"],
                 "successful_retrievals": self.stats["successful_retrievals"],
-                "failed_retrievals": self.stats["failed_retrievals"]
+                "failed_retrievals": self.stats["failed_retrievals"],
             },
-            "encryption_enabled": self.encryption_enabled
+            "encryption_enabled": self.encryption_enabled,
         }
 
-    def _calculate_importance(self, data: Dict[str, Any], metadata: Dict[str, Any]) -> float:
+    def _calculate_importance(
+        self, data: Dict[str, Any], metadata: Dict[str, Any]
+    ) -> float:
         """
         Calculate the importance of a memory for long-term storage
 
@@ -471,7 +515,9 @@ class MemoryNode:
 
         return embedding
 
-    def _calculate_similarity(self, embedding1: np.ndarray, embedding2: np.ndarray) -> float:
+    def _calculate_similarity(
+        self, embedding1: np.ndarray, embedding2: np.ndarray
+    ) -> float:
         """
         Calculate cosine similarity between two embeddings
 
@@ -509,7 +555,10 @@ class MemoryNode:
         for key, value in data.items():
             # Determine if field should be encrypted
             if key in ["personal_info", "user_data", "credentials", "private"]:
-                encrypted_data[key] = {"__encrypted": True, "data": f"ENCRYPTED:{value}"}
+                encrypted_data[key] = {
+                    "__encrypted": True,
+                    "data": f"ENCRYPTED:{value}",
+                }
             else:
                 encrypted_data[key] = value
 
@@ -536,7 +585,9 @@ class MemoryNode:
                 # Extract original value from the encrypted data
                 encrypted_str = value.get("data", "")
                 if encrypted_str.startswith("ENCRYPTED:"):
-                    decrypted_data[key] = encrypted_str[10:]  # Remove "ENCRYPTED:" prefix
+                    decrypted_data[key] = encrypted_str[
+                        10:
+                    ]  # Remove "ENCRYPTED:" prefix
                 else:
                     decrypted_data[key] = encrypted_str
             else:

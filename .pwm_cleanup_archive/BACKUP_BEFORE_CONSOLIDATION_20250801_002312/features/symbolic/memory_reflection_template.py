@@ -1,5 +1,6 @@
 # LUKHAS_TAG: symbolic_template, memory_reflection
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 class MemoryReflectionTemplate:
     """
@@ -18,5 +19,6 @@ class MemoryReflectionTemplate:
             "reflection": "unknown",
             "confidence": 0.0,
         }
+
 
 plugin = MemoryReflectionTemplate

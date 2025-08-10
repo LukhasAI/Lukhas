@@ -17,9 +17,16 @@ logger.info("ΛTRACE: Initializing crista_optimizer package.")
 # Attempt to import key components from within the package
 try:
     from .crista_optimizer import CristaOptimizer, NetworkConfig
-    from .topology_manager import TopologyManager # Assuming topology_manager.py contains this class
-    from .symbolic_network import SymbolicNetwork # Assuming symbolic_network.py contains this class
-    logger.info("ΛTRACE: Successfully imported CristaOptimizer, NetworkConfig, TopologyManager, SymbolicNetwork.")
+    from .symbolic_network import (
+        SymbolicNetwork,  # Assuming symbolic_network.py contains this class
+    )
+    from .topology_manager import (
+        TopologyManager,  # Assuming topology_manager.py contains this class
+    )
+
+    logger.info(
+        "ΛTRACE: Successfully imported CristaOptimizer, NetworkConfig, TopologyManager, SymbolicNetwork."
+    )
 except ImportError as e:
     logger.error(f"ΛTRACE: Error importing from crista_optimizer submodules: {e}")
     # Define placeholders if imports fail, to prevent outright crashing if possible,
@@ -31,17 +38,14 @@ except ImportError as e:
 
 # Public API for the crista_optimizer package
 # Specifies what is exported when 'from core.adaptive_systems.crista_optimizer import *' is used.
-__all__ = [
-    "CristaOptimizer",
-    "NetworkConfig",
-    "TopologyManager",
-    "SymbolicNetwork"
-]
+__all__ = ["CristaOptimizer", "NetworkConfig", "TopologyManager", "SymbolicNetwork"]
 
 # Package version
-__version__ = "1.0.1" # Original was 1.0.0, incremented for JULES enhancements
+__version__ = "1.0.1"  # Original was 1.0.0, incremented for JULES enhancements
 
-logger.info(f"ΛTRACE: crista_optimizer package version: {__version__}. Public API via __all__: {__all__}")
+logger.info(
+    f"ΛTRACE: crista_optimizer package version: {__version__}. Public API via __all__: {__all__}"
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

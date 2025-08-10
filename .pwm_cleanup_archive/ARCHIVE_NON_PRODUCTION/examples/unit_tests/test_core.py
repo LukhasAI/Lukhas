@@ -7,13 +7,13 @@ Since core.py is currently a markdown file containing copilot tasks,
 these tests are scaffolded for future implementation.
 """
 
-import unittest
 import os
 import sys
-from unittest.mock import patch, MagicMock
+import unittest
 
 # Add the core module to the path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 
 class TestCoreModule(unittest.TestCase):
     """Test cases for the core module."""
@@ -28,15 +28,15 @@ class TestCoreModule(unittest.TestCase):
 
     def test_core_module_exists(self):
         """Test that the core module file exists."""
-        core_path = os.path.join(os.path.dirname(__file__), 'core.py')
+        core_path = os.path.join(os.path.dirname(__file__), "core.py")
         self.assertTrue(os.path.exists(core_path), "core.py file should exist")
 
     def test_core_locked_marker(self):
         """Test that the core module has the ΛLOCKED marker."""
-        core_path = os.path.join(os.path.dirname(__file__), 'core.py')
-        with open(core_path, 'r') as f:
+        core_path = os.path.join(os.path.dirname(__file__), "core.py")
+        with open(core_path) as f:
             content = f.read()
-        self.assertIn('ΛLOCKED', content, "Core module should have ΛLOCKED marker")
+        self.assertIn("ΛLOCKED", content, "Core module should have ΛLOCKED marker")
 
     def test_core_component_process_signature(self):
         """Test scaffold for CoreComponent.process() return signature."""
@@ -90,11 +90,9 @@ class TestBioSymbolicIntegration(unittest.TestCase):
     def test_bio_origins_metaphors(self):
         """Test that bio_origins.md metaphors are accessible."""
         bio_origins_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)),
-            'bio_origins.md'
+            os.path.dirname(os.path.dirname(__file__)), "bio_origins.md"
         )
-        self.assertTrue(os.path.exists(bio_origins_path),
-                       "bio_origins.md should exist")
+        self.assertTrue(os.path.exists(bio_origins_path), "bio_origins.md should exist")
 
     def test_drift_metrics_stubs(self):
         """Test scaffold for drift metrics stubs."""
@@ -112,5 +110,5 @@ class TestBioSymbolicIntegration(unittest.TestCase):
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -20,26 +20,29 @@ Author: lukhas AI Enhancement Team
 Date: 2025-01-27
 """
 
-import asyncio
-from core.common import get_logger
-import numpy as np
-from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-from datetime import datetime, timedelta
+from typing import Any, Dict, List
+
+import numpy as np
 
 logger = logging.getLogger("MetaLearningAdapter")
 
+
 class LearningPhase(Enum):
     """Phases of meta-learning enhancement"""
+
     EXPLORATION = "exploration"
     ADAPTATION = "adaptation"
     CONVERGENCE = "convergence"
     STABILIZATION = "stabilization"
     OPTIMIZATION = "optimization"
 
+
 class FederatedState(Enum):
     """States of federated learning coordination"""
+
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     SYNCHRONIZED = "synchronized"
@@ -47,9 +50,11 @@ class FederatedState(Enum):
     CONVERGING = "converging"
     COMPLETE = "complete"
 
+
 @dataclass
 class MetaLearningMetrics:
     """Comprehensive metrics for meta-learning performance"""
+
     # Learning rate metrics
     current_learning_rate: float = 1e-3
     learning_rate_adaptation: float = 0.0
@@ -79,15 +84,18 @@ class MetaLearningMetrics:
     current_phase: LearningPhase = LearningPhase.EXPLORATION
     federated_state: FederatedState = FederatedState.DISCONNECTED
 
+
 @dataclass
 class LearningRateBounds:
     """Bounds and constraints for learning rate adaptation"""
+
     min_rate: float = 1e-6
     max_rate: float = 1e-2
     optimal_rate: float = 1e-3
     adaptation_factor: float = 1.1
     decay_factor: float = 0.95
     momentum: float = 0.9
+
 
 class MetaLearningEnhancementAdapter:
     """
@@ -129,7 +137,7 @@ class MetaLearningEnhancementAdapter:
             logger.info("🧠 Initializing Meta-Learning Enhancement System")
 
             # Initialize underlying meta-learning system
-            if hasattr(self.meta_learning_system, 'initialize'):
+            if hasattr(self.meta_learning_system, "initialize"):
                 await self.meta_learning_system.initialize()
 
             # Setup learning rate management
@@ -151,7 +159,9 @@ class MetaLearningEnhancementAdapter:
             return True
 
         except Exception as e:
-            logger.error(f"❌ Failed to initialize Meta-Learning Enhancement System: {e}")
+            logger.error(
+                f"❌ Failed to initialize Meta-Learning Enhancement System: {e}"
+            )
             return False
 
     async def get_current_metrics(self) -> Dict[str, Any]:
@@ -166,37 +176,34 @@ class MetaLearningEnhancementAdapter:
                 "current_learning_rate": self.current_metrics.current_learning_rate,
                 "learning_rate_stability": self.current_metrics.learning_rate_stability,
                 "optimal_distance": self.current_metrics.optimal_rate_distance,
-
                 # Federated learning metrics
                 "federated_convergence": self.current_metrics.federated_convergence,
                 "active_nodes": self.current_metrics.federated_nodes_active,
                 "consensus_quality": self.current_metrics.consensus_quality,
                 "communication_efficiency": self.current_metrics.communication_efficiency,
-
                 # Symbolic feedback metrics
                 "symbolic_feedback_quality": self.current_metrics.symbolic_feedback_quality,
                 "intent_integration": self.current_metrics.intent_node_integration,
                 "memoria_coupling": self.current_metrics.memoria_coupling,
                 "dream_coherence": self.current_metrics.dream_system_coherence,
-
                 # Overall performance
                 "overall_performance": self.current_metrics.overall_performance,
                 "adaptation_speed": self.current_metrics.adaptation_speed,
                 "stability_score": self.current_metrics.stability_score,
                 "enhancement_factor": self.current_metrics.enhancement_factor,
-
                 # State information
                 "current_phase": self.current_metrics.current_phase.value,
                 "federated_state": self.current_metrics.federated_state.value,
-                "timestamp": self.current_metrics.timestamp.isoformat()
+                "timestamp": self.current_metrics.timestamp.isoformat(),
             }
 
         except Exception as e:
             logger.error(f"Failed to get current metrics: {e}")
             return self._get_default_metrics()
 
-    async def enhance_learning(self, current_metrics: Dict[str, Any],
-                             system_feedback: Dict[str, Any]) -> Dict[str, Any]:
+    async def enhance_learning(
+        self, current_metrics: Dict[str, Any], system_feedback: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Enhance learning based on current metrics and system feedback"""
         try:
             logger.info("🚀 Starting meta-learning enhancement cycle")
@@ -204,23 +211,33 @@ class MetaLearningEnhancementAdapter:
             enhancement_results = {}
 
             # 1. Dynamic Learning Rate Adjustment
-            rate_results = await self._enhance_learning_rate(current_metrics, system_feedback)
+            rate_results = await self._enhance_learning_rate(
+                current_metrics, system_feedback
+            )
             enhancement_results["learning_rate"] = rate_results
 
             # 2. Federated Learning Coordination
-            federated_results = await self._enhance_federated_learning(current_metrics, system_feedback)
+            federated_results = await self._enhance_federated_learning(
+                current_metrics, system_feedback
+            )
             enhancement_results["federated"] = federated_results
 
             # 3. Symbolic Feedback Processing
-            symbolic_results = await self._enhance_symbolic_feedback(current_metrics, system_feedback)
+            symbolic_results = await self._enhance_symbolic_feedback(
+                current_metrics, system_feedback
+            )
             enhancement_results["symbolic"] = symbolic_results
 
             # 4. Performance Dashboard Update
-            dashboard_results = await self._update_performance_dashboard(enhancement_results)
+            dashboard_results = await self._update_performance_dashboard(
+                enhancement_results
+            )
             enhancement_results["dashboard"] = dashboard_results
 
             # 5. Calculate overall enhancement metrics
-            overall_enhancement = self._calculate_overall_enhancement(enhancement_results)
+            overall_enhancement = self._calculate_overall_enhancement(
+                enhancement_results
+            )
             enhancement_results["overall"] = overall_enhancement
 
             # Update performance tracking
@@ -231,14 +248,18 @@ class MetaLearningEnhancementAdapter:
             # Update phase based on results
             await self._update_learning_phase(enhancement_results)
 
-            logger.info(f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0):.3f}")
+            logger.info(
+                f"✅ Meta-learning enhancement completed: {overall_enhancement.get('adaptation', 0.0):.3f}"
+            )
             return enhancement_results
 
         except Exception as e:
             logger.error(f"❌ Meta-learning enhancement failed: {e}")
             return {"success": False, "error": str(e), "adaptation": 0.0}
 
-    async def process_biological_feedback(self, topology_features: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_biological_feedback(
+        self, topology_features: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process biological feedback from Crista Optimizer"""
         try:
             logger.debug("Processing biological feedback from Crista Optimizer")
@@ -251,13 +272,17 @@ class MetaLearningEnhancementAdapter:
             # Convert biological signals to learning signals
             bio_learning_signals = {
                 "energy_availability": atp_efficiency,
-                "system_stability": self._normalize_membrane_potential(membrane_potential),
+                "system_stability": self._normalize_membrane_potential(
+                    membrane_potential
+                ),
                 "resource_utilization": cristae_density,
-                "metabolic_efficiency": (atp_efficiency + cristae_density) / 2.0
+                "metabolic_efficiency": (atp_efficiency + cristae_density) / 2.0,
             }
 
             # Adapt learning parameters based on biological state
-            adaptation_suggestions = await self._adapt_to_biological_state(bio_learning_signals)
+            adaptation_suggestions = await self._adapt_to_biological_state(
+                bio_learning_signals
+            )
 
             # Update symbolic feedback with biological insights
             await self._integrate_biological_symbolic_feedback(bio_learning_signals)
@@ -266,14 +291,17 @@ class MetaLearningEnhancementAdapter:
                 "bio_signals_processed": len(bio_learning_signals),
                 "adaptation_suggestions": adaptation_suggestions,
                 "biological_integration": True,
-                "energy_informed_learning": bio_learning_signals["energy_availability"] > 0.5
+                "energy_informed_learning": bio_learning_signals["energy_availability"]
+                > 0.5,
             }
 
         except Exception as e:
             logger.error(f"Failed to process biological feedback: {e}")
             return {"success": False, "error": str(e)}
 
-    async def _enhance_learning_rate(self, metrics: Dict[str, Any], feedback: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_learning_rate(
+        self, metrics: Dict[str, Any], feedback: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Enhance learning rate based on current performance"""
         current_rate = self.current_metrics.current_learning_rate
         performance = metrics.get("overall_performance", 0.5)
@@ -282,13 +310,17 @@ class MetaLearningEnhancementAdapter:
         # Calculate adaptive learning rate
         if performance > 0.8 and stability > 0.7:
             # High performance and stability - can increase learning rate
-            new_rate = min(current_rate * self.learning_rate_bounds.adaptation_factor,
-                          self.learning_rate_bounds.max_rate)
+            new_rate = min(
+                current_rate * self.learning_rate_bounds.adaptation_factor,
+                self.learning_rate_bounds.max_rate,
+            )
             adaptation_type = "aggressive"
         elif performance < 0.3 or stability < 0.3:
             # Low performance or instability - decrease learning rate
-            new_rate = max(current_rate * self.learning_rate_bounds.decay_factor,
-                          self.learning_rate_bounds.min_rate)
+            new_rate = max(
+                current_rate * self.learning_rate_bounds.decay_factor,
+                self.learning_rate_bounds.min_rate,
+            )
             adaptation_type = "conservative"
         else:
             # Moderate performance - gentle adjustment toward optimal
@@ -310,10 +342,12 @@ class MetaLearningEnhancementAdapter:
             "new_rate": new_rate,
             "rate_change": rate_change,
             "adaptation_type": adaptation_type,
-            "adaptation": self.current_metrics.learning_rate_adaptation
+            "adaptation": self.current_metrics.learning_rate_adaptation,
         }
 
-    async def _enhance_federated_learning(self, metrics: Dict[str, Any], feedback: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_federated_learning(
+        self, metrics: Dict[str, Any], feedback: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Enhance federated learning coordination"""
         # Simulate federated node coordination
         target_nodes = 5
@@ -321,7 +355,9 @@ class MetaLearningEnhancementAdapter:
 
         # Attempt to connect to more nodes if needed
         if current_nodes < target_nodes:
-            new_nodes = await self._connect_federated_nodes(target_nodes - current_nodes)
+            new_nodes = await self._connect_federated_nodes(
+                target_nodes - current_nodes
+            )
             self.active_learning_nodes.extend(new_nodes)
 
         # Calculate federated convergence
@@ -358,10 +394,12 @@ class MetaLearningEnhancementAdapter:
             "convergence": convergence,
             "consensus_quality": consensus,
             "communication_efficiency": communication_eff,
-            "federated_state": self.current_metrics.federated_state.value
+            "federated_state": self.current_metrics.federated_state.value,
         }
 
-    async def _enhance_symbolic_feedback(self, metrics: Dict[str, Any], feedback: Dict[str, Any]) -> Dict[str, Any]:
+    async def _enhance_symbolic_feedback(
+        self, metrics: Dict[str, Any], feedback: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Enhance symbolic feedback loops"""
         # Process intent node integration
         intent_integration = await self._process_intent_nodes(feedback)
@@ -373,7 +411,9 @@ class MetaLearningEnhancementAdapter:
         dream_coherence = await self._process_dream_coherence(feedback)
 
         # Calculate overall symbolic feedback quality
-        symbolic_quality = (intent_integration + memoria_coupling + dream_coherence) / 3.0
+        symbolic_quality = (
+            intent_integration + memoria_coupling + dream_coherence
+        ) / 3.0
 
         # Update metrics
         self.current_metrics.symbolic_feedback_quality = symbolic_quality
@@ -387,7 +427,7 @@ class MetaLearningEnhancementAdapter:
             "symbolic_quality": symbolic_quality,
             "intent_integration": intent_integration,
             "memoria_coupling": memoria_coupling,
-            "dream_coherence": dream_coherence
+            "dream_coherence": dream_coherence,
         }
 
         self.symbolic_feedback_buffer.append(feedback_entry)
@@ -404,21 +444,27 @@ class MetaLearningEnhancementAdapter:
             "intent_integration": intent_integration,
             "memoria_coupling": memoria_coupling,
             "dream_coherence": dream_coherence,
-            "feedback_buffer_size": len(self.symbolic_feedback_buffer)
+            "feedback_buffer_size": len(self.symbolic_feedback_buffer),
         }
 
-    async def _update_performance_dashboard(self, enhancement_results: Dict[str, Any]) -> Dict[str, Any]:
+    async def _update_performance_dashboard(
+        self, enhancement_results: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Update performance monitoring dashboard"""
         # Calculate overall performance metrics
-        learning_rate_perf = enhancement_results.get("learning_rate", {}).get("adaptation", 0.0)
-        federated_perf = enhancement_results.get("federated", {}).get("convergence", 0.0)
-        symbolic_perf = enhancement_results.get("symbolic", {}).get("symbolic_quality", 0.0)
+        learning_rate_perf = enhancement_results.get("learning_rate", {}).get(
+            "adaptation", 0.0
+        )
+        federated_perf = enhancement_results.get("federated", {}).get(
+            "convergence", 0.0
+        )
+        symbolic_perf = enhancement_results.get("symbolic", {}).get(
+            "symbolic_quality", 0.0
+        )
 
         # Weighted combination for overall performance
         overall_performance = (
-            0.4 * learning_rate_perf +
-            0.3 * federated_perf +
-            0.3 * symbolic_perf
+            0.4 * learning_rate_perf + 0.3 * federated_perf + 0.3 * symbolic_perf
         )
 
         # Calculate adaptation speed (rate of improvement)
@@ -442,7 +488,7 @@ class MetaLearningEnhancementAdapter:
             "overall_performance": overall_performance,
             "adaptation_speed": adaptation_speed,
             "stability_score": stability_score,
-            "enhancement_factor": enhancement_factor
+            "enhancement_factor": enhancement_factor,
         }
         self.performance_history.append(performance_entry)
 
@@ -456,7 +502,7 @@ class MetaLearningEnhancementAdapter:
             "adaptation_speed": adaptation_speed,
             "stability_score": stability_score,
             "enhancement_factor": enhancement_factor,
-            "history_length": len(self.performance_history)
+            "history_length": len(self.performance_history),
         }
 
     async def get_performance_metrics(self) -> Dict[str, Any]:
@@ -475,10 +521,12 @@ class MetaLearningEnhancementAdapter:
             "stability_score": self.current_metrics.stability_score,
             "enhancement_factor": self.current_metrics.enhancement_factor,
             "current_phase": self.current_metrics.current_phase.value,
-            "federated_state": self.current_metrics.federated_state.value
+            "federated_state": self.current_metrics.federated_state.value,
         }
 
-    async def apply_optimization(self, action: str, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def apply_optimization(
+        self, action: str, parameters: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply a specific optimization action"""
         try:
             if action == "increase_learning_rate":
@@ -503,7 +551,9 @@ class MetaLearningEnhancementAdapter:
     async def _initialize_learning_rate_system(self) -> None:
         """Initialize learning rate management system"""
         # Set initial learning rate to optimal value
-        self.current_metrics.current_learning_rate = self.learning_rate_bounds.optimal_rate
+        self.current_metrics.current_learning_rate = (
+            self.learning_rate_bounds.optimal_rate
+        )
         self.current_metrics.learning_rate_stability = 1.0
         logger.debug("Learning rate system initialized")
 
@@ -535,7 +585,9 @@ class MetaLearningEnhancementAdapter:
         # Calculate optimal rate distance
         current_rate = self.current_metrics.current_learning_rate
         optimal_rate = self.learning_rate_bounds.optimal_rate
-        self.current_metrics.optimal_rate_distance = abs(current_rate - optimal_rate) / optimal_rate
+        self.current_metrics.optimal_rate_distance = (
+            abs(current_rate - optimal_rate) / optimal_rate
+        )
 
     def _normalize_membrane_potential(self, potential: float) -> float:
         """Normalize membrane potential to 0-1 scale"""
@@ -543,7 +595,9 @@ class MetaLearningEnhancementAdapter:
         normalized = 1.0 - abs(potential + 70.0) / 20.0
         return max(0.0, min(1.0, normalized))
 
-    async def _adapt_to_biological_state(self, bio_signals: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def _adapt_to_biological_state(
+        self, bio_signals: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Adapt learning parameters based on biological state"""
         suggestions = []
 
@@ -552,32 +606,38 @@ class MetaLearningEnhancementAdapter:
 
         # High energy and stability - can be more aggressive
         if energy_level > 0.7 and stability > 0.7:
-            suggestions.append({
-                "type": "learning_rate",
-                "action": "increase",
-                "factor": 1.1,
-                "reason": "high_energy_stability"
-            })
+            suggestions.append(
+                {
+                    "type": "learning_rate",
+                    "action": "increase",
+                    "factor": 1.1,
+                    "reason": "high_energy_stability",
+                }
+            )
 
         # Low energy or stability - be conservative
         elif energy_level < 0.3 or stability < 0.3:
-            suggestions.append({
-                "type": "learning_rate",
-                "action": "decrease",
-                "factor": 0.9,
-                "reason": "low_energy_or_stability"
-            })
+            suggestions.append(
+                {
+                    "type": "learning_rate",
+                    "action": "decrease",
+                    "factor": 0.9,
+                    "reason": "low_energy_or_stability",
+                }
+            )
 
         return suggestions
 
-    async def _integrate_biological_symbolic_feedback(self, bio_signals: Dict[str, Any]) -> None:
+    async def _integrate_biological_symbolic_feedback(
+        self, bio_signals: Dict[str, Any]
+    ) -> None:
         """Integrate biological signals into symbolic feedback"""
         bio_symbolic_entry = {
             "timestamp": datetime.now(),
             "type": "biological_integration",
             "energy_availability": bio_signals.get("energy_availability", 0.0),
             "system_stability": bio_signals.get("system_stability", 0.0),
-            "metabolic_efficiency": bio_signals.get("metabolic_efficiency", 0.0)
+            "metabolic_efficiency": bio_signals.get("metabolic_efficiency", 0.0),
         }
 
         self.symbolic_feedback_buffer.append(bio_symbolic_entry)
@@ -587,8 +647,10 @@ class MetaLearningEnhancementAdapter:
         if len(self.adaptation_history) < 2:
             return 1.0
 
-        recent_rates = [entry.get("new_rate", self.current_metrics.current_learning_rate)
-                      for entry in self.adaptation_history[-10:]]
+        recent_rates = [
+            entry.get("new_rate", self.current_metrics.current_learning_rate)
+            for entry in self.adaptation_history[-10:]
+        ]
 
         if len(recent_rates) < 2:
             return 1.0
@@ -613,7 +675,7 @@ class MetaLearningEnhancementAdapter:
                 "id": f"node_{len(self.active_learning_nodes) + i}",
                 "status": "connected",
                 "performance": np.random.uniform(0.6, 0.9),
-                "last_update": datetime.now()
+                "last_update": datetime.now(),
             }
             new_nodes.append(node)
 
@@ -625,7 +687,9 @@ class MetaLearningEnhancementAdapter:
             return 0.0
 
         # Simulate convergence calculation
-        performances = [node.get("performance", 0.5) for node in self.active_learning_nodes]
+        performances = [
+            node.get("performance", 0.5) for node in self.active_learning_nodes
+        ]
         mean_perf = np.mean(performances)
         std_perf = np.std(performances)
 
@@ -678,8 +742,9 @@ class MetaLearningEnhancementAdapter:
         if len(self.performance_history) < 2:
             return 0.0
 
-        recent_performances = [entry["overall_performance"]
-                             for entry in self.performance_history[-5:]]
+        recent_performances = [
+            entry["overall_performance"] for entry in self.performance_history[-5:]
+        ]
 
         if len(recent_performances) < 2:
             return 0.0
@@ -704,17 +769,19 @@ class MetaLearningEnhancementAdapter:
 
         # Add symbolic feedback stability
         if len(self.symbolic_feedback_buffer) > 0:
-            recent_qualities = [entry.get("symbolic_quality", 0.5)
-                              for entry in self.symbolic_feedback_buffer[-10:]]
-            symbolic_stability = 1.0 - np.std(recent_qualities) if len(recent_qualities) > 1 else 0.5
+            recent_qualities = [
+                entry.get("symbolic_quality", 0.5)
+                for entry in self.symbolic_feedback_buffer[-10:]
+            ]
+            symbolic_stability = (
+                1.0 - np.std(recent_qualities) if len(recent_qualities) > 1 else 0.5
+            )
         else:
             symbolic_stability = 0.5
 
         # Weighted combination
         overall_stability = (
-            0.4 * rate_stability +
-            0.3 * federated_stability +
-            0.3 * symbolic_stability
+            0.4 * rate_stability + 0.3 * federated_stability + 0.3 * symbolic_stability
         )
 
         return overall_stability
@@ -729,18 +796,26 @@ class MetaLearningEnhancementAdapter:
 
         return enhancement_factor
 
-    def _calculate_overall_enhancement(self, enhancement_results: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_overall_enhancement(
+        self, enhancement_results: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Calculate overall enhancement metrics from all components"""
         # Extract individual adaptation scores
-        learning_adaptation = enhancement_results.get("learning_rate", {}).get("adaptation", 0.0)
-        federated_adaptation = enhancement_results.get("federated", {}).get("convergence", 0.0)
-        symbolic_adaptation = enhancement_results.get("symbolic", {}).get("symbolic_quality", 0.0)
+        learning_adaptation = enhancement_results.get("learning_rate", {}).get(
+            "adaptation", 0.0
+        )
+        federated_adaptation = enhancement_results.get("federated", {}).get(
+            "convergence", 0.0
+        )
+        symbolic_adaptation = enhancement_results.get("symbolic", {}).get(
+            "symbolic_quality", 0.0
+        )
 
         # Weighted overall adaptation
         overall_adaptation = (
-            0.4 * learning_adaptation +
-            0.3 * federated_adaptation +
-            0.3 * symbolic_adaptation
+            0.4 * learning_adaptation
+            + 0.3 * federated_adaptation
+            + 0.3 * symbolic_adaptation
         )
 
         # Success criteria
@@ -752,12 +827,18 @@ class MetaLearningEnhancementAdapter:
             "learning_contribution": learning_adaptation,
             "federated_contribution": federated_adaptation,
             "symbolic_contribution": symbolic_adaptation,
-            "enhancement_quality": "high" if overall_adaptation > 0.8 else "medium" if overall_adaptation > 0.5 else "low"
+            "enhancement_quality": (
+                "high"
+                if overall_adaptation > 0.8
+                else "medium" if overall_adaptation > 0.5 else "low"
+            ),
         }
 
     async def _update_learning_phase(self, enhancement_results: Dict[str, Any]) -> None:
         """Update the current learning phase based on results"""
-        overall_adaptation = enhancement_results.get("overall", {}).get("adaptation", 0.0)
+        overall_adaptation = enhancement_results.get("overall", {}).get(
+            "adaptation", 0.0
+        )
         stability = self.current_metrics.stability_score
 
         if overall_adaptation > 0.9 and stability > 0.9:
@@ -781,10 +862,12 @@ class MetaLearningEnhancementAdapter:
             "success": True,
             "old_rate": old_rate,
             "new_rate": new_rate,
-            "multiplier_applied": multiplier
+            "multiplier_applied": multiplier,
         }
 
-    async def _stabilize_federated_learning(self, stability_target: float) -> Dict[str, Any]:
+    async def _stabilize_federated_learning(
+        self, stability_target: float
+    ) -> Dict[str, Any]:
         """Stabilize federated learning to target level"""
         # Attempt to improve consensus and convergence
         current_consensus = self.current_metrics.consensus_quality
@@ -800,10 +883,12 @@ class MetaLearningEnhancementAdapter:
             "success": True,
             "target_stability": stability_target,
             "achieved_stability": new_consensus,
-            "improvement": improvement
+            "improvement": improvement,
         }
 
-    async def _enhance_symbolic_feedback_quality(self, enhancement_factor: float) -> Dict[str, Any]:
+    async def _enhance_symbolic_feedback_quality(
+        self, enhancement_factor: float
+    ) -> Dict[str, Any]:
         """Enhance symbolic feedback quality"""
         old_quality = self.current_metrics.symbolic_feedback_quality
         new_quality = min(old_quality * enhancement_factor, 1.0)
@@ -813,7 +898,7 @@ class MetaLearningEnhancementAdapter:
             "success": True,
             "old_quality": old_quality,
             "new_quality": new_quality,
-            "enhancement_factor": enhancement_factor
+            "enhancement_factor": enhancement_factor,
         }
 
     def _get_default_metrics(self) -> Dict[str, Any]:
@@ -837,5 +922,5 @@ class MetaLearningEnhancementAdapter:
             "enhancement_factor": 1.0,
             "current_phase": "exploration",
             "federated_state": "disconnected",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }

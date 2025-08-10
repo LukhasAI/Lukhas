@@ -16,11 +16,10 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import click
-import json
 import sys
-from pathlib import Path
 from typing import Optional
+
+import click
 
 # Import our modules (TODO: implement these imports once modules are complete)
 # from verifold_core import VerifoldGenerator
@@ -40,13 +39,24 @@ def cli():
 
 
 @cli.command()
-@click.option('--output', '-o', type=click.Path(), help='Output file for generated hash')
-@click.option('--data', '-d', type=click.Path(exists=True), help='Input quantum data file')
-@click.option('--keypair', '-k', type=click.Path(exists=True), help='Private key file')
-@click.option('--metadata', '-m', help='JSON metadata string')
-@click.option('--entropy-threshold', type=float, default=7.0, help='Minimum entropy threshold')
-def generate(output: Optional[str], data: Optional[str], keypair: Optional[str],
-            metadata: Optional[str], entropy_threshold: float):
+@click.option(
+    "--output", "-o", type=click.Path(), help="Output file for generated hash"
+)
+@click.option(
+    "--data", "-d", type=click.Path(exists=True), help="Input quantum data file"
+)
+@click.option("--keypair", "-k", type=click.Path(exists=True), help="Private key file")
+@click.option("--metadata", "-m", help="JSON metadata string")
+@click.option(
+    "--entropy-threshold", type=float, default=7.0, help="Minimum entropy threshold"
+)
+def generate(
+    output: Optional[str],
+    data: Optional[str],
+    keypair: Optional[str],
+    metadata: Optional[str],
+    entropy_threshold: float,
+):
     """
     Generate a new Verifold hash from probabilistic observation data.
     """
@@ -57,10 +67,10 @@ def generate(output: Optional[str], data: Optional[str], keypair: Optional[str],
 
 
 @cli.command()
-@click.argument('hash_value')
-@click.argument('signature')
-@click.argument('public_key')
-@click.option('--verbose', '-v', is_flag=True, help='Verbose output')
+@click.argument("hash_value")
+@click.argument("signature")
+@click.argument("public_key")
+@click.option("--verbose", "-v", is_flag=True, help="Verbose output")
 def verify(hash_value: str, signature: str, public_key: str, verbose: bool):
     """
     Verify a Verifold signature using SPHINCS+.
@@ -89,12 +99,21 @@ def verify(hash_value: str, signature: str, public_key: str, verbose: bool):
 
 
 @cli.command()
-@click.option('--format', '-f', type=click.Choice(['json', 'csv', 'txt']),
-              default='json', help='Export format')
-@click.option('--output', '-o', type=click.Path(), help='Output file')
-@click.option('--filter', help='Filter records (JSON query)')
-@click.option('--logbook', type=click.Path(exists=True),
-              default='verifold_chain.jsonl', help='Logbook file to export from')
+@click.option(
+    "--format",
+    "-f",
+    type=click.Choice(["json", "csv", "txt"]),
+    default="json",
+    help="Export format",
+)
+@click.option("--output", "-o", type=click.Path(), help="Output file")
+@click.option("--filter", help="Filter records (JSON query)")
+@click.option(
+    "--logbook",
+    type=click.Path(exists=True),
+    default="verifold_chain.jsonl",
+    help="Logbook file to export from",
+)
 def export(format: str, output: Optional[str], filter: Optional[str], logbook: str):
     """
     Export Verifold records from the tamper-evident ledger.
@@ -106,8 +125,8 @@ def export(format: str, output: Optional[str], filter: Optional[str], logbook: s
 
 
 @cli.command()
-@click.option('--output', '-o', type=click.Path(), help='Output directory for keys')
-@click.option('--seed', help='Hex seed for deterministic key generation')
+@click.option("--output", "-o", type=click.Path(), help="Output directory for keys")
+@click.option("--seed", help="Hex seed for deterministic key generation")
 def keygen(output: Optional[str], seed: Optional[str]):
     """
     Generate a new SPHINCS+ keypair for Verifold operations.
@@ -119,9 +138,13 @@ def keygen(output: Optional[str], seed: Optional[str]):
 
 
 @cli.command()
-@click.option('--logbook', type=click.Path(exists=True),
-              default='verifold_chain.jsonl', help='Logbook file to validate')
-@click.option('--repair', is_flag=True, help='Attempt to repair corrupted entries')
+@click.option(
+    "--logbook",
+    type=click.Path(exists=True),
+    default="verifold_chain.jsonl",
+    help="Logbook file to validate",
+)
+@click.option("--repair", is_flag=True, help="Attempt to repair corrupted entries")
 def validate(logbook: str, repair: bool):
     """
     Validate the integrity of the tamper-evident ledger.
@@ -132,5 +155,5 @@ def validate(logbook: str, repair: bool):
     sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()

@@ -2,7 +2,6 @@
 import base64
 import io
 import json
-from core.common import get_logger
 import operator
 import os
 import pickle
@@ -12,6 +11,8 @@ import warnings
 from functools import lru_cache
 from itertools import groupby
 from typing import Any
+
+from core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)
@@ -94,6 +95,7 @@ def _block_extra(b):
 def format_flamegraph(flamegraph_lines, flamegraph_script=None):
     if flamegraph_script is None:
         import tempfile
+
         temp_dir = tempfile.gettempdir()
         flamegraph_script = os.path.join(temp_dir, f"{os.getuid()}_flamegraph.pl")
     if not os.path.exists(flamegraph_script):
@@ -455,9 +457,11 @@ def trace_plot(data, device=None, plot_segments=False):
     """
     return _format_viz(
         data,
-        "Active Memory Timeline"
-        if not plot_segments
-        else "Active Cached Memory Timeline",
+        (
+            "Active Memory Timeline"
+            if not plot_segments
+            else "Active Cached Memory Timeline"
+        ),
         device,
     )
 

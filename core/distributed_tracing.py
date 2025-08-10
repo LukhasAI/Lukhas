@@ -13,8 +13,8 @@ import time
 import uuid
 from collections import defaultdict, deque
 from contextlib import contextmanager
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set
+from dataclasses import dataclass
+from typing import Any, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -33,11 +33,11 @@ class TraceSpan:
     start_time: float
     end_time: Optional[float]
     duration: Optional[float]
-    tags: Dict[str, Any]
-    logs: List[Dict[str, Any]]
+    tags: dict[str, Any]
+    logs: list[dict[str, Any]]
     status: str  # "ok", "error", "timeout"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
     def finish(self, status: str = "ok"):
@@ -50,9 +50,13 @@ class TraceSpan:
         """Add a tag to the span"""
         self.tags[key] = value
 
-    def add_log(self, event: str, fields: Dict[str, Any] = None):
+    def add_log(self, event: str, fields: dict[str, Any] = None):
         """Add a log entry to the span"""
-        log_entry = {"timestamp": time.time(), "event": event, "fields": fields or {}}
+        log_entry = {
+            "timestamp": time.time(),
+            "event": event,
+            "fields": fields or {},
+        }
         self.logs.append(log_entry)
 
 
@@ -62,8 +66,8 @@ class TraceContext:
 
     trace_id: str
     correlation_id: str
-    span_stack: List[str]
-    baggage: Dict[str, str] = None
+    span_stack: list[str]
+    baggage: dict[str, str] = None
 
     def __post_init__(self):
         if self.baggage is None:
@@ -98,7 +102,7 @@ class TraceContext:
         """Get a baggage item"""
         return self.baggage.get(key)
 
-    def to_headers(self) -> Dict[str, str]:
+    def to_headers(self) -> dict[str, str]:
         """Convert context to HTTP-like headers for propagation"""
         headers = {
             "lukhas-trace-id": self.trace_id,
@@ -118,7 +122,7 @@ class TraceContext:
         return headers
 
     @classmethod
-    def from_headers(cls, headers: Dict[str, str]) -> Optional["TraceContext"]:
+    def from_headers(cls, headers: dict[str, str]) -> Optional["TraceContext"]:
         """Create context from HTTP-like headers"""
         trace_id = headers.get("lukhas-trace-id")
         correlation_id = headers.get("lukhas-correlation-id")
@@ -133,7 +137,9 @@ class TraceContext:
             span_stack.insert(0, parent_span_id)
 
         context = cls(
-            trace_id=trace_id, correlation_id=correlation_id, span_stack=span_stack
+            trace_id=trace_id,
+            correlation_id=correlation_id,
+            span_stack=span_stack,
         )
 
         # Extract baggage
@@ -152,8 +158,8 @@ class TraceCollector:
 
     def __init__(self, max_traces: int = 10000):
         self.max_traces = max_traces
-        self.traces: Dict[str, List[TraceSpan]] = defaultdict(list)
-        self.spans: Dict[str, TraceSpan] = {}
+        self.traces: dict[str, list[TraceSpan]] = defaultdict(list)
+        self.spans: dict[str, TraceSpan] = {}
         self.completed_traces: deque = deque(maxlen=max_traces)
         self._lock = threading.Lock()
 
@@ -194,7 +200,7 @@ class TraceCollector:
                 if span.span_id in self.spans:
                     del self.spans[span.span_id]
 
-    def _calculate_trace_duration(self, spans: List[TraceSpan]) -> float:
+    def _calculate_trace_duration(self, spans: list[TraceSpan]) -> float:
         """Calculate the total duration of a trace"""
         if not spans:
             return 0.0
@@ -207,7 +213,7 @@ class TraceCollector:
 
         return max(end_times) - min(start_times)
 
-    def get_trace(self, trace_id: str) -> Optional[Dict[str, Any]]:
+    def get_trace(self, trace_id: str) -> Optional[dict[str, Any]]:
         """Get a specific trace"""
         # Check active traces
         if trace_id in self.traces:
@@ -226,7 +232,7 @@ class TraceCollector:
 
         return None
 
-    def get_traces_by_operation(self, operation_name: str) -> List[Dict[str, Any]]:
+    def get_traces_by_operation(self, operation_name: str) -> list[dict[str, Any]]:
         """Get traces containing a specific operation"""
         matching_traces = []
 
@@ -249,7 +255,7 @@ class TraceCollector:
 
         return matching_traces
 
-    def get_trace_statistics(self) -> Dict[str, Any]:
+    def get_trace_statistics(self) -> dict[str, Any]:
         """Get statistics about collected traces"""
         with self._lock:
             active_traces = len(self.traces)
@@ -283,9 +289,11 @@ class TraceCollector:
                 "active_spans": total_spans,
                 "completed_spans": completed_span_count,
                 "top_operations": dict(
-                    sorted(operation_counts.items(), key=lambda x: x[1], reverse=True)[
-                        :10
-                    ]
+                    sorted(
+                        operation_counts.items(),
+                        key=lambda x: x[1],
+                        reverse=True,
+                    )[:10]
                 ),
                 "services": list(service_counts.keys()),
                 "collection_time": time.time(),
@@ -313,7 +321,9 @@ class DistributedTracer:
         span_id = str(uuid.uuid4())
 
         context = TraceContext(
-            trace_id=trace_id, correlation_id=correlation_id, span_stack=[span_id]
+            trace_id=trace_id,
+            correlation_id=correlation_id,
+            span_stack=[span_id],
         )
 
         span = TraceSpan(
@@ -336,7 +346,9 @@ class DistributedTracer:
         return context
 
     def start_span(
-        self, operation_name: str, parent_context: Optional[TraceContext] = None
+        self,
+        operation_name: str,
+        parent_context: Optional[TraceContext] = None,
     ) -> TraceContext:
         """Start a new span within an existing trace"""
         if parent_context is None:
@@ -383,7 +395,10 @@ class DistributedTracer:
                 span.add_tag(key, value)
 
     def add_log(
-        self, context: TraceContext, event: str, fields: Optional[Dict[str, Any]] = None
+        self,
+        context: TraceContext,
+        event: str,
+        fields: Optional[dict[str, Any]] = None,
     ):
         """Add a log entry to the current span"""
         if context.span_id:
@@ -393,7 +408,9 @@ class DistributedTracer:
 
     @contextmanager
     def trace_operation(
-        self, operation_name: str, parent_context: Optional[TraceContext] = None
+        self,
+        operation_name: str,
+        parent_context: Optional[TraceContext] = None,
     ):
         """Context manager for tracing an operation"""
         context = self.start_span(operation_name, parent_context)
@@ -423,7 +440,10 @@ class AIAgentTracer(DistributedTracer):
     """
 
     def trace_agent_operation(
-        self, agent_id: str, operation: str, task_data: Optional[Dict[str, Any]] = None
+        self,
+        agent_id: str,
+        operation: str,
+        task_data: Optional[dict[str, Any]] = None,
     ):
         """Trace an AI agent operation"""
         operation_name = f"agent.{operation}"
@@ -518,7 +538,9 @@ def demo_distributed_tracing():
 
     # Simulate a complex operation with multiple spans
     with agent1_tracer.trace_agent_operation(
-        "reasoning-001", "analyze_data", {"type": "reasoning", "complexity": "high"}
+        "reasoning-001",
+        "analyze_data",
+        {"type": "reasoning", "complexity": "high"},
     ) as ctx:
 
         # Add some logs and tags
@@ -532,7 +554,7 @@ def demo_distributed_tracing():
         # Simulate collaboration with another agent
         with agent1_tracer.trace_agent_collaboration(
             "reasoning-001", "memory-001", "knowledge_sharing"
-        ) as collab_ctx:
+        ):
 
             # Memory agent operations (simulated)
             with agent2_tracer.trace_memory_operation(
@@ -564,29 +586,35 @@ def demo_distributed_tracing():
 
 # --- New Additions for Event Replay and State Snapshotting (TODO 169) ---
 
+
 @dataclass
 class AgentState:
     """Represents the state of an agent at a point in time."""
+
     agent_id: str
     timestamp: float
-    state_data: Dict[str, Any]
+    state_data: dict[str, Any]
+
 
 class StateSnapshotter:
     """Handles taking and restoring agent state snapshots."""
+
     def __init__(self, storage_path: str = "/tmp/snapshots"):
         self.storage_path = storage_path
         if not os.path.exists(self.storage_path):
             os.makedirs(self.storage_path)
 
-    def take_snapshot(self, agent_id: str, state_data: Dict[str, Any]):
+    def take_snapshot(self, agent_id: str, state_data: dict[str, Any]):
         """Saves a snapshot of an agent's state."""
         snapshot = AgentState(
             agent_id=agent_id,
             timestamp=time.time(),
             state_data=state_data,
         )
-        filepath = os.path.join(self.storage_path, f"{agent_id}-{snapshot.timestamp}.json")
-        with open(filepath, 'w') as f:
+        filepath = os.path.join(
+            self.storage_path, f"{agent_id}-{snapshot.timestamp}.json"
+        )
+        with open(filepath, "w") as f:
             json.dump(asdict(snapshot), f, indent=2)
         logger.info(f"State snapshot for agent {agent_id} saved to {filepath}")
         return filepath
@@ -594,25 +622,36 @@ class StateSnapshotter:
     def restore_latest_snapshot(self, agent_id: str) -> Optional[AgentState]:
         """Restores the most recent snapshot for an agent."""
         try:
-            files = [f for f in os.listdir(self.storage_path) if f.startswith(f"{agent_id}-") and f.endswith(".json")]
+            files = [
+                f
+                for f in os.listdir(self.storage_path)
+                if f.startswith(f"{agent_id}-") and f.endswith(".json")
+            ]
             if not files:
                 return None
-            latest_file = max(files, key=lambda f: float(f.split('-')[1].replace('.json', '')))
+            latest_file = max(
+                files,
+                key=lambda f: float(f.split("-")[1].replace(".json", "")),
+            )
             filepath = os.path.join(self.storage_path, latest_file)
-            with open(filepath, 'r') as f:
+            with open(filepath) as f:
                 data = json.load(f)
                 return AgentState(**data)
         except Exception as e:
             logger.error(f"Failed to restore snapshot for agent {agent_id}: {e}")
             return None
 
+
 class EventReplayer:
     """Replays events from a trace to reconstruct state."""
+
     def __init__(self, trace_collector: TraceCollector, snapshotter: StateSnapshotter):
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 
-    def replay_trace(self, trace_id: str, to_timestamp: Optional[float] = None) -> Dict[str, Any]:
+    def replay_trace(
+        self, trace_id: str, to_timestamp: Optional[float] = None
+    ) -> dict[str, Any]:
         """
         Replays a trace to reconstruct the state of agents involved.
         - Starts from the nearest snapshot before the trace began.
@@ -626,16 +665,23 @@ class EventReplayer:
         agent_ids = set()
         for span_data in trace_data["spans"]:
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if 'agent.id' in tag_key or 'agent_id' in tag_key:
+                if "agent.id" in tag_key or "agent_id" in tag_key:
                     agent_ids.add(tag_value)
 
         reconstructed_states = {}
         for agent_id in agent_ids:
-            reconstructed_states[agent_id] = self.replay_agent_state(agent_id, trace_data, to_timestamp)
+            reconstructed_states[agent_id] = self.replay_agent_state(
+                agent_id, trace_data, to_timestamp
+            )
 
         return reconstructed_states
 
-    def replay_agent_state(self, agent_id: str, trace_data: Dict[str, Any], to_timestamp: Optional[float] = None) -> Dict[str, Any]:
+    def replay_agent_state(
+        self,
+        agent_id: str,
+        trace_data: dict[str, Any],
+        to_timestamp: Optional[float] = None,
+    ) -> dict[str, Any]:
         """Reconstructs the state of a single agent from a trace."""
         # Start with the latest snapshot before the trace
         initial_state = self.snapshotter.restore_latest_snapshot(agent_id)
@@ -646,7 +692,9 @@ class EventReplayer:
         for span_data in trace_data["spans"]:
             is_agent_span = False
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if ('agent.id' in tag_key or 'agent_id' in tag_key) and tag_value == agent_id:
+                if (
+                    "agent.id" in tag_key or "agent_id" in tag_key
+                ) and tag_value == agent_id:
                     is_agent_span = True
                     break
 
@@ -673,6 +721,7 @@ class EventReplayer:
 
 if __name__ == "__main__":
     import os
+
     demo_distributed_tracing()
 
     # --- Demo for new features ---
@@ -688,7 +737,11 @@ if __name__ == "__main__":
     # Run a trace for this agent
     tracer = create_ai_tracer("agent-007")
     with tracer.trace_agent_operation("agent-007", "process_new_data") as ctx:
-        tracer.add_log(ctx, "state_update", {"status": "processing", "current_task": "task-123"})
+        tracer.add_log(
+            ctx,
+            "state_update",
+            {"status": "processing", "current_task": "task-123"},
+        )
         agent_state.update({"status": "processing", "current_task": "task-123"})
         time.sleep(0.1)
         tracer.add_log(ctx, "state_update", {"tasks_completed": 6, "status": "idle"})

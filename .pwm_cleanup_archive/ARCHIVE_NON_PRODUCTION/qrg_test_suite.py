@@ -20,23 +20,17 @@ Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
 
-import unittest
-import time
 import json
-import hashlib
-import secrets
-from typing import Dict, List, Any, Optional
-from datetime import datetime, timedelta
-from dataclasses import dataclass, asdict
-import sys
 import os
+import sys
+import time
+import unittest
+from datetime import datetime
 
 # Add the current directory to the path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from qrg_integration import (
-    LukhusQRGIntegrator, QRGType, SecurityLevel, QRGContext, QRGResult
-)
+from qrg_integration import LukhusQRGIntegrator, QRGType, SecurityLevel
 
 
 class TestQRGCore(unittest.TestCase):
@@ -49,7 +43,7 @@ class TestQRGCore(unittest.TestCase):
         self.test_context = self.integrator.create_qrg_context(
             user_id=self.test_user_id,
             security_level="protected",
-            attention_focus=["testing", "validation"]
+            attention_focus=["testing", "validation"],
         )
 
     def test_integrator_initialization(self):
@@ -64,7 +58,7 @@ class TestQRGCore(unittest.TestCase):
         context = self.integrator.create_qrg_context(
             user_id="test_context_user",
             security_level="confidential",
-            attention_focus=["security", "testing"]
+            attention_focus=["security", "testing"],
         )
 
         self.assertEqual(context.user_id, "test_context_user")
@@ -91,14 +85,14 @@ class TestQRGCore(unittest.TestCase):
         cultural_contexts = [
             {"region": "east_asian", "preferences": {"colors": ["red", "gold"]}},
             {"region": "islamic", "preferences": {"symbols": ["geometric"]}},
-            {"region": "universal", "preferences": {}}
+            {"region": "universal", "preferences": {}},
         ]
 
         for cultural_profile in cultural_contexts:
             with self.subTest(cultural_profile=cultural_profile):
                 context = self.integrator.create_qrg_context(
                     user_id=f"cultural_test_{cultural_profile['region']}",
-                    security_level="protected"
+                    security_level="protected",
                 )
                 context.cultural_profile = cultural_profile
 
@@ -107,18 +101,24 @@ class TestQRGCore(unittest.TestCase):
                 self.assertEqual(result.qr_type, QRGType.CULTURAL_SYMBOLIC)
                 self.assertIn("CULTURAL_QR", result.pattern_data)
                 self.assertIn("cultural_context", result.metadata)
-                self.assertEqual(result.metadata["cultural_context"], cultural_profile["region"])
+                self.assertEqual(
+                    result.metadata["cultural_context"], cultural_profile["region"]
+                )
 
     def test_quantum_qrg_generation(self):
         """Test quantum-encrypted QRG generation"""
         # Test with different security levels
-        security_levels = [SecurityLevel.PROTECTED, SecurityLevel.SECRET, SecurityLevel.COSMIC]
+        security_levels = [
+            SecurityLevel.PROTECTED,
+            SecurityLevel.SECRET,
+            SecurityLevel.COSMIC,
+        ]
 
         for security_level in security_levels:
             with self.subTest(security_level=security_level):
                 context = self.integrator.create_qrg_context(
                     user_id=f"quantum_test_{security_level.value}",
-                    security_level=security_level.value
+                    security_level=security_level.value,
                 )
 
                 result = self.integrator.generate_quantum_qrg(context)
@@ -155,7 +155,9 @@ class TestQRGCore(unittest.TestCase):
 
         # Emergency QRGs should have short expiration
         time_diff = result.expiration - self.test_context.timestamp
-        self.assertLessEqual(time_diff.total_seconds(), 901)  # 15 minutes max (with small buffer)
+        self.assertLessEqual(
+            time_diff.total_seconds(), 901
+        )  # 15 minutes max (with small buffer)
 
     def test_adaptive_qrg_type_selection(self):
         """Test automatic QRG type selection"""
@@ -163,23 +165,22 @@ class TestQRGCore(unittest.TestCase):
         test_cases = [
             {
                 "context_mods": {"security_clearance": SecurityLevel.SECRET},
-                "expected_type": QRGType.QUANTUM_ENCRYPTED
+                "expected_type": QRGType.QUANTUM_ENCRYPTED,
             },
             {
                 "context_mods": {"consciousness_level": 0.2},
-                "expected_type": QRGType.DREAM_STATE
+                "expected_type": QRGType.DREAM_STATE,
             },
             {
                 "context_mods": {"cognitive_load": 0.95},
-                "expected_type": QRGType.EMERGENCY_OVERRIDE
-            }
+                "expected_type": QRGType.EMERGENCY_OVERRIDE,
+            },
         ]
 
         for case in test_cases:
             with self.subTest(case=case):
                 context = self.integrator.create_qrg_context(
-                    user_id="adaptive_test_user",
-                    security_level="protected"
+                    user_id="adaptive_test_user", security_level="protected"
                 )
 
                 # Apply context modifications
@@ -205,14 +206,13 @@ class TestQRGPerformance(unittest.TestCase):
             QRGType.CULTURAL_SYMBOLIC,
             QRGType.QUANTUM_ENCRYPTED,
             QRGType.DREAM_STATE,
-            QRGType.EMERGENCY_OVERRIDE
+            QRGType.EMERGENCY_OVERRIDE,
         ]
 
         for qrg_type in qrg_types:
             with self.subTest(qrg_type=qrg_type):
                 context = self.integrator.create_qrg_context(
-                    user_id=f"perf_test_{qrg_type.value}",
-                    security_level="protected"
+                    user_id=f"perf_test_{qrg_type.value}", security_level="protected"
                 )
 
                 start_time = time.time()
@@ -226,12 +226,14 @@ class TestQRGPerformance(unittest.TestCase):
                 self.assertIsNotNone(result)
 
                 # Record performance data
-                self.performance_data.append({
-                    "qrg_type": qrg_type.value,
-                    "generation_time": generation_time,
-                    "pattern_length": len(result.pattern_data),
-                    "metadata_size": len(json.dumps(result.metadata))
-                })
+                self.performance_data.append(
+                    {
+                        "qrg_type": qrg_type.value,
+                        "generation_time": generation_time,
+                        "pattern_length": len(result.pattern_data),
+                        "metadata_size": len(json.dumps(result.metadata)),
+                    }
+                )
 
     def test_concurrent_generation(self):
         """Test concurrent QRG generation"""
@@ -243,8 +245,7 @@ class TestQRGPerformance(unittest.TestCase):
         def generate_qrg(user_id):
             try:
                 context = self.integrator.create_qrg_context(
-                    user_id=f"concurrent_user_{user_id}",
-                    security_level="protected"
+                    user_id=f"concurrent_user_{user_id}", security_level="protected"
                 )
                 result = self.integrator.generate_consciousness_qrg(context)
                 results.append(result)
@@ -281,8 +282,7 @@ class TestQRGPerformance(unittest.TestCase):
         # Generate multiple QRGs
         for i in range(10):
             context = self.integrator.create_qrg_context(
-                user_id=f"memory_test_{i}",
-                security_level="protected"
+                user_id=f"memory_test_{i}", security_level="protected"
             )
             result = self.integrator.generate_consciousness_qrg(context)
 
@@ -290,7 +290,9 @@ class TestQRGPerformance(unittest.TestCase):
         tracemalloc.stop()
 
         # Memory usage should be reasonable (under 10MB)
-        self.assertLess(peak / 1024 / 1024, 10, f"Peak memory usage: {peak / 1024 / 1024:.2f}MB")
+        self.assertLess(
+            peak / 1024 / 1024, 10, f"Peak memory usage: {peak / 1024 / 1024:.2f}MB"
+        )
 
     def tearDown(self):
         """Print performance summary"""
@@ -312,8 +314,7 @@ class TestQRGSecurity(unittest.TestCase):
 
         for i in range(10):
             context = self.integrator.create_qrg_context(
-                user_id=f"unique_test_{i}",
-                security_level="protected"
+                user_id=f"unique_test_{i}", security_level="protected"
             )
             result = self.integrator.generate_consciousness_qrg(context)
 
@@ -328,8 +329,7 @@ class TestQRGSecurity(unittest.TestCase):
     def test_quantum_security_properties(self):
         """Test quantum QRG security properties"""
         context = self.integrator.create_qrg_context(
-            user_id="quantum_security_test",
-            security_level="secret"
+            user_id="quantum_security_test", security_level="secret"
         )
 
         result = self.integrator.generate_quantum_qrg(context)
@@ -344,8 +344,7 @@ class TestQRGSecurity(unittest.TestCase):
     def test_emergency_override_security(self):
         """Test emergency override security measures"""
         context = self.integrator.create_qrg_context(
-            user_id="emergency_security_test",
-            security_level="protected"
+            user_id="emergency_security_test", security_level="protected"
         )
 
         result = self.integrator.generate_emergency_override_qrg(context)
@@ -365,8 +364,7 @@ class TestQRGSecurity(unittest.TestCase):
         # For now, we test the basic steganographic pattern creation
 
         context = self.integrator.create_qrg_context(
-            user_id="stego_security_test",
-            security_level="confidential"
+            user_id="stego_security_test", security_level="confidential"
         )
 
         # Note: Steganographic QRG is not fully implemented in the current system
@@ -383,8 +381,7 @@ class TestQRGCompliance(unittest.TestCase):
     def test_constitutional_compliance(self):
         """Test constitutional AI compliance in QRGs"""
         context = self.integrator.create_qrg_context(
-            user_id="compliance_test",
-            security_level="protected"
+            user_id="compliance_test", security_level="protected"
         )
 
         result = self.integrator.generate_consciousness_qrg(context)
@@ -399,14 +396,14 @@ class TestQRGCompliance(unittest.TestCase):
             {"region": "east_asian", "preferences": {}},
             {"region": "islamic", "preferences": {}},
             {"region": "indigenous", "preferences": {}},
-            {"region": "universal", "preferences": {}}
+            {"region": "universal", "preferences": {}},
         ]
 
         for profile in cultural_profiles:
             with self.subTest(profile=profile):
                 context = self.integrator.create_qrg_context(
                     user_id=f"cultural_safety_{profile['region']}",
-                    security_level="protected"
+                    security_level="protected",
                 )
                 context.cultural_profile = profile
 
@@ -422,8 +419,7 @@ class TestQRGCompliance(unittest.TestCase):
         for level in consciousness_levels:
             with self.subTest(consciousness_level=level):
                 context = self.integrator.create_qrg_context(
-                    user_id=f"consciousness_test_{level}",
-                    security_level="protected"
+                    user_id=f"consciousness_test_{level}", security_level="protected"
                 )
                 context.consciousness_level = level
 
@@ -443,12 +439,7 @@ def run_comprehensive_qrg_tests():
     test_suite = unittest.TestSuite()
 
     # Add test classes
-    test_classes = [
-        TestQRGCore,
-        TestQRGPerformance,
-        TestQRGSecurity,
-        TestQRGCompliance
-    ]
+    test_classes = [TestQRGCore, TestQRGPerformance, TestQRGSecurity, TestQRGCompliance]
 
     for test_class in test_classes:
         tests = unittest.TestLoader().loadTestsFromTestCase(test_class)
@@ -459,19 +450,21 @@ def run_comprehensive_qrg_tests():
     result = runner.run(test_suite)
 
     # Test summary
-    print(f"\n📊 Test Results Summary:")
+    print("\n📊 Test Results Summary:")
     print(f"   🧪 Tests run: {result.testsRun}")
-    print(f"   ✅ Successful: {result.testsRun - len(result.failures) - len(result.errors)}")
+    print(
+        f"   ✅ Successful: {result.testsRun - len(result.failures) - len(result.errors)}"
+    )
     print(f"   ❌ Failures: {len(result.failures)}")
     print(f"   🚨 Errors: {len(result.errors)}")
 
     if result.failures:
-        print(f"\n❌ Failures:")
+        print("\n❌ Failures:")
         for test, traceback in result.failures:
             print(f"   • {test}: {traceback}")
 
     if result.errors:
-        print(f"\n🚨 Errors:")
+        print("\n🚨 Errors:")
         for test, traceback in result.errors:
             print(f"   • {test}: {traceback}")
 
@@ -479,10 +472,10 @@ def run_comprehensive_qrg_tests():
     success = len(result.failures) == 0 and len(result.errors) == 0
 
     if success:
-        print(f"\n🎉 All QRG tests passed successfully!")
-        print(f"🔗 LUKHAS QRG system is ready for production!")
+        print("\n🎉 All QRG tests passed successfully!")
+        print("🔗 LUKHAS QRG system is ready for production!")
     else:
-        print(f"\n⚠️ Some tests failed. Review and fix issues before deployment.")
+        print("\n⚠️ Some tests failed. Review and fix issues before deployment.")
 
     return result
 
@@ -501,8 +494,8 @@ def create_qrg_validation_report():
                 "user_id": "high_consciousness_user",
                 "consciousness_level": 0.9,
                 "security_level": "protected",
-                "attention_focus": ["transcendence", "awareness"]
-            }
+                "attention_focus": ["transcendence", "awareness"],
+            },
         },
         {
             "name": "Cultural Sensitive Context",
@@ -510,8 +503,11 @@ def create_qrg_validation_report():
                 "user_id": "cultural_user",
                 "consciousness_level": 0.6,
                 "security_level": "protected",
-                "cultural_profile": {"region": "east_asian", "preferences": {"respect": "formal"}}
-            }
+                "cultural_profile": {
+                    "region": "east_asian",
+                    "preferences": {"respect": "formal"},
+                },
+            },
         },
         {
             "name": "High Security Environment",
@@ -519,8 +515,8 @@ def create_qrg_validation_report():
                 "user_id": "security_user",
                 "consciousness_level": 0.7,
                 "security_level": "secret",
-                "attention_focus": ["security", "protection"]
-            }
+                "attention_focus": ["security", "protection"],
+            },
         },
         {
             "name": "Dream State Session",
@@ -528,8 +524,8 @@ def create_qrg_validation_report():
                 "user_id": "dream_user",
                 "consciousness_level": 0.2,
                 "security_level": "protected",
-                "attention_focus": ["relaxation", "meditation"]
-            }
+                "attention_focus": ["relaxation", "meditation"],
+            },
         },
         {
             "name": "Emergency Situation",
@@ -537,16 +533,16 @@ def create_qrg_validation_report():
                 "user_id": "emergency_user",
                 "consciousness_level": 0.8,
                 "security_level": "protected",
-                "attention_focus": ["emergency", "urgent_access"]
-            }
-        }
+                "attention_focus": ["emergency", "urgent_access"],
+            },
+        },
     ]
 
     report_data = {
         "timestamp": datetime.now().isoformat(),
         "system_version": "LUKHAS QRG v1.0",
         "test_scenarios": [],
-        "summary": {}
+        "summary": {},
     }
 
     total_tests = 0
@@ -577,7 +573,7 @@ def create_qrg_validation_report():
                 "security_signature_length": len(result.security_signature),
                 "pattern_data_length": len(result.pattern_data),
                 "metadata_keys": list(result.metadata.keys()),
-                "generation_metrics": result.generation_metrics
+                "generation_metrics": result.generation_metrics,
             }
 
             successful_tests += 1
@@ -586,7 +582,7 @@ def create_qrg_validation_report():
             scenario_result = {
                 "name": scenario["name"],
                 "status": "failed",
-                "error": str(e)
+                "error": str(e),
             }
 
         report_data["test_scenarios"].append(scenario_result)
@@ -597,7 +593,9 @@ def create_qrg_validation_report():
         "total_scenarios": total_tests,
         "successful_scenarios": successful_tests,
         "success_rate": successful_tests / total_tests if total_tests > 0 else 0,
-        "system_status": "operational" if successful_tests == total_tests else "needs_attention"
+        "system_status": (
+            "operational" if successful_tests == total_tests else "needs_attention"
+        ),
     }
 
     # Generate statistics
@@ -605,8 +603,10 @@ def create_qrg_validation_report():
     report_data["generation_statistics"] = stats
 
     # Save report
-    report_filename = f"qrg_validation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    with open(report_filename, 'w') as f:
+    report_filename = (
+        f"qrg_validation_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    )
+    with open(report_filename, "w") as f:
         json.dump(report_data, f, indent=2, default=str)
 
     print(f"   📄 Report saved: {report_filename}")
@@ -626,5 +626,5 @@ if __name__ == "__main__":
     # Create validation report
     validation_report = create_qrg_validation_report()
 
-    print(f"\n🎯 QRG Testing & Validation Complete!")
-    print(f"🔗 System ready for consciousness-aware authentication!")
+    print("\n🎯 QRG Testing & Validation Complete!")
+    print("🔗 System ready for consciousness-aware authentication!")

@@ -9,13 +9,14 @@ logger = get_logger(__name__)
 
 try:
     from .ethical_drift_governor import EthicalDriftGovernor
+
     logger.debug("Imported EthicalDriftGovernor from .ethical_drift_governor")
 except ImportError as e:
     logger.warning(f"Could not import EthicalDriftGovernor: {e}")
     EthicalDriftGovernor = None
 
 __all__ = [
-    'EthicalDriftGovernor',
+    "EthicalDriftGovernor",
 ]
 
 # Filter out None values from __all__ if imports failed

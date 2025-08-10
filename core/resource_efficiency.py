@@ -1,7 +1,7 @@
 """Resource Efficiency Analysis utilities."""
 
 import logging
-from typing import Dict, Any, List
+from typing import Any
 
 try:
     import psutil
@@ -10,10 +10,11 @@ except ImportError:  # pragma: no cover - psutil may not be installed in some en
 
 logger = logging.getLogger(__name__)
 
+
 class ResourceEfficiencyAnalyzer:
     """Analyze system resource usage for energy and memory optimization."""
 
-    def collect_metrics(self) -> Dict[str, Any]:
+    def collect_metrics(self) -> dict[str, Any]:
         """Collect CPU and memory metrics."""
         if psutil is None:
             logger.warning("psutil not available; returning empty metrics")
@@ -26,7 +27,8 @@ class ResourceEfficiencyAnalyzer:
             "memory_percent": memory_percent,
         }
 
-def get_resource_efficiency_table() -> List[Dict[str, str]]:
+
+def get_resource_efficiency_table() -> list[dict[str, str]]:
     """Return table summarizing resource efficiency across architectures."""
     return [
         {

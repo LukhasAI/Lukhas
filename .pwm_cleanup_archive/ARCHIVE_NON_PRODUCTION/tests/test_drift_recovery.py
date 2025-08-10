@@ -5,20 +5,18 @@ This test module validates the drift injection, recovery measurement,
 and resilience scoring capabilities of the DriftRecoverySimulator.
 """
 
-import pytest
-import asyncio
-import time
-from pathlib import Path
-import tempfile
 import json
-
+import tempfile
+from pathlib import Path
 from trace.drift_tools import (
     DriftRecoverySimulator,
     EntropyProfile,
-    SymbolicHealth,
     RecoveryMetrics,
-    quick_drift_test
+    SymbolicHealth,
+    quick_drift_test,
 )
+
+import pytest
 
 
 class TestEntropyProfile:
@@ -70,7 +68,7 @@ class TestSymbolicHealth:
             ethical_alignment=0.7,
             emotional_balance=0.4,
             memory_integrity=0.8,
-            glyph_resonance=0.9
+            glyph_resonance=0.9,
         )
 
         overall = health.overall_health()
@@ -82,9 +80,9 @@ class TestSymbolicHealth:
         health = SymbolicHealth(coherence=0.8)
         health_dict = health.to_dict()
 
-        assert 'coherence' in health_dict
-        assert health_dict['coherence'] == 0.8
-        assert 'overall' in health_dict
+        assert "coherence" in health_dict
+        assert health_dict["coherence"] == 0.8
+        assert "overall" in health_dict
 
 
 @pytest.mark.asyncio
@@ -97,16 +95,13 @@ class TestDriftRecoverySimulator:
         profile = EntropyProfile("test", 0.3, 0.1, 1.0)
 
         result = await simulator.inject_drift(
-            "test_symbol",
-            magnitude=0.5,
-            entropy_profile=profile,
-            duration=1.0
+            "test_symbol", magnitude=0.5, entropy_profile=profile, duration=1.0
         )
 
-        assert result['symbol_id'] == "test_symbol"
-        assert result['initial_health'] == 1.0
-        assert result['final_health'] < 1.0
-        assert len(result['injection_log']) > 0
+        assert result["symbol_id"] == "test_symbol"
+        assert result["initial_health"] == 1.0
+        assert result["final_health"] < 1.0
+        assert len(result["injection_log"]) > 0
 
     async def test_recovery_measurement(self):
         """Test recovery after drift injection."""
@@ -115,17 +110,12 @@ class TestDriftRecoverySimulator:
         # First inject drift
         profile = EntropyProfile("test", 0.5, 0.1, 1.0)
         await simulator.inject_drift(
-            "test_symbol",
-            magnitude=0.5,
-            entropy_profile=profile,
-            duration=1.0
+            "test_symbol", magnitude=0.5, entropy_profile=profile, duration=1.0
         )
 
         # Then measure recovery
         recovery = await simulator.measure_recovery(
-            "test_symbol",
-            timeout=5.0,
-            intervention_strategy="aggressive"
+            "test_symbol", timeout=5.0, intervention_strategy="aggressive"
         )
 
         assert isinstance(recovery, RecoveryMetrics)
@@ -154,13 +144,13 @@ class TestDriftRecoverySimulator:
             "cascade_trigger",
             cascade_depth=2,
             propagation_factor=0.7,
-            dream_integration=False
+            dream_integration=False,
         )
 
-        assert result['trigger_symbol'] == "cascade_trigger"
-        assert len(result['affected_symbols']) > 1
-        assert result['total_health_loss'] > 0
-        assert result['cascade_depth'] == 2
+        assert result["trigger_symbol"] == "cascade_trigger"
+        assert len(result["affected_symbols"]) > 1
+        assert result["total_health_loss"] > 0
+        assert result["cascade_depth"] == 2
 
     async def test_benchmark_suite(self):
         """Test benchmark suite execution."""
@@ -169,9 +159,9 @@ class TestDriftRecoverySimulator:
 
             results = await simulator.run_benchmark_suite()
 
-            assert results['total_tests'] >= 5
-            assert 'overall_resilience' in results
-            assert 0 <= results['overall_resilience'] <= 1
+            assert results["total_tests"] >= 5
+            assert "overall_resilience" in results
+            assert 0 <= results["overall_resilience"] <= 1
 
             # Check that results were saved
             checkpoint_files = list(Path(tmpdir).glob("benchmark_*.json"))
@@ -180,7 +170,7 @@ class TestDriftRecoverySimulator:
             # Verify saved data
             with open(checkpoint_files[0]) as f:
                 saved_data = json.load(f)
-                assert saved_data['total_tests'] == results['total_tests']
+                assert saved_data["total_tests"] == results["total_tests"]
 
 
 @pytest.mark.asyncio
@@ -191,12 +181,12 @@ class TestIntegration:
         """Test the quick drift test utility."""
         result = await quick_drift_test("integration_test")
 
-        assert 'injection' in result
-        assert 'recovery' in result
-        assert 'resilience_score' in result
+        assert "injection" in result
+        assert "recovery" in result
+        assert "resilience_score" in result
 
-        assert result['recovery']['converged'] is True
-        assert result['resilience_score'] > 0
+        assert result["recovery"]["converged"] is True
+        assert result["resilience_score"] > 0
 
     async def test_multiple_symbols(self):
         """Test handling multiple symbols simultaneously."""
@@ -225,18 +215,18 @@ class TestIntegration:
             "trigger_dream",
             cascade_depth=2,
             propagation_factor=0.7,
-            dream_integration=True
+            dream_integration=True,
         )
 
         cascade_nodream = await simulator.simulate_emotional_cascade(
             "trigger_nodream",
             cascade_depth=2,
             propagation_factor=0.7,
-            dream_integration=False
+            dream_integration=False,
         )
 
         # Dream integration should reduce cascade impact
-        assert cascade_dream['total_health_loss'] < cascade_nodream['total_health_loss']
+        assert cascade_dream["total_health_loss"] < cascade_nodream["total_health_loss"]
 
 
 class TestEdgeCases:
@@ -264,20 +254,15 @@ class TestEdgeCases:
         # Very high entropy
         high_profile = EntropyProfile("extreme_high", 0.95, 0.05, 1.0)
         result = await simulator.inject_drift(
-            "extreme_symbol",
-            magnitude=0.9,
-            entropy_profile=high_profile,
-            duration=2.0
+            "extreme_symbol", magnitude=0.9, entropy_profile=high_profile, duration=2.0
         )
 
         # Symbol should be severely degraded
-        assert result['final_health'] < 0.3
+        assert result["final_health"] < 0.3
 
         # Recovery should be difficult
         recovery = await simulator.measure_recovery(
-            "extreme_symbol",
-            timeout=10.0,
-            intervention_strategy="aggressive"
+            "extreme_symbol", timeout=10.0, intervention_strategy="aggressive"
         )
 
         # May not converge even with aggressive intervention

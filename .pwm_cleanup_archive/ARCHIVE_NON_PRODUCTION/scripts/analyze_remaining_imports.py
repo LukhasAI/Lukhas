@@ -3,16 +3,17 @@
 Analyze remaining broken imports to find patterns we can fix
 """
 
-import os
-import re
-import ast
-from pathlib import Path
-from collections import defaultdict, Counter
 import json
 import logging
+import re
+from collections import Counter, defaultdict
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class RemainingImportAnalyzer:
     def __init__(self, root_path: Path):
@@ -26,12 +27,19 @@ class RemainingImportAnalyzer:
         logger.info("Analyzing remaining broken imports...")
 
         # Load the broken imports report
-        report_path = self.root_path / 'scripts' / 'import_migration' / 'broken_imports_report.json'
+        report_path = (
+            self.root_path
+            / "scripts"
+            / "import_migration"
+            / "broken_imports_report.json"
+        )
         if not report_path.exists():
-            logger.error("No broken imports report found. Run find_broken_imports.py first.")
+            logger.error(
+                "No broken imports report found. Run find_broken_imports.py first."
+            )
             return
 
-        with open(report_path, 'r') as f:
+        with open(report_path) as f:
             report = json.load(f)
 
         # Analyze patterns
@@ -46,52 +54,114 @@ class RemainingImportAnalyzer:
 
         # Common external packages to skip
         external_packages = {
-            'os', 'sys', 'json', 'logging', 'typing', 'datetime', 'pathlib',
-            'collections', 're', 'asyncio', 'threading', 'time', 'math', 'random',
-            'numpy', 'pandas', 'torch', 'tensorflow', 'sklearn', 'matplotlib',
-            'requests', 'urllib', 'pytest', 'unittest', 'structlog', 'abc',
-            'dataclasses', 'enum', 'functools', 'itertools', 'hashlib', 'uuid',
-            'traceback', 'inspect', 'copy', 'pickle', 'base64', 'warnings',
-            'setuptools', 'pkg_resources', 'importlib', 'subprocess', 'shutil',
-            'tempfile', 'contextlib', 'weakref', 'socket', 'ssl', 'http',
-            'email', 'csv', 'sqlite3', 'multiprocessing', 'queue', 'signal'
+            "os",
+            "sys",
+            "json",
+            "logging",
+            "typing",
+            "datetime",
+            "pathlib",
+            "collections",
+            "re",
+            "asyncio",
+            "threading",
+            "time",
+            "math",
+            "random",
+            "numpy",
+            "pandas",
+            "torch",
+            "tensorflow",
+            "sklearn",
+            "matplotlib",
+            "requests",
+            "urllib",
+            "pytest",
+            "unittest",
+            "structlog",
+            "abc",
+            "dataclasses",
+            "enum",
+            "functools",
+            "itertools",
+            "hashlib",
+            "uuid",
+            "traceback",
+            "inspect",
+            "copy",
+            "pickle",
+            "base64",
+            "warnings",
+            "setuptools",
+            "pkg_resources",
+            "importlib",
+            "subprocess",
+            "shutil",
+            "tempfile",
+            "contextlib",
+            "weakref",
+            "socket",
+            "ssl",
+            "http",
+            "email",
+            "csv",
+            "sqlite3",
+            "multiprocessing",
+            "queue",
+            "signal",
         }
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Find all imports
                 import_patterns = [
-                    (r'^import\s+(\w+)$', 'single'),
-                    (r'^from\s+([\w.]+)\s+import\s+([^#\n]+)$', 'from')
+                    (r"^import\s+(\w+)$", "single"),
+                    (r"^from\s+([\w.]+)\s+import\s+([^#\n]+)$", "from"),
                 ]
 
                 for pattern, import_type in import_patterns:
                     for match in re.finditer(pattern, content, re.MULTILINE):
-                        if import_type == 'single':
+                        if import_type == "single":
                             module = match.group(1)
-                            if module not in external_packages and not self._module_exists(module):
-                                self.single_imports[module].append({
-                                    'file': str(py_file.relative_to(self.root_path)),
-                                    'line': content[:match.start()].count('\n') + 1
-                                })
+                            if (
+                                module not in external_packages
+                                and not self._module_exists(module)
+                            ):
+                                self.single_imports[module].append(
+                                    {
+                                        "file": str(
+                                            py_file.relative_to(self.root_path)
+                                        ),
+                                        "line": content[: match.start()].count("\n")
+                                        + 1,
+                                    }
+                                )
                         else:
                             module = match.group(1)
                             imports = match.group(2)
 
                             # Check if it's a broken import
-                            base_module = module.split('.')[0]
-                            if base_module not in external_packages and not self._module_exists(module):
-                                self.broken_patterns[module].append({
-                                    'file': str(py_file.relative_to(self.root_path)),
-                                    'imports': imports.strip(),
-                                    'line': content[:match.start()].count('\n') + 1
-                                })
+                            base_module = module.split(".")[0]
+                            if (
+                                base_module not in external_packages
+                                and not self._module_exists(module)
+                            ):
+                                self.broken_patterns[module].append(
+                                    {
+                                        "file": str(
+                                            py_file.relative_to(self.root_path)
+                                        ),
+                                        "imports": imports.strip(),
+                                        "line": content[: match.start()].count("\n")
+                                        + 1,
+                                    }
+                                )
 
             except Exception as e:
                 logger.debug(f"Error analyzing {py_file}: {e}")
@@ -99,7 +169,7 @@ class RemainingImportAnalyzer:
     def _module_exists(self, module_path: str) -> bool:
         """Check if a module exists in the codebase"""
         # Convert module path to file path
-        parts = module_path.split('.')
+        parts = module_path.split(".")
 
         # Check as .py file
         py_path = self.root_path / Path(*parts[:-1]) / f"{parts[-1]}.py"
@@ -113,7 +183,7 @@ class RemainingImportAnalyzer:
 
         # Check if it's a class or function in a module
         if len(parts) > 1:
-            parent_module = '.'.join(parts[:-1])
+            parent_module = ".".join(parts[:-1])
             return self._module_exists(parent_module)
 
         return False
@@ -143,8 +213,12 @@ class RemainingImportAnalyzer:
             # Try to find where this might be
             possible_locations = self._find_possible_locations(module)
             if possible_locations:
-                fix_mappings[f"import {module}"] = f"from {possible_locations[0]} import {module}"
-                logger.info(f"    -> Suggested fix: from {possible_locations[0]} import {module}")
+                fix_mappings[f"import {module}"] = (
+                    f"from {possible_locations[0]} import {module}"
+                )
+                logger.info(
+                    f"    -> Suggested fix: from {possible_locations[0]} import {module}"
+                )
 
         # Analyze broken from imports
         logger.info("\nTop broken 'from' imports:")
@@ -158,25 +232,24 @@ class RemainingImportAnalyzer:
 
         # Save detailed report
         report = {
-            'single_imports': {
-                module: {
-                    'count': len(occurrences),
-                    'examples': occurrences[:3]
-                }
+            "single_imports": {
+                module: {"count": len(occurrences), "examples": occurrences[:3]}
                 for module, occurrences in self.single_imports.items()
             },
-            'broken_patterns': {
-                pattern: {
-                    'count': len(occurrences),
-                    'examples': occurrences[:3]
-                }
+            "broken_patterns": {
+                pattern: {"count": len(occurrences), "examples": occurrences[:3]}
                 for pattern, occurrences in self.broken_patterns.items()
             },
-            'fix_mappings': fix_mappings
+            "fix_mappings": fix_mappings,
         }
 
-        output_path = self.root_path / 'scripts' / 'import_migration' / 'remaining_imports_analysis.json'
-        with open(output_path, 'w') as f:
+        output_path = (
+            self.root_path
+            / "scripts"
+            / "import_migration"
+            / "remaining_imports_analysis.json"
+        )
+        with open(output_path, "w") as f:
             json.dump(report, f, indent=2)
 
         logger.info(f"\nDetailed report saved to: {output_path}")
@@ -186,22 +259,24 @@ class RemainingImportAnalyzer:
         locations = []
 
         # Search for files containing this class or function
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Check if this file defines the name
-                if re.search(rf'^class {name}\b', content, re.MULTILINE) or \
-                   re.search(rf'^def {name}\b', content, re.MULTILINE) or \
-                   re.search(rf'^{name} =', content, re.MULTILINE):
+                if (
+                    re.search(rf"^class {name}\b", content, re.MULTILINE)
+                    or re.search(rf"^def {name}\b", content, re.MULTILINE)
+                    or re.search(rf"^{name} =", content, re.MULTILINE)
+                ):
                     # Convert file path to module path
                     relative = py_file.relative_to(self.root_path)
                     module_parts = list(relative.parts[:-1]) + [relative.stem]
-                    module_path = '.'.join(module_parts)
+                    module_path = ".".join(module_parts)
                     locations.append(module_path)
 
             except:
@@ -214,11 +289,11 @@ class RemainingImportAnalyzer:
         suggestions = []
 
         # Common transformations
-        parts = broken_module.split('.')
+        parts = broken_module.split(".")
 
         # Try without first part (like removing 'src' or 'lib')
         if len(parts) > 1:
-            without_first = '.'.join(parts[1:])
+            without_first = ".".join(parts[1:])
             if self._module_exists(without_first):
                 suggestions.append(without_first)
 
@@ -233,22 +308,34 @@ class RemainingImportAnalyzer:
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'visualizations', 'analysis_output', 'scripts'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "visualizations",
+            "analysis_output",
+            "scripts",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Analyze remaining broken imports')
-    parser.add_argument('path', nargs='?', default='.', help='Root path')
+
+    parser = argparse.ArgumentParser(description="Analyze remaining broken imports")
+    parser.add_argument("path", nargs="?", default=".", help="Root path")
     args = parser.parse_args()
 
     root_path = Path(args.path).resolve()
     analyzer = RemainingImportAnalyzer(root_path)
     analyzer.analyze()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

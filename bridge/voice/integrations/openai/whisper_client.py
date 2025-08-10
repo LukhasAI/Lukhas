@@ -6,18 +6,17 @@ Integration Date: 2025-05-31T07:55:29.372300
 """
 
 import os
-from core.common.config import settings
-from core.common import get_logger
-import aiohttp
-import asyncio
-from typing import Dict, Any, Optional, List, Union, BinaryIO
-import base64
-from datetime import datetime
 import tempfile
-import json
-import openai
+from datetime import datetime
+from typing import Any, BinaryIO, Optional, Union
+
+import aiohttp
+
+from core.common import get_logger
+from core.common.config import settings
 
 logger = get_logger(__name__)
+
 
 class WhisperClient:
     """
@@ -28,7 +27,9 @@ class WhisperClient:
     def __init__(self, api_key: Optional[str] = None, model: str = "whisper-1"):
         self.api_key = api_key or settings.OPENAI_API_KEY
         if not self.api_key:
-            logger.warning("No OpenAI API key provided. Set OPENAI_API_KEY environment variable or pass api_key parameter.")
+            logger.warning(
+                "No OpenAI API key provided. Set OPENAI_API_KEY environment variable or pass api_key parameter."
+            )
 
         self.model = model
         self.api_base = "https://api.openai.com/v1"
@@ -37,9 +38,11 @@ class WhisperClient:
     async def _ensure_session(self):
         """Ensure aiohttp session exists"""
         if self.session is None or self.session.closed:
-            self.session = aiohttp.ClientSession(headers={
-                "Authorization": f"Bearer {self.api_key}",
-            })
+            self.session = aiohttp.ClientSession(
+                headers={
+                    "Authorization": f"Bearer {self.api_key}",
+                }
+            )
 
     async def transcribe_audio(
         self,
@@ -47,8 +50,8 @@ class WhisperClient:
         language: Optional[str] = None,
         prompt: Optional[str] = None,
         response_format: str = "json",
-        temperature: float = 0.0
-    ) -> Dict[str, Any]:
+        temperature: float = 0.0,
+    ) -> dict[str, Any]:
         """
         Transcribe audio data to text using Whisper API
 
@@ -63,7 +66,11 @@ class WhisperClient:
             Dictionary containing transcription and metadata
         """
         if not self.api_key:
-            return {"error": "No API key provided", "text": "", "confidence": 0.0}
+            return {
+                "error": "No API key provided",
+                "text": "",
+                "confidence": 0.0,
+            }
 
         try:
             await self._ensure_session()
@@ -74,8 +81,8 @@ class WhisperClient:
             try:
                 if isinstance(audio_data, bytes):
                     # Create temporary file from bytes
-                    fd, temp_path = tempfile.mkstemp(suffix='.wav')
-                    file_to_close = os.fdopen(fd, 'wb')
+                    fd, temp_path = tempfile.mkstemp(suffix=".wav")
+                    file_to_close = os.fdopen(fd, "wb")
                     file_to_close.write(audio_data)
                     file_to_close.close()
                     file_to_close = None  # Prevent double close
@@ -85,18 +92,23 @@ class WhisperClient:
                     audio_path = audio_data
                 else:
                     # Assume audio_data is a file-like object
-                    fd, temp_path = tempfile.mkstemp(suffix='.wav')
-                    file_to_close = os.fdopen(fd, 'wb')
-                    file_to_close.write(audio_data.read() if hasattr(audio_data, 'read') else audio_data)
+                    fd, temp_path = tempfile.mkstemp(suffix=".wav")
+                    file_to_close = os.fdopen(fd, "wb")
+                    file_to_close.write(
+                        audio_data.read() if hasattr(audio_data, "read") else audio_data
+                    )
                     file_to_close.close()
                     file_to_close = None  # Prevent double close
                     audio_path = temp_path
 
                 # Prepare form data
                 form_data = aiohttp.FormData()
-                form_data.add_field("file", open(audio_path, "rb"),
-                                   filename=os.path.basename(audio_path),
-                                   content_type="audio/wav")
+                form_data.add_field(
+                    "file",
+                    open(audio_path, "rb"),
+                    filename=os.path.basename(audio_path),
+                    content_type="audio/wav",
+                )
                 form_data.add_field("model", self.model)
                 form_data.add_field("response_format", response_format)
                 form_data.add_field("temperature", str(temperature))
@@ -110,16 +122,17 @@ class WhisperClient:
                 logger.info("Sending audio data to Whisper API...")
 
                 async with self.session.post(
-                    f"{self.api_base}/audio/transcriptions",
-                    data=form_data
+                    f"{self.api_base}/audio/transcriptions", data=form_data
                 ) as response:
                     if response.status != 200:
                         error_text = await response.text()
-                        logger.error(f"Whisper API error: {response.status} - {error_text}")
+                        logger.error(
+                            f"Whisper API error: {response.status} - {error_text}"
+                        )
                         return {
                             "error": f"API error: {response.status}",
                             "text": "",
-                            "confidence": 0.0
+                            "confidence": 0.0,
                         }
 
                     if response_format == "json":
@@ -136,7 +149,7 @@ class WhisperClient:
                         "text": text,
                         "confidence": confidence,
                         "model": self.model,
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
                     }
             finally:
                 # Clean up any temporary files
@@ -145,18 +158,14 @@ class WhisperClient:
 
         except Exception as e:
             logger.error(f"Error transcribing audio: {str(e)}")
-            return {
-                "error": str(e),
-                "text": "",
-                "confidence": 0.0
-            }
+            return {"error": str(e), "text": "", "confidence": 0.0}
 
     async def transcribe_from_file(
         self,
         file_path: str,
         language: Optional[str] = None,
-        prompt: Optional[str] = None
-    ) -> Dict[str, Any]:
+        prompt: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Transcribe audio from a file path
 
@@ -169,13 +178,13 @@ class WhisperClient:
             Dictionary containing transcription and metadata
         """
         if not os.path.exists(file_path):
-            return {"error": f"File not found: {file_path}", "text": "", "confidence": 0.0}
+            return {
+                "error": f"File not found: {file_path}",
+                "text": "",
+                "confidence": 0.0,
+            }
 
-        return await self.transcribe_audio(
-            file_path,
-            language=language,
-            prompt=prompt
-        )
+        return await self.transcribe_audio(file_path, language=language, prompt=prompt)
 
     async def close(self):
         """Close the aiohttp session"""

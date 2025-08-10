@@ -4,15 +4,17 @@ Test suite for LUKHAS Unified Grammar Module Integration.
 Tests inter-module communication, registry, and lifecycle management.
 """
 
-import pytest
 import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 
-from core_unified_grammar.common.base_module import BaseLukhasModule, ModuleState
-from core_unified_grammar.dream.core import LucasDreamModule
+import pytest
 from core_unified_grammar.bio.core import LucasBioModule
-from core_unified_grammar.voice.core import LucasVoiceModule
+from core_unified_grammar.common.base_module import (
+    BaseLukhasModule,
+    ModuleState,
+)
+from core_unified_grammar.dream.core import LucasDreamModule
 from core_unified_grammar.vision.core import LucasVisionModule
+from core_unified_grammar.voice.core import LucasVoiceModule
 
 
 class TestModuleIntegration:
@@ -56,17 +58,12 @@ class TestModuleIntegration:
         await bio_module.startup()
 
         # Simulate bio module providing data to dream module
-        bio_data = {
-            "heart_rate": 72,
-            "stress_level": 0.3,
-            "emotional_state": "calm"
-        }
+        bio_data = {"heart_rate": 72, "stress_level": 0.3, "emotional_state": "calm"}
 
         # Process in dream module
-        dream_result = await dream_module.process({
-            "type": "bio_integration",
-            "bio_data": bio_data
-        })
+        dream_result = await dream_module.process(
+            {"type": "bio_integration", "bio_data": bio_data}
+        )
 
         assert dream_result is not None
         # Dream module should acknowledge bio data
@@ -99,7 +96,7 @@ class TestModuleRegistry:
             "dream": LucasDreamModule,
             "bio": LucasBioModule,
             "voice": LucasVoiceModule,
-            "vision": LucasVisionModule
+            "vision": LucasVisionModule,
         }
 
         # All module classes should exist
@@ -115,15 +112,22 @@ class TestModuleRegistry:
         # Simulate module discovery
         discovered_modules = []
 
-        module_types = [LucasDreamModule, LucasBioModule, LucasVoiceModule, LucasVisionModule]
+        module_types = [
+            LucasDreamModule,
+            LucasBioModule,
+            LucasVoiceModule,
+            LucasVisionModule,
+        ]
 
         for module_class in module_types:
             instance = module_class()
-            discovered_modules.append({
-                "name": instance.name,
-                "class": module_class,
-                "tier": instance.tier_required
-            })
+            discovered_modules.append(
+                {
+                    "name": instance.name,
+                    "class": module_class,
+                    "tier": instance.tier_required,
+                }
+            )
 
         assert len(discovered_modules) == 4
         assert all(m["tier"] >= 1 for m in discovered_modules)
@@ -134,11 +138,7 @@ class TestModuleConfiguration:
 
     async def test_config_propagation(self):
         """Test configuration propagates to modules."""
-        config = {
-            "dream_interval": 60,
-            "max_insights": 10,
-            "symbolic_logging": True
-        }
+        config = {"dream_interval": 60, "max_insights": 10, "symbolic_logging": True}
 
         module = LucasDreamModule(config)
         await module.startup()
@@ -156,24 +156,19 @@ class TestModuleConfiguration:
     async def test_module_specific_configs(self):
         """Test each module type has appropriate config."""
         # Dream module config
-        dream = LucasDreamModule({
-            "dream_cycle_interval": 30,
-            "emotional_weighting": True
-        })
+        dream = LucasDreamModule(
+            {"dream_cycle_interval": 30, "emotional_weighting": True}
+        )
         assert "dream_cycle_interval" in dream.config
 
         # Bio module config
-        bio = LucasBioModule({
-            "health_monitoring": True,
-            "biometric_encryption": True
-        })
+        bio = LucasBioModule({"health_monitoring": True, "biometric_encryption": True})
         assert "health_monitoring" in bio.config
 
         # Voice module config
-        voice = LucasVoiceModule({
-            "voice_provider": "mock",
-            "emotional_adaptation": True
-        })
+        voice = LucasVoiceModule(
+            {"voice_provider": "mock", "emotional_adaptation": True}
+        )
         assert "voice_provider" in voice.config
 
 
@@ -199,6 +194,7 @@ class TestModuleErrorHandling:
 
     async def test_module_timeout_handling(self):
         """Test modules handle timeouts."""
+
         class SlowModule(BaseLukhasModule):
             async def process(self, data):
                 await asyncio.sleep(10)  # Simulate slow operation
@@ -209,10 +205,7 @@ class TestModuleErrorHandling:
 
         # Process with timeout
         try:
-            result = await asyncio.wait_for(
-                module.process({"test": True}),
-                timeout=0.1
-            )
+            result = await asyncio.wait_for(module.process({"test": True}), timeout=0.1)
         except asyncio.TimeoutError:
             # Module should still be healthy
             assert module.state == ModuleState.RUNNING
@@ -247,7 +240,7 @@ class TestModuleMetrics:
             LucasDreamModule(),
             LucasBioModule(),
             LucasVoiceModule(),
-            LucasVisionModule()
+            LucasVisionModule(),
         ]
 
         startup_times = {}

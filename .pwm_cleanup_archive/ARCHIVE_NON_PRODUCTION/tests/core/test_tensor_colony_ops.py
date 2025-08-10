@@ -5,8 +5,8 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from core.colonies.reasoning_colony import ReasoningColony
-from core.symbolism.tags import TagScope, TagPermission
-from core.colonies.tensor_colony_ops import tags_to_tensor, batch_propagate
+from core.colonies.tensor_colony_ops import batch_propagate, tags_to_tensor
+from core.symbolism.tags import TagPermission, TagScope
 
 
 def test_tags_to_tensor():

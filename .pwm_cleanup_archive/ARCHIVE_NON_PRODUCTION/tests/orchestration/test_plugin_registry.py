@@ -5,21 +5,21 @@ Tests for Plugin Registry
 ΛTAG: test, plugin, registry
 """
 
-import pytest
-import asyncio
-import tempfile
 import shutil
+import tempfile
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
+import pytest
 
 from orchestration.interfaces.plugin_registry import (
-    PluginRegistry,
+    ExamplePlugin,
+    PluginDependency,
     PluginInterface,
     PluginMetadata,
-    PluginType,
+    PluginRegistry,
     PluginStatus,
-    PluginDependency,
-    ExamplePlugin
+    PluginType,
 )
 
 
@@ -33,7 +33,7 @@ class TestPluginMetadata:
             version="1.0.0",
             description="Test plugin",
             plugin_type=PluginType.PROCESSOR,
-            capabilities=["process", "analyze"]
+            capabilities=["process", "analyze"],
         )
 
         assert metadata.name == "test_plugin"
@@ -45,10 +45,7 @@ class TestPluginMetadata:
         dep1 = PluginDependency("base_plugin", "1.0.0")
         dep2 = PluginDependency("optional_plugin", optional=True)
 
-        metadata = PluginMetadata(
-            name="test_plugin",
-            dependencies=[dep1, dep2]
-        )
+        metadata = PluginMetadata(name="test_plugin", dependencies=[dep1, dep2])
 
         assert len(metadata.dependencies) == 2
         assert metadata.dependencies[0].optional is False
@@ -60,7 +57,7 @@ class TestPluginMetadata:
             name="test_plugin",
             version="2.0.0",
             plugin_type=PluginType.ANALYZER,
-            tags=["test", "demo"]
+            tags=["test", "demo"],
         )
 
         data = metadata.to_dict()
@@ -83,7 +80,7 @@ class TestPluginInterface:
                 metadata = PluginMetadata(
                     name="mock_plugin",
                     version="1.0.0",
-                    plugin_type=PluginType.PROCESSOR
+                    plugin_type=PluginType.PROCESSOR,
                 )
                 super().__init__(metadata)
                 self.signal_count = 0
@@ -151,7 +148,7 @@ class TestPluginRegistry:
     def create_test_plugin_file(self, plugin_dir: Path, name: str, content: str = None):
         """Create a test plugin file"""
         if content is None:
-            content = f'''
+            content = f"""
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata, PluginType
 
 class {name.title()}Plugin(PluginInterface):
@@ -166,7 +163,7 @@ class {name.title()}Plugin(PluginInterface):
 
     async def process_signal(self, signal):
         return {{"plugin": "{name}", "signal": signal}}
-'''
+"""
 
         plugin_file = plugin_dir / f"{name}_plugin.py"
         plugin_file.write_text(content)
@@ -218,7 +215,7 @@ class {name.title()}Plugin(PluginInterface):
     async def test_plugin_with_dependencies(self, plugin_registry, temp_plugin_dir):
         """Test loading plugin with dependencies"""
         # Create base plugin
-        base_content = '''
+        base_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class BasePlugin(PluginInterface):
@@ -229,11 +226,11 @@ class BasePlugin(PluginInterface):
 
     async def process_signal(self, signal):
         return {"base": True}
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "base", base_content)
 
         # Create dependent plugin
-        dependent_content = '''
+        dependent_content = """
 from orchestration.interfaces.plugin_registry import (
     PluginInterface, PluginMetadata, PluginDependency
 )
@@ -250,7 +247,7 @@ class DependentPlugin(PluginInterface):
 
     async def process_signal(self, signal):
         return {"dependent": True}
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "dependent", dependent_content)
 
         # Load dependent plugin (should auto-load base)
@@ -273,12 +270,14 @@ class DependentPlugin(PluginInterface):
         assert "unloadtest_plugin" not in plugin_registry.plugins
 
     @pytest.mark.asyncio
-    async def test_unload_plugin_with_dependents(self, plugin_registry, temp_plugin_dir):
+    async def test_unload_plugin_with_dependents(
+        self, plugin_registry, temp_plugin_dir
+    ):
         """Test unloading plugin that others depend on"""
         # Create plugins with dependency
         self.create_test_plugin_file(temp_plugin_dir, "base")
 
-        dependent_content = '''
+        dependent_content = """
 from orchestration.interfaces.plugin_registry import (
     PluginInterface, PluginMetadata, PluginDependency
 )
@@ -294,7 +293,7 @@ class DependentPlugin(PluginInterface):
 
     async def process_signal(self, signal):
         return {"dependent": True}
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "dependent", dependent_content)
 
         # Load both
@@ -322,7 +321,7 @@ class DependentPlugin(PluginInterface):
     async def test_broadcast_signal(self, plugin_registry, temp_plugin_dir):
         """Test broadcasting signals to plugins"""
         # Create and load test plugins
-        plugin1_content = '''
+        plugin1_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class Plugin1(PluginInterface):
@@ -334,10 +333,10 @@ class Plugin1(PluginInterface):
 
     async def process_signal(self, signal):
         return {"plugin": "plugin1", "received": signal.get("data")}
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "plugin1", plugin1_content)
 
-        plugin2_content = '''
+        plugin2_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class Plugin2(PluginInterface):
@@ -349,7 +348,7 @@ class Plugin2(PluginInterface):
 
     async def process_signal(self, signal):
         return {"plugin": "plugin2", "received": signal.get("data")}
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "plugin2", plugin2_content)
 
         await plugin_registry.load_plugin("plugin1")
@@ -367,7 +366,7 @@ class Plugin2(PluginInterface):
     @pytest.mark.asyncio
     async def test_plugin_error_handling(self, plugin_registry, temp_plugin_dir):
         """Test error handling in plugin processing"""
-        error_plugin_content = '''
+        error_plugin_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class ErrorPlugin(PluginInterface):
@@ -378,7 +377,7 @@ class ErrorPlugin(PluginInterface):
 
     async def process_signal(self, signal):
         raise Exception("Simulated plugin error")
-'''
+"""
         self.create_test_plugin_file(temp_plugin_dir, "error", error_plugin_content)
 
         await plugin_registry.load_plugin("error_plugin")
@@ -459,6 +458,7 @@ class ErrorPlugin(PluginInterface):
         # Note: restore would try to load plugins, which won't work without proper setup
         # Just verify the file was created correctly
         import json
+
         with open(state_file) as f:
             state = json.load(f)
 
@@ -515,10 +515,7 @@ class TestExamplePlugin:
         """Test ExamplePlugin signal processing"""
         await example_plugin.initialize({})
 
-        signal = {
-            "type": "text",
-            "data": {"message": "Hello world"}
-        }
+        signal = {"type": "text", "data": {"message": "Hello world"}}
 
         result = await example_plugin.process_signal(signal)
 
@@ -535,8 +532,9 @@ class TestPluginIntegration:
     @pytest.mark.asyncio
     async def test_multiple_plugin_interaction(self):
         """Test multiple plugins interacting"""
-        import tempfile
         import shutil
+        import tempfile
+
         temp_dir = tempfile.mkdtemp()
         temp_plugin_dir = Path(temp_dir)
 
@@ -544,7 +542,7 @@ class TestPluginIntegration:
             registry = PluginRegistry(plugin_dirs=[str(temp_plugin_dir)])
 
             # Create plugins that interact
-            producer_content = '''
+            producer_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class ProducerPlugin(PluginInterface):
@@ -557,9 +555,9 @@ class ProducerPlugin(PluginInterface):
     async def process_signal(self, signal):
         # Produce data for other plugins
         return {"produced_data": f"Data from {signal.get('source', 'unknown')}"}
-'''
+"""
 
-            consumer_content = '''
+            consumer_content = """
 from orchestration.interfaces.plugin_registry import PluginInterface, PluginMetadata
 
 class ConsumerPlugin(PluginInterface):
@@ -575,7 +573,7 @@ class ConsumerPlugin(PluginInterface):
         if "produced_data" in signal:
             self.consumed_data.append(signal["produced_data"])
         return {"consumed": len(self.consumed_data)}
-'''
+"""
 
             # Create plugin files
             (temp_plugin_dir / "producer.py").write_text(producer_content)
@@ -586,17 +584,15 @@ class ConsumerPlugin(PluginInterface):
             await registry.load_plugin("consumer")
 
             # Producer generates data
-            produce_result = await registry.broadcast_signal({
-                "type": "produce",
-                "source": "test_source"
-            })
+            produce_result = await registry.broadcast_signal(
+                {"type": "produce", "source": "test_source"}
+            )
 
             # Consumer processes the produced data
             produced_data = produce_result.get("producer", {})
-            consume_result = await registry.broadcast_signal({
-                "type": "consume",
-                **produced_data
-            })
+            consume_result = await registry.broadcast_signal(
+                {"type": "consume", **produced_data}
+            )
 
             # Verify interaction
             assert "produced_data" in produced_data

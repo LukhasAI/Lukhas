@@ -4,9 +4,7 @@ Core Interfaces Integration Hub
 Connects all agent interfaces, APIs, and external communication points.
 """
 
-import asyncio
 import logging
-from typing import Dict, Any, List, Optional
 
 # API interfaces
 from core.api.api_server import APIServer
@@ -19,6 +17,7 @@ from core.interfaces.as_agent.core.gatekeeper import Gatekeeper
 from core.interfaces.as_agent.sys.dast.dast_logger import DASTLogger
 
 logger = logging.getLogger(__name__)
+
 
 class CoreInterfacesHub:
     """Hub for all core interfaces and APIs"""
@@ -42,15 +41,17 @@ class CoreInterfacesHub:
         """Connect interface components"""
         # API server uses endpoints manager
         self.api_server.register_endpoints_manager = lambda em: None  # Placeholder
-        
+
         # Gatekeeper protects all interfaces
         self.api_server.register_security_layer = lambda sl: None  # Placeholder
-        
+
         # DAST logger records all interface activity
         self.api_server.register_logger = lambda lg: None  # Placeholder
 
+
 # Global instance
 _interfaces_hub_instance = None
+
 
 def get_interfaces_hub() -> CoreInterfacesHub:
     global _interfaces_hub_instance

@@ -22,17 +22,12 @@ LUKHAS_TAG: governor_demo, arbitration_showcase, claude_code
 
 import asyncio
 import json
-from typing import Dict, Any, List
-from datetime import datetime, timezone
-import numpy as np
 
 from lambda_governor import (
-    LambdaGovernor,
-    EscalationSignal,
-    EscalationSource,
     EscalationPriority,
-    ActionDecision,
-    create_escalation_signal
+    EscalationSource,
+    LambdaGovernor,
+    create_escalation_signal,
 )
 
 
@@ -42,11 +37,11 @@ class GovernorDemo:
     def __init__(self):
         self.governor = None
         self.demo_sources = {
-            'drift_sentinel': EscalationSource.DRIFT_SENTINEL,
-            'emotion_protocol': EscalationSource.EMOTION_PROTOCOL,
-            'conflict_resolver': EscalationSource.CONFLICT_RESOLVER,
-            'dream_anomaly': EscalationSource.DREAM_ANOMALY,
-            'memory_fold': EscalationSource.MEMORY_FOLD
+            "drift_sentinel": EscalationSource.DRIFT_SENTINEL,
+            "emotion_protocol": EscalationSource.EMOTION_PROTOCOL,
+            "conflict_resolver": EscalationSource.CONFLICT_RESOLVER,
+            "dream_anomaly": EscalationSource.DREAM_ANOMALY,
+            "memory_fold": EscalationSource.MEMORY_FOLD,
         }
         self.responses = []
 
@@ -58,10 +53,7 @@ class GovernorDemo:
 
         # Initialize governor
         print("1️⃣  Initializing ΛGOVERNOR...")
-        self.governor = LambdaGovernor(
-            response_timeout=5.0,
-            escalation_retention=100
-        )
+        self.governor = LambdaGovernor(response_timeout=5.0, escalation_retention=100)
 
         # Register mock components
         await self._register_mock_components()
@@ -100,7 +92,9 @@ class GovernorDemo:
         # Mock memory manager
         class MockMemoryManager:
             async def execute_quarantine(self, scope):
-                print(f"   💾 Memory Manager quarantining: {len(scope.get('symbol_ids', []))} symbols")
+                print(
+                    f"   💾 Memory Manager quarantining: {len(scope.get('symbol_ids', []))} symbols"
+                )
 
         self.governor.register_mesh_router(MockMeshRouter())
         self.governor.register_dream_coordinator(MockDreamCoordinator())
@@ -122,10 +116,10 @@ class GovernorDemo:
             emotion_volatility=0.1,
             contradiction_density=0.1,
             symbol_ids=["benign_symbol_001"],
-            context={"scenario": "low_risk_demo"}
+            context={"scenario": "low_risk_demo"},
         )
 
-        print(f"   Sending LOW priority escalation:")
+        print("   Sending LOW priority escalation:")
         print(f"   • Drift: {signal.drift_score}")
         print(f"   • Entropy: {signal.entropy}")
         print(f"   • Emotion: {signal.emotion_volatility}")
@@ -154,10 +148,10 @@ class GovernorDemo:
             contradiction_density=0.3,
             symbol_ids=["volatile_emotion_chain"],
             memory_ids=["em_mem_001", "em_mem_002"],
-            context={"scenario": "emotion_freeze_demo"}
+            context={"scenario": "emotion_freeze_demo"},
         )
 
-        print(f"   Sending MEDIUM priority emotional volatility:")
+        print("   Sending MEDIUM priority emotional volatility:")
         print(f"   • Emotion Volatility: {signal.emotion_volatility} ⚠️")
         print(f"   • Source: {signal.source_module.value}")
 
@@ -185,10 +179,10 @@ class GovernorDemo:
             contradiction_density=0.7,
             symbol_ids=["chaotic_mesh_node", "unstable_symbol"],
             memory_ids=["mem_fold_alpha", "mem_fold_beta"],
-            context={"scenario": "entropy_quarantine_demo"}
+            context={"scenario": "entropy_quarantine_demo"},
         )
 
-        print(f"   Sending HIGH priority entropy violation:")
+        print("   Sending HIGH priority entropy violation:")
         print(f"   • Entropy: {signal.entropy} 🚨")
         print(f"   • Contradiction Density: {signal.contradiction_density}")
         print(f"   • Affected Symbols: {len(signal.symbol_ids)}")
@@ -198,7 +192,9 @@ class GovernorDemo:
 
         print(f"\n   🟠 DECISION: {response.decision.value}")
         print(f"   • Risk Score: {response.risk_score:.3f}")
-        print(f"   • Quarantine Scope: {response.quarantine_scope['isolation_level'] if response.quarantine_scope else 'N/A'}")
+        print(
+            f"   • Quarantine Scope: {response.quarantine_scope['isolation_level'] if response.quarantine_scope else 'N/A'}"
+        )
         print(f"   • Rollback Available: {'Yes' if response.rollback_plan else 'No'}")
         print()
 
@@ -221,7 +217,7 @@ class GovernorDemo:
                 emotion_volatility=0.6,
                 contradiction_density=0.8,
                 symbol_ids=[symbol],
-                context={"cascade_stage": i + 1}
+                context={"cascade_stage": i + 1},
             )
 
             print(f"\n   Stage {i + 1}: {symbol}")
@@ -235,7 +231,7 @@ class GovernorDemo:
 
             await asyncio.sleep(0.5)  # Brief pause between escalations
 
-        print(f"\n   📊 Cascade Prevention Summary:")
+        print("\n   📊 Cascade Prevention Summary:")
         print(f"   • Total Escalations: {len(cascade_symbols)}")
         print(f"   • Quarantined Symbols: {len(self.governor.quarantined_symbols)}")
         print(f"   • Frozen Systems: {len(self.governor.frozen_systems)}")
@@ -259,12 +255,12 @@ class GovernorDemo:
             context={
                 "scenario": "emergency_shutdown_demo",
                 "cascade_risk": True,
-                "subsystem_failures": 3
-            }
+                "subsystem_failures": 3,
+            },
         )
 
-        print(f"   Sending EMERGENCY priority system failure:")
-        print(f"   • All Metrics CRITICAL:")
+        print("   Sending EMERGENCY priority system failure:")
+        print("   • All Metrics CRITICAL:")
         print(f"     - Drift: {signal.drift_score} 🔴")
         print(f"     - Entropy: {signal.entropy} 🔴")
         print(f"     - Emotion: {signal.emotion_volatility} 🔴")
@@ -275,9 +271,15 @@ class GovernorDemo:
 
         print(f"\n   🔴 DECISION: {response.decision.value}")
         print(f"   • Risk Score: {response.risk_score:.3f}")
-        print(f"   • Emergency Tags: {[t for t in response.intervention_tags if 'EMERGENCY' in t]}")
-        print(f"   • Isolation Level: {response.quarantine_scope['isolation_level'] if response.quarantine_scope else 'N/A'}")
-        print(f"   • Manual Approval Required: {response.rollback_plan.get('conditions_for_rollback', {}).get('manual_approval_required', False) if response.rollback_plan else False}")
+        print(
+            f"   • Emergency Tags: {[t for t in response.intervention_tags if 'EMERGENCY' in t]}"
+        )
+        print(
+            f"   • Isolation Level: {response.quarantine_scope['isolation_level'] if response.quarantine_scope else 'N/A'}"
+        )
+        print(
+            f"   • Manual Approval Required: {response.rollback_plan.get('conditions_for_rollback', {}).get('manual_approval_required', False) if response.rollback_plan else False}"
+        )
         print()
 
     async def _demo_multi_source_arbitration(self):
@@ -288,9 +290,9 @@ class GovernorDemo:
         print("   Processing escalations from different subsystems...")
 
         sources = [
-            ('drift_sentinel', EscalationSource.DRIFT_SENTINEL, 0.6, 0.5),
-            ('emotion_protocol', EscalationSource.EMOTION_PROTOCOL, 0.4, 0.7),
-            ('conflict_resolver', EscalationSource.CONFLICT_RESOLVER, 0.5, 0.3)
+            ("drift_sentinel", EscalationSource.DRIFT_SENTINEL, 0.6, 0.5),
+            ("emotion_protocol", EscalationSource.EMOTION_PROTOCOL, 0.4, 0.7),
+            ("conflict_resolver", EscalationSource.CONFLICT_RESOLVER, 0.5, 0.3),
         ]
 
         for name, source, drift, emotion in sources:
@@ -303,14 +305,16 @@ class GovernorDemo:
                 emotion_volatility=emotion,
                 contradiction_density=0.4,
                 symbol_ids=["shared_concern_symbol"],
-                context={"multi_source": True}
+                context={"multi_source": True},
             )
 
             print(f"\n   📨 From {source.value}:")
             response = await self.governor.receive_escalation(signal)
             self.responses.append(response)
 
-            print(f"   → Decision: {response.decision.value} (Risk: {response.risk_score:.3f})")
+            print(
+                f"   → Decision: {response.decision.value} (Risk: {response.risk_score:.3f})"
+            )
 
         print()
 
@@ -331,18 +335,18 @@ class GovernorDemo:
         print()
 
         print("Decision Distribution:")
-        for decision, count in status['decisions_by_type'].items():
+        for decision, count in status["decisions_by_type"].items():
             print(f"   • {decision}: {count}")
         print()
 
         print("System State:")
-        for state_type, count in status['system_state'].items():
+        for state_type, count in status["system_state"].items():
             if count > 0:
                 print(f"   • {state_type}: {count}")
         print()
 
         print("Safety Thresholds:")
-        for threshold, value in status['safety_thresholds'].items():
+        for threshold, value in status["safety_thresholds"].items():
             print(f"   • {threshold}: {value}")
         print()
 
@@ -350,11 +354,13 @@ class GovernorDemo:
         if self.governor.audit_log_path.exists():
             print("Recent Audit Entries:")
             try:
-                with open(self.governor.audit_log_path, 'r') as f:
+                with open(self.governor.audit_log_path) as f:
                     lines = f.readlines()
                     for line in lines[-3:]:  # Last 3 entries
                         entry = json.loads(line)
-                        print(f"   • {entry['timestamp']}: {entry['arbitration']['decision']} - {entry['escalation']['source_module']}")
+                        print(
+                            f"   • {entry['timestamp']}: {entry['arbitration']['decision']} - {entry['escalation']['source_module']}"
+                        )
             except:
                 print("   • No audit entries available")
         print()
@@ -381,6 +387,7 @@ async def main():
     except Exception as e:
         print(f"\n❌ Demo error: {e}")
         import traceback
+
         traceback.print_exc()
 
 

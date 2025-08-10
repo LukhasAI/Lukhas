@@ -14,22 +14,24 @@ Visual inspection and debugging interface for Quantum Ethics Mesh Integrator
 MODULE_ID: ethics.tools.quantum_mesh_visualizer
 """
 
+import argparse
+import json
 import os
 import sys
-import json
-import argparse
-from core.common import get_logger
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Any, Dict, List, Optional
+
 import numpy as np
+
+from core.common import get_logger
 
 # Visualization libraries
 try:
-    import matplotlib.pyplot as plt
     import matplotlib.patches as patches
-    from matplotlib.colors import LinearSegmentedColormap
+    import matplotlib.pyplot as plt
     import seaborn as sns
+    from matplotlib.colors import LinearSegmentedColormap
 
     HAS_MATPLOTLIB = True
 except ImportError:
@@ -37,10 +39,10 @@ except ImportError:
     print("Warning: matplotlib/seaborn not available. Some visualizations disabled.")
 
 try:
-    import plotly.graph_objects as go
     import plotly.express as px
-    from plotly.subplots import make_subplots
+    import plotly.graph_objects as go
     import plotly.offline as pyo
+    from plotly.subplots import make_subplots
 
     HAS_PLOTLY = True
 except ImportError:
@@ -52,8 +54,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 try:
     from ethics.quantum_mesh_integrator import (
-        QuantumEthicsMeshIntegrator,
         EthicsRiskLevel,
+        QuantumEthicsMeshIntegrator,
     )
 except ImportError:
     print("Warning: Could not import QuantumEthicsMeshIntegrator")
@@ -179,7 +181,7 @@ class QuantumMeshVisualizer:
     def _load_from_logs(self, log_path: str) -> Dict[str, Any]:
         """Load data from JSONL log file"""
         try:
-            with open(log_path, "r") as f:
+            with open(log_path) as f:
                 lines = f.readlines()
 
             # Get most recent entry
@@ -785,7 +787,7 @@ class QuantumMeshVisualizer:
         entanglements = data["entanglement_matrix"]["entanglements"]
 
         markdown = []
-        markdown.append(f"# Quantum Ethics Mesh Report")
+        markdown.append("# Quantum Ethics Mesh Report")
         markdown.append(
             f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         )

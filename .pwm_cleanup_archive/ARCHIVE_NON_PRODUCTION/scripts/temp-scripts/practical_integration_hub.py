@@ -11,8 +11,8 @@ This focuses on Phase 1 critical integrations:
 
 import asyncio
 import logging
-from typing import Dict, Any, Optional
 from datetime import datetime
+from typing import Any, Dict
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -326,7 +326,7 @@ if __name__ == "__main__":
         print(
             f"⚡ Working Components: {status['working_components']}/{status['total_components']}"
         )
-        print(f"🏗️  Phase 1 Goals:")
+        print("🏗️  Phase 1 Goals:")
         for goal, achieved in status["phase_1_goals"].items():
             status_icon = "✅" if achieved else "❌"
             print(f"   {status_icon} {goal.replace('_', ' ').title()}")

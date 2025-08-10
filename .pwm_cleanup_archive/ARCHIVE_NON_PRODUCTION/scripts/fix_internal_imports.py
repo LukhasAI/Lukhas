@@ -3,16 +3,16 @@
 Fix internal module imports based on analysis
 """
 
-import os
-import re
 import ast
-from pathlib import Path
-from collections import defaultdict
 import logging
-import json
+import re
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class InternalImportFixer:
     def __init__(self, root_path: Path, dry_run: bool = True):
@@ -30,18 +30,18 @@ class InternalImportFixer:
         """Build index of all classes and functions in the codebase"""
         logger.info("Building index of classes and functions...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Get module path
                 relative = py_file.relative_to(self.root_path)
                 module_parts = list(relative.parts[:-1]) + [relative.stem]
-                module_path = '.'.join(module_parts)
+                module_path = ".".join(module_parts)
 
                 # Parse for classes and functions
                 try:
@@ -49,7 +49,9 @@ class InternalImportFixer:
                     for node in ast.walk(tree):
                         if isinstance(node, ast.ClassDef):
                             self.class_to_module[node.name] = module_path
-                        elif isinstance(node, ast.FunctionDef) and node.name.startswith('create_'):
+                        elif isinstance(node, ast.FunctionDef) and node.name.startswith(
+                            "create_"
+                        ):
                             # Focus on factory functions
                             self.function_to_module[node.name] = module_path
                 except:
@@ -58,7 +60,9 @@ class InternalImportFixer:
             except Exception as e:
                 logger.debug(f"Error indexing {py_file}: {e}")
 
-        logger.info(f"Indexed {len(self.class_to_module)} classes and {len(self.function_to_module)} functions")
+        logger.info(
+            f"Indexed {len(self.class_to_module)} classes and {len(self.function_to_module)} functions"
+        )
 
     def fix_imports(self):
         """Fix internal imports"""
@@ -87,27 +91,22 @@ class InternalImportFixer:
 
         mappings = {
             # LUKHAS_AGENT_PLUGIN patterns
-            'from core.common_AGENT_PLUGIN.core.lukhas_emotion_log': 'from core.lukhas_emotion_log',
-            'from core.common_AGENT_PLUGIN.': 'from ',
-
+            "from core.common_AGENT_PLUGIN.core.lukhas_emotion_log": "from core.lukhas_emotion_log",
+            "from core.common_AGENT_PLUGIN.": "from ",
             # Symbolic AI patterns
-            'from symbolic_ai.trait_manager': 'from orchestration.brain.spine.trait_manager',
-            'from symbolic_ai.': 'from symbolic.',
-
+            "from symbolic_ai.trait_manager": "from orchestration.brain.spine.trait_manager",
+            "from symbolic_ai.": "from symbolic.",
             # GlobalInstitutionalFramework
-            'from GlobalInstitutionalFramework': 'from identity.backend.app.institution_manager',
-            'import GlobalInstitutionalFramework': 'from identity.backend.app.institution_manager import GlobalInstitutionalFramework',
-
+            "from GlobalInstitutionalFramework": "from identity.backend.app.institution_manager",
+            "import GlobalInstitutionalFramework": "from identity.backend.app.institution_manager import GlobalInstitutionalFramework",
             # token_budget_controller
-            'from token_budget_controller': 'from core.budget.token_controller',
-            'import token_budget_controller': 'from core.budget.token_controller import token_budget_controller',
-
+            "from token_budget_controller": "from core.budget.token_controller",
+            "import token_budget_controller": "from core.budget.token_controller import token_budget_controller",
             # Fix remaining bio patterns
-            'from bio.integration.bio_awareness.': 'from bio.',
-
+            "from bio.integration.bio_awareness.": "from bio.",
             # Fix any remaining core.memory
-            'from core.memory import': 'from memory import',
-            'import core.memory': 'import memory',
+            "from core.memory import": "from memory import",
+            "import core.memory": "import memory",
         }
 
         self._apply_mappings(mappings)
@@ -116,12 +115,12 @@ class InternalImportFixer:
         """Fix single import statements for internal modules"""
         logger.info("\nFixing single internal imports...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     lines = f.readlines()
 
                 modified = False
@@ -131,28 +130,32 @@ class InternalImportFixer:
                     new_line = line
 
                     # Check for single imports
-                    match = re.match(r'^import (\w+)$', line.strip())
+                    match = re.match(r"^import (\w+)$", line.strip())
                     if match:
                         name = match.group(1)
 
                         # Check if it's an internal class
                         if name in self.class_to_module:
                             module = self.class_to_module[name]
-                            new_line = f'from {module} import {name}\n'
+                            new_line = f"from {module} import {name}\n"
                             modified = True
-                            logger.debug(f"Fixed: import {name} -> from {module} import {name}")
+                            logger.debug(
+                                f"Fixed: import {name} -> from {module} import {name}"
+                            )
 
                         # Check if it's an internal function
                         elif name in self.function_to_module:
                             module = self.function_to_module[name]
-                            new_line = f'from {module} import {name}\n'
+                            new_line = f"from {module} import {name}\n"
                             modified = True
-                            logger.debug(f"Fixed: import {name} -> from {module} import {name}")
+                            logger.debug(
+                                f"Fixed: import {name} -> from {module} import {name}"
+                            )
 
                     new_lines.append(new_line)
 
                 if modified and not self.dry_run:
-                    with open(py_file, 'w', encoding='utf-8') as f:
+                    with open(py_file, "w", encoding="utf-8") as f:
                         f.writelines(new_lines)
                     self.files_fixed += 1
 
@@ -166,19 +169,26 @@ class InternalImportFixer:
 
         # Specific files with known issues
         specific_fixes = {
-            'tests/symbolic/test_symbolic_core.py': [
-                ('from core.memory import (', 'from memory import ('),
-                ('from core.memory import SYMBOLIC_INTEGRATION_ENABLED', 'from memory import SYMBOLIC_INTEGRATION_ENABLED'),
-                ('import core.memory', 'import memory')
+            "tests/symbolic/test_symbolic_core.py": [
+                ("from core.memory import (", "from memory import ("),
+                (
+                    "from core.memory import SYMBOLIC_INTEGRATION_ENABLED",
+                    "from memory import SYMBOLIC_INTEGRATION_ENABLED",
+                ),
+                ("import core.memory", "import memory"),
             ],
-            'quantum/quantum_bio_bulletproof_system.py': [
-                ('from bio.integration.bio_awareness.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge',
-                 'from bio.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge')
+            "quantum/quantum_bio_bulletproof_system.py": [
+                (
+                    "from bio.integration.bio_awareness.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge",
+                    "from bio.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge",
+                )
             ],
-            'quantum/systems/bio_integration/bulletproof_system.py': [
-                ('from bio.integration.bio_awareness.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge',
-                 'from bio.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge')
-            ]
+            "quantum/systems/bio_integration/bulletproof_system.py": [
+                (
+                    "from bio.integration.bio_awareness.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge",
+                    "from bio.advanced_quantum_bio import EnhancedMitochondrialQuantumBridge",
+                )
+            ],
         }
 
         for filename, fixes in specific_fixes.items():
@@ -189,7 +199,7 @@ class InternalImportFixer:
     def _fix_specific_file(self, file_path: Path, fixes: list):
         """Apply specific fixes to a file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content
@@ -199,7 +209,7 @@ class InternalImportFixer:
 
             if content != original_content:
                 if not self.dry_run:
-                    with open(file_path, 'w', encoding='utf-8') as f:
+                    with open(file_path, "w", encoding="utf-8") as f:
                         f.write(content)
 
                 self.files_fixed += 1
@@ -213,12 +223,12 @@ class InternalImportFixer:
         """Apply import mappings to all Python files"""
         fixed_count = 0
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 original_content = content
@@ -232,7 +242,7 @@ class InternalImportFixer:
 
                 if content != original_content:
                     if not self.dry_run:
-                        with open(py_file, 'w', encoding='utf-8') as f:
+                        with open(py_file, "w", encoding="utf-8") as f:
                             f.write(content)
 
                     self.files_fixed += 1
@@ -252,27 +262,32 @@ class InternalImportFixer:
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'visualizations', 'analysis_output', 'scripts'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "visualizations",
+            "analysis_output",
+            "scripts",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(
-        description='Fix internal module imports'
+
+    parser = argparse.ArgumentParser(description="Fix internal module imports")
+    parser.add_argument(
+        "--fix", action="store_true", help="Apply fixes (default is dry run)"
     )
     parser.add_argument(
-        '--fix',
-        action='store_true',
-        help='Apply fixes (default is dry run)'
-    )
-    parser.add_argument(
-        '--path',
-        default='.',
-        help='Root path (default: current directory)'
+        "--path", default=".", help="Root path (default: current directory)"
     )
 
     args = parser.parse_args()
@@ -281,5 +296,6 @@ def main():
     fixer = InternalImportFixer(root_path, dry_run=not args.fix)
     fixer.fix_imports()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -14,7 +14,10 @@ from pathlib import Path
 
 TRUST_SHARING_REGISTRY = Path("trust_sharing_registry.jsonl")
 
-def initiate_vault_share(grantor_id: int, grantee_id: int, share_type: str, vault_reference: str):
+
+def initiate_vault_share(
+    grantor_id: int, grantee_id: int, share_type: str, vault_reference: str
+):
     """
     Create a symbolic record of a vault sharing request.
     """
@@ -24,7 +27,7 @@ def initiate_vault_share(grantor_id: int, grantee_id: int, share_type: str, vaul
         "grantee_id": grantee_id,
         "share_type": share_type,  # full_access | partial | locked
         "vault_reference": vault_reference,
-        "status": "pending"
+        "status": "pending",
     }
 
     TRUST_SHARING_REGISTRY.parent.mkdir(parents=True, exist_ok=True)
@@ -34,13 +37,14 @@ def initiate_vault_share(grantor_id: int, grantee_id: int, share_type: str, vaul
     print(f"🤝 Vault sharing initiated: {entry}")
     return entry
 
+
 def list_trust_shares_for_user(user_id: int):
     """
     Retrieve all symbolic vault shares where user is the grantee.
     """
     shares = []
     if TRUST_SHARING_REGISTRY.exists():
-        with open(TRUST_SHARING_REGISTRY, "r") as f:
+        with open(TRUST_SHARING_REGISTRY) as f:
             for line in f:
                 try:
                     entry = json.loads(line.strip())
@@ -49,6 +53,7 @@ def list_trust_shares_for_user(user_id: int):
                 except json.JSONDecodeError:
                     continue
     return shares
+
 
 # ===============================================================
 # 💾 HOW TO USE

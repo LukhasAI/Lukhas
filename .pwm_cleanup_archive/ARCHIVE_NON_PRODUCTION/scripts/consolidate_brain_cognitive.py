@@ -4,22 +4,26 @@ Brain/Cognitive Consolidator - Phase 2B-2
 Consolidate 7 brain/cognitive orchestration files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_brain_cognitive(dry_run=True):
     """Consolidate brain/cognitive orchestrators"""
 
     # Find brain orchestrator files
     brain_files = []
-    for root, dirs, files in os.walk('.'):
-        if 'archived' in root:
+    for root, dirs, files in os.walk("."):
+        if "archived" in root:
             continue
         for file in files:
-            if file.endswith('.py') and 'orchestrat' in file.lower() and ('brain' in root.lower() or 'cognitive' in file.lower()):
+            if (
+                file.endswith(".py")
+                and "orchestrat" in file.lower()
+                and ("brain" in root.lower() or "cognitive" in file.lower())
+            ):
                 full_path = os.path.join(root, file)
                 brain_files.append(full_path)
 
@@ -32,7 +36,7 @@ def consolidate_brain_cognitive(dry_run=True):
         "./orchestration/brain/orchestrator.py",
         "./orchestration/migrated/brain_orchestrator.py",
         "./orchestration/agents/meta_cognitive_orchestrator.py",
-        "./orchestration/agents/meta_cognitive_orchestrator_alt.py"
+        "./orchestration/agents/meta_cognitive_orchestrator_alt.py",
     ]
 
     for file_path in potential_files:
@@ -59,10 +63,10 @@ def consolidate_brain_cognitive(dry_run=True):
         print("❌ No brain orchestrator files found")
         return
 
-    print(f"\\n🧠 BRAIN/COGNITIVE CONSOLIDATION")
+    print("\\n🧠 BRAIN/COGNITIVE CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(brain_files)}")
     print(f"{'='*60}")
@@ -111,21 +115,29 @@ def consolidate_brain_cognitive(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 Brain/cognitive consolidation complete!")
+    print("\\n📊 Brain/cognitive consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate brain/cognitive orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate brain/cognitive orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     consolidate_brain_cognitive(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_brain_cognitive.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_brain_cognitive.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

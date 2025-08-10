@@ -5,16 +5,26 @@ Tests the integration of BridgeTraceLogger with the message bus system.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Test imports
 try:
-    from bridge.trace_logger import BridgeTraceLogger, TraceLevel, TraceCategory
-    from bridge.message_bus import MessageBus, Message, MessageType, MessagePriority
+    from bridge.message_bus import (
+        Message,
+        MessageBus,
+        MessagePriority,
+        MessageType,
+    )
+    from bridge.trace_logger import (
+        BridgeTraceLogger,
+        TraceCategory,
+        TraceLevel,
+    )
+
     print("✅ Successfully imported BridgeTraceLogger and MessageBus")
 except ImportError as e:
     print(f"❌ Import failed: {e}")
@@ -35,7 +45,7 @@ async def test_trace_logger_initialization():
             TraceLevel.INFO,
             "test_component",
             "Test handshake event",
-            {"test": "metadata"}
+            {"test": "metadata"},
         )
         print(f"✅ Event logged with ID: {event_id}")
 
@@ -65,17 +75,13 @@ async def test_message_bus_trace_integration():
 
         # Test symbolic handshake tracing
         trace_id = message_bus.trace_symbolic_handshake(
-            "test_dream_001",
-            "initiated",
-            {"component": "test_bridge"}
+            "test_dream_001", "initiated", {"component": "test_bridge"}
         )
         print(f"✅ Symbolic handshake traced with ID: {trace_id}")
 
         # Test memory mapping tracing
         map_trace_id = message_bus.trace_memory_mapping(
-            "map_001",
-            "create",
-            {"status": "success", "size": 1024}
+            "map_001", "create", {"status": "success", "size": 1024}
         )
         print(f"✅ Memory mapping traced with ID: {map_trace_id}")
 
@@ -111,7 +117,7 @@ async def test_message_tracing():
             target_module="receiver_module",
             priority=MessagePriority.NORMAL,
             payload={"command": "test_command", "params": {"test": True}},
-            user_id="test_user"
+            user_id="test_user",
         )
 
         # Send message (should trigger trace logging)
@@ -161,7 +167,7 @@ async def main():
         test_trace_logger_initialization,
         test_message_bus_trace_integration,
         test_message_tracing,
-        test_trace_export
+        test_trace_export,
     ]
 
     passed = 0
@@ -179,7 +185,9 @@ async def main():
     print(f"📊 Test Results: {passed}/{total} tests passed")
 
     if passed == total:
-        print("🎉 All tests passed! Bridge Trace Logger integration is working correctly.")
+        print(
+            "🎉 All tests passed! Bridge Trace Logger integration is working correctly."
+        )
         return True
     else:
         print("⚠️  Some tests failed. Check the integration.")

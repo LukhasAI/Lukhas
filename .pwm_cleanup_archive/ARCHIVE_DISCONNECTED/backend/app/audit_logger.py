@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : audit_logger.py                                │
@@ -16,6 +14,7 @@ from datetime import datetime
 
 audit_logs = []
 
+
 def log_action(user_id: int, action: str, details: str = "N/A"):
     """
     Record a symbolic audit entry for important LUKHASID events.
@@ -24,16 +23,18 @@ def log_action(user_id: int, action: str, details: str = "N/A"):
         "timestamp": str(datetime.utcnow()),
         "user_id": user_id,
         "action": action,
-        "details": details
+        "details": details,
     }
     audit_logs.append(entry)
     print(f"📝 Audit Log: {entry}")
+
 
 def get_audit_logs():
     """
     Retrieve all symbolic audit logs.
     """
     return audit_logs
+
 
 def get_user_audit_logs(user_id: int):
     """

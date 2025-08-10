@@ -46,16 +46,14 @@ Thus, dear traveler of the digital realm, as you traverse the intricate pathways
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, List, Optional
 from datetime import datetime
-import openai
+from typing import Any, Dict, List, Optional
 
 from bridge.openai_core_service import (
+    ModelType,
+    OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAICapability,
-    ModelType
 )
 
 logger = logging.getLogger("ΛTRACE.memory.openai_adapter")
@@ -101,11 +99,11 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
             data={
-                'prompt': prompt,
-                'temperature': 0.3,  # Lower temperature for consistency
-                'max_tokens': 500
+                "prompt": prompt,
+                "temperature": 0.3,  # Lower temperature for consistency
+                "max_tokens": 500,
             },
-            model_preference=ModelType.REASONING
+            model_preference=ModelType.REASONING,
         )
 
         response = await self.openai_service.process_request(request)
@@ -113,22 +111,23 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         if response.success:
             try:
                 import json
-                compressed = json.loads(response.data['content'])
+
+                compressed = json.loads(response.data["content"])
                 return {
-                    'original_size': len(str(memory_data)),
-                    'compressed': compressed,
-                    'compression_ratio': len(str(compressed)) / len(str(memory_data)),
-                    'method': 'openai_semantic'
+                    "original_size": len(str(memory_data)),
+                    "compressed": compressed,
+                    "compression_ratio": len(str(compressed)) / len(str(memory_data)),
+                    "method": "openai_semantic",
                 }
             except:
                 # Fallback if JSON parsing fails
                 return {
-                    'compressed': {'summary': response.data['content']},
-                    'method': 'openai_text'
+                    "compressed": {"summary": response.data["content"]},
+                    "method": "openai_text",
                 }
         else:
             logger.error(f"Memory compression failed: {response.error}")
-            return {'compressed': memory_data, 'method': 'none'}
+            return {"compressed": memory_data, "method": "none"}
 
     async def generate_memory_embedding(self, memory_text: str) -> List[float]:
         """
@@ -143,23 +142,20 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.EMBEDDINGS,
-            data={'input': memory_text}
+            data={"input": memory_text},
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['embeddings'][0]
+            return response.data["embeddings"][0]
         else:
             logger.error(f"Embedding generation failed: {response.error}")
             # Return mock embedding as fallback
             return [0.0] * 1536
 
     async def find_similar_memories(
-        self,
-        query: str,
-        memory_embeddings: Dict[str, List[float]],
-        top_k: int = 5
+        self, query: str, memory_embeddings: Dict[str, List[float]], top_k: int = 5
     ) -> List[Dict[str, Any]]:
         """
         Find similar memories using embedding similarity.
@@ -180,19 +176,14 @@ Format as JSON with keys: summary, key_points, emotional_essence, causal_links""
         for memory_id, embedding in memory_embeddings.items():
             # Cosine similarity
             similarity = self._cosine_similarity(query_embedding, embedding)
-            similarities.append({
-                'memory_id': memory_id,
-                'similarity': similarity
-            })
+            similarities.append({"memory_id": memory_id, "similarity": similarity})
 
         # Sort and return top k
-        similarities.sort(key=lambda x: x['similarity'], reverse=True)
+        similarities.sort(key=lambda x: x["similarity"], reverse=True)
         return similarities[:top_k]
 
     async def synthesize_memory_narrative(
-        self,
-        memories: List[Dict[str, Any]],
-        context: Optional[str] = None
+        self, memories: List[Dict[str, Any]], context: Optional[str] = None
     ) -> str:
         """
         Create a narrative synthesis of multiple memories.
@@ -229,24 +220,19 @@ Write in first person, as if reflecting on these experiences."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.7,
-                'max_tokens': 800
-            },
-            model_preference=ModelType.CREATIVE
+            data={"prompt": prompt, "temperature": 0.7, "max_tokens": 800},
+            model_preference=ModelType.CREATIVE,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['content']
+            return response.data["content"]
         else:
             return "Unable to synthesize memories at this time."
 
     async def analyze_memory_patterns(
-        self,
-        memories: List[Dict[str, Any]]
+        self, memories: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Analyze patterns across memories using GPT-4.
@@ -260,12 +246,14 @@ Write in first person, as if reflecting on these experiences."""
         # Prepare memory summary
         memory_summary = []
         for memory in memories[:20]:  # Limit to prevent token overflow
-            memory_summary.append({
-                'type': memory.get('type'),
-                'emotion': memory.get('emotional_context'),
-                'theme': memory.get('theme'),
-                'timestamp': memory.get('timestamp')
-            })
+            memory_summary.append(
+                {
+                    "type": memory.get("type"),
+                    "emotion": memory.get("emotional_context"),
+                    "theme": memory.get("theme"),
+                    "timestamp": memory.get("timestamp"),
+                }
+            )
 
         prompt = f"""Analyze these memories for patterns:
 
@@ -283,12 +271,8 @@ Format as JSON with detailed analysis."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.4,
-                'max_tokens': 1000
-            },
-            model_preference=ModelType.REASONING
+            data={"prompt": prompt, "temperature": 0.4, "max_tokens": 1000},
+            model_preference=ModelType.REASONING,
         )
 
         response = await self.openai_service.process_request(request)
@@ -296,19 +280,14 @@ Format as JSON with detailed analysis."""
         if response.success:
             try:
                 import json
-                return json.loads(response.data['content'])
-            except:
-                return {
-                    'analysis': response.data['content'],
-                    'format': 'text'
-                }
-        else:
-            return {'error': 'Pattern analysis failed'}
 
-    async def generate_memory_visualization_prompt(
-        self,
-        memory: Dict[str, Any]
-    ) -> str:
+                return json.loads(response.data["content"])
+            except:
+                return {"analysis": response.data["content"], "format": "text"}
+        else:
+            return {"error": "Pattern analysis failed"}
+
+    async def generate_memory_visualization_prompt(self, memory: Dict[str, Any]) -> str:
         """
         Generate DALL-E prompt for memory visualization.
 
@@ -335,24 +314,19 @@ Write only the DALL-E prompt, nothing else."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.8,
-                'max_tokens': 150
-            },
-            model_preference=ModelType.CREATIVE
+            data={"prompt": prompt, "temperature": 0.8, "max_tokens": 150},
+            model_preference=ModelType.CREATIVE,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['content'].strip()
+            return response.data["content"].strip()
         else:
             return "Abstract memory landscape with flowing shapes and ethereal colors"
 
     async def create_memory_visualization(
-        self,
-        memory: Dict[str, Any]
+        self, memory: Dict[str, Any]
     ) -> Optional[str]:
         """
         Create visual representation of memory using DALL-E.
@@ -370,17 +344,13 @@ Write only the DALL-E prompt, nothing else."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.IMAGE_GENERATION,
-            data={
-                'prompt': dalle_prompt,
-                'size': '1024x1024',
-                'quality': 'standard'
-            }
+            data={"prompt": dalle_prompt, "size": "1024x1024", "quality": "standard"},
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['images'][0]['url']
+            return response.data["images"][0]["url"]
         else:
             logger.error(f"Memory visualization failed: {response.error}")
             return None
@@ -406,10 +376,10 @@ async def demo_memory_adapter():
 
     # Example memory
     memory = {
-        'type': 'episodic',
-        'content': 'Standing at the edge of the cliff, watching the sunset paint the sky in brilliant oranges and purples. The wind carried the scent of ocean salt.',
-        'emotional_context': 'peaceful wonder',
-        'timestamp': datetime.utcnow().isoformat()
+        "type": "episodic",
+        "content": "Standing at the edge of the cliff, watching the sunset paint the sky in brilliant oranges and purples. The wind carried the scent of ocean salt.",
+        "emotional_context": "peaceful wonder",
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
     print("🧠 Memory OpenAI Adapter Demo")
@@ -423,7 +393,7 @@ async def demo_memory_adapter():
 
     # Generate embedding
     print("\n2. Generating memory embedding...")
-    embedding = await adapter.generate_memory_embedding(memory['content'])
+    embedding = await adapter.generate_memory_embedding(memory["content"])
     print(f"Embedding dimension: {len(embedding)}")
     print(f"First 5 values: {embedding[:5]}")
 
@@ -434,15 +404,19 @@ async def demo_memory_adapter():
 
     # Synthesize narrative
     print("\n4. Synthesizing memory narrative...")
-    memories = [memory, {
-        'content': 'The sound of waves crashing below reminded me of childhood summers',
-        'emotional_context': 'nostalgic',
-        'timestamp': 'earlier'
-    }]
+    memories = [
+        memory,
+        {
+            "content": "The sound of waves crashing below reminded me of childhood summers",
+            "emotional_context": "nostalgic",
+            "timestamp": "earlier",
+        },
+    ]
     narrative = await adapter.synthesize_memory_narrative(memories)
     print(f"Narrative: {narrative[:200]}...")
 
 
 if __name__ == "__main__":
     import json
+
     asyncio.run(demo_memory_adapter())

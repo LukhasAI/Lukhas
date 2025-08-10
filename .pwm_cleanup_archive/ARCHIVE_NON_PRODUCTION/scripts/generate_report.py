@@ -1,6 +1,7 @@
 import json
+
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 def generate_report(data):
     """
@@ -27,7 +28,7 @@ def generate_report(data):
     report += "## Metrics\n\n"
     for scenario in data:
         report += f"### {scenario['scenario_id']}\n\n"
-        for metric, values in scenario['metrics'].items():
+        for metric, values in scenario["metrics"].items():
             report += f"#### {metric}\n\n"
             # Generate a plot for the metric.
             plt.figure()
@@ -44,9 +45,10 @@ def generate_report(data):
     # Return the report.
     return report
 
+
 if __name__ == "__main__":
     # Load the validation data.
-    with open("validation_results.json", "r") as f:
+    with open("validation_results.json") as f:
         data = json.load(f)
 
     # Generate the report.

@@ -22,8 +22,9 @@ This component handles identity functionality in the AI consciousness computing 
 
 import asyncio
 import logging
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 
 class IdentityEngine:
     """
@@ -76,7 +77,7 @@ class IdentityEngine:
                 "component": self.__class__.__name__,
                 "category": "identity",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -85,7 +86,7 @@ class IdentityEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_identity_processing(self, data: Any) -> Any:
@@ -94,7 +95,9 @@ class IdentityEngine:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data or set default
-        category = data.get('category', 'identity') if isinstance(data, dict) else 'identity'
+        category = (
+            data.get("category", "identity") if isinstance(data, dict) else "identity"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -160,7 +163,7 @@ class IdentityEngine:
             "category": "identity",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -169,17 +172,22 @@ class IdentityEngine:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
 def create_identity_component(config: Optional[Dict] = None) -> IdentityEngine:
     """Create and return a identity component instance"""
     return IdentityEngine(config)
 
+
 # Async factory function
-async def create_and_initialize_identity_component(config: Optional[Dict] = None) -> IdentityEngine:
+async def create_and_initialize_identity_component(
+    config: Optional[Dict] = None,
+) -> IdentityEngine:
     """Create, initialize and return a identity component instance"""
     component = IdentityEngine(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

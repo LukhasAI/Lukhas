@@ -14,16 +14,21 @@ Suppresses: Pain, stress
 
 from typing import Dict
 
-#LUKHAS_TAG: hormonal_feedback
+
+# LUKHAS_TAG: hormonal_feedback
 class ResilienceBoost:
     """Represents the symbolic hormone Endorphins."""
+
     def __init__(self, level: float = 0.5):
         self.level = level
 
     def __repr__(self):
         return f"ResilienceBoost(level={self.level})"
 
-def weight_modulator(signal_type: str, affect_vector: Dict[str, float]) -> Dict[str, float]:
+
+def weight_modulator(
+    signal_type: str, affect_vector: Dict[str, float]
+) -> Dict[str, float]:
     """
     Modulates the weights of the symbolic hormones based on the signal type and affect vector.
 

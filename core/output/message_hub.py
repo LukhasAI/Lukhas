@@ -4,16 +4,23 @@
 # 🔗 CONNECTS TO: lukhas_dna_link.py
 # ════════════════════════════════════════════════════════════════════════
 
+import json
+
 # import streamlit as st  # TODO: Install or implement streamlit
 from dna_link import LucasDNALink
-import json
 
 st.sidebar.title("⚙️ Settings & Compliance")
 
 with st.sidebar.expander("🛡️ Compliance Settings", expanded=True):
-    enforce_gdpr = st.checkbox("Enable GDPR/International Compliance Logging", value=True)
-    default_tone = st.selectbox("Default Tone", ["formal", "casual", "symbolic", "poetic"], index=2)
-    default_language = st.selectbox("Default Language", ["en", "es", "fr", "de", "pt", "it"], index=0)
+    enforce_gdpr = st.checkbox(
+        "Enable GDPR/International Compliance Logging", value=True
+    )
+    default_tone = st.selectbox(
+        "Default Tone", ["formal", "casual", "symbolic", "poetic"], index=2
+    )
+    default_language = st.selectbox(
+        "Default Language", ["en", "es", "fr", "de", "pt", "it"], index=0
+    )
     st.markdown("_These defaults apply when tone/language not explicitly set._")
 
 st.title("💬 Lukhas Symbolic Message Hub")
@@ -27,10 +34,20 @@ with tabs[0]:
     st.subheader("Generate Email Draft")
     recipient = st.text_input("Recipient", value="Dr. Elara")
     topic = st.text_area("Topic / Purpose", height=100)
-    tone = st.selectbox("Tone", ["formal", "casual", "symbolic", "poetic"], index=["formal", "casual", "symbolic", "poetic"].index(default_tone))
-    language = st.selectbox("Language", ["en", "es", "fr", "de", "pt", "it"], index=["en", "es", "fr", "de", "pt", "it"].index(default_language))
+    tone = st.selectbox(
+        "Tone",
+        ["formal", "casual", "symbolic", "poetic"],
+        index=["formal", "casual", "symbolic", "poetic"].index(default_tone),
+    )
+    language = st.selectbox(
+        "Language",
+        ["en", "es", "fr", "de", "pt", "it"],
+        index=["en", "es", "fr", "de", "pt", "it"].index(default_language),
+    )
     if st.button("✉️ Generate Email"):
-        result = lukhas.generate_email_draft(topic=topic, recipient=recipient, language=language, tone=tone)
+        result = lukhas.generate_email_draft(
+            topic=topic, recipient=recipient, language=language, tone=tone
+        )
         st.code(result)
         selected_type = "email"
 
@@ -38,8 +55,18 @@ with tabs[0]:
 with tabs[1]:
     st.subheader("Create Social Media Post")
     topic = st.text_area("Topic", height=100)
-    platform = st.selectbox("Platform", ["twitter", "linkedin", "instagram", "facebook"])
-    tone = st.selectbox("Tone", ["symbolic", "casual", "philosophical", "humorous"], index=0 if default_tone not in ["symbolic", "casual", "philosophical", "humorous"] else ["symbolic", "casual", "philosophical", "humorous"].index(default_tone))
+    platform = st.selectbox(
+        "Platform", ["twitter", "linkedin", "instagram", "facebook"]
+    )
+    tone = st.selectbox(
+        "Tone",
+        ["symbolic", "casual", "philosophical", "humorous"],
+        index=(
+            0
+            if default_tone not in ["symbolic", "casual", "philosophical", "humorous"]
+            else ["symbolic", "casual", "philosophical", "humorous"].index(default_tone)
+        ),
+    )
     if st.button("📤 Generate Post"):
         result = lukhas.generate_social_post(topic=topic, platform=platform, tone=tone)
         st.code(result)
@@ -52,7 +79,9 @@ with tabs[2]:
     emotion = st.selectbox("Emotion", ["friendly", "gentle", "reassuring", "uplifting"])
     purpose = st.selectbox("Purpose", ["check-in", "gratitude", "apology", "invite"])
     if st.button("📱 Generate Message"):
-        result = lukhas.generate_text_message(recipient=recipient, emotion=emotion, purpose=purpose)
+        result = lukhas.generate_text_message(
+            recipient=recipient, emotion=emotion, purpose=purpose
+        )
         st.code(result)
         selected_type = "text_message"
 
@@ -60,7 +89,15 @@ with tabs[2]:
 with tabs[3]:
     st.subheader("Reword an Existing Draft")
     draft = st.text_area("Paste Original Text", height=120)
-    style = st.selectbox("Reword As", ["poetic", "formal", "casual", "emotional"], index=["poetic", "formal", "casual", "emotional"].index(default_tone) if default_tone in ["poetic", "formal", "casual", "emotional"] else 0)
+    style = st.selectbox(
+        "Reword As",
+        ["poetic", "formal", "casual", "emotional"],
+        index=(
+            ["poetic", "formal", "casual", "emotional"].index(default_tone)
+            if default_tone in ["poetic", "formal", "casual", "emotional"]
+            else 0
+        ),
+    )
     if st.button("♻️ Reword"):
         result = lukhas.reword_draft(draft, style=style)
         st.code(result)
@@ -70,16 +107,24 @@ if "result" in locals() and result:
     st.markdown("### 🧠 Memory Options")
     save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
     mark_qrg = st.checkbox("🔬 Apply QRG Stamp (Symbolic Identity Hash)", value=True)
-    forgettable = st.checkbox("🧹 User requests Lukhas never use this memory in future context", value=False)
+    forgettable = st.checkbox(
+        "🧹 User requests Lukhas never use this memory in future context",
+        value=False,
+    )
 
     if save_memory:
         import hashlib
+
         memory_entry = {
-            "type": selected_type if "selected_type" in locals() else "symbolic_message",
+            "type": (
+                selected_type if "selected_type" in locals() else "symbolic_message"
+            ),
             "content": result,
-            "qrg_stamp": hashlib.sha256(result.encode()).hexdigest()[:16] if mark_qrg else None,
+            "qrg_stamp": (
+                hashlib.sha256(result.encode()).hexdigest()[:16] if mark_qrg else None
+            ),
             "forgettable": forgettable,
-            "visible_to_user": True
+            "visible_to_user": True,
         }
         try:
             with open("logs/lukhas_memory_log.jsonl", "a") as f:
@@ -89,7 +134,8 @@ if "result" in locals() and result:
             st.error(f"[Memory Save Error] {str(mem_err)}")
 
 with st.expander("📘 App Overview (for README.md)"):
-    st.markdown("""
+    st.markdown(
+        """
     **Lukhas Symbolic Message Hub**
     - `📧 Email`: Compose multilingual symbolic email drafts with tone control.
     - `📣 Social Post`: Write symbolic posts for various platforms.
@@ -97,4 +143,5 @@ with st.expander("📘 App Overview (for README.md)"):
     - `📝 Reword Draft`: Rewrite content in alternate tones and styles.
 
     Settings allow users to define ethical boundaries and comply with GDPR.
-    """)
+    """
+    )

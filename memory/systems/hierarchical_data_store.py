@@ -43,45 +43,42 @@
 import asyncio
 import hashlib
 import json
-import time
-from abc import ABC, abstractmethod
+import zlib
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple
 from uuid import uuid4
-import weakref
-import zlib
-
-import structlog
 
 # Initialize structured logger
-from core.common import get_logger
 
 
 class MemoryTier(Enum):
     """Hierarchical memory storage tiers"""
-    SENSORY = "sensory"          # Raw perceptual data
-    EPISODIC = "episodic"        # Event sequences
-    SEMANTIC = "semantic"        # Facts and concepts
-    PROCEDURAL = "procedural"    # Skills and procedures
-    META = "meta"                # Self-knowledge and beliefs
+
+    SENSORY = "sensory"  # Raw perceptual data
+    EPISODIC = "episodic"  # Event sequences
+    SEMANTIC = "semantic"  # Facts and concepts
+    PROCEDURAL = "procedural"  # Skills and procedures
+    META = "meta"  # Self-knowledge and beliefs
 
 
 class CompressionLevel(Enum):
     """Compression strategies for different storage levels"""
-    NONE = 0            # No compression
-    LOSSLESS = 1        # Full fidelity compression
-    SEMANTIC = 2        # Meaning-preserving compression
-    CONCEPTUAL = 3      # Abstract concept extraction
-    SYMBOLIC = 4        # Symbolic representation only
+
+    NONE = 0  # No compression
+    LOSSLESS = 1  # Full fidelity compression
+    SEMANTIC = 2  # Meaning-preserving compression
+    CONCEPTUAL = 3  # Abstract concept extraction
+    SYMBOLIC = 4  # Symbolic representation only
 
 
 @dataclass
 class MemoryNode:
     """Individual memory node in the hierarchical structure"""
+
     node_id: str = field(default_factory=lambda: str(uuid4()))
     tier: MemoryTier = MemoryTier.SENSORY
     content: Any = None
@@ -99,14 +96,21 @@ class MemoryNode:
     checksum: Optional[str] = None
     # Collapse state tracking fields (Task 6 - Claude Code)
     collapse_trace_id: Optional[str] = None  # Links to collapse events
-    collapse_score_history: List[Tuple[datetime, float]] = field(default_factory=list)  # History of collapse scores
-    collapse_alert_level: Optional[str] = None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
-    collapse_metadata: Dict[str, Any] = field(default_factory=dict)  # Additional collapse-related data
+    collapse_score_history: List[Tuple[datetime, float]] = field(
+        default_factory=list
+    )  # History of collapse scores
+    collapse_alert_level: Optional[str] = (
+        None  # Current alert level (GREEN/YELLOW/ORANGE/RED)
+    )
+    collapse_metadata: Dict[str, Any] = field(
+        default_factory=dict
+    )  # Additional collapse-related data
 
 
 @dataclass
 class RetrievalContext:
     """Context for memory retrieval operations"""
+
     query: str
     tier_filter: Optional[MemoryTier] = None
     max_depth: int = 3
@@ -119,11 +123,13 @@ class RetrievalContext:
 class HierarchicalDataStore:
     """Main HDS implementation for hierarchical memory storage"""
 
-    def __init__(self,
-                 storage_path: Optional[Path] = None,
-                 max_memory_mb: int = 1024,
-                 compression_threshold: float = 0.7,
-                 prune_interval_seconds: int = 3600):
+    def __init__(
+        self,
+        storage_path: Optional[Path] = None,
+        max_memory_mb: int = 1024,
+        compression_threshold: float = 0.7,
+        prune_interval_seconds: int = 3600,
+    ):
         """
         Initialize the Hierarchical Data Store
 
@@ -155,7 +161,7 @@ class HierarchicalDataStore:
             "cache_hits": 0,
             "cache_misses": 0,
             "pruned_nodes": 0,
-            "compression_ratio": 0.0
+            "compression_ratio": 0.0,
         }
 
         # Background tasks
@@ -163,9 +169,11 @@ class HierarchicalDataStore:
         self._compression_task = None
         self._running = False
 
-        logger.info("ΛHDS: Hierarchical Data Store initialized",
-                   storage_path=str(storage_path) if storage_path else "memory",
-                   max_memory_mb=max_memory_mb)
+        logger.info(
+            "ΛHDS: Hierarchical Data Store initialized",
+            storage_path=str(storage_path) if storage_path else "memory",
+            max_memory_mb=max_memory_mb,
+        )
 
     async def start(self):
         """Start background maintenance tasks"""
@@ -184,12 +192,14 @@ class HierarchicalDataStore:
         await self.flush_to_disk()
         logger.info("ΛHDS: Stopped and flushed to disk")
 
-    async def store(self,
-                   content: Any,
-                   tier: MemoryTier,
-                   parent_id: Optional[str] = None,
-                   metadata: Optional[Dict[str, Any]] = None,
-                   importance: float = 1.0) -> str:
+    async def store(
+        self,
+        content: Any,
+        tier: MemoryTier,
+        parent_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        importance: float = 1.0,
+    ) -> str:
         """
         Store a new memory in the hierarchical structure
 
@@ -203,7 +213,7 @@ class HierarchicalDataStore:
             content=content,
             metadata=metadata or {},
             parent_id=parent_id,
-            importance_score=importance
+            importance_score=importance,
         )
 
         # Calculate checksum for integrity
@@ -225,16 +235,17 @@ class HierarchicalDataStore:
         if await self._should_compress(node):
             await self._compress_node(node)
 
-        logger.info("ΛHDS: Memory stored",
-                   node_id=node.node_id,
-                   tier=tier.value,
-                   parent_id=parent_id,
-                   importance=importance)
+        logger.info(
+            "ΛHDS: Memory stored",
+            node_id=node.node_id,
+            tier=tier.value,
+            parent_id=parent_id,
+            importance=importance,
+        )
 
         return node.node_id
 
-    async def retrieve(self,
-                      context: RetrievalContext) -> List[MemoryNode]:
+    async def retrieve(self, context: RetrievalContext) -> List[MemoryNode]:
         """
         Retrieve memories based on context
 
@@ -266,24 +277,19 @@ class HierarchicalDataStore:
                 continue
 
             # Depth-first search with depth limit
-            await self._dfs_collect(
-                node, context, results, visited, 0
-            )
+            await self._dfs_collect(node, context, results, visited, 0)
 
             if len(results) >= context.max_results:
                 break
 
         # Sort by relevance (importance * recency)
         results.sort(
-            key=lambda n: n.importance_score * self._recency_factor(n),
-            reverse=True
+            key=lambda n: n.importance_score * self._recency_factor(n), reverse=True
         )
 
-        return results[:context.max_results]
+        return results[: context.max_results]
 
-    async def update_importance(self,
-                               node_id: str,
-                               delta: float):
+    async def update_importance(self, node_id: str, delta: float):
         """Update the importance score of a memory"""
         if node_id not in self.nodes:
             return
@@ -292,24 +298,21 @@ class HierarchicalDataStore:
         old_importance = node.importance_score
         node.importance_score = max(0.0, min(10.0, node.importance_score + delta))
 
-        logger.debug("ΛHDS: Importance updated",
-                    node_id=node_id,
-                    old=old_importance,
-                    new=node.importance_score)
+        logger.debug(
+            "ΛHDS: Importance updated",
+            node_id=node_id,
+            old=old_importance,
+            new=node.importance_score,
+        )
 
-    async def add_cross_reference(self,
-                                 node_id1: str,
-                                 node_id2: str):
+    async def add_cross_reference(self, node_id1: str, node_id2: str):
         """Create a cross-reference between two memory nodes"""
         if node_id1 in self.nodes and node_id2 in self.nodes:
             self.nodes[node_id1].cross_refs.add(node_id2)
             self.nodes[node_id2].cross_refs.add(node_id1)
-            logger.debug("ΛHDS: Cross-reference added",
-                        node1=node_id1, node2=node_id2)
+            logger.debug("ΛHDS: Cross-reference added", node1=node_id1, node2=node_id2)
 
-    async def get_hierarchy(self,
-                           root_id: str,
-                           max_depth: int = 3) -> Dict[str, Any]:
+    async def get_hierarchy(self, root_id: str, max_depth: int = 3) -> Dict[str, Any]:
         """Get hierarchical structure starting from a root node"""
         if root_id not in self.nodes:
             return {}
@@ -324,9 +327,8 @@ class HierarchicalDataStore:
                 "tier": node.tier.value,
                 "importance": node.importance_score,
                 "children": [
-                    build_tree(child_id, depth + 1)
-                    for child_id in node.children_ids
-                ]
+                    build_tree(child_id, depth + 1) for child_id in node.children_ids
+                ],
             }
 
         return build_tree(root_id, 0)
@@ -381,10 +383,7 @@ class HierarchicalDataStore:
         # Apply tier-specific compression
         if node.tier == MemoryTier.SENSORY:
             # Lossless compression for sensory data
-            compressed = zlib.compress(
-                json.dumps(node.content).encode(),
-                level=9
-            )
+            compressed = zlib.compress(json.dumps(node.content).encode(), level=9)
             node.compression_level = CompressionLevel.LOSSLESS
 
         elif node.tier == MemoryTier.EPISODIC:
@@ -412,16 +411,17 @@ class HierarchicalDataStore:
         compressed_size = len(compressed)
         ratio = compressed_size / original_size if original_size > 0 else 1.0
         self.metrics["compression_ratio"] = (
-            (self.metrics["compression_ratio"] *
-             (self.metrics["compressed_nodes"] - 1) + ratio) /
-            self.metrics["compressed_nodes"]
-        )
+            self.metrics["compression_ratio"] * (self.metrics["compressed_nodes"] - 1)
+            + ratio
+        ) / self.metrics["compressed_nodes"]
 
-        logger.debug("ΛHDS: Node compressed",
-                    node_id=node.node_id,
-                    original_size=original_size,
-                    compressed_size=compressed_size,
-                    ratio=f"{ratio:.2%}")
+        logger.debug(
+            "ΛHDS: Node compressed",
+            node_id=node.node_id,
+            original_size=original_size,
+            compressed_size=compressed_size,
+            ratio=f"{ratio:.2%}",
+        )
 
     async def _decompress_node(self, node: MemoryNode):
         """Decompress a memory node"""
@@ -448,7 +448,7 @@ class HierarchicalDataStore:
         summary = {
             "type": "semantic_summary",
             "key_concepts": str(content)[:100],
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
         return json.dumps(summary).encode()
 
@@ -458,7 +458,7 @@ class HierarchicalDataStore:
         abstract = {
             "type": "conceptual_abstract",
             "concept": str(content)[:50],
-            "relations": []
+            "relations": [],
         }
         return json.dumps(abstract).encode()
 
@@ -467,21 +467,19 @@ class HierarchicalDataStore:
         # Placeholder for symbolic compression
         symbol = {
             "type": "symbol",
-            "id": hashlib.md5(str(content).encode()).hexdigest()[:8]
+            "id": hashlib.md5(str(content).encode()).hexdigest()[:8],
         }
         return json.dumps(symbol).encode()
 
-    async def _reconstruct_from_compressed(self,
-                                         data: bytes,
-                                         level: CompressionLevel) -> Any:
+    async def _reconstruct_from_compressed(
+        self, data: bytes, level: CompressionLevel
+    ) -> Any:
         """Reconstruct content from compressed form"""
         # Placeholder for reconstruction
         # In production, would use appropriate models/algorithms
         return json.loads(data.decode())
 
-    def _matches_context(self,
-                        node: MemoryNode,
-                        context: RetrievalContext) -> bool:
+    def _matches_context(self, node: MemoryNode, context: RetrievalContext) -> bool:
         """Check if node matches retrieval context"""
         # Importance filter
         if node.importance_score < context.importance_threshold:
@@ -501,12 +499,14 @@ class HierarchicalDataStore:
 
         return True
 
-    async def _dfs_collect(self,
-                          node: MemoryNode,
-                          context: RetrievalContext,
-                          results: List[MemoryNode],
-                          visited: Set[str],
-                          depth: int):
+    async def _dfs_collect(
+        self,
+        node: MemoryNode,
+        context: RetrievalContext,
+        results: List[MemoryNode],
+        visited: Set[str],
+        depth: int,
+    ):
         """Depth-first search collection with context filtering"""
         if depth > context.max_depth or node.node_id in visited:
             return
@@ -521,9 +521,7 @@ class HierarchicalDataStore:
             if child_id in self.nodes:
                 child = await self._get_node(child_id)
                 if child:
-                    await self._dfs_collect(
-                        child, context, results, visited, depth + 1
-                    )
+                    await self._dfs_collect(child, context, results, visited, depth + 1)
 
         # Explore cross-references if requested
         if context.include_cross_refs:
@@ -664,7 +662,7 @@ class HierarchicalDataStore:
                         "is_compressed": node.is_compressed,
                         "checksum": node.checksum,
                         "created_at": node.created_at.isoformat(),
-                        "last_accessed": node.last_accessed.isoformat()
+                        "last_accessed": node.last_accessed.isoformat(),
                     }
                     for node_id, node in self.nodes.items()
                 },
@@ -672,20 +670,22 @@ class HierarchicalDataStore:
                     node_id: data.hex()
                     for node_id, data in self.compression_cache.items()
                 },
-                "metrics": self.metrics
+                "metrics": self.metrics,
             }
 
             # Write to temporary file first for atomicity
-            temp_path = self.storage_path.with_suffix('.tmp')
-            with open(temp_path, 'w') as f:
+            temp_path = self.storage_path.with_suffix(".tmp")
+            with open(temp_path, "w") as f:
                 json.dump(state, f, indent=2)
 
             # Atomic rename
             temp_path.rename(self.storage_path)
 
-            logger.info("ΛHDS: State persisted to disk",
-                       path=str(self.storage_path),
-                       nodes=len(self.nodes))
+            logger.info(
+                "ΛHDS: State persisted to disk",
+                path=str(self.storage_path),
+                nodes=len(self.nodes),
+            )
 
         except Exception as e:
             logger.error("ΛHDS: Failed to persist state", error=str(e))
@@ -696,7 +696,7 @@ class HierarchicalDataStore:
             return
 
         try:
-            with open(self.storage_path, 'r') as f:
+            with open(self.storage_path) as f:
                 state = json.load(f)
 
             # Reconstruct nodes
@@ -714,7 +714,7 @@ class HierarchicalDataStore:
                     is_compressed=node_data["is_compressed"],
                     checksum=node_data["checksum"],
                     created_at=datetime.fromisoformat(node_data["created_at"]),
-                    last_accessed=datetime.fromisoformat(node_data["last_accessed"])
+                    last_accessed=datetime.fromisoformat(node_data["last_accessed"]),
                 )
                 self.nodes[node_id] = node
                 self.tier_indices[node.tier].add(node_id)
@@ -731,20 +731,24 @@ class HierarchicalDataStore:
             # Restore metrics
             self.metrics.update(state["metrics"])
 
-            logger.info("ΛHDS: State loaded from disk",
-                       path=str(self.storage_path),
-                       nodes=len(self.nodes))
+            logger.info(
+                "ΛHDS: State loaded from disk",
+                path=str(self.storage_path),
+                nodes=len(self.nodes),
+            )
 
         except Exception as e:
             logger.error("ΛHDS: Failed to load state", error=str(e))
 
     # Collapse state management methods (Task 6 - Claude Code)
-    async def update_collapse_state(self,
-                                  node_id: str,
-                                  collapse_trace_id: str,
-                                  collapse_score: float,
-                                  alert_level: str,
-                                  metadata: Optional[Dict[str, Any]] = None):
+    async def update_collapse_state(
+        self,
+        node_id: str,
+        collapse_trace_id: str,
+        collapse_score: float,
+        alert_level: str,
+        metadata: Optional[Dict[str, Any]] = None,
+    ):
         """
         Update collapse state for a memory node
 
@@ -774,14 +778,17 @@ class HierarchicalDataStore:
         if metadata:
             node.collapse_metadata.update(metadata)
 
-        logger.info("ΛHDS: Collapse state updated",
-                   node_id=node_id,
-                   trace_id=collapse_trace_id,
-                   score=collapse_score,
-                   alert_level=alert_level)
+        logger.info(
+            "ΛHDS: Collapse state updated",
+            node_id=node_id,
+            trace_id=collapse_trace_id,
+            score=collapse_score,
+            alert_level=alert_level,
+        )
 
-    async def get_collapse_affected_nodes(self,
-                                        collapse_trace_id: str) -> List[MemoryNode]:
+    async def get_collapse_affected_nodes(
+        self, collapse_trace_id: str
+    ) -> List[MemoryNode]:
         """
         Get all nodes affected by a specific collapse event
 
@@ -799,8 +806,9 @@ class HierarchicalDataStore:
 
         return affected_nodes
 
-    async def get_high_risk_nodes(self,
-                                 alert_threshold: str = "ORANGE") -> List[MemoryNode]:
+    async def get_high_risk_nodes(
+        self, alert_threshold: str = "ORANGE"
+    ) -> List[MemoryNode]:
         """
         Get nodes with high collapse risk
 
@@ -829,16 +837,25 @@ class HierarchicalDataStore:
     def get_status(self) -> Dict[str, Any]:
         """Get comprehensive HDS status"""
         memory_usage_mb = (
-            sum(len(str(node.content).encode())
-                for node in self.nodes.values() if node.content) +
-            sum(len(data) for data in self.compression_cache.values())
+            sum(
+                len(str(node.content).encode())
+                for node in self.nodes.values()
+                if node.content
+            )
+            + sum(len(data) for data in self.compression_cache.values())
         ) / (1024 * 1024)
 
         # Count collapse-affected nodes
-        collapse_affected = sum(1 for node in self.nodes.values()
-                              if node.collapse_trace_id is not None)
-        high_risk_count = len([n for n in self.nodes.values()
-                             if n.collapse_alert_level in ["ORANGE", "RED"]])
+        collapse_affected = sum(
+            1 for node in self.nodes.values() if node.collapse_trace_id is not None
+        )
+        high_risk_count = len(
+            [
+                n
+                for n in self.nodes.values()
+                if n.collapse_alert_level in ["ORANGE", "RED"]
+            ]
+        )
 
         return {
             "total_nodes": self.metrics["total_nodes"],
@@ -849,13 +866,12 @@ class HierarchicalDataStore:
                 f"{self.metrics['cache_hits'] / max(1, self.metrics['total_accesses']):.2%}"
             ),
             "tier_distribution": {
-                tier.value: len(nodes)
-                for tier, nodes in self.tier_indices.items()
+                tier.value: len(nodes) for tier, nodes in self.tier_indices.items()
             },
             "pruned_total": self.metrics["pruned_nodes"],
             # Collapse state metrics
             "collapse_affected_nodes": collapse_affected,
-            "high_risk_nodes": high_risk_count
+            "high_risk_nodes": high_risk_count,
         }
 
 

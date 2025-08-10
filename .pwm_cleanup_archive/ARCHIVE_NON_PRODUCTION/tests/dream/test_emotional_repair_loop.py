@@ -1,9 +1,10 @@
 """Tests for dream repair loops triggered by sadness."""
+
 from datetime import datetime
 
 from consciousness.systems.dream_engine.dream_reflection_loop import (
-    DreamReflectionLoop,
     DreamReflectionConfig,
+    DreamReflectionLoop,
     DreamState,
 )
 

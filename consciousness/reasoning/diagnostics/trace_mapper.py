@@ -10,11 +10,11 @@
 # ΛCOMMIT_WINDOW: pre-O3-sweep
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
-import json
 from core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for trace mapping.
 logger = get_logger(__name__)
+
 
 class TraceMapper:
     """
@@ -43,6 +43,7 @@ class TraceMapper:
         logger.info("Mapping traces...")
         # In a real implementation, this would involve creating a graph or other data structure.
         return {"status": "mapped", "trace_count": len(self.traces)}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: trace_mapper.py

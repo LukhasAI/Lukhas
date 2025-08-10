@@ -12,11 +12,12 @@ Integration Date: 2025-05-31T07:55:28.266230
 # 🛠️ DEPENDENCIES: OpenAI (GPT-4), os, dotenv, json
 # ════════════════════════════════════════════════════════════════════════
 
-import openai
-import os
-import json
-from dotenv import load_dotenv
 import hashlib
+import json
+import os
+
+import openai
+from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -24,7 +25,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 if not os.path.exists("logs"):
     os.makedirs("logs")
 
+
 class LUKHASDNALink:
+
     def __init__(self, model="gpt-4"):
         self.model = model
 
@@ -34,33 +37,36 @@ class LUKHASDNALink:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.7
+                temperature=0.7,
             )
-            return response['choices'][0]['message']['content']
+            return response["choices"][0]["message"]["content"]
         except Exception as e:
             return f"[Reflection Error] {str(e)}"
 
     def translate(self, text, target_language="en"):
-        prompt = f"Translate the following text into {target_language}, preserving symbolic tone:\n\n{text}"
-        try:
+        prompt = f"Translate the following text into {target_language},
+    preserving symbolic tone: \n\n{text}"
+       try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.3
+                temperature=0.3,
             )
-            return response['choices'][0]['message']['content']
+            return response["choices"][0]["message"]["content"]
         except Exception as e:
             return f"[Translation Error] {str(e)}"
 
     def generate_opinion(self, topic, tone="philosophical"):
-        prompt = f"As Lukhas, provide a symbolic and {tone} opinion on the topic: {topic}."
+        prompt = (
+            f"As Lukhas, provide a symbolic and {tone} opinion on the topic: {topic}."
+        )
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.8
+                temperature=0.8,
             )
-            return response['choices'][0]['message']['content']
+            return response["choices"][0]["message"]["content"]
         except Exception as e:
             return f"[Opinion Error] {str(e)}"
 
@@ -74,8 +80,8 @@ class LUKHASDNALink:
             ask_response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt_ask}],
-                temperature=0.6
-            )['choices'][0]['message']['content']
+                temperature=0.6,
+            )["choices"][0]["message"]["content"]
             print("Lukhas asks:", ask_response)
 
             explanation = input("🧠 User explains: ").strip()
@@ -88,14 +94,17 @@ class LUKHASDNALink:
                 repeat_response = openai.ChatCompletion.create(
                     model=self.model,
                     messages=[{"role": "user", "content": prompt_repeat}],
-                    temperature=0.5
-                )['choices'][0]['message']['content']
+                    temperature=0.5,
+                )["choices"][0]["message"]["content"]
                 print("Lukhas repeats:", repeat_response)
 
                 if user_feedback_fn:
                     confirmed = user_feedback_fn(repeat_response)
                 else:
-                    confirmed = input("✅ Did Lukhas get it right? (yes/no): ").strip().lower() == "yes"
+                    confirmed = (
+                        input("✅ Did Lukhas get it right? (yes/no): ").strip().lower()
+                        == "yes"
+                    )
                 attempts += 1
 
             if confirmed:
@@ -104,9 +113,11 @@ class LUKHASDNALink:
                     "context": context,
                     "user_explanation": explanation,
                     "confirmed": True,
-                    "hash": hashlib.sha256((unknown_term + explanation).encode()).hexdigest()[:16],
+                    "hash": hashlib.sha256(
+                        (unknown_term + explanation).encode()
+                    ).hexdigest()[:16],
                     "gdpr_consent": True,
-                    "source": "live_learning"
+                    "source": "live_learning",
                 }
                 with open("logs/memory_hash.jsonl", "a") as f:
                     f.write(json.dumps(memory_record) + "\n")
@@ -116,9 +127,12 @@ class LUKHASDNALink:
         except Exception as e:
             return f"[Learn Loop Error] {str(e)}"
 
-    def generate_email_draft(self, topic, recipient="someone", language="en", tone="formal"):
+    def generate_email_draft(
+        self, topic, recipient="someone", language="en", tone="formal"
+    ):
         """
-        Ask Lukhas to generate a symbolic email draft. User should define language, tone, and purpose.
+        Ask Lukhas to generate a symbolic email draft. User should define language,
+    tone, and purpose.
         """
         prompt = (
             f"As Lukhas, draft an email in {language}, using a {tone} tone. "
@@ -129,16 +143,16 @@ class LUKHASDNALink:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.4
+                temperature=0.4,
             )
-            content = response['choices'][0]['message']['content']
+            content = response["choices"][0]["message"]["content"]
 
             log_entry = {
                 "recipient": recipient,
                 "topic": topic,
                 "tone": tone,
                 "language": language,
-                "output": content
+                "output": content,
             }
 
             with open("logs/email_drafts.jsonl", "a") as f:
@@ -153,16 +167,15 @@ class LUKHASDNALink:
         Create a platform-aware symbolic post. User chooses tone and platform.
         """
         prompt = (
-            f"As Lukhas, craft a {tone} post for {platform}. "
-            f"The post should be engaging and resonate with users symbolically. Topic: {topic}"
-        )
+    f"As Lukhas, craft a {tone} post for {platform}. "
+    f"The post should be engaging and resonate with users symbolically. Topic: {topic}" )
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.7
+                temperature=0.7,
             )
-            content = response['choices'][0]['message']['content']
+            content = response["choices"][0]["message"]["content"]
             self._log_output("social_post", topic, content)
             return content
         except Exception as e:
@@ -173,17 +186,18 @@ class LUKHASDNALink:
         Lukhas writes a short symbolic message based on emotion + purpose.
         """
         prompt = (
-            f"As Lukhas, write a short {emotion} text message to {recipient} with the intent to {purpose}. "
-            f"Be clear, warm, and symbolically expressive."
-        )
+    f"As Lukhas, write a short {emotion} text message to {recipient} with the intent to {purpose}. "
+    f"Be clear, warm, and symbolically expressive." )
         try:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.6
+                temperature=0.6,
             )
-            content = response['choices'][0]['message']['content']
-            self._log_output("text_message", f"{emotion} {purpose} to {recipient}", content)
+            content = response["choices"][0]["message"]["content"]
+            self._log_output(
+                "text_message", f"{emotion} {purpose} to {recipient}", content
+            )
             return content
         except Exception as e:
             return f"[Text Message Error] {str(e)}"
@@ -200,9 +214,9 @@ class LUKHASDNALink:
             response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.5
+                temperature=0.5,
             )
-            content = response['choices'][0]['message']['content']
+            content = response["choices"][0]["message"]["content"]
             self._log_output("rewritten_draft", style, content)
             return content
         except Exception as e:
@@ -213,7 +227,7 @@ class LUKHASDNALink:
             log_entry = {
                 "type": type,
                 "input": input_data,
-                "output": output_data
+                "output": output_data,
             }
             with open("logs/lukhas_output_log.jsonl", "a") as f:
                 f.write(json.dumps(log_entry) + "\n")

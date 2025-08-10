@@ -4,15 +4,14 @@ Reasoning Colony - A specialized colony for reasoning tasks.
 
 import asyncio
 import logging
-import uuid
 import time
-from typing import Dict, Any, List
+import uuid
+from typing import Any, Dict, List, Optional
 
 from core.colonies.base_colony import BaseColony
 from core.efficient_communication import MessagePriority
-from core.symbolism.tags import TagPermission, TagScope
 from core.symbolic.collapse.vector_ops import vector_collapse
-from typing import Optional
+from core.symbolism.tags import TagPermission, TagScope
 
 try:
     from memory.systems.agent_memory import SymbolAwareTieredMemory
@@ -20,6 +19,7 @@ except ImportError:
     # Create a placeholder if import fails
     class SymbolAwareTieredMemory:
         pass
+
 
 logger = logging.getLogger(__name__)
 
@@ -29,10 +29,11 @@ class ReasoningColony(BaseColony):
     A specialized colony for reasoning tasks.
     """
 
-    def __init__(self, colony_id: str, memory_system: Optional[SymbolAwareTieredMemory] = None):
+    def __init__(
+        self, colony_id: str, memory_system: Optional[SymbolAwareTieredMemory] = None
+    ):
         super().__init__(
-            colony_id,
-            capabilities=["reasoning", "analysis", "problem_solving"]
+            colony_id, capabilities=["reasoning", "analysis", "problem_solving"]
         )
         # Symbol-aware memory system for contextual decisions
         self.memory_system = memory_system or SymbolAwareTieredMemory()
@@ -41,16 +42,18 @@ class ReasoningColony(BaseColony):
         await super().start()
         # Subscribe to relevant events
         self.comm_fabric.subscribe_to_events(
-            "collaboration_request",
-            self._handle_collaboration_request
+            "collaboration_request", self._handle_collaboration_request
         )
         self.comm_fabric.subscribe_to_events(
-            "task_assignment",
-            self._handle_task_assignment
+            "task_assignment", self._handle_task_assignment
         )
-        logger.info(f"ReasoningColony {self.colony_id} started and subscribed to events.")
+        logger.info(
+            f"ReasoningColony {self.colony_id} started and subscribed to events."
+        )
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Execute a reasoning task.
         """
@@ -75,23 +78,25 @@ class ReasoningColony(BaseColony):
             dream_context: List[Dict[str, Any]] = []
             if task_data.get("high_stakes"):
                 dream_context = self.memory_system.get_dream_flagged()
-                self.tracer.add_log(ctx, "dream_context_loaded", {
-                    "count": len(dream_context)
-                })
+                self.tracer.add_log(
+                    ctx, "dream_context_loaded", {"count": len(dream_context)}
+                )
 
             # Record task assignment in event store
             task_data_for_event = task_data.copy()
             if "tags" in task_data_for_event:
                 task_data_for_event["tags"] = {
-                    k: (v[0], v[1].value) for k, v in task_data_for_event["tags"].items()
+                    k: (v[0], v[1].value)
+                    for k, v in task_data_for_event["tags"].items()
                 }
             self.aggregate.assign_task(task_id, task_data_for_event, correlation_id)
             self.aggregate.commit_events()
 
-            self.tracer.add_log(ctx, "task_assigned", {
-                "task_id": task_id,
-                "task_type": task_data.get("type", "unknown")
-            })
+            self.tracer.add_log(
+                ctx,
+                "task_assigned",
+                {"task_id": task_id, "task_type": task_data.get("type", "unknown")},
+            )
 
             # Execute task via actor system
             if self.actor_ref:
@@ -101,7 +106,7 @@ class ReasoningColony(BaseColony):
                         "assign_task",
                         {"task_id": task_id, **task_data},
                         timeout=10.0,
-                        correlation_id=correlation_id
+                        correlation_id=correlation_id,
                     )
 
                     self.tracer.add_tag(ctx, "actor_response", response["status"])
@@ -117,8 +122,11 @@ class ReasoningColony(BaseColony):
                                     task_id, task_data, correlation_id
                                 )
                                 self.tracer.add_tag(proc_ctx, "collaboration", True)
-                                self.tracer.add_tag(proc_ctx, "collaboration_success",
-                                                  collab_result["success"])
+                                self.tracer.add_tag(
+                                    proc_ctx,
+                                    "collaboration_success",
+                                    collab_result["success"],
+                                )
 
                         # Complete task
                         result = {
@@ -134,7 +142,7 @@ class ReasoningColony(BaseColony):
                         await self.actor_ref.tell(
                             "complete_task",
                             {"task_id": task_id, "result": result},
-                            correlation_id=correlation_id
+                            correlation_id=correlation_id,
                         )
 
                         # Record completion in event store
@@ -150,7 +158,7 @@ class ReasoningColony(BaseColony):
                             "status": "failed",
                             "task_id": task_id,
                             "error": "Task rejected by actor",
-                            "reason": response.get("reason", "unknown")
+                            "reason": response.get("reason", "unknown"),
                         }
                         self.tracer.add_tag(ctx, "error", True)
                         return error_result
@@ -159,7 +167,7 @@ class ReasoningColony(BaseColony):
                     error_result = {
                         "status": "failed",
                         "task_id": task_id,
-                        "error": str(e)
+                        "error": str(e),
                     }
                     self.tracer.add_tag(ctx, "error", True)
                     self.tracer.add_log(ctx, "execution_error", {"error": str(e)})
@@ -169,11 +177,12 @@ class ReasoningColony(BaseColony):
                 return {
                     "status": "failed",
                     "task_id": task_id,
-                    "error": "Actor system not available"
+                    "error": "Actor system not available",
                 }
 
-    async def _collaborate_on_task(self, task_id: str, task_data: Dict[str, Any],
-                                 correlation_id: str) -> Dict[str, Any]:
+    async def _collaborate_on_task(
+        self, task_id: str, task_data: Dict[str, Any], correlation_id: str
+    ) -> Dict[str, Any]:
         """
         Collaborate with other agents on a task
         """
@@ -191,9 +200,9 @@ class ReasoningColony(BaseColony):
                     "task_id": task_id,
                     "required_capability": required_capability,
                     "requesting_agent": self.colony_id,
-                    "correlation_id": correlation_id
+                    "correlation_id": correlation_id,
                 },
-                MessagePriority.HIGH
+                MessagePriority.HIGH,
             )
 
             self.tracer.add_tag(ctx, "broadcast_success", success)
@@ -205,12 +214,12 @@ class ReasoningColony(BaseColony):
                 return {
                     "success": True,
                     "collaborator": "simulated-partner",
-                    "result": "collaborative_analysis_complete"
+                    "result": "collaborative_analysis_complete",
                 }
             else:
                 return {
                     "success": False,
-                    "error": "Failed to send collaboration request"
+                    "error": "Failed to send collaboration request",
                 }
 
     async def _handle_collaboration_request(self, message):
@@ -223,7 +232,7 @@ class ReasoningColony(BaseColony):
         with self.tracer.trace_agent_collaboration(
             payload.get("requesting_agent", "unknown"),
             self.colony_id,
-            "collaboration_response"
+            "collaboration_response",
         ) as ctx:
 
             if required_capability in self.capabilities:
@@ -231,7 +240,7 @@ class ReasoningColony(BaseColony):
                 response = {
                     "status": "available",
                     "agent_id": self.colony_id,
-                    "capability": required_capability
+                    "capability": required_capability,
                 }
 
                 # Send response
@@ -239,7 +248,7 @@ class ReasoningColony(BaseColony):
                     payload.get("requesting_agent"),
                     "collaboration_response",
                     response,
-                    MessagePriority.HIGH
+                    MessagePriority.HIGH,
                 )
 
                 self.tracer.add_tag(ctx, "can_collaborate", True)
@@ -260,7 +269,9 @@ class ReasoningColony(BaseColony):
                 logger.warning("vector_collapse failed", exc_info=exc)
 
         if "tags" in task_data:
-            for tag_key, (tag_value, tag_scope, tag_permission, lifespan) in list(task_data["tags"].items()):
+            for tag_key, (tag_value, tag_scope, tag_permission, lifespan) in list(
+                task_data["tags"].items()
+            ):
                 if computed_scope and tag_scope is None:
                     tag_scope = computed_scope
 
@@ -279,15 +290,21 @@ class ReasoningColony(BaseColony):
                     tag_permission,
                     lifespan,
                 )
-                self.tag_propagation_log.append({
-                    "tag": tag_key,
-                    "value": tag_value,
-                    "scope": tag_scope.value if isinstance(tag_scope, TagScope) else str(tag_scope),
-                    "permission": tag_permission.value,
-                    "source": source,
-                    "timestamp": creation_time,
-                    "lifespan": lifespan,
-                })
+                self.tag_propagation_log.append(
+                    {
+                        "tag": tag_key,
+                        "value": tag_value,
+                        "scope": (
+                            tag_scope.value
+                            if isinstance(tag_scope, TagScope)
+                            else str(tag_scope)
+                        ),
+                        "permission": tag_permission.value,
+                        "source": source,
+                        "timestamp": creation_time,
+                        "lifespan": lifespan,
+                    }
+                )
 
             logger.info(
                 f"Propagated tags to colony {self.colony_id}: {self.symbolic_carryover}"

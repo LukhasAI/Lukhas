@@ -1,12 +1,14 @@
-from typing import Dict, Optional, Tuple
-from datetime import datetime
 import logging
-from ..user_interface_manager.voice_handler import VoiceHandler
-from ..user_interface_manager.text_handler import TextHandler
-from ..diagnostic_engine.engine import DiagnosticEngine
+from datetime import datetime
+from typing import Dict, Optional
+
 from ..data_manager.crud_operations import DataManagerCRUD
+from ..diagnostic_engine.engine import DiagnosticEngine
+from ..user_interface_manager.text_handler import TextHandler
+from ..user_interface_manager.voice_handler import VoiceHandler
 
 logger = logging.getLogger(__name__)
+
 
 class SymptomReporter:
     """
@@ -24,18 +26,18 @@ class SymptomReporter:
         self.config = config or {}
 
         # Core components
-        self.voice_handler = VoiceHandler(self.config.get('voice_config'))
-        self.text_handler = TextHandler(self.config.get('text_config'))
-        self.diagnostic_engine = DiagnosticEngine(self.config.get('diagnostic_config'))
-        self.data_manager = DataManagerCRUD(self.config.get('data_config'))
+        self.voice_handler = VoiceHandler(self.config.get("voice_config"))
+        self.text_handler = TextHandler(self.config.get("text_config"))
+        self.diagnostic_engine = DiagnosticEngine(self.config.get("diagnostic_config"))
+        self.data_manager = DataManagerCRUD(self.config.get("data_config"))
 
         # Conversation state
-        self.max_interaction_turns = self.config.get('max_interaction_turns', 10)
+        self.max_interaction_turns = self.config.get("max_interaction_turns", 10)
         self.comfort_phrases = [
             "I understand that must be difficult.",
             "I'm here to help you through this.",
             "Thank you for sharing that with me.",
-            "Let's work through this together."
+            "Let's work through this together.",
         ]
 
         logger.info("SymptomReporter initialized and ready for interactions")
@@ -81,13 +83,16 @@ class SymptomReporter:
                 return await self._handle_failed_interaction(session_id)
 
             # Process response with diagnostic engine
-            is_critical, new_symptoms, needs_media, needs_questions, confidence = \
+            is_critical, new_symptoms, needs_media, needs_questions, confidence = (
                 self.diagnostic_engine.process_user_response(user_input, symptoms)
+            )
 
             # Critical symptom check (Altman: safety first)
             if is_critical:
                 requires_immediate_attention = True
-                await self._handle_critical_situation(session_id, symptoms + new_symptoms)
+                await self._handle_critical_situation(
+                    session_id, symptoms + new_symptoms
+                )
                 break
 
             # Update symptom list
@@ -99,7 +104,8 @@ class SymptomReporter:
                 if media_result.get("status") == "success":
                     await self._communicate(
                         "Thank you for sharing that image. It will help with the assessment.",
-                        user_id, mode
+                        user_id,
+                        mode,
                     )
 
             # Determine next step
@@ -122,15 +128,13 @@ class SymptomReporter:
                 {
                     "symptoms_reported": symptoms,
                     "interaction_count": interaction_count,
-                    "last_update": datetime.now().isoformat()
-                }
+                    "last_update": datetime.now().isoformat(),
+                },
             )
 
         # Session completion
         return await self._complete_session(
-            session_id,
-            symptoms,
-            requires_immediate_attention
+            session_id, symptoms, requires_immediate_attention
         )
 
     async def _communicate(self, message: str, user_id: str, mode: str) -> bool:
@@ -147,8 +151,7 @@ class SymptomReporter:
             if mode == "voice":
                 try:
                     self.text_handler.send_message(
-                        user_id,
-                        f"Voice communication failed. Message: {message}"
+                        user_id, f"Voice communication failed. Message: {message}"
                     )
                     return True
                 except:
@@ -177,8 +180,8 @@ class SymptomReporter:
             {
                 "status": "critical",
                 "symptoms_reported": symptoms,
-                "requires_immediate_attention": True
-            }
+                "requires_immediate_attention": True,
+            },
         )
         # In a real system, this would trigger emergency protocols
         logger.warning(f"Critical symptoms detected in session {session_id}")
@@ -190,34 +193,34 @@ class SymptomReporter:
         )
         return {
             "status": "error",
-            "message": "Unable to complete symptom reporting. Please try again or seek direct medical assistance."
+            "message": "Unable to complete symptom reporting. Please try again or seek direct medical assistance.",
         }
 
     def _get_comfort_phrase(self) -> str:
         """Returns a comforting phrase (Jobs: emotional design)"""
         from random import choice
+
         return choice(self.comfort_phrases)
 
     async def _complete_session(
-        self,
-        session_id: str,
-        symptoms: list,
-        requires_immediate_attention: bool
+        self, session_id: str, symptoms: list, requires_immediate_attention: bool
     ) -> Dict:
         """Completes the session and returns final status"""
-        status = "completed_critical" if requires_immediate_attention else "completed_normal"
+        status = (
+            "completed_critical" if requires_immediate_attention else "completed_normal"
+        )
         self.data_manager.update_diagnostic_session(
             session_id,
             {
                 "status": status,
                 "symptoms_reported": symptoms,
-                "end_time": datetime.now().isoformat()
-            }
+                "end_time": datetime.now().isoformat(),
+            },
         )
 
         return {
             "status": status,
             "session_id": session_id,
             "symptoms": symptoms,
-            "requires_immediate_attention": requires_immediate_attention
+            "requires_immediate_attention": requires_immediate_attention,
         }

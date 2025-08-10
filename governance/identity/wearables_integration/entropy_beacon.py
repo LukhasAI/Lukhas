@@ -4,10 +4,12 @@
 # This module will handle entropy broadcasting from wearable devices.
 
 import hashlib
-from datetime import datetime
-import nacl.signing
-import time
 import random
+import time
+from datetime import datetime
+
+import nacl.signing
+
 
 class EntropyBeacon:
     """Broadcasts low-level entropy signals from wearable devices with AGI resilience."""
@@ -37,7 +39,9 @@ class EntropyBeacon:
 
     def generate_entropy_fingerprint(self, session_id):
         """Generate a cryptographically unique signature tied to the session."""
-        return hashlib.sha256(f"{session_id}-{self.get_current_time()}".encode()).hexdigest()
+        return hashlib.sha256(
+            f"{session_id}-{self.get_current_time()}".encode()
+        ).hexdigest()
 
     def assign_entropy_weight(self, session_id, relevance):
         """Assign session-specific entropy weights based on relevance."""
@@ -50,7 +54,7 @@ class EntropyBeacon:
         contribution = {
             "session_id": session_id,
             "entropy_value": entropy_value,
-            "timestamp": self.get_current_time()
+            "timestamp": self.get_current_time(),
         }
         self.contribution_history.append(contribution)
         print(f"Tracked entropy contribution: {contribution}.")

@@ -66,15 +66,13 @@ import json  # Unused
 import os  # Unused
 from collections import defaultdict
 from datetime import datetime, timezone
-from enum import (
-    Enum,
-)  # Unused directly, but EmotionVector.DIMENSIONS acts like an enum definition
-from typing import Any, Dict, List, Optional, Tuple  # Tuple unused
+from typing import Any, Dict, List, Optional  # Tuple unused
 
 # Third-Party Imports
 import numpy as np
-import structlog
+
 from tools.dev.patch_utils import temporary_patch
+
 # Legacy import removed - function implemented directly in this module
 
 # LUKHAS Core Imports
@@ -105,7 +103,6 @@ except ImportError:
 
 # Initialize logger for this module
 # ΛTRACE: Standard logger setup for EmotionalMemory.
-from core.common import get_logger
 
 # Toggle compatibility behavior
 compat_mode: bool = True
@@ -141,7 +138,7 @@ class EmotionVector:
 
     # ΛSEED_CHAIN: `values` dictionary seeds the initial emotional state.
     def __init__(self, values: Optional[Dict[str, float]] = None):
-        self.values: Dict[str, float] = {dim: 0.0 for dim in self.DIMENSIONS}
+        self.values: Dict[str, float] = dict.fromkeys(self.DIMENSIONS, 0.0)
         if values:
             for dim, value in values.items():
                 if dim in self.DIMENSIONS:
@@ -407,7 +404,7 @@ class EmotionalMemory:
         log.debug(
             f"Inferring emotion from experience (stub). experience_type={experience.get('type')}, content_preview={str(experience.get('text', ''))[:50]}"
         )
-        values = {dim: 0.0 for dim in EmotionVector.DIMENSIONS}
+        values = dict.fromkeys(EmotionVector.DIMENSIONS, 0.0)
         text = str(experience.get("text", "")).lower()  # Basic text analysis
         # Simple keyword spotting - very rudimentary
         if any(w in text for w in ["happy", "joy", "success", "great", "wonderful"]):
@@ -642,7 +639,6 @@ class EmotionalMemory:
         """
         Logs circuit breaker activations to dedicated monitoring file.
         """
-        import os
 
         fuse_log_path = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion_identity_fuse.jsonl"
 

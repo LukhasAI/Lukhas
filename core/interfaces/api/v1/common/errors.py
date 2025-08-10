@@ -1,5 +1,5 @@
-from typing import Optional, Dict, Any
 from dataclasses import dataclass
+from typing import Any, Optional
 
 
 @dataclass
@@ -8,7 +8,7 @@ class APIError(Exception):
 
     code: str
     message: str
-    details: Optional[Dict[str, Any]] = None
+    details: Optional[dict[str, Any]] = None
     status_code: int = 400
 
 

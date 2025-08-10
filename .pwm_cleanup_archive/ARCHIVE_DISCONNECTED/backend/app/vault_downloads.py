@@ -8,13 +8,15 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
+import os
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-import os
 
 router = APIRouter()
 
 VAULT_STORAGE_DIR = "vault_storage"
+
 
 @router.get("/vault/download/{filename}")
 def download_vault_file(filename: str):
@@ -26,4 +28,6 @@ def download_vault_file(filename: str):
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="Vault file not found")
 
-    return FileResponse(file_path, media_type='application/octet-stream', filename=filename)
+    return FileResponse(
+        file_path, media_type="application/octet-stream", filename=filename
+    )

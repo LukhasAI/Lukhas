@@ -7,11 +7,11 @@ Tests actual problem-solving capabilities with real data and scenarios.
 NOT just import validation - tests that modules can solve actual problems.
 """
 
-import sys
-import os
 import asyncio
-import time
 import json
+import os
+import sys
+import time
 from datetime import datetime
 
 # Add project root to path
@@ -129,7 +129,7 @@ async def test_consciousness_cognitive_architecture():
                     category_results["pass_count"] += 1
                     scenario_result["status"] = "PASS"
                 else:
-                    print(f"   ❌ FAILED - Insufficient reasoning indicators")
+                    print("   ❌ FAILED - Insufficient reasoning indicators")
                     print(
                         f'   📊 Keywords matched: {keywords_found}/{len(scenario["expected_keywords"])}'
                     )
@@ -243,7 +243,7 @@ async def test_memory_system_real_learning():
                         category_results["pass_count"] += 1
                         scenario_result["status"] = "PASS"
                     else:
-                        print(f"   ❌ FAILED - Poor recall rate")
+                        print("   ❌ FAILED - Poor recall rate")
                         scenario_result["status"] = "FAIL"
 
                 elif scenario["name"] == "Associative Memory":
@@ -324,7 +324,7 @@ async def test_dream_system_creative_scenarios():
     category_results = {"scenarios": [], "pass_count": 0, "total_count": 0}
 
     try:
-        from dream import get_dream_status, hyperspace_dream_simulator
+        from dream import get_dream_status
         from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
 
         # Check dream system status
@@ -433,7 +433,7 @@ async def test_dream_system_creative_scenarios():
                     category_results["pass_count"] += 1
                     scenario_result["status"] = "PASS"
                 else:
-                    print(f"   ❌ FAILED - Insufficient creative elements")
+                    print("   ❌ FAILED - Insufficient creative elements")
                     print(
                         f'   📊 Elements matched: {elements_found}/{len(scenario["expected_elements"])}'
                     )
@@ -473,7 +473,6 @@ async def test_reasoning_engine_complex_problems():
         from reasoning.abstract_reasoning_demo import (
             create_abstract_reasoning_interface,
         )
-        from reasoning import AbstractReasoningBrainCore
 
         reasoning_interface = create_abstract_reasoning_interface()
         print("✅ Abstract reasoning interface created")
@@ -601,7 +600,7 @@ async def test_reasoning_engine_complex_problems():
                     category_results["pass_count"] += 1
                     scenario_result["status"] = "PASS"
                 else:
-                    print(f"   ❌ FAILED - Insufficient reasoning depth")
+                    print("   ❌ FAILED - Insufficient reasoning depth")
                     print(
                         f'   📊 Reasoning indicators: {reasoning_indicators}/{len(problem["expected_reasoning"])}'
                     )

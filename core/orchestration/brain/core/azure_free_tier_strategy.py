@@ -12,14 +12,11 @@
 ╰────────────────────────────────────────────────────────────────╯
 """
 
-from datetime import datetime, date
-from typing import Dict, List
-import openai
+from datetime import date
 
 
 class AzureFreeStrategy:
     """Strategic plan for maximizing Azure Free Tier for LUKHAS AI"""
-    
 
     def __init__(self):
         self.expiry_date = date(2026, 6, 11)
@@ -28,10 +25,10 @@ class AzureFreeStrategy:
         print("🔵 AZURE FREE TIER STRATEGIC OPTIMIZATION")
         print("=" * 55)
         print(f"⏰ Days Remaining: {self.days_remaining} days")
-        print(f"📅 Expires: June 11, 2026")
-        print(f"💰 Value: $200 USD + 12 months free services")
+        print("📅 Expires: June 11, 2026")
+        print("💰 Value: $200 USD + 12 months free services")
 
-    def get_priority_services_for_agi(self) -> Dict:
+    def get_priority_services_for_agi(self) -> dict:
         """High-priority Azure services for AI development"""
         return {
             "ai_ml_services": {
@@ -67,7 +64,7 @@ class AzureFreeStrategy:
             },
         }
 
-    def create_12_month_roadmap(self) -> Dict:
+    def create_12_month_roadmap(self) -> dict:
         """Strategic 12-month development roadmap"""
         return {
             "months_1_3": {
@@ -80,7 +77,11 @@ class AzureFreeStrategy:
                     "Deploy first AI prototype to Azure",
                 ],
                 "free_tier_usage": "~20% of annual limits",
-                "key_services": ["Azure OpenAI", "Container Apps", "Cosmos DB"],
+                "key_services": [
+                    "Azure OpenAI",
+                    "Container Apps",
+                    "Cosmos DB",
+                ],
             },
             "months_4_6": {
                 "title": "🎯 SCALING & ENTERPRISE (Sep-Nov 2025)",
@@ -92,7 +93,11 @@ class AzureFreeStrategy:
                     "Launch enterprise demo environment",
                 ],
                 "free_tier_usage": "~40% of annual limits",
-                "key_services": ["Computer Vision", "Azure ML", "Load Balancer"],
+                "key_services": [
+                    "Computer Vision",
+                    "Azure ML",
+                    "Load Balancer",
+                ],
             },
             "months_7_9": {
                 "title": "🌍 GLOBAL & COMPLIANCE (Dec 2025-Feb 2026)",
@@ -104,7 +109,11 @@ class AzureFreeStrategy:
                     "Launch compliance-ready enterprise version",
                 ],
                 "free_tier_usage": "~70% of annual limits",
-                "key_services": ["VPN Gateway", "Form Recognizer", "Multi-region"],
+                "key_services": [
+                    "VPN Gateway",
+                    "Form Recognizer",
+                    "Multi-region",
+                ],
             },
             "months_10_12": {
                 "title": "💼 PRODUCTION & INVESTOR (Mar-June 2026)",
@@ -116,11 +125,15 @@ class AzureFreeStrategy:
                     "Transition to paid tiers strategically",
                 ],
                 "free_tier_usage": "~95% of annual limits",
-                "key_services": ["Full stack", "Optimization", "Enterprise features"],
+                "key_services": [
+                    "Full stack",
+                    "Optimization",
+                    "Enterprise features",
+                ],
             },
         }
 
-    def calculate_cost_savings(self) -> Dict:
+    def calculate_cost_savings(self) -> dict:
         """Calculate massive cost savings from free tier"""
         monthly_equivalent_costs = {
             "Azure OpenAI GPT-4": 150,  # Based on moderate usage
@@ -145,7 +158,7 @@ class AzureFreeStrategy:
             "breakdown": monthly_equivalent_costs,
         }
 
-    def get_deployment_priorities(self) -> List[Dict]:
+    def get_deployment_priorities(self) -> list[dict]:
         """Priority order for deploying services"""
         return [
             {
@@ -211,13 +224,13 @@ def main():
 
     # Show cost savings
     savings = strategy.calculate_cost_savings()
-    print(f"\n💰 COST SAVINGS ANALYSIS:")
+    print("\n💰 COST SAVINGS ANALYSIS:")
     print(f"   Monthly equivalent value: ${savings['monthly_equivalent_value']}")
     print(f"   Annual equivalent value: ${savings['annual_equivalent_value']}")
     print(f"   🎉 Total savings: ${savings['total_savings']} (100% free!)")
 
     # Show priority services
-    print(f"\n🎯 PRIORITY SERVICES FOR AI:")
+    print("\n🎯 PRIORITY SERVICES FOR AI:")
     services = strategy.get_priority_services_for_agi()
     for category, items in services.items():
         print(f"\n   📋 {category.replace('_', ' ').title()}:")
@@ -225,7 +238,7 @@ def main():
             print(f"      {service}: {description}")
 
     # Show deployment priorities
-    print(f"\n🚀 DEPLOYMENT PRIORITIES:")
+    print("\n🚀 DEPLOYMENT PRIORITIES:")
     priorities = strategy.get_deployment_priorities()
     for item in priorities:
         print(f"   {item['priority']}. {item['service']}")
@@ -235,9 +248,9 @@ def main():
         print()
 
     # Show roadmap
-    print(f"\n📅 12-MONTH STRATEGIC ROADMAP:")
+    print("\n📅 12-MONTH STRATEGIC ROADMAP:")
     roadmap = strategy.create_12_month_roadmap()
-    for period, details in roadmap.items():
+    for _period, details in roadmap.items():
         print(f"\n   {details['title']}")
         for goal in details["goals"]:
             print(f"      • {goal}")
@@ -245,20 +258,20 @@ def main():
 
     strategy.show_optimization_tips()
 
-    print(f"\n🎉 STRATEGIC ADVANTAGES:")
-    print(f"   ✅ Enterprise infrastructure at $0 cost")
-    print(f"   ✅ Professional Azure credibility for investors")
-    print(f"   ✅ GDPR-compliant infrastructure (UK South)")
-    print(f"   ✅ Full year to build and scale")
-    print(f"   ✅ Seamless transition to paid tiers when ready")
-    print(f"   ✅ Competitive advantage over bootstrapped startups")
+    print("\n🎉 STRATEGIC ADVANTAGES:")
+    print("   ✅ Enterprise infrastructure at $0 cost")
+    print("   ✅ Professional Azure credibility for investors")
+    print("   ✅ GDPR-compliant infrastructure (UK South)")
+    print("   ✅ Full year to build and scale")
+    print("   ✅ Seamless transition to paid tiers when ready")
+    print("   ✅ Competitive advantage over bootstrapped startups")
 
-    print(f"\n🚀 IMMEDIATE NEXT STEPS:")
-    print(f"   1. Deploy Azure OpenAI GPT-4 model (highest priority)")
-    print(f"   2. Set up Container Apps for AI microservices")
-    print(f"   3. Configure Cosmos DB for global data storage")
-    print(f"   4. Enable Application Insights monitoring")
-    print(f"   5. Plan enterprise demo environment")
+    print("\n🚀 IMMEDIATE NEXT STEPS:")
+    print("   1. Deploy Azure OpenAI GPT-4 model (highest priority)")
+    print("   2. Set up Container Apps for AI microservices")
+    print("   3. Configure Cosmos DB for global data storage")
+    print("   4. Enable Application Insights monitoring")
+    print("   5. Plan enterprise demo environment")
 
 
 if __name__ == "__main__":

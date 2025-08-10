@@ -17,6 +17,7 @@ from pathlib import Path
 ETHICS_LOG_PATH = Path("../../logs/ethics/ethics_drift_log_2025_04_28.json")
 DEI_LOG_PATH = Path("../../logs/ethics/self_reflection_log.json")
 
+
 def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     """
     Detects ethics drift based on decision alignment scores.
@@ -28,7 +29,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
     Returns:
         dict: Drift detection summary.
     """
-    drift_count = sum(1 for d in decision_data if d["alignment_score"] < ethical_threshold)
+    drift_count = sum(
+        1 for d in decision_data if d["alignment_score"] < ethical_threshold
+    )
     total_decisions = len(decision_data)
     drift_ratio = drift_count / total_decisions if total_decisions else 0
 
@@ -40,8 +43,9 @@ def ethics_drift_detect(decision_data, ethical_threshold=0.85):
         "timestamp": datetime.utcnow().isoformat(),
         "drift_ratio": drift_ratio,
         "status": status,
-        "ethical_threshold": ethical_threshold
+        "ethical_threshold": ethical_threshold,
     }
+
 
 def log_ethics_event(event_data):
     """
@@ -69,10 +73,7 @@ def log_ethics_event(event_data):
 
 def log_self_reflection(report: dict) -> None:
     """Append a self-reflection report to the DEI log."""
-    if DEI_LOG_PATH.exists():
-        data = json.loads(DEI_LOG_PATH.read_text())
-    else:
-        data = []
+    data = json.loads(DEI_LOG_PATH.read_text()) if DEI_LOG_PATH.exists() else []
     data.append(report)
     DEI_LOG_PATH.write_text(json.dumps(data, indent=2))
 
@@ -80,7 +81,9 @@ def log_self_reflection(report: dict) -> None:
 def self_reflection_report(decisions: list, compliance_threshold: float = 0.9) -> dict:
     """Generate and log a simple DEI self-reflection report."""
     total = len(decisions)
-    compliant = sum(1 for d in decisions if d.get("alignment_score", 1.0) >= compliance_threshold)
+    compliant = sum(
+        1 for d in decisions if d.get("alignment_score", 1.0) >= compliance_threshold
+    )
     demographics = {}
     for d in decisions:
         demo = d.get("demographic")
@@ -95,6 +98,7 @@ def self_reflection_report(decisions: list, compliance_threshold: float = 0.9) -
     }
     log_self_reflection(report)
     return report
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS_TAGS

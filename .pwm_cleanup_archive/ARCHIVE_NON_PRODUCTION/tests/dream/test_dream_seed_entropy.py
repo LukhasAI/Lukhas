@@ -1,6 +1,7 @@
 import unittest
 
 from dream.dream_seed import _seed_diversity_index, generate_semantic_dream
+
 from quantum.quantum_flux import QuantumFlux
 
 

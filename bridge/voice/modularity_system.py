@@ -15,33 +15,42 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from core.common import get_logger
 import datetime
-from typing import Dict, Any
+import logging
+from typing import Any
+
 from orchestration_src.brain.context_analyzer import ContextAnalyzer
-from .modulator import VoiceModulator
 from orchestration_src.brain.memory.memory_manager import MemoryManager
 from orchestration_src.brain.subsystems.compliance_engine import ComplianceEngine
+
+from .modulator import VoiceModulator
 from .safety.voice_safety_guard import SafetyGuard
 
+
 class LUKHASVoiceSystem:
-    def __init__(self, config: Dict[str, Any]):
+
+    def __init__(self, config: dict[str, Any]):
         self.logger = logging.getLogger("LUKHASVoiceSystem")
         self.context_analyzer = ContextAnalyzer()
         self.voice_modulator = VoiceModulator(config.get("voice_settings", {}))
         self.memory_manager = MemoryManager()
         self.compliance_engine = ComplianceEngine(
             gdpr_enabled=config.get("gdpr_enabled", True),
-            data_retention_days=config.get("data_retention_days", 30)
+            data_retention_days=config.get("data_retention_days", 30),
         )
         self.safety_guard = SafetyGuard()
 
-    async def process_input(self, user_input: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
-        self.logger.info("Processing user input", extra={"metadata": self.compliance_engine.anonymize_metadata(metadata)})
+    async def process_input(
+        self, user_input: str, metadata: dict[str, Any]
+    ) -> dict[str, Any]:
+        self.logger.info(
+            "Processing user input",
+            extra={"metadata": self.compliance_engine.anonymize_metadata(metadata)},
+        )
         context = await self.context_analyzer.analyze(
             user_input=user_input,
             metadata=metadata,
-            memory=self.memory_manager.get_relevant_memories(metadata.get("user_id"))
+            memory=self.memory_manager.get_relevant_memories(metadata.get("user_id")),
         )
         voice_params = self.voice_modulator.determine_parameters(context)
         response_content = "This is a placeholder response"
@@ -52,13 +61,14 @@ class LUKHASVoiceSystem:
                 input=user_input,
                 context=context,
                 response=safe_response,
-                timestamp=datetime.datetime.now()
+                timestamp=datetime.datetime.now(),
             )
         return {
             "response": safe_response,
             "voice_params": voice_params,
-            "context_understood": context.get("confidence", 0.0)
+            "context_understood": context.get("confidence", 0.0),
         }
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

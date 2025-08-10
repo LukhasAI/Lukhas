@@ -1,11 +1,13 @@
 import json
+
+from pytest import approx
+
 from diagnostics.drift_diagnostics import (
     calculate_drift_score,
     detect_collapse_points,
     generate_entropy_map_from_memory,
     get_diagnostics_summary,
 )
-from pytest import approx
 
 
 def test_calculate_drift_score():

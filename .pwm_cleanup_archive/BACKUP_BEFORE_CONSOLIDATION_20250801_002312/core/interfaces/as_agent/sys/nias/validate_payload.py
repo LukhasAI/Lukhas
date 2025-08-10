@@ -22,18 +22,20 @@ DESCRIPTION:
 
 import json
 import sys
+
 import jsonschema
 from jsonschema import validate
 
 SCHEMA_PATH = "core/modules/nias/schemas/message_schema.json"
 # ⚠️ Expecting payloads from: core/sample_payloads/
 
+
 def validate_payload(payload_path):
     try:
-        with open(SCHEMA_PATH, "r") as schema_file:
+        with open(SCHEMA_PATH) as schema_file:
             schema = json.load(schema_file)
 
-        with open(payload_path, "r") as payload_file:
+        with open(payload_path) as payload_file:
             payload = json.load(payload_file)
 
         validate(instance=payload, schema=schema)
@@ -43,6 +45,7 @@ def validate_payload(payload_path):
         print(ve)
     except Exception as e:
         print("⚠️  Unexpected error:", str(e))
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

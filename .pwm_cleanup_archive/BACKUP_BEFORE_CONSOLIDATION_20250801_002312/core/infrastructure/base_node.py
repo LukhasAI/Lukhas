@@ -5,14 +5,33 @@ Advanced: node.py
 Integration Date: 2025-05-31T07:55:28.134776
 """
 
+
 class Node:
-    def __init__(self, node_type, state, links=None, evolves_to=None, triggers=None, reflections=None):
-        self.node_type = node_type  # Type of the node (e.g., SENSORY, EMOTION, INTENT, etc.)
-        self.state = state  # State of the node, containing emotional valence, confidence, etc.
+    def __init__(
+        self,
+        node_type,
+        state,
+        links=None,
+        evolves_to=None,
+        triggers=None,
+        reflections=None,
+    ):
+        self.node_type = (
+            node_type  # Type of the node (e.g., SENSORY, EMOTION, INTENT, etc.)
+        )
+        self.state = (
+            state  # State of the node, containing emotional valence, confidence, etc.
+        )
         self.links = links if links is not None else []  # Links to other nodes
-        self.evolves_to = evolves_to if evolves_to is not None else []  # Future versions of the node
-        self.triggers = triggers if triggers is not None else []  # Events that trigger changes in the node
-        self.reflections = reflections if reflections is not None else []  # Meta-logs of introspective events
+        self.evolves_to = (
+            evolves_to if evolves_to is not None else []
+        )  # Future versions of the node
+        self.triggers = (
+            triggers if triggers is not None else []
+        )  # Events that trigger changes in the node
+        self.reflections = (
+            reflections if reflections is not None else []
+        )  # Meta-logs of introspective events
         self.attention_weight = 1.0  # Dynamic importance in the cognitive graph
         self.last_activated = None  # Timestamp of last activation
         self.activation_count = 0  # How often this node has been accessed/used

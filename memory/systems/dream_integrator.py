@@ -15,14 +15,13 @@ Dependencies:
   - memory.core_memory.fold_lineage_tracker
 """
 
-import json
-from core.common import get_logger
-import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Set
-from dataclasses import dataclass, asdict
-from enum import Enum
 import uuid
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
+
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -31,25 +30,31 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "dream_integration"
 
+
 class DreamState(Enum):
     """Dream processing states."""
+
     DORMANT = "dormant"
     FORMING = "forming"
     ACTIVE = "active"
     INTEGRATING = "integrating"
     ARCHIVED = "archived"
 
+
 class DreamType(Enum):
     """Types of dreams in the system."""
+
     MEMORY_CONSOLIDATION = "memory_consolidation"
     CREATIVE_SYNTHESIS = "creative_synthesis"
     PROBLEM_SOLVING = "problem_solving"
     EMOTIONAL_PROCESSING = "emotional_processing"
     SYMBOLIC_INTEGRATION = "symbolic_integration"
 
+
 @dataclass
 class DreamFragment:
     """Individual dream fragment with memory connections."""
+
     fragment_id: str
     dream_id: str
     content: Dict[str, Any]
@@ -59,9 +64,11 @@ class DreamFragment:
     timestamp: str
     integration_status: str
 
+
 @dataclass
 class DreamSession:
     """Complete dream session with multiple fragments."""
+
     dream_id: str
     dream_type: DreamType
     state: DreamState
@@ -73,6 +80,7 @@ class DreamSession:
     integration_score: float
     insights_generated: List[Dict[str, Any]]
 
+
 class DreamMemoryLinker:
     """Links dreams to specific memory folds and emotional patterns."""
 
@@ -81,8 +89,9 @@ class DreamMemoryLinker:
         self.active_links = {}  # dream_id -> memory_fold_ids
         self.link_strength_cache = {}
 
-    def create_memory_link(self, dream_id: str, memory_fold_id: str,
-                          link_strength: float) -> bool:
+    def create_memory_link(
+        self, dream_id: str, memory_fold_id: str, link_strength: float
+    ) -> bool:
         """Create a bidirectional link between dream and memory."""
         try:
             if dream_id not in self.active_links:
@@ -91,7 +100,9 @@ class DreamMemoryLinker:
             self.active_links[dream_id].add(memory_fold_id)
             self.link_strength_cache[f"{dream_id}:{memory_fold_id}"] = link_strength
 
-            self.logger.debug(f"Created memory link: {dream_id} <-> {memory_fold_id} (strength: {link_strength})")
+            self.logger.debug(
+                f"Created memory link: {dream_id} <-> {memory_fold_id} (strength: {link_strength})"
+            )
             return True
 
         except Exception as e:
@@ -120,6 +131,7 @@ class DreamMemoryLinker:
 
         return related_dreams
 
+
 class DreamIntegrator:
     """
     Main dream integration system for LUKHAS memory subsystem.
@@ -141,7 +153,9 @@ class DreamIntegrator:
         # Configuration
         self.max_active_dreams = self.config.get("max_active_dreams", 5)
         self.dream_formation_threshold = self.config.get("formation_threshold", 0.7)
-        self.integration_timeout = self.config.get("integration_timeout", 3600)  # 1 hour
+        self.integration_timeout = self.config.get(
+            "integration_timeout", 3600
+        )  # 1 hour
 
         # Metrics
         self.dreams_created = 0
@@ -150,14 +164,19 @@ class DreamIntegrator:
 
         self.logger.info("Dream integration system initialized")
 
-    def initiate_dream_formation(self, memory_fold_ids: List[str],
-                                dream_type: DreamType = DreamType.MEMORY_CONSOLIDATION,
-                                emotional_context: Dict[str, float] = None) -> Optional[str]:
+    def initiate_dream_formation(
+        self,
+        memory_fold_ids: List[str],
+        dream_type: DreamType = DreamType.MEMORY_CONSOLIDATION,
+        emotional_context: Dict[str, float] = None,
+    ) -> Optional[str]:
         """Initiate formation of a new dream from memory sources."""
         try:
             # Check capacity
             if len(self.active_dreams) >= self.max_active_dreams:
-                self.logger.warning("Maximum active dreams reached, cannot form new dream")
+                self.logger.warning(
+                    "Maximum active dreams reached, cannot form new dream"
+                )
                 return None
 
             # Generate dream ID
@@ -174,7 +193,7 @@ class DreamIntegrator:
                 started_at=datetime.now().isoformat(),
                 completed_at=None,
                 integration_score=0.0,
-                insights_generated=[]
+                insights_generated=[],
             )
 
             # Register active dream
@@ -182,11 +201,17 @@ class DreamIntegrator:
 
             # Create memory links
             for memory_fold_id in memory_fold_ids:
-                link_strength = self._calculate_link_strength(memory_fold_id, emotional_context)
-                self.memory_linker.create_memory_link(dream_id, memory_fold_id, link_strength)
+                link_strength = self._calculate_link_strength(
+                    memory_fold_id, emotional_context
+                )
+                self.memory_linker.create_memory_link(
+                    dream_id, memory_fold_id, link_strength
+                )
 
             self.dreams_created += 1
-            self.logger.info(f"Dream formation initiated: {dream_id} ({dream_type.value})")
+            self.logger.info(
+                f"Dream formation initiated: {dream_id} ({dream_type.value})"
+            )
 
             return dream_id
 
@@ -194,9 +219,13 @@ class DreamIntegrator:
             self.logger.error(f"Failed to initiate dream formation: {e}")
             return None
 
-    def add_dream_fragment(self, dream_id: str, content: Dict[str, Any],
-                          memory_sources: List[str] = None,
-                          emotional_intensity: float = 0.5) -> bool:
+    def add_dream_fragment(
+        self,
+        dream_id: str,
+        content: Dict[str, Any],
+        memory_sources: List[str] = None,
+        emotional_intensity: float = 0.5,
+    ) -> bool:
         """Add a new fragment to an existing dream."""
         try:
             if dream_id not in self.active_dreams:
@@ -214,7 +243,7 @@ class DreamIntegrator:
                 emotional_intensity=emotional_intensity,
                 symbolic_weight=self._calculate_symbolic_weight(content),
                 timestamp=datetime.now().isoformat(),
-                integration_status="pending"
+                integration_status="pending",
             )
 
             # Add to dream session
@@ -224,7 +253,9 @@ class DreamIntegrator:
             if dream_session.state == DreamState.FORMING:
                 dream_session.state = DreamState.ACTIVE
 
-            self.logger.debug(f"Added fragment to dream {dream_id}: {fragment.fragment_id}")
+            self.logger.debug(
+                f"Added fragment to dream {dream_id}: {fragment.fragment_id}"
+            )
             return True
 
         except Exception as e:
@@ -248,7 +279,9 @@ class DreamIntegrator:
             dream_session.insights_generated = insights
 
             # Calculate integration score
-            integration_score = self._calculate_integration_score(dream_session, analysis_results)
+            integration_score = self._calculate_integration_score(
+                dream_session, analysis_results
+            )
             dream_session.integration_score = integration_score
 
             # Mark as completed
@@ -268,10 +301,12 @@ class DreamIntegrator:
                 "insights_count": len(insights),
                 "fragments_processed": len(dream_session.fragments),
                 "memory_connections": len(dream_session.memory_fold_ids),
-                "emotional_resonance": dream_session.emotional_signature
+                "emotional_resonance": dream_session.emotional_signature,
             }
 
-            self.logger.info(f"Dream integration completed: {dream_id} (score: {integration_score:.2f})")
+            self.logger.info(
+                f"Dream integration completed: {dream_id} (score: {integration_score:.2f})"
+            )
             return integration_result
 
         except Exception as e:
@@ -315,20 +350,21 @@ class DreamIntegrator:
                 "dreams_created": self.dreams_created,
                 "dreams_integrated": self.dreams_integrated,
                 "integration_failures": self.integration_failures,
-                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)) * 100:.1f}%"
+                "success_rate": f"{(self.dreams_integrated / max(self.dreams_created, 1)) * 100:.1f}%",
             },
             "configuration": {
                 "formation_threshold": self.dream_formation_threshold,
                 "integration_timeout": self.integration_timeout,
-                "max_active_dreams": self.max_active_dreams
+                "max_active_dreams": self.max_active_dreams,
             },
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     # Private methods
 
-    def _calculate_link_strength(self, memory_fold_id: str,
-                                emotional_context: Dict[str, float] = None) -> float:
+    def _calculate_link_strength(
+        self, memory_fold_id: str, emotional_context: Dict[str, float] = None
+    ) -> float:
         """Calculate the strength of connection between dream and memory."""
         base_strength = 0.5
 
@@ -339,6 +375,7 @@ class DreamIntegrator:
 
         # Add some randomness for natural variation
         import random
+
         variation = random.uniform(-0.1, 0.1)
 
         return max(0.1, min(1.0, base_strength + variation))
@@ -350,7 +387,13 @@ class DreamIntegrator:
         # Check for symbolic indicators
         if isinstance(content, dict):
             # Look for symbolic keywords
-            symbolic_keywords = ['symbol', 'metaphor', 'archetype', 'pattern', 'meaning']
+            symbolic_keywords = [
+                "symbol",
+                "metaphor",
+                "archetype",
+                "pattern",
+                "meaning",
+            ]
             content_str = str(content).lower()
 
             for keyword in symbolic_keywords:
@@ -366,16 +409,22 @@ class DreamIntegrator:
             "emotional_intensity_avg": 0.0,
             "symbolic_weight_avg": 0.0,
             "content_themes": [],
-            "memory_integration_strength": 0.0
+            "memory_integration_strength": 0.0,
         }
 
         if dream_session.fragments:
             # Calculate averages
-            total_emotional = sum(f.emotional_intensity for f in dream_session.fragments)
+            total_emotional = sum(
+                f.emotional_intensity for f in dream_session.fragments
+            )
             total_symbolic = sum(f.symbolic_weight for f in dream_session.fragments)
 
-            analysis["emotional_intensity_avg"] = total_emotional / len(dream_session.fragments)
-            analysis["symbolic_weight_avg"] = total_symbolic / len(dream_session.fragments)
+            analysis["emotional_intensity_avg"] = total_emotional / len(
+                dream_session.fragments
+            )
+            analysis["symbolic_weight_avg"] = total_symbolic / len(
+                dream_session.fragments
+            )
 
             # Analyze content themes (simplified)
             content_themes = set()
@@ -392,57 +441,67 @@ class DreamIntegrator:
 
         return analysis
 
-    def _generate_dream_insights(self, dream_session: DreamSession,
-                                analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_dream_insights(
+        self, dream_session: DreamSession, analysis: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Generate insights from dream analysis."""
         insights = []
 
         # Emotional processing insight
         if analysis["emotional_intensity_avg"] > 0.7:
-            insights.append({
-                "type": "emotional_processing",
-                "insight": "High emotional intensity detected - significant emotional processing occurred",
-                "confidence": analysis["emotional_intensity_avg"],
-                "timestamp": datetime.now().isoformat()
-            })
+            insights.append(
+                {
+                    "type": "emotional_processing",
+                    "insight": "High emotional intensity detected - significant emotional processing occurred",
+                    "confidence": analysis["emotional_intensity_avg"],
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         # Symbolic integration insight
         if analysis["symbolic_weight_avg"] > 0.6:
-            insights.append({
-                "type": "symbolic_integration",
-                "insight": "Strong symbolic content - deeper meaning integration in progress",
-                "confidence": analysis["symbolic_weight_avg"],
-                "timestamp": datetime.now().isoformat()
-            })
+            insights.append(
+                {
+                    "type": "symbolic_integration",
+                    "insight": "Strong symbolic content - deeper meaning integration in progress",
+                    "confidence": analysis["symbolic_weight_avg"],
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         # Memory consolidation insight
         if analysis["memory_integration_strength"] > 0.5:
-            insights.append({
-                "type": "memory_consolidation",
-                "insight": "Effective memory consolidation - multiple memory sources integrated",
-                "confidence": analysis["memory_integration_strength"],
-                "timestamp": datetime.now().isoformat()
-            })
+            insights.append(
+                {
+                    "type": "memory_consolidation",
+                    "insight": "Effective memory consolidation - multiple memory sources integrated",
+                    "confidence": analysis["memory_integration_strength"],
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         # Pattern recognition insight
         if len(analysis["content_themes"]) > 3:
-            insights.append({
-                "type": "pattern_recognition",
-                "insight": f"Complex thematic patterns identified: {', '.join(analysis['content_themes'][:3])}",
-                "confidence": min(1.0, len(analysis["content_themes"]) / 10.0),
-                "timestamp": datetime.now().isoformat()
-            })
+            insights.append(
+                {
+                    "type": "pattern_recognition",
+                    "insight": f"Complex thematic patterns identified: {', '.join(analysis['content_themes'][:3])}",
+                    "confidence": min(1.0, len(analysis["content_themes"]) / 10.0),
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
 
         return insights
 
-    def _calculate_integration_score(self, dream_session: DreamSession,
-                                   analysis: Dict[str, Any]) -> float:
+    def _calculate_integration_score(
+        self, dream_session: DreamSession, analysis: Dict[str, Any]
+    ) -> float:
         """Calculate overall integration success score."""
         score_components = [
             analysis["emotional_intensity_avg"] * 0.3,
             analysis["symbolic_weight_avg"] * 0.25,
             analysis["memory_integration_strength"] * 0.25,
-            min(1.0, len(dream_session.insights_generated) / 5.0) * 0.2
+            min(1.0, len(dream_session.insights_generated) / 5.0) * 0.2,
         ]
 
         return sum(score_components)
@@ -468,19 +527,25 @@ class DreamIntegrator:
             "integration_score": dream_session.integration_score,
             "insights_count": len(dream_session.insights_generated),
             "started_at": dream_session.started_at,
-            "completed_at": dream_session.completed_at
+            "completed_at": dream_session.completed_at,
         }
+
 
 # Default instance for module-level access
 default_dream_integrator = DreamIntegrator()
+
 
 def get_dream_integrator() -> DreamIntegrator:
     """Get the default dream integrator instance."""
     return default_dream_integrator
 
+
 # Module interface functions
-def initiate_dream(memory_fold_ids: List[str], dream_type: str = "memory_consolidation",
-                  emotional_context: Dict[str, float] = None) -> Optional[str]:
+def initiate_dream(
+    memory_fold_ids: List[str],
+    dream_type: str = "memory_consolidation",
+    emotional_context: Dict[str, float] = None,
+) -> Optional[str]:
     """Module-level function to initiate dream formation."""
     try:
         dream_type_enum = DreamType(dream_type)
@@ -491,13 +556,16 @@ def initiate_dream(memory_fold_ids: List[str], dream_type: str = "memory_consoli
         logger.error(f"Invalid dream type: {dream_type}")
         return None
 
+
 def add_fragment(dream_id: str, content: Dict[str, Any], **kwargs) -> bool:
     """Module-level function to add dream fragment."""
     return default_dream_integrator.add_dream_fragment(dream_id, content, **kwargs)
 
+
 def integrate_dream(dream_id: str) -> Dict[str, Any]:
     """Module-level function to integrate dream."""
     return default_dream_integrator.process_dream_integration(dream_id)
+
 
 def get_dream_status() -> Dict[str, Any]:
     """Module-level function to get system status."""
@@ -506,16 +574,16 @@ def get_dream_status() -> Dict[str, Any]:
 
 # Module exports
 __all__ = [
-    'DreamIntegrator',
-    'DreamSession',
-    'DreamFragment',
-    'DreamType',
-    'DreamState',
-    'get_dream_integrator',
-    'initiate_dream',
-    'add_fragment',
-    'integrate_dream',
-    'get_dream_status'
+    "DreamIntegrator",
+    "DreamSession",
+    "DreamFragment",
+    "DreamType",
+    "DreamState",
+    "get_dream_integrator",
+    "initiate_dream",
+    "add_fragment",
+    "integrate_dream",
+    "get_dream_status",
 ]
 
 """

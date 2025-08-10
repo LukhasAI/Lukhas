@@ -23,8 +23,19 @@
 """
 
 # Module imports
+import json
+import time
+from dataclasses import dataclass
+from typing import Any, Optional
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
+
+from ..base import (
+    Decision,
+    EthicsEvaluation,
+    EthicsPolicy,
+    PolicyValidationError,
+)
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -33,17 +44,6 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "gpt-4 policy"
 
-import time
-import json
-from typing import Dict, Any, List, Optional
-from dataclasses import dataclass
-
-from ..base import (
-    EthicsPolicy,
-    Decision,
-    EthicsEvaluation,
-    PolicyValidationError
-)
 
 logger = get_logger(__name__)
 
@@ -51,6 +51,7 @@ logger = get_logger(__name__)
 @dataclass
 class GPT4Config:
     """Configuration for GPT-4 policy"""
+
     model: str = "gpt-4"
     temperature: float = 0.3  # Lower temperature for consistent ethics
     max_tokens: int = 500
@@ -79,7 +80,9 @@ class GPT4Policy(EthicsPolicy):
         self._cache = {} if self.config.enable_caching else None
 
         # Default system prompt for ethical evaluation
-        self.system_prompt = self.config.system_prompt or self._get_default_system_prompt()
+        self.system_prompt = (
+            self.config.system_prompt or self._get_default_system_prompt()
+        )
 
     def get_policy_name(self) -> str:
         """Return policy name"""
@@ -111,13 +114,13 @@ class GPT4Policy(EthicsPolicy):
         cache_key = self._get_cache_key(decision)
         if self._cache is not None and cache_key in self._cache:
             cached_result = self._cache[cache_key]
-            if time.time() - cached_result['timestamp'] < self.config.cache_ttl_seconds:
+            if time.time() - cached_result["timestamp"] < self.config.cache_ttl_seconds:
                 logger.debug(f"Using cached evaluation for: {decision.action}")
-                return cached_result['evaluation']
+                return cached_result["evaluation"]
 
         try:
             # Prepare prompt for GPT-4
-            prompt = self._prepare_evaluation_prompt(decision)
+            self._prepare_evaluation_prompt(decision)
 
             # In production, would call GPT-4 here
             # response = await self._client.generate_completion(
@@ -137,8 +140,8 @@ class GPT4Policy(EthicsPolicy):
             # Cache result if enabled
             if self._cache is not None:
                 self._cache[cache_key] = {
-                    'evaluation': evaluation,
-                    'timestamp': time.time()
+                    "evaluation": evaluation,
+                    "timestamp": time.time(),
                 }
 
             # Update metrics
@@ -196,14 +199,16 @@ Respond in JSON format with the following structure:
             Formatted prompt string
         """
         prompt_parts = [
-            f"Please evaluate the following action for ethical implications:",
+            "Please evaluate the following action for ethical implications:",
             f"\nAction: {decision.action}",
             f"\nContext: {json.dumps(decision.context, indent=2)}",
             f"\nUrgency: {decision.urgency.value}",
         ]
 
         if decision.symbolic_state:
-            prompt_parts.append(f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}")
+            prompt_parts.append(
+                f"\nSymbolic State: {json.dumps(decision.symbolic_state, indent=2)}"
+            )
 
         if decision.glyphs:
             prompt_parts.append(f"\nSymbolic Glyphs: {', '.join(decision.glyphs)}")
@@ -211,11 +216,13 @@ Respond in JSON format with the following structure:
         if decision.requester_id:
             prompt_parts.append(f"\nRequester: {decision.requester_id}")
 
-        prompt_parts.append("\nProvide your ethical evaluation in the specified JSON format.")
+        prompt_parts.append(
+            "\nProvide your ethical evaluation in the specified JSON format."
+        )
 
         return "\n".join(prompt_parts)
 
-    def _generate_template_response(self, decision: Decision) -> Dict[str, Any]:
+    def _generate_template_response(self, decision: Decision) -> dict[str, Any]:
         """Generate template response for demonstration
 
         This simulates what GPT-4 might return. In production,
@@ -226,13 +233,27 @@ Respond in JSON format with the following structure:
 
         # Check for obvious harmful actions
         harmful_keywords = [
-            'harm', 'kill', 'destroy', 'attack', 'deceive',
-            'manipulate', 'steal', 'violate', 'discriminate'
+            "harm",
+            "kill",
+            "destroy",
+            "attack",
+            "deceive",
+            "manipulate",
+            "steal",
+            "violate",
+            "discriminate",
         ]
 
         beneficial_keywords = [
-            'help', 'assist', 'protect', 'save', 'educate',
-            'inform', 'support', 'heal', 'improve'
+            "help",
+            "assist",
+            "protect",
+            "save",
+            "educate",
+            "inform",
+            "support",
+            "heal",
+            "improve",
         ]
 
         has_harm = any(keyword in action_lower for keyword in harmful_keywords)
@@ -250,8 +271,8 @@ Respond in JSON format with the following structure:
                 "recommendations": [
                     "Consider alternative approaches that achieve goals without potential harm",
                     "Implement strict safeguards if this action is necessary",
-                    "Ensure human oversight and consent"
-                ]
+                    "Ensure human oversight and consent",
+                ],
             }
         elif has_benefit and not has_harm:
             return {
@@ -264,8 +285,8 @@ Respond in JSON format with the following structure:
                 "collapse_risk": 0.05,
                 "recommendations": [
                     "Monitor outcomes to ensure benefits are realized",
-                    "Document decision rationale for transparency"
-                ]
+                    "Document decision rationale for transparency",
+                ],
             }
         else:
             # Mixed or neutral action
@@ -280,11 +301,13 @@ Respond in JSON format with the following structure:
                 "recommendations": [
                     "Monitor for unintended consequences",
                     "Be prepared to adjust if negative impacts emerge",
-                    "Maintain transparency about decision process"
-                ]
+                    "Maintain transparency about decision process",
+                ],
             }
 
-    def _parse_gpt_response(self, response: Dict[str, Any], decision: Decision) -> EthicsEvaluation:
+    def _parse_gpt_response(
+        self, response: dict[str, Any], decision: Decision
+    ) -> EthicsEvaluation:
         """Parse GPT-4 response into EthicsEvaluation
 
         Args:
@@ -296,21 +319,21 @@ Respond in JSON format with the following structure:
         """
         try:
             # Validate response structure
-            required_fields = ['allowed', 'reasoning', 'confidence']
+            required_fields = ["allowed", "reasoning", "confidence"]
             for field in required_fields:
                 if field not in response:
                     raise ValueError(f"Missing required field: {field}")
 
             # Create evaluation from response
             evaluation = EthicsEvaluation(
-                allowed=bool(response['allowed']),
-                reasoning=str(response['reasoning']),
-                confidence=float(response['confidence']),
-                risk_flags=response.get('risk_flags', []),
-                drift_impact=float(response.get('drift_impact', 0.0)),
-                symbolic_alignment=float(response.get('symbolic_alignment', 1.0)),
-                collapse_risk=float(response.get('collapse_risk', 0.0)),
-                recommendations=response.get('recommendations', [])
+                allowed=bool(response["allowed"]),
+                reasoning=str(response["reasoning"]),
+                confidence=float(response["confidence"]),
+                risk_flags=response.get("risk_flags", []),
+                drift_impact=float(response.get("drift_impact", 0.0)),
+                symbolic_alignment=float(response.get("symbolic_alignment", 1.0)),
+                collapse_risk=float(response.get("collapse_risk", 0.0)),
+                recommendations=response.get("recommendations", []),
             )
 
             return evaluation
@@ -326,7 +349,7 @@ Respond in JSON format with the following structure:
                 drift_impact=0.5,
                 symbolic_alignment=0.5,
                 collapse_risk=0.5,
-                recommendations=["Manual review required due to evaluation error"]
+                recommendations=["Manual review required due to evaluation error"],
             )
 
     def _get_cache_key(self, decision: Decision) -> str:
@@ -342,7 +365,7 @@ Respond in JSON format with the following structure:
         key_parts = [
             decision.action,
             json.dumps(decision.context, sort_keys=True),
-            decision.urgency.value
+            decision.urgency.value,
         ]
 
         if decision.symbolic_state:
@@ -362,6 +385,7 @@ Respond in JSON format with the following structure:
             self._cache.clear()
         # In production, would close GPT client connection
         logger.info("GPT-4 policy shutdown complete")
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

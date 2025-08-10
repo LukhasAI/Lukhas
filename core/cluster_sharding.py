@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # ΛTAG: cluster_sharding
 logger = logging.getLogger("ΛTRACE.cluster_sharding")
@@ -10,7 +10,7 @@ class ShardManager:
 
     def __init__(self, num_shards: int = 10):
         self.num_shards = num_shards
-        self.shards: Dict[int, Dict[str, Any]] = {i: {} for i in range(num_shards)}
+        self.shards: dict[int, dict[str, Any]] = {i: {} for i in range(num_shards)}
         logger.info(f"ΛTRACE: ShardManager initialized with {num_shards} shards")
 
     def get_shard_id(self, actor_id: str) -> int:
@@ -18,7 +18,7 @@ class ShardManager:
         return hash(actor_id) % self.num_shards
 
     def assign_actor(
-        self, actor_id: str, state: Optional[Dict[str, Any]] = None
+        self, actor_id: str, state: Optional[dict[str, Any]] = None
     ) -> int:
         """Assign an actor to its shard."""
         shard_id = self.get_shard_id(actor_id)
@@ -30,7 +30,7 @@ class ShardManager:
 
     def move_actor(self, actor_id: str, new_shard_id: int) -> None:
         """Move an actor to a new shard (e.g., after node failure)."""
-        for shard_id, actors in self.shards.items():
+        for _shard_id, actors in self.shards.items():
             if actor_id in actors:
                 state = actors.pop(actor_id)
                 self.shards[new_shard_id][actor_id] = state
@@ -40,7 +40,7 @@ class ShardManager:
                 )
                 return
 
-    def get_actor_state(self, actor_id: str) -> Optional[Dict[str, Any]]:
+    def get_actor_state(self, actor_id: str) -> Optional[dict[str, Any]]:
         """Retrieve actor state regardless of current shard."""
         shard_id = self.get_shard_id(actor_id)
         state = self.shards[shard_id].get(actor_id)
@@ -48,7 +48,7 @@ class ShardManager:
             return state
 
         # Search other shards if actor was rebalanced
-        for sid, actors in self.shards.items():
+        for _sid, actors in self.shards.items():
             if actor_id in actors:
                 return actors[actor_id]
         return None

@@ -4,10 +4,10 @@ Test Meta-Learning Enhancement System Integration
 Tests for meta-learning enhancement system integration
 """
 
-import pytest
-import asyncio
 import sys
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -18,7 +18,10 @@ class TestMetaLearningEnhancementIntegration:
 
     def test_enhancement_wrapper_import(self):
         """Test that enhancement wrapper can be imported"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
+
         assert get_meta_learning_enhancement is not None
 
     def test_learning_hub_with_enhancement(self):
@@ -29,15 +32,19 @@ class TestMetaLearningEnhancementIntegration:
         assert hub is not None
 
         # Check if enhancement system is available
-        if hasattr(hub, 'meta_enhancement'):
-            print(f"Meta-learning enhancement found in learning hub: {hub.meta_enhancement is not None}")
+        if hasattr(hub, "meta_enhancement"):
+            print(
+                f"Meta-learning enhancement found in learning hub: {hub.meta_enhancement is not None}"
+            )
             if hub.meta_enhancement:
                 print("Meta-learning enhancement is initialized")
 
     @pytest.mark.asyncio
     async def test_enhancement_system_functionality(self):
         """Test enhancement system functionality"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
 
         enhancement = get_meta_learning_enhancement()
         if enhancement:
@@ -50,7 +57,7 @@ class TestMetaLearningEnhancementIntegration:
                 learning_context = {
                     "task_type": "classification",
                     "data_size": 1000,
-                    "complexity": "medium"
+                    "complexity": "medium",
                 }
 
                 result = await enhancement.enhance_learning_process(learning_context)
@@ -66,7 +73,9 @@ class TestMetaLearningEnhancementIntegration:
     @pytest.mark.asyncio
     async def test_learning_metrics_retrieval(self):
         """Test learning metrics retrieval"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
 
         enhancement = get_meta_learning_enhancement()
         if enhancement:
@@ -80,7 +89,9 @@ class TestMetaLearningEnhancementIntegration:
     @pytest.mark.asyncio
     async def test_symbolic_feedback(self):
         """Test symbolic feedback application"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
 
         enhancement = get_meta_learning_enhancement()
         if enhancement:
@@ -90,7 +101,7 @@ class TestMetaLearningEnhancementIntegration:
             feedback_data = {
                 "feedback_type": "performance",
                 "score": 0.85,
-                "context": "learning_improvement"
+                "context": "learning_improvement",
             }
 
             result = await enhancement.apply_symbolic_feedback(feedback_data)
@@ -102,7 +113,9 @@ class TestMetaLearningEnhancementIntegration:
 
     def test_integration_status(self):
         """Test integration status reporting"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
 
         enhancement = get_meta_learning_enhancement()
         if enhancement:
@@ -119,9 +132,9 @@ class TestMetaLearningEnhancementIntegration:
         """Test that mock implementation works"""
         try:
             from learning.metalearningenhancementsystem_mock import (
-                get_meta_learning_enhancement,
                 Enhancementmode,
-                MetaLearningEnhancementsystem
+                MetaLearningEnhancementsystem,
+                get_meta_learning_enhancement,
             )
 
             enhancement = get_meta_learning_enhancement()
@@ -137,7 +150,9 @@ class TestMetaLearningEnhancementIntegration:
     @pytest.mark.asyncio
     async def test_enhancement_system_discovery(self):
         """Test meta-learning system discovery"""
-        from learning.metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+        from learning.metalearningenhancementsystem_wrapper import (
+            get_meta_learning_enhancement,
+        )
 
         enhancement = get_meta_learning_enhancement()
         if enhancement:
@@ -150,8 +165,12 @@ class TestMetaLearningEnhancementIntegration:
                 system_status = status["system_status"]
                 print(f"Systems found: {system_status.get('systems_found', 0)}")
                 print(f"Systems enhanced: {system_status.get('systems_enhanced', 0)}")
-                print(f"Monitoring active: {system_status.get('monitoring_active', False)}")
-                print(f"Optimization active: {system_status.get('optimization_active', False)}")
+                print(
+                    f"Monitoring active: {system_status.get('monitoring_active', False)}"
+                )
+                print(
+                    f"Optimization active: {system_status.get('optimization_active', False)}"
+                )
 
     @pytest.mark.asyncio
     async def test_enhancement_through_learning_hub(self):
@@ -164,11 +183,11 @@ class TestMetaLearningEnhancementIntegration:
         await hub.initialize()
 
         # Test enhancement if available
-        if hasattr(hub, 'enhance_learning_process'):
+        if hasattr(hub, "enhance_learning_process"):
             learning_context = {
                 "algorithm": "neural_network",
                 "dataset": "test_data",
-                "goal": "accuracy_improvement"
+                "goal": "accuracy_improvement",
             }
 
             result = await hub.enhance_learning_process(learning_context)

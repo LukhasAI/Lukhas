@@ -7,11 +7,11 @@ Description: Provides bridge logic for dream-emotion replay triggers.
 
 import json
 from pathlib import Path
-from typing import List, Dict, Any
 
 from memory.emotional import EmotionalMemory
 
 REPLAY_QUEUE_PATH = Path("core/logs/replay_queue.jsonl")
+
 
 class DreamEmotionBridge:
     """
@@ -56,19 +56,24 @@ class DreamEmotionBridge:
             REPLAY_QUEUE_PATH.touch()
 
         with open(REPLAY_QUEUE_PATH, "a") as f:
-            f.write(json.dumps({
-                "message_id": "dream_replay_trigger",
-                "user_id": "system",
-                "score": 0,
-                "emoji": "🧠",
-                "notes": f"Dream replay triggered by emotion: {emotion}",
-                "timestamp": datetime.utcnow().isoformat(),
-                "source_widget": "DreamEmotionBridge",
-                "tier": 1,
-                "emotion_vector": {
-                    "joy": 0,
-                    "calm": 0,
-                    "stress": 0,
-                    "longing": 0,
-                }
-            }) + "\n")
+            f.write(
+                json.dumps(
+                    {
+                        "message_id": "dream_replay_trigger",
+                        "user_id": "system",
+                        "score": 0,
+                        "emoji": "🧠",
+                        "notes": f"Dream replay triggered by emotion: {emotion}",
+                        "timestamp": datetime.utcnow().isoformat(),
+                        "source_widget": "DreamEmotionBridge",
+                        "tier": 1,
+                        "emotion_vector": {
+                            "joy": 0,
+                            "calm": 0,
+                            "stress": 0,
+                            "longing": 0,
+                        },
+                    }
+                )
+                + "\n"
+            )

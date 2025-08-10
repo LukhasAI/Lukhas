@@ -1,4 +1,3 @@
 """
 Healix_Visualizer Module
 """
-

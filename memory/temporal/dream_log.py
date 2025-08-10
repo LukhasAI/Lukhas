@@ -25,7 +25,8 @@ import json
 import os
 from datetime import datetime
 
-LOG_PATH = 'data/dream_log.jsonl'
+LOG_PATH = "data/dream_log.jsonl"
+
 
 def log_dream(dream_data: dict):
     """
@@ -38,9 +39,9 @@ def log_dream(dream_data: dict):
         if "timestamp" not in dream_data:
             dream_data["timestamp"] = datetime.utcnow().isoformat()
 
-        with open(LOG_PATH, 'a', encoding='utf-8') as f:
+        with open(LOG_PATH, "a", encoding="utf-8") as f:
             json.dump(dream_data, f)
-            f.write('\n')
+            f.write("\n")
 
         print(f"📝 Dream logged at {dream_data['timestamp']}")
 

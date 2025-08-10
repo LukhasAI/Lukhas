@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -51,19 +50,23 @@ AUTHORS: LUKHAS AI Team (Consolidated)
 
 import asyncio
 import random
-import sys
-from typing import Dict, List, Optional, Any, Tuple
-from pathlib import Path
-from core.common import get_logger
-from datetime import datetime
 import re
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
 # Try to import consciousness integration
 try:
-    from consciousness.core_consciousness.quantum_consciousness_integration import QuantumCreativeConsciousness
+    from consciousness.core_consciousness.quantum_consciousness_integration import (
+        QuantumCreativeConsciousness,
+    )
+
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
     CONSCIOUSNESS_AVAILABLE = False
@@ -230,26 +233,71 @@ class AdvancedHaikuGenerator:
         """Default symbolic database for word selection"""
         return {
             "sensory_words": [
-                "shimmering", "glowing", "whispered", "crystalline", "ethereal",
-                "luminous", "translucent", "radiant", "gentle", "flowing"
+                "shimmering",
+                "glowing",
+                "whispered",
+                "crystalline",
+                "ethereal",
+                "luminous",
+                "translucent",
+                "radiant",
+                "gentle",
+                "flowing",
             ],
             "emotion_words": [
-                "serene", "profound", "tranquil", "wistful", "contemplative",
-                "peaceful", "reverent", "mystical", "sublime", "tender"
+                "serene",
+                "profound",
+                "tranquil",
+                "wistful",
+                "contemplative",
+                "peaceful",
+                "reverent",
+                "mystical",
+                "sublime",
+                "tender",
             ],
             "contrast_words": [
-                "yet silence", "still depth", "gentle chaos", "quiet storm",
-                "soft thunder", "bright shadow", "warm winter", "calm turbulence"
+                "yet silence",
+                "still depth",
+                "gentle chaos",
+                "quiet storm",
+                "soft thunder",
+                "bright shadow",
+                "warm winter",
+                "calm turbulence",
             ],
             "fragment_concepts": [
-                "light", "shadow", "wind", "stone", "water", "fire", "earth",
-                "thought", "dream", "memory", "time", "space", "void", "star"
+                "light",
+                "shadow",
+                "wind",
+                "stone",
+                "water",
+                "fire",
+                "earth",
+                "thought",
+                "dream",
+                "memory",
+                "time",
+                "space",
+                "void",
+                "star",
             ],
             "phrase_concepts": [
-                "consciousness", "awareness", "understanding", "perception",
-                "imagination", "creativity", "wisdom", "knowledge", "insight",
-                "experience", "existence", "reality", "infinity", "eternity"
-            ]
+                "consciousness",
+                "awareness",
+                "understanding",
+                "perception",
+                "imagination",
+                "creativity",
+                "wisdom",
+                "knowledge",
+                "insight",
+                "experience",
+                "existence",
+                "reality",
+                "infinity",
+                "eternity",
+            ],
         }
 
     def _load_style_preferences(self):
@@ -257,13 +305,31 @@ class AdvancedHaikuGenerator:
         if self.federated_model:
             try:
                 model_params = self.federated_model.get_parameters()
-                return model_params.get('style_weights', {'nature': 0.4, 'consciousness': 0.3, 'creativity': 0.2, 'tech': 0.1})
+                return model_params.get(
+                    "style_weights",
+                    {
+                        "nature": 0.4,
+                        "consciousness": 0.3,
+                        "creativity": 0.2,
+                        "tech": 0.1,
+                    },
+                )
             except:
                 pass
         # Default style weights
-        return {'nature': 0.4, 'consciousness': 0.3, 'creativity': 0.2, 'technology': 0.1}
+        return {
+            "nature": 0.4,
+            "consciousness": 0.3,
+            "creativity": 0.2,
+            "technology": 0.1,
+        }
 
-    async def generate_haiku(self, theme: str = "consciousness", style: str = "contemplative", expansion_depth: int = 2) -> Dict[str, Any]:
+    async def generate_haiku(
+        self,
+        theme: str = "consciousness",
+        style: str = "contemplative",
+        expansion_depth: int = 2,
+    ) -> Dict[str, Any]:
         """
         Generate a single haiku with specified theme and style.
 
@@ -303,7 +369,9 @@ class AdvancedHaikuGenerator:
             "expansion_depth": expansion_depth,
         }
 
-    async def generate_haiku_series(self, themes: List[str], count_per_theme: int = 1) -> Dict[str, Any]:
+    async def generate_haiku_series(
+        self, themes: List[str], count_per_theme: int = 1
+    ) -> Dict[str, Any]:
         """Generate a series of haiku across multiple themes"""
         series_results = {}
         all_metrics = []
@@ -320,12 +388,21 @@ class AdvancedHaikuGenerator:
         # Calculate average metrics
         if all_metrics:
             avg_metrics = {
-                "quantum_coherence": sum(m["quantum_coherence"] for m in all_metrics) / len(all_metrics),
-                "consciousness_resonance": sum(m["consciousness_resonance"] for m in all_metrics) / len(all_metrics),
-                "creative_entropy": sum(m["creative_entropy"] for m in all_metrics) / len(all_metrics),
+                "quantum_coherence": sum(m["quantum_coherence"] for m in all_metrics)
+                / len(all_metrics),
+                "consciousness_resonance": sum(
+                    m["consciousness_resonance"] for m in all_metrics
+                )
+                / len(all_metrics),
+                "creative_entropy": sum(m["creative_entropy"] for m in all_metrics)
+                / len(all_metrics),
             }
         else:
-            avg_metrics = {"quantum_coherence": 0.0, "consciousness_resonance": 0.0, "creative_entropy": 0.0}
+            avg_metrics = {
+                "quantum_coherence": 0.0,
+                "consciousness_resonance": 0.0,
+                "creative_entropy": 0.0,
+            }
 
         return {
             "haiku_series": series_results,
@@ -352,7 +429,7 @@ class AdvancedHaikuGenerator:
     def _expand_haiku(self, haiku: str, depth: int) -> str:
         """Apply neural expansion rules to enhance the haiku"""
         expanded_lines = []
-        for line in haiku.split('\n'):
+        for line in haiku.split("\n"):
             expanded_line = line
             for _ in range(depth):
                 expanded_line = self._apply_expansion_rules(expanded_line)
@@ -365,21 +442,21 @@ class AdvancedHaikuGenerator:
             try:
                 expansion_type = self.federated_model.predict_expansion_type(line)
             except:
-                expansion_type = random.choice(['imagery', 'emotion', 'contrast'])
+                expansion_type = random.choice(["imagery", "emotion", "contrast"])
         else:
-            expansion_type = random.choice(['imagery', 'emotion', 'contrast'])
+            expansion_type = random.choice(["imagery", "emotion", "contrast"])
 
         expansion_methods = {
-            'imagery': self._add_sensory_detail,
-            'emotion': self._infuse_emotion,
-            'contrast': self._create_juxtaposition
+            "imagery": self._add_sensory_detail,
+            "emotion": self._infuse_emotion,
+            "contrast": self._create_juxtaposition,
         }
 
         return expansion_methods.get(expansion_type, lambda x: x)(line)
 
     def _add_sensory_detail(self, line: str) -> str:
         """Add sensory words from symbolic database"""
-        modifiers = self.symbolic_db.get('sensory_words', ['gentle', 'bright'])
+        modifiers = self.symbolic_db.get("sensory_words", ["gentle", "bright"])
         if len(modifiers) > 0:
             modifier = random.choice(modifiers)
             # Insert modifier preserving syllable count
@@ -388,7 +465,7 @@ class AdvancedHaikuGenerator:
 
     def _infuse_emotion(self, line: str) -> str:
         """Add emotional depth to the line"""
-        emotions = self.symbolic_db.get('emotion_words', ['serene', 'profound'])
+        emotions = self.symbolic_db.get("emotion_words", ["serene", "profound"])
         if len(emotions) > 0:
             emotion = random.choice(emotions)
             return f"{emotion} {line}"
@@ -396,10 +473,10 @@ class AdvancedHaikuGenerator:
 
     def _create_juxtaposition(self, line: str) -> str:
         """Create contrast and juxtaposition in the line"""
-        if ',' in line:
-            return line.replace(',', ' yet ')
+        if "," in line:
+            return line.replace(",", " yet ")
 
-        contrast_words = self.symbolic_db.get('contrast_words', ['yet silence'])
+        contrast_words = self.symbolic_db.get("contrast_words", ["yet silence"])
         if len(contrast_words) > 0:
             contrast = random.choice(contrast_words)
             return f"{line}, {contrast}"
@@ -407,7 +484,7 @@ class AdvancedHaikuGenerator:
 
     def _ensure_syllable_structure(self, haiku: str) -> str:
         """Ensure the haiku follows perfect 5-7-5 syllable structure"""
-        lines = haiku.split('\n')
+        lines = haiku.split("\n")
         target_syllables = [5, 7, 5]
 
         fixed_lines = []
@@ -435,8 +512,23 @@ class AdvancedHaikuGenerator:
         """Add syllables to a line"""
         addition_words = {
             1: ["pure", "bright", "soft", "deep", "vast", "true", "clear"],
-            2: ["sacred", "gentle", "flowing", "shining", "peaceful", "mystic", "golden"],
-            3: ["beautiful", "wonderful", "luminous", "infinite", "transcendent", "celestial"],
+            2: [
+                "sacred",
+                "gentle",
+                "flowing",
+                "shining",
+                "peaceful",
+                "mystic",
+                "golden",
+            ],
+            3: [
+                "beautiful",
+                "wonderful",
+                "luminous",
+                "infinite",
+                "transcendent",
+                "celestial",
+            ],
         }
 
         if needed <= 3 and needed in addition_words:
@@ -458,7 +550,7 @@ class AdvancedHaikuGenerator:
             word_syllables = self._count_syllables(word)
             if word_syllables >= excess:
                 if word_syllables == excess:
-                    return " ".join(words[:i] + words[i + 1:])
+                    return " ".join(words[:i] + words[i + 1 :])
                 else:
                     shorter = self._find_shorter_word(word, word_syllables - excess)
                     if shorter:
@@ -522,7 +614,7 @@ class AdvancedHaikuGenerator:
 
     def _get_syllable_structure(self, haiku: str) -> List[int]:
         """Get the syllable count for each line"""
-        lines = haiku.split('\n')
+        lines = haiku.split("\n")
         return [self._count_syllables_in_line(line) for line in lines]
 
     def _count_syllables_in_line(self, line: str) -> int:
@@ -540,13 +632,17 @@ class AdvancedHaikuGenerator:
                 pass
 
         # Fallback metrics calculation
-        lines = haiku.split('\n')
+        lines = haiku.split("\n")
         word_count = len(haiku.split())
         unique_words = len(set(haiku.lower().split()))
 
         # Simple metrics based on structure and content
-        quantum_coherence = min(1.0, unique_words / word_count) if word_count > 0 else 0.0
-        consciousness_resonance = min(1.0, len(lines) / 3.0)  # Perfect for 3 lines (haiku)
+        quantum_coherence = (
+            min(1.0, unique_words / word_count) if word_count > 0 else 0.0
+        )
+        consciousness_resonance = min(
+            1.0, len(lines) / 3.0
+        )  # Perfect for 3 lines (haiku)
         creative_entropy = min(1.0, (word_count - unique_words) / max(word_count, 1))
 
         return {
@@ -563,9 +659,9 @@ class AdvancedHaikuGenerator:
     def _create_base_haiku_neural(self, expansion_depth=2):
         """Create base haiku using neural approach (legacy)"""
         lines = [
-            self._build_line(5, 'fragment'),
-            self._build_line(7, 'phrase'),
-            self._build_line(5, 'fragment')
+            self._build_line(5, "fragment"),
+            self._build_line(7, "phrase"),
+            self._build_line(5, "fragment"),
         ]
         haiku = "\n".join(lines)
         return self._expand_haiku(haiku, expansion_depth)
@@ -583,14 +679,18 @@ class AdvancedHaikuGenerator:
                 line.append(word)
                 current_syllables += self._count_syllables(word)
 
-        return ' '.join(line).capitalize()
+        return " ".join(line).capitalize()
 
     def _select_concept(self, line_type: str) -> str:
         """Select concept based on line type"""
-        if line_type == 'fragment':
-            concepts = self.symbolic_db.get('fragment_concepts', ['light', 'shadow', 'wind'])
+        if line_type == "fragment":
+            concepts = self.symbolic_db.get(
+                "fragment_concepts", ["light", "shadow", "wind"]
+            )
         else:  # phrase
-            concepts = self.symbolic_db.get('phrase_concepts', ['consciousness', 'awareness'])
+            concepts = self.symbolic_db.get(
+                "phrase_concepts", ["consciousness", "awareness"]
+            )
 
         return random.choice(concepts)
 
@@ -598,31 +698,38 @@ class AdvancedHaikuGenerator:
         """Choose word based on concept and syllable constraints"""
         # Simple word selection based on concept
         concept_words = {
-            'light': ['light', 'glow', 'shine', 'bright', 'radiant'],
-            'shadow': ['shadow', 'dark', 'shade', 'dim', 'grey'],
-            'wind': ['wind', 'breeze', 'air', 'breath', 'whisper'],
-            'consciousness': ['mind', 'thought', 'aware', 'dream', 'soul'],
-            'awareness': ['knowing', 'seeing', 'feeling', 'being', 'sense']
+            "light": ["light", "glow", "shine", "bright", "radiant"],
+            "shadow": ["shadow", "dark", "shade", "dim", "grey"],
+            "wind": ["wind", "breeze", "air", "breath", "whisper"],
+            "consciousness": ["mind", "thought", "aware", "dream", "soul"],
+            "awareness": ["knowing", "seeing", "feeling", "being", "sense"],
         }
 
         words = concept_words.get(concept, [concept])
 
         # Filter by syllable count
-        suitable_words = [w for w in words if self._count_syllables(w) <= remaining_syllables]
+        suitable_words = [
+            w for w in words if self._count_syllables(w) <= remaining_syllables
+        ]
 
         if suitable_words:
             return random.choice(suitable_words)
 
-        return concept if self._count_syllables(concept) <= remaining_syllables else None
+        return (
+            concept if self._count_syllables(concept) <= remaining_syllables else None
+        )
 
 
 # Legacy class aliases for backward compatibility
 class QuantumHaikuGenerator(AdvancedHaikuGenerator):
     """Legacy alias for QuantumHaikuGenerator"""
+
     pass
+
 
 class NeuroHaikuGenerator(AdvancedHaikuGenerator):
     """Legacy alias for NeuroHaikuGenerator"""
+
     pass
 
 
@@ -639,8 +746,12 @@ async def main():
 
     print(f"Haiku:\n{haiku_result['haiku_text']}")
     print(f"Syllables: {haiku_result['syllable_structure']}")
-    print(f"Quantum Coherence: {haiku_result['consciousness_metrics']['quantum_coherence']:.3f}")
-    print(f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}")
+    print(
+        f"Quantum Coherence: {haiku_result['consciousness_metrics']['quantum_coherence']:.3f}"
+    )
+    print(
+        f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}"
+    )
 
     # Generate series
     print("\n🌺 Generating Haiku Series...")
@@ -651,7 +762,9 @@ async def main():
         print(f"\n{theme.title()} Haiku:")
         print(haiku_list[0]["haiku_text"])
 
-    print(f"\nAverage Quantum Coherence: {series_result['average_metrics']['quantum_coherence']:.3f}")
+    print(
+        f"\nAverage Quantum Coherence: {series_result['average_metrics']['quantum_coherence']:.3f}"
+    )
     print("🎋 Advanced Haiku Generation: COMPLETE")
 
 
@@ -662,6 +775,7 @@ if __name__ == "__main__":
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -676,6 +790,7 @@ def __validate_module__():
 
     logger.info("Advanced Haiku Generator validation complete", extra=validations)
     return validations
+
 
 # Initialize module validation
 __validate_module__()

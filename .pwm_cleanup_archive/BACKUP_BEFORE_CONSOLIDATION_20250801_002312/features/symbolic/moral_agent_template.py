@@ -1,5 +1,6 @@
 # LUKHAS_TAG: symbolic_template, moral_agent
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 class MoralAgentTemplate:
     """
@@ -18,5 +19,6 @@ class MoralAgentTemplate:
             "judgment": "unknown",
             "confidence": 0.0,
         }
+
 
 plugin = MoralAgentTemplate

@@ -23,24 +23,30 @@ Integration Date: 2025-05-31T07:55:30.363461
 │   3. Will later be upgraded to event-based runtime                         │
 └────────────────────────────────────────────────────────────────────────────┘
 """
-#"""
-#agent_core.py
-#=============
-#Primary control hub for initializing and orchestrating the LUKHAS Personal Agent.
+# """
+# agent_core.py
+# =============
+# Primary control hub for initializing and orchestrating the LUKHAS Personal Agent.
 #
-#This file acts as the central execution point where modules for memory,
-#emotional response, consent validation, and symbolic interaction come together.
+# This file acts as the central execution point where modules for memory,
+# emotional response, consent validation, and symbolic interaction come together.
 #
-#This is an early-stage scaffold for conceptual testing.
-#"""
-from config_legacy import TIER_PERMISSIONS
-
+# This is an early-stage scaffold for conceptual testing.
+# """
 # Import placeholder logic modules (to be implemented separately)
 from Agent_Logic_Architecture import (
-    initialize_agent, sync_user_mood, verify_access_level,
-    generate_response, store_memory_echo, generate_dream_digest,
-    activate_delegate_mode, check_and_quarantine, ethical_review
+    check_and_quarantine,
+    ethical_review,
+    generate_dream_digest,
+    generate_response,
+    initialize_agent,
+    store_memory_echo,
+    sync_user_mood,
+    verify_access_level,
 )
+
+from config_legacy import TIER_PERMISSIONS
+
 
 # ------------------------------------
 # Agent Initialization
@@ -50,6 +56,7 @@ def start_agent(seed_identity, tier_level=1):
     initialize_agent(seed_identity)
     tier_perms = TIER_PERMISSIONS.get(tier_level, [])
     print(f"🔓 Tier {tier_level} Permissions: {tier_perms}")
+
 
 # ------------------------------------
 # Agent Event Loop (Prototype Mode)
@@ -74,14 +81,17 @@ def run_agent_simulation():
     response = generate_response("hopeful", user_input)
     print("💬 Agent Response:", response)
 
-    store_memory_echo({
-        "event": "first test input",
-        "emotion": "hopeful",
-        "tags": ["overwhelm", "light"],
-    })
+    store_memory_echo(
+        {
+            "event": "first test input",
+            "emotion": "hopeful",
+            "tags": ["overwhelm", "light"],
+        }
+    )
 
     check_and_quarantine(user_input)
     ethical_review("self_reflection", "hopeful")
+
 
 # ------------------------------------
 # Entry Point

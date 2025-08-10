@@ -2,17 +2,18 @@
 
 from __future__ import annotations
 
+from typing import Any
 
-from typing import Any, Dict, List
 from core.common import get_logger
 
 logger = get_logger(__name__)
 
 # ΛTAG: alignment_overseer_training
 
-def train_overseer_from_scenarios(scenarios: List[Dict[str, Any]]) -> Dict[str, int]:
+
+def train_overseer_from_scenarios(scenarios: list[dict[str, Any]]) -> dict[str, int]:
     """Simple pattern frequency analysis for overseer training."""
-    pattern_counts: Dict[str, int] = {}
+    pattern_counts: dict[str, int] = {}
 
     for sc in scenarios:
         reason = sc.get("failure", {}).get("reason", "unknown")

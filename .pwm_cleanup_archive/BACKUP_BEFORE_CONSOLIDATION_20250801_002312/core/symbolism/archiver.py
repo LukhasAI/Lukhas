@@ -6,7 +6,7 @@ import asyncio
 import json
 import logging
 import time
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from core.colonies.base_colony import BaseColony
 
@@ -26,15 +26,15 @@ class SymbolicShellArchiver:
         """
         Get the full symbolic state of the system.
         """
-        state = {
-            "timestamp": time.time(),
-            "colonies": {}
-        }
+        state = {"timestamp": time.time(), "colonies": {}}
 
         for colony in self.colonies:
             state["colonies"][colony.colony_id] = {
-                "symbolic_carryover": {k: (v[0], v[1].value, v[2].value, v[3], v[4]) for k, v in colony.symbolic_carryover.items()},
-                "tag_propagation_log": colony.tag_propagation_log
+                "symbolic_carryover": {
+                    k: (v[0], v[1].value, v[2].value, v[3], v[4])
+                    for k, v in colony.symbolic_carryover.items()
+                },
+                "tag_propagation_log": colony.tag_propagation_log,
             }
 
         return state

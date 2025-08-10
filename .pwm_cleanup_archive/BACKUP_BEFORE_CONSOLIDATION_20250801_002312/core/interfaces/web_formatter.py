@@ -9,21 +9,23 @@ Integration Date: 2025-05-31T07:55:27.738271
 # 🔎 PURPOSE: Format symbolic LUKHAS expressions for web, markdown, and simulated social output
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
 
+import argparse
 import json
 import os
 from datetime import datetime
-import argparse
 
 EXPRESSION_LOG = "logs/expressions/lukhas_expression_log.jsonl"
 OUTPUT_DIR = "logs/publication_simulation"
+
 
 def load_latest_expression():
     if not os.path.exists(EXPRESSION_LOG):
         print("❌ No expression log found.")
         return None
-    with open(EXPRESSION_LOG, "r", encoding="utf-8") as f:
+    with open(EXPRESSION_LOG, encoding="utf-8") as f:
         entries = [json.loads(line) for line in f if line.strip()]
     return entries[-1] if entries else None
+
 
 def format_html(entry):
     return f"""<div class="lukhas-expression-card">
@@ -33,6 +35,7 @@ def format_html(entry):
   <p><em>Visual Prompt:</em> {entry["visual_prompt"]}</p>
   <p><small>Timestamp: {entry["timestamp"]}</small></p>
 </div>"""
+
 
 def format_markdown(entry):
     trace = entry.get("trace_id", "N/A")
@@ -49,8 +52,10 @@ Trace ID: `{trace}`
 Reviewed by: `{reviewer}`
 """
 
+
 def format_caption(entry):
     return f"LUKHAS says: '{entry['summary']}' #lukhasAGI #symbolicAI #dreamlogic"
+
 
 def save_formats(entry, dry_run=False):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -76,9 +81,12 @@ def save_formats(entry, dry_run=False):
         json.dump(entry, queue_file)
         queue_file.write("\n")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dry-run", action="store_true", help="Preview only; don't write files.")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Preview only; don't write files."
+    )
     args = parser.parse_args()
 
     latest = load_latest_expression()

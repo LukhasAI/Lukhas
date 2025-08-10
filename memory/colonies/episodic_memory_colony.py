@@ -38,25 +38,31 @@
 """
 
 import asyncio
-import numpy as np
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Set
 from uuid import uuid4
 
-import structlog
+import numpy as np
 
 from .base_memory_colony import (
-    BaseMemoryColony, ColonyRole, ColonyCapabilities, MemoryType
+    BaseMemoryColony,
+    ColonyCapabilities,
+    ColonyRole,
+    MemoryType,
 )
 
 # Import memory components
 try:
     from ..core.interfaces import (
-        MemoryOperation, MemoryResponse, ValidationResult,
-        EpisodicContext, EpisodicMemoryContent
+        EpisodicContext,
+        EpisodicMemoryContent,
+        MemoryOperation,
+        MemoryResponse,
+        ValidationResult,
     )
+
     INTERFACES_AVAILABLE = True
 except ImportError:
     INTERFACES_AVAILABLE = False
@@ -65,34 +71,35 @@ except ImportError:
     MemoryResponse = object
     ValidationResult = object
 
-from core.common import get_logger
-
 
 @dataclass
 class EpisodicMemoryRecord:
     """Internal record for episodic memories in colony storage"""
+
     memory_id: str
     content: EpisodicMemoryContent
     timestamp: float = field(default_factory=time.time)
 
     # Episodic-specific properties
-    vividness: float = 1.0          # How clear/detailed (0-1)
-    coherence: float = 1.0          # How well-structured (0-1)
+    vividness: float = 1.0  # How clear/detailed (0-1)
+    coherence: float = 1.0  # How well-structured (0-1)
     personal_significance: float = 0.5  # Autobiographical importance (0-1)
 
     # Context analysis
     temporal_distinctiveness: float = 0.5  # How unique in time
-    spatial_distinctiveness: float = 0.5   # How unique in space
-    emotional_intensity: float = 0.0       # Absolute emotional strength
+    spatial_distinctiveness: float = 0.5  # How unique in space
+    emotional_intensity: float = 0.0  # Absolute emotional strength
 
     # Processing state
-    consolidation_readiness: float = 0.0   # Ready for neocortical transfer
+    consolidation_readiness: float = 0.0  # Ready for neocortical transfer
     replay_count: int = 0
     last_accessed: float = field(default_factory=time.time)
 
     # Associations
     related_episodes: Set[str] = field(default_factory=set)
-    causal_links: Dict[str, str] = field(default_factory=dict)  # episode_id -> link_type
+    causal_links: Dict[str, str] = field(
+        default_factory=dict
+    )  # episode_id -> link_type
 
 
 class EpisodicMemoryColony(BaseMemoryColony):
@@ -111,7 +118,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         self,
         colony_id: str = "episodic_memory_colony",
         max_concurrent_operations: int = 50,
-        memory_capacity: int = 10000
+        memory_capacity: int = 10000,
     ):
         # Define episodic-specific capabilities
         capabilities = ColonyCapabilities(
@@ -121,19 +128,25 @@ class EpisodicMemoryColony(BaseMemoryColony):
                 MemoryType.EMOTIONAL,  # Often overlap with episodic
             },
             supported_operations={
-                "create", "read", "update", "delete", "search",
-                "replay", "consolidate", "associate"
+                "create",
+                "read",
+                "update",
+                "delete",
+                "search",
+                "replay",
+                "consolidate",
+                "associate",
             },
             average_response_time_ms=50.0,  # Fast for hippocampal-style processing
             throughput_ops_per_second=20.0,
-            specialization_confidence=0.95
+            specialization_confidence=0.95,
         )
 
         super().__init__(
             colony_id=colony_id,
             colony_role=ColonyRole.SPECIALIST,
             specialized_memory_types=[MemoryType.EPISODIC, MemoryType.EMOTIONAL],
-            capabilities=capabilities
+            capabilities=capabilities,
         )
 
         # Episodic-specific storage
@@ -141,10 +154,18 @@ class EpisodicMemoryColony(BaseMemoryColony):
         self.memory_capacity = memory_capacity
 
         # Indexing for fast retrieval
-        self.temporal_index: Dict[str, Set[str]] = defaultdict(set)  # time_bucket -> memory_ids
-        self.spatial_index: Dict[str, Set[str]] = defaultdict(set)   # location_key -> memory_ids
-        self.emotional_index: Dict[str, Set[str]] = defaultdict(set) # emotion_bucket -> memory_ids
-        self.event_type_index: Dict[str, Set[str]] = defaultdict(set) # event_type -> memory_ids
+        self.temporal_index: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # time_bucket -> memory_ids
+        self.spatial_index: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # location_key -> memory_ids
+        self.emotional_index: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # emotion_bucket -> memory_ids
+        self.event_type_index: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # event_type -> memory_ids
 
         # Pattern separation and completion
         self.pattern_separation_threshold = 0.3
@@ -164,7 +185,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
         """Initialize episodic-specific systems"""
         # Start replay processing for consolidation
         self.replay_task = asyncio.create_task(self._replay_processing_loop())
-        self.consolidation_task = asyncio.create_task(self._consolidation_assessment_loop())
+        self.consolidation_task = asyncio.create_task(
+            self._consolidation_assessment_loop()
+        )
 
         logger.info("Episodic memory systems initialized")
 
@@ -178,8 +201,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         logger.info("Episodic memory systems cleaned up")
 
     async def _process_specialized_operation(
-        self,
-        operation: MemoryOperation
+        self, operation: MemoryOperation
     ) -> MemoryResponse:
         """Process episodic memory operations"""
 
@@ -201,10 +223,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
-                error_message=f"Unsupported operation: {operation.operation_type}"
+                error_message=f"Unsupported operation: {operation.operation_type}",
             )
 
-    async def _create_episodic_memory(self, operation: MemoryOperation) -> MemoryResponse:
+    async def _create_episodic_memory(
+        self, operation: MemoryOperation
+    ) -> MemoryResponse:
         """Create new episodic memory with rich context processing"""
 
         # Extract or create episodic content
@@ -213,8 +237,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         else:
             # Convert generic content to episodic structure
             episodic_content = EpisodicMemoryContent(
-                content=operation.content,
-                context=EpisodicContext()
+                content=operation.content, context=EpisodicContext()
             )
 
             # Extract event type if available
@@ -256,7 +279,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             personal_significance=personal_significance,
             temporal_distinctiveness=temporal_distinctiveness,
             spatial_distinctiveness=spatial_distinctiveness,
-            emotional_intensity=emotional_intensity
+            emotional_intensity=emotional_intensity,
         )
 
         # Check capacity and manage storage
@@ -270,7 +293,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         self._update_episodic_indices(record)
 
         # Add to replay queue if significant
-        if (personal_significance > 0.7 or emotional_intensity > 0.6):
+        if personal_significance > 0.7 or emotional_intensity > 0.6:
             self.replay_queue.append(memory_id)
 
         logger.debug(
@@ -278,14 +301,14 @@ class EpisodicMemoryColony(BaseMemoryColony):
             memory_id=memory_id,
             event_type=episodic_content.event_type,
             personal_significance=personal_significance,
-            emotional_intensity=emotional_intensity
+            emotional_intensity=emotional_intensity,
         )
 
         return MemoryResponse(
             operation_id=operation.operation_id,
             success=True,
             memory_id=memory_id,
-            content=episodic_content
+            content=episodic_content,
         )
 
     async def _read_episodic_memory(self, operation: MemoryOperation) -> MemoryResponse:
@@ -296,7 +319,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
-                error_message="Memory not found"
+                error_message="Memory not found",
             )
 
         record = self.episodic_records[memory_id]
@@ -314,10 +337,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
             success=True,
             memory_id=memory_id,
             content=enriched_content,
-            metadata=operation.metadata
+            metadata=operation.metadata,
         )
 
-    async def _search_episodic_memories(self, operation: MemoryOperation) -> MemoryResponse:
+    async def _search_episodic_memories(
+        self, operation: MemoryOperation
+    ) -> MemoryResponse:
         """Search episodic memories using multiple indices"""
 
         query = operation.content
@@ -373,9 +398,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
             key=lambda r: (
                 r.personal_significance,
                 r.emotional_intensity,
-                -abs(time.time() - r.timestamp)  # More recent is better
+                -abs(time.time() - r.timestamp),  # More recent is better
             ),
-            reverse=True
+            reverse=True,
         )
 
         # Limit results
@@ -385,12 +410,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
         results = [record.content for record in matching_records]
 
         return MemoryResponse(
-            operation_id=operation.operation_id,
-            success=True,
-            content=results
+            operation_id=operation.operation_id, success=True, content=results
         )
 
-    async def _trigger_episodic_replay(self, operation: MemoryOperation) -> MemoryResponse:
+    async def _trigger_episodic_replay(
+        self, operation: MemoryOperation
+    ) -> MemoryResponse:
         """Trigger replay of specific episodic memories"""
 
         memory_ids = operation.parameters.get("memory_ids", [])
@@ -407,38 +432,33 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
                 # Calculate replay strength based on significance and recency
                 replay_strength = (
-                    record.personal_significance * 0.4 +
-                    record.emotional_intensity * 0.3 +
-                    record.vividness * 0.3
+                    record.personal_significance * 0.4
+                    + record.emotional_intensity * 0.3
+                    + record.vividness * 0.3
                 )
 
                 # Update consolidation readiness
                 record.consolidation_readiness = min(
-                    1.0,
-                    record.consolidation_readiness + replay_strength * 0.1
+                    1.0, record.consolidation_readiness + replay_strength * 0.1
                 )
 
-                replayed_memories.append({
-                    "memory_id": memory_id,
-                    "content": record.content,
-                    "replay_strength": replay_strength,
-                    "consolidation_readiness": record.consolidation_readiness
-                })
+                replayed_memories.append(
+                    {
+                        "memory_id": memory_id,
+                        "content": record.content,
+                        "replay_strength": replay_strength,
+                        "consolidation_readiness": record.consolidation_readiness,
+                    }
+                )
 
-        logger.debug(
-            "Episodic replay completed",
-            replayed_count=len(replayed_memories)
-        )
+        logger.debug("Episodic replay completed", replayed_count=len(replayed_memories))
 
         return MemoryResponse(
-            operation_id=operation.operation_id,
-            success=True,
-            content=replayed_memories
+            operation_id=operation.operation_id, success=True, content=replayed_memories
         )
 
     async def _cast_consensus_vote(
-        self,
-        consensus_request: Dict[str, Any]
+        self, consensus_request: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Cast vote based on episodic memory expertise"""
 
@@ -456,12 +476,17 @@ class EpisodicMemoryColony(BaseMemoryColony):
             has_emotional_context = "emotion" in memory_data or "feeling" in memory_data
             has_event_structure = "event" in memory_data or "experience" in memory_data
 
-            episodic_score = sum([
-                has_temporal_context,
-                has_spatial_context,
-                has_emotional_context,
-                has_event_structure
-            ]) / 4.0
+            episodic_score = (
+                sum(
+                    [
+                        has_temporal_context,
+                        has_spatial_context,
+                        has_emotional_context,
+                        has_event_structure,
+                    ]
+                )
+                / 4.0
+            )
 
             if episodic_score > 0.5:
                 confidence = min(0.9, 0.5 + episodic_score * 0.4)
@@ -474,8 +499,8 @@ class EpisodicMemoryColony(BaseMemoryColony):
             "colony_id": self.colony_id,
             "decision": decision,
             "confidence": confidence,
-            "reasoning": f"Episodic assessment based on contextual richness",
-            "specialization_match": confidence > 0.7
+            "reasoning": "Episodic assessment based on contextual richness",
+            "specialization_match": confidence > 0.7,
         }
 
     # Helper methods for episodic processing
@@ -491,7 +516,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
         for record in self.episodic_records.values():
             if record.content.context.event_start:
-                time_diff = abs(context.event_start - record.content.context.event_start)
+                time_diff = abs(
+                    context.event_start - record.content.context.event_start
+                )
                 if time_diff < time_window:
                     similar_count += 1
 
@@ -552,7 +579,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
                 similarity_score += 0.4
 
             # Temporal similarity (same day)
-            if (record.content.context.event_start and content.context.event_start):
+            if record.content.context.event_start and content.context.event_start:
                 time_diff = abs(
                     record.content.context.event_start - content.context.event_start
                 )
@@ -560,8 +587,10 @@ class EpisodicMemoryColony(BaseMemoryColony):
                     similarity_score += 0.3
 
             # Spatial similarity
-            if (record.content.context.location is not None and
-                content.context.location is not None):
+            if (
+                record.content.context.location is not None
+                and content.context.location is not None
+            ):
                 distance = np.linalg.norm(
                     record.content.context.location - content.context.location
                 )
@@ -574,9 +603,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
         return similar
 
     def _apply_pattern_separation(
-        self,
-        content: EpisodicMemoryContent,
-        similar_episodes: List[str]
+        self, content: EpisodicMemoryContent, similar_episodes: List[str]
     ) -> EpisodicMemoryContent:
         """Apply pattern separation to maintain episode distinctiveness"""
 
@@ -586,11 +613,15 @@ class EpisodicMemoryColony(BaseMemoryColony):
         if not content.description:
             content.description = f"Distinct episode at {time.time()}"
         else:
-            content.description += f" [Distinct from {len(similar_episodes)} similar episodes]"
+            content.description += (
+                f" [Distinct from {len(similar_episodes)} similar episodes]"
+            )
 
         # Slightly modify context to increase distinctiveness
         if content.context.attention_level < 1.0:
-            content.context.attention_level = min(1.0, content.context.attention_level + 0.1)
+            content.context.attention_level = min(
+                1.0, content.context.attention_level + 0.1
+            )
 
         return content
 
@@ -616,7 +647,9 @@ class EpisodicMemoryColony(BaseMemoryColony):
             location_key = f"spatial_{hash(record.content.context.location.tobytes())}"
             self.spatial_index[location_key].add(memory_id)
 
-    def _matches_query(self, record: EpisodicMemoryRecord, query: Dict[str, Any]) -> bool:
+    def _matches_query(
+        self, record: EpisodicMemoryRecord, query: Dict[str, Any]
+    ) -> bool:
         """Check if record matches structured query"""
 
         # Check personal significance threshold
@@ -640,11 +673,13 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
     def _text_matches(self, record: EpisodicMemoryRecord, query_text: str) -> bool:
         """Check if record matches text query"""
-        searchable_text = " ".join([
-            record.content.event_type.lower(),
-            record.content.description.lower(),
-            str(record.content.content).lower()
-        ])
+        searchable_text = " ".join(
+            [
+                record.content.event_type.lower(),
+                record.content.description.lower(),
+                str(record.content.content).lower(),
+            ]
+        )
 
         return query_text in searchable_text
 
@@ -660,8 +695,8 @@ class EpisodicMemoryColony(BaseMemoryColony):
                 x[1].personal_significance,
                 x[1].emotional_intensity,
                 x[1].consolidation_readiness,
-                -x[1].replay_count  # Negative because more replays = more important
-            )
+                -x[1].replay_count,  # Negative because more replays = more important
+            ),
         )
 
         # Remove least important 10%
@@ -680,8 +715,12 @@ class EpisodicMemoryColony(BaseMemoryColony):
         record = self.episodic_records[memory_id]
 
         # Remove from indices
-        for index in [self.temporal_index, self.spatial_index,
-                     self.emotional_index, self.event_type_index]:
+        for index in [
+            self.temporal_index,
+            self.spatial_index,
+            self.emotional_index,
+            self.event_type_index,
+        ]:
             for memory_set in index.values():
                 memory_set.discard(memory_id)
 
@@ -724,8 +763,7 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
                         # Increase consolidation readiness
                         record.consolidation_readiness = min(
-                            1.0,
-                            record.consolidation_readiness + 0.1
+                            1.0, record.consolidation_readiness + 0.1
                         )
 
             await asyncio.sleep(2.0)  # Process replays every 2 seconds
@@ -738,16 +776,18 @@ class EpisodicMemoryColony(BaseMemoryColony):
 
             # Find episodes ready for consolidation
             for memory_id, record in self.episodic_records.items():
-                if (record.consolidation_readiness > 0.7 and
-                    record.replay_count >= 3 and
-                    record.personal_significance > 0.5):
+                if (
+                    record.consolidation_readiness > 0.7
+                    and record.replay_count >= 3
+                    and record.personal_significance > 0.5
+                ):
 
                     self.consolidation_candidates.append(memory_id)
 
             # Sort by readiness
             self.consolidation_candidates.sort(
                 key=lambda mid: self.episodic_records[mid].consolidation_readiness,
-                reverse=True
+                reverse=True,
             )
 
             # Keep only top candidates

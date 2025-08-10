@@ -25,12 +25,14 @@ TODO: Add multilingual support for narratives
 # Optional imports for language model integration
 try:
     import openai
+
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
 
 try:
-    from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+    from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+
     TRANSFORMERS_AVAILABLE = True
 except ImportError:
     TRANSFORMERS_AVAILABLE = False
@@ -38,9 +40,9 @@ except ImportError:
 import json
 import random
 import re
-from typing import Dict, List, Optional, Tuple, Any, Union
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class EmotionVocabulary:
@@ -72,41 +74,137 @@ class EmotionVocabulary:
         """
         return {
             "excitement": {
-                "adjectives": ["vibrant", "energetic", "pulsating", "electric", "dynamic"],
+                "adjectives": [
+                    "vibrant",
+                    "energetic",
+                    "pulsating",
+                    "electric",
+                    "dynamic",
+                ],
                 "verbs": ["surges", "sparkles", "resonates", "radiates", "amplifies"],
                 "nouns": ["energy", "vigor", "enthusiasm", "intensity", "vibrancy"],
-                "metaphors": ["lightning bolt", "shooting star", "supernova", "cascade", "eruption"]
+                "metaphors": [
+                    "lightning bolt",
+                    "shooting star",
+                    "supernova",
+                    "cascade",
+                    "eruption",
+                ],
             },
             "curiosity": {
-                "adjectives": ["inquisitive", "probing", "exploratory", "mysterious", "enigmatic"],
-                "verbs": ["investigates", "explores", "questions", "seeks", "discovers"],
-                "nouns": ["mystery", "puzzle", "question", "exploration", "investigation"],
-                "metaphors": ["treasure hunt", "maze", "riddle", "journey", "quest"]
+                "adjectives": [
+                    "inquisitive",
+                    "probing",
+                    "exploratory",
+                    "mysterious",
+                    "enigmatic",
+                ],
+                "verbs": [
+                    "investigates",
+                    "explores",
+                    "questions",
+                    "seeks",
+                    "discovers",
+                ],
+                "nouns": [
+                    "mystery",
+                    "puzzle",
+                    "question",
+                    "exploration",
+                    "investigation",
+                ],
+                "metaphors": ["treasure hunt", "maze", "riddle", "journey", "quest"],
             },
             "wonder": {
-                "adjectives": ["magnificent", "awe-inspiring", "breathtaking", "mystical", "transcendent"],
-                "verbs": ["marvels", "contemplates", "transcends", "illuminates", "reveals"],
-                "nouns": ["marvel", "miracle", "revelation", "epiphany", "enlightenment"],
-                "metaphors": ["cathedral", "symphony", "masterpiece", "revelation", "cosmos"]
+                "adjectives": [
+                    "magnificent",
+                    "awe-inspiring",
+                    "breathtaking",
+                    "mystical",
+                    "transcendent",
+                ],
+                "verbs": [
+                    "marvels",
+                    "contemplates",
+                    "transcends",
+                    "illuminates",
+                    "reveals",
+                ],
+                "nouns": [
+                    "marvel",
+                    "miracle",
+                    "revelation",
+                    "epiphany",
+                    "enlightenment",
+                ],
+                "metaphors": [
+                    "cathedral",
+                    "symphony",
+                    "masterpiece",
+                    "revelation",
+                    "cosmos",
+                ],
             },
             "focus": {
-                "adjectives": ["precise", "concentrated", "deliberate", "measured", "calibrated"],
+                "adjectives": [
+                    "precise",
+                    "concentrated",
+                    "deliberate",
+                    "measured",
+                    "calibrated",
+                ],
                 "verbs": ["focuses", "concentrates", "targets", "aligns", "calibrates"],
-                "nouns": ["precision", "accuracy", "clarity", "determination", "purpose"],
-                "metaphors": ["laser beam", "telescope", "microscope", "compass", "beacon"]
+                "nouns": [
+                    "precision",
+                    "accuracy",
+                    "clarity",
+                    "determination",
+                    "purpose",
+                ],
+                "metaphors": [
+                    "laser beam",
+                    "telescope",
+                    "microscope",
+                    "compass",
+                    "beacon",
+                ],
             },
             "uncertainty": {
-                "adjectives": ["ambiguous", "fluctuating", "wavering", "indefinite", "probabilistic"],
+                "adjectives": [
+                    "ambiguous",
+                    "fluctuating",
+                    "wavering",
+                    "indefinite",
+                    "probabilistic",
+                ],
                 "verbs": ["wavers", "fluctuates", "oscillates", "hesitates", "dances"],
-                "nouns": ["ambiguity", "probability", "possibility", "potential", "superposition"],
-                "metaphors": ["fog", "mirage", "pendulum", "wave", "cloud"]
+                "nouns": [
+                    "ambiguity",
+                    "probability",
+                    "possibility",
+                    "potential",
+                    "superposition",
+                ],
+                "metaphors": ["fog", "mirage", "pendulum", "wave", "cloud"],
             },
             "determination": {
-                "adjectives": ["resolute", "unwavering", "steadfast", "persistent", "decisive"],
+                "adjectives": [
+                    "resolute",
+                    "unwavering",
+                    "steadfast",
+                    "persistent",
+                    "decisive",
+                ],
                 "verbs": ["persists", "maintains", "holds", "sustains", "endures"],
-                "nouns": ["resolve", "persistence", "commitment", "dedication", "strength"],
-                "metaphors": ["anchor", "mountain", "fortress", "pillar", "foundation"]
-            }
+                "nouns": [
+                    "resolve",
+                    "persistence",
+                    "commitment",
+                    "dedication",
+                    "strength",
+                ],
+                "metaphors": ["anchor", "mountain", "fortress", "pillar", "foundation"],
+            },
         }
 
     def _build_intensity_modifiers(self) -> Dict[str, List[str]]:
@@ -123,7 +221,13 @@ class EmotionVocabulary:
             "low": ["gently", "softly", "subtly", "quietly", "delicately"],
             "medium": ["steadily", "clearly", "noticeably", "evidently", "distinctly"],
             "high": ["powerfully", "intensely", "dramatically", "boldly", "vividly"],
-            "extreme": ["explosively", "overwhelmingly", "monumentally", "extraordinarily", "phenomenally"]
+            "extreme": [
+                "explosively",
+                "overwhelmingly",
+                "monumentally",
+                "extraordinarily",
+                "phenomenally",
+            ],
         }
 
     def _build_quantum_metaphors(self) -> Dict[str, List[str]]:
@@ -137,20 +241,41 @@ class EmotionVocabulary:
         TODO: Include scientific accuracy validation
         """
         return {
-            "superposition": ["existing in multiple states", "dancing between possibilities",
-                            "holding infinite potential", "embracing all outcomes"],
-            "entanglement": ["mysteriously connected", "quantum-linked", "invisibly bonded",
-                           "cosmically intertwined"],
-            "collapse": ["crystallizing into reality", "choosing its destiny", "manifesting truth",
-                       "resolving uncertainty"],
-            "measurement": ["observing the universe", "witnessing reality", "capturing truth",
-                          "freezing time"],
-            "decoherence": ["losing quantum magic", "returning to classical reality",
-                          "abandoning superposition", "embracing determinism"]
+            "superposition": [
+                "existing in multiple states",
+                "dancing between possibilities",
+                "holding infinite potential",
+                "embracing all outcomes",
+            ],
+            "entanglement": [
+                "mysteriously connected",
+                "quantum-linked",
+                "invisibly bonded",
+                "cosmically intertwined",
+            ],
+            "collapse": [
+                "crystallizing into reality",
+                "choosing its destiny",
+                "manifesting truth",
+                "resolving uncertainty",
+            ],
+            "measurement": [
+                "observing the universe",
+                "witnessing reality",
+                "capturing truth",
+                "freezing time",
+            ],
+            "decoherence": [
+                "losing quantum magic",
+                "returning to classical reality",
+                "abandoning superposition",
+                "embracing determinism",
+            ],
         }
 
-    def get_emotion_words(self, emotion: str, category: str = "adjectives",
-                         count: int = 1) -> List[str]:
+    def get_emotion_words(
+        self, emotion: str, category: str = "adjectives", count: int = 1
+    ) -> List[str]:
         """
         Get vocabulary words for a specific emotion and category.
 
@@ -191,12 +316,14 @@ class EmotionVocabulary:
         """
         adjective = self.get_emotion_words(emotion, "adjectives", 1)[0]
         modifier = random.choice(self.intensity_modifiers.get(intensity, ["clearly"]))
-        metaphor = random.choice(self.quantum_metaphors.get("collapse", ["manifesting"]))
+        metaphor = random.choice(
+            self.quantum_metaphors.get("collapse", ["manifesting"])
+        )
 
         templates = [
             f"{modifier} {adjective}, {metaphor}",
             f"{adjective} energy {modifier} {metaphor}",
-            f"{modifier} {metaphor} with {adjective} purpose"
+            f"{modifier} {metaphor} with {adjective} purpose",
         ]
 
         return random.choice(templates)
@@ -238,23 +365,23 @@ class QuantumNarrativeGenerator:
             "verification_success": [
                 "In a moment of {emotion_phrase}, the probabilistic observation crystallized into verification. The hash {hash_snippet} emerged from uncertainty, its signature validated with {precision_level} precision.",
                 "The universe whispered its approval as measurement {hash_snippet} achieved verification. {emotion_phrase}, the quantum-like state resolved into mathematical certainty.",
-                "Through {emotion_phrase}, the verification process unveiled truth. Hash {hash_snippet} stood validated, a testament to quantum-safe cryptography."
+                "Through {emotion_phrase}, the verification process unveiled truth. Hash {hash_snippet} stood validated, a testament to quantum-safe cryptography.",
             ],
             "verification_failure": [
                 "Despite {emotion_phrase}, the verification encountered turbulence. Hash {hash_snippet} could not be authenticated, its signature lost in quantum noise.",
                 "The measurement wavered, {emotion_phrase}, but ultimately could not achieve verification. Hash {hash_snippet} remains unvalidated.",
-                "In a moment of {emotion_phrase}, the verification process revealed inconsistency. The hash {hash_snippet} failed to align with its cryptographic signature."
+                "In a moment of {emotion_phrase}, the verification process revealed inconsistency. The hash {hash_snippet} failed to align with its cryptographic signature.",
             ],
             "hash_generation": [
                 "Born from {emotion_phrase}, a new quantum hash materialized. The measurement {hash_snippet} captured this moment of collapse with post-quantum security.",
                 "Through {emotion_phrase}, the quantum field yielded its secrets. Hash {hash_snippet} emerged, cryptographically sealed and tamper-evident.",
-                "The probabilistic observation danced with {emotion_phrase}, giving birth to hash {hash_snippet}, protected by the unbreakable mathematics of SPHINCS+."
-            ]
+                "The probabilistic observation danced with {emotion_phrase}, giving birth to hash {hash_snippet}, protected by the unbreakable mathematics of SPHINCS+.",
+            ],
         }
 
-    def generate_narrative(self, event_data: Dict[str, Any],
-                          emotion: str = "focus",
-                          style: str = "poetic") -> str:
+    def generate_narrative(
+        self, event_data: Dict[str, Any], emotion: str = "focus", style: str = "poetic"
+    ) -> str:
         """
         Generate a natural language narrative for a verification event.
 
@@ -283,7 +410,9 @@ class QuantumNarrativeGenerator:
         emotion_phrase = self.vocabulary.create_emotion_phrase(emotion, intensity)
 
         # Select and populate template
-        templates = self.narrative_templates.get(event_type, ["A quantum event occurred."])
+        templates = self.narrative_templates.get(
+            event_type, ["A quantum event occurred."]
+        )
         template = random.choice(templates)
 
         # Prepare variables for template
@@ -294,7 +423,7 @@ class QuantumNarrativeGenerator:
         narrative = template.format(
             emotion_phrase=emotion_phrase,
             hash_snippet=hash_snippet,
-            precision_level=precision_level
+            precision_level=precision_level,
         )
 
         # TODO: Add post-processing for style adaptation
@@ -355,7 +484,13 @@ class QuantumNarrativeGenerator:
         TODO: Add actual precision metrics
         TODO: Connect to verification timing data
         """
-        precision_terms = ["mathematical", "quantum", "cryptographic", "absolute", "unshakeable"]
+        precision_terms = [
+            "mathematical",
+            "quantum",
+            "cryptographic",
+            "absolute",
+            "unshakeable",
+        ]
         return random.choice(precision_terms)
 
     def _apply_style_formatting(self, narrative: str, style: str) -> str:
@@ -374,8 +509,8 @@ class QuantumNarrativeGenerator:
         """
         if style == "technical":
             # Make more technical and precise
-            narrative = re.sub(r'whispered', 'indicated', narrative)
-            narrative = re.sub(r'danced', 'processed', narrative)
+            narrative = re.sub(r"whispered", "indicated", narrative)
+            narrative = re.sub(r"danced", "processed", narrative)
         elif style == "casual":
             # Make more conversational
             narrative = narrative.replace("crystallized", "worked out")
@@ -384,8 +519,9 @@ class QuantumNarrativeGenerator:
 
         return narrative
 
-    def generate_gpt_narrative(self, event_data: Dict[str, Any],
-                              emotion: str = "focus") -> Optional[str]:
+    def generate_gpt_narrative(
+        self, event_data: Dict[str, Any], emotion: str = "focus"
+    ) -> Optional[str]:
         """
         Generate narrative using GPT language model.
 
@@ -475,14 +611,16 @@ class SymbolicVocabularyExpander:
         """
         if self.vocabulary_file.exists():
             try:
-                with open(self.vocabulary_file, 'r') as f:
+                with open(self.vocabulary_file) as f:
                     return json.load(f)
-            except (json.JSONDecodeError, IOError):
+            except (OSError, json.JSONDecodeError):
                 print(f"Warning: Could not load vocabulary from {self.vocabulary_file}")
 
         return {"custom_emotions": {}, "user_metaphors": {}, "learned_patterns": {}}
 
-    def add_custom_emotion(self, emotion: str, vocabulary: Dict[str, List[str]]) -> None:
+    def add_custom_emotion(
+        self, emotion: str, vocabulary: Dict[str, List[str]]
+    ) -> None:
         """
         Add a custom emotion with its vocabulary.
 
@@ -512,11 +650,13 @@ class SymbolicVocabularyExpander:
         if usage_key not in self.usage_stats:
             self.usage_stats[usage_key] = []
 
-        self.usage_stats[usage_key].append({
-            "narrative": narrative,
-            "timestamp": datetime.now().isoformat(),
-            "rating": rating
-        })
+        self.usage_stats[usage_key].append(
+            {
+                "narrative": narrative,
+                "timestamp": datetime.now().isoformat(),
+                "rating": rating,
+            }
+        )
 
         # TODO: Analyze patterns and update vocabulary
         self._save_vocabulary()
@@ -531,13 +671,13 @@ class SymbolicVocabularyExpander:
         try:
             vocabulary_data = {
                 **self.custom_vocabulary,
-                "usage_stats": self.usage_stats
+                "usage_stats": self.usage_stats,
             }
 
-            with open(self.vocabulary_file, 'w') as f:
+            with open(self.vocabulary_file, "w") as f:
                 json.dump(vocabulary_data, f, indent=2)
 
-        except IOError as e:
+        except OSError as e:
             print(f"Warning: Could not save vocabulary: {e}")
 
 
@@ -571,29 +711,32 @@ def main():
         "hash": "a1b2c3d4e5f6789012345678",
         "verified": True,
         "timestamp": datetime.now().isoformat(),
-        "algorithm": "SPHINCS+-SHAKE256-128f-simple"
+        "algorithm": "SPHINCS+-SHAKE256-128f-simple",
     }
 
-    success_narrative = generator.generate_narrative(success_event, "excitement", "poetic")
+    success_narrative = generator.generate_narrative(
+        success_event, "excitement", "poetic"
+    )
     print(f"  Success: {success_narrative}")
 
     # Failure scenario
     failure_event = {
         "hash": "invalid_hash_data",
         "verified": False,
-        "error": "Signature validation failed"
+        "error": "Signature validation failed",
     }
 
-    failure_narrative = generator.generate_narrative(failure_event, "uncertainty", "technical")
+    failure_narrative = generator.generate_narrative(
+        failure_event, "uncertainty", "technical"
+    )
     print(f"  Failure: {failure_narrative}")
 
     # Generation scenario
-    generation_event = {
-        "hash": "new_quantum_measurement_hash",
-        "operation": "generate"
-    }
+    generation_event = {"hash": "new_quantum_measurement_hash", "operation": "generate"}
 
-    generation_narrative = generator.generate_narrative(generation_event, "wonder", "casual")
+    generation_narrative = generator.generate_narrative(
+        generation_event, "wonder", "casual"
+    )
     print(f"  Generation: {generation_narrative}")
 
     # Example 3: Vocabulary expansion
@@ -605,7 +748,7 @@ def main():
         "adjectives": ["transcendent", "luminous", "ethereal"],
         "verbs": ["transcends", "illuminates", "elevates"],
         "nouns": ["transcendence", "illumination", "elevation"],
-        "metaphors": ["ascending light", "cosmic awakening", "divine revelation"]
+        "metaphors": ["ascending light", "cosmic awakening", "divine revelation"],
     }
 
     expander.add_custom_emotion("transcendence", custom_emotion_vocab)

@@ -21,15 +21,15 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import unittest
 import json
-import numpy as np
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-import tempfile
-import os
-from pathlib import Path
 import logging
+import os
+import tempfile
+import unittest
+from datetime import datetime, timedelta
+from typing import Any, Dict, List
+
+import numpy as np
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -40,13 +40,18 @@ MODULE_NAME = "test_glyph_memory_integration"
 
 # Test imports - handle import errors gracefully
 try:
-    from ...memory.glyph_memory_integration import (
-        GlyphMemorySystem, GlyphBinding, FoldLineage,
-        CompressionType, get_glyph_memory_system,
-        create_glyph_memory, recall_by_glyphs, fold_recent_memories
-    )
     from ...core.symbolic.glyphs import GLYPH_MAP
     from ...memory.core_memory.memory_fold import MemoryFoldConfig
+    from ...memory.glyph_memory_integration import (
+        CompressionType,
+        FoldLineage,
+        GlyphBinding,
+        GlyphMemorySystem,
+        create_glyph_memory,
+        fold_recent_memories,
+        get_glyph_memory_system,
+        recall_by_glyphs,
+    )
 except ImportError as e:
     print(f"Import error: {e}")
     print("Running with mock implementations")
@@ -67,32 +72,32 @@ def generate_test_memories() -> List[Dict[str, Any]]:
             "emotion": "joy",
             "context": "Successfully solved a complex problem",
             "glyphs": ["💡", "🌱"],
-            "timestamp": (datetime.utcnow() - timedelta(hours=2)).isoformat()
+            "timestamp": (datetime.utcnow() - timedelta(hours=2)).isoformat(),
         },
         {
             "emotion": "curious",
             "context": "Discovered an interesting pattern in data",
             "glyphs": ["❓", "🔗", "💡"],
-            "timestamp": (datetime.utcnow() - timedelta(hours=4)).isoformat()
+            "timestamp": (datetime.utcnow() - timedelta(hours=4)).isoformat(),
         },
         {
             "emotion": "peaceful",
             "context": "Meditation session completed",
             "glyphs": ["🛡️", "🌱"],
-            "timestamp": (datetime.utcnow() - timedelta(hours=6)).isoformat()
+            "timestamp": (datetime.utcnow() - timedelta(hours=6)).isoformat(),
         },
         {
             "emotion": "excited",
             "context": "New creative breakthrough achieved",
             "glyphs": ["💡", "🌪️", "🔁"],
-            "timestamp": (datetime.utcnow() - timedelta(hours=8)).isoformat()
+            "timestamp": (datetime.utcnow() - timedelta(hours=8)).isoformat(),
         },
         {
             "emotion": "reflective",
             "context": "Analyzing past experiences for insights",
             "glyphs": ["🪞", "🔁", "👁️"],
-            "timestamp": (datetime.utcnow() - timedelta(hours=10)).isoformat()
-        }
+            "timestamp": (datetime.utcnow() - timedelta(hours=10)).isoformat(),
+        },
     ]
     return test_memories
 
@@ -100,7 +105,7 @@ def generate_test_memories() -> List[Dict[str, Any]]:
 def generate_lineage_visualization_html(
     fold_lineages: Dict[str, FoldLineage],
     glyph_bindings: Dict[str, List[GlyphBinding]],
-    output_path: str = "memory_lineage_visualization.html"
+    output_path: str = "memory_lineage_visualization.html",
 ) -> str:
     """
     Generate an HTML visualization of memory fold lineage with glyph associations.
@@ -113,7 +118,8 @@ def generate_lineage_visualization_html(
     Returns:
         Path to the generated HTML file
     """
-    html_content = """
+    html_content = (
+        """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,23 +269,56 @@ def generate_lineage_visualization_html(
 
     <script>
         // Visualization data
-        const foldLineages = """ + json.dumps({k: {
-            'fold_key': v.fold_key,
-            'parent_key': v.parent_key,
-            'emotion_delta': v.emotion_delta.tolist() if hasattr(v.emotion_delta, 'tolist') else list(v.emotion_delta),
-            'compression_ratio': v.compression_ratio,
-            'timestamp': v.timestamp.isoformat() if hasattr(v.timestamp, 'isoformat') else str(v.timestamp),
-            'glyphs': list(v.glyphs),
-            'salience_score': v.salience_score
-        } for k, v in fold_lineages.items()}) + """;
+        const foldLineages = """
+        + json.dumps(
+            {
+                k: {
+                    "fold_key": v.fold_key,
+                    "parent_key": v.parent_key,
+                    "emotion_delta": (
+                        v.emotion_delta.tolist()
+                        if hasattr(v.emotion_delta, "tolist")
+                        else list(v.emotion_delta)
+                    ),
+                    "compression_ratio": v.compression_ratio,
+                    "timestamp": (
+                        v.timestamp.isoformat()
+                        if hasattr(v.timestamp, "isoformat")
+                        else str(v.timestamp)
+                    ),
+                    "glyphs": list(v.glyphs),
+                    "salience_score": v.salience_score,
+                }
+                for k, v in fold_lineages.items()
+            }
+        )
+        + """;
 
-        const glyphBindings = """ + json.dumps({k: [{
-            'glyph': b.glyph,
-            'fold_key': b.fold_key,
-            'affect_vector': b.affect_vector.tolist() if hasattr(b.affect_vector, 'tolist') else list(b.affect_vector),
-            'binding_strength': b.binding_strength,
-            'created_at': b.created_at.isoformat() if hasattr(b.created_at, 'isoformat') else str(b.created_at)
-        } for b in v] for k, v in glyph_bindings.items()}) + """;
+        const glyphBindings = """
+        + json.dumps(
+            {
+                k: [
+                    {
+                        "glyph": b.glyph,
+                        "fold_key": b.fold_key,
+                        "affect_vector": (
+                            b.affect_vector.tolist()
+                            if hasattr(b.affect_vector, "tolist")
+                            else list(b.affect_vector)
+                        ),
+                        "binding_strength": b.binding_strength,
+                        "created_at": (
+                            b.created_at.isoformat()
+                            if hasattr(b.created_at, "isoformat")
+                            else str(b.created_at)
+                        ),
+                    }
+                    for b in v
+                ]
+                for k, v in glyph_bindings.items()
+            }
+        )
+        + """;
 
         // Calculate statistics
         const totalFolds = Object.keys(foldLineages).length;
@@ -372,9 +411,10 @@ def generate_lineage_visualization_html(
 </body>
 </html>
 """
+    )
 
     # Write to file
-    with open(output_path, 'w') as f:
+    with open(output_path, "w") as f:
         f.write(html_content)
 
     return output_path
@@ -398,7 +438,7 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
             "storage": {
                 "type": "database",
                 "db_path": ":memory:",  # In-memory SQLite for testing
-                "max_folds": 1000
+                "max_folds": 1000,
             }
         }
 
@@ -412,15 +452,15 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
             emotion="joy",
             context="Test memory with glyphs",
             glyphs=["💡", "🌱"],
-            user_id="test_user"
+            user_id="test_user",
         )
 
         self.assertIsNotNone(memory)
-        self.assertEqual(memory['emotion'], "joy")
-        self.assertEqual(len(memory['glyph_bindings']), 2)
+        self.assertEqual(memory["emotion"], "joy")
+        self.assertEqual(len(memory["glyph_bindings"]), 2)
 
         # Verify glyph bindings
-        glyphs = [b.glyph for b in memory['glyph_bindings']]
+        glyphs = [b.glyph for b in memory["glyph_bindings"]]
         self.assertIn("💡", glyphs)
         self.assertIn("🌱", glyphs)
 
@@ -428,23 +468,21 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
         """Test emotional affect coupling between glyphs and memories."""
         # Create memory
         memory = self.system.memory_system.create_memory_fold(
-            emotion="fear",
-            context_snippet="Uncertain situation",
-            user_id="test_user"
+            emotion="fear", context_snippet="Uncertain situation", user_id="test_user"
         )
 
         # Couple with calming glyph
         binding = self.system.affect_coupler.couple_glyph_with_memory(
             glyph="🛡️",  # Protection/peaceful glyph
             memory_fold=memory,
-            affect_influence=0.7
+            affect_influence=0.7,
         )
 
         self.assertIsNotNone(binding)
         self.assertGreater(binding.binding_strength, 0)
 
         # Check affect modulation
-        original_affect = np.array(memory.get('emotion_vector', [0, 0, 0]))
+        original_affect = np.array(memory.get("emotion_vector", [0, 0, 0]))
         coupled_affect = binding.affect_vector
 
         # Should be different due to coupling
@@ -459,19 +497,19 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
                 emotion="curious",
                 context=f"Discovery #{i}",
                 glyphs=["❓", "💡"],
-                user_id="test_user"
+                user_id="test_user",
             )
             memories.append(memory)
 
         # Perform folding
         folding_results = self.system.perform_temporal_folding(
             time_window=timedelta(hours=24),
-            min_salience=0.0  # Low threshold for testing
+            min_salience=0.0,  # Low threshold for testing
         )
 
-        self.assertGreater(folding_results['memories_folded'], 0)
-        self.assertIn("❓", folding_results['preserved_glyphs'])
-        self.assertIn("💡", folding_results['preserved_glyphs'])
+        self.assertGreater(folding_results["memories_folded"], 0)
+        self.assertIn("❓", folding_results["preserved_glyphs"])
+        self.assertIn("💡", folding_results["preserved_glyphs"])
 
     def test_glyph_pattern_recall(self):
         """Test memory recall by glyph patterns."""
@@ -479,24 +517,20 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
         test_memories = generate_test_memories()
         for mem_data in test_memories:
             self.system.create_glyph_indexed_memory(
-                emotion=mem_data['emotion'],
-                context=mem_data['context'],
-                glyphs=mem_data['glyphs']
+                emotion=mem_data["emotion"],
+                context=mem_data["context"],
+                glyphs=mem_data["glyphs"],
             )
 
         # Test "any" mode recall
         results_any = self.system.recall_by_glyph_pattern(
-            glyphs=["💡", "🌱"],
-            mode="any",
-            user_tier=5
+            glyphs=["💡", "🌱"], mode="any", user_tier=5
         )
         self.assertGreater(len(results_any), 0)
 
         # Test "all" mode recall
         results_all = self.system.recall_by_glyph_pattern(
-            glyphs=["💡", "🌱"],
-            mode="all",
-            user_tier=5
+            glyphs=["💡", "🌱"], mode="all", user_tier=5
         )
         self.assertGreaterEqual(len(results_any), len(results_all))
 
@@ -505,26 +539,23 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
         # Create memories
         for i in range(3):
             self.system.create_glyph_indexed_memory(
-                emotion="reflective",
-                context=f"Reflection {i}",
-                glyphs=["🪞", "🔁"]
+                emotion="reflective", context=f"Reflection {i}", glyphs=["🪞", "🔁"]
             )
 
         # Process dream state
         dream_data = {
-            'emotion': 'reflective',
-            'content': 'Dream about past experiences',
-            'glyphs': ['🪞', '👁️', '💡']
+            "emotion": "reflective",
+            "content": "Dream about past experiences",
+            "glyphs": ["🪞", "👁️", "💡"],
         }
 
         results = self.system.dream_bridge.process_dream_state(
-            dream_data,
-            activate_glyphs=True
+            dream_data, activate_glyphs=True
         )
 
-        self.assertGreater(results['processed_memories'], 0)
-        self.assertIn('🪞', results['activated_glyphs'])
-        self.assertGreaterEqual(results['new_associations'], 0)
+        self.assertGreater(results["processed_memories"], 0)
+        self.assertIn("🪞", results["activated_glyphs"])
+        self.assertGreaterEqual(results["new_associations"], 0)
 
     def test_emotional_drift_tracking(self):
         """Test emotion vector delta calculation during folding."""
@@ -536,15 +567,15 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
             memory = self.system.create_glyph_indexed_memory(
                 emotion=emotion,
                 context=f"Emotional journey stage {i}",
-                glyphs=["🔁", "🌱"]
+                glyphs=["🔁", "🌱"],
             )
             memories.append(memory)
 
         # Get emotion vectors
         vectors = []
         for mem in memories:
-            if 'emotion_vector' in mem:
-                vectors.append(mem['emotion_vector'])
+            if "emotion_vector" in mem:
+                vectors.append(mem["emotion_vector"])
 
         # Calculate drift
         if len(vectors) >= 2:
@@ -558,21 +589,15 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
         """Test calculation of glyph relationships through shared memories."""
         # Create memories with overlapping glyphs
         self.system.create_glyph_indexed_memory(
-            emotion="curious",
-            context="Question about patterns",
-            glyphs=["❓", "🔗"]
+            emotion="curious", context="Question about patterns", glyphs=["❓", "🔗"]
         )
 
         self.system.create_glyph_indexed_memory(
-            emotion="insight",
-            context="Found connection",
-            glyphs=["💡", "🔗"]
+            emotion="insight", context="Found connection", glyphs=["💡", "🔗"]
         )
 
         self.system.create_glyph_indexed_memory(
-            emotion="excited",
-            context="New discovery",
-            glyphs=["💡", "🌱"]
+            emotion="excited", context="New discovery", glyphs=["💡", "🌱"]
         )
 
         # Calculate affinities
@@ -582,7 +607,7 @@ class TestGlyphMemoryIntegration(unittest.TestCase):
 
         self.assertGreater(affinity_1, 0)  # Share one memory
         self.assertGreater(affinity_2, 0)  # Share one memory
-        self.assertEqual(affinity_3, 0)     # No shared memories
+        self.assertEqual(affinity_3, 0)  # No shared memories
 
 
 class TestGlyphMemoryVisualization(unittest.TestCase):
@@ -602,16 +627,15 @@ class TestGlyphMemoryVisualization(unittest.TestCase):
 
         for mem_data in test_memories:
             memory = system.create_glyph_indexed_memory(
-                emotion=mem_data['emotion'],
-                context=mem_data['context'],
-                glyphs=mem_data['glyphs']
+                emotion=mem_data["emotion"],
+                context=mem_data["context"],
+                glyphs=mem_data["glyphs"],
             )
             created_memories.append(memory)
 
         # Perform folding to create lineages
         folding_results = system.perform_temporal_folding(
-            time_window=timedelta(hours=24),
-            min_salience=0.0
+            time_window=timedelta(hours=24), min_salience=0.0
         )
 
         # Prepare visualization data
@@ -619,29 +643,27 @@ class TestGlyphMemoryVisualization(unittest.TestCase):
         glyph_bindings = {}
 
         for memory in created_memories:
-            if 'hash' in memory:
-                bindings = system.glyph_index.get_glyphs_by_fold(memory['hash'])
+            if "hash" in memory:
+                bindings = system.glyph_index.get_glyphs_by_fold(memory["hash"])
                 if bindings:
-                    glyph_bindings[memory['hash']] = [b[1] for b in bindings]
+                    glyph_bindings[memory["hash"]] = [b[1] for b in bindings]
 
         # Generate visualization
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".html", delete=False) as f:
             output_path = f.name
 
         generated_path = generate_lineage_visualization_html(
-            fold_lineages,
-            glyph_bindings,
-            output_path
+            fold_lineages, glyph_bindings, output_path
         )
 
         self.assertTrue(os.path.exists(generated_path))
 
         # Verify HTML content
-        with open(generated_path, 'r') as f:
+        with open(generated_path) as f:
             content = f.read()
-            self.assertIn('LUKHAS Memory-Glyph Lineage Visualization', content)
-            self.assertIn('foldLineages', content)
-            self.assertIn('glyphBindings', content)
+            self.assertIn("LUKHAS Memory-Glyph Lineage Visualization", content)
+            self.assertIn("foldLineages", content)
+            self.assertIn("glyphBindings", content)
 
         # Clean up
         os.unlink(generated_path)
@@ -675,16 +697,13 @@ def run_demo_visualization():
         ("hopeful", "Finding a potential solution", ["💡", "🌱", "🔗"]),
         ("excited", "Breakthrough moment", ["💡", "✨", "🌱"]),
         ("joy", "Problem solved successfully", ["💡", "🌱", "✅"]),
-        ("peaceful", "Reflecting on the journey", ["🪞", "🛡️", "☯"])
+        ("peaceful", "Reflecting on the journey", ["🪞", "🛡️", "☯"]),
     ]
 
     created_memories = []
     for emotion, context, glyphs in journey_stages:
         memory = system.create_glyph_indexed_memory(
-            emotion=emotion,
-            context=context,
-            glyphs=glyphs,
-            user_id="demo_user"
+            emotion=emotion, context=context, glyphs=glyphs, user_id="demo_user"
         )
         created_memories.append(memory)
         print(f"  ✓ Created {emotion} memory with glyphs: {' '.join(glyphs)}")
@@ -692,17 +711,14 @@ def run_demo_visualization():
     # Test recall by glyph
     print("\n3. Testing glyph-based recall...")
     insight_memories = system.recall_by_glyph_pattern(
-        glyphs=["💡"],
-        mode="any",
-        user_tier=5
+        glyphs=["💡"], mode="any", user_tier=5
     )
     print(f"  ✓ Found {len(insight_memories)} memories with insight glyph 💡")
 
     # Perform temporal folding
     print("\n4. Performing temporal memory folding...")
     folding_results = system.perform_temporal_folding(
-        time_window=timedelta(hours=24),
-        min_salience=0.0
+        time_window=timedelta(hours=24), min_salience=0.0
     )
     print(f"  ✓ Folded {folding_results['memories_folded']} memories")
     print(f"  ✓ Created {len(folding_results['new_folds'])} new folds")
@@ -710,22 +726,26 @@ def run_demo_visualization():
 
     # Process dream state
     print("\n5. Processing dream state...")
-    dream_results = system.dream_bridge.process_dream_state({
-        'emotion': 'reflective',
-        'content': 'Dreaming about problem-solving journey',
-        'glyphs': ['🪞', '💡', '🔁']
-    })
+    dream_results = system.dream_bridge.process_dream_state(
+        {
+            "emotion": "reflective",
+            "content": "Dreaming about problem-solving journey",
+            "glyphs": ["🪞", "💡", "🔁"],
+        }
+    )
     print(f"  ✓ Processed {dream_results['processed_memories']} memories")
     print(f"  ✓ Created {dream_results['new_associations']} new associations")
 
     # Get statistics
     print("\n6. System Statistics:")
     stats = system.get_memory_glyph_statistics()
-    glyph_stats = stats['glyph_integration']
+    glyph_stats = stats["glyph_integration"]
     print(f"  • Total memories: {stats['total_folds']}")
     print(f"  • Glyph bindings: {glyph_stats['total_glyph_bindings']}")
     print(f"  • Unique glyphs: {glyph_stats['unique_glyphs_used']}")
-    print(f"  • Folding events: {glyph_stats['folding_statistics']['compression_events']}")
+    print(
+        f"  • Folding events: {glyph_stats['folding_statistics']['compression_events']}"
+    )
 
     # Generate visualization
     print("\n7. Generating visualization...")
@@ -735,19 +755,19 @@ def run_demo_visualization():
     fold_lineages = system.folding_engine.fold_lineages
     glyph_bindings = {}
     for memory in created_memories:
-        if 'hash' in memory:
-            bindings = system.glyph_index.get_glyphs_by_fold(memory['hash'])
+        if "hash" in memory:
+            bindings = system.glyph_index.get_glyphs_by_fold(memory["hash"])
             if bindings:
-                glyph_bindings[memory['hash']] = [b[1] for b in bindings]
+                glyph_bindings[memory["hash"]] = [b[1] for b in bindings]
 
     generated_path = generate_lineage_visualization_html(
-        fold_lineages,
-        glyph_bindings,
-        visualization_path
+        fold_lineages, glyph_bindings, visualization_path
     )
 
     print(f"  ✓ Visualization saved to: {generated_path}")
-    print(f"\n✨ Demo complete! Open {visualization_path} in a browser to view the visualization.")
+    print(
+        f"\n✨ Demo complete! Open {visualization_path} in a browser to view the visualization."
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════

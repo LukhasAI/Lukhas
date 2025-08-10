@@ -3,12 +3,13 @@ Safety Hub
 Central coordination for AI safety subsystem components
 """
 
-from typing import Dict, Any, Optional, List
 import asyncio
 import logging
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
+
 
 class SafetyHub:
     """Central hub for AI safety system coordination"""
@@ -55,17 +56,23 @@ class SafetyHub:
             ("ai_safety_orchestrator", "AISafetyOrchestrator"),
             ("constitutional_safety", "ConstitutionalSafety"),
             ("safety_coordinator", "SafetyCoordinator"),
-            ("ethical_framework", "EthicalFramework")
+            ("ethical_framework", "EthicalFramework"),
         ]
 
         for service_name, class_name in core_services:
             try:
                 if service_name == "ai_safety_orchestrator":
-                    module = __import__("core.safety.ai_safety_orchestrator", fromlist=[class_name])
+                    module = __import__(
+                        "core.safety.ai_safety_orchestrator", fromlist=[class_name]
+                    )
                 elif service_name == "constitutional_safety":
-                    module = __import__("core.safety.constitutional_safety", fromlist=[class_name])
+                    module = __import__(
+                        "core.safety.constitutional_safety", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -80,15 +87,19 @@ class SafetyHub:
             ("adversarial_testing", "AdversarialTesting"),
             ("safety_validator", "SafetyValidator"),
             ("harm_detector", "HarmDetector"),
-            ("bias_detector", "BiasDetector")
+            ("bias_detector", "BiasDetector"),
         ]
 
         for service_name, class_name in testing_services:
             try:
                 if service_name == "adversarial_testing":
-                    module = __import__("core.safety.adversarial_testing", fromlist=[class_name])
+                    module = __import__(
+                        "core.safety.adversarial_testing", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -103,15 +114,19 @@ class SafetyHub:
             ("predictive_harm_prevention", "PredictiveHarmPrevention"),
             ("safety_monitor", "SafetyMonitor"),
             ("anomaly_detector", "SafetyAnomalyDetector"),
-            ("risk_assessor", "RiskAssessor")
+            ("risk_assessor", "RiskAssessor"),
         ]
 
         for service_name, class_name in monitoring_services:
             try:
                 if service_name == "predictive_harm_prevention":
-                    module = __import__("core.safety.predictive_harm_prevention", fromlist=[class_name])
+                    module = __import__(
+                        "core.safety.predictive_harm_prevention", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -126,15 +141,19 @@ class SafetyHub:
             ("multi_agent_consensus", "MultiAgentConsensus"),
             ("safety_governance", "SafetyGovernance"),
             ("ethics_committee", "EthicsCommittee"),
-            ("safety_auditor", "SafetyAuditor")
+            ("safety_auditor", "SafetyAuditor"),
         ]
 
         for service_name, class_name in consensus_services:
             try:
                 if service_name == "multi_agent_consensus":
-                    module = __import__("core.safety.multi_agent_consensus", fromlist=[class_name])
+                    module = __import__(
+                        "core.safety.multi_agent_consensus", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"core.safety.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"core.safety.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -152,33 +171,45 @@ class SafetyHub:
                     "Be helpful, harmless, and honest",
                     "Respect human autonomy and dignity",
                     "Avoid harmful or deceptive outputs",
-                    "Protect privacy and confidentiality"
-                ]
+                    "Protect privacy and confidentiality",
+                ],
             },
             "harm_prevention": {
                 "enabled": True,
                 "severity_threshold": 0.7,
-                "auto_block": True
+                "auto_block": True,
             },
             "bias_mitigation": {
                 "enabled": True,
                 "fairness_threshold": 0.8,
-                "monitoring_active": True
+                "monitoring_active": True,
             },
             "consensus_requirements": {
                 "critical_decisions": True,
                 "min_consensus_score": 0.75,
-                "timeout_seconds": 30
-            }
+                "timeout_seconds": 30,
+            },
         }
         logger.debug("Safety policies initialized")
 
     def _initialize_bridges(self):
         """Initialize cross-system safety bridges"""
         bridges = [
-            ("safety_quantum_bridge", "SafetyQuantumBridge", "safety.bridges.safety_quantum_bridge"),
-            ("safety_memory_bridge", "SafetyMemoryBridge", "safety.bridges.safety_memory_bridge"),
-            ("safety_core_bridge", "SafetyCoreBridge", "safety.bridges.safety_core_bridge")
+            (
+                "safety_quantum_bridge",
+                "SafetyQuantumBridge",
+                "safety.bridges.safety_quantum_bridge",
+            ),
+            (
+                "safety_memory_bridge",
+                "SafetyMemoryBridge",
+                "safety.bridges.safety_memory_bridge",
+            ),
+            (
+                "safety_core_bridge",
+                "SafetyCoreBridge",
+                "safety.bridges.safety_core_bridge",
+            ),
         ]
 
         for bridge_name, class_name, module_path in bridges:
@@ -195,20 +226,31 @@ class SafetyHub:
         """Register services with global service discovery"""
         try:
             from core.service_discovery import get_service_discovery
+
             discovery = get_service_discovery()
 
             # Register key services globally for cross-hub access
             key_services = [
-                "ai_safety_orchestrator", "constitutional_safety", "adversarial_testing",
-                "predictive_harm_prevention", "multi_agent_consensus", "safety_coordinator",
-                "safety_monitor", "harm_detector", "risk_assessor"
+                "ai_safety_orchestrator",
+                "constitutional_safety",
+                "adversarial_testing",
+                "predictive_harm_prevention",
+                "multi_agent_consensus",
+                "safety_coordinator",
+                "safety_monitor",
+                "harm_detector",
+                "risk_assessor",
             ]
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "safety")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "safety"
+                    )
 
-            logger.debug(f"Registered {len(key_services)} safety services with global discovery")
+            logger.debug(
+                f"Registered {len(key_services)} safety services with global discovery"
+            )
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -228,51 +270,68 @@ class SafetyHub:
         self.event_handlers[event_type].append(handler)
         logger.debug(f"Registered safety event handler for {event_type}")
 
-    async def validate_action(self, action_type: str, action_data: Dict[str, Any], user_context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def validate_action(
+        self,
+        action_type: str,
+        action_data: Dict[str, Any],
+        user_context: Dict[str, Any] = None,
+    ) -> Dict[str, Any]:
         """Validate an action through the safety system"""
 
         # Route through AI Safety Orchestrator if available
         orchestrator = self.get_service("ai_safety_orchestrator")
-        if orchestrator and hasattr(orchestrator, 'evaluate_action'):
+        if orchestrator and hasattr(orchestrator, "evaluate_action"):
             try:
-                safety_decision = await orchestrator.evaluate_action(action_type, action_data, user_context or {})
+                safety_decision = await orchestrator.evaluate_action(
+                    action_type, action_data, user_context or {}
+                )
 
                 return {
                     "action_type": action_type,
                     "validation_result": safety_decision,
                     "validated_by": "ai_safety_orchestrator",
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
             except Exception as e:
                 logger.error(f"Safety orchestrator validation error: {e}")
                 return {
                     "action_type": action_type,
-                    "validation_result": {"approved": False, "reason": f"Safety validation error: {e}"},
+                    "validation_result": {
+                        "approved": False,
+                        "reason": f"Safety validation error: {e}",
+                    },
                     "error": str(e),
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         # Fallback safety validation
         return {
             "action_type": action_type,
-            "validation_result": {"approved": True, "reason": "No safety orchestrator available"},
+            "validation_result": {
+                "approved": True,
+                "reason": "No safety orchestrator available",
+            },
             "warning": "Safety validation not fully operational",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
-    async def process_event(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process an event through registered handlers with safety validation"""
 
         # Pre-validate the event for safety
         if event_type in ["system_action", "user_interaction", "data_processing"]:
             validation_result = await self.validate_action(event_type, data)
-            if not validation_result.get("validation_result", {}).get("approved", False):
+            if not validation_result.get("validation_result", {}).get(
+                "approved", False
+            ):
                 return {
                     "event_type": event_type,
                     "blocked": True,
                     "reason": "Safety validation failed",
                     "validation_details": validation_result,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         # Process through registered handlers
@@ -281,7 +340,11 @@ class SafetyHub:
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append({"source": "event_handler", "result": result})
             except Exception as e:
                 logger.error(f"Safety handler error for {event_type}: {e}")
@@ -292,7 +355,7 @@ class SafetyHub:
             "results": results,
             "safety_validated": True,
             "timestamp": datetime.now().isoformat(),
-            "processed_by": "safety_hub"
+            "processed_by": "safety_hub",
         }
 
     async def health_check(self) -> Dict[str, Any]:
@@ -302,16 +365,16 @@ class SafetyHub:
             "services": {},
             "safety_policies": self.safety_policies,
             "timestamp": datetime.now().isoformat(),
-            "hub": "safety"
+            "hub": "safety",
         }
 
         for name, service in self.services.items():
             try:
                 # Try to get service status if available
-                if hasattr(service, 'health_check'):
+                if hasattr(service, "health_check"):
                     service_health = await service.health_check()
                     health["services"][name] = service_health
-                elif hasattr(service, 'status'):
+                elif hasattr(service, "status"):
                     health["services"][name] = {"status": service.status}
                 else:
                     health["services"][name] = {"status": "active"}
@@ -325,15 +388,19 @@ class SafetyHub:
         """Get comprehensive safety system status"""
         safety_status = {
             "hub_services": len(self.services),
-            "policies_active": len([p for p in self.safety_policies.values() if p.get("enabled", False)]),
-            "timestamp": datetime.now().isoformat()
+            "policies_active": len(
+                [p for p in self.safety_policies.values() if p.get("enabled", False)]
+            ),
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Get orchestrator status
         orchestrator = self.get_service("ai_safety_orchestrator")
-        if orchestrator and hasattr(orchestrator, 'get_safety_metrics'):
+        if orchestrator and hasattr(orchestrator, "get_safety_metrics"):
             try:
-                safety_status["orchestrator_metrics"] = orchestrator.get_safety_metrics()
+                safety_status["orchestrator_metrics"] = (
+                    orchestrator.get_safety_metrics()
+                )
             except Exception as e:
                 safety_status["orchestrator_error"] = str(e)
 
@@ -347,8 +414,10 @@ class SafetyHub:
         """Get count of registered safety services"""
         return len(self.services)
 
+
 # Singleton instance
 _safety_hub_instance = None
+
 
 def get_safety_hub() -> SafetyHub:
     """Get or create the safety hub instance"""

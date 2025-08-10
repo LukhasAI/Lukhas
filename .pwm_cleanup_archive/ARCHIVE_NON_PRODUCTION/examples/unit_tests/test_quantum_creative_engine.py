@@ -13,11 +13,13 @@ Test Date: June 11, 2025
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add the project root to the path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(
+    0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
 
 
 # Test with mock imports to avoid dependency issues
@@ -61,7 +63,7 @@ Beauty collapses"""
     expected_syllables = [5, 7, 5]
     lines = mock_haiku.lines
 
-    print(f"    Generated Haiku:")
+    print("    Generated Haiku:")
     for i, line in enumerate(lines):
         print(f"      {line} ({expected_syllables[i]} syllables)")
 
@@ -154,7 +156,7 @@ async def test_quantum_consciousness_integration():
     # Calculate integrated consciousness score
     consciousness_score = sum(consciousness_levels.values()) / len(consciousness_levels)
 
-    print(f"    Consciousness levels:")
+    print("    Consciousness levels:")
     for level, value in consciousness_levels.items():
         print(f"      {level}: {value}")
     print(f"    Integrated consciousness score: {consciousness_score:.3f}")

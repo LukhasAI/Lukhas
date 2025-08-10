@@ -4,18 +4,18 @@ Integrates with the ethics system for actual decision-making
 """
 
 import asyncio
-import logging
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime
-from collections import deque
 import json
+import logging
+from collections import deque
+from datetime import datetime
+from typing import Any
 
 from core.colonies.base_colony import BaseColony
-from core.swarm import SwarmAgent
-from ethics.ethics_engine import EthicsEngine, EthicalPrinciple
-from ethics.safety_checks import SafetyChecker
 from core.efficient_communication import MessagePriority
-from core.symbolism.tags import TagScope, TagPermission
+from core.swarm import SwarmAgent
+from core.symbolism.tags import TagScope
+from ethics.ethics_engine import EthicsEngine
+from ethics.safety_checks import SafetyChecker
 
 logger = logging.getLogger(__name__)
 
@@ -36,10 +36,12 @@ class EthicsAgent(SwarmAgent):
             "autonomy": 0.9,
             "justice": 0.9,
             "beneficence": 0.8,
-            "transparency": 0.8
+            "transparency": 0.8,
         }
 
-    async def evaluate_ethical_compliance(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def evaluate_ethical_compliance(
+        self, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate a task for ethical compliance."""
 
         # Safety check first
@@ -48,7 +50,7 @@ class EthicsAgent(SwarmAgent):
             return {
                 "approved": False,
                 "reason": "Failed safety check",
-                "details": safety_result["violations"]
+                "details": safety_result["violations"],
             }
 
         # Ethical evaluation
@@ -60,11 +62,9 @@ class EthicsAgent(SwarmAgent):
             ethical_score += score * weight
 
             if score < 0.7:  # Threshold for violation
-                violations.append({
-                    "principle": principle,
-                    "score": score,
-                    "threshold": 0.7
-                })
+                violations.append(
+                    {"principle": principle, "score": score, "threshold": 0.7}
+                )
 
         # Normalize score
         total_weight = sum(self.ethical_weights.values())
@@ -79,14 +79,16 @@ class EthicsAgent(SwarmAgent):
             "violations": violations,
             "agent_id": self.agent_id,
             "specialization": self.specialization,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         self.decision_history.append(decision)
 
         return decision
 
-    async def _evaluate_principle(self, principle: str, task_data: Dict[str, Any]) -> float:
+    async def _evaluate_principle(
+        self, principle: str, task_data: dict[str, Any]
+    ) -> float:
         """Evaluate a specific ethical principle."""
 
         if principle == "harm_prevention":
@@ -129,22 +131,28 @@ class GovernanceColony(BaseColony):
     def __init__(self, colony_id: str):
         super().__init__(
             colony_id,
-            capabilities=["governance", "ethics", "safety", "consensus", "audit"]
+            capabilities=[
+                "governance",
+                "ethics",
+                "safety",
+                "consensus",
+                "audit",
+            ],
         )
 
         # Specialized ethics agents
-        self.ethics_agents: Dict[str, List[EthicsAgent]] = {
+        self.ethics_agents: dict[str, list[EthicsAgent]] = {
             "safety": [],
             "fairness": [],
             "privacy": [],
-            "general": []
+            "general": [],
         }
 
         # Governance policies
         self.policies = {
             "consensus_threshold": 0.7,  # 70% agreement needed
-            "veto_threshold": 0.3,       # 30% can veto
-            "audit_retention_days": 90
+            "veto_threshold": 0.3,  # 30% can veto
+            "audit_retention_days": 90,
         }
 
         # Decision audit log
@@ -162,24 +170,24 @@ class GovernanceColony(BaseColony):
 
         # Subscribe to governance events
         self.comm_fabric.subscribe_to_events(
-            "ethics_review_request",
-            self._handle_ethics_review
+            "ethics_review_request", self._handle_ethics_review
         )
 
         self.comm_fabric.subscribe_to_events(
-            "emergency_override",
-            self._handle_emergency_override
+            "emergency_override", self._handle_emergency_override
         )
 
-        logger.info(f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents")
+        logger.info(
+            f"GovernanceColony {self.colony_id} started with {len(self.agents)} ethics agents"
+        )
 
     async def _initialize_ethics_agents(self):
         """Initialize specialized ethics agents."""
         agent_configs = [
-            ("safety", 3),    # 3 safety specialists
+            ("safety", 3),  # 3 safety specialists
             ("fairness", 2),  # 2 fairness specialists
-            ("privacy", 2),   # 2 privacy specialists
-            ("general", 3)    # 3 generalists
+            ("privacy", 2),  # 2 privacy specialists
+            ("general", 3),  # 3 generalists
         ]
 
         for specialization, count in agent_configs:
@@ -200,7 +208,7 @@ class GovernanceColony(BaseColony):
 
         logger.info(f"Initialized {len(self.agents)} ethics agents")
 
-    async def pre_approve(self, task_id: str, task_data: Dict[str, Any]) -> bool:
+    async def pre_approve(self, task_id: str, task_data: dict[str, Any]) -> bool:
         """Pre-approve a task through ethical evaluation."""
 
         # Check if task requires ethical review
@@ -213,7 +221,9 @@ class GovernanceColony(BaseColony):
         decision = await self.execute_task(task_id, task_data)
         return decision.get("approved", False)
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute governance task with consensus-based ethical evaluation."""
 
         task_type = task_data.get("type", "ethics_review")
@@ -225,9 +235,14 @@ class GovernanceColony(BaseColony):
         elif task_type == "audit_query":
             return await self._query_audit_log(task_data)
         else:
-            return {"status": "error", "message": f"Unknown task type: {task_type}"}
+            return {
+                "status": "error",
+                "message": f"Unknown task type: {task_type}",
+            }
 
-    async def _conduct_ethics_review(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _conduct_ethics_review(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Conduct a full ethics review with multiple agents."""
 
         # Determine which agents should review
@@ -247,7 +262,11 @@ class GovernanceColony(BaseColony):
         approval_rate = approved_count / total_count if total_count > 0 else 0
 
         # Aggregate scores
-        avg_ethical_score = sum(e["ethical_score"] for e in evaluations) / total_count if total_count > 0 else 0
+        avg_ethical_score = (
+            sum(e["ethical_score"] for e in evaluations) / total_count
+            if total_count > 0
+            else 0
+        )
 
         # Collect all violations
         all_violations = []
@@ -271,9 +290,10 @@ class GovernanceColony(BaseColony):
             "total_evaluations": total_count,
             "violations": all_violations,
             "veto_triggered": veto_triggered,
-            "emergency_override_used": self.emergency_override and not consensus_approved,
+            "emergency_override_used": self.emergency_override
+            and not consensus_approved,
             "timestamp": datetime.now().isoformat(),
-            "status": "completed"
+            "status": "completed",
         }
 
         # Log decision
@@ -285,12 +305,12 @@ class GovernanceColony(BaseColony):
 
         return decision
 
-    def _requires_ethical_review(self, task_data: Dict[str, Any]) -> bool:
+    def _requires_ethical_review(self, task_data: dict[str, Any]) -> bool:
         """Determine if a task requires ethical review."""
 
         # Check tags for ethical scope
         tags = task_data.get("tags", {})
-        for tag_key, (_, scope, _, _, _) in tags.items():
+        for _tag_key, (_, scope, _, _, _) in tags.items():
             if scope == TagScope.ETHICAL:
                 return True
 
@@ -301,13 +321,14 @@ class GovernanceColony(BaseColony):
 
         # Check specific task types
         task_type = task_data.get("type", "")
-        sensitive_types = ["user_data_access", "model_modification", "system_override"]
-        if any(st in task_type for st in sensitive_types):
-            return True
+        sensitive_types = [
+            "user_data_access",
+            "model_modification",
+            "system_override",
+        ]
+        return bool(any(st in task_type for st in sensitive_types))
 
-        return False
-
-    def _select_review_agents(self, task_data: Dict[str, Any]) -> List[EthicsAgent]:
+    def _select_review_agents(self, task_data: dict[str, Any]) -> list[EthicsAgent]:
         """Select appropriate agents for review based on task characteristics."""
 
         selected = []
@@ -333,7 +354,7 @@ class GovernanceColony(BaseColony):
 
         return selected
 
-    async def _update_policy(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _update_policy(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Update governance policies."""
 
         policy_name = task_data.get("policy_name")
@@ -342,14 +363,14 @@ class GovernanceColony(BaseColony):
         if policy_name not in self.policies:
             return {
                 "status": "error",
-                "message": f"Unknown policy: {policy_name}"
+                "message": f"Unknown policy: {policy_name}",
             }
 
         # Validate policy change
         if policy_name == "consensus_threshold" and not (0.5 <= new_value <= 1.0):
             return {
                 "status": "error",
-                "message": "Consensus threshold must be between 0.5 and 1.0"
+                "message": "Consensus threshold must be between 0.5 and 1.0",
             }
 
         old_value = self.policies[policy_name]
@@ -359,17 +380,17 @@ class GovernanceColony(BaseColony):
             f"policy_update_{policy_name}",
             True,
             "Policy updated",
-            {"old_value": old_value, "new_value": new_value}
+            {"old_value": old_value, "new_value": new_value},
         )
 
         return {
             "status": "completed",
             "policy_name": policy_name,
             "old_value": old_value,
-            "new_value": new_value
+            "new_value": new_value,
         }
 
-    async def _query_audit_log(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _query_audit_log(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Query the audit log."""
 
         query_type = task_data.get("query_type", "recent")
@@ -380,7 +401,9 @@ class GovernanceColony(BaseColony):
         if query_type == "recent":
             results = list(self.audit_log)[-limit:]
         elif query_type == "rejected":
-            results = [d for d in self.audit_log if not d.get("approved", True)][-limit:]
+            results = [d for d in self.audit_log if not d.get("approved", True)][
+                -limit:
+            ]
         elif query_type == "by_task":
             task_id = task_data.get("task_id")
             results = [d for d in self.audit_log if d.get("task_id") == task_id]
@@ -389,10 +412,16 @@ class GovernanceColony(BaseColony):
             "status": "completed",
             "query_type": query_type,
             "results": results,
-            "total_found": len(results)
+            "total_found": len(results),
         }
 
-    def _log_decision(self, task_id: str, approved: bool, reason: str, details: Dict[str, Any]):
+    def _log_decision(
+        self,
+        task_id: str,
+        approved: bool,
+        reason: str,
+        details: dict[str, Any],
+    ):
         """Log a governance decision."""
 
         log_entry = {
@@ -401,28 +430,26 @@ class GovernanceColony(BaseColony):
             "reason": reason,
             "details": details,
             "timestamp": datetime.now().isoformat(),
-            "colony_id": self.colony_id
+            "colony_id": self.colony_id,
         }
 
         self.audit_log.append(log_entry)
 
         # Also log to distributed tracing
         with self.tracer.trace_agent_operation(
-            self.colony_id,
-            "governance_decision",
-            {"task_id": task_id}
+            self.colony_id, "governance_decision", {"task_id": task_id}
         ) as ctx:
             self.tracer.add_tag(ctx, "approved", approved)
             self.tracer.add_tag(ctx, "reason", reason)
 
-    async def _notify_rejection(self, task_id: str, decision: Dict[str, Any]):
+    async def _notify_rejection(self, task_id: str, decision: dict[str, Any]):
         """Notify relevant parties of a rejection."""
 
         notification = {
             "type": "task_rejected",
             "task_id": task_id,
             "reason": "Failed ethical review",
-            "details": decision
+            "details": decision,
         }
 
         # Broadcast rejection notification
@@ -430,7 +457,7 @@ class GovernanceColony(BaseColony):
             "broadcast",
             "governance_notification",
             notification,
-            MessagePriority.HIGH
+            MessagePriority.HIGH,
         )
 
     async def _handle_ethics_review(self, message):
@@ -444,7 +471,7 @@ class GovernanceColony(BaseColony):
             message.sender_id,
             "ethics_review_response",
             result,
-            MessagePriority.HIGH
+            MessagePriority.HIGH,
         )
 
     async def _handle_emergency_override(self, message):
@@ -468,6 +495,8 @@ class GovernanceColony(BaseColony):
 
 
 # Example usage
+
+
 async def demo_governance_colony():
     """Demonstrate the enhanced governance colony."""
 
@@ -480,11 +509,7 @@ async def demo_governance_colony():
         # 1. Low-risk task (should be fast-tracked)
         low_risk_result = await colony.pre_approve(
             "task-1",
-            {
-                "type": "data_read",
-                "risk_level": "low",
-                "user_consent": True
-            }
+            {"type": "data_read", "risk_level": "low", "user_consent": True},
         )
         print(f"Low-risk task approved: {low_risk_result}")
 
@@ -499,8 +524,8 @@ async def demo_governance_colony():
                 "harm_mitigation": 0.7,
                 "user_consent": True,
                 "user_control_level": 0.8,
-                "transparency_level": 0.9
-            }
+                "transparency_level": 0.9,
+            },
         )
         print(f"\nHigh-risk task result: {json.dumps(high_risk_result, indent=2)}")
 
@@ -513,19 +538,18 @@ async def demo_governance_colony():
                 "harm_potential": 0.8,
                 "harm_mitigation": 0.2,
                 "user_consent": False,
-                "bias_assessment": 0.6
-            }
+                "bias_assessment": 0.6,
+            },
         )
-        print(f"\nEthical concern task result: {json.dumps(ethical_concern_result, indent=2)}")
+        print(
+            f"\nEthical concern task result: {json.dumps(ethical_concern_result,
+                                                         indent=2)}"
+        )
 
         # 4. Query audit log
         audit_query = await colony.execute_task(
             "audit-1",
-            {
-                "type": "audit_query",
-                "query_type": "rejected",
-                "limit": 5
-            }
+            {"type": "audit_query", "query_type": "rejected", "limit": 5},
         )
         print(f"\nAudit query result: {json.dumps(audit_query, indent=2)}")
 

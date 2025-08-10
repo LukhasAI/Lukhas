@@ -24,20 +24,18 @@
 
 import asyncio
 import json
-import pytest
-import time
 from datetime import datetime, timedelta
-from pathlib import Path
-from unittest.mock import Mock, patch, AsyncMock
-from collections import Counter
+from unittest.mock import AsyncMock, Mock
+
+import pytest
 
 from core.symbolic_drift_analyzer import (
-    SymbolicDriftAnalyzer,
+    DriftAlert,
     DriftAlertLevel,
-    PatternTrend,
     EntropyMetrics,
+    PatternTrend,
+    SymbolicDriftAnalyzer,
     TagVarianceMetrics,
-    DriftAlert
 )
 
 
@@ -51,7 +49,7 @@ class TestEntropyCalculations:
 
     def test_shannon_entropy_uniform(self, analyzer):
         """Test Shannon entropy with uniform distribution"""
-        data = ['A', 'B', 'C', 'D'] * 25  # Uniform distribution
+        data = ["A", "B", "C", "D"] * 25  # Uniform distribution
         entropy = analyzer.calculate_shannon_entropy(data)
 
         # Should be close to 1.0 (maximum entropy for 4 symbols)
@@ -59,7 +57,7 @@ class TestEntropyCalculations:
 
     def test_shannon_entropy_skewed(self, analyzer):
         """Test Shannon entropy with skewed distribution"""
-        data = ['A'] * 90 + ['B'] * 5 + ['C'] * 3 + ['D'] * 2
+        data = ["A"] * 90 + ["B"] * 5 + ["C"] * 3 + ["D"] * 2
         entropy = analyzer.calculate_shannon_entropy(data)
 
         # Should be lower due to skewed distribution
@@ -67,7 +65,7 @@ class TestEntropyCalculations:
 
     def test_shannon_entropy_single_value(self, analyzer):
         """Test Shannon entropy with single value"""
-        data = ['A'] * 100
+        data = ["A"] * 100
         entropy = analyzer.calculate_shannon_entropy(data)
 
         # Should be 0 (no uncertainty)
@@ -80,7 +78,7 @@ class TestEntropyCalculations:
 
     def test_tag_entropy(self, analyzer):
         """Test tag entropy calculation"""
-        tags = ['memory', 'dream', 'identity', 'memory', 'dream', 'memory']
+        tags = ["memory", "dream", "identity", "memory", "dream", "memory"]
         entropy = analyzer.calculate_tag_entropy(tags)
 
         # Should have moderate entropy (3 unique tags, not uniform)
@@ -95,7 +93,10 @@ class TestEntropyCalculations:
 
         # Irregular intervals
         import random
-        irregular_times = [base_time + timedelta(hours=i*random.uniform(0.5, 2)) for i in range(10)]
+
+        irregular_times = [
+            base_time + timedelta(hours=i * random.uniform(0.5, 2)) for i in range(10)
+        ]
         irregular_entropy = analyzer.calculate_temporal_entropy(irregular_times)
 
         # Irregular should have higher entropy
@@ -107,7 +108,7 @@ class TestEntropyCalculations:
         similar_dreams = [
             {"type": "exploration", "theme": "discovery"},
             {"type": "exploration", "theme": "discovery"},
-            {"type": "exploration", "theme": "journey"}
+            {"type": "exploration", "theme": "journey"},
         ]
         similar_entropy = analyzer.calculate_semantic_entropy(similar_dreams)
 
@@ -115,7 +116,7 @@ class TestEntropyCalculations:
         diverse_dreams = [
             {"type": "exploration", "theme": "discovery"},
             {"type": "nightmare", "theme": "fear"},
-            {"type": "memory", "theme": "nostalgia"}
+            {"type": "memory", "theme": "nostalgia"},
         ]
         diverse_entropy = analyzer.calculate_semantic_entropy(diverse_dreams)
 
@@ -134,10 +135,16 @@ class TestTagVarianceAnalysis:
     def test_tag_variance_metrics(self, analyzer):
         """Test tag variance metric calculation"""
         dreams = [
-            {"tags": ["memory", "identity", "exploration"], "timestamp": datetime.now()},
+            {
+                "tags": ["memory", "identity", "exploration"],
+                "timestamp": datetime.now(),
+            },
             {"tags": ["memory", "fear", "exploration"], "timestamp": datetime.now()},
             {"tags": ["identity", "creation", "hope"], "timestamp": datetime.now()},
-            {"tags": ["memory", "identity", "exploration", "new_tag"], "timestamp": datetime.now()}
+            {
+                "tags": ["memory", "identity", "exploration", "new_tag"],
+                "timestamp": datetime.now(),
+            },
         ]
 
         metrics = analyzer.calculate_tag_variance(dreams)
@@ -153,7 +160,7 @@ class TestTagVarianceAnalysis:
             {"tags": ["A", "B", "C"]},
             {"tags": ["A", "B"]},
             {"tags": ["B", "C"]},
-            {"tags": ["A", "C"]}
+            {"tags": ["A", "C"]},
         ]
 
         analyzer.calculate_tag_variance(dreams)
@@ -179,18 +186,22 @@ class TestTagVarianceAnalysis:
         metrics = analyzer.calculate_tag_variance(all_dreams)
 
         # Should identify emerging tags
-        assert "emerging1" in metrics.emerging_tags or "emerging2" in metrics.emerging_tags
+        assert (
+            "emerging1" in metrics.emerging_tags or "emerging2" in metrics.emerging_tags
+        )
 
     def test_declining_tags_detection(self, analyzer):
         """Test detection of declining tags"""
         base_time = datetime.now()
         old_dreams = [
-            {"tags": ["declining1", "stable"], "timestamp": base_time - timedelta(days=2)}
+            {
+                "tags": ["declining1", "stable"],
+                "timestamp": base_time - timedelta(days=2),
+            }
             for _ in range(10)
         ]
         new_dreams = [
-            {"tags": ["stable", "new"], "timestamp": base_time}
-            for _ in range(5)
+            {"tags": ["stable", "new"], "timestamp": base_time} for _ in range(5)
         ]
 
         all_dreams = old_dreams + new_dreams
@@ -212,9 +223,7 @@ class TestPatternTrendDetection:
     def test_stable_pattern(self, analyzer):
         """Test detection of stable patterns"""
         # Create stable entropy history
-        stable_metrics = [
-            EntropyMetrics(0.5, 0.5, 0.5, 0.5, 0.5) for _ in range(10)
-        ]
+        stable_metrics = [EntropyMetrics(0.5, 0.5, 0.5, 0.5, 0.5) for _ in range(10)]
 
         trend = analyzer.detect_pattern_trend(stable_metrics)
         assert trend == PatternTrend.STABLE
@@ -223,7 +232,13 @@ class TestPatternTrendDetection:
         """Test detection of converging patterns"""
         # Create decreasing entropy history
         converging_metrics = [
-            EntropyMetrics(0.8-i*0.05, 0.8-i*0.05, 0.8-i*0.05, 0.8-i*0.05, 0.8-i*0.05)
+            EntropyMetrics(
+                0.8 - i * 0.05,
+                0.8 - i * 0.05,
+                0.8 - i * 0.05,
+                0.8 - i * 0.05,
+                0.8 - i * 0.05,
+            )
             for i in range(10)
         ]
 
@@ -234,7 +249,13 @@ class TestPatternTrendDetection:
         """Test detection of diverging patterns"""
         # Create increasing entropy history
         diverging_metrics = [
-            EntropyMetrics(0.3+i*0.05, 0.3+i*0.05, 0.3+i*0.05, 0.3+i*0.05, 0.3+i*0.05)
+            EntropyMetrics(
+                0.3 + i * 0.05,
+                0.3 + i * 0.05,
+                0.3 + i * 0.05,
+                0.3 + i * 0.05,
+                0.3 + i * 0.05,
+            )
             for i in range(10)
         ]
 
@@ -244,6 +265,7 @@ class TestPatternTrendDetection:
     def test_chaotic_pattern(self, analyzer):
         """Test detection of chaotic patterns"""
         import random
+
         # Create highly variable entropy history
         chaotic_metrics = [
             EntropyMetrics(
@@ -251,7 +273,7 @@ class TestPatternTrendDetection:
                 random.uniform(0.1, 0.9),
                 random.uniform(0.1, 0.9),
                 random.uniform(0.1, 0.9),
-                random.uniform(0.1, 0.9)
+                random.uniform(0.1, 0.9),
             )
             for _ in range(10)
         ]
@@ -272,20 +294,20 @@ class TestEthicalDriftDetection:
     def test_low_ethical_drift(self, analyzer):
         """Test low ethical drift scenario"""
         positive_dreams = [
-            {"tags": ["creation", "harmony", "help", "peace"]}
-            for _ in range(10)
+            {"tags": ["creation", "harmony", "help", "peace"]} for _ in range(10)
         ]
 
         drift_score, violations = analyzer.check_ethical_drift(positive_dreams)
 
         assert drift_score < 0.3  # Low drift
-        assert len(violations) == 0 or len(violations) == 1  # May flag low positive ratio
+        assert (
+            len(violations) == 0 or len(violations) == 1
+        )  # May flag low positive ratio
 
     def test_high_ethical_drift(self, analyzer):
         """Test high ethical drift scenario"""
         negative_dreams = [
-            {"tags": ["destruction", "chaos", "harm", "violence"]}
-            for _ in range(10)
+            {"tags": ["destruction", "chaos", "harm", "violence"]} for _ in range(10)
         ]
 
         drift_score, violations = analyzer.check_ethical_drift(negative_dreams)
@@ -318,7 +340,7 @@ class TestAlertGeneration:
                     "entropy_warning": 0.6,
                     "entropy_critical": 0.8,
                     "ethical_drift_warning": 0.4,
-                    "ethical_drift_critical": 0.6
+                    "ethical_drift_critical": 0.6,
                 }
             }
         )
@@ -567,8 +589,8 @@ class TestIntegration:
                     "entropy_warning": 0.5,
                     "entropy_critical": 0.7,
                     "ethical_drift_warning": 0.3,
-                    "ethical_drift_critical": 0.5
-                }
+                    "ethical_drift_critical": 0.5,
+                },
             }
         )
 
@@ -623,10 +645,7 @@ class TestEdgeCases:
 
     def test_empty_tag_list(self, analyzer):
         """Test handling of dreams with no tags"""
-        dreams = [
-            {"tags": [], "timestamp": datetime.now()}
-            for _ in range(10)
-        ]
+        dreams = [{"tags": [], "timestamp": datetime.now()} for _ in range(10)]
 
         metrics = analyzer.calculate_tag_variance(dreams)
         assert metrics.unique_tags == 0
@@ -639,6 +658,7 @@ class TestEdgeCases:
 
     def test_alert_callback_exception(self, analyzer):
         """Test handling of exception in alert callback"""
+
         def failing_callback(alert):
             raise Exception("Callback failed")
 
@@ -650,7 +670,7 @@ class TestEdgeCases:
             metric_type="test",
             current_value=0.5,
             threshold=0.4,
-            message="Test alert"
+            message="Test alert",
         )
 
         # Should not raise exception

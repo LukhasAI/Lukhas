@@ -4,30 +4,28 @@ Simplified benchmark runner for quantized thought cycles
 """
 
 import asyncio
-import time
 import json
-import statistics
-from datetime import datetime
-import sys
 import os
+import statistics
+import sys
+import time
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.quantized_thought_cycles import QuantizedThoughtProcessor
 
+
 async def benchmark_basic_performance():
     """Run basic performance benchmark"""
 
-    results = {
-        "timestamp": datetime.now().isoformat(),
-        "configurations": {}
-    }
+    results = {"timestamp": datetime.now().isoformat(), "configurations": {}}
 
     # Test configurations
     configs = [
         {"name": "Low Frequency (10Hz)", "hz": 10.0},
         {"name": "Medium Frequency (50Hz)", "hz": 50.0},
-        {"name": "High Frequency (100Hz)", "hz": 100.0}
+        {"name": "High Frequency (100Hz)", "hz": 100.0},
     ]
 
     for config in configs:
@@ -35,8 +33,7 @@ async def benchmark_basic_performance():
 
         # Create processor with unlimited energy for benchmarking
         processor = QuantizedThoughtProcessor(
-            cycle_frequency_hz=config["hz"],
-            max_energy_per_cycle=1
+            cycle_frequency_hz=config["hz"], max_energy_per_cycle=1
         )
         processor.energy_pool = 10000  # High energy pool
         processor.energy_regeneration_rate = 100  # Fast regeneration
@@ -92,22 +89,22 @@ async def benchmark_basic_performance():
                 "thoughts_submitted": num_thoughts,
                 "thoughts_processed": results_collected,
                 "duration_seconds": round(duration, 2),
-                "throughput_per_second": round(throughput, 2)
+                "throughput_per_second": round(throughput, 2),
             },
             "latency": {
                 "samples": len(latencies),
                 "min_ms": round(min(latencies), 2) if latencies else 0,
                 "max_ms": round(max(latencies), 2) if latencies else 0,
                 "mean_ms": round(statistics.mean(latencies), 2) if latencies else 0,
-                "median_ms": round(statistics.median(latencies), 2) if latencies else 0
+                "median_ms": round(statistics.median(latencies), 2) if latencies else 0,
             },
             "metrics": {
                 "total_cycles": metrics["total_cycles"],
                 "successful_cycles": metrics["successful_cycles"],
                 "failed_cycles": metrics["failed_cycles"],
                 "average_cycle_time_ms": round(metrics["average_cycle_time_ms"], 2),
-                "current_frequency_hz": round(metrics["current_frequency_hz"], 2)
-            }
+                "current_frequency_hz": round(metrics["current_frequency_hz"], 2),
+            },
         }
 
         results["configurations"][config["name"]] = config_results
@@ -130,7 +127,7 @@ async def benchmark_basic_performance():
         {"key": "value"},
         [1, 2, 3],
         {"nested": {"data": [1, 2, 3]}},
-        "Unicode: 你好 🌍 λ∞"
+        "Unicode: 你好 🌍 λ∞",
     ]
 
     data_results = []
@@ -138,16 +135,19 @@ async def benchmark_basic_performance():
         await processor.submit_thought(data)
         result = await processor.get_result(timeout=1.0)
         if result:
-            data_results.append({
-                "type": type(data).__name__,
-                "processed": result.output_data is not None,
-                "duration_ms": round(result.duration_ms, 2)
-            })
+            data_results.append(
+                {
+                    "type": type(data).__name__,
+                    "processed": result.output_data is not None,
+                    "duration_ms": round(result.duration_ms, 2),
+                }
+            )
 
     await processor.stop()
     results["data_type_handling"] = data_results
 
     return results
+
 
 def generate_report(results):
     """Generate markdown report"""
@@ -160,22 +160,26 @@ def generate_report(results):
         report.append(f"\n### {config_name}")
 
         t = data["throughput"]
-        report.append(f"\n**Throughput**")
-        report.append(f"- Processed: {t['thoughts_processed']}/{t['thoughts_submitted']}")
+        report.append("\n**Throughput**")
+        report.append(
+            f"- Processed: {t['thoughts_processed']}/{t['thoughts_submitted']}"
+        )
         report.append(f"- Duration: {t['duration_seconds']}s")
         report.append(f"- **Rate: {t['throughput_per_second']} thoughts/sec**")
 
         l = data["latency"]
-        report.append(f"\n**Latency**")
+        report.append("\n**Latency**")
         report.append(f"- Samples: {l['samples']}")
         report.append(f"- Range: {l['min_ms']} - {l['max_ms']} ms")
         report.append(f"- Mean: {l['mean_ms']} ms")
         report.append(f"- Median: {l['median_ms']} ms")
 
         m = data["metrics"]
-        report.append(f"\n**Cycle Metrics**")
+        report.append("\n**Cycle Metrics**")
         report.append(f"- Total Cycles: {m['total_cycles']}")
-        report.append(f"- Success Rate: {(m['successful_cycles']/m['total_cycles']*100):.1f}%")
+        report.append(
+            f"- Success Rate: {(m['successful_cycles']/m['total_cycles']*100):.1f}%"
+        )
         report.append(f"- Average Cycle Time: {m['average_cycle_time_ms']} ms")
         report.append(f"- Measured Frequency: {m['current_frequency_hz']} Hz")
 
@@ -203,6 +207,7 @@ def generate_report(results):
 
     return "\n".join(report)
 
+
 async def main():
     """Run benchmark and generate report"""
     print("🚀 Running Quantized Thought Cycles Benchmark")
@@ -223,6 +228,7 @@ async def main():
     print("\n✅ Benchmark complete!")
     print("📊 Results saved to benchmarks/quantized_cycles_results.json")
     print("📄 Report saved to benchmarks/QUANTIZED_CYCLES_BENCHMARK.md")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

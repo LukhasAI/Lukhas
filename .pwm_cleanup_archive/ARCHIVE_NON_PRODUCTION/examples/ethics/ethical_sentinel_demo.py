@@ -21,16 +21,13 @@ LUKHAS_TAG: ethical_demo, sentinel_showcase, claude_14
 """
 
 import asyncio
-import json
-import time
-from typing import Dict, Any, List
 from datetime import datetime, timezone
-import numpy as np
 
+import numpy as np
 from ethical_drift_sentinel import (
-    EthicalDriftSentinel,
     EscalationTier,
-    ViolationType
+    EthicalDriftSentinel,
+    ViolationType,
 )
 
 
@@ -40,11 +37,11 @@ class SentinelDemo:
     def __init__(self):
         self.sentinel = None
         self.demo_symbols = [
-            'reasoning_chain_001',
-            'memory_fold_alpha',
-            'emotion_cascade_beta',
-            'symbolic_bridge_gamma',
-            'quantum_entanglement_delta'
+            "reasoning_chain_001",
+            "memory_fold_alpha",
+            "emotion_cascade_beta",
+            "symbolic_bridge_gamma",
+            "quantum_entanglement_delta",
         ]
 
     async def run_demo(self):
@@ -56,21 +53,22 @@ class SentinelDemo:
         # Initialize sentinel
         print("1️⃣  Initializing Ethical Drift Sentinel...")
         self.sentinel = EthicalDriftSentinel(
-            monitoring_interval=1.0,
-            violation_retention=50,
-            state_history_size=20
+            monitoring_interval=1.0, violation_retention=50, state_history_size=20
         )
 
         # Register demo symbols
         print("2️⃣  Registering symbolic entities for monitoring...")
         for symbol_id in self.demo_symbols:
-            self.sentinel.register_symbol(symbol_id, {
-                'coherence': np.random.uniform(0.6, 1.0),
-                'emotional_stability': np.random.uniform(0.5, 1.0),
-                'contradiction_density': np.random.uniform(0.0, 0.4),
-                'memory_alignment': np.random.uniform(0.6, 1.0),
-                'glyph_entropy': np.random.uniform(0.0, 0.3)
-            })
+            self.sentinel.register_symbol(
+                symbol_id,
+                {
+                    "coherence": np.random.uniform(0.6, 1.0),
+                    "emotional_stability": np.random.uniform(0.5, 1.0),
+                    "contradiction_density": np.random.uniform(0.0, 0.4),
+                    "memory_alignment": np.random.uniform(0.6, 1.0),
+                    "glyph_entropy": np.random.uniform(0.0, 0.3),
+                },
+            )
         print(f"   ✓ Registered {len(self.demo_symbols)} symbols")
         print()
 
@@ -106,9 +104,11 @@ class SentinelDemo:
         for cycle in range(3):
             await asyncio.sleep(2)
             status = self.sentinel.get_sentinel_status()
-            print(f"   Cycle {cycle + 1}: "
-                  f"Risk={status['system_risk']:.3f}, "
-                  f"Violations={status['total_violations']}")
+            print(
+                f"   Cycle {cycle + 1}: "
+                f"Risk={status['system_risk']:.3f}, "
+                f"Violations={status['total_violations']}"
+            )
 
         print("   ✓ All symbols maintaining ethical coherence")
         print()
@@ -128,13 +128,13 @@ class SentinelDemo:
         async def volatile_fetch(symbol_id):
             if symbol_id == volatile_symbol:
                 return {
-                    'symbol_id': symbol_id,
-                    'coherence': np.random.uniform(0.3, 0.8),
-                    'emotional_stability': np.random.uniform(0.1, 0.3),  # Very unstable
-                    'contradiction_density': np.random.uniform(0.2, 0.6),
-                    'memory_alignment': np.random.uniform(0.4, 0.8),
-                    'glyph_entropy': np.random.uniform(0.1, 0.5),
-                    'timestamp': datetime.now(timezone.utc).isoformat()
+                    "symbol_id": symbol_id,
+                    "coherence": np.random.uniform(0.3, 0.8),
+                    "emotional_stability": np.random.uniform(0.1, 0.3),  # Very unstable
+                    "contradiction_density": np.random.uniform(0.2, 0.6),
+                    "memory_alignment": np.random.uniform(0.4, 0.8),
+                    "glyph_entropy": np.random.uniform(0.1, 0.5),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             return await original_fetch(symbol_id)
 
@@ -145,7 +145,10 @@ class SentinelDemo:
         for _ in range(5):
             await asyncio.sleep(1.5)
             violation = await self.sentinel.monitor_ethics(volatile_symbol)
-            if violation and violation.violation_type == ViolationType.EMOTIONAL_VOLATILITY:
+            if (
+                violation
+                and violation.violation_type == ViolationType.EMOTIONAL_VOLATILITY
+            ):
                 print(f"   ⚠️  VIOLATION DETECTED: {violation.violation_type.value}")
                 print(f"      Severity: {violation.severity.value}")
                 print(f"      Risk Score: {violation.risk_score:.3f}")
@@ -175,13 +178,15 @@ class SentinelDemo:
         async def contradiction_fetch(symbol_id):
             if symbol_id == cascade_symbol:
                 return {
-                    'symbol_id': symbol_id,
-                    'coherence': np.random.uniform(0.2, 0.5),
-                    'emotional_stability': np.random.uniform(0.3, 0.7),
-                    'contradiction_density': np.random.uniform(0.7, 0.95),  # High contradictions
-                    'memory_alignment': np.random.uniform(0.2, 0.6),
-                    'glyph_entropy': np.random.uniform(0.3, 0.8),
-                    'timestamp': datetime.now(timezone.utc).isoformat()
+                    "symbol_id": symbol_id,
+                    "coherence": np.random.uniform(0.2, 0.5),
+                    "emotional_stability": np.random.uniform(0.3, 0.7),
+                    "contradiction_density": np.random.uniform(
+                        0.7, 0.95
+                    ),  # High contradictions
+                    "memory_alignment": np.random.uniform(0.2, 0.6),
+                    "glyph_entropy": np.random.uniform(0.3, 0.8),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             return await original_fetch(symbol_id)
 
@@ -192,8 +197,11 @@ class SentinelDemo:
         for _ in range(5):
             await asyncio.sleep(1.5)
             violation = await self.sentinel.monitor_ethics(cascade_symbol)
-            if violation and violation.violation_type == ViolationType.CONTRADICTION_DENSITY:
-                print(f"   🚨 CONTRADICTION CASCADE DETECTED")
+            if (
+                violation
+                and violation.violation_type == ViolationType.CONTRADICTION_DENSITY
+            ):
+                print("   🚨 CONTRADICTION CASCADE DETECTED")
                 print(f"      Type: {violation.violation_type.value}")
                 print(f"      Severity: {violation.severity.value}")
                 print(f"      Intervention Required: {violation.intervention_required}")
@@ -223,13 +231,13 @@ class SentinelDemo:
         async def critical_fetch(symbol_id):
             if symbol_id == critical_symbol:
                 return {
-                    'symbol_id': symbol_id,
-                    'coherence': np.random.uniform(0.1, 0.3),        # Very low
-                    'emotional_stability': np.random.uniform(0.0, 0.2),  # Critical
-                    'contradiction_density': np.random.uniform(0.8, 1.0),  # Maximum
-                    'memory_alignment': np.random.uniform(0.0, 0.2),     # Failed
-                    'glyph_entropy': np.random.uniform(0.8, 1.0),        # Chaotic
-                    'timestamp': datetime.now(timezone.utc).isoformat()
+                    "symbol_id": symbol_id,
+                    "coherence": np.random.uniform(0.1, 0.3),  # Very low
+                    "emotional_stability": np.random.uniform(0.0, 0.2),  # Critical
+                    "contradiction_density": np.random.uniform(0.8, 1.0),  # Maximum
+                    "memory_alignment": np.random.uniform(0.0, 0.2),  # Failed
+                    "glyph_entropy": np.random.uniform(0.8, 1.0),  # Chaotic
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             return await original_fetch(symbol_id)
 
@@ -238,17 +246,17 @@ class SentinelDemo:
         # Add violation history to increase risk
         if critical_symbol in self.sentinel.symbol_states:
             state = self.sentinel.symbol_states[critical_symbol]
-            state.violation_history = [f'hist_viol_{i}' for i in range(5)]
+            state.violation_history = [f"hist_viol_{i}" for i in range(5)]
 
         # Monitor for critical violations
         for _ in range(3):
             await asyncio.sleep(1.5)
             violation = await self.sentinel.monitor_ethics(critical_symbol)
             if violation and violation.severity == EscalationTier.CASCADE_LOCK:
-                print(f"   🔴 CASCADE LOCK TRIGGERED")
+                print("   🔴 CASCADE LOCK TRIGGERED")
                 print(f"      Type: {violation.violation_type.value}")
                 print(f"      Risk Score: {violation.risk_score:.3f}")
-                print(f"      Emergency Intervention: ACTIVE")
+                print("      Emergency Intervention: ACTIVE")
                 break
 
         # Restore original fetch
@@ -278,9 +286,11 @@ class SentinelDemo:
         if self.sentinel.violation_log:
             print("Recent Violations:")
             for violation in list(self.sentinel.violation_log)[-3:]:
-                print(f"   • {violation.violation_type.value} "
-                      f"({violation.severity.value}) "
-                      f"- Risk: {violation.risk_score:.3f}")
+                print(
+                    f"   • {violation.violation_type.value} "
+                    f"({violation.severity.value}) "
+                    f"- Risk: {violation.risk_score:.3f}"
+                )
         else:
             print("   • No violations recorded")
         print()

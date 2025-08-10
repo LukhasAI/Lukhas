@@ -13,10 +13,10 @@ Integration Date: 2025-05-31T07:55:28.126331
 
 from settings_loader import (
     SETTINGS,
+    get_setting,
+    list_all_keys,
     preview_defaults,
     validate_settings,
-    list_all_keys,
-    get_setting
 )
 
 print("🔍 LUKHAS SYSTEM SETTINGS SNAPSHOT")
@@ -35,7 +35,9 @@ for k, v in SETTINGS.get("privacy", {}).items():
 
 print("\n🎛️ Current Behavior Settings:")
 print(f"  - Voice Enabled: {get_setting('interface.voice_enabled')}")
-print(f"  - Autosave Interval: {get_setting('system_behavior.autosave_interval_sec')} sec")
+print(
+    f"  - Autosave Interval: {get_setting('system_behavior.autosave_interval_sec')} sec"
+)
 
 print("\n📜 Symbolic Keys Available:")
 for key in list_all_keys():
@@ -59,7 +61,9 @@ print(f"  - Signature Phrase: \"{get_setting('persona.signature_phrase')}\"")
 print("\n🧠 Context Management:")
 print(f"  - Memory Context Enabled: {get_setting('context.enable_memory_context')}")
 print(f"  - Max Context Window: {get_setting('context.context_window_limit')}")
-print(f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}")
+print(
+    f"  - Exclude Forgettable from Context: {get_setting('context.exclude_forgettable_memories')}"
+)
 
 print("\n📊 Symbolic Trace Engine:")
 print(f"  - Ethics Tracking: {get_setting('symbolic_trace.track_ethics')}")

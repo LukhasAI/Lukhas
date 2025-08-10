@@ -52,11 +52,10 @@
 
 import asyncio
 import logging
-import math
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List
 
 from core.bio_systems.bio_oscillator import OscillationType
 
@@ -65,6 +64,7 @@ logger = logging.getLogger("bio_simulation_controller")
 
 class HormoneType(Enum):
     """Enumeration of hormone types in the endocrine system."""
+
     CORTISOL = "cortisol"
     DOPAMINE = "dopamine"
     SEROTONIN = "serotonin"
@@ -78,6 +78,7 @@ class HormoneType(Enum):
 @dataclass
 class HormoneInteraction:
     """Defines how hormones interact with each other."""
+
     source: str
     target: str
     effect: float  # Positive for enhancement, negative for inhibition
@@ -130,12 +131,12 @@ class BioSimulationController:
 
         # System state callbacks
         self.state_callbacks: Dict[str, List[Callable]] = {
-            'stress_high': [],
-            'stress_low': [],
-            'focus_high': [],
-            'creativity_high': [],
-            'rest_needed': [],
-            'optimal_performance': []
+            "stress_high": [],
+            "stress_low": [],
+            "focus_high": [],
+            "creativity_high": [],
+            "rest_needed": [],
+            "optimal_performance": [],
         }
 
         # Initialize default hormone system
@@ -197,7 +198,7 @@ class BioSimulationController:
             # Process hormone decay and production
             for hormone in self.hormones.values():
                 # Apply decay
-                hormone.level *= (1.0 - hormone.decay_rate)
+                hormone.level *= 1.0 - hormone.decay_rate
 
                 # Apply baseline production
                 baseline_diff = hormone.baseline - hormone.level
@@ -213,16 +214,22 @@ class BioSimulationController:
 
             # Legacy compatibility: affect modulation
             if self.affect_delta > 0.5:
-                self.hormones[HormoneType.DOPAMINE.value].update_level(self.affect_delta * 0.1)
+                self.hormones[HormoneType.DOPAMINE.value].update_level(
+                    self.affect_delta * 0.1
+                )
             elif self.affect_delta < -0.5:
-                self.hormones[HormoneType.SEROTONIN.value].update_level(abs(self.affect_delta) * 0.1)
+                self.hormones[HormoneType.SEROTONIN.value].update_level(
+                    abs(self.affect_delta) * 0.1
+                )
 
             # Check system states and trigger callbacks
             self._check_system_states()
 
             # Log current state (reduced frequency)
             if int(datetime.now().timestamp()) % 10 == 0:  # Log every 10 seconds
-                logger.info(f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}")
+                logger.info(
+                    f"Endocrine state: {self._calculate_overall_state(self.get_hormone_state())}"
+                )
                 logger.debug(f"Hormone levels: {self.get_hormone_state()}")
 
             await asyncio.sleep(simulation_interval)
@@ -271,7 +278,7 @@ class BioSimulationController:
             baseline=0.3,
             production_rate=0.15,
             circadian_influence=0.3,
-            stress_response=0.8
+            stress_response=0.8,
         )
 
         # Motivation and learning
@@ -282,7 +289,7 @@ class BioSimulationController:
             baseline=0.5,
             production_rate=0.2,
             sensitivity=1.2,
-            stress_response=-0.3
+            stress_response=-0.3,
         )
 
         # Mood and cooperation
@@ -293,7 +300,7 @@ class BioSimulationController:
             baseline=0.6,
             production_rate=0.1,
             circadian_influence=0.2,
-            stress_response=-0.5
+            stress_response=-0.5,
         )
 
         # Trust and collaboration
@@ -303,7 +310,7 @@ class BioSimulationController:
             decay_rate=0.08,
             baseline=0.4,
             production_rate=0.15,
-            sensitivity=0.9
+            sensitivity=0.9,
         )
 
         # Emergency response
@@ -313,7 +320,7 @@ class BioSimulationController:
             decay_rate=0.2,
             baseline=0.1,
             production_rate=0.3,
-            stress_response=1.0
+            stress_response=1.0,
         )
 
         # Rest cycles
@@ -323,7 +330,7 @@ class BioSimulationController:
             decay_rate=0.05,
             baseline=0.1,
             production_rate=0.1,
-            circadian_influence=1.0
+            circadian_influence=1.0,
         )
 
         # Inhibition and stability
@@ -333,7 +340,7 @@ class BioSimulationController:
             decay_rate=0.07,
             baseline=0.5,
             production_rate=0.12,
-            stress_response=0.2
+            stress_response=0.2,
         )
 
         # Attention and memory
@@ -343,17 +350,19 @@ class BioSimulationController:
             decay_rate=0.06,
             baseline=0.6,
             production_rate=0.18,
-            circadian_influence=-0.4
+            circadian_influence=-0.4,
         )
 
     def _setup_hormone_interactions(self):
         """Define how hormones interact with each other."""
         # Cortisol inhibits dopamine and serotonin
-        self.interactions.extend([
-            HormoneInteraction("cortisol", "dopamine", -0.3, 0.5),
-            HormoneInteraction("cortisol", "serotonin", -0.4, 0.5),
-            HormoneInteraction("cortisol", "oxytocin", -0.2, 0.6),
-        ])
+        self.interactions.extend(
+            [
+                HormoneInteraction("cortisol", "dopamine", -0.3, 0.5),
+                HormoneInteraction("cortisol", "serotonin", -0.4, 0.5),
+                HormoneInteraction("cortisol", "oxytocin", -0.2, 0.6),
+            ]
+        )
 
         # Dopamine enhances acetylcholine (focus)
         self.interactions.append(
@@ -361,20 +370,18 @@ class BioSimulationController:
         )
 
         # Serotonin enhances GABA (stability)
-        self.interactions.append(
-            HormoneInteraction("serotonin", "gaba", 0.15, 0.5)
-        )
+        self.interactions.append(HormoneInteraction("serotonin", "gaba", 0.15, 0.5))
 
         # Melatonin inhibits cortisol and adrenaline (rest)
-        self.interactions.extend([
-            HormoneInteraction("melatonin", "cortisol", -0.5, 0.3),
-            HormoneInteraction("melatonin", "adrenaline", -0.6, 0.3),
-        ])
+        self.interactions.extend(
+            [
+                HormoneInteraction("melatonin", "cortisol", -0.5, 0.3),
+                HormoneInteraction("melatonin", "adrenaline", -0.6, 0.3),
+            ]
+        )
 
         # GABA inhibits adrenaline (prevents overexcitation)
-        self.interactions.append(
-            HormoneInteraction("gaba", "adrenaline", -0.4, 0.6)
-        )
+        self.interactions.append(HormoneInteraction("gaba", "adrenaline", -0.4, 0.6))
 
     def _update_circadian_phase(self):
         """Update the current circadian phase based on elapsed time."""
@@ -387,7 +394,9 @@ class BioSimulationController:
     def _apply_circadian_effects(self):
         """Apply circadian rhythm effects to hormone production."""
         # Melatonin peaks at night (phase 22-6)
-        night_factor = 1.0 if 22 <= self.current_phase or self.current_phase < 6 else 0.0
+        night_factor = (
+            1.0 if self.current_phase >= 22 or self.current_phase < 6 else 0.0
+        )
         day_factor = 1.0 - night_factor
 
         for hormone in self.hormones.values():
@@ -407,7 +416,9 @@ class BioSimulationController:
 
             if source_hormone and target_hormone:
                 if source_hormone.level >= interaction.threshold:
-                    effect = interaction.effect * (source_hormone.level - interaction.threshold)
+                    effect = interaction.effect * (
+                        source_hormone.level - interaction.threshold
+                    )
                     target_hormone.update_level(effect * 0.05)
 
     def _check_system_states(self):
@@ -420,26 +431,30 @@ class BioSimulationController:
 
         # High stress state
         if cortisol > 0.7:
-            self._trigger_callbacks('stress_high')
+            self._trigger_callbacks("stress_high")
         elif cortisol < 0.2:
-            self._trigger_callbacks('stress_low')
+            self._trigger_callbacks("stress_low")
 
         # High focus state
         if acetylcholine > 0.7 and dopamine > 0.5:
-            self._trigger_callbacks('focus_high')
+            self._trigger_callbacks("focus_high")
 
         # Creative state (balanced neurotransmitters)
         if 0.4 < dopamine < 0.7 and serotonin > 0.5:
-            self._trigger_callbacks('creativity_high')
+            self._trigger_callbacks("creativity_high")
 
         # Rest needed
         if melatonin > 0.5 or (cortisol > 0.8 and dopamine < 0.3):
-            self._trigger_callbacks('rest_needed')
+            self._trigger_callbacks("rest_needed")
 
         # Optimal performance
-        if (0.2 < cortisol < 0.5 and dopamine > 0.6 and
-            serotonin > 0.5 and acetylcholine > 0.6):
-            self._trigger_callbacks('optimal_performance')
+        if (
+            0.2 < cortisol < 0.5
+            and dopamine > 0.6
+            and serotonin > 0.5
+            and acetylcholine > 0.6
+        ):
+            self._trigger_callbacks("optimal_performance")
 
     def _trigger_callbacks(self, state: str):
         """Trigger registered callbacks for a system state."""
@@ -460,24 +475,24 @@ class BioSimulationController:
         hormones = self.get_hormone_state()
 
         return {
-            'stress_level': hormones.get('cortisol', 0),
-            'motivation': hormones.get('dopamine', 0),
-            'mood': hormones.get('serotonin', 0),
-            'focus': hormones.get('acetylcholine', 0),
-            'alertness': 1.0 - hormones.get('melatonin', 0),
-            'social_openness': hormones.get('oxytocin', 0),
-            'arousal': hormones.get('adrenaline', 0),
-            'stability': hormones.get('gaba', 0),
-            'circadian_phase': self.current_phase,
-            'overall_state': self._calculate_overall_state(hormones)
+            "stress_level": hormones.get("cortisol", 0),
+            "motivation": hormones.get("dopamine", 0),
+            "mood": hormones.get("serotonin", 0),
+            "focus": hormones.get("acetylcholine", 0),
+            "alertness": 1.0 - hormones.get("melatonin", 0),
+            "social_openness": hormones.get("oxytocin", 0),
+            "arousal": hormones.get("adrenaline", 0),
+            "stability": hormones.get("gaba", 0),
+            "circadian_phase": self.current_phase,
+            "overall_state": self._calculate_overall_state(hormones),
         }
 
     def _calculate_overall_state(self, hormones: Dict[str, float]) -> str:
         """Calculate overall system state from hormone levels."""
-        cortisol = hormones.get('cortisol', 0)
-        dopamine = hormones.get('dopamine', 0)
-        serotonin = hormones.get('serotonin', 0)
-        melatonin = hormones.get('melatonin', 0)
+        cortisol = hormones.get("cortisol", 0)
+        dopamine = hormones.get("dopamine", 0)
+        serotonin = hormones.get("serotonin", 0)
+        melatonin = hormones.get("melatonin", 0)
 
         if melatonin > 0.6:
             return "resting"
@@ -521,37 +536,47 @@ class BioSimulationController:
         state = self.get_cognitive_state()
         suggestions = []
 
-        if state['stress_level'] > 0.7:
-            suggestions.append({
-                'action': 'reduce_load',
-                'reason': 'High cortisol indicates system stress',
-                'priority': 0.9
-            })
+        if state["stress_level"] > 0.7:
+            suggestions.append(
+                {
+                    "action": "reduce_load",
+                    "reason": "High cortisol indicates system stress",
+                    "priority": 0.9,
+                }
+            )
 
-        if state['motivation'] < 0.3:
-            suggestions.append({
-                'action': 'seek_reward',
-                'reason': 'Low dopamine affecting motivation',
-                'priority': 0.7
-            })
+        if state["motivation"] < 0.3:
+            suggestions.append(
+                {
+                    "action": "seek_reward",
+                    "reason": "Low dopamine affecting motivation",
+                    "priority": 0.7,
+                }
+            )
 
-        if state['alertness'] < 0.3:
-            suggestions.append({
-                'action': 'initiate_rest_cycle',
-                'reason': 'High melatonin indicates rest needed',
-                'priority': 0.8
-            })
+        if state["alertness"] < 0.3:
+            suggestions.append(
+                {
+                    "action": "initiate_rest_cycle",
+                    "reason": "High melatonin indicates rest needed",
+                    "priority": 0.8,
+                }
+            )
 
-        if state['focus'] > 0.8 and state['motivation'] > 0.7:
-            suggestions.append({
-                'action': 'tackle_complex_task',
-                'reason': 'Optimal cognitive state for demanding work',
-                'priority': 0.9
-            })
+        if state["focus"] > 0.8 and state["motivation"] > 0.7:
+            suggestions.append(
+                {
+                    "action": "tackle_complex_task",
+                    "reason": "Optimal cognitive state for demanding work",
+                    "priority": 0.9,
+                }
+            )
 
         return {
-            'current_state': state['overall_state'],
-            'suggestions': sorted(suggestions, key=lambda x: x['priority'], reverse=True)
+            "current_state": state["overall_state"],
+            "suggestions": sorted(
+                suggestions, key=lambda x: x["priority"], reverse=True
+            ),
         }
 
 

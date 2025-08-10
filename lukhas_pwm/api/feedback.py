@@ -1,8 +1,10 @@
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-from typing import Optional
-from lukhas_pwm.feedback.store import record_feedback, get_lut
+
+from lukhas_pwm.feedback.store import get_lut, record_feedback
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 
@@ -27,3 +29,9 @@ def post_feedback_card(card: FeedbackCard):
 @router.get("/lut")
 def get_feedback_lut():
     return JSONResponse(content=get_lut())
+
+
+@router.get("/health")
+def feedback_health():
+    # Minimal health indicator; could be extended to check store readiness
+    return {"ok": True}

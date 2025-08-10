@@ -15,16 +15,19 @@ It may be expanded to selectively expose functionalities from its submodules.
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
 
 # ΛMAIN_LOGIC_START
 # # Auto-generated __init__.py (Original comment)
-log.debug("core.interfaces.logic.context package initialized.") # ΛMODIFICATION: Logging package initialization
+log.debug(
+    "core.interfaces.logic.context package initialized."
+)  # ΛMODIFICATION: Logging package initialization
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

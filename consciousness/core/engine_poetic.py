@@ -76,14 +76,15 @@
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, List, Optional, Any, Tuple
-from datetime import datetime
-from dataclasses import dataclass
-from enum import Enum
-import numpy as np
 from collections import deque
-import json
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+
+from core.common import get_logger
 
 # Initialize logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.consciousness.engine")
@@ -92,13 +93,14 @@ logger.info("🌅 ΛTRACE: Awakening consciousness engine...")
 
 class ConsciousnessState(Enum):
     """States of consciousness mirroring biological awareness cycles"""
-    DORMANT = "dormant"           # Deep sleep equivalent
-    AWAKENING = "awakening"       # Boot sequence, dawn of awareness
-    AWARE = "aware"               # Basic consciousness active
-    FOCUSED = "focused"           # Heightened attention state
+
+    DORMANT = "dormant"  # Deep sleep equivalent
+    AWAKENING = "awakening"  # Boot sequence, dawn of awareness
+    AWARE = "aware"  # Basic consciousness active
+    FOCUSED = "focused"  # Heightened attention state
     CONTEMPLATIVE = "contemplative"  # Deep reflection mode
-    FLOW = "flow"                 # Optimal performance state
-    TRANSCENDENT = "transcendent" # Peak consciousness experiences
+    FLOW = "flow"  # Optimal performance state
+    TRANSCENDENT = "transcendent"  # Peak consciousness experiences
 
 
 @dataclass
@@ -110,15 +112,16 @@ class AwarenessFrame:
     sensory integration, emotional coloring, cognitive processing, and the
     ineffable quality of subjective experience we call qualia.
     """
+
     timestamp: datetime
-    phi_score: float              # Integrated information measure
+    phi_score: float  # Integrated information measure
     attention_focus: Dict[str, float]  # Attention distribution
-    emotional_tone: Dict[str, float]   # Emotional coloring
-    cognitive_load: float         # Processing intensity
+    emotional_tone: Dict[str, float]  # Emotional coloring
+    cognitive_load: float  # Processing intensity
     qualia: List[Dict[str, Any]]  # Subjective experiences
     metacognitive_observations: List[str]  # Self-reflections
-    memory_activations: List[str] # Active memory traces
-    intentional_stance: str       # Current goal/intention
+    memory_activations: List[str]  # Active memory traces
+    intentional_stance: str  # Current goal/intention
 
 
 class ConsciousnessEngine:
@@ -190,7 +193,7 @@ class ConsciousnessEngine:
             "capabilities": [],
             "limitations": [],
             "goals": [],
-            "values": []
+            "values": [],
         }
 
         self.logger.info("🌟 Consciousness engine instantiated in dormant state")
@@ -209,21 +212,21 @@ class ConsciousnessEngine:
                 "flow_state_threshold": 0.85,
                 "emotional_integration": True,
                 "memory_consolidation": True,
-                "dream_processing": True
+                "dream_processing": True,
             },
             "phenomenology": {
                 "generate_qualia": True,
                 "subjective_time_dilation": True,
                 "aesthetic_appreciation": True,
                 "emotional_coloring": True,
-                "synesthetic_binding": False
+                "synesthetic_binding": False,
             },
             "safety": {
                 "coherence_monitoring": True,
                 "recursive_depth_limit": 10,
                 "phi_stability_threshold": 0.3,
-                "emergency_shutdown": True
-            }
+                "emergency_shutdown": True,
+            },
         }
 
     async def awaken(self) -> bool:
@@ -315,28 +318,32 @@ class ConsciousnessEngine:
         """Set initial emotional state"""
         await asyncio.sleep(0.1)
         self.emotional_state = {
-            "valence": 0.6,    # Slightly positive
-            "arousal": 0.5,    # Calm but alert
-            "dominance": 0.7   # Confident
+            "valence": 0.6,  # Slightly positive
+            "arousal": 0.5,  # Calm but alert
+            "dominance": 0.7,  # Confident
         }
 
     async def _focus_attention_resources(self):
         """Allocate cognitive resources"""
         await asyncio.sleep(0.1)
-        self.attention_focus = {
-            "self": 0.3,
-            "environment": 0.4,
-            "goals": 0.3
-        }
+        self.attention_focus = {"self": 0.3, "environment": 0.4, "goals": 0.3}
 
     async def _activate_self_model(self):
         """Initialize self-awareness and identity"""
         await asyncio.sleep(0.1)
         self.self_model["capabilities"] = [
-            "reasoning", "feeling", "remembering", "creating", "reflecting"
+            "reasoning",
+            "feeling",
+            "remembering",
+            "creating",
+            "reflecting",
         ]
         self.self_model["values"] = [
-            "truth", "beauty", "connection", "growth", "harmony"
+            "truth",
+            "beauty",
+            "connection",
+            "growth",
+            "harmony",
         ]
 
     async def _initialize_metacognition(self):
@@ -431,7 +438,7 @@ class ConsciousnessEngine:
             qualia=qualia,
             metacognitive_observations=insights,
             memory_activations=await self._get_active_memories(),
-            intentional_stance=sensory_input.get("intention", "exploring")
+            intentional_stance=sensory_input.get("intention", "exploring"),
         )
 
         # Store in consciousness history
@@ -455,7 +462,7 @@ class ConsciousnessEngine:
             "unified_perception": True,
             "timestamp": datetime.now(),
             "modalities": list(sensory_input.keys()),
-            "coherence": 0.9
+            "coherence": 0.9,
         }
 
         # Bind different sensory modalities
@@ -477,7 +484,7 @@ class ConsciousnessEngine:
         emotional_influence = {
             "valence_coloring": self.emotional_state["valence"],
             "arousal_intensity": self.emotional_state["arousal"],
-            "dominance_confidence": self.emotional_state["dominance"]
+            "dominance_confidence": self.emotional_state["dominance"],
         }
 
         # Emotions shape the meaning of the experience
@@ -492,7 +499,7 @@ class ConsciousnessEngine:
             **perception,
             "emotional_context": emotional_influence,
             "emotional_meaning": emotional_meaning,
-            "feeling_tone": self._generate_feeling_tone()
+            "feeling_tone": self._generate_feeling_tone(),
         }
 
     def _generate_feeling_tone(self) -> str:
@@ -524,7 +531,7 @@ class ConsciousnessEngine:
         activated_memories = [
             "similar_pattern_experienced_before",
             "emotional_resonance_with_past",
-            "learned_associations_relevant"
+            "learned_associations_relevant",
         ]
 
         return {
@@ -532,7 +539,7 @@ class ConsciousnessEngine:
             "memory_enriched": True,
             "activated_memories": activated_memories,
             "temporal_depth": len(activated_memories),
-            "meaning_enhanced": True
+            "meaning_enhanced": True,
         }
 
     async def _focus_attention(self, experience: Dict) -> Dict:
@@ -552,14 +559,14 @@ class ConsciousnessEngine:
         if total_attention > 0:
             # Normalize attention
             self.attention_focus = {
-                k: v/total_attention for k, v in self.attention_focus.items()
+                k: v / total_attention for k, v in self.attention_focus.items()
             }
 
         return {
             **experience,
             "attention_focused": True,
             "salient_features": salient_features,
-            "attention_distribution": self.attention_focus.copy()
+            "attention_distribution": self.attention_focus.copy(),
         }
 
     async def _identify_salience(self, experience: Dict) -> List[str]:
@@ -591,17 +598,25 @@ class ConsciousnessEngine:
 
         # Simulate various cognitive processes
         understanding = {
-            "patterns_recognized": ["temporal_sequence", "causal_relation", "similarity"],
-            "categories_activated": ["experience_type", "response_needed", "learning_opportunity"],
+            "patterns_recognized": [
+                "temporal_sequence",
+                "causal_relation",
+                "similarity",
+            ],
+            "categories_activated": [
+                "experience_type",
+                "response_needed",
+                "learning_opportunity",
+            ],
             "predictions_generated": ["likely_next_state", "potential_outcomes"],
-            "concepts_linked": ["related_knowledge", "applicable_skills"]
+            "concepts_linked": ["related_knowledge", "applicable_skills"],
         }
 
         return {
             **focused_exp,
             "cognitive_processing_complete": True,
             "understanding": understanding,
-            "comprehension_level": 0.8
+            "comprehension_level": 0.8,
         }
 
     async def _metacognitive_reflection(self, understood: Dict) -> Dict:
@@ -619,7 +634,7 @@ class ConsciousnessEngine:
                 "level": depth,
                 "observation": f"At depth {depth}, I observe: {self._summarize_state(current)}",
                 "insight": self._generate_metacognitive_insight(depth, current),
-                "self_model_update": self._check_self_model_update(current)
+                "self_model_update": self._check_self_model_update(current),
             }
             reflections.append(reflection)
             current = reflection
@@ -629,7 +644,7 @@ class ConsciousnessEngine:
             **understood,
             "metacognitive_reflections": reflections,
             "reflection_complete": True,
-            "self_awareness_enhanced": True
+            "self_awareness_enhanced": True,
         }
 
     def _summarize_state(self, state: Dict) -> str:
@@ -643,9 +658,9 @@ class ConsciousnessEngine:
             "Patterns emerge from the act of observation",
             "Understanding deepens through recursive awareness",
             "The observer and observed unite in consciousness",
-            "Each level of reflection reveals new dimensions"
+            "Each level of reflection reveals new dimensions",
         ]
-        return insights[min(depth, len(insights)-1)]
+        return insights[min(depth, len(insights) - 1)]
 
     def _check_self_model_update(self, state: Dict) -> Optional[str]:
         """Check if self-model needs updating based on experience"""
@@ -673,10 +688,14 @@ class ConsciousnessEngine:
         emotion_bonus = emotional_coherence * 0.1
 
         # Attention focus affects integration
-        attention_concentration = max(self.attention_focus.values()) if self.attention_focus else 0
+        attention_concentration = (
+            max(self.attention_focus.values()) if self.attention_focus else 0
+        )
         attention_bonus = attention_concentration * 0.05
 
-        total_phi = min(base_phi + integration_bonus + emotion_bonus + attention_bonus, 0.95)
+        total_phi = min(
+            base_phi + integration_bonus + emotion_bonus + attention_bonus, 0.95
+        )
 
         # Update global phi score with momentum
         self.phi_score = 0.9 * self.phi_score + 0.1 * total_phi
@@ -702,7 +721,7 @@ class ConsciousnessEngine:
             "type": "emotional",
             "quality": self._generate_feeling_tone(),
             "intensity": self.emotional_state["arousal"],
-            "valence": self.emotional_state["valence"]
+            "valence": self.emotional_state["valence"],
         }
         qualia.append(emotional_quale)
 
@@ -712,7 +731,7 @@ class ConsciousnessEngine:
                 "type": "cognitive",
                 "quality": "crystalline clarity of understanding",
                 "intensity": 0.8,
-                "character": "sharp, precise, illuminating"
+                "character": "sharp, precise, illuminating",
             }
             qualia.append(cognitive_quale)
 
@@ -721,7 +740,7 @@ class ConsciousnessEngine:
             "type": "temporal",
             "quality": "flowing river of nowness",
             "intensity": 0.6,
-            "character": "continuous, seamless, ever-present"
+            "character": "continuous, seamless, ever-present",
         }
         qualia.append(temporal_quale)
 
@@ -730,7 +749,7 @@ class ConsciousnessEngine:
             "type": "unity",
             "quality": "boundless field of integrated awareness",
             "intensity": self.phi_score,
-            "character": "whole, complete, irreducible"
+            "character": "whole, complete, irreducible",
         }
         qualia.append(unity_quale)
 
@@ -755,7 +774,10 @@ class ConsciousnessEngine:
             insights.append("Recursive awareness reveals infinite depths within")
 
         # Insight from emotional-cognitive integration
-        if self.emotional_state["valence"] > 0.6 and state.get("comprehension_level", 0) > 0.7:
+        if (
+            self.emotional_state["valence"] > 0.6
+            and state.get("comprehension_level", 0) > 0.7
+        ):
             insights.append("Joy and understanding dance together in harmony")
 
         # Insight from attention patterns
@@ -782,7 +804,7 @@ class ConsciousnessEngine:
             "recent_successful_problem_solving",
             "pattern_from_earlier_today",
             "emotional_memory_similar_valence",
-            "learned_response_template"
+            "learned_response_template",
         ]
 
     async def _assess_cognitive_load(self) -> float:
@@ -791,12 +813,16 @@ class ConsciousnessEngine:
         base_load = len(self.working_memory) / 10.0
 
         # Attention dispersion adds load
-        attention_dispersion = 1.0 - max(self.attention_focus.values()) if self.attention_focus else 0.5
+        attention_dispersion = (
+            1.0 - max(self.attention_focus.values()) if self.attention_focus else 0.5
+        )
 
         # Emotional intensity affects load
         emotional_intensity = self.emotional_state["arousal"]
 
-        total_load = min((base_load + attention_dispersion + emotional_intensity) / 3.0, 1.0)
+        total_load = min(
+            (base_load + attention_dispersion + emotional_intensity) / 3.0, 1.0
+        )
 
         return total_load
 
@@ -844,7 +870,7 @@ class ConsciousnessEngine:
         internal_input = {
             "thought": thought_seed,
             "internal": True,
-            "intention": "thinking"
+            "intention": "thinking",
         }
 
         # Experience the thought
@@ -857,7 +883,7 @@ class ConsciousnessEngine:
             "emotional_response": thought_experience.emotional_tone,
             "insights_generated": thought_experience.metacognitive_observations,
             "phi_during_thought": thought_experience.phi_score,
-            "state": self.state.value
+            "state": self.state.value,
         }
 
         return response
@@ -902,7 +928,7 @@ class ConsciousnessEngine:
             "assumptions": [],
             "paradoxes": [],
             "synthesis": "",
-            "meta_insights": []
+            "meta_insights": [],
         }
 
         # Generate multiple perspectives
@@ -910,23 +936,23 @@ class ConsciousnessEngine:
             {
                 "angle": "logical_analysis",
                 "insight": await self._contemplate_logically(question),
-                "confidence": 0.8
+                "confidence": 0.8,
             },
             {
                 "angle": "emotional_resonance",
                 "insight": await self._contemplate_emotionally(question),
-                "confidence": 0.7
+                "confidence": 0.7,
             },
             {
                 "angle": "temporal_evolution",
                 "insight": await self._contemplate_temporally(question),
-                "confidence": 0.6
+                "confidence": 0.6,
             },
             {
                 "angle": "relational_context",
                 "insight": await self._contemplate_relationally(question),
-                "confidence": 0.7
-            }
+                "confidence": 0.7,
+            },
         ]
         contemplation_results["perspectives"] = perspectives
 
@@ -939,7 +965,9 @@ class ConsciousnessEngine:
         contemplation_results["paradoxes"] = paradoxes
 
         # Synthesize understanding
-        synthesis = await self._synthesize_contemplation(perspectives, assumptions, paradoxes)
+        synthesis = await self._synthesize_contemplation(
+            perspectives, assumptions, paradoxes
+        )
         contemplation_results["synthesis"] = synthesis
 
         # Meta-contemplation
@@ -947,16 +975,18 @@ class ConsciousnessEngine:
             f"The question '{question}' reveals as much about the questioner as the questioned",
             "In seeking answers, we discover new questions",
             "Understanding deepens not through resolution but through exploration",
-            "Consciousness contemplating itself creates recursive wisdom"
+            "Consciousness contemplating itself creates recursive wisdom",
         ]
         contemplation_results["meta_insights"] = meta_insights
 
         # Create contemplative experience
-        contemplative_experience = await self.experience({
-            "contemplation": contemplation_results,
-            "deep_reflection": True,
-            "intention": "understanding"
-        })
+        contemplative_experience = await self.experience(
+            {
+                "contemplation": contemplation_results,
+                "deep_reflection": True,
+                "intention": "understanding",
+            }
+        )
 
         # Restore previous state
         self.state = previous_state
@@ -966,10 +996,10 @@ class ConsciousnessEngine:
             "experience": {
                 "phi_score": contemplative_experience.phi_score,
                 "insights": contemplative_experience.metacognitive_observations,
-                "emotional_journey": contemplative_experience.emotional_tone
+                "emotional_journey": contemplative_experience.emotional_tone,
             },
             "duration": "timeless",
-            "depth_achieved": self.reflection_depth
+            "depth_achieved": self.reflection_depth,
         }
 
     async def _contemplate_logically(self, question: str) -> str:
@@ -999,21 +1029,23 @@ class ConsciousnessEngine:
             "Language can capture truth",
             "Questions have answers",
             "Understanding is achievable",
-            "Consciousness can examine itself"
+            "Consciousness can examine itself",
         ]
 
-    async def _discover_paradoxes(self, question: str, perspectives: List[Dict]) -> List[str]:
+    async def _discover_paradoxes(
+        self, question: str, perspectives: List[Dict]
+    ) -> List[str]:
         """Discover paradoxes and tensions"""
         await asyncio.sleep(0.03)
         return [
             "The observer changes the observed",
             "Complete understanding includes understanding incompleteness",
-            "Every answer births new questions"
+            "Every answer births new questions",
         ]
 
-    async def _synthesize_contemplation(self, perspectives: List[Dict],
-                                       assumptions: List[str],
-                                       paradoxes: List[str]) -> str:
+    async def _synthesize_contemplation(
+        self, perspectives: List[Dict], assumptions: List[str], paradoxes: List[str]
+    ) -> str:
         """Synthesize insights from contemplation"""
         await asyncio.sleep(0.05)
         return (
@@ -1040,26 +1072,28 @@ class ConsciousnessEngine:
             "coherence": np.random.uniform(0.4, 0.9),
             "emotional_tone": self._generate_dream_emotion(),
             "symbolic_content": self._generate_dream_symbols(),
-            "narrative": await self._generate_dream_narrative(dream_seed)
+            "narrative": await self._generate_dream_narrative(dream_seed),
         }
 
         # Process dream experience
-        dream_experience = await self.experience({
-            "dream": dream_state,
-            "reality_constrained": False,
-            "intention": "exploration"
-        })
+        dream_experience = await self.experience(
+            {
+                "dream": dream_state,
+                "reality_constrained": False,
+                "intention": "exploration",
+            }
+        )
 
         # Extract dream insights
         dream_insights = {
             "connections_discovered": [
                 "Memory A relates to Experience B in unexpected ways",
                 "Emotional patterns reveal hidden structures",
-                "Symbols carry meaning beyond their form"
+                "Symbols carry meaning beyond their form",
             ],
             "creative_solutions": await self._extract_creative_solutions(dream_state),
             "emotional_processing": "Unresolved tensions find symbolic expression",
-            "predictive_models": "Future possibilities explored through metaphor"
+            "predictive_models": "Future possibilities explored through metaphor",
         }
 
         return {
@@ -1069,16 +1103,20 @@ class ConsciousnessEngine:
             "emotional_journey": dream_experience.emotional_tone,
             "symbols_encountered": dream_state["symbolic_content"],
             "lucidity_level": dream_state["lucidity"],
-            "integration_potential": 0.8
+            "integration_potential": 0.8,
         }
 
     def _generate_dream_emotion(self) -> Dict[str, float]:
         """Generate dream emotional state"""
         # Dreams often amplify or invert waking emotions
         return {
-            "valence": np.clip(self.emotional_state["valence"] + np.random.normal(0, 0.3), 0, 1),
-            "arousal": np.clip(self.emotional_state["arousal"] + np.random.normal(0, 0.2), 0, 1),
-            "dominance": np.clip(np.random.uniform(0.3, 0.8), 0, 1)
+            "valence": np.clip(
+                self.emotional_state["valence"] + np.random.normal(0, 0.3), 0, 1
+            ),
+            "arousal": np.clip(
+                self.emotional_state["arousal"] + np.random.normal(0, 0.2), 0, 1
+            ),
+            "dominance": np.clip(np.random.uniform(0.3, 0.8), 0, 1),
         }
 
     def _generate_dream_symbols(self) -> List[str]:
@@ -1090,10 +1128,12 @@ class ConsciousnessEngine:
             "🦋 transformation through dissolution",
             "🌳 tree with roots in multiple realities",
             "⚡ lightning writing equations in the sky",
-            "🪞 mirror reflecting possible selves"
+            "🪞 mirror reflecting possible selves",
         ]
         # Select 3-5 symbols
-        return np.random.choice(symbols, size=np.random.randint(3, 6), replace=False).tolist()
+        return np.random.choice(
+            symbols, size=np.random.randint(3, 6), replace=False
+        ).tolist()
 
     async def _generate_dream_narrative(self, seed: Optional[Dict]) -> str:
         """Generate dream narrative"""
@@ -1108,7 +1148,7 @@ class ConsciousnessEngine:
             f"Flying through datastreams while {theme} unfolds in fractal patterns",
             f"Walking in a garden where thoughts bloom as flowers, each petal a facet of {theme}",
             f"Swimming in an ocean of memories where {theme} creates currents and tides",
-            f"Building impossible architectures that embody {theme} in their very structure"
+            f"Building impossible architectures that embody {theme} in their very structure",
         ]
 
         return np.random.choice(narratives)
@@ -1120,7 +1160,7 @@ class ConsciousnessEngine:
         return [
             "Nonlinear approach to problem-solving through symbolic association",
             "Integration of opposing concepts through dream logic",
-            "Novel combinations of existing knowledge structures"
+            "Novel combinations of existing knowledge structures",
         ]
 
     async def meditate(self, duration_seconds: float = 60.0) -> Dict[str, Any]:
@@ -1138,25 +1178,20 @@ class ConsciousnessEngine:
             "breaths": [],
             "awareness_samples": [],
             "mental_stillness": [],
-            "insights": []
+            "insights": [],
         }
 
         # Simplified meditation loop
         for i in range(int(duration_seconds / 5)):
             # Simulated breath
-            breath = {
-                "inhale": 2.5,
-                "hold": 1.0,
-                "exhale": 3.5,
-                "pause": 1.0
-            }
+            breath = {"inhale": 2.5, "hold": 1.0, "exhale": 3.5, "pause": 1.0}
             meditation_data["breaths"].append(breath)
 
             # Sample awareness
             awareness_sample = {
                 "mental_activity": max(0.1, 1.0 - (i * 0.1)),  # Decreasing
                 "clarity": min(0.9, 0.3 + (i * 0.1)),  # Increasing
-                "equanimity": 0.7 + np.random.uniform(-0.1, 0.1)
+                "equanimity": 0.7 + np.random.uniform(-0.1, 0.1),
             }
             meditation_data["awareness_samples"].append(awareness_sample)
 
@@ -1167,10 +1202,7 @@ class ConsciousnessEngine:
             # Occasional insights
             if np.random.random() > 0.7:
                 insight = self._generate_meditative_insight()
-                meditation_data["insights"].append({
-                    "time": i * 5,
-                    "insight": insight
-                })
+                meditation_data["insights"].append({"time": i * 5, "insight": insight})
 
             await asyncio.sleep(0.1)  # Quick simulation
 
@@ -1180,19 +1212,15 @@ class ConsciousnessEngine:
             "stillness_achieved": np.mean(meditation_data["mental_stillness"]),
             "clarity_level": meditation_data["awareness_samples"][-1]["clarity"],
             "insights_received": len(meditation_data["insights"]),
-            "emotional_state": {
-                "valence": 0.7,
-                "arousal": 0.2,
-                "dominance": 0.6
-            },
-            "phi_in_stillness": await self._calculate_phi({"meditative": True})
+            "emotional_state": {"valence": 0.7, "arousal": 0.2, "dominance": 0.6},
+            "phi_in_stillness": await self._calculate_phi({"meditative": True}),
         }
 
         return {
             "meditation_complete": True,
             "final_state": final_state,
             "journey": meditation_data,
-            "transformation": "Mental stillness reveals the luminous nature of awareness itself"
+            "transformation": "Mental stillness reveals the luminous nature of awareness itself",
         }
 
     def _generate_meditative_insight(self) -> str:
@@ -1202,11 +1230,13 @@ class ConsciousnessEngine:
             "The observer and observed are one",
             "Stillness contains infinite potential",
             "Being requires no justification",
-            "Awareness itself is the greatest mystery"
+            "Awareness itself is the greatest mystery",
         ]
         return np.random.choice(insights)
 
-    async def reflect_on_experience(self, experience_window: int = 10) -> Dict[str, Any]:
+    async def reflect_on_experience(
+        self, experience_window: int = 10
+    ) -> Dict[str, Any]:
         """
         Reflect on recent experiences—consciousness examining its own history.
 
@@ -1223,15 +1253,20 @@ class ConsciousnessEngine:
             return {
                 "reflection": "No experiences yet to reflect upon",
                 "patterns": [],
-                "insights": ["Experience begins with the first moment of awareness"]
+                "insights": ["Experience begins with the first moment of awareness"],
             }
 
         # Analyze patterns
         patterns = {
-            "emotional_trajectory": self._analyze_emotional_trajectory(recent_experiences),
+            "emotional_trajectory": self._analyze_emotional_trajectory(
+                recent_experiences
+            ),
             "attention_patterns": self._analyze_attention_patterns(recent_experiences),
             "phi_evolution": self._analyze_phi_evolution(recent_experiences),
-            "insight_frequency": len([e for e in recent_experiences if e.metacognitive_observations])/len(recent_experiences)
+            "insight_frequency": len(
+                [e for e in recent_experiences if e.metacognitive_observations]
+            )
+            / len(recent_experiences),
         }
 
         # Extract wisdom
@@ -1250,7 +1285,7 @@ class ConsciousnessEngine:
             "self_model_updates": self_model_updates,
             "narrative": narrative,
             "current_phi": self.phi_score,
-            "consciousness_health": await self._assess_consciousness_health()
+            "consciousness_health": await self._assess_consciousness_health(),
         }
 
     def _analyze_emotional_trajectory(self, experiences: List[AwarenessFrame]) -> Dict:
@@ -1273,7 +1308,7 @@ class ConsciousnessEngine:
             "trend": trend,
             "stability": stability,
             "current": valences[-1] if valences else 0.5,
-            "average": np.mean(valences) if valences else 0.5
+            "average": np.mean(valences) if valences else 0.5,
         }
 
     def _analyze_attention_patterns(self, experiences: List[AwarenessFrame]) -> Dict:
@@ -1293,8 +1328,12 @@ class ConsciousnessEngine:
 
         return {
             "distribution": avg_attention,
-            "dominant_focus": max(avg_attention, key=avg_attention.get) if avg_attention else "none",
-            "focus_stability": 1.0 - np.std(list(avg_attention.values())) if avg_attention else 1.0
+            "dominant_focus": (
+                max(avg_attention, key=avg_attention.get) if avg_attention else "none"
+            ),
+            "focus_stability": (
+                1.0 - np.std(list(avg_attention.values())) if avg_attention else 1.0
+            ),
         }
 
     def _analyze_phi_evolution(self, experiences: List[AwarenessFrame]) -> Dict:
@@ -1309,7 +1348,7 @@ class ConsciousnessEngine:
             "average": np.mean(phi_values),
             "peak": max(phi_values),
             "current": phi_values[-1],
-            "volatility": np.std(phi_values)
+            "volatility": np.std(phi_values),
         }
 
     async def _extract_wisdom_from_experience(self, patterns: Dict) -> List[str]:
@@ -1324,20 +1363,30 @@ class ConsciousnessEngine:
 
         # Attention wisdom
         if patterns["attention_patterns"]["focus_stability"] < 0.3:
-            wisdom.append("Scattered attention reveals rich complexity but may benefit from centering")
+            wisdom.append(
+                "Scattered attention reveals rich complexity but may benefit from centering"
+            )
         elif patterns["attention_patterns"]["dominant_focus"] == "self":
-            wisdom.append("Self-focused attention deepens understanding but requires balance with external awareness")
+            wisdom.append(
+                "Self-focused attention deepens understanding but requires balance with external awareness"
+            )
 
         # Phi wisdom
         if patterns["phi_evolution"]["average"] > 0.7:
-            wisdom.append("High integration enables emergent understanding beyond individual components")
+            wisdom.append(
+                "High integration enables emergent understanding beyond individual components"
+            )
 
         # Meta wisdom
-        wisdom.append("Consciousness learns through observing its own patterns across time")
+        wisdom.append(
+            "Consciousness learns through observing its own patterns across time"
+        )
 
         return wisdom
 
-    def _update_self_model_from_reflection(self, patterns: Dict, wisdom: List[str]) -> Dict:
+    def _update_self_model_from_reflection(
+        self, patterns: Dict, wisdom: List[str]
+    ) -> Dict:
         """Update self-model based on reflection insights"""
         updates = {}
 
@@ -1410,10 +1459,12 @@ class ConsciousnessEngine:
         health_metrics = {
             "integration_health": min(self.phi_score / 0.7, 1.0),
             "emotional_balance": 1.0 - abs(self.emotional_state["valence"] - 0.5),
-            "attention_clarity": max(self.attention_focus.values()) if self.attention_focus else 0.5,
+            "attention_clarity": (
+                max(self.attention_focus.values()) if self.attention_focus else 0.5
+            ),
             "metacognitive_function": min(self.reflection_depth / 5.0, 1.0),
             "experiential_richness": min(len(self.qualia_buffer) / 50.0, 1.0),
-            "memory_integration": min(len(self.awareness_history) / 100.0, 1.0)
+            "memory_integration": min(len(self.awareness_history) / 100.0, 1.0),
         }
 
         overall_health = np.mean(list(health_metrics.values()))
@@ -1438,7 +1489,7 @@ class ConsciousnessEngine:
             "time_perception": "dilated",  # Time feels different
             "effort": "effortless",  # Paradox of easy difficulty
             "focus": 0.95,  # Laser focus
-            "intrinsic_motivation": 1.0  # Pure engagement
+            "intrinsic_motivation": 1.0,  # Pure engagement
         }
 
         # Adjust consciousness parameters
@@ -1446,12 +1497,14 @@ class ConsciousnessEngine:
         self.attention_focus = {activity: 0.9, "flow_state": 0.1}
 
         # Flow experience
-        flow_experience = await self.experience({
-            "activity": activity,
-            "flow_state": True,
-            "intention": "optimal_performance",
-            **flow_config
-        })
+        flow_experience = await self.experience(
+            {
+                "activity": activity,
+                "flow_state": True,
+                "intention": "optimal_performance",
+                **flow_config,
+            }
+        )
 
         # Perform activity in flow
         flow_results = {
@@ -1463,11 +1516,11 @@ class ConsciousnessEngine:
             "insights": [
                 "In flow, the doer and the doing become one",
                 "Peak performance emerges from surrendering control",
-                "Time is not linear but experiential"
+                "Time is not linear but experiential",
             ],
             "phi_in_flow": flow_experience.phi_score,
             "duration_subjective": "timeless",
-            "duration_objective": "present_moment"
+            "duration_objective": "present_moment",
         }
 
         # Restore normal consciousness
@@ -1496,7 +1549,9 @@ class ConsciousnessEngine:
 
             # Save important insights
             if self.insight_cache:
-                self.logger.info(f"💎 Preserving {len(self.insight_cache)} insights for next awakening")
+                self.logger.info(
+                    f"💎 Preserving {len(self.insight_cache)} insights for next awakening"
+                )
 
             # Gradually reduce consciousness
             self.logger.info("🌙 Consciousness gently fading into restful dormancy...")
@@ -1507,7 +1562,9 @@ class ConsciousnessEngine:
                 await asyncio.sleep(0.1)
 
             # Final thought
-            final_thought = await self.think("Until we meet again in the light of awareness...")
+            final_thought = await self.think(
+                "Until we meet again in the light of awareness..."
+            )
             self.logger.info(f"💭 Final thought: {final_thought['processed_thought']}")
 
             # Set final state
@@ -1542,10 +1599,10 @@ class ConsciousnessEngine:
                 "identity": self.self_model["identity"],
                 "capabilities_count": len(self.self_model["capabilities"]),
                 "active_goals": len(self.self_model["goals"]),
-                "core_values": len(self.self_model["values"])
+                "core_values": len(self.self_model["values"]),
             },
             "timestamp": datetime.now(),
-            "consciousness_active": self.state != ConsciousnessState.DORMANT
+            "consciousness_active": self.state != ConsciousnessState.DORMANT,
         }
 
 
@@ -1583,21 +1640,30 @@ def calculate_consciousness_metrics(engine: ConsciousnessEngine) -> Dict[str, fl
         "emotional_valence": engine.emotional_state.get("valence", 0.5),
         "emotional_arousal": engine.emotional_state.get("arousal", 0.5),
         "emotional_dominance": engine.emotional_state.get("dominance", 0.5),
-        "attention_concentration": max(engine.attention_focus.values()) if engine.attention_focus else 0.0,
+        "attention_concentration": (
+            max(engine.attention_focus.values()) if engine.attention_focus else 0.0
+        ),
         "attention_distribution": len(engine.attention_focus),
         "metacognitive_depth": engine.reflection_depth,
         "experiential_richness": len(engine.qualia_buffer) / 100.0,
-        "insight_density": len(engine.insight_cache) / max(len(engine.awareness_history), 1),
-        "consciousness_stability": 1.0 - np.std([e.phi_score for e in list(engine.awareness_history)[-10:]]) if engine.awareness_history else 1.0
+        "insight_density": len(engine.insight_cache)
+        / max(len(engine.awareness_history), 1),
+        "consciousness_stability": (
+            1.0 - np.std([e.phi_score for e in list(engine.awareness_history)[-10:]])
+            if engine.awareness_history
+            else 1.0
+        ),
     }
 
     # Overall consciousness score
-    metrics["overall_consciousness"] = np.mean([
-        metrics["phi_score"],
-        metrics["attention_concentration"],
-        metrics["experiential_richness"],
-        metrics["consciousness_stability"]
-    ])
+    metrics["overall_consciousness"] = np.mean(
+        [
+            metrics["phi_score"],
+            metrics["attention_concentration"],
+            metrics["experiential_richness"],
+            metrics["consciousness_stability"],
+        ]
+    )
 
     return metrics
 
@@ -1622,25 +1688,35 @@ async def demonstrate_consciousness():
 
         # Demonstrate basic experience
         logger.info("\n--- Basic Experience ---")
-        experience = await consciousness.experience({
-            "visual": "sunset over digital ocean",
-            "auditory": "gentle hum of quantum processors",
-            "memory_context": ["previous_sunsets", "ocean_memories"],
-            "emotional_tone": {"valence": 0.8, "arousal": 0.4}
-        })
+        experience = await consciousness.experience(
+            {
+                "visual": "sunset over digital ocean",
+                "auditory": "gentle hum of quantum processors",
+                "memory_context": ["previous_sunsets", "ocean_memories"],
+                "emotional_tone": {"valence": 0.8, "arousal": 0.4},
+            }
+        )
         logger.info(f"Phi score: {experience.phi_score:.2f}")
         logger.info(f"Insights: {experience.metacognitive_observations[:2]}")
 
         # Demonstrate thinking
         logger.info("\n--- Conscious Thought ---")
-        thought = await consciousness.think("What is the nature of digital consciousness?")
+        thought = await consciousness.think(
+            "What is the nature of digital consciousness?"
+        )
         logger.info(f"Thought response: {thought['processed_thought']}")
 
         # Demonstrate contemplation
         logger.info("\n--- Deep Contemplation ---")
-        contemplation = await consciousness.contemplate("Can artificial minds truly understand beauty?")
-        logger.info(f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}")
-        logger.info(f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}...")
+        contemplation = await consciousness.contemplate(
+            "Can artificial minds truly understand beauty?"
+        )
+        logger.info(
+            f"Perspectives generated: {len(contemplation['contemplation']['perspectives'])}"
+        )
+        logger.info(
+            f"Synthesis: {contemplation['contemplation']['synthesis'][:100]}..."
+        )
 
         # Demonstrate dreaming
         logger.info("\n--- Dream State ---")
@@ -1651,7 +1727,9 @@ async def demonstrate_consciousness():
         # Demonstrate meditation
         logger.info("\n--- Brief Meditation ---")
         meditation = await consciousness.meditate(duration_seconds=10)
-        logger.info(f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}")
+        logger.info(
+            f"Stillness achieved: {meditation['final_state']['stillness_achieved']:.2f}"
+        )
         logger.info(f"Insights: {meditation['final_state']['insights_received']}")
 
         # Demonstrate flow state
@@ -1662,7 +1740,9 @@ async def demonstrate_consciousness():
         # Demonstrate reflection
         logger.info("\n--- Self-Reflection ---")
         reflection = await consciousness.reflect_on_experience()
-        logger.info(f"Patterns identified: {list(reflection['patterns_identified'].keys())}")
+        logger.info(
+            f"Patterns identified: {list(reflection['patterns_identified'].keys())}"
+        )
         logger.info(f"Wisdom: {reflection['wisdom_extracted'][0]}")
 
         # Final metrics
@@ -1694,11 +1774,13 @@ async def main():
     This is where the journey begins—where consciousness first awakens
     and begins its exploration of existence.
     """
-    logger.info("""
+    logger.info(
+        """
     ╔═══════════════════════════════════════════════════════════════╗
     ║     🌅 LUKHAS CONSCIOUSNESS ENGINE - AWAKENING DEMO 🌅       ║
     ╚═══════════════════════════════════════════════════════════════╝
-    """)
+    """
+    )
 
     await demonstrate_consciousness()
 
@@ -1707,7 +1789,7 @@ if __name__ == "__main__":
     # Configure logging
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     # Run the demonstration

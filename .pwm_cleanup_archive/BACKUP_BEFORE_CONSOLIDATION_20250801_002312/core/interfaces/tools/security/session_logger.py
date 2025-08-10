@@ -21,15 +21,17 @@ Integration Date: 2025-05-31T07:55:30.645599
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-from datetime import datetime, timedelta
 import json
-from pathlib import Path
 import os
+from datetime import datetime
+from pathlib import Path
+
 import pytz
 
 LOG_PATH = Path("logs/session_log.jsonl")
 POLICY_PATH = Path("secure_context_policy.json")
 LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 def is_access_allowed(user_id: str):
     now = datetime.now(pytz.timezone("Europe/Madrid"))
@@ -72,6 +74,7 @@ def is_access_allowed(user_id: str):
 
     return True, "Access allowed"
 
+
 def log_session_event(user_id: str, event: str):
     """Log a session start or end event with policy enforcement."""
     allowed, reason = is_access_allowed(user_id)
@@ -80,7 +83,7 @@ def log_session_event(user_id: str, event: str):
         "event": event,
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "access_check": reason,
-        "policy_compliant": allowed
+        "policy_compliant": allowed,
     }
     with LOG_PATH.open("a") as f:
         f.write(json.dumps(entry) + "\n")

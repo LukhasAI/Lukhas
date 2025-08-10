@@ -1,4 +1,3 @@
 """
 Meta Adaptive Module
 """
-

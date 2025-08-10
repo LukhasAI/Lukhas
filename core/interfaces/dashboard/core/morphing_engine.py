@@ -44,23 +44,25 @@
 
 import asyncio
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Set, Tuple, Callable
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import json
-import math
-import colorsys
+from typing import Any, Callable, Optional
+
+from dashboard.core.dynamic_tab_system import DynamicTabSystem
 
 # Dashboard system imports
-from dashboard.core.universal_adaptive_dashboard import DashboardMorphState, DashboardContext
-from dashboard.core.dynamic_tab_system import DynamicTabSystem
+from dashboard.core.universal_adaptive_dashboard import (
+    DashboardContext,
+    DashboardMorphState,
+)
 
 logger = logging.getLogger("ΛTRACE.morphing_engine")
 
 
 class MorphingStrategy(Enum):
     """Strategies for interface morphing."""
+
     GRADUAL_TRANSITION = "gradual_transition"
     IMMEDIATE_SNAP = "immediate_snap"
     PREDICTIVE_PREPARATION = "predictive_preparation"
@@ -71,6 +73,7 @@ class MorphingStrategy(Enum):
 
 class MorphingComponent(Enum):
     """Components that can be morphed."""
+
     COLOR_SCHEME = "color_scheme"
     LAYOUT_STRUCTURE = "layout_structure"
     TYPOGRAPHY = "typography"
@@ -84,6 +87,7 @@ class MorphingComponent(Enum):
 @dataclass
 class ColorScheme:
     """Represents a color scheme for the dashboard."""
+
     scheme_id: str
     primary_color: str
     secondary_color: str
@@ -93,32 +97,34 @@ class ColorScheme:
     warning_color: str
     error_color: str
     success_color: str
-    context_associations: List[str] = field(default_factory=list)
-    emotional_impact: Dict[str, float] = field(default_factory=dict)
+    context_associations: list[str] = field(default_factory=list)
+    emotional_impact: dict[str, float] = field(default_factory=dict)
     accessibility_score: float = 1.0
 
 
 @dataclass
 class LayoutConfiguration:
     """Represents a layout configuration."""
+
     layout_id: str
     grid_structure: str  # CSS Grid template
-    component_positions: Dict[str, Dict[str, Any]]
-    responsive_breakpoints: Dict[str, str]
+    component_positions: dict[str, dict[str, Any]]
+    responsive_breakpoints: dict[str, str]
     density_level: str  # "minimal", "normal", "dense", "ultra_dense"
     cognitive_load_score: float
-    context_suitability: Dict[str, float]
+    context_suitability: dict[str, float]
 
 
 @dataclass
 class MorphingTransition:
     """Represents a morphing transition between states."""
+
     transition_id: str
     from_state: DashboardMorphState
     to_state: DashboardMorphState
     duration_ms: int
     strategy: MorphingStrategy
-    components_affected: List[MorphingComponent]
+    components_affected: list[MorphingComponent]
     transition_curve: str  # CSS easing function
     priority: int
     confidence_threshold: float
@@ -127,11 +133,12 @@ class MorphingTransition:
 @dataclass
 class MorphingRule:
     """Defines rules for automatic morphing."""
+
     rule_id: str
-    trigger_conditions: Dict[str, Any]
+    trigger_conditions: dict[str, Any]
     target_morph_state: DashboardMorphState
     morphing_strategy: MorphingStrategy
-    component_modifications: Dict[MorphingComponent, Dict[str, Any]]
+    component_modifications: dict[MorphingComponent, dict[str, Any]]
     duration_ms: int
     confidence_required: float
     cooldown_seconds: int = 5
@@ -145,7 +152,9 @@ class MorphingEngine:
 
     def __init__(self, tab_system: DynamicTabSystem):
         self.tab_system = tab_system
-        self.logger = logger.bind(engine_id=f"morph_engine_{int(datetime.now().timestamp())}")
+        self.logger = logger.bind(
+            engine_id=f"morph_engine_{int(datetime.now().timestamp())}"
+        )
 
         # Morphing state
         self.current_morph_state = DashboardMorphState.OPTIMAL
@@ -154,10 +163,10 @@ class MorphingEngine:
         self.last_morph_time = datetime.now()
 
         # Configuration libraries
-        self.color_schemes: Dict[str, ColorScheme] = {}
-        self.layout_configurations: Dict[str, LayoutConfiguration] = {}
-        self.morphing_transitions: Dict[str, MorphingTransition] = {}
-        self.morphing_rules: Dict[str, MorphingRule] = {}
+        self.color_schemes: dict[str, ColorScheme] = {}
+        self.layout_configurations: dict[str, LayoutConfiguration] = {}
+        self.morphing_transitions: dict[str, MorphingTransition] = {}
+        self.morphing_rules: dict[str, MorphingRule] = {}
 
         # Intelligence integration
         self.oracle_predictions = {}
@@ -166,18 +175,18 @@ class MorphingEngine:
         self.performance_metrics = {}
 
         # Morphing history and analytics
-        self.morph_history: List[Dict[str, Any]] = []
+        self.morph_history: list[dict[str, Any]] = []
         self.performance_data = {
             "morphing_accuracy": 0.0,
             "user_satisfaction": 0.0,
             "adaptation_speed": 0.0,
-            "resource_efficiency": 0.0
+            "resource_efficiency": 0.0,
         }
 
         # Event handlers
-        self.morph_start_handlers: List[Callable] = []
-        self.morph_complete_handlers: List[Callable] = []
-        self.prediction_handlers: List[Callable] = []
+        self.morph_start_handlers: list[Callable] = []
+        self.morph_complete_handlers: list[Callable] = []
+        self.prediction_handlers: list[Callable] = []
 
         self.logger.info("Morphing Engine initialized")
 
@@ -209,15 +218,20 @@ class MorphingEngine:
             self.logger.error("Morphing engine initialization failed", error=str(e))
             raise
 
-    async def trigger_morph(self, target_state: DashboardMorphState,
-                          strategy: MorphingStrategy = MorphingStrategy.CONTEXT_AWARE_BLEND,
-                          duration_ms: int = None,
-                          force: bool = False) -> bool:
+    async def trigger_morph(
+        self,
+        target_state: DashboardMorphState,
+        strategy: MorphingStrategy = MorphingStrategy.CONTEXT_AWARE_BLEND,
+        duration_ms: int = None,
+        force: bool = False,
+    ) -> bool:
         """Trigger interface morphing to target state."""
 
         if self.morphing_in_progress and not force:
-            self.logger.warning("Morphing already in progress",
-                              current_target=self.target_morph_state.value)
+            self.logger.warning(
+                "Morphing already in progress",
+                current_target=self.target_morph_state.value,
+            )
             return False
 
         # Check cooldown period
@@ -225,10 +239,12 @@ class MorphingEngine:
             self.logger.debug("Morphing cooldown active")
             return False
 
-        self.logger.info("Triggering interface morph",
-                        from_state=self.current_morph_state.value,
-                        to_state=target_state.value,
-                        strategy=strategy.value)
+        self.logger.info(
+            "Triggering interface morph",
+            from_state=self.current_morph_state.value,
+            to_state=target_state.value,
+            strategy=strategy.value,
+        )
 
         # Set morphing state
         self.morphing_in_progress = True
@@ -236,7 +252,9 @@ class MorphingEngine:
 
         try:
             # Get morphing transition
-            transition = await self._get_morphing_transition(self.current_morph_state, target_state)
+            transition = await self._get_morphing_transition(
+                self.current_morph_state, target_state
+            )
             if duration_ms:
                 transition.duration_ms = duration_ms
 
@@ -256,15 +274,17 @@ class MorphingEngine:
                 self.last_morph_time = datetime.now()
 
                 # Record morph event
-                self.morph_history.append({
-                    "timestamp": datetime.now(),
-                    "from_state": self.current_morph_state.value,
-                    "to_state": target_state.value,
-                    "strategy": strategy.value,
-                    "duration_ms": transition.duration_ms,
-                    "success": True,
-                    "metrics": morph_result.get("metrics", {})
-                })
+                self.morph_history.append(
+                    {
+                        "timestamp": datetime.now(),
+                        "from_state": self.current_morph_state.value,
+                        "to_state": target_state.value,
+                        "strategy": strategy.value,
+                        "duration_ms": transition.duration_ms,
+                        "success": True,
+                        "metrics": morph_result.get("metrics", {}),
+                    }
+                )
 
                 # Notify completion handlers
                 for handler in self.morph_complete_handlers:
@@ -273,13 +293,17 @@ class MorphingEngine:
                     except Exception as e:
                         self.logger.error("Morph complete handler error", error=str(e))
 
-                self.logger.info("Interface morph completed successfully",
-                               new_state=target_state.value,
-                               duration_ms=transition.duration_ms)
+                self.logger.info(
+                    "Interface morph completed successfully",
+                    new_state=target_state.value,
+                    duration_ms=transition.duration_ms,
+                )
                 return True
             else:
-                self.logger.error("Interface morph failed",
-                                error=morph_result.get("error", "Unknown error"))
+                self.logger.error(
+                    "Interface morph failed",
+                    error=morph_result.get("error", "Unknown error"),
+                )
                 return False
 
         except Exception as e:
@@ -288,7 +312,9 @@ class MorphingEngine:
         finally:
             self.morphing_in_progress = False
 
-    async def predict_morph_needs(self, prediction_horizon: int = 300) -> List[Dict[str, Any]]:
+    async def predict_morph_needs(
+        self, prediction_horizon: int = 300
+    ) -> list[dict[str, Any]]:
         """Predict upcoming morphing needs based on context and patterns."""
 
         predictions = []
@@ -313,28 +339,35 @@ class MorphingEngine:
         # Sort by confidence and relevance
         predictions.sort(key=lambda p: p.get("confidence", 0.0), reverse=True)
 
-        self.logger.debug("Morph needs predicted",
-                         predictions=len(predictions),
-                         horizon_seconds=prediction_horizon)
+        self.logger.debug(
+            "Morph needs predicted",
+            predictions=len(predictions),
+            horizon_seconds=prediction_horizon,
+        )
 
         return predictions[:5]  # Return top 5 predictions
 
-    async def prepare_predictive_morph(self, predicted_state: DashboardMorphState,
-                                     confidence: float):
+    async def prepare_predictive_morph(
+        self, predicted_state: DashboardMorphState, confidence: float
+    ):
         """Prepare for a predicted morphing state."""
 
         if confidence < 0.7:  # Confidence threshold
             return
 
-        self.logger.info("Preparing predictive morph",
-                        predicted_state=predicted_state.value,
-                        confidence=confidence)
+        self.logger.info(
+            "Preparing predictive morph",
+            predicted_state=predicted_state.value,
+            confidence=confidence,
+        )
 
         # Pre-load resources for predicted state
         await self._preload_morph_resources(predicted_state)
 
         # Pre-calculate transition parameters
-        transition = await self._get_morphing_transition(self.current_morph_state, predicted_state)
+        transition = await self._get_morphing_transition(
+            self.current_morph_state, predicted_state
+        )
 
         # Notify prediction handlers
         for handler in self.prediction_handlers:
@@ -358,10 +391,10 @@ class MorphingEngine:
                 await self.trigger_morph(
                     best_rule.target_morph_state,
                     best_rule.morphing_strategy,
-                    best_rule.duration_ms
+                    best_rule.duration_ms,
                 )
 
-    async def handle_emotional_state_change(self, emotional_state: Dict[str, float]):
+    async def handle_emotional_state_change(self, emotional_state: dict[str, float]):
         """Handle user emotional state changes and adapt interface."""
 
         self.user_emotional_state = emotional_state
@@ -372,21 +405,23 @@ class MorphingEngine:
         if adaptation:
             await self._apply_emotional_adaptation(adaptation)
 
-    async def optimize_morphing_performance(self) -> Dict[str, Any]:
+    async def optimize_morphing_performance(self) -> dict[str, Any]:
         """Optimize morphing performance based on usage patterns."""
 
         optimization_results = {
             "transition_optimizations": [],
             "color_scheme_optimizations": [],
             "layout_optimizations": [],
-            "performance_improvement": 0.0
+            "performance_improvement": 0.0,
         }
 
         # Analyze morphing performance
         performance_analysis = await self._analyze_morphing_performance()
 
         # Optimize transition timings
-        timing_optimizations = await self._optimize_transition_timings(performance_analysis)
+        timing_optimizations = await self._optimize_transition_timings(
+            performance_analysis
+        )
         optimization_results["transition_optimizations"] = timing_optimizations
 
         # Optimize color schemes
@@ -400,10 +435,14 @@ class MorphingEngine:
         # Calculate overall improvement
         current_performance = self.performance_data["resource_efficiency"]
         new_performance = await self._calculate_morphing_performance()
-        optimization_results["performance_improvement"] = new_performance - current_performance
+        optimization_results["performance_improvement"] = (
+            new_performance - current_performance
+        )
 
-        self.logger.info("Morphing performance optimized",
-                        improvement=optimization_results["performance_improvement"])
+        self.logger.info(
+            "Morphing performance optimized",
+            improvement=optimization_results["performance_improvement"],
+        )
 
         return optimization_results
 
@@ -425,10 +464,13 @@ class MorphingEngine:
                 error_color="#ef4444",
                 success_color="#10b981",
                 context_associations=["optimal", "normal"],
-                emotional_impact={"calm": 0.8, "focused": 0.9, "confident": 0.7},
-                accessibility_score=0.95
+                emotional_impact={
+                    "calm": 0.8,
+                    "focused": 0.9,
+                    "confident": 0.7,
+                },
+                accessibility_score=0.95,
             ),
-
             # Trauma response - high contrast, urgent
             ColorScheme(
                 scheme_id="trauma_response",
@@ -440,11 +482,18 @@ class MorphingEngine:
                 warning_color="#fbbf24",
                 error_color="#fca5a5",
                 success_color="#6ee7b7",
-                context_associations=["trauma_response", "emergency", "critical"],
-                emotional_impact={"urgent": 0.9, "alert": 0.95, "focused": 0.8},
-                accessibility_score=0.98
+                context_associations=[
+                    "trauma_response",
+                    "emergency",
+                    "critical",
+                ],
+                emotional_impact={
+                    "urgent": 0.9,
+                    "alert": 0.95,
+                    "focused": 0.8,
+                },
+                accessibility_score=0.98,
             ),
-
             # Ethics complex - thoughtful, balanced
             ColorScheme(
                 scheme_id="ethics_complex",
@@ -457,10 +506,13 @@ class MorphingEngine:
                 error_color="#dc2626",
                 success_color="#059669",
                 context_associations=["ethics_complex", "decision", "moral"],
-                emotional_impact={"thoughtful": 0.9, "balanced": 0.8, "wise": 0.85},
-                accessibility_score=0.92
+                emotional_impact={
+                    "thoughtful": 0.9,
+                    "balanced": 0.8,
+                    "wise": 0.85,
+                },
+                accessibility_score=0.92,
             ),
-
             # High performance - minimal, efficient
             ColorScheme(
                 scheme_id="high_performance",
@@ -472,11 +524,18 @@ class MorphingEngine:
                 warning_color="#f59e0b",
                 error_color="#ef4444",
                 success_color="#10b981",
-                context_associations=["high_performance", "efficiency", "speed"],
-                emotional_impact={"focused": 0.95, "efficient": 0.9, "minimal": 0.85},
-                accessibility_score=0.88
+                context_associations=[
+                    "high_performance",
+                    "efficiency",
+                    "speed",
+                ],
+                emotional_impact={
+                    "focused": 0.95,
+                    "efficient": 0.9,
+                    "minimal": 0.85,
+                },
+                accessibility_score=0.88,
             ),
-
             # Research mode - comfortable, analytical
             ColorScheme(
                 scheme_id="research_mode",
@@ -489,10 +548,13 @@ class MorphingEngine:
                 error_color="#ef4444",
                 success_color="#10b981",
                 context_associations=["research_mode", "analysis", "learning"],
-                emotional_impact={"curious": 0.9, "analytical": 0.85, "comfortable": 0.8},
-                accessibility_score=0.93
+                emotional_impact={
+                    "curious": 0.9,
+                    "analytical": 0.85,
+                    "comfortable": 0.8,
+                },
+                accessibility_score=0.93,
             ),
-
             # Healing mode - calming, restorative
             ColorScheme(
                 scheme_id="healing_mode",
@@ -504,10 +566,18 @@ class MorphingEngine:
                 warning_color="#d97706",
                 error_color="#dc2626",
                 success_color="#10b981",
-                context_associations=["healing_mode", "recovery", "restoration"],
-                emotional_impact={"calm": 0.95, "healing": 0.9, "peaceful": 0.85},
-                accessibility_score=0.94
-            )
+                context_associations=[
+                    "healing_mode",
+                    "recovery",
+                    "restoration",
+                ],
+                emotional_impact={
+                    "calm": 0.95,
+                    "healing": 0.9,
+                    "peaceful": 0.85,
+                },
+                accessibility_score=0.94,
+            ),
         ]
 
         for scheme in color_schemes:
@@ -527,18 +597,17 @@ class MorphingEngine:
                     "header": {"grid_area": "1 / 1 / 2 / 13"},
                     "sidebar": {"grid_area": "2 / 1 / 9 / 3"},
                     "main": {"grid_area": "2 / 3 / 9 / 11"},
-                    "aside": {"grid_area": "2 / 11 / 9 / 13"}
+                    "aside": {"grid_area": "2 / 11 / 9 / 13"},
                 },
                 responsive_breakpoints={
                     "mobile": "grid-template-columns: 1fr;",
                     "tablet": "grid-template-columns: repeat(6, 1fr);",
-                    "desktop": "grid-template-columns: repeat(12, 1fr);"
+                    "desktop": "grid-template-columns: repeat(12, 1fr);",
                 },
                 density_level="normal",
                 cognitive_load_score=0.7,
-                context_suitability={"optimal": 1.0, "research_mode": 0.8}
+                context_suitability={"optimal": 1.0, "research_mode": 0.8},
             ),
-
             # Emergency layout - critical information focus
             LayoutConfiguration(
                 layout_id="emergency",
@@ -547,18 +616,20 @@ class MorphingEngine:
                     "emergency_header": {"grid_area": "1 / 1 / 2 / 3"},
                     "critical_status": {"grid_area": "2 / 1 / 4 / 2"},
                     "action_panel": {"grid_area": "2 / 2 / 4 / 3"},
-                    "alerts": {"grid_area": "4 / 1 / 5 / 3"}
+                    "alerts": {"grid_area": "4 / 1 / 5 / 3"},
                 },
                 responsive_breakpoints={
                     "mobile": "grid-template-columns: 1fr;",
                     "tablet": "grid-template-columns: 1fr;",
-                    "desktop": "grid-template-columns: repeat(2, 1fr);"
+                    "desktop": "grid-template-columns: repeat(2, 1fr);",
                 },
                 density_level="minimal",
                 cognitive_load_score=0.3,
-                context_suitability={"trauma_response": 1.0, "emergency_mode": 1.0}
+                context_suitability={
+                    "trauma_response": 1.0,
+                    "emergency_mode": 1.0,
+                },
             ),
-
             # Ethics layout - decision support focus
             LayoutConfiguration(
                 layout_id="ethics_decision",
@@ -568,17 +639,17 @@ class MorphingEngine:
                     "decision_matrix": {"grid_area": "2 / 1 / 6 / 4"},
                     "stakeholder_impact": {"grid_area": "2 / 4 / 6 / 7"},
                     "ethical_analysis": {"grid_area": "6 / 1 / 9 / 7"},
-                    "decision_actions": {"grid_area": "9 / 1 / 11 / 7"}
+                    "decision_actions": {"grid_area": "9 / 1 / 11 / 7"},
                 },
                 responsive_breakpoints={
                     "mobile": "grid-template-columns: 1fr;",
                     "tablet": "grid-template-columns: repeat(3, 1fr);",
-                    "desktop": "grid-template-columns: repeat(6, 1fr);"
+                    "desktop": "grid-template-columns: repeat(6, 1fr);",
                 },
                 density_level="dense",
                 cognitive_load_score=0.8,
-                context_suitability={"ethics_complex": 1.0}
-            )
+                context_suitability={"ethics_complex": 1.0},
+            ),
         ]
 
         for layout in layouts:
@@ -598,7 +669,9 @@ class MorphingEngine:
                     transition_id = f"{from_state.value}_to_{to_state.value}"
 
                     # Determine transition characteristics based on state types
-                    duration, strategy, components = self._calculate_transition_parameters(from_state, to_state)
+                    duration, strategy, components = (
+                        self._calculate_transition_parameters(from_state, to_state)
+                    )
 
                     transition = MorphingTransition(
                         transition_id=transition_id,
@@ -608,13 +681,18 @@ class MorphingEngine:
                         strategy=strategy,
                         components_affected=components,
                         transition_curve="cubic-bezier(0.4, 0.0, 0.2, 1)",
-                        priority=self._calculate_transition_priority(from_state, to_state),
-                        confidence_threshold=0.7
+                        priority=self._calculate_transition_priority(
+                            from_state, to_state
+                        ),
+                        confidence_threshold=0.7,
                     )
 
                     self.morphing_transitions[transition_id] = transition
 
-        self.logger.info("Morphing transitions initialized", count=len(self.morphing_transitions))
+        self.logger.info(
+            "Morphing transitions initialized",
+            count=len(self.morphing_transitions),
+        )
 
     async def _initialize_morphing_rules(self):
         """Initialize automatic morphing rules."""
@@ -625,74 +703,69 @@ class MorphingEngine:
                 rule_id="emergency_trauma_response",
                 trigger_conditions={
                     "trauma_indicators": {"min_count": 1},
-                    "system_health": {"max": 0.3}
+                    "system_health": {"max": 0.3},
                 },
                 target_morph_state=DashboardMorphState.TRAUMA_RESPONSE,
                 morphing_strategy=MorphingStrategy.IMMEDIATE_SNAP,
                 component_modifications={
                     MorphingComponent.COLOR_SCHEME: {"scheme": "trauma_response"},
                     MorphingComponent.LAYOUT_STRUCTURE: {"layout": "emergency"},
-                    MorphingComponent.INFORMATION_HIERARCHY: {"mode": "critical_only"}
+                    MorphingComponent.INFORMATION_HIERARCHY: {"mode": "critical_only"},
                 },
                 duration_ms=500,
                 confidence_required=0.9,
-                cooldown_seconds=2
+                cooldown_seconds=2,
             ),
-
             # Ethics complexity rules
             MorphingRule(
                 rule_id="ethics_complex_decision",
-                trigger_conditions={
-                    "ethics_complexity": {"min": 0.7}
-                },
+                trigger_conditions={"ethics_complexity": {"min": 0.7}},
                 target_morph_state=DashboardMorphState.ETHICS_COMPLEX,
                 morphing_strategy=MorphingStrategy.CONTEXT_AWARE_BLEND,
                 component_modifications={
                     MorphingComponent.COLOR_SCHEME: {"scheme": "ethics_complex"},
                     MorphingComponent.LAYOUT_STRUCTURE: {"layout": "ethics_decision"},
-                    MorphingComponent.INFORMATION_HIERARCHY: {"mode": "decision_support"}
+                    MorphingComponent.INFORMATION_HIERARCHY: {
+                        "mode": "decision_support"
+                    },
                 },
                 duration_ms=1000,
                 confidence_required=0.8,
-                cooldown_seconds=10
+                cooldown_seconds=10,
             ),
-
             # Performance optimization rules
             MorphingRule(
                 rule_id="high_performance_optimization",
                 trigger_conditions={
                     "performance_load": {"min": 0.8},
-                    "morph_state": {"not": "high_performance"}
+                    "morph_state": {"not": "high_performance"},
                 },
                 target_morph_state=DashboardMorphState.HIGH_PERFORMANCE,
                 morphing_strategy=MorphingStrategy.GRADUAL_TRANSITION,
                 component_modifications={
                     MorphingComponent.COLOR_SCHEME: {"scheme": "high_performance"},
                     MorphingComponent.SPACING_DENSITY: {"level": "minimal"},
-                    MorphingComponent.VISUAL_EFFECTS: {"level": "reduced"}
+                    MorphingComponent.VISUAL_EFFECTS: {"level": "reduced"},
                 },
                 duration_ms=800,
                 confidence_required=0.7,
-                cooldown_seconds=15
+                cooldown_seconds=15,
             ),
-
             # Emotional state rules
             MorphingRule(
                 rule_id="stress_calming_adaptation",
-                trigger_conditions={
-                    "user_emotional_state.stress": {"min": 0.8}
-                },
+                trigger_conditions={"user_emotional_state.stress": {"min": 0.8}},
                 target_morph_state=DashboardMorphState.HEALING_MODE,
                 morphing_strategy=MorphingStrategy.EMOTIONAL_ADAPTATION,
                 component_modifications={
                     MorphingComponent.COLOR_SCHEME: {"scheme": "healing_mode"},
                     MorphingComponent.VISUAL_EFFECTS: {"level": "calming"},
-                    MorphingComponent.SPACING_DENSITY: {"level": "comfortable"}
+                    MorphingComponent.SPACING_DENSITY: {"level": "comfortable"},
                 },
                 duration_ms=1500,
                 confidence_required=0.6,
-                cooldown_seconds=30
-            )
+                cooldown_seconds=30,
+            ),
         ]
 
         for rule in rules:
@@ -700,47 +773,71 @@ class MorphingEngine:
 
         self.logger.info("Morphing rules initialized", count=len(rules))
 
-    def _calculate_transition_parameters(self, from_state: DashboardMorphState,
-                                       to_state: DashboardMorphState) -> Tuple[int, MorphingStrategy, List[MorphingComponent]]:
+    def _calculate_transition_parameters(
+        self, from_state: DashboardMorphState, to_state: DashboardMorphState
+    ) -> tuple[int, MorphingStrategy, list[MorphingComponent]]:
         """Calculate transition parameters based on state types."""
 
         # Emergency transitions are immediate
-        if to_state in [DashboardMorphState.TRAUMA_RESPONSE, DashboardMorphState.EMERGENCY_MODE]:
-            return 300, MorphingStrategy.IMMEDIATE_SNAP, [
-                MorphingComponent.COLOR_SCHEME,
-                MorphingComponent.LAYOUT_STRUCTURE,
-                MorphingComponent.INFORMATION_HIERARCHY
-            ]
+        if to_state in [
+            DashboardMorphState.TRAUMA_RESPONSE,
+            DashboardMorphState.EMERGENCY_MODE,
+        ]:
+            return (
+                300,
+                MorphingStrategy.IMMEDIATE_SNAP,
+                [
+                    MorphingComponent.COLOR_SCHEME,
+                    MorphingComponent.LAYOUT_STRUCTURE,
+                    MorphingComponent.INFORMATION_HIERARCHY,
+                ],
+            )
 
         # Ethics transitions need careful consideration
         if to_state == DashboardMorphState.ETHICS_COMPLEX:
-            return 1200, MorphingStrategy.CONTEXT_AWARE_BLEND, [
-                MorphingComponent.COLOR_SCHEME,
-                MorphingComponent.LAYOUT_STRUCTURE,
-                MorphingComponent.CONTENT_ORGANIZATION
-            ]
+            return (
+                1200,
+                MorphingStrategy.CONTEXT_AWARE_BLEND,
+                [
+                    MorphingComponent.COLOR_SCHEME,
+                    MorphingComponent.LAYOUT_STRUCTURE,
+                    MorphingComponent.CONTENT_ORGANIZATION,
+                ],
+            )
 
         # Performance transitions prioritize efficiency
         if to_state == DashboardMorphState.HIGH_PERFORMANCE:
-            return 600, MorphingStrategy.GRADUAL_TRANSITION, [
-                MorphingComponent.VISUAL_EFFECTS,
-                MorphingComponent.SPACING_DENSITY,
-                MorphingComponent.COLOR_SCHEME
-            ]
+            return (
+                600,
+                MorphingStrategy.GRADUAL_TRANSITION,
+                [
+                    MorphingComponent.VISUAL_EFFECTS,
+                    MorphingComponent.SPACING_DENSITY,
+                    MorphingComponent.COLOR_SCHEME,
+                ],
+            )
 
         # Default transitions
-        return 800, MorphingStrategy.CONTEXT_AWARE_BLEND, [
-            MorphingComponent.COLOR_SCHEME,
-            MorphingComponent.LAYOUT_STRUCTURE,
-            MorphingComponent.TYPOGRAPHY
-        ]
+        return (
+            800,
+            MorphingStrategy.CONTEXT_AWARE_BLEND,
+            [
+                MorphingComponent.COLOR_SCHEME,
+                MorphingComponent.LAYOUT_STRUCTURE,
+                MorphingComponent.TYPOGRAPHY,
+            ],
+        )
 
-    def _calculate_transition_priority(self, from_state: DashboardMorphState,
-                                     to_state: DashboardMorphState) -> int:
+    def _calculate_transition_priority(
+        self, from_state: DashboardMorphState, to_state: DashboardMorphState
+    ) -> int:
         """Calculate transition priority (1 = highest, 10 = lowest)."""
 
         # Emergency states have highest priority
-        if to_state in [DashboardMorphState.EMERGENCY_MODE, DashboardMorphState.TRAUMA_RESPONSE]:
+        if to_state in [
+            DashboardMorphState.EMERGENCY_MODE,
+            DashboardMorphState.TRAUMA_RESPONSE,
+        ]:
             return 1
 
         # Ethics complexity has high priority
@@ -795,7 +892,7 @@ class MorphingEngine:
                     if prediction.get("confidence", 0.0) > 0.8:
                         await self.prepare_predictive_morph(
                             prediction["target_state"],
-                            prediction["confidence"]
+                            prediction["confidence"],
                         )
 
                 await asyncio.sleep(30)  # Predictive morphing frequency
@@ -812,8 +909,10 @@ class MorphingEngine:
                 optimization_results = await self.optimize_morphing_performance()
 
                 if optimization_results["performance_improvement"] > 0.1:
-                    self.logger.info("Morphing optimization applied",
-                                   improvement=optimization_results["performance_improvement"])
+                    self.logger.info(
+                        "Morphing optimization applied",
+                        improvement=optimization_results["performance_improvement"],
+                    )
 
                 await asyncio.sleep(600)  # Optimization frequency (10 minutes)
 
@@ -823,37 +922,44 @@ class MorphingEngine:
 
     # Utility methods (implementations would be added based on specific requirements)
 
-    async def _get_morphing_transition(self, from_state: DashboardMorphState,
-                                     to_state: DashboardMorphState) -> MorphingTransition:
+    async def _get_morphing_transition(
+        self, from_state: DashboardMorphState, to_state: DashboardMorphState
+    ) -> MorphingTransition:
         """Get morphing transition between states."""
         transition_id = f"{from_state.value}_to_{to_state.value}"
         return self.morphing_transitions.get(transition_id)
 
-    async def _execute_morphing(self, transition: MorphingTransition) -> Dict[str, Any]:
+    async def _execute_morphing(self, transition: MorphingTransition) -> dict[str, Any]:
         """Execute the actual morphing transition."""
         # Implementation would handle the actual interface transformation
-        return {"success": True, "metrics": {"duration_actual": transition.duration_ms}}
+        return {
+            "success": True,
+            "metrics": {"duration_actual": transition.duration_ms},
+        }
 
-    async def _evaluate_morphing_rules(self, context: DashboardContext) -> List[MorphingRule]:
+    async def _evaluate_morphing_rules(
+        self, context: DashboardContext
+    ) -> list[MorphingRule]:
         """Evaluate morphing rules against current context."""
         applicable_rules = []
         # Implementation would check each rule against context
         return applicable_rules
 
-    async def _analyze_morph_patterns(self) -> List[Dict[str, Any]]:
+    async def _analyze_morph_patterns(self) -> list[dict[str, Any]]:
         """Analyze historical morphing patterns for predictions."""
         # Implementation would analyze morph_history for patterns
         return []
 
-    async def _determine_emotional_adaptation(self, emotional_state: Dict[str, float]) -> Optional[Dict[str, Any]]:
+    async def _determine_emotional_adaptation(
+        self, emotional_state: dict[str, float]
+    ) -> Optional[dict[str, Any]]:
         """Determine appropriate emotional adaptation."""
         # Implementation would analyze emotional state and determine adaptations
         return None
 
-    async def _apply_emotional_adaptation(self, adaptation: Dict[str, Any]):
+    async def _apply_emotional_adaptation(self, adaptation: dict[str, Any]):
         """Apply emotional adaptation to interface."""
         # Implementation would apply emotional adaptations
-        pass
 
 
 logger.info("ΛMORPH: Morphing Engine loaded. Interface transformation ready.")

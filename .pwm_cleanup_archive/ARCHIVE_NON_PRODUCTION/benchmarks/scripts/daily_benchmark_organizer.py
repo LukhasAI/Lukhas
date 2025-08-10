@@ -4,18 +4,17 @@ Automatic Daily Benchmark Organizer
 Organizes test results into dated folders automatically
 """
 
+import json
+import logging
 import os
 import shutil
-import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, List, Optional
-import logging
 
 # Setup logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -29,11 +28,26 @@ class DailyBenchmarkOrganizer:
 
         # Categories to organize
         self.categories = [
-            "safety", "performance", "actor_systems", "memory",
-            "ethics", "integration", "creativity", "quantum",
-            "orchestration", "voice", "reasoning", "emotion",
-            "symbolic", "dashboard", "learning", "perception",
-            "api", "security", "bridge", "config"
+            "safety",
+            "performance",
+            "actor_systems",
+            "memory",
+            "ethics",
+            "integration",
+            "creativity",
+            "quantum",
+            "orchestration",
+            "voice",
+            "reasoning",
+            "emotion",
+            "symbolic",
+            "dashboard",
+            "learning",
+            "perception",
+            "api",
+            "security",
+            "bridge",
+            "config",
         ]
 
         # File patterns that indicate test results
@@ -43,7 +57,7 @@ class DailyBenchmarkOrganizer:
             "*_results_*.json",
             "*_analysis_*.json",
             "*test*.json",
-            "*benchmark*.json"
+            "*benchmark*.json",
         ]
 
         # File patterns for test scripts
@@ -51,7 +65,7 @@ class DailyBenchmarkOrganizer:
             "*_test_*.py",
             "*_benchmark_*.py",
             "test_*.py",
-            "benchmark_*.py"
+            "benchmark_*.py",
         ]
 
         logger.info(f"Initialized organizer for: {self.benchmarks_root}")
@@ -79,11 +93,7 @@ class DailyBenchmarkOrganizer:
 
     def detect_test_files(self, directory: Path) -> Dict[str, List[Path]]:
         """Detect test files that need organization"""
-        detected_files = {
-            "results": [],
-            "scripts": [],
-            "metadata": []
-        }
+        detected_files = {"results": [], "scripts": [], "metadata": []}
 
         # Find test result files
         for pattern in self.test_patterns:
@@ -104,7 +114,7 @@ class DailyBenchmarkOrganizer:
         import re
 
         # Pattern for YYYYMMDD_HHMMSS
-        pattern1 = r'(\d{8}_\d{6})'
+        pattern1 = r"(\d{8}_\d{6})"
         match1 = re.search(pattern1, filename)
         if match1:
             date_str = match1.group(1)[:8]  # Get YYYYMMDD part
@@ -115,7 +125,7 @@ class DailyBenchmarkOrganizer:
                 pass
 
         # Pattern for YYYY-MM-DD
-        pattern2 = r'(\d{4}-\d{2}-\d{2})'
+        pattern2 = r"(\d{4}-\d{2}-\d{2})"
         match2 = re.search(pattern2, filename)
         if match2:
             return match2.group(1)
@@ -129,11 +139,22 @@ class DailyBenchmarkOrganizer:
         # Direct category matches
         category_keywords = {
             "safety": ["safety", "security", "safeguard", "protection"],
-            "performance": ["performance", "benchmark", "throughput", "latency", "quantized"],
+            "performance": [
+                "performance",
+                "benchmark",
+                "throughput",
+                "latency",
+                "quantized",
+            ],
             "actor_systems": ["actor", "swarm", "colony"],
             "memory": ["memory", "fold", "storage"],
             "ethics": ["ethics", "ethical", "compliance", "moral"],
-            "integration": ["integration", "coherence", "consciousness", "symbolic_reasoning"],
+            "integration": [
+                "integration",
+                "coherence",
+                "consciousness",
+                "symbolic_reasoning",
+            ],
             "creativity": ["creativity", "dream", "creative"],
             "quantum": ["quantum", "identity"],
             "orchestration": ["orchestration", "workflow", "coordination"],
@@ -147,7 +168,7 @@ class DailyBenchmarkOrganizer:
             "api": ["api", "endpoint", "service"],
             "security": ["security", "auth", "encryption"],
             "bridge": ["bridge", "integration", "adapter"],
-            "config": ["config", "settings", "configuration"]
+            "config": ["config", "settings", "configuration"],
         }
 
         for category, keywords in category_keywords.items():
@@ -197,11 +218,7 @@ class DailyBenchmarkOrganizer:
             "date": daily_dir.name,
             "timestamp": datetime.now().isoformat(),
             "categories": {},
-            "totals": {
-                "results": 0,
-                "scripts": 0,
-                "metadata": 0
-            }
+            "totals": {"results": 0, "scripts": 0, "metadata": 0},
         }
 
         for category in self.categories:
@@ -212,7 +229,7 @@ class DailyBenchmarkOrganizer:
             category_summary = {
                 "results": len(list((category_dir / "results").glob("*"))),
                 "scripts": len(list((category_dir / "scripts").glob("*"))),
-                "metadata": len(list((category_dir / "metadata").glob("*")))
+                "metadata": len(list((category_dir / "metadata").glob("*"))),
             }
 
             summary["categories"][category] = category_summary
@@ -223,7 +240,7 @@ class DailyBenchmarkOrganizer:
 
         # Save summary
         summary_path = daily_dir / "daily_summary.json"
-        with open(summary_path, 'w') as f:
+        with open(summary_path, "w") as f:
             json.dump(summary, f, indent=2)
 
         logger.info(f"Generated daily summary: {summary['totals']}")
@@ -275,8 +292,10 @@ class DailyBenchmarkOrganizer:
                     file_modified = datetime.fromtimestamp(file_path.stat().st_mtime)
 
                     # Organize if file is from today or has today's date
-                    if (file_date == today or
-                        file_modified.strftime("%Y-%m-%d") == today):
+                    if (
+                        file_date == today
+                        or file_modified.strftime("%Y-%m-%d") == today
+                    ):
 
                         if self.organize_file(file_path, daily_dir, file_type):
                             organized_count += 1
@@ -287,7 +306,7 @@ class DailyBenchmarkOrganizer:
         summary = self.generate_daily_summary(daily_dir)
         summary["organization_stats"] = {
             "organized": organized_count,
-            "failed": failed_count
+            "failed": failed_count,
         }
 
         # Cleanup old archives
@@ -449,14 +468,16 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Daily Benchmark Organizer")
-    parser.add_argument("--organize", action="store_true",
-                       help="Organize today's benchmarks")
-    parser.add_argument("--create-template", type=str,
-                       help="Create benchmark template for system")
-    parser.add_argument("--cleanup", type=int, default=30,
-                       help="Days of archives to keep (default: 30)")
-    parser.add_argument("--root", type=str,
-                       help="Benchmarks root directory")
+    parser.add_argument(
+        "--organize", action="store_true", help="Organize today's benchmarks"
+    )
+    parser.add_argument(
+        "--create-template", type=str, help="Create benchmark template for system"
+    )
+    parser.add_argument(
+        "--cleanup", type=int, default=30, help="Days of archives to keep (default: 30)"
+    )
+    parser.add_argument("--root", type=str, help="Benchmarks root directory")
 
     args = parser.parse_args()
 
@@ -464,7 +485,7 @@ def main():
 
     if args.organize:
         summary = organizer.organize_today()
-        print(f"📊 Daily organization complete:")
+        print("📊 Daily organization complete:")
         print(f"   Organized: {summary['organization_stats']['organized']} files")
         print(f"   Failed: {summary['organization_stats']['failed']} files")
         print(f"   Total results: {summary['totals']['results']}")
@@ -472,7 +493,7 @@ def main():
     elif args.create_template:
         template = organizer.create_benchmark_script_template(args.create_template)
         filename = f"benchmark_{args.create_template}.py"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(template)
         print(f"📝 Created benchmark template: {filename}")
 

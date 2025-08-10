@@ -15,7 +15,7 @@ Features:
 import math
 import secrets
 from collections import Counter
-from typing import List, Dict
+
 
 class EntropyCalculator:
     """Calculate various entropy metrics"""
@@ -47,8 +47,9 @@ class EntropyCalculator:
         if not data or pattern_length <= 0:
             return 0.0
 
-        patterns = [data[i:i + pattern_length]
-                    for i in range(len(data) - pattern_length + 1)]
+        patterns = [
+            data[i : i + pattern_length] for i in range(len(data) - pattern_length + 1)
+        ]
         if not patterns:
             return 0.0
 
@@ -60,7 +61,7 @@ class EntropyCalculator:
             entropy -= p * math.log2(p)
         return entropy
 
-    def validate_randomness(self, data: str) -> Dict[str, float]:
+    def validate_randomness(self, data: str) -> dict[str, float]:
         """Validate randomness of data using multiple metrics"""
         # ΛTAG: entropy_randomness_validation
         shannon = self.shannon_entropy(data)
@@ -70,8 +71,9 @@ class EntropyCalculator:
             "shannon_entropy": shannon,
             "pattern_entropy": pattern,
             "randomness_score": randomness_score,
-            "is_random": randomness_score >= self.min_entropy_threshold
+            "is_random": randomness_score >= self.min_entropy_threshold,
         }
+
 
 class SecureRandomGenerator:
     """Generate cryptographically secure random data"""
@@ -88,7 +90,7 @@ class SecureRandomGenerator:
         if charset is None:
             charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-        return ''.join(self.entropy_source.choice(charset) for _ in range(length))
+        return "".join(self.entropy_source.choice(charset) for _ in range(length))
 
     def assess_entropy_strength(self, data: str) -> str:
         """Assess the entropy strength of generated data"""

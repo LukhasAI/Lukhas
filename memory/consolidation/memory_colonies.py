@@ -15,8 +15,8 @@ Consolidated from 4 files:
 - memory/colonies/episodic_memory_colony.py
 """
 
-from typing import Dict, List, Any, Optional
-import asyncio
+from typing import Any, Dict, Optional
+
 
 class ConsolidatedMemorycolonies:
     def __init__(self):
@@ -27,6 +27,7 @@ class ConsolidatedMemorycolonies:
         """Process memory through consolidated pipeline"""
         # TODO: Implement consolidated memory processing
         return None
+
 
 # Global instance
 memory_colonies_instance = ConsolidatedMemorycolonies()

@@ -1,16 +1,15 @@
 from datetime import datetime
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 import numpy as np
 
 from core.colonies.base_colony import BaseColony
 from emotion.models import EmotionalState, EmotionVector
 
-
-
-#TAG:memory
-#TAG:consolidation
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:consolidation
+# TAG:neuroplastic
+# TAG:colony
 
 
 class EmotionalColony(BaseColony):
@@ -28,20 +27,24 @@ class EmotionalColony(BaseColony):
                 emotion_vector = await agent.evaluate_emotion(stimulus)
             else:
                 emotion_vector = EmotionVector()
-            agent_emotions.append({
-                "agent_id": agent_id,
-                "emotion": emotion_vector,
-                "confidence": getattr(agent, "emotional_confidence", 1.0),
-            })
+            agent_emotions.append(
+                {
+                    "agent_id": agent_id,
+                    "emotion": emotion_vector,
+                    "confidence": getattr(agent, "emotional_confidence", 1.0),
+                }
+            )
 
         collective = self._merge_emotions(agent_emotions)
         self.collective_emotion = collective["emotion_state"]
-        self.emotion_history.append({
-            "timestamp": datetime.now(),
-            "stimulus": stimulus.get("type"),
-            "collective_emotion": collective,
-            "agent_count": len(agent_emotions),
-        })
+        self.emotion_history.append(
+            {
+                "timestamp": datetime.now(),
+                "stimulus": stimulus.get("type"),
+                "collective_emotion": collective,
+                "agent_count": len(agent_emotions),
+            }
+        )
 
         if collective["intensity"] > 0.8:
             await self._emotional_contagion(collective)
@@ -73,14 +76,16 @@ class EmotionalColony(BaseColony):
             merged_vector.surprise += emotion.surprise * weight
             merged_vector.disgust += emotion.disgust * weight
 
-        intensity = np.linalg.norm([
-            merged_vector.joy,
-            merged_vector.sadness,
-            merged_vector.anger,
-            merged_vector.fear,
-            merged_vector.surprise,
-            merged_vector.disgust,
-        ])
+        intensity = np.linalg.norm(
+            [
+                merged_vector.joy,
+                merged_vector.sadness,
+                merged_vector.anger,
+                merged_vector.fear,
+                merged_vector.surprise,
+                merged_vector.disgust,
+            ]
+        )
 
         return {
             "emotion_state": EmotionalState(vector=merged_vector),

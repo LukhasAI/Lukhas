@@ -10,11 +10,11 @@ failure scenarios and symbolic degradation over time.
 # ΛTAG: entropic_decay
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict
-import structlog
-
+from dataclasses import dataclass
 from trace.drift_metrics import compute_drift_score
+from typing import Any
+
+import structlog
 
 logger = structlog.get_logger(__name__)
 
@@ -34,10 +34,10 @@ class FailureSimulator:
     def __init__(self, collapse_threshold: float = 0.8, decay_rate: float = 0.05):
         self.collapse_threshold = collapse_threshold
         self.decay_rate = decay_rate
-        self.previous_state: Dict[str, Any] = {}
+        self.previous_state: dict[str, Any] = {}
         self.metrics = FailureMetrics()
 
-    def step(self, state: Dict[str, Any]) -> FailureMetrics:
+    def step(self, state: dict[str, Any]) -> FailureMetrics:
         """Advance simulation one step with a new symbolic state."""
         drift = compute_drift_score(self.previous_state, state)
         self.metrics.drift_score = drift

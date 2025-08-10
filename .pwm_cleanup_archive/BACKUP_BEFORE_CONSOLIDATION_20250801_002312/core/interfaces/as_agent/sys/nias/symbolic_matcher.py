@@ -21,6 +21,7 @@ DESCRIPTION:
 
 """
 
+
 def match_message_to_context(message, user_context):
     """
     Match a symbolic message to the user’s active symbolic context.
@@ -33,11 +34,8 @@ def match_message_to_context(message, user_context):
         }
     """
     # TODO: Implement symbolic matching algorithm using emotion, DAST tags, dream memory
-    return {
-        "decision": "show",
-        "score": 0.75,
-        "matched_tags": ["focus", "light"]
-    }
+    return {"decision": "show", "score": 0.75, "matched_tags": ["focus", "light"]}
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

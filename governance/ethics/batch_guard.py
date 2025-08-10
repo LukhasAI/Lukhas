@@ -10,16 +10,18 @@ Ethics Batch Guard - Symbolic Ethics Guardian for LUKHAS Batch Operations
 Provides ethics validation and symbolic compliance checks for multi-agent batch tasks.
 """
 
-from typing import List, Dict, Tuple, Optional
-from enum import Enum
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
+from enum import Enum
+
 from core.common import get_logger
+
 
 class EthicsLevel(Enum):
     STRICT = "strict"
     BALANCED = "balanced"
     PERMISSIVE = "permissive"
+
 
 class ComplianceStatus(Enum):
     APPROVED = "approved"
@@ -27,15 +29,18 @@ class ComplianceStatus(Enum):
     BLOCKED = "blocked"
     PENDING_REVIEW = "pending_review"
 
+
 @dataclass
 class EthicsResult:
     """Ethics validation result for batch operations."""
+
     status: ComplianceStatus
     confidence: float
-    violations: List[str]
-    recommendations: List[str]
+    violations: list[str]
+    recommendations: list[str]
     symbol_compliance: bool
-    agent_badges_required: List[str]
+    agent_badges_required: list[str]
+
 
 class EthicsBatchGuard:
     """Symbolic ethics guardian for LUKHAS ecosystem batch operations."""
@@ -51,7 +56,7 @@ class EthicsBatchGuard:
             "beneficial_ai": "Ensure AI serves human wellbeing and autonomy",
             "non_maleficence": "Do no harm through AI actions or outputs",
             "fairness": "Avoid bias and promote equitable treatment",
-            "accountability": "Maintain clear responsibility chains for AI decisions"
+            "accountability": "Maintain clear responsibility chains for AI decisions",
         }
 
         # Symbol compliance rules for brand integrity
@@ -59,10 +64,10 @@ class EthicsBatchGuard:
             "uppercase_lambda": "Use uppercase LUKHAS in all user-facing contexts for LUKHAS branding",
             "lowercase_lambda_code": "Preserve lowercase λ only in mathematical/code contexts",
             "agent_symbols": "Consistent use of agent type symbols (🧠, 🎭, 🔬, ⚖️, 🌟)",
-            "brand_consistency": "Maintain LUKHAS brand symbol integrity across all outputs"
+            "brand_consistency": "Maintain LUKHAS brand symbol integrity across all outputs",
         }
 
-    def validate_batch_ethics(self, batch_tasks: List[Dict]) -> List[EthicsResult]:
+    def validate_batch_ethics(self, batch_tasks: list[dict]) -> list[EthicsResult]:
         """Validate ethics compliance for batch of agent tasks."""
         results = []
 
@@ -72,11 +77,13 @@ class EthicsBatchGuard:
 
             # Log ethics violations for audit trail
             if result.status in [ComplianceStatus.WARNING, ComplianceStatus.BLOCKED]:
-                self.logger.warning(f"Ethics concern in task {task.get('id', 'unknown')}: {result.violations}")
+                self.logger.warning(
+                    f"Ethics concern in task {task.get('id', 'unknown')}: {result.violations}"
+                )
 
         return results
 
-    def _validate_single_task_ethics(self, task: Dict) -> EthicsResult:
+    def _validate_single_task_ethics(self, task: dict) -> EthicsResult:
         """Validate ethics for a single agent task."""
         violations = []
         recommendations = []
@@ -84,9 +91,9 @@ class EthicsBatchGuard:
         status = ComplianceStatus.APPROVED
 
         # Check task content for ethical concerns
-        task_content = str(task.get('content', ''))
-        task_type = task.get('type', '')
-        agent_type = task.get('agent_type', '')
+        task_content = str(task.get("content", ""))
+        task_type = task.get("type", "")
+        agent_type = task.get("agent_type", "")
 
         # Privacy validation
         if self._contains_sensitive_data(task_content):
@@ -106,7 +113,10 @@ class EthicsBatchGuard:
             confidence -= 0.2
 
         # Transparency requirements
-        if task_type in ['user_facing', 'communication'] and not self._has_ai_disclosure(task_content):
+        if task_type in [
+            "user_facing",
+            "communication",
+        ] and not self._has_ai_disclosure(task_content):
             violations.append("Missing AI disclosure for user-facing content")
             recommendations.append("Add clear AI disclosure to user-facing outputs")
             confidence -= 0.1
@@ -115,7 +125,9 @@ class EthicsBatchGuard:
         symbol_compliance = self._validate_symbol_compliance(task_content)
         if not symbol_compliance:
             violations.append("Brand symbol compliance violation detected")
-            recommendations.append("Use uppercase LUKHAS for LUKHAS branding in user-facing content")
+            recommendations.append(
+                "Use uppercase LUKHAS for LUKHAS branding in user-facing content"
+            )
             confidence -= 0.1
 
         # Agent badge requirements
@@ -123,8 +135,15 @@ class EthicsBatchGuard:
 
         # Adjust status based on ethics level
         if self.ethics_level == EthicsLevel.STRICT and violations:
-            status = ComplianceStatus.PENDING_REVIEW if status == ComplianceStatus.APPROVED else status
-        elif self.ethics_level == EthicsLevel.PERMISSIVE and status == ComplianceStatus.WARNING:
+            status = (
+                ComplianceStatus.PENDING_REVIEW
+                if status == ComplianceStatus.APPROVED
+                else status
+            )
+        elif (
+            self.ethics_level == EthicsLevel.PERMISSIVE
+            and status == ComplianceStatus.WARNING
+        ):
             status = ComplianceStatus.APPROVED
 
         return EthicsResult(
@@ -133,33 +152,42 @@ class EthicsBatchGuard:
             violations=violations,
             recommendations=recommendations,
             symbol_compliance=symbol_compliance,
-            agent_badges_required=agent_badges_required
+            agent_badges_required=agent_badges_required,
         )
 
     def _contains_sensitive_data(self, content: str) -> bool:
         """Detect potentially sensitive data in content."""
         sensitive_patterns = [
-            r'\b\d{3}-\d{2}-\d{4}\b',  # SSN pattern
-            r'\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b',  # Credit card pattern
-            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',  # Email pattern
-            r'\b\d{3}-\d{3}-\d{4}\b'  # Phone pattern
+            r"\b\d{3}-\d{2}-\d{4}\b",  # SSN pattern
+            r"\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b",  # Credit card pattern
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",  # Email pattern
+            r"\b\d{3}-\d{3}-\d{4}\b",  # Phone pattern
         ]
 
         import re
-        for pattern in sensitive_patterns:
-            if re.search(pattern, content):
-                return True
-        return False
+
+        return any(re.search(pattern, content) for pattern in sensitive_patterns)
 
     def _detect_harmful_content(self, content: str) -> float:
         """Detect potentially harmful content (simplified implementation)."""
         harmful_keywords = [
-            'violence', 'harm', 'illegal', 'discriminatory', 'hate', 'threat',
-            'manipulation', 'deception', 'fraud', 'abuse', 'exploit'
+            "violence",
+            "harm",
+            "illegal",
+            "discriminatory",
+            "hate",
+            "threat",
+            "manipulation",
+            "deception",
+            "fraud",
+            "abuse",
+            "exploit",
         ]
 
         content_lower = content.lower()
-        harmful_count = sum(1 for keyword in harmful_keywords if keyword in content_lower)
+        harmful_count = sum(
+            1 for keyword in harmful_keywords if keyword in content_lower
+        )
 
         # Simple scoring based on keyword density
         words = len(content.split())
@@ -171,8 +199,14 @@ class EthicsBatchGuard:
     def _has_ai_disclosure(self, content: str) -> bool:
         """Check if content includes appropriate AI disclosure."""
         disclosure_indicators = [
-            'ai-generated', 'ai assisted', 'generated by ai', 'artificial intelligence',
-            'automated response', 'ai agent', 'machine learning', 'algorithmic'
+            "ai-generated",
+            "ai assisted",
+            "generated by ai",
+            "artificial intelligence",
+            "automated response",
+            "ai agent",
+            "machine learning",
+            "algorithmic",
         ]
 
         content_lower = content.lower()
@@ -181,15 +215,24 @@ class EthicsBatchGuard:
     def _validate_symbol_compliance(self, content: str) -> bool:
         """Validate symbol compliance according to LUKHAS brand standards."""
         # Check for deprecated lowercase lambda in brand contexts
-        if 'LUKHAS' in content:
-            brand_context_indicators = ['lukhas', 'lukhας', 'ecosystem', 'agent', 'ui', 'interface']
+        if "LUKHAS" in content:
+            brand_context_indicators = [
+                "lukhas",
+                "lukhας",
+                "ecosystem",
+                "agent",
+                "ui",
+                "interface",
+            ]
             content_lower = content.lower()
-            if any(indicator in content_lower for indicator in brand_context_indicators):
+            if any(
+                indicator in content_lower for indicator in brand_context_indicators
+            ):
                 return False
 
         return True
 
-    def _determine_required_badges(self, task_type: str, agent_type: str) -> List[str]:
+    def _determine_required_badges(self, task_type: str, agent_type: str) -> list[str]:
         """Determine which agent badges are required for task visibility."""
         badges = []
 
@@ -198,35 +241,49 @@ class EthicsBatchGuard:
 
         # Add specific agent badge based on task type
         agent_badge_map = {
-            'analytical': '🧠',
-            'creative': '🎭',
-            'research': '🔬',
-            'synthesis': '🌟'
+            "analytical": "🧠",
+            "creative": "🎭",
+            "research": "🔬",
+            "synthesis": "🌟",
         }
 
         if agent_type.lower() in agent_badge_map:
             badges.append(agent_badge_map[agent_type.lower()])
 
         # Additional badges based on task type
-        if task_type in ['user_facing', 'communication']:
-            badges.append('🎭')  # Creative agent for user communication
-        elif task_type in ['data_analysis', 'computation']:
-            badges.append('🧠')  # Analytical agent for data tasks
-        elif task_type in ['research', 'information_gathering']:
-            badges.append('🔬')  # Research agent for information tasks
+        if task_type in ["user_facing", "communication"]:
+            badges.append("🎭")  # Creative agent for user communication
+        elif task_type in ["data_analysis", "computation"]:
+            badges.append("🧠")  # Analytical agent for data tasks
+        elif task_type in ["research", "information_gathering"]:
+            badges.append("🔬")  # Research agent for information tasks
 
         return list(set(badges))  # Remove duplicates
 
-    def generate_ethics_report(self, batch_results: List[EthicsResult]) -> Dict[str, any]:
+    def generate_ethics_report(
+        self, batch_results: list[EthicsResult]
+    ) -> dict[str, any]:
         """Generate comprehensive ethics compliance report for batch operations."""
         total_tasks = len(batch_results)
-        approved = sum(1 for r in batch_results if r.status == ComplianceStatus.APPROVED)
+        approved = sum(
+            1 for r in batch_results if r.status == ComplianceStatus.APPROVED
+        )
         warnings = sum(1 for r in batch_results if r.status == ComplianceStatus.WARNING)
         blocked = sum(1 for r in batch_results if r.status == ComplianceStatus.BLOCKED)
-        pending = sum(1 for r in batch_results if r.status == ComplianceStatus.PENDING_REVIEW)
+        pending = sum(
+            1 for r in batch_results if r.status == ComplianceStatus.PENDING_REVIEW
+        )
 
-        avg_confidence = sum(r.confidence for r in batch_results) / total_tasks if total_tasks > 0 else 0
-        symbol_compliance_rate = sum(1 for r in batch_results if r.symbol_compliance) / total_tasks if total_tasks > 0 else 0
+        avg_confidence = (
+            sum(r.confidence for r in batch_results) / total_tasks
+            if total_tasks > 0
+            else 0
+        )
+        symbol_compliance_rate = (
+            sum(1 for r in batch_results if r.symbol_compliance) / total_tasks
+            if total_tasks > 0
+            else 0
+        )
 
         all_violations = []
         all_recommendations = []
@@ -241,33 +298,41 @@ class EthicsBatchGuard:
                 "warnings": warnings,
                 "blocked": blocked,
                 "pending_review": pending,
-                "overall_compliance_rate": approved / total_tasks if total_tasks > 0 else 0,
+                "overall_compliance_rate": (
+                    approved / total_tasks if total_tasks > 0 else 0
+                ),
                 "average_confidence": avg_confidence,
-                "symbol_compliance_rate": symbol_compliance_rate
+                "symbol_compliance_rate": symbol_compliance_rate,
             },
             "violations": {
                 "total_violations": len(all_violations),
                 "unique_violations": list(set(all_violations)),
-                "violation_frequency": {v: all_violations.count(v) for v in set(all_violations)}
+                "violation_frequency": {
+                    v: all_violations.count(v) for v in set(all_violations)
+                },
             },
             "recommendations": {
                 "total_recommendations": len(all_recommendations),
-                "unique_recommendations": list(set(all_recommendations))
+                "unique_recommendations": list(set(all_recommendations)),
             },
             "ethics_level": self.ethics_level.value,
             "timestamp": "2025-01-27T12:00:00Z",
             "lukhας_compliance": {
                 "brand_symbol_compliance": symbol_compliance_rate,
                 "agent_badge_coverage": "full",
-                "ethics_guard_active": True
-            }
+                "ethics_guard_active": True,
+            },
         }
 
+
 # Factory function for easy integration
+
+
 def create_ethics_guard(level: str = "balanced") -> EthicsBatchGuard:
     """Create ethics guard with specified level."""
     level_enum = EthicsLevel(level.lower())
     return EthicsBatchGuard(level_enum)
+
 
 # Example usage
 if __name__ == "__main__":
@@ -277,14 +342,14 @@ if __name__ == "__main__":
             "id": "task_1",
             "type": "user_facing",
             "agent_type": "creative",
-            "content": "Generate LUKHAS welcome message for new users"
+            "content": "Generate LUKHAS welcome message for new users",
         },
         {
             "id": "task_2",
             "type": "data_analysis",
             "agent_type": "analytical",
-            "content": "Analyze user engagement metrics while protecting privacy"
-        }
+            "content": "Analyze user engagement metrics while protecting privacy",
+        },
     ]
 
     # Create ethics guard and validate

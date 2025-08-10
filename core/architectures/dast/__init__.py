@@ -1,4 +1,10 @@
-from .core.dast_engine import DASTEngine, TaskCompatibilityEngine, SymbolicActivityTracker, GestureInterpretationSystem, RealtimeDataAggregator
+from .core.dast_engine import (
+    DASTEngine,
+    GestureInterpretationSystem,
+    RealtimeDataAggregator,
+    SymbolicActivityTracker,
+    TaskCompatibilityEngine,
+)
 
 __all__ = [
     "DASTEngine",

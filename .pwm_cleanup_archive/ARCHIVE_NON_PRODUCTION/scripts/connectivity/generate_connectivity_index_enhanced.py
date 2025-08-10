@@ -6,20 +6,22 @@ with missed opportunities detection and architectural insights
 """
 
 import ast
-import os
-import json
-import sys
-from dataclasses import dataclass, field, asdict
-from typing import Dict, List, Set, Optional, Tuple, Any
-from datetime import datetime
-from collections import defaultdict
 import concurrent.futures
+import json
 import logging
+import os
+from collections import defaultdict
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class SymbolInfo:
@@ -33,6 +35,7 @@ class SymbolInfo:
     docstring: Optional[str] = None
     complexity: int = 0  # Cyclomatic complexity for functions
 
+
 @dataclass
 class ModuleMetrics:
     total_symbols: int = 0
@@ -44,6 +47,7 @@ class ModuleMetrics:
     cohesion_score: float = 0.0
     coupling_score: float = 0.0
 
+
 @dataclass
 class MissedOpportunity:
     type: str  # "unused_export", "circular_dependency", "god_module", "isolated_module"
@@ -51,6 +55,7 @@ class MissedOpportunity:
     affected_files: List[str]
     severity: str  # "low", "medium", "high"
     suggestion: str
+
 
 class EnhancedConnectivityAnalyzer:
     def __init__(self, repo_root: str):
@@ -99,10 +104,12 @@ class EnhancedConnectivityAnalyzer:
         # Generate comprehensive report
         return self._generate_report(target_path)
 
-    def _collect_file_definitions(self, file_path: Path) -> Tuple[str, Dict[str, SymbolInfo]]:
+    def _collect_file_definitions(
+        self, file_path: Path
+    ) -> Tuple[str, Dict[str, SymbolInfo]]:
         """Collect all definitions from a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 source = f.read()
 
             tree = ast.parse(source, filename=str(file_path))
@@ -117,28 +124,30 @@ class EnhancedConnectivityAnalyzer:
                         kind=kind,
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_number=node.lineno,
-                        docstring=ast.get_docstring(node)
+                        docstring=ast.get_docstring(node),
                     )
                     definitions[node.name] = info
 
                 elif isinstance(node, ast.FunctionDef):
                     info = SymbolInfo(
                         name=node.name,
-                        kind='function',
+                        kind="function",
                         file_path=str(file_path.relative_to(self.repo_root)),
                         line_number=node.lineno,
                         docstring=ast.get_docstring(node),
-                        complexity=self._calculate_complexity(node)
+                        complexity=self._calculate_complexity(node),
                     )
                     definitions[node.name] = info
 
-                elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
+                elif isinstance(node, ast.AnnAssign) and isinstance(
+                    node.target, ast.Name
+                ):
                     # Type aliases and constants
                     info = SymbolInfo(
                         name=node.target.id,
-                        kind='type_alias' if 'Type' in ast.dump(node) else 'constant',
+                        kind="type_alias" if "Type" in ast.dump(node) else "constant",
                         file_path=str(file_path.relative_to(self.repo_root)),
-                        line_number=node.lineno
+                        line_number=node.lineno,
                     )
                     definitions[node.target.id] = info
 
@@ -152,15 +161,17 @@ class EnhancedConnectivityAnalyzer:
         """Determine the kind of class (regular, dataclass, enum, etc.)"""
         decorators = [self._get_decorator_name(d) for d in node.decorator_list]
 
-        if 'dataclass' in decorators:
-            return 'dataclass'
-        elif any('enum' in d.lower() for d in decorators if d):
-            return 'enum'
-        elif any(base.id == 'Protocol' if isinstance(base, ast.Name) else False
-                for base in node.bases):
-            return 'protocol'
+        if "dataclass" in decorators:
+            return "dataclass"
+        elif any("enum" in d.lower() for d in decorators if d):
+            return "enum"
+        elif any(
+            base.id == "Protocol" if isinstance(base, ast.Name) else False
+            for base in node.bases
+        ):
+            return "protocol"
         else:
-            return 'class'
+            return "class"
 
     def _get_decorator_name(self, decorator) -> Optional[str]:
         """Extract decorator name from AST node"""
@@ -189,7 +200,7 @@ class EnhancedConnectivityAnalyzer:
         try:
             relative = file_path.relative_to(self.repo_root)
             parts = list(relative.parts[:-1]) + [relative.stem]
-            return '.'.join(parts)
+            return ".".join(parts)
         except ValueError:
             return str(file_path.stem)
 
@@ -201,7 +212,7 @@ class EnhancedConnectivityAnalyzer:
     def _collect_file_imports(self, file_path: Path):
         """Collect imports from a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 source = f.read()
 
             tree = ast.parse(source, filename=str(file_path))
@@ -212,7 +223,7 @@ class EnhancedConnectivityAnalyzer:
                     module = self._resolve_import(node, current_module)
                     if module:
                         for alias in node.names:
-                            if alias.name != '*':
+                            if alias.name != "*":
                                 key = (module, alias.name)
                                 self.all_imports.setdefault(key, set()).add(
                                     str(file_path.relative_to(self.repo_root))
@@ -228,26 +239,31 @@ class EnhancedConnectivityAnalyzer:
         except Exception as e:
             logger.error(f"Error collecting imports from {file_path}: {e}")
 
-    def _resolve_import(self, node: ast.ImportFrom, current_module: str) -> Optional[str]:
+    def _resolve_import(
+        self, node: ast.ImportFrom, current_module: str
+    ) -> Optional[str]:
         """Resolve relative imports to absolute module names"""
         if node.level == 0:
             return node.module
 
         # Handle relative imports
-        parts = current_module.split('.')
+        parts = current_module.split(".")
         if node.level <= len(parts):
-            base = parts[:-node.level]
+            base = parts[: -node.level]
             if node.module:
-                return '.'.join(base + [node.module])
+                return ".".join(base + [node.module])
             else:
-                return '.'.join(base)
+                return ".".join(base)
 
         return None
 
     def _analyze_dependencies(self):
         """Analyze which symbols are actually used"""
         for (module, symbol), used_by in self.all_imports.items():
-            if module in self.all_definitions and symbol in self.all_definitions[module]:
+            if (
+                module in self.all_definitions
+                and symbol in self.all_definitions[module]
+            ):
                 self.all_definitions[module][symbol].used = True
                 self.all_definitions[module][symbol].used_by = used_by
 
@@ -256,15 +272,21 @@ class EnhancedConnectivityAnalyzer:
 
         # 1. Detect unused exports
         for module, definitions in self.all_definitions.items():
-            unused = [d for d in definitions.values() if not d.used and not d.name.startswith('_')]
+            unused = [
+                d
+                for d in definitions.values()
+                if not d.used and not d.name.startswith("_")
+            ]
             if len(unused) > 5:  # Threshold for concern
-                self.missed_opportunities.append(MissedOpportunity(
-                    type="unused_exports",
-                    description=f"Module {module} has {len(unused)} unused public symbols",
-                    affected_files=[module],
-                    severity="medium" if len(unused) < 10 else "high",
-                    suggestion=f"Consider making these symbols private or removing them: {', '.join(s.name for s in unused[:5])}..."
-                ))
+                self.missed_opportunities.append(
+                    MissedOpportunity(
+                        type="unused_exports",
+                        description=f"Module {module} has {len(unused)} unused public symbols",
+                        affected_files=[module],
+                        severity="medium" if len(unused) < 10 else "high",
+                        suggestion=f"Consider making these symbols private or removing them: {', '.join(s.name for s in unused[:5])}...",
+                    )
+                )
 
         # 2. Detect circular dependencies
         visited = set()
@@ -272,38 +294,51 @@ class EnhancedConnectivityAnalyzer:
             if module not in visited:
                 cycle = self._find_cycle(module, [module], visited)
                 if cycle:
-                    self.missed_opportunities.append(MissedOpportunity(
-                        type="circular_dependency",
-                        description=f"Circular dependency detected: {' -> '.join(cycle)}",
-                        affected_files=cycle,
-                        severity="high",
-                        suggestion="Refactor to break the circular dependency, possibly by introducing an abstraction"
-                    ))
+                    self.missed_opportunities.append(
+                        MissedOpportunity(
+                            type="circular_dependency",
+                            description=f"Circular dependency detected: {' -> '.join(cycle)}",
+                            affected_files=cycle,
+                            severity="high",
+                            suggestion="Refactor to break the circular dependency, possibly by introducing an abstraction",
+                        )
+                    )
 
         # 3. Detect god modules (too many dependencies)
         for module, deps in self.module_dependencies.items():
             if len(deps) > 20:  # Threshold
-                self.missed_opportunities.append(MissedOpportunity(
-                    type="god_module",
-                    description=f"Module {module} has too many dependencies ({len(deps)})",
-                    affected_files=[module],
-                    severity="high",
-                    suggestion="Consider breaking this module into smaller, more focused modules"
-                ))
+                self.missed_opportunities.append(
+                    MissedOpportunity(
+                        type="god_module",
+                        description=f"Module {module} has too many dependencies ({len(deps)})",
+                        affected_files=[module],
+                        severity="high",
+                        suggestion="Consider breaking this module into smaller, more focused modules",
+                    )
+                )
 
         # 4. Detect isolated modules (no imports or exports)
         for module in self.all_definitions:
-            if (module not in self.module_dependencies or not self.module_dependencies[module]) and \
-               (module not in self.reverse_dependencies or not self.reverse_dependencies[module]):
-                self.missed_opportunities.append(MissedOpportunity(
-                    type="isolated_module",
-                    description=f"Module {module} is isolated (no imports or exports)",
-                    affected_files=[module],
-                    severity="low",
-                    suggestion="Consider if this module should be integrated with others or removed"
-                ))
+            if (
+                module not in self.module_dependencies
+                or not self.module_dependencies[module]
+            ) and (
+                module not in self.reverse_dependencies
+                or not self.reverse_dependencies[module]
+            ):
+                self.missed_opportunities.append(
+                    MissedOpportunity(
+                        type="isolated_module",
+                        description=f"Module {module} is isolated (no imports or exports)",
+                        affected_files=[module],
+                        severity="low",
+                        suggestion="Consider if this module should be integrated with others or removed",
+                    )
+                )
 
-    def _find_cycle(self, start: str, path: List[str], visited: Set[str]) -> Optional[List[str]]:
+    def _find_cycle(
+        self, start: str, path: List[str], visited: Set[str]
+    ) -> Optional[List[str]]:
         """Find circular dependencies using DFS"""
         if start in visited:
             return None
@@ -341,8 +376,11 @@ class EnhancedConnectivityAnalyzer:
         # Cohesion score: how well the module's symbols work together
         # (simplified: based on internal vs external usage)
         if metrics.total_symbols > 0:
-            internal_refs = sum(1 for d in definitions.values()
-                              if any(module in str(u) for u in d.used_by))
+            internal_refs = sum(
+                1
+                for d in definitions.values()
+                if any(module in str(u) for u in d.used_by)
+            )
             metrics.cohesion_score = internal_refs / metrics.total_symbols
 
         # Coupling score: dependency ratio
@@ -360,8 +398,10 @@ class EnhancedConnectivityAnalyzer:
             "summary": {
                 "total_modules": len(self.all_definitions),
                 "total_symbols": sum(len(d) for d in self.all_definitions.values()),
-                "total_dependencies": sum(len(d) for d in self.module_dependencies.values()),
-                "missed_opportunities": len(self.missed_opportunities)
+                "total_dependencies": sum(
+                    len(d) for d in self.module_dependencies.values()
+                ),
+                "missed_opportunities": len(self.missed_opportunities),
             },
             "modules": {},
             "missed_opportunities": [asdict(mo) for mo in self.missed_opportunities],
@@ -371,17 +411,14 @@ class EnhancedConnectivityAnalyzer:
                     {"from": src, "to": dst}
                     for src, dsts in self.module_dependencies.items()
                     for dst in dsts
-                ]
-            }
+                ],
+            },
         }
 
         # Add detailed module information
         for module in self.all_definitions:
             metrics = self._calculate_metrics(module)
-            module_info = {
-                "metrics": asdict(metrics),
-                "symbols": []
-            }
+            module_info = {"metrics": asdict(metrics), "symbols": []}
 
             for symbol in self.all_definitions[module].values():
                 symbol_dict = {
@@ -390,8 +427,10 @@ class EnhancedConnectivityAnalyzer:
                     "line": symbol.line_number,
                     "used": symbol.used,
                     "used_by": sorted(symbol.used_by),
-                    "complexity": symbol.complexity if symbol.kind == 'function' else None,
-                    "has_docstring": bool(symbol.docstring)
+                    "complexity": (
+                        symbol.complexity if symbol.kind == "function" else None
+                    ),
+                    "has_docstring": bool(symbol.docstring),
                 }
                 module_info["symbols"].append(symbol_dict)
 
@@ -399,34 +438,37 @@ class EnhancedConnectivityAnalyzer:
 
         return report
 
+
 def write_enhanced_reports(report: Dict[str, Any], output_dir: str):
     """Write enhanced connectivity reports"""
     output_path = Path(output_dir)
 
     # Write JSON report
-    json_path = output_path / 'CONNECTIVITY_INDEX.json'
-    with open(json_path, 'w', encoding='utf-8') as f:
+    json_path = output_path / "CONNECTIVITY_INDEX.json"
+    with open(json_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2)
 
     # Write detailed Markdown report
-    md_path = output_path / 'CONNECTIVITY_INDEX.md'
-    with open(md_path, 'w', encoding='utf-8') as f:
+    md_path = output_path / "CONNECTIVITY_INDEX.md"
+    with open(md_path, "w", encoding="utf-8") as f:
         f.write(f"# Connectivity Index for {report['directory']}\n\n")
         f.write(f"Generated: {report['timestamp']}\n\n")
 
         # Summary section
         f.write("## Summary\n\n")
-        summary = report['summary']
+        summary = report["summary"]
         f.write(f"- **Total Modules:** {summary['total_modules']}\n")
         f.write(f"- **Total Symbols:** {summary['total_symbols']}\n")
         f.write(f"- **Total Dependencies:** {summary['total_dependencies']}\n")
         f.write(f"- **Missed Opportunities:** {summary['missed_opportunities']}\n\n")
 
         # Missed opportunities section
-        if report['missed_opportunities']:
+        if report["missed_opportunities"]:
             f.write("## 🔍 Missed Opportunities\n\n")
-            for mo in report['missed_opportunities']:
-                emoji = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(mo['severity'], "⚪")
+            for mo in report["missed_opportunities"]:
+                emoji = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(
+                    mo["severity"], "⚪"
+                )
                 f.write(f"### {emoji} {mo['type'].replace('_', ' ').title()}\n")
                 f.write(f"**Description:** {mo['description']}\n")
                 f.write(f"**Affected Files:** {', '.join(mo['affected_files'])}\n")
@@ -434,30 +476,35 @@ def write_enhanced_reports(report: Dict[str, Any], output_dir: str):
 
         # Module details
         f.write("## Module Details\n\n")
-        for module, info in report['modules'].items():
-            metrics = info['metrics']
+        for module, info in report["modules"].items():
+            metrics = info["metrics"]
             f.write(f"### {module}\n\n")
-            f.write(f"**Metrics:**\n")
+            f.write("**Metrics:**\n")
             f.write(f"- Connectivity Score: {metrics['connectivity_score']:.2%}\n")
             f.write(f"- Cohesion Score: {metrics['cohesion_score']:.2%}\n")
             f.write(f"- Coupling Score: {metrics['coupling_score']:.2%}\n")
-            f.write(f"- Used/Total Symbols: {metrics['used_symbols']}/{metrics['total_symbols']}\n\n")
+            f.write(
+                f"- Used/Total Symbols: {metrics['used_symbols']}/{metrics['total_symbols']}\n\n"
+            )
 
-            if info['symbols']:
+            if info["symbols"]:
                 f.write("**Symbols:**\n\n")
                 f.write("| Name | Kind | Used | Complexity | Documented |\n")
                 f.write("| --- | --- | --- | --- | --- |\n")
-                for sym in info['symbols']:
-                    complexity = sym['complexity'] if sym['complexity'] else 'N/A'
-                    documented = '✅' if sym['has_docstring'] else '❌'
-                    f.write(f"| {sym['name']} | {sym['kind']} | {sym['used']} | {complexity} | {documented} |\n")
+                for sym in info["symbols"]:
+                    complexity = sym["complexity"] if sym["complexity"] else "N/A"
+                    documented = "✅" if sym["has_docstring"] else "❌"
+                    f.write(
+                        f"| {sym['name']} | {sym['kind']} | {sym['used']} | {complexity} | {documented} |\n"
+                    )
                 f.write("\n")
 
     # Write visualization HTML (optional)
-    html_path = output_path / 'CONNECTIVITY_VISUALIZATION.html'
+    html_path = output_path / "CONNECTIVITY_VISUALIZATION.html"
     write_visualization(report, html_path)
 
     logger.info(f"Reports generated at {output_path}")
+
 
 def write_visualization(report: Dict[str, Any], html_path: Path):
     """Generate an interactive visualization of the connectivity graph"""
@@ -486,21 +533,26 @@ def write_visualization(report: Dict[str, Any], html_path: Path):
 </body>
 </html>
 """
-    with open(html_path, 'w') as f:
+    with open(html_path, "w") as f:
         f.write(html_content)
+
 
 def main():
     import argparse
+
     parser = argparse.ArgumentParser(
-        description='Enhanced Connectivity Index Generator - Analyze code dependencies and architecture'
+        description="Enhanced Connectivity Index Generator - Analyze code dependencies and architecture"
     )
-    parser.add_argument('target', help='Target directory to analyze')
-    parser.add_argument('--repo-root', default=os.getcwd(),
-                       help='Repository root (default: current directory)')
-    parser.add_argument('--parallel', action='store_true',
-                       help='Enable parallel processing')
-    parser.add_argument('--verbose', action='store_true',
-                       help='Enable verbose logging')
+    parser.add_argument("target", help="Target directory to analyze")
+    parser.add_argument(
+        "--repo-root",
+        default=os.getcwd(),
+        help="Repository root (default: current directory)",
+    )
+    parser.add_argument(
+        "--parallel", action="store_true", help="Enable parallel processing"
+    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
 
@@ -515,10 +567,15 @@ def main():
     write_enhanced_reports(report, args.target)
 
     # Print summary
-    print(f"\n✨ Connectivity Analysis Complete!")
-    print(f"📊 Analyzed: {report['summary']['total_modules']} modules, {report['summary']['total_symbols']} symbols")
-    print(f"🔍 Found: {report['summary']['missed_opportunities']} improvement opportunities")
+    print("\n✨ Connectivity Analysis Complete!")
+    print(
+        f"📊 Analyzed: {report['summary']['total_modules']} modules, {report['summary']['total_symbols']} symbols"
+    )
+    print(
+        f"🔍 Found: {report['summary']['missed_opportunities']} improvement opportunities"
+    )
     print(f"📁 Reports saved to: {args.target}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

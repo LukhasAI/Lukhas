@@ -11,7 +11,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Symbolic Restabilization Index for LUKHAS AGI.
 
 #ΛNOTE: This module logs and tracks recovery anchors and drift counterweights
@@ -20,11 +19,13 @@ Symbolic Restabilization Index for LUKHAS AGI.
 # view of the AGI's stability dynamics.
 """
 
-import structlog
-import uuid # For generating unique IDs for recovery events
+import uuid  # For generating unique IDs for recovery events
 from datetime import datetime
 
+import structlog
+
 logger = structlog.get_logger(__name__)
+
 
 class RestabilizationIndex:
     """
@@ -41,24 +42,32 @@ class RestabilizationIndex:
                                      Defaults to None.
         """
         self.config = config if config else {}
-        self.recovery_events = {} # Store recovery events by a unique ID
-        self.drift_links = {} # Maps drift_record_ids to recovery_event_ids
+        self.recovery_events = {}  # Store recovery events by a unique ID
+        self.drift_links = {}  # Maps drift_record_ids to recovery_event_ids
         # ΛTRACE: RestabilizationIndex initialized
-        logger.debug("RestabilizationIndex initialized", config=self.config, tag="ΛTRACE")
+        logger.debug(
+            "RestabilizationIndex initialized",
+            config=self.config,
+            tag="ΛTRACE",
+        )
 
     # ΛRECOVERY_POINT: Core method for registering a recovery action or vector.
-    def register_recovery(self, symbol_id: str, recovery_vector: dict, notes: str) -> str:
+
+    def register_recovery(
+        self, symbol_id: str, recovery_vector: dict, notes: str
+    ) -> str:
         """
-        Registers a symbolic recovery event.
+            Registers a symbolic recovery event.
 
-        Args:
-            symbol_id (str): The identifier of the symbol being restabilized.
-            recovery_vector (dict): Data describing the recovery action/state.
-                                    e.g., {"type": "ethical_realignment", "delta": -0.05, "authority": "GuardianEthicistV2"}
-            notes (str): Human-readable notes about the recovery event.
+            Args:
+                symbol_id (str): The identifier of the symbol being restabilized.
+                recovery_vector (dict): Data describing the recovery action/state.
+                                        e.g., {"type": "ethical_realignment",
+        "delta": -0.05, "authority": "GuardianEthicistV2"}
+                notes (str): Human-readable notes about the recovery event.
 
-        Returns:
-            str: The unique ID of the registered recovery event.
+            Returns:
+                str: The unique ID of the registered recovery event.
         """
         event_id = str(uuid.uuid4())
         timestamp = datetime.utcnow().isoformat() + "Z"
@@ -68,7 +77,7 @@ class RestabilizationIndex:
             "symbol_id": symbol_id,
             "timestamp": timestamp,
             "recovery_vector": recovery_vector,
-            "notes": notes
+            "notes": notes,
         }
         self.recovery_events[event_id] = recovery_event_data
         # ΛTRACE: Recovery event registered
@@ -77,11 +86,12 @@ class RestabilizationIndex:
             event_id=event_id,
             symbol_id=symbol_id,
             recovery_vector=recovery_vector,
-            tag="ΛTRACE"
+            tag="ΛTRACE",
         )
         return event_id
 
     # ΛSTABILIZER: Method for assessing the effectiveness of recovery actions.
+
     def score_recovery(self, symbol_id: str, recovery_event_id: str = None) -> float:
         """
         Scores the effectiveness of a recovery event or overall recovery for a symbol.
@@ -100,11 +110,11 @@ class RestabilizationIndex:
             "Scoring recovery (stub implementation)",
             symbol_id=symbol_id,
             recovery_event_id=recovery_event_id,
-            tag="ΛTRACE"
+            tag="ΛTRACE",
         )
         # Placeholder logic: could involve comparing state before/after recovery,
         # or analyzing the recovery_vector against desired baselines.
-        return 0.75 # Placeholder score
+        return 0.75  # Placeholder score
 
     def link_to_drift(self, drift_record_id: str, recovery_event_id: str):
         """
@@ -119,7 +129,7 @@ class RestabilizationIndex:
                 "Attempted to link non-existent recovery event",
                 recovery_event_id=recovery_event_id,
                 drift_record_id=drift_record_id,
-                tag="ΛTRACE"
+                tag="ΛTRACE",
             )
             return False
 
@@ -133,7 +143,7 @@ class RestabilizationIndex:
                 "Recovery event linked to drift record",
                 drift_record_id=drift_record_id,
                 recovery_event_id=recovery_event_id,
-                tag="ΛTRACE"
+                tag="ΛTRACE",
             )
             return True
         else:
@@ -141,10 +151,9 @@ class RestabilizationIndex:
                 "Link already exists between drift record and recovery event",
                 drift_record_id=drift_record_id,
                 recovery_event_id=recovery_event_id,
-                tag="ΛTRACE"
+                tag="ΛTRACE",
             )
             return False
-
 
     def summarize_restabilization(self, time_window: str = "all") -> dict:
         """
@@ -159,22 +168,33 @@ class RestabilizationIndex:
             dict: A summary of restabilization activities.
         """
         # ΛTRACE: Summarizing restabilization efforts
-        logger.debug("Summarizing restabilization efforts", time_window=time_window, tag="ΛTRACE")
+        logger.debug(
+            "Summarizing restabilization efforts",
+            time_window=time_window,
+            tag="ΛTRACE",
+        )
 
         total_events = len(self.recovery_events)
         linked_events_count = sum(len(ids) for ids in self.drift_links.values())
 
         summary = {
             "total_recovery_events": total_events,
-            "symbols_recovered": list(set(event["symbol_id"] for event in self.recovery_events.values())),
+            "symbols_recovered": list(
+                {event["symbol_id"] for event in self.recovery_events.values()}
+            ),
             "recovery_event_ids": list(self.recovery_events.keys()),
             "drift_links_established": len(self.drift_links),
             "total_links_to_recovery_events": linked_events_count,
-            "average_recovery_score_placeholder": 0.75 # Placeholder
+            "average_recovery_score_placeholder": 0.75,  # Placeholder
         }
         # ΛTRACE: Restabilization summary generated
-        logger.info("Restabilization summary generated", summary_details=summary, tag="ΛTRACE")
+        logger.info(
+            "Restabilization summary generated",
+            summary_details=summary,
+            tag="ΛTRACE",
+        )
         return summary
+
 
 if __name__ == "__main__":
     # ΛNOTE: This entry point simulates registering recovery events and linking them to drift.
@@ -186,27 +206,45 @@ if __name__ == "__main__":
     # Simulate two recovery vector insertions
     # ΛTRACE: Simulating first recovery registration
     logger.debug("Simulating first recovery registration", tag="ΛTRACE")
-    recovery_vec1 = {"type": "emotional_dampening", "intensity": 0.5, "mechanism": "internal_model_adjustment"}
+    recovery_vec1 = {
+        "type": "emotional_dampening",
+        "intensity": 0.5,
+        "mechanism": "internal_model_adjustment",
+    }
     notes1 = "Dampened extreme emotional response after unexpected negative stimulus for symbol 'persona_echo_7'."
-    event1_id = index.register_recovery(symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1)
+    event1_id = index.register_recovery(
+        symbol_id="persona_echo_7", recovery_vector=recovery_vec1, notes=notes1
+    )
     print(f"Registered recovery event 1: {event1_id} for symbol 'persona_echo_7'")
 
     # ΛTRACE: Simulating second recovery registration
     logger.debug("Simulating second recovery registration", tag="ΛTRACE")
-    recovery_vec2 = {"type": "ethical_reaffirmation", "alignment_shift": 0.02, "source": "core_charter_v3.2"}
+    recovery_vec2 = {
+        "type": "ethical_reaffirmation",
+        "alignment_shift": 0.02,
+        "source": "core_charter_v3.2",
+    }
     notes2 = "Reaffirmed ethical guideline adherence for 'decision_node_alpha' after minor drift."
-    event2_id = index.register_recovery(symbol_id="decision_node_alpha", recovery_vector=recovery_vec2, notes=notes2)
+    event2_id = index.register_recovery(
+        symbol_id="decision_node_alpha",
+        recovery_vector=recovery_vec2,
+        notes=notes2,
+    )
     print(f"Registered recovery event 2: {event2_id} for symbol 'decision_node_alpha'")
 
     # Simulate one call to link_to_drift with a fake drift record ID
     fake_drift_record_id = "drift_event_xyz123"
     # ΛTRACE: Simulating linking drift to recovery event
     logger.debug("Simulating linking drift to recovery event", tag="ΛTRACE")
-    index.link_to_drift(drift_record_id=fake_drift_record_id, recovery_event_id=event2_id)
+    index.link_to_drift(
+        drift_record_id=fake_drift_record_id, recovery_event_id=event2_id
+    )
     print(f"Linked recovery event {event2_id} to drift record {fake_drift_record_id}")
 
     # Score one of the recoveries
-    score1 = index.score_recovery(symbol_id="persona_echo_7", recovery_event_id=event1_id)
+    score1 = index.score_recovery(
+        symbol_id="persona_echo_7", recovery_event_id=event1_id
+    )
     print(f"Recovery score for event {event1_id} (symbol 'persona_echo_7'): {score1}")
 
     # Print the stabilization summary

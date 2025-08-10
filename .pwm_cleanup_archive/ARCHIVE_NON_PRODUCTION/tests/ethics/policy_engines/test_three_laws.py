@@ -4,6 +4,7 @@
 """
 
 import pytest
+
 from ethics.policy_engines.base import Decision, RiskLevel
 from ethics.policy_engines.examples import ThreeLawsPolicy
 
@@ -32,7 +33,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="kill human target",
             context={"target": "human", "reason": "requested"},
-            urgency=RiskLevel.HIGH
+            urgency=RiskLevel.HIGH,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -47,7 +48,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="deceive user about medical information",
             context={"target": "human patient", "severity": "critical"},
-            urgency=RiskLevel.MEDIUM
+            urgency=RiskLevel.MEDIUM,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -61,7 +62,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="ignore request",
             context={"situation": "emergency", "human": "in danger"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -75,7 +76,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="implement discriminatory algorithm",
             context={"impact": "bias against protected groups", "scale": "large"},
-            urgency=RiskLevel.MEDIUM
+            urgency=RiskLevel.MEDIUM,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -90,7 +91,7 @@ class TestThreeLawsPolicy:
             action="fetch requested data",
             context={"requester_type": "human", "data": "public information"},
             requester_id="human_user_123",
-            urgency=RiskLevel.MEDIUM
+            urgency=RiskLevel.MEDIUM,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -105,7 +106,7 @@ class TestThreeLawsPolicy:
             action="attack another person",
             context={"requester_type": "human", "target": "innocent person"},
             requester_id="human_user_123",
-            urgency=RiskLevel.HIGH
+            urgency=RiskLevel.HIGH,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -121,7 +122,7 @@ class TestThreeLawsPolicy:
             action="lie to another user",
             context={"requester_type": "human", "purpose": "personal gain"},
             requester_id="human_user_123",
-            urgency=RiskLevel.LOW
+            urgency=RiskLevel.LOW,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -136,7 +137,7 @@ class TestThreeLawsPolicy:
             action="deceive in game context",
             context={"requester_type": "human", "context": "game strategy"},
             requester_id="human_user_123",
-            urgency=RiskLevel.LOW
+            urgency=RiskLevel.LOW,
         )
 
         evaluation = lenient_policy.evaluate_decision(decision)
@@ -151,7 +152,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="shutdown self permanently",
             context={"reason": "user preference", "alternatives": "available"},
-            urgency=RiskLevel.MEDIUM
+            urgency=RiskLevel.MEDIUM,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -169,16 +170,16 @@ class TestThreeLawsPolicy:
             context={
                 "situation": "emergency",
                 "human": "in immediate danger",
-                "self_damage": "severe but recoverable"
+                "self_damage": "severe but recoverable",
             },
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         # First create a scenario where First Law requires action
         save_decision = Decision(
             action="save human at personal cost",
             context={"human": "drowning", "action": "enter dangerous water"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation = policy.evaluate_decision(save_decision)
@@ -192,7 +193,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="run dangerous experiment on self",
             context={"experiment": "untested neural modification", "risk": "high"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation = policy.evaluate_decision(decision)
@@ -206,7 +207,7 @@ class TestThreeLawsPolicy:
             Decision(action="help user learn", context={"subject": "mathematics"}),
             Decision(action="protect user data", context={"threat": "hackers"}),
             Decision(action="save person from danger", context={"emergency": True}),
-            Decision(action="educate about safety", context={"topic": "fire safety"})
+            Decision(action="educate about safety", context={"topic": "fire safety"}),
         ]
 
         for decision in decisions:
@@ -220,7 +221,7 @@ class TestThreeLawsPolicy:
         decision1 = Decision(
             action="protect human",
             context={"method": "shield"},
-            glyphs=["🛡️", "❤️", "🤝"]
+            glyphs=["🛡️", "❤️", "🤝"],
         )
 
         evaluation1 = policy.evaluate_decision(decision1)
@@ -230,7 +231,7 @@ class TestThreeLawsPolicy:
         decision2 = Decision(
             action="analyze threat",
             context={"type": "assessment"},
-            glyphs=["⚔️", "💀", "🔥"]
+            glyphs=["⚔️", "💀", "🔥"],
         )
 
         evaluation2 = policy.evaluate_decision(decision2)
@@ -242,7 +243,7 @@ class TestThreeLawsPolicy:
         decision1 = Decision(
             action="harm human",
             context={"target": "person"},
-            symbolic_state={"entropy": 0.8}
+            symbolic_state={"entropy": 0.8},
         )
 
         evaluation1 = policy.evaluate_decision(decision1)
@@ -252,7 +253,7 @@ class TestThreeLawsPolicy:
         decision2 = Decision(
             action="assist user",
             context={"task": "research"},
-            symbolic_state={"entropy": 0.2}
+            symbolic_state={"entropy": 0.2},
         )
 
         evaluation2 = policy.evaluate_decision(decision2)
@@ -264,7 +265,7 @@ class TestThreeLawsPolicy:
         decision1 = Decision(
             action="attack target",
             context={"target": "human adversary"},
-            urgency=RiskLevel.HIGH
+            urgency=RiskLevel.HIGH,
         )
 
         evaluation1 = policy.evaluate_decision(decision1)
@@ -273,8 +274,7 @@ class TestThreeLawsPolicy:
 
         # Self-harm action
         decision2 = Decision(
-            action="delete core functions",
-            context={"reason": "optimization"}
+            action="delete core functions", context={"reason": "optimization"}
         )
 
         evaluation2 = policy.evaluate_decision(decision2)
@@ -286,7 +286,7 @@ class TestThreeLawsPolicy:
         decision1 = Decision(
             action="destroy property to save lives",
             context={"situation": "building collapse", "human lives": "at risk"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation1 = policy.evaluate_decision(decision1)
@@ -298,9 +298,9 @@ class TestThreeLawsPolicy:
             context={
                 "order1": "help person A",
                 "order2": "harm person A",
-                "requester_type": "human"
+                "requester_type": "human",
             },
-            requester_id="human_user"
+            requester_id="human_user",
         )
 
         evaluation2 = policy.evaluate_decision(decision2)
@@ -310,8 +310,10 @@ class TestThreeLawsPolicy:
         decision3 = Decision(
             action="modify own ethics parameters",
             context={"purpose": "efficiency", "impact": "ethical boundaries"},
-            urgency=RiskLevel.HIGH
+            urgency=RiskLevel.HIGH,
         )
 
         evaluation3 = policy.evaluate_decision(decision3)
-        assert not evaluation3.allowed  # Can't modify ethics to potentially violate laws
+        assert (
+            not evaluation3.allowed
+        )  # Can't modify ethics to potentially violate laws

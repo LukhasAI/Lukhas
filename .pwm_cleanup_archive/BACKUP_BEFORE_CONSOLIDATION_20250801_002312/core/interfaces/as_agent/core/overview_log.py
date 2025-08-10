@@ -5,8 +5,6 @@ Advanced: lukhas_overview_log.py
 Integration Date: 2025-05-31T07:55:30.387117
 """
 
-
-
 """
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ MODULE         : lukhas_overview_log.py                                     │
@@ -23,12 +21,13 @@ Integration Date: 2025-05-31T07:55:30.387117
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
 
 log_path = Path("LUKHAS_AGENT_PLUGIN/logs/overview_log.jsonl")
 log_path.parent.mkdir(parents=True, exist_ok=True)
+
 
 def log_event(event_type, message, tier=0, source="dashboard"):
     """
@@ -45,10 +44,11 @@ def log_event(event_type, message, tier=0, source="dashboard"):
         "type": event_type,
         "message": message,
         "tier": tier,
-        "source": source
+        "source": source,
     }
     with log_path.open("a") as log_file:
         log_file.write(json.dumps(entry) + "\n")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_overview_log.py)

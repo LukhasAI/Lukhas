@@ -5,12 +5,12 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Symbolic Feedback Loop System
 ============================
 
 Priority #3: Feedback Loops for Optimization using symbolic recall and dream replays
-Constructs symbolic feedback using intent_node history, memoria snapshots, and dream replays
+Constructs symbolic feedback using intent_node history, memoria snapshots,
+    and dream replays
 tagged with success/failure for symbolic meta-learning rehearsal.
 
 🔗 Integration Points:
@@ -22,42 +22,54 @@ tagged with success/failure for symbolic meta-learning rehearsal.
 
 __meta__ = {
     "signature": "QNTM-ETH-FED-v1",
-    "linked_to": ["intent_node", "memoria", "dream_engine", "monitor_dashboard", "rate_modulator"],
+    "linked_to": ["intent_node", "memoria", "dream_engine", "monitor_dashboard",
+    "rate_modulator"],
     "version": "0.1.0"
 }
 """
 
-import logging
-import json
 import hashlib
-import numpy as np
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass, asdict
-from collections import deque, defaultdict
+import json
+import logging
+from collections import defaultdict, deque
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum
+from typing import Any, Optional
 
-from .monitor_dashboard import MetaLearningMonitorDashboard, SymbolicFeedback
-from .rate_modulator import DynamicLearningRateModulator, AdaptationStrategy
+import numpy as np
+
+from .monitor_dashboard import MetaLearningMonitorDashboard
+from .rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
 
 logger = logging.getLogger("LUKHAS.MetaLearning.SymbolicFeedback")
 
 __meta__ = {
     "signature": "QNTM-ETH-FED-v1",
-    "linked_to": ["intent_node", "memoria", "dream_engine", "monitor_dashboard", "rate_modulator"],
-    "version": "0.1.0"
+    "linked_to": [
+        "intent_node",
+        "memoria",
+        "dream_engine",
+        "monitor_dashboard",
+        "rate_modulator",
+    ],
+    "version": "0.1.0",
 }
+
 
 class Feedbacktype(Enum):
     """Types of symbolic feedback"""
+
     SUCCESS = "success"
     FAILURE = "failure"
     PARTIAL = "partial"
     UNKNOWN = "unknown"
     REHEARSAL = "rehearsal"
 
+
 class Symboliccontext(Enum):
     """Context types for symbolic operations"""
+
     INTENT_RESOLUTION = "intent_resolution"
     MEMORIA_RETRIEVAL = "memoria_retrieval"
     DREAM_REPLAY = "dream_replay"
@@ -65,57 +77,66 @@ class Symboliccontext(Enum):
     ETHICAL_DECISION = "ethical_decision"
     SYMBOLIC_REASONING = "symbolic_reasoning"
 
+
 @dataclass
 class Intentnodehistory:
     """Historical record from intent_node operations"""
+
     timestamp: str
     intent_id: str
     intent_type: str
     resolution_success: bool
     confidence_score: float
-    reasoning_steps: List[str]
-    memory_references: List[str]
-    emotional_context: List[float]
+    reasoning_steps: list[str]
+    memory_references: list[str]
+    emotional_context: list[float]
     quantum_signature: str
+
 
 @dataclass
 class Memoriasnapshot:
     """Snapshot from memoria system"""
+
     timestamp: str
     snapshot_id: str
     coherence_score: float
-    memory_fragments: List[Dict[str, Any]]
+    memory_fragments: list[dict[str, Any]]
     retrieval_success_rate: float
     consolidation_quality: float
-    symbolic_links: List[str]
+    symbolic_links: list[str]
     quantum_signature: str
+
 
 @dataclass
 class Dreamreplayrecord:
     """Record from dream replay system"""
+
     timestamp: str
     replay_id: str
     scenario_type: str
     replay_success: bool
     learning_outcome: FeedbackType
     performance_delta: float
-    symbolic_insights: List[str]
+    symbolic_insights: list[str]
     emotional_resonance: float
     quantum_signature: str
+
 
 @dataclass
 class Symbolicfeedbackloop:
     """Complete symbolic feedback loop record"""
+
     timestamp: str
     loop_id: str
     context: SymbolicContext
     feedback_type: FeedbackType
-    success_metrics: Dict[str, float]
-    failure_patterns: List[str]
-    optimization_suggestions: List[str]
-    rehearsal_opportunities: List[str]
+    success_metrics: dict[str, float]
+    failure_patterns: list[str]
+    optimization_suggestions: list[str]
+    rehearsal_opportunities: list[str]
     confidence_adjustment: float
     quantum_signature: str
+
 
 class Symbolicfeedbacksystem:
     """
@@ -125,15 +146,19 @@ class Symbolicfeedbacksystem:
     and feedback-driven optimization based on intent success patterns and
     memoria coherence tracking.
     """
-    #ΛREASONING_LOOP: This entire class is a reasoning loop that processes feedback and generates optimizations.
 
-    def __init__(self,
-                 dashboard: MetaLearningMonitorDashboard,
-                 rate_modulator: Optional[DynamicLearningRateModulator] = None,
-                 max_history_size: int = 5000,
-                 feedback_threshold: float = 0.7,
-                 rehearsal_frequency: int = 10):
-        #ΛTRACE_NODE: Initialization of the symbolic feedback system.
+    # ΛREASONING_LOOP: This entire class is a reasoning loop that processes
+    # feedback and generates optimizations.
+
+    def __init__(
+        self,
+        dashboard: MetaLearningMonitorDashboard,
+        rate_modulator: Optional[DynamicLearningRateModulator] = None,
+        max_history_size: int = 5000,
+        feedback_threshold: float = 0.7,
+        rehearsal_frequency: int = 10,
+    ):
+        # ΛTRACE_NODE: Initialization of the symbolic feedback system.
         self.dashboard = dashboard
         self.rate_modulator = rate_modulator
         self.max_history_size = max_history_size
@@ -158,21 +183,26 @@ class Symbolicfeedbacksystem:
         # Rehearsal effectiveness
         self.rehearsal_outcomes = defaultdict(list)
 
-        logger.info("Symbolic Feedback System initialized for meta-learning enhancement")
+        logger.info(
+            "Symbolic Feedback System initialized for meta-learning enhancement"
+        )
 
-    def log_intent_node_interaction(self,
-                                  intent_id: str,
-                                  intent_type: str,
-                                  resolution_success: bool,
-                                  confidence_score: float,
-                                  reasoning_steps: List[str],
-                                  memory_references: List[str] = None,
-                                  emotional_context: List[float] = None) -> str:
+    def log_intent_node_interaction(
+        self,
+        intent_id: str,
+        intent_type: str,
+        resolution_success: bool,
+        confidence_score: float,
+        reasoning_steps: list[str],
+        memory_references: list[str] = None,
+        emotional_context: list[float] = None,
+    ) -> str:
         """
         Log interaction with intent_node system
         """
-        #ΛSYMBOLIC_FEEDBACK: This function is a primary entry point for symbolic feedback from the intent system.
-        #ΛEMBODIED_REFLEX: This function acts as a reflex to the actions of the intent_node, logging its performance.
+        # ΛSYMBOLIC_FEEDBACK: This function is a primary entry point for symbolic feedback from the intent system.
+        # ΛEMBODIED_REFLEX: This function acts as a reflex to the actions of the
+        # intent_node, logging its performance.
         try:
             memory_references = memory_references or []
             emotional_context = emotional_context or [0.5, 0.5, 0.5, 0.5]
@@ -182,7 +212,7 @@ class Symbolicfeedbacksystem:
                 "intent_id": intent_id,
                 "intent_type": intent_type,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "success": resolution_success
+                "success": resolution_success,
             }
             quantum_signature = self._generate_quantum_signature(intent_data)
 
@@ -196,7 +226,7 @@ class Symbolicfeedbacksystem:
                 reasoning_steps=reasoning_steps,
                 memory_references=memory_references,
                 emotional_context=emotional_context,
-                quantum_signature=quantum_signature
+                quantum_signature=quantum_signature,
             )
 
             self.intent_history.append(history_record)
@@ -207,20 +237,24 @@ class Symbolicfeedbacksystem:
             # Update dashboard with symbolic feedback
             self._update_dashboard_symbolic_feedback()
 
-            logger.debug(f"Intent node interaction logged: {intent_id} - Success: {resolution_success}")
+            logger.debug(
+                f"Intent node interaction logged: {intent_id} - Success: {resolution_success}"
+            )
             return quantum_signature
 
         except Exception as e:
             logger.error(f"Error logging intent node interaction: {e}")
             return ""
 
-    def log_memoria_snapshot(self,
-                           snapshot_id: str,
-                           coherence_score: float,
-                           memory_fragments: List[Dict[str, Any]],
-                           retrieval_success_rate: float,
-                           consolidation_quality: float,
-                           symbolic_links: List[str] = None) -> str:
+    def log_memoria_snapshot(
+        self,
+        snapshot_id: str,
+        coherence_score: float,
+        memory_fragments: list[dict[str, Any]],
+        retrieval_success_rate: float,
+        consolidation_quality: float,
+        symbolic_links: list[str] = None,
+    ) -> str:
         """
         Log memoria system snapshot
         """
@@ -232,7 +266,7 @@ class Symbolicfeedbacksystem:
                 "snapshot_id": snapshot_id,
                 "coherence_score": coherence_score,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "fragment_count": len(memory_fragments)
+                "fragment_count": len(memory_fragments),
             }
             quantum_signature = self._generate_quantum_signature(memoria_data)
 
@@ -245,7 +279,7 @@ class Symbolicfeedbacksystem:
                 retrieval_success_rate=retrieval_success_rate,
                 consolidation_quality=consolidation_quality,
                 symbolic_links=symbolic_links,
-                quantum_signature=quantum_signature
+                quantum_signature=quantum_signature,
             )
 
             self.memoria_snapshots.append(snapshot_record)
@@ -256,20 +290,24 @@ class Symbolicfeedbacksystem:
             # Update dashboard
             self._update_dashboard_symbolic_feedback()
 
-            logger.debug(f"Memoria snapshot logged: {snapshot_id} - Coherence: {coherence_score:.3f}")
+            logger.debug(
+                f"Memoria snapshot logged: {snapshot_id} - Coherence: {coherence_score:.3f}"
+            )
             return quantum_signature
 
         except Exception as e:
             logger.error(f"Error logging memoria snapshot: {e}")
             return ""
 
-    def log_dream_replay(self,
-                        replay_id: str,
-                        scenario_type: str,
-                        replay_success: bool,
-                        performance_delta: float,
-                        symbolic_insights: List[str] = None,
-                        emotional_resonance: float = 0.5) -> str:
+    def log_dream_replay(
+        self,
+        replay_id: str,
+        scenario_type: str,
+        replay_success: bool,
+        performance_delta: float,
+        symbolic_insights: list[str] = None,
+        emotional_resonance: float = 0.5,
+    ) -> str:
         """
         Log dream replay session with learning outcomes
         """
@@ -277,14 +315,16 @@ class Symbolicfeedbacksystem:
             symbolic_insights = symbolic_insights or []
 
             # Determine learning outcome
-            learning_outcome = self._determine_learning_outcome(replay_success, performance_delta)
+            learning_outcome = self._determine_learning_outcome(
+                replay_success, performance_delta
+            )
 
             # Generate quantum signature
             dream_data = {
                 "replay_id": replay_id,
                 "scenario_type": scenario_type,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "success": replay_success
+                "success": replay_success,
             }
             quantum_signature = self._generate_quantum_signature(dream_data)
 
@@ -298,7 +338,7 @@ class Symbolicfeedbacksystem:
                 performance_delta=performance_delta,
                 symbolic_insights=symbolic_insights,
                 emotional_resonance=emotional_resonance,
-                quantum_signature=quantum_signature
+                quantum_signature=quantum_signature,
             )
 
             self.dream_replays.append(replay_record)
@@ -312,41 +352,57 @@ class Symbolicfeedbacksystem:
             # Update dashboard
             self._update_dashboard_symbolic_feedback()
 
-            logger.debug(f"Dream replay logged: {replay_id} - Outcome: {learning_outcome.value}")
+            logger.debug(
+                f"Dream replay logged: {replay_id} - Outcome: {learning_outcome.value}"
+            )
             return quantum_signature
 
         except Exception as e:
             logger.error(f"Error logging dream replay: {e}")
             return ""
 
-    def create_symbolic_feedback_loop(self,
-                                    context: SymbolicContext,
-                                    success_metrics: Dict[str, float],
-                                    failure_patterns: List[str] = None,
-                                    optimization_target: str = None) -> str:
+    def create_symbolic_feedback_loop(
+        self,
+        context: SymbolicContext,
+        success_metrics: dict[str, float],
+        failure_patterns: list[str] = None,
+        optimization_target: str = None,
+    ) -> str:
         """
         Create a complete symbolic feedback loop for optimization
         """
-        #ΛREASONING_LOOP: This function creates a high-level reasoning loop based on feedback.
+        # ΛREASONING_LOOP: This function creates a high-level reasoning loop based
+        # on feedback.
         try:
             failure_patterns = failure_patterns or []
 
             # Analyze current performance patterns
-            performance_analysis = self._analyze_performance_patterns(context, success_metrics)
+            performance_analysis = self._analyze_performance_patterns(
+                context, success_metrics
+            )
 
             # Generate optimization suggestions
             optimization_suggestions = self._generate_optimization_suggestions(
-                context, success_metrics, failure_patterns, performance_analysis
+                context,
+                success_metrics,
+                failure_patterns,
+                performance_analysis,
             )
 
             # Identify rehearsal opportunities
-            rehearsal_opportunities = self._identify_rehearsal_opportunities(context, performance_analysis)
+            rehearsal_opportunities = self._identify_rehearsal_opportunities(
+                context, performance_analysis
+            )
 
             # Calculate confidence adjustment
-            confidence_adjustment = self._calculate_confidence_adjustment(success_metrics, performance_analysis)
+            confidence_adjustment = self._calculate_confidence_adjustment(
+                success_metrics, performance_analysis
+            )
 
             # Determine feedback type
-            feedback_type = self._determine_feedback_type(success_metrics, failure_patterns)
+            feedback_type = self._determine_feedback_type(
+                success_metrics, failure_patterns
+            )
 
             # Generate loop ID and quantum signature
             loop_id = self._generate_loop_id(context)
@@ -354,7 +410,7 @@ class Symbolicfeedbacksystem:
                 "loop_id": loop_id,
                 "context": context.value,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "feedback_type": feedback_type.value
+                "feedback_type": feedback_type.value,
             }
             quantum_signature = self._generate_quantum_signature(loop_data)
 
@@ -369,7 +425,7 @@ class Symbolicfeedbacksystem:
                 optimization_suggestions=optimization_suggestions,
                 rehearsal_opportunities=rehearsal_opportunities,
                 confidence_adjustment=confidence_adjustment,
-                quantum_signature=quantum_signature
+                quantum_signature=quantum_signature,
             )
 
             self.feedback_loops.append(feedback_loop)
@@ -381,14 +437,18 @@ class Symbolicfeedbacksystem:
             # Update pattern confidence
             self._update_pattern_confidence(context, feedback_type, success_metrics)
 
-            logger.info(f"Symbolic feedback loop created: {loop_id} - Type: {feedback_type.value}")
+            logger.info(
+                f"Symbolic feedback loop created: {loop_id} - Type: {feedback_type.value}"
+            )
             return loop_id
 
         except Exception as e:
             logger.error(f"Error creating symbolic feedback loop: {e}")
             return ""
 
-    def execute_symbolic_rehearsal(self, scenario_pattern: str, max_iterations: int = 5) -> Dict[str, Any]:
+    def execute_symbolic_rehearsal(
+        self, scenario_pattern: str, max_iterations: int = 5
+    ) -> dict[str, Any]:
         """
         Execute symbolic rehearsal based on successful patterns
         """
@@ -399,14 +459,16 @@ class Symbolicfeedbacksystem:
                 "success_rate": 0.0,
                 "performance_improvements": [],
                 "insights_generated": [],
-                "confidence_gain": 0.0
+                "confidence_gain": 0.0,
             }
 
             # Find relevant successful patterns
             relevant_patterns = self._find_relevant_success_patterns(scenario_pattern)
 
             if not relevant_patterns:
-                logger.warning(f"No relevant patterns found for rehearsal: {scenario_pattern}")
+                logger.warning(
+                    f"No relevant patterns found for rehearsal: {scenario_pattern}"
+                )
                 return rehearsal_results
 
             # Execute rehearsal iterations
@@ -416,8 +478,12 @@ class Symbolicfeedbacksystem:
                 )
 
                 rehearsal_results["iterations"] += 1
-                rehearsal_results["performance_improvements"].append(rehearsal_outcome["performance_delta"])
-                rehearsal_results["insights_generated"].extend(rehearsal_outcome["insights"])
+                rehearsal_results["performance_improvements"].append(
+                    rehearsal_outcome["performance_delta"]
+                )
+                rehearsal_results["insights_generated"].extend(
+                    rehearsal_outcome["insights"]
+                )
 
                 # Stop if performance stops improving
                 if iteration > 0 and rehearsal_outcome["performance_delta"] < 0.01:
@@ -425,20 +491,33 @@ class Symbolicfeedbacksystem:
 
             # Calculate overall results
             if rehearsal_results["iterations"] > 0:
-                rehearsal_results["success_rate"] = len([p for p in rehearsal_results["performance_improvements"] if p > 0]) / rehearsal_results["iterations"]
-                rehearsal_results["confidence_gain"] = np.mean(rehearsal_results["performance_improvements"])
+                rehearsal_results["success_rate"] = (
+                    len(
+                        [
+                            p
+                            for p in rehearsal_results["performance_improvements"]
+                            if p > 0
+                        ]
+                    )
+                    / rehearsal_results["iterations"]
+                )
+                rehearsal_results["confidence_gain"] = np.mean(
+                    rehearsal_results["performance_improvements"]
+                )
 
                 # Log rehearsal outcome
                 self.rehearsal_outcomes[scenario_pattern].append(rehearsal_results)
 
-            logger.info(f"Symbolic rehearsal completed: {scenario_pattern} - Success rate: {rehearsal_results['success_rate']:.3f}")
+            logger.info(
+                f"Symbolic rehearsal completed: {scenario_pattern} - Success rate: {rehearsal_results['success_rate']:.3f}"
+            )
             return rehearsal_results
 
         except Exception as e:
             logger.error(f"Error executing symbolic rehearsal: {e}")
             return {"error": str(e)}
 
-    def get_optimization_insights(self) -> Dict[str, Any]:
+    def get_optimization_insights(self) -> dict[str, Any]:
         """
         Get insights and recommendations for meta-learning optimization
         """
@@ -449,18 +528,31 @@ class Symbolicfeedbacksystem:
                 "pattern_analysis": {},
                 "rehearsal_effectiveness": {},
                 "optimization_recommendations": [],
-                "confidence_trends": {}
+                "confidence_trends": {},
             }
 
             # Analyze patterns by context
             for context in SymbolicContext:
-                context_loops = [loop for loop in self.feedback_loops if loop.context == context]
+                context_loops = [
+                    loop for loop in self.feedback_loops if loop.context == context
+                ]
                 if context_loops:
                     insights["pattern_analysis"][context.value] = {
                         "total_loops": len(context_loops),
-                        "success_rate": len([loop for loop in context_loops if loop.feedback_type == FeedbackType.SUCCESS]) / len(context_loops),
-                        "average_confidence_adjustment": np.mean([loop.confidence_adjustment for loop in context_loops]),
-                        "common_optimization_suggestions": self._extract_common_suggestions(context_loops)
+                        "success_rate": len(
+                            [
+                                loop
+                                for loop in context_loops
+                                if loop.feedback_type == FeedbackType.SUCCESS
+                            ]
+                        )
+                        / len(context_loops),
+                        "average_confidence_adjustment": np.mean(
+                            [loop.confidence_adjustment for loop in context_loops]
+                        ),
+                        "common_optimization_suggestions": self._extract_common_suggestions(
+                            context_loops
+                        ),
                     }
 
             # Analyze rehearsal effectiveness
@@ -468,13 +560,21 @@ class Symbolicfeedbacksystem:
                 if outcomes:
                     insights["rehearsal_effectiveness"][pattern] = {
                         "total_rehearsals": len(outcomes),
-                        "average_success_rate": np.mean([outcome["success_rate"] for outcome in outcomes]),
-                        "average_confidence_gain": np.mean([outcome["confidence_gain"] for outcome in outcomes]),
-                        "total_insights": sum(len(outcome["insights_generated"]) for outcome in outcomes)
+                        "average_success_rate": np.mean(
+                            [outcome["success_rate"] for outcome in outcomes]
+                        ),
+                        "average_confidence_gain": np.mean(
+                            [outcome["confidence_gain"] for outcome in outcomes]
+                        ),
+                        "total_insights": sum(
+                            len(outcome["insights_generated"]) for outcome in outcomes
+                        ),
                     }
 
             # Generate optimization recommendations
-            insights["optimization_recommendations"] = self._generate_system_optimization_recommendations()
+            insights["optimization_recommendations"] = (
+                self._generate_system_optimization_recommendations()
+            )
 
             # Analyze confidence trends
             insights["confidence_trends"] = dict(self.pattern_confidence)
@@ -487,27 +587,37 @@ class Symbolicfeedbacksystem:
 
     def _analyze_intent_patterns(self, history_record: IntentNodeHistory) -> None:
         """Analyze patterns from intent node interactions"""
-        pattern_key = f"{history_record.intent_type}_{history_record.resolution_success}"
+        pattern_key = (
+            f"{history_record.intent_type}_{history_record.resolution_success}"
+        )
 
         if history_record.resolution_success:
-            self.success_patterns[pattern_key].append({
-                "confidence": history_record.confidence_score,
-                "reasoning_steps": len(history_record.reasoning_steps),
-                "memory_references": len(history_record.memory_references),
-                "emotional_context": history_record.emotional_context,
-                "timestamp": history_record.timestamp
-            })
+            self.success_patterns[pattern_key].append(
+                {
+                    "confidence": history_record.confidence_score,
+                    "reasoning_steps": len(history_record.reasoning_steps),
+                    "memory_references": len(history_record.memory_references),
+                    "emotional_context": history_record.emotional_context,
+                    "timestamp": history_record.timestamp,
+                }
+            )
         else:
-            self.failure_patterns[pattern_key].append({
-                "confidence": history_record.confidence_score,
-                "reasoning_steps": history_record.reasoning_steps,
-                "emotional_context": history_record.emotional_context,
-                "timestamp": history_record.timestamp
-            })
+            self.failure_patterns[pattern_key].append(
+                {
+                    "confidence": history_record.confidence_score,
+                    "reasoning_steps": history_record.reasoning_steps,
+                    "emotional_context": history_record.emotional_context,
+                    "timestamp": history_record.timestamp,
+                }
+            )
 
     def _analyze_memoria_patterns(self, snapshot_record: MemoriaSnapshot) -> None:
         """Analyze patterns from memoria snapshots"""
-        coherence_category = "high" if snapshot_record.coherence_score > 0.8 else "medium" if snapshot_record.coherence_score > 0.5 else "low"
+        coherence_category = (
+            "high"
+            if snapshot_record.coherence_score > 0.8
+            else "medium" if snapshot_record.coherence_score > 0.5 else "low"
+        )
         pattern_key = f"memoria_coherence_{coherence_category}"
 
         pattern_data = {
@@ -516,7 +626,7 @@ class Symbolicfeedbacksystem:
             "consolidation_quality": snapshot_record.consolidation_quality,
             "fragment_count": len(snapshot_record.memory_fragments),
             "symbolic_links": len(snapshot_record.symbolic_links),
-            "timestamp": snapshot_record.timestamp
+            "timestamp": snapshot_record.timestamp,
         }
 
         if snapshot_record.coherence_score > self.feedback_threshold:
@@ -526,22 +636,29 @@ class Symbolicfeedbacksystem:
 
     def _analyze_dream_patterns(self, replay_record: DreamReplayRecord) -> None:
         """Analyze patterns from dream replays"""
-        pattern_key = f"{replay_record.scenario_type}_{replay_record.learning_outcome.value}"
+        pattern_key = (
+            f"{replay_record.scenario_type}_{replay_record.learning_outcome.value}"
+        )
 
         pattern_data = {
             "replay_success": replay_record.replay_success,
             "performance_delta": replay_record.performance_delta,
             "insights_count": len(replay_record.symbolic_insights),
             "emotional_resonance": replay_record.emotional_resonance,
-            "timestamp": replay_record.timestamp
+            "timestamp": replay_record.timestamp,
         }
 
-        if replay_record.learning_outcome in [FeedbackType.SUCCESS, FeedbackType.PARTIAL]:
+        if replay_record.learning_outcome in [
+            FeedbackType.SUCCESS,
+            FeedbackType.PARTIAL,
+        ]:
             self.success_patterns[pattern_key].append(pattern_data)
         else:
             self.failure_patterns[pattern_key].append(pattern_data)
 
-    def _determine_learning_outcome(self, replay_success: bool, performance_delta: float) -> FeedbackType:
+    def _determine_learning_outcome(
+        self, replay_success: bool, performance_delta: float
+    ) -> FeedbackType:
         """Determine learning outcome from dream replay results"""
         if replay_success and performance_delta > 0.1:
             return FeedbackType.SUCCESS
@@ -554,33 +671,57 @@ class Symbolicfeedbacksystem:
 
     def _schedule_rehearsal_if_needed(self, replay_record: DreamReplayRecord) -> None:
         """Schedule rehearsal based on dream replay outcomes"""
-        if (replay_record.learning_outcome == FeedbackType.SUCCESS and
-            replay_record.performance_delta > 0.15):
+        if (
+            replay_record.learning_outcome == FeedbackType.SUCCESS
+            and replay_record.performance_delta > 0.15
+        ):
 
             rehearsal_item = {
                 "pattern": replay_record.scenario_type,
                 "priority": replay_record.performance_delta,
                 "timestamp": replay_record.timestamp,
-                "original_replay_id": replay_record.replay_id
+                "original_replay_id": replay_record.replay_id,
             }
 
             self.rehearsal_queue.append(rehearsal_item)
-            logger.debug(f"Scheduled rehearsal for successful pattern: {replay_record.scenario_type}")
+            logger.debug(
+                f"Scheduled rehearsal for successful pattern: {replay_record.scenario_type}"
+            )
 
     def _update_dashboard_symbolic_feedback(self) -> None:
         """Update dashboard with current symbolic feedback state"""
         try:
             # Calculate current metrics
-            recent_intents = list(self.intent_history)[-10:] if self.intent_history else []
-            recent_memoria = list(self.memoria_snapshots)[-5:] if self.memoria_snapshots else []
+            recent_intents = (
+                list(self.intent_history)[-10:] if self.intent_history else []
+            )
+            recent_memoria = (
+                list(self.memoria_snapshots)[-5:] if self.memoria_snapshots else []
+            )
             recent_dreams = list(self.dream_replays)[-5:] if self.dream_replays else []
 
             # Calculate metrics
-            intent_success_rate = np.mean([intent.confidence_score for intent in recent_intents]) if recent_intents else 0.7
-            memoria_coherence = np.mean([snap.coherence_score for snap in recent_memoria]) if recent_memoria else 0.8
-            symbolic_reasoning_confidence = self._calculate_symbolic_reasoning_confidence()
-            emotional_tone_vector = self._calculate_emotional_tone_vector(recent_intents)
-            dream_replay_success = any(dream.replay_success for dream in recent_dreams) if recent_dreams else False
+            intent_success_rate = (
+                np.mean([intent.confidence_score for intent in recent_intents])
+                if recent_intents
+                else 0.7
+            )
+            memoria_coherence = (
+                np.mean([snap.coherence_score for snap in recent_memoria])
+                if recent_memoria
+                else 0.8
+            )
+            symbolic_reasoning_confidence = (
+                self._calculate_symbolic_reasoning_confidence()
+            )
+            emotional_tone_vector = self._calculate_emotional_tone_vector(
+                recent_intents
+            )
+            dream_replay_success = (
+                any(dream.replay_success for dream in recent_dreams)
+                if recent_dreams
+                else False
+            )
 
             # Log to dashboard
             self.dashboard.log_symbolic_feedback(
@@ -588,7 +729,7 @@ class Symbolicfeedbacksystem:
                 memoria_coherence=memoria_coherence,
                 symbolic_reasoning_confidence=symbolic_reasoning_confidence,
                 emotional_tone_vector=emotional_tone_vector,
-                dream_replay_success=dream_replay_success
+                dream_replay_success=dream_replay_success,
             )
 
         except Exception as e:
@@ -604,17 +745,25 @@ class Symbolicfeedbacksystem:
 
         # Base confidence with recent adjustments
         base_confidence = 0.7
-        avg_adjustment = np.mean(confidence_adjustments) if confidence_adjustments else 0.0
+        avg_adjustment = (
+            np.mean(confidence_adjustments) if confidence_adjustments else 0.0
+        )
 
         return max(0.0, min(1.0, base_confidence + avg_adjustment))
 
-    def _calculate_emotional_tone_vector(self, recent_intents: List[IntentNodeHistory]) -> List[float]:
+    def _calculate_emotional_tone_vector(
+        self, recent_intents: list[IntentNodeHistory]
+    ) -> list[float]:
         """Calculate emotional tone vector from recent interactions"""
         if not recent_intents:
             return [0.5, 0.5, 0.5, 0.5]  # Neutral default
 
         # Average emotional contexts
-        emotional_contexts = [intent.emotional_context for intent in recent_intents if intent.emotional_context]
+        emotional_contexts = [
+            intent.emotional_context
+            for intent in recent_intents
+            if intent.emotional_context
+        ]
 
         if not emotional_contexts:
             return [0.5, 0.5, 0.5, 0.5]
@@ -623,7 +772,7 @@ class Symbolicfeedbacksystem:
         avg_context = np.mean(emotional_contexts, axis=0)
         return avg_context.tolist() if len(avg_context) >= 4 else [0.5, 0.5, 0.5, 0.5]
 
-    def _generate_quantum_signature(self, data: Dict[str, Any]) -> str:
+    def _generate_quantum_signature(self, data: dict[str, Any]) -> str:
         """Generate quantum signature for audit trail"""
         serialized = json.dumps(data, sort_keys=True, default=str)
         return hashlib.sha256(serialized.encode()).hexdigest()[:12]
@@ -634,33 +783,51 @@ class Symbolicfeedbacksystem:
         raw_data = f"LOOP-{context.value}-{timestamp}-{len(self.feedback_loops)}"
         return hashlib.sha256(raw_data.encode()).hexdigest()[:8]
 
-    def _analyze_performance_patterns(self, context: SymbolicContext, success_metrics: Dict[str, float]) -> Dict[str, Any]:
+    def _analyze_performance_patterns(
+        self, context: SymbolicContext, success_metrics: dict[str, float]
+    ) -> dict[str, Any]:
         """Analyze performance patterns for given context"""
         # Placeholder implementation - would analyze historical patterns
         return {
-            "trend": "improving" if np.mean(list(success_metrics.values())) > 0.7 else "stable",
+            "trend": (
+                "improving"
+                if np.mean(list(success_metrics.values())) > 0.7
+                else "stable"
+            ),
             "stability": 0.8,
-            "pattern_strength": 0.6
+            "pattern_strength": 0.6,
         }
 
-    def _generate_optimization_suggestions(self, context: SymbolicContext, success_metrics: Dict[str, float], failure_patterns: List[str], performance_analysis: Dict[str, Any]) -> List[str]:
+    def _generate_optimization_suggestions(
+        self,
+        context: SymbolicContext,
+        success_metrics: dict[str, float],
+        failure_patterns: list[str],
+        performance_analysis: dict[str, Any],
+    ) -> list[str]:
         """Generate optimization suggestions based on analysis"""
         suggestions = []
 
         avg_success = np.mean(list(success_metrics.values()))
 
         if avg_success < 0.6:
-            suggestions.append(f"Improve {context.value} success rate through pattern rehearsal")
+            suggestions.append(
+                f"Improve {context.value} success rate through pattern rehearsal"
+            )
 
         if failure_patterns:
             suggestions.append(f"Address common failure patterns in {context.value}")
 
         if performance_analysis["stability"] < 0.5:
-            suggestions.append(f"Stabilize {context.value} performance through controlled learning rates")
+            suggestions.append(
+                f"Stabilize {context.value} performance through controlled learning rates"
+            )
 
         return suggestions
 
-    def _identify_rehearsal_opportunities(self, context: SymbolicContext, performance_analysis: Dict[str, Any]) -> List[str]:
+    def _identify_rehearsal_opportunities(
+        self, context: SymbolicContext, performance_analysis: dict[str, Any]
+    ) -> list[str]:
         """Identify opportunities for symbolic rehearsal"""
         opportunities = []
 
@@ -672,14 +839,20 @@ class Symbolicfeedbacksystem:
 
         return opportunities
 
-    def _calculate_confidence_adjustment(self, success_metrics: Dict[str, float], performance_analysis: Dict[str, Any]) -> float:
+    def _calculate_confidence_adjustment(
+        self,
+        success_metrics: dict[str, float],
+        performance_analysis: dict[str, Any],
+    ) -> float:
         """Calculate confidence adjustment based on performance"""
         avg_success = np.mean(list(success_metrics.values()))
         trend_factor = 0.1 if performance_analysis["trend"] == "improving" else 0.0
 
         return (avg_success - 0.7) * 0.2 + trend_factor
 
-    def _determine_feedback_type(self, success_metrics: Dict[str, float], failure_patterns: List[str]) -> FeedbackType:
+    def _determine_feedback_type(
+        self, success_metrics: dict[str, float], failure_patterns: list[str]
+    ) -> FeedbackType:
         """Determine feedback type based on metrics and patterns"""
         avg_success = np.mean(list(success_metrics.values()))
 
@@ -692,13 +865,17 @@ class Symbolicfeedbacksystem:
         else:
             return FeedbackType.UNKNOWN
 
-    def _apply_symbolic_optimizations(self, feedback_loop: SymbolicFeedbackLoop) -> None:
+    def _apply_symbolic_optimizations(
+        self, feedback_loop: SymbolicFeedbackLoop
+    ) -> None:
         """Apply optimizations based on feedback loop"""
         # Integration with rate modulator if available
         if self.rate_modulator and feedback_loop.confidence_adjustment != 0:
             # Adjust learning rate based on symbolic feedback
             strategy_name = f"{feedback_loop.context.value}_strategy"
-            current_rate = self.rate_modulator.current_learning_rates.get(strategy_name, 0.001)
+            current_rate = self.rate_modulator.current_learning_rates.get(
+                strategy_name, 0.001
+            )
 
             if feedback_loop.feedback_type == FeedbackType.SUCCESS:
                 # Slight increase for successful patterns
@@ -712,12 +889,21 @@ class Symbolicfeedbacksystem:
                 return
 
             self.rate_modulator.current_learning_rates[strategy_name] = np.clip(
-                new_rate, self.rate_modulator.min_rate, self.rate_modulator.max_rate
+                new_rate,
+                self.rate_modulator.min_rate,
+                self.rate_modulator.max_rate,
             )
 
-            logger.debug(f"Applied symbolic optimization to {strategy_name}: {current_rate:.6f} → {new_rate:.6f}")
+            logger.debug(
+                f"Applied symbolic optimization to {strategy_name}: {current_rate:.6f} → {new_rate:.6f}"
+            )
 
-    def _update_pattern_confidence(self, context: SymbolicContext, feedback_type: FeedbackType, success_metrics: Dict[str, float]) -> None:
+    def _update_pattern_confidence(
+        self,
+        context: SymbolicContext,
+        feedback_type: FeedbackType,
+        success_metrics: dict[str, float],
+    ) -> None:
         """Update pattern confidence based on feedback"""
         pattern_key = f"{context.value}_{feedback_type.value}"
         avg_success = np.mean(list(success_metrics.values()))
@@ -725,9 +911,13 @@ class Symbolicfeedbacksystem:
         # Update confidence with exponential moving average
         alpha = 0.1  # Learning rate for confidence updates
         current_confidence = self.pattern_confidence[pattern_key]
-        self.pattern_confidence[pattern_key] = current_confidence * (1 - alpha) + avg_success * alpha
+        self.pattern_confidence[pattern_key] = (
+            current_confidence * (1 - alpha) + avg_success * alpha
+        )
 
-    def _find_relevant_success_patterns(self, scenario_pattern: str) -> List[Dict[str, Any]]:
+    def _find_relevant_success_patterns(
+        self, scenario_pattern: str
+    ) -> list[dict[str, Any]]:
         """Find relevant successful patterns for rehearsal"""
         relevant = []
 
@@ -737,9 +927,15 @@ class Symbolicfeedbacksystem:
 
         return relevant[-10:]  # Return most recent 10 patterns
 
-    def _simulate_rehearsal_iteration(self, scenario_pattern: str, relevant_patterns: List[Dict[str, Any]], iteration: int) -> Dict[str, Any]:
+    def _simulate_rehearsal_iteration(
+        self,
+        scenario_pattern: str,
+        relevant_patterns: list[dict[str, Any]],
+        iteration: int,
+    ) -> dict[str, Any]:
         """Simulate a rehearsal iteration"""
-        # Simplified simulation - in real implementation would use actual symbolic reasoning
+        # Simplified simulation - in real implementation would use actual symbolic
+        # reasoning
         base_performance = 0.5 + iteration * 0.1
         pattern_boost = len(relevant_patterns) * 0.02
 
@@ -748,10 +944,12 @@ class Symbolicfeedbacksystem:
         return {
             "performance_delta": max(0.0, performance_delta),
             "insights": [f"Rehearsal insight {iteration + 1} for {scenario_pattern}"],
-            "confidence_gain": performance_delta * 0.5
+            "confidence_gain": performance_delta * 0.5,
         }
 
-    def _extract_common_suggestions(self, context_loops: List[SymbolicFeedbackLoop]) -> List[str]:
+    def _extract_common_suggestions(
+        self, context_loops: list[SymbolicFeedbackLoop]
+    ) -> list[str]:
         """Extract common optimization suggestions from feedback loops"""
         all_suggestions = []
         for loop in context_loops:
@@ -762,60 +960,90 @@ class Symbolicfeedbacksystem:
         for suggestion in all_suggestions:
             suggestion_counts[suggestion] += 1
 
-        return [suggestion for suggestion, count in suggestion_counts.items() if count > 1]
+        return [
+            suggestion for suggestion, count in suggestion_counts.items() if count > 1
+        ]
 
-    def _generate_system_optimization_recommendations(self) -> List[Dict[str, str]]:
+    def _generate_system_optimization_recommendations(
+        self,
+    ) -> list[dict[str, str]]:
         """Generate system-wide optimization recommendations"""
         recommendations = []
 
         # Analyze overall patterns
         total_loops = len(self.feedback_loops)
         if total_loops == 0:
-            return [{"priority": "low", "message": "No feedback loops available for analysis"}]
+            return [
+                {
+                    "priority": "low",
+                    "message": "No feedback loops available for analysis",
+                }
+            ]
 
-        success_rate = len([loop for loop in self.feedback_loops if loop.feedback_type == FeedbackType.SUCCESS]) / total_loops
+        success_rate = (
+            len(
+                [
+                    loop
+                    for loop in self.feedback_loops
+                    if loop.feedback_type == FeedbackType.SUCCESS
+                ]
+            )
+            / total_loops
+        )
 
         if success_rate < 0.6:
-            recommendations.append({
-                "priority": "high",
-                "message": f"Overall success rate low ({success_rate:.2f}). Increase rehearsal frequency.",
-                "action": "increase_rehearsal_frequency"
-            })
+            recommendations.append(
+                {
+                    "priority": "high",
+                    "message": f"Overall success rate low ({success_rate:.2f}). Increase rehearsal frequency.",
+                    "action": "increase_rehearsal_frequency",
+                }
+            )
 
         if len(self.rehearsal_queue) > 50:
-            recommendations.append({
-                "priority": "medium",
-                "message": "Large rehearsal queue detected. Consider parallel rehearsal execution.",
-                "action": "parallel_rehearsal"
-            })
+            recommendations.append(
+                {
+                    "priority": "medium",
+                    "message": "Large rehearsal queue detected. Consider parallel rehearsal execution.",
+                    "action": "parallel_rehearsal",
+                }
+            )
 
         # Check pattern confidence trends
-        low_confidence_patterns = [k for k, v in self.pattern_confidence.items() if v < 0.4]
+        low_confidence_patterns = [
+            k for k, v in self.pattern_confidence.items() if v < 0.4
+        ]
         if low_confidence_patterns:
-            recommendations.append({
-                "priority": "medium",
-                "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3])}",
-                "action": "pattern_reinforcement"
-            })
+            recommendations.append(
+                {
+                    "priority": "medium",
+                    "message": f"Low confidence patterns detected: {', '.join(low_confidence_patterns[:3])}",
+                    "action": "pattern_reinforcement",
+                }
+            )
 
         return recommendations
+
 
 # ==============================================================================
 # Integration Functions for LUKHAS Ecosystem
 # ==============================================================================
 
-def create_integrated_symbolic_feedback_system(dashboard: MetaLearningMonitorDashboard,
-                                             rate_modulator: DynamicLearningRateModulator) -> SymbolicFeedbackSystem:
+
+def create_integrated_symbolic_feedback_system(
+    dashboard: MetaLearningMonitorDashboard,
+    rate_modulator: DynamicLearningRateModulator,
+) -> SymbolicFeedbackSystem:
     """
     Factory function to create integrated symbolic feedback system
     """
-    return SymbolicFeedbackSystem(
-        dashboard=dashboard,
-        rate_modulator=rate_modulator
-    )
+    return SymbolicFeedbackSystem(dashboard=dashboard, rate_modulator=rate_modulator)
 
-def simulate_intent_node_integration(feedback_system: SymbolicFeedbackSystem,
-                                   intent_scenarios: List[Dict[str, Any]]) -> List[str]:
+
+def simulate_intent_node_integration(
+    feedback_system: SymbolicFeedbackSystem,
+    intent_scenarios: list[dict[str, Any]],
+) -> list[str]:
     """
     Simulate integration with intent_node system
     """
@@ -829,23 +1057,27 @@ def simulate_intent_node_integration(feedback_system: SymbolicFeedbackSystem,
             confidence_score=scenario.get("confidence", 0.8),
             reasoning_steps=scenario.get("reasoning_steps", ["step1", "step2"]),
             memory_references=scenario.get("memory_refs", []),
-            emotional_context=scenario.get("emotional_context", [0.7, 0.6, 0.8, 0.5])
+            emotional_context=scenario.get("emotional_context", [0.7, 0.6, 0.8, 0.5]),
         )
         signatures.append(signature)
 
     return signatures
 
+
 # ==============================================================================
 # Example Usage and Testing
 # ==============================================================================
 
+
 if __name__ == "__main__":
     from .monitor_dashboard import MetaLearningMonitorDashboard
-    from .rate_modulator import DynamicLearningRateModulator, AdaptationStrategy
+    from .rate_modulator import AdaptationStrategy, DynamicLearningRateModulator
 
     # Initialize integrated system
     dashboard = MetaLearningMonitorDashboard()
-    rate_modulator = DynamicLearningRateModulator(dashboard, strategy=AdaptationStrategy.SYMBOLIC_GUIDED)
+    rate_modulator = DynamicLearningRateModulator(
+        dashboard, strategy=AdaptationStrategy.SYMBOLIC_GUIDED
+    )
     feedback_system = SymbolicFeedbackSystem(dashboard, rate_modulator)
 
     # Simulate symbolic feedback cycles
@@ -857,7 +1089,12 @@ if __name__ == "__main__":
             resolution_success=(cycle % 3 != 0),  # Vary success
             confidence_score=0.7 + cycle * 0.05,
             reasoning_steps=[f"step_{i}" for i in range(3)],
-            emotional_context=[0.6 + cycle*0.05, 0.7, 0.5 + cycle*0.02, 0.8]
+            emotional_context=[
+                0.6 + cycle * 0.05,
+                0.7,
+                0.5 + cycle * 0.02,
+                0.8,
+            ],
         )
 
         # Simulate memoria snapshots
@@ -867,7 +1104,7 @@ if __name__ == "__main__":
             memory_fragments=[{"fragment": f"mem_{i}"} for i in range(5)],
             retrieval_success_rate=0.8 + cycle * 0.02,
             consolidation_quality=0.85 + cycle * 0.01,
-            symbolic_links=[f"link_{i}" for i in range(3)]
+            symbolic_links=[f"link_{i}" for i in range(3)],
         )
 
         # Simulate dream replays
@@ -877,15 +1114,18 @@ if __name__ == "__main__":
             replay_success=(cycle % 2 == 0),
             performance_delta=0.05 + cycle * 0.02,
             symbolic_insights=[f"insight_{cycle}"],
-            emotional_resonance=0.6 + cycle * 0.05
+            emotional_resonance=0.6 + cycle * 0.05,
         )
 
         # Create feedback loop
         feedback_system.create_symbolic_feedback_loop(
             context=SymbolicContext.SYMBOLIC_REASONING,
-            success_metrics={"accuracy": 0.8 + cycle * 0.02, "coherence": 0.75 + cycle * 0.03},
+            success_metrics={
+                "accuracy": 0.8 + cycle * 0.02,
+                "coherence": 0.75 + cycle * 0.03,
+            },
             failure_patterns=["pattern_1"] if cycle % 4 == 0 else [],
-            optimization_target="reasoning_confidence"
+            optimization_target="reasoning_confidence",
         )
 
     # Execute rehearsal
@@ -894,6 +1134,8 @@ if __name__ == "__main__":
 
     # Get optimization insights
     insights = feedback_system.get_optimization_insights()
-    print(f"Generated {len(insights['optimization_recommendations'])} optimization recommendations")
+    print(
+        f"Generated {len(insights['optimization_recommendations'])} optimization recommendations"
+    )
 
     print("Symbolic Feedback System demonstration completed!")

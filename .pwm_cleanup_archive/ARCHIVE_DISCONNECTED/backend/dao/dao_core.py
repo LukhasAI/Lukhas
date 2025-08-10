@@ -19,20 +19,22 @@ PROPOSALS_DIR = Path("dao/proposals/")
 VOTERS_FILE = Path("dao/voters_registry.json")
 APPROVED_LOG = Path("dao/approved_proposals.json")
 
+
 def load_registry():
     if VOTERS_FILE.exists():
-        with open(VOTERS_FILE, 'r') as f:
+        with open(VOTERS_FILE) as f:
             return json.load(f)
     else:
         print("[⚠️] Voter registry not found.")
         return {}
+
 
 def evaluate_proposal(filename: str) -> dict:
     path = PROPOSALS_DIR / filename
     if not path.exists():
         raise FileNotFoundError(f"Proposal not found: {filename}")
 
-    with open(path, 'r') as f:
+    with open(path) as f:
         proposal = json.load(f)
 
     registry = load_registry()
@@ -44,13 +46,13 @@ def evaluate_proposal(filename: str) -> dict:
 
     if proposal["status"] == "approved":
         if APPROVED_LOG.exists():
-            with open(APPROVED_LOG, 'r+') as f:
+            with open(APPROVED_LOG, "r+") as f:
                 approved = json.load(f)
                 approved.append(proposal)
                 f.seek(0)
                 json.dump(approved, f, indent=2)
         else:
-            with open(APPROVED_LOG, 'w') as f:
+            with open(APPROVED_LOG, "w") as f:
                 json.dump([proposal], f, indent=2)
 
         print(f"[✅] Proposal approved: {proposal['id']}")
@@ -58,6 +60,7 @@ def evaluate_proposal(filename: str) -> dict:
         print(f"[⏳] Proposal pending quorum: {proposal['id']}")
 
     return proposal
+
 
 if __name__ == "__main__":
     proposals = sorted(os.listdir(PROPOSALS_DIR))

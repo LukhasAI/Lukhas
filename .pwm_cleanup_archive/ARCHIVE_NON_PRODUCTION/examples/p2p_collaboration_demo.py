@@ -1,10 +1,10 @@
 import asyncio
-import sys
 import os
+import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.actor_system import get_global_actor_system, AIAgentActor
+from core.actor_system import AIAgentActor, get_global_actor_system
 from core.p2p_communication import MessageType
 
 

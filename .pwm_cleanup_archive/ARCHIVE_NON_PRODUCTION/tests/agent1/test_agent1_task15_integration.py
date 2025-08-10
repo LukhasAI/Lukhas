@@ -8,8 +8,8 @@ This test validates the integration of quantum/dream_adapter.py
 with quantum/system_orchestrator.py following the hub pattern.
 """
 
-import sys
 import os
+import sys
 import unittest
 
 # Add project root to path for testing
@@ -31,7 +31,10 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
     def test_dream_adapter_import(self):
         """Test that QuantumDreamAdapter can be imported"""
         try:
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+                QuantumDreamAdapter,
+            )
 
             self.assertTrue(True, "QuantumDreamAdapter imported successfully")
         except ImportError as e:
@@ -68,8 +71,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
         """Test that quantum system orchestrator can import dream adapter"""
         try:
             # Test the import that the orchestrator uses
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
-            from quantum.system_orchestrator import QuantumAGISystem
+            from quantum.dream_adapter import (
+                QuantumDreamAdapter,
+            )
 
             # Test that all required classes exist
             self.assertTrue(hasattr(QuantumDreamAdapter, "__init__"))
@@ -99,7 +103,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
     def test_dream_adapter_standalone(self):
         """Test QuantumDreamAdapter functionality in isolation"""
         try:
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+            )
 
             # Create a mock orchestrator for testing
             class MockBioOrchestrator:
@@ -129,7 +135,9 @@ class TestQuantumDreamAdapterIntegration(unittest.TestCase):
         """Test that integration meets completion criteria"""
         try:
             # 1. quantum/dream_adapter.py successfully imported and initialized
-            from quantum.dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
+            from quantum.dream_adapter import (
+                DreamQuantumConfig,
+            )
 
             # 2. Component can be imported by quantum/system_orchestrator.py
             from quantum.system_orchestrator import QuantumAGISystem
@@ -187,8 +195,8 @@ def run_quantum_dream_integration_tests():
     if result.wasSuccessful():
         print("✅ ALL QUANTUM DREAM ADAPTER INTEGRATION TESTS PASSED!")
         print("✅ QuantumDreamAdapter successfully integrated with QuantumAGISystem")
-        print(f"✅ Agent 1 Task 15 Priority Score: 23.5 points achieved")
-        print(f"✅ Cumulative Agent 1 Score: 616.8 points (540 target exceeded)")
+        print("✅ Agent 1 Task 15 Priority Score: 23.5 points achieved")
+        print("✅ Cumulative Agent 1 Score: 616.8 points (540 target exceeded)")
         print(
             "✅ Integration follows hub pattern: Import → Initialize → Interface → Test"
         )

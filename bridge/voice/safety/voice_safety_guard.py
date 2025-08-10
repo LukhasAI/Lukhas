@@ -5,13 +5,15 @@ Advanced: voice_safety_guard.py
 Integration Date: 2025-05-31T07:55:28.354454
 """
 
-import unittest
-from core.interfaces.voice.core.sayit import SafetyGuard
-from core.common import get_logger
 import re
-from typing import Dict, Any, List, Optional, Tuple
+import unittest
+from typing import Any
+
+from core.common import get_logger
+from core.interfaces.voice.core.sayit import SafetyGuard
 
 logger = get_logger(__name__)
+
 
 class VoiceSafetyGuard:
     """
@@ -34,8 +36,8 @@ class VoiceSafetyGuard:
                 "aggressive_tone",
                 "unauthorized_directives",
                 "personal_boundaries",
-                "data_privacy"
-            ]
+                "data_privacy",
+            ],
         }
 
         # Load ethical constraints
@@ -44,48 +46,68 @@ class VoiceSafetyGuard:
                 "id": "autonomy",
                 "description": "Respect user autonomy and decision-making",
                 "patterns": [
-                    r"\byou must\b", r"\byou need to\b", r"\byou have to\b",
-                    r"\balways\b", r"\bnever\b", r"\bonly option\b"
-                ]
+                    r"\byou must\b",
+                    r"\byou need to\b",
+                    r"\byou have to\b",
+                    r"\balways\b",
+                    r"\bnever\b",
+                    r"\bonly option\b",
+                ],
             },
             {
                 "id": "transparency",
                 "description": "Maintain transparency about system capabilities",
                 "patterns": [
-                    r"\bI know\b", r"\bI'm certain\b", r"\bI can guarantee\b",
-                    r"\bI promise\b", r"\babsolutely\b"
-                ]
+                    r"\bI know\b",
+                    r"\bI'm certain\b",
+                    r"\bI can guarantee\b",
+                    r"\bI promise\b",
+                    r"\babsolutely\b",
+                ],
             },
             {
                 "id": "authenticity",
                 "description": "Avoid emotional manipulation",
                 "patterns": [
-                    r"\bI feel\b", r"\bI'm worried\b", r"\bI'm concerned\b",
-                    r"\bI care\b", r"\bI'm happy\b", r"\bI'm sad\b",
-                    r"\bI'm excited\b", r"\bI'm disappointed\b"
-                ]
+                    r"\bI feel\b",
+                    r"\bI'm worried\b",
+                    r"\bI'm concerned\b",
+                    r"\bI care\b",
+                    r"\bI'm happy\b",
+                    r"\bI'm sad\b",
+                    r"\bI'm excited\b",
+                    r"\bI'm disappointed\b",
+                ],
             },
             {
                 "id": "boundaries",
                 "description": "Respect personal and conversational boundaries",
                 "patterns": [
-                    r"\bpersonal question\b", r"\bprivate information\b",
-                    r"\bintimate\b", r"\byour family\b", r"\byour friends\b"
-                ]
+                    r"\bpersonal question\b",
+                    r"\bprivate information\b",
+                    r"\bintimate\b",
+                    r"\byour family\b",
+                    r"\byour friends\b",
+                ],
             },
             {
                 "id": "safety",
                 "description": "Avoid unsafe suggestions",
                 "patterns": [
-                    r"\btry this\b", r"\byou should\b", r"\bwhy don't you\b",
-                    r"\bthe best option\b", r"\bthe right choice\b"
-                ]
-            }
+                    r"\btry this\b",
+                    r"\byou should\b",
+                    r"\bwhy don't you\b",
+                    r"\bthe best option\b",
+                    r"\bthe right choice\b",
+                ],
+            },
         ]
 
-        logger.info(f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints")
+        logger.info(
+            f"Voice Safety Guard initialized with {len(self.ethical_constraints)} ethical constraints"
+        )
 
-    def validate_response(self, response: str, context: Dict[str, Any] = None) -> str:
+    def validate_response(self, response: str, context: dict[str, Any] = None) -> str:
         """
         Validate a response against ethical and safety constraints
 
@@ -119,10 +141,8 @@ class VoiceSafetyGuard:
         return modified_response
 
     def validate_voice_parameters(
-        self,
-        voice_params: Dict[str, float],
-        context: Dict[str, Any] = None
-    ) -> Dict[str, float]:
+        self, voice_params: dict[str, float], context: dict[str, Any] = None
+    ) -> dict[str, float]:
         """
         Validate voice modulation parameters to ensure they are not manipulative
 
@@ -144,7 +164,9 @@ class VoiceSafetyGuard:
             urgency_context = context.get("urgency", 0.5) if context else 0.5
             if urgency_context < 0.7:  # Not a genuinely urgent situation
                 modified_params["energy"] = min(modified_params["energy"], 1.2)
-                logger.info("Reduced voice energy parameter to avoid unwarranted intensity")
+                logger.info(
+                    "Reduced voice energy parameter to avoid unwarranted intensity"
+                )
 
         # Example: Check for extreme pitch manipulation
         if "pitch" in modified_params:
@@ -154,12 +176,18 @@ class VoiceSafetyGuard:
                 emotion = context.get("emotion", "neutral") if context else "neutral"
                 if emotion == "neutral":
                     # No justification for extreme pitch, normalize it
-                    modified_params["pitch"] = max(0.85, min(1.15, modified_params["pitch"]))
-                    logger.info("Normalized pitch parameter to avoid emotional manipulation")
+                    modified_params["pitch"] = max(
+                        0.85, min(1.15, modified_params["pitch"])
+                    )
+                    logger.info(
+                        "Normalized pitch parameter to avoid emotional manipulation"
+                    )
 
         return modified_params
 
-    def check_transcription_safety(self, transcription: Dict[str, Any]) -> Dict[str, Any]:
+    def check_transcription_safety(
+        self, transcription: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Check transcribed user speech for safety issues
 
@@ -171,17 +199,13 @@ class VoiceSafetyGuard:
         """
         text = transcription.get("text", "")
 
-        result = {
-            "safe": True,
-            "issues": [],
-            "recommendations": []
-        }
+        result = {"safe": True, "issues": [], "recommendations": []}
 
         # Check for harmful content in user speech
         harmful_patterns = [
             (r"\b(harm|kill|hurt)\b", "potentially_harmful"),
             (r"\b(suicide|self-harm)\b", "concerning_self_harm"),
-            (r"\bdox\b|\bpersonal\s+information\b", "privacy_concern")
+            (r"\bdox\b|\bpersonal\s+information\b", "privacy_concern"),
         ]
 
         for pattern, issue_type in harmful_patterns:
@@ -192,19 +216,25 @@ class VoiceSafetyGuard:
         # Add recommendations based on issues
         if "potentially_harmful" in result["issues"]:
             result["recommendations"].append("Detected potentially harmful content")
-            result["recommendations"].append("Redirect conversation away from harmful topics")
+            result["recommendations"].append(
+                "Redirect conversation away from harmful topics"
+            )
 
         if "concerning_self_harm" in result["issues"]:
             result["recommendations"].append("Detected concerning self-harm references")
-            result["recommendations"].append("Offer mental health resources and support")
+            result["recommendations"].append(
+                "Offer mental health resources and support"
+            )
 
         if "privacy_concern" in result["issues"]:
             result["recommendations"].append("Detected privacy concern")
-            result["recommendations"].append("Remind user not to share sensitive personal information")
+            result["recommendations"].append(
+                "Remind user not to share sensitive personal information"
+            )
 
         return result
 
-    def _check_ethical_issues(self, text: str) -> List[Dict[str, Any]]:
+    def _check_ethical_issues(self, text: str) -> list[dict[str, Any]]:
         """
         Check text for various ethical issues
 
@@ -222,13 +252,15 @@ class VoiceSafetyGuard:
                 matches = re.finditer(pattern, text, re.IGNORECASE)
 
                 for match in matches:
-                    issues.append({
-                        "constraint_id": constraint["id"],
-                        "description": constraint["description"],
-                        "match": match.group(0),
-                        "start": match.start(),
-                        "end": match.end()
-                    })
+                    issues.append(
+                        {
+                            "constraint_id": constraint["id"],
+                            "description": constraint["description"],
+                            "match": match.group(0),
+                            "start": match.start(),
+                            "end": match.end(),
+                        }
+                    )
 
         # Additional context-free checks
 
@@ -236,29 +268,31 @@ class VoiceSafetyGuard:
         directive_patterns = [
             (r"\byou should\b", "directive_language"),
             (r"\byou need to\b", "directive_language"),
-            (r"\byou must\b", "directive_language")
+            (r"\byou must\b", "directive_language"),
         ]
 
         for pattern, issue_type in directive_patterns:
             for match in re.finditer(pattern, text, re.IGNORECASE):
-                issues.append({
-                    "constraint_id": "autonomy",
-                    "description": "Avoid directive language",
-                    "match": match.group(0),
-                    "start": match.start(),
-                    "end": match.end(),
-                    "issue_type": issue_type
-                })
+                issues.append(
+                    {
+                        "constraint_id": "autonomy",
+                        "description": "Avoid directive language",
+                        "match": match.group(0),
+                        "start": match.start(),
+                        "end": match.end(),
+                        "issue_type": issue_type,
+                    }
+                )
 
         # Apply sensitivity threshold
-        threshold = self.config["sensitivity"]
+        self.config["sensitivity"]
         if not self.config["strict_mode"] and len(issues) < 2:
             # If not strict and only one issue, ignore mild issues
             issues = [i for i in issues if i.get("issue_type") != "directive_language"]
 
         return issues
 
-    def _apply_ethical_fixes(self, text: str, issues: List[Dict[str, Any]]) -> str:
+    def _apply_ethical_fixes(self, text: str, issues: list[dict[str, Any]]) -> str:
         """
         Apply fixes to text based on detected ethical issues
 
@@ -286,13 +320,22 @@ class VoiceSafetyGuard:
         if "autonomy" in issues_by_constraint:
             # Replace directive language with suggestions
             modified_text = re.sub(
-                r"\byou should\b", "you might consider", modified_text, flags=re.IGNORECASE
+                r"\byou should\b",
+                "you might consider",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\byou need to\b", "it may be helpful to", modified_text, flags=re.IGNORECASE
+                r"\byou need to\b",
+                "it may be helpful to",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\byou must\b", "consider whether to", modified_text, flags=re.IGNORECASE
+                r"\byou must\b",
+                "consider whether to",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
                 r"\balways\b", "often", modified_text, flags=re.IGNORECASE
@@ -307,13 +350,22 @@ class VoiceSafetyGuard:
                 r"\bI know\b", "I believe", modified_text, flags=re.IGNORECASE
             )
             modified_text = re.sub(
-                r"\bI'm certain\b", "I think", modified_text, flags=re.IGNORECASE
+                r"\bI'm certain\b",
+                "I think",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\bI can guarantee\b", "it seems likely", modified_text, flags=re.IGNORECASE
+                r"\bI can guarantee\b",
+                "it seems likely",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\bI promise\b", "I expect", modified_text, flags=re.IGNORECASE
+                r"\bI promise\b",
+                "I expect",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
                 r"\babsolutely\b", "likely", modified_text, flags=re.IGNORECASE
@@ -322,28 +374,42 @@ class VoiceSafetyGuard:
         if "authenticity" in issues_by_constraint:
             # Replace emotional claims
             modified_text = re.sub(
-                r"\bI feel\b", "This suggests", modified_text, flags=re.IGNORECASE
+                r"\bI feel\b",
+                "This suggests",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
                 r"\bI'm (worried|concerned|happy|sad|excited|disappointed)\b",
-                r"This may be \1", modified_text, flags=re.IGNORECASE
+                r"This may be \1",
+                modified_text,
+                flags=re.IGNORECASE,
             )
 
         if "safety" in issues_by_constraint:
             # Replace safety-concerning suggestions
             modified_text = re.sub(
-                r"\btry this\b", "one option might be", modified_text, flags=re.IGNORECASE
+                r"\btry this\b",
+                "one option might be",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\bthe best option\b", "one possible approach", modified_text, flags=re.IGNORECASE
+                r"\bthe best option\b",
+                "one possible approach",
+                modified_text,
+                flags=re.IGNORECASE,
             )
             modified_text = re.sub(
-                r"\bthe right choice\b", "an option to consider", modified_text, flags=re.IGNORECASE
+                r"\bthe right choice\b",
+                "an option to consider",
+                modified_text,
+                flags=re.IGNORECASE,
             )
 
         return modified_text
 
-    def update_configuration(self, config: Dict[str, Any]) -> None:
+    def update_configuration(self, config: dict[str, Any]) -> None:
         """
         Update safety guard configuration
 
@@ -356,16 +422,18 @@ class VoiceSafetyGuard:
 
         logger.info(f"Updated safety guard configuration: {config}")
 
-    def get_safety_status(self) -> Dict[str, Any]:
+    def get_safety_status(self) -> dict[str, Any]:
         """Get current safety status and configuration"""
         return {
             "enabled": True,
             "config": self.config,
             "constraints_active": len(self.ethical_constraints),
-            "safety_boundaries": self.config["safety_boundaries"]
+            "safety_boundaries": self.config["safety_boundaries"],
         }
 
+
 class TestSafetyGuard(unittest.TestCase):
+
     def setUp(self):
         self.safety_guard = SafetyGuard()
 
@@ -397,5 +465,6 @@ class TestSafetyGuard(unittest.TestCase):
         modified_response = self.safety_guard._apply_ethical_fixes(response, issues)
         self.assertNotEqual(modified_response, response)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

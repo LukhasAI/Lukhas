@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS Verbose Intelligent Description Generator
@@ -10,12 +9,10 @@ Creates rich, narrative module descriptions with:
 Perfect for content generation systems.
 """
 
-import json
 import os
 import re
-from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -36,7 +33,7 @@ def analyze_quantum_code(filepath: Path) -> Dict[str, any]:
     """Deep analysis of quantum module code."""
 
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         # Extract all relevant information
@@ -131,7 +128,9 @@ def generate_verbose_description(analysis: Dict[str, any]) -> str:
     # Build comprehensive context
     quantum_concepts = analysis["quantum_concepts"]
     concept_list = (
-        ", ".join(quantum_concepts) if quantum_concepts else "quantum-inspired processing"
+        ", ".join(quantum_concepts)
+        if quantum_concepts
+        else "quantum-inspired processing"
     )
 
     classes_info = ""
@@ -233,7 +232,9 @@ Generate a verbose, beautiful description that makes readers feel the magic of q
         concepts = analysis["quantum_concepts"]
         quantum_refs = []
         if "entanglement" in concepts:
-            quantum_refs.append("entanglement-like correlation weaving non-local tapestries")
+            quantum_refs.append(
+                "entanglement-like correlation weaving non-local tapestries"
+            )
         if "superposition" in concepts:
             quantum_refs.append("superposition states dancing between possibilities")
         if "cryptography" in concepts:
@@ -273,7 +274,7 @@ def add_verbose_description(filepath: Path) -> bool:
         return False
 
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         # Check if file has template reference
@@ -285,7 +286,7 @@ def add_verbose_description(filepath: Path) -> bool:
         analysis = analyze_quantum_code(filepath)
 
         # Generate verbose description
-        print(f"  ✨ Generating verbose poetic-academic description...")
+        print("  ✨ Generating verbose poetic-academic description...")
         description = generate_verbose_description(analysis)
 
         # Replace existing description
@@ -416,7 +417,7 @@ def find_good_candidates(project_root: Path) -> List[Path]:
         if file_path.is_file() and file_path.suffix == ".py":
             # Check if it has template reference but no description
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
+                with open(file_path, encoding="utf-8") as f:
                     content = f.read()
                     has_template = "@lukhas/HEADER_FOOTER_TEMPLATE.py" in content
                     has_description = re.search(

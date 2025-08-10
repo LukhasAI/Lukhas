@@ -16,22 +16,25 @@ Integration Date: 2025-05-31T07:55:28.280860
 import json
 import os
 import time
-from datetime import datetime
 
 st.title("🧠 Lukhas Output Log Viewer")
 
 log_path = "logs/lukhas_output_log.jsonl"
 
 if os.path.exists(log_path):
-    with open(log_path, "r") as f:
+    with open(log_path) as f:
         lines = f.readlines()
 
     if not lines:
         st.info("No symbolic outputs recorded yet.")
     else:
         # Add filter options
-        message_types = sorted({json.loads(line).get("type", "unknown") for line in lines if line.strip()})
-        selected_type = st.selectbox("🔍 Filter by Type", options=["All"] + message_types)
+        message_types = sorted(
+            {json.loads(line).get("type", "unknown") for line in lines if line.strip()}
+        )
+        selected_type = st.selectbox(
+            "🔍 Filter by Type", options=["All"] + message_types
+        )
 
         search_term = st.text_input("🔎 Search by keyword (input/output):").lower()
 
@@ -52,7 +55,7 @@ if os.path.exists(log_path):
                 st.markdown(f"**🎚️ Tier:** `{tier}`")
                 st.markdown(f"**📝 Type:** `{entry_type}`")
                 st.markdown(f"**📥 Input:** {entry.get('input', '')}")
-                st.markdown(f"**📤 Output:**")
+                st.markdown("**📤 Output:**")
                 st.code(entry.get("output", ""), language="markdown")
             except Exception as parse_err:
                 st.warning(f"⚠️ Error reading entry: {parse_err}")

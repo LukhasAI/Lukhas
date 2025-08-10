@@ -1,0 +1,185 @@
+name: dr-full-restore-quarterly
+
+on:
+  schedule:
+    # First Sunday of Jan/Apr/Jul/Oct at 04:05 UTC
+    - cron: "5 4 1,2,3,4,5,6,7 1,4,7,10 0"
+  workflow_dispatch: {}
+
+jobs:
+  fullrestore:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+      BACKUP_PREFIX: pwm
+      AWS_REGION: ${{ secrets.BACKUP_AWS_REGION }}
+      MAX_RESTORE_BYTES: '3000000000'  # 3 GB default cap; override in repo env if needed
+      WORKSPACE_FREE_SAFETY_FACTOR: '2.5'
+      RESTORE_TARGET: _dr_quarterly
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.BACKUP_AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Tooling
+        run: |
+          sudo apt-get update && sudo apt-get install -y jq awscli
+          python -V
+          aws --version
+
+      - name: Pick latest manifest & tarball and get size
+        id: pick
+        shell: bash
+        run: |
+          set -euo pipefail
+          aws s3 ls "${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/" \
+            | awk '{print $4}' \
+            | grep -E '\\.tar\\.(zst|gz)\\.manifest\\.json$' \
+            | sort | tail -n 1 > latest_manifest_key.txt
+          if [ ! -s latest_manifest_key.txt ]; then
+            echo "::error::No manifests found under ${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/"; exit 1;
+          fi
+          MANIFEST_KEY="$(cat latest_manifest_key.txt)"
+          MANIFEST_URI="${BACKUP_S3_BUCKET}/${BACKUP_PREFIX}/${MANIFEST_KEY}"
+          TARBALL_URI="${MANIFEST_URI%.manifest.json}"
+          BUCKET=$(echo "$TARBALL_URI" | cut -d/ -f3)
+          OBJECT=$(echo "$TARBALL_URI" | cut -d/ -f4-)
+          SIZE=$(aws s3api head-object --bucket "$BUCKET" --key "$OBJECT" | jq -r '.ContentLength')
+          echo "manifest=${MANIFEST_URI}" >> "$GITHUB_OUTPUT"
+          echo "tarball=${TARBALL_URI}"  >> "$GITHUB_OUTPUT"
+          echo "size_bytes=${SIZE}"      >> "$GITHUB_OUTPUT"
+          echo "Tarball size: $SIZE bytes"
+
+      - name: Size gate
+        run: |
+          SIZE=${{ steps.pick.outputs.size_bytes }}
+          MAX=${{ env.MAX_RESTORE_BYTES }}
+          echo "SIZE=$SIZE  MAX=$MAX"
+          if [ "$SIZE" -gt "$MAX" ]; then
+            echo "::warning::Tarball exceeds MAX_RESTORE_BYTES; skipping extraction (configure a self-hosted runner or raise the cap)."
+            mkdir -p out
+            echo '{"ok":true,"skipped":true,"reason":"size_cap","size_bytes':"$SIZE"'}' > out/dr_fullrestore_summary.json
+            exit 0
+          fi
+
+      - name: Disk space gate
+        run: |
+          SIZE=${{ steps.pick.outputs.size_bytes }}
+          FACTOR=${{ env.WORKSPACE_FREE_SAFETY_FACTOR }}
+          REQ=$(python -c "import os; print(int(int(os.environ['SIZE'])*float(os.environ['FACTOR'])))")
+          AVAIL=$(df -k . | tail -1 | awk '{print $4*1024}')
+          echo "Required (approx): $REQ bytes  | Available: $AVAIL bytes"
+          if [ "$AVAIL" -lt "$REQ" ]; then
+            echo "::warning::Not enough disk; skipping extraction (use a self-hosted runner)."
+            mkdir -p out
+            jq -n --arg reason disk_space --argjson required "$REQ" --argjson available "$AVAIL" '{ok:true, skipped:true, reason:$reason, required:$required, available:$available}' > out/dr_fullrestore_summary.json
+            exit 0
+          fi
+
+      - name: Full restore (verify + extract)
+        id: restore
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          START=$(date +%s)
+          python scripts/restore.py \
+            --manifest "${{ steps.pick.outputs.manifest }}" \
+            --tarball  "${{ steps.pick.outputs.tarball }}" \
+            --target   "${{ env.RESTORE_TARGET }}"
+          END=$(date +%s)
+          ELAPSED=$((END-START))
+          TB=${{ steps.pick.outputs.size_bytes }}
+          THROUGHPUT=$(python -c "import os; tb=int(os.environ['TB']); t=max(1,int(os.environ.get('ELAPSED','1'))); print(round(tb/1024/1024/t,2))")
+          EXTRACTED=$(du -sk "${{ env.RESTORE_TARGET }}" | awk '{print $1*1024}')
+          jq -n --arg manifest "${{ steps.pick.outputs.manifest }}" \
+                --arg tarball  "${{ steps.pick.outputs.tarball }}" \
+                --argjson size ${{ steps.pick.outputs.size_bytes }} \
+                --argjson elapsed $ELAPSED \
+                --argjson extracted $EXTRACTED \
+                --argjson mbps "$THROUGHPUT" \
+                '{ok:true, manifest:$manifest, tarball:$tarball, size_bytes:$size, elapsed_s:$elapsed, extracted_bytes:$extracted, throughput_MBps:($mbps|tonumber)}' \
+                > out/dr_fullrestore_summary.json
+
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dr-fullrestore-summary
+          path: out/dr_fullrestore_summary.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## Quarterly DR Full Restore" >> $GITHUB_STEP_SUMMARY
+          if [ -f out/dr_fullrestore_summary.json ]; then
+            cat out/dr_fullrestore_summary.json >> $GITHUB_STEP_SUMMARY
+          else
+            echo "_No summary produced_" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: KPI digest
+        if: always()
+        run: |
+          mkdir -p out
+          python3 scripts/report_kpi_backup.py \
+            --weekly out/dr_dryrun_weekly.json \
+            --monthly out/dr_dryrun_result.json \
+            --quarterly out/dr_fullrestore_summary.json \
+            | tee out/backup_kpi.json
+
+      - name: Upload KPI
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-kpi
+          path: out/backup_kpi.json
+
+      - name: Notify Slack on failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          WF_NAME: ${{ github.workflow }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            msg=$(jq -n --arg t "$WF_NAME failed" \
+                         --arg u "$RUN_URL" \
+                         --arg r "${{ github.ref_name }}" \
+                         --arg s "${{ github.sha }}" \
+                         '{text: ("\(.t)\n• Run: \(.u)\n• Branch: \(.r)\n• SHA: \(.s)")}')
+            curl -s -X POST -H 'Content-type: application/json' --data "$msg" "$SLACK_WEBHOOK_URL" || true
+          else
+            echo "SLACK_WEBHOOK_URL not set; skipping Slack notification"
+          fi
+
+      - name: Open failure issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `[DR ${context.workflow}] Failure on ${context.ref}`;
+            const body = `**Workflow:** ${context.workflow}
+            **Run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}
+
+            Please review artifacts and logs.`;
+            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
+            });
+            if (issues.total_count === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title, body, labels: ['dr','backup','failure']
+              });
+            }
+
+      - name: Cleanup
+        if: always()
+        run: rm -rf "${{ env.RESTORE_TARGET }}"

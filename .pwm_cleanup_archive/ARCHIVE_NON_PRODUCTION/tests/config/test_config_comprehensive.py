@@ -1,8 +1,13 @@
 """Comprehensive tests for LUKHAS config module."""
 
-import os
 import pytest
-from config import settings, Settings, validate_config, validate_optional_config
+
+from config import (
+    Settings,
+    settings,
+    validate_config,
+    validate_optional_config,
+)
 
 
 class TestSettings:
@@ -23,7 +28,7 @@ class TestSettings:
             OPENAI_API_KEY="test-key",
             DATABASE_URL="sqlite:///test.db",
             DEBUG=True,
-            LOG_LEVEL="DEBUG"
+            LOG_LEVEL="DEBUG",
         )
         assert s.OPENAI_API_KEY == "test-key"
         assert s.DATABASE_URL == "sqlite:///test.db"
@@ -53,13 +58,13 @@ class TestSettings:
             ("False", False),
             ("FALSE", False),
             ("", False),
-            ("invalid", False)
+            ("invalid", False),
         ]
 
         for env_value, expected in test_cases:
             monkeypatch.setenv("DEBUG", env_value)
             s = Settings()
-            assert s.DEBUG == expected, f"Failed for DEBUG={env_value}"
+            assert expected == s.DEBUG, f"Failed for DEBUG={env_value}"
 
 
 class TestValidation:
@@ -70,7 +75,7 @@ class TestValidation:
         s = Settings(
             OPENAI_API_KEY="test-key",
             DATABASE_URL="postgresql://prod:pass@db.example.com/lukhas",
-            REDIS_URL="redis://redis.example.com:6379"
+            REDIS_URL="redis://redis.example.com:6379",
         )
         # Should not raise any exception
         validate_config(s)
@@ -99,11 +104,11 @@ class TestValidation:
         status = validate_optional_config(s)
 
         expected = {
-            'openai_configured': False,
-            'database_configured': False,  # localhost in URL
-            'redis_configured': False,     # localhost in URL
-            'debug_mode': False,
-            'log_level': 'INFO'
+            "openai_configured": False,
+            "database_configured": False,  # localhost in URL
+            "redis_configured": False,  # localhost in URL
+            "debug_mode": False,
+            "log_level": "INFO",
         }
         assert status == expected
 
@@ -114,16 +119,16 @@ class TestValidation:
             DATABASE_URL="postgresql://user:pass@prod-db.example.com/lukhas",
             REDIS_URL="redis://prod-redis.example.com:6379",
             DEBUG=True,
-            LOG_LEVEL="DEBUG"
+            LOG_LEVEL="DEBUG",
         )
         status = validate_optional_config(s)
 
         expected = {
-            'openai_configured': True,
-            'database_configured': True,
-            'redis_configured': True,
-            'debug_mode': True,
-            'log_level': 'DEBUG'
+            "openai_configured": True,
+            "database_configured": True,
+            "redis_configured": True,
+            "debug_mode": True,
+            "log_level": "DEBUG",
         }
         assert status == expected
 
@@ -134,10 +139,10 @@ class TestGlobalSettings:
     def test_global_settings_instance(self):
         """Test that the global settings instance works."""
         # Global settings should be accessible
-        assert hasattr(settings, 'DATABASE_URL')
-        assert hasattr(settings, 'REDIS_URL')
-        assert hasattr(settings, 'LOG_LEVEL')
-        assert hasattr(settings, 'DEBUG')
+        assert hasattr(settings, "DATABASE_URL")
+        assert hasattr(settings, "REDIS_URL")
+        assert hasattr(settings, "LOG_LEVEL")
+        assert hasattr(settings, "DEBUG")
 
     def test_global_settings_type(self):
         """Test that global settings is a Settings instance."""
@@ -151,7 +156,9 @@ class TestIntegration:
         """Test complete configuration workflow."""
         # Set up production-like environment
         monkeypatch.setenv("OPENAI_API_KEY", "sk-prod-123")
-        monkeypatch.setenv("DATABASE_URL", "postgresql://lukhas:secret@db.prod.com/lukhas_db")
+        monkeypatch.setenv(
+            "DATABASE_URL", "postgresql://lukhas:secret@db.prod.com/lukhas_db"
+        )
         monkeypatch.setenv("REDIS_URL", "redis://cache.prod.com:6379")
         monkeypatch.setenv("LOG_LEVEL", "WARNING")
         monkeypatch.setenv("DEBUG", "false")
@@ -165,11 +172,11 @@ class TestIntegration:
         # Check optional config status
         status = validate_optional_config(prod_settings)
 
-        assert status['openai_configured'] is True
-        assert status['database_configured'] is True
-        assert status['redis_configured'] is True
-        assert status['debug_mode'] is False
-        assert status['log_level'] == 'WARNING'
+        assert status["openai_configured"] is True
+        assert status["database_configured"] is True
+        assert status["redis_configured"] is True
+        assert status["debug_mode"] is False
+        assert status["log_level"] == "WARNING"
 
     def test_development_config_flow(self, monkeypatch):
         """Test development configuration workflow."""
@@ -185,6 +192,6 @@ class TestIntegration:
 
         # Check status
         status = validate_optional_config(dev_settings)
-        assert status['openai_configured'] is False
-        assert status['debug_mode'] is True
-        assert status['log_level'] == 'DEBUG'
+        assert status["openai_configured"] is False
+        assert status["debug_mode"] is True
+        assert status["log_level"] == "DEBUG"

@@ -4,17 +4,18 @@ Test suite for LUKHAS Unified Grammar Symbolic Vocabulary System.
 Tests vocabulary definitions, validation, and usage patterns.
 """
 
-import pytest
 import json
 from pathlib import Path
 
+import pytest
+
 from symbolic.vocabularies import (
-    get_symbol,
-    dream_vocabulary,
     bio_vocabulary,
+    dream_vocabulary,
+    get_symbol,
     identity_vocabulary,
+    vision_vocabulary,
     voice_vocabulary,
-    vision_vocabulary
 )
 
 
@@ -34,31 +35,51 @@ class TestSymbolicVocabularyStructure:
             assert "guardian_weight" in entry, f"Missing guardian_weight in {key}"
 
             # Symbol format: 3-4 chars + ◊
-            assert entry["symbol"].endswith("◊"), f"Symbol must end with ◊: {entry['symbol']}"
-            assert 4 <= len(entry["symbol"]) <= 5, f"Symbol wrong length: {entry['symbol']}"
+            assert entry["symbol"].endswith(
+                "◊"
+            ), f"Symbol must end with ◊: {entry['symbol']}"
+            assert (
+                4 <= len(entry["symbol"]) <= 5
+            ), f"Symbol wrong length: {entry['symbol']}"
 
             # Guardian weight range
-            assert 0.0 <= entry["guardian_weight"] <= 1.0, f"Invalid guardian weight: {entry['guardian_weight']}"
+            assert (
+                0.0 <= entry["guardian_weight"] <= 1.0
+            ), f"Invalid guardian weight: {entry['guardian_weight']}"
 
             # Optional fields
             if "contexts" in entry:
-                assert isinstance(entry["contexts"], list), f"Contexts must be list: {key}"
+                assert isinstance(
+                    entry["contexts"], list
+                ), f"Contexts must be list: {key}"
 
     def test_dream_vocabulary_completeness(self):
         """Test dream vocabulary has all required symbols."""
         # Check phase symbols
-        assert hasattr(dream_vocabulary, 'DREAM_PHASE_SYMBOLS')
+        assert hasattr(dream_vocabulary, "DREAM_PHASE_SYMBOLS")
         phases = dream_vocabulary.DREAM_PHASE_SYMBOLS
 
-        required_phases = ["initiation", "pattern", "deep_symbolic", "creative", "integration"]
+        required_phases = [
+            "initiation",
+            "pattern",
+            "deep_symbolic",
+            "creative",
+            "integration",
+        ]
         for phase in required_phases:
             assert phase in phases, f"Missing dream phase: {phase}"
 
         # Check type symbols
-        assert hasattr(dream_vocabulary, 'DREAM_TYPE_SYMBOLS')
+        assert hasattr(dream_vocabulary, "DREAM_TYPE_SYMBOLS")
         types = dream_vocabulary.DREAM_TYPE_SYMBOLS
 
-        required_types = ["consolidation", "pattern", "creative", "ethical", "predictive"]
+        required_types = [
+            "consolidation",
+            "pattern",
+            "creative",
+            "ethical",
+            "predictive",
+        ]
         for dream_type in required_types:
             assert dream_type in types, f"Missing dream type: {dream_type}"
 
@@ -72,7 +93,7 @@ class TestSymbolicVocabularyStructure:
             assert op in bio_vocab, f"Missing bio operation: {op}"
 
         # Check biometric types
-        assert hasattr(bio_vocabulary, 'BIOMETRIC_SYMBOLS')
+        assert hasattr(bio_vocabulary, "BIOMETRIC_SYMBOLS")
         biometrics = bio_vocabulary.BIOMETRIC_SYMBOLS
 
         required_biometrics = ["fingerprint", "face", "voice", "iris", "dna"]
@@ -186,7 +207,7 @@ class TestVocabularyIntegration:
             bio_vocabulary.BIO_VOCABULARY,
             identity_vocabulary.IDENTITY_VOCABULARY,
             voice_vocabulary.VOICE_VOCABULARY,
-            vision_vocabulary.VISION_VOCABULARY
+            vision_vocabulary.VISION_VOCABULARY,
         ]
 
         for vocab in vocabularies:
@@ -216,7 +237,9 @@ class TestVocabularyDocumentation:
 
     def test_vocabulary_readme_exists(self):
         """Test vocabulary documentation exists."""
-        vocab_path = Path("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/symbolic/vocabularies")
+        vocab_path = Path(
+            "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/symbolic/vocabularies"
+        )
 
         assert (vocab_path / "README.md").exists()
         assert (vocab_path / "VALUABLE_ASSET_NOTICE.md").exists()

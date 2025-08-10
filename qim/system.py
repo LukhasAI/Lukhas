@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -33,28 +32,32 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-
-
-from typing import Dict, List, Any, Optional, Tuple
-import logging
 import asyncio
+import logging
 from dataclasses import dataclass
-from datetime import datetime
-import json
 from pathlib import Path
+from typing import Any, Dict, Optional
 
-from bio.quantum_inspired_layer import QuantumBioOscillator
+from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
+
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.quantum_dream_adapter import QuantumDreamAdapter, DreamQuantumConfig
-from quantum.dast_orchestrator import QuantumDASTOrchestrator, DASTQuantumConfig
-from quantum.awareness_system import QuantumAwarenessSystem, AwarenessQuantumConfig
 from core.unified_integration import UnifiedIntegration
+from quantum.awareness_system import (
+    AwarenessQuantumConfig,
+    QuantumAwarenessSystem,
+)
+from quantum.dast_orchestrator import (
+    DASTQuantumConfig,
+    QuantumDASTOrchestrator,
+)
 
 logger = logging.getLogger("quantum_unified")
+
 
 @dataclass
 class UnifiedQuantumConfig:
     """Configuration for unified quantum system"""
+
     dream_config: Optional[DreamQuantumConfig] = None
     dast_config: Optional[DASTQuantumConfig] = None
     awareness_config: Optional[AwarenessQuantumConfig] = None
@@ -63,15 +66,18 @@ class UnifiedQuantumConfig:
     enable_dast_orchestration: bool = True
     enable_awareness_system: bool = True
 
+
 class UnifiedQuantumSystem:
     """Unified quantum-enhanced system coordination"""
-    
-    def __init__(self,
-                orchestrator: BioOrchestrator,
-                integration: UnifiedIntegration,
-                config: Optional[UnifiedQuantumConfig] = None):
+
+    def __init__(
+        self,
+        orchestrator: BioOrchestrator,
+        integration: UnifiedIntegration,
+        config: Optional[UnifiedQuantumConfig] = None,
+    ):
         """Initialize unified quantum system
-        
+
         Args:
             orchestrator: Reference to bio-orchestrator
             integration: Integration layer reference
@@ -80,68 +86,58 @@ class UnifiedQuantumSystem:
         self.orchestrator = orchestrator
         self.integration = integration
         self.config = config or UnifiedQuantumConfig()
-        
+
         # Initialize quantum components
         self.dream_adapter = None
         self.dast_orchestrator = None
         self.awareness_system = None
-        
+
         if self.config.enable_dream_processing:
             self.dream_adapter = QuantumDreamAdapter(
-                orchestrator=self.orchestrator,
-                config=self.config.dream_config
+                orchestrator=self.orchestrator, config=self.config.dream_config
             )
-            
+
         if self.config.enable_dast_orchestration:
             self.dast_orchestrator = QuantumDASTOrchestrator(
                 orchestrator=self.orchestrator,
                 integration=self.integration,
-                config=self.config.dast_config
+                config=self.config.dast_config,
             )
-            
+
         if self.config.enable_awareness_system:
             self.awareness_system = QuantumAwarenessSystem(
                 orchestrator=self.orchestrator,
                 integration=self.integration,
                 config=self.config.awareness_config,
-                metrics_dir=self.config.metrics_dir
+                metrics_dir=self.config.metrics_dir,
             )
-        
+
         # Register with integration layer
-        self.integration.register_component(
-            "quantum_unified",
-            self.handle_message
-        )
-        
+        self.integration.register_component("quantum_unified", self.handle_message)
+
         logger.info("Unified quantum system initialized")
 
     async def start_all_systems(self) -> None:
         """Start all quantum subsystems"""
         try:
             start_tasks = []
-            
+
             if self.dream_adapter:
                 logger.info("Starting dream processing")
-                start_tasks.append(
-                    self.dream_adapter.start_dream_cycle()
-                )
-                
+                start_tasks.append(self.dream_adapter.start_dream_cycle())
+
             if self.dast_orchestrator:
                 logger.info("Starting DAST orchestration")
-                start_tasks.append(
-                    self.dast_orchestrator.start_orchestration()
-                )
-                
+                start_tasks.append(self.dast_orchestrator.start_orchestration())
+
             if self.awareness_system:
                 logger.info("Starting system monitoring")
-                start_tasks.append(
-                    self.awareness_system.start_monitoring()
-                )
-                
+                start_tasks.append(self.awareness_system.start_monitoring())
+
             # Start all systems concurrently
             await asyncio.gather(*start_tasks)
             logger.info("All quantum systems started")
-            
+
         except Exception as e:
             logger.error(f"Error starting quantum systems: {e}")
 
@@ -149,75 +145,65 @@ class UnifiedQuantumSystem:
         """Stop all quantum subsystems"""
         try:
             stop_tasks = []
-            
+
             if self.dream_adapter:
                 logger.info("Stopping dream processing")
-                stop_tasks.append(
-                    self.dream_adapter.stop_dream_cycle()
-                )
-                
+                stop_tasks.append(self.dream_adapter.stop_dream_cycle())
+
             if self.dast_orchestrator:
                 logger.info("Stopping DAST orchestration")
-                stop_tasks.append(
-                    self.dast_orchestrator.stop_orchestration()
-                )
-                
+                stop_tasks.append(self.dast_orchestrator.stop_orchestration())
+
             if self.awareness_system:
                 logger.info("Stopping system monitoring")
-                stop_tasks.append(
-                    self.awareness_system.stop_monitoring()
-                )
-                
+                stop_tasks.append(self.awareness_system.stop_monitoring())
+
             # Stop all systems concurrently
             await asyncio.gather(*stop_tasks)
             logger.info("All quantum systems stopped")
-            
+
         except Exception as e:
             logger.error(f"Error stopping quantum systems: {e}")
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get status of all quantum systems
-        
+
         Returns:
             Dict containing system status information
         """
         status = {
             "dream_processing": None,
             "dast_orchestration": None,
-            "system_monitoring": None
+            "system_monitoring": None,
         }
-        
+
         if self.dream_adapter:
-            status["dream_processing"] = {
-                "active": self.dream_adapter.active
-            }
-            
+            status["dream_processing"] = {"active": self.dream_adapter.active}
+
         if self.dast_orchestrator:
-            status["dast_orchestration"] = {
-                "active": self.dast_orchestrator.active
-            }
-            
+            status["dast_orchestration"] = {"active": self.dast_orchestrator.active}
+
         if self.awareness_system:
             system_state = self.awareness_system.get_system_state()
             status["system_monitoring"] = {
                 "active": self.awareness_system.active,
                 "quantum_coherence": system_state.quantum_coherence,
                 "system_health": system_state.system_health,
-                "alert_level": system_state.alert_level
+                "alert_level": system_state.alert_level,
             }
-            
+
         return status
 
     async def handle_message(self, message: Dict[str, Any]) -> None:
         """Handle incoming messages
-        
+
         Args:
             message: Message data
         """
         try:
             content = message["content"]
             action = content.get("action")
-            
+
             if action == "start_all":
                 await self.start_all_systems()
             elif action == "stop_all":
@@ -226,7 +212,7 @@ class UnifiedQuantumSystem:
                 await self._handle_status_request()
             else:
                 logger.warning(f"Unknown action: {action}")
-                
+
         except Exception as e:
             logger.error(f"Error handling message: {e}")
 
@@ -234,23 +220,18 @@ class UnifiedQuantumSystem:
         """Handle status request"""
         try:
             status = self.get_system_status()
-            
-            response = {
-                "type": "system_status",
-                "status": status
-            }
-            
-            await self.integration.send_message(
-                "quantum_unified",
-                response
-            )
-            
+
+            response = {"type": "system_status", "status": status}
+
+            await self.integration.send_message("quantum_unified", response)
+
         except Exception as e:
             logger.error(f"Error handling status request: {e}")
-            
+
     def _get_metrics_path(self) -> Path:
         """Get metrics directory path"""
         return Path(self.config.metrics_dir)
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -292,10 +273,10 @@ class UnifiedQuantumSystem:
 """
 
 
-
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -303,14 +284,15 @@ def __validate_module__():
         "quantum_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
-        "tier_2_access": True
+        "tier_2_access": True,
     }
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {failed}")
-    
+
     return len(failed) == 0
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Health and Monitoring
@@ -321,7 +303,7 @@ MODULE_HEALTH = {
     "quantum_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

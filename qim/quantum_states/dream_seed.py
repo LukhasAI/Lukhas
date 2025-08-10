@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -23,6 +22,7 @@ Module for dream seed functionality
 For more information, visit: https://lukhas.ai
 """
 
+
 def generate_episodic_dream(trace):
     """Deep trace dream: realistic, memory-preserving (early sleep phase)."""
     collapse_id = trace.get("collapse_id", "unknown")
@@ -32,12 +32,13 @@ def generate_episodic_dream(trace):
         "resonance": trace.get("resonance", 0.0),
         "symbol": "🌙",
         "interpretation": "You are consolidating a key emotional memory.",
-        "mutation_suggestion": "reinforce empathy circuits"
+        "mutation_suggestion": "reinforce empathy circuits",
     }
 
-from typing import Optional
-from quantum.quantum_flux import QuantumFlux
 
+from typing import Optional
+
+from quantum.quantum_flux import QuantumFlux
 
 THEMES = [
     "a lost animal",
@@ -50,7 +51,9 @@ THEMES = [
 _flux = QuantumFlux()
 
 
-def _seed_diversity_index(resonance: float, entropy_source: Optional[QuantumFlux] = None) -> int:
+def _seed_diversity_index(
+    resonance: float, entropy_source: Optional[QuantumFlux] = None
+) -> int:
     """Select theme index using resonance and quantum entropy."""
     source = entropy_source or _flux
     entropy = source.measure_entropy()
@@ -68,8 +71,9 @@ def generate_semantic_dream(trace, flux: Optional[QuantumFlux] = None):
         "resonance": resonance,
         "symbol": "💭",
         "interpretation": "This dream reveals unresolved tension or symbolic drift.",
-        "mutation_suggestion": "rebalance decision weightings"
+        "mutation_suggestion": "rebalance decision weightings",
     }
+
 
 def seed_dream(folded_trace, phase: str = "late", flux: Optional[QuantumFlux] = None):
     """
@@ -86,11 +90,6 @@ def seed_dream(folded_trace, phase: str = "late", flux: Optional[QuantumFlux] = 
         return generate_episodic_dream(folded_trace)
     else:
         return generate_semantic_dream(folded_trace, flux=flux)
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

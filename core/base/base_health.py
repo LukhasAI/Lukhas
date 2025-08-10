@@ -38,10 +38,10 @@
 
 # Module imports
 import logging
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -53,6 +53,7 @@ MODULE_NAME = "base_health"
 
 class HealthStatus(Enum):
     """Health status levels"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     CRITICAL = "critical"
@@ -62,10 +63,11 @@ class HealthStatus(Enum):
 @dataclass
 class HealthCheck:
     """Individual health check result"""
+
     name: str
     status: HealthStatus
     message: str = ""
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
 
@@ -74,7 +76,7 @@ class BaseHealthMonitor:
 
     def __init__(self, component_name: str):
         self.component_name = component_name
-        self._checks: List[HealthCheck] = []
+        self._checks: list[HealthCheck] = []
 
     def add_check(self, check: HealthCheck) -> None:
         """Add a health check result"""
@@ -95,7 +97,7 @@ class BaseHealthMonitor:
 
         return HealthStatus.HEALTHY
 
-    def get_report(self) -> Dict[str, Any]:
+    def get_report(self) -> dict[str, Any]:
         """Get health report"""
         return {
             "component": self.component_name,
@@ -105,16 +107,17 @@ class BaseHealthMonitor:
                     "name": check.name,
                     "status": check.status.value,
                     "message": check.message,
-                    "timestamp": check.timestamp.isoformat()
+                    "timestamp": check.timestamp.isoformat(),
                 }
                 for check in self._checks
             ],
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.utcnow().isoformat(),
         }
 
     def clear_checks(self) -> None:
         """Clear all health checks"""
         self._checks = []
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

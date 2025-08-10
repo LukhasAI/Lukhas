@@ -43,25 +43,24 @@
 import asyncio
 import hashlib
 import json
+import pickle
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 from uuid import uuid4
-import pickle
-import copy
-
-import structlog
 
 # Import LUKHAS components
 try:
+    from core.symbolism.tags import TagPermission, TagScope
     from memory.structural_conscience import StructuralConscience
-    from core.symbolism.tags import TagScope, TagPermission
+
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
     LUKHAS_AVAILABLE = False
+
     # Define minimal stubs
     class TagScope(Enum):
         GLOBAL = "global"
@@ -70,11 +69,10 @@ except ImportError as e:
         TEMPORAL = "temporal"
         GENETIC = "genetic"
 
-from core.common import get_logger
-
 
 class HashAlgorithm(Enum):
     """Available hashing algorithms"""
+
     SHA256 = "sha256"
     SHA3_256 = "sha3_256"
     BLAKE2B = "blake2b"
@@ -83,6 +81,7 @@ class HashAlgorithm(Enum):
 
 class IntegrityStatus(Enum):
     """Status of memory integrity"""
+
     VALID = "valid"
     CORRUPTED = "corrupted"
     SUSPICIOUS = "suspicious"
@@ -92,11 +91,12 @@ class IntegrityStatus(Enum):
 @dataclass
 class MerkleNode:
     """Node in the Merkle tree"""
+
     node_id: str = field(default_factory=lambda: str(uuid4()))
     data_hash: str = ""
-    left_child: Optional['MerkleNode'] = None
-    right_child: Optional['MerkleNode'] = None
-    parent: Optional['MerkleNode'] = None
+    left_child: Optional["MerkleNode"] = None
+    right_child: Optional["MerkleNode"] = None
+    parent: Optional["MerkleNode"] = None
     timestamp: float = field(default_factory=time.time)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -130,6 +130,7 @@ class MerkleNode:
 @dataclass
 class Checkpoint:
     """Checkpoint for rollback capability"""
+
     checkpoint_id: str = field(default_factory=lambda: str(uuid4()))
     root_hash: str = ""
     tree_snapshot: Optional[MerkleNode] = None
@@ -146,7 +147,7 @@ class Checkpoint:
             "timestamp": self.timestamp,
             "memory_count": self.memory_count,
             "metadata": self.metadata,
-            "tag_scope": self.tag_scope.value
+            "tag_scope": self.tag_scope.value,
         }
 
 
@@ -167,14 +168,18 @@ class MerkleTree:
     def add_memory(self, memory_data: Any, memory_id: str) -> str:
         """Add a memory to the tree"""
         # Serialize and hash the memory data
-        serialized = json.dumps(memory_data, sort_keys=True) if isinstance(memory_data, dict) else str(memory_data)
+        serialized = (
+            json.dumps(memory_data, sort_keys=True)
+            if isinstance(memory_data, dict)
+            else str(memory_data)
+        )
         data_hash = self._hash_data(serialized)
 
         # Create leaf node
         leaf = MerkleNode(
             node_id=memory_id,
             data_hash=data_hash,
-            metadata={"type": "memory", "size": len(serialized)}
+            metadata={"type": "memory", "size": len(serialized)},
         )
 
         self.leaves.append(leaf)
@@ -183,17 +188,25 @@ class MerkleTree:
         # Rebuild tree
         self._rebuild_tree()
 
-        logger.debug("Memory added to Merkle tree", memory_id=memory_id, hash=data_hash[:16])
+        logger.debug(
+            "Memory added to Merkle tree", memory_id=memory_id, hash=data_hash[:16]
+        )
 
         return data_hash
 
-    def verify_memory(self, memory_id: str, memory_data: Any) -> Tuple[IntegrityStatus, Optional[str]]:
+    def verify_memory(
+        self, memory_id: str, memory_data: Any
+    ) -> Tuple[IntegrityStatus, Optional[str]]:
         """Verify integrity of a specific memory"""
         if memory_id not in self.node_map:
             return IntegrityStatus.UNVERIFIED, "Memory not found in tree"
 
         # Compute expected hash
-        serialized = json.dumps(memory_data, sort_keys=True) if isinstance(memory_data, dict) else str(memory_data)
+        serialized = (
+            json.dumps(memory_data, sort_keys=True)
+            if isinstance(memory_data, dict)
+            else str(memory_data)
+        )
         expected_hash = self._hash_data(serialized)
 
         # Get actual hash from tree
@@ -203,7 +216,10 @@ class MerkleTree:
         if expected_hash == actual_hash:
             return IntegrityStatus.VALID, None
         else:
-            return IntegrityStatus.CORRUPTED, f"Hash mismatch: expected {expected_hash[:16]}, got {actual_hash[:16]}"
+            return (
+                IntegrityStatus.CORRUPTED,
+                f"Hash mismatch: expected {expected_hash[:16]}, got {actual_hash[:16]}",
+            )
 
     def generate_proof(self, memory_id: str) -> List[Tuple[str, str]]:
         """Generate Merkle proof for a memory"""
@@ -313,7 +329,7 @@ class CollapseHash:
         algorithm: HashAlgorithm = HashAlgorithm.SHA256,
         structural_conscience: Optional[Any] = None,
         enable_auto_checkpoint: bool = True,
-        checkpoint_interval: int = 100  # memories
+        checkpoint_interval: int = 100,  # memories
     ):
         self.merkle_tree = MerkleTree(algorithm)
         self.checkpoints: Dict[str, Checkpoint] = {}
@@ -335,7 +351,7 @@ class CollapseHash:
             "CollapseHash initialized",
             algorithm=algorithm.value,
             auto_checkpoint=enable_auto_checkpoint,
-            checkpoint_interval=checkpoint_interval
+            checkpoint_interval=checkpoint_interval,
         )
 
     async def add_memory(
@@ -343,7 +359,7 @@ class CollapseHash:
         memory_id: str,
         memory_data: Any,
         tags: Optional[List[str]] = None,
-        ethical_check: bool = True
+        ethical_check: bool = True,
     ) -> Dict[str, Any]:
         """Add a memory with integrity tracking"""
 
@@ -352,8 +368,7 @@ class CollapseHash:
             is_ethical = await self._validate_ethical_content(memory_data)
             if not is_ethical:
                 logger.warning(
-                    "Memory rejected on ethical grounds",
-                    memory_id=memory_id
+                    "Memory rejected on ethical grounds", memory_id=memory_id
                 )
                 return {"success": False, "reason": "Ethical validation failed"}
 
@@ -367,18 +382,21 @@ class CollapseHash:
                 self.integrity_tags[f"{memory_id}:{tag}"] = (
                     tag,
                     TagScope.LOCAL,
-                    IntegrityStatus.VALID
+                    IntegrityStatus.VALID,
                 )
 
         # Auto checkpoint if enabled
-        if self.enable_auto_checkpoint and self.total_memories % self.checkpoint_interval == 0:
+        if (
+            self.enable_auto_checkpoint
+            and self.total_memories % self.checkpoint_interval == 0
+        ):
             checkpoint_id = await self.create_checkpoint(
                 metadata={"auto": True, "memory_count": self.total_memories}
             )
             logger.info(
                 "Auto checkpoint created",
                 checkpoint_id=checkpoint_id,
-                memory_count=self.total_memories
+                memory_count=self.total_memories,
             )
 
         return {
@@ -386,14 +404,11 @@ class CollapseHash:
             "memory_id": memory_id,
             "data_hash": data_hash,
             "root_hash": self.merkle_tree.get_root_hash(),
-            "total_memories": self.total_memories
+            "total_memories": self.total_memories,
         }
 
     async def verify_memory(
-        self,
-        memory_id: str,
-        memory_data: Any,
-        generate_proof: bool = False
+        self, memory_id: str, memory_data: Any, generate_proof: bool = False
     ) -> Dict[str, Any]:
         """Verify memory integrity"""
         self.total_verifications += 1
@@ -408,7 +423,11 @@ class CollapseHash:
             for tag_key in list(self.integrity_tags.keys()):
                 if tag_key.startswith(f"{memory_id}:"):
                     tag, scope, _ = self.integrity_tags[tag_key]
-                    self.integrity_tags[tag_key] = (tag, scope, IntegrityStatus.CORRUPTED)
+                    self.integrity_tags[tag_key] = (
+                        tag,
+                        scope,
+                        IntegrityStatus.CORRUPTED,
+                    )
 
             # Record in conscience if available
             if self.structural_conscience:
@@ -418,15 +437,15 @@ class CollapseHash:
                         "memory_id": memory_id,
                         "status": status.value,
                         "message": message,
-                        "timestamp": datetime.now(timezone.utc).isoformat()
-                    }
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    },
                 )
 
         result = {
             "memory_id": memory_id,
             "status": status.value,
             "message": message,
-            "root_hash": self.merkle_tree.get_root_hash()
+            "root_hash": self.merkle_tree.get_root_hash(),
         }
 
         # Generate proof if requested
@@ -441,7 +460,7 @@ class CollapseHash:
     async def create_checkpoint(
         self,
         checkpoint_name: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Create a checkpoint for potential rollback"""
 
@@ -452,7 +471,7 @@ class CollapseHash:
             root_hash=self.merkle_tree.get_root_hash() or "",
             tree_snapshot=tree_snapshot,
             memory_count=self.total_memories,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         if checkpoint_name:
@@ -465,15 +484,13 @@ class CollapseHash:
             "Checkpoint created",
             checkpoint_id=checkpoint.checkpoint_id,
             root_hash=checkpoint.root_hash[:16],
-            memory_count=checkpoint.memory_count
+            memory_count=checkpoint.memory_count,
         )
 
         return checkpoint.checkpoint_id
 
     async def rollback_to_checkpoint(
-        self,
-        checkpoint_id: str,
-        reason: str = "Unspecified"
+        self, checkpoint_id: str, reason: str = "Unspecified"
     ) -> Dict[str, Any]:
         """Rollback memory state to a checkpoint"""
 
@@ -486,7 +503,7 @@ class CollapseHash:
         pre_rollback_state = {
             "root_hash": self.merkle_tree.get_root_hash(),
             "memory_count": self.total_memories,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         try:
@@ -501,8 +518,8 @@ class CollapseHash:
 
             # Remove checkpoints after this one
             rollback_index = self.checkpoint_order.index(checkpoint_id)
-            removed_checkpoints = self.checkpoint_order[rollback_index + 1:]
-            self.checkpoint_order = self.checkpoint_order[:rollback_index + 1]
+            removed_checkpoints = self.checkpoint_order[rollback_index + 1 :]
+            self.checkpoint_order = self.checkpoint_order[: rollback_index + 1]
 
             for cp_id in removed_checkpoints:
                 del self.checkpoints[cp_id]
@@ -518,15 +535,15 @@ class CollapseHash:
                         "reason": reason,
                         "pre_rollback": pre_rollback_state,
                         "post_rollback_root": checkpoint.root_hash,
-                        "timestamp": datetime.now(timezone.utc).isoformat()
-                    }
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    },
                 )
 
             logger.info(
                 "Rollback successful",
                 checkpoint_id=checkpoint_id,
                 reason=reason,
-                memories_restored=checkpoint.memory_count
+                memories_restored=checkpoint.memory_count,
             )
 
             return {
@@ -534,15 +551,11 @@ class CollapseHash:
                 "checkpoint_id": checkpoint_id,
                 "root_hash": checkpoint.root_hash,
                 "memories_restored": checkpoint.memory_count,
-                "checkpoints_removed": len(removed_checkpoints)
+                "checkpoints_removed": len(removed_checkpoints),
             }
 
         except Exception as e:
-            logger.error(
-                "Rollback failed",
-                checkpoint_id=checkpoint_id,
-                error=str(e)
-            )
+            logger.error("Rollback failed", checkpoint_id=checkpoint_id, error=str(e))
             return {"success": False, "reason": f"Rollback failed: {str(e)}"}
 
     async def audit_integrity(self) -> Dict[str, Any]:
@@ -554,7 +567,8 @@ class CollapseHash:
 
         # Check all integrity tags
         corrupted_tags = [
-            tag_key for tag_key, (_, _, status) in self.integrity_tags.items()
+            tag_key
+            for tag_key, (_, _, status) in self.integrity_tags.items()
             if status == IntegrityStatus.CORRUPTED
         ]
 
@@ -568,8 +582,9 @@ class CollapseHash:
             "total_memories": self.total_memories,
             "total_checkpoints": len(self.checkpoints),
             "corrupted_tags": len(corrupted_tags),
-            "corruption_rate": self.corruption_detections / max(self.total_verifications, 1),
-            "audit_time_ms": audit_time * 1000
+            "corruption_rate": self.corruption_detections
+            / max(self.total_verifications, 1),
+            "audit_time_ms": audit_time * 1000,
         }
 
         logger.info("Integrity audit completed", **audit_result)
@@ -651,7 +666,7 @@ async def demonstrate_collapse_hash():
     collapse_hash = CollapseHash(
         algorithm=HashAlgorithm.SHA256,
         enable_auto_checkpoint=True,
-        checkpoint_interval=3
+        checkpoint_interval=3,
     )
 
     print("=== CollapseHash Demonstration ===\n")
@@ -662,15 +677,13 @@ async def demonstrate_collapse_hash():
         {"content": "Successful problem solving", "type": "achievement"},
         {"content": "User interaction data", "type": "interaction"},
         {"content": "System optimization complete", "type": "system"},
-        {"content": "Ethical reasoning applied", "type": "ethical"}
+        {"content": "Ethical reasoning applied", "type": "ethical"},
     ]
 
     memory_ids = []
     for i, memory in enumerate(memories):
         result = await collapse_hash.add_memory(
-            memory_id=f"mem_{i}",
-            memory_data=memory,
-            tags=["learning", memory["type"]]
+            memory_id=f"mem_{i}", memory_data=memory, tags=["learning", memory["type"]]
         )
         memory_ids.append(f"mem_{i}")
         print(f"Added memory {i}: {memory['content'][:30]}...")
@@ -678,9 +691,7 @@ async def demonstrate_collapse_hash():
     # Verify a memory
     print("\n--- Verifying Memory ---")
     verify_result = await collapse_hash.verify_memory(
-        memory_id="mem_1",
-        memory_data=memories[1],
-        generate_proof=True
+        memory_id="mem_1", memory_data=memories[1], generate_proof=True
     )
     print(f"Verification: {verify_result['status']}")
     if "proof" in verify_result:
@@ -690,8 +701,7 @@ async def demonstrate_collapse_hash():
     print("\n--- Simulating Corruption ---")
     corrupted_memory = {"content": "CORRUPTED DATA", "type": "achievement"}
     verify_corrupt = await collapse_hash.verify_memory(
-        memory_id="mem_1",
-        memory_data=corrupted_memory
+        memory_id="mem_1", memory_data=corrupted_memory
     )
     print(f"Corrupted verification: {verify_corrupt['status']}")
     print(f"Message: {verify_corrupt['message']}")
@@ -700,7 +710,7 @@ async def demonstrate_collapse_hash():
     print("\n--- Creating Manual Checkpoint ---")
     checkpoint_id = await collapse_hash.create_checkpoint(
         checkpoint_name="Pre-corruption state",
-        metadata={"reason": "Before testing rollback"}
+        metadata={"reason": "Before testing rollback"},
     )
     print(f"Checkpoint created: {checkpoint_id[:16]}...")
 
@@ -708,7 +718,10 @@ async def demonstrate_collapse_hash():
     for i in range(5, 8):
         await collapse_hash.add_memory(
             memory_id=f"mem_{i}",
-            memory_data={"content": f"Potentially problematic memory {i}", "type": "unknown"}
+            memory_data={
+                "content": f"Potentially problematic memory {i}",
+                "type": "unknown",
+            },
         )
 
     print(f"\nTotal memories before rollback: {collapse_hash.total_memories}")
@@ -716,8 +729,7 @@ async def demonstrate_collapse_hash():
     # Rollback to checkpoint
     print("\n--- Rolling Back ---")
     rollback_result = await collapse_hash.rollback_to_checkpoint(
-        checkpoint_id=checkpoint_id,
-        reason="Removing potentially corrupted memories"
+        checkpoint_id=checkpoint_id, reason="Removing potentially corrupted memories"
     )
     print(f"Rollback success: {rollback_result['success']}")
     print(f"Memories after rollback: {rollback_result['memories_restored']}")
@@ -733,7 +745,9 @@ async def demonstrate_collapse_hash():
     print("\n--- Checkpoint History ---")
     history = collapse_hash.get_checkpoint_history()
     for cp in history:
-        print(f"Checkpoint {cp['checkpoint_id'][:16]}... - {cp['memory_count']} memories")
+        print(
+            f"Checkpoint {cp['checkpoint_id'][:16]}... - {cp['memory_count']} memories"
+        )
 
 
 if __name__ == "__main__":

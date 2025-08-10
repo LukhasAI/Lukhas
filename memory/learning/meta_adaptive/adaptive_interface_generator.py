@@ -5,8 +5,8 @@ Advanced: adaptive_interface_generator.py
 Integration Date: 2025-05-31T07:55:28.137208
 """
 
-from typing import Dict, List, Any, Optional
-import json
+from typing import Dict, List, Optional
+
 
 class AdaptiveInterfaceGenerator:
     """
@@ -23,7 +23,7 @@ class AdaptiveInterfaceGenerator:
             "purposeful": 10,
             "coherent": 8,
             "aesthetic": 7,
-            "efficient": 9
+            "efficient": 9,
         }
         self.device_profiles = self._load_device_profiles()
         self.user_preferences = {}
@@ -34,7 +34,7 @@ class AdaptiveInterfaceGenerator:
         user_id: str,
         context: Dict,
         available_functions: List[str],
-        device_info: Dict
+        device_info: Dict,
     ) -> Dict:
         """
         Generate a complete interface specification adapted to user and context
@@ -62,7 +62,7 @@ class AdaptiveInterfaceGenerator:
             "animations": self._define_animations(user_profile),
             "accessibility": self._enhance_accessibility(user_profile),
             "version": "1.0",
-            "generated_timestamp": "2025-05-03T12:34:56Z"
+            "generated_timestamp": "2025-05-03T12:34:56Z",
         }
 
         return interface_spec
@@ -73,11 +73,11 @@ class AdaptiveInterfaceGenerator:
         # Placeholder implementation
         return {
             "visual_density": "spacious",  # compact, balanced, spacious
-            "color_theme": "light",        # light, dark, system
-            "text_size": "medium",         # small, medium, large
-            "interaction_style": "direct", # direct, guided, exploratory
+            "color_theme": "light",  # light, dark, system
+            "text_size": "medium",  # small, medium, large
+            "interaction_style": "direct",  # direct, guided, exploratory
             "accessibility_needs": [],
-            "past_interactions": []
+            "past_interactions": [],
         }
 
     def _analyze_context_needs(self, context: Dict, user_profile: Dict) -> List[Dict]:
@@ -87,7 +87,7 @@ class AdaptiveInterfaceGenerator:
         return [
             {"need": "quick_response", "priority": 0.9},
             {"need": "information_clarity", "priority": 0.8},
-            {"need": "minimal_interaction", "priority": 0.7}
+            {"need": "minimal_interaction", "priority": 0.7},
         ]
 
     def _get_device_layout(self, device_info: Dict) -> Dict:
@@ -106,9 +106,7 @@ class AdaptiveInterfaceGenerator:
         return self.device_profiles["desktop"]
 
     def _select_components(
-        self,
-        prioritized_needs: List[Dict],
-        available_functions: List[str]
+        self, prioritized_needs: List[Dict], available_functions: List[str]
     ) -> List[Dict]:
         """Select appropriate interface components"""
         selected = []
@@ -118,16 +116,18 @@ class AdaptiveInterfaceGenerator:
             "voice_interaction": ["voice_button", "transcript_display"],
             "image_generation": ["prompt_input", "image_display", "style_selector"],
             "text_completion": ["text_input", "completion_display"],
-            "data_visualization": ["chart_container", "data_controls"]
+            "data_visualization": ["chart_container", "data_controls"],
         }
 
         # Select components based on available functions
         for function in available_functions:
             if function in function_map:
-                selected.extend([
-                    {"type": component_type, "priority": 0.5}
-                    for component_type in function_map[function]
-                ])
+                selected.extend(
+                    [
+                        {"type": component_type, "priority": 0.5}
+                        for component_type in function_map[function]
+                    ]
+                )
 
         # Adjust priorities based on user needs
         for component in selected:
@@ -157,11 +157,13 @@ class AdaptiveInterfaceGenerator:
             if component_spec:
                 placement = self._find_optimal_placement(component_spec, grid)
                 if placement:
-                    layout["components"].append({
-                        "type": component["type"],
-                        "position": placement,
-                        "config": component_spec["default_config"]
-                    })
+                    layout["components"].append(
+                        {
+                            "type": component["type"],
+                            "position": placement,
+                            "config": component_spec["default_config"],
+                        }
+                    )
 
         return layout
 
@@ -186,7 +188,9 @@ class AdaptiveInterfaceGenerator:
         # Define standard interactions
         for component in components:
             component_type = component["type"]
-            interactions[component_type] = self._get_standard_interactions(component_type)
+            interactions[component_type] = self._get_standard_interactions(
+                component_type
+            )
 
         return interactions
 
@@ -197,7 +201,7 @@ class AdaptiveInterfaceGenerator:
             "transition_speed": "medium",
             "emphasis_effect": "subtle",
             "feedback_animations": True,
-            "reduce_motion": False
+            "reduce_motion": False,
         }
 
         # Adjust for accessibility
@@ -214,7 +218,7 @@ class AdaptiveInterfaceGenerator:
             "keyboard_navigation": True,
             "high_contrast": False,
             "large_targets": False,
-            "text_descriptions": True
+            "text_descriptions": True,
         }
 
         # Adjust based on user needs
@@ -232,18 +236,18 @@ class AdaptiveInterfaceGenerator:
             "desktop": {
                 "layout_grid": {"rows": 12, "columns": 12},
                 "min_component_size": {"width": 2, "height": 1},
-                "spacing": "medium"
+                "spacing": "medium",
             },
             "tablet": {
                 "layout_grid": {"rows": 8, "columns": 8},
                 "min_component_size": {"width": 2, "height": 1},
-                "spacing": "medium"
+                "spacing": "medium",
             },
             "mobile": {
                 "layout_grid": {"rows": 6, "columns": 4},
                 "min_component_size": {"width": 4, "height": 1},
-                "spacing": "compact"
-            }
+                "spacing": "compact",
+            },
         }
 
     def _load_components(self) -> Dict:
@@ -253,13 +257,19 @@ class AdaptiveInterfaceGenerator:
         return {
             "voice_button": {
                 "type": "input",
-                "size_range": {"min": {"width": 1, "height": 1}, "max": {"width": 2, "height": 1}},
-                "default_config": {"icon": "microphone", "shape": "circle"}
+                "size_range": {
+                    "min": {"width": 1, "height": 1},
+                    "max": {"width": 2, "height": 1},
+                },
+                "default_config": {"icon": "microphone", "shape": "circle"},
             },
             "transcript_display": {
                 "type": "output",
-                "size_range": {"min": {"width": 4, "height": 2}, "max": {"width": 12, "height": 8}},
-                "default_config": {"scroll": True, "highlight_current": True}
+                "size_range": {
+                    "min": {"width": 4, "height": 2},
+                    "max": {"width": 12, "height": 8},
+                },
+                "default_config": {"scroll": True, "highlight_current": True},
             },
             # Additional components would be defined here
         }
@@ -279,7 +289,9 @@ class AdaptiveInterfaceGenerator:
         """Get component specification by type"""
         return self.interface_components.get(component_type)
 
-    def _find_optimal_placement(self, component_spec: Dict, grid: Dict) -> Optional[Dict]:
+    def _find_optimal_placement(
+        self, component_spec: Dict, grid: Dict
+    ) -> Optional[Dict]:
         """Find optimal placement for component in grid"""
         # Placeholder - this would implement a layout algorithm
         # For now, return a simple placement
@@ -287,7 +299,7 @@ class AdaptiveInterfaceGenerator:
             "row": 0,
             "col": 0,
             "width": component_spec["size_range"]["min"]["width"],
-            "height": component_spec["size_range"]["min"]["height"]
+            "height": component_spec["size_range"]["min"]["height"],
         }
 
     def _get_base_style(self) -> Dict:
@@ -298,21 +310,18 @@ class AdaptiveInterfaceGenerator:
                 "secondary": "#ffffff",
                 "accent": "#0066cc",
                 "background": "#ffffff",
-                "text": "#000000"
+                "text": "#000000",
             },
             "typography": {
                 "font_family": "SF Pro, Helvetica Neue, sans-serif",
                 "base_size": "16px",
                 "scale_ratio": 1.2,
                 "weight_normal": 400,
-                "weight_bold": 600
+                "weight_bold": 600,
             },
-            "spacing": {
-                "unit": "8px",
-                "scale": [0, 1, 2, 3, 5, 8, 13]
-            },
+            "spacing": {"unit": "8px", "scale": [0, 1, 2, 3, 5, 8, 13]},
             "corners": "slightly_rounded",  # sharp, slightly_rounded, rounded
-            "shadows": "subtle"            # none, subtle, pronounced
+            "shadows": "subtle",  # none, subtle, pronounced
         }
 
     def _adjust_for_user(self, base_style: Dict, user_profile: Dict) -> Dict:
@@ -326,15 +335,11 @@ class AdaptiveInterfaceGenerator:
                 "secondary": "#1a1a1a",
                 "accent": "#0a84ff",
                 "background": "#000000",
-                "text": "#ffffff"
+                "text": "#ffffff",
             }
 
         # Adjust for text size
-        text_size_map = {
-            "small": "14px",
-            "medium": "16px",
-            "large": "18px"
-        }
+        text_size_map = {"small": "14px", "medium": "16px", "large": "18px"}
         style["typography"]["base_size"] = text_size_map.get(
             user_profile.get("text_size", "medium"), "16px"
         )
@@ -350,18 +355,18 @@ class AdaptiveInterfaceGenerator:
         # Common interaction patterns
         common = {
             "hover": {"effect": "highlight", "feedback": "subtle"},
-            "focus": {"effect": "outline", "feedback": "clear"}
+            "focus": {"effect": "outline", "feedback": "clear"},
         }
 
         # Component-specific interactions
         specific = {
             "voice_button": {
                 "press": {"action": "start_listening", "feedback": "visual_pulse"},
-                "long_press": {"action": "show_options", "feedback": "haptic"}
+                "long_press": {"action": "show_options", "feedback": "haptic"},
             },
             "transcript_display": {
                 "scroll": {"action": "navigate_history", "feedback": "none"},
-                "tap": {"action": "select_utterance", "feedback": "highlight"}
+                "tap": {"action": "select_utterance", "feedback": "highlight"},
             },
             # Additional component interactions
         }

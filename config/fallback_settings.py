@@ -15,15 +15,16 @@
 ║ be used if the main pydantic-based config system fails.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 """Fallback configuration system for LUKHAS when primary config fails.
 
 This provides a minimal, dependency-free configuration system that can
 be used if the main pydantic-based config system fails.
 """
 
-import os
 import logging
-from typing import Optional, Dict, Any
+import os
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -33,26 +34,30 @@ class FallbackSettings:
 
     def __init__(self):
         """Initialize with safe defaults."""
-        self.OPENAI_API_KEY: Optional[str] = os.getenv('OPENAI_API_KEY')
-        self.DATABASE_URL: str = os.getenv('DATABASE_URL', 'sqlite:///lukhas_fallback.db')
-        self.REDIS_URL: str = os.getenv('REDIS_URL', 'redis://localhost:6379')
-        self.LOG_LEVEL: str = os.getenv('LOG_LEVEL', 'WARNING')  # More conservative
-        self.DEBUG: bool = os.getenv('DEBUG', 'false').lower() == 'true'
+        self.OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
+        self.DATABASE_URL: str = os.getenv(
+            "DATABASE_URL", "sqlite:///lukhas_fallback.db"
+        )
+        self.REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379")
+        self.LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # More conservative
+        self.DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 
         # Fallback mode indicator
         self.FALLBACK_MODE: bool = True
 
-        logger.warning("Using fallback configuration system - some features may be limited")
+        logger.warning(
+            "Using fallback configuration system - some features may be limited"
+        )
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
         return {
-            'OPENAI_API_KEY': self.OPENAI_API_KEY,
-            'DATABASE_URL': self.DATABASE_URL,
-            'REDIS_URL': self.REDIS_URL,
-            'LOG_LEVEL': self.LOG_LEVEL,
-            'DEBUG': self.DEBUG,
-            'FALLBACK_MODE': self.FALLBACK_MODE
+            "OPENAI_API_KEY": self.OPENAI_API_KEY,
+            "DATABASE_URL": self.DATABASE_URL,
+            "REDIS_URL": self.REDIS_URL,
+            "LOG_LEVEL": self.LOG_LEVEL,
+            "DEBUG": self.DEBUG,
+            "FALLBACK_MODE": self.FALLBACK_MODE,
         }
 
 
@@ -64,14 +69,16 @@ def get_fallback_settings() -> FallbackSettings:
 def validate_fallback_config(settings: FallbackSettings) -> Dict[str, Any]:
     """Validate fallback configuration."""
     status = {
-        'openai_configured': settings.OPENAI_API_KEY is not None,
-        'database_configured': 'sqlite' not in settings.DATABASE_URL.lower(),
-        'redis_configured': 'localhost' not in settings.REDIS_URL,
-        'debug_mode': settings.DEBUG,
-        'log_level': settings.LOG_LEVEL,
-        'fallback_mode': True
+        "openai_configured": settings.OPENAI_API_KEY is not None,
+        "database_configured": "sqlite" not in settings.DATABASE_URL.lower(),
+        "redis_configured": "localhost" not in settings.REDIS_URL,
+        "debug_mode": settings.DEBUG,
+        "log_level": settings.LOG_LEVEL,
+        "fallback_mode": True,
     }
     return status
+
+
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

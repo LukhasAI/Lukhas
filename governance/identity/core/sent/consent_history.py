@@ -14,9 +14,9 @@ Features:
 """
 
 import hashlib
-import time
-from typing import Dict, List, Optional
 from datetime import datetime
+from typing import Optional
+
 
 class ConsentHistoryManager:
     """Manage immutable consent history with symbolic trails"""
@@ -25,24 +25,26 @@ class ConsentHistoryManager:
         self.config = config
         self.trace_logger = trace_logger
         self.consent_chain = {}
-        self.hash_algorithm = 'sha256'
+        self.hash_algorithm = "sha256"
 
-    def record_consent_event(self, user_id: str, event_type: str, scope_data: dict, metadata: dict) -> str:
+    def record_consent_event(
+        self, user_id: str, event_type: str, scope_data: dict, metadata: dict
+    ) -> str:
         """Record a consent event in immutable history"""
         timestamp = datetime.utcnow().isoformat()
 
         # Create consent record
         consent_record = {
-            'user_id': user_id,
-            'event_type': event_type,  # 'granted', 'revoked', 'updated'
-            'scope_data': scope_data,
-            'timestamp': timestamp,
-            'metadata': metadata
+            "user_id": user_id,
+            "event_type": event_type,  # 'granted', 'revoked', 'updated'
+            "scope_data": scope_data,
+            "timestamp": timestamp,
+            "metadata": metadata,
         }
 
         # Generate hash for chain integrity
         record_hash = self._generate_record_hash(consent_record, user_id)
-        consent_record['hash'] = record_hash
+        consent_record["hash"] = record_hash
 
         # Add to chain
         if user_id not in self.consent_chain:
@@ -50,7 +52,7 @@ class ConsentHistoryManager:
 
         # Link to previous record
         if self.consent_chain[user_id]:
-            consent_record['previous_hash'] = self.consent_chain[user_id][-1]['hash']
+            consent_record["previous_hash"] = self.consent_chain[user_id][-1]["hash"]
 
         self.consent_chain[user_id].append(consent_record)
 
@@ -68,17 +70,16 @@ class ConsentHistoryManager:
 
     def _log_to_trace(self, user_id: str, consent_record: dict):
         """Log consent event to ΛTRACE system"""
-        symbolic_data = {
-            'action': 'consent_event',
-            'symbol': '📋',
-            'event_type': consent_record['event_type'],
-            'scope_count': len(consent_record['scope_data']),
-            'hash': consent_record['hash'][:8]  # Short hash for trace
+        {
+            "action": "consent_event",
+            "symbol": "📋",
+            "event_type": consent_record["event_type"],
+            "scope_count": len(consent_record["scope_data"]),
+            "hash": consent_record["hash"][:8],  # Short hash for trace
         }
 
         # TODO: Call ΛTRACE logger
         # self.trace_logger.log_activity(user_id, 'consent', symbolic_data)
-        pass
 
     def verify_consent_chain(self, user_id: str) -> bool:
         """Verify integrity of user's consent chain"""
@@ -89,17 +90,19 @@ class ConsentHistoryManager:
         for i, record in enumerate(chain):
             # Verify hash integrity
             expected_hash = self._generate_record_hash(record, user_id)
-            if record['hash'] != expected_hash:
+            if record["hash"] != expected_hash:
                 return False
 
             # Verify chain linkage
             if i > 0:
-                if record.get('previous_hash') != chain[i-1]['hash']:
+                if record.get("previous_hash") != chain[i - 1]["hash"]:
                     return False
 
         return True
 
-    def get_consent_timeline(self, user_id: str, scope: Optional[str] = None) -> List[dict]:
+    def get_consent_timeline(
+        self, user_id: str, scope: Optional[str] = None
+    ) -> list[dict]:
         """Get chronological consent timeline for user"""
         if user_id not in self.consent_chain:
             return []
@@ -108,15 +111,16 @@ class ConsentHistoryManager:
 
         # Filter by scope if specified
         if scope:
-            timeline = [r for r in timeline if scope in r.get('scope_data', {})]
+            timeline = [r for r in timeline if scope in r.get("scope_data", {})]
 
-        return sorted(timeline, key=lambda x: x['timestamp'])
+        return sorted(timeline, key=lambda x: x["timestamp"])
 
-    def generate_consent_proof(self, user_id: str, scope: str, timestamp: str = None) -> dict:
+    def generate_consent_proof(
+        self, user_id: str, scope: str, timestamp: str = None
+    ) -> dict:
         """Generate cryptographic proof of consent status"""
         # TODO: Implement zero-knowledge proof generation
         # This will allow proving consent without revealing full scope details
-        pass
 
     def get_symbolic_consent_history(self, user_id: str) -> str:
         """Generate symbolic representation of consent history"""
@@ -126,11 +130,11 @@ class ConsentHistoryManager:
         # Generate symbolic trail based on consent events
         symbols = []
         for record in self.consent_chain[user_id]:
-            if record['event_type'] == 'granted':
-                symbols.append('✅')
-            elif record['event_type'] == 'revoked':
-                symbols.append('❌')
-            elif record['event_type'] == 'updated':
-                symbols.append('🔄')
+            if record["event_type"] == "granted":
+                symbols.append("✅")
+            elif record["event_type"] == "revoked":
+                symbols.append("❌")
+            elif record["event_type"] == "updated":
+                symbols.append("🔄")
 
-        return ''.join(symbols[-10:])  # Last 10 events
+        return "".join(symbols[-10:])  # Last 10 events

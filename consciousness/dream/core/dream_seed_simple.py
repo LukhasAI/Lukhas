@@ -1,5 +1,6 @@
 import random
 
+
 class DreamSeed:
     """
     A simple class to generate a dream symbol from a seed value.

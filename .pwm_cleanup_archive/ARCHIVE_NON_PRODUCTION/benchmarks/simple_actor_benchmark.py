@@ -170,7 +170,7 @@ class SimpleBenchmark:
             # Save results
             with open("simple_actor_benchmark_results.json", "w") as f:
                 json.dump(results, f, indent=2)
-            print(f"\n💾 Results saved to: simple_actor_benchmark_results.json")
+            print("\n💾 Results saved to: simple_actor_benchmark_results.json")
 
             return results
 
@@ -209,7 +209,7 @@ async def run_async_test():
 
     # Summary
     if all_results:
-        print(f"\n📈 SUMMARY OF ALL TESTS")
+        print("\n📈 SUMMARY OF ALL TESTS")
         print("=" * 50)
         for i, result in enumerate(all_results, 1):
             perf = result["performance"]

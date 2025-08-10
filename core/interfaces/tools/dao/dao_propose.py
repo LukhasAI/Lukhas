@@ -12,9 +12,9 @@ Integration Date: 2025-05-31T07:55:30.758022
 
 import argparse
 import json
-from datetime import datetime
-import os
 import logging
+import os
+from datetime import datetime
 
 DAO_PROPOSAL_LOG = "dao/net_relay/lukhas_net_relay.jsonl"
 TIER = 5  # Simulated access
@@ -23,10 +23,13 @@ TIER = 5  # Simulated access
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
+
 
 def submit_proposal(title, proposal_type, summary):
     proposal = {
@@ -37,7 +40,7 @@ def submit_proposal(title, proposal_type, summary):
         "summary": summary,
         "quorum_required": 4,
         "status": "pending",
-        "hash": hash((title, proposal_type, summary))
+        "hash": hash((title, proposal_type, summary)),
     }
 
     os.makedirs(os.path.dirname(DAO_PROPOSAL_LOG), exist_ok=True)
@@ -50,14 +53,33 @@ def submit_proposal(title, proposal_type, summary):
     logger.info(f"🧠 Summary: {summary}")
     logger.info(f"📤 Logged to: {DAO_PROPOSAL_LOG}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description="🗳️ Submit a symbolic DAO proposal (Tier 5 only)")
+    parser = argparse.ArgumentParser(
+        description="🗳️ Submit a symbolic DAO proposal (Tier 5 only)"
+    )
     parser.add_argument("--title", required=True, help="Title of the proposal")
-    parser.add_argument("--type", required=True, choices=["dream_override", "trace_erase", "license_update", "ethics_change", "custom"], help="Type of symbolic proposal")
-    parser.add_argument("--summary", required=True, help="Brief explanation of the proposed change")
+    parser.add_argument(
+        "--type",
+        required=True,
+        choices=[
+            "dream_override",
+            "trace_erase",
+            "license_update",
+            "ethics_change",
+            "custom",
+        ],
+        help="Type of symbolic proposal",
+    )
+    parser.add_argument(
+        "--summary",
+        required=True,
+        help="Brief explanation of the proposed change",
+    )
 
     args = parser.parse_args()
     submit_proposal(args.title, args.type, args.summary)
+
 
 if __name__ == "__main__":
     main()

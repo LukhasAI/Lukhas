@@ -26,17 +26,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import zstandard as zstd
-import msgpack
-import struct
-import json
 import binascii
-from pathlib import Path
+import json
+import struct
+from collections.abc import Iterable
 from datetime import datetime
-from typing import Iterable, Dict, Any, Optional
-from core.common import get_logger
-import structlog
+from pathlib import Path
+from typing import Any, Dict, Optional
 
+import msgpack
+import zstandard as zstd
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"
@@ -52,7 +51,7 @@ def export_folds(
     path: Path,
     codec: str = DEFAULT_CODEC,
     compression_level: Optional[int] = None,
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """
     Export memory folds to LKF-Pack v1 format.
@@ -79,7 +78,7 @@ def export_folds(
         "codec": codec,
         "compression_level": compression_level,
         "lukhas_version": "1.0.0",
-        "memory_fold_version": "2.0"
+        "memory_fold_version": "2.0",
     }
 
     # Add custom metadata if provided
@@ -92,9 +91,11 @@ def export_folds(
         compressor = zstd.ZstdCompressor(level=compression_level)
     elif codec == "lzma":
         import lzma
+
         compressor = lzma.LZMACompressor(preset=compression_level)
     elif codec == "gzip":
         import gzip
+
         compressor = gzip.compress
     elif codec != "none":
         raise ValueError(f"Unsupported codec: {codec}")
@@ -109,7 +110,7 @@ def export_folds(
         "Starting memory fold export",
         output_path=str(path),
         codec=codec,
-        compression_level=compression_level
+        compression_level=compression_level,
     )
 
     # Stream-encode folds
@@ -127,9 +128,7 @@ def export_folds(
 
         # Compress if enabled
         if compressor:
-            if codec == "zstd":
-                compressed.extend(compressor.compress(data))
-            elif codec == "lzma":
+            if codec == "zstd" or codec == "lzma":
                 compressed.extend(compressor.compress(data))
             elif codec == "gzip":
                 compressed.extend(gzip.compress(data))
@@ -138,9 +137,7 @@ def export_folds(
 
     # Flush compression stream
     if compressor:
-        if codec == "zstd":
-            compressed.extend(compressor.flush())
-        elif codec == "lzma":
+        if codec == "zstd" or codec == "lzma":
             compressed.extend(compressor.flush())
 
     # Calculate CRC32
@@ -180,7 +177,7 @@ def export_folds(
         compressed_size=len(compressed),
         uncompressed_size=uncompressed_size,
         compression_ratio=f"{header['compression_ratio']:.2f}",
-        crc32=header["crc32"]
+        crc32=header["crc32"],
     )
 
     return {
@@ -189,7 +186,7 @@ def export_folds(
         "uncompressed_size": uncompressed_size,
         "compression_ratio": header["compression_ratio"],
         "output_path": str(path),
-        "crc32": header["crc32"]
+        "crc32": header["crc32"],
     }
 
 
@@ -198,7 +195,7 @@ def export_folds_streaming(
     output_stream,
     codec: str = DEFAULT_CODEC,
     compression_level: int = STREAMING_COMPRESSION_LEVEL,
-    chunk_size: int = 1024 * 1024  # 1MB chunks
+    chunk_size: int = 1024 * 1024,  # 1MB chunks
 ) -> Dict[str, Any]:
     """
     Export memory folds to a stream (for Kafka, SQS, etc).
@@ -228,7 +225,7 @@ def create_fold_bundle(
     folds: Iterable[Dict[str, Any]],
     bundle_name: str,
     output_dir: Path,
-    include_metadata: bool = True
+    include_metadata: bool = True,
 ) -> Path:
     """
     Create a named bundle of memory folds with metadata.
@@ -253,7 +250,7 @@ def create_fold_bundle(
             "bundle_timestamp": timestamp,
             "system": "LUKHAS AI",
             "module": "memory_fold",
-            "purpose": "memory_backup"
+            "purpose": "memory_backup",
         }
 
     stats = export_folds(folds, output_path, metadata=metadata)
@@ -263,8 +260,7 @@ def create_fold_bundle(
 
 # Factory function
 def create_memory_exporter(
-    codec: str = DEFAULT_CODEC,
-    compression_level: Optional[int] = None
+    codec: str = DEFAULT_CODEC, compression_level: Optional[int] = None
 ):
     """
     Create a configured memory fold exporter.
@@ -276,13 +272,14 @@ def create_memory_exporter(
     Returns:
         Configured export function
     """
+
     def exporter(folds, path, **kwargs):
         return export_folds(
             folds,
             path,
             codec=kwargs.get("codec", codec),
             compression_level=kwargs.get("compression_level", compression_level),
-            **kwargs
+            **kwargs,
         )
 
     return exporter

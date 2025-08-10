@@ -36,10 +36,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
-import logging
+from typing import Any, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -52,7 +53,7 @@ MODULE_NAME = "base_module"
 class BaseModule(ABC):
     """Base class for all LUKHAS modules"""
 
-    def __init__(self, name: str, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, name: str, config: Optional[dict[str, Any]] = None):
         self.name = name
         self.config = config or {}
         self.logger = logging.getLogger(f"lukhas.{name}")
@@ -61,25 +62,23 @@ class BaseModule(ABC):
     @abstractmethod
     def initialize(self) -> None:
         """Initialize the module"""
-        pass
 
     @abstractmethod
     def process(self, input_data: Any) -> Any:
         """Process input data"""
-        pass
 
     @abstractmethod
     def shutdown(self) -> None:
         """Cleanup and shutdown"""
-        pass
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get module status"""
         return {
             "name": self.name,
             "initialized": self._initialized,
-            "config": self.config
+            "config": self.config,
         }
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

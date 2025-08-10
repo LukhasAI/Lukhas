@@ -10,7 +10,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class LUKHASTestRunner:
@@ -31,7 +31,7 @@ class LUKHASTestRunner:
             (self.run_dir / sub).mkdir(parents=True, exist_ok=True)
 
         # Test categories (best-effort; files may be absent)
-        self.test_suites: Dict[str, Dict[str, Any]] = {
+        self.test_suites: dict[str, dict[str, Any]] = {
             "unit": {
                 "path": "unit/",
                 "description": "Unit tests for individual components",
@@ -81,7 +81,7 @@ class LUKHASTestRunner:
         fast: bool = False,
         artifacts: bool = False,
         workers: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Run a specific test suite."""
         if suite_name not in self.test_suites:
             raise ValueError(f"Unknown test suite: {suite_name}")
@@ -90,7 +90,7 @@ class LUKHASTestRunner:
         suite_path = self.test_dir / suite["path"]
 
         # Build pytest arguments
-        pytest_args: List[str] = []
+        pytest_args: list[str] = []
 
         # Add test files (only those that exist)
         for test_file in suite["files"]:
@@ -157,16 +157,24 @@ class LUKHASTestRunner:
         if workers:
             try:
                 import importlib.util as _ilus
+
                 if _ilus.find_spec("xdist") is not None:
                     pytest_args.extend(["-n", str(workers)])
                 else:
-                    print("[runner] pytest-xdist not installed; ignoring --workers option")
+                    print(
+                        "[runner] pytest-xdist not installed; ignoring --workers option"
+                    )
             except Exception:
-                print("[runner] Could not verify xdist availability; proceeding without -n")
+                print(
+                    "[runner] Could not verify xdist availability; proceeding without -n"
+                )
 
         # Run tests
         print(f"\n{'=' * 60}")
-        print(f"Running {suite_name} tests: {suite['description']}" + (" [FAST]" if fast else ""))
+        print(
+            f"Running {suite_name} tests: {suite['description']}"
+            + (" [FAST]" if fast else "")
+        )
         print(f"{'=' * 60}\n")
 
         # Import pytest lazily to allow --help without pytest installed
@@ -175,9 +183,11 @@ class LUKHASTestRunner:
         exit_code = pytest.main(pytest_args)
 
         # Interpret exit code: 0=OK, 1=tests failed, 5=no tests collected
-        status = "passed" if exit_code == 0 else ("skipped" if exit_code == 5 else "failed")
+        status = (
+            "passed" if exit_code == 0 else ("skipped" if exit_code == 5 else "failed")
+        )
 
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "suite": suite_name,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "exit_code": exit_code,
@@ -195,16 +205,16 @@ class LUKHASTestRunner:
         }
 
         if (artifacts and not fast) and json_report.exists():
-            with open(json_report, "r") as f:
+            with open(json_report) as f:
                 json_results = json.load(f)
                 results.update(json_results)
 
         return results
 
-    def run_all(self, exclude: Optional[List[str]] = None, **kwargs) -> Dict[str, Any]:
+    def run_all(self, exclude: Optional[list[str]] = None, **kwargs) -> dict[str, Any]:
         """Run all test suites."""
         exclude = exclude or []
-        all_results: Dict[str, Any] = {
+        all_results: dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "suites": {},
         }
@@ -219,12 +229,21 @@ class LUKHASTestRunner:
 
         # Summary
         total_suites = len(all_results["suites"])
-        passed_suites = sum(1 for r in all_results["suites"].values() if r.get("status") == "passed")
-        failed_suites = sum(1 for r in all_results["suites"].values() if r.get("status") == "failed")
-        skipped_suites = sum(1 for r in all_results["suites"].values() if r.get("status") == "skipped")
-        error_suites = sum(1 for r in all_results["suites"].values() if r.get("status") == "error")
+        passed_suites = sum(
+            1 for r in all_results["suites"].values() if r.get("status") == "passed"
+        )
+        failed_suites = sum(
+            1 for r in all_results["suites"].values() if r.get("status") == "failed"
+        )
+        skipped_suites = sum(
+            1 for r in all_results["suites"].values() if r.get("status") == "skipped"
+        )
+        error_suites = sum(
+            1 for r in all_results["suites"].values() if r.get("status") == "error"
+        )
 
-        # Success rate among executed suites (exclude skipped). If none executed, consider success.
+        # Success rate among executed suites (exclude skipped). If none executed,
+        # consider success.
         executed = passed_suites + failed_suites + error_suites
         success_rate = (passed_suites / executed) if executed > 0 else 1.0
 
@@ -267,7 +286,7 @@ class LUKHASTestRunner:
 
         return all_results
 
-    def run_performance_tests(self, iterations: int = 3) -> Dict[str, Any]:
+    def run_performance_tests(self, iterations: int = 3) -> dict[str, Any]:
         """Run performance benchmarks."""
         print(f"\n{'=' * 60}")
         print("Running Performance Benchmarks")
@@ -291,7 +310,9 @@ class LUKHASTestRunner:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def run_smoke_tests(self, fast: bool = False, workers: Optional[str] = None) -> Dict[str, Any]:
+    def run_smoke_tests(
+        self, fast: bool = False, workers: Optional[str] = None
+    ) -> dict[str, Any]:
         """Run quick smoke tests."""
         print(f"\n{'=' * 60}")
         print("Running Smoke Tests (Quick Validation)" + (" [FAST]" if fast else ""))
@@ -315,12 +336,17 @@ class LUKHASTestRunner:
         if workers:
             try:
                 import importlib.util as _ilus
+
                 if _ilus.find_spec("xdist") is not None:
                     pytest_args.extend(["-n", str(workers)])
                 else:
-                    print("[runner] pytest-xdist not installed; ignoring --workers option")
+                    print(
+                        "[runner] pytest-xdist not installed; ignoring --workers option"
+                    )
             except Exception:
-                print("[runner] Could not verify xdist availability; proceeding without -n")
+                print(
+                    "[runner] Could not verify xdist availability; proceeding without -n"
+                )
 
         exit_code = pytest.main(pytest_args)
 
@@ -329,7 +355,7 @@ class LUKHASTestRunner:
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-    def generate_report(self, results: Dict[str, Any]) -> Path:
+    def generate_report(self, results: dict[str, Any]) -> Path:
         """Generate a simple markdown summary for the run."""
         report_path = self.run_dir / "summary.md"
 
@@ -337,18 +363,23 @@ class LUKHASTestRunner:
             f.write("# LUKHAS Test Report\n\n")
             f.write(f"**Generated:** {results['timestamp']}\n\n")
 
-            # Determine if this is an aggregated multi-suite result or a single-suite result
+            # Determine if this is an aggregated multi-suite result or a single-suite
+            # result
             aggregated = isinstance(results.get("suites"), dict)
 
-            if aggregated and isinstance(results.get("summary"), dict) and "total_suites" in results["summary"]:
+            if (
+                aggregated
+                and isinstance(results.get("summary"), dict)
+                and "total_suites" in results["summary"]
+            ):
                 summary = results["summary"]
                 f.write("## Summary\n\n")
                 f.write(f"- Total Test Suites: {summary['total_suites']}\n")
                 f.write(f"- Passed: {summary['passed_suites']}\n")
                 f.write(f"- Failed: {summary['failed_suites']}\n")
-                if 'skipped_suites' in summary:
+                if "skipped_suites" in summary:
                     f.write(f"- Skipped: {summary['skipped_suites']}\n")
-                if 'error_suites' in summary:
+                if "error_suites" in summary:
                     f.write(f"- Errors: {summary['error_suites']}\n")
                 f.write(f"- Success Rate: {summary['success_rate']:.1%}\n\n")
 
@@ -385,19 +416,48 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="LUKHAS Comprehensive Test Runner")
 
     parser.add_argument(
-        "command", choices=["all", "suite", "smoke", "performance"], help="Test command to run"
+        "command",
+        choices=["all", "suite", "smoke", "performance"],
+        help="Test command to run",
     )
     parser.add_argument(
         "--suite",
-        choices=["unit", "integration", "e2e", "security", "api", "governance"],
+        choices=[
+            "unit",
+            "integration",
+            "e2e",
+            "security",
+            "api",
+            "governance",
+        ],
         help="Specific test suite to run (with suite command)",
     )
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
-    parser.add_argument("--coverage", "-c", action="store_true", help="Generate coverage report")
-    parser.add_argument("--exclude", nargs="+", help="Suites to exclude (with all command)")
-    parser.add_argument("--report", "-r", action="store_true", help="Generate test report and artifacts")
-    parser.add_argument("--fast", action="store_true", help="Fast mode: disable heavy plugins, reports, and lower log verbosity")
-    parser.add_argument("--workers", "-n", help="Run tests in parallel using pytest-xdist (e.g., -n auto or -n 4)")
+    parser.add_argument(
+        "--coverage",
+        "-c",
+        action="store_true",
+        help="Generate coverage report",
+    )
+    parser.add_argument(
+        "--exclude", nargs="+", help="Suites to exclude (with all command)"
+    )
+    parser.add_argument(
+        "--report",
+        "-r",
+        action="store_true",
+        help="Generate test report and artifacts",
+    )
+    parser.add_argument(
+        "--fast",
+        action="store_true",
+        help="Fast mode: disable heavy plugins, reports, and lower log verbosity",
+    )
+    parser.add_argument(
+        "--workers",
+        "-n",
+        help="Run tests in parallel using pytest-xdist (e.g., -n auto or -n 4)",
+    )
 
     args = parser.parse_args()
 
@@ -406,7 +466,10 @@ def main() -> None:
 
     # Run appropriate command
     # Determine when to produce artifacts (CI or explicit --report, and not fast)
-    produce_artifacts = bool((not args.fast) and (args.report or os.getenv("CI") or os.getenv("GITHUB_ACTIONS")))
+    produce_artifacts = bool(
+        (not args.fast)
+        and (args.report or os.getenv("CI") or os.getenv("GITHUB_ACTIONS"))
+    )
 
     if args.command == "all":
         # In fast mode, ignore coverage/report flags for speed

@@ -1,4 +1,5 @@
 import unittest
+
 from dream.dream_generator import generate_dream
 
 

@@ -9,13 +9,14 @@ logger = get_logger(__name__)
 
 try:
     from .symbolic_proteome import SymbolicProteome
+
     logger.debug("Imported SymbolicProteome from .symbolic_proteome")
 except ImportError as e:
     logger.warning(f"Could not import SymbolicProteome: {e}")
     SymbolicProteome = None
 
 __all__ = [
-    'SymbolicProteome',
+    "SymbolicProteome",
 ]
 
 # Filter out None values from __all__ if imports failed

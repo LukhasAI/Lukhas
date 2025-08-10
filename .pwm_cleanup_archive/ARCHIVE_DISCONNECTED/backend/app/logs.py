@@ -8,12 +8,13 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from fastapi import APIRouter
-from backend.app.logs_api import get_all_session_logs
 from backend.app.audit_logger import get_audit_logs
 from backend.app.email_logs import get_all_email_logs
+from backend.app.logs_api import get_all_session_logs
+from fastapi import APIRouter
 
 router = APIRouter()
+
 
 @router.get("/logs/live")
 def get_all_logs_combined():
@@ -23,5 +24,5 @@ def get_all_logs_combined():
     return {
         "sessions": get_all_session_logs(),
         "audit": get_audit_logs(),
-        "emails": get_all_email_logs()
+        "emails": get_all_email_logs(),
     }

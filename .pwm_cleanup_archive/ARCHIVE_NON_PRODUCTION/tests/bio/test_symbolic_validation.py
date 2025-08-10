@@ -1,9 +1,11 @@
 import unittest
-from core.bio_systems.trust_binder import TrustBinder
+
 from core.bio_systems.curiosity_spark import CuriositySpark
-from core.bio_systems.stress_signal import StressSignal
-from core.bio_systems.stability_anchor import StabilityAnchor
 from core.bio_systems.resilience_boost import ResilienceBoost
+from core.bio_systems.stability_anchor import StabilityAnchor
+from core.bio_systems.stress_signal import StressSignal
+from core.bio_systems.trust_binder import TrustBinder
+
 
 class TestSymbolicValidation(unittest.TestCase):
 
@@ -43,5 +45,6 @@ class TestSymbolicValidation(unittest.TestCase):
         resilience_boost = ResilienceBoost()
         self.assertEqual(resilience_boost.level, 0.5)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

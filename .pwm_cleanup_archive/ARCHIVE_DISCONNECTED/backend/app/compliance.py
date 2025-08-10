@@ -17,31 +17,29 @@ router = APIRouter()
 COMPLIANCE_MATRIX = {
     "GDPR": {
         "status": "✅",
-        "description": "Data minimization, right to erasure, consent enforcement"
+        "description": "Data minimization, right to erasure, consent enforcement",
     },
     "EU AI ACT": {
         "status": "✅",
-        "description": "Risk classification, transparency, human oversight"
+        "description": "Risk classification, transparency, human oversight",
     },
     "OECD AI": {
         "status": "✅",
-        "description": "Human-centered values, accountability, robustness"
+        "description": "Human-centered values, accountability, robustness",
     },
     "ISO/IEC 27001": {
         "status": "⚡",
-        "description": "Security governance (in progress)"
+        "description": "Security governance (in progress)",
     },
-    "ISO/IEC 42001": {
-        "status": "⚡",
-        "description": "AI management systems (planned)"
-    },
+    "ISO/IEC 42001": {"status": "⚡", "description": "AI management systems (planned)"},
     "NIST AI RISK FRAMEWORK": {
         "status": "⚡",
-        "description": "Explainability, adversarial robustness, fairness"
-    }
+        "description": "Explainability, adversarial robustness, fairness",
+    },
 }
 
 # ── API Routes ────────────────────────────────────────────────
+
 
 @router.get("/compliance/status")
 def get_compliance_status():
@@ -49,6 +47,7 @@ def get_compliance_status():
     Return the full symbolic compliance matrix.
     """
     return COMPLIANCE_MATRIX
+
 
 @router.get("/compliance/{framework}")
 def get_framework_status(framework: str):

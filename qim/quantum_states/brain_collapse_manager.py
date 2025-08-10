@@ -13,25 +13,25 @@
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
 import structlog
 
 from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from orchestration.brain.mesh.collapse_mesh import CollapseMesh
-from orchestration.brain.collapse_chain_integrity import CollapseChainIntegrity
-from orchestration.brain.unified_collapse_system import CollapseBridge
 from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
+from orchestration.brain.collapse_chain_integrity import CollapseChainIntegrity
 from orchestration.brain.integrity_probe import IntegrityProbe
+from orchestration.brain.mesh.collapse_mesh import CollapseMesh
+from orchestration.brain.unified_collapse_system import CollapseBridge
 
-
-#TAG:qim
-#TAG:quantum_states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:qim
+# TAG:quantum_states
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = structlog.get_logger(__name__)
+
 
 # {AIM}{brain}
 # {ΛTRACE}
@@ -54,9 +54,13 @@ class BrainCollapseManager:
         self.recovery_attempts: int = 0
         self.symbolic_trace_logger: SymbolicTraceLogger = SymbolicTraceLogger()
         self.collapse_mesh: CollapseMesh = CollapseMesh()
-        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(brain_integrator)
+        self.collapse_chain_integrity: CollapseChainIntegrity = CollapseChainIntegrity(
+            brain_integrator
+        )
         self.collapse_bridge: CollapseBridge = CollapseBridge(brain_integrator)
-        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(brain_integrator)
+        self.memory_collapse_verifier: MemoryCollapseVerifier = MemoryCollapseVerifier(
+            brain_integrator
+        )
         self.integrity_probe: IntegrityProbe = IntegrityProbe(brain_integrator)
 
     async def detect_collapse(self) -> bool:
@@ -75,11 +79,16 @@ class BrainCollapseManager:
         analysis: Dict[str, Any] = self.symbolic_trace_logger.get_pattern_analysis()
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
-        if analysis.get("quantum_like_state_trends", {}).get("avg_coherence_trend", 1.0) < 0.1:
+        if (
+            analysis.get("quantum_like_state_trends", {}).get(
+                "avg_coherence_trend", 1.0
+            )
+            < 0.1
+        ):
             return True
         return False
 
-    #ΛPROPAGATOR
+    # ΛPROPAGATOR
     async def handle_collapse(self) -> None:
         """
         Handles a symbolic collapse.
@@ -161,9 +170,15 @@ class BrainCollapseManager:
         """
         matrix: List[List[Any]] = []
         for node in self.collapse_mesh.nodes.values():
-            row: List[Any] = [node.node_id, node.node_type, node.status, node.last_heartbeat]
+            row: List[Any] = [
+                node.node_id,
+                node.node_type,
+                node.status,
+                node.last_heartbeat,
+            ]
             matrix.append(row)
         return matrix
+
 
 # {AIM}{brain}
 # {ΛTRACE}
@@ -209,6 +224,7 @@ class CollapseSynchronizer:
                     await component.set_state(state)
         logger.info("Component states restored.")
 
+
 def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     """
     A handler function for symbolic collapses.
@@ -222,7 +238,10 @@ def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
     #                A real implementation would need to escalate the collapse
     #                to a higher-level system or to a human operator.
     if collapse_manager.recovery_attempts > 5:
-        logger.critical("Maximum recovery attempts reached. Escalating to human operator.")
+        logger.critical(
+            "Maximum recovery attempts reached. Escalating to human operator."
+        )
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: brain_collapse_manager.py

@@ -3,10 +3,10 @@ VIVOX.QREADY Coherence Components
 """
 
 from .qsync_events import (
+    EntanglementBridge,
     QSyncEvent,
     QuantumSynchronizer,
-    EntanglementBridge,
-    SyncType
+    SyncType,
 )
 
 __all__ = [

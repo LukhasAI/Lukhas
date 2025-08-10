@@ -1,6 +1,8 @@
-import unittest
 import asyncio
+import unittest
+
 from core.bio_systems.bio_simulation_controller import BioSimulationController
+
 
 class TestSimulationController(unittest.IsolatedAsyncioTestCase):
 
@@ -15,5 +17,6 @@ class TestSimulationController(unittest.IsolatedAsyncioTestCase):
         self.assertLess(controller.hormones["testosterone"].level, 1.0)
         await controller.stop_simulation()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

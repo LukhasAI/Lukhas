@@ -14,13 +14,11 @@
 """
 
 import subprocess
-import json
-from typing import Dict, Optional, List
+from typing import Optional
 
 
 class LukhASAzureOpenAI:
     """Enterprise Azure OpenAI client for LUKHAS AI"""
-    
 
     def __init__(self):
         """Initialize Azure OpenAI client with secure credentials"""
@@ -35,12 +33,12 @@ class LukhASAzureOpenAI:
         if self.client:
             print("✅ Azure OpenAI client initialized")
             print(f"🌐 Endpoint: {self.config.get('endpoint', 'Not configured')}")
-            print(f"📍 Region: UK South (GDPR Compliant)")
-            print(f"🏢 Resource: lukhas")
+            print("📍 Region: UK South (GDPR Compliant)")
+            print("🏢 Resource: lukhas")
         else:
             print("❌ Azure OpenAI client initialization failed")
 
-    def _load_secure_config(self) -> Dict:
+    def _load_secure_config(self) -> dict:
         """Load Azure OpenAI configuration securely from Keychain"""
         config = {}
         config_keys = ["api-key", "endpoint", "api-version", "resource-name"]
@@ -99,7 +97,7 @@ class LukhASAzureOpenAI:
         try:
             # Try to list models (this tests authentication)
             models = self.client.models.list()
-            print(f"✅ Connection successful!")
+            print("✅ Connection successful!")
             print(f"📋 Available models: {len(models.data)} models found")
             return True
 
@@ -108,7 +106,7 @@ class LukhASAzureOpenAI:
             return False
 
     def chat_completion(
-        self, messages: List[Dict], model: str = "gpt-35-turbo", **kwargs
+        self, messages: list[dict], model: str = "gpt-35-turbo", **kwargs
     ):
         """Create chat completion using Azure OpenAI"""
         if not self.client:
@@ -124,7 +122,7 @@ class LukhASAzureOpenAI:
             print(f"❌ Chat completion error: {e}")
             raise
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get Azure OpenAI status and configuration"""
         return {
             "client_initialized": self.client is not None,
@@ -172,7 +170,7 @@ def main():
     """Main function"""
     azure_client = quick_test()
 
-    print(f"\n🎯 Next Steps:")
+    print("\n🎯 Next Steps:")
     if azure_client.client:
         print("1. ✅ Azure OpenAI client is ready")
         print("2. 📋 Deploy models in Azure Portal when needed")
@@ -183,12 +181,12 @@ def main():
         print("2. 🔑 Verify credentials are stored correctly")
         print("3. 🌐 Check Azure resource status")
 
-    print(f"\n🔵 Your Enterprise AI Stack:")
-    print(f"   Primary: Azure OpenAI (enterprise-grade)")
-    print(f"   Backup: Regular OpenAI (latest features)")
-    print(f"   Cost-effective: Gemini (bulk processing)")
-    print(f"   Safety: Claude (critical decisions)")
-    print(f"   Research: Perplexity (current info)")
+    print("\n🔵 Your Enterprise AI Stack:")
+    print("   Primary: Azure OpenAI (enterprise-grade)")
+    print("   Backup: Regular OpenAI (latest features)")
+    print("   Cost-effective: Gemini (bulk processing)")
+    print("   Safety: Claude (critical decisions)")
+    print("   Research: Perplexity (current info)")
 
 
 if __name__ == "__main__":

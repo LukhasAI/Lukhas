@@ -22,7 +22,9 @@ DESCRIPTION:
 
 """
 
+
 from core.modules.nias.__init__ import replay_recent_dreams
+
 
 def run_cli():
     print("\n🌙 LUCΛS Dream Replay CLI")
@@ -30,12 +32,23 @@ def run_cli():
 
     try:
         limit = int(input("🔢 How many dreams to replay? (default 5): ").strip() or "5")
-        tag_input = input("🔖 Filter by tag? (comma-separated, or ENTER to skip): ").strip()
+        tag_input = input(
+            "🔖 Filter by tag? (comma-separated, or ENTER to skip): "
+        ).strip()
         filter_tags = [t.strip() for t in tag_input.split(",")] if tag_input else None
         replay_only = input("🔁 Only replay candidates? (y/N): ").strip().lower() == "y"
-        sort_axis = input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ").strip().lower()
-        sort_by = sort_axis if sort_axis in ["joy", "stress", "calm", "longing"] else None
-        voice_suggested = input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower() == "y"
+        sort_axis = (
+            input("📊 Sort by emotion? (joy/stress/calm/longing) or ENTER to skip: ")
+            .strip()
+            .lower()
+        )
+        sort_by = (
+            sort_axis if sort_axis in ["joy", "stress", "calm", "longing"] else None
+        )
+        voice_suggested = (
+            input("🗣 Only dreams flagged for voice narration? (y/N): ").strip().lower()
+            == "y"
+        )
     except Exception as e:
         print(f"⚠️ Input error: {e}")
         return
@@ -45,8 +58,9 @@ def run_cli():
         filter_by_tag=filter_tags,
         only_replay_candidates=replay_only,
         sort_by_emotion=sort_by,
-        voice_flagged_only=voice_suggested
+        voice_flagged_only=voice_suggested,
     )
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -34,25 +33,22 @@ For documentation and support: https://lukhas.ai/docs
 
 import asyncio
 import json
-import time
-import tempfile
+import logging
 import os
 import sys
+import time
 from datetime import datetime
-from typing import Dict, Any, List, Optional, Tuple
-import logging
-from pathlib import Path
-import hashlib
-import secrets
-import uuid
-import statistics
+from typing import Any, Dict
 
 # Add parent directories to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class RealDashboardSystemBenchmark:
     """REAL dashboard system benchmark - NO MOCKS ALLOWED"""
@@ -66,7 +62,7 @@ class RealDashboardSystemBenchmark:
             "mock_mode": False,  # NEVER TRUE
             "tests": {},
             "summary": {},
-            "import_status": {}
+            "import_status": {},
         }
 
         # ATTEMPT REAL IMPORTS - NO FALLBACKS TO MOCKS
@@ -84,6 +80,7 @@ class RealDashboardSystemBenchmark:
         # Try to import real dashboard server
         try:
             from dashboard.server import DashboardServer
+
             self.dashboard_server = DashboardServer()
             self.results["import_status"]["dashboard_server"] = "SUCCESS"
             print("  ✅ DashboardServer loaded successfully")
@@ -94,6 +91,7 @@ class RealDashboardSystemBenchmark:
         # Try to import real visualization engine
         try:
             from dashboard.visualization import VisualizationEngine
+
             self.visualization_engine = VisualizationEngine()
             self.results["import_status"]["visualization_engine"] = "SUCCESS"
             print("  ✅ VisualizationEngine loaded successfully")
@@ -104,6 +102,7 @@ class RealDashboardSystemBenchmark:
         # Try to import real data streamer
         try:
             from dashboard.data_stream import DataStreamer
+
             self.data_streamer = DataStreamer()
             self.results["import_status"]["data_streamer"] = "SUCCESS"
             print("  ✅ DataStreamer loaded successfully")
@@ -114,6 +113,7 @@ class RealDashboardSystemBenchmark:
         # Try to import real user interface
         try:
             from dashboard.ui import UserInterface
+
             self.user_interface = UserInterface()
             self.results["import_status"]["user_interface"] = "SUCCESS"
             print("  ✅ UserInterface loaded successfully")
@@ -122,10 +122,16 @@ class RealDashboardSystemBenchmark:
             print(f"  ❌ UserInterface failed: {e}")
 
         # Count successful imports
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         total_imports = len(self.results["import_status"])
 
-        print(f"📊 Real system status: {successful_imports}/{total_imports} dashboard components loaded")
+        print(
+            f"📊 Real system status: {successful_imports}/{total_imports} dashboard components loaded"
+        )
 
         if successful_imports == 0:
             print("🚨 CRITICAL: NO REAL DASHBOARD SYSTEMS AVAILABLE")
@@ -141,16 +147,40 @@ class RealDashboardSystemBenchmark:
             return {
                 "error": "NO_REAL_DASHBOARD_AVAILABLE",
                 "message": "Cannot test real-time updates - no real dashboard server or data streamer loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         update_scenarios = [
-            {"data_type": "system_metrics", "update_frequency": "1s", "data_points": 100},
-            {"data_type": "user_analytics", "update_frequency": "5s", "data_points": 50},
-            {"data_type": "performance_stats", "update_frequency": "0.5s", "data_points": 200},
-            {"data_type": "alert_notifications", "update_frequency": "real_time", "data_points": 25},
-            {"data_type": "resource_usage", "update_frequency": "2s", "data_points": 75},
-            {"data_type": "network_topology", "update_frequency": "10s", "data_points": 30}
+            {
+                "data_type": "system_metrics",
+                "update_frequency": "1s",
+                "data_points": 100,
+            },
+            {
+                "data_type": "user_analytics",
+                "update_frequency": "5s",
+                "data_points": 50,
+            },
+            {
+                "data_type": "performance_stats",
+                "update_frequency": "0.5s",
+                "data_points": 200,
+            },
+            {
+                "data_type": "alert_notifications",
+                "update_frequency": "real_time",
+                "data_points": 25,
+            },
+            {
+                "data_type": "resource_usage",
+                "update_frequency": "2s",
+                "data_points": 75,
+            },
+            {
+                "data_type": "network_topology",
+                "update_frequency": "10s",
+                "data_points": 30,
+            },
         ]
 
         results = {
@@ -160,7 +190,7 @@ class RealDashboardSystemBenchmark:
             "failed_streams": 0,
             "update_times": [],
             "stream_performance": {},
-            "real_update_errors": []
+            "real_update_errors": [],
         }
 
         for scenario in update_scenarios:
@@ -200,47 +230,75 @@ class RealDashboardSystemBenchmark:
                             "updates_received": monitor_result["updates_received"],
                             "average_latency_ms": monitor_result["average_latency_ms"],
                             "data_completeness": monitor_result["data_completeness"],
-                            "connection_stability": monitor_result["connection_stability"],
-                            "total_time_ms": total_time
+                            "connection_stability": monitor_result[
+                                "connection_stability"
+                            ],
+                            "total_time_ms": total_time,
                         }
 
-                        print(f"    {status} {monitor_result['updates_received']} updates, {monitor_result['average_latency_ms']:.1f}ms latency")
+                        print(
+                            f"    {status} {monitor_result['updates_received']} updates, {monitor_result['average_latency_ms']:.1f}ms latency"
+                        )
                     else:
                         results["failed_streams"] += 1
-                        results["real_update_errors"].append(f"{data_type}: No updates received")
+                        results["real_update_errors"].append(
+                            f"{data_type}: No updates received"
+                        )
                         print(f"    ❌ No updates received for {data_type}")
 
                     # Stop the stream
                     await self.dashboard_server.stop_data_stream(stream_id)
                 else:
                     results["failed_streams"] += 1
-                    error_msg = stream_result.get("error", "Stream start failed") if stream_result else "No stream result"
+                    error_msg = (
+                        stream_result.get("error", "Stream start failed")
+                        if stream_result
+                        else "No stream result"
+                    )
                     results["real_update_errors"].append(f"{data_type}: {error_msg}")
                     print(f"    ❌ Stream failed: {error_msg}")
 
             except Exception as e:
                 results["failed_streams"] += 1
-                results["real_update_errors"].append(f"{data_type}: Exception - {str(e)}")
+                results["real_update_errors"].append(
+                    f"{data_type}: Exception - {str(e)}"
+                )
                 print(f"    ❌ Exception: {str(e)}")
 
         # Calculate REAL metrics
-        results["stream_success_rate"] = results["successful_streams"] / results["total_scenarios"]
+        results["stream_success_rate"] = (
+            results["successful_streams"] / results["total_scenarios"]
+        )
         if results["update_times"]:
-            results["average_stream_setup_time_ms"] = sum(results["update_times"]) / len(results["update_times"])
+            results["average_stream_setup_time_ms"] = sum(
+                results["update_times"]
+            ) / len(results["update_times"])
 
         # Calculate overall performance quality
         if results["stream_performance"]:
-            latencies = [perf["average_latency_ms"] for perf in results["stream_performance"].values()]
+            latencies = [
+                perf["average_latency_ms"]
+                for perf in results["stream_performance"].values()
+            ]
             results["overall_average_latency_ms"] = sum(latencies) / len(latencies)
 
-            stabilities = [perf["connection_stability"] for perf in results["stream_performance"].values()]
-            results["overall_connection_stability"] = sum(stabilities) / len(stabilities)
+            stabilities = [
+                perf["connection_stability"]
+                for perf in results["stream_performance"].values()
+            ]
+            results["overall_connection_stability"] = sum(stabilities) / len(
+                stabilities
+            )
 
-        print(f"📊 REAL Real-Time Updates: {results['stream_success_rate']:.1%} success, {results.get('overall_average_latency_ms', 0):.1f}ms latency")
+        print(
+            f"📊 REAL Real-Time Updates: {results['stream_success_rate']:.1%} success, {results.get('overall_average_latency_ms', 0):.1f}ms latency"
+        )
 
         return results
 
-    async def _monitor_stream_performance(self, stream_id: str, data_type: str, duration_seconds: int = 5) -> Dict[str, Any]:
+    async def _monitor_stream_performance(
+        self, stream_id: str, data_type: str, duration_seconds: int = 5
+    ) -> Dict[str, Any]:
         """Monitor a data stream's performance for specified duration"""
         updates_received = 0
         latencies = []
@@ -273,14 +331,18 @@ class RealDashboardSystemBenchmark:
 
         # Calculate performance metrics
         average_latency = sum(latencies) / len(latencies) if latencies else 0
-        data_completeness = updates_received / (duration_seconds * 2)  # Expecting ~2 updates per second
-        connection_stability = max(0.0, 1.0 - (connection_drops / 10))  # Penalize connection drops
+        data_completeness = updates_received / (
+            duration_seconds * 2
+        )  # Expecting ~2 updates per second
+        connection_stability = max(
+            0.0, 1.0 - (connection_drops / 10)
+        )  # Penalize connection drops
 
         return {
             "updates_received": updates_received,
             "average_latency_ms": average_latency,
             "data_completeness": min(1.0, data_completeness),
-            "connection_stability": connection_stability
+            "connection_stability": connection_stability,
         }
 
     async def test_data_visualization(self) -> Dict[str, Any]:
@@ -291,7 +353,7 @@ class RealDashboardSystemBenchmark:
             return {
                 "error": "NO_REAL_VISUALIZATION_AVAILABLE",
                 "message": "Cannot test data visualization - no real visualization engine loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         visualization_tests = [
@@ -299,9 +361,13 @@ class RealDashboardSystemBenchmark:
             {"chart_type": "bar_chart", "data_points": 500, "complexity": "low"},
             {"chart_type": "scatter_plot", "data_points": 2000, "complexity": "high"},
             {"chart_type": "heatmap", "data_points": 10000, "complexity": "high"},
-            {"chart_type": "network_graph", "data_points": 200, "complexity": "very_high"},
+            {
+                "chart_type": "network_graph",
+                "data_points": 200,
+                "complexity": "very_high",
+            },
             {"chart_type": "time_series", "data_points": 5000, "complexity": "medium"},
-            {"chart_type": "dashboard_grid", "data_points": 1500, "complexity": "high"}
+            {"chart_type": "dashboard_grid", "data_points": 1500, "complexity": "high"},
         ]
 
         results = {
@@ -311,7 +377,7 @@ class RealDashboardSystemBenchmark:
             "failed_renders": 0,
             "render_times": [],
             "visualization_quality": {},
-            "real_visualization_errors": []
+            "real_visualization_errors": [],
         }
 
         for test in visualization_tests:
@@ -319,7 +385,9 @@ class RealDashboardSystemBenchmark:
             data_points = test["data_points"]
             complexity = test["complexity"]
 
-            print(f"  🧪 Rendering {chart_type} with {data_points} points ({complexity})")
+            print(
+                f"  🧪 Rendering {chart_type} with {data_points} points ({complexity})"
+            )
 
             start_time = time.time()
 
@@ -339,7 +407,9 @@ class RealDashboardSystemBenchmark:
                     frame_rate = render_result.get("frame_rate", 0)
 
                     # Evaluate visualization quality
-                    if render_quality >= 0.7 and render_time <= 5000:  # 70% quality, <5s render
+                    if (
+                        render_quality >= 0.7 and render_time <= 5000
+                    ):  # 70% quality, <5s render
                         results["successful_renders"] += 1
                         status = "✅"
                     else:
@@ -355,37 +425,58 @@ class RealDashboardSystemBenchmark:
                         "frame_rate": frame_rate,
                         "performance_score": self._calculate_visualization_score(
                             render_quality, render_time, memory_usage_mb, frame_rate
-                        )
+                        ),
                     }
 
-                    print(f"    {status} Quality: {render_quality:.2f}, {render_time:.1f}ms, {memory_usage_mb}MB, {frame_rate}fps")
+                    print(
+                        f"    {status} Quality: {render_quality:.2f}, {render_time:.1f}ms, {memory_usage_mb}MB, {frame_rate}fps"
+                    )
                 else:
                     results["failed_renders"] += 1
-                    error_msg = render_result.get("error", "Render failed") if render_result else "No render result"
-                    results["real_visualization_errors"].append(f"{chart_type}: {error_msg}")
+                    error_msg = (
+                        render_result.get("error", "Render failed")
+                        if render_result
+                        else "No render result"
+                    )
+                    results["real_visualization_errors"].append(
+                        f"{chart_type}: {error_msg}"
+                    )
                     print(f"    ❌ Render failed: {error_msg}")
 
             except Exception as e:
                 results["failed_renders"] += 1
-                results["real_visualization_errors"].append(f"{chart_type}: Exception - {str(e)}")
+                results["real_visualization_errors"].append(
+                    f"{chart_type}: Exception - {str(e)}"
+                )
                 print(f"    ❌ Exception: {str(e)}")
 
         # Calculate REAL visualization metrics
-        results["visualization_success_rate"] = results["successful_renders"] / results["total_visualizations"]
+        results["visualization_success_rate"] = (
+            results["successful_renders"] / results["total_visualizations"]
+        )
         if results["render_times"]:
-            results["average_render_time_ms"] = sum(results["render_times"]) / len(results["render_times"])
+            results["average_render_time_ms"] = sum(results["render_times"]) / len(
+                results["render_times"]
+            )
             results["max_render_time_ms"] = max(results["render_times"])
 
         # Calculate overall visualization performance
         if results["visualization_quality"]:
-            scores = [vq["performance_score"] for vq in results["visualization_quality"].values()]
+            scores = [
+                vq["performance_score"]
+                for vq in results["visualization_quality"].values()
+            ]
             results["overall_visualization_score"] = sum(scores) / len(scores)
 
-        print(f"📊 REAL Data Visualization: {results['visualization_success_rate']:.1%} success, {results.get('average_render_time_ms', 0):.1f}ms avg")
+        print(
+            f"📊 REAL Data Visualization: {results['visualization_success_rate']:.1%} success, {results.get('average_render_time_ms', 0):.1f}ms avg"
+        )
 
         return results
 
-    def _calculate_visualization_score(self, quality: float, render_time_ms: float, memory_mb: float, frame_rate: float) -> float:
+    def _calculate_visualization_score(
+        self, quality: float, render_time_ms: float, memory_mb: float, frame_rate: float
+    ) -> float:
         """Calculate overall visualization performance score"""
         # Quality weight: 40%
         quality_score = quality * 0.4
@@ -409,7 +500,7 @@ class RealDashboardSystemBenchmark:
             return {
                 "error": "NO_REAL_UI_AVAILABLE",
                 "message": "Cannot test user interactions - no real user interface loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         interaction_tests = [
@@ -417,10 +508,22 @@ class RealDashboardSystemBenchmark:
             {"action": "scroll", "target": "data_table", "expected_response_ms": 50},
             {"action": "zoom", "target": "chart_area", "expected_response_ms": 200},
             {"action": "filter", "target": "data_grid", "expected_response_ms": 500},
-            {"action": "export", "target": "report_button", "expected_response_ms": 1000},
-            {"action": "refresh", "target": "dashboard_panel", "expected_response_ms": 300},
+            {
+                "action": "export",
+                "target": "report_button",
+                "expected_response_ms": 1000,
+            },
+            {
+                "action": "refresh",
+                "target": "dashboard_panel",
+                "expected_response_ms": 300,
+            },
             {"action": "drag_drop", "target": "widget", "expected_response_ms": 150},
-            {"action": "keyboard_shortcut", "target": "global", "expected_response_ms": 80}
+            {
+                "action": "keyboard_shortcut",
+                "target": "global",
+                "expected_response_ms": 80,
+            },
         ]
 
         results = {
@@ -430,7 +533,7 @@ class RealDashboardSystemBenchmark:
             "slow_interactions": 0,
             "interaction_times": [],
             "interaction_performance": {},
-            "real_interaction_errors": []
+            "real_interaction_errors": [],
         }
 
         for test in interaction_tests:
@@ -444,7 +547,9 @@ class RealDashboardSystemBenchmark:
 
             try:
                 # Call REAL user interface
-                interaction_result = await self.user_interface.handle_interaction(action, target)
+                interaction_result = await self.user_interface.handle_interaction(
+                    action, target
+                )
 
                 end_time = time.time()
                 response_time = (end_time - start_time) * 1000
@@ -460,7 +565,9 @@ class RealDashboardSystemBenchmark:
                         status = "✅"
                     else:
                         results["slow_interactions"] += 1
-                        status = "❌ SLOW" if response_time > expected_ms else "❌ NO UPDATE"
+                        status = (
+                            "❌ SLOW" if response_time > expected_ms else "❌ NO UPDATE"
+                        )
 
                     results["interaction_performance"][f"{action}_{target}"] = {
                         "action": action,
@@ -470,33 +577,59 @@ class RealDashboardSystemBenchmark:
                         "ui_updated": ui_updated,
                         "state_changed": state_changed,
                         "responsive": response_time <= expected_ms and ui_updated,
-                        "performance_ratio": expected_ms / response_time if response_time > 0 else 0
+                        "performance_ratio": (
+                            expected_ms / response_time if response_time > 0 else 0
+                        ),
                     }
 
-                    print(f"    {status} {response_time:.1f}ms (target: {expected_ms}ms), UI updated: {ui_updated}")
+                    print(
+                        f"    {status} {response_time:.1f}ms (target: {expected_ms}ms), UI updated: {ui_updated}"
+                    )
                 else:
                     results["slow_interactions"] += 1
-                    error_msg = interaction_result.get("error", "Interaction failed") if interaction_result else "No interaction result"
-                    results["real_interaction_errors"].append(f"{action} {target}: {error_msg}")
+                    error_msg = (
+                        interaction_result.get("error", "Interaction failed")
+                        if interaction_result
+                        else "No interaction result"
+                    )
+                    results["real_interaction_errors"].append(
+                        f"{action} {target}: {error_msg}"
+                    )
                     print(f"    ❌ Interaction failed: {error_msg}")
 
             except Exception as e:
                 results["slow_interactions"] += 1
-                results["real_interaction_errors"].append(f"{action} {target}: Exception - {str(e)}")
+                results["real_interaction_errors"].append(
+                    f"{action} {target}: Exception - {str(e)}"
+                )
                 print(f"    ❌ Exception: {str(e)}")
 
         # Calculate REAL interaction metrics
-        results["interaction_responsiveness"] = results["responsive_interactions"] / results["total_interactions"]
+        results["interaction_responsiveness"] = (
+            results["responsive_interactions"] / results["total_interactions"]
+        )
         if results["interaction_times"]:
-            results["average_response_time_ms"] = sum(results["interaction_times"]) / len(results["interaction_times"])
-            results["p95_response_time_ms"] = sorted(results["interaction_times"])[int(0.95 * len(results["interaction_times"]))]
+            results["average_response_time_ms"] = sum(
+                results["interaction_times"]
+            ) / len(results["interaction_times"])
+            results["p95_response_time_ms"] = sorted(results["interaction_times"])[
+                int(0.95 * len(results["interaction_times"]))
+            ]
 
         # Calculate overall UI responsiveness score
         if results["interaction_performance"]:
-            ratios = [perf["performance_ratio"] for perf in results["interaction_performance"].values() if perf["performance_ratio"] > 0]
-            results["overall_responsiveness_score"] = sum(ratios) / len(ratios) if ratios else 0
+            ratios = [
+                perf["performance_ratio"]
+                for perf in results["interaction_performance"].values()
+                if perf["performance_ratio"] > 0
+            ]
+            results["overall_responsiveness_score"] = (
+                sum(ratios) / len(ratios) if ratios else 0
+            )
 
-        print(f"📊 REAL User Interactions: {results['interaction_responsiveness']:.1%} responsive, {results.get('average_response_time_ms', 0):.1f}ms avg")
+        print(
+            f"📊 REAL User Interactions: {results['interaction_responsiveness']:.1%} responsive, {results.get('average_response_time_ms', 0):.1f}ms avg"
+        )
 
         return results
 
@@ -508,14 +641,14 @@ class RealDashboardSystemBenchmark:
             return {
                 "error": "NO_REAL_SERVER_AVAILABLE",
                 "message": "Cannot test concurrent access - no real dashboard server loaded",
-                "real_test": False
+                "real_test": False,
             }
 
         concurrency_tests = [
             {"concurrent_users": 10, "operations_per_user": 5, "test_duration_s": 10},
             {"concurrent_users": 25, "operations_per_user": 3, "test_duration_s": 15},
             {"concurrent_users": 50, "operations_per_user": 2, "test_duration_s": 20},
-            {"concurrent_users": 100, "operations_per_user": 1, "test_duration_s": 30}
+            {"concurrent_users": 100, "operations_per_user": 1, "test_duration_s": 30},
         ]
 
         results = {
@@ -524,7 +657,7 @@ class RealDashboardSystemBenchmark:
             "successful_load_tests": 0,
             "failed_load_tests": 0,
             "concurrency_results": {},
-            "real_concurrency_errors": []
+            "real_concurrency_errors": [],
         }
 
         for test in concurrency_tests:
@@ -532,7 +665,9 @@ class RealDashboardSystemBenchmark:
             ops_per_user = test["operations_per_user"]
             duration = test["test_duration_s"]
 
-            print(f"  🧪 Testing {concurrent_users} concurrent users, {ops_per_user} ops each, {duration}s")
+            print(
+                f"  🧪 Testing {concurrent_users} concurrent users, {ops_per_user} ops each, {duration}s"
+            )
 
             try:
                 # Call REAL dashboard server for load test
@@ -543,15 +678,23 @@ class RealDashboardSystemBenchmark:
                 if load_result and load_result.get("success", False):
                     requests_completed = load_result.get("requests_completed", 0)
                     requests_failed = load_result.get("requests_failed", 0)
-                    average_response_time = load_result.get("average_response_time_ms", 0)
+                    average_response_time = load_result.get(
+                        "average_response_time_ms", 0
+                    )
                     server_errors = load_result.get("server_errors", 0)
-                    throughput_rps = load_result.get("throughput_requests_per_second", 0)
+                    throughput_rps = load_result.get(
+                        "throughput_requests_per_second", 0
+                    )
 
                     # Evaluate load test success
                     total_expected = concurrent_users * ops_per_user
-                    success_rate = requests_completed / total_expected if total_expected > 0 else 0
+                    success_rate = (
+                        requests_completed / total_expected if total_expected > 0 else 0
+                    )
 
-                    if success_rate >= 0.95 and server_errors == 0:  # 95% success, no server errors
+                    if (
+                        success_rate >= 0.95 and server_errors == 0
+                    ):  # 95% success, no server errors
                         results["successful_load_tests"] += 1
                         status = "✅"
                     else:
@@ -568,37 +711,58 @@ class RealDashboardSystemBenchmark:
                         "average_response_time_ms": average_response_time,
                         "throughput_rps": throughput_rps,
                         "server_errors": server_errors,
-                        "load_test_success": success_rate >= 0.95 and server_errors == 0
+                        "load_test_success": success_rate >= 0.95
+                        and server_errors == 0,
                     }
 
-                    print(f"    {status} {success_rate:.1%} success, {average_response_time:.1f}ms avg, {throughput_rps:.1f} req/s")
+                    print(
+                        f"    {status} {success_rate:.1%} success, {average_response_time:.1f}ms avg, {throughput_rps:.1f} req/s"
+                    )
                     if server_errors > 0:
                         print(f"      ⚠️ {server_errors} server errors detected")
                 else:
                     results["failed_load_tests"] += 1
-                    error_msg = load_result.get("error", "Load test failed") if load_result else "No load test result"
-                    results["real_concurrency_errors"].append(f"{concurrent_users} users: {error_msg}")
+                    error_msg = (
+                        load_result.get("error", "Load test failed")
+                        if load_result
+                        else "No load test result"
+                    )
+                    results["real_concurrency_errors"].append(
+                        f"{concurrent_users} users: {error_msg}"
+                    )
                     print(f"    ❌ Load test failed: {error_msg}")
 
             except Exception as e:
                 results["failed_load_tests"] += 1
-                results["real_concurrency_errors"].append(f"{concurrent_users} users: Exception - {str(e)}")
+                results["real_concurrency_errors"].append(
+                    f"{concurrent_users} users: Exception - {str(e)}"
+                )
                 print(f"    ❌ Exception: {str(e)}")
 
         # Calculate REAL concurrency metrics
-        results["load_test_success_rate"] = results["successful_load_tests"] / results["total_concurrency_tests"]
+        results["load_test_success_rate"] = (
+            results["successful_load_tests"] / results["total_concurrency_tests"]
+        )
 
         # Calculate peak concurrency supported
         if results["concurrency_results"]:
-            successful_tests = [test for test in results["concurrency_results"].values() if test["load_test_success"]]
+            successful_tests = [
+                test
+                for test in results["concurrency_results"].values()
+                if test["load_test_success"]
+            ]
             if successful_tests:
-                results["max_concurrent_users_supported"] = max(test["concurrent_users"] for test in successful_tests)
+                results["max_concurrent_users_supported"] = max(
+                    test["concurrent_users"] for test in successful_tests
+                )
 
                 # Calculate overall throughput
                 throughputs = [test["throughput_rps"] for test in successful_tests]
                 results["peak_throughput_rps"] = max(throughputs) if throughputs else 0
 
-        print(f"📊 REAL Concurrent Access: {results['load_test_success_rate']:.1%} success, max {results.get('max_concurrent_users_supported', 0)} users")
+        print(
+            f"📊 REAL Concurrent Access: {results['load_test_success_rate']:.1%} success, max {results.get('max_concurrent_users_supported', 0)} users"
+        )
 
         return results
 
@@ -612,13 +776,17 @@ class RealDashboardSystemBenchmark:
         print()
 
         # Check if we have any real systems
-        successful_imports = sum(1 for status in self.results["import_status"].values() if status == "SUCCESS")
+        successful_imports = sum(
+            1
+            for status in self.results["import_status"].values()
+            if status == "SUCCESS"
+        )
         if successful_imports == 0:
             error_result = {
                 "error": "NO_REAL_SYSTEMS_AVAILABLE",
                 "message": "Cannot run investor-grade benchmarks without real dashboard systems",
                 "import_failures": self.results["import_status"],
-                "recommendation": "Fix import dependencies and deploy real dashboard systems before investor presentation"
+                "recommendation": "Fix import dependencies and deploy real dashboard systems before investor presentation",
             }
             self.results["critical_error"] = error_result
             print("🚨 CRITICAL ERROR: No real dashboard systems available for testing")
@@ -629,7 +797,7 @@ class RealDashboardSystemBenchmark:
             ("real_time_updates", self.test_real_time_updates),
             ("data_visualization", self.test_data_visualization),
             ("user_interaction_response", self.test_user_interaction_response),
-            ("concurrent_access", self.test_concurrent_access)
+            ("concurrent_access", self.test_concurrent_access),
         ]
 
         for test_name, test_func in real_test_functions:
@@ -649,7 +817,7 @@ class RealDashboardSystemBenchmark:
                 error_result = {
                     "error": str(e),
                     "real_test": False,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
                 self.results["tests"][test_name] = error_result
                 print(f"❌ REAL {test_name} failed: {str(e)}")
@@ -660,7 +828,7 @@ class RealDashboardSystemBenchmark:
         # Save REAL results
         self._save_real_results()
 
-        print(f"\\n🎉 REAL DASHBOARD SYSTEMS BENCHMARK COMPLETE!")
+        print("\\n🎉 REAL DASHBOARD SYSTEMS BENCHMARK COMPLETE!")
         print("=" * 80)
         self._print_real_summary()
 
@@ -675,27 +843,48 @@ class RealDashboardSystemBenchmark:
             "total_attempted_tests": len(tests),
             "real_tests_executed": len(real_tests),
             "mock_tests_executed": 0,  # NEVER ALLOWED
-            "import_success_rate": sum(1 for status in self.results["import_status"].values() if status == "SUCCESS") / len(self.results["import_status"]),
-            "overall_system_health": "CRITICAL" if len(real_tests) == 0 else "DEGRADED" if len(real_tests) < 3 else "HEALTHY",
+            "import_success_rate": sum(
+                1
+                for status in self.results["import_status"].values()
+                if status == "SUCCESS"
+            )
+            / len(self.results["import_status"]),
+            "overall_system_health": (
+                "CRITICAL"
+                if len(real_tests) == 0
+                else "DEGRADED" if len(real_tests) < 3 else "HEALTHY"
+            ),
             "investor_ready": len(real_tests) >= 2,
-            "key_metrics": {}
+            "key_metrics": {},
         }
 
         # Extract real metrics
         for test_name, test_data in tests.items():
             if test_data.get("real_test", False):
                 if "stream_success_rate" in test_data:
-                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data["stream_success_rate"]
+                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data[
+                        "stream_success_rate"
+                    ]
                 if "visualization_success_rate" in test_data:
-                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data["visualization_success_rate"]
+                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data[
+                        "visualization_success_rate"
+                    ]
                 if "interaction_responsiveness" in test_data:
-                    summary["key_metrics"][f"{test_name}_responsiveness"] = test_data["interaction_responsiveness"]
+                    summary["key_metrics"][f"{test_name}_responsiveness"] = test_data[
+                        "interaction_responsiveness"
+                    ]
                 if "load_test_success_rate" in test_data:
-                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data["load_test_success_rate"]
+                    summary["key_metrics"][f"{test_name}_success_rate"] = test_data[
+                        "load_test_success_rate"
+                    ]
                 if "overall_average_latency_ms" in test_data:
-                    summary["key_metrics"][f"{test_name}_latency_ms"] = test_data["overall_average_latency_ms"]
+                    summary["key_metrics"][f"{test_name}_latency_ms"] = test_data[
+                        "overall_average_latency_ms"
+                    ]
                 if "max_concurrent_users_supported" in test_data:
-                    summary["key_metrics"]["max_concurrent_users"] = test_data["max_concurrent_users_supported"]
+                    summary["key_metrics"]["max_concurrent_users"] = test_data[
+                        "max_concurrent_users_supported"
+                    ]
 
         self.results["summary"] = summary
 
@@ -705,8 +894,12 @@ class RealDashboardSystemBenchmark:
 
         print(f"📊 System Health: {summary['overall_system_health']}")
         print(f"🏭 Import Success: {summary['import_success_rate']:.1%}")
-        print(f"🧪 Real Tests: {summary['real_tests_executed']}/{summary['total_attempted_tests']}")
-        print(f"💼 Investor Ready: {'✅ YES' if summary['investor_ready'] else '❌ NO'}")
+        print(
+            f"🧪 Real Tests: {summary['real_tests_executed']}/{summary['total_attempted_tests']}"
+        )
+        print(
+            f"💼 Investor Ready: {'✅ YES' if summary['investor_ready'] else '❌ NO'}"
+        )
 
         if summary["key_metrics"]:
             print("\\n🔑 Real Performance Metrics:")
@@ -730,7 +923,7 @@ class RealDashboardSystemBenchmark:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"REAL_dashboard_system_benchmark_results_{timestamp}.json"
 
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(self.results, f, indent=2)
 
         print(f"\\n💾 REAL Results saved to: {filename}")

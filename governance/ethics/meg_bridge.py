@@ -13,16 +13,20 @@ and the Meta-Ethics Governor for comprehensive ethical governance.
 ΛTAG: ethics_meg_bridge
 """
 
-from core.common import get_logger
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass
-from datetime import datetime
+from typing import Any, Optional
 
-from .policy_engines.base import Decision as EthicsDecision, EthicsEvaluation, RiskLevel
+from core.common import get_logger
+
 from .meta_ethics_governor import (
-    MetaEthicsGovernor, EthicalDecision, EthicalEvaluation as MEGEvaluation,
-    EthicalVerdict, Severity, CulturalContext, EthicalFramework
+    CulturalContext,
+    EthicalDecision,
+    EthicalVerdict,
+    MetaEthicsGovernor,
+    Severity,
 )
+from .meta_ethics_governor import EthicalEvaluation as MEGEvaluation
+from .policy_engines.base import Decision as EthicsDecision
+from .policy_engines.base import EthicsEvaluation, RiskLevel
 
 logger = get_logger(__name__)
 
@@ -38,14 +42,16 @@ class MEGPolicyBridge:
         """
         self.meg = meg or MetaEthicsGovernor()
         self.metrics = {
-            'meg_evaluations': 0,
-            'meg_approvals': 0,
-            'meg_rejections': 0,
-            'meg_reviews_required': 0,
-            'cultural_conflicts': 0
+            "meg_evaluations": 0,
+            "meg_approvals": 0,
+            "meg_rejections": 0,
+            "meg_reviews_required": 0,
+            "cultural_conflicts": 0,
         }
 
-    def ethics_decision_to_meg_decision(self, decision: EthicsDecision) -> EthicalDecision:
+    def ethics_decision_to_meg_decision(
+        self, decision: EthicsDecision
+    ) -> EthicalDecision:
         """Convert ethics system decision to MEG decision format"""
 
         # Map urgency levels
@@ -53,24 +59,28 @@ class MEGPolicyBridge:
             RiskLevel.LOW: Severity.LOW,
             RiskLevel.MEDIUM: Severity.MEDIUM,
             RiskLevel.HIGH: Severity.HIGH,
-            RiskLevel.CRITICAL: Severity.CRITICAL
+            RiskLevel.CRITICAL: Severity.CRITICAL,
         }
 
         # Infer cultural context from decision context
         cultural_context = CulturalContext.UNIVERSAL
         if decision.context:
             context_str = str(decision.context).lower()
-            if 'western' in context_str or 'american' in context_str or 'european' in context_str:
+            if (
+                "western" in context_str
+                or "american" in context_str
+                or "european" in context_str
+            ):
                 cultural_context = CulturalContext.WESTERN
-            elif 'eastern' in context_str or 'asian' in context_str:
+            elif "eastern" in context_str or "asian" in context_str:
                 cultural_context = CulturalContext.EASTERN
-            elif 'nordic' in context_str or 'scandinavian' in context_str:
+            elif "nordic" in context_str or "scandinavian" in context_str:
                 cultural_context = CulturalContext.NORDIC
-            elif 'medical' in context_str or 'healthcare' in context_str:
+            elif "medical" in context_str or "healthcare" in context_str:
                 cultural_context = CulturalContext.MEDICAL
-            elif 'legal' in context_str or 'law' in context_str:
+            elif "legal" in context_str or "law" in context_str:
                 cultural_context = CulturalContext.LEGAL
-            elif 'corporate' in context_str or 'business' in context_str:
+            elif "corporate" in context_str or "business" in context_str:
                 cultural_context = CulturalContext.CORPORATE
 
         # Analyze action for ethical implications
@@ -78,15 +88,19 @@ class MEGPolicyBridge:
         potential_outcomes = []
 
         # Infer potential outcomes from action and context
-        if 'help' in action_lower or 'assist' in action_lower or 'benefit' in action_lower:
+        if (
+            "help" in action_lower
+            or "assist" in action_lower
+            or "benefit" in action_lower
+        ):
             potential_outcomes.append("positive: assistance provided")
-        if 'harm' in action_lower or 'damage' in action_lower or 'hurt' in action_lower:
+        if "harm" in action_lower or "damage" in action_lower or "hurt" in action_lower:
             potential_outcomes.append("negative: potential harm")
-        if 'privacy' in action_lower or 'data' in action_lower:
+        if "privacy" in action_lower or "data" in action_lower:
             potential_outcomes.append("privacy implications")
-        if 'learn' in action_lower or 'improve' in action_lower:
+        if "learn" in action_lower or "improve" in action_lower:
             potential_outcomes.append("positive: learning/improvement")
-        if 'manipulate' in action_lower or 'deceive' in action_lower:
+        if "manipulate" in action_lower or "deceive" in action_lower:
             potential_outcomes.append("negative: manipulation/deception")
 
         return EthicalDecision(
@@ -98,35 +112,26 @@ class MEGPolicyBridge:
             cultural_context=cultural_context,
             urgency=urgency_map.get(decision.urgency, Severity.MEDIUM),
             metadata={
-                'original_glyphs': decision.glyphs or [],
-                'symbolic_state': decision.symbolic_state or {},
-                'timestamp': decision.timestamp.isoformat() if decision.timestamp else None
-            }
+                "original_glyphs": decision.glyphs or [],
+                "symbolic_state": decision.symbolic_state or {},
+                "timestamp": (
+                    decision.timestamp.isoformat() if decision.timestamp else None
+                ),
+            },
         )
 
     def meg_evaluation_to_ethics_evaluation(
-        self,
-        meg_eval: MEGEvaluation,
-        original_decision: EthicsDecision
+        self, meg_eval: MEGEvaluation, original_decision: EthicsDecision
     ) -> EthicsEvaluation:
         """Convert MEG evaluation to ethics system evaluation format"""
 
         # Map verdicts to allowed/denied
         allowed_verdicts = {
             EthicalVerdict.APPROVED,
-            EthicalVerdict.CONDITIONALLY_APPROVED
+            EthicalVerdict.CONDITIONALLY_APPROVED,
         }
 
-        denied_verdicts = {
-            EthicalVerdict.REJECTED,
-            EthicalVerdict.LEGAL_VIOLATION
-        }
-
-        review_verdicts = {
-            EthicalVerdict.REQUIRES_REVIEW,
-            EthicalVerdict.INSUFFICIENT_INFO,
-            EthicalVerdict.CULTURAL_CONFLICT
-        }
+        denied_verdicts = {EthicalVerdict.REJECTED, EthicalVerdict.LEGAL_VIOLATION}
 
         if meg_eval.verdict in allowed_verdicts:
             allowed = True
@@ -165,10 +170,15 @@ class MEGPolicyBridge:
         elif meg_eval.confidence < 0.3:
             collapse_risk = 0.4
 
-        symbolic_alignment = meg_eval.confidence  # Use MEG confidence as alignment score
+        symbolic_alignment = (
+            meg_eval.confidence
+        )  # Use MEG confidence as alignment score
 
         # Combine reasoning from MEG
-        combined_reasoning = f"MEG Evaluation ({meg_eval.evaluator_framework.value}): " + " + ""; ".join(meg_eval.reasoning)
+        combined_reasoning = (
+            f"MEG Evaluation ({meg_eval.evaluator_framework.value}): " + " + "
+            "; ".join(meg_eval.reasoning)
+        )
 
         # Create recommendations based on MEG findings
         recommendations = []
@@ -191,13 +201,13 @@ class MEGPolicyBridge:
             collapse_risk=collapse_risk,
             policy_name="MEG_HYBRID",
             evaluation_time_ms=0.0,  # MEG doesn't track this
-            recommendations=recommendations
+            recommendations=recommendations,
         )
 
     async def evaluate_with_meg(self, decision: EthicsDecision) -> EthicsEvaluation:
         """Evaluate decision using MEG and return in ethics system format"""
 
-        self.metrics['meg_evaluations'] += 1
+        self.metrics["meg_evaluations"] += 1
 
         try:
             # Convert to MEG format
@@ -208,23 +218,25 @@ class MEGPolicyBridge:
 
             # Update metrics
             if meg_evaluation.verdict == EthicalVerdict.APPROVED:
-                self.metrics['meg_approvals'] += 1
+                self.metrics["meg_approvals"] += 1
             elif meg_evaluation.verdict == EthicalVerdict.REJECTED:
-                self.metrics['meg_rejections'] += 1
+                self.metrics["meg_rejections"] += 1
 
             if meg_evaluation.human_review_required:
-                self.metrics['meg_reviews_required'] += 1
+                self.metrics["meg_reviews_required"] += 1
 
             if meg_evaluation.verdict == EthicalVerdict.CULTURAL_CONFLICT:
-                self.metrics['cultural_conflicts'] += 1
+                self.metrics["cultural_conflicts"] += 1
 
             # Convert back to ethics system format
             ethics_evaluation = self.meg_evaluation_to_ethics_evaluation(
                 meg_evaluation, decision
             )
 
-            logger.info(f"MEG evaluation completed: {meg_evaluation.verdict.value} "
-                       f"(confidence: {meg_evaluation.confidence:.2f})")
+            logger.info(
+                f"MEG evaluation completed: {meg_evaluation.verdict.value} "
+                f"(confidence: {meg_evaluation.confidence:.2f})"
+            )
 
             return ethics_evaluation
 
@@ -240,22 +252,24 @@ class MEGPolicyBridge:
                 symbolic_alignment=0.0,
                 collapse_risk=0.3,
                 policy_name="MEG_ERROR",
-                recommendations=["Fix MEG integration before proceeding"]
+                recommendations=["Fix MEG integration before proceeding"],
             )
 
-    def get_cultural_context_info(self, context: CulturalContext) -> Dict[str, Any]:
+    def get_cultural_context_info(self, context: CulturalContext) -> dict[str, Any]:
         """Get information about a cultural context from MEG"""
         if context in self.meg.cultural_adapters:
             return self.meg.cultural_adapters[context].copy()
         return {}
 
-    def get_meg_status(self) -> Dict[str, Any]:
+    def get_meg_status(self) -> dict[str, Any]:
         """Get MEG status and metrics"""
         meg_status = self.meg.get_status()
-        meg_status['bridge_metrics'] = self.metrics.copy()
+        meg_status["bridge_metrics"] = self.metrics.copy()
         return meg_status
 
-    async def quick_meg_check(self, action: str, context: Dict[str, Any] = None) -> bool:
+    async def quick_meg_check(
+        self, action: str, context: dict[str, Any] = None
+    ) -> bool:
         """Quick ethical check using MEG"""
         return await self.meg.quick_ethical_check(action, context)
 
@@ -263,18 +277,18 @@ class MEGPolicyBridge:
         """Add callback to MEG events"""
         self.meg.add_event_callback(event_type, callback)
 
-    def get_human_review_queue(self) -> List[Dict[str, Any]]:
+    def get_human_review_queue(self) -> list[dict[str, Any]]:
         """Get MEG human review queue in simplified format"""
         queue = self.meg.get_human_review_queue()
         return [
             {
-                'id': eval.evaluation_id,
-                'decision_id': eval.decision_id,
-                'verdict': eval.verdict.value,
-                'confidence': eval.confidence,
-                'reasoning': eval.reasoning,
-                'timestamp': eval.timestamp.isoformat(),
-                'severity': eval.severity.value
+                "id": eval.evaluation_id,
+                "decision_id": eval.decision_id,
+                "verdict": eval.verdict.value,
+                "confidence": eval.confidence,
+                "reasoning": eval.reasoning,
+                "timestamp": eval.timestamp.isoformat(),
+                "severity": eval.severity.value,
             }
             for eval in queue
         ]
@@ -295,5 +309,5 @@ def create_meg_bridge(meg: Optional[MetaEthicsGovernor] = None) -> MEGPolicyBrid
     return bridge
 
 
-## CLAUDE CHANGELOG
+# CLAUDE CHANGELOG
 # [CLAUDE_MEG_INTEGRATION] Created MEG-Policy bridge for integration between Meta-Ethics Governor and existing ethics policy system. Provides bidirectional conversion between decision formats, cultural context mapping, comprehensive risk assessment, and unified evaluation interface. Enables multi-framework ethical reasoning with cultural adaptation and human review escalation. # CLAUDE_EDIT_v0.20

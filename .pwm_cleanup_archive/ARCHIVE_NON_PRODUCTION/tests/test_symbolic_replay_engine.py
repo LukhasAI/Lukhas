@@ -1,6 +1,6 @@
+import tempfile
 import unittest
 from pathlib import Path
-import tempfile
 
 from memory.core_memory.symbolic_replay_engine import SymbolicReplayEngine
 

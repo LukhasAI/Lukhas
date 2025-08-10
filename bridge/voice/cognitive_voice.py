@@ -5,9 +5,10 @@ Advanced: cognitive_voice.py
 Integration Date: 2025-05-31T07:55:28.253569
 """
 
-from typing import Dict, Any
-import numpy as np
+from typing import Any
+
 from memory.systems.helix_dna import HelixMemory
+
 
 class CognitiveVoice:
     """Advanced voice system with cognitive learning"""
@@ -18,28 +19,29 @@ class CognitiveVoice:
         self.emotional_state = self._create_emotional_state()
         self.modulation_engine = self._setup_modulation()
 
-    async def process_voice(self,
-                          input_data: Dict[str, Any],
-                          lukhas_id: str) -> Dict[str, Any]:
+    async def process_voice(
+        self, input_data: dict[str, Any], lukhas_id: str
+    ) -> dict[str, Any]:
         """Process voice with emotional and cognitive awareness"""
         # Verify Lukhas_ID and get encryption key
         encryption_key = self._get_encryption_key(lukhas_id)
 
         # Process voice with cognitive learning
         cognitive_result = await self._analyze_cognitive_patterns(
-            input_data,
-            encryption_key
+            input_data, encryption_key
         )
 
         # Store in DNA memory
-        await self.memory.store_decision({
-            "type": "voice_processing",
-            "cognitive_state": cognitive_result,
-            "voice_patterns": self._get_current_patterns()
-        })
+        await self.memory.store_decision(
+            {
+                "type": "voice_processing",
+                "cognitive_state": cognitive_result,
+                "voice_patterns": self._get_current_patterns(),
+            }
+        )
 
         return {
             "response": self._generate_response(cognitive_result),
             "modulation": self._get_emotional_modulation(),
-            "memory_trace": self._get_memory_signature()
+            "memory_trace": self._get_memory_signature(),
         }

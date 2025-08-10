@@ -7,12 +7,10 @@ tracked via :func:`compute_drift_score` and displayed in the figure title.
 
 from __future__ import annotations
 
-
-from typing import List, Dict, Any, Tuple
+from trace.drift_metrics import compute_drift_score
+from typing import Any, Dict, List, Tuple
 
 import plotly.graph_objects as go
-
-from trace.drift_metrics import compute_drift_score
 
 
 class DreamMemoryscapeViewport:
@@ -22,7 +20,9 @@ class DreamMemoryscapeViewport:
         self._last_state: Dict[str, Any] | None = None
         self.total_drift: float = 0.0
 
-    def _coords_for_dream(self, idx: int, dream: Dict[str, Any]) -> Tuple[float, float, float]:
+    def _coords_for_dream(
+        self, idx: int, dream: Dict[str, Any]
+    ) -> Tuple[float, float, float]:
         affect = float(dream.get("affect_delta", 0.0))
         theta = float(dream.get("theta_delta", idx))
         return float(idx), affect, theta

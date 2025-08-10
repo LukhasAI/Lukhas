@@ -3,10 +3,11 @@ Tests for The Observatory.
 """
 
 import unittest
-import asyncio
+
 from core.observatory import Observatory
 from core.symbolic.tracer import SymbolicTracer
 from memory.unified_memory_manager import EnhancedMemoryManager
+
 
 class TestObservatory(unittest.IsolatedAsyncioTestCase):
     """
@@ -49,6 +50,7 @@ class TestObservatory(unittest.IsolatedAsyncioTestCase):
         self.assertIn("active_memory_folds", status)
         self.assertIn("read_only_mode", status)
         self.assertTrue(status["read_only_mode"])
+
 
 if __name__ == "__main__":
     unittest.main()

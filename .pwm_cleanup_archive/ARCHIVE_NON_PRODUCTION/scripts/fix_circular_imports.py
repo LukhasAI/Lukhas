@@ -5,11 +5,12 @@ Identifies circular imports and provides solutions.
 """
 
 import ast
-import os
-from pathlib import Path
-from collections import defaultdict, deque
-import networkx as nx
 import json
+from collections import defaultdict
+from pathlib import Path
+
+import networkx as nx
+
 
 class CircularImportFixer:
     def __init__(self, root_path: Path):
@@ -24,7 +25,7 @@ class CircularImportFixer:
         """Build import graph from codebase."""
         print("🔍 Analyzing imports for circular dependencies...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
@@ -35,27 +36,27 @@ class CircularImportFixer:
     def _analyze_file(self, file_path: Path):
         """Analyze imports in a single file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Get relative path for the file
             rel_path = file_path.relative_to(self.root_path)
-            file_module = str(rel_path).replace('.py', '').replace('/', '.')
+            file_module = str(rel_path).replace(".py", "").replace("/", ".")
 
             try:
                 tree = ast.parse(content)
 
                 for node in ast.walk(tree):
                     if isinstance(node, ast.ImportFrom):
-                        if node.module and not node.module.startswith('.'):
+                        if node.module and not node.module.startswith("."):
                             # Only track internal imports
                             if self._is_internal_module(node.module):
                                 imported_module = node.module
                                 self.file_imports[file_module].add(imported_module)
 
                                 # Add to graph
-                                module_from = file_module.split('.')[0]
-                                module_to = imported_module.split('.')[0]
+                                module_from = file_module.split(".")[0]
+                                module_to = imported_module.split(".")[0]
 
                                 if module_from != module_to:
                                     self.module_imports[module_from].add(module_to)
@@ -64,8 +65,8 @@ class CircularImportFixer:
                     elif isinstance(node, ast.Import):
                         for alias in node.names:
                             if self._is_internal_module(alias.name):
-                                module_from = file_module.split('.')[0]
-                                module_to = alias.name.split('.')[0]
+                                module_from = file_module.split(".")[0]
+                                module_to = alias.name.split(".")[0]
 
                                 if module_from != module_to:
                                     self.module_imports[module_from].add(module_to)
@@ -74,15 +75,27 @@ class CircularImportFixer:
             except SyntaxError:
                 pass
 
-        except Exception as e:
+        except Exception:
             pass
 
     def _is_internal_module(self, module_name: str) -> bool:
         """Check if module is internal to project."""
         internal_prefixes = {
-            'consciousness', 'memory', 'orchestration', 'api', 'core',
-            'bio', 'symbolic', 'features', 'creativity', 'tools',
-            'tests', 'benchmarks', 'scripts', 'trace', 'integration'
+            "consciousness",
+            "memory",
+            "orchestration",
+            "api",
+            "core",
+            "bio",
+            "symbolic",
+            "features",
+            "creativity",
+            "tools",
+            "tests",
+            "benchmarks",
+            "scripts",
+            "trace",
+            "integration",
         }
 
         return any(module_name.startswith(prefix) for prefix in internal_prefixes)
@@ -160,10 +173,10 @@ class CircularImportFixer:
         weakest_link = min(edge_weights.items(), key=lambda x: x[1])
 
         return {
-            'cycle': cycle,
-            'break_at': weakest_link[0],
-            'import_count': weakest_link[1],
-            'suggestion': self._generate_suggestion(weakest_link[0], cycle)
+            "cycle": cycle,
+            "break_at": weakest_link[0],
+            "import_count": weakest_link[1],
+            "suggestion": self._generate_suggestion(weakest_link[0], cycle),
         }
 
     def _generate_suggestion(self, link: tuple, cycle: list) -> dict:
@@ -171,25 +184,25 @@ class CircularImportFixer:
         from_module, to_module = link
 
         # Common patterns and solutions
-        if 'core' in from_module and 'memory' in to_module:
+        if "core" in from_module and "memory" in to_module:
             return {
-                'type': 'move_to_interface',
-                'description': f"Move shared interfaces from {from_module} to core.interfaces",
-                'files_to_modify': self._find_files_with_import(from_module, to_module)
+                "type": "move_to_interface",
+                "description": f"Move shared interfaces from {from_module} to core.interfaces",
+                "files_to_modify": self._find_files_with_import(from_module, to_module),
             }
 
-        elif 'features' in cycle and len(cycle) > 3:
+        elif "features" in cycle and len(cycle) > 3:
             return {
-                'type': 'lazy_import',
-                'description': f"Use lazy imports in {from_module} for {to_module}",
-                'files_to_modify': self._find_files_with_import(from_module, to_module)
+                "type": "lazy_import",
+                "description": f"Use lazy imports in {from_module} for {to_module}",
+                "files_to_modify": self._find_files_with_import(from_module, to_module),
             }
 
         else:
             return {
-                'type': 'restructure',
-                'description': f"Consider moving common code from {to_module} to {from_module} or create new shared module",
-                'files_to_modify': self._find_files_with_import(from_module, to_module)
+                "type": "restructure",
+                "description": f"Consider moving common code from {to_module} to {from_module} or create new shared module",
+                "files_to_modify": self._find_files_with_import(from_module, to_module),
             }
 
     def _find_files_with_import(self, from_module: str, to_module: str) -> list:
@@ -200,21 +213,28 @@ class CircularImportFixer:
             if file_path.startswith(from_module):
                 for imp in imports:
                     if imp.startswith(to_module):
-                        files.append(file_path.replace('.', '/') + '.py')
+                        files.append(file_path.replace(".", "/") + ".py")
 
         return files[:5]  # Return top 5 files
 
     def _save_fixes(self, fixes: list):
         """Save fix suggestions to file."""
         output = {
-            'total_cycles': len(self.circular_cycles),
-            'analyzed_cycles': len(fixes),
-            'fixes': fixes,
-            'automatic_fixes_available': sum(1 for f in fixes if f['suggestion']['type'] == 'lazy_import')
+            "total_cycles": len(self.circular_cycles),
+            "analyzed_cycles": len(fixes),
+            "fixes": fixes,
+            "automatic_fixes_available": sum(
+                1 for f in fixes if f["suggestion"]["type"] == "lazy_import"
+            ),
         }
 
-        output_path = self.root_path / 'scripts' / 'import_migration' / 'circular_import_fixes.json'
-        with open(output_path, 'w') as f:
+        output_path = (
+            self.root_path
+            / "scripts"
+            / "import_migration"
+            / "circular_import_fixes.json"
+        )
+        with open(output_path, "w") as f:
             json.dump(output, f, indent=2)
 
         print(f"\n📄 Fix suggestions saved to: {output_path}")
@@ -224,44 +244,48 @@ class CircularImportFixer:
         print("\n🚀 Applying automatic fixes...")
 
         for fix in fixes:
-            if fix['suggestion']['type'] == 'lazy_import':
+            if fix["suggestion"]["type"] == "lazy_import":
                 self._apply_lazy_import_fix(fix)
 
     def _apply_lazy_import_fix(self, fix: dict):
         """Apply lazy import fix to break circular dependency."""
-        from_module, to_module = fix['break_at']
+        from_module, to_module = fix["break_at"]
 
-        for file_path in fix['suggestion']['files_to_modify']:
+        for file_path in fix["suggestion"]["files_to_modify"]:
             full_path = self.root_path / file_path
 
             if not full_path.exists():
                 continue
 
             try:
-                with open(full_path, 'r', encoding='utf-8') as f:
+                with open(full_path, encoding="utf-8") as f:
                     content = f.read()
 
                 # Find imports from the problematic module
-                lines = content.split('\n')
+                lines = content.split("\n")
                 modified_lines = []
                 imports_moved = []
 
                 for line in lines:
-                    if f'from {to_module}' in line or f'import {to_module}' in line:
+                    if f"from {to_module}" in line or f"import {to_module}" in line:
                         # Comment out the import
-                        modified_lines.append(f'# {line}  # Moved to lazy import')
+                        modified_lines.append(f"# {line}  # Moved to lazy import")
                         imports_moved.append(line.strip())
                     else:
                         modified_lines.append(line)
 
                 if imports_moved:
                     # Add lazy import function
-                    lazy_import_code = self._generate_lazy_import_code(imports_moved, to_module)
+                    lazy_import_code = self._generate_lazy_import_code(
+                        imports_moved, to_module
+                    )
 
                     # Find where to insert (after other imports)
                     insert_pos = 0
                     for i, line in enumerate(modified_lines):
-                        if line.strip() and not line.startswith(('import ', 'from ', '#')):
+                        if line.strip() and not line.startswith(
+                            ("import ", "from ", "#")
+                        ):
                             insert_pos = i
                             break
 
@@ -269,8 +293,8 @@ class CircularImportFixer:
                     modified_lines.insert(insert_pos, lazy_import_code)
 
                     # Write back
-                    with open(full_path, 'w', encoding='utf-8') as f:
-                        f.write('\n'.join(modified_lines))
+                    with open(full_path, "w", encoding="utf-8") as f:
+                        f.write("\n".join(modified_lines))
 
                     print(f"  ✓ Applied lazy import fix to: {file_path}")
                     self.fixes_applied += 1
@@ -280,37 +304,42 @@ class CircularImportFixer:
 
     def _generate_lazy_import_code(self, imports: list, module: str) -> str:
         """Generate lazy import code."""
-        code = f'''
+        code = f"""
 # Lazy imports to break circular dependency
 def _lazy_import_{module.replace('.', '_')}():
     \"\"\"Lazy import for {module} to avoid circular imports.\"\"\"
     global _lazy_{module.replace('.', '_')}_cache
     if '_lazy_{module.replace('.', '_')}_cache' not in globals():
-'''
+"""
 
         for imp in imports:
-            code += f'        {imp}\n'
+            code += f"        {imp}\n"
 
-        code += f'''        _lazy_{module.replace('.', '_')}_cache = True
+        code += f"""        _lazy_{module.replace('.', '_')}_cache = True
     return locals()
 
 # Usage: _lazy_import_{module.replace('.', '_')}() when needed
-'''
+"""
 
         return code
 
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped."""
         skip_patterns = {
-            '__pycache__', '.git', 'venv', '.venv',
-            'build', 'dist', '.pyc'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "build",
+            "dist",
+            ".pyc",
         }
 
         return any(pattern in str(path) for pattern in skip_patterns)
 
     def create_import_guidelines(self):
         """Create import guidelines to prevent future circular dependencies."""
-        guidelines = '''# LUKHAS Import Guidelines
+        guidelines = """# LUKHAS Import Guidelines
 
 ## Import Hierarchy
 
@@ -382,18 +411,19 @@ To prevent circular dependencies, follow this import hierarchy:
 3. **Feature Creep**
    - Low-level modules importing from high-level
    - Solution: Move shared code down the hierarchy
-'''
+"""
 
-        guidelines_path = self.root_path / 'docs' / 'import_guidelines.md'
+        guidelines_path = self.root_path / "docs" / "import_guidelines.md"
         guidelines_path.parent.mkdir(exist_ok=True)
 
-        with open(guidelines_path, 'w') as f:
+        with open(guidelines_path, "w") as f:
             f.write(guidelines)
 
         print(f"\n📋 Import guidelines created at: {guidelines_path}")
 
+
 def main():
-    root_path = Path('.').resolve()
+    root_path = Path(".").resolve()
     fixer = CircularImportFixer(root_path)
 
     # Analyze imports
@@ -412,5 +442,6 @@ def main():
     print("⚠️  Manual intervention needed for remaining circular dependencies")
     print("📖 See docs/import_guidelines.md for best practices")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

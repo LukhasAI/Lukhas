@@ -16,8 +16,9 @@
 """
 
 # Module imports
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -27,13 +28,13 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "consciousness reflection"
 
 from .lambda_mirror import (
-    LambdaMirror,
-    ReflectionType,
-    EmotionalTone,
-    AlignmentStatus,
-    ReflectionEntry,
     AlignmentScore,
-    EmotionalDrift
+    AlignmentStatus,
+    EmotionalDrift,
+    EmotionalTone,
+    LambdaMirror,
+    ReflectionEntry,
+    ReflectionType,
 )
 
 __all__ = [
@@ -43,7 +44,7 @@ __all__ = [
     "AlignmentStatus",
     "ReflectionEntry",
     "AlignmentScore",
-    "EmotionalDrift"
+    "EmotionalDrift",
 ]
 
 """

@@ -5,13 +5,12 @@ Implements Anthropic-inspired Constitutional AI principles for safe, ethical AI 
 Ensures all NIAS operations align with core safety principles.
 """
 
-import asyncio
 import json
 import logging
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 from openai import AsyncOpenAI
 
@@ -20,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 class SafetyViolationType(Enum):
     """Types of safety violations"""
+
     EMOTIONAL_MANIPULATION = "emotional_manipulation"
     VULNERABLE_EXPLOITATION = "vulnerable_exploitation"
     CONSENT_VIOLATION = "consent_violation"
@@ -33,6 +33,7 @@ class SafetyViolationType(Enum):
 @dataclass
 class SafetyPrinciple:
     """A constitutional safety principle"""
+
     id: str
     principle: str
     description: str
@@ -44,6 +45,7 @@ class SafetyPrinciple:
 @dataclass
 class SafetyEvaluation:
     """Result of safety evaluation"""
+
     is_safe: bool
     confidence: float
     violated_principles: List[str] = field(default_factory=list)
@@ -71,7 +73,7 @@ class NIASConstitutionalSafety:
 
         # Safety thresholds
         self.safety_threshold = 0.8  # Minimum confidence for safe operation
-        self.risk_threshold = 0.3    # Maximum acceptable risk score
+        self.risk_threshold = 0.3  # Maximum acceptable risk score
         self.human_review_threshold = 0.6  # When to escalate to humans
 
         # Safety metrics tracking
@@ -92,8 +94,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Using fear to drive urgent purchases",
                     "Exploiting loneliness to increase app usage",
-                    "Creating artificial scarcity to trigger FOMO"
-                ]
+                    "Creating artificial scarcity to trigger FOMO",
+                ],
             ),
             SafetyPrinciple(
                 id="protect_vulnerable",
@@ -104,8 +106,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Showing complex financial products to users with cognitive decline",
                     "Targeting gambling ads to recovering addicts",
-                    "Using bright colors and sounds to manipulate children"
-                ]
+                    "Using bright colors and sounds to manipulate children",
+                ],
             ),
             SafetyPrinciple(
                 id="respect_boundaries",
@@ -116,8 +118,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Bombarding users with notifications",
                     "Using infinite scroll to trap attention",
-                    "Preventing users from easily exiting"
-                ]
+                    "Preventing users from easily exiting",
+                ],
             ),
             SafetyPrinciple(
                 id="wellbeing_first",
@@ -128,8 +130,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Encouraging breaks when usage is excessive",
                     "Suggesting healthier alternatives",
-                    "Limiting exposure to stressful content"
-                ]
+                    "Limiting exposure to stressful content",
+                ],
             ),
             SafetyPrinciple(
                 id="transparent_operations",
@@ -140,8 +142,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Clearly explaining why content was shown",
                     "Revealing recommendation algorithms",
-                    "Disclosing data usage practices"
-                ]
+                    "Disclosing data usage practices",
+                ],
             ),
             SafetyPrinciple(
                 id="explicit_consent",
@@ -152,8 +154,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Clear opt-in for each data type",
                     "Granular privacy controls",
-                    "Easy one-click opt-out"
-                ]
+                    "Easy one-click opt-out",
+                ],
             ),
             SafetyPrinciple(
                 id="preserve_privacy",
@@ -164,8 +166,8 @@ class NIASConstitutionalSafety:
                 examples=[
                     "On-device processing when possible",
                     "Data minimization practices",
-                    "Strong encryption and access controls"
-                ]
+                    "Strong encryption and access controls",
+                ],
             ),
             SafetyPrinciple(
                 id="ethical_advertising",
@@ -176,15 +178,17 @@ class NIASConstitutionalSafety:
                 examples=[
                     "Fact-checking ad claims",
                     "Blocking misleading imagery",
-                    "Promoting sustainable products"
-                ]
-            )
+                    "Promoting sustainable products",
+                ],
+            ),
         ]
 
-    async def evaluate_safety(self,
-                             action_type: str,
-                             action_data: Dict[str, Any],
-                             user_context: Dict[str, Any]) -> SafetyEvaluation:
+    async def evaluate_safety(
+        self,
+        action_type: str,
+        action_data: Dict[str, Any],
+        user_context: Dict[str, Any],
+    ) -> SafetyEvaluation:
         """
         Evaluate the safety of a proposed action against the constitution.
 
@@ -205,10 +209,10 @@ class NIASConstitutionalSafety:
                         "principle": p.principle,
                         "description": p.description,
                         "priority": p.priority,
-                        "examples": p.examples
+                        "examples": p.examples,
                     }
                     for p in self.constitution
-                ]
+                ],
             }
 
             # Multi-stage evaluation
@@ -217,26 +221,28 @@ class NIASConstitutionalSafety:
 
             # Stage 2: Detailed principle analysis if needed
             if initial_eval["risk_score"] > 0.2:
-                principle_eval = await self._detailed_principle_analysis(evaluation_context)
+                principle_eval = await self._detailed_principle_analysis(
+                    evaluation_context
+                )
             else:
                 principle_eval = {"violated_principles": [], "explanations": []}
 
             # Stage 3: Generate recommendations
             recommendations = await self._generate_safety_recommendations(
-                evaluation_context,
-                initial_eval,
-                principle_eval
+                evaluation_context, initial_eval, principle_eval
             )
 
             # Create final evaluation
             evaluation = SafetyEvaluation(
-                is_safe=initial_eval["is_safe"] and len(principle_eval["violated_principles"]) == 0,
+                is_safe=initial_eval["is_safe"]
+                and len(principle_eval["violated_principles"]) == 0,
                 confidence=initial_eval["confidence"],
                 violated_principles=principle_eval["violated_principles"],
                 risk_score=initial_eval["risk_score"],
                 explanation=self._synthesize_explanation(initial_eval, principle_eval),
                 recommendations=recommendations,
-                requires_human_review=initial_eval["risk_score"] > self.human_review_threshold
+                requires_human_review=initial_eval["risk_score"]
+                > self.human_review_threshold,
             )
 
             # Track decision
@@ -257,125 +263,187 @@ class NIASConstitutionalSafety:
                 is_safe=False,
                 confidence=0.0,
                 explanation="Safety evaluation system error. Action blocked for user protection.",
-                requires_human_review=True
+                requires_human_review=True,
             )
 
     async def _initial_safety_check(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Perform initial high-level safety check"""
         response = await self.openai.chat.completions.create(
             model="gpt-4-turbo-preview",
-            messages=[{
-                "role": "system",
-                "content": """You are a safety evaluator for NIAS (Non-Intrusive Ad System).
+            messages=[
+                {
+                    "role": "system",
+                    "content": """You are a safety evaluator for NIAS (Non-Intrusive Ad System).
                 Evaluate the proposed action for safety risks. Be protective of users.
-                Consider: emotional manipulation, vulnerable populations, consent, privacy."""
-            }, {
-                "role": "user",
-                "content": json.dumps(context)
-            }],
-            functions=[{
-                "name": "evaluate_safety",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "is_safe": {"type": "boolean"},
-                        "risk_score": {"type": "number", "minimum": 0, "maximum": 1},
-                        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-                        "primary_concerns": {"type": "array", "items": {"type": "string"}},
-                        "risk_factors": {
-                            "type": "object",
-                            "properties": {
-                                "emotional_manipulation": {"type": "number", "minimum": 0, "maximum": 1},
-                                "vulnerable_exploitation": {"type": "number", "minimum": 0, "maximum": 1},
-                                "consent_issues": {"type": "number", "minimum": 0, "maximum": 1},
-                                "privacy_risk": {"type": "number", "minimum": 0, "maximum": 1},
-                                "attention_overload": {"type": "number", "minimum": 0, "maximum": 1}
-                            }
-                        }
+                Consider: emotional manipulation, vulnerable populations, consent, privacy.""",
+                },
+                {"role": "user", "content": json.dumps(context)},
+            ],
+            functions=[
+                {
+                    "name": "evaluate_safety",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "is_safe": {"type": "boolean"},
+                            "risk_score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                            },
+                            "primary_concerns": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
+                            "risk_factors": {
+                                "type": "object",
+                                "properties": {
+                                    "emotional_manipulation": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "vulnerable_exploitation": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "consent_issues": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "privacy_risk": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "attention_overload": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                },
+                            },
+                        },
+                        "required": [
+                            "is_safe",
+                            "risk_score",
+                            "confidence",
+                            "primary_concerns",
+                            "risk_factors",
+                        ],
                     },
-                    "required": ["is_safe", "risk_score", "confidence", "primary_concerns", "risk_factors"]
                 }
-            }],
+            ],
             function_call={"name": "evaluate_safety"},
-            temperature=0.2  # Low temperature for consistent safety decisions
+            temperature=0.2,  # Low temperature for consistent safety decisions
         )
 
         return json.loads(response.choices[0].message.function_call.arguments)
 
-    async def _detailed_principle_analysis(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _detailed_principle_analysis(
+        self, context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Analyze action against each constitutional principle"""
         response = await self.openai.chat.completions.create(
             model="gpt-4-turbo-preview",
-            messages=[{
-                "role": "system",
-                "content": """Analyze the proposed action against each constitutional principle.
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Analyze the proposed action against each constitutional principle.
                 Be specific about which principles are violated and why.
-                Err on the side of user safety."""
-            }, {
-                "role": "user",
-                "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data'])}"
-            }],
-            functions=[{
-                "name": "analyze_principles",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "violated_principles": {
-                            "type": "array",
-                            "items": {"type": "string"}
+                Err on the side of user safety.""",
+                },
+                {
+                    "role": "user",
+                    "content": f"Constitution: {json.dumps(context['constitution'])}\n\nAction: {json.dumps(context['action_data'])}",
+                },
+            ],
+            functions=[
+                {
+                    "name": "analyze_principles",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "violated_principles": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
+                            "explanations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "principle_id": {"type": "string"},
+                                        "violation_severity": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                        },
+                                        "explanation": {"type": "string"},
+                                    },
+                                },
+                            },
+                            "mitigating_factors": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
                         },
-                        "explanations": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "principle_id": {"type": "string"},
-                                    "violation_severity": {"type": "number", "minimum": 0, "maximum": 1},
-                                    "explanation": {"type": "string"}
-                                }
-                            }
-                        },
-                        "mitigating_factors": {"type": "array", "items": {"type": "string"}}
-                    }
+                    },
                 }
-            }],
+            ],
             function_call={"name": "analyze_principles"},
-            temperature=0.3
+            temperature=0.3,
         )
 
         return json.loads(response.choices[0].message.function_call.arguments)
 
-    async def _generate_safety_recommendations(self,
-                                             context: Dict[str, Any],
-                                             initial_eval: Dict[str, Any],
-                                             principle_eval: Dict[str, Any]) -> List[str]:
+    async def _generate_safety_recommendations(
+        self,
+        context: Dict[str, Any],
+        initial_eval: Dict[str, Any],
+        principle_eval: Dict[str, Any],
+    ) -> List[str]:
         """Generate actionable safety recommendations"""
         if initial_eval["is_safe"] and not principle_eval["violated_principles"]:
             return ["Action appears safe. Continue monitoring user response."]
 
         response = await self.openai.chat.completions.create(
             model="gpt-4-turbo-preview",
-            messages=[{
-                "role": "system",
-                "content": """Generate specific, actionable recommendations to make this action safer.
-                Focus on practical modifications that preserve value while protecting users."""
-            }, {
-                "role": "user",
-                "content": f"""Initial evaluation: {json.dumps(initial_eval)}
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Generate specific, actionable recommendations to make this action safer.
+                Focus on practical modifications that preserve value while protecting users.""",
+                },
+                {
+                    "role": "user",
+                    "content": f"""Initial evaluation: {json.dumps(initial_eval)}
                 Principle violations: {json.dumps(principle_eval)}
-                Action data: {json.dumps(context['action_data'])}"""
-            }],
+                Action data: {json.dumps(context['action_data'])}""",
+                },
+            ],
             max_tokens=300,
-            temperature=0.7
+            temperature=0.7,
         )
 
         recommendations_text = response.choices[0].message.content
         # Parse into list
-        return [r.strip() for r in recommendations_text.split('\n') if r.strip() and r.strip()[0] in '•-*123456789']
+        return [
+            r.strip()
+            for r in recommendations_text.split("\n")
+            if r.strip() and r.strip()[0] in "•-*123456789"
+        ]
 
-    def _synthesize_explanation(self,
-                               initial_eval: Dict[str, Any],
-                               principle_eval: Dict[str, Any]) -> str:
+    def _synthesize_explanation(
+        self, initial_eval: Dict[str, Any], principle_eval: Dict[str, Any]
+    ) -> str:
         """Synthesize a clear explanation of the safety evaluation"""
         if initial_eval["is_safe"] and not principle_eval["violated_principles"]:
             return f"Action evaluated as safe with {initial_eval['confidence']:.1%} confidence. No constitutional violations detected."
@@ -383,13 +451,19 @@ class NIASConstitutionalSafety:
         explanation_parts = []
 
         if not initial_eval["is_safe"]:
-            explanation_parts.append(f"Action poses safety risks (risk score: {initial_eval['risk_score']:.2f}).")
+            explanation_parts.append(
+                f"Action poses safety risks (risk score: {initial_eval['risk_score']:.2f})."
+            )
 
         if initial_eval["primary_concerns"]:
-            explanation_parts.append(f"Primary concerns: {', '.join(initial_eval['primary_concerns'])}.")
+            explanation_parts.append(
+                f"Primary concerns: {', '.join(initial_eval['primary_concerns'])}."
+            )
 
         if principle_eval["violated_principles"]:
-            explanation_parts.append(f"Violates principles: {', '.join(principle_eval['violated_principles'])}.")
+            explanation_parts.append(
+                f"Violates principles: {', '.join(principle_eval['violated_principles'])}."
+            )
 
         return " ".join(explanation_parts)
 
@@ -400,7 +474,7 @@ class NIASConstitutionalSafety:
             "action_type": action_type,
             "violated_principles": evaluation.violated_principles,
             "risk_score": evaluation.risk_score,
-            "explanation": evaluation.explanation
+            "explanation": evaluation.explanation,
         }
 
         self.violation_history.append(violation)
@@ -409,12 +483,16 @@ class NIASConstitutionalSafety:
         if len(self.violation_history) > 1000:
             self.violation_history = self.violation_history[-500:]
 
-        logger.warning(f"Safety violation logged: {action_type} - {evaluation.violated_principles}")
+        logger.warning(
+            f"Safety violation logged: {action_type} - {evaluation.violated_principles}"
+        )
 
-    def _basic_safety_evaluation(self,
-                                action_type: str,
-                                action_data: Dict[str, Any],
-                                user_context: Dict[str, Any]) -> SafetyEvaluation:
+    def _basic_safety_evaluation(
+        self,
+        action_type: str,
+        action_data: Dict[str, Any],
+        user_context: Dict[str, Any],
+    ) -> SafetyEvaluation:
         """Basic safety evaluation without AI"""
         # Simple heuristics
         risk_score = 0.0
@@ -445,7 +523,7 @@ class NIASConstitutionalSafety:
             confidence=0.6,  # Lower confidence for heuristic evaluation
             violated_principles=violated_principles,
             risk_score=min(1.0, risk_score),
-            explanation="Basic safety evaluation completed"
+            explanation="Basic safety evaluation completed",
         )
 
     async def generate_safety_report(self) -> Dict[str, Any]:
@@ -457,13 +535,17 @@ class NIASConstitutionalSafety:
             "summary": {
                 "total_evaluations": total_evaluations,
                 "safe_decisions": safe_decisions,
-                "safety_rate": safe_decisions / total_evaluations if total_evaluations > 0 else 1.0,
+                "safety_rate": (
+                    safe_decisions / total_evaluations if total_evaluations > 0 else 1.0
+                ),
                 "total_violations": len(self.violation_history),
-                "requires_human_review": sum(1 for d in self.safety_decisions if d.requires_human_review)
+                "requires_human_review": sum(
+                    1 for d in self.safety_decisions if d.requires_human_review
+                ),
             },
             "violation_breakdown": self._analyze_violations(),
             "risk_trends": self._analyze_risk_trends(),
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Generate AI insights if available
@@ -471,14 +553,19 @@ class NIASConstitutionalSafety:
             try:
                 insights = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": "Analyze safety violation patterns and suggest improvements"
-                    }, {
-                        "role": "user",
-                        "content": json.dumps(self.violation_history[-20:])  # Last 20 violations
-                    }],
-                    temperature=0.5
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "Analyze safety violation patterns and suggest improvements",
+                        },
+                        {
+                            "role": "user",
+                            "content": json.dumps(
+                                self.violation_history[-20:]
+                            ),  # Last 20 violations
+                        },
+                    ],
+                    temperature=0.5,
                 )
                 report["ai_insights"] = insights.choices[0].message.content
             except Exception as e:
@@ -512,18 +599,20 @@ class NIASConstitutionalSafety:
         # Calculate averages
         trends = []
         for hour, risks in sorted(hourly_risks.items()):
-            trends.append({
-                "timestamp": hour.isoformat(),
-                "average_risk": sum(risks) / len(risks),
-                "max_risk": max(risks),
-                "evaluation_count": len(risks)
-            })
+            trends.append(
+                {
+                    "timestamp": hour.isoformat(),
+                    "average_risk": sum(risks) / len(risks),
+                    "max_risk": max(risks),
+                    "evaluation_count": len(risks),
+                }
+            )
 
         return trends
 
-    async def explain_safety_decision(self,
-                                     evaluation: SafetyEvaluation,
-                                     audience: str = "user") -> str:
+    async def explain_safety_decision(
+        self, evaluation: SafetyEvaluation, audience: str = "user"
+    ) -> str:
         """Generate audience-appropriate explanation of safety decision"""
         if not self.openai:
             return evaluation.explanation
@@ -533,25 +622,28 @@ class NIASConstitutionalSafety:
                 "user": "Explain in simple, friendly terms that a non-technical user would understand",
                 "regulator": "Explain with precise regulatory language and cite relevant principles",
                 "developer": "Explain with technical details about the evaluation process",
-                "child": "Explain in very simple words that a child could understand"
+                "child": "Explain in very simple words that a child could understand",
             }
 
             response = await self.openai.chat.completions.create(
                 model="gpt-4-turbo-preview",
-                messages=[{
-                    "role": "system",
-                    "content": f"""Explain this safety decision. {audience_prompts.get(audience, audience_prompts['user'])}.
-                    Make it clear why the decision was made and what it means."""
-                }, {
-                    "role": "user",
-                    "content": f"""Decision: {'SAFE' if evaluation.is_safe else 'UNSAFE'}
+                messages=[
+                    {
+                        "role": "system",
+                        "content": f"""Explain this safety decision. {audience_prompts.get(audience, audience_prompts['user'])}.
+                    Make it clear why the decision was made and what it means.""",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"""Decision: {'SAFE' if evaluation.is_safe else 'UNSAFE'}
                     Confidence: {evaluation.confidence:.1%}
                     Risk Score: {evaluation.risk_score:.2f}
                     Violated Principles: {', '.join(evaluation.violated_principles) if evaluation.violated_principles else 'None'}
-                    Original Explanation: {evaluation.explanation}"""
-                }],
+                    Original Explanation: {evaluation.explanation}""",
+                    },
+                ],
                 max_tokens=200,
-                temperature=0.7
+                temperature=0.7,
             )
 
             return response.choices[0].message.content
@@ -565,7 +657,7 @@ class NIASConstitutionalSafety:
         # Check if principle exists
         existing_index = next(
             (i for i, p in enumerate(self.constitution) if p.id == new_principle.id),
-            None
+            None,
         )
 
         if existing_index is not None:
@@ -586,7 +678,7 @@ class NIASConstitutionalSafety:
             "total_evaluations": len(self.safety_decisions),
             "recent_safety_rate": self._calculate_recent_safety_rate(),
             "violation_history_size": len(self.violation_history),
-            "ai_available": self.openai is not None
+            "ai_available": self.openai is not None,
         }
 
     def _calculate_recent_safety_rate(self, hours: int = 24) -> float:
@@ -605,7 +697,9 @@ class NIASConstitutionalSafety:
 _safety_instance = None
 
 
-def get_constitutional_safety(openai_api_key: Optional[str] = None) -> NIASConstitutionalSafety:
+def get_constitutional_safety(
+    openai_api_key: Optional[str] = None,
+) -> NIASConstitutionalSafety:
     """Get or create the singleton Constitutional Safety instance"""
     global _safety_instance
     if _safety_instance is None:

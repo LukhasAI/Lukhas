@@ -12,7 +12,7 @@ Advanced: compliance_digest.py
 Integration Date: 2025-05-31T07:55:27.746797
 """
 
- # ════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════
 # 📁 FILE: compliance_digest.py
 # 🧾 PURPOSE: Generate a weekly symbolic compliance digest from emergency override logs
 # 🛡️ OUTPUT: Governance summary + symbolic insights
@@ -22,16 +22,19 @@ import json
 import os
 from collections import Counter
 from datetime import datetime
+
 import matplotlib.pyplot as plt
 
 LOG_PATH = "logs/emergency_log.jsonl"
 DIGEST_OUTPUT = "logs/weekly_compliance_digest.md"
 
+
 def load_emergency_logs():
     if not os.path.exists(LOG_PATH):
         return []
-    with open(LOG_PATH, "r") as f:
+    with open(LOG_PATH) as f:
         return [json.loads(line) for line in f if line.strip()]
+
 
 def generate_digest():
     logs = load_emergency_logs()
@@ -59,7 +62,7 @@ def generate_digest():
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        plt.xticks(rotation=45, ha='right')
+        plt.xticks(rotation=45, ha="right")
         plt.tight_layout()
         plt.savefig(os.path.join("logs", filename))
         plt.close()
@@ -72,12 +75,19 @@ def generate_digest():
 
     # Plot: Emergency Reasons (Top 5)
     top_reasons = dict(reasons.most_common(5))
-    plot_bar(top_reasons, "Top Emergency Triggers", "Reason", "Occurrences", "top_emergency_reasons.png")
+    plot_bar(
+        top_reasons,
+        "Top Emergency Triggers",
+        "Reason",
+        "Occurrences",
+        "top_emergency_reasons.png",
+    )
 
     timestamp = datetime.utcnow().isoformat()
     top_reason = reasons.most_common(1)[0] if reasons else ("none", 0)
 
-    digest = f"""# 📊 Lukhas AGI — Weekly Compliance Digest
+    digest = (
+        f"""# 📊 Lukhas AGI — Weekly Compliance Digest
 **Generated:** {timestamp}
 
 ## Summary:
@@ -85,13 +95,19 @@ def generate_digest():
 - 📌 Most Common Trigger: **{top_reason[0]}** ({top_reason[1]} occurrences)
 
 ## Tier Breakdown:
-""" + "\n".join([f"- Tier {k}: {v}" for k, v in tiers.items()]) + """
+"""
+        + "\n".join([f"- Tier {k}: {v}" for k, v in tiers.items()])
+        + """
 
 ## User Trigger Count:
-""" + "\n".join([f"- {u}: {c} events" for u, c in users.items()]) + """
+"""
+        + "\n".join([f"- {u}: {c} events" for u, c in users.items()])
+        + """
 
 ## Compliance Flag Stats:
-""" + "\n".join([f"- {k}: ✅ {v} confirmed" for k, v in compliance_flags.items()]) + """
+"""
+        + "\n".join([f"- {k}: ✅ {v} confirmed" for k, v in compliance_flags.items()])
+        + """
 
 ## 📈 Visual Reports Saved:
 - `tier_breakdown.png`
@@ -102,11 +118,13 @@ def generate_digest():
 
 *All emergency logs are audit-safe and reviewed under institutional symbolic policy.*
 """
+    )
 
     os.makedirs("logs", exist_ok=True)
     with open(DIGEST_OUTPUT, "w") as f:
         f.write(digest)
     return digest
+
 
 # Generate and print to console
 if __name__ == "__main__":

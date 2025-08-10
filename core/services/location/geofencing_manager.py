@@ -3,12 +3,11 @@ Geofencing Manager - Location-based services for LUKHAS
 Provides geofencing capabilities for context-aware AI responses
 """
 
-import asyncio
 import json
-from typing import Dict, List, Optional, Tuple
+import logging
 from dataclasses import dataclass
 from datetime import datetime
-import logging
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -23,8 +22,8 @@ class GeofenceRegion:
     longitude: float
     radius: float  # in meters
     active: bool = True
-    triggers: List[str] = None
-    metadata: Dict = None
+    triggers: list[str] = None
+    metadata: dict = None
 
     def __post_init__(self):
         if self.triggers is None:
@@ -37,9 +36,9 @@ class GeofencingManager:
     """Manages geofencing operations for LUKHAS"""
 
     def __init__(self):
-        self.regions: Dict[str, GeofenceRegion] = {}
-        self.current_location: Optional[Tuple[float, float]] = None
-        self.active_triggers: List[str] = []
+        self.regions: dict[str, GeofenceRegion] = {}
+        self.current_location: Optional[tuple[float, float]] = None
+        self.active_triggers: list[str] = []
 
     async def add_region(self, region: GeofenceRegion) -> bool:
         """Add a new geofenced region"""
@@ -63,7 +62,7 @@ class GeofencingManager:
             logger.error(f"Failed to remove geofence region: {e}")
             return False
 
-    async def update_location(self, latitude: float, longitude: float) -> List[str]:
+    async def update_location(self, latitude: float, longitude: float) -> list[str]:
         """Update current location and check for geofence triggers"""
         try:
             self.current_location = (latitude, longitude)
@@ -116,7 +115,7 @@ class GeofencingManager:
 
     async def get_nearby_regions(
         self, max_distance: float = 1000
-    ) -> List[GeofenceRegion]:
+    ) -> list[GeofenceRegion]:
         """Get regions within specified distance from current location"""
         if not self.current_location:
             return []
@@ -133,7 +132,7 @@ class GeofencingManager:
 
         return nearby
 
-    async def get_context_for_location(self) -> Dict:
+    async def get_context_for_location(self) -> dict:
         """Get contextual information for current location"""
         if not self.current_location:
             return {"status": "location_unknown"}

@@ -6,6 +6,10 @@ Phase 3C: Modular Introspection System
 Provides symbolic-aware module scanning and state reporting
 """
 
-from .introspector import ModuleIntrospector, analyze_module, report_symbolic_state
+from .introspector import (
+    ModuleIntrospector,
+    analyze_module,
+    report_symbolic_state,
+)
 
 __all__ = ["ModuleIntrospector", "analyze_module", "report_symbolic_state"]

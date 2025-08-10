@@ -10,10 +10,9 @@
 Quick audit script for ethics monitor without terminal complications.
 """
 import sys
-import os
-sys.path.append('/Users/A_G_I/L_U_K_H_A_C_O_X')
 
-from tools.lukhas_audit import audit_file
+sys.path.append("/Users/A_G_I/L_U_K_H_A_C_O_X")
+
 
 def main():
     """Audit the ethics monitor file."""
@@ -26,6 +25,7 @@ def main():
     try:
         # Import the audit function and run it
         import asyncio
+
         from tools.lukhas_audit import audit_file_implementation
 
         # Run the audit
@@ -37,9 +37,9 @@ def main():
             print(f"📋 Status: {result.get('status', 'N/A')}")
             print("=" * 60)
 
-            if 'improvements' in result:
+            if "improvements" in result:
                 print("🚀 Improvement Suggestions:")
-                for i, improvement in enumerate(result['improvements'], 1):
+                for i, improvement in enumerate(result["improvements"], 1):
                     print(f"{i}. {improvement}")
 
         else:
@@ -48,6 +48,7 @@ def main():
     except Exception as e:
         print(f"❌ Error running audit: {e}")
         print("📋 Let's continue with batch analysis...")
+
 
 if __name__ == "__main__":
     main()

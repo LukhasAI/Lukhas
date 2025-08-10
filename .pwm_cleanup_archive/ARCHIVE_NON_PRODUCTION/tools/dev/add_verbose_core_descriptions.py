@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS Verbose Core Module Description Generator
@@ -13,21 +12,21 @@ Adds rich, verbose descriptions to core LUKHAS modules:
 import os
 import re
 from pathlib import Path
-from datetime import datetime
-from openai import OpenAI
-from typing import Dict, Optional
+from typing import Dict
+
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load environment variables
-load_dotenv(Path(__file__).parent.parent / '.env')
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 # Initialize OpenAI client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Pattern to find where to insert description
 PLACEHOLDER_PATTERN = re.compile(
-    r'(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n(PLACEHOLDER FOR VERBOSE DESCRIPTION\n)?',
-    re.MULTILINE
+    r"(@lukhas/HEADER_FOOTER_TEMPLATE\.py\n)\n(PLACEHOLDER FOR VERBOSE DESCRIPTION\n)?",
+    re.MULTILINE,
 )
 
 # Verbose descriptions for core modules
@@ -35,24 +34,42 @@ CORE_MODULE_DESCRIPTIONS = {
     "memory_fold.py": {
         "title": "Memory Fold Architecture",
         "tier": 5,
-        "concepts": ["memory consolidation", "temporal folding", "consciousness streams", "neural persistence"],
-        "prompt_extra": "This is the foundational memory architecture of LUKHAS, implementing temporal memory folding that mimics biological memory consolidation during sleep."
+        "concepts": [
+            "memory consolidation",
+            "temporal folding",
+            "consciousness streams",
+            "neural persistence",
+        ],
+        "prompt_extra": "This is the foundational memory architecture of LUKHAS, implementing temporal memory folding that mimics biological memory consolidation during sleep.",
     },
     "memory_helix.py": {
         "title": "Voice Memory Helix",
         "tier": 4,
-        "concepts": ["voice learning", "accent adaptation", "cultural sensitivity", "pronunciation curiosity"],
-        "prompt_extra": "This module enables LUKHAS to learn and adapt to voices, accents, and pronunciations through a helical learning pattern inspired by DNA structure."
+        "concepts": [
+            "voice learning",
+            "accent adaptation",
+            "cultural sensitivity",
+            "pronunciation curiosity",
+        ],
+        "prompt_extra": "This module enables LUKHAS to learn and adapt to voices, accents, and pronunciations through a helical learning pattern inspired by DNA structure.",
     },
     "haiku_generator.py": {
         "title": "Quantum Haiku Generator",
         "tier": 3,
-        "concepts": ["quantum poetry", "probabilistic verse", "emotional resonance", "cultural awareness"],
-        "prompt_extra": "This module generates haikus by collapsing superposition-like states of words into poetic expressions that capture fleeting moments of consciousness."
-    }
+        "concepts": [
+            "quantum poetry",
+            "probabilistic verse",
+            "emotional resonance",
+            "cultural awareness",
+        ],
+        "prompt_extra": "This module generates haikus by collapsing superposition-like states of words into poetic expressions that capture fleeting moments of consciousness.",
+    },
 }
 
-def generate_verbose_core_description(module_name: str, module_info: Dict[str, any]) -> str:
+
+def generate_verbose_core_description(
+    module_name: str, module_info: Dict[str, any]
+) -> str:
     """Generate verbose description for core modules."""
 
     prompt = f"""Create an exceptionally rich and verbose module description for a core LUKHAS AGI module.
@@ -100,31 +117,28 @@ Make it verbose, beautiful, and technically profound. This description should ma
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a philosopher-scientist-poet writing documentation for an AGI system. Your descriptions blend cutting-edge science with transcendent beauty. Write verbose, rich narratives that capture both technical precision and existential wonder."
+                    "content": "You are a philosopher-scientist-poet writing documentation for an AGI system. Your descriptions blend cutting-edge science with transcendent beauty. Write verbose, rich narratives that capture both technical precision and existential wonder.",
                 },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "user", "content": prompt},
             ],
             temperature=0.9,
-            max_tokens=1200
+            max_tokens=1200,
         )
 
         description = response.choices[0].message.content.strip()
 
         # Ensure proper formatting
-        if not description.endswith('\n'):
-            description += '\n'
+        if not description.endswith("\n"):
+            description += "\n"
 
-        return '\n' + description + '\n'
+        return "\n" + description + "\n"
 
     except Exception as e:
         print(f"  ⚠️  OpenAI API error: {e}")
 
         # Create a rich fallback
-        title = module_info['title']
-        equals = '=' * len(title)
+        title = module_info["title"]
+        equals = "=" * len(title)
 
         return f"""
 {title}
@@ -154,15 +168,18 @@ truly understands.
 
 """
 
-def add_verbose_core_description(filepath: Path, module_name: str, module_info: Dict[str, any]) -> bool:
+
+def add_verbose_core_description(
+    filepath: Path, module_name: str, module_info: Dict[str, any]
+) -> bool:
     """Add verbose description to a core module."""
 
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         # Check if file has template reference
-        if '@lukhas/HEADER_FOOTER_TEMPLATE.py' not in content:
+        if "@lukhas/HEADER_FOOTER_TEMPLATE.py" not in content:
             print(f"  ⚠️  No template reference found in {filepath.name}")
             return False
 
@@ -171,13 +188,10 @@ def add_verbose_core_description(filepath: Path, module_name: str, module_info: 
         description = generate_verbose_core_description(module_name, module_info)
 
         # Replace placeholder or add after template reference
-        new_content = PLACEHOLDER_PATTERN.sub(
-            r'\1' + description,
-            content
-        )
+        new_content = PLACEHOLDER_PATTERN.sub(r"\1" + description, content)
 
         if new_content != content:
-            with open(filepath, 'w', encoding='utf-8') as f:
+            with open(filepath, "w", encoding="utf-8") as f:
                 f.write(new_content)
             print(f"  ✅ Added verbose description to {filepath.name}")
             return True
@@ -189,6 +203,7 @@ def add_verbose_core_description(filepath: Path, module_name: str, module_info: 
         print(f"  ❌ Error processing {filepath}: {e}")
         return False
 
+
 def main():
     """Add verbose descriptions to core LUKHAS modules."""
 
@@ -198,7 +213,7 @@ def main():
     print("=" * 60)
 
     # Verify API key
-    if not os.getenv('OPENAI_API_KEY'):
+    if not os.getenv("OPENAI_API_KEY"):
         print("❌ Error: OpenAI API key not found in .env file")
         return
 
@@ -207,9 +222,18 @@ def main():
 
     # Define file locations
     files_to_process = [
-        ("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/memory/memory_fold.py", "memory_fold.py"),
-        ("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/systems/memory_helix.py", "memory_helix.py"),
-        ("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/haiku_generator.py", "haiku_generator.py")
+        (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/memory/memory_fold.py",
+            "memory_fold.py",
+        ),
+        (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/memory/systems/memory_helix.py",
+            "memory_helix.py",
+        ),
+        (
+            "/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/quantum/haiku_generator.py",
+            "haiku_generator.py",
+        ),
     ]
 
     for filepath_str, module_name in files_to_process:
@@ -239,7 +263,7 @@ def main():
             if "__pycache__" not in str(filepath):
                 # Get line count
                 try:
-                    with open(filepath, 'r') as f:
+                    with open(filepath) as f:
                         line_count = len(f.readlines())
                     consciousness_files.append((filepath, line_count))
                 except:
@@ -255,6 +279,7 @@ def main():
     print(f"✅ Added verbose descriptions to: {processed} files")
     print(f"⏭️  Skipped: {skipped} files")
     print("\n🌟 Core module narratives complete! 🌟")
+
 
 if __name__ == "__main__":
     main()

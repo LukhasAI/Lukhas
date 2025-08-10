@@ -1,4 +1,4 @@
-from interfaces.api.v1.rest.models import ProcessRequest, ProcessingMode
+from interfaces.api.v1.rest.models import ProcessingMode, ProcessRequest
 
 
 def test_process_request_validation():

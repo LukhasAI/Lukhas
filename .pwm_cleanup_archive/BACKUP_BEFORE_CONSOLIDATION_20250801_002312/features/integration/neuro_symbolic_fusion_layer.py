@@ -42,35 +42,46 @@ processes in living consciousness.
 AIDEA: Explore emotional fusion for empathetic AI reasoning
 """
 
+import json
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 import structlog
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass
-from enum import Enum
-import json
-from datetime import datetime, timezone
 
 # Import Lukhas core components
 try:
-    from core.bio_symbolic import ProtonGradient, QuantumAttentionGate, CristaFilter
-    from reasoning.symbolic_reasoning import SymbolicEngine
+    from core.bio_symbolic import (
+        CristaFilter,
+        ProtonGradient,
+        QuantumAttentionGate,
+    )
     from memory.core_memory.memoria import MemoryManager
+    from reasoning.symbolic_reasoning import SymbolicEngine
 except ImportError as e:
     # Graceful fallback for missing dependencies
     structlog.get_logger().warning(f"Missing dependencies: {e}")
 
 logger = structlog.get_logger("strategy_engine.nsfl")
 
+
 class FusionMode(Enum):
     """Fusion processing modes inspired by neural-symbolic integration patterns"""
-    NEURAL_DOMINANT = "neural_dominant"      # Neural patterns guide symbolic reasoning
-    SYMBOLIC_DOMINANT = "symbolic_dominant"  # Symbolic rules constrain neural processing
-    BALANCED_FUSION = "balanced_fusion"      # Equal weight between modalities
-    ADAPTIVE_BLEND = "adaptive_blend"        # Dynamic weighting based on context
+
+    NEURAL_DOMINANT = "neural_dominant"  # Neural patterns guide symbolic reasoning
+    SYMBOLIC_DOMINANT = (
+        "symbolic_dominant"  # Symbolic rules constrain neural processing
+    )
+    BALANCED_FUSION = "balanced_fusion"  # Equal weight between modalities
+    ADAPTIVE_BLEND = "adaptive_blend"  # Dynamic weighting based on context
+
 
 @dataclass
 class FusionContext:
     """Context information for neuro-symbolic fusion operations"""
+
     task_type: str
     confidence_threshold: float
     neural_weight: float
@@ -78,13 +89,16 @@ class FusionContext:
     energy_budget: float
     timestamp: datetime
 
+
 class NeuroSymbolicPattern:
     """
     Represents a fused pattern that bridges neural activation and symbolic structure.
     Like a thought that exists simultaneously as neural firing and logical proposition.
     """
 
-    def __init__(self, neural_signature: np.ndarray, symbolic_representation: Dict[str, Any]):
+    def __init__(
+        self, neural_signature: np.ndarray, symbolic_representation: Dict[str, Any]
+    ):
         self.neural_signature = neural_signature
         self.symbolic_representation = symbolic_representation
         self.fusion_strength = 0.0
@@ -98,6 +112,7 @@ class NeuroSymbolicPattern:
         symbolic_complexity = len(str(self.symbolic_representation))
         self.coherence_score = min(1.0, neural_magnitude / (symbolic_complexity + 1))
         return self.coherence_score
+
 
 class NeuroSymbolicFusionLayer:
     """
@@ -123,9 +138,13 @@ class NeuroSymbolicFusionLayer:
         self.logger = structlog.get_logger("nsfl.core")
 
         # Bio-symbolic components integration
-        self.proton_gradient = ProtonGradient() if 'ProtonGradient' in globals() else None
-        self.attention_gate = QuantumAttentionGate() if 'QuantumAttentionGate' in globals() else None
-        self.crista_filter = CristaFilter() if 'CristaFilter' in globals() else None
+        self.proton_gradient = (
+            ProtonGradient() if "ProtonGradient" in globals() else None
+        )
+        self.attention_gate = (
+            QuantumAttentionGate() if "QuantumAttentionGate" in globals() else None
+        )
+        self.crista_filter = CristaFilter() if "CristaFilter" in globals() else None
 
         # Fusion state
         self.fusion_patterns = []
@@ -137,8 +156,10 @@ class NeuroSymbolicFusionLayer:
         self.neural_patterns = {}
         self.symbolic_templates = {}
 
-        self.logger.info("Neuro-Symbolic Fusion Layer initialized",
-                        config_keys=list(self.config.keys()))
+        self.logger.info(
+            "Neuro-Symbolic Fusion Layer initialized",
+            config_keys=list(self.config.keys()),
+        )
 
     def _default_config(self) -> Dict[str, Any]:
         """Default configuration for the fusion layer"""
@@ -150,20 +171,24 @@ class NeuroSymbolicFusionLayer:
             "neural_weight": 0.5,
             "symbolic_weight": 0.5,
             "adaptive_learning": True,
-            "bio_integration": True
+            "bio_integration": True,
         }
 
     def set_fusion_context(self, context: FusionContext) -> None:
         """Set the current fusion context for processing operations"""
         self.active_context = context
-        self.logger.info("Fusion context updated",
-                        task_type=context.task_type,
-                        mode=context.task_type)
+        self.logger.info(
+            "Fusion context updated",
+            task_type=context.task_type,
+            mode=context.task_type,
+        )
 
-    def fuse_neural_symbolic(self,
-                           neural_input: np.ndarray,
-                           symbolic_input: Dict[str, Any],
-                           fusion_mode: FusionMode = FusionMode.BALANCED_FUSION) -> NeuroSymbolicPattern:
+    def fuse_neural_symbolic(
+        self,
+        neural_input: np.ndarray,
+        symbolic_input: Dict[str, Any],
+        fusion_mode: FusionMode = FusionMode.BALANCED_FUSION,
+    ) -> NeuroSymbolicPattern:
         """
         Core fusion operation: Merge neural activations with symbolic representations
 
@@ -207,17 +232,22 @@ class NeuroSymbolicFusionLayer:
             pattern.fusion_strength = self._calculate_fusion_strength(pattern)
 
             # Bio-symbolic filtering
-            if self.crista_filter and pattern.coherence_score < self.crista_filter.threshold:
+            if (
+                self.crista_filter
+                and pattern.coherence_score < self.crista_filter.threshold
+            ):
                 pattern = self._enhance_pattern_coherence(pattern)
 
             # Store pattern if it meets quality thresholds
             if pattern.fusion_strength >= self.config["fusion_threshold"]:
                 self._store_pattern(pattern)
 
-            self.logger.info("Neural-symbolic fusion completed",
-                           fusion_strength=pattern.fusion_strength,
-                           coherence=pattern.coherence_score,
-                           mode=fusion_mode.value)
+            self.logger.info(
+                "Neural-symbolic fusion completed",
+                fusion_strength=pattern.fusion_strength,
+                coherence=pattern.coherence_score,
+                mode=fusion_mode.value,
+            )
 
             return pattern
 
@@ -225,7 +255,9 @@ class NeuroSymbolicFusionLayer:
             self.logger.error("Fusion operation failed", error=str(e))
             return self._create_error_pattern(neural_input, symbolic_input, str(e))
 
-    def translate_neural_to_symbolic(self, neural_pattern: np.ndarray) -> Dict[str, Any]:
+    def translate_neural_to_symbolic(
+        self, neural_pattern: np.ndarray
+    ) -> Dict[str, Any]:
         """
         Translate neural activation patterns into symbolic representations
 
@@ -243,16 +275,20 @@ class NeuroSymbolicFusionLayer:
             symbolic_rep = {
                 "pattern_type": self._classify_neural_pattern(neural_pattern),
                 "activation_strength": float(np.max(neural_pattern)),
-                "pattern_complexity": self._calculate_pattern_complexity(neural_pattern),
+                "pattern_complexity": self._calculate_pattern_complexity(
+                    neural_pattern
+                ),
                 "symbolic_predicates": self._generate_predicates(neural_pattern),
                 "template_matches": template_matches,
                 "confidence": self._calculate_translation_confidence(neural_pattern),
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-            self.logger.info("Neural to symbolic translation completed",
-                           pattern_type=symbolic_rep["pattern_type"],
-                           confidence=symbolic_rep["confidence"])
+            self.logger.info(
+                "Neural to symbolic translation completed",
+                pattern_type=symbolic_rep["pattern_type"],
+                confidence=symbolic_rep["confidence"],
+            )
 
             return symbolic_rep
 
@@ -260,7 +296,9 @@ class NeuroSymbolicFusionLayer:
             self.logger.error("Neural to symbolic translation failed", error=str(e))
             return {"error": str(e), "type": "translation_failure"}
 
-    def translate_symbolic_to_neural(self, symbolic_structure: Dict[str, Any]) -> np.ndarray:
+    def translate_symbolic_to_neural(
+        self, symbolic_structure: Dict[str, Any]
+    ) -> np.ndarray:
         """
         Translate symbolic structures into neural activation patterns
 
@@ -281,10 +319,14 @@ class NeuroSymbolicFusionLayer:
             # Normalize and validate
             neural_pattern = self._normalize_neural_pattern(neural_pattern)
 
-            self.logger.info("Symbolic to neural translation completed",
-                           output_shape=neural_pattern.shape,
-                           activation_range=(float(np.min(neural_pattern)),
-                                           float(np.max(neural_pattern))))
+            self.logger.info(
+                "Symbolic to neural translation completed",
+                output_shape=neural_pattern.shape,
+                activation_range=(
+                    float(np.min(neural_pattern)),
+                    float(np.max(neural_pattern)),
+                ),
+            )
 
             return neural_pattern
 
@@ -313,13 +355,13 @@ class NeuroSymbolicFusionLayer:
 
             if accuracy > 0.8:
                 # Good performance - strengthen current weights
-                self.config["neural_weight"] *= (1 + learning_rate * accuracy)
-                self.config["symbolic_weight"] *= (1 + learning_rate * accuracy)
+                self.config["neural_weight"] *= 1 + learning_rate * accuracy
+                self.config["symbolic_weight"] *= 1 + learning_rate * accuracy
             else:
                 # Poor performance - explore alternative weightings
                 weight_adjustment = learning_rate * (0.8 - accuracy)
-                self.config["neural_weight"] *= (1 - weight_adjustment)
-                self.config["symbolic_weight"] *= (1 + weight_adjustment)
+                self.config["neural_weight"] *= 1 - weight_adjustment
+                self.config["symbolic_weight"] *= 1 + weight_adjustment
 
             # Normalize weights
             total_weight = self.config["neural_weight"] + self.config["symbolic_weight"]
@@ -332,10 +374,12 @@ class NeuroSymbolicFusionLayer:
             elif coherence < 0.6:
                 self.config["fusion_threshold"] *= 0.95
 
-            self.logger.info("Fusion weights adapted",
-                           neural_weight=self.config["neural_weight"],
-                           symbolic_weight=self.config["symbolic_weight"],
-                           fusion_threshold=self.config["fusion_threshold"])
+            self.logger.info(
+                "Fusion weights adapted",
+                neural_weight=self.config["neural_weight"],
+                symbolic_weight=self.config["symbolic_weight"],
+                fusion_threshold=self.config["fusion_threshold"],
+            )
 
         except Exception as e:
             self.logger.error("Weight adaptation failed", error=str(e))
@@ -344,8 +388,16 @@ class NeuroSymbolicFusionLayer:
         """Get comprehensive metrics about fusion layer performance"""
         try:
             total_patterns = len(self.fusion_patterns)
-            avg_coherence = np.mean([p.coherence_score for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
-            avg_fusion_strength = np.mean([p.fusion_strength for p in self.fusion_patterns]) if self.fusion_patterns else 0.0
+            avg_coherence = (
+                np.mean([p.coherence_score for p in self.fusion_patterns])
+                if self.fusion_patterns
+                else 0.0
+            )
+            avg_fusion_strength = (
+                np.mean([p.fusion_strength for p in self.fusion_patterns])
+                if self.fusion_patterns
+                else 0.0
+            )
 
             metrics = {
                 "total_patterns": total_patterns,
@@ -357,10 +409,10 @@ class NeuroSymbolicFusionLayer:
                 "fusion_threshold": self.config["fusion_threshold"],
                 "current_weights": {
                     "neural": self.config["neural_weight"],
-                    "symbolic": self.config["symbolic_weight"]
+                    "symbolic": self.config["symbolic_weight"],
                 },
                 "bio_integration_active": bool(self.proton_gradient),
-                "last_updated": datetime.now(timezone.utc).isoformat()
+                "last_updated": datetime.now(timezone.utc).isoformat(),
             }
 
             return metrics
@@ -371,7 +423,9 @@ class NeuroSymbolicFusionLayer:
 
     # Helper methods for internal operations
 
-    def _apply_fusion_mode(self, pattern: NeuroSymbolicPattern, mode: FusionMode) -> NeuroSymbolicPattern:
+    def _apply_fusion_mode(
+        self, pattern: NeuroSymbolicPattern, mode: FusionMode
+    ) -> NeuroSymbolicPattern:
         """Apply fusion mode specific processing"""
         if mode == FusionMode.NEURAL_DOMINANT:
             pattern.neural_signature *= 1.2
@@ -383,11 +437,15 @@ class NeuroSymbolicFusionLayer:
             # Context-dependent weighting
             if self.active_context:
                 pattern.neural_signature *= self.active_context.neural_weight
-                pattern.symbolic_representation["weight"] = self.active_context.symbolic_weight
+                pattern.symbolic_representation["weight"] = (
+                    self.active_context.symbolic_weight
+                )
 
         return pattern
 
-    def _calculate_energy_cost(self, neural_input: np.ndarray, symbolic_input: Dict[str, Any]) -> float:
+    def _calculate_energy_cost(
+        self, neural_input: np.ndarray, symbolic_input: Dict[str, Any]
+    ) -> float:
         """Calculate the energy cost of fusion operation"""
         neural_cost = np.sum(np.abs(neural_input)) * 0.1
         symbolic_cost = len(str(symbolic_input)) * 0.001
@@ -475,25 +533,33 @@ class NeuroSymbolicFusionLayer:
         pattern = np.clip(pattern, -1.0, 1.0)
         return pattern / (np.linalg.norm(pattern) + 1e-8)
 
-    def _enhance_pattern_coherence(self, pattern: NeuroSymbolicPattern) -> NeuroSymbolicPattern:
+    def _enhance_pattern_coherence(
+        self, pattern: NeuroSymbolicPattern
+    ) -> NeuroSymbolicPattern:
         """Enhance coherence of low-coherence patterns"""
         # Apply coherence enhancement
         pattern.neural_signature *= 1.1
         pattern.symbolic_representation["enhanced"] = True
         return pattern
 
-    def _create_minimal_pattern(self, symbolic_input: Dict[str, Any]) -> NeuroSymbolicPattern:
+    def _create_minimal_pattern(
+        self, symbolic_input: Dict[str, Any]
+    ) -> NeuroSymbolicPattern:
         """Create minimal pattern when neural input is filtered"""
         minimal_neural = np.zeros(self.config.get("default_neural_dim", 128))
         return NeuroSymbolicPattern(minimal_neural, symbolic_input)
 
-    def _create_low_energy_pattern(self, neural_input: np.ndarray, symbolic_input: Dict[str, Any]) -> NeuroSymbolicPattern:
+    def _create_low_energy_pattern(
+        self, neural_input: np.ndarray, symbolic_input: Dict[str, Any]
+    ) -> NeuroSymbolicPattern:
         """Create pattern with reduced processing for energy conservation"""
         reduced_neural = neural_input * 0.5
         reduced_symbolic = {"simplified": True, "original_keys": len(symbolic_input)}
         return NeuroSymbolicPattern(reduced_neural, reduced_symbolic)
 
-    def _create_error_pattern(self, neural_input: np.ndarray, symbolic_input: Dict[str, Any], error: str) -> NeuroSymbolicPattern:
+    def _create_error_pattern(
+        self, neural_input: np.ndarray, symbolic_input: Dict[str, Any], error: str
+    ) -> NeuroSymbolicPattern:
         """Create error pattern when fusion fails"""
         error_neural = np.zeros_like(neural_input)
         error_symbolic = {"error": error, "type": "fusion_failure"}
@@ -514,7 +580,7 @@ def create_nsfl_instance(config_path: Optional[str] = None) -> NeuroSymbolicFusi
     config = None
     if config_path:
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 config = json.load(f)
         except Exception as e:
             logger.warning(f"Failed to load config from {config_path}: {e}")
@@ -524,11 +590,11 @@ def create_nsfl_instance(config_path: Optional[str] = None) -> NeuroSymbolicFusi
 
 # Export main classes and functions
 __all__ = [
-    'NeuroSymbolicFusionLayer',
-    'NeuroSymbolicPattern',
-    'FusionMode',
-    'FusionContext',
-    'create_nsfl_instance'
+    "NeuroSymbolicFusionLayer",
+    "NeuroSymbolicPattern",
+    "FusionMode",
+    "FusionContext",
+    "create_nsfl_instance",
 ]
 
 """

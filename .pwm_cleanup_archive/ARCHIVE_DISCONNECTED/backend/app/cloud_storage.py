@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : cloud_storage.py                               │
@@ -10,12 +8,12 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from pathlib import Path
 import shutil
-import os
+from pathlib import Path
 
 # Placeholder cloud upload logic (to integrate with Supabase, S3, R2, etc.)
 CLOUD_BUCKET_DIR = "cloud_storage_mock"
+
 
 def save_file_to_storage(local_path: str, filename: str) -> str:
     """

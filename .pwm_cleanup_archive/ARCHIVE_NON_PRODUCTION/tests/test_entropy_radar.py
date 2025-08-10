@@ -5,13 +5,13 @@ This test module validates the entropy analysis, visualization,
 and anomaly detection capabilities of the EntropyRadar system.
 """
 
-import pytest
-import tempfile
 import json
-from pathlib import Path
 from datetime import datetime, timedelta
-import pandas as pd
+from pathlib import Path
+
 import numpy as np
+import pandas as pd
+import pytest
 
 from core.entropy import EntropyRadar
 
@@ -33,17 +33,17 @@ class TestEntropyRadar:
         radar = EntropyRadar()
 
         # Test with uniform distribution (high entropy)
-        uniform_values = ['a', 'b', 'c', 'd', 'e']
+        uniform_values = ["a", "b", "c", "d", "e"]
         entropy_uniform = radar.shannon_entropy(uniform_values)
         assert entropy_uniform > 2.0  # Should be close to log2(5) ≈ 2.32
 
         # Test with skewed distribution (low entropy)
-        skewed_values = ['a', 'a', 'a', 'a', 'b']
+        skewed_values = ["a", "a", "a", "a", "b"]
         entropy_skewed = radar.shannon_entropy(skewed_values)
         assert entropy_skewed < 1.0
 
         # Test with single value (zero entropy)
-        single_values = ['a', 'a', 'a']
+        single_values = ["a", "a", "a"]
         entropy_single = radar.shannon_entropy(single_values)
         assert entropy_single == 0.0
 
@@ -59,20 +59,24 @@ class TestSIDCollection:
         """Test collecting SID hashes from Python files."""
         # Create test Python files with SID hashes
         test_file1 = tmp_path / "module1.py"
-        test_file1.write_text('''
+        test_file1.write_text(
+            """
 sid_hash = "abc123def456"
 another_var = "not a sid"
 sid_hash = "789xyz"
-''')
+"""
+        )
 
         test_file2 = tmp_path / "module2.py"
-        test_file2.write_text('''
+        test_file2.write_text(
+            """
 class MyClass:
     sid_hash = "fedcba987"
 
 def func():
     sid_hash = "112233"
-''')
+"""
+        )
 
         # Create a file without SIDs
         test_file3 = tmp_path / "no_sids.py"
@@ -100,7 +104,7 @@ def func():
         radar.sid_map = {
             "high_entropy": ["abc", "def", "ghi", "jkl", "mno"],
             "low_entropy": ["abc", "abc", "abc", "def"],
-            "zero_entropy": ["xyz", "xyz", "xyz"]
+            "zero_entropy": ["xyz", "xyz", "xyz"],
         }
 
         entropy_map = radar.calculate_module_entropy()
@@ -126,39 +130,45 @@ class TestLogParsing:
 
         if log_type == "entropy_snapshot":
             for i in range(10):
-                records.append({
-                    "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
-                    "entropy_snapshot": {
-                        "entropy_delta": 0.1 * i,
-                        "memory_trace_count": i * 10,
-                        "affect_trace_count": i * 5
-                    },
-                    "source_component": "test_module"
-                })
+                records.append(
+                    {
+                        "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
+                        "entropy_snapshot": {
+                            "entropy_delta": 0.1 * i,
+                            "memory_trace_count": i * 10,
+                            "affect_trace_count": i * 5,
+                        },
+                        "source_component": "test_module",
+                    }
+                )
         elif log_type == "metadata":
             for i in range(10):
-                records.append({
-                    "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
-                    "metadata": {
-                        "emotion_score": 0.05 * i,
-                        "category": f"subsystem_{i % 3}"
+                records.append(
+                    {
+                        "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
+                        "metadata": {
+                            "emotion_score": 0.05 * i,
+                            "category": f"subsystem_{i % 3}",
+                        },
                     }
-                })
+                )
         elif log_type == "drift_score":
             for i in range(10):
-                records.append({
-                    "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
-                    "entropy": 0.1 * i,
-                    "drift_score": 0.05 * i,
-                    "affect_vector": {
-                        "joy": 0.5 + 0.05 * i,
-                        "fear": 0.3 - 0.02 * i
+                records.append(
+                    {
+                        "timestamp": (base_time + timedelta(minutes=i)).isoformat(),
+                        "entropy": 0.1 * i,
+                        "drift_score": 0.05 * i,
+                        "affect_vector": {
+                            "joy": 0.5 + 0.05 * i,
+                            "fear": 0.3 - 0.02 * i,
+                        },
                     }
-                })
+                )
 
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             for record in records:
-                f.write(json.dumps(record) + '\n')
+                f.write(json.dumps(record) + "\n")
 
         return log_file
 
@@ -170,24 +180,24 @@ class TestLogParsing:
         df = radar.parse_entropy_logs(str(log_file))
 
         assert len(df) == 10
-        assert 'timestamp' in df.columns
-        assert 'entropy' in df.columns
-        assert 'subsystem' in df.columns
+        assert "timestamp" in df.columns
+        assert "entropy" in df.columns
+        assert "subsystem" in df.columns
 
         # Test metadata format
         log_file = self.create_test_log(tmp_path, "metadata")
         df = radar.parse_entropy_logs(str(log_file))
 
         assert len(df) == 10
-        assert df['subsystem'].nunique() == 3
+        assert df["subsystem"].nunique() == 3
 
         # Test drift score format
         log_file = self.create_test_log(tmp_path, "drift_score")
         df = radar.parse_entropy_logs(str(log_file))
 
         assert len(df) == 10
-        assert 'volatility' in df.columns
-        assert df['volatility'].iloc[-1] > df['volatility'].iloc[0]
+        assert "volatility" in df.columns
+        assert df["volatility"].iloc[-1] > df["volatility"].iloc[0]
 
     def test_parse_empty_log(self, tmp_path):
         """Test parsing empty log file."""
@@ -202,9 +212,9 @@ class TestLogParsing:
     def test_parse_corrupted_log(self, tmp_path):
         """Test parsing log with corrupted entries."""
         log_file = tmp_path / "corrupted.jsonl"
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             f.write('{"timestamp": "2025-01-01T00:00:00", "entropy": 0.5}\n')
-            f.write('NOT VALID JSON\n')
+            f.write("NOT VALID JSON\n")
             f.write('{"timestamp": "2025-01-01T00:01:00", "entropy": 0.6}\n')
             f.write('{"no_timestamp": true}\n')
 
@@ -222,50 +232,56 @@ class TestTimeSeries:
         radar = EntropyRadar()
 
         # Create test data
-        times = pd.date_range('2025-01-01', periods=20, freq='1min')
-        df = pd.DataFrame({
-            'timestamp': times,
-            'entropy': np.random.rand(20) * 0.5 + 0.3,
-            'volatility': np.random.rand(20) * 0.3,
-            'drift_score': np.random.rand(20) * 0.2,
-            'subsystem': ['sys1', 'sys2'] * 10
-        })
+        times = pd.date_range("2025-01-01", periods=20, freq="1min")
+        df = pd.DataFrame(
+            {
+                "timestamp": times,
+                "entropy": np.random.rand(20) * 0.5 + 0.3,
+                "volatility": np.random.rand(20) * 0.3,
+                "drift_score": np.random.rand(20) * 0.2,
+                "subsystem": ["sys1", "sys2"] * 10,
+            }
+        )
 
         ts_df = radar.generate_time_series(df)
 
         # Check rolling columns were added
-        assert 'entropy_rolling' in ts_df.columns
-        assert 'volatility_rolling' in ts_df.columns
-        assert 'drift_rolling' in ts_df.columns
+        assert "entropy_rolling" in ts_df.columns
+        assert "volatility_rolling" in ts_df.columns
+        assert "drift_rolling" in ts_df.columns
 
         # Check derivatives
-        assert 'entropy_derivative' in ts_df.columns
+        assert "entropy_derivative" in ts_df.columns
 
         # Check time features
-        assert 'hour' in ts_df.columns
-        assert 'day_of_week' in ts_df.columns
+        assert "hour" in ts_df.columns
+        assert "day_of_week" in ts_df.columns
 
         # Check cumulative entropy
-        assert 'entropy_cumulative' in ts_df.columns
-        assert ts_df['entropy_cumulative'].iloc[-1] > ts_df['entropy_cumulative'].iloc[0]
+        assert "entropy_cumulative" in ts_df.columns
+        assert (
+            ts_df["entropy_cumulative"].iloc[-1] > ts_df["entropy_cumulative"].iloc[0]
+        )
 
     def test_time_series_single_point(self):
         """Test time series with single data point."""
         radar = EntropyRadar()
 
-        df = pd.DataFrame({
-            'timestamp': [datetime.now()],
-            'entropy': [0.5],
-            'volatility': [0.2],
-            'drift_score': [0.1],
-            'subsystem': ['test']
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": [datetime.now()],
+                "entropy": [0.5],
+                "volatility": [0.2],
+                "drift_score": [0.1],
+                "subsystem": ["test"],
+            }
+        )
 
         ts_df = radar.generate_time_series(df)
 
         # Should handle single point gracefully
         assert len(ts_df) == 1
-        assert ts_df['entropy_rolling'].iloc[0] == ts_df['entropy'].iloc[0]
+        assert ts_df["entropy_rolling"].iloc[0] == ts_df["entropy"].iloc[0]
 
 
 class TestInflectionDetection:
@@ -276,36 +292,40 @@ class TestInflectionDetection:
         radar = EntropyRadar(spike_threshold=0.8)
 
         # Create data with clear spikes
-        df = pd.DataFrame({
-            'timestamp': pd.date_range('2025-01-01', periods=10, freq='1min'),
-            'entropy': [0.5, 0.6, 0.9, 0.5, 0.4, 0.95, 0.5, 0.6, 0.7, 0.85],
-            'subsystem': ['test'] * 10
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=10, freq="1min"),
+                "entropy": [0.5, 0.6, 0.9, 0.5, 0.4, 0.95, 0.5, 0.6, 0.7, 0.85],
+                "subsystem": ["test"] * 10,
+            }
+        )
 
         inflections = radar.detect_inflection_points(df)
 
-        spikes = inflections['entropy_spikes']
+        spikes = inflections["entropy_spikes"]
         assert len(spikes) == 3  # Values > 0.8
-        assert spikes[0]['entropy_value'] == 0.9
-        assert spikes[0]['type'] == 'ΛENTROPY_SPIKE'
+        assert spikes[0]["entropy_value"] == 0.9
+        assert spikes[0]["type"] == "ΛENTROPY_SPIKE"
 
     def test_detect_entropy_drops(self):
         """Test detection of entropy drops."""
         radar = EntropyRadar(drop_threshold=0.3)
 
         # Create data with clear drops
-        df = pd.DataFrame({
-            'timestamp': pd.date_range('2025-01-01', periods=5, freq='1min'),
-            'entropy': [0.8, 0.4, 0.9, 0.5, 0.1],
-            'subsystem': ['test'] * 5
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=5, freq="1min"),
+                "entropy": [0.8, 0.4, 0.9, 0.5, 0.1],
+                "subsystem": ["test"] * 5,
+            }
+        )
 
         inflections = radar.detect_inflection_points(df)
 
-        drops = inflections['entropy_drops']
+        drops = inflections["entropy_drops"]
         assert len(drops) == 2  # Drops > 0.3
-        assert drops[0]['entropy_change'] == 0.4
-        assert drops[1]['entropy_change'] == 0.4
+        assert drops[0]["entropy_change"] == 0.4
+        assert drops[1]["entropy_change"] == 0.4
 
     def test_detect_stable_phases(self):
         """Test detection of stable phases."""
@@ -315,17 +335,22 @@ class TestInflectionDetection:
         stable_values = [0.5] * 10
         variable_values = [0.3, 0.7, 0.4, 0.8, 0.2]
 
-        df = pd.DataFrame({
-            'timestamp': pd.date_range('2025-01-01', periods=25, freq='1min'),
-            'entropy': variable_values + stable_values + variable_values + stable_values,
-            'subsystem': ['test'] * 25
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=25, freq="1min"),
+                "entropy": variable_values
+                + stable_values
+                + variable_values
+                + stable_values,
+                "subsystem": ["test"] * 25,
+            }
+        )
 
         inflections = radar.detect_inflection_points(df)
 
-        stable = inflections['stable_phases']
+        stable = inflections["stable_phases"]
         assert len(stable) >= 1
-        assert stable[0]['entropy_variance'] < 0.05
+        assert stable[0]["entropy_variance"] < 0.05
 
 
 class TestVisualization:
@@ -336,10 +361,7 @@ class TestVisualization:
         radar = EntropyRadar()
 
         # Set up test data
-        radar.entropy_map = {
-            f"module_{i}": np.random.rand() * 2
-            for i in range(10)
-        }
+        radar.entropy_map = {f"module_{i}": np.random.rand() * 2 for i in range(10)}
 
         output_path = tmp_path / "test_radar.png"
         result_path = radar.generate_entropy_radar(str(output_path))
@@ -352,13 +374,15 @@ class TestVisualization:
         radar = EntropyRadar()
 
         # Create test time series
-        df = pd.DataFrame({
-            'timestamp': pd.date_range('2025-01-01', periods=50, freq='1min'),
-            'entropy': np.sin(np.linspace(0, 4*np.pi, 50)) * 0.3 + 0.5,
-            'volatility': np.random.rand(50) * 0.3,
-            'drift_score': np.random.rand(50) * 0.2,
-            'subsystem': ['sys1', 'sys2'] * 25
-        })
+        df = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=50, freq="1min"),
+                "entropy": np.sin(np.linspace(0, 4 * np.pi, 50)) * 0.3 + 0.5,
+                "volatility": np.random.rand(50) * 0.3,
+                "drift_score": np.random.rand(50) * 0.2,
+                "subsystem": ["sys1", "sys2"] * 25,
+            }
+        )
 
         # Generate time series features
         df = radar.generate_time_series(df)
@@ -366,9 +390,9 @@ class TestVisualization:
 
         # Test SVG output
         output_path = tmp_path / "test_trends"
-        result_path = radar.render_trend_graphs(df, str(output_path), 'svg')
+        result_path = radar.render_trend_graphs(df, str(output_path), "svg")
 
-        svg_path = Path(output_path).with_suffix('.svg')
+        svg_path = Path(output_path).with_suffix(".svg")
         assert svg_path.exists()
         assert svg_path.stat().st_size > 0
 
@@ -382,19 +406,21 @@ class TestExport:
 
         # Set up test data
         radar.entropy_map = {"module1": 1.5, "module2": 0.8}
-        radar.time_series_df = pd.DataFrame({
-            'timestamp': pd.date_range('2025-01-01', periods=10, freq='1min'),
-            'entropy': np.random.rand(10),
-            'volatility': np.random.rand(10),
-            'drift_score': np.random.rand(10),
-            'subsystem': ['sys1', 'sys2'] * 5
-        })
+        radar.time_series_df = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=10, freq="1min"),
+                "entropy": np.random.rand(10),
+                "volatility": np.random.rand(10),
+                "drift_score": np.random.rand(10),
+                "subsystem": ["sys1", "sys2"] * 5,
+            }
+        )
         radar.inflection_points = {
-            'entropy_spikes': [{'timestamp': '2025-01-01', 'type': 'spike'}]
+            "entropy_spikes": [{"timestamp": "2025-01-01", "type": "spike"}]
         }
 
         output_path = tmp_path / "summary"
-        result_path = radar.export_summary(str(output_path), 'json')
+        result_path = radar.export_summary(str(output_path), "json")
 
         # Verify file was created
         json_path = Path(result_path)
@@ -403,9 +429,9 @@ class TestExport:
         # Verify content
         with open(json_path) as f:
             data = json.load(f)
-            assert 'module_entropy' in data
-            assert 'time_series_stats' in data
-            assert data['time_series_stats']['data_points'] == 10
+            assert "module_entropy" in data
+            assert "time_series_stats" in data
+            assert data["time_series_stats"]["data_points"] == 10
 
     def test_export_markdown_summary(self, tmp_path):
         """Test Markdown summary export."""
@@ -414,14 +440,18 @@ class TestExport:
         # Set up minimal test data
         radar.entropy_map = {"high_entropy": 0.9, "low_entropy": 0.2}
         radar.inflection_points = {
-            'entropy_spikes': [
-                {'timestamp': '2025-01-01T00:00:00', 'entropy_value': 0.9,
-                 'subsystem': 'test', 'type': 'ΛSPIKE'}
+            "entropy_spikes": [
+                {
+                    "timestamp": "2025-01-01T00:00:00",
+                    "entropy_value": 0.9,
+                    "subsystem": "test",
+                    "type": "ΛSPIKE",
+                }
             ]
         }
 
         output_path = tmp_path / "summary"
-        result_path = radar.export_summary(str(output_path), 'markdown')
+        result_path = radar.export_summary(str(output_path), "markdown")
 
         # Verify file was created
         md_path = Path(result_path)

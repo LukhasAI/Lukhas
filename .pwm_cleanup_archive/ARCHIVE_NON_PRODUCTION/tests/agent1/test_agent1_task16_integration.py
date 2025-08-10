@@ -8,8 +8,8 @@ This test validates the integration of quantum/voice_enhancer.py
 with quantum/system_orchestrator.py following the hub pattern.
 """
 
-import sys
 import os
+import sys
 import unittest
 
 # Add project root to path for testing
@@ -31,7 +31,10 @@ class TestQuantumVoiceEnhancerIntegration(unittest.TestCase):
     def test_voice_enhancer_import(self):
         """Test that QuantumVoiceEnhancer can be imported"""
         try:
-            from quantum.voice_enhancer import QuantumVoiceEnhancer, VoiceQuantumConfig
+            from quantum.voice_enhancer import (
+                QuantumVoiceEnhancer,
+                VoiceQuantumConfig,
+            )
 
             self.assertTrue(True, "QuantumVoiceEnhancer imported successfully")
         except ImportError as e:
@@ -68,8 +71,9 @@ class TestQuantumVoiceEnhancerIntegration(unittest.TestCase):
         """Test that quantum system orchestrator can import voice enhancer"""
         try:
             # Test the import that the orchestrator uses
-            from quantum.voice_enhancer import QuantumVoiceEnhancer, VoiceQuantumConfig
-            from quantum.system_orchestrator import QuantumAGISystem
+            from quantum.voice_enhancer import (
+                QuantumVoiceEnhancer,
+            )
 
             # Test that all required classes exist
             self.assertTrue(hasattr(QuantumVoiceEnhancer, "__init__"))
@@ -99,7 +103,9 @@ class TestQuantumVoiceEnhancerIntegration(unittest.TestCase):
     def test_voice_enhancer_structure(self):
         """Test QuantumVoiceEnhancer structure and attributes"""
         try:
-            from quantum.voice_enhancer import QuantumVoiceEnhancer, VoiceQuantumConfig
+            from quantum.voice_enhancer import (
+                VoiceQuantumConfig,
+            )
 
             # Create a mock orchestrator and voice integrator
             class MockBioOrchestrator:
@@ -134,10 +140,11 @@ class TestQuantumVoiceEnhancerIntegration(unittest.TestCase):
         """Test that integration meets completion criteria"""
         try:
             # 1. quantum/voice_enhancer.py successfully imported and initialized
-            from quantum.voice_enhancer import QuantumVoiceEnhancer, VoiceQuantumConfig
-
             # 2. Component can be imported by quantum/system_orchestrator.py
             from quantum.system_orchestrator import QuantumAGISystem
+            from quantum.voice_enhancer import (
+                VoiceQuantumConfig,
+            )
 
             # 3. Check that orchestrator has the required interface methods
             required_methods = [
@@ -192,8 +199,8 @@ def run_quantum_voice_integration_tests():
     if result.wasSuccessful():
         print("✅ ALL QUANTUM VOICE ENHANCER INTEGRATION TESTS PASSED!")
         print("✅ QuantumVoiceEnhancer successfully integrated with QuantumAGISystem")
-        print(f"✅ Agent 1 Task 16 Priority Score: 22.5 points achieved")
-        print(f"✅ Cumulative Agent 1 Score: 639.3 points (540 target exceeded)")
+        print("✅ Agent 1 Task 16 Priority Score: 22.5 points achieved")
+        print("✅ Cumulative Agent 1 Score: 639.3 points (540 target exceeded)")
         print(
             "✅ Integration follows hub pattern: Import → Initialize → Interface → Test"
         )

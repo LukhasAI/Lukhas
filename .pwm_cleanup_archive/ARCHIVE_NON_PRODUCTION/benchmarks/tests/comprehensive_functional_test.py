@@ -7,11 +7,11 @@ Complete test of ALL working LUKHAS AI modules and capabilities.
 Tests only REAL functionality with actual data processing.
 """
 
-import sys
-import os
 import asyncio
-import time
 import json
+import os
+import sys
+import time
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -113,7 +113,7 @@ async def test_memory_system_functionality():
             print(f'   📊 Success rate: {result["success_rate"]:.1f}%')
             category_results["working_components"].append("MemoryManager")
         else:
-            print(f"   ❌ FAILED - Poor memory performance")
+            print("   ❌ FAILED - Poor memory performance")
 
         category_results["tests"].append(result)
 
@@ -172,7 +172,7 @@ async def test_dream_analysis_tools():
             print(f"   🔧 Available functions: {len(available_functions)}")
             category_results["working_components"].append("run_dream_analysis")
         else:
-            print(f"   ❌ FAILED - Module not accessible")
+            print("   ❌ FAILED - Module not accessible")
 
         category_results["tests"].append(result)
 
@@ -205,7 +205,7 @@ async def test_dream_analysis_tools():
                 )
                 category_results["working_components"].append("SymbolicAnomalyExplorer")
             else:
-                print(f"   ❌ FAILED - Initialization failed")
+                print("   ❌ FAILED - Initialization failed")
 
             category_results["tests"].append(result)
 
@@ -270,7 +270,7 @@ async def test_bio_symbolic_processing():
             print(f"   📊 Average coherence: {average_coherence:.2%}")
             category_results["working_components"].append("BioSymbolicIntegration")
         else:
-            print(f"   ❌ FAILED - Coherence below threshold")
+            print("   ❌ FAILED - Coherence below threshold")
 
         category_results["tests"].append(result)
 
@@ -333,7 +333,7 @@ async def test_orchestration_capabilities():
             print(f'   📊 Success rate: {result["success_rate"]:.1f}%')
             category_results["working_components"].append("PluginRegistry")
         else:
-            print(f"   ❌ FAILED - Plugin registry issues")
+            print("   ❌ FAILED - Plugin registry issues")
 
         category_results["tests"].append(result)
 
@@ -510,11 +510,11 @@ async def main():
     for module in comprehensive_results["working_modules"]:
         print(f"   ✅ {module}")
 
-    print(f"\n📊 Performance Metrics:")
+    print("\n📊 Performance Metrics:")
     for metric, value in comprehensive_results["performance_metrics"].items():
         print(f'   📈 {metric.replace("_", " ").title()}: {value:.2f}')
 
-    print(f"\n📋 Category Breakdown:")
+    print("\n📋 Category Breakdown:")
     for category, results in comprehensive_results["module_categories"].items():
         success_rate = (
             (results["scenarios_passed"] / results["total_scenarios"] * 100)

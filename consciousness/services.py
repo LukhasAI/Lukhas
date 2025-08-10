@@ -4,7 +4,8 @@ Consciousness Services
 Dependency injection services for the consciousness module.
 """
 
-from typing import Dict, Any, Optional
+from typing import Any, Dict
+
 from hub.service_registry import get_service, inject_services
 
 
@@ -24,22 +25,24 @@ class ConsciousnessService:
     def _ensure_services(self):
         """Lazy load services to avoid circular imports"""
         if not self._initialized:
-            self._memory = get_service('memory_service')
-            self._learning = get_service('learning_service')
-            self._identity = get_service('identity_service')
+            self._memory = get_service("memory_service")
+            self._learning = get_service("learning_service")
+            self._identity = get_service("identity_service")
             self._initialized = True
 
     @inject_services(
-        memory='memory_service',
-        learning='learning_service',
-        identity='identity_service'
+        memory="memory_service",
+        learning="learning_service",
+        identity="identity_service",
     )
-    async def process_awareness(self,
-                              agent_id: str,
-                              stimulus: Dict[str, Any],
-                              memory=None,
-                              learning=None,
-                              identity=None) -> Dict[str, Any]:
+    async def process_awareness(
+        self,
+        agent_id: str,
+        stimulus: Dict[str, Any],
+        memory=None,
+        learning=None,
+        identity=None,
+    ) -> Dict[str, Any]:
         """
         Process awareness with injected dependencies.
 
@@ -51,10 +54,9 @@ class ConsciousnessService:
             raise PermissionError(f"Agent {agent_id} lacks consciousness access")
 
         # Store stimulus in memory
-        memory_result = await memory.store_experience(agent_id, {
-            "type": "awareness_stimulus",
-            "data": stimulus
-        })
+        memory_result = await memory.store_experience(
+            agent_id, {"type": "awareness_stimulus", "data": stimulus}
+        )
 
         # Process through learning if patterns detected
         if stimulus.get("pattern_detected", False):
@@ -66,20 +68,17 @@ class ConsciousnessService:
             "awareness_state": "processed",
             "memory_ref": memory_result.get("ref_id"),
             "learning_outcome": learning_result,
-            "timestamp": memory_result.get("timestamp")
+            "timestamp": memory_result.get("timestamp"),
         }
 
-    async def integrate_experience(self,
-                                 agent_id: str,
-                                 experience: Dict[str, Any]) -> Dict[str, Any]:
+    async def integrate_experience(
+        self, agent_id: str, experience: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Integrate experience across consciousness systems"""
         self._ensure_services()
 
         # This method can access all services without circular imports
-        result = {
-            "integrated": True,
-            "subsystems": []
-        }
+        result = {"integrated": True, "subsystems": []}
 
         # Memory integration
         if self._memory:
@@ -113,10 +112,7 @@ def create_consciousness_service():
 from hub.service_registry import register_factory
 
 register_factory(
-    'consciousness_service',
+    "consciousness_service",
     create_consciousness_service,
-    {
-        "module": "consciousness",
-        "provides": ["awareness", "integration", "binding"]
-    }
+    {"module": "consciousness", "provides": ["awareness", "integration", "binding"]},
 )

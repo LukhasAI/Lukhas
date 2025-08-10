@@ -14,14 +14,16 @@ a unified interface for external systems to interact with identity.
 """
 
 import asyncio
-from core.common import get_logger
 import time
 from dataclasses import asdict
 from typing import Any, Dict, List, Optional
 
 from core.bridges.identity_core_bridge import IdentityCoreBridge
+from core.common import get_logger
 from identity.auth_backend.trust_scorer import LukhasTrustScorer
-from identity.core.auth.biometric_integration import BiometricIntegrationManager
+from identity.core.auth.biometric_integration import (
+    BiometricIntegrationManager,
+)
 from identity.core.qrs_manager import QRSManager
 from identity.core.sent.consent_manager import LambdaConsentManager
 from identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
@@ -224,7 +226,9 @@ except ImportError:
 
 # QRG Coverage Integration
 try:
-    from identity.qrg_coverage_integration import create_qrg_coverage_integration
+    from identity.qrg_coverage_integration import (
+        create_qrg_coverage_integration,
+    )
 
     QRG_COVERAGE_AVAILABLE = True
 except ImportError as e:
@@ -442,7 +446,9 @@ class IdentityHub:
     def get_enterprise_auth_config_template(self) -> Dict[str, Any]:
         """Get enterprise authentication configuration template"""
         try:
-            from identity.enterprise.auth import get_enterprise_auth_config_template
+            from identity.enterprise.auth import (
+                get_enterprise_auth_config_template,
+            )
 
             return get_enterprise_auth_config_template()
         except Exception as e:

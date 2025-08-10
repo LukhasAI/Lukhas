@@ -23,8 +23,13 @@
 """
 
 # Module imports
+from dataclasses import dataclass
+from typing import Any
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
+
+from .base import Decision, PolicyRegistry, RiskLevel
+from .examples import GPT4Config, GPT4Policy, ThreeLawsPolicy
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -33,16 +38,6 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "policy engine integration"
 
-from typing import Dict, Any, List, Optional
-from dataclasses import dataclass
-
-from .base import (
-    Decision,
-    EthicsEvaluation,
-    PolicyRegistry,
-    RiskLevel
-)
-from .examples import ThreeLawsPolicy, GPT4Policy, GPT4Config
 
 logger = get_logger(__name__)
 
@@ -50,9 +45,10 @@ logger = get_logger(__name__)
 @dataclass
 class GovernanceDecision:
     """Wrapper to convert existing governance decisions to new format"""
+
     action: str
     requester: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     risk_level: str = "medium"
 
     def to_policy_decision(self) -> Decision:
@@ -62,7 +58,7 @@ class GovernanceDecision:
             "low": RiskLevel.LOW,
             "medium": RiskLevel.MEDIUM,
             "high": RiskLevel.HIGH,
-            "critical": RiskLevel.CRITICAL
+            "critical": RiskLevel.CRITICAL,
         }
 
         return Decision(
@@ -70,8 +66,8 @@ class GovernanceDecision:
             context=self.context,
             requester_id=self.requester,
             urgency=risk_map.get(self.risk_level.lower(), RiskLevel.MEDIUM),
-            symbolic_state=self.context.get('symbolic_state'),
-            glyphs=self.context.get('glyphs')
+            symbolic_state=self.context.get("symbolic_state"),
+            glyphs=self.context.get("glyphs"),
         )
 
 
@@ -93,22 +89,20 @@ class PolicyEngineIntegration:
         self.registry.register_policy(three_laws, set_as_default=True)
 
         # Register GPT-4 policy as secondary
-        gpt4_config = GPT4Config(
-            model="gpt-4",
-            temperature=0.3,
-            enable_caching=True
-        )
+        gpt4_config = GPT4Config(model="gpt-4", temperature=0.3, enable_caching=True)
         gpt4_policy = GPT4Policy(config=gpt4_config)
         self.registry.register_policy(gpt4_policy)
 
         self._initialized = True
         logger.info("Initialized default ethics policies")
 
-    def evaluate_governance_decision(self,
-                                   action: str,
-                                   requester: str,
-                                   context: Dict[str, Any],
-                                   risk_level: str = "medium") -> Dict[str, Any]:
+    def evaluate_governance_decision(
+        self,
+        action: str,
+        requester: str,
+        context: dict[str, Any],
+        risk_level: str = "medium",
+    ) -> dict[str, Any]:
         """Evaluate a governance decision using policy engines
 
         This method provides backward compatibility with existing
@@ -128,10 +122,7 @@ class PolicyEngineIntegration:
 
         # Convert to new format
         gov_decision = GovernanceDecision(
-            action=action,
-            requester=requester,
-            context=context,
-            risk_level=risk_level
+            action=action, requester=requester, context=context, risk_level=risk_level
         )
 
         decision = gov_decision.to_policy_decision()
@@ -144,19 +135,19 @@ class PolicyEngineIntegration:
 
         # Convert back to legacy format
         return {
-            'allowed': consensus.allowed,
-            'reasoning': consensus.reasoning,
-            'confidence': consensus.confidence,
-            'risk_flags': consensus.risk_flags,
-            'recommendations': consensus.recommendations,
-            'policy_evaluations': [
+            "allowed": consensus.allowed,
+            "reasoning": consensus.reasoning,
+            "confidence": consensus.confidence,
+            "risk_flags": consensus.risk_flags,
+            "recommendations": consensus.recommendations,
+            "policy_evaluations": [
                 {
-                    'policy': e.policy_name,
-                    'allowed': e.allowed,
-                    'confidence': e.confidence
+                    "policy": e.policy_name,
+                    "allowed": e.allowed,
+                    "confidence": e.confidence,
                 }
                 for e in evaluations
-            ]
+            ],
         }
 
     def add_custom_policy(self, policy_class, *args, **kwargs) -> None:
@@ -170,7 +161,7 @@ class PolicyEngineIntegration:
         self.registry.register_policy(policy)
         logger.info(f"Added custom policy: {policy.get_policy_name()}")
 
-    def get_policy_metrics(self) -> Dict[str, Any]:
+    def get_policy_metrics(self) -> dict[str, Any]:
         """Get metrics from all registered policies"""
         return self.registry.get_policy_metrics()
 
@@ -193,10 +184,9 @@ def get_policy_engine() -> PolicyEngineIntegration:
     return _global_policy_engine
 
 
-def evaluate_with_policies(action: str,
-                          requester: str,
-                          context: Dict[str, Any],
-                          risk_level: str = "medium") -> Dict[str, Any]:
+def evaluate_with_policies(
+    action: str, requester: str, context: dict[str, Any], risk_level: str = "medium"
+) -> dict[str, Any]:
     """Convenience function for policy evaluation
 
     This function provides a simple interface for existing code
@@ -204,11 +194,9 @@ def evaluate_with_policies(action: str,
     """
     engine = get_policy_engine()
     return engine.evaluate_governance_decision(
-        action=action,
-        requester=requester,
-        context=context,
-        risk_level=risk_level
+        action=action, requester=requester, context=context, risk_level=risk_level
     )
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

@@ -22,11 +22,13 @@ INTENT_LOG = "symbolic_ai/memoria/intent_log.jsonl"
 EMOTION_LOG = "symbolic_ai/memoria/emotion_log.jsonl"
 CROSSLINK_LOG = "symbolic_ai/memoria/crosslink_log.jsonl"
 
+
 def load_jsonl(filepath):
     if not os.path.exists(filepath):
         return []
-    with open(filepath, "r") as f:
+    with open(filepath) as f:
         return [json.loads(line.strip()) for line in f if line.strip()]
+
 
 def crosslink_emotion_to_intent(emotion_ts, window=5):
     emotions = load_jsonl(EMOTION_LOG)
@@ -56,7 +58,7 @@ def crosslink_emotion_to_intent(emotion_ts, window=5):
     link_record = {
         "emotion": emotion_match,
         "intent": intent_match,
-        "linked_at": datetime.now().isoformat()
+        "linked_at": datetime.now().isoformat(),
     }
 
     os.makedirs(os.path.dirname(CROSSLINK_LOG), exist_ok=True)
@@ -67,8 +69,10 @@ def crosslink_emotion_to_intent(emotion_ts, window=5):
     print(json.dumps(link_record, indent=2))
     return link_record
 
+
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) < 2:
         print("Usage: python3 crosslinker.py <emotion_timestamp>")
         sys.exit(1)

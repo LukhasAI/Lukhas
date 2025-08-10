@@ -13,8 +13,7 @@ Created: 2024
 import asyncio
 import os
 import sys
-from typing import Any, Dict, Optional
-from unittest.mock import AsyncMock, MagicMock, Mock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
@@ -22,8 +21,9 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 try:
-    from memory.emotional_memory_manager_unified import \
-        UnifiedEmotionalMemoryManager
+    from memory.emotional_memory_manager_unified import (
+        UnifiedEmotionalMemoryManager,
+    )
     from memory.memory_hub import MemoryHub
 
     MEMORY_HUB_AVAILABLE = True

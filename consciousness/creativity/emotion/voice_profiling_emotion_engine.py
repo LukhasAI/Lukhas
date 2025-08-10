@@ -15,18 +15,19 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
+
 # 📄 MODULE: voice_profiling.py
 # 🔎 PURPOSE: Advanced voice profiling for personalized and adaptive speech synthesis
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AI
 
-from typing import Dict, Any, Optional, List, Tuple
-from core.common import get_logger
+import copy
 import json
 import os
+import random
 import uuid
 from datetime import datetime
-import random
-import copy
+from typing import Any, Dict, List, Optional
+
 
 class VoiceProfilingEmotionEngine:
     """
@@ -54,18 +55,10 @@ class VoiceProfilingEmotionEngine:
             "elevenlabs": {
                 "stability": 0.5,
                 "similarity_boost": 0.75,
-                "voice_id": None
+                "voice_id": None,
             },
-            "coqui": {
-                "speed": 1.0,
-                "noise": 0.667,
-                "voice_id": None
-            },
-            "edge_tts": {
-                "pitch": "+0Hz",
-                "rate": "+0%",
-                "voice_id": None
-            }
+            "coqui": {"speed": 1.0, "noise": 0.667, "voice_id": None},
+            "edge_tts": {"pitch": "+0Hz", "rate": "+0%", "voice_id": None},
         }
 
         # Emotion-specific adjustments
@@ -75,7 +68,7 @@ class VoiceProfilingEmotionEngine:
             "anger": {"base_pitch": 0.1, "base_rate": 0.3, "expressiveness": 0.3},
             "fear": {"base_pitch": 0.3, "base_rate": 0.2, "expressiveness": -0.1},
             "surprise": {"base_pitch": 0.3, "base_rate": 0.0, "expressiveness": 0.2},
-            "neutral": {"base_pitch": 0.0, "base_rate": 0.0, "expressiveness": 0.0}
+            "neutral": {"base_pitch": 0.0, "base_rate": 0.0, "expressiveness": 0.0},
         }
 
         # Ensure we have all required parameters
@@ -84,21 +77,23 @@ class VoiceProfilingEmotionEngine:
     def _ensure_default_parameters(self) -> None:
         """Ensure all required parameters are present."""
         default_params = {
-            "base_pitch": 0.0,         # Base pitch adjustment (-1.0 to 1.0)
-            "base_rate": 1.0,          # Base speech rate (0.5 to 2.0)
-            "base_volume": 0.0,        # Base volume adjustment (-1.0 to 1.0)
+            "base_pitch": 0.0,  # Base pitch adjustment (-1.0 to 1.0)
+            "base_rate": 1.0,  # Base speech rate (0.5 to 2.0)
+            "base_volume": 0.0,  # Base volume adjustment (-1.0 to 1.0)
             "timbre_brightness": 0.0,  # Voice timbre brightness (-1.0 to 1.0)
-            "expressiveness": 0.5,     # Overall expressiveness (0.0 to 1.0)
-            "articulation": 0.5,       # Clarity of articulation (0.0 to 1.0)
-            "breathiness": 0.2,        # Amount of breathiness (0.0 to 1.0)
-            "warmth": 0.5              # Voice warmth characteristic (0.0 to 1.0)
+            "expressiveness": 0.5,  # Overall expressiveness (0.0 to 1.0)
+            "articulation": 0.5,  # Clarity of articulation (0.0 to 1.0)
+            "breathiness": 0.2,  # Amount of breathiness (0.0 to 1.0)
+            "warmth": 0.5,  # Voice warmth characteristic (0.0 to 1.0)
         }
 
         for key, value in default_params.items():
             if key not in self.parameters:
                 self.parameters[key] = value
 
-    def get_parameters_for_emotion(self, emotion: Optional[str] = None) -> Dict[str, Any]:
+    def get_parameters_for_emotion(
+        self, emotion: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Get parameters adjusted for a specific emotion."""
         # Start with base parameters
         result = copy.deepcopy(self.parameters)
@@ -112,7 +107,9 @@ class VoiceProfilingEmotionEngine:
 
         return result
 
-    def get_provider_parameters(self, provider: str, emotion: Optional[str] = None) -> Dict[str, Any]:
+    def get_provider_parameters(
+        self, provider: str, emotion: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Get provider-specific parameters, adjusted for emotion if needed."""
         if provider not in self.provider_parameters:
             return {}
@@ -132,11 +129,13 @@ class VoiceProfilingEmotionEngine:
 
     def add_feedback(self, feedback: Dict[str, Any]) -> None:
         """Add user feedback to the profile."""
-        self.feedback_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "score": feedback.get("score", 0.0),
-            "text": feedback.get("text", ""),
-        })
+        self.feedback_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "score": feedback.get("score", 0.0),
+                "text": feedback.get("text", ""),
+            }
+        )
         self.updated_at = datetime.now().isoformat()
 
     def record_usage(self, context: Dict[str, Any]) -> None:
@@ -158,8 +157,12 @@ class VoiceProfilingEmotionEngine:
 
         if direction == "auto":
             # Use feedback to determine direction
-            recent_feedback = self.feedback_history[-5:] if self.feedback_history else []
-            avg_score = sum(f.get("score", 0) for f in recent_feedback) / max(len(recent_feedback), 1)
+            recent_feedback = (
+                self.feedback_history[-5:] if self.feedback_history else []
+            )
+            avg_score = sum(f.get("score", 0) for f in recent_feedback) / max(
+                len(recent_feedback), 1
+            )
 
             if avg_score < 0.4:
                 # Poor feedback, try significant changes
@@ -172,18 +175,30 @@ class VoiceProfilingEmotionEngine:
         # Apply changes based on direction
         if direction == "warmer":
             self.parameters["warmth"] = min(1.0, self.parameters["warmth"] + 0.1)
-            self.parameters["breathiness"] = min(1.0, self.parameters["breathiness"] + 0.05)
-            self.parameters["base_pitch"] = max(-1.0, self.parameters["base_pitch"] - 0.05)
+            self.parameters["breathiness"] = min(
+                1.0, self.parameters["breathiness"] + 0.05
+            )
+            self.parameters["base_pitch"] = max(
+                -1.0, self.parameters["base_pitch"] - 0.05
+            )
             changes = {"warmth": "+0.1", "breathiness": "+0.05", "base_pitch": "-0.05"}
 
         elif direction == "clearer":
-            self.parameters["articulation"] = min(1.0, self.parameters["articulation"] + 0.1)
-            self.parameters["breathiness"] = max(0.0, self.parameters["breathiness"] - 0.05)
+            self.parameters["articulation"] = min(
+                1.0, self.parameters["articulation"] + 0.1
+            )
+            self.parameters["breathiness"] = max(
+                0.0, self.parameters["breathiness"] - 0.05
+            )
             changes = {"articulation": "+0.1", "breathiness": "-0.05"}
 
         elif direction == "expressive":
-            self.parameters["expressiveness"] = min(1.0, self.parameters["expressiveness"] + 0.1)
-            self.parameters["timbre_brightness"] = min(1.0, self.parameters["timbre_brightness"] + 0.05)
+            self.parameters["expressiveness"] = min(
+                1.0, self.parameters["expressiveness"] + 0.1
+            )
+            self.parameters["timbre_brightness"] = min(
+                1.0, self.parameters["timbre_brightness"] + 0.05
+            )
             changes = {"expressiveness": "+0.1", "timbre_brightness": "+0.05"}
 
         elif direction == "refine":
@@ -191,15 +206,19 @@ class VoiceProfilingEmotionEngine:
             # This is simplified - a real implementation would analyze patterns more deeply
             if self.usage_count > 50:
                 # Slightly increase expressiveness for well-used profiles
-                self.parameters["expressiveness"] = min(1.0, self.parameters["expressiveness"] + 0.02)
+                self.parameters["expressiveness"] = min(
+                    1.0, self.parameters["expressiveness"] + 0.02
+                )
                 changes = {"expressiveness": "+0.02"}
 
         # Record evolution
-        self.evolution_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "direction": direction,
-            "changes": changes
-        })
+        self.evolution_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "direction": direction,
+                "changes": changes,
+            }
+        )
 
         self.updated_at = datetime.now().isoformat()
         return changes
@@ -216,16 +235,16 @@ class VoiceProfilingEmotionEngine:
             "provider_parameters": self.provider_parameters,
             "emotion_adjustments": self.emotion_adjustments,
             "feedback_history": self.feedback_history,
-            "evolution_history": self.evolution_history
+            "evolution_history": self.evolution_history,
         }
 
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> 'VoiceProfile':
+    def from_dict(data: Dict[str, Any]) -> "VoiceProfile":
         """Create a profile from dictionary data."""
         profile = VoiceProfile(
             profile_id=data.get("id"),
             name=data.get("name", "Unnamed"),
-            parameters=data.get("parameters", {})
+            parameters=data.get("parameters", {}),
         )
 
         profile.created_at = data.get("created_at", profile.created_at)
@@ -278,7 +297,7 @@ class VoiceProfilingEmotionEngine:
         for filename in os.listdir(self.profiles_dir):
             if filename.endswith(".json"):
                 try:
-                    with open(os.path.join(self.profiles_dir, filename), "r") as file:
+                    with open(os.path.join(self.profiles_dir, filename)) as file:
                         data = json.load(file)
                         profile = VoiceProfile.from_dict(data)
                         self.profiles[profile.id] = profile
@@ -320,7 +339,7 @@ class VoiceProfilingEmotionEngine:
                 "id": p.id,
                 "name": p.name,
                 "usage_count": p.usage_count,
-                "updated_at": p.updated_at
+                "updated_at": p.updated_at,
             }
             for p in self.profiles.values()
         ]
@@ -351,18 +370,24 @@ class VoiceProfilingEmotionEngine:
         # Select based on context type
         if context_type == "notification":
             # Find a clear, articulate voice for notifications
-            candidates = [p for p in self.profiles.values()
-                         if p.parameters.get("articulation", 0) > 0.7]
+            candidates = [
+                p
+                for p in self.profiles.values()
+                if p.parameters.get("articulation", 0) > 0.7
+            ]
         elif context_type == "conversation":
             # Find a warm, expressive voice for conversations
-            candidates = [p for p in self.profiles.values()
-                         if p.parameters.get("warmth", 0) > 0.6 and
-                            p.parameters.get("expressiveness", 0) > 0.6]
+            candidates = [
+                p
+                for p in self.profiles.values()
+                if p.parameters.get("warmth", 0) > 0.6
+                and p.parameters.get("expressiveness", 0) > 0.6
+            ]
         else:
             # For general purpose, prefer profiles with more usage
-            candidates = sorted(self.profiles.values(),
-                              key=lambda p: p.usage_count,
-                              reverse=True)[:3]
+            candidates = sorted(
+                self.profiles.values(), key=lambda p: p.usage_count, reverse=True
+            )[:3]
 
         # If no candidates match our criteria, use all profiles
         if not candidates:
@@ -370,7 +395,14 @@ class VoiceProfilingEmotionEngine:
 
         # If we have an emotion specified, prefer profiles with that emotion
         # adjustment defined
-        if emotion and emotion.lower() in ["happiness", "sadness", "anger", "fear", "surprise", "neutral"]:
+        if emotion and emotion.lower() in [
+            "happiness",
+            "sadness",
+            "anger",
+            "fear",
+            "surprise",
+            "neutral",
+        ]:
             for profile in candidates:
                 if emotion.lower() in profile.emotion_adjustments:
                     return profile.id
@@ -396,7 +428,9 @@ class VoiceProfilingEmotionEngine:
         profile.record_usage(context)
         return self._save_profile(profile)
 
-    def provide_feedback(self, profile_id: str, feedback: Dict[str, Any]) -> Dict[str, Any]:
+    def provide_feedback(
+        self, profile_id: str, feedback: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Provide feedback on a profile and evolve it if appropriate.
 
@@ -417,7 +451,9 @@ class VoiceProfilingEmotionEngine:
         profile.add_feedback(feedback)
 
         # Evolve profile if we have enough feedback
-        should_evolve = (len(profile.feedback_history) % 5) == 0  # Every 5 feedback entries
+        should_evolve = (
+            len(profile.feedback_history) % 5
+        ) == 0  # Every 5 feedback entries
         changes = {}
 
         if should_evolve:
@@ -429,7 +465,7 @@ class VoiceProfilingEmotionEngine:
         return {
             "success": True,
             "evolved": should_evolve,
-            "changes": changes if should_evolve else {}
+            "changes": changes if should_evolve else {},
         }
 
     def delete_profile(self, profile_id: str) -> bool:
@@ -448,9 +484,9 @@ class VoiceProfilingEmotionEngine:
             self.logger.error(f"Error deleting profile {profile_id}: {str(e)}")
             return False
 
-    async def integrate_with_voice_system(self,
-                                        profile_id: str,
-                                        voice_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def integrate_with_voice_system(
+        self, profile_id: str, voice_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Integrate profile with voice system data"""
         profile = self.get_profile(profile_id)
         if not profile:
@@ -479,5 +515,5 @@ class VoiceProfilingEmotionEngine:
         return {
             "voice_params": profile.parameters,
             "emotion_adjustments": profile.emotion_adjustments,
-            "provider_params": profile.provider_parameters
+            "provider_params": profile.provider_parameters,
         }

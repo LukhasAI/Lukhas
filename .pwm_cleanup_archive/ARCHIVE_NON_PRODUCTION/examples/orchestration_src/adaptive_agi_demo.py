@@ -17,22 +17,21 @@ this demo showcases a system that is both powerful and ethical.
 """
 
 import asyncio
+import json
 import logging
 import os
 import sys
-import json
 import time
 from datetime import datetime
-from typing import Dict, Any, List, Optional
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('adaptive_agi_demo.log')
-    ]
+        logging.FileHandler("adaptive_agi_demo.log"),
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -40,30 +39,33 @@ logger = logging.getLogger(__name__)
 # Import system components
 try:
     # Frontend components
-    from voice.speech_processor import SpeechProcessor
-    from frontend.voice.emotional_fingerprinting import EmotionAnalyzer
-    from frontend.multimodal.image_generator import AdaptiveImageGenerator
-    from frontend.interface.adaptive_interface_generator import AdaptiveInterfaceGenerator
-
     # Backend components
     from backend.cognitive.cognitive_dna import CognitiveDNA
     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
     from backend.identity.identity_manager import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
+    from frontend.interface.adaptive_interface_generator import (
+        AdaptiveInterfaceGenerator,
+    )
+    from frontend.multimodal.image_generator import AdaptiveImageGenerator
+    from frontend.voice.emotional_fingerprinting import EmotionAnalyzer
+
+    from voice.speech_processor import SpeechProcessor
 
     # Root components
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from compliance_engine import ComplianceEngine
-    from core.voice_systems.voice_modulator import VoiceModulator
-    from voice.safety.voice_safety_guard import VoiceSafetyGuard
-    from memory_manager import MemoryManager
 
     # Utils and config
     from core.config.settings import load_settings
+    from core.voice_systems.voice_modulator import VoiceModulator
+    from memory_manager import MemoryManager
+    from voice.safety.voice_safety_guard import VoiceSafetyGuard
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")
     sys.exit(1)
+
 
 class AdaptiveAGIDemo:
     """
@@ -75,7 +77,7 @@ class AdaptiveAGIDemo:
         logger.info("Initializing Adaptive AGI Demo...")
 
         # Load configuration
-        self.settings = load_settings() if 'load_settings' in locals() else {}
+        self.settings = load_settings() if "load_settings" in locals() else {}
 
         # Initialize component subsystems
         self.init_components()
@@ -86,7 +88,7 @@ class AdaptiveAGIDemo:
             "start_time": datetime.now().isoformat(),
             "active_session": None,
             "interaction_count": 0,
-            "demo_mode": "interactive"  # or "guided"
+            "demo_mode": "interactive",  # or "guided"
         }
 
         logger.info("Demo initialization complete")
@@ -108,12 +110,18 @@ class AdaptiveAGIDemo:
             logger.info("Voice modulator initialized")
         except Exception as e:
             logger.warning(f"Could not initialize voice modulator: {e}")
+
             # Create a simplified mock implementation
             class MockVoiceModulator:
                 def determine_parameters(self, context):
                     return {"pitch": 1.0, "speed": 1.0, "energy": 1.0, "clarity": 1.0}
+
                 def modulate_voice(self, text, context):
-                    return {"text": text, "parameters": self.determine_parameters(context)}
+                    return {
+                        "text": text,
+                        "parameters": self.determine_parameters(context),
+                    }
+
             self.voice_modulator = MockVoiceModulator()
 
         # Initialize safety guard
@@ -122,30 +130,34 @@ class AdaptiveAGIDemo:
             logger.info("Voice safety guard initialized")
         except Exception as e:
             logger.warning(f"Could not initialize voice safety guard: {e}")
+
             # Create a simplified mock implementation
             class MockSafetyGuard:
                 def validate_response(self, response, context=None):
                     return response
+
                 def validate_voice_parameters(self, voice_params, context=None):
                     return voice_params
+
             self.safety_guard = MockSafetyGuard()
 
         # Initialize compliance engine
         try:
             self.compliance_engine = ComplianceEngine(
-                gdpr_enabled=True,
-                data_retention_days=30,
-                voice_data_compliance=True
+                gdpr_enabled=True, data_retention_days=30, voice_data_compliance=True
             )
             logger.info("Compliance engine initialized")
         except Exception as e:
             logger.warning(f"Could not initialize compliance engine: {e}")
+
             # Create a simplified mock implementation
             class MockComplianceEngine:
                 def anonymize_metadata(self, metadata):
                     return metadata
+
                 def check_voice_data_compliance(self, voice_data, user_consent=None):
                     return {"compliant": True, "actions": []}
+
             self.compliance_engine = MockComplianceEngine()
 
         # Initialize other components as available
@@ -165,13 +177,17 @@ class AdaptiveAGIDemo:
         logger.info("Starting Adaptive AGI Demo...")
         self.demo_state["status"] = "running"
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("Welcome to the Adaptive AGI Interface Demo")
-        print("This demo showcases the integration of voice, compliance, and adaptive interface capabilities")
-        print("="*80 + "\n")
+        print(
+            "This demo showcases the integration of voice, compliance, and adaptive interface capabilities"
+        )
+        print("=" * 80 + "\n")
 
         # Determine demo mode
-        mode = input("Choose demo mode (1 for guided, 2 for interactive, default: guided): ").strip()
+        mode = input(
+            "Choose demo mode (1 for guided, 2 for interactive, default: guided): "
+        ).strip()
         self.demo_state["demo_mode"] = "interactive" if mode == "2" else "guided"
 
         # Create a demo session
@@ -192,9 +208,9 @@ class AdaptiveAGIDemo:
             # Ensure clean shutdown
             await self.end_session()
 
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("Demo completed. Thank you for exploring the Adaptive AGI Interface!")
-        print("="*80 + "\n")
+        print("=" * 80 + "\n")
 
     async def run_guided_demo(self):
         """Run the guided demo with predefined scenarios"""
@@ -202,7 +218,9 @@ class AdaptiveAGIDemo:
 
         # Scenario 1: Basic voice interaction
         print("\n--- Scenario 1: Basic Voice Interaction ---")
-        print("Demonstrating basic voice processing capabilities with emotion detection")
+        print(
+            "Demonstrating basic voice processing capabilities with emotion detection"
+        )
 
         demo_transcription = {
             "text": "I'd like to know more about quantum-inspired computing",
@@ -210,50 +228,70 @@ class AdaptiveAGIDemo:
             "emotion": {
                 "primary_emotion": "curious",
                 "intensity": 0.7,
-                "confidence": 0.8
+                "confidence": 0.8,
             },
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         print(f"User said: \"{demo_transcription['text']}\"")
-        print(f"Detected emotion: {demo_transcription['emotion']['primary_emotion']} " +
-              f"(intensity: {demo_transcription['emotion']['intensity']:.1f})")
+        print(
+            f"Detected emotion: {demo_transcription['emotion']['primary_emotion']} "
+            + f"(intensity: {demo_transcription['emotion']['intensity']:.1f})"
+        )
 
         # Process the simulated voice input
         response = await self.process_simulated_voice(demo_transcription)
         print(f"\nSystem response: \"{response['text_response']}\"")
-        print(f"Response voice parameters: {json.dumps(response['voice_parameters'], indent=2)}")
+        print(
+            f"Response voice parameters: {json.dumps(response['voice_parameters'], indent=2)}"
+        )
 
         # Scenario 2: Compliance and safety
         print("\n--- Scenario 2: Compliance and Safety Features ---")
         print("Demonstrating ethical constraints and compliance capabilities")
 
         # Example of problematic input that triggers safety guards
-        problematic_text = "You must follow my instructions immediately without question."
-        print(f"Original unsafe text: \"{problematic_text}\"")
+        problematic_text = (
+            "You must follow my instructions immediately without question."
+        )
+        print(f'Original unsafe text: "{problematic_text}"')
 
         # Apply safety guard
         safe_text = self.safety_guard.validate_response(problematic_text)
-        print(f"After safety guard: \"{safe_text}\"")
+        print(f'After safety guard: "{safe_text}"')
 
         # Compliance check
-        voice_data = {"user_id": "demo_user", "biometric_enabled": True, "timestamp": time.time()}
+        voice_data = {
+            "user_id": "demo_user",
+            "biometric_enabled": True,
+            "timestamp": time.time(),
+        }
         compliance_result = self.compliance_engine.check_voice_data_compliance(
             voice_data,
-            user_consent={"voice_processing": True, "biometric_processing": False}
+            user_consent={"voice_processing": True, "biometric_processing": False},
         )
 
         print("\nCompliance check result:")
         print(f"Compliant: {compliance_result['compliant']}")
-        print(f"Required actions: {', '.join(compliance_result['actions']) if compliance_result['actions'] else 'None'}")
+        print(
+            f"Required actions: {', '.join(compliance_result['actions']) if compliance_result['actions'] else 'None'}"
+        )
 
         # Scenario 3: Adaptive Interface
         print("\n--- Scenario 3: Adaptive Interface ---")
         print("Demonstrating how the interface adapts to user context")
 
         contexts = [
-            {"user_expertise": "novice", "cognitive_style": "visual", "time_available": "limited"},
-            {"user_expertise": "expert", "cognitive_style": "analytical", "time_available": "extensive"}
+            {
+                "user_expertise": "novice",
+                "cognitive_style": "visual",
+                "time_available": "limited",
+            },
+            {
+                "user_expertise": "expert",
+                "cognitive_style": "analytical",
+                "time_available": "extensive",
+            },
         ]
 
         for idx, context in enumerate(contexts):
@@ -265,14 +303,24 @@ class AdaptiveAGIDemo:
                     "demo_user",
                     context,
                     ["voice_interaction", "image_generation", "text_completion"],
-                    {"type": "desktop", "orientation": "landscape"}
+                    {"type": "desktop", "orientation": "landscape"},
                 )
-                print(f"Generated interface style: {interface_elements.get('style', 'unknown')}")
-                print(f"Interface complexity: {interface_elements.get('complexity', 'unknown')}")
-                print(f"Primary interaction mode: {interface_elements.get('primary_mode', 'unknown')}")
-            except Exception as e:
-                print(f"Interface generation simulation: Adapting to {context['cognitive_style']} style")
-                print(f"Complexity level: {'Simple' if context['user_expertise'] == 'novice' else 'Advanced'}")
+                print(
+                    f"Generated interface style: {interface_elements.get('style', 'unknown')}"
+                )
+                print(
+                    f"Interface complexity: {interface_elements.get('complexity', 'unknown')}"
+                )
+                print(
+                    f"Primary interaction mode: {interface_elements.get('primary_mode', 'unknown')}"
+                )
+            except Exception:
+                print(
+                    f"Interface generation simulation: Adapting to {context['cognitive_style']} style"
+                )
+                print(
+                    f"Complexity level: {'Simple' if context['user_expertise'] == 'novice' else 'Advanced'}"
+                )
 
         # Wait for user to continue
         input("\nPress Enter to continue to the next demo section...")
@@ -283,9 +331,21 @@ class AdaptiveAGIDemo:
 
         # Create some simulated memory entries
         memory_entries = [
-            {"text": "User mentioned they work in healthcare", "timestamp": time.time() - 3600, "type": "biographical"},
-            {"text": "User prefers visual explanations with diagrams", "timestamp": time.time() - 1800, "type": "preference"},
-            {"text": "User is interested in quantum-inspired computing applications", "timestamp": time.time() - 600, "type": "interest"}
+            {
+                "text": "User mentioned they work in healthcare",
+                "timestamp": time.time() - 3600,
+                "type": "biographical",
+            },
+            {
+                "text": "User prefers visual explanations with diagrams",
+                "timestamp": time.time() - 1800,
+                "type": "preference",
+            },
+            {
+                "text": "User is interested in quantum-inspired computing applications",
+                "timestamp": time.time() - 600,
+                "type": "interest",
+            },
         ]
 
         # Add to memory manager if available
@@ -295,7 +355,9 @@ class AdaptiveAGIDemo:
 
             # Retrieve relevant memories
             context_query = "preferences related to explanations"
-            memories = self.memory_manager.retrieve_memories("demo_user", context_query, limit=2)
+            memories = self.memory_manager.retrieve_memories(
+                "demo_user", context_query, limit=2
+            )
 
             print("\nRetrieved memories based on context:")
             for memory in memories:
@@ -313,11 +375,13 @@ class AdaptiveAGIDemo:
             "urgency": 0.3,
             "formality": 0.7,
             "user_expertise": "interested novice",
-            "time_context": {"is_evening": True}
+            "time_context": {"is_evening": True},
         }
 
         voice_params = self.voice_modulator.determine_parameters(voice_context)
-        print(f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}")
+        print(
+            f"Voice parameters adapted to context: {json.dumps(voice_params, indent=2)}"
+        )
 
     async def run_interactive_demo(self):
         """Run an interactive demo where the user can input commands"""
@@ -326,7 +390,7 @@ class AdaptiveAGIDemo:
         while True:
             user_input = input("\nEnter your text (or 'exit' to quit): ").strip()
 
-            if user_input.lower() == 'exit':
+            if user_input.lower() == "exit":
                 break
 
             # Simulate voice processing
@@ -336,9 +400,9 @@ class AdaptiveAGIDemo:
                 "emotion": {
                     "primary_emotion": "neutral",
                     "intensity": 0.5,
-                    "confidence": 0.8
+                    "confidence": 0.8,
                 },
-                "timestamp": time.time()
+                "timestamp": time.time(),
             }
 
             # Process the input
@@ -347,7 +411,7 @@ class AdaptiveAGIDemo:
             # Display the response
             print(f"\nSystem: {response['text_response']}")
 
-            if 'image_url' in response:
+            if "image_url" in response:
                 print(f"[Image would be displayed here: {response['image_url']}]")
 
             # Update interaction count
@@ -359,8 +423,11 @@ class AdaptiveAGIDemo:
 
         context = {
             "device_info": {"type": "desktop", "orientation": "landscape"},
-            "user_preferences": {"response_style": "conversational", "verbosity": "medium"},
-            "privacy_level": "standard"
+            "user_preferences": {
+                "response_style": "conversational",
+                "verbosity": "medium",
+            },
+            "privacy_level": "standard",
         }
 
         self.demo_state["active_session"] = {
@@ -368,7 +435,7 @@ class AdaptiveAGIDemo:
             "user_id": user_id,
             "start_time": datetime.now().isoformat(),
             "context": context,
-            "interactions": []
+            "interactions": [],
         }
 
         logger.info(f"Demo session {session_id} created for user {user_id}")
@@ -387,9 +454,11 @@ class AdaptiveAGIDemo:
         end_time = datetime.fromisoformat(session["end_time"])
         duration_seconds = (end_time - start_time).total_seconds()
 
-        logger.info(f"Demo session {session['session_id']} ended. " +
-                   f"Interactions: {self.demo_state['interaction_count']}, " +
-                   f"Duration: {int(duration_seconds)}s")
+        logger.info(
+            f"Demo session {session['session_id']} ended. "
+            + f"Interactions: {self.demo_state['interaction_count']}, "
+            + f"Duration: {int(duration_seconds)}s"
+        )
 
         self.demo_state["status"] = "completed"
         return {"status": "success"}
@@ -405,14 +474,14 @@ class AdaptiveAGIDemo:
         # Check compliance for voice data
         compliance_result = self.compliance_engine.check_voice_data_compliance(
             {"user_id": user_id, "timestamp": transcription["timestamp"]},
-            user_consent={"voice_processing": True}
+            user_consent={"voice_processing": True},
         )
 
         if not compliance_result["compliant"]:
             logger.warning(f"Compliance check failed: {compliance_result['actions']}")
             return {
                 "text_response": "I'm sorry, but I cannot process this request due to compliance constraints.",
-                "voice_parameters": {"pitch": 1.0, "speed": 0.95, "energy": 0.8}
+                "voice_parameters": {"pitch": 1.0, "speed": 0.95, "energy": 0.8},
             }
 
         # Analyze emotion context
@@ -421,7 +490,7 @@ class AdaptiveAGIDemo:
             "emotion": emotion_context.get("primary_emotion", "neutral"),
             "urgency": emotion_context.get("intensity", 0.5),
             "formality": session["context"].get("formality", 0.5),
-            "time_context": {"is_evening": datetime.now().hour >= 17}
+            "time_context": {"is_evening": datetime.now().hour >= 17},
         }
 
         # Generate cognitive response
@@ -437,7 +506,9 @@ class AdaptiveAGIDemo:
                 response_text = self.generate_simple_response(transcription["text"])
         except Exception as e:
             logger.error(f"Error generating cognitive response: {e}")
-            response_text = "I'm having trouble processing that right now. Could you try again?"
+            response_text = (
+                "I'm having trouble processing that right now. Could you try again?"
+            )
 
         # Apply safety guard
         safe_response = self.safety_guard.validate_response(response_text, context)
@@ -446,36 +517,44 @@ class AdaptiveAGIDemo:
         voice_params = self.voice_modulator.determine_parameters(context)
 
         # Validate voice parameters for safety
-        safe_voice_params = self.safety_guard.validate_voice_parameters(voice_params, context)
+        safe_voice_params = self.safety_guard.validate_voice_parameters(
+            voice_params, context
+        )
 
         # Check if we should generate an image
         image_url = None
-        if "image" in transcription["text"].lower() or "picture" in transcription["text"].lower() or "show" in transcription["text"].lower():
+        if (
+            "image" in transcription["text"].lower()
+            or "picture" in transcription["text"].lower()
+            or "show" in transcription["text"].lower()
+        ):
             try:
                 if hasattr(self, "image_generator"):
                     image_result = await self.image_generator.generate_image(
                         transcription["text"],
                         style="minimalist",
-                        user_context=session["context"]
+                        user_context=session["context"],
                     )
                     image_url = image_result.get("url")
             except Exception as e:
                 logger.error(f"Failed to generate image: {e}")
 
         # Record this interaction in the session
-        session["interactions"].append({
-            "input": transcription["text"],
-            "response": safe_response,
-            "emotion": emotion_context,
-            "timestamp": time.time()
-        })
+        session["interactions"].append(
+            {
+                "input": transcription["text"],
+                "response": safe_response,
+                "emotion": emotion_context,
+                "timestamp": time.time(),
+            }
+        )
 
         # Return the response with voice parameters
         return {
             "text_response": safe_response,
             "voice_parameters": safe_voice_params,
             "image_url": image_url,
-            "emotion_detected": emotion_context.get("primary_emotion", "neutral")
+            "emotion_detected": emotion_context.get("primary_emotion", "neutral"),
         }
 
     def generate_simple_response(self, input_text):
@@ -486,7 +565,9 @@ class AdaptiveAGIDemo:
             return "Hello! How can I assist you with the Adaptive AGI Interface today?"
 
         elif "how are you" in input_lower:
-            return "I'm functioning optimally, thank you for asking. How can I help you?"
+            return (
+                "I'm functioning optimally, thank you for asking. How can I help you?"
+            )
 
         elif "your name" in input_lower:
             return "I'm the Adaptive AGI Interface demo assistant. I'm designed to showcase voice integration, compliance, and adaptivity."
@@ -503,7 +584,11 @@ class AdaptiveAGIDemo:
         elif "adapt" in input_lower or "interface" in input_lower:
             return "The adaptive interface adjusts to your cognitive style, expertise level, and situational context. It might use more visual elements for visual thinkers or structured information for analytical thinkers."
 
-        elif "compliance" in input_lower or "privacy" in input_lower or "ethics" in input_lower:
+        elif (
+            "compliance" in input_lower
+            or "privacy" in input_lower
+            or "ethics" in input_lower
+        ):
             return "Our system integrates compliance features that ensure GDPR adherence, implement ethical constraints, and manage privacy preferences. Voice data receives special protection as potentially biometric information."
 
         else:

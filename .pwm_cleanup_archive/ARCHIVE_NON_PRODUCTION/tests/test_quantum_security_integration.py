@@ -3,13 +3,10 @@ Test suite for Quantum Security Integration
 """
 
 import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 
 from quantum.quantum_hub import QuantumHub
 from quantum.quantum_security_integration import (
     QuantumSecurityIntegration,
-    create_quantum_security_integration
 )
 from quantum.ΛBot_quantum_security import QuantumThreat, SecurityAssessment
 
@@ -27,9 +24,9 @@ class TestQuantumSecurityIntegration:
     async def security_integration(self):
         """Create a test quantum security integration instance"""
         config = {
-            'quantum_enhanced': True,
-            'bio_symbolic_processing': True,
-            'adaptive_security': True
+            "quantum_enhanced": True,
+            "bio_symbolic_processing": True,
+            "adaptive_security": True,
         }
         integration = QuantumSecurityIntegration(config)
         return integration
@@ -50,7 +47,7 @@ class TestQuantumSecurityIntegration:
         # Verify quantum security was initialized
         security_service = quantum_hub.get_service("quantum_security")
         assert security_service is not None
-        assert hasattr(security_service, 'is_initialized')
+        assert hasattr(security_service, "is_initialized")
         assert security_service.is_initialized is True
 
     @pytest.mark.asyncio
@@ -73,10 +70,10 @@ class TestQuantumSecurityIntegration:
 
         # Verify assessment structure
         assert isinstance(assessment, SecurityAssessment)
-        assert hasattr(assessment, 'assessment_id')
-        assert hasattr(assessment, 'quantum_threats')
-        assert hasattr(assessment, 'security_score')
-        assert hasattr(assessment, 'post_quantum_readiness')
+        assert hasattr(assessment, "assessment_id")
+        assert hasattr(assessment, "quantum_threats")
+        assert hasattr(assessment, "security_score")
+        assert hasattr(assessment, "post_quantum_readiness")
         assert 0.0 <= assessment.security_score <= 1.0
         assert 0.0 <= assessment.post_quantum_readiness <= 1.0
 
@@ -87,15 +84,15 @@ class TestQuantumSecurityIntegration:
         await security_integration.initialize()
 
         # Generate keys using Kyber algorithm
-        keys = await security_integration.generate_quantum_resistant_keys('kyber')
+        keys = await security_integration.generate_quantum_resistant_keys("kyber")
 
         # Verify key structure
-        assert 'algorithm' in keys
-        assert keys['algorithm'] == 'kyber'
-        assert 'public_key' in keys
-        assert 'private_key' in keys
-        assert keys['quantum_resistant'] is True
-        assert keys['nist_approved'] is True
+        assert "algorithm" in keys
+        assert keys["algorithm"] == "kyber"
+        assert "public_key" in keys
+        assert "private_key" in keys
+        assert keys["quantum_resistant"] is True
+        assert keys["nist_approved"] is True
 
     @pytest.mark.asyncio
     async def test_quantum_safe_encryption(self, security_integration):
@@ -104,23 +101,21 @@ class TestQuantumSecurityIntegration:
         await security_integration.initialize()
 
         # Generate keys first
-        keys = await security_integration.generate_quantum_resistant_keys('kyber')
+        keys = await security_integration.generate_quantum_resistant_keys("kyber")
 
         # Test data
         test_data = b"Sensitive quantum data"
 
         # Encrypt data
         encrypted = await security_integration.encrypt_quantum_safe(
-            test_data,
-            keys['public_key'],
-            'kyber'
+            test_data, keys["public_key"], "kyber"
         )
 
         # Verify encryption result
-        assert 'encrypted_data' in encrypted
-        assert 'algorithm' in encrypted
-        assert encrypted['algorithm'] == 'kyber'
-        assert encrypted['quantum_resistant'] is True
+        assert "encrypted_data" in encrypted
+        assert "algorithm" in encrypted
+        assert encrypted["algorithm"] == "kyber"
+        assert encrypted["quantum_resistant"] is True
 
     @pytest.mark.asyncio
     async def test_detect_quantum_threats(self, security_integration):
@@ -130,14 +125,8 @@ class TestQuantumSecurityIntegration:
 
         # Mock system state with potential vulnerabilities
         system_state = {
-            "encryption": {
-                "algorithm": "RSA-2048",
-                "quantum_vulnerable": True
-            },
-            "keys": {
-                "type": "classical",
-                "bits": 2048
-            }
+            "encryption": {"algorithm": "RSA-2048", "quantum_vulnerable": True},
+            "keys": {"type": "classical", "bits": 2048},
         }
 
         # Detect threats
@@ -147,9 +136,9 @@ class TestQuantumSecurityIntegration:
         assert isinstance(threats, list)
         for threat in threats:
             assert isinstance(threat, QuantumThreat)
-            assert hasattr(threat, 'threat_id')
-            assert hasattr(threat, 'threat_type')
-            assert hasattr(threat, 'severity')
+            assert hasattr(threat, "threat_id")
+            assert hasattr(threat, "threat_type")
+            assert hasattr(threat, "severity")
 
     @pytest.mark.asyncio
     async def test_security_response_orchestration(self, security_integration):
@@ -166,7 +155,7 @@ class TestQuantumSecurityIntegration:
             quantum_signature={},
             bio_patterns={},
             confidence=0.9,
-            detected_at="2024-01-01T00:00:00"
+            detected_at="2024-01-01T00:00:00",
         )
 
         mock_assessment = SecurityAssessment(
@@ -177,16 +166,18 @@ class TestQuantumSecurityIntegration:
             security_score=0.3,
             post_quantum_readiness=0.2,
             recommendations=["Upgrade to post-quantum crypto"],
-            adaptive_mitigations=[]
+            adaptive_mitigations=[],
         )
 
         # Orchestrate response
-        response = await security_integration.orchestrate_security_response(mock_assessment)
+        response = await security_integration.orchestrate_security_response(
+            mock_assessment
+        )
 
         # Verify response
         assert isinstance(response, dict)
-        assert 'actions_taken' in response
-        assert 'security_improved' in response
+        assert "actions_taken" in response
+        assert "security_improved" in response
 
     @pytest.mark.asyncio
     async def test_get_supported_algorithms(self, security_integration):
@@ -196,8 +187,8 @@ class TestQuantumSecurityIntegration:
         # Verify algorithms
         assert isinstance(algorithms, list)
         assert len(algorithms) > 0
-        assert 'kyber' in algorithms
-        assert 'dilithium' in algorithms
+        assert "kyber" in algorithms
+        assert "dilithium" in algorithms
 
     @pytest.mark.asyncio
     async def test_security_metrics(self, security_integration):
@@ -210,8 +201,8 @@ class TestQuantumSecurityIntegration:
 
         # Verify metrics structure
         assert isinstance(metrics, dict)
-        assert 'assessments_performed' in metrics
-        assert 'threats_detected' in metrics
+        assert "assessments_performed" in metrics
+        assert "threats_detected" in metrics
 
     @pytest.mark.asyncio
     async def test_security_status(self, security_integration):
@@ -223,12 +214,12 @@ class TestQuantumSecurityIntegration:
         status = await security_integration.get_security_status()
 
         # Verify status
-        assert 'initialized' in status
-        assert status['initialized'] is True
-        assert 'post_quantum_ready' in status
-        assert status['post_quantum_ready'] is True
-        assert 'active_algorithms' in status
-        assert isinstance(status['active_algorithms'], list)
+        assert "initialized" in status
+        assert status["initialized"] is True
+        assert "post_quantum_ready" in status
+        assert status["post_quantum_ready"] is True
+        assert "active_algorithms" in status
+        assert isinstance(status["active_algorithms"], list)
 
     @pytest.mark.asyncio
     async def test_cache_functionality(self, security_integration):
@@ -240,10 +231,14 @@ class TestQuantumSecurityIntegration:
         target = "test/target"
 
         # First assessment
-        assessment1 = await security_integration.perform_security_assessment(target, test_code)
+        assessment1 = await security_integration.perform_security_assessment(
+            target, test_code
+        )
 
         # Second assessment (should be cached)
-        assessment2 = await security_integration.perform_security_assessment(target, test_code)
+        assessment2 = await security_integration.perform_security_assessment(
+            target, test_code
+        )
 
         # Verify same assessment returned
         assert assessment1.assessment_id == assessment2.assessment_id

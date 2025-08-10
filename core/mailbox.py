@@ -12,14 +12,13 @@ This module implements sophisticated mailbox functionality including:
 
 import asyncio
 import heapq
-import time
+import json
 import logging
-from typing import Any, Optional, Dict, List, Callable, Tuple, Union
+import time
+from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from collections import deque
-import pickle
-import json
+from typing import Any, Callable, Optional
 
 from .actor_system import Actor, ActorMessage
 
@@ -28,15 +27,17 @@ logger = logging.getLogger(__name__)
 
 class MessagePriority(Enum):
     """Message priority levels"""
-    SYSTEM = 0      # Highest priority - system messages
-    HIGH = 1        # High priority user messages
-    NORMAL = 2      # Default priority
-    LOW = 3         # Low priority background tasks
-    BULK = 4        # Lowest priority bulk operations
+
+    SYSTEM = 0  # Highest priority - system messages
+    HIGH = 1  # High priority user messages
+    NORMAL = 2  # Default priority
+    LOW = 3  # Low priority background tasks
+    BULK = 4  # Lowest priority bulk operations
 
 
 class MailboxType(Enum):
     """Types of mailboxes available"""
+
     UNBOUNDED = "unbounded"
     BOUNDED = "bounded"
     PRIORITY = "priority"
@@ -46,6 +47,7 @@ class MailboxType(Enum):
 @dataclass
 class PrioritizedMessage:
     """Message wrapper with priority and ordering"""
+
     priority: int
     sequence: int  # For FIFO within same priority
     message: ActorMessage
@@ -70,14 +72,16 @@ class DeadLetterQueue:
     async def add(self, message: ActorMessage, reason: str):
         """Add a message to dead letter queue"""
         async with self._lock:
-            self.messages.append({
-                "message": message,
-                "reason": reason,
-                "timestamp": time.time()
-            })
+            self.messages.append(
+                {
+                    "message": message,
+                    "reason": reason,
+                    "timestamp": time.time(),
+                }
+            )
             logger.warning(f"Message {message.message_id} moved to DLQ: {reason}")
 
-    async def get_all(self) -> List[Dict[str, Any]]:
+    async def get_all(self) -> list[dict[str, Any]]:
         """Get all messages in DLQ"""
         async with self._lock:
             return list(self.messages)
@@ -90,18 +94,21 @@ class DeadLetterQueue:
 
 class BackPressureStrategy(Enum):
     """Strategies for handling back-pressure"""
-    DROP_NEWEST = "drop_newest"      # Drop incoming message
-    DROP_OLDEST = "drop_oldest"      # Drop oldest in queue
-    BLOCK = "block"                  # Block until space available
-    REDIRECT = "redirect"            # Redirect to overflow handler
+
+    DROP_NEWEST = "drop_newest"  # Drop incoming message
+    DROP_OLDEST = "drop_oldest"  # Drop oldest in queue
+    BLOCK = "block"  # Block until space available
+    REDIRECT = "redirect"  # Redirect to overflow handler
 
 
 class Mailbox:
     """Base mailbox implementation with sequential processing guarantees"""
 
-    def __init__(self,
-                 max_size: Optional[int] = None,
-                 back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK):
+    def __init__(
+        self,
+        max_size: Optional[int] = None,
+        back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK,
+    ):
         self.max_size = max_size
         self.back_pressure_strategy = back_pressure_strategy
         self._sequence_counter = 0
@@ -112,7 +119,7 @@ class Mailbox:
             "messages_dlq": 0,
             "current_size": 0,
             "max_size_reached": 0,
-            "total_wait_time": 0.0
+            "total_wait_time": 0.0,
         }
 
     async def put(self, message: ActorMessage) -> bool:
@@ -133,12 +140,12 @@ class Mailbox:
             return False
         return self.qsize() >= self.max_size
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get mailbox statistics"""
         return {
             **self._stats,
             "current_size": self.qsize(),
-            "utilization": self.qsize() / self.max_size if self.max_size else 0
+            "utilization": (self.qsize() / self.max_size if self.max_size else 0),
         }
 
 
@@ -174,10 +181,12 @@ class UnboundedMailbox(Mailbox):
 class BoundedMailbox(Mailbox):
     """Bounded mailbox with back-pressure handling"""
 
-    def __init__(self,
-                 max_size: int = 1000,
-                 back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK,
-                 dead_letter_queue: Optional[DeadLetterQueue] = None):
+    def __init__(
+        self,
+        max_size: int = 1000,
+        back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK,
+        dead_letter_queue: Optional[DeadLetterQueue] = None,
+    ):
         super().__init__(max_size, back_pressure_strategy)
         self._queue = asyncio.Queue(maxsize=max_size)
         self.dead_letter_queue = dead_letter_queue or DeadLetterQueue()
@@ -237,29 +246,37 @@ class BoundedMailbox(Mailbox):
 class PriorityMailbox(Mailbox):
     """Priority-based mailbox with multiple queues"""
 
-    def __init__(self,
-                 max_size: int = 1000,
-                 back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK,
-                 starvation_prevention: bool = True):
+    def __init__(
+        self,
+        max_size: int = 1000,
+        back_pressure_strategy: BackPressureStrategy = BackPressureStrategy.BLOCK,
+        starvation_prevention: bool = True,
+    ):
         super().__init__(max_size, back_pressure_strategy)
-        self._heap: List[PrioritizedMessage] = []
+        self._heap: list[PrioritizedMessage] = []
         self._lock = asyncio.Lock()
         self._not_empty = asyncio.Condition(self._lock)
         self._not_full = asyncio.Condition(self._lock)
         self.starvation_prevention = starvation_prevention
-        self._priority_counters = {p: 0 for p in MessagePriority}
+        self._priority_counters = dict.fromkeys(MessagePriority, 0)
 
         # Starvation prevention: track when first message of each priority was added
-        self._first_message_time = {p: None for p in MessagePriority}
+        self._first_message_time = dict.fromkeys(MessagePriority)
         self._last_service_time = {p: time.time() for p in MessagePriority}
         self._starvation_threshold = 10.0  # seconds
 
-    async def put(self, message: ActorMessage,
-                 priority: MessagePriority = MessagePriority.NORMAL) -> bool:
+    async def put(
+        self,
+        message: ActorMessage,
+        priority: MessagePriority = MessagePriority.NORMAL,
+    ) -> bool:
         """Add message to mailbox with priority"""
         async with self._not_full:
             # Wait if full and blocking strategy
-            while self.is_full() and self.back_pressure_strategy == BackPressureStrategy.BLOCK:
+            while (
+                self.is_full()
+                and self.back_pressure_strategy == BackPressureStrategy.BLOCK
+            ):
                 await self._not_full.wait()
 
             # Handle back-pressure for non-blocking strategies
@@ -270,7 +287,8 @@ class PriorityMailbox(Mailbox):
                 elif self.back_pressure_strategy == BackPressureStrategy.DROP_OLDEST:
                     # Find and remove lowest priority oldest message
                     if self._heap:
-                        # Since heap is min-heap by priority, last elements have lowest priority
+                        # Since heap is min-heap by priority, last elements have lowest
+                        # priority
                         removed = heapq.heappop(self._heap)
                         self._stats["messages_dropped"] += 1
                         self._priority_counters[MessagePriority(removed.priority)] -= 1
@@ -279,7 +297,7 @@ class PriorityMailbox(Mailbox):
             prioritized_msg = PrioritizedMessage(
                 priority=priority.value,
                 sequence=self._sequence_counter,
-                message=message
+                message=message,
             )
             self._sequence_counter += 1
 
@@ -330,7 +348,10 @@ class PriorityMailbox(Mailbox):
 
         # Check each priority level for starvation
         for priority in MessagePriority:
-            if self._priority_counters[priority] > 0 and self._first_message_time[priority] is not None:
+            if (
+                self._priority_counters[priority] > 0
+                and self._first_message_time[priority] is not None
+            ):
                 # Check how long the oldest message of this priority has been waiting
                 time_waiting = current_time - self._first_message_time[priority]
 
@@ -352,7 +373,7 @@ class PriorityMailbox(Mailbox):
         """Get current mailbox size"""
         return len(self._heap)
 
-    def get_priority_stats(self) -> Dict[str, int]:
+    def get_priority_stats(self) -> dict[str, int]:
         """Get message count by priority"""
         return {p.name: count for p, count in self._priority_counters.items()}
 
@@ -360,10 +381,12 @@ class PriorityMailbox(Mailbox):
 class PersistentMailbox(BoundedMailbox):
     """Mailbox with optional persistence to disk"""
 
-    def __init__(self,
-                 max_size: int = 1000,
-                 persistence_path: Optional[str] = None,
-                 persistence_interval: float = 5.0):
+    def __init__(
+        self,
+        max_size: int = 1000,
+        persistence_path: Optional[str] = None,
+        persistence_interval: float = 5.0,
+    ):
         super().__init__(max_size)
         self.persistence_path = persistence_path
         self.persistence_interval = persistence_interval
@@ -392,8 +415,10 @@ class PersistentMailbox(BoundedMailbox):
                 pass
 
         # Check if we should persist
-        if (self.persistence_path and
-            time.time() - self._last_persist_time > self.persistence_interval):
+        if (
+            self.persistence_path
+            and time.time() - self._last_persist_time > self.persistence_interval
+        ):
             asyncio.create_task(self._persist_messages())
 
         return result
@@ -423,15 +448,20 @@ class PersistentMailbox(BoundedMailbox):
                     await self._queue.put(msg)
 
                 # Write to disk
-                with open(self.persistence_path, 'w') as f:
-                    json.dump({
-                        "messages": messages,
-                        "stats": self._stats,
-                        "timestamp": time.time()
-                    }, f)
+                with open(self.persistence_path, "w") as f:
+                    json.dump(
+                        {
+                            "messages": messages,
+                            "stats": self._stats,
+                            "timestamp": time.time(),
+                        },
+                        f,
+                    )
 
                 self._last_persist_time = time.time()
-                logger.debug(f"Persisted {len(messages)} messages to {self.persistence_path}")
+                logger.debug(
+                    f"Persisted {len(messages)} messages to {self.persistence_path}"
+                )
 
             except Exception as e:
                 logger.error(f"Failed to persist mailbox: {e}")
@@ -448,7 +478,7 @@ class PersistentMailbox(BoundedMailbox):
             return 0
 
         try:
-            with open(self.persistence_path, 'r') as f:
+            with open(self.persistence_path) as f:
                 data = json.load(f)
 
             messages = data.get("messages", [])
@@ -457,7 +487,9 @@ class PersistentMailbox(BoundedMailbox):
                 message = ActorMessage(**msg_dict)
                 await self.put(message)
 
-            logger.info(f"Restored {len(messages)} messages from {self.persistence_path}")
+            logger.info(
+                f"Restored {len(messages)} messages from {self.persistence_path}"
+            )
             return len(messages)
 
         except FileNotFoundError:
@@ -472,8 +504,9 @@ class MailboxFactory:
     """Factory for creating different mailbox types"""
 
     @staticmethod
-    def create_mailbox(mailbox_type: MailboxType = MailboxType.BOUNDED,
-                      **kwargs) -> Mailbox:
+    def create_mailbox(
+        mailbox_type: MailboxType = MailboxType.BOUNDED, **kwargs
+    ) -> Mailbox:
         """Create a mailbox of specified type"""
 
         if mailbox_type == MailboxType.UNBOUNDED:
@@ -482,23 +515,25 @@ class MailboxFactory:
         elif mailbox_type == MailboxType.BOUNDED:
             return BoundedMailbox(
                 max_size=kwargs.get("max_size", 1000),
-                back_pressure_strategy=kwargs.get("back_pressure_strategy",
-                                                BackPressureStrategy.BLOCK)
+                back_pressure_strategy=kwargs.get(
+                    "back_pressure_strategy", BackPressureStrategy.BLOCK
+                ),
             )
 
         elif mailbox_type == MailboxType.PRIORITY:
             return PriorityMailbox(
                 max_size=kwargs.get("max_size", 1000),
-                back_pressure_strategy=kwargs.get("back_pressure_strategy",
-                                                BackPressureStrategy.BLOCK),
-                starvation_prevention=kwargs.get("starvation_prevention", True)
+                back_pressure_strategy=kwargs.get(
+                    "back_pressure_strategy", BackPressureStrategy.BLOCK
+                ),
+                starvation_prevention=kwargs.get("starvation_prevention", True),
             )
 
         elif mailbox_type == MailboxType.PERSISTENT:
             return PersistentMailbox(
                 max_size=kwargs.get("max_size", 1000),
                 persistence_path=kwargs.get("persistence_path"),
-                persistence_interval=kwargs.get("persistence_interval", 5.0)
+                persistence_interval=kwargs.get("persistence_interval", 5.0),
             )
 
         else:
@@ -506,13 +541,17 @@ class MailboxFactory:
 
 
 # Enhanced Actor with configurable mailbox
+
+
 class MailboxActor(Actor):
     """Actor with enhanced mailbox capabilities"""
 
-    def __init__(self,
-                 actor_id: str,
-                 mailbox_type: MailboxType = MailboxType.BOUNDED,
-                 mailbox_config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        actor_id: str,
+        mailbox_type: MailboxType = MailboxType.BOUNDED,
+        mailbox_config: Optional[dict[str, Any]] = None,
+    ):
         super().__init__(actor_id)
 
         # Replace default mailbox with enhanced version
@@ -520,7 +559,7 @@ class MailboxActor(Actor):
         self.mailbox = MailboxFactory.create_mailbox(mailbox_type, **mailbox_config)
 
         # Message filtering
-        self._message_filters: List[Callable[[ActorMessage], bool]] = []
+        self._message_filters: list[Callable[[ActorMessage], bool]] = []
 
         # Batch processing support
         self._batch_size = mailbox_config.get("batch_size", 1)
@@ -564,7 +603,7 @@ class MailboxActor(Actor):
             "health_check": MessagePriority.HIGH,
             "shutdown": MessagePriority.SYSTEM,
             "query": MessagePriority.NORMAL,
-            "batch": MessagePriority.BULK
+            "batch": MessagePriority.BULK,
         }
 
         return priority_map.get(message.message_type, MessagePriority.NORMAL)
@@ -580,9 +619,7 @@ class MailboxActor(Actor):
                         await self._process_message_batch(messages)
                 else:
                     # Single message processing
-                    message = await asyncio.wait_for(
-                        self.mailbox.get(), timeout=1.0
-                    )
+                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
                     await self._process_message(message)
                     self._stats["messages_processed"] += 1
                     self._stats["last_activity"] = time.time()
@@ -594,12 +631,12 @@ class MailboxActor(Actor):
                 logger.error(f"Actor {self.actor_id} message processing error: {e}")
 
                 if self.supervisor:
-                    await self.supervisor.tell("child_failed", {
-                        "child_id": self.actor_id,
-                        "error": str(e)
-                    })
+                    await self.supervisor.tell(
+                        "child_failed",
+                        {"child_id": self.actor_id, "error": str(e)},
+                    )
 
-    async def _get_message_batch(self) -> List[ActorMessage]:
+    async def _get_message_batch(self) -> list[ActorMessage]:
         """Get a batch of messages"""
         messages = []
         deadline = time.time() + self._batch_timeout
@@ -619,7 +656,7 @@ class MailboxActor(Actor):
 
         return messages
 
-    async def _process_message_batch(self, messages: List[ActorMessage]):
+    async def _process_message_batch(self, messages: list[ActorMessage]):
         """Process a batch of messages"""
         # Default implementation processes sequentially
         for message in messages:
@@ -628,12 +665,12 @@ class MailboxActor(Actor):
 
         self._stats["last_activity"] = time.time()
 
-    def get_mailbox_stats(self) -> Dict[str, Any]:
+    def get_mailbox_stats(self) -> dict[str, Any]:
         """Get detailed mailbox statistics"""
         stats = {
             "actor_stats": self.get_stats(),
             "mailbox_stats": self.mailbox.get_stats(),
-            "mailbox_type": type(self.mailbox).__name__
+            "mailbox_type": type(self.mailbox).__name__,
         }
 
         if isinstance(self.mailbox, PriorityMailbox):
@@ -643,28 +680,33 @@ class MailboxActor(Actor):
 
 
 # Example usage
+
+
 async def demo_enhanced_mailbox():
     """Demonstrate enhanced mailbox features"""
-    import uuid
     from .actor_system import get_global_actor_system
 
     system = await get_global_actor_system()
 
     # Create actor with priority mailbox
+
     class PriorityActor(MailboxActor):
+
         def __init__(self, actor_id: str):
             super().__init__(
                 actor_id,
                 mailbox_type=MailboxType.PRIORITY,
                 mailbox_config={
                     "max_size": 100,
-                    "starvation_prevention": True
-                }
+                    "starvation_prevention": True,
+                },
             )
             self.register_handler("process", self._handle_process)
 
         async def _handle_process(self, message: ActorMessage):
-            print(f"Processing {message.message_type} with priority {message.payload.get('priority', 'NORMAL')}")
+            print(
+                f"Processing {message.message_type} with priority {message.payload.get('priority', 'NORMAL')}"
+            )
             await asyncio.sleep(0.1)  # Simulate work
             return {"processed": True}
 
@@ -676,21 +718,15 @@ async def demo_enhanced_mailbox():
 
     # Send low priority messages
     for i in range(5):
-        tasks.append(actor_ref.tell("process", {
-            "data": f"low-priority-{i}",
-            "priority": "LOW"
-        }))
+        tasks.append(
+            actor_ref.tell("process", {"data": f"low-priority-{i}", "priority": "LOW"})
+        )
 
     # Send high priority message
-    tasks.append(actor_ref.tell("process", {
-        "data": "urgent-task",
-        "priority": "HIGH"
-    }))
+    tasks.append(actor_ref.tell("process", {"data": "urgent-task", "priority": "HIGH"}))
 
     # Send system message
-    tasks.append(actor_ref.tell("system_health_check", {
-        "check_type": "full"
-    }))
+    tasks.append(actor_ref.tell("system_health_check", {"check_type": "full"}))
 
     await asyncio.gather(*tasks)
 

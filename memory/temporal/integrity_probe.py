@@ -12,20 +12,14 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict
 
-import structlog
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
-
-
-from core.common import get_logger
 
 # {ΛTRACE}
 class IntegrityProbe:
@@ -50,6 +44,7 @@ class IntegrityProbe:
         }
 
         return report
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: integrity_probe.py

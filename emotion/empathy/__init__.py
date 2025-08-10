@@ -9,9 +9,10 @@ Hybrid component - exists in quantum superposition
 # Colony base for propagation
 from typing import Any, Dict, List
 
+
 class EmpathyColony:
     """Base colony for empathy components"""
-    
+
     def __init__(self):
         self.colony_id = "EMOTION_empathy"
         self.propagation_enabled = True
@@ -21,7 +22,7 @@ class EmpathyColony:
             'serotonin': 0.5,
             'oxytocin': 0.3
         }
-    
+
     def propagate(self, signal: Dict[str, Any]) -> Dict[str, Any]:
         """Propagate signal through colony"""
         return {

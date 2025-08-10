@@ -25,6 +25,7 @@ from __future__ import annotations
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+
 def bootstrap_seed_chain(seed: str, depth: int = 3) -> list[str]:
     """Generate a deterministic chain of seeds."""
     chain = [seed]
@@ -32,6 +33,7 @@ def bootstrap_seed_chain(seed: str, depth: int = 3) -> list[str]:
         seed = str(hash(seed))
         chain.append(seed)
     return chain
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

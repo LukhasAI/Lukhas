@@ -17,15 +17,15 @@ Author: LUKHAS Meta-Learning Enhancement System
 Created: January 2025
 """
 
-import asyncio
 import hashlib
 import json
-from core.common import get_logger
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Set
+
+from core.common import get_logger
 
 # Integration imports (would resolve to existing LUKHAS components)
 # from .monitor_dashboard import MetaLearningMonitorDashboard, LearningMetrics
@@ -442,7 +442,7 @@ class FederatedLearningIntegration:
                 enhancement_results["federation_enabled"] = True
                 enhancement_results["coordination_established"] = True
 
-                logger.info(f"Enhanced MetaLearningSystem with federation capabilities")
+                logger.info("Enhanced MetaLearningSystem with federation capabilities")
 
         except Exception as e:
             logger.error(f"Failed to enhance MetaLearningSystem: {e}")

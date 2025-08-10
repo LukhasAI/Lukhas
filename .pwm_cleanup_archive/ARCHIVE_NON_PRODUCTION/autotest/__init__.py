@@ -41,19 +41,18 @@ Integration with existing LUKHAS framework and enhanced with:
 """
 
 from .automatic_testing_system import (
+    AITestAnalyzer,
     # Main classes
     AutomaticTestingSystem,
+    PerformanceMonitor,
     TestOperation,
     TestSession,
-    PerformanceMonitor,
-    AITestAnalyzer,
-
+    capture,
+    report,
     # One-line API functions
     run,
-    watch,
-    report,
     stop,
-    capture
+    watch,
 )
 
 # Module metadata
@@ -64,31 +63,35 @@ __description__ = "Automatic Testing & Logging System with AI-powered insights"
 # Quick access to main functionality
 # Creates a convenient 'autotest' object that acts as a namespace for the one-line API functions.
 # ΛNOTE: This uses dynamic type creation for the `autotest` object, providing a fluent API style (e.g., `autotest.run()`).
-autotest = type('AutoTest', (), {
-    'run': run,
-    'watch': watch,
-    'report': report,
-    'stop': stop,
-    'capture': capture,
-    'system': lambda: _get_autotest_instance(),
-    '__doc__': 'One-line automatic testing operations'
-})()
+autotest = type(
+    "AutoTest",
+    (),
+    {
+        "run": run,
+        "watch": watch,
+        "report": report,
+        "stop": stop,
+        "capture": capture,
+        "system": lambda: _get_autotest_instance(),
+        "__doc__": "One-line automatic testing operations",
+    },
+)()
 
 # Import helper for getting instance
 from .automatic_testing_system import _get_autotest_instance
 
 __all__ = [
-    'AutomaticTestingSystem',
-    'TestOperation',
-    'TestSession',
-    'PerformanceMonitor',
-    'AITestAnalyzer',
-    'run',
-    'watch',
-    'report',
-    'stop',
-    'capture',
-    'autotest'
+    "AutomaticTestingSystem",
+    "TestOperation",
+    "TestSession",
+    "PerformanceMonitor",
+    "AITestAnalyzer",
+    "run",
+    "watch",
+    "report",
+    "stop",
+    "capture",
+    "autotest",
 ]
 
 # ═══════════════════════════════════════════════════════════════════════════

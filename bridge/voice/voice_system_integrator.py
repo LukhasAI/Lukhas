@@ -5,19 +5,19 @@ Advanced: voice_system_integrator.py
 Integration Date: 2025-05-31T07:55:27.782698
 """
 
+import logging
+
 # 📄 MODULE: voice_system_integrator.py
 # 🔎 PURPOSE: Integrated voice system combining voice profiling and synthesis
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-05-08 • ✍️ AUTHOR: LUKHAS AGI
-
-from typing import Dict, Any, Optional, List
-from core.common import get_logger
-import json
-import os
 from datetime import datetime
+from typing import Any, Optional
+
+from core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
 
 # Import voice systems
 from voice.synthesis import VoiceSynthesis
-from core.interfaces.voice.core.sayit import VoiceProfileManager, VoiceProfile
+
 
 class VoiceSystemIntegrator:
     """
@@ -49,50 +49,61 @@ class VoiceSystemIntegrator:
         self.logger.info("Creating default voice profiles")
 
         # Create a neutral profile
-        self.profile_manager.create_profile("Neutral", {
-            "base_pitch": 0.0,
-            "base_rate": 1.0,
-            "base_volume": 0.0,
-            "timbre_brightness": 0.0,
-            "expressiveness": 0.5,
-            "articulation": 0.7,
-            "breathiness": 0.2,
-            "warmth": 0.5,
-        })
+        self.profile_manager.create_profile(
+            "Neutral",
+            {
+                "base_pitch": 0.0,
+                "base_rate": 1.0,
+                "base_volume": 0.0,
+                "timbre_brightness": 0.0,
+                "expressiveness": 0.5,
+                "articulation": 0.7,
+                "breathiness": 0.2,
+                "warmth": 0.5,
+            },
+        )
 
         # Create a warm, emotive profile
-        self.profile_manager.create_profile("Warm", {
-            "base_pitch": -0.1,
-            "base_rate": 0.95,
-            "base_volume": 1.0,
-            "timbre_brightness": -0.2,
-            "expressiveness": 0.7,
-            "articulation": 0.5,
-            "breathiness": 0.3,
-            "warmth": 0.8,
-        })
+        self.profile_manager.create_profile(
+            "Warm",
+            {
+                "base_pitch": -0.1,
+                "base_rate": 0.95,
+                "base_volume": 1.0,
+                "timbre_brightness": -0.2,
+                "expressiveness": 0.7,
+                "articulation": 0.5,
+                "breathiness": 0.3,
+                "warmth": 0.8,
+            },
+        )
 
         # Create a clear, articulate profile
-        self.profile_manager.create_profile("Clear", {
-            "base_pitch": 0.0,
-            "base_rate": 1.05,
-            "base_volume": 2.0,
-            "timbre_brightness": 0.3,
-            "expressiveness": 0.4,
-            "articulation": 0.9,
-            "breathiness": 0.1,
-            "warmth": 0.4,
-        })
+        self.profile_manager.create_profile(
+            "Clear",
+            {
+                "base_pitch": 0.0,
+                "base_rate": 1.05,
+                "base_volume": 2.0,
+                "timbre_brightness": 0.3,
+                "expressiveness": 0.4,
+                "articulation": 0.9,
+                "breathiness": 0.1,
+                "warmth": 0.4,
+            },
+        )
 
         self.logger.info("Created 3 default voice profiles")
 
-    def speak(self,
-             text: str,
-             emotion: Optional[str] = None,
-             session_id: Optional[str] = None,
-             context_type: str = "general",
-             voice_id: Optional[str] = None,
-             profile_id: Optional[str] = None) -> Dict[str, Any]:
+    def speak(
+        self,
+        text: str,
+        emotion: Optional[str] = None,
+        session_id: Optional[str] = None,
+        context_type: str = "general",
+        voice_id: Optional[str] = None,
+        profile_id: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Speak text using the integrated voice system.
 
@@ -112,7 +123,7 @@ class VoiceSystemIntegrator:
             "type": context_type,
             "emotion": emotion,
             "text_sample": text[:100],
-            "session_id": session_id
+            "session_id": session_id,
         }
 
         # Select or continue with a profile
@@ -142,12 +153,12 @@ class VoiceSystemIntegrator:
             if provider == "elevenlabs":
                 resonance_modifiers = {
                     "stability": provider_params.get("stability", 0.5),
-                    "similarity_boost": provider_params.get("similarity_boost", 0.8)
+                    "similarity_boost": provider_params.get("similarity_boost", 0.8),
                 }
             elif provider == "coqui":
                 resonance_modifiers = {
                     "speed": provider_params.get("speed", 1.0),
-                    "noise": provider_params.get("noise", 0.667)
+                    "noise": provider_params.get("noise", 0.667),
                 }
             elif provider == "edge_tts":
                 # These are already handled by the voice synthesis system
@@ -162,7 +173,7 @@ class VoiceSystemIntegrator:
             text=text,
             emotion=emotion,
             voice_id=voice_id,
-            resonance_modifiers=resonance_modifiers
+            resonance_modifiers=resonance_modifiers,
         )
 
         # Record usage in profile
@@ -170,26 +181,32 @@ class VoiceSystemIntegrator:
             usage_context = context.copy()
             usage_context["result"] = {
                 "provider": result.get("provider"),
-                "success": result.get("success", False)
+                "success": result.get("success", False),
             }
             self.profile_manager.record_usage(profile.id, usage_context)
 
         # Add profile info to result
         if profile:
-            result["voice_profile"] = {
-                "id": profile.id,
-                "name": profile.name
-            }
+            result["voice_profile"] = {"id": profile.id, "name": profile.name}
 
         return result
 
-    def _select_provider(self, text: str, emotion: Optional[str], profile: Optional[VoiceProfile]) -> str:
+    def _select_provider(
+        self,
+        text: str,
+        emotion: Optional[str],
+        profile: Optional[VoiceProfile],
+    ) -> str:
         """Select the optimal TTS provider based on text, emotion and profile."""
         # Simple provider selection strategy
         # In a real implementation, this would be more sophisticated
 
         # Use emotion complexity to determine provider
-        if emotion and emotion.lower() in ["sadness", "anger", "happiness"] and self._contains_complex_emotion(text):
+        if (
+            emotion
+            and emotion.lower() in ["sadness", "anger", "happiness"]
+            and self._contains_complex_emotion(text)
+        ):
             return "elevenlabs"
 
         # For longer text, Edge TTS is often more reliable
@@ -203,34 +220,48 @@ class VoiceSystemIntegrator:
         """Check if text suggests complex emotional expression."""
         # This is a simplified implementation
         emotion_indicators = [
-            "!", "?!", "...", "😢", "😭", "😡", "😱", "😍", "❤️",
-            "heartbroken", "devastated", "thrilled", "ecstatic",
-            "furious", "terrified", "overjoyed"
+            "!",
+            "?!",
+            "...",
+            "😢",
+            "😭",
+            "😡",
+            "😱",
+            "😍",
+            "❤️",
+            "heartbroken",
+            "devastated",
+            "thrilled",
+            "ecstatic",
+            "furious",
+            "terrified",
+            "overjoyed",
         ]
 
         return any(indicator in text for indicator in emotion_indicators)
 
-    def provide_feedback(self,
-                       profile_id: str,
-                       score: float,
-                       feedback_text: str = "") -> Dict[str, Any]:
+    def provide_feedback(
+        self, profile_id: str, score: float, feedback_text: str = ""
+    ) -> dict[str, Any]:
         """Provide feedback on a voice profile to evolve it."""
         feedback = {
             "score": score,
             "text": feedback_text,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         return self.profile_manager.provide_feedback(profile_id, feedback)
 
-    def get_available_profiles(self) -> List[Dict[str, Any]]:
+    def get_available_profiles(self) -> list[dict[str, Any]]:
         """Get list of available voice profiles."""
         return self.profile_manager.list_profiles()
 
-    def create_custom_profile(self,
-                            name: str,
-                            base_profile_id: Optional[str] = None,
-                            parameters: Optional[Dict[str, Any]] = None) -> Optional[str]:
+    def create_custom_profile(
+        self,
+        name: str,
+        base_profile_id: Optional[str] = None,
+        parameters: Optional[dict[str, Any]] = None,
+    ) -> Optional[str]:
         """Create a custom voice profile, optionally based on an existing one."""
         # If basing on existing profile, get its parameters
         initial_params = {}

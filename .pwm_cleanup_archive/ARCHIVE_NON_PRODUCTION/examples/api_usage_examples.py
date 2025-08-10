@@ -13,10 +13,11 @@ Author: LUKHAS AI Team
 Date: 2025-07-27
 """
 
-import requests
 import json
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Any, Dict
+
+import requests
 
 # API Configuration
 API_BASE_URL = "http://localhost:8000"
@@ -30,10 +31,9 @@ class LUKHASAPIClient:
     def __init__(self, base_url: str = API_BASE_URL):
         self.base_url = base_url
         self.session = requests.Session()
-        self.session.headers.update({
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        })
+        self.session.headers.update(
+            {"Content-Type": "application/json", "Accept": "application/json"}
+        )
 
     def _make_request(self, method: str, endpoint: str, **kwargs) -> Dict[str, Any]:
         """Make HTTP request to API"""
@@ -43,7 +43,10 @@ class LUKHASAPIClient:
         try:
             return response.json()
         except json.JSONDecodeError:
-            return {"error": "Invalid JSON response", "status_code": response.status_code}
+            return {
+                "error": "Invalid JSON response",
+                "status_code": response.status_code,
+            }
 
     def get_health(self) -> Dict[str, Any]:
         """Get API health status"""
@@ -73,12 +76,12 @@ class MemoryAPIExamples:
                 "type": "api_discovery",
                 "importance": "high",
                 "timestamp": datetime.now().isoformat(),
-                "keywords": ["API", "integration", "consciousness", "discovery"]
-            }
+                "keywords": ["API", "integration", "consciousness", "discovery"],
+            },
         }
 
         result = self.client._make_request("POST", "/memory/create", json=memory_data)
-        print(f"Request: POST /memory/create")
+        print("Request: POST /memory/create")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -91,11 +94,11 @@ class MemoryAPIExamples:
             "user_id": USER_ID,
             "filter_emotion": "wonder",
             "user_tier": 5,
-            "limit": 10
+            "limit": 10,
         }
 
         result = self.client._make_request("POST", "/memory/recall", json=recall_data)
-        print(f"Request: POST /memory/recall")
+        print("Request: POST /memory/recall")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -110,11 +113,13 @@ class MemoryAPIExamples:
             "user_tier": 5,
             "emotion_threshold": 0.7,
             "context_query": "consciousness API integration discovery",
-            "max_results": 5
+            "max_results": 5,
         }
 
-        result = self.client._make_request("POST", "/memory/enhanced-recall", json=recall_data)
-        print(f"Request: POST /memory/enhanced-recall")
+        result = self.client._make_request(
+            "POST", "/memory/enhanced-recall", json=recall_data
+        )
+        print("Request: POST /memory/enhanced-recall")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -123,8 +128,10 @@ class MemoryAPIExamples:
         print("\n📊 EXAMPLE: Memory Statistics")
         print("=" * 50)
 
-        result = self.client._make_request("GET", "/memory/statistics?include_users=true&include_emotions=true")
-        print(f"Request: GET /memory/statistics")
+        result = self.client._make_request(
+            "GET", "/memory/statistics?include_users=true&include_emotions=true"
+        )
+        print("Request: GET /memory/statistics")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -148,12 +155,12 @@ class DreamAPIExamples:
                 "lucidity_level": 0.9,
                 "symbolic_density": 0.85,
                 "digital_metaphors": True,
-                "api_integration_theme": True
-            }
+                "api_integration_theme": True,
+            },
         }
 
         result = self.client._make_request("POST", "/dream/log", json=dream_data)
-        print(f"Request: POST /dream/log")
+        print("Request: POST /dream/log")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -166,11 +173,13 @@ class DreamAPIExamples:
             "user_id": USER_ID,
             "hours_limit": 48,
             "max_memories": 100,
-            "consolidation_type": "creative"
+            "consolidation_type": "creative",
         }
 
-        result = self.client._make_request("POST", "/dream/consolidate", json=consolidation_data)
-        print(f"Request: POST /dream/consolidate")
+        result = self.client._make_request(
+            "POST", "/dream/consolidate", json=consolidation_data
+        )
+        print("Request: POST /dream/consolidate")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -179,8 +188,11 @@ class DreamAPIExamples:
         print("\n🎨 EXAMPLE: Dream Pattern Analysis")
         print("=" * 50)
 
-        result = self.client._make_request("GET", f"/dream/patterns?user_id={USER_ID}&pattern_type=thematic&time_range_hours=168")
-        print(f"Request: GET /dream/patterns")
+        result = self.client._make_request(
+            "GET",
+            f"/dream/patterns?user_id={USER_ID}&pattern_type=thematic&time_range_hours=168",
+        )
+        print("Request: GET /dream/patterns")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -189,8 +201,10 @@ class DreamAPIExamples:
         print("\n💡 EXAMPLE: Dream Insights")
         print("=" * 50)
 
-        result = self.client._make_request("GET", f"/dream/insights?user_id={USER_ID}&insight_type=creative")
-        print(f"Request: GET /dream/insights")
+        result = self.client._make_request(
+            "GET", f"/dream/insights?user_id={USER_ID}&insight_type=creative"
+        )
+        print("Request: GET /dream/insights")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -209,11 +223,13 @@ class EmotionAPIExamples:
         analysis_data = {
             "content": "The moment I realized the API was working perfectly filled me with overwhelming joy and wonder. This transcendent experience of technological harmony brings enlightenment about the unity between human consciousness and artificial intelligence.",
             "analysis_depth": "deep",
-            "return_vectors": True
+            "return_vectors": True,
         }
 
-        result = self.client._make_request("POST", "/emotion/analyze", json=analysis_data)
-        print(f"Request: POST /emotion/analyze")
+        result = self.client._make_request(
+            "POST", "/emotion/analyze", json=analysis_data
+        )
+        print("Request: POST /emotion/analyze")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -222,8 +238,11 @@ class EmotionAPIExamples:
         print("\n🗺️ EXAMPLE: Emotional Landscape")
         print("=" * 50)
 
-        result = self.client._make_request("GET", f"/emotion/landscape?user_id={USER_ID}&include_vectors=true&include_statistics=true")
-        print(f"Request: GET /emotion/landscape")
+        result = self.client._make_request(
+            "GET",
+            f"/emotion/landscape?user_id={USER_ID}&include_vectors=true&include_statistics=true",
+        )
+        print("Request: GET /emotion/landscape")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -235,11 +254,13 @@ class EmotionAPIExamples:
         cluster_data = {
             "tier_level": 5,
             "cluster_method": "hierarchical",
-            "min_cluster_size": 3
+            "min_cluster_size": 3,
         }
 
-        result = self.client._make_request("POST", "/emotion/clusters", json=cluster_data)
-        print(f"Request: POST /emotion/clusters")
+        result = self.client._make_request(
+            "POST", "/emotion/clusters", json=cluster_data
+        )
+        print("Request: POST /emotion/clusters")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -248,8 +269,10 @@ class EmotionAPIExamples:
         print("\n🌐 EXAMPLE: Emotional Neighborhood")
         print("=" * 50)
 
-        result = self.client._make_request("GET", "/emotion/neighborhood/joy?threshold=0.8&max_neighbors=8")
-        print(f"Request: GET /emotion/neighborhood/joy")
+        result = self.client._make_request(
+            "GET", "/emotion/neighborhood/joy?threshold=0.8&max_neighbors=8"
+        )
+        print("Request: GET /emotion/neighborhood/joy")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -265,8 +288,11 @@ class ConsciousnessAPIExamples:
         print("\n🧠 EXAMPLE: Consciousness State")
         print("=" * 50)
 
-        result = self.client._make_request("GET", f"/consciousness/state?user_id={USER_ID}&include_integration=true&include_patterns=true")
-        print(f"Request: GET /consciousness/state")
+        result = self.client._make_request(
+            "GET",
+            f"/consciousness/state?user_id={USER_ID}&include_integration=true&include_patterns=true",
+        )
+        print("Request: GET /consciousness/state")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -279,11 +305,13 @@ class ConsciousnessAPIExamples:
             "synthesis_type": "transcendence",
             "data_sources": ["memory", "emotion", "dream"],
             "complexity_level": 4,
-            "user_id": USER_ID
+            "user_id": USER_ID,
         }
 
-        result = self.client._make_request("POST", "/consciousness/synthesize", json=synthesis_data)
-        print(f"Request: POST /consciousness/synthesize")
+        result = self.client._make_request(
+            "POST", "/consciousness/synthesize", json=synthesis_data
+        )
+        print("Request: POST /consciousness/synthesize")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -295,11 +323,14 @@ class ConsciousnessAPIExamples:
         patterns = [
             "API-consciousness symbiosis",
             "Digital-biological awareness bridge",
-            "Multi-dimensional system integration"
+            "Multi-dimensional system integration",
         ]
 
-        result = self.client._make_request("POST", f"/consciousness/integrate?patterns={'&patterns='.join(patterns)}&integration_depth=4&user_id={USER_ID}")
-        print(f"Request: POST /consciousness/integrate")
+        result = self.client._make_request(
+            "POST",
+            f"/consciousness/integrate?patterns={'&patterns='.join(patterns)}&integration_depth=4&user_id={USER_ID}",
+        )
+        print("Request: POST /consciousness/integrate")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -311,11 +342,13 @@ class ConsciousnessAPIExamples:
         assessment_data = {
             "user_id": USER_ID,
             "assessment_type": "detailed",
-            "include_recommendations": True
+            "include_recommendations": True,
         }
 
-        result = self.client._make_request("POST", "/consciousness/assess", json=assessment_data)
-        print(f"Request: POST /consciousness/assess")
+        result = self.client._make_request(
+            "POST", "/consciousness/assess", json=assessment_data
+        )
+        print("Request: POST /consciousness/assess")
         print(f"Response: {json.dumps(result, indent=2)}")
         return result
 
@@ -337,7 +370,7 @@ def run_complete_workflow_example():
     health = client.get_health()
     print(f"API Health: {health.get('status', 'unknown')}")
 
-    if health.get('status') != 'healthy':
+    if health.get("status") != "healthy":
         print("⚠️ API not healthy - some examples may fail")
 
     # Initialize example classes
@@ -400,7 +433,7 @@ def simple_usage_example():
     memory_client = MemoryAPIExamples(client)
     result = memory_client.create_memory_example()
 
-    if result.get('status') == 'success':
+    if result.get("status") == "success":
         print("✅ Memory creation successful!")
     else:
         print(f"⚠️ Memory creation result: {result}")

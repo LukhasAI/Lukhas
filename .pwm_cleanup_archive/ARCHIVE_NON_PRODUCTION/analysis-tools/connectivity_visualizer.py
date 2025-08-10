@@ -5,46 +5,46 @@ System Connectivity Visualizer
 Creates a visual representation of system connectivity and identifies integration status.
 """
 
-import os
 import json
+import os
 import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
-from collections import defaultdict
+from typing import Dict, List
+
 
 class ConnectivityVisualizer:
     def __init__(self, root_path: str):
         self.root_path = Path(root_path)
         self.systems = {
-            'core': {'color': '#FF6B6B', 'hubs': [], 'bridges': []},
-            'consciousness': {'color': '#4ECDC4', 'hubs': [], 'bridges': []},
-            'memory': {'color': '#45B7D1', 'hubs': [], 'bridges': []},
-            'quantum': {'color': '#96CEB4', 'hubs': [], 'bridges': []},
-            'bio': {'color': '#DDA0DD', 'hubs': [], 'bridges': []},
-            'symbolic': {'color': '#FFD93D', 'hubs': [], 'bridges': []},
-            'nias': {'color': '#FF8C42', 'hubs': [], 'bridges': []},
-            'learning': {'color': '#6C5CE7', 'hubs': [], 'bridges': []},
-            'dream': {'color': '#A8E6CF', 'hubs': [], 'bridges': []},
-            'orchestration': {'color': '#FF6B9D', 'hubs': [], 'bridges': []},
-            'safety': {'color': '#C7CEEA', 'hubs': [], 'bridges': []},
-            'ethics': {'color': '#FFA07A', 'hubs': [], 'bridges': []},
-            'dast': {'color': '#98D8C8', 'hubs': [], 'bridges': []},
-            'abas': {'color': '#F7DC6F', 'hubs': [], 'bridges': []},
-            'identity': {'color': '#85C1E2', 'hubs': [], 'bridges': []},
-            'voice': {'color': '#F8B195', 'hubs': [], 'bridges': []},
-            'api': {'color': '#C5E99B', 'hubs': [], 'bridges': []},
-            'tools': {'color': '#D4A5A5', 'hubs': [], 'bridges': []},
-            'features': {'color': '#9A8C98', 'hubs': [], 'bridges': []}
+            "core": {"color": "#FF6B6B", "hubs": [], "bridges": []},
+            "consciousness": {"color": "#4ECDC4", "hubs": [], "bridges": []},
+            "memory": {"color": "#45B7D1", "hubs": [], "bridges": []},
+            "quantum": {"color": "#96CEB4", "hubs": [], "bridges": []},
+            "bio": {"color": "#DDA0DD", "hubs": [], "bridges": []},
+            "symbolic": {"color": "#FFD93D", "hubs": [], "bridges": []},
+            "nias": {"color": "#FF8C42", "hubs": [], "bridges": []},
+            "learning": {"color": "#6C5CE7", "hubs": [], "bridges": []},
+            "dream": {"color": "#A8E6CF", "hubs": [], "bridges": []},
+            "orchestration": {"color": "#FF6B9D", "hubs": [], "bridges": []},
+            "safety": {"color": "#C7CEEA", "hubs": [], "bridges": []},
+            "ethics": {"color": "#FFA07A", "hubs": [], "bridges": []},
+            "dast": {"color": "#98D8C8", "hubs": [], "bridges": []},
+            "abas": {"color": "#F7DC6F", "hubs": [], "bridges": []},
+            "identity": {"color": "#85C1E2", "hubs": [], "bridges": []},
+            "voice": {"color": "#F8B195", "hubs": [], "bridges": []},
+            "api": {"color": "#C5E99B", "hubs": [], "bridges": []},
+            "tools": {"color": "#D4A5A5", "hubs": [], "bridges": []},
+            "features": {"color": "#9A8C98", "hubs": [], "bridges": []},
         }
         self.connections = []
         self.golden_trio_status = {
-            'seedra': None,
-            'symbolic_language': None,
-            'shared_ethics': None,
-            'trio_orchestrator': None,
-            'dast_core': None,
-            'abas_core': None,
-            'nias_core': None
+            "seedra": None,
+            "symbolic_language": None,
+            "shared_ethics": None,
+            "trio_orchestrator": None,
+            "dast_core": None,
+            "abas_core": None,
+            "nias_core": None,
         }
 
     def analyze(self) -> Dict[str, any]:
@@ -72,7 +72,7 @@ class ConnectivityVisualizer:
             root_path = Path(root)
 
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     file_path = root_path / file
                     rel_path = file_path.relative_to(self.root_path)
 
@@ -82,25 +82,39 @@ class ConnectivityVisualizer:
                         continue
 
                     # Check if it's a hub
-                    if 'hub' in file.lower() and system in self.systems:
-                        self.systems[system]['hubs'].append({
-                            'name': file[:-3],
-                            'path': str(rel_path),
-                            'status': 'active' if self._check_file_active(file_path) else 'inactive'
-                        })
+                    if "hub" in file.lower() and system in self.systems:
+                        self.systems[system]["hubs"].append(
+                            {
+                                "name": file[:-3],
+                                "path": str(rel_path),
+                                "status": (
+                                    "active"
+                                    if self._check_file_active(file_path)
+                                    else "inactive"
+                                ),
+                            }
+                        )
 
                     # Check if it's a bridge
-                    elif 'bridge' in file.lower():
+                    elif "bridge" in file.lower():
                         # Identify connected systems
-                        connected_systems = self._identify_bridge_connections(file, str(rel_path))
+                        connected_systems = self._identify_bridge_connections(
+                            file, str(rel_path)
+                        )
                         if len(connected_systems) >= 2:
-                            self.connections.append({
-                                'type': 'bridge',
-                                'name': file[:-3],
-                                'path': str(rel_path),
-                                'systems': connected_systems,
-                                'status': 'active' if self._check_file_active(file_path) else 'inactive'
-                            })
+                            self.connections.append(
+                                {
+                                    "type": "bridge",
+                                    "name": file[:-3],
+                                    "path": str(rel_path),
+                                    "systems": connected_systems,
+                                    "status": (
+                                        "active"
+                                        if self._check_file_active(file_path)
+                                        else "inactive"
+                                    ),
+                                }
+                            )
 
     def _identify_system(self, path: Path) -> str:
         """Identify which system a file belongs to"""
@@ -112,22 +126,22 @@ class ConnectivityVisualizer:
                 return part
 
         # Check for core subdirectories
-        if 'core' in parts:
+        if "core" in parts:
             # Check for specific core subsystems
-            if 'nias' in str(path).lower():
-                return 'nias'
-            elif 'dast' in str(path).lower():
-                return 'dast'
-            elif 'abas' in str(path).lower():
-                return 'abas'
-            elif 'safety' in str(path).lower():
-                return 'safety'
-            elif 'interfaces' in parts:
+            if "nias" in str(path).lower():
+                return "nias"
+            elif "dast" in str(path).lower():
+                return "dast"
+            elif "abas" in str(path).lower():
+                return "abas"
+            elif "safety" in str(path).lower():
+                return "safety"
+            elif "interfaces" in parts:
                 # Check subdirectories
                 for part in parts:
-                    if part in ['nias', 'dast', 'abas']:
+                    if part in ["nias", "dast", "abas"]:
                         return part
-            return 'core'
+            return "core"
 
         # Check path string
         path_str = str(path).lower()
@@ -148,35 +162,35 @@ class ConnectivityVisualizer:
                 connected.append(system)
 
         # Special cases
-        if 'consciousness_quantum' in name_lower:
-            connected = ['consciousness', 'quantum']
-        elif 'memory_learning' in name_lower:
-            connected = ['memory', 'learning']
-        elif 'nias_dream' in name_lower:
-            connected = ['nias', 'dream']
-        elif 'bio_symbolic' in name_lower:
-            connected = ['bio', 'symbolic']
-        elif 'core_consciousness' in name_lower:
-            connected = ['core', 'consciousness']
-        elif 'core_safety' in name_lower:
-            connected = ['core', 'safety']
-        elif 'safety_quantum' in name_lower:
-            connected = ['safety', 'quantum']
-        elif 'safety_memory' in name_lower:
-            connected = ['safety', 'memory']
-        elif 'safety_core' in name_lower:
-            connected = ['safety', 'core']
+        if "consciousness_quantum" in name_lower:
+            connected = ["consciousness", "quantum"]
+        elif "memory_learning" in name_lower:
+            connected = ["memory", "learning"]
+        elif "nias_dream" in name_lower:
+            connected = ["nias", "dream"]
+        elif "bio_symbolic" in name_lower:
+            connected = ["bio", "symbolic"]
+        elif "core_consciousness" in name_lower:
+            connected = ["core", "consciousness"]
+        elif "core_safety" in name_lower:
+            connected = ["core", "safety"]
+        elif "safety_quantum" in name_lower:
+            connected = ["safety", "quantum"]
+        elif "safety_memory" in name_lower:
+            connected = ["safety", "memory"]
+        elif "safety_core" in name_lower:
+            connected = ["safety", "core"]
 
         return list(set(connected))
 
     def _check_file_active(self, file_path: Path) -> bool:
         """Check if a file is actively used (has imports)"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Check for imports to/from this file
-            has_imports = bool(re.search(r'^\s*(import|from)', content, re.MULTILINE))
+            has_imports = bool(re.search(r"^\s*(import|from)", content, re.MULTILINE))
 
             # Check file size (very small files might be stubs)
             if file_path.stat().st_size < 100:
@@ -191,18 +205,24 @@ class ConnectivityVisualizer:
         # Look for import statements that cross system boundaries
         for root, dirs, files in os.walk(self.root_path):
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     file_path = Path(root) / file
-                    source_system = self._identify_system(file_path.relative_to(self.root_path))
+                    source_system = self._identify_system(
+                        file_path.relative_to(self.root_path)
+                    )
 
                     if source_system:
                         try:
-                            with open(file_path, 'r', encoding='utf-8') as f:
+                            with open(file_path, encoding="utf-8") as f:
                                 content = f.read()
 
                             # Find imports
-                            import_pattern = r'^\s*(?:from|import)\s+([a-zA-Z_][a-zA-Z0-9_\.]*)'
-                            for match in re.finditer(import_pattern, content, re.MULTILINE):
+                            import_pattern = (
+                                r"^\s*(?:from|import)\s+([a-zA-Z_][a-zA-Z0-9_\.]*)"
+                            )
+                            for match in re.finditer(
+                                import_pattern, content, re.MULTILINE
+                            ):
                                 imported = match.group(1)
                                 target_system = None
 
@@ -213,12 +233,16 @@ class ConnectivityVisualizer:
                                         break
 
                                 if target_system:
-                                    self.connections.append({
-                                        'type': 'import',
-                                        'source': source_system,
-                                        'target': target_system,
-                                        'file': str(file_path.relative_to(self.root_path))
-                                    })
+                                    self.connections.append(
+                                        {
+                                            "type": "import",
+                                            "source": source_system,
+                                            "target": target_system,
+                                            "file": str(
+                                                file_path.relative_to(self.root_path)
+                                            ),
+                                        }
+                                    )
                         except:
                             pass
 
@@ -226,10 +250,10 @@ class ConnectivityVisualizer:
         """Check implementation status of Golden Trio components"""
         # Check for Phase 1 components
         phase1_files = {
-            'seedra': 'ethics/seedra/seedra_core.py',
-            'symbolic_language': 'symbolic/core/symbolic_language.py',
-            'shared_ethics': 'ethics/core/shared_ethics_engine.py',
-            'trio_orchestrator': 'orchestration/golden_trio/trio_orchestrator.py'
+            "seedra": "ethics/seedra/seedra_core.py",
+            "symbolic_language": "symbolic/core/symbolic_language.py",
+            "shared_ethics": "ethics/core/shared_ethics_engine.py",
+            "trio_orchestrator": "orchestration/golden_trio/trio_orchestrator.py",
         }
 
         for component, path in phase1_files.items():
@@ -237,22 +261,34 @@ class ConnectivityVisualizer:
             if full_path.exists():
                 size = full_path.stat().st_size
                 self.golden_trio_status[component] = {
-                    'status': 'implemented' if size > 1000 else 'stub',
-                    'path': path,
-                    'size': size
+                    "status": "implemented" if size > 1000 else "stub",
+                    "path": path,
+                    "size": size,
                 }
             else:
                 self.golden_trio_status[component] = {
-                    'status': 'missing',
-                    'path': path,
-                    'size': 0
+                    "status": "missing",
+                    "path": path,
+                    "size": 0,
                 }
 
         # Check for Phase 2 core engines
         phase2_patterns = {
-            'dast_core': ['dast/core/dast_engine.py', 'dast/core/engine.py', 'orchestration/security/dast/engine.py'],
-            'abas_core': ['abas/core/abas_engine.py', 'abas/core/engine.py', 'core/interfaces/as_agent/sys/abas/abas.py'],
-            'nias_core': ['nias/core/nias_engine.py', 'nias/core/engine.py', 'core/interfaces/as_agent/sys/nias/nias_core.py']
+            "dast_core": [
+                "dast/core/dast_engine.py",
+                "dast/core/engine.py",
+                "orchestration/security/dast/engine.py",
+            ],
+            "abas_core": [
+                "abas/core/abas_engine.py",
+                "abas/core/engine.py",
+                "core/interfaces/as_agent/sys/abas/abas.py",
+            ],
+            "nias_core": [
+                "nias/core/nias_engine.py",
+                "nias/core/engine.py",
+                "core/interfaces/as_agent/sys/nias/nias_core.py",
+            ],
         }
 
         for component, paths in phase2_patterns.items():
@@ -262,83 +298,94 @@ class ConnectivityVisualizer:
                 if full_path.exists():
                     size = full_path.stat().st_size
                     self.golden_trio_status[component] = {
-                        'status': 'partial' if size > 500 else 'stub',
-                        'path': path,
-                        'size': size
+                        "status": "partial" if size > 500 else "stub",
+                        "path": path,
+                        "size": size,
                     }
                     found = True
                     break
 
             if not found:
                 self.golden_trio_status[component] = {
-                    'status': 'missing',
-                    'path': paths[0],
-                    'size': 0
+                    "status": "missing",
+                    "path": paths[0],
+                    "size": 0,
                 }
 
     def _generate_report(self) -> Dict[str, any]:
         """Generate connectivity report"""
         # Count connections by type
-        bridge_connections = [c for c in self.connections if c.get('type') == 'bridge']
-        import_connections = [c for c in self.connections if c.get('type') == 'import']
+        bridge_connections = [c for c in self.connections if c.get("type") == "bridge"]
+        import_connections = [c for c in self.connections if c.get("type") == "import"]
 
         # System statistics
         system_stats = {}
         for system, info in self.systems.items():
-            active_hubs = [h for h in info['hubs'] if h['status'] == 'active']
+            active_hubs = [h for h in info["hubs"] if h["status"] == "active"]
 
             # Count incoming/outgoing connections
-            incoming = sum(1 for c in import_connections if c.get('target') == system)
-            outgoing = sum(1 for c in import_connections if c.get('source') == system)
+            incoming = sum(1 for c in import_connections if c.get("target") == system)
+            outgoing = sum(1 for c in import_connections if c.get("source") == system)
 
             system_stats[system] = {
-                'total_hubs': len(info['hubs']),
-                'active_hubs': len(active_hubs),
-                'incoming_connections': incoming,
-                'outgoing_connections': outgoing,
-                'hub_names': [h['name'] for h in active_hubs]
+                "total_hubs": len(info["hubs"]),
+                "active_hubs": len(active_hubs),
+                "incoming_connections": incoming,
+                "outgoing_connections": outgoing,
+                "hub_names": [h["name"] for h in active_hubs],
             }
 
         # Find isolated systems
         isolated_systems = []
         for system, stats in system_stats.items():
-            if stats['incoming_connections'] == 0 and stats['outgoing_connections'] == 0:
+            if (
+                stats["incoming_connections"] == 0
+                and stats["outgoing_connections"] == 0
+            ):
                 isolated_systems.append(system)
 
         # Golden Trio implementation progress
         phase1_complete = all(
-            status['status'] == 'implemented'
+            status["status"] == "implemented"
             for key, status in self.golden_trio_status.items()
-            if key in ['seedra', 'symbolic_language', 'shared_ethics', 'trio_orchestrator']
+            if key
+            in ["seedra", "symbolic_language", "shared_ethics", "trio_orchestrator"]
         )
 
         phase2_progress = sum(
-            1 for key, status in self.golden_trio_status.items()
-            if key.endswith('_core') and status['status'] in ['partial', 'implemented']
+            1
+            for key, status in self.golden_trio_status.items()
+            if key.endswith("_core") and status["status"] in ["partial", "implemented"]
         )
 
         return {
-            'summary': {
-                'total_systems': len(self.systems),
-                'total_hubs': sum(len(info['hubs']) for info in self.systems.values()),
-                'active_hubs': sum(len([h for h in info['hubs'] if h['status'] == 'active']) for info in self.systems.values()),
-                'total_bridges': len(bridge_connections),
-                'active_bridges': len([b for b in bridge_connections if b['status'] == 'active']),
-                'total_connections': len(self.connections),
-                'isolated_systems': isolated_systems
+            "summary": {
+                "total_systems": len(self.systems),
+                "total_hubs": sum(len(info["hubs"]) for info in self.systems.values()),
+                "active_hubs": sum(
+                    len([h for h in info["hubs"] if h["status"] == "active"])
+                    for info in self.systems.values()
+                ),
+                "total_bridges": len(bridge_connections),
+                "active_bridges": len(
+                    [b for b in bridge_connections if b["status"] == "active"]
+                ),
+                "total_connections": len(self.connections),
+                "isolated_systems": isolated_systems,
             },
-            'golden_trio': {
-                'phase1_complete': phase1_complete,
-                'phase2_progress': f"{phase2_progress}/3",
-                'status': self.golden_trio_status
+            "golden_trio": {
+                "phase1_complete": phase1_complete,
+                "phase2_progress": f"{phase2_progress}/3",
+                "status": self.golden_trio_status,
             },
-            'systems': system_stats,
-            'bridges': bridge_connections,
-            'top_connected_systems': sorted(
+            "systems": system_stats,
+            "bridges": bridge_connections,
+            "top_connected_systems": sorted(
                 system_stats.items(),
-                key=lambda x: x[1]['incoming_connections'] + x[1]['outgoing_connections'],
-                reverse=True
-            )[:10]
+                key=lambda x: x[1]["incoming_connections"]
+                + x[1]["outgoing_connections"],
+                reverse=True,
+            )[:10],
         }
 
     def _create_visualization(self, report: Dict[str, any]):
@@ -430,9 +477,13 @@ class ConnectivityVisualizer:
 """
 
         # Add Golden Trio status
-        for component, status in report['golden_trio']['status'].items():
+        for component, status in report["golden_trio"]["status"].items():
             status_class = f"status-{status['status']}"
-            icon = '✅' if status['status'] == 'implemented' else '🔄' if status['status'] == 'partial' else '❌'
+            icon = (
+                "✅"
+                if status["status"] == "implemented"
+                else "🔄" if status["status"] == "partial" else "❌"
+            )
             html += f"            <li>{component}: <span class='{status_class}'>{icon} {status['status'].upper()}</span> - {status['path']}</li>\n"
 
         html += f"""
@@ -458,8 +509,8 @@ class ConnectivityVisualizer:
 """
 
         # Add top connected systems
-        for system, stats in report['top_connected_systems']:
-            total = stats['incoming_connections'] + stats['outgoing_connections']
+        for system, stats in report["top_connected_systems"]:
+            total = stats["incoming_connections"] + stats["outgoing_connections"]
             html += f"""
             <tr style="border-bottom: 1px solid #dee2e6;">
                 <td style="padding: 10px;"><strong>{system}</strong></td>
@@ -483,13 +534,13 @@ class ConnectivityVisualizer:
         node_id = 1
         node_map = {}
         for system, info in self.systems.items():
-            stats = report['systems'].get(system, {})
-            size = 20 + (stats.get('active_hubs', 0) * 5)
+            stats = report["systems"].get(system, {})
+            size = 20 + (stats.get("active_hubs", 0) * 5)
 
             # Special styling for Golden Trio
-            if system in ['dast', 'abas', 'nias']:
+            if system in ["dast", "abas", "nias"]:
                 size += 20
-                info['color'] = '#FFD700'  # Gold color
+                info["color"] = "#FFD700"  # Gold color
 
             node_map[system] = node_id
             html += f"""            {{id: {node_id}, label: '{system}\\n({stats.get("active_hubs", 0)} hubs)', color: '{info["color"]}', size: {size}}},\n"""
@@ -503,10 +554,10 @@ class ConnectivityVisualizer:
 
         # Add edges for bridges
         edge_id = 1
-        for bridge in report['bridges']:
-            if len(bridge['systems']) >= 2 and bridge['status'] == 'active':
-                system1 = bridge['systems'][0]
-                system2 = bridge['systems'][1]
+        for bridge in report["bridges"]:
+            if len(bridge["systems"]) >= 2 and bridge["status"] == "active":
+                system1 = bridge["systems"][0]
+                system2 = bridge["systems"][1]
                 if system1 in node_map and system2 in node_map:
                     html += f"""            {{id: {edge_id}, from: {node_map[system1]}, to: {node_map[system2]}, width: 3, color: '#666'}},\n"""
                     edge_id += 1
@@ -552,11 +603,14 @@ class ConnectivityVisualizer:
 """
 
         # Save visualization
-        output_file = self.root_path / 'analysis-tools' / 'connectivity_visualization.html'
-        with open(output_file, 'w') as f:
+        output_file = (
+            self.root_path / "analysis-tools" / "connectivity_visualization.html"
+        )
+        with open(output_file, "w") as f:
             f.write(html)
 
         print(f"📊 Visualization saved to: {output_file}")
+
 
 def main():
     repo_root = Path(__file__).parent.parent
@@ -565,28 +619,37 @@ def main():
     report = visualizer.analyze()
 
     # Save report
-    output_file = repo_root / 'analysis-tools' / 'connectivity_report.json'
-    with open(output_file, 'w') as f:
+    output_file = repo_root / "analysis-tools" / "connectivity_report.json"
+    with open(output_file, "w") as f:
         json.dump(report, f, indent=2)
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("🔗 CONNECTIVITY ANALYSIS SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print(f"Total Systems: {report['summary']['total_systems']}")
-    print(f"Active Hubs: {report['summary']['active_hubs']} / {report['summary']['total_hubs']}")
-    print(f"Active Bridges: {report['summary']['active_bridges']} / {report['summary']['total_bridges']}")
+    print(
+        f"Active Hubs: {report['summary']['active_hubs']} / {report['summary']['total_hubs']}"
+    )
+    print(
+        f"Active Bridges: {report['summary']['active_bridges']} / {report['summary']['total_bridges']}"
+    )
     print(f"Isolated Systems: {report['summary']['isolated_systems']}")
 
     print("\n🏆 GOLDEN TRIO STATUS:")
-    print(f"Phase 1 (Foundation): {'✅ COMPLETE' if report['golden_trio']['phase1_complete'] else '⏳ In Progress'}")
-    print(f"Phase 2 (Core Engines): {report['golden_trio']['phase2_progress']} Complete")
+    print(
+        f"Phase 1 (Foundation): {'✅ COMPLETE' if report['golden_trio']['phase1_complete'] else '⏳ In Progress'}"
+    )
+    print(
+        f"Phase 2 (Core Engines): {report['golden_trio']['phase2_progress']} Complete"
+    )
 
     print("\n📈 TOP CONNECTED SYSTEMS:")
-    for system, stats in report['top_connected_systems'][:5]:
-        total = stats['incoming_connections'] + stats['outgoing_connections']
+    for system, stats in report["top_connected_systems"][:5]:
+        total = stats["incoming_connections"] + stats["outgoing_connections"]
         print(f"  - {system}: {total} connections ({stats['active_hubs']} active hubs)")
 
     print(f"\n✅ Full report saved to: {output_file}")
+
 
 if __name__ == "__main__":
     main()

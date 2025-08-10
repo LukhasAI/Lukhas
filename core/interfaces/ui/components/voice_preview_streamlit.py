@@ -15,7 +15,6 @@ Integration Date: 2025-05-31T07:55:31.348819
 # import streamlit as st  # TODO: Install or implement streamlit
 import json
 from pathlib import Path
-from datetime import datetime
 
 st.set_page_config(page_title="LUCΛS Narration Queue", layout="wide")
 
@@ -29,7 +28,7 @@ if not QUEUE_PATH.exists() or QUEUE_PATH.stat().st_size == 0:
     st.warning("No dreams currently queued for narration.")
 else:
     st.success("Narration queue loaded successfully.")
-    with open(QUEUE_PATH, "r", encoding="utf-8") as f:
+    with open(QUEUE_PATH, encoding="utf-8") as f:
         entries = [json.loads(line) for line in f if line.strip()]
 
     for i, dream in enumerate(entries, 1):
@@ -39,8 +38,14 @@ else:
 
         # ── Emotion Ring ───────────────────────────────────────────
         emoji_map = {
-            "calm": "🌊", "joy": "☀️", "longing": "🌫️", "awe": "🌌",
-            "sadness": "💧", "fear": "⚠️", "love": "💖", "hope": "🕊️"
+            "calm": "🌊",
+            "joy": "☀️",
+            "longing": "🌫️",
+            "awe": "🌌",
+            "sadness": "💧",
+            "fear": "⚠️",
+            "love": "💖",
+            "hope": "🕊️",
         }
 
         ev = dream.get("emotion_vector", {})
@@ -49,7 +54,9 @@ else:
             top_emoji = emoji_map.get(top_emotion, "🔮")
             st.markdown(f"**Dominant Emotion:** {top_emotion} {top_emoji}")
 
-        st.markdown(f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False)}")
+        st.markdown(
+            f"**Tier:** {dream.get('tier', '—')} | **Replay:** {dream.get('replay_candidate', False)}"
+        )
         st.markdown(f"**Suggest Voice:** {dream.get('suggest_voice', False)}")
         st.divider()
 
@@ -57,7 +64,7 @@ else:
 if LOG_PATH.exists():
     st.markdown("### 📼 Narration Log (Recent)")
     logs = []
-    with open(LOG_PATH, "r", encoding="utf-8") as f:
+    with open(LOG_PATH, encoding="utf-8") as f:
         for line in f:
             try:
                 logs.append(json.loads(line))

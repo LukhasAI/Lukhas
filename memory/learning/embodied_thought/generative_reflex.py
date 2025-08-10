@@ -10,11 +10,11 @@
 # ΛCOMMIT_WINDOW: pre-O3-sweep
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
-import json
 from core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for generative reflex.
 logger = get_logger(__name__)
+
 
 class GenerativeReflex:
     """
@@ -42,6 +42,7 @@ class GenerativeReflex:
         logger.info("Generating response for embodied state...")
         # In a real implementation, this would involve a more complex mapping from state to response.
         return {"response": "default_reflex_response"}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: generative_reflex.py

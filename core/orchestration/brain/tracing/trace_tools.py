@@ -19,11 +19,15 @@ Integration Date: 2025-05-31T07:55:28.016528
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-import pandas as pd
+
 from pathlib import Path
 
+import pandas as pd
 
-def load_symbolic_trace_dashboard(csv_path="logs/symbolic_trace_dashboard.csv"):
+
+def load_symbolic_trace_dashboard(
+    csv_path="logs/symbolic_trace_dashboard.csv",
+):
     """
     Load the symbolic trace CSV file with default filters.
     Returns: pandas DataFrame or None
@@ -61,9 +65,13 @@ def get_summary_stats(df):
         return {}
 
     summary = {
-        "status_counts": df["status"].value_counts().to_dict() if "status" in df else {},
-        "most_flagged_module": df["module"].value_counts().idxmax() if "module" in df else None,
-        "most_common_tag": df["tag"].value_counts().idxmax() if "tag" in df else None,
+        "status_counts": (
+            df["status"].value_counts().to_dict() if "status" in df else {}
+        ),
+        "most_flagged_module": (
+            df["module"].value_counts().idxmax() if "module" in df else None
+        ),
+        "most_common_tag": (df["tag"].value_counts().idxmax() if "tag" in df else None),
     }
     return summary
 

@@ -11,6 +11,7 @@ import sys
 import time
 from pathlib import Path
 
+
 # Simple test to verify the system works
 async def main():
     print("🚀 LUKHAS AGI Automatic Testing System - Quick Test")
@@ -19,13 +20,14 @@ async def main():
     try:
         # Import the system
         from automatic_testing_system import AutomaticTestingSystem
+
         print("✅ Successfully imported AutomaticTestingSystem")
 
         # Initialize the system
         autotest = AutomaticTestingSystem(
             workspace_path=Path.cwd().parent,
             enable_ai_analysis=True,
-            enable_performance_monitoring=True
+            enable_performance_monitoring=True,
         )
         print("✅ System initialized successfully")
 
@@ -36,7 +38,7 @@ async def main():
         operation = await autotest.capture_terminal_operation(
             command="echo 'Hello LUKHAS AGI Testing System!'",
             operation_type="validation_test",
-            timeout_seconds=10
+            timeout_seconds=10,
         )
 
         end_time = time.time()
@@ -60,7 +62,7 @@ async def main():
             "echo 'Test 2'",
             "python3 -c 'print(\"Test 3\")'",
             "echo 'Test 4'",
-            "echo 'Test 5'"
+            "echo 'Test 5'",
         ]
 
         durations = []
@@ -69,7 +71,7 @@ async def main():
         for i, cmd in enumerate(test_commands, 1):
             op = await autotest.capture_terminal_operation(cmd, timeout_seconds=5)
             durations.append(op.duration_ms)
-            if op.status == 'completed':
+            if op.status == "completed":
                 successful += 1
             print(f"   Operation {i}: {op.duration_ms:.2f}ms - {op.status}")
 
@@ -81,7 +83,7 @@ async def main():
             success_rate = successful / len(test_commands) * 100
             sub_100ms = len([d for d in durations if d < 100])
 
-            print(f"\n   📊 Performance Statistics:")
+            print("\n   📊 Performance Statistics:")
             print(f"   📈 Average: {avg_duration:.2f}ms")
             print(f"   ⬆️ Maximum: {max_duration:.2f}ms")
             print(f"   ⬇️ Minimum: {min_duration:.2f}ms")
@@ -94,8 +96,12 @@ async def main():
             try:
                 analysis = autotest.ai_analyzer.analyze_operation(operation)
                 print("   ✅ AI analysis completed")
-                print(f"   📊 Performance category: {analysis.get('performance_category', 'unknown')}")
-                print(f"   🎯 Success probability: {analysis.get('success_probability', 0):.2f}")
+                print(
+                    f"   📊 Performance category: {analysis.get('performance_category', 'unknown')}"
+                )
+                print(
+                    f"   🎯 Success probability: {analysis.get('success_probability', 0):.2f}"
+                )
             except Exception as e:
                 print(f"   ⚠️ AI analysis error: {e}")
         else:
@@ -108,7 +114,9 @@ async def main():
                 metrics = autotest.performance_monitor.capture_metrics()
                 print("   ✅ Performance monitoring active")
                 print(f"   💻 CPU usage: {metrics.get('cpu_percent', 'N/A'):.1f}%")
-                print(f"   💾 Memory usage: {metrics.get('memory_percent', 'N/A'):.1f}%")
+                print(
+                    f"   💾 Memory usage: {metrics.get('memory_percent', 'N/A'):.1f}%"
+                )
             except Exception as e:
                 print(f"   ⚠️ Performance monitoring error: {e}")
         else:
@@ -124,8 +132,10 @@ async def main():
     except Exception as e:
         print(f"\n❌ VALIDATION FAILED: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 if __name__ == "__main__":
     success = asyncio.run(main())

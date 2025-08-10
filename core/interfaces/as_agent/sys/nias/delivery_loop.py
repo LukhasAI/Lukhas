@@ -21,12 +21,14 @@ DESCRIPTION:
 
 """
 
-# Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
-from core.interfaces.as_agent.utils.constants import SYMBOLIC_TIERS, DEFAULT_COOLDOWN_SECONDS, SEED_TAG_VOCAB, SYMBOLIC_THRESHOLDS
-from core.interfaces.as_agent.utils.symbolic_utils import tier_label, summarize_emotion_vector
-from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+
 from nias.core.nias_engine import NIASEngine
+
 from ethics.seedra.seedra_core import SEEDRACore
+from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+
+# Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
+
 
 def run_delivery_queue(queue, user_context):
     """
@@ -37,7 +39,7 @@ def run_delivery_queue(queue, user_context):
     - user_context (dict): Current emotional, consent, and symbolic tier data
     """
     # Begin symbolic delivery loop (NIAS cadence driver)
-    for message in queue:
+    for _message in queue:
         # TODO: Import and call push_symbolic_message, log each decision
         pass
 
@@ -55,8 +57,9 @@ class NIASDeliveryLoop:
         seedra = SEEDRACore()
         self.consent_manager = seedra
         trio = TrioOrchestrator()
-        await trio.register_component('nias_delivery_loop', self)
+        await trio.register_component("nias_delivery_loop", self)
         return True
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────
@@ -79,11 +82,12 @@ NOTES:
 ──────────────────────────────────────────────────────────────────────────────────────
 """
 
+
 async def connect_to_seedra():
     """Connect NIAS delivery to SEEDRA for consent management"""
     global consent_manager
     seedra = SEEDRACore()
     consent_manager = seedra
     trio = TrioOrchestrator()
-    await trio.register_component('nias_delivery_loop', None)
+    await trio.register_component("nias_delivery_loop", None)
     return True

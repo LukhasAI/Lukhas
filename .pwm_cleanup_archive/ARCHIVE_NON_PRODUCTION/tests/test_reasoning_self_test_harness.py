@@ -1,5 +1,7 @@
 import unittest
+
 from reasoning.reasoning_engine import SymbolicEngine
+
 
 class TestReasoningSelfTestHarness(unittest.TestCase):
 
@@ -35,7 +37,9 @@ class TestReasoningSelfTestHarness(unittest.TestCase):
                 if primary_conclusion is not None and "content" in primary_conclusion:
                     # This is a very basic check. A real implementation would
                     # involve a more sophisticated comparison of the conclusion.
-                    self.assertIn(test_case["expected_conclusion"], primary_conclusion["content"])
+                    self.assertIn(
+                        test_case["expected_conclusion"], primary_conclusion["content"]
+                    )
                 else:
                     # Stub implementation case - just verify structure
                     self.assertIsNotNone(reasoning_outcome)
@@ -51,7 +55,9 @@ class TestReasoningSelfTestHarness(unittest.TestCase):
         self.memory["a"] = "a causes b"
         self.memory["b"] = "b causes a"
 
-        reasoning_outcome = self.reasoning_engine.reason({"text": "a"}, memory_fold=self.memory.get("a"))
+        reasoning_outcome = self.reasoning_engine.reason(
+            {"text": "a"}, memory_fold=self.memory.get("a")
+        )
 
         # The reasoning engine should be able to handle this without
         # getting into an infinite loop. The exact outcome will depend
@@ -59,5 +65,6 @@ class TestReasoningSelfTestHarness(unittest.TestCase):
         # not crash.
         self.assertIsNotNone(reasoning_outcome)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

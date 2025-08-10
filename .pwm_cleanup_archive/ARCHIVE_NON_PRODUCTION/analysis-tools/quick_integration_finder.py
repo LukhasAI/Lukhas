@@ -3,13 +3,12 @@
 Quick Integration Finder - Focused on finding high-value integration opportunities
 """
 
-import ast
-import os
-import json
-from pathlib import Path
-from typing import Dict, List, Set
-from collections import defaultdict
 import argparse
+import ast
+import json
+from collections import defaultdict
+from pathlib import Path
+from typing import List
 
 
 class QuickIntegrationFinder:
@@ -21,22 +20,24 @@ class QuickIntegrationFinder:
         self.integration_opportunities = defaultdict(list)
 
         # Key patterns to look for
-        self.voice_keywords = ['voice', 'audio', 'speech', 'vocal', 'tts', 'stt']
-        self.memory_keywords = ['memory', 'mem', 'recall', 'storage', 'cache']
-        self.lucas_patterns = ['lucas', 'Lucas', 'LUCAS', 'LucAS', 'Lucλs']
+        self.voice_keywords = ["voice", "audio", "speech", "vocal", "tts", "stt"]
+        self.memory_keywords = ["memory", "mem", "recall", "storage", "cache"]
+        self.lucas_patterns = ["lucas", "Lucas", "LUCAS", "LucAS", "Lucλs"]
 
     def load_unused_files(self, unused_file: str):
         """Load unused files report"""
-        with open(unused_file, 'r') as f:
+        with open(unused_file) as f:
             data = json.load(f)
 
         # Filter for Python files with potential value
-        for file_info in data.get('unused_files', []):
-            file_path = file_info['path']
-            if (file_path.endswith('.py') and
-                not file_path.startswith('.venv') and
-                not file_path.startswith('tests/') and
-                file_info['size_bytes'] > 1000):  # Skip tiny files
+        for file_info in data.get("unused_files", []):
+            file_path = file_info["path"]
+            if (
+                file_path.endswith(".py")
+                and not file_path.startswith(".venv")
+                and not file_path.startswith("tests/")
+                and file_info["size_bytes"] > 1000
+            ):  # Skip tiny files
 
                 self.isolated_files.append(file_path)
 
@@ -52,7 +53,7 @@ class QuickIntegrationFinder:
                 continue
 
             try:
-                with open(full_path, 'r', encoding='utf-8') as f:
+                with open(full_path, encoding="utf-8") as f:
                     content = f.read()
 
                 # Quick content analysis
@@ -71,7 +72,7 @@ class QuickIntegrationFinder:
                     self._analyze_branding_file(file_path, content)
 
                 # Check for specific high-value patterns
-                if 'orchestrat' in content_lower or 'hub' in content_lower:
+                if "orchestrat" in content_lower or "hub" in content_lower:
                     self._analyze_orchestration_file(file_path, content)
 
             except Exception as e:
@@ -81,17 +82,25 @@ class QuickIntegrationFinder:
         """Analyze voice-related files"""
         try:
             tree = ast.parse(content)
-            classes = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
-            functions = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+            classes = [
+                node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)
+            ]
+            functions = [
+                node.name
+                for node in ast.walk(tree)
+                if isinstance(node, ast.FunctionDef)
+            ]
 
             if classes or functions:
-                self.integration_opportunities['voice'].append({
-                    'file': file_path,
-                    'classes': classes,
-                    'functions': functions[:5],  # Limit to top 5
-                    'target': 'core/voice/voice_system.py',
-                    'action': 'Integrate voice functionality into main voice system'
-                })
+                self.integration_opportunities["voice"].append(
+                    {
+                        "file": file_path,
+                        "classes": classes,
+                        "functions": functions[:5],  # Limit to top 5
+                        "target": "core/voice/voice_system.py",
+                        "action": "Integrate voice functionality into main voice system",
+                    }
+                )
         except:
             pass
 
@@ -99,39 +108,51 @@ class QuickIntegrationFinder:
         """Analyze memory-related files"""
         try:
             tree = ast.parse(content)
-            classes = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+            classes = [
+                node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)
+            ]
 
             if classes:
-                self.integration_opportunities['memory'].append({
-                    'file': file_path,
-                    'classes': classes,
-                    'target': 'memory/memory_hub.py',
-                    'action': 'Integrate memory components into memory hub'
-                })
+                self.integration_opportunities["memory"].append(
+                    {
+                        "file": file_path,
+                        "classes": classes,
+                        "target": "memory/memory_hub.py",
+                        "action": "Integrate memory components into memory hub",
+                    }
+                )
         except:
             pass
 
     def _analyze_branding_file(self, file_path: str, content: str):
         """Analyze files with old branding"""
-        self.integration_opportunities['branding'].append({
-            'file': file_path,
-            'old_brands': [p for p in self.lucas_patterns if p in content],
-            'action': 'Update branding from Lucas/lucas to LUKHAS/lukhas'
-        })
+        self.integration_opportunities["branding"].append(
+            {
+                "file": file_path,
+                "old_brands": [p for p in self.lucas_patterns if p in content],
+                "action": "Update branding from Lucas/lucas to LUKHAS/lukhas",
+            }
+        )
 
     def _analyze_orchestration_file(self, file_path: str, content: str):
         """Analyze orchestration-related files"""
         try:
             tree = ast.parse(content)
-            classes = [node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+            classes = [
+                node.name for node in ast.walk(tree) if isinstance(node, ast.ClassDef)
+            ]
 
-            if 'orchestrator' in file_path.lower() or any('orchestrator' in c.lower() for c in classes):
-                self.integration_opportunities['orchestration'].append({
-                    'file': file_path,
-                    'classes': classes,
-                    'target': 'core/orchestration/orchestrator.py',
-                    'action': 'Consolidate orchestration logic'
-                })
+            if "orchestrator" in file_path.lower() or any(
+                "orchestrator" in c.lower() for c in classes
+            ):
+                self.integration_opportunities["orchestration"].append(
+                    {
+                        "file": file_path,
+                        "classes": classes,
+                        "target": "core/orchestration/orchestrator.py",
+                        "action": "Consolidate orchestration logic",
+                    }
+                )
         except:
             pass
 
@@ -140,45 +161,53 @@ class QuickIntegrationFinder:
         print("\n📊 Generating quick integration report...")
 
         report = {
-            'summary': {
-                'total_isolated_files': len(self.isolated_files),
-                'files_with_opportunities': sum(len(files) for files in self.integration_opportunities.values()),
-                'categories': list(self.integration_opportunities.keys())
+            "summary": {
+                "total_isolated_files": len(self.isolated_files),
+                "files_with_opportunities": sum(
+                    len(files) for files in self.integration_opportunities.values()
+                ),
+                "categories": list(self.integration_opportunities.keys()),
             },
-            'high_priority_integrations': [],
-            'branding_updates': self.integration_opportunities.get('branding', []),
-            'voice_integrations': self.integration_opportunities.get('voice', []),
-            'memory_integrations': self.integration_opportunities.get('memory', []),
-            'orchestration_consolidations': self.integration_opportunities.get('orchestration', [])
+            "high_priority_integrations": [],
+            "branding_updates": self.integration_opportunities.get("branding", []),
+            "voice_integrations": self.integration_opportunities.get("voice", []),
+            "memory_integrations": self.integration_opportunities.get("memory", []),
+            "orchestration_consolidations": self.integration_opportunities.get(
+                "orchestration", []
+            ),
         }
 
         # Identify high priority integrations
         for category, files in self.integration_opportunities.items():
             for file_info in files[:5]:  # Top 5 per category
-                report['high_priority_integrations'].append({
-                    'category': category,
-                    'file': file_info['file'],
-                    'action': file_info.get('action', 'Review and integrate')
-                })
+                report["high_priority_integrations"].append(
+                    {
+                        "category": category,
+                        "file": file_info["file"],
+                        "action": file_info.get("action", "Review and integrate"),
+                    }
+                )
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(report, f, indent=2)
 
         # Print summary
-        print("\n" + "="*70)
+        print("\n" + "=" * 70)
         print("🎯 QUICK INTEGRATION ANALYSIS SUMMARY")
-        print("="*70)
-        print(f"\n📊 Analysis Results:")
+        print("=" * 70)
+        print("\n📊 Analysis Results:")
         print(f"  - Total isolated files: {report['summary']['total_isolated_files']}")
-        print(f"  - Files with opportunities: {report['summary']['files_with_opportunities']}")
+        print(
+            f"  - Files with opportunities: {report['summary']['files_with_opportunities']}"
+        )
 
-        for category in report['summary']['categories']:
+        for category in report["summary"]["categories"]:
             count = len(self.integration_opportunities[category])
             print(f"  - {category.capitalize()}: {count} files")
 
-        if report['high_priority_integrations']:
-            print(f"\n✨ Top Integration Opportunities:")
-            for i, opp in enumerate(report['high_priority_integrations'][:10], 1):
+        if report["high_priority_integrations"]:
+            print("\n✨ Top Integration Opportunities:")
+            for i, opp in enumerate(report["high_priority_integrations"][:10], 1):
                 print(f"\n  {i}. {opp['file']}")
                 print(f"     Category: {opp['category']}")
                 print(f"     Action: {opp['action']}")
@@ -188,12 +217,16 @@ class QuickIntegrationFinder:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Quick integration finder for LUKHAS AGI'
+        description="Quick integration finder for LUKHAS AGI"
     )
-    parser.add_argument('repo_path', help='Path to repository')
-    parser.add_argument('unused_file', help='Path to unused files report JSON')
-    parser.add_argument('-o', '--output', default='quick_integration_plan.json',
-                       help='Output file for integration plan')
+    parser.add_argument("repo_path", help="Path to repository")
+    parser.add_argument("unused_file", help="Path to unused files report JSON")
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="quick_integration_plan.json",
+        help="Output file for integration plan",
+    )
 
     args = parser.parse_args()
 

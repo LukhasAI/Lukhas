@@ -62,11 +62,10 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set
 from uuid import uuid4
 
 import numpy as np
-import structlog
 
 try:
     from core.integration.dynamic_modality_broker import (
@@ -101,11 +100,13 @@ except ImportError:
 
 # Lukhas Core Integration
 from dream.dream_feedback_propagator import DreamFeedbackPropagator
-from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
-from memory.emotional import EmotionalMemory, EmotionVector
 
-from core.common import get_logger
-
+from ethics.meta_ethics_governor import (
+    CulturalContext,
+    EthicalDecision,
+    get_meg,
+)
+from memory.emotional import EmotionalMemory
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_RECURSION_DEPTH = 10

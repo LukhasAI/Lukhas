@@ -21,6 +21,7 @@ Suppresses: Anxiety, irritability
 
 from typing import Dict
 
+
 #LUKHAS_TAG: hormonal_feedback
 class StabilityAnchor:
     """Represents the symbolic hormone Serotonin."""

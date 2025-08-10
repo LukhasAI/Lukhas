@@ -3,9 +3,9 @@
 # 🧠 PURPOSE: Terminal entry point for LUCAS AGI system metadata
 # ===============================================================
 
-import os
 import json
 from datetime import datetime
+
 
 def main():
     print("\033[95m🌿 WELCOME TO LUCAS AGI — Symbolic Neuro-Symbolic AI\033[0m")
@@ -17,7 +17,7 @@ def main():
     print("🔗 Trace: Each action linked to Lucas_ID + QRGlyph")
 
     try:
-        with open("dao/manifest.json", "r") as f:
+        with open("dao/manifest.json") as f:
             manifest = json.load(f)
             print(f"🧬 Manifest Version: {manifest.get('dao_version', 'N/A')}")
             hashes = manifest.get("proposal_hashes", [])
@@ -44,16 +44,17 @@ def main():
 
     print("\n📜 ETHICS DIGEST (Preview):")
     try:
-        with open("ETHICS.md", "r") as f:
+        with open("ETHICS.md") as f:
             preview = "".join(f.readlines()[:10])
             print(preview)
-    except:
+    except BaseException:
         print("⚠️ ETHICS.md not found.")
 
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print(f"📅 Timestamp: {datetime.utcnow().isoformat()}Z")
     print("🔏 Signed by: LUCAS CLI Core")
     print("💬 'A symbol is not a thing, but a promise.'\n")
+
 
 if __name__ == "__main__":
     main()

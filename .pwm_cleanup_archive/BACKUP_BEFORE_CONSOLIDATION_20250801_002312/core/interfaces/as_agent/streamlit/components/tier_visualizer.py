@@ -13,8 +13,9 @@ Integration Date: 2025-05-31T07:55:30.622859
 ╰──────────────────────────────────────────────────────────────────────────────╯
 """
 
-import streamlit as st
 import json
+
+import streamlit as st
 
 st.title("🔐 Symbolic Tier Visualizer")
 st.caption("Access structure and ethical boundaries for LUCΛS symbolic modules.")
@@ -37,10 +38,13 @@ try:
     st.subheader("📊 Tier Access Level Comparison")
     try:
         import pandas as pd
-        tier_df = pd.DataFrame({
-            "Tier": list(manifest["tiers"].keys()),
-            "Level": [int(tier) for tier in manifest["tiers"].keys()]
-        })
+
+        tier_df = pd.DataFrame(
+            {
+                "Tier": list(manifest["tiers"].keys()),
+                "Level": [int(tier) for tier in manifest["tiers"].keys()],
+            }
+        )
         st.bar_chart(tier_df.set_index("Tier"))
     except Exception as e:
         st.warning(f"Could not generate chart: {e}")

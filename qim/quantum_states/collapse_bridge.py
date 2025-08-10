@@ -12,22 +12,20 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict
 
 import structlog
 
 from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
-
-#TAG:qim
-#TAG:quantum_states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:qim
+# TAG:quantum_states
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = structlog.get_logger(__name__)
+
 
 # {ΛTRACE}
 class CollapseBridge:
@@ -43,9 +41,11 @@ class CollapseBridge:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
+            brain_integrator
+        )
 
-    #ΛPROPAGATOR
+    # ΛPROPAGATOR
     async def report_collapse(self, collapse_details: Dict[str, Any]) -> None:
         """
         Reports a collapse to the collapse manager.
@@ -53,8 +53,11 @@ class CollapseBridge:
         Args:
             collapse_details (Dict[str, Any]): Details of the collapse.
         """
-        logger.info("Reporting collapse to collapse manager.", collapse_details=collapse_details)
+        logger.info(
+            "Reporting collapse to collapse manager.", collapse_details=collapse_details
+        )
         await self.collapse_manager.handle_collapse()
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_bridge.py

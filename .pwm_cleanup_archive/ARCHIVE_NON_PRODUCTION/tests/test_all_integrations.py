@@ -4,27 +4,35 @@ Test All Memory Safety Integration Points
 """
 
 import asyncio
-import numpy as np
 from datetime import datetime, timezone
 
-# Import all integration components
-from memory.systems.memory_safety_features import MemorySafetySystem, SafeMemoryFold
+import numpy as np
+
 from memory.core import create_hybrid_memory_fold
-from memory.systems.integration_adapters import MemorySafetyIntegration
-from memory.systems.module_integrations import (
-    LearningModuleIntegration,
-    CreativityModuleIntegration,
-    VoiceModuleIntegration,
-    MetaModuleIntegration
+from memory.systems.colony_swarm_integration import (
+    ColonyRole,
+    SwarmConsensusManager,
 )
-from memory.systems.colony_swarm_integration import SwarmConsensusManager, ColonyRole
+from memory.systems.integration_adapters import MemorySafetyIntegration
+
+# Import all integration components
+from memory.systems.memory_safety_features import (
+    MemorySafetySystem,
+    SafeMemoryFold,
+)
+from memory.systems.module_integrations import (
+    CreativityModuleIntegration,
+    LearningModuleIntegration,
+    MetaModuleIntegration,
+    VoiceModuleIntegration,
+)
 
 
 async def test_all_integrations():
     """Test all integration points working together"""
 
     print("🚀 COMPREHENSIVE INTEGRATION TEST")
-    print("="*70)
+    print("=" * 70)
 
     # 1. Initialize core systems
     print("\n1️⃣ INITIALIZING CORE SYSTEMS...")
@@ -41,27 +49,27 @@ async def test_all_integrations():
 
     # 2. Register all modules
     print("\n2️⃣ REGISTERING MODULES...")
-    await integration.register_module("learning", {
-        "drift_threshold": 0.3,
-        "reality_anchors": {
-            "consistency": "Learning requires consistent examples"
-        }
-    })
+    await integration.register_module(
+        "learning",
+        {
+            "drift_threshold": 0.3,
+            "reality_anchors": {"consistency": "Learning requires consistent examples"},
+        },
+    )
 
-    await integration.register_module("creativity", {
-        "drift_threshold": 0.6,
-        "reality_anchors": {
-            "imagination": "Creative outputs can be fictional but internally consistent"
-        }
-    })
+    await integration.register_module(
+        "creativity",
+        {
+            "drift_threshold": 0.6,
+            "reality_anchors": {
+                "imagination": "Creative outputs can be fictional but internally consistent"
+            },
+        },
+    )
 
-    await integration.register_module("voice", {
-        "drift_threshold": 0.5
-    })
+    await integration.register_module("voice", {"drift_threshold": 0.5})
 
-    await integration.register_module("meta", {
-        "drift_threshold": 0.4
-    })
+    await integration.register_module("meta", {"drift_threshold": 0.4})
 
     # Initialize module integrations
     learning = LearningModuleIntegration(integration)
@@ -76,9 +84,15 @@ async def test_all_integrations():
     swarm = SwarmConsensusManager(integration, min_colonies=3)
 
     # Register diverse colonies
-    swarm.register_colony("learning_colony", ColonyRole.SPECIALIST, ["learning", "knowledge"])
-    swarm.register_colony("creative_colony", ColonyRole.SPECIALIST, ["creative", "imagination"])
-    swarm.register_colony("voice_colony", ColonyRole.SPECIALIST, ["voice", "communication"])
+    swarm.register_colony(
+        "learning_colony", ColonyRole.SPECIALIST, ["learning", "knowledge"]
+    )
+    swarm.register_colony(
+        "creative_colony", ColonyRole.SPECIALIST, ["creative", "imagination"]
+    )
+    swarm.register_colony(
+        "voice_colony", ColonyRole.SPECIALIST, ["voice", "communication"]
+    )
     swarm.register_colony("arbiter_colony", ColonyRole.ARBITER)
     swarm.register_colony("witness_colony", ColonyRole.WITNESS)
 
@@ -89,16 +103,28 @@ async def test_all_integrations():
 
     # Store some learning examples with consensus
     learning_examples = [
-        {"content": "Python functions use def keyword", "type": "knowledge", "topic": "programming"},
-        {"content": "Machine learning requires training data", "type": "knowledge", "topic": "AI"},
-        {"content": "LUKHAS uses memory fold for efficiency", "type": "knowledge", "topic": "architecture"}
+        {
+            "content": "Python functions use def keyword",
+            "type": "knowledge",
+            "topic": "programming",
+        },
+        {
+            "content": "Machine learning requires training data",
+            "type": "knowledge",
+            "topic": "AI",
+        },
+        {
+            "content": "LUKHAS uses memory fold for efficiency",
+            "type": "knowledge",
+            "topic": "architecture",
+        },
     ]
 
     for example in learning_examples:
         mem_id = await swarm.distributed_memory_storage(
             memory_data=example,
             tags=["learning", example["topic"]],
-            proposing_colony="learning_colony"
+            proposing_colony="learning_colony",
         )
         if mem_id:
             print(f"  ✓ Stored learning memory: {example['content'][:40]}...")
@@ -106,7 +132,7 @@ async def test_all_integrations():
     # Track concept evolution
     evolution = await learning.track_concept_evolution(
         "programming",
-        {"content": "Python 3.12 adds new syntax features", "update": True}
+        {"content": "Python 3.12 adds new syntax features", "update": True},
     )
     print(f"  📊 Concept evolution: {evolution.get('trend', 'tracking')}")
 
@@ -121,21 +147,18 @@ async def test_all_integrations():
     seed_ids = list(memory.items.keys())[:2] if memory.items else []
     if seed_ids:
         synthesis = await creativity.generate_creative_synthesis(
-            seed_memories=seed_ids,
-            creativity_level=0.7
+            seed_memories=seed_ids, creativity_level=0.7
         )
         print(f"  🎨 Generated creative synthesis: {synthesis.get('type', 'error')}")
 
     # Test reality anchor validation
     creative_output = {
         "content": "Imagine a world where gravity pushes things up",
-        "type": "creative_fiction"
+        "type": "creative_fiction",
     }
 
     is_valid, violations = await integration.anchors.validate_output(
-        "creativity",
-        creative_output,
-        {"context": "fiction"}
+        "creativity", creative_output, {"context": "fiction"}
     )
     print(f"  🛡️ Reality check: {'Passed' if is_valid else f'Failed - {violations}'}")
 
@@ -150,8 +173,8 @@ async def test_all_integrations():
             "audio_features": {
                 "emotion": "friendly",
                 "prosody": {"pitch": 1.1, "speed": 1.0},
-                "embedding": np.random.randn(1024).astype(np.float32)
-            }
+                "embedding": np.random.randn(1024).astype(np.float32),
+            },
         },
         {
             "speaker_id": "user1",
@@ -159,18 +182,18 @@ async def test_all_integrations():
             "audio_features": {
                 "emotion": "joy",
                 "prosody": {"pitch": 1.2, "speed": 1.1},
-                "embedding": np.random.randn(1024).astype(np.float32)
-            }
-        }
+                "embedding": np.random.randn(1024).astype(np.float32),
+            },
+        },
     ]
 
     for vd in voice_data:
         mem_id = await voice.store_voice_interaction(
-            vd["speaker_id"],
-            vd["transcript"],
-            vd["audio_features"]
+            vd["speaker_id"], vd["transcript"], vd["audio_features"]
         )
-        print(f"  🎤 Stored voice: {vd['transcript'][:30]}... ({vd['audio_features']['emotion']})")
+        print(
+            f"  🎤 Stored voice: {vd['transcript'][:30]}... ({vd['audio_features']['emotion']})"
+        )
 
     # Get speaker synthesis data
     synthesis_data = await voice.get_speaker_synthesis_data("user1")
@@ -186,7 +209,9 @@ async def test_all_integrations():
 
     # Learn from safety metrics
     insights = await meta.learn_from_safety_metrics()
-    print(f"  📈 Reliability insights: {len(insights['reliability_patterns'])} patterns")
+    print(
+        f"  📈 Reliability insights: {len(insights['reliability_patterns'])} patterns"
+    )
 
     # 8. Test Cross-Module Integration
     print("\n8️⃣ TESTING CROSS-MODULE INTEGRATION...")
@@ -198,14 +223,14 @@ async def test_all_integrations():
         "modules_involved": ["learning", "creativity", "voice"],
         "speaker_id": "user1",
         "emotion": "curious",
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     # Store with consensus from multiple specialized colonies
     mem_id = await swarm.distributed_memory_storage(
         memory_data=multi_module_memory,
         tags=["multi-module", "interaction", "learning", "creativity", "voice"],
-        proposing_colony="arbiter_colony"
+        proposing_colony="arbiter_colony",
     )
 
     if mem_id:
@@ -214,17 +239,15 @@ async def test_all_integrations():
         # Each module can now access this memory
         # Learning module tracks it as an example
         await learning.track_concept_evolution(
-            "explanation",
-            {"memory_ref": mem_id, "style": "creative"}
+            "explanation", {"memory_ref": mem_id, "style": "creative"}
         )
 
         # Voice module uses it for synthesis
         voice_result = await voice.get_speaker_synthesis_data(
-            "user1",
-            emotion_filter="curious"
+            "user1", emotion_filter="curious"
         )
 
-        print(f"  🔄 Memory accessible to all modules")
+        print("  🔄 Memory accessible to all modules")
 
     # 9. Test Safety Features Across All Modules
     print("\n9️⃣ TESTING SAFETY FEATURES...")
@@ -232,12 +255,14 @@ async def test_all_integrations():
     # Test hallucination prevention
     hallucination = {
         "content": "LUKHAS is not an AGI system",  # Contradicts reality anchor
-        "type": "false_claim"
+        "type": "false_claim",
     }
 
     safe_memory = SafeMemoryFold(memory, safety)
     rejected_id = await safe_memory.safe_fold_in(hallucination, ["test"])
-    print(f"  ❌ Hallucination prevention: {'Working' if rejected_id is None else 'Failed'}")
+    print(
+        f"  ❌ Hallucination prevention: {'Working' if rejected_id is None else 'Failed'}"
+    )
 
     # Test drift detection
     for i in range(5):
@@ -245,10 +270,7 @@ async def test_all_integrations():
         test_embedding += i * 0.1  # Add drift
 
         drift_result = await integration.drift.track_module_usage(
-            "learning",
-            "test_drift",
-            test_embedding,
-            {"iteration": i}
+            "learning", "test_drift", test_embedding, {"iteration": i}
         )
 
     print(f"  📊 Drift detection: {drift_result['recommendation']}")
@@ -260,27 +282,35 @@ async def test_all_integrations():
     status = integration.get_integration_status()
     swarm_status = swarm.get_swarm_status()
 
-    print(f"\n📊 INTEGRATION METRICS:")
+    print("\n📊 INTEGRATION METRICS:")
     print(f"  • Verifold entries: {status['verifold_status']['verifications']}")
     print(f"  • Drift-tracked tags: {status['drift_tracking']['tags_monitored']}")
-    print(f"  • Reality anchors: {status['reality_anchors']['global_anchors'] + status['reality_anchors']['module_anchors']}")
+    print(
+        f"  • Reality anchors: {status['reality_anchors']['global_anchors'] + status['reality_anchors']['module_anchors']}"
+    )
     print(f"  • Active colonies: {swarm_status['active_colonies']}")
     print(f"  • Consensus success rate: {swarm_status['recent_consensus_rate']:.1%}")
 
     # Memory statistics
     memory_stats = memory.get_enhanced_statistics()
-    print(f"\n💾 MEMORY STATISTICS:")
+    print("\n💾 MEMORY STATISTICS:")
     print(f"  • Total memories: {memory_stats['total_items']}")
     print(f"  • Vector embeddings: {memory_stats['vector_stats']['total_vectors']}")
     print(f"  • Causal links: {memory_stats['causal_stats']['total_causal_links']}")
-    print(f"  • Unique tags: {memory_stats.get('unique_tags', len(memory.tag_registry))}")
+    print(
+        f"  • Unique tags: {memory_stats.get('unique_tags', len(memory.tag_registry))}"
+    )
 
     # Safety report
     safety_report = safety.get_safety_report()
-    print(f"\n🛡️ SAFETY REPORT:")
+    print("\n🛡️ SAFETY REPORT:")
     print(f"  • Average drift: {safety_report['drift_analysis']['average_drift']:.3f}")
-    print(f"  • Integrity score: {safety_report['verifold_status']['average_integrity']:.3f}")
-    print(f"  • Contradictions caught: {safety_report['hallucination_prevention']['contradictions_caught']}")
+    print(
+        f"  • Integrity score: {safety_report['verifold_status']['average_integrity']:.3f}"
+    )
+    print(
+        f"  • Contradictions caught: {safety_report['hallucination_prevention']['contradictions_caught']}"
+    )
 
     print("\n✅ ALL INTEGRATION POINTS TESTED SUCCESSFULLY!")
     print("\n🎯 KEY ACHIEVEMENTS:")

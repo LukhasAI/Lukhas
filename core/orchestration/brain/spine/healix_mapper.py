@@ -22,14 +22,15 @@ DEPENDENCIES:
 """
 
 import logging
-from typing import List, Dict, Any
-from datetime import datetime
+from typing import Any
+
 from core.identity.vault.lukhas_id import has_access, log_access
-from orchestration.brain.spine.accent_adapter import AccentAdapter
 from emotion_mapper_alt import EmotionMapper
+from orchestration.brain.spine.accent_adapter import AccentAdapter
 
 # Initialize logger
 logger = logging.getLogger("healix_mapper")
+
 
 class HealixMapper:
     """
@@ -49,7 +50,7 @@ class HealixMapper:
         self.accent_adapter = accent_adapter
         self.emotion_mapper = emotion_mapper
 
-    def map_helix_from_memory(self, user_id: str) -> List[Dict[str, Any]]:
+    def map_helix_from_memory(self, user_id: str) -> list[dict[str, Any]]:
         """
         Decrypts and maps cultural memory into a helix structure with tone and emotion scoring.
 
@@ -59,10 +60,19 @@ class HealixMapper:
         Returns:
             A list of memory nodes with emotional and symbolic tagging.
         """
-        if not has_access(user_id=user_id, memory_id="helix_map", required_tier=self.accent_adapter.tier):
+        if not has_access(
+            user_id=user_id,
+            memory_id="helix_map",
+            required_tier=self.accent_adapter.tier,
+        ):
             raise PermissionError("Access denied for helix mapping.")
 
-        log_access(user_id=user_id, action="helix_map", memory_id="helix_map", tier=self.accent_adapter.tier)
+        log_access(
+            user_id=user_id,
+            action="helix_map",
+            memory_id="helix_map",
+            tier=self.accent_adapter.tier,
+        )
 
         memory_chain = self.accent_adapter.get_user_memory_chain(user_id)
         helix_nodes = []
@@ -74,31 +84,37 @@ class HealixMapper:
                 "tone": self.emotion_mapper.suggest_tone("recollection", record),
                 "intensity": self.emotion_mapper.score_intensity(record),
                 "hash": record.get("hash"),
-                "recall_count": record.get("recall_count", 0)
+                "recall_count": record.get("recall_count", 0),
             }
             helix_nodes.append(node)
 
         return helix_nodes
 
-    def calculate_drift_score(self, current_state: Dict[str, Any], baseline: Dict[str, Any]) -> float:
+    def calculate_drift_score(
+        self, current_state: dict[str, Any], baseline: dict[str, Any]
+    ) -> float:
         """
-        Returns a drift score indicating how far the current emotional state is from the baseline using cosine similarity.
+            Returns a drift score indicating how far the current emotional state is from the baseline using cosine similarity.
 
-        Args:
-            current_state: The current emotional state with an emotion_vector.
-            baseline: The baseline emotional state with an emotion_vector.
+            Args:
+                current_state: The current emotional state with an emotion_vector.
+                baseline: The baseline emotional state with an emotion_vector.
 
-        Returns:
-            A float representing the cosine drift score (0 = identical, 1 = maximum drift).
+            Returns:
+                A float representing the cosine drift score (0 = identical,
+        1 = maximum drift).
         """
         import numpy as np
+
         a = np.array(current_state.get("emotion_vector", []))
         b = np.array(baseline.get("emotion_vector", []))
         if a.size == 0 or b.size == 0:
             return 1.0  # Maximum drift if vectors are missing
         return float(1 - np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 
-    def find_resonant_memories(self, target_emotion: str, user_id: str) -> List[Dict[str, Any]]:
+    def find_resonant_memories(
+        self, target_emotion: str, user_id: str
+    ) -> list[dict[str, Any]]:
         """
         Returns past memory nodes with high emotional similarity to the target emotion using tone similarity scoring.
 
@@ -109,20 +125,32 @@ class HealixMapper:
         Returns:
             A list of resonant memory nodes with tone similarity above the resonance threshold.
         """
-        if not has_access(user_id=user_id, memory_id="resonance_search", required_tier=self.accent_adapter.tier):
+        if not has_access(
+            user_id=user_id,
+            memory_id="resonance_search",
+            required_tier=self.accent_adapter.tier,
+        ):
             raise PermissionError("Access denied for resonance search.")
 
-        log_access(user_id=user_id, action="resonance_search", memory_id="resonance_search", tier=self.accent_adapter.tier)
+        log_access(
+            user_id=user_id,
+            action="resonance_search",
+            memory_id="resonance_search",
+            tier=self.accent_adapter.tier,
+        )
 
         memory_chain = self.accent_adapter.get_user_memory_chain(user_id)
         resonant_nodes = []
 
         for record in memory_chain:
-            tone_similarity = self.emotion_mapper.tone_similarity_score(target_emotion, record)
+            tone_similarity = self.emotion_mapper.tone_similarity_score(
+                target_emotion, record
+            )
             if tone_similarity > 0.8:  # Threshold for resonance
                 resonant_nodes.append(record)
 
         return resonant_nodes
+
 
 # Additional methods and logic can be added as needed.
 bre

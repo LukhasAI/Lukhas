@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Fix Corrupted Text
@@ -12,11 +11,10 @@ This tool fixes all corrupted LUKHAS text variations in the codebase.
 For more information, visit: https://lukhas.ai
 """
 
-import os
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple, Dict
+from typing import Dict, List, Tuple
 
 # ΛTRACE: Corrupted text fix tool initialization
 # ΛORIGIN_AGENT: Claude
@@ -25,33 +23,31 @@ from typing import List, Tuple, Dict
 # All known corrupted patterns and their corrections
 CORRUPTED_PATTERNS = [
     # Main corrupted variations
-    (r'LUKHlukhasS', 'LUKHAS'),
-    (r'LUKHlukhas', 'LUKHAS'),
-    (r'lukhasI', 'AI'),
-    (r'ΛI', 'AI'),
-    (r'LUKHΛS', 'LUKHAS'),
-    (r'Lukhʌs', 'LUKHAS'),  # New pattern found
-
+    (r"LUKHlukhasS", "LUKHAS"),
+    (r"LUKHlukhas", "LUKHAS"),
+    (r"lukhasI", "AI"),
+    (r"ΛI", "AI"),
+    (r"LUKHΛS", "LUKHAS"),
+    (r"Lukhʌs", "LUKHAS"),  # New pattern found
     # Full phrase corruptions
-    (r'LUKHlukhasS lukhasI', 'LUKHAS AI'),
-    (r'LUKHlukhas AI', 'LUKHAS AI'),
-    (r'LUKHlukhasS Core', 'LUKHAS Core'),
-    (r'LUKHlukhasS Multi-Brain', 'LUKHAS Multi-Brain'),
-    (r'LUKHlukhasS Tutorial', 'LUKHAS Tutorial'),
-    (r'LUKHlukhasS Philosophy', 'LUKHAS Philosophy'),
-    (r'LUKHlukhasS Ecosystem', 'LUKHAS Ecosystem'),
-
+    (r"LUKHlukhasS lukhasI", "LUKHAS AI"),
+    (r"LUKHlukhas AI", "LUKHAS AI"),
+    (r"LUKHlukhasS Core", "LUKHAS Core"),
+    (r"LUKHlukhasS Multi-Brain", "LUKHAS Multi-Brain"),
+    (r"LUKHlukhasS Tutorial", "LUKHAS Tutorial"),
+    (r"LUKHlukhasS Philosophy", "LUKHAS Philosophy"),
+    (r"LUKHlukhasS Ecosystem", "LUKHAS Ecosystem"),
     # Specific system references
-    (r'LUKHlukhas AI SYSTEMS', 'LUKHAS AI SYSTEMS'),
-    (r'Λ AI System', 'LUKHAS AI System'),
-    (r'Λ core consciousness system', 'LUKHAS core consciousness system'),
-    (r'Λ cognitive architecture', 'LUKHAS cognitive architecture'),
-    (r'Lukhʌs Brain', 'LUKHAS Brain'),  # New pattern
-    (r'Lukhʌs Radar', 'LUKHAS Radar'),  # New pattern
-
+    (r"LUKHlukhas AI SYSTEMS", "LUKHAS AI SYSTEMS"),
+    (r"Λ AI System", "LUKHAS AI System"),
+    (r"Λ core consciousness system", "LUKHAS core consciousness system"),
+    (r"Λ cognitive architecture", "LUKHAS cognitive architecture"),
+    (r"Lukhʌs Brain", "LUKHAS Brain"),  # New pattern
+    (r"Lukhʌs Radar", "LUKHAS Radar"),  # New pattern
     # Standalone Lambda that should be LUKHAS
-    (r'(?<!\w)Λ(?!\w)', 'LUKHAS'),  # Lambda not part of another word
+    (r"(?<!\w)Λ(?!\w)", "LUKHAS"),  # Lambda not part of another word
 ]
+
 
 def fix_corrupted_text(content: str) -> Tuple[str, Dict[str, int]]:
     """Fix corrupted LUKHAS text and return fixed content with change counts."""
@@ -66,20 +62,22 @@ def fix_corrupted_text(content: str) -> Tuple[str, Dict[str, int]]:
 
     return content, change_counts
 
+
 def should_skip_file(filepath: Path) -> bool:
     """Check if file should be skipped."""
     skip_patterns = [
-        'fix_corrupted_lukhas.py',  # Skip this script
-        'fix_lukhas_headers.py',  # Skip other fix scripts
-        'fix_remaining_issues.py',
-        '.git/',
-        '__pycache__/',
-        '.pyc',
-        'LUKHAS_DEFINITION_AUDIT_REPORT.md',  # Skip reports that document the issues
+        "fix_corrupted_lukhas.py",  # Skip this script
+        "fix_lukhas_headers.py",  # Skip other fix scripts
+        "fix_remaining_issues.py",
+        ".git/",
+        "__pycache__/",
+        ".pyc",
+        "LUKHAS_DEFINITION_AUDIT_REPORT.md",  # Skip reports that document the issues
     ]
 
     filepath_str = str(filepath)
     return any(pattern in filepath_str for pattern in skip_patterns)
+
 
 def fix_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, Dict[str, int]]:
     """Fix corrupted text in a single file."""
@@ -87,7 +85,7 @@ def fix_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, Dict[str, int
         return False, {}
 
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
         print(f"Error reading {filepath}: {e}")
@@ -99,7 +97,7 @@ def fix_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, Dict[str, int
     if fixed_content != original_content:
         if not dry_run:
             try:
-                with open(filepath, 'w', encoding='utf-8') as f:
+                with open(filepath, "w", encoding="utf-8") as f:
                     f.write(fixed_content)
                 print(f"✅ Fixed: {filepath}")
                 for pattern, count in change_counts.items():
@@ -116,9 +114,21 @@ def fix_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, Dict[str, int
 
     return False, {}
 
+
 def find_all_text_files(directory: Path) -> List[Path]:
     """Find all text files that might contain LUKHAS references."""
-    text_extensions = ['.py', '.md', '.txt', '.yml', '.yaml', '.json', '.js', '.ts', '.jsx', '.tsx']
+    text_extensions = [
+        ".py",
+        ".md",
+        ".txt",
+        ".yml",
+        ".yaml",
+        ".json",
+        ".js",
+        ".ts",
+        ".jsx",
+        ".tsx",
+    ]
     files = []
 
     for ext in text_extensions:
@@ -126,9 +136,10 @@ def find_all_text_files(directory: Path) -> List[Path]:
 
     return files
 
+
 def main():
     """Main function to fix all corrupted LUKHAS text."""
-    if len(sys.argv) > 1 and sys.argv[1] == '--dry-run':
+    if len(sys.argv) > 1 and sys.argv[1] == "--dry-run":
         dry_run = True
         print("🔍 DRY RUN MODE - No files will be modified")
     else:
@@ -150,17 +161,20 @@ def main():
             for pattern, count in changes.items():
                 total_changes[pattern] = total_changes.get(pattern, 0) + count
 
-    print(f"\n📈 Summary:")
+    print("\n📈 Summary:")
     print(f"  - Files checked: {len(text_files)}")
     print(f"  - Files fixed: {fixed_count}")
 
     if total_changes:
-        print(f"\n📊 Total changes by pattern:")
-        for pattern, count in sorted(total_changes.items(), key=lambda x: x[1], reverse=True):
+        print("\n📊 Total changes by pattern:")
+        for pattern, count in sorted(
+            total_changes.items(), key=lambda x: x[1], reverse=True
+        ):
             print(f"  - '{pattern}': {count} occurrences")
 
     if dry_run and fixed_count > 0:
         print("\n💡 Run without --dry-run to apply changes")
+
 
 if __name__ == "__main__":
     main()

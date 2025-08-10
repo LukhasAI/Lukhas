@@ -21,8 +21,6 @@ DESCRIPTION:
 
 """
 
-import asyncio
-
 # TODO: Enable when hub dependencies are resolved
 # from dast.integration.dast_integration_hub import get_dast_integration_hub
 
@@ -89,6 +87,8 @@ class PartnerSDK:
 
 
 # Legacy function wrapper for backward compatibility
+
+
 def receive_partner_input(source, tags, metadata=None):
     """Legacy function wrapper - delegates to PartnerSDK class"""
     partner_sdk = PartnerSDK()

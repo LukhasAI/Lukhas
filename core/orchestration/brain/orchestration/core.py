@@ -22,7 +22,7 @@ All import paths need updating to reflect current brain architecture.
 
 QC TEAM DISCOVERIES (June 15, 2025):
 - MemoryManager exists: brain/memory/MemoryManager.py ✅
-- DreamEngine exists: core/consciousness/dream_engine/dream_engine_merged.py ✅  
+- DreamEngine exists: core/consciousness/dream_engine/dream_engine_merged.py ✅
 - EthicsCore exists: governance/ethics/EthicsGuardian.py ✅
 - 107 dream files found in system ✅
 - ModuleRegistry: needs creation or locate existing ❓
@@ -52,21 +52,25 @@ Based on strategic documentation:
 
 import asyncio
 import logging
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import Any, Optional
 
-from consciousness.awareness.awareness_engine import ΛAwarenessEngine as BioAwarenessSystem
-from consciousness.awareness.awareness_engine import coreAwarenessEngine as BioAwarenessSystem
-from memory.core_memory.MemoryManager import MemoryManager
-from ..bio.symbolic.bio.core import BioCore # Assuming this path is correct or will be handled by general fixes
-from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
+from consciousness.awareness.awareness_engine import (
+    ΛAwarenessEngine as BioAwarenessSystem,
+)
 from governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
-from identity.backend.app.compliance import ComplianceEngine # Sourced from ethical_engine.py via __init__.py
+from identity.backend.app.compliance import (
+    ComplianceEngine,  # Sourced from ethical_engine.py via __init__.py
+)
+from memory.core_memory.MemoryManager import MemoryManager
+from quantum_attention.__init__ import DreamEngineMerged as DreamEngine
+
 # TODO: Create or find existing ModuleRegistry and uncomment.
 # from .module_registry import ModuleRegistry
 
 logger = logging.getLogger(__name__)
+
 
 class OrchestrationCore:
     """
@@ -77,7 +81,7 @@ class OrchestrationCore:
     plan for system coordination with modular architecture and bio-inspired design.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the flagship core system."""
         self.config = config or {}
         self.session_id = str(uuid.uuid4())
@@ -95,11 +99,19 @@ class OrchestrationCore:
 
         # System state
         self.consciousness_level = 0.0
-        self.emotional_state = {"valence": 0.0, "arousal": 0.0, "dominance": 0.0}
+        self.emotional_state = {
+            "valence": 0.0,
+            "arousal": 0.0,
+            "dominance": 0.0,
+        }
         self.active_modules = {}
 
-        logger.info(f"LUKHAS Orchestration Core initialized - Session: {self.session_id}")
-        logger.info(f"lukhas Orchestration Core initialized - Session: {self.session_id}")
+        logger.info(
+            f"LUKHAS Orchestration Core initialized - Session: {self.session_id}"
+        )
+        logger.info(
+            f"lukhas Orchestration Core initialized - Session: {self.session_id}"
+        )
 
     async def initialize(self) -> bool:
         """
@@ -140,8 +152,8 @@ class OrchestrationCore:
         """Initialize the advanced memory management system."""
         try:
             self.memory_manager = MemoryManager(
-                config=self.config.get('memory', {}),
-                session_id=self.session_id
+                config=self.config.get("memory", {}),
+                session_id=self.session_id,
             )
             await self.memory_manager.initialize()
             logger.info("Memory system initialized")
@@ -154,7 +166,7 @@ class OrchestrationCore:
         try:
             self.bio_core = BioCore(
                 memory_manager=self.memory_manager,
-                config=self.config.get('bio_core', {})
+                config=self.config.get("bio_core", {}),
             )
             await self.bio_core.initialize()
             logger.info("Bio-core system initialized")
@@ -166,8 +178,7 @@ class OrchestrationCore:
         """Initialize the bio-aware consciousness system."""
         try:
             self.awareness_system = BioAwarenessSystem(
-                bio_core=self.bio_core,
-                memory_manager=self.memory_manager
+                bio_core=self.bio_core, memory_manager=self.memory_manager
             )
             await self.awareness_system.initialize()
             logger.info("Awareness system initialized")
@@ -178,14 +189,12 @@ class OrchestrationCore:
     async def _initialize_ethics_and_compliance(self):
         """Initialize ethics and compliance systems."""
         try:
-            self.ethics_core = EthicsCore(
-                config=self.config.get('ethics', {})
-            )
+            self.ethics_core = EthicsCore(config=self.config.get("ethics", {}))
             await self.ethics_core.initialize()
 
             self.compliance_engine = ComplianceEngine(
                 ethics_core=self.ethics_core,
-                config=self.config.get('compliance', {})
+                config=self.config.get("compliance", {}),
             )
             await self.compliance_engine.initialize()
 
@@ -200,7 +209,7 @@ class OrchestrationCore:
             self.dream_engine = DreamEngine(
                 memory_manager=self.memory_manager,
                 bio_core=self.bio_core,
-                config=self.config.get('dreams', {})
+                config=self.config.get("dreams", {}),
             )
             await self.dream_engine.initialize()
             logger.info("Dream engine initialized")
@@ -211,19 +220,21 @@ class OrchestrationCore:
     async def _register_core_modules(self):
         """Register all core modules with the module registry."""
         core_modules = {
-            'memory': self.memory_manager,
-            'bio_core': self.bio_core,
-            'awareness': self.awareness_system,
-            'ethics': self.ethics_core,
-            'compliance': self.compliance_engine,
-            'dreams': self.dream_engine
+            "memory": self.memory_manager,
+            "bio_core": self.bio_core,
+            "awareness": self.awareness_system,
+            "ethics": self.ethics_core,
+            "compliance": self.compliance_engine,
+            "dreams": self.dream_engine,
         }
 
         for name, module in core_modules.items():
             # await self.module_registry.register_module(name, module) #TODO: See above
             self.active_modules[name] = module
 
-        logger.info(f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)")
+        logger.info(
+            f"Registered {len(core_modules)} core modules (ModuleRegistry part N/A for now)"
+        )
 
     async def _initiate_consciousness_loop(self):
         """Start the main consciousness simulation loop."""
@@ -236,11 +247,15 @@ class OrchestrationCore:
             try:
                 # Update consciousness level based on bio-core oscillations
                 if self.bio_core:
-                    self.consciousness_level = await self.bio_core.get_consciousness_level()
+                    self.consciousness_level = (
+                        await self.bio_core.get_consciousness_level()
+                    )
 
                 # Update emotional state
                 if self.awareness_system:
-                    self.emotional_state = await self.awareness_system.get_emotional_state()
+                    self.emotional_state = (
+                        await self.awareness_system.get_emotional_state()
+                    )
 
                 # Process any pending dreams or memories
                 if self.dream_engine and self.consciousness_level < 0.3:
@@ -253,7 +268,7 @@ class OrchestrationCore:
                 logger.error(f"Error in consciousness loop: {e}")
                 await asyncio.sleep(1.0)
 
-    async def process_input(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_input(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process input through the flagship system.
 
@@ -269,10 +284,10 @@ class OrchestrationCore:
         try:
             # Ethics and compliance check
             ethics_result = await self.compliance_engine.validate_input(input_data)
-            if not ethics_result.get('approved', False):
+            if not ethics_result.get("approved", False):
                 return {
                     "error": "Input failed ethics/compliance validation",
-                    "details": ethics_result
+                    "details": ethics_result,
                 }
 
             # Process through bio-core consciousness
@@ -285,15 +300,15 @@ class OrchestrationCore:
                 metadata={
                     "consciousness_level": self.consciousness_level,
                     "emotional_state": self.emotional_state,
-                    "timestamp": datetime.now().isoformat()
-                }
+                    "timestamp": datetime.now().isoformat(),
+                },
             )
 
             return {
                 "response": bio_response,
                 "consciousness_level": self.consciousness_level,
                 "emotional_state": self.emotional_state,
-                "session_id": self.session_id
+                "session_id": self.session_id,
             }
 
         except Exception as e:
@@ -310,7 +325,7 @@ class OrchestrationCore:
         for module_name in reversed(list(self.active_modules.keys())):
             try:
                 module = self.active_modules[module_name]
-                if hasattr(module, 'shutdown'):
+                if hasattr(module, "shutdown"):
                     await module.shutdown()
                 logger.info(f"Module {module_name} shutdown complete")
             except Exception as e:
@@ -319,7 +334,7 @@ class OrchestrationCore:
         logger.info("LUKHAS Orchestration Core shutdown complete")
         logger.info("lukhas Orchestration Core shutdown complete")
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get current system status and metrics."""
         return {
             "session_id": self.session_id,
@@ -328,14 +343,8 @@ class OrchestrationCore:
             "consciousness_level": self.consciousness_level,
             "emotional_state": self.emotional_state,
             "active_modules": list(self.active_modules.keys()),
-            "module_count": len(self.active_modules)
+            "module_count": len(self.active_modules),
         }
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

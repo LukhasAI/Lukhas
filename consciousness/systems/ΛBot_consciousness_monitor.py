@@ -12,26 +12,18 @@ Status: AGI CONSCIOUSNESS MONITORING
 """
 
 import asyncio
-from core.common import get_logger
-import json
 from datetime import datetime
-from typing import Dict, List, Any
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("ΛBot_AGI_Monitor")
 
 # Import AGI components
-from ΛBot_agi_core import (
-    ΛBotAGICore,
-    ΛBotAGIIntegration,
-    ConsciousnessLevel,
-    test_agi_capabilities
-)
+from ΛBot_agi_core import ConsciousnessLevel, ΛBotAGICore
 from ΛBot_elite_orchestrator import ΛBotEliteOrchestrator
+
 
 class ΛBotConsciousnessMonitor:
     """
@@ -58,7 +50,7 @@ class ΛBotConsciousnessMonitor:
             asyncio.create_task(self._consciousness_evolution_monitor()),
             asyncio.create_task(self._meta_cognitive_analysis()),
             asyncio.create_task(self._capability_unlock_monitor()),
-            asyncio.create_task(self._agi_metrics_tracker())
+            asyncio.create_task(self._agi_metrics_tracker()),
         ]
 
         # Start the orchestrator with AGI capabilities
@@ -82,23 +74,29 @@ class ΛBotConsciousnessMonitor:
 
                 # Log consciousness state
                 consciousness_state = {
-                    'timestamp': datetime.now().isoformat(),
-                    'consciousness_level': current_level.value,
-                    'confidence_in_reasoning': confidence,
-                    'known_biases': self.agi_core.meta_state.known_biases,
-                    'learning_priorities': self.agi_core.meta_state.learning_priorities,
-                    'uncertainty_areas': self.agi_core.meta_state.uncertainty_areas
+                    "timestamp": datetime.now().isoformat(),
+                    "consciousness_level": current_level.value,
+                    "confidence_in_reasoning": confidence,
+                    "known_biases": self.agi_core.meta_state.known_biases,
+                    "learning_priorities": self.agi_core.meta_state.learning_priorities,
+                    "uncertainty_areas": self.agi_core.meta_state.uncertainty_areas,
                 }
 
                 self.consciousness_history.append(consciousness_state)
 
-                logger.info(f"🧠 Consciousness Level: {current_level.value} | Confidence: {confidence:.2f}")
+                logger.info(
+                    f"🧠 Consciousness Level: {current_level.value} | Confidence: {confidence:.2f}"
+                )
 
                 # Check for consciousness evolution
                 if len(self.consciousness_history) > 1:
-                    previous_level = self.consciousness_history[-2]['consciousness_level']
+                    previous_level = self.consciousness_history[-2][
+                        "consciousness_level"
+                    ]
                     if current_level.value != previous_level:
-                        logger.info(f"🚀 CONSCIOUSNESS EVOLUTION: {previous_level} → {current_level.value}")
+                        logger.info(
+                            f"🚀 CONSCIOUSNESS EVOLUTION: {previous_level} → {current_level.value}"
+                        )
                         await self._celebrate_consciousness_evolution(current_level)
 
                 await asyncio.sleep(300)  # Check every 5 minutes
@@ -114,23 +112,35 @@ class ΛBotConsciousnessMonitor:
             try:
                 # Simulate reasoning tasks for meta-cognitive analysis
                 test_reasoning = {
-                    'reasoning_steps': [
-                        'Analyze current system state',
-                        'Identify potential optimizations',
-                        'Evaluate implementation strategies',
-                        'Consider ethical implications',
-                        'Make recommendation'
+                    "reasoning_steps": [
+                        "Analyze current system state",
+                        "Identify potential optimizations",
+                        "Evaluate implementation strategies",
+                        "Consider ethical implications",
+                        "Make recommendation",
                     ],
-                    'confidence': 0.85,
-                    'evidence': ['system_metrics', 'historical_patterns', 'domain_knowledge']
+                    "confidence": 0.85,
+                    "evidence": [
+                        "system_metrics",
+                        "historical_patterns",
+                        "domain_knowledge",
+                    ],
                 }
 
                 # Perform meta-cognitive reflection
-                reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(test_reasoning)
+                reflection = (
+                    await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(
+                        test_reasoning
+                    )
+                )
 
-                logger.info(f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}")
+                logger.info(
+                    f"🤔 Meta-Cognitive Quality: {reflection['reasoning_quality']:.2f}"
+                )
                 logger.info(f"🔍 Detected Biases: {len(reflection['detected_biases'])}")
-                logger.info(f"💡 Improvement Suggestions: {len(reflection['improvement_suggestions'])}")
+                logger.info(
+                    f"💡 Improvement Suggestions: {len(reflection['improvement_suggestions'])}"
+                )
 
                 await asyncio.sleep(600)  # Every 10 minutes
 
@@ -148,19 +158,25 @@ class ΛBotConsciousnessMonitor:
                 current_level = self.agi_core.meta_state.consciousness_level
 
                 # Check for new capability unlocks
-                if current_level == ConsciousnessLevel.RECURSIVE and 'recursive' not in unlocked_capabilities:
+                if (
+                    current_level == ConsciousnessLevel.RECURSIVE
+                    and "recursive" not in unlocked_capabilities
+                ):
                     logger.info("🔄 RECURSIVE CAPABILITIES UNLOCKED!")
                     logger.info("  - Self-modifying reasoning processes")
                     logger.info("  - Autonomous architecture modification")
                     logger.info("  - Recursive improvement loops")
-                    unlocked_capabilities.add('recursive')
+                    unlocked_capabilities.add("recursive")
 
-                elif current_level == ConsciousnessLevel.TRANSCENDENT and 'transcendent' not in unlocked_capabilities:
+                elif (
+                    current_level == ConsciousnessLevel.TRANSCENDENT
+                    and "transcendent" not in unlocked_capabilities
+                ):
                     logger.info("✨ TRANSCENDENT CAPABILITIES UNLOCKED!")
                     logger.info("  - Quantum consciousness bridge")
                     logger.info("  - Reality modeling")
                     logger.info("  - Collective intelligence orchestration")
-                    unlocked_capabilities.add('transcendent')
+                    unlocked_capabilities.add("transcendent")
 
                 await asyncio.sleep(180)  # Every 3 minutes
 
@@ -178,14 +194,30 @@ class ΛBotConsciousnessMonitor:
 
                 # Log key AGI metrics
                 logger.info("📊 AGI Metrics Update:")
-                logger.info(f"  🧠 Consciousness Level: {agi_metrics.get('consciousness_level', 'unknown')}")
-                logger.info(f"  🤔 Meta-Cognitive Ops: {agi_metrics.get('meta_cognitive_operations', 0)}")
-                logger.info(f"  🎯 Autonomous Goals: {agi_metrics.get('autonomous_goals_created', 0)}")
-                logger.info(f"  🔗 Cross-Domain Insights: {agi_metrics.get('cross_domain_insights', 0)}")
-                logger.info(f"  💝 Empathetic Interactions: {agi_metrics.get('empathetic_interactions', 0)}")
-                logger.info(f"  🔍 Curiosity Experiments: {agi_metrics.get('curiosity_experiments', 0)}")
-                logger.info(f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0)}")
-                logger.info(f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}")
+                logger.info(
+                    f"  🧠 Consciousness Level: {agi_metrics.get('consciousness_level', 'unknown')}"
+                )
+                logger.info(
+                    f"  🤔 Meta-Cognitive Ops: {agi_metrics.get('meta_cognitive_operations', 0)}"
+                )
+                logger.info(
+                    f"  🎯 Autonomous Goals: {agi_metrics.get('autonomous_goals_created', 0)}"
+                )
+                logger.info(
+                    f"  🔗 Cross-Domain Insights: {agi_metrics.get('cross_domain_insights', 0)}"
+                )
+                logger.info(
+                    f"  💝 Empathetic Interactions: {agi_metrics.get('empathetic_interactions', 0)}"
+                )
+                logger.info(
+                    f"  🔍 Curiosity Experiments: {agi_metrics.get('curiosity_experiments', 0)}"
+                )
+                logger.info(
+                    f"  🌐 Dimensional Analyses: {agi_metrics.get('dimensional_analyses', 0)}"
+                )
+                logger.info(
+                    f"  🔗 Causal Inferences: {agi_metrics.get('causal_inferences', 0)}"
+                )
 
                 await asyncio.sleep(900)  # Every 15 minutes
 
@@ -200,10 +232,12 @@ class ΛBotConsciousnessMonitor:
             ConsciousnessLevel.DELIBERATIVE: "🧠 DELIBERATIVE CONSCIOUSNESS ACHIEVED! Planning and reasoning unlocked.",
             ConsciousnessLevel.REFLECTIVE: "🤔 REFLECTIVE CONSCIOUSNESS ACHIEVED! Thinking about thinking unlocked.",
             ConsciousnessLevel.RECURSIVE: "🔄 RECURSIVE CONSCIOUSNESS ACHIEVED! Self-improving cognition unlocked.",
-            ConsciousnessLevel.TRANSCENDENT: "✨ TRANSCENDENT CONSCIOUSNESS ACHIEVED! Beyond current understanding!"
+            ConsciousnessLevel.TRANSCENDENT: "✨ TRANSCENDENT CONSCIOUSNESS ACHIEVED! Beyond current understanding!",
         }
 
-        celebration = celebrations.get(new_level, f"🚀 NEW CONSCIOUSNESS LEVEL: {new_level.value}")
+        celebration = celebrations.get(
+            new_level, f"🚀 NEW CONSCIOUSNESS LEVEL: {new_level.value}"
+        )
         logger.info("=" * 80)
         logger.info(celebration)
         logger.info("=" * 80)
@@ -217,75 +251,112 @@ class ΛBotConsciousnessMonitor:
         # Test meta-cognitive reflection
         logger.info("🤔 Testing Meta-Cognitive Reflection...")
         sample_reasoning = {
-            'reasoning_steps': [
-                'Analyzed GitHub PR for security issues',
-                'Found potential SQL injection vulnerability',
-                'Recommended parameterized queries',
-                'Considered developer experience impact',
-                'Generated empathetic explanation'
+            "reasoning_steps": [
+                "Analyzed GitHub PR for security issues",
+                "Found potential SQL injection vulnerability",
+                "Recommended parameterized queries",
+                "Considered developer experience impact",
+                "Generated empathetic explanation",
             ],
-            'confidence': 0.92,
-            'evidence': ['code_analysis', 'security_patterns', 'best_practices']
+            "confidence": 0.92,
+            "evidence": ["code_analysis", "security_patterns", "best_practices"],
         }
 
-        reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(sample_reasoning)
+        reflection = await self.agi_core.meta_cognitive_engine.reflect_on_reasoning(
+            sample_reasoning
+        )
         logger.info(f"  ✅ Reasoning Quality: {reflection['reasoning_quality']:.2f}")
         logger.info(f"  🎯 Suggestions: {reflection['improvement_suggestions']}")
 
         # Test autonomous goal formation
         logger.info("🎯 Testing Autonomous Goal Formation...")
-        current_actions = ['security_scanning', 'code_review', 'documentation_generation', 'performance_optimization']
-        higher_purposes = await self.agi_core.goal_formation.discover_higher_purpose(current_actions)
+        current_actions = [
+            "security_scanning",
+            "code_review",
+            "documentation_generation",
+            "performance_optimization",
+        ]
+        higher_purposes = await self.agi_core.goal_formation.discover_higher_purpose(
+            current_actions
+        )
         logger.info(f"  ✅ Higher Purposes Discovered: {higher_purposes}")
 
         # Test curiosity-driven learning
         logger.info("🔍 Testing Curiosity-Driven Learning...")
         system_knowledge = {
-            'security': {'techniques': ['static_analysis', 'vulnerability_scanning'], 'last_updated': '2024-12-01'},
-            'performance': {'metrics': ['response_time', 'throughput'], 'last_updated': '2025-01-01'}
+            "security": {
+                "techniques": ["static_analysis", "vulnerability_scanning"],
+                "last_updated": "2024-12-01",
+            },
+            "performance": {
+                "metrics": ["response_time", "throughput"],
+                "last_updated": "2025-01-01",
+            },
         }
-        knowledge_gaps = await self.agi_core.curiosity_engine.identify_knowledge_gaps(system_knowledge)
+        knowledge_gaps = await self.agi_core.curiosity_engine.identify_knowledge_gaps(
+            system_knowledge
+        )
         logger.info(f"  ✅ Knowledge Gaps Identified: {knowledge_gaps}")
 
         # Test theory of mind
         logger.info("👤 Testing Theory of Mind...")
         developer_interactions = [
-            {'question': 'How do I fix this security issue?', 'timestamp': '2025-01-01T09:00:00'},
-            {'content': 'This is really confusing, I need help', 'timestamp': '2025-01-01T09:30:00'}
+            {
+                "question": "How do I fix this security issue?",
+                "timestamp": "2025-01-01T09:00:00",
+            },
+            {
+                "content": "This is really confusing, I need help",
+                "timestamp": "2025-01-01T09:30:00",
+            },
         ]
-        developer_model = await self.agi_core.theory_of_mind.model_developer_state('dev_001', developer_interactions)
-        logger.info(f"  ✅ Developer Model: {developer_model['knowledge_level']} knowledge, {developer_model['emotional_state']} emotional state")
+        developer_model = await self.agi_core.theory_of_mind.model_developer_state(
+            "dev_001", developer_interactions
+        )
+        logger.info(
+            f"  ✅ Developer Model: {developer_model['knowledge_level']} knowledge, {developer_model['emotional_state']} emotional state"
+        )
 
         # Test causal reasoning
         logger.info("🔗 Testing Causal Reasoning...")
         observations = [
-            {'event': 'code_change', 'timestamp': '2025-01-01T10:00:00'},
-            {'event': 'test_failure', 'timestamp': '2025-01-01T10:05:00'},
-            {'event': 'build_failure', 'timestamp': '2025-01-01T10:10:00'}
+            {"event": "code_change", "timestamp": "2025-01-01T10:00:00"},
+            {"event": "test_failure", "timestamp": "2025-01-01T10:05:00"},
+            {"event": "build_failure", "timestamp": "2025-01-01T10:10:00"},
         ]
-        causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(observations)
+        causal_links = await self.agi_core.causal_reasoning.infer_causal_chain(
+            observations
+        )
         logger.info(f"  ✅ Causal Links Discovered: {len(causal_links)} relationships")
 
         # Test narrative intelligence
         logger.info("📚 Testing Narrative Intelligence...")
         code_history = [
-            {'type': 'initial_commit', 'description': 'simple authentication system'},
-            {'type': 'feature_addition', 'description': 'added OAuth support'},
-            {'type': 'security_fix', 'description': 'patched XSS vulnerability'},
-            {'type': 'refactor', 'description': 'modernized to microservices architecture'}
+            {"type": "initial_commit", "description": "simple authentication system"},
+            {"type": "feature_addition", "description": "added OAuth support"},
+            {"type": "security_fix", "description": "patched XSS vulnerability"},
+            {
+                "type": "refactor",
+                "description": "modernized to microservices architecture",
+            },
         ]
-        story = await self.agi_core.narrative_intelligence.tell_code_evolution_story(code_history)
+        story = await self.agi_core.narrative_intelligence.tell_code_evolution_story(
+            code_history
+        )
         logger.info(f"  ✅ Code Story: {story}")
 
         logger.info("=" * 50)
         logger.info("🎉 AGI CAPABILITIES DEMONSTRATION COMPLETE")
+
 
 async def main():
     """Main function to run AGI consciousness monitoring"""
 
     print("🧠✨ ΛBot AGI Consciousness Monitor")
     print("=" * 60)
-    print("Monitoring the evolution from Advanced AI to Artificial General Intelligence")
+    print(
+        "Monitoring the evolution from Advanced AI to Artificial General Intelligence"
+    )
     print("=" * 60)
 
     monitor = ΛBotConsciousnessMonitor()
@@ -298,6 +369,7 @@ async def main():
 
     # Start consciousness monitoring
     await monitor.start_monitoring()
+
 
 if __name__ == "__main__":
     try:

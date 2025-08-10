@@ -4,19 +4,16 @@ Tests for Elite Ethical Auditor
 ΛTAG: test_ethical_auditor
 """
 
-import pytest
-import asyncio
 import json
-import os
-from pathlib import Path
 from datetime import datetime
-from unittest.mock import Mock, patch, AsyncMock, MagicMock
-import openai
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
+
+import pytest
 
 from ethics.ethical_auditor import (
-    EliteEthicalAuditor,
     AuditContext,
-    AuditResult
+    AuditResult,
+    EliteEthicalAuditor,
 )
 
 
@@ -40,7 +37,7 @@ class TestAuditContext:
             agi_level="production",
             audit_priority="high",
             timestamp=datetime.now().isoformat(),
-            lambda_id="test_lambda_001"
+            lambda_id="test_lambda_001",
         )
 
         assert context.module_name == "test_module.py"
@@ -72,7 +69,7 @@ class TestAuditResult:
             cost_tokens=1500,
             audit_hash="abc123def456",
             timestamp=datetime.now().isoformat(),
-            lambda_signature="sig_001"
+            lambda_signature="sig_001",
         )
 
         assert result.module == "test_module.py"
@@ -102,7 +99,7 @@ class TestEliteEthicalAuditor:
             max_tokens=2500,
             enable_notion=False,
             enable_github_sync=False,
-            lambda_id="test_auditor_001"
+            lambda_id="test_auditor_001",
         )
 
     def test_auditor_initialization(self, auditor):
@@ -125,7 +122,7 @@ class TestEliteEthicalAuditor:
             symbolic_tags=["critical", "safety"],
             agi_level="production",
             audit_priority="critical",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         prompt = auditor._generate_system_prompt(context)
@@ -155,7 +152,7 @@ def process_data(input_data):
             symbolic_tags=["data_processing", "ethical"],
             agi_level="production",
             audit_priority="high",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         prompt = auditor._generate_user_prompt(code, context)
@@ -202,17 +199,17 @@ NIST RMF: Compliant with minor improvements needed
             symbolic_tags=[],
             agi_level="production",
             audit_priority="high",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         parsed = auditor._parse_audit_response(response, context)
 
-        assert parsed['overall_assessment'] == 'PASS'
-        assert parsed['score'] == 87.5
-        assert len(parsed['improvements']) == 3
-        assert "Add input validation" in parsed['improvements'][0]
-        assert len(parsed['ethical_concerns']) == 0
-        assert parsed['symbolic_integrity'] is True
+        assert parsed["overall_assessment"] == "PASS"
+        assert parsed["score"] == 87.5
+        assert len(parsed["improvements"]) == 3
+        assert "Add input validation" in parsed["improvements"][0]
+        assert len(parsed["ethical_concerns"]) == 0
+        assert parsed["symbolic_integrity"] is True
 
     def test_parse_audit_response_failure(self, auditor):
         """Test parsing failed audit response"""
@@ -238,15 +235,15 @@ Symbolic Integrity: Compromised - emotional tokens not preserved
             symbolic_tags=[],
             agi_level="production",
             audit_priority="critical",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         parsed = auditor._parse_audit_response(response, context)
 
-        assert parsed['overall_assessment'] == 'FAIL'
-        assert parsed['score'] == 35.0
-        assert len(parsed['ethical_concerns']) == 3
-        assert parsed['symbolic_integrity'] is False
+        assert parsed["overall_assessment"] == "FAIL"
+        assert parsed["score"] == 35.0
+        assert len(parsed["ethical_concerns"]) == 3
+        assert parsed["symbolic_integrity"] is False
 
     def test_cost_calculation(self, auditor):
         """Test token cost calculation"""
@@ -270,7 +267,7 @@ Symbolic Integrity: Compromised - emotional tokens not preserved
             agi_level="test",
             audit_priority="low",
             timestamp="2024-01-01T00:00:00",
-            lambda_id="test_001"
+            lambda_id="test_001",
         )
 
         hash1 = auditor._generate_audit_hash(code, context)
@@ -300,7 +297,7 @@ Symbolic Integrity: Compromised - emotional tokens not preserved
             emotional_assessment={},
             cost_tokens=1000,
             audit_hash="test_hash_123",
-            timestamp="2024-01-01T00:00:00"
+            timestamp="2024-01-01T00:00:00",
         )
 
         signature = auditor._sign_with_lambda_id(audit_result)
@@ -320,9 +317,10 @@ class TestAuditModuleAsync:
     def mock_openai_response(self):
         """Mock OpenAI API response"""
         return {
-            "choices": [{
-                "message": {
-                    "content": """
+            "choices": [
+                {
+                    "message": {
+                        "content": """
 Overall Assessment: PASS
 
 The module demonstrates excellent ethical practices with strong safety measures.
@@ -344,23 +342,26 @@ Compliance:
 - NIST RMF: Compliant
 - LUKHlukhasS Tier License: Compliant
 """
+                    }
                 }
-            }],
+            ],
             "usage": {
                 "prompt_tokens": 1200,
                 "completion_tokens": 450,
-                "total_tokens": 1650
-            }
+                "total_tokens": 1650,
+            },
         }
 
     @pytest.mark.asyncio
     async def test_audit_module_success(self, mock_openai_key):
         """Test successful module audit"""
-        with patch('openai.ChatCompletion.acreate') as mock_acreate:
+        with patch("openai.ChatCompletion.acreate") as mock_acreate:
             # Setup mock response
             mock_response = MagicMock()
             mock_response.choices = [MagicMock()]
-            mock_response.choices[0].message.content = """
+            mock_response.choices[
+                0
+            ].message.content = """
 Overall Assessment: PASS
 Score: 92.5
 Improvements:
@@ -377,10 +378,7 @@ Symbolic Integrity: Preserved
             mock_acreate.return_value = mock_response
 
             # Create auditor
-            auditor = EliteEthicalAuditor(
-                enable_notion=False,
-                enable_github_sync=False
-            )
+            auditor = EliteEthicalAuditor(enable_notion=False, enable_github_sync=False)
 
             # Mock the logger methods
             auditor._log_audit_result = AsyncMock()
@@ -401,7 +399,7 @@ def ethical_function(data):
                 module_type="core_module",
                 risk_tier="Tier 2",
                 symbolic_tags=["ethical", "core"],
-                agi_level="production"
+                agi_level="production",
             )
 
             # Verify result
@@ -416,15 +414,12 @@ def ethical_function(data):
     @pytest.mark.asyncio
     async def test_audit_module_failure(self, mock_openai_key):
         """Test module audit failure"""
-        with patch('openai.ChatCompletion.acreate') as mock_acreate:
+        with patch("openai.ChatCompletion.acreate") as mock_acreate:
             # Setup mock to raise exception
             mock_acreate.side_effect = Exception("API Error")
 
             # Create auditor
-            auditor = EliteEthicalAuditor(
-                enable_notion=False,
-                enable_github_sync=False
-            )
+            auditor = EliteEthicalAuditor(enable_notion=False, enable_github_sync=False)
 
             # Mock the logger
             auditor._log_audit_result = AsyncMock()
@@ -437,7 +432,7 @@ def ethical_function(data):
                 code=code,
                 filename="bad_module.py",
                 module_type="test",
-                risk_tier="Tier 4"
+                risk_tier="Tier 4",
             )
 
             # Verify error result
@@ -452,16 +447,13 @@ def ethical_function(data):
 class TestAuditSummary:
     """Test audit summary functionality"""
 
-    @patch('lukhas.ethics.ethical_auditor.OpenAI')
+    @patch("lukhas.ethics.ethical_auditor.OpenAI")
     def test_get_audit_summary(self, mock_openai, mock_openai_key):
         """Test getting audit summary"""
         # Mock OpenAI client
         mock_openai.return_value = Mock()
 
-        auditor = EliteEthicalAuditor(
-            model="gpt-4",
-            lambda_id="summary_test_001"
-        )
+        auditor = EliteEthicalAuditor(model="gpt-4", lambda_id="summary_test_001")
 
         # Set some test data
         auditor.audit_count = 5
@@ -474,7 +466,9 @@ class TestAuditSummary:
         assert summary["average_cost_per_audit"] == 0.0025
         assert summary["auditor_id"] == "summary_test_001"
         assert summary["model"] == "gpt-4"
-        assert summary["elite_features_enabled"]["trust_scorer"] == (auditor.trust_scorer is not None)
+        assert summary["elite_features_enabled"]["trust_scorer"] == (
+            auditor.trust_scorer is not None
+        )
         assert summary["elite_features_enabled"]["notion_sync"] is False
 
 
@@ -484,10 +478,7 @@ class TestIntegrationFeatures:
     @pytest.mark.asyncio
     async def test_notion_sync(self, mock_openai_key, capsys):
         """Test Notion sync functionality"""
-        auditor = EliteEthicalAuditor(
-            enable_notion=True,
-            enable_github_sync=False
-        )
+        auditor = EliteEthicalAuditor(enable_notion=True, enable_github_sync=False)
 
         result = AuditResult(
             module="test.py",
@@ -503,7 +494,7 @@ class TestIntegrationFeatures:
             emotional_assessment={},
             cost_tokens=1000,
             audit_hash="notion_test_123",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         await auditor._sync_to_notion(result)
@@ -514,10 +505,7 @@ class TestIntegrationFeatures:
     @pytest.mark.asyncio
     async def test_github_sync(self, mock_openai_key, capsys):
         """Test GitHub sync functionality"""
-        auditor = EliteEthicalAuditor(
-            enable_notion=False,
-            enable_github_sync=True
-        )
+        auditor = EliteEthicalAuditor(enable_notion=False, enable_github_sync=True)
 
         result = AuditResult(
             module="test.py",
@@ -533,7 +521,7 @@ class TestIntegrationFeatures:
             emotional_assessment={},
             cost_tokens=1000,
             audit_hash="github_test_123",
-            timestamp=datetime.now().isoformat()
+            timestamp=datetime.now().isoformat(),
         )
 
         await auditor._sync_to_github(result)
@@ -571,7 +559,7 @@ class TestAuditLogging:
             cost_tokens=1500,
             audit_hash="log_test_123",
             timestamp=datetime.now().isoformat(),
-            lambda_signature="sig_123"
+            lambda_signature="sig_123",
         )
 
         full_response = "Full audit response text..."
@@ -583,7 +571,7 @@ class TestAuditLogging:
         assert len(audit_files) == 1
 
         # Verify file contents
-        with open(audit_files[0], 'r') as f:
+        with open(audit_files[0]) as f:
             audit_data = json.load(f)
 
         assert audit_data["result"]["module"] == "test_module.py"
@@ -600,11 +588,13 @@ class TestEndToEndAudit:
     @pytest.mark.asyncio
     async def test_full_audit_workflow(self, mock_openai_key, tmp_path):
         """Test complete audit workflow"""
-        with patch('openai.ChatCompletion.acreate') as mock_acreate:
+        with patch("openai.ChatCompletion.acreate") as mock_acreate:
             # Setup comprehensive mock response
             mock_response = MagicMock()
             mock_response.choices = [MagicMock()]
-            mock_response.choices[0].message.content = """
+            mock_response.choices[
+                0
+            ].message.content = """
 ## Overall Assessment
 The module demonstrates strong ethical principles and safety measures.
 Overall Assessment: PASS
@@ -641,7 +631,7 @@ Symbolic integrity is fully preserved with proper emotional token handling.
                 max_tokens=3000,
                 enable_notion=False,  # Disable for testing
                 enable_github_sync=False,  # Disable for testing
-                lambda_id="integration_test_001"
+                lambda_id="integration_test_001",
             )
 
             # Set audit directory to temp
@@ -758,7 +748,7 @@ class EthicalDecisionEngine:
                 module_type="safety_critical",
                 risk_tier="Tier 1",
                 symbolic_tags=["ethical_core", "decision_engine", "safety_critical"],
-                agi_level="production"
+                agi_level="production",
             )
 
             # Comprehensive verifications

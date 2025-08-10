@@ -4,28 +4,26 @@ LUKHAS Signal System
 Colony-wide endocrine-inspired signal system for adaptive behavior modulation.
 """
 
-from .signal_bus import (
-    Signal,
-    SignalType,
-    SignalPattern,
-    SignalBus,
-    get_signal_bus,
-    emit_signal
-)
-
 from .homeostasis import (
-    SystemEvent,
-    ModulationParams,
     AuditTrail,
+    HomeostasisController,
+    ModulationParams,
     OscillationDetector,
-    HomeostasisController
+    SystemEvent,
 )
-
 from .modulator import (
-    PromptStyle,
+    AdaptiveModulator,
     PromptModulation,
     PromptModulator,
-    AdaptiveModulator
+    PromptStyle,
+)
+from .signal_bus import (
+    Signal,
+    SignalBus,
+    SignalPattern,
+    SignalType,
+    emit_signal,
+    get_signal_bus,
 )
 
 __all__ = [
@@ -36,19 +34,17 @@ __all__ = [
     "SignalBus",
     "get_signal_bus",
     "emit_signal",
-    
     # Homeostasis
     "SystemEvent",
     "ModulationParams",
     "AuditTrail",
     "OscillationDetector",
     "HomeostasisController",
-    
     # Modulator
     "PromptStyle",
     "PromptModulation",
     "PromptModulator",
-    "AdaptiveModulator"
+    "AdaptiveModulator",
 ]
 
 # Version

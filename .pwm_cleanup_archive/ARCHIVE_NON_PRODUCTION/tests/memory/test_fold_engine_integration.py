@@ -8,11 +8,10 @@ Version: 1.1
 """
 
 # Standard Library Imports
-import sys
 import os
-import unittest # Though not fully utilized as TestCase, it's imported
+import sys
 from datetime import datetime, timedelta, timezone
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Third-Party Imports
 import structlog
@@ -50,59 +49,88 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Import components or create mock ones
 fold_engine_available = False
 enhanced_manager_available = False
-memory_manager_available = False # Added to track basic memory manager
+memory_manager_available = False  # Added to track basic memory manager
+
 
 # Define common MemoryType and MemoryPriority enums/classes once
 # These might typically come from a central definitions file e.g. from ..core.enums import MemoryType
 class MemoryTypeGlobal:
     EPISODIC, SEMANTIC, PROCEDURAL, SENSORY = range(4)
 
+
 class MemoryPriorityGlobal:
     LOW, MEDIUM, HIGH, CRITICAL = range(4)
+
 
 try:
     # Attempt to import actual components
     from .fold_engine import (
-        MemoryFoldEngine,
         MemoryFold,
+        MemoryFoldEngine,
         SymbolicPatternEngine,
-        MemoryType as FoldEngineMemoryType, # Alias to avoid conflict if necessary
-        MemoryPriority as FoldEngineMemoryPriority
     )
+    from .fold_engine import MemoryPriority as FoldEngineMemoryPriority
+    from .fold_engine import (
+        MemoryType as FoldEngineMemoryType,  # Alias to avoid conflict if necessary
+    )
+
     MemoryType = FoldEngineMemoryType
     MemoryPriority = FoldEngineMemoryPriority
     fold_engine_available = True
     log.info("Fold engine components imported successfully.")
 except ImportError as e:
-    log.error("Could not import fold engine components. Using global fallback enums.", error=str(e), path_searched=sys.path)
+    log.error(
+        "Could not import fold engine components. Using global fallback enums.",
+        error=str(e),
+        path_searched=sys.path,
+    )
     MemoryType = MemoryTypeGlobal
     MemoryPriority = MemoryPriorityGlobal
+
     # Define mock MemoryFoldEngine, MemoryFold, SymbolicPatternEngine if needed for tests to run partially
-    class MemoryFoldEngine: pass
-    class MemoryFold: pass
-    class SymbolicPatternEngine: pass
+    class MemoryFoldEngine:
+        pass
+
+    class MemoryFold:
+        pass
+
+    class SymbolicPatternEngine:
+        pass
 
 
 try:
     from .AdvancedMemoryManager import AdvancedMemoryManager
+
     enhanced_manager_available = True
     log.info("Enhanced memory manager (AdvancedMemoryManager) imported successfully.")
 except ImportError as e1:
-    log.warning("Could not import AdvancedMemoryManager.", error=str(e1), path_searched=sys.path)
+    log.warning(
+        "Could not import AdvancedMemoryManager.", error=str(e1), path_searched=sys.path
+    )
     try:
         from .memory_manager import MemoryManager
+
         memory_manager_available = True
         log.info("Basic memory manager (MemoryManager) imported successfully.")
     except ImportError as e2:
-        log.error("Could not import basic MemoryManager.", error=str(e2), path_searched=sys.path)
+        log.error(
+            "Could not import basic MemoryManager.",
+            error=str(e2),
+            path_searched=sys.path,
+        )
         # Define MockMemoryManager if basic one also fails and is needed as a base
-        if not memory_manager_available: # ensure MemoryManager symbol exists if used as fallback
-            class MemoryManager: pass
+        if (
+            not memory_manager_available
+        ):  # ensure MemoryManager symbol exists if used as fallback
+
+            class MemoryManager:
+                pass
 
 
 # Mock classes for testing when imports fail or for specific test conditions
 class MockMemoryManager:
     """A mock memory manager for isolated testing."""
+
     def __init__(self):
         self.memories = {}
         log.debug("MockMemoryManager initialized.")
@@ -110,11 +138,15 @@ class MockMemoryManager:
     # @lukhas_tier_required(1) # Conceptual
     def store_interaction(self, *args, **kwargs):
         """Mock method for storing interactions."""
-        log.debug("MockMemoryManager: store_interaction called", args=args, kwargs=kwargs)
+        log.debug(
+            "MockMemoryManager: store_interaction called", args=args, kwargs=kwargs
+        )
         pass
+
 
 class MockEmotionalOscillator:
     """A mock emotional oscillator for testing purposes."""
+
     def __init__(self):
         log.debug("MockEmotionalOscillator initialized.")
 
@@ -125,15 +157,22 @@ class MockEmotionalOscillator:
         log.debug("MockEmotionalOscillator: get_current_state returning", state=state)
         return state
 
+
 class MockQuantumAttention:
     """A mock quantum attention mechanism."""
+
     def __init__(self):
         log.debug("MockQuantumAttention initialized.")
 
     # @lukhas_tier_required(3) # Conceptual
     def focus_emotional_content(self, memory: Any, emotion: str, vectors: Any) -> Any:
         """Mocks focusing emotional content on a memory."""
-        log.debug("MockQuantumAttention: focus_emotional_content called", memory=memory, emotion=emotion, vectors=vectors)
+        log.debug(
+            "MockQuantumAttention: focus_emotional_content called",
+            memory=memory,
+            emotion=emotion,
+            vectors=vectors,
+        )
         return memory
 
 
@@ -162,22 +201,28 @@ class FoldEngineIntegrationTest:
                 self.fold_engine = MemoryFoldEngine()
                 log.info("MemoryFoldEngine instantiated.")
             else:
-                log.error("MemoryFoldEngine not available, setup cannot proceed with real engine.")
-                return False # Critical dependency missing
+                log.error(
+                    "MemoryFoldEngine not available, setup cannot proceed with real engine."
+                )
+                return False  # Critical dependency missing
 
             if enhanced_manager_available:
-                base_mngr_for_adv = MemoryManager() if memory_manager_available else MockMemoryManager()
+                base_mngr_for_adv = (
+                    MemoryManager() if memory_manager_available else MockMemoryManager()
+                )
                 emo_osc_for_adv = MockEmotionalOscillator()
                 quant_att_for_adv = MockQuantumAttention()
 
                 self.enhanced_manager = AdvancedMemoryManager(
                     base_memory_manager=base_mngr_for_adv,
                     emotional_oscillator=emo_osc_for_adv,
-                    quantum_attention=quant_att_for_adv
+                    quantum_attention=quant_att_for_adv,
                 )
                 log.info("AdvancedMemoryManager instantiated with dependencies.")
             else:
-                log.warning("AdvancedMemoryManager not available. Enhanced manager integration tests may be skipped or fail.")
+                log.warning(
+                    "AdvancedMemoryManager not available. Enhanced manager integration tests may be skipped or fail."
+                )
                 # Fallback for self.enhanced_manager if tests might still try to use it loosely
                 self.enhanced_manager = MockMemoryManager()
 
@@ -196,8 +241,11 @@ class FoldEngineIntegrationTest:
 
         if not self.fold_engine or not fold_engine_available:
             log.error(f"{test_name} SKIPPED: FoldEngine not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine not available"}
-            return True # Skipped tests don't cause overall failure
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine not available",
+            }
+            return True  # Skipped tests don't cause overall failure
 
         try:
             fold1 = self.fold_engine.add_fold(
@@ -234,16 +282,28 @@ class FoldEngineIntegrationTest:
             user_folds = self.fold_engine.get_folds_by_owner("user123")
             assert len(user_folds) >= 2, "Owner filter failed"
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "All basic operations successful"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "All basic operations successful",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False) # exc_info=False for cleaner assert logs
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )  # exc_info=False for cleaner assert logs
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
@@ -255,31 +315,64 @@ class FoldEngineIntegrationTest:
 
         if not self.fold_engine or not fold_engine_available:
             log.error(f"{test_name} SKIPPED: FoldEngine not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine not available"}
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine not available",
+            }
             return True
 
         try:
-            self.fold_engine.add_fold(key="memory_a", content={"topic": "ml"}, memory_type=MemoryType.SEMANTIC, owner_id="user456")
-            self.fold_engine.add_fold(key="memory_b", content={"topic": "dl"}, memory_type=MemoryType.SEMANTIC, owner_id="user456")
+            self.fold_engine.add_fold(
+                key="memory_a",
+                content={"topic": "ml"},
+                memory_type=MemoryType.SEMANTIC,
+                owner_id="user456",
+            )
+            self.fold_engine.add_fold(
+                key="memory_b",
+                content={"topic": "dl"},
+                memory_type=MemoryType.SEMANTIC,
+                owner_id="user456",
+            )
 
-            assert self.fold_engine.associate_folds("memory_a", "memory_b"), "Failed to create association"
-            assert "memory_b" in self.fold_engine.get_associated_folds("memory_a"), "Association A->B not found"
-            assert "memory_a" in self.fold_engine.get_associated_folds("memory_b"), "Association B->A not found"
+            assert self.fold_engine.associate_folds(
+                "memory_a", "memory_b"
+            ), "Failed to create association"
+            assert "memory_b" in self.fold_engine.get_associated_folds(
+                "memory_a"
+            ), "Association A->B not found"
+            assert "memory_a" in self.fold_engine.get_associated_folds(
+                "memory_b"
+            ), "Association B->A not found"
             assert self.fold_engine.tag_fold("memory_a", "AI"), "Failed to tag memory_a"
             assert self.fold_engine.tag_fold("memory_b", "AI"), "Failed to tag memory_b"
             ai_folds = self.fold_engine.get_folds_by_tag("AI")
-            assert "memory_a" in ai_folds and "memory_b" in ai_folds, "Tag-based retrieval failed"
+            assert (
+                "memory_a" in ai_folds and "memory_b" in ai_folds
+            ), "Tag-based retrieval failed"
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "Associations and tags working"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "Associations and tags working",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False)
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
@@ -289,14 +382,30 @@ class FoldEngineIntegrationTest:
         test_name = "enhanced_manager_integration"
         log.info(f"Running test: {test_name}")
 
-        if not enhanced_manager_available or not self.enhanced_manager or isinstance(self.enhanced_manager, MockMemoryManager):
-            log.warning(f"{test_name} SKIPPED: Full AdvancedMemoryManager not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "AdvancedMemoryManager not available/configured"}
+        if (
+            not enhanced_manager_available
+            or not self.enhanced_manager
+            or isinstance(self.enhanced_manager, MockMemoryManager)
+        ):
+            log.warning(
+                f"{test_name} SKIPPED: Full AdvancedMemoryManager not available."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "AdvancedMemoryManager not available/configured",
+            }
             return True
 
-        if not self.fold_engine or not fold_engine_available: # Prerequisite for some enhanced manager actions
-            log.error(f"{test_name} SKIPPED: FoldEngine not available (dependency for Enhanced Manager).")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine (Enhanced Manager dependency) not available"}
+        if (
+            not self.fold_engine or not fold_engine_available
+        ):  # Prerequisite for some enhanced manager actions
+            log.error(
+                f"{test_name} SKIPPED: FoldEngine not available (dependency for Enhanced Manager)."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine (Enhanced Manager dependency) not available",
+            }
             return True
 
         try:
@@ -305,36 +414,61 @@ class FoldEngineIntegrationTest:
             input_text = "What's the weather like today?"
 
             fold = self.enhanced_manager.store_interaction_fold(
-                user_id="test_user_789", input_text=input_text, context=test_context,
-                response="Sunny, 75°F", timestamp=test_timestamp,
-                memory_type=MemoryType.EPISODIC, priority=MemoryPriority.MEDIUM
+                user_id="test_user_789",
+                input_text=input_text,
+                context=test_context,
+                response="Sunny, 75°F",
+                timestamp=test_timestamp,
+                memory_type=MemoryType.EPISODIC,
+                priority=MemoryPriority.MEDIUM,
             )
-            assert fold is not None, "Failed to create interaction fold via enhanced manager"
+            assert (
+                fold is not None
+            ), "Failed to create interaction fold via enhanced manager"
             assert fold.owner_id == "test_user_789", "Wrong owner ID on fold"
 
             relevant_memories = self.enhanced_manager.retrieve_relevant_memories_fold(
                 user_id="test_user_789", context=test_context, limit=10
             )
-            assert relevant_memories is not None, "retrieve_relevant_memories_fold returned None"
+            assert (
+                relevant_memories is not None
+            ), "retrieve_relevant_memories_fold returned None"
             assert len(relevant_memories) > 0, "No relevant memories retrieved"
-            assert any(m.get("content", {}).get("input") == input_text for m in relevant_memories), "Stored memory not found"
+            assert any(
+                m.get("content", {}).get("input") == input_text
+                for m in relevant_memories
+            ), "Stored memory not found"
 
-            if hasattr(self.enhanced_manager, 'get_memory_statistics'):
+            if hasattr(self.enhanced_manager, "get_memory_statistics"):
                 stats = self.enhanced_manager.get_memory_statistics("test_user_789")
                 assert stats["total_memories"] > 0, "Statistics: total_memories is zero"
             else:
-                log.warning("get_memory_statistics not found on enhanced_manager, skipping related asserts.")
+                log.warning(
+                    "get_memory_statistics not found on enhanced_manager, skipping related asserts."
+                )
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "Enhanced manager integration successful"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "Enhanced manager integration successful",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False)
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
@@ -344,23 +478,41 @@ class FoldEngineIntegrationTest:
         test_name = "pattern_recognition"
         log.info(f"Running test: {test_name}")
 
-        if not fold_engine_available: # Assuming SymbolicPatternEngine is part of fold_engine components
-            log.warning(f"{test_name} SKIPPED: Fold engine (and SymbolicPatternEngine) not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "SymbolicPatternEngine module not available"}
+        if (
+            not fold_engine_available
+        ):  # Assuming SymbolicPatternEngine is part of fold_engine components
+            log.warning(
+                f"{test_name} SKIPPED: Fold engine (and SymbolicPatternEngine) not available."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "SymbolicPatternEngine module not available",
+            }
             return True
-        if not self.fold_engine: # Need fold_engine to add folds for testing pattern recognition
-             log.error(f"{test_name} SKIPPED: FoldEngine instance not available for creating test data.")
-             self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine instance not available"}
-             return True
-
+        if (
+            not self.fold_engine
+        ):  # Need fold_engine to add folds for testing pattern recognition
+            log.error(
+                f"{test_name} SKIPPED: FoldEngine instance not available for creating test data."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine instance not available",
+            }
+            return True
 
         try:
             pattern_engine = SymbolicPatternEngine()
             pattern_engine.register_pattern(
-                pattern_id="greeting", pattern_template={"type": "greet"}, weight=1.0, pattern_type="semantic"
+                pattern_id="greeting",
+                pattern_template={"type": "greet"},
+                weight=1.0,
+                pattern_type="semantic",
             )
             fold = self.fold_engine.add_fold(
-                key="greet_mem", content={"type": "greet", "text": "Hi"}, memory_type=MemoryType.EPISODIC
+                key="greet_mem",
+                content={"type": "greet", "text": "Hi"},
+                memory_type=MemoryType.EPISODIC,
             )
             assert fold is not None, "Failed to create fold for pattern test"
 
@@ -369,16 +521,28 @@ class FoldEngineIntegrationTest:
             assert analysis["fold_key"] == "greet_mem", "Analysis has wrong fold_key"
             # Add more specific assertions about identified patterns if possible
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "Pattern recognition working"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "Pattern recognition working",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False)
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
@@ -390,39 +554,74 @@ class FoldEngineIntegrationTest:
 
         if not self.fold_engine or not fold_engine_available:
             log.error(f"{test_name} SKIPPED: FoldEngine not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine not available"}
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine not available",
+            }
             return True
 
         try:
-            critical_fold = self.fold_engine.add_fold(key="crit_mem", content={}, priority=MemoryPriority.CRITICAL)
-            low_fold = self.fold_engine.add_fold(key="low_mem", content={}, priority=MemoryPriority.LOW)
-            assert critical_fold and low_fold, "Failed to create folds for importance test"
+            critical_fold = self.fold_engine.add_fold(
+                key="crit_mem", content={}, priority=MemoryPriority.CRITICAL
+            )
+            low_fold = self.fold_engine.add_fold(
+                key="low_mem", content={}, priority=MemoryPriority.LOW
+            )
+            assert (
+                critical_fold and low_fold
+            ), "Failed to create folds for importance test"
 
             # Assuming Fold objects have 'importance_score' and 'retrieve' method
-            if not (hasattr(critical_fold, 'importance_score') and hasattr(low_fold, 'importance_score')):
-                log.warning("Fold objects missing 'importance_score', skipping score comparison.")
+            if not (
+                hasattr(critical_fold, "importance_score")
+                and hasattr(low_fold, "importance_score")
+            ):
+                log.warning(
+                    "Fold objects missing 'importance_score', skipping score comparison."
+                )
             else:
-                assert critical_fold.importance_score > low_fold.importance_score, "Importance scoring failed initial check"
+                assert (
+                    critical_fold.importance_score > low_fold.importance_score
+                ), "Importance scoring failed initial check"
 
-            if hasattr(critical_fold, 'retrieve'): # Simulate access if it affects score
-                for _ in range(5): critical_fold.retrieve()
+            if hasattr(
+                critical_fold, "retrieve"
+            ):  # Simulate access if it affects score
+                for _ in range(5):
+                    critical_fold.retrieve()
 
-            if hasattr(self.fold_engine, 'recalculate_importance'): # If explicit recalculation is needed
+            if hasattr(
+                self.fold_engine, "recalculate_importance"
+            ):  # If explicit recalculation is needed
                 self.fold_engine.recalculate_importance()
 
             important_keys = self.fold_engine.get_important_folds(count=1)
-            assert "crit_mem" in important_keys, "Critical memory not ranked as important"
+            assert (
+                "crit_mem" in important_keys
+            ), "Critical memory not ranked as important"
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "Importance scoring working"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "Importance scoring working",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False)
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
@@ -432,24 +631,42 @@ class FoldEngineIntegrationTest:
         test_name = "memory_clustering"
         log.info(f"Running test: {test_name}")
 
-        if not enhanced_manager_available or not self.enhanced_manager or isinstance(self.enhanced_manager, MockMemoryManager) or \
-           not hasattr(self.enhanced_manager, 'get_memory_clusters') or not hasattr(self.enhanced_manager, 'store_interaction_fold'):
-            log.warning(f"{test_name} SKIPPED: Full AdvancedMemoryManager with clustering methods not available.")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "Clustering methods on AMM not available/configured"}
+        if (
+            not enhanced_manager_available
+            or not self.enhanced_manager
+            or isinstance(self.enhanced_manager, MockMemoryManager)
+            or not hasattr(self.enhanced_manager, "get_memory_clusters")
+            or not hasattr(self.enhanced_manager, "store_interaction_fold")
+        ):
+            log.warning(
+                f"{test_name} SKIPPED: Full AdvancedMemoryManager with clustering methods not available."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "Clustering methods on AMM not available/configured",
+            }
             return True
 
         if not self.fold_engine or not fold_engine_available:
-            log.error(f"{test_name} SKIPPED: FoldEngine not available (dependency for clustering test).")
-            self.test_results[test_name] = {"status": "SKIPPED", "reason": "FoldEngine (dependency) not available"}
+            log.error(
+                f"{test_name} SKIPPED: FoldEngine not available (dependency for clustering test)."
+            )
+            self.test_results[test_name] = {
+                "status": "SKIPPED",
+                "reason": "FoldEngine (dependency) not available",
+            }
             return True
 
         try:
             user_id = "cluster_user"
             for i in range(5):
                 fold = self.enhanced_manager.store_interaction_fold(
-                    user_id=user_id, input_text=f"Q topic A {i}", context={"topic": "topic_A"},
-                    response=f"A topic A {i}", timestamp=datetime.now(timezone.utc) - timedelta(minutes=i),
-                    memory_type=MemoryType.EPISODIC
+                    user_id=user_id,
+                    input_text=f"Q topic A {i}",
+                    context={"topic": "topic_A"},
+                    response=f"A topic A {i}",
+                    timestamp=datetime.now(timezone.utc) - timedelta(minutes=i),
+                    memory_type=MemoryType.EPISODIC,
                 )
                 assert fold, f"Failed to store fold {i} for clustering"
                 self.fold_engine.tag_fold(fold.key, "topic_A")
@@ -459,40 +676,66 @@ class FoldEngineIntegrationTest:
                 self.fold_engine.associate_folds(user_fold_keys[0], user_fold_keys[1])
                 self.fold_engine.associate_folds(user_fold_keys[1], user_fold_keys[2])
 
-            clusters = self.enhanced_manager.get_memory_clusters(user_id, min_cluster_size=3)
+            clusters = self.enhanced_manager.get_memory_clusters(
+                user_id, min_cluster_size=3
+            )
             assert clusters is not None, "get_memory_clusters returned None"
             assert len(clusters) > 0, "No clusters found"
-            assert any("topic_a" in str(k).lower() for k in clusters.keys()), "Topic A cluster not found"
+            assert any(
+                "topic_a" in str(k).lower() for k in clusters.keys()
+            ), "Topic A cluster not found"
 
-            self.test_results[test_name] = {"status": "PASSED", "details": "Memory clustering working"}
+            self.test_results[test_name] = {
+                "status": "PASSED",
+                "details": "Memory clustering working",
+            }
             log.info(f"{test_name} PASSED.")
             return True
 
         except AssertionError as ae:
-            log.error(f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False)
-            self.test_results[test_name] = {"status": "FAILED", "error": f"Assertion: {str(ae)}"}
+            log.error(
+                f"{test_name} FAILED: Assertion Error.", error=str(ae), exc_info=False
+            )
+            self.test_results[test_name] = {
+                "status": "FAILED",
+                "error": f"Assertion: {str(ae)}",
+            }
             return False
         except Exception as e:
-            log.error(f"{test_name} FAILED: Unexpected exception.", error=str(e), exc_info=True)
+            log.error(
+                f"{test_name} FAILED: Unexpected exception.",
+                error=str(e),
+                exc_info=True,
+            )
             self.test_results[test_name] = {"status": "FAILED", "error": str(e)}
             return False
 
     def run_all_tests(self) -> bool:
         """Runs all integration tests in the suite."""
-        log.info("Starting LUKHAS Fold Engine Integration Tests", component="TestRunner")
+        log.info(
+            "Starting LUKHAS Fold Engine Integration Tests", component="TestRunner"
+        )
         log.info("=" * 60, component="TestRunner")
 
         if not self.setup():
             log.error("Test setup failed - aborting tests.", component="TestRunner")
-            self.test_results["overall_setup"] = {"status": "FAILED", "error": "Initial test setup failed."}
+            self.test_results["overall_setup"] = {
+                "status": "FAILED",
+                "error": "Initial test setup failed.",
+            }
             # Log summary before exiting due to setup failure
-            self._log_summary(0, 0, 0) # No tests passed, failed, or skipped if setup fails
+            self._log_summary(
+                0, 0, 0
+            )  # No tests passed, failed, or skipped if setup fails
             return False
 
         tests_to_run = [
-            self.test_basic_fold_operations, self.test_associations_and_tags,
-            self.test_enhanced_manager_integration, self.test_pattern_recognition,
-            self.test_memory_importance_scoring, self.test_memory_clustering,
+            self.test_basic_fold_operations,
+            self.test_associations_and_tags,
+            self.test_enhanced_manager_integration,
+            self.test_pattern_recognition,
+            self.test_memory_importance_scoring,
+            self.test_memory_clustering,
         ]
         passed_count, failed_count, skipped_count = 0, 0, 0
 
@@ -510,15 +753,30 @@ class FoldEngineIntegrationTest:
                     failed_count += 1
                 elif status == "SKIPPED":
                     skipped_count += 1
-                else: # Should not happen if test methods correctly set status
-                    log.error(f"Test {test_name} finished with UNKNOWN status. Assuming failure.", component="TestRunner")
-                    failed_count +=1
-                    if test_name not in self.test_results: self.test_results[test_name] = {"status":"FAILED", "error":"Unknown outcome"}
+                else:  # Should not happen if test methods correctly set status
+                    log.error(
+                        f"Test {test_name} finished with UNKNOWN status. Assuming failure.",
+                        component="TestRunner",
+                    )
+                    failed_count += 1
+                    if test_name not in self.test_results:
+                        self.test_results[test_name] = {
+                            "status": "FAILED",
+                            "error": "Unknown outcome",
+                        }
 
             except Exception as e:
-                log.error(f"Test {test_name} CRASHED.", exception=str(e), exc_info=True, component="TestRunner")
+                log.error(
+                    f"Test {test_name} CRASHED.",
+                    exception=str(e),
+                    exc_info=True,
+                    component="TestRunner",
+                )
                 failed_count += 1
-                self.test_results[test_name] = {"status": "FAILED", "error": f"CRASHED: {str(e)}"}
+                self.test_results[test_name] = {
+                    "status": "FAILED",
+                    "error": f"CRASHED: {str(e)}",
+                }
 
         self._log_summary(passed_count, failed_count, skipped_count)
         return failed_count == 0
@@ -526,8 +784,10 @@ class FoldEngineIntegrationTest:
     def _log_summary(self, passed: int, failed: int, skipped: int) -> None:
         """Logs the summary of test results."""
         total_conducted = passed + failed + skipped
-        total_effective_run = passed + failed # for success rate calculation
-        success_rate = (passed / total_effective_run * 100) if total_effective_run > 0 else 0.0
+        total_effective_run = passed + failed  # for success rate calculation
+        success_rate = (
+            (passed / total_effective_run * 100) if total_effective_run > 0 else 0.0
+        )
 
         log.info("=" * 60, component="TestRunner")
         log.info("📊 Test Results Summary:", component="TestRunner")
@@ -535,25 +795,51 @@ class FoldEngineIntegrationTest:
         log.info(f"  PASSED:  {passed}", component="TestRunner")
         log.info(f"  FAILED:  {failed}", component="TestRunner")
         log.info(f"  SKIPPED: {skipped}", component="TestRunner")
-        log.info(f"Success Rate (PASSED / (PASSED + FAILED)): {success_rate:.1f}%", component="TestRunner")
+        log.info(
+            f"Success Rate (PASSED / (PASSED + FAILED)): {success_rate:.1f}%",
+            component="TestRunner",
+        )
 
         log.info("\n📋 Detailed Results:", component="TestRunner")
         for test_name, result in self.test_results.items():
             s = result.get("status", "UNKNOWN")
-            emoji = "✅" if s == "PASSED" else "❌" if s == "FAILED" else "⏭️" if s == "SKIPPED" else "❓"
+            emoji = (
+                "✅"
+                if s == "PASSED"
+                else "❌" if s == "FAILED" else "⏭️" if s == "SKIPPED" else "❓"
+            )
             log.info(f"{emoji} {test_name}: {s}", component="TestRunner")
-            if "error" in result: log.info(f"    Error: {result['error']}", component="TestRunner")
-            if "details" in result: log.info(f"    Details: {result['details']}", component="TestRunner")
-            if "reason" in result: log.info(f"    Reason: {result['reason']}", component="TestRunner")
+            if "error" in result:
+                log.info(f"    Error: {result['error']}", component="TestRunner")
+            if "details" in result:
+                log.info(f"    Details: {result['details']}", component="TestRunner")
+            if "reason" in result:
+                log.info(f"    Reason: {result['reason']}", component="TestRunner")
 
-        if self.fold_engine and hasattr(self.fold_engine, 'get_memory_statistics') and fold_engine_available:
+        if (
+            self.fold_engine
+            and hasattr(self.fold_engine, "get_memory_statistics")
+            and fold_engine_available
+        ):
             try:
                 stats = self.fold_engine.get_memory_statistics()
-                log.info("\n📈 Final Memory Statistics (FoldEngine):", component="TestRunner")
-                log.info(f"   Total Folds: {stats.get('total_folds', 'N/A')}", component="TestRunner")
-                log.info(f"   Avg Importance: {stats.get('average_importance', 0.0):.3f}", component="TestRunner")
+                log.info(
+                    "\n📈 Final Memory Statistics (FoldEngine):", component="TestRunner"
+                )
+                log.info(
+                    f"   Total Folds: {stats.get('total_folds', 'N/A')}",
+                    component="TestRunner",
+                )
+                log.info(
+                    f"   Avg Importance: {stats.get('average_importance', 0.0):.3f}",
+                    component="TestRunner",
+                )
             except Exception as e:
-                log.warning("Could not retrieve FoldEngine stats.", error=str(e), component="TestRunner")
+                log.warning(
+                    "Could not retrieve FoldEngine stats.",
+                    error=str(e),
+                    component="TestRunner",
+                )
         log.info("=" * 60, component="TestRunner")
 
 
@@ -562,23 +848,29 @@ def main():
     if not structlog.is_configured():
         structlog.configure(
             processors=[
-                structlog.stdlib.add_logger_name, structlog.stdlib.add_log_level,
-                structlog.processors.StackInfoRenderer(), structlog.dev.set_exc_info,
+                structlog.stdlib.add_logger_name,
+                structlog.stdlib.add_log_level,
+                structlog.processors.StackInfoRenderer(),
+                structlog.dev.set_exc_info,
                 structlog.dev.ConsoleRenderer(),
             ],
             logger_factory=structlog.stdlib.LoggerFactory(),
-            wrapper_class=structlog.stdlib.BoundLogger, cache_logger_on_first_use=True,
+            wrapper_class=structlog.stdlib.BoundLogger,
+            cache_logger_on_first_use=True,
         )
 
     test_suite = FoldEngineIntegrationTest()
     all_tests_successful = test_suite.run_all_tests()
 
     if all_tests_successful:
-        log.info("🎉 All effective tests passed! LUKHAS Fold Engine integration appears solid.")
+        log.info(
+            "🎉 All effective tests passed! LUKHAS Fold Engine integration appears solid."
+        )
         sys.exit(0)
     else:
         log.error("💥 Some tests failed. Review logs for details.")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

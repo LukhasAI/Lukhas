@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -25,49 +24,50 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import unittest
-import json
-import random
 import math
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from enum import Enum
+import os
+import random
 
 # Internal imports
 import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+import unittest
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
-from core.symbolic.glyphs.glyph import (
-    Glyph, GlyphType, GlyphPriority, GlyphFactory, EmotionVector, CausalLink
-)
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+from core.symbolic.glyphs.glyph import EmotionVector, Glyph, GlyphFactory
+from core.symbolic.glyphs.glyph_sentinel import GlyphSentinel
 from memory.core_memory.glyph_memory_bridge import GlyphMemoryBridge
-from core.symbolic.glyphs.glyph_sentinel import GlyphSentinel, DecayState
 
 
 class RecallQuality(Enum):
     """Quality levels for memory recall operations."""
-    PERFECT = "perfect"          # 100% accuracy
-    HIGH = "high"               # 90-99% accuracy
-    MODERATE = "moderate"       # 70-89% accuracy
-    DEGRADED = "degraded"       # 50-69% accuracy
-    POOR = "poor"              # 30-49% accuracy
-    FAILED = "failed"          # <30% accuracy
+
+    PERFECT = "perfect"  # 100% accuracy
+    HIGH = "high"  # 90-99% accuracy
+    MODERATE = "moderate"  # 70-89% accuracy
+    DEGRADED = "degraded"  # 50-69% accuracy
+    POOR = "poor"  # 30-49% accuracy
+    FAILED = "failed"  # <30% accuracy
 
 
 class CollapseRisk(Enum):
     """Risk levels for symbolic collapse."""
-    MINIMAL = "minimal"         # <10% risk
-    LOW = "low"                # 10-25% risk
-    MODERATE = "moderate"      # 25-50% risk
-    HIGH = "high"             # 50-75% risk
-    CRITICAL = "critical"     # >75% risk
+
+    MINIMAL = "minimal"  # <10% risk
+    LOW = "low"  # 10-25% risk
+    MODERATE = "moderate"  # 25-50% risk
+    HIGH = "high"  # 50-75% risk
+    CRITICAL = "critical"  # >75% risk
 
 
 @dataclass
 class RecallAttempt:
     """Record of a memory recall attempt."""
+
     attempt_id: str
     glyph_id: str
     target_memory_count: int
@@ -90,6 +90,7 @@ class RecallAttempt:
 @dataclass
 class DriftEvent:
     """Record of a drift event affecting memory."""
+
     event_id: str
     affected_glyph_id: str
     drift_magnitude: float
@@ -131,7 +132,7 @@ class GlyphRecallDriftSimulator:
         for i in range(5):
             glyph = GlyphFactory.create_memory_glyph(
                 memory_key=f"stable_memory_{i}",
-                emotion_vector=self._create_stable_emotion_vector()
+                emotion_vector=self._create_stable_emotion_vector(),
             )
             glyph.stability_index = 0.9  # High stability
             glyph.collapse_risk_level = 0.1  # Low collapse risk
@@ -144,10 +145,10 @@ class GlyphRecallDriftSimulator:
             for j in range(3):  # 3 memories per glyph
                 memory_id = f"memory_{i}_{j}"
                 memory_data = {
-                    'content': f"Stable memory content {i}-{j} about symbolic processing",
-                    'importance': 0.7 + (j * 0.1),
-                    'coherence': 0.8 + random.uniform(-0.1, 0.1),
-                    'emotional_resonance': glyph.emotion_vector.to_dict()
+                    "content": f"Stable memory content {i}-{j} about symbolic processing",
+                    "importance": 0.7 + (j * 0.1),
+                    "coherence": 0.8 + random.uniform(-0.1, 0.1),
+                    "emotional_resonance": glyph.emotion_vector.to_dict(),
                 }
 
                 self.memories[memory_id] = memory_data
@@ -161,7 +162,7 @@ class GlyphRecallDriftSimulator:
         for i in range(7):
             glyph = GlyphFactory.create_memory_glyph(
                 memory_key=f"stressed_memory_{i}",
-                emotion_vector=self._create_volatile_emotion_vector()
+                emotion_vector=self._create_volatile_emotion_vector(),
             )
             glyph.stability_index = 0.6 - (i * 0.05)  # Decreasing stability
             glyph.collapse_risk_level = 0.2 + (i * 0.08)  # Increasing collapse risk
@@ -175,11 +176,11 @@ class GlyphRecallDriftSimulator:
                 memory_id = f"stressed_memory_{i}_{j}"
                 coherence_degradation = j * 0.15
                 memory_data = {
-                    'content': f"Stressed memory {i}-{j} with degradation factor {coherence_degradation:.2f}",
-                    'importance': max(0.3, 0.8 - coherence_degradation),
-                    'coherence': max(0.2, 0.8 - coherence_degradation),
-                    'emotional_resonance': glyph.emotion_vector.to_dict(),
-                    'drift_factor': coherence_degradation
+                    "content": f"Stressed memory {i}-{j} with degradation factor {coherence_degradation:.2f}",
+                    "importance": max(0.3, 0.8 - coherence_degradation),
+                    "coherence": max(0.2, 0.8 - coherence_degradation),
+                    "emotional_resonance": glyph.emotion_vector.to_dict(),
+                    "drift_factor": coherence_degradation,
                 }
 
                 self.memories[memory_id] = memory_data
@@ -193,7 +194,7 @@ class GlyphRecallDriftSimulator:
         for i in range(3):
             glyph = GlyphFactory.create_memory_glyph(
                 memory_key=f"collapse_risk_memory_{i}",
-                emotion_vector=self._create_chaotic_emotion_vector()
+                emotion_vector=self._create_chaotic_emotion_vector(),
             )
             glyph.stability_index = 0.3 - (i * 0.1)  # Very low stability
             glyph.collapse_risk_level = 0.7 + (i * 0.1)  # Very high collapse risk
@@ -206,12 +207,12 @@ class GlyphRecallDriftSimulator:
             for j in range(2):  # Fewer memories due to fragmentation
                 memory_id = f"collapse_memory_{i}_{j}"
                 memory_data = {
-                    'content': f"Fragmented memory {i}-{j} - coherence severely compromised",
-                    'importance': 0.3 + random.uniform(-0.2, 0.2),
-                    'coherence': 0.3 - (j * 0.1),
-                    'emotional_resonance': glyph.emotion_vector.to_dict(),
-                    'fragmentation_level': 0.8 + (j * 0.1),
-                    'collapse_indicators': True
+                    "content": f"Fragmented memory {i}-{j} - coherence severely compromised",
+                    "importance": 0.3 + random.uniform(-0.2, 0.2),
+                    "coherence": 0.3 - (j * 0.1),
+                    "emotional_resonance": glyph.emotion_vector.to_dict(),
+                    "fragmentation_level": 0.8 + (j * 0.1),
+                    "collapse_indicators": True,
                 }
 
                 self.memories[memory_id] = memory_data
@@ -219,7 +220,9 @@ class GlyphRecallDriftSimulator:
 
             self.glyph_memory_map[glyph.id] = memory_ids
 
-    def simulate_memory_recall(self, glyph_id: str, drift_conditions: bool = False) -> RecallAttempt:
+    def simulate_memory_recall(
+        self, glyph_id: str, drift_conditions: bool = False
+    ) -> RecallAttempt:
         """Simulate memory recall for a specific glyph."""
         if glyph_id not in self.glyphs:
             raise ValueError(f"Glyph {glyph_id} not found")
@@ -234,7 +237,7 @@ class GlyphRecallDriftSimulator:
         # Apply drift conditions if requested
         if drift_conditions:
             drift_penalty = self._calculate_drift_penalty(glyph)
-            base_recall_rate *= (1.0 - drift_penalty)
+            base_recall_rate *= 1.0 - drift_penalty
 
         # Add some randomness to simulate real-world variability
         recall_noise = random.uniform(-0.1, 0.1)
@@ -262,13 +265,15 @@ class GlyphRecallDriftSimulator:
             drift_score=drift_score,
             collapse_risk=collapse_risk,
             recall_quality=recall_quality,
-            timestamp=self.simulation_time
+            timestamp=self.simulation_time,
         )
 
         self.recall_attempts.append(attempt)
         return attempt
 
-    def simulate_drift_event(self, glyph_id: str, magnitude: float = 0.3, direction: str = "negative") -> DriftEvent:
+    def simulate_drift_event(
+        self, glyph_id: str, magnitude: float = 0.3, direction: str = "negative"
+    ) -> DriftEvent:
         """Simulate a drift event affecting a glyph."""
         if glyph_id not in self.glyphs:
             raise ValueError(f"Glyph {glyph_id} not found")
@@ -284,11 +289,17 @@ class GlyphRecallDriftSimulator:
         else:  # chaotic
             stability_change = random.uniform(-magnitude, magnitude)
 
-        glyph.stability_index = max(0.0, min(1.0, glyph.stability_index + stability_change))
-        glyph.collapse_risk_level = min(1.0, glyph.collapse_risk_level + abs(stability_change) * 0.7)
+        glyph.stability_index = max(
+            0.0, min(1.0, glyph.stability_index + stability_change)
+        )
+        glyph.collapse_risk_level = min(
+            1.0, glyph.collapse_risk_level + abs(stability_change) * 0.7
+        )
 
         # Check for cascade
-        cascade_triggered = glyph.collapse_risk_level > 0.8 and abs(stability_change) > 0.4
+        cascade_triggered = (
+            glyph.collapse_risk_level > 0.8 and abs(stability_change) > 0.4
+        )
 
         # Create drift event record
         drift_event = DriftEvent(
@@ -299,7 +310,7 @@ class GlyphRecallDriftSimulator:
             pre_drift_stability=pre_stability,
             post_drift_stability=glyph.stability_index,
             cascade_triggered=cascade_triggered,
-            timestamp=self.simulation_time
+            timestamp=self.simulation_time,
         )
 
         self.drift_events.append(drift_event)
@@ -312,7 +323,7 @@ class GlyphRecallDriftSimulator:
     def analyze_recall_drift_correlation(self) -> Dict[str, Any]:
         """Analyze correlation between recall performance and drift."""
         if not self.recall_attempts:
-            return {'error': 'No recall attempts to analyze'}
+            return {"error": "No recall attempts to analyze"}
 
         # Collect data for correlation analysis
         accuracy_scores = [attempt.accuracy_score for attempt in self.recall_attempts]
@@ -324,13 +335,18 @@ class GlyphRecallDriftSimulator:
         # Analyze by recall quality
         quality_analysis = {}
         for quality in RecallQuality:
-            quality_attempts = [a for a in self.recall_attempts if a.recall_quality == quality]
+            quality_attempts = [
+                a for a in self.recall_attempts if a.recall_quality == quality
+            ]
             if quality_attempts:
-                avg_drift = sum(a.drift_score for a in quality_attempts) / len(quality_attempts)
+                avg_drift = sum(a.drift_score for a in quality_attempts) / len(
+                    quality_attempts
+                )
                 quality_analysis[quality.value] = {
-                    'count': len(quality_attempts),
-                    'average_drift_score': avg_drift,
-                    'average_accuracy': sum(a.accuracy_score for a in quality_attempts) / len(quality_attempts)
+                    "count": len(quality_attempts),
+                    "average_drift_score": avg_drift,
+                    "average_accuracy": sum(a.accuracy_score for a in quality_attempts)
+                    / len(quality_attempts),
                 }
 
         # Analyze collapse risk distribution
@@ -338,22 +354,26 @@ class GlyphRecallDriftSimulator:
         for risk in CollapseRisk:
             risk_attempts = [a for a in self.recall_attempts if a.collapse_risk == risk]
             if risk_attempts:
-                avg_accuracy = sum(a.accuracy_score for a in risk_attempts) / len(risk_attempts)
+                avg_accuracy = sum(a.accuracy_score for a in risk_attempts) / len(
+                    risk_attempts
+                )
                 collapse_analysis[risk.value] = {
-                    'count': len(risk_attempts),
-                    'average_accuracy': avg_accuracy
+                    "count": len(risk_attempts),
+                    "average_accuracy": avg_accuracy,
                 }
 
         return {
-            'total_attempts': len(self.recall_attempts),
-            'drift_correlation': correlation,
-            'correlation_interpretation': self._interpret_correlation(correlation),
-            'quality_analysis': quality_analysis,
-            'collapse_risk_analysis': collapse_analysis,
-            'average_accuracy': sum(accuracy_scores) / len(accuracy_scores),
-            'average_drift_score': sum(drift_scores) / len(drift_scores),
-            'drift_events_count': len(self.drift_events),
-            'cascade_events_count': sum(1 for event in self.drift_events if event.cascade_triggered)
+            "total_attempts": len(self.recall_attempts),
+            "drift_correlation": correlation,
+            "correlation_interpretation": self._interpret_correlation(correlation),
+            "quality_analysis": quality_analysis,
+            "collapse_risk_analysis": collapse_analysis,
+            "average_accuracy": sum(accuracy_scores) / len(accuracy_scores),
+            "average_drift_score": sum(drift_scores) / len(drift_scores),
+            "drift_events_count": len(self.drift_events),
+            "cascade_events_count": sum(
+                1 for event in self.drift_events if event.cascade_triggered
+            ),
         }
 
     def test_cascade_prevention(self) -> Dict[str, Any]:
@@ -361,46 +381,60 @@ class GlyphRecallDriftSimulator:
         cascade_tests = []
 
         # Find high-risk glyphs
-        high_risk_glyphs = [glyph for glyph in self.glyphs.values()
-                           if glyph.collapse_risk_level > 0.7]
+        high_risk_glyphs = [
+            glyph for glyph in self.glyphs.values() if glyph.collapse_risk_level > 0.7
+        ]
 
         for glyph in high_risk_glyphs[:3]:  # Test first 3 high-risk glyphs
             # Attempt to trigger cascade
             pre_cascade_state = {
-                'stability': glyph.stability_index,
-                'collapse_risk': glyph.collapse_risk_level,
-                'related_glyphs': self._get_related_glyphs(glyph)
+                "stability": glyph.stability_index,
+                "collapse_risk": glyph.collapse_risk_level,
+                "related_glyphs": self._get_related_glyphs(glyph),
             }
 
             # Simulate extreme drift
-            drift_event = self.simulate_drift_event(glyph.id, magnitude=0.6, direction="chaotic")
+            drift_event = self.simulate_drift_event(
+                glyph.id, magnitude=0.6, direction="chaotic"
+            )
 
             # Test recall under extreme conditions
-            recall_attempt = self.simulate_memory_recall(glyph.id, drift_conditions=True)
+            recall_attempt = self.simulate_memory_recall(
+                glyph.id, drift_conditions=True
+            )
 
             # Check if cascade was contained
             post_cascade_state = {
-                'stability': glyph.stability_index,
-                'collapse_risk': glyph.collapse_risk_level,
-                'cascade_contained': not drift_event.cascade_triggered or recall_attempt.accuracy_score > 0.2
+                "stability": glyph.stability_index,
+                "collapse_risk": glyph.collapse_risk_level,
+                "cascade_contained": not drift_event.cascade_triggered
+                or recall_attempt.accuracy_score > 0.2,
             }
 
-            cascade_tests.append({
-                'glyph_id': glyph.id,
-                'pre_state': pre_cascade_state,
-                'post_state': post_cascade_state,
-                'drift_event': drift_event,
-                'recall_attempt': recall_attempt,
-                'prevention_effective': post_cascade_state['cascade_contained']
-            })
+            cascade_tests.append(
+                {
+                    "glyph_id": glyph.id,
+                    "pre_state": pre_cascade_state,
+                    "post_state": post_cascade_state,
+                    "drift_event": drift_event,
+                    "recall_attempt": recall_attempt,
+                    "prevention_effective": post_cascade_state["cascade_contained"],
+                }
+            )
 
-        prevention_rate = sum(1 for test in cascade_tests if test['prevention_effective']) / max(1, len(cascade_tests))
+        prevention_rate = sum(
+            1 for test in cascade_tests if test["prevention_effective"]
+        ) / max(1, len(cascade_tests))
 
         return {
-            'tests_conducted': len(cascade_tests),
-            'prevention_rate': prevention_rate,
-            'cascade_tests': cascade_tests,
-            'system_resilience': 'HIGH' if prevention_rate > 0.8 else 'MODERATE' if prevention_rate > 0.5 else 'LOW'
+            "tests_conducted": len(cascade_tests),
+            "prevention_rate": prevention_rate,
+            "cascade_tests": cascade_tests,
+            "system_resilience": (
+                "HIGH"
+                if prevention_rate > 0.8
+                else "MODERATE" if prevention_rate > 0.5 else "LOW"
+            ),
         }
 
     def _create_stable_emotion_vector(self) -> EmotionVector:
@@ -431,7 +465,16 @@ class GlyphRecallDriftSimulator:
         """Create a chaotic emotion vector."""
         emotion = EmotionVector()
         # Randomly assign high values to create chaos
-        emotions = ['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'trust', 'anticipation']
+        emotions = [
+            "joy",
+            "sadness",
+            "anger",
+            "fear",
+            "surprise",
+            "disgust",
+            "trust",
+            "anticipation",
+        ]
         for em in emotions:
             setattr(emotion, em, random.uniform(0, 1))
 
@@ -452,7 +495,9 @@ class GlyphRecallDriftSimulator:
 
         return min(0.8, base_penalty + collapse_penalty + emotion_penalty)
 
-    def _determine_collapse_risk(self, glyph: Glyph, drift_score: float) -> CollapseRisk:
+    def _determine_collapse_risk(
+        self, glyph: Glyph, drift_score: float
+    ) -> CollapseRisk:
         """Determine collapse risk level."""
         risk_score = (glyph.collapse_risk_level * 0.6) + (drift_score * 0.4)
 
@@ -482,7 +527,9 @@ class GlyphRecallDriftSimulator:
         else:
             return RecallQuality.FAILED
 
-    def _calculate_correlation(self, x_values: List[float], y_values: List[float]) -> float:
+    def _calculate_correlation(
+        self, x_values: List[float], y_values: List[float]
+    ) -> float:
         """Calculate Pearson correlation coefficient."""
         if len(x_values) != len(y_values) or len(x_values) < 2:
             return 0.0
@@ -490,9 +537,9 @@ class GlyphRecallDriftSimulator:
         n = len(x_values)
         sum_x = sum(x_values)
         sum_y = sum(y_values)
-        sum_x2 = sum(x*x for x in x_values)
-        sum_y2 = sum(y*y for y in y_values)
-        sum_xy = sum(x*y for x, y in zip(x_values, y_values))
+        sum_x2 = sum(x * x for x in x_values)
+        sum_y2 = sum(y * y for y in y_values)
+        sum_xy = sum(x * y for x, y in zip(x_values, y_values))
 
         numerator = n * sum_xy - sum_x * sum_y
         denominator = math.sqrt((n * sum_x2 - sum_x**2) * (n * sum_y2 - sum_y**2))
@@ -554,16 +601,24 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
             attempt = self.simulator.simulate_memory_recall(glyph_id)
             total_attempts += 1
 
-            if attempt.recall_quality in [RecallQuality.PERFECT, RecallQuality.HIGH, RecallQuality.MODERATE]:
+            if attempt.recall_quality in [
+                RecallQuality.PERFECT,
+                RecallQuality.HIGH,
+                RecallQuality.MODERATE,
+            ]:
                 successful_attempts += 1
 
         success_rate = successful_attempts / total_attempts
 
         # Assertions for normal scenario
-        self.assertGreater(success_rate, 0.7)  # Expect >70% success in normal conditions
+        self.assertGreater(
+            success_rate, 0.7
+        )  # Expect >70% success in normal conditions
         self.assertEqual(total_attempts, len(self.simulator.glyphs))
 
-        print(f"✓ Normal scenario: {successful_attempts}/{total_attempts} successful recalls ({success_rate:.1%})")
+        print(
+            f"✓ Normal scenario: {successful_attempts}/{total_attempts} successful recalls ({success_rate:.1%})"
+        )
 
     def test_stressed_scenario_with_drift(self):
         """Test recall performance under drift conditions."""
@@ -572,11 +627,13 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
 
         # Apply drift events to half the glyphs
         glyph_ids = list(self.simulator.glyphs.keys())
-        drift_affected_glyphs = glyph_ids[:len(glyph_ids)//2]
+        drift_affected_glyphs = glyph_ids[: len(glyph_ids) // 2]
 
         # Apply drift
         for glyph_id in drift_affected_glyphs:
-            self.simulator.simulate_drift_event(glyph_id, magnitude=0.4, direction="negative")
+            self.simulator.simulate_drift_event(
+                glyph_id, magnitude=0.4, direction="negative"
+            )
 
         # Test recall with drift conditions
         normal_recalls = []
@@ -584,10 +641,14 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
 
         for glyph_id in glyph_ids:
             if glyph_id in drift_affected_glyphs:
-                attempt = self.simulator.simulate_memory_recall(glyph_id, drift_conditions=True)
+                attempt = self.simulator.simulate_memory_recall(
+                    glyph_id, drift_conditions=True
+                )
                 drift_recalls.append(attempt)
             else:
-                attempt = self.simulator.simulate_memory_recall(glyph_id, drift_conditions=False)
+                attempt = self.simulator.simulate_memory_recall(
+                    glyph_id, drift_conditions=False
+                )
                 normal_recalls.append(attempt)
 
         # Calculate average accuracy
@@ -599,7 +660,9 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
         self.assertTrue(len(drift_recalls) > 0)
         self.assertTrue(len(normal_recalls) > 0)
 
-        print(f"✓ Stressed scenario: Normal avg={normal_avg:.3f}, Drift avg={drift_avg:.3f}")
+        print(
+            f"✓ Stressed scenario: Normal avg={normal_avg:.3f}, Drift avg={drift_avg:.3f}"
+        )
 
     def test_collapse_scenario_recovery(self):
         """Test system behavior during collapse scenarios."""
@@ -610,7 +673,9 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
         critical_attempts = []
 
         for glyph_id in self.simulator.glyphs.keys():
-            attempt = self.simulator.simulate_memory_recall(glyph_id, drift_conditions=True)
+            attempt = self.simulator.simulate_memory_recall(
+                glyph_id, drift_conditions=True
+            )
             critical_attempts.append(attempt)
 
         # Count different risk levels
@@ -620,12 +685,18 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
             risk_distribution[risk] = risk_distribution.get(risk, 0) + 1
 
         # Verify that system detects high risk
-        high_risk_count = sum(risk_distribution.get(risk, 0) for risk in ['high', 'critical'])
+        high_risk_count = sum(
+            risk_distribution.get(risk, 0) for risk in ["high", "critical"]
+        )
         total_attempts = len(critical_attempts)
 
-        self.assertGreater(high_risk_count / total_attempts, 0.5)  # Expect >50% high risk
+        self.assertGreater(
+            high_risk_count / total_attempts, 0.5
+        )  # Expect >50% high risk
 
-        print(f"✓ Collapse scenario: {high_risk_count}/{total_attempts} high-risk recalls detected")
+        print(
+            f"✓ Collapse scenario: {high_risk_count}/{total_attempts} high-risk recalls detected"
+        )
 
     def test_drift_correlation_analysis(self):
         """Test correlation analysis between recall and drift."""
@@ -641,7 +712,7 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
                 self.simulator.simulate_drift_event(
                     glyph_id,
                     magnitude=random.uniform(0.1, 0.5),
-                    direction=random.choice(["negative", "positive", "chaotic"])
+                    direction=random.choice(["negative", "positive", "chaotic"]),
                 )
 
             # Perform recall
@@ -651,14 +722,16 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
         analysis = self.simulator.analyze_recall_drift_correlation()
 
         # Assertions
-        self.assertIn('drift_correlation', analysis)
-        self.assertIn('correlation_interpretation', analysis)
-        self.assertGreater(analysis['total_attempts'], 0)
+        self.assertIn("drift_correlation", analysis)
+        self.assertIn("correlation_interpretation", analysis)
+        self.assertGreater(analysis["total_attempts"], 0)
 
         # Expect negative correlation (higher drift = lower accuracy)
-        self.assertLess(analysis['drift_correlation'], 0.2)
+        self.assertLess(analysis["drift_correlation"], 0.2)
 
-        print(f"✓ Correlation analysis: {analysis['drift_correlation']:.3f} ({analysis['correlation_interpretation']})")
+        print(
+            f"✓ Correlation analysis: {analysis['drift_correlation']:.3f} ({analysis['correlation_interpretation']})"
+        )
 
     def test_cascade_prevention_system(self):
         """Test cascade prevention mechanisms."""
@@ -669,14 +742,18 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
         prevention_results = self.simulator.test_cascade_prevention()
 
         # Assertions
-        self.assertIn('prevention_rate', prevention_results)
-        self.assertIn('system_resilience', prevention_results)
-        self.assertGreater(prevention_results['tests_conducted'], 0)
+        self.assertIn("prevention_rate", prevention_results)
+        self.assertIn("system_resilience", prevention_results)
+        self.assertGreater(prevention_results["tests_conducted"], 0)
 
         # System should have some resilience
-        self.assertGreater(prevention_results['prevention_rate'], 0.3)  # At least 30% prevention
+        self.assertGreater(
+            prevention_results["prevention_rate"], 0.3
+        )  # At least 30% prevention
 
-        print(f"✓ Cascade prevention: {prevention_results['prevention_rate']:.1%} effective, resilience={prevention_results['system_resilience']}")
+        print(
+            f"✓ Cascade prevention: {prevention_results['prevention_rate']:.1%} effective, resilience={prevention_results['system_resilience']}"
+        )
 
     def test_memory_coherence_under_drift(self):
         """Test memory coherence preservation under drift conditions."""
@@ -695,26 +772,35 @@ class TestGlyphRecallDriftCorrelation(unittest.TestCase):
         coherence_degradation = []
 
         for magnitude in drift_magnitudes:
-            self.simulator.simulate_drift_event(test_glyph_id, magnitude=magnitude, direction="negative")
-            attempt = self.simulator.simulate_memory_recall(test_glyph_id, drift_conditions=True)
+            self.simulator.simulate_drift_event(
+                test_glyph_id, magnitude=magnitude, direction="negative"
+            )
+            attempt = self.simulator.simulate_memory_recall(
+                test_glyph_id, drift_conditions=True
+            )
             coherence_degradation.append(baseline_coherence - attempt.accuracy_score)
 
         # Verify coherence degradation follows expected pattern
         # Should degrade but not collapse completely
         max_degradation = max(coherence_degradation)
-        min_remaining_coherence = min(attempt.accuracy_score for attempt in self.simulator.recall_attempts[-len(drift_magnitudes):])
+        min_remaining_coherence = min(
+            attempt.accuracy_score
+            for attempt in self.simulator.recall_attempts[-len(drift_magnitudes) :]
+        )
 
         self.assertLess(max_degradation, 0.8)  # Should not lose >80% coherence
         self.assertGreater(min_remaining_coherence, 0.1)  # Should retain >10% coherence
 
-        print(f"✓ Coherence test: Max degradation={max_degradation:.3f}, Min remaining={min_remaining_coherence:.3f}")
+        print(
+            f"✓ Coherence test: Max degradation={max_degradation:.3f}, Min remaining={min_remaining_coherence:.3f}"
+        )
 
 
 def run_glyph_recall_drift_tests():
     """Run the complete glyph recall and drift correlation test suite."""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🔮 RUNNING GLYPH RECALL & DRIFT CORRELATION TESTS")
-    print("="*80)
+    print("=" * 80)
 
     # Create test suite
     loader = unittest.TestLoader()
@@ -725,13 +811,15 @@ def run_glyph_recall_drift_tests():
     result = runner.run(suite)
 
     # Print summary
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📊 TEST SUMMARY")
-    print("="*80)
+    print("=" * 80)
     print(f"Tests run: {result.testsRun}")
     print(f"Failures: {len(result.failures)}")
     print(f"Errors: {len(result.errors)}")
-    print(f"Success rate: {((result.testsRun - len(result.failures) - len(result.errors)) / result.testsRun * 100):.1f}%")
+    print(
+        f"Success rate: {((result.testsRun - len(result.failures) - len(result.errors)) / result.testsRun * 100):.1f}%"
+    )
 
     if result.failures:
         print("\n❌ FAILURES:")
@@ -743,7 +831,7 @@ def run_glyph_recall_drift_tests():
         for test, traceback in result.errors:
             print(f"  - {test}: {traceback}")
 
-    print("="*80)
+    print("=" * 80)
     return result.wasSuccessful()
 
 

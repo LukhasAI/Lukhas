@@ -26,6 +26,7 @@ from pathlib import Path
 DEST_DIR = Path("core/sample_payloads/")
 DEST_DIR.mkdir(parents=True, exist_ok=True)
 
+
 def generate_payload():
     print("\n🧠 LUCΛS SYMBOLIC PAYLOAD GENERATOR")
     print("────────────────────────────────────────────")
@@ -54,12 +55,12 @@ def generate_payload():
             "joy": joy,
             "stress": stress,
             "calm": calm,
-            "longing": longing
+            "longing": longing,
         },
         "source_widget": widget,
         "dream_fallback": dream_fallback,
         "allow_replay": allow_replay,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
     file_path = DEST_DIR / f"{message_id}.json"
@@ -67,6 +68,7 @@ def generate_payload():
         json.dump(payload, f, indent=2)
 
     print(f"\n✅ Payload saved to {file_path}")
+
 
 if __name__ == "__main__":
     generate_payload()

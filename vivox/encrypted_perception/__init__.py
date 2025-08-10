@@ -3,37 +3,34 @@ VIVOX.EVRN - Encrypted Visual Recognition Node
 Handles encrypted perception with ethical privacy preservation
 """
 
-from .vivox_evrn_core import (
-    VIVOXEncryptedPerceptionNode,
-    PerceptualVector,
-    EncryptedPerception,
-    AnomalySignature,
-    EthicalSignificance
-)
-
-from .vector_encryption import (
-    PerceptualEncryptor,
-    VectorSignature,
-    EncryptionProtocol
-)
-
 from .anomaly_detection import (
     AnomalyDetector,
     AnomalyType,
-    SignificanceAnalyzer
+    SignificanceAnalyzer,
 )
-
 from .ethical_perception import (
     EthicalPerceptionFilter,
+    NonDecodableTransform,
     PrivacyPreservingVision,
-    NonDecodableTransform
+)
+from .sensory_integration import (
+    MotionDetector,
+    MultimodalFusion,
+    TextureAnalyzer,
+)
+from .vector_encryption import (
+    EncryptionProtocol,
+    PerceptualEncryptor,
+    VectorSignature,
+)
+from .vivox_evrn_core import (
+    AnomalySignature,
+    EncryptedPerception,
+    EthicalSignificance,
+    PerceptualVector,
+    VIVOXEncryptedPerceptionNode,
 )
 
-from .sensory_integration import (
-    TextureAnalyzer,
-    MotionDetector,
-    MultimodalFusion
-)
 
 # Main factory function
 def create_vivox_evrn_system(
@@ -65,27 +62,27 @@ __all__ = [
     'EncryptedPerception',
     'AnomalySignature',
     'EthicalSignificance',
-    
+
     # Encryption
     'PerceptualEncryptor',
     'VectorSignature',
     'EncryptionProtocol',
-    
+
     # Anomaly detection
     'AnomalyDetector',
     'AnomalyType',
     'SignificanceAnalyzer',
-    
+
     # Ethical perception
     'EthicalPerceptionFilter',
     'PrivacyPreservingVision',
     'NonDecodableTransform',
-    
+
     # Sensory integration
     'TextureAnalyzer',
     'MotionDetector',
     'MultimodalFusion',
-    
+
     # Factory
     'create_vivox_evrn_system'
 ]

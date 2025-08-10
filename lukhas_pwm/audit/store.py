@@ -2,7 +2,7 @@ import json
 import os
 import threading
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Any, Optional
 
 _AUDIT_LOCK = threading.Lock()
 _AUDIT_DIR = Path(os.getenv("LUKHAS_AUDIT_DIR", ".lukhas_audit"))
@@ -11,7 +11,7 @@ _AUDIT_DIR.mkdir(parents=True, exist_ok=True)
 _AUDIT_FILE.touch(exist_ok=True)
 
 
-def audit_log_write(bundle: Dict[str, Any]) -> None:
+def audit_log_write(bundle: dict[str, Any]) -> None:
     """
     Append a single audit bundle as one JSON line.
     Bundle must include a unique 'audit_id'.
@@ -21,24 +21,22 @@ def audit_log_write(bundle: Dict[str, Any]) -> None:
     # Redact anything dangerous; keep it server-safe
     bundle = _redact(bundle)
     line = json.dumps(bundle, ensure_ascii=False)
-    with _AUDIT_LOCK:
-        with _AUDIT_FILE.open("a", encoding="utf-8") as f:
-            f.write(line + "\n")
+    with _AUDIT_LOCK, _AUDIT_FILE.open("a", encoding="utf-8") as f:
+        f.write(line + "\n")
 
 
-def audit_log_read(audit_id: str) -> Optional[Dict[str, Any]]:
+def audit_log_read(audit_id: str) -> Optional[dict[str, Any]]:
     """
     Scan JSONL for the most recent bundle with matching audit_id.
     """
-    with _AUDIT_LOCK:
-        with _AUDIT_FILE.open("r", encoding="utf-8") as f:
-            for line in reversed(f.readlines()):
-                try:
-                    obj = json.loads(line)
-                    if obj.get("audit_id") == audit_id:
-                        return obj
-                except Exception:
-                    continue
+    with _AUDIT_LOCK, _AUDIT_FILE.open("r", encoding="utf-8") as f:
+        for line in reversed(f.readlines()):
+            try:
+                obj = json.loads(line)
+                if obj.get("audit_id") == audit_id:
+                    return obj
+            except Exception:
+                continue
     return None
 
 

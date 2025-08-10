@@ -39,19 +39,21 @@ summary has been added, typically used in streaming or progressive responses.
 
 from typing_extensions import Literal
 
+# Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
 # ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from core.models import BaseModel # Assuming this path is correct within the project structure.
+from core.models import (
+    BaseModel,  # Assuming this path is correct within the project structure.
+)
 
-import structlog
-
-# Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing response_reasoning_summary_part_added_event.py module (Data Model Definition).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_summary_part_added_event.py module (Data Model Definition).",
+    module_path=__file__,
+)
 
 __all__ = ["ResponseReasoningSummaryPartAddedEvent", "Part"]
 
@@ -62,6 +64,7 @@ class Part(BaseModel):
     """
     Represents a part of a reasoning summary, typically a text segment.
     """
+
     # ΛNOTE: The `text` field holds the symbolic content of this summary part.
     text: str
     """The text content of this summary part."""
@@ -70,7 +73,11 @@ class Part(BaseModel):
     type: Literal["summary_text"]
     """The type of this summary part. Always `summary_text` for this model."""
     # Human-readable comment: Fixed literal type for discriminating this model part.
-logger.debug("Part data model class (for summary part) defined.", class_name="Part") # Removed manual ΛTRACE prefix
+
+
+logger.debug(
+    "Part data model class (for summary part) defined.", class_name="Part"
+)  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: This class, `ResponseReasoningSummaryPartAddedEvent`, defines the symbolic structure
@@ -81,6 +88,7 @@ class ResponseReasoningSummaryPartAddedEvent(BaseModel):
     Represents an event indicating that a new part has been added to a reasoning summary.
     This is used for streaming or progressively building reasoning summaries.
     """
+
     # AIDENTITY: `item_id` links this new summary part to its parent reasoning item.
     item_id: str
     """The unique identifier of the main reasoning item to which this summary part belongs."""
@@ -106,7 +114,11 @@ class ResponseReasoningSummaryPartAddedEvent(BaseModel):
     """The type of the event. Always 'response.reasoning_summary_part.added' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.
 
-logger.debug("ResponseReasoningSummaryPartAddedEvent data model class defined.", class_name="ResponseReasoningSummaryPartAddedEvent") # Removed manual ΛTRACE prefix
+
+logger.debug(
+    "ResponseReasoningSummaryPartAddedEvent data model class defined.",
+    class_name="ResponseReasoningSummaryPartAddedEvent",
+)  # Removed manual ΛTRACE prefix
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Response Reasoning Summary Part Added Event Model

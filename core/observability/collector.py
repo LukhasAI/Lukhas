@@ -2,7 +2,8 @@ import asyncio
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
+
 import psutil
 
 
@@ -15,8 +16,9 @@ class ActorMetric:
 
 
 class ObservabilityCollector:
+
     def __init__(self):
-        self._metrics: Dict[str, List[ActorMetric]] = defaultdict(list)
+        self._metrics: dict[str, list[ActorMetric]] = defaultdict(list)
         self._running = False
         self._worker_task: Optional[asyncio.Task] = None
         self.log_file = open("observability.log", "w")
@@ -38,7 +40,7 @@ class ObservabilityCollector:
         self._metrics[metric_name].append(metric)
         self.log_file.write(f"{time.time()},{actor_id},{metric_name},{value}\n")
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         return {
             "system": {
                 "cpu_percent": psutil.cpu_percent(),

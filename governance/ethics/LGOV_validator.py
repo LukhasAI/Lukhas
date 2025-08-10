@@ -14,10 +14,12 @@ It will be responsible for ensuring that all orchestration decisions adhere to
 the defined governance and ethical frameworks.
 """
 
+from typing import Any
+
 from core.common import get_logger
-from typing import Dict, Any
 
 logger = get_logger(__name__)
+
 
 class SymbolicOversightValidator:
     """
@@ -33,12 +35,12 @@ class SymbolicOversightValidator:
         self.ethics_engine = ethics_engine
         logger.info("Symbolic Oversight Compliance Validator initialized.")
 
-    def validate_decision(self, decision: Dict[str, Any]) -> bool:
+    def validate_decision(self, decision: dict[str, Any]) -> bool:
         """
         {AIM}{orchestrator}
         Validate a decision against the governance and ethical frameworks.
         """
-        #ΛTRACE
+        # ΛTRACE
         logger.info("Validating decision", decision=decision)
 
         # Placeholder for validation logic.

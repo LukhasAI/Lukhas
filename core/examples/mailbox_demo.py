@@ -5,19 +5,15 @@ Shows priority queues, back-pressure, persistence, and sequential guarantees
 
 import asyncio
 import json
-import time
-from typing import Dict, Any
 
 # Add parent directory to path
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from core.actor_system import Actor, ActorSystem, get_global_actor_system
-from core.mailbox import (
-    MailboxActor, MailboxType, MessagePriority,
-    BackPressureStrategy, MailboxFactory
-)
+from core.actor_system import get_global_actor_system
+from core.mailbox import BackPressureStrategy, MailboxActor, MailboxType
+
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
 
 class SequentialCounterActor(MailboxActor):
@@ -30,7 +26,7 @@ class SequentialCounterActor(MailboxActor):
         super().__init__(
             actor_id,
             mailbox_type=MailboxType.BOUNDED,
-            mailbox_config={"max_size": 100}
+            mailbox_config={"max_size": 100},
         )
         self.counter = 0
         self.register_handler("increment", self._handle_increment)
@@ -57,17 +53,14 @@ class PriorityTaskActor(MailboxActor):
         super().__init__(
             actor_id,
             mailbox_type=MailboxType.PRIORITY,
-            mailbox_config={
-                "max_size": 50,
-                "starvation_prevention": True
-            }
+            mailbox_config={"max_size": 50, "starvation_prevention": True},
         )
         self.tasks_processed = {
             "SYSTEM": 0,
             "HIGH": 0,
             "NORMAL": 0,
             "LOW": 0,
-            "BULK": 0
+            "BULK": 0,
         }
         self.register_handler("process_task", self._handle_task)
         self.register_handler("get_stats", self._handle_get_stats)
@@ -90,7 +83,7 @@ class PriorityTaskActor(MailboxActor):
         """Get processing statistics"""
         return {
             "tasks_processed": self.tasks_processed,
-            "mailbox_stats": self.get_mailbox_stats()
+            "mailbox_stats": self.get_mailbox_stats(),
         }
 
 
@@ -105,8 +98,8 @@ class BackPressureActor(MailboxActor):
             mailbox_type=MailboxType.BOUNDED,
             mailbox_config={
                 "max_size": 10,  # Small mailbox to trigger back-pressure
-                "back_pressure_strategy": strategy
-            }
+                "back_pressure_strategy": strategy,
+            },
         )
         self.strategy = strategy
         self.processed_messages = []
@@ -125,7 +118,7 @@ class BackPressureActor(MailboxActor):
         return {
             "processed": self.processed_messages,
             "strategy": self.strategy.value,
-            "mailbox_stats": self.mailbox.get_stats()
+            "mailbox_stats": self.mailbox.get_stats(),
         }
 
 
@@ -141,8 +134,8 @@ class PersistentStateActor(MailboxActor):
             mailbox_config={
                 "max_size": 100,
                 "persistence_path": f"/tmp/{actor_id}_mailbox.json",
-                "persistence_interval": 2.0
-            }
+                "persistence_interval": 2.0,
+            },
         )
         self.state = {"processed": [], "crashed": False}
         self.register_handler("update_state", self._handle_update)
@@ -151,7 +144,7 @@ class PersistentStateActor(MailboxActor):
 
     async def pre_start(self):
         """Restore mailbox on startup"""
-        if hasattr(self.mailbox, 'restore_from_disk'):
+        if hasattr(self.mailbox, "restore_from_disk"):
             restored = await self.mailbox.restore_from_disk()
             if restored > 0:
                 print(f"Restored {restored} messages from disk")
@@ -185,7 +178,7 @@ async def demonstrate_sequential_guarantee():
 
     # Send 100 increment messages concurrently
     tasks = []
-    for i in range(100):
+    for _i in range(100):
         tasks.append(counter.tell("increment", {}))
 
     await asyncio.gather(*tasks)
@@ -215,29 +208,36 @@ async def demonstrate_priority_processing():
 
     # Low priority background tasks
     for i in range(5):
-        tasks.append(priority_actor.tell("process_task", {
-            "task_name": f"background-{i}",
-            "priority": "LOW"
-        }))
+        tasks.append(
+            priority_actor.tell(
+                "process_task",
+                {"task_name": f"background-{i}", "priority": "LOW"},
+            )
+        )
 
     # Normal priority tasks
     for i in range(3):
-        tasks.append(priority_actor.tell("process_task", {
-            "task_name": f"normal-{i}",
-            "priority": "NORMAL"
-        }))
+        tasks.append(
+            priority_actor.tell(
+                "process_task",
+                {"task_name": f"normal-{i}", "priority": "NORMAL"},
+            )
+        )
 
     # High priority urgent task
-    tasks.append(priority_actor.tell("process_task", {
-        "task_name": "urgent-request",
-        "priority": "HIGH"
-    }))
+    tasks.append(
+        priority_actor.tell(
+            "process_task", {"task_name": "urgent-request", "priority": "HIGH"}
+        )
+    )
 
     # System critical task
-    tasks.append(priority_actor.tell("process_task", {
-        "task_name": "system-health-check",
-        "priority": "SYSTEM"
-    }))
+    tasks.append(
+        priority_actor.tell(
+            "process_task",
+            {"task_name": "system-health-check", "priority": "SYSTEM"},
+        )
+    )
 
     await asyncio.gather(*tasks)
 
@@ -259,7 +259,7 @@ async def demonstrate_back_pressure():
     drop_newest = await system.create_actor(
         BackPressureActor,
         "drop-newest-001",
-        strategy=BackPressureStrategy.DROP_NEWEST
+        strategy=BackPressureStrategy.DROP_NEWEST,
     )
 
     # Send more messages than mailbox can hold

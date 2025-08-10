@@ -6,20 +6,20 @@ DeduplicationCache for symbolic deduplication.
 
 from __future__ import annotations
 
-
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
-from abc import ABC, abstractmethod
 import hashlib
-
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from typing import Any
 
 # ΛTAG: tag_schema
+
+
 @dataclass
 class Tag:
     """Represents a symbolic tag."""
 
     id: str
-    vector: List[float]
+    vector: list[float]
     semantic_fingerprint: str
 
 
@@ -36,7 +36,7 @@ class TagResolver(ABC):
 
     schema: TagSchema
 
-    def __init__(self, schema: Optional[TagSchema] = None) -> None:
+    def __init__(self, schema: TagSchema | None = None) -> None:
         self.schema = schema or TagSchema()
 
     @abstractmethod
@@ -49,7 +49,9 @@ class SimpleTagResolver(TagResolver):
 
     def resolve_tag(self, data: Any) -> Tag:
         payload = str(data).encode()
-        fingerprint = hashlib.new(self.schema.fingerprint_algorithm, payload).hexdigest()
+        fingerprint = hashlib.new(
+            self.schema.fingerprint_algorithm, payload
+        ).hexdigest()
         vector_bytes = hashlib.md5(payload).digest()  # stable 16-byte vector
         vector = [b / 255 for b in vector_bytes]
         tag_id = fingerprint[:8]
@@ -60,7 +62,7 @@ class DeduplicationCache:
     """Stores tags by fingerprint and prevents duplication."""
 
     def __init__(self) -> None:
-        self._store: Dict[str, Tag] = {}
+        self._store: dict[str, Tag] = {}
 
     def store(self, tag: Tag) -> Tag:
         if tag.semantic_fingerprint in self._store:
@@ -71,5 +73,5 @@ class DeduplicationCache:
     def __len__(self) -> int:
         return len(self._store)
 
-    def get(self, fingerprint: str) -> Optional[Tag]:
+    def get(self, fingerprint: str) -> Tag | None:
         return self._store.get(fingerprint)

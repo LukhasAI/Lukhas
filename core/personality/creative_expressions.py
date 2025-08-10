@@ -36,7 +36,6 @@
 
 import json
 import random
-from typing import Dict, List, Optional
 
 import structlog
 
@@ -44,7 +43,10 @@ import structlog
 logger = structlog.get_logger("lukhas.creative_expressions")
 
 # Enhanced NeuroHaikuGenerator with federated learning integration
+
+
 class NeuroHaikuGenerator:
+
     def __init__(self, symbolic_db, federated_model):
         self.symbolic_db = symbolic_db
         self.federated_model = federated_model
@@ -54,7 +56,7 @@ class NeuroHaikuGenerator:
     def _load_style_preferences(self):
         # Get personalized style weights from federated model
         model_params = self.federated_model.get_parameters()
-        return model_params.get('style_weights', {'nature': 0.7, 'tech': 0.3})
+        return model_params.get("style_weights", {"nature": 0.7, "tech": 0.3})
 
     def generate_haiku(self, expansion_depth=2):
         base_haiku = self._create_base_haiku()
@@ -62,9 +64,9 @@ class NeuroHaikuGenerator:
 
     def _create_base_haiku(self):
         lines = [
-            self._build_line(5, 'fragment'),
-            self._build_line(7, 'phrase'),
-            self._build_line(5, 'fragment')
+            self._build_line(5, "fragment"),
+            self._build_line(7, "phrase"),
+            self._build_line(5, "fragment"),
         ]
         return "\n".join(lines)
 
@@ -80,11 +82,11 @@ class NeuroHaikuGenerator:
                 line.append(word)
                 current_syllables += self._count_syllables(word)
 
-        return ' '.join(line).capitalize()
+        return " ".join(line).capitalize()
 
     def _expand_haiku(self, haiku, depth):
         expanded_lines = []
-        for line in haiku.split('\n'):
+        for line in haiku.split("\n"):
             expanded_line = line
             for _ in range(depth):
                 expanded_line = self._apply_expansion_rules(expanded_line)
@@ -96,37 +98,41 @@ class NeuroHaikuGenerator:
         expansion_type = self.federated_model.predict_expansion_type(line)
 
         expansion_methods = {
-            'imagery': self._add_sensory_detail,
-            'emotion': self._infuse_emotion,
-            'contrast': self._create_juxtaposition
+            "imagery": self._add_sensory_detail,
+            "emotion": self._infuse_emotion,
+            "contrast": self._create_juxtaposition,
         }
 
         return expansion_methods.get(expansion_type, lambda x: x)(line)
 
     def _add_sensory_detail(self, line):
         # Get sensory words from symbolic DB
-        modifiers = self.symbolic_db.get('sensory_words', [])
+        modifiers = self.symbolic_db.get("sensory_words", [])
         return f"{line} {random.choice(modifiers)}"
 
     def _infuse_emotion(self, line):
-        emotions = self.symbolic_db.get('emotion_words', [])
-        extras = self.symbolic_db.get('inspiration_inject', [])
+        emotions = self.symbolic_db.get("emotion_words", [])
+        extras = self.symbolic_db.get("inspiration_inject", [])
         prefix = random.choice(emotions + extras) if extras else random.choice(emotions)
         return f"{prefix} {line}"
 
     def _create_juxtaposition(self, line):
         # Implement phrase & fragment theory from search results[3]
-        if ',' in line:
-            return line.replace(',', ' yet ')
+        if "," in line:
+            return line.replace(",", " yet ")
         return f"{line}, {random.choice(self.symbolic_db['contrast_words'])}"
 
     def load_inspiration_profile(self, path):
-        """Load an external symbolic or cultural inspiration source (e.g. Mandela, Stoicism)"""
+        """Load an external symbolic or cultural inspiration source (e.g. Mandela,
+        Stoicism)"""
         try:
-            with open(path, "r", encoding="utf-8") as f:
-                self.symbolic_db["inspiration_inject"] = json.load(f).get("keywords", [])
+            with open(path, encoding="utf-8") as f:
+                self.symbolic_db["inspiration_inject"] = json.load(f).get(
+                    "keywords", []
+                )
         except Exception as e:
             logger.warning(f"[CreativeExpressions] Failed to load inspiration: {e}")
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

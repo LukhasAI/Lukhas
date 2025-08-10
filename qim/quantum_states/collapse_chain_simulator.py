@@ -12,23 +12,22 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
 import hashlib
+from datetime import datetime, timezone
+from typing import Any, Dict
 
 import structlog
 
 from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
-
-#TAG:qim
-#TAG:quantum_states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:qim
+# TAG:quantum_states
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = structlog.get_logger(__name__)
+
 
 class CollapseChainSimulator:
     """
@@ -43,7 +42,9 @@ class CollapseChainSimulator:
             brain_integrator (Any): The main brain integrator instance.
         """
         self.brain_integrator: Any = brain_integrator
-        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(brain_integrator)
+        self.collapse_manager: BrainCollapseManager = BrainCollapseManager(
+            brain_integrator
+        )
 
     async def simulate_collapse(self, drift_trigger: Dict[str, Any]) -> None:
         """
@@ -62,7 +63,9 @@ class CollapseChainSimulator:
 
         # 3. Log the outcome.
         outcome_hash: str = hashlib.sha256(
-            str(self.collapse_manager.symbolic_trace_logger.get_pattern_analysis()).encode()
+            str(
+                self.collapse_manager.symbolic_trace_logger.get_pattern_analysis()
+            ).encode()
         ).hexdigest()
         with open("orchestration/brain/DRIFT_LOG.md", "a") as f:
             f.write(

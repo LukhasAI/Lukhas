@@ -6,7 +6,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - SYMBOLIC DREAM BRIDGE
 ║ Dream-to-Reality Translation Interface for Oneiric Integration
@@ -52,8 +51,8 @@
 """
 
 import logging
-from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.symbolic_dream")
@@ -65,7 +64,7 @@ class SymbolicDreamContext:
 
     dream_id: str
     phase_state: str
-    symbolic_map: Dict[str, Any]
+    symbolic_map: dict[str, Any]
     resonance_level: float
     bridge_timestamp: float
 
@@ -82,7 +81,7 @@ class SymbolicDreamBridge:
 
     def __init__(self):
         # ΛTRACE: Bridge initialization
-        self.active_contexts: Dict[str, SymbolicDreamContext] = {}
+        self.active_contexts: dict[str, SymbolicDreamContext] = {}
         self.phase_resonance_threshold = 0.75
         self.symbolic_translation_cache = {}
 
@@ -109,7 +108,7 @@ class SymbolicDreamBridge:
 
         return True
 
-    def translate_dream_symbols(self, symbolic_input: Dict[str, Any]) -> Dict[str, Any]:
+    def translate_dream_symbols(self, symbolic_input: dict[str, Any]) -> dict[str, Any]:
         """
         Translate dream symbolic representations to core logic primitives
 
@@ -200,7 +199,6 @@ if __name__ == "__main__":
     print("SymbolicDreamBridge - SCAFFOLD PLACEHOLDER")
     print("# ΛTAG: bridge, symbolic_handshake")
     print("Status: Awaiting implementation - Jules-05 Phase 4")
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

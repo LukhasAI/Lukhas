@@ -8,41 +8,73 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 # Standard Library Imports
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List
 
 # Third-Party Imports
-import structlog
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual
 
 # Initialize logger for this module prior to placeholder definitions that might use it
 # ΛTRACE: Standard logger setup for BioSymbolicMemory.
-from core.common import get_logger
+
 
 # --- Placeholder Imports for LUKHAS Components/Types ---
 # ΛCAUTION: The following classes are placeholders. Their actual implementation
 #           is critical for the functionality of BioSymbolicMemory.
 class WorkingMemoryBuffer:
-    def __init__(self, capacity: int): self.capacity = capacity; self.current_items: List[Any] = []
-    async def encode(self, interaction: Any) -> Any: log.debug("WorkingMemoryBuffer.encode (stub)", interaction_preview=str(interaction)[:50]); return {"encoded_interaction": interaction}
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.current_items: List[Any] = []
+
+    async def encode(self, interaction: Any) -> Any:
+        log.debug(
+            "WorkingMemoryBuffer.encode (stub)",
+            interaction_preview=str(interaction)[:50],
+        )
+        return {"encoded_interaction": interaction}
+
 
 class EpisodicMemoryStore:
-    async def store(self, item: Any, importance: float, decay_rate: float) -> Any: log.debug("EpisodicMemoryStore.store (stub)", item_preview=str(item)[:50]); return {"episodic_trace": item, "importance": importance}
+    async def store(self, item: Any, importance: float, decay_rate: float) -> Any:
+        log.debug("EpisodicMemoryStore.store (stub)", item_preview=str(item)[:50])
+        return {"episodic_trace": item, "importance": importance}
+
 
 class SemanticKnowledgeGraph:
-    async def integrate_patterns(self, patterns: Any) -> None: log.debug("SemanticKnowledgeGraph.integrate_patterns (stub)", patterns_preview=str(patterns)[:50]); pass
+    async def integrate_patterns(self, patterns: Any) -> None:
+        log.debug(
+            "SemanticKnowledgeGraph.integrate_patterns (stub)",
+            patterns_preview=str(patterns)[:50],
+        )
+        pass
+
 
 class ProceduralSkillNetwork:
-    async def update_skill_pathways(self, actions: Any, success_signal: Any) -> None: log.debug("ProceduralSkillNetwork.update_skill_pathways (stub)", actions_preview=str(actions)[:50]); pass
+    async def update_skill_pathways(self, actions: Any, success_signal: Any) -> None:
+        log.debug(
+            "ProceduralSkillNetwork.update_skill_pathways (stub)",
+            actions_preview=str(actions)[:50],
+        )
+        pass
+
 
 class MemoryConsolidationEngine:
-    def __init__(self): self.config: Dict[str, Any] = {} # Add dummy config
-    async def extract_patterns(self, trace: Any, related_memories: List[Any]) -> Any: log.debug("MemoryConsolidationEngine.extract_patterns (stub)", trace_preview=str(trace)[:50]); return {"patterns": [trace]}
+    def __init__(self):
+        self.config: Dict[str, Any] = {}  # Add dummy config
 
-UserInteraction = Dict[str, Any] # ΛNOTE: Type alias for user interaction data.
-InteractionContext = Dict[str, Any] # ΛNOTE: Type alias for interaction context.
+    async def extract_patterns(self, trace: Any, related_memories: List[Any]) -> Any:
+        log.debug(
+            "MemoryConsolidationEngine.extract_patterns (stub)",
+            trace_preview=str(trace)[:50],
+        )
+        return {"patterns": [trace]}
+
+
+UserInteraction = Dict[str, Any]  # ΛNOTE: Type alias for user interaction data.
+InteractionContext = Dict[str, Any]  # ΛNOTE: Type alias for interaction context.
 # --- End Placeholder Imports ---
+
 
 # --- LUKHAS Tier System Placeholder ---
 # ΛNOTE: The lukhas_tier_required decorator is a placeholder for conceptual tiering.
@@ -50,9 +82,11 @@ def lukhas_tier_required(level: int):
     def decorator(func):
         func._lukhas_tier = level
         return func
+
     return decorator
 
-@lukhas_tier_required(2) # Conceptual tier for this advanced memory system
+
+@lukhas_tier_required(2)  # Conceptual tier for this advanced memory system
 class BioSymbolicMemory:
     """
     A memory system inspired by biological memory processes, integrating
@@ -66,7 +100,9 @@ class BioSymbolicMemory:
         """Initializes the BioSymbolicMemory system and its sub-components."""
         # ΛTRACE: Initializing BioSymbolicMemory and its placeholder sub-components.
         log.info("Initializing BioSymbolicMemory and its components.")
-        self.working_memory = WorkingMemoryBuffer(capacity=7) # ΛNOTE: Capacity 7, like typical human short-term memory.
+        self.working_memory = WorkingMemoryBuffer(
+            capacity=7
+        )  # ΛNOTE: Capacity 7, like typical human short-term memory.
         self.episodic_memory = EpisodicMemoryStore()
         self.semantic_memory = SemanticKnowledgeGraph()
         self.procedural_memory = ProceduralSkillNetwork()
@@ -79,8 +115,8 @@ class BioSymbolicMemory:
     @lukhas_tier_required(2)
     async def store_interaction(
         self,
-        interaction: UserInteraction, # ΛSEED_CHAIN
-        context: InteractionContext   # ΛSEED_CHAIN (contains agent_id, is_critical_event etc.)
+        interaction: UserInteraction,  # ΛSEED_CHAIN
+        context: InteractionContext,  # ΛSEED_CHAIN (contains agent_id, is_critical_event etc.)
     ) -> None:
         """
         Stores an interaction using a biologically-inspired consolidation process.
@@ -97,11 +133,16 @@ class BioSymbolicMemory:
             interaction: The user interaction data to be stored.
             context: The context surrounding the interaction.
         """
-        #ΛTAG: bio
+        # ΛTAG: bio
         interaction_type = interaction.get("type", "unknown_type")
-        agent_id_context = context.get("agent_id", "unknown_agent") # AIDENTITY
+        agent_id_context = context.get("agent_id", "unknown_agent")  # AIDENTITY
         # ΛTRACE: Storing interaction in BioSymbolicMemory.
-        log.info("Storing interaction in BioSymbolicMemory.", interaction_type=interaction_type, agent_id=agent_id_context, interaction_keys=list(interaction.keys()))
+        log.info(
+            "Storing interaction in BioSymbolicMemory.",
+            interaction_type=interaction_type,
+            agent_id=agent_id_context,
+            interaction_keys=list(interaction.keys()),
+        )
 
         # ΛTRACE: Encoding interaction into working memory.
         log.debug("Encoding interaction into working memory.")
@@ -114,25 +155,43 @@ class BioSymbolicMemory:
             interaction, context, self.working_memory.current_items
         )
         # ΛTRACE: Interaction importance score computed.
-        log.info("Interaction importance score computed.", score=importance_score, agent_id=agent_id_context)
+        log.info(
+            "Interaction importance score computed.",
+            score=importance_score,
+            agent_id=agent_id_context,
+        )
 
         # ΛDRIFT_POINT: Decay rate calculation influences memory retention.
         decay_rate = await self._compute_decay_rate(importance_score)
         # ΛTRACE: Storing item in episodic memory.
-        log.debug("Storing item in episodic memory.", item_importance=importance_score, item_decay_rate=decay_rate)
+        log.debug(
+            "Storing item in episodic memory.",
+            item_importance=importance_score,
+            item_decay_rate=decay_rate,
+        )
         episodic_trace = await self.episodic_memory.store(
             working_item, importance_score, decay_rate=decay_rate
         )
 
-        consolidation_threshold = self.consolidation_engine.config.get("importance_threshold", 0.7)
+        consolidation_threshold = self.consolidation_engine.config.get(
+            "importance_threshold", 0.7
+        )
 
         if importance_score > consolidation_threshold:
             # ΛTRACE: High importance interaction, proceeding with semantic consolidation.
-            log.info("High importance interaction, proceeding with semantic consolidation.", current_score=importance_score, threshold=consolidation_threshold, agent_id=agent_id_context)
+            log.info(
+                "High importance interaction, proceeding with semantic consolidation.",
+                current_score=importance_score,
+                threshold=consolidation_threshold,
+                agent_id=agent_id_context,
+            )
             # ΛRECALL: Finding related memories to aid consolidation.
             related_memories = await self._find_related_memories(interaction, context)
             # ΛTRACE: Extracting semantic patterns from episodic trace.
-            log.debug("Extracting semantic patterns from episodic trace.", related_memories_count=len(related_memories))
+            log.debug(
+                "Extracting semantic patterns from episodic trace.",
+                related_memories_count=len(related_memories),
+            )
             # ΛDRIFT_POINT: Pattern extraction logic defines semantic knowledge formation.
             semantic_patterns = await self.consolidation_engine.extract_patterns(
                 episodic_trace, related_memories=related_memories
@@ -143,18 +202,32 @@ class BioSymbolicMemory:
             await self.semantic_memory.integrate_patterns(semantic_patterns)
         else:
             # ΛTRACE: Interaction below importance threshold for semantic consolidation.
-            log.info("Interaction below importance threshold for semantic consolidation.", current_score=importance_score, threshold=consolidation_threshold, agent_id=agent_id_context)
+            log.info(
+                "Interaction below importance threshold for semantic consolidation.",
+                current_score=importance_score,
+                threshold=consolidation_threshold,
+                agent_id=agent_id_context,
+            )
 
         if interaction.get("contains_actions", False):
             # ΛTRACE: Interaction contains actions, updating procedural memory.
-            log.info("Interaction contains actions, updating procedural memory.", agent_id=agent_id_context)
+            log.info(
+                "Interaction contains actions, updating procedural memory.",
+                agent_id=agent_id_context,
+            )
             actions = interaction.get("actions", [])
-            outcome_feedback = context.get("outcome_feedback") # ΛSEED_CHAIN: Outcome feedback seeds procedural learning.
+            outcome_feedback = context.get(
+                "outcome_feedback"
+            )  # ΛSEED_CHAIN: Outcome feedback seeds procedural learning.
             await self.procedural_memory.update_skill_pathways(
                 actions, success_signal=outcome_feedback
             )
         # ΛTRACE: Interaction processing and storage complete.
-        log.info("Interaction processing and storage complete in BioSymbolicMemory.", agent_id=agent_id_context, interaction_type=interaction_type)
+        log.info(
+            "Interaction processing and storage complete in BioSymbolicMemory.",
+            agent_id=agent_id_context,
+            interaction_type=interaction_type,
+        )
 
     # --- Placeholder Private Methods ---
     # ΛCAUTION: This importance computation is a STUB. Real logic would be more complex.
@@ -164,17 +237,25 @@ class BioSymbolicMemory:
         self,
         interaction: UserInteraction,
         context: InteractionContext,
-        working_memory_items: List[Any] # ΛNOTE: working_memory_items currently unused in stub.
+        working_memory_items: List[
+            Any
+        ],  # ΛNOTE: working_memory_items currently unused in stub.
     ) -> float:
         """Computes the importance score of an interaction. (Stub)"""
         interaction_content_preview = str(interaction.get("content", ""))[:50]
         # ΛTRACE: Computing importance (stub implementation).
-        log.debug("Computing importance (stub).", interaction_preview=interaction_content_preview, context_keys=list(context.keys()))
+        log.debug(
+            "Computing importance (stub).",
+            interaction_preview=interaction_content_preview,
+            context_keys=list(context.keys()),
+        )
         base_score = 0.5
-        if context.get("is_critical_event", False): base_score += 0.3
-        if interaction.get("is_novel", False): base_score +=0.2 # ΛNOTE: Novelty detection would be complex.
+        if context.get("is_critical_event", False):
+            base_score += 0.3
+        if interaction.get("is_novel", False):
+            base_score += 0.2  # ΛNOTE: Novelty detection would be complex.
         content_length = len(str(interaction.get("content", "")))
-        base_score += min(0.2, content_length / 1000.0) # Simple length heuristic
+        base_score += min(0.2, content_length / 1000.0)  # Simple length heuristic
         return min(1.0, max(0.0, base_score))
 
     # ΛCAUTION: This decay rate computation is a STUB.
@@ -185,22 +266,24 @@ class BioSymbolicMemory:
         # ΛTRACE: Computing decay rate (stub implementation).
         log.debug("Computing decay rate (stub).", for_importance_score=importance_score)
         # Higher importance = lower decay rate
-        decay = 0.5 - (importance_score * 0.49) # Ensures decay is between ~0.0 and 0.5
-        return max(0.01, decay) # Minimum decay rate
+        decay = 0.5 - (importance_score * 0.49)  # Ensures decay is between ~0.0 and 0.5
+        return max(0.01, decay)  # Minimum decay rate
 
     # ΛRECALL: Stub for finding related memories. This is a critical recall step for consolidation.
     # ΛCAUTION: This related memory search is a STUB.
     @lukhas_tier_required(1)
     async def _find_related_memories(
-        self,
-        interaction: UserInteraction,
-        context: InteractionContext
+        self, interaction: UserInteraction, context: InteractionContext
     ) -> List[Any]:
         """Finds memories related to the current interaction. (Stub)"""
         interaction_content_preview = str(interaction.get("content", ""))[:50]
         # ΛTRACE: Finding related memories (stub implementation).
-        log.debug("Finding related memories (stub).", for_interaction_preview=interaction_content_preview)
-        return [] # Placeholder: actual implementation would search memory stores.
+        log.debug(
+            "Finding related memories (stub).",
+            for_interaction_preview=interaction_content_preview,
+        )
+        return []  # Placeholder: actual implementation would search memory stores.
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/bio_symbolic_memory.py

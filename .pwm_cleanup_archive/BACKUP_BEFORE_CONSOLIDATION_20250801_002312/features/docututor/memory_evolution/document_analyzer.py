@@ -3,50 +3,45 @@ Document Structure Analyzer for DocuTutor.
 Analyzes document structure and quality metrics.
 """
 
-from typing import Dict, List
 import re
 from collections import Counter
+from typing import Dict
+
 
 class DocumentStructureAnalyzer:
     def __init__(self):
         self.section_patterns = [
-            r'#{1,6}\s+.+',  # Markdown headers
-            r'[A-Z][A-Za-z\s]+:',  # Title-case labels
-            r'\d+\.\s+.+',  # Numbered sections
+            r"#{1,6}\s+.+",  # Markdown headers
+            r"[A-Z][A-Za-z\s]+:",  # Title-case labels
+            r"\d+\.\s+.+",  # Numbered sections
         ]
         self.code_block_patterns = [
-            r'```[\s\S]*?```',  # Code blocks
-            r'`[^`]+`',  # Inline code
+            r"```[\s\S]*?```",  # Code blocks
+            r"`[^`]+`",  # Inline code
         ]
 
     def analyze_structure(self, content: str) -> Dict:
         """Analyze document structure and return quality metrics."""
         metrics = {
-            'section_depth': self._analyze_section_depth(content),
-            'code_quality': self._analyze_code_blocks(content),
-            'link_density': self._analyze_link_density(content),
-            'readability': self._analyze_readability(content),
-            'formatting': self._analyze_formatting(content)
+            "section_depth": self._analyze_section_depth(content),
+            "code_quality": self._analyze_code_blocks(content),
+            "link_density": self._analyze_link_density(content),
+            "readability": self._analyze_readability(content),
+            "formatting": self._analyze_formatting(content),
         }
 
         # Calculate overall structure score
         weights = {
-            'section_depth': 0.25,
-            'code_quality': 0.2,
-            'link_density': 0.15,
-            'readability': 0.25,
-            'formatting': 0.15
+            "section_depth": 0.25,
+            "code_quality": 0.2,
+            "link_density": 0.15,
+            "readability": 0.25,
+            "formatting": 0.15,
         }
 
-        overall_score = sum(
-            metrics[key] * weights[key]
-            for key in weights
-        )
+        overall_score = sum(metrics[key] * weights[key] for key in weights)
 
-        return {
-            **metrics,
-            'overall_score': overall_score
-        }
+        return {**metrics, "overall_score": overall_score}
 
     def _analyze_section_depth(self, content: str) -> float:
         """Analyze section hierarchy depth and organization."""
@@ -59,9 +54,9 @@ class DocumentStructureAnalyzer:
 
         # Count section depths
         depths = Counter(
-            len(re.match(r'^#+', section).group(0))
+            len(re.match(r"^#+", section).group(0))
             for section in sections
-            if section.startswith('#')
+            if section.startswith("#")
         )
 
         # Calculate depth score
@@ -69,9 +64,14 @@ class DocumentStructureAnalyzer:
         depth_variety = len(depths)
         sections_per_level = sum(depths.values()) / len(depths) if depths else 0
 
-        return min(1.0, (0.3 * min(3, max_depth) / 3 +
-                        0.4 * min(3, depth_variety) / 3 +
-                        0.3 * min(5, sections_per_level) / 5))
+        return min(
+            1.0,
+            (
+                0.3 * min(3, max_depth) / 3
+                + 0.4 * min(3, depth_variety) / 3
+                + 0.3 * min(5, sections_per_level) / 5
+            ),
+        )
 
     def _analyze_code_blocks(self, content: str) -> float:
         """Analyze code block quality and formatting."""
@@ -86,30 +86,28 @@ class DocumentStructureAnalyzer:
         scores = []
         for block in code_blocks:
             # Strip markdown markers
-            code = re.sub(r'```\w*\n|```$', '', block)
+            code = re.sub(r"```\w*\n|```$", "", block)
 
             # Calculate metrics
-            lines = code.split('\n')
+            lines = code.split("\n")
             if not lines:
                 continue
 
-            indent_consistency = len(set(
-                len(line) - len(line.lstrip())
-                for line in lines
-                if line.strip()
-            )) <= 2
-
-            has_comments = any(
-                re.search(r'#|//|/\*|\*/', line)
-                for line in lines
+            indent_consistency = (
+                len(
+                    set(
+                        len(line) - len(line.lstrip()) for line in lines if line.strip()
+                    )
+                )
+                <= 2
             )
+
+            has_comments = any(re.search(r"#|//|/\*|\*/", line) for line in lines)
 
             avg_line_length = sum(len(line) for line in lines) / len(lines)
             good_length = 20 <= avg_line_length <= 100
 
-            score = (0.4 * indent_consistency +
-                    0.3 * has_comments +
-                    0.3 * good_length)
+            score = 0.4 * indent_consistency + 0.3 * has_comments + 0.3 * good_length
             scores.append(score)
 
         return sum(scores) / len(scores) if scores else 0.0
@@ -117,8 +115,8 @@ class DocumentStructureAnalyzer:
     def _analyze_link_density(self, content: str) -> float:
         """Analyze link and reference density."""
         # Count markdown links and references
-        links = len(re.findall(r'\[([^\]]+)\]\(([^\)]+)\)', content))
-        references = len(re.findall(r'\[([^\]]+)\]\[([^\]]+)\]', content))
+        links = len(re.findall(r"\[([^\]]+)\]\(([^\)]+)\)", content))
+        references = len(re.findall(r"\[([^\]]+)\]\[([^\]]+)\]", content))
         words = len(content.split())
 
         if words == 0:
@@ -130,56 +128,56 @@ class DocumentStructureAnalyzer:
 
     def _analyze_readability(self, content: str) -> float:
         """Analyze text readability."""
-        sentences = re.split(r'[.!?]+', content)
+        sentences = re.split(r"[.!?]+", content)
         if not sentences:
             return 0.0
 
         # Calculate average sentence length
-        avg_sentence_length = sum(
-            len(s.split())
-            for s in sentences
-            if s.strip()
-        ) / len(sentences)
+        avg_sentence_length = sum(len(s.split()) for s in sentences if s.strip()) / len(
+            sentences
+        )
 
         # Penalize very short or very long sentences
         length_score = 1.0 - abs(avg_sentence_length - 20) / 30
 
         # Check for formatting variety
-        has_lists = bool(re.search(r'[-*]\s+\w+', content))
-        has_emphasis = bool(re.search(r'\*\w+\*|_\w+_', content))
-        has_structure = bool(re.search(r'#{1,6}\s+\w+', content))
+        has_lists = bool(re.search(r"[-*]\s+\w+", content))
+        has_emphasis = bool(re.search(r"\*\w+\*|_\w+_", content))
+        has_structure = bool(re.search(r"#{1,6}\s+\w+", content))
 
-        format_score = (0.4 * has_lists +
-                       0.3 * has_emphasis +
-                       0.3 * has_structure)
+        format_score = 0.4 * has_lists + 0.3 * has_emphasis + 0.3 * has_structure
 
         return min(1.0, 0.6 * max(0, length_score) + 0.4 * format_score)
 
     def _analyze_formatting(self, content: str) -> float:
         """Analyze document formatting consistency."""
         # Check consistent spacing
-        consistent_spacing = len(set(
-            len(line) - len(line.lstrip())
-            for line in content.split('\n')
-            if line.strip()
-        )) <= 2
+        consistent_spacing = (
+            len(
+                set(
+                    len(line) - len(line.lstrip())
+                    for line in content.split("\n")
+                    if line.strip()
+                )
+            )
+            <= 2
+        )
 
         # Check list formatting
-        list_items = re.findall(r'[-*]\s+\w+', content)
-        consistent_lists = len(set(
-            line[0] for line in list_items
-        )) <= 1 if list_items else True
+        list_items = re.findall(r"[-*]\s+\w+", content)
+        consistent_lists = (
+            len(set(line[0] for line in list_items)) <= 1 if list_items else True
+        )
 
         # Check header formatting
-        headers = re.findall(r'#{1,6}\s+\w+', content)
-        consistent_headers = len(set(
-            len(h) - len(h.lstrip('#'))
-            for h in headers
-        )) == len(set(
-            re.sub(r'^#+\s+', '', h)
-            for h in headers
-        )) if headers else True
+        headers = re.findall(r"#{1,6}\s+\w+", content)
+        consistent_headers = (
+            len(set(len(h) - len(h.lstrip("#")) for h in headers))
+            == len(set(re.sub(r"^#+\s+", "", h) for h in headers))
+            if headers
+            else True
+        )
 
-        return (0.4 * consistent_spacing +
-                0.3 * consistent_lists +
-                0.3 * consistent_headers)
+        return (
+            0.4 * consistent_spacing + 0.3 * consistent_lists + 0.3 * consistent_headers
+        )

@@ -3,40 +3,34 @@ VIVOX.QREADY - Quantum Readiness Interface
 Prepares VIVOX for future quantum computing substrates
 """
 
-from .core.quantum_substrate import (
-    QuantumSubstrate,
-    QuantumState,
-    QuantumEnvironment,
-    QuantumStateType,
-    QuantumNoiseType
-)
-
-from .core.qubit_collapse import (
-    QubitCollapseEngine,
-    CollapseField,
-    ProbabilisticConvergence,
-    CollapseType
-)
-
 from .coherence.qsync_events import (
+    EntanglementBridge,
     QSyncEvent,
     QuantumSynchronizer,
-    EntanglementBridge,
-    SyncType
+    SyncType,
 )
-
 from .collapse.moral_superposition import (
-    MoralSuperposition,
-    EthicalQuantumState,
     EthicalDimension,
+    EthicalQuantumState,
+    MoralSuperposition,
     SuperpositionPath,
-    SuperpositionResolver
+    SuperpositionResolver,
 )
+from .core.quantum_substrate import (
+    QuantumEnvironment,
+    QuantumNoiseType,
+    QuantumState,
+    QuantumStateType,
+    QuantumSubstrate,
+)
+from .core.qubit_collapse import (
+    CollapseField,
+    CollapseType,
+    ProbabilisticConvergence,
+    QubitCollapseEngine,
+)
+from .integration.vivox_bridge import QuantumBridgeEvent, VIVOXQuantumBridge
 
-from .integration.vivox_bridge import (
-    VIVOXQuantumBridge,
-    QuantumBridgeEvent
-)
 
 # Main factory function
 def create_quantum_readiness_system(
@@ -65,30 +59,30 @@ __all__ = [
     'QuantumEnvironment',
     'QuantumStateType',
     'QuantumNoiseType',
-    
+
     # Collapse
     'QubitCollapseEngine',
     'CollapseField',
     'ProbabilisticConvergence',
     'CollapseType',
-    
+
     # Coherence
     'QSyncEvent',
     'QuantumSynchronizer',
     'EntanglementBridge',
     'SyncType',
-    
+
     # Superposition
     'MoralSuperposition',
     'EthicalQuantumState',
     'EthicalDimension',
     'SuperpositionPath',
     'SuperpositionResolver',
-    
+
     # Integration
     'VIVOXQuantumBridge',
     'QuantumBridgeEvent',
-    
+
     # Factory
     'create_quantum_readiness_system'
 ]

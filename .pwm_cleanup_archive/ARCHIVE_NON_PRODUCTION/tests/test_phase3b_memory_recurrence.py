@@ -11,12 +11,10 @@ functionality implemented in Phase 3B.
 """
 
 import asyncio
-import json
-import sys
 import logging
-from pathlib import Path
+import sys
 from datetime import datetime
-from typing import Dict, Any, List
+from pathlib import Path
 
 # Add the project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -38,7 +36,6 @@ async def test_dream_memory_fold():
 
     try:
         from dream.oneiric_engine.oneiric_core.memory.dream_memory_fold import (
-            DreamMemoryFold,
             get_global_dream_memory_fold,
         )
 
@@ -118,8 +115,8 @@ async def test_dream_reflection_loop_integration():
 
     try:
         from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import (
-            DreamReflectionLoop,
             DreamReflectionConfig,
+            DreamReflectionLoop,
         )
 
         # Initialize reflection loop
@@ -197,7 +194,9 @@ async def test_drift_tracking_integration():
     logger.info("🧪 Testing drift tracking integration...")
 
     try:
-        from dream.oneiric_engine.oneiric_core.analysis.drift_score import SymbolicDriftTracker
+        from dream.oneiric_engine.oneiric_core.analysis.drift_score import (
+            SymbolicDriftTracker,
+        )
 
         # Initialize drift tracker
         drift_tracker = SymbolicDriftTracker()
@@ -244,7 +243,6 @@ async def test_fastapi_endpoints():
         from dream.oneiric_engine.oneiric_core.engine.dream_engine_fastapi import (
             SnapshotRequest,
             SnapshotResponse,
-            EnhancedDreamEngine,
         )
 
         # Test model creation

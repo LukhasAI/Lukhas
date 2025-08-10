@@ -6,16 +6,19 @@ ERC-721 extension for emotion-encoded NFTs with VeriFold integration.
 Implements emotional entropy as verifiable metadata.
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Dict, List
+
 
 @dataclass
 class EmotionMetadata:
     """Metadata structure for emotion-encoded NFTs"""
+
     emotional_entropy: float
     sentiment_vector: List[float]
     temporal_signature: str
     lukhas_id_proof: str
+
 
 class EmotionNFTStandard:
     """ERC-721 extension for emotion-encoded NFTs."""
@@ -44,6 +47,7 @@ class EmotionNFTStandard:
         """Create temporal signature for emotion NFT."""
         # TODO: Implement temporal signature creation
         pass
+
 
 # TODO: Implement ERC-721 extension
 # TODO: Add emotional entropy encoding

@@ -2,24 +2,23 @@
 # Transferred from Lucas-Portfolio Pre-Final 2 (2025-05-13)
 # Enhanced for LUKHAS architecture
 
-import numpy as np
-from typing import Dict, List, Any, Tuple, Optional
 import datetime
 import json
 import os
-from core.common import get_logger
-import asyncio
 from collections import defaultdict
 from pathlib import Path
+from typing import Dict, Optional
 
+from core.common import get_logger
 
-#TAG:consciousness
-#TAG:states
-#TAG:neuroplastic
-#TAG:colony
+# TAG:consciousness
+# TAG:states
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = get_logger(__name__)
+
 
 class LukhasFederatedModel:
     """
@@ -39,9 +38,13 @@ class LukhasFederatedModel:
         self.contribution_count = 0
         self.client_contributions = set()
         self.performance_metrics = {}
-        self.lukhas_signature = f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
+        self.lukhas_signature = (
+            f"LUKHAS_{model_id}_{datetime.datetime.now().strftime('%Y%m%d')}"
+        )
 
-    def update_with_gradients(self, gradients: Dict, client_id: str, weight: float = 1.0):
+    def update_with_gradients(
+        self, gradients: Dict, client_id: str, weight: float = 1.0
+    ):
         """
         Update model parameters with gradients from a client
 
@@ -69,7 +72,9 @@ class LukhasFederatedModel:
         self.contribution_count += 1
         self.client_contributions.add(client_id)
 
-        logger.info(f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}")
+        logger.info(
+            f"Model {self.model_id} updated to v{self.version} with contribution from {client_id}"
+        )
         return True
 
     def get_parameters(self, client_id: str = None) -> Dict:
@@ -89,7 +94,7 @@ class LukhasFederatedModel:
             "version": self.version,
             "lukhas_signature": self.lukhas_signature,
             "last_updated": self.last_updated.isoformat(),
-            "client_count": len(self.client_contributions)
+            "client_count": len(self.client_contributions),
         }
 
     def serialize(self) -> Dict:
@@ -104,16 +109,16 @@ class LukhasFederatedModel:
             "client_contributions": list(self.client_contributions),
             "performance_metrics": self.performance_metrics,
             "lukhas_signature": self.lukhas_signature,
-            "lukhas_transferred": True
+            "lukhas_transferred": True,
         }
 
     @classmethod
-    def deserialize(cls, data: Dict) -> 'LukhasFederatedModel':
+    def deserialize(cls, data: Dict) -> "LukhasFederatedModel":
         """Create model from serialized data"""
         model = cls(
             model_id=data["model_id"],
             model_type=data["model_type"],
-            initial_parameters=data["parameters"]
+            initial_parameters=data["parameters"],
         )
         model.version = data["version"]
         model.last_updated = datetime.datetime.fromisoformat(data["last_updated"])
@@ -135,20 +140,30 @@ class LukhasFederatedLearningManager:
     def __init__(self, storage_dir: str = None):
         self.models = {}  # model_id -> LukhasFederatedModel
         self.client_models = defaultdict(set)  # client_id -> set(model_ids)
-        self.aggregation_threshold = 3  # Min clients before aggregation (reduced for LUKHAS)
-        self.storage_dir = storage_dir or os.path.join(os.getcwd(), "lukhas_federated_models")
+        self.aggregation_threshold = (
+            3  # Min clients before aggregation (reduced for LUKHAS)
+        )
+        self.storage_dir = storage_dir or os.path.join(
+            os.getcwd(), "lukhas_federated_models"
+        )
         self.lukhas_metadata = {
             "system": "LUKHAS",
             "transferred_from": "Lucas-Portfolio Pre-Final 2",
             "transfer_date": datetime.datetime.now().isoformat(),
-            "enhanced_features": ["lukhas_signatures", "reduced_aggregation_threshold", "enhanced_logging"]
+            "enhanced_features": [
+                "lukhas_signatures",
+                "reduced_aggregation_threshold",
+                "enhanced_logging",
+            ],
         }
 
         # Create storage directory if it doesn't exist
         Path(self.storage_dir).mkdir(parents=True, exist_ok=True)
         self.load_models()
 
-    def register_model(self, model_id: str, model_type: str, initial_parameters: Dict = None) -> LukhasFederatedModel:
+    def register_model(
+        self, model_id: str, model_type: str, initial_parameters: Dict = None
+    ) -> LukhasFederatedModel:
         """
         Register a new model for federated learning in LUKHAS
 
@@ -192,8 +207,13 @@ class LukhasFederatedLearningManager:
 
         return model.get_parameters(client_id)
 
-    def contribute_gradients(self, model_id: str, gradients: Dict, client_id: str,
-                           performance_metrics: Dict = None) -> bool:
+    def contribute_gradients(
+        self,
+        model_id: str,
+        gradients: Dict,
+        client_id: str,
+        performance_metrics: Dict = None,
+    ) -> bool:
         """
         Accept gradient contribution from a LUKHAS client
 
@@ -222,7 +242,7 @@ class LukhasFederatedLearningManager:
             if performance_metrics:
                 model.performance_metrics[client_id] = {
                     **performance_metrics,
-                    "timestamp": datetime.datetime.now().isoformat()
+                    "timestamp": datetime.datetime.now().isoformat(),
                 }
 
             # Save updated model
@@ -241,8 +261,8 @@ class LukhasFederatedLearningManager:
 
         # Reduce weight for very frequent contributors to prevent domination
         model = self.models[model_id]
-        client_contribution_ratio = (
-            model.contribution_count / max(len(model.client_contributions), 1)
+        client_contribution_ratio = model.contribution_count / max(
+            len(model.client_contributions), 1
         )
 
         # Apply diminishing returns for frequent contributors
@@ -262,13 +282,13 @@ class LukhasFederatedLearningManager:
         model.performance_metrics["last_aggregation"] = {
             "timestamp": datetime.datetime.now().isoformat(),
             "participant_count": len(model.client_contributions),
-            "version": model.version
+            "version": model.version,
         }
 
     def save_model(self, model: LukhasFederatedModel):
         """Save model to disk with LUKHAS formatting"""
         model_path = os.path.join(self.storage_dir, f"{model.model_id}.json")
-        with open(model_path, 'w') as f:
+        with open(model_path, "w") as f:
             json.dump(model.serialize(), f, indent=2)
 
     def load_models(self):
@@ -277,9 +297,9 @@ class LukhasFederatedLearningManager:
             return
 
         for filename in os.listdir(self.storage_dir):
-            if filename.endswith('.json'):
+            if filename.endswith(".json"):
                 try:
-                    with open(os.path.join(self.storage_dir, filename), 'r') as f:
+                    with open(os.path.join(self.storage_dir, filename)) as f:
                         data = json.load(f)
                     model = LukhasFederatedModel.deserialize(data)
                     self.models[model.model_id] = model
@@ -295,17 +315,17 @@ class LukhasFederatedLearningManager:
                 "active_clients": len(self.client_models),
                 "aggregation_threshold": self.aggregation_threshold,
                 "storage_dir": self.storage_dir,
-                "metadata": self.lukhas_metadata
+                "metadata": self.lukhas_metadata,
             },
             "models": {
                 model_id: {
                     "type": model.model_type,
                     "version": model.version,
                     "contributors": len(model.client_contributions),
-                    "last_updated": model.last_updated.isoformat()
+                    "last_updated": model.last_updated.isoformat(),
                 }
                 for model_id, model in self.models.items()
-            }
+            },
         }
 
 
@@ -317,11 +337,13 @@ LUKHAS_MODEL_TYPES = {
     "adaptation": "System adaptation to user behavior",
     "security": "Security and privacy preferences",
     "memory": "Memory organization and retrieval",
-    "dream": "Dream processing and narrative generation"
+    "dream": "Dream processing and narrative generation",
 }
 
 
-def initialize_lukhas_federated_learning(storage_dir: str = None) -> LukhasFederatedLearningManager:
+def initialize_lukhas_federated_learning(
+    storage_dir: str = None,
+) -> LukhasFederatedLearningManager:
     """
     Initialize LUKHAS federated learning system
 
@@ -342,8 +364,8 @@ def initialize_lukhas_federated_learning(storage_dir: str = None) -> LukhasFeder
             initial_parameters={
                 "description": description,
                 "lukhas_version": "1.0",
-                "initialized": datetime.datetime.now().isoformat()
-            }
+                "initialized": datetime.datetime.now().isoformat(),
+            },
         )
 
     logger.info("LUKHAS Federated Learning System initialized successfully")

@@ -4,13 +4,12 @@ Line-by-Line Integration Instructions Generator
 Creates detailed JSON instructions for every integration needed in the repository
 """
 
-import os
 import ast
 import json
-from typing import Dict, List, Set, Tuple, Optional, Any
+import os
 from collections import defaultdict
-from dataclasses import dataclass
-import re
+from typing import Any, Dict, List
+
 
 class LineByLineIntegrationGenerator:
     def __init__(self, root_path: str):
@@ -22,11 +21,11 @@ class LineByLineIntegrationGenerator:
 
         # Load previous analysis
         try:
-            with open('deep_integration_analysis.json', 'r') as f:
+            with open("deep_integration_analysis.json") as f:
                 self.deep_analysis = json.load(f)
         except FileNotFoundError:
             print("Warning: deep_integration_analysis.json not found")
-            self.deep_analysis = {'missing_connections': [], 'inactive_entities': []}
+            self.deep_analysis = {"missing_connections": [], "inactive_entities": []}
 
     def generate_complete_instructions(self):
         """Generate complete line-by-line integration instructions"""
@@ -61,23 +60,27 @@ class LineByLineIntegrationGenerator:
 
         for root, dirs, files in os.walk(self.root_path):
             # Skip non-source directories
-            dirs[:] = [d for d in dirs if d not in ['__pycache__', '.git', 'venv', '.venv', 'node_modules']]
+            dirs[:] = [
+                d
+                for d in dirs
+                if d not in ["__pycache__", ".git", "venv", ".venv", "node_modules"]
+            ]
 
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     file_path = os.path.join(root, file)
                     relative_path = os.path.relpath(file_path, self.root_path)
 
                     try:
                         self.analyze_file_detailed(file_path, relative_path)
-                    except Exception as e:
+                    except Exception:
                         # Continue on error but log
                         pass
 
     def analyze_file_detailed(self, file_path: str, relative_path: str):
         """Detailed analysis of a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 lines = content.splitlines()
 
@@ -85,73 +88,93 @@ class LineByLineIntegrationGenerator:
 
             # Analyze file structure
             analysis = {
-                'path': relative_path,
-                'lines': lines,
-                'total_lines': len(lines),
-                'imports': [],
-                'classes': [],
-                'functions': [],
-                'has_main': False,
-                'has_init': '__init__' in relative_path,
-                'module_path': relative_path.replace('.py', '').replace('/', '.')
+                "path": relative_path,
+                "lines": lines,
+                "total_lines": len(lines),
+                "imports": [],
+                "classes": [],
+                "functions": [],
+                "has_main": False,
+                "has_init": "__init__" in relative_path,
+                "module_path": relative_path.replace(".py", "").replace("/", "."),
             }
 
             # Extract imports, classes, functions
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        analysis['imports'].append({
-                            'type': 'import',
-                            'module': alias.name,
-                            'alias': alias.asname,
-                            'line': node.lineno
-                        })
+                        analysis["imports"].append(
+                            {
+                                "type": "import",
+                                "module": alias.name,
+                                "alias": alias.asname,
+                                "line": node.lineno,
+                            }
+                        )
                 elif isinstance(node, ast.ImportFrom):
                     if node.module:
                         for alias in node.names:
-                            analysis['imports'].append({
-                                'type': 'from_import',
-                                'module': node.module,
-                                'name': alias.name,
-                                'alias': alias.asname,
-                                'line': node.lineno
-                            })
+                            analysis["imports"].append(
+                                {
+                                    "type": "from_import",
+                                    "module": node.module,
+                                    "name": alias.name,
+                                    "alias": alias.asname,
+                                    "line": node.lineno,
+                                }
+                            )
                 elif isinstance(node, ast.ClassDef):
                     class_info = {
-                        'name': node.name,
-                        'line': node.lineno,
-                        'methods': [],
-                        'decorators': [d.id if isinstance(d, ast.Name) else str(d) for d in node.decorator_list],
-                        'bases': [b.id if isinstance(b, ast.Name) else str(b) for b in node.bases]
+                        "name": node.name,
+                        "line": node.lineno,
+                        "methods": [],
+                        "decorators": [
+                            d.id if isinstance(d, ast.Name) else str(d)
+                            for d in node.decorator_list
+                        ],
+                        "bases": [
+                            b.id if isinstance(b, ast.Name) else str(b)
+                            for b in node.bases
+                        ],
                     }
 
                     # Extract methods
                     for item in node.body:
                         if isinstance(item, ast.FunctionDef):
-                            class_info['methods'].append({
-                                'name': item.name,
-                                'line': item.lineno,
-                                'is_init': item.name == '__init__',
-                                'is_async': isinstance(item, ast.AsyncFunctionDef),
-                                'args': [arg.arg for arg in item.args.args if arg.arg != 'self']
-                            })
+                            class_info["methods"].append(
+                                {
+                                    "name": item.name,
+                                    "line": item.lineno,
+                                    "is_init": item.name == "__init__",
+                                    "is_async": isinstance(item, ast.AsyncFunctionDef),
+                                    "args": [
+                                        arg.arg
+                                        for arg in item.args.args
+                                        if arg.arg != "self"
+                                    ],
+                                }
+                            )
 
-                    analysis['classes'].append(class_info)
+                    analysis["classes"].append(class_info)
 
-                elif isinstance(node, ast.FunctionDef) and not hasattr(node, 'parent_class'):
-                    analysis['functions'].append({
-                        'name': node.name,
-                        'line': node.lineno,
-                        'is_async': isinstance(node, ast.AsyncFunctionDef),
-                        'args': [arg.arg for arg in node.args.args]
-                    })
+                elif isinstance(node, ast.FunctionDef) and not hasattr(
+                    node, "parent_class"
+                ):
+                    analysis["functions"].append(
+                        {
+                            "name": node.name,
+                            "line": node.lineno,
+                            "is_async": isinstance(node, ast.AsyncFunctionDef),
+                            "args": [arg.arg for arg in node.args.args],
+                        }
+                    )
 
             # Check for main block
-            analysis['has_main'] = '__name__ == "__main__"' in content
+            analysis["has_main"] = '__name__ == "__main__"' in content
 
             self.file_analysis[relative_path] = analysis
 
-        except Exception as e:
+        except Exception:
             # Skip files with syntax errors
             pass
 
@@ -160,17 +183,20 @@ class LineByLineIntegrationGenerator:
         print("Generating system hub instructions...")
 
         systems = {
-            'core': {'description': 'Core system coordination', 'priority': 1},
-            'consciousness': {'description': 'Consciousness and awareness', 'priority': 1},
-            'quantum': {'description': 'Quantum processing', 'priority': 1},
-            'memory': {'description': 'Memory management', 'priority': 1},
-            'identity': {'description': 'Identity and authentication', 'priority': 2},
-            'ethics': {'description': 'Ethical decision making', 'priority': 2},
-            'learning': {'description': 'Machine learning', 'priority': 2},
-            'reasoning': {'description': 'Logic and reasoning', 'priority': 2},
-            'creativity': {'description': 'Creative generation', 'priority': 3},
-            'voice': {'description': 'Voice processing', 'priority': 3},
-            'orchestration': {'description': 'System orchestration', 'priority': 1}
+            "core": {"description": "Core system coordination", "priority": 1},
+            "consciousness": {
+                "description": "Consciousness and awareness",
+                "priority": 1,
+            },
+            "quantum": {"description": "Quantum processing", "priority": 1},
+            "memory": {"description": "Memory management", "priority": 1},
+            "identity": {"description": "Identity and authentication", "priority": 2},
+            "ethics": {"description": "Ethical decision making", "priority": 2},
+            "learning": {"description": "Machine learning", "priority": 2},
+            "reasoning": {"description": "Logic and reasoning", "priority": 2},
+            "creativity": {"description": "Creative generation", "priority": 3},
+            "voice": {"description": "Voice processing", "priority": 3},
+            "orchestration": {"description": "System orchestration", "priority": 1},
         }
 
         for system, info in systems.items():
@@ -179,48 +205,71 @@ class LineByLineIntegrationGenerator:
             key_classes = []
 
             for file_path, analysis in self.file_analysis.items():
-                if file_path.startswith(system + '/'):
-                    for cls in analysis['classes']:
-                        system_classes.append({
-                            'name': cls['name'],
-                            'file': file_path,
-                            'module': analysis['module_path'],
-                            'line': cls['line'],
-                            'methods': cls['methods']
-                        })
+                if file_path.startswith(system + "/"):
+                    for cls in analysis["classes"]:
+                        system_classes.append(
+                            {
+                                "name": cls["name"],
+                                "file": file_path,
+                                "module": analysis["module_path"],
+                                "line": cls["line"],
+                                "methods": cls["methods"],
+                            }
+                        )
 
                         # Identify key classes
-                        if any(keyword in cls['name'].lower() for keyword in ['hub', 'core', 'manager', 'coordinator', 'orchestrator']):
-                            key_classes.append({
-                                'name': cls['name'],
-                                'file': file_path,
-                                'module': analysis['module_path']
-                            })
+                        if any(
+                            keyword in cls["name"].lower()
+                            for keyword in [
+                                "hub",
+                                "core",
+                                "manager",
+                                "coordinator",
+                                "orchestrator",
+                            ]
+                        ):
+                            key_classes.append(
+                                {
+                                    "name": cls["name"],
+                                    "file": file_path,
+                                    "module": analysis["module_path"],
+                                }
+                            )
 
             hub_file = f"{system}/{system}_hub.py"
 
             # Generate hub creation instruction
             instruction = {
-                'type': 'create_system_hub',
-                'priority': info['priority'],
-                'system': system,
-                'description': f"Create {system} system hub for {info['description']}",
-                'file': hub_file,
-                'dependencies': [cls['module'] for cls in key_classes],
-                'steps': [
+                "type": "create_system_hub",
+                "priority": info["priority"],
+                "system": system,
+                "description": f"Create {system} system hub for {info['description']}",
+                "file": hub_file,
+                "dependencies": [cls["module"] for cls in key_classes],
+                "steps": [
                     {
-                        'step': 1,
-                        'action': 'create_file',
-                        'file': hub_file,
-                        'content': self.generate_hub_content(system, info['description'], key_classes, system_classes)
+                        "step": 1,
+                        "action": "create_file",
+                        "file": hub_file,
+                        "content": self.generate_hub_content(
+                            system, info["description"], key_classes, system_classes
+                        ),
                     }
-                ]
+                ],
             }
 
-            if key_classes or len(system_classes) > 5:  # Only create if significant classes exist
+            if (
+                key_classes or len(system_classes) > 5
+            ):  # Only create if significant classes exist
                 self.instructions.append(instruction)
 
-    def generate_hub_content(self, system: str, description: str, key_classes: List[Dict], all_classes: List[Dict]) -> str:
+    def generate_hub_content(
+        self,
+        system: str,
+        description: str,
+        key_classes: List[Dict],
+        all_classes: List[Dict],
+    ) -> str:
         """Generate hub file content"""
         imports = []
         registrations = []
@@ -228,9 +277,18 @@ class LineByLineIntegrationGenerator:
         # Add key class imports
         for cls in key_classes[:10]:  # Limit to avoid overwhelming
             imports.append(f"from {cls['module']} import {cls['name']}")
-            var_name = cls['name'].lower().replace(system, '').replace('hub', '').replace('core', '') or 'service'
+            var_name = (
+                cls["name"]
+                .lower()
+                .replace(system, "")
+                .replace("hub", "")
+                .replace("core", "")
+                or "service"
+            )
             registrations.append(f"        self.{var_name} = {cls['name']}()")
-            registrations.append(f"        self.register_service('{var_name}', self.{var_name})")
+            registrations.append(
+                f"        self.register_service('{var_name}', self.{var_name})"
+            )
 
         # Add some general classes
         for cls in all_classes[:5]:
@@ -376,17 +434,17 @@ __all__ = [
         print("Generating import instructions...")
 
         # Process missing connections from deep analysis
-        for missing in self.deep_analysis.get('missing_connections', []):
-            entity = missing['entity']
+        for missing in self.deep_analysis.get("missing_connections", []):
+            entity = missing["entity"]
 
             # Generate specific import instruction
             instruction = {
-                'type': 'add_import',
-                'priority': 1,
-                'description': f"Import {entity['name']} to fix missing connection",
-                'entity': entity,
-                'issue': missing['issue'],
-                'steps': []
+                "type": "add_import",
+                "priority": 1,
+                "description": f"Import {entity['name']} to fix missing connection",
+                "entity": entity,
+                "issue": missing["issue"],
+                "steps": [],
             }
 
             # Find target files that should import this entity
@@ -394,26 +452,26 @@ __all__ = [
 
             for target_file in target_files:
                 step = {
-                    'step': len(instruction['steps']) + 1,
-                    'action': 'add_import_line',
-                    'file': target_file,
-                    'line_number': self.find_import_insertion_line(target_file),
-                    'content': f"from {entity['file_path'].replace('.py', '').replace('/', '.')} import {entity['name']}",
-                    'validation': f"Verify {entity['name']} can be imported"
+                    "step": len(instruction["steps"]) + 1,
+                    "action": "add_import_line",
+                    "file": target_file,
+                    "line_number": self.find_import_insertion_line(target_file),
+                    "content": f"from {entity['file_path'].replace('.py', '').replace('/', '.')} import {entity['name']}",
+                    "validation": f"Verify {entity['name']} can be imported",
                 }
-                instruction['steps'].append(step)
+                instruction["steps"].append(step)
 
-            if instruction['steps']:
+            if instruction["steps"]:
                 self.instructions.append(instruction)
 
     def find_import_targets(self, entity: Dict) -> List[str]:
         """Find files that should import this entity"""
         targets = []
-        entity_name = entity['name']
-        entity_path = entity['file_path']
+        entity_name = entity["name"]
+        entity_path = entity["file_path"]
 
         # System hub should import major components
-        system = entity_path.split('/')[0]
+        system = entity_path.split("/")[0]
         hub_file = f"{system}/{system}_hub.py"
         targets.append(hub_file)
 
@@ -429,10 +487,10 @@ __all__ = [
                 continue
 
             # Files in same system
-            if file_path.startswith(system + '/'):
+            if file_path.startswith(system + "/"):
                 # Check if file has complementary functionality
-                for cls in analysis['classes']:
-                    if self.should_connect_classes(entity_name, cls['name']):
+                for cls in analysis["classes"]:
+                    if self.should_connect_classes(entity_name, cls["name"]):
                         targets.append(file_path)
                         break
 
@@ -442,17 +500,24 @@ __all__ = [
         """Determine if two classes should be connected"""
         connection_patterns = [
             # Hub patterns
-            ('Hub', 'Core'), ('Hub', 'Manager'), ('Hub', 'Service'),
+            ("Hub", "Core"),
+            ("Hub", "Manager"),
+            ("Hub", "Service"),
             # Integration patterns
-            ('Orchestrator', 'Core'), ('Coordinator', 'Manager'),
+            ("Orchestrator", "Core"),
+            ("Coordinator", "Manager"),
             # Safety patterns
-            ('Safety', 'Core'), ('Safety', 'Orchestrator'),
+            ("Safety", "Core"),
+            ("Safety", "Orchestrator"),
             # Consciousness patterns
-            ('Consciousness', 'Quantum'), ('Quantum', 'Attention'),
+            ("Consciousness", "Quantum"),
+            ("Quantum", "Attention"),
         ]
 
         for pattern1, pattern2 in connection_patterns:
-            if (pattern1 in class1 and pattern2 in class2) or (pattern2 in class1 and pattern1 in class2):
+            if (pattern1 in class1 and pattern2 in class2) or (
+                pattern2 in class1 and pattern1 in class2
+            ):
                 return True
 
         return False
@@ -466,8 +531,8 @@ __all__ = [
 
         # Find last import line
         last_import_line = 0
-        for imp in analysis['imports']:
-            last_import_line = max(last_import_line, imp['line'])
+        for imp in analysis["imports"]:
+            last_import_line = max(last_import_line, imp["line"])
 
         # Insert after last import, or at top if no imports
         return last_import_line + 1 if last_import_line > 0 else 1
@@ -478,44 +543,44 @@ __all__ = [
 
         # Key system pairs that need bridges
         bridge_pairs = [
-            ('core', 'consciousness', 1),
-            ('consciousness', 'quantum', 1),
-            ('memory', 'learning', 2),
-            ('core', 'safety', 1),
-            ('identity', 'core', 2),
-            ('orchestration', 'core', 2)
+            ("core", "consciousness", 1),
+            ("consciousness", "quantum", 1),
+            ("memory", "learning", 2),
+            ("core", "safety", 1),
+            ("identity", "core", 2),
+            ("orchestration", "core", 2),
         ]
 
         for system1, system2, priority in bridge_pairs:
             bridge_file = f"core/bridges/{system1}_{system2}_bridge.py"
 
             instruction = {
-                'type': 'create_bridge',
-                'priority': priority,
-                'description': f"Create bridge between {system1} and {system2} systems",
-                'systems': [system1, system2],
-                'file': bridge_file,
-                'steps': [
+                "type": "create_bridge",
+                "priority": priority,
+                "description": f"Create bridge between {system1} and {system2} systems",
+                "systems": [system1, system2],
+                "file": bridge_file,
+                "steps": [
                     {
-                        'step': 1,
-                        'action': 'create_directory',
-                        'path': 'core/bridges',
-                        'description': 'Create bridges directory'
+                        "step": 1,
+                        "action": "create_directory",
+                        "path": "core/bridges",
+                        "description": "Create bridges directory",
                     },
                     {
-                        'step': 2,
-                        'action': 'create_file',
-                        'file': bridge_file,
-                        'content': self.generate_bridge_content(system1, system2)
+                        "step": 2,
+                        "action": "create_file",
+                        "file": bridge_file,
+                        "content": self.generate_bridge_content(system1, system2),
                     },
                     {
-                        'step': 3,
-                        'action': 'register_bridge',
-                        'file': f"{system1}/{system1}_hub.py",
-                        'line_to_add': f"from core.bridges.{system1}_{system2}_bridge import {system1.title()}{system2.title()}Bridge",
-                        'registration': f"self.{system2}_bridge = {system1.title()}{system2.title()}Bridge()"
-                    }
-                ]
+                        "step": 3,
+                        "action": "register_bridge",
+                        "file": f"{system1}/{system1}_hub.py",
+                        "line_to_add": f"from core.bridges.{system1}_{system2}_bridge import {system1.title()}{system2.title()}Bridge",
+                        "registration": f"self.{system2}_bridge = {system1.title()}{system2.title()}Bridge()",
+                    },
+                ],
             }
 
             self.instructions.append(instruction)
@@ -734,37 +799,42 @@ def get_{system1}_{system2}_bridge() -> {system1.title()}{system2.title()}Bridge
 
         for file_path in self.file_analysis.keys():
             dir_path = os.path.dirname(file_path)
-            if dir_path and '/' in dir_path:  # Skip root level
+            if dir_path and "/" in dir_path:  # Skip root level
                 init_file = f"{dir_path}/__init__.py"
                 if init_file not in self.file_analysis:
                     directories_needing_init.add(dir_path)
 
         # Generate instructions for each missing __init__.py
         for dir_path in sorted(directories_needing_init):
-            if not any(skip in dir_path for skip in ['.venv', '__pycache__', '.git']):
+            if not any(skip in dir_path for skip in [".venv", "__pycache__", ".git"]):
 
                 # Find Python files in this directory
-                dir_files = [f for f in self.file_analysis.keys()
-                           if os.path.dirname(f) == dir_path and f.endswith('.py')]
+                dir_files = [
+                    f
+                    for f in self.file_analysis.keys()
+                    if os.path.dirname(f) == dir_path and f.endswith(".py")
+                ]
 
                 if dir_files:  # Only create if there are Python files
                     init_file = f"{dir_path}/__init__.py"
 
                     instruction = {
-                        'type': 'create_init_file',
-                        'priority': 2,
-                        'description': f"Create __init__.py for {dir_path}",
-                        'directory': dir_path,
-                        'file': init_file,
-                        'python_files': dir_files,
-                        'steps': [
+                        "type": "create_init_file",
+                        "priority": 2,
+                        "description": f"Create __init__.py for {dir_path}",
+                        "directory": dir_path,
+                        "file": init_file,
+                        "python_files": dir_files,
+                        "steps": [
                             {
-                                'step': 1,
-                                'action': 'create_file',
-                                'file': init_file,
-                                'content': self.generate_init_content(dir_path, dir_files)
+                                "step": 1,
+                                "action": "create_file",
+                                "file": init_file,
+                                "content": self.generate_init_content(
+                                    dir_path, dir_files
+                                ),
                             }
-                        ]
+                        ],
                     }
 
                     self.instructions.append(instruction)
@@ -775,23 +845,23 @@ def get_{system1}_{system2}_bridge() -> {system1.title()}{system2.title()}Bridge
         exports = []
 
         for file_path in python_files:
-            if file_path.endswith('__init__.py'):
+            if file_path.endswith("__init__.py"):
                 continue
 
-            file_name = os.path.basename(file_path).replace('.py', '')
+            file_name = os.path.basename(file_path).replace(".py", "")
             analysis = self.file_analysis.get(file_path, {})
 
             # Import classes from the file
-            for cls in analysis.get('classes', []):
-                class_name = cls['name']
+            for cls in analysis.get("classes", []):
+                class_name = cls["name"]
                 imports.append(f"from .{file_name} import {class_name}")
                 exports.append(class_name)
 
             # Import key functions
-            for func in analysis.get('functions', []):
-                if not func['name'].startswith('_'):  # Skip private functions
+            for func in analysis.get("functions", []):
+                if not func["name"].startswith("_"):  # Skip private functions
                     imports.append(f"from .{file_name} import {func['name']}")
-                    exports.append(func['name'])
+                    exports.append(func["name"])
 
         # Limit exports to avoid clutter
         exports = exports[:10]
@@ -822,42 +892,42 @@ __author__ = "LUKHAS AI"
         print("Generating activation instructions...")
 
         # Process inactive entities from deep analysis
-        inactive_entities = self.deep_analysis.get('inactive_entities', [])
+        inactive_entities = self.deep_analysis.get("inactive_entities", [])
 
         # Group by system
         by_system = defaultdict(list)
         for item in inactive_entities[:100]:  # Limit to first 100
-            entity = item['entity']
-            system = entity['file_path'].split('/')[0]
+            entity = item["entity"]
+            system = entity["file_path"].split("/")[0]
             by_system[system].append(item)
 
         # Generate activation instructions for each system
         for system, entities in by_system.items():
             if len(entities) > 3:  # Only if significant number
                 instruction = {
-                    'type': 'activate_entities',
-                    'priority': 3,
-                    'system': system,
-                    'description': f"Activate {len(entities)} inactive entities in {system}",
-                    'entities': entities[:20],  # Limit per instruction
-                    'steps': []
+                    "type": "activate_entities",
+                    "priority": 3,
+                    "system": system,
+                    "description": f"Activate {len(entities)} inactive entities in {system}",
+                    "entities": entities[:20],  # Limit per instruction
+                    "steps": [],
                 }
 
                 # Create activation steps
                 for i, item in enumerate(entities[:10]):
-                    entity = item['entity']
-                    entity_name = entity['name']
+                    entity = item["entity"]
+                    entity_name = entity["name"]
 
                     step = {
-                        'step': i + 1,
-                        'action': 'activate_entity',
-                        'entity': entity_name,
-                        'file': entity['file_path'],
-                        'target_file': f"{system}/__init__.py",
-                        'import_line': f"from .{os.path.basename(entity['file_path']).replace('.py', '')} import {entity_name}",
-                        'export_line': f'__all__.append("{entity_name}")'
+                        "step": i + 1,
+                        "action": "activate_entity",
+                        "entity": entity_name,
+                        "file": entity["file_path"],
+                        "target_file": f"{system}/__init__.py",
+                        "import_line": f"from .{os.path.basename(entity['file_path']).replace('.py', '')} import {entity_name}",
+                        "export_line": f'__all__.append("{entity_name}")',
                     }
-                    instruction['steps'].append(step)
+                    instruction["steps"].append(step)
 
                 self.instructions.append(instruction)
 
@@ -866,29 +936,29 @@ __author__ = "LUKHAS AI"
         print("Generating validation instructions...")
 
         validation_instruction = {
-            'type': 'validation_suite',
-            'priority': 4,
-            'description': "Validate all integrations work correctly",
-            'steps': [
+            "type": "validation_suite",
+            "priority": 4,
+            "description": "Validate all integrations work correctly",
+            "steps": [
                 {
-                    'step': 1,
-                    'action': 'create_test_file',
-                    'file': 'tests/test_integration_validation.py',
-                    'content': self.generate_validation_test_content()
+                    "step": 1,
+                    "action": "create_test_file",
+                    "file": "tests/test_integration_validation.py",
+                    "content": self.generate_validation_test_content(),
                 },
                 {
-                    'step': 2,
-                    'action': 'create_validation_script',
-                    'file': 'scripts/validate_integrations.py',
-                    'content': self.generate_validation_script_content()
+                    "step": 2,
+                    "action": "create_validation_script",
+                    "file": "scripts/validate_integrations.py",
+                    "content": self.generate_validation_script_content(),
                 },
                 {
-                    'step': 3,
-                    'action': 'run_validation',
-                    'command': 'python scripts/validate_integrations.py',
-                    'expected_outcome': 'All integrations pass validation'
-                }
-            ]
+                    "step": 3,
+                    "action": "run_validation",
+                    "command": "python scripts/validate_integrations.py",
+                    "expected_outcome": "All integrations pass validation",
+                },
+            ],
         }
 
         self.instructions.append(validation_instruction)
@@ -1147,26 +1217,26 @@ if __name__ == '__main__':
     def save_instructions(self) -> Dict[str, Any]:
         """Save all instructions to JSON file"""
         # Sort instructions by priority
-        self.instructions.sort(key=lambda x: (x['priority'], x['type']))
+        self.instructions.sort(key=lambda x: (x["priority"], x["type"]))
 
         # Create comprehensive report
         report = {
-            'metadata': {
-                'generated_at': __import__('datetime').datetime.now().isoformat(),
-                'total_instructions': len(self.instructions),
-                'files_analyzed': len(self.file_analysis),
-                'repository_path': self.root_path
+            "metadata": {
+                "generated_at": __import__("datetime").datetime.now().isoformat(),
+                "total_instructions": len(self.instructions),
+                "files_analyzed": len(self.file_analysis),
+                "repository_path": self.root_path,
             },
-            'summary': {
-                'instruction_types': self.get_type_counts(),
-                'priority_breakdown': self.get_priority_breakdown(),
-                'estimated_completion_time': self.estimate_completion_time()
+            "summary": {
+                "instruction_types": self.get_type_counts(),
+                "priority_breakdown": self.get_priority_breakdown(),
+                "estimated_completion_time": self.estimate_completion_time(),
             },
-            'instructions': self.instructions
+            "instructions": self.instructions,
         }
 
         # Save to JSON
-        with open('line_by_line_integration_instructions.json', 'w') as f:
+        with open("line_by_line_integration_instructions.json", "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"\\n✅ Generated {len(self.instructions)} integration instructions")
@@ -1178,7 +1248,7 @@ if __name__ == '__main__':
         """Get counts by instruction type"""
         counts = {}
         for instruction in self.instructions:
-            type_name = instruction['type']
+            type_name = instruction["type"]
             counts[type_name] = counts.get(type_name, 0) + 1
         return counts
 
@@ -1194,17 +1264,17 @@ if __name__ == '__main__':
         """Estimate time to complete all instructions"""
         # Rough estimates in minutes
         time_estimates = {
-            'create_system_hub': 30,
-            'add_import': 2,
-            'create_bridge': 45,
-            'create_init_file': 5,
-            'activate_entities': 15,
-            'validation_suite': 20
+            "create_system_hub": 30,
+            "add_import": 2,
+            "create_bridge": 45,
+            "create_init_file": 5,
+            "activate_entities": 15,
+            "validation_suite": 20,
         }
 
         total_minutes = 0
         for instruction in self.instructions:
-            instruction_type = instruction['type']
+            instruction_type = instruction["type"]
             total_minutes += time_estimates.get(instruction_type, 10)
 
         hours = total_minutes // 60
@@ -1214,20 +1284,22 @@ if __name__ == '__main__':
 
 
 def main():
-    generator = LineByLineIntegrationGenerator('/Users/agi_dev/Downloads/Consolidation-Repo')
+    generator = LineByLineIntegrationGenerator(
+        "/Users/agi_dev/Downloads/Consolidation-Repo"
+    )
     report = generator.generate_complete_instructions()
 
-    print("\\n" + "="*70)
+    print("\\n" + "=" * 70)
     print("LINE-BY-LINE INTEGRATION INSTRUCTIONS GENERATED")
-    print("="*70)
+    print("=" * 70)
     print(f"Total Instructions: {report['metadata']['total_instructions']}")
     print(f"Files Analyzed: {report['metadata']['files_analyzed']}")
     print(f"Estimated Time: {report['summary']['estimated_completion_time']}")
     print("\\nInstruction Types:")
-    for type_name, count in report['summary']['instruction_types'].items():
+    for type_name, count in report["summary"]["instruction_types"].items():
         print(f"  - {type_name}: {count}")
-    print("="*70)
+    print("=" * 70)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

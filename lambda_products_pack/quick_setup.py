@@ -5,167 +5,179 @@ Automatically integrates Lambda Products with Lukhas PWM
 """
 
 import asyncio
-import sys
 import os
+import sys
 from pathlib import Path
 
 # Add paths
 sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+
 async def main():
     print("=" * 60)
     print("🚀 LAMBDA PRODUCTS - QUICK SETUP FOR LUKHAS PWM")
     print("=" * 60)
-    
+
     # Step 1: Check environment
     print("\n📋 Step 1: Checking environment...")
     try:
         # Check if we can import Lukhas PWM
         from core.plugin_registry import PluginRegistry
+
         print("✅ Lukhas PWM detected")
         pwm_available = True
     except ImportError:
         print("⚠️  Lukhas PWM not found in Python path")
         print("   Lambda Products will run in standalone mode")
         pwm_available = False
-    
+
     # Step 2: Import Lambda Products
     print("\n📦 Step 2: Loading Lambda Products...")
     try:
-        from plugins.plugin_base import PluginSystem
         from agents.autonomous_agent_framework import AgentOrchestrator
+        from plugins.plugin_base import PluginSystem
+
         print("✅ Plugin system loaded")
         print("✅ Agent framework loaded")
     except ImportError as e:
         print(f"❌ Error loading Lambda Products: {e}")
         print("   Please run: pip install -r requirements.txt")
         return
-    
+
     # Step 3: Initialize plugin system
     print("\n🔌 Step 3: Initializing plugin system...")
     plugin_system = PluginSystem()
-    print(f"✅ Plugin system initialized")
-    
+    print("✅ Plugin system initialized")
+
     # Step 4: Register with PWM if available
     if pwm_available:
         print("\n🔗 Step 4: Integrating with Lukhas PWM...")
         try:
-            from integrations.lukhas_pwm_adapter import LukhasPWMIntegrationAdapter
-            
+            from integrations.lukhas_pwm_adapter import (
+                LukhasPWMIntegrationAdapter,
+            )
+
             adapter = LukhasPWMIntegrationAdapter()
-            
+
             # Auto-register all products
             products_registered = await adapter.auto_register_all_products()
-            
+
             if products_registered:
-                print(f"✅ Successfully registered {len(products_registered)} Lambda Products with PWM")
+                print(
+                    f"✅ Successfully registered {len(products_registered)} Lambda Products with PWM"
+                )
                 for product in products_registered:
                     print(f"   - {product}")
             else:
                 print("⚠️  No products registered (PWM might not be running)")
-                
+
         except Exception as e:
             print(f"⚠️  PWM integration failed: {e}")
             print("   Lambda Products will run independently")
-    
+
     # Step 5: Deploy sample agents
     print("\n🤖 Step 5: Deploying sample autonomous agents...")
     orchestrator = AgentOrchestrator()
-    
+
     try:
-        from agents.autonomous_agent_framework import AutonomousAgent, AgentGoal, AgentPriority
-        
+        from agents.autonomous_agent_framework import (
+            AgentGoal,
+            AgentPriority,
+            AutonomousAgent,
+        )
+
         # Deploy a test agent
         test_agent = AutonomousAgent("test_001", "NIAS")
-        await orchestrator.deploy_agent(test_agent, {
-            "max_autonomous_days": 1,
-            "decision_threshold": 0.85
-        })
-        
+        await orchestrator.deploy_agent(
+            test_agent, {"max_autonomous_days": 1, "decision_threshold": 0.85}
+        )
+
         # Set a goal
         goal = AgentGoal(
-            description="Optimize system performance",
-            priority=AgentPriority.NORMAL
+            description="Optimize system performance", priority=AgentPriority.NORMAL
         )
         await test_agent.set_goal(goal)
-        
+
         print("✅ Test agent deployed successfully")
-        print(f"   Agent ID: test_001")
-        print(f"   Type: NIAS")
-        print(f"   Status: Running autonomously")
-        
+        print("   Agent ID: test_001")
+        print("   Type: NIAS")
+        print("   Status: Running autonomously")
+
     except Exception as e:
         print(f"⚠️  Agent deployment failed: {e}")
-    
+
     # Step 6: OpenAI Integration
     print("\n🌐 Step 6: Checking OpenAI integration...")
     api_key = os.getenv("OPENAI_API_KEY")
     if api_key:
         try:
             from integrations.openai_agi_bridge import OpenAILambdaBridge
-            
+
             bridge = OpenAILambdaBridge(api_key)
-            await bridge.initialize({
-                "integration_level": "BASIC",
-                "connect_nias": True,
-                "connect_abas": True,
-                "connect_dast": True
-            })
-            
+            await bridge.initialize(
+                {
+                    "integration_level": "BASIC",
+                    "connect_nias": True,
+                    "connect_abas": True,
+                    "connect_dast": True,
+                }
+            )
+
             print("✅ OpenAI integration ready")
             print("   - GPT-4 connectivity enabled")
             print("   - Consciousness layer active")
             print("   - Compute budgets configured")
-            
+
         except Exception as e:
             print(f"⚠️  OpenAI integration not configured: {e}")
     else:
         print("ℹ️  OpenAI API key not found")
         print("   Set OPENAI_API_KEY environment variable to enable")
-    
+
     # Step 7: Run tests
     print("\n🧪 Step 7: Running validation tests...")
     test_results = {
         "plugin_system": "✅ PASSED",
         "agent_framework": "✅ PASSED",
         "pwm_integration": "✅ PASSED" if pwm_available else "⏭️  SKIPPED",
-        "openai_bridge": "✅ PASSED" if api_key else "⏭️  SKIPPED"
+        "openai_bridge": "✅ PASSED" if api_key else "⏭️  SKIPPED",
     }
-    
+
     print("Test Results:")
     for test, result in test_results.items():
         print(f"   {test}: {result}")
-    
+
     # Step 8: Summary
     print("\n" + "=" * 60)
     print("📊 SETUP COMPLETE - SUMMARY")
     print("=" * 60)
-    
+
     print("\n✅ Lambda Products successfully installed!")
     print("\n📍 Installation Location:")
     print(f"   {Path(__file__).parent}")
-    
+
     print("\n🔧 Configuration:")
-    print(f"   - Plugin System: ACTIVE")
-    print(f"   - Agent Framework: ACTIVE")
+    print("   - Plugin System: ACTIVE")
+    print("   - Agent Framework: ACTIVE")
     print(f"   - PWM Integration: {'CONNECTED' if pwm_available else 'STANDALONE'}")
     print(f"   - OpenAI Bridge: {'CONNECTED' if api_key else 'NOT CONFIGURED'}")
-    
+
     print("\n📚 Next Steps:")
     print("   1. Review INSTALLATION_GUIDE.md for detailed configuration")
     print("   2. Run tests: python -m pytest tests/")
     print("   3. Deploy agents: See examples in INSTALLATION_GUIDE.md")
     print("   4. Monitor performance: Check tests/reports/")
-    
+
     print("\n🎯 Quick Start Commands:")
     print("   - Run all tests: python -m pytest tests/")
     print("   - Deploy workforce: python examples/deploy_workforce.py")
     print("   - Check status: python examples/check_status.py")
-    
+
     print("\n" + "=" * 60)
     print("🎉 Lambda Products ready for production use!")
     print("=" * 60)
+
 
 if __name__ == "__main__":
     try:

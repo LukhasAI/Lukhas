@@ -4,10 +4,10 @@ Test ABAS Quantum Specialist Integration
 Tests for ABAS quantum-biological AI integration
 """
 
-import pytest
-import asyncio
 import sys
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -18,18 +18,23 @@ class TestABASQuantumSpecialistIntegration:
 
     def test_quantum_specialist_import(self):
         """Test that quantum specialist can be imported"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
+
         assert get_abas_quantum_specialist is not None
 
     def test_abas_hub_with_quantum_specialist(self):
         """Test ABAS hub integration with quantum specialist"""
-        from abas.integration.abas_integration_hub import get_abas_integration_hub
+        from abas.integration.abas_integration_hub import (
+            get_abas_integration_hub,
+        )
 
         hub = get_abas_integration_hub()
         assert hub is not None
 
         # Check if quantum specialist is available
-        if hasattr(hub, 'quantum_specialist'):
+        if hasattr(hub, "quantum_specialist"):
             print("Quantum specialist found in ABAS hub")
             if hub.quantum_specialist:
                 print("Quantum specialist is initialized")
@@ -37,7 +42,9 @@ class TestABASQuantumSpecialistIntegration:
     @pytest.mark.asyncio
     async def test_quantum_biological_processing(self):
         """Test quantum-biological processing functionality"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
 
         quantum_specialist = get_abas_quantum_specialist()
         if quantum_specialist:
@@ -47,7 +54,7 @@ class TestABASQuantumSpecialistIntegration:
             # Test processing
             result = await quantum_specialist.process_quantum_biological(
                 "How can quantum biology help with ethical decision making?",
-                {"context": "test"}
+                {"context": "test"},
             )
 
             assert isinstance(result, dict)
@@ -69,7 +76,9 @@ class TestABASQuantumSpecialistIntegration:
     @pytest.mark.asyncio
     async def test_quantum_ethics_arbitration(self):
         """Test quantum ethics arbitration"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
 
         quantum_specialist = get_abas_quantum_specialist()
         if quantum_specialist:
@@ -79,10 +88,12 @@ class TestABASQuantumSpecialistIntegration:
             decision_context = {
                 "content": "Should we prioritize efficiency over fairness?",
                 "stakeholders": ["group_a", "group_b"],
-                "resources": {"compute": 100, "memory": 200}
+                "resources": {"compute": 100, "memory": 200},
             }
 
-            result = await quantum_specialist.get_quantum_ethics_arbitration(decision_context)
+            result = await quantum_specialist.get_quantum_ethics_arbitration(
+                decision_context
+            )
 
             assert isinstance(result, dict)
             if "error" not in result:
@@ -91,7 +102,9 @@ class TestABASQuantumSpecialistIntegration:
     @pytest.mark.asyncio
     async def test_cristae_topology_optimization(self):
         """Test cristae topology optimization"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
 
         quantum_specialist = get_abas_quantum_specialist()
         if quantum_specialist:
@@ -100,26 +113,29 @@ class TestABASQuantumSpecialistIntegration:
             # Test topology optimization
             current_state = {
                 "nodes": {"n1": {}, "n2": {}, "n3": {}},
-                "connections": [("n1", "n2"), ("n2", "n3")]
+                "connections": [("n1", "n2"), ("n2", "n3")],
             }
 
             performance_metrics = {
                 "average_confidence": 0.7,
-                "average_processing_time": 0.5
+                "average_processing_time": 0.5,
             }
 
             result = await quantum_specialist.optimize_cristae_topology(
-                current_state,
-                performance_metrics
+                current_state, performance_metrics
             )
 
             assert isinstance(result, dict)
             if "error" not in result:
-                assert "optimization_id" in result or "performance_improvement" in result
+                assert (
+                    "optimization_id" in result or "performance_improvement" in result
+                )
 
     def test_biological_status(self):
         """Test biological status reporting"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
 
         quantum_specialist = get_abas_quantum_specialist()
         if quantum_specialist:
@@ -137,9 +153,9 @@ class TestABASQuantumSpecialistIntegration:
         """Test that mock implementation works"""
         try:
             from core.neural_architectures.abas.abas_quantum_specialist_mock import (
-                get_quantum_biological_agi,
                 QuantumBioCapabilityLevel,
-                QuantumBioResponse
+                QuantumBioResponse,
+                get_quantum_biological_agi,
             )
 
             quantum_agi = get_quantum_biological_agi()
@@ -147,7 +163,9 @@ class TestABASQuantumSpecialistIntegration:
 
             # Test capability levels
             assert QuantumBioCapabilityLevel.CELLULAR.value == "cellular_basic"
-            assert QuantumBioCapabilityLevel.QUANTUM_TUNNELING.value == "quantum_tunneling"
+            assert (
+                QuantumBioCapabilityLevel.QUANTUM_TUNNELING.value == "quantum_tunneling"
+            )
 
         except ImportError:
             pytest.skip("Mock implementation not available")
@@ -155,7 +173,9 @@ class TestABASQuantumSpecialistIntegration:
     @pytest.mark.asyncio
     async def test_capability_advancement(self):
         """Test capability level advancement"""
-        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import get_abas_quantum_specialist
+        from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+            get_abas_quantum_specialist,
+        )
 
         quantum_specialist = get_abas_quantum_specialist()
         if quantum_specialist:
@@ -166,8 +186,7 @@ class TestABASQuantumSpecialistIntegration:
             # Process multiple times to potentially advance
             for i in range(10):
                 await quantum_specialist.process_quantum_biological(
-                    f"Test input {i} for capability advancement",
-                    {"iteration": i}
+                    f"Test input {i} for capability advancement", {"iteration": i}
                 )
 
             final_level = quantum_specialist.get_capability_level()
@@ -176,12 +195,16 @@ class TestABASQuantumSpecialistIntegration:
             print(f"Initial capability: {initial_level}")
             print(f"Final capability: {final_level}")
             print(f"Total processes: {status['integration_stats']['total_processes']}")
-            print(f"Capability advancements: {status['integration_stats']['capability_advancements']}")
+            print(
+                f"Capability advancements: {status['integration_stats']['capability_advancements']}"
+            )
 
     @pytest.mark.asyncio
     async def test_abas_hub_quantum_processing(self):
         """Test quantum processing through ABAS hub"""
-        from abas.integration.abas_integration_hub import get_abas_integration_hub
+        from abas.integration.abas_integration_hub import (
+            get_abas_integration_hub,
+        )
 
         hub = get_abas_integration_hub()
 
@@ -190,15 +213,15 @@ class TestABASQuantumSpecialistIntegration:
 
         # Test quantum biological processing
         payload = {
-            'input': 'Explain quantum tunneling in biological systems',
-            'context': {'source': 'test'}
+            "input": "Explain quantum tunneling in biological systems",
+            "context": {"source": "test"},
         }
 
         result = await hub.process_quantum_biological(payload)
 
         assert isinstance(result, dict)
-        if 'error' not in result:
-            assert 'content' in result
+        if "error" not in result:
+            assert "content" in result
             print(f"Quantum processing result: {result.get('content', '')[:100]}...")
 
 

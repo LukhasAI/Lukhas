@@ -7,20 +7,20 @@ AI-specific penetration testing frameworks and tools.
 
 from .ai_penetration_tester import (
     AIPenetrationTester,
-    PentestTarget,
-    Vulnerability,
-    PentestResults,
     AttackVector,
+    PentestPhase,
+    PentestResults,
+    PentestTarget,
     Severity,
-    PentestPhase
+    Vulnerability,
 )
 
 __all__ = [
-    'AIPenetrationTester',
-    'PentestTarget',
-    'Vulnerability', 
-    'PentestResults',
-    'AttackVector',
-    'Severity',
-    'PentestPhase'
+    "AIPenetrationTester",
+    "PentestTarget",
+    "Vulnerability",
+    "PentestResults",
+    "AttackVector",
+    "Severity",
+    "PentestPhase",
 ]

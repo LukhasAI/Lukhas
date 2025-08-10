@@ -5,15 +5,15 @@ Provides TrustHelix-powered consent validation for T5 authentication.
 """
 
 from .consent_chain_validator import (
-    ConsentChainValidator,
-    ConsentType,
-    ConsentSymbol,
-    ConsentValidity,
-    ConsentNode,
     ConsentChain,
+    ConsentChainValidator,
     ConsentDecision,
+    ConsentNode,
+    ConsentSymbol,
+    ConsentType,
+    ConsentValidity,
     TrustHelixNode,
-    validate_stargate_consent
+    validate_stargate_consent,
 )
 
 __all__ = [
@@ -25,5 +25,5 @@ __all__ = [
     "ConsentChain",
     "ConsentDecision",
     "TrustHelixNode",
-    "validate_stargate_consent"
+    "validate_stargate_consent",
 ]

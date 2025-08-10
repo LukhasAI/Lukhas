@@ -32,19 +32,21 @@
 """
 
 import asyncio
+import contextlib
+import json
 import logging
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Union, Callable
-import json
-import time
+from typing import Any, Optional
 
 
 class OrchestratorState(Enum):
     """Standardized orchestrator states"""
+
     UNINITIALIZED = auto()
     INITIALIZING = auto()
     INITIALIZED = auto()
@@ -57,6 +59,7 @@ class OrchestratorState(Enum):
 
 class ComponentStatus(Enum):
     """Status of managed components"""
+
     HEALTHY = "healthy"
     DEGRADED = "degraded"
     UNHEALTHY = "unhealthy"
@@ -66,6 +69,7 @@ class ComponentStatus(Enum):
 @dataclass
 class OrchestratorConfig:
     """Base configuration for all orchestrators"""
+
     name: str
     description: str = ""
     max_concurrent_operations: int = 10
@@ -75,28 +79,30 @@ class OrchestratorConfig:
     retry_attempts: int = 3
     timeout_seconds: int = 30
     config_path: Optional[Path] = None
-    custom_config: Dict[str, Any] = field(default_factory=dict)
+    custom_config: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class ComponentInfo:
     """Information about a managed component"""
+
     name: str
     type: str
     status: ComponentStatus = ComponentStatus.UNKNOWN
     last_health_check: Optional[datetime] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class OrchestratorMetrics:
     """Standard metrics for orchestrators"""
+
     start_time: datetime = field(default_factory=datetime.now)
     operations_completed: int = 0
     operations_failed: int = 0
     average_operation_time: float = 0.0
     current_load: float = 0.0
-    component_health: Dict[str, ComponentStatus] = field(default_factory=dict)
+    component_health: dict[str, ComponentStatus] = field(default_factory=dict)
 
 
 class BaseOrchestrator(ABC):
@@ -115,7 +121,7 @@ class BaseOrchestrator(ABC):
         self.config = config
         self.logger = self._setup_logging()
         self.state = OrchestratorState.UNINITIALIZED
-        self.components: Dict[str, ComponentInfo] = {}
+        self.components: dict[str, ComponentInfo] = {}
         self.metrics = OrchestratorMetrics()
         self._health_check_task: Optional[asyncio.Task] = None
         self._operation_semaphore = asyncio.Semaphore(config.max_concurrent_operations)
@@ -134,7 +140,7 @@ class BaseOrchestrator(ABC):
         if not logger.handlers:
             handler = logging.StreamHandler()
             formatter = logging.Formatter(
-                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+                "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
             )
             handler.setFormatter(formatter)
             logger.addHandler(handler)
@@ -147,7 +153,7 @@ class BaseOrchestrator(ABC):
     def _load_additional_config(self, config_path: Path) -> None:
         """Load additional configuration from file"""
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 additional_config = json.load(f)
                 self.config.custom_config.update(additional_config)
                 self.logger.info(f"Loaded additional config from {config_path}")
@@ -186,11 +192,9 @@ class BaseOrchestrator(ABC):
     @abstractmethod
     async def _initialize_components(self) -> bool:
         """Initialize managed components. Must be implemented by subclasses."""
-        pass
 
     async def _custom_initialize(self) -> None:
         """Optional custom initialization. Override in subclasses if needed."""
-        pass
 
     async def start(self) -> bool:
         """Start the orchestrator"""
@@ -225,11 +229,9 @@ class BaseOrchestrator(ABC):
     @abstractmethod
     async def _start_components(self) -> None:
         """Start managed components. Must be implemented by subclasses."""
-        pass
 
     async def _custom_start(self) -> None:
         """Optional custom startup logic. Override in subclasses if needed."""
-        pass
 
     async def stop(self) -> bool:
         """Stop the orchestrator"""
@@ -244,10 +246,8 @@ class BaseOrchestrator(ABC):
             # Stop health monitoring
             if self._health_check_task:
                 self._health_check_task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self._health_check_task
-                except asyncio.CancelledError:
-                    pass
 
             # Stop components
             await self._stop_components()
@@ -267,21 +267,21 @@ class BaseOrchestrator(ABC):
     @abstractmethod
     async def _stop_components(self) -> None:
         """Stop managed components. Must be implemented by subclasses."""
-        pass
 
     async def _custom_stop(self) -> None:
         """Optional custom shutdown logic. Override in subclasses if needed."""
-        pass
 
     # === Component Management ===
 
-    def register_component(self, name: str, component_type: str,
-                         metadata: Optional[Dict[str, Any]] = None) -> None:
+    def register_component(
+        self,
+        name: str,
+        component_type: str,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> None:
         """Register a component for management"""
         self.components[name] = ComponentInfo(
-            name=name,
-            type=component_type,
-            metadata=metadata or {}
+            name=name, type=component_type, metadata=metadata or {}
         )
         self.logger.debug(f"Registered component: {name} ({component_type})")
 
@@ -308,16 +308,15 @@ class BaseOrchestrator(ABC):
     @abstractmethod
     async def _check_component_health(self, name: str) -> ComponentStatus:
         """Implementation-specific health check. Must be implemented by subclasses."""
-        pass
 
     # === Operation Processing ===
 
-    async def process(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Process an operation with proper error handling and metrics"""
         if self.state != OrchestratorState.RUNNING:
             return {
                 "success": False,
-                "error": f"Orchestrator not running (state: {self.state})"
+                "error": f"Orchestrator not running (state: {self.state})",
             }
 
         async with self._operation_semaphore:
@@ -342,18 +341,15 @@ class BaseOrchestrator(ABC):
                     # Retry if recovery successful
                     return await self.process(operation)
 
-                return {
-                    "success": False,
-                    "error": str(e)
-                }
+                return {"success": False, "error": str(e)}
 
     @abstractmethod
-    async def _process_operation(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_operation(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Process a specific operation. Must be implemented by subclasses."""
-        pass
 
-    async def _handle_operation_error(self, operation: Dict[str, Any],
-                                    error: Exception) -> bool:
+    async def _handle_operation_error(
+        self, operation: dict[str, Any], error: Exception
+    ) -> bool:
         """Handle operation errors. Override for custom error handling."""
         return False  # Default: no recovery
 
@@ -382,8 +378,12 @@ class BaseOrchestrator(ABC):
     async def _update_orchestrator_health(self) -> None:
         """Update overall orchestrator health metrics"""
         # Calculate current load
-        active_operations = self.config.max_concurrent_operations - self._operation_semaphore._value
-        self.metrics.current_load = active_operations / self.config.max_concurrent_operations
+        active_operations = (
+            self.config.max_concurrent_operations - self._operation_semaphore._value
+        )
+        self.metrics.current_load = (
+            active_operations / self.config.max_concurrent_operations
+        )
 
     def _update_average_operation_time(self, operation_time: float) -> None:
         """Update rolling average of operation time"""
@@ -393,13 +393,12 @@ class BaseOrchestrator(ABC):
         else:
             # Rolling average
             self.metrics.average_operation_time = (
-                (self.metrics.average_operation_time * (total_ops - 1) + operation_time)
-                / total_ops
-            )
+                self.metrics.average_operation_time * (total_ops - 1) + operation_time
+            ) / total_ops
 
     # === Utility Methods ===
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current orchestrator status"""
         return {
             "name": self.config.name,
@@ -410,12 +409,11 @@ class BaseOrchestrator(ABC):
                 "operations_completed": self.metrics.operations_completed,
                 "operations_failed": self.metrics.operations_failed,
                 "average_operation_time": f"{self.metrics.average_operation_time:.3f}s",
-                "current_load": f"{self.metrics.current_load:.1%}"
+                "current_load": f"{self.metrics.current_load:.1%}",
             },
             "components": {
-                name: info.status.value
-                for name, info in self.components.items()
-            }
+                name: info.status.value for name, info in self.components.items()
+            },
         }
 
     def __repr__(self) -> str:

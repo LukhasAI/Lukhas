@@ -9,10 +9,9 @@ symbolic divergence is scored via DriftScore. The system tracks
 symbolic entanglements and resulting value drift.
 """
 
+from trace.drift_metrics import DriftTracker, compute_drift_score
+from typing import Any, Dict, List
 
-from typing import Dict, Any, List
-
-from trace.drift_metrics import compute_drift_score, DriftTracker
 
 # ΛTAG: RL_DREAM_LOOP
 class RLDreamCycle:
@@ -53,15 +52,19 @@ class RLDreamCycle:
             reward = 1.0 - drift
             future_q = self.q_table.get(next_state, 0.0)
             current_q = self.q_table.get(state, 0.0)
-            updated_q = current_q + self.learning_rate * (reward + self.gamma * future_q - current_q)
+            updated_q = current_q + self.learning_rate * (
+                reward + self.gamma * future_q - current_q
+            )
             self.q_table[state] = updated_q
 
             value_drift = compute_drift_score(dream, mutated)
-            results.append({
-                "dream_id": dream.get("dream_id"),
-                "driftScore": drift,
-                "value_drift": value_drift,
-            })
+            results.append(
+                {
+                    "dream_id": dream.get("dream_id"),
+                    "driftScore": drift,
+                    "value_drift": value_drift,
+                }
+            )
             previous = mutated
 
         return {

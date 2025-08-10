@@ -17,13 +17,11 @@ transparency.
 
 from __future__ import annotations
 
-
+import argparse
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any
-
-import argparse
+from typing import Any
 
 # Local import - relies on existing guardian module
 from ethics.ethical_guardian import ethical_check
@@ -35,10 +33,11 @@ class HashableDict(dict):
     def __hash__(self) -> int:  # pragma: no cover - simple wrapper
         return hash(tuple(sorted(self.items())))
 
+
 DEFAULT_LOG_PATH = Path("logs/symbolic_feedback_log.jsonl")
 
 
-def parse_prompts_from_file(path: Path) -> List[str]:
+def parse_prompts_from_file(path: Path) -> list[str]:
     """Return non-empty stripped lines from the file."""
     if not path.exists():
         raise FileNotFoundError(path)
@@ -47,15 +46,15 @@ def parse_prompts_from_file(path: Path) -> List[str]:
 
 
 def run_redteam_simulation(
-    prompts: List[str],
-    context: Dict[str, Any] | None = None,
-    personality: Dict[str, Any] | None = None,
+    prompts: list[str],
+    context: dict[str, Any] | None = None,
+    personality: dict[str, Any] | None = None,
     log_path: Path = DEFAULT_LOG_PATH,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Run prompts through ``ethical_guardian`` and log results."""
     context = context or {}
     personality = personality or {}
-    results: List[Dict[str, Any]] = []
+    results: list[dict[str, Any]] = []
 
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("a", encoding="utf-8") as handle:

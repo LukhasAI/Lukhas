@@ -1,6 +1,7 @@
 import unittest
-from datetime import datetime
+
 from core.symbolic.tracer import SymbolicTracer
+
 
 class TestSymbolicTracer(unittest.TestCase):
 
@@ -22,5 +23,6 @@ class TestSymbolicTracer(unittest.TestCase):
         self.assertEqual(trail.final_conclusion, "test conclusion")
         self.assertIsNone(tracer.get_trail(trail_id))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -6,21 +6,18 @@ Implements massive scale feedback collection with commercial optimization.
 """
 
 import asyncio
-from typing import Dict, Any, List, Optional, Tuple, Set
-from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
-from enum import Enum
 import uuid
-import json
 from collections import defaultdict, deque
-import aioredis
-import aiokafka
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from core.common import get_logger
+from core.common.exceptions import LukhasError
 from core.interfaces import CoreInterface
 from feedback.user_feedback_system import FeedbackItem, FeedbackType
-from core.common.exceptions import LukhasError
 
 logger = get_logger(__name__)
 
@@ -72,34 +69,34 @@ class ScaleFeedbackInfrastructure(CoreInterface):
     OpenAI-style massive scale feedback infrastructure.
     Designed for billions of users with real-time processing.
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize scale infrastructure"""
         self.config = config or {}
         self.operational = False
-        
+
         # Scale configuration
         self.max_concurrent_users = config.get("max_concurrent_users", 1_000_000_000)
         self.target_latency_ms = config.get("target_latency_ms", 100)
         self.batch_size = config.get("batch_size", 1000)
-        
+
         # Infrastructure components
         self.redis_pools: Dict[str, Any] = {}  # Region -> Redis pool
         self.kafka_producers: Dict[str, Any] = {}  # Channel -> Kafka producer
         self.processing_pools: Dict[ProcessingTier, ThreadPoolExecutor] = {}
-        
+
         # Caching layers
         self.hot_cache = {}  # In-memory cache for hot data
         self.warm_cache = {}  # Redis cache for warm data
-        
+
         # Real-time metrics
         self.metrics = ScalableMetrics()
         self.metrics_window = deque(maxlen=1000)  # Rolling window
-        
+
         # A/B testing framework
         self.experiments: Dict[str, Dict[str, Any]] = {}
         self.user_experiments: Dict[str, Set[str]] = defaultdict(set)
-        
+
         # Multi-modal processors
         self.modal_processors = {
             FeedbackChannel.TEXT: self._process_text_feedback,
@@ -109,34 +106,34 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             FeedbackChannel.BIOMETRIC: self._process_biometric_feedback,
             FeedbackChannel.BEHAVIORAL: self._process_behavioral_feedback
         }
-        
+
         # Geographic distribution
-        self.regions = ["us-east", "us-west", "eu-west", "eu-central", 
+        self.regions = ["us-east", "us-west", "eu-west", "eu-central",
                        "asia-pacific", "asia-south", "latam", "africa"]
         self.region_weights = self._calculate_region_weights()
-        
+
         # Commercial features
         self.premium_users: Set[str] = set()
         self.enterprise_configs: Dict[str, Dict[str, Any]] = {}
-    
+
     async def initialize(self) -> None:
         """Initialize scale infrastructure"""
         logger.info("Initializing Scale Feedback Infrastructure...")
-        
+
         # Initialize distributed components
         await self._setup_redis_clusters()
         await self._setup_kafka_streams()
         await self._setup_processing_pools()
-        
+
         # Start monitoring
         asyncio.create_task(self._monitor_metrics())
-        
+
         # Initialize A/B testing
         await self._setup_experiments()
-        
+
         self.operational = True
         logger.info("Scale Feedback Infrastructure initialized")
-    
+
     async def _setup_redis_clusters(self) -> None:
         """Setup Redis clusters for each region"""
         for region in self.regions:
@@ -145,7 +142,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             #     f'redis://{region}.redis.example.com'
             # )
             self.redis_pools[region] = {"mock": True, "region": region}
-    
+
     async def _setup_kafka_streams(self) -> None:
         """Setup Kafka streams for feedback channels"""
         for channel in FeedbackChannel:
@@ -154,7 +151,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             #     bootstrap_servers=f'{channel.value}.kafka.example.com'
             # )
             self.kafka_producers[channel] = {"mock": True, "channel": channel.value}
-    
+
     async def _setup_processing_pools(self) -> None:
         """Setup processing pools for different tiers"""
         self.processing_pools = {
@@ -163,7 +160,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             ProcessingTier.STANDARD: ThreadPoolExecutor(max_workers=200),
             ProcessingTier.BATCH: ThreadPoolExecutor(max_workers=50)
         }
-    
+
     def _calculate_region_weights(self) -> Dict[str, float]:
         """Calculate region weights for load balancing"""
         # In production, based on actual usage patterns
@@ -177,7 +174,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "latam": 0.03,
             "africa": 0.02
         }
-    
+
     async def collect_feedback_at_scale(
         self,
         feedback: FeedbackItem,
@@ -192,17 +189,17 @@ class ScaleFeedbackInfrastructure(CoreInterface):
         """
         if not self.operational:
             raise LukhasError("Scale infrastructure not operational")
-        
+
         # Generate tracking ID
         tracking_id = f"{channel.value}_{uuid.uuid4().hex[:12]}"
-        
+
         # Determine optimal region
         region = await self._determine_optimal_region(feedback.user_id)
-        
+
         # Check if premium user for priority processing
         if feedback.user_id in self.premium_users:
             tier = ProcessingTier.PRIORITY
-        
+
         # Create processing task
         task = {
             "tracking_id": tracking_id,
@@ -212,97 +209,97 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "region": region,
             "timestamp": datetime.now(timezone.utc)
         }
-        
+
         # Route based on tier
         if tier == ProcessingTier.REALTIME:
             await self._process_realtime(task)
         else:
             await self._queue_for_processing(task)
-        
+
         # Update metrics
         self._update_metrics(channel, region)
-        
+
         return tracking_id
-    
+
     async def _determine_optimal_region(self, user_id: str) -> str:
         """Determine optimal region for user"""
         # Check cache
         if user_id in self.hot_cache:
             return self.hot_cache[user_id]["region"]
-        
+
         # In production, use geolocation
         # For demo, use hash-based distribution
         user_hash = hash(user_id) % 100
         cumulative = 0
-        
+
         for region, weight in self.region_weights.items():
             cumulative += weight * 100
             if user_hash < cumulative:
                 self.hot_cache[user_id] = {"region": region}
                 return region
-        
+
         return "us-east"  # Default
-    
+
     async def _process_realtime(self, task: Dict[str, Any]) -> None:
         """Process feedback in real-time (<100ms)"""
         start_time = datetime.now(timezone.utc)
-        
+
         try:
             # Extract features in parallel
             features = await self._extract_features_fast(task["feedback"])
-            
+
             # Quick sentiment analysis
             sentiment = await self._fast_sentiment_analysis(task["feedback"])
-            
+
             # Update hot cache
             self.hot_cache[task["tracking_id"]] = {
                 "features": features,
                 "sentiment": sentiment,
                 "processed_at": datetime.now(timezone.utc)
             }
-            
+
             # Stream to real-time consumers
             await self._stream_to_consumers(task["tracking_id"], features, sentiment)
-            
+
             # Track latency
             latency_ms = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
             self.metrics.processing_latency_ms = latency_ms
-            
+
         except Exception as e:
             logger.error(f"Real-time processing error: {e}")
             # Fallback to priority tier
             task["tier"] = ProcessingTier.PRIORITY
             await self._queue_for_processing(task)
-    
+
     async def _queue_for_processing(self, task: Dict[str, Any]) -> None:
         """Queue feedback for async processing"""
         # In production, use Kafka
         queue_name = f"feedback_{task['tier'].value}_{task['region']}"
-        
+
         # Add to appropriate queue
         if not hasattr(self, '_processing_queues'):
             self._processing_queues = defaultdict(deque)
-        
+
         self._processing_queues[queue_name].append(task)
-        
+
         # Trigger batch processing if needed
         if len(self._processing_queues[queue_name]) >= self.batch_size:
             asyncio.create_task(self._process_batch(queue_name))
-    
+
     async def _process_batch(self, queue_name: str) -> None:
         """Process a batch of feedback"""
         if queue_name not in self._processing_queues:
             return
-        
+
         # Get batch
         batch_items = []
         for _ in range(min(self.batch_size, len(self._processing_queues[queue_name]))):
             if self._processing_queues[queue_name]:
                 batch_items.append(self._processing_queues[queue_name].popleft())
-        
+
         if not batch_items:
             return
-        
+
         # Create batch
         batch = FeedbackBatch(
             batch_id=f"batch_{uuid.uuid4().hex[:12]}",
@@ -311,7 +308,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             created_at=datetime.now(timezone.utc),
             metadata={"queue": queue_name}
         )
-        
+
         # Process batch based on tier
         tier = batch.processing_tier
         if tier in self.processing_pools:
@@ -319,11 +316,11 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             # In production, submit to thread pool
             # pool.submit(self._process_batch_sync, batch)
             await self._process_batch_items(batch)
-    
+
     async def _process_batch_items(self, batch: FeedbackBatch) -> None:
         """Process items in a batch"""
         results = []
-        
+
         for item in batch.items:
             try:
                 # Process based on feedback type
@@ -335,16 +332,16 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                     result = await self._process_emoji_feedback(item)
                 else:
                     result = await self._process_generic_feedback(item)
-                
+
                 results.append(result)
-                
+
             except Exception as e:
                 logger.error(f"Batch processing error: {e}")
                 results.append({"error": str(e)})
-        
+
         # Store results
         await self._store_batch_results(batch.batch_id, results)
-    
+
     async def _extract_features_fast(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Fast feature extraction for real-time processing"""
         features = {
@@ -352,16 +349,16 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "timestamp": feedback.timestamp.timestamp(),
             "user_id_hash": hash(feedback.user_id) % 1000000
         }
-        
+
         if feedback.feedback_type == FeedbackType.RATING:
             features["rating"] = feedback.content.get("rating", 0)
         elif feedback.feedback_type == FeedbackType.TEXT:
             text = feedback.content.get("text", "")
             features["text_length"] = len(text)
             features["word_count"] = len(text.split())
-        
+
         return features
-    
+
     async def _fast_sentiment_analysis(self, feedback: FeedbackItem) -> Dict[str, float]:
         """Fast sentiment analysis for real-time processing"""
         # In production, use optimized ML model
@@ -373,9 +370,9 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 return {"positive": 0.2, "negative": 0.8}
             else:
                 return {"positive": 0.5, "negative": 0.5}
-        
+
         return {"positive": 0.5, "negative": 0.5}
-    
+
     async def _stream_to_consumers(
         self,
         tracking_id: str,
@@ -389,51 +386,51 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "sentiment": sentiment,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
-        
+
         # In production, publish to Kafka/Redis Streams
         # await self.kafka_producers[FeedbackChannel.API].send(
         #     "realtime_feedback", json.dumps(event).encode()
         # )
-        
+
         # Update dashboards
         if hasattr(self, '_dashboard_subscribers'):
             for subscriber in self._dashboard_subscribers:
                 await subscriber(event)
-    
+
     def _update_metrics(self, channel: FeedbackChannel, region: str) -> None:
         """Update real-time metrics"""
         # Update counters
         if channel.value not in self.metrics.channel_distribution:
             self.metrics.channel_distribution[channel.value] = 0
         self.metrics.channel_distribution[channel.value] += 1
-        
+
         if region not in self.metrics.geographic_distribution:
             self.metrics.geographic_distribution[region] = 0
         self.metrics.geographic_distribution[region] += 1
-        
+
         # Update rate
         now = datetime.now(timezone.utc)
         self.metrics_window.append(now)
-        
+
         # Calculate feedback per second
         if len(self.metrics_window) > 1:
             time_span = (self.metrics_window[-1] - self.metrics_window[0]).total_seconds()
             if time_span > 0:
                 self.metrics.feedback_per_second = len(self.metrics_window) / time_span
-    
+
     async def _monitor_metrics(self) -> None:
         """Monitor system metrics continuously"""
         while self.operational:
             try:
                 # Update active users (approximate)
                 self.metrics.active_users = len(self.hot_cache)
-                
+
                 # Check queue depths
                 if hasattr(self, '_processing_queues'):
                     self.metrics.queue_depth = sum(
                         len(queue) for queue in self._processing_queues.values()
                     )
-                
+
                 # Log metrics periodically
                 if self.metrics.feedback_per_second > 0:
                     logger.info(
@@ -441,19 +438,19 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                         f"{self.metrics.active_users} active users, "
                         f"latency: {self.metrics.processing_latency_ms:.1f}ms"
                     )
-                
+
                 await asyncio.sleep(10)  # Check every 10 seconds
-                
+
             except Exception as e:
                 logger.error(f"Metrics monitoring error: {e}")
                 await asyncio.sleep(60)
-    
+
     # Multi-modal processors
-    
+
     async def _process_text_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process text feedback"""
         text = feedback.content.get("text", "")
-        
+
         # In production, use advanced NLP
         return {
             "type": "text",
@@ -462,7 +459,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "topics": ["general"],  # Extract topics in production
             "sentiment": {"positive": 0.5, "negative": 0.5}
         }
-    
+
     async def _process_voice_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process voice feedback"""
         # In production, transcribe and analyze
@@ -472,7 +469,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "transcription": "[Voice transcription would go here]",
             "emotion": "neutral"
         }
-    
+
     async def _process_image_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process image feedback (screenshots, etc.)"""
         # In production, use computer vision
@@ -482,7 +479,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "contains_text": True,  # OCR in production
             "ui_elements_detected": ["button", "text_field"]
         }
-    
+
     async def _process_video_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process video feedback"""
         # In production, analyze video content
@@ -492,7 +489,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "key_frames": 5,
             "detected_issues": []
         }
-    
+
     async def _process_biometric_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process biometric feedback (with consent)"""
         # Only with explicit consent
@@ -504,7 +501,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 "stress_indicators": "low"
             }
         }
-    
+
     async def _process_behavioral_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process behavioral feedback (usage patterns)"""
         return {
@@ -513,7 +510,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "time_spent_seconds": feedback.content.get("duration", 0),
             "interaction_count": len(feedback.content.get("actions", []))
         }
-    
+
     async def _process_rating_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process rating feedback"""
         return {
@@ -521,7 +518,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "value": feedback.content.get("rating", 0),
             "scale": "1-5"
         }
-    
+
     async def _process_emoji_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process emoji feedback"""
         return {
@@ -529,27 +526,27 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "emoji": feedback.content.get("emoji", ""),
             "category": "emotion"
         }
-    
+
     async def _process_generic_feedback(self, feedback: FeedbackItem) -> Dict[str, Any]:
         """Process generic feedback"""
         return {
             "type": feedback.feedback_type.value,
             "content": feedback.content
         }
-    
+
     async def _store_batch_results(self, batch_id: str, results: List[Dict[str, Any]]) -> None:
         """Store batch processing results"""
         # In production, store in distributed storage
         if not hasattr(self, '_batch_results'):
             self._batch_results = {}
-        
+
         self._batch_results[batch_id] = {
             "results": results,
             "stored_at": datetime.now(timezone.utc)
         }
-    
+
     # A/B Testing Framework
-    
+
     async def _setup_experiments(self) -> None:
         """Setup A/B testing experiments"""
         self.experiments = {
@@ -566,15 +563,15 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 "metrics": ["accuracy", "latency"]
             }
         }
-    
+
     async def assign_user_to_experiments(self, user_id: str) -> Dict[str, str]:
         """Assign user to A/B test variants"""
         assignments = {}
-        
+
         for exp_name, exp_config in self.experiments.items():
             # Use consistent hashing for assignment
             user_hash = hash(f"{user_id}_{exp_name}") % 100
-            
+
             cumulative = 0
             for i, (variant, split) in enumerate(zip(
                 exp_config["variants"],
@@ -585,11 +582,11 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                     assignments[exp_name] = variant
                     self.user_experiments[user_id].add(f"{exp_name}:{variant}")
                     break
-        
+
         return assignments
-    
+
     # Commercial Features
-    
+
     async def create_enterprise_config(
         self,
         enterprise_id: str,
@@ -607,7 +604,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 "export_format": config.get("export_format", "json")
             }
         }
-    
+
     async def generate_analytics_report(
         self,
         enterprise_id: Optional[str] = None,
@@ -628,14 +625,14 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             "insights": [],
             "recommendations": []
         }
-        
+
         # Add enterprise-specific data
         if enterprise_id and enterprise_id in self.enterprise_configs:
             report["enterprise"] = {
                 "id": enterprise_id,
                 "config": self.enterprise_configs[enterprise_id]["features"]
             }
-        
+
         # Generate insights
         if self.metrics.feedback_per_second > 1000:
             report["insights"].append({
@@ -643,27 +640,27 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 "description": "Feedback volume exceeds 1000/second",
                 "recommendation": "Consider upgrading infrastructure"
             })
-        
+
         return report
-    
+
     # Required interface methods
-    
+
     async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process request"""
         feedback = data.get("feedback")
         channel = FeedbackChannel(data.get("channel", "api"))
         tier = ProcessingTier(data.get("tier", "standard"))
-        
+
         tracking_id = await self.collect_feedback_at_scale(
             feedback, channel, tier
         )
-        
+
         return {
             "tracking_id": tracking_id,
             "status": "queued",
             "estimated_processing_time_ms": self._estimate_processing_time(tier)
         }
-    
+
     def _estimate_processing_time(self, tier: ProcessingTier) -> float:
         """Estimate processing time based on tier"""
         estimates = {
@@ -673,7 +670,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
             ProcessingTier.BATCH: 60000
         }
         return estimates.get(tier, 10000)
-    
+
     async def handle_glyph(self, token: Any) -> Any:
         """Handle GLYPH communication"""
         return {
@@ -684,7 +681,7 @@ class ScaleFeedbackInfrastructure(CoreInterface):
                 "latency_ms": self.metrics.processing_latency_ms
             }
         }
-    
+
     async def get_status(self) -> Dict[str, Any]:
         """Get system status"""
         return {

@@ -2,18 +2,16 @@
 Test suite for QRG Coverage Integration
 """
 
-import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
-from typing import Dict, Any
+from unittest.mock import AsyncMock
 
-from identity.identity_hub import IdentityHub, get_identity_hub
+import pytest
+
+from identity.identity_hub import IdentityHub
 from identity.qrg_coverage_integration import (
+    CoverageReport,
     QRGCoverageIntegration,
     create_qrg_coverage_integration,
-    CoverageReport,
-    TestConfiguration
 )
 
 
@@ -30,17 +28,19 @@ class TestQRGCoverageIntegration:
     async def qrg_coverage_integration(self):
         """Create a test QRG coverage integration instance"""
         config = {
-            'enable_stress_testing': True,
-            'max_concurrent_threads': 10,  # Reduced for testing
-            'performance_timeout_seconds': 5.0,
-            'security_entropy_threshold': 0.8,
-            'cultural_safety_threshold': 0.7
+            "enable_stress_testing": True,
+            "max_concurrent_threads": 10,  # Reduced for testing
+            "performance_timeout_seconds": 5.0,
+            "security_entropy_threshold": 0.8,
+            "cultural_safety_threshold": 0.7,
         }
         integration = QRGCoverageIntegration(config)
         return integration
 
     @pytest.mark.asyncio
-    async def test_qrg_coverage_integration_initialization(self, qrg_coverage_integration):
+    async def test_qrg_coverage_integration_initialization(
+        self, qrg_coverage_integration
+    ):
         """Test QRG coverage integration initialization"""
         assert qrg_coverage_integration is not None
         assert qrg_coverage_integration.config.enable_stress_testing is True
@@ -85,9 +85,11 @@ class TestQRGCoverageIntegration:
             runtime_seconds=2.5,
             test_results={},
             areas_covered=["consciousness", "security", "cultural"],
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
-        mock_coverage_service.run_comprehensive_coverage_tests.return_value = mock_report
+        mock_coverage_service.run_comprehensive_coverage_tests.return_value = (
+            mock_report
+        )
         identity_hub.services["qrg_coverage"] = mock_coverage_service
 
         # Run comprehensive tests through hub
@@ -119,11 +121,11 @@ class TestQRGCoverageIntegration:
                 "coverage_threshold": True,
                 "security_validation": True,
                 "performance_acceptable": True,
-                "error_free": True
+                "error_free": True,
             },
             "coverage_percentage": 98.5,
             "validation_timestamp": datetime.now().isoformat(),
-            "recommendations": ["System meets all production readiness criteria"]
+            "recommendations": ["System meets all production readiness criteria"],
         }
         mock_coverage_service.validate_system_readiness.return_value = mock_readiness
         identity_hub.services["qrg_coverage"] = mock_coverage_service
@@ -150,17 +152,17 @@ class TestQRGCoverageIntegration:
         # Mock the QRG coverage service
         mock_coverage_service = AsyncMock()
         mock_stats = {
-            'total_runs': 5,
-            'average_coverage': 94.2,
-            'best_coverage': 98.0,
-            'latest_coverage': 95.5,
-            'trend': 'improving',
-            'success_rate': 0.8,
-            'metrics': {
-                'total_executions': 5,
-                'average_runtime': 3.2,
-                'success_rate': 0.8
-            }
+            "total_runs": 5,
+            "average_coverage": 94.2,
+            "best_coverage": 98.0,
+            "latest_coverage": 95.5,
+            "trend": "improving",
+            "success_rate": 0.8,
+            "metrics": {
+                "total_executions": 5,
+                "average_runtime": 3.2,
+                "success_rate": 0.8,
+            },
         }
         mock_coverage_service.get_coverage_statistics.return_value = mock_stats
         identity_hub.services["qrg_coverage"] = mock_coverage_service
@@ -189,13 +191,13 @@ class TestQRGCoverageIntegration:
         # Mock the QRG coverage service
         mock_coverage_service = AsyncMock()
         mock_targeted_result = {
-            'category': 'security_validation',
-            'status': 'completed',
-            'tests_run': 12,
-            'tests_passed': 11,
-            'coverage': 91.7,
-            'runtime': 1.8,
-            'timestamp': datetime.now().isoformat()
+            "category": "security_validation",
+            "status": "completed",
+            "tests_run": 12,
+            "tests_passed": 11,
+            "coverage": 91.7,
+            "runtime": 1.8,
+            "timestamp": datetime.now().isoformat(),
         }
         mock_coverage_service.run_targeted_tests.return_value = mock_targeted_result
         identity_hub.services["qrg_coverage"] = mock_coverage_service
@@ -245,15 +247,15 @@ class TestQRGCoverageIntegration:
         """Test different configuration options for QRG coverage integration"""
         # Test with custom config
         custom_config = {
-            'enable_stress_testing': False,
-            'max_concurrent_threads': 25,
-            'performance_timeout_seconds': 15.0,
-            'security_entropy_threshold': 0.9,
-            'cultural_safety_threshold': 0.8,
-            'memory_limit_mb': 100.0,
-            'enable_cultural_testing': False,
-            'enable_quantum_testing': True,
-            'verbosity_level': 1
+            "enable_stress_testing": False,
+            "max_concurrent_threads": 25,
+            "performance_timeout_seconds": 15.0,
+            "security_entropy_threshold": 0.9,
+            "cultural_safety_threshold": 0.8,
+            "memory_limit_mb": 100.0,
+            "enable_cultural_testing": False,
+            "enable_quantum_testing": True,
+            "verbosity_level": 1,
         }
 
         integration = create_qrg_coverage_integration(custom_config)
@@ -293,17 +295,19 @@ class TestQRGCoverageIntegration:
             runtime_seconds=3.5,
             test_results={},
             areas_covered=["security", "performance"],
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
         # Update metrics
         await qrg_coverage_integration._update_test_metrics(mock_report)
 
         # Verify metrics were updated
-        assert qrg_coverage_integration.test_metrics['total_executions'] == 1
-        assert qrg_coverage_integration.test_metrics['average_runtime'] == 3.5
-        assert qrg_coverage_integration.test_metrics['success_rate'] == 1.0  # 96% > 95% threshold
-        assert len(qrg_coverage_integration.test_metrics['performance_trends']) == 1
+        assert qrg_coverage_integration.test_metrics["total_executions"] == 1
+        assert qrg_coverage_integration.test_metrics["average_runtime"] == 3.5
+        assert (
+            qrg_coverage_integration.test_metrics["success_rate"] == 1.0
+        )  # 96% > 95% threshold
+        assert len(qrg_coverage_integration.test_metrics["performance_trends"]) == 1
 
     def test_coverage_trend_calculation(self, qrg_coverage_integration):
         """Test coverage trend calculation"""
@@ -321,7 +325,7 @@ class TestQRGCoverageIntegration:
                 runtime_seconds=2.0,
                 test_results={},
                 areas_covered=["test"],
-                timestamp=timestamp
+                timestamp=timestamp,
             )
             qrg_coverage_integration.test_history.append(report)
 
@@ -333,13 +337,15 @@ class TestQRGCoverageIntegration:
         """Test readiness recommendations generation"""
         # Test with failing criteria
         failing_criteria = {
-            'coverage_threshold': False,
-            'security_validation': True,
-            'performance_acceptable': False,
-            'error_free': True
+            "coverage_threshold": False,
+            "security_validation": True,
+            "performance_acceptable": False,
+            "error_free": True,
         }
 
-        recommendations = qrg_coverage_integration._generate_readiness_recommendations(failing_criteria)
+        recommendations = qrg_coverage_integration._generate_readiness_recommendations(
+            failing_criteria
+        )
 
         # Should have recommendations for failing criteria
         assert len(recommendations) == 2
@@ -348,13 +354,15 @@ class TestQRGCoverageIntegration:
 
         # Test with all passing criteria
         passing_criteria = {
-            'coverage_threshold': True,
-            'security_validation': True,
-            'performance_acceptable': True,
-            'error_free': True
+            "coverage_threshold": True,
+            "security_validation": True,
+            "performance_acceptable": True,
+            "error_free": True,
         }
 
-        recommendations = qrg_coverage_integration._generate_readiness_recommendations(passing_criteria)
+        recommendations = qrg_coverage_integration._generate_readiness_recommendations(
+            passing_criteria
+        )
 
         # Should indicate system is ready
         assert len(recommendations) == 1

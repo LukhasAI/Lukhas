@@ -6,7 +6,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - SYMBOLIC MEMORY MAPPER
 ║ Cross-system memory translation and symbolic representation bridge
@@ -50,11 +49,12 @@
 """
 
 import logging
-from typing import Dict, Any
 from dataclasses import dataclass
 from enum import Enum
-from core.integration.hub_registry import HubRegistry
+from typing import Any
+
 from consciousness.reflection.memory_hub import MemoryHub
+from core.integration.hub_registry import HubRegistry
 from symbolic.symbolic_hub import SymbolicHub
 
 # ΛTRACE injection point
@@ -76,8 +76,8 @@ class SymbolicMemoryNode:
 
     node_id: str
     map_type: MemoryMapType
-    symbolic_data: Dict[str, Any]
-    bridge_metadata: Dict[str, Any]
+    symbolic_data: dict[str, Any]
+    bridge_metadata: dict[str, Any]
     access_timestamp: float
 
 
@@ -93,7 +93,7 @@ class SymbolicMemoryMapper:
 
     def __init__(self):
         # ΛTRACE: Memory mapper initialization
-        self.memory_maps: Dict[str, SymbolicMemoryNode] = {}
+        self.memory_maps: dict[str, SymbolicMemoryNode] = {}
         self.mapping_cache = {}
         self.coherence_threshold = 0.8
 
@@ -102,7 +102,7 @@ class SymbolicMemoryMapper:
     async def register_bridge(self):
         """Register bridge with hub registry and connect systems"""
         registry = HubRegistry()
-        registry.register_bridge('symbolic_memory_bridge', self)
+        registry.register_bridge("symbolic_memory_bridge", self)
 
         # Connect to hubs
         self.memory_hub = MemoryHub()
@@ -115,7 +115,7 @@ class SymbolicMemoryMapper:
         return True
 
     def create_memory_map(
-        self, memory_data: Dict[str, Any], map_type: MemoryMapType
+        self, memory_data: dict[str, Any], map_type: MemoryMapType
     ) -> str:
         """
         Create symbolic memory mapping for bridge operations
@@ -137,7 +137,7 @@ class SymbolicMemoryMapper:
         map_id = f"map_{len(self.memory_maps)}"
         return map_id
 
-    def map_to_core_structures(self, map_id: str) -> Dict[str, Any]:
+    def map_to_core_structures(self, map_id: str) -> dict[str, Any]:
         """
         Map symbolic memory to core logic structures
 

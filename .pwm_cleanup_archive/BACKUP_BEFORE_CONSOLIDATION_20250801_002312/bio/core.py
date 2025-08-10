@@ -28,9 +28,9 @@
 
 import asyncio
 import logging
-from typing import Dict, Any, Optional
-from datetime import datetime
 import math
+from datetime import datetime
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -55,14 +55,16 @@ class BioCore:
 
         # Consciousness state
         self.consciousness_level = 0.5  # 0.0 to 1.0
-        self.bio_rhythm_phase = 0.0     # Current bio-rhythm phase
+        self.bio_rhythm_phase = 0.0  # Current bio-rhythm phase
         self.last_update = datetime.now()
 
         # Bio parameters
-        self.rhythm_frequency = self.config.get('rhythm_frequency', 0.1)  # Hz
-        self.consciousness_volatility = self.config.get('consciousness_volatility', 0.1)
+        self.rhythm_frequency = self.config.get("rhythm_frequency", 0.1)  # Hz
+        self.consciousness_volatility = self.config.get("consciousness_volatility", 0.1)
 
-        logger.info(f"BioCore initialized with rhythm frequency: {self.rhythm_frequency} Hz")
+        logger.info(
+            f"BioCore initialized with rhythm frequency: {self.rhythm_frequency} Hz"
+        )
 
     async def initialize(self) -> bool:
         """Initialize the BioCore system."""
@@ -86,7 +88,9 @@ class BioCore:
                 time_delta = (current_time - self.last_update).total_seconds()
 
                 # Update bio-rhythm phase
-                self.bio_rhythm_phase += 2 * math.pi * self.rhythm_frequency * time_delta
+                self.bio_rhythm_phase += (
+                    2 * math.pi * self.rhythm_frequency * time_delta
+                )
                 self.bio_rhythm_phase = self.bio_rhythm_phase % (2 * math.pi)
 
                 # Update consciousness level based on bio-rhythm
@@ -110,7 +114,9 @@ class BioCore:
         """Get current consciousness level."""
         return self.consciousness_level
 
-    async def process_conscious_input(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_conscious_input(
+        self, input_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Process input through conscious bio-processing.
 
@@ -122,8 +128,8 @@ class BioCore:
         """
         try:
             # Extract input content
-            content = input_data.get('text', input_data.get('content', ''))
-            input_type = input_data.get('type', 'general')
+            content = input_data.get("text", input_data.get("content", ""))
+            input_type = input_data.get("type", "general")
 
             # Consciousness-modulated processing
             consciousness_factor = self.consciousness_level
@@ -160,7 +166,9 @@ class BioCore:
             if self.memory_manager:
                 await self._store_conscious_memory(input_data, response)
 
-            logger.debug(f"Processed conscious input: {input_type} -> {response['awareness_state']}")
+            logger.debug(
+                f"Processed conscious input: {input_type} -> {response['awareness_state']}"
+            )
             return response
 
         except Exception as e:
@@ -168,21 +176,23 @@ class BioCore:
             return {
                 "error": f"Conscious processing failed: {str(e)}",
                 "consciousness_level": self.consciousness_level,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
-    async def _store_conscious_memory(self, input_data: Dict[str, Any], response: Dict[str, Any]):
+    async def _store_conscious_memory(
+        self, input_data: Dict[str, Any], response: Dict[str, Any]
+    ):
         """Store conscious interaction in memory."""
         try:
-            if hasattr(self.memory_manager, 'store_interaction'):
+            if hasattr(self.memory_manager, "store_interaction"):
                 await self.memory_manager.store_interaction(
                     input_data=input_data,
                     response=response,
                     metadata={
                         "processing_type": "bio_conscious",
                         "consciousness_level": self.consciousness_level,
-                        "bio_rhythm_phase": self.bio_rhythm_phase
-                    }
+                        "bio_rhythm_phase": self.bio_rhythm_phase,
+                    },
                 )
         except Exception as e:
             logger.warning(f"Failed to store conscious memory: {e}")
@@ -201,7 +211,7 @@ class BioCore:
             "consciousness_level": self.consciousness_level,
             "bio_rhythm_phase": self.bio_rhythm_phase,
             "rhythm_frequency": self.rhythm_frequency,
-            "last_update": self.last_update.isoformat()
+            "last_update": self.last_update.isoformat(),
         }
 
 

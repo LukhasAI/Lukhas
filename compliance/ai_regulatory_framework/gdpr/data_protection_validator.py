@@ -8,10 +8,10 @@ This is a placeholder implementation to satisfy import requirements.
 Full GDPR compliance validation will be implemented in the comprehensive update.
 """
 
-from enum import Enum
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Any
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class LawfulBasis(Enum):
@@ -80,11 +80,11 @@ class GDPRValidator:
     This is a placeholder implementation to support testing infrastructure.
     Full GDPR validation logic will be implemented in the comprehensive update.
     """
-    
+
     def __init__(self):
         self.name = "GDPR Validator"
         self.version = "1.0.0-minimal"
-        
+
     async def assess_gdpr_compliance(self, activity: DataProcessingActivity) -> GDPRAssessment:
         """
         Assess GDPR compliance for a data processing activity.
@@ -95,7 +95,7 @@ class GDPRValidator:
         violations = []
         recommendations = []
         score = 0.8  # Default reasonable score
-        
+
         # Basic checks
         if not activity.lawful_basis:
             violations.append({
@@ -104,13 +104,13 @@ class GDPRValidator:
                 "description": "No lawful basis specified for processing"
             })
             score -= 0.3
-            
+
         if activity.international_transfers and not activity.processor:
             recommendations.append("Consider implementing appropriate safeguards for international transfers")
-            
+
         if activity.automated_decision_making:
             recommendations.append("Ensure appropriate measures for automated decision-making")
-            
+
         # Determine compliance status
         if score >= 0.8:
             status = "COMPLIANT"
@@ -118,7 +118,7 @@ class GDPRValidator:
             status = "PARTIALLY_COMPLIANT"
         else:
             status = "NON_COMPLIANT"
-            
+
         return GDPRAssessment(
             activity_id=activity.activity_id,
             assessment_date=datetime.now(),
@@ -127,11 +127,11 @@ class GDPRValidator:
             recommendations=recommendations,
             compliance_status=status
         )
-        
+
     def get_supported_jurisdictions(self) -> List[str]:
         """Get list of supported jurisdictions"""
         return ["EU", "EEA"]
-        
+
     def get_validator_info(self) -> Dict[str, Any]:
         """Get validator information"""
         return {

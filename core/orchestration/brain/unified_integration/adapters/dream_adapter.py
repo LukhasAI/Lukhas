@@ -5,15 +5,16 @@ Advanced: dream_adapter.py
 Integration Date: 2025-05-31T07:55:29.982795
 """
 
-# Simple adapter for dream engine integration
-from typing import Dict, Any, Optional
-import logging
 import asyncio
-from datetime import datetime
+import logging
 
-from ..unified_integration import UnifiedIntegration, MessageType
+# Simple adapter for dream engine integration
+from typing import Any
+
+from ..unified_integration import MessageType, UnifiedIntegration
 
 logger = logging.getLogger("dream_adapter")
+
 
 class DreamEngineAdapter:
     """Adapter for dream engine integration"""
@@ -28,14 +29,11 @@ class DreamEngineAdapter:
         self.component_id = "dream_engine"
 
         # Register with integration layer
-        self.integration.register_component(
-            self.component_id,
-            self.handle_message
-        )
+        self.integration.register_component(self.component_id, self.handle_message)
 
         logger.info("Dream Engine adapter initialized")
 
-    def handle_message(self, message: Dict[str, Any]) -> None:
+    def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages"""
         try:
             content = message["content"]
@@ -63,8 +61,8 @@ class DreamEngineAdapter:
             message_type=MessageType.COMMAND,
             content={
                 "action": "start_dream_cycle",
-                "duration_minutes": duration_minutes
-            }
+                "duration_minutes": duration_minutes,
+            },
         )
 
     async def stop_dream_cycle(self) -> None:
@@ -73,22 +71,20 @@ class DreamEngineAdapter:
             source=self.component_id,
             target="dream_reflection",
             message_type=MessageType.COMMAND,
-            content={
-                "action": "stop_dream_cycle"
-            }
+            content={"action": "stop_dream_cycle"},
         )
 
-    def _handle_start_cycle(self, content: Dict[str, Any]) -> None:
+    def _handle_start_cycle(self, content: dict[str, Any]) -> None:
         """Handle start cycle request"""
         logger.info(f"Starting dream cycle: {content}")
         duration = content.get("duration_minutes", 10)
         asyncio.create_task(self.start_dream_cycle(duration))
 
-    def _handle_stop_cycle(self, content: Dict[str, Any]) -> None:
+    def _handle_stop_cycle(self, content: dict[str, Any]) -> None:
         """Handle stop cycle request"""
         logger.info("Stopping dream cycle")
         asyncio.create_task(self.stop_dream_cycle())
 
-    def _handle_get_state(self, content: Dict[str, Any]) -> None:
+    def _handle_get_state(self, content: dict[str, Any]) -> None:
         """Handle get state request"""
         # TODO: Implement state tracking

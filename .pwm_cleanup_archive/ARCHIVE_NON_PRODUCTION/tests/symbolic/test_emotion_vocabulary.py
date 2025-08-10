@@ -3,11 +3,13 @@ Tests for the Emotion Vocabulary.
 """
 
 import unittest
+
 from symbolic.vocabularies.emotion_vocabulary import (
     EMOTION_VOCABULARY,
     get_emotion_symbol,
     get_guardian_weight,
 )
+
 
 class TestEmotionVocabulary(unittest.TestCase):
 
@@ -38,6 +40,7 @@ class TestEmotionVocabulary(unittest.TestCase):
         self.assertEqual(get_guardian_weight("anger"), 0.7)
         self.assertEqual(get_guardian_weight("fear"), 0.6)
         self.assertEqual(get_guardian_weight("unknown"), 0.5)
+
 
 if __name__ == "__main__":
     unittest.main()

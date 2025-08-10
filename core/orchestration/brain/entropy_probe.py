@@ -12,14 +12,14 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
-import numpy as np
+from typing import Any
 
+import numpy as np
 import structlog
 
 logger = structlog.get_logger(__name__)
+
 
 class EntropyProbe:
     """
@@ -35,7 +35,7 @@ class EntropyProbe:
         """
         self.brain_integrator: Any = brain_integrator
 
-    def calculate_entropy(self, data: List[Any]) -> float:
+    def calculate_entropy(self, data: list[Any]) -> float:
         """
         Calculates the entropy of a list of data.
 
@@ -52,7 +52,7 @@ class EntropyProbe:
         entropy = -np.sum(probabilities * np.log2(probabilities))
         return entropy
 
-    async def probe(self) -> Dict[str, Any]:
+    async def probe(self) -> dict[str, Any]:
         """
         Probes the brain for entropy deltas.
 
@@ -65,13 +65,17 @@ class EntropyProbe:
         # #ΛPENDING_PATCH: This is a placeholder.
         #                A real implementation would need to get the
         #                symbolic trace from the appropriate component.
-        symbolic_trace: List[Dict[str, Any]] = []
+        symbolic_trace: list[dict[str, Any]] = []
 
         # 2. Calculate the entropy of the trace.
-        entropy: float = self.calculate_entropy([event.get("event_type") for event in symbolic_trace])
+        entropy: float = self.calculate_entropy(
+            [event.get("event_type") for event in symbolic_trace]
+        )
 
         # 3. Get the current emotional state.
-        emotional_state: Dict[str, Any] = self.brain_integrator.emotional_oscillator.get_current_state()
+        emotional_state: dict[str, Any] = (
+            self.brain_integrator.emotional_oscillator.get_current_state()
+        )
         emotional_load: float = emotional_state.get("intensity", 0.0)
 
         # 4. Get the current recursion depth.
@@ -79,7 +83,7 @@ class EntropyProbe:
         recursion_depth: int = 0
 
         # 5. Output a structured report.
-        report: Dict[str, Any] = {
+        report: dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "entropy": entropy,
             "emotional_load": emotional_load,

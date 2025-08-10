@@ -19,25 +19,24 @@ The system is inherently flexible, scalable, and resilient.
 """
 
 import asyncio
-import uuid
 import time
-from core.common import get_logger
-from typing import Dict, List, Set, Optional, Any, Callable, Tuple
+import uuid
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from collections import defaultdict
-import json
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-from .actor_system import Actor, ActorRef, ActorMessage
+from core.common import get_logger
+
+from .actor_system import ActorMessage, ActorRef
 from .mailbox import MailboxActor, MailboxType, MessagePriority
+
 
 # Extension methods for ActorRef serialization
 def actorref_to_dict(self):
     """Convert ActorRef to dictionary for serialization"""
-    return {
-        "actor_id": self.actor_id,
-        "_type": "ActorRef"
-    }
+    return {"actor_id": self.actor_id, "_type": "ActorRef"}
+
 
 def actorref_from_dict(data, actor_system):
     """Create ActorRef from dictionary"""
@@ -45,10 +44,11 @@ def actorref_from_dict(data, actor_system):
         return ActorRef(data["actor_id"], actor_system)
     return None
 
+
 # Monkey patch ActorRef if needed
-if not hasattr(ActorRef, 'to_dict'):
+if not hasattr(ActorRef, "to_dict"):
     ActorRef.to_dict = actorref_to_dict
-if not hasattr(ActorRef, 'from_dict'):
+if not hasattr(ActorRef, "from_dict"):
     ActorRef.from_dict = staticmethod(actorref_from_dict)
 
 logger = get_logger(__name__)
@@ -56,6 +56,7 @@ logger = get_logger(__name__)
 
 class TaskStatus(Enum):
     """Status of a broadcasted task"""
+
     ANNOUNCED = "announced"
     NEGOTIATING = "negotiating"
     IN_PROGRESS = "in_progress"
@@ -66,6 +67,7 @@ class TaskStatus(Enum):
 
 class SkillLevel(Enum):
     """Proficiency level for skills"""
+
     NOVICE = 1
     INTERMEDIATE = 2
     ADVANCED = 3
@@ -75,6 +77,7 @@ class SkillLevel(Enum):
 @dataclass
 class Skill:
     """Represents an agent's capability"""
+
     name: str
     level: SkillLevel
     success_rate: float = 1.0
@@ -87,18 +90,24 @@ class Skill:
         self.total_tasks += 1
         if success:
             # Update success rate
-            self.success_rate = ((self.success_rate * (self.total_tasks - 1)) + 1) / self.total_tasks
+            self.success_rate = (
+                (self.success_rate * (self.total_tasks - 1)) + 1
+            ) / self.total_tasks
         else:
-            self.success_rate = (self.success_rate * (self.total_tasks - 1)) / self.total_tasks
+            self.success_rate = (
+                self.success_rate * (self.total_tasks - 1)
+            ) / self.total_tasks
 
         # Update average completion time
-        self.avg_completion_time = ((self.avg_completion_time * (self.total_tasks - 1)) +
-                                   completion_time) / self.total_tasks
+        self.avg_completion_time = (
+            (self.avg_completion_time * (self.total_tasks - 1)) + completion_time
+        ) / self.total_tasks
 
 
 @dataclass
 class TaskAnnouncement:
     """Broadcast message for task needs"""
+
     task_id: str
     description: str
     required_skills: List[Tuple[str, SkillLevel]]  # (skill_name, min_level)
@@ -120,6 +129,7 @@ class TaskAnnouncement:
 @dataclass
 class SkillOffer:
     """Response to task announcement"""
+
     agent_ref: ActorRef
     agent_id: str
     offered_skills: List[Skill]
@@ -132,6 +142,7 @@ class SkillOffer:
 @dataclass
 class WorkingGroup:
     """Temporary group formed for a task"""
+
     group_id: str
     task: TaskAnnouncement
     leader: ActorRef
@@ -158,6 +169,7 @@ class WorkingGroup:
 
 class CoordinationProtocol:
     """Protocol for agent coordination messages"""
+
     # Task announcements
     TASK_ANNOUNCE = "coord:task_announce"
     TASK_CANCEL = "coord:task_cancel"
@@ -198,8 +210,10 @@ class SkillRegistry:
                 self._skills_by_agent[agent_id] = []
 
             # Update or add skill
-            existing = next((s for s in self._skills_by_agent[agent_id]
-                           if s.name == skill.name), None)
+            existing = next(
+                (s for s in self._skills_by_agent[agent_id] if s.name == skill.name),
+                None,
+            )
             if existing:
                 self._skills_by_agent[agent_id].remove(existing)
 
@@ -214,19 +228,25 @@ class SkillRegistry:
                     self._agents_by_skill[skill.name].discard(agent_id)
                 del self._skills_by_agent[agent_id]
 
-    async def find_agents_with_skill(self, skill_name: str,
-                                   min_level: SkillLevel = SkillLevel.NOVICE) -> List[Tuple[str, Skill]]:
+    async def find_agents_with_skill(
+        self, skill_name: str, min_level: SkillLevel = SkillLevel.NOVICE
+    ) -> List[Tuple[str, Skill]]:
         """Find agents with a specific skill"""
         async with self._lock:
             results = []
             for agent_id in self._agents_by_skill.get(skill_name, []):
                 skills = self._skills_by_agent.get(agent_id, [])
                 for skill in skills:
-                    if skill.name == skill_name and skill.level.value >= min_level.value:
+                    if (
+                        skill.name == skill_name
+                        and skill.level.value >= min_level.value
+                    ):
                         results.append((agent_id, skill))
 
             # Sort by skill level and success rate
-            results.sort(key=lambda x: (x[1].level.value, x[1].success_rate), reverse=True)
+            results.sort(
+                key=lambda x: (x[1].level.value, x[1].success_rate), reverse=True
+            )
             return results
 
 
@@ -237,13 +257,15 @@ class CoordinationHub(MailboxActor):
         super().__init__(
             actor_id,
             mailbox_type=MailboxType.PRIORITY,
-            mailbox_config={"max_size": 10000}
+            mailbox_config={"max_size": 10000},
         )
 
         self.skill_registry = SkillRegistry()
         self.active_announcements: Dict[str, TaskAnnouncement] = {}
         self.working_groups: Dict[str, WorkingGroup] = {}
-        self.agent_groups: Dict[str, Set[str]] = defaultdict(set)  # agent_id -> group_ids
+        self.agent_groups: Dict[str, Set[str]] = defaultdict(
+            set
+        )  # agent_id -> group_ids
 
         # Register protocol handlers
         self._register_handlers()
@@ -253,14 +275,30 @@ class CoordinationHub(MailboxActor):
 
     def _register_handlers(self):
         """Register message handlers"""
-        self.register_handler(CoordinationProtocol.TASK_ANNOUNCE, self._handle_task_announce)
-        self.register_handler(CoordinationProtocol.TASK_CANCEL, self._handle_task_cancel)
-        self.register_handler(CoordinationProtocol.SKILL_OFFER, self._handle_skill_offer)
-        self.register_handler(CoordinationProtocol.GROUP_INVITE, self._handle_group_invite)
-        self.register_handler(CoordinationProtocol.GROUP_ACCEPT, self._handle_group_accept)
-        self.register_handler(CoordinationProtocol.GROUP_REJECT, self._handle_group_reject)
-        self.register_handler(CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete)
-        self.register_handler(CoordinationProtocol.TASK_FAILED, self._handle_task_failed)
+        self.register_handler(
+            CoordinationProtocol.TASK_ANNOUNCE, self._handle_task_announce
+        )
+        self.register_handler(
+            CoordinationProtocol.TASK_CANCEL, self._handle_task_cancel
+        )
+        self.register_handler(
+            CoordinationProtocol.SKILL_OFFER, self._handle_skill_offer
+        )
+        self.register_handler(
+            CoordinationProtocol.GROUP_INVITE, self._handle_group_invite
+        )
+        self.register_handler(
+            CoordinationProtocol.GROUP_ACCEPT, self._handle_group_accept
+        )
+        self.register_handler(
+            CoordinationProtocol.GROUP_REJECT, self._handle_group_reject
+        )
+        self.register_handler(
+            CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete
+        )
+        self.register_handler(
+            CoordinationProtocol.TASK_FAILED, self._handle_task_failed
+        )
 
     async def start(self, actor_system=None):
         """Start the coordination hub"""
@@ -289,9 +327,11 @@ class CoordinationHub(MailboxActor):
                     await self._cleanup_announcement(task_id)
 
                 # Log stats
-                logger.info(f"Coordination Hub Stats: "
-                          f"Active announcements: {len(self.active_announcements)}, "
-                          f"Working groups: {len(self.working_groups)}")
+                logger.info(
+                    f"Coordination Hub Stats: "
+                    f"Active announcements: {len(self.active_announcements)}, "
+                    f"Working groups: {len(self.working_groups)}"
+                )
 
             except asyncio.CancelledError:
                 break
@@ -303,8 +343,10 @@ class CoordinationHub(MailboxActor):
         try:
             # Handle ActorRef deserialization
             payload = msg.payload.copy()
-            if 'initiator' in payload and isinstance(payload['initiator'], dict):
-                payload['initiator'] = ActorRef.from_dict(payload['initiator'], self.actor_system)
+            if "initiator" in payload and isinstance(payload["initiator"], dict):
+                payload["initiator"] = ActorRef.from_dict(
+                    payload["initiator"], self.actor_system
+                )
 
             announcement = TaskAnnouncement(**payload)
 
@@ -314,7 +356,9 @@ class CoordinationHub(MailboxActor):
             # Find suitable agents
             candidates = []
             for skill_name, min_level in announcement.required_skills:
-                agents = await self.skill_registry.find_agents_with_skill(skill_name, min_level)
+                agents = await self.skill_registry.find_agents_with_skill(
+                    skill_name, min_level
+                )
                 candidates.extend(agents)
 
             # Send skill queries to candidates
@@ -325,8 +369,7 @@ class CoordinationHub(MailboxActor):
                     agent_ref = self.actor_system.get_actor_ref(agent_id)
                     if agent_ref:
                         await agent_ref.tell(
-                            CoordinationProtocol.SKILL_QUERY,
-                            announcement.__dict__
+                            CoordinationProtocol.SKILL_QUERY, announcement.__dict__
                         )
 
             # Start group formation timer
@@ -343,8 +386,10 @@ class CoordinationHub(MailboxActor):
         try:
             # Handle ActorRef deserialization
             payload = msg.payload.copy()
-            if 'agent_ref' in payload and isinstance(payload['agent_ref'], dict):
-                payload['agent_ref'] = ActorRef.from_dict(payload['agent_ref'], self.actor_system)
+            if "agent_ref" in payload and isinstance(payload["agent_ref"], dict):
+                payload["agent_ref"] = ActorRef.from_dict(
+                    payload["agent_ref"], self.actor_system
+                )
 
             offer = SkillOffer(**payload)
             task_id = msg.correlation_id
@@ -363,7 +408,7 @@ class CoordinationHub(MailboxActor):
                     task=announcement,
                     leader=announcement.initiator,
                     members={},
-                    skills_covered={}
+                    skills_covered={},
                 )
                 self.working_groups[task_id] = group
 
@@ -372,11 +417,14 @@ class CoordinationHub(MailboxActor):
                 group.add_member(offer.agent_id, offer.agent_ref, offer.offered_skills)
 
                 # Send group invite
-                await offer.agent_ref.tell(CoordinationProtocol.GROUP_INVITE, {
-                    "group_id": group.group_id,
-                    "task": announcement.__dict__,
-                    "role": "member"
-                })
+                await offer.agent_ref.tell(
+                    CoordinationProtocol.GROUP_INVITE,
+                    {
+                        "group_id": group.group_id,
+                        "task": announcement.__dict__,
+                        "role": "member",
+                    },
+                )
 
                 # Check if all skills covered
                 if group.all_skills_covered():
@@ -410,27 +458,35 @@ class CoordinationHub(MailboxActor):
         for agent_id, agent_ref in group.members.items():
             self.agent_groups[agent_id].add(group.group_id)
 
-            await agent_ref.tell(CoordinationProtocol.GROUP_FORMED, {
-                "group_id": group.group_id,
-                "members": list(group.members.keys()),
-                "leader": group.leader.actor_id,
-                "task": group.task.__dict__
-            })
+            await agent_ref.tell(
+                CoordinationProtocol.GROUP_FORMED,
+                {
+                    "group_id": group.group_id,
+                    "members": list(group.members.keys()),
+                    "leader": group.leader.actor_id,
+                    "task": group.task.__dict__,
+                },
+            )
 
         # Notify initiator
-        await group.leader.tell(CoordinationProtocol.GROUP_FORMED, {
-            "group_id": group.group_id,
-            "task_id": task_id,
-            "members": list(group.members.keys()),
-            "skills_covered": group.skills_covered
-        })
+        await group.leader.tell(
+            CoordinationProtocol.GROUP_FORMED,
+            {
+                "group_id": group.group_id,
+                "task_id": task_id,
+                "members": list(group.members.keys()),
+                "skills_covered": group.skills_covered,
+            },
+        )
 
         # Clean up announcement
         if task_id in self.active_announcements:
             del self.active_announcements[task_id]
 
-        logger.info(f"Working group {group.group_id} formed for task {task_id} "
-                   f"with {len(group.members)} members")
+        logger.info(
+            f"Working group {group.group_id} formed for task {task_id} "
+            f"with {len(group.members)} members"
+        )
 
     async def _handle_task_complete(self, msg: ActorMessage):
         """Handle task completion"""
@@ -447,10 +503,13 @@ class CoordinationHub(MailboxActor):
 
                 # Notify all members
                 for agent_ref in group.members.values():
-                    await agent_ref.tell(CoordinationProtocol.TASK_COMPLETE, {
-                        "group_id": group_id,
-                        "results": msg.payload.get("results", {})
-                    })
+                    await agent_ref.tell(
+                        CoordinationProtocol.TASK_COMPLETE,
+                        {
+                            "group_id": group_id,
+                            "results": msg.payload.get("results", {}),
+                        },
+                    )
 
                 logger.info(f"Task {task_id} completed by group {group_id}")
 
@@ -470,8 +529,10 @@ class CoordinationHub(MailboxActor):
                 group.status = TaskStatus.FAILED
 
                 # Could implement retry logic here
-                logger.warning(f"Task {task_id} failed in group {group_id}: "
-                             f"{msg.payload.get('reason', 'Unknown')}")
+                logger.warning(
+                    f"Task {task_id} failed in group {group_id}: "
+                    f"{msg.payload.get('reason', 'Unknown')}"
+                )
 
                 # Clean up
                 await self._cleanup_group(task_id)
@@ -497,7 +558,9 @@ class CoordinationHub(MailboxActor):
         try:
             agent_ref = ActorRef.from_dict(msg.payload["agent_ref"], self.actor_system)
             if agent_ref:
-                response = await agent_ref.ask(CoordinationProtocol.GROUP_INVITE, msg.payload)
+                response = await agent_ref.ask(
+                    CoordinationProtocol.GROUP_INVITE, msg.payload
+                )
                 return response
             return {"status": "error", "reason": "agent_not_found"}
         except Exception as e:
@@ -549,7 +612,7 @@ class AutonomousAgent(MailboxActor):
         super().__init__(
             agent_id,
             mailbox_type=MailboxType.PRIORITY,
-            mailbox_config={"max_size": 1000}
+            mailbox_config={"max_size": 1000},
         )
 
         self.skills = skills or []
@@ -564,22 +627,33 @@ class AutonomousAgent(MailboxActor):
 
     def _register_coordination_handlers(self):
         """Register coordination protocol handlers"""
-        self.register_handler(CoordinationProtocol.SKILL_QUERY, self._handle_skill_query)
-        self.register_handler(CoordinationProtocol.GROUP_INVITE, self._handle_group_invite)
-        self.register_handler(CoordinationProtocol.GROUP_FORMED, self._handle_group_formed)
+        self.register_handler(
+            CoordinationProtocol.SKILL_QUERY, self._handle_skill_query
+        )
+        self.register_handler(
+            CoordinationProtocol.GROUP_INVITE, self._handle_group_invite
+        )
+        self.register_handler(
+            CoordinationProtocol.GROUP_FORMED, self._handle_group_formed
+        )
         self.register_handler(CoordinationProtocol.TASK_START, self._handle_task_start)
-        self.register_handler(CoordinationProtocol.TASK_UPDATE, self._handle_task_update)
-        self.register_handler(CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete)
+        self.register_handler(
+            CoordinationProtocol.TASK_UPDATE, self._handle_task_update
+        )
+        self.register_handler(
+            CoordinationProtocol.TASK_COMPLETE, self._handle_task_complete
+        )
 
     def get_ref(self) -> ActorRef:
         """Get reference to this actor"""
-        if hasattr(self, 'actor_system') and self.actor_system:
+        if hasattr(self, "actor_system") and self.actor_system:
             return ActorRef(self.actor_id, self.actor_system)
         # Fallback for testing
         return ActorRef(self.actor_id, None)
 
-    async def announce_task(self, description: str, required_skills: List[Tuple[str, SkillLevel]],
-                          **kwargs) -> str:
+    async def announce_task(
+        self, description: str, required_skills: List[Tuple[str, SkillLevel]], **kwargs
+    ) -> str:
         """Broadcast a task need to the network"""
         task_id = str(uuid.uuid4())
 
@@ -588,13 +662,12 @@ class AutonomousAgent(MailboxActor):
             description=description,
             required_skills=required_skills,
             initiator=self.get_ref(),
-            **kwargs
+            **kwargs,
         )
 
         if self.coord_hub:
             result = await self.coord_hub.ask(
-                CoordinationProtocol.TASK_ANNOUNCE,
-                announcement.__dict__
+                CoordinationProtocol.TASK_ANNOUNCE, announcement.__dict__
             )
             logger.info(f"Task {task_id} announced: {result}")
 
@@ -606,10 +679,9 @@ class AutonomousAgent(MailboxActor):
             return
 
         for skill in self.skills:
-            await self.coord_hub.tell("register_skill", {
-                "agent_id": self.actor_id,
-                "skill": skill.__dict__
-            })
+            await self.coord_hub.tell(
+                "register_skill", {"agent_id": self.actor_id, "skill": skill.__dict__}
+            )
 
     async def _handle_skill_query(self, msg: ActorMessage):
         """Respond to skill query"""
@@ -619,8 +691,10 @@ class AutonomousAgent(MailboxActor):
         matching_skills = []
         for required_skill, min_level in task_announcement.required_skills:
             for skill in self.skills:
-                if (skill.name == required_skill and
-                    skill.level.value >= min_level.value):
+                if (
+                    skill.name == required_skill
+                    and skill.level.value >= min_level.value
+                ):
                     matching_skills.append(skill)
 
         if matching_skills and self.availability > 0.2:  # At least 20% available
@@ -630,7 +704,7 @@ class AutonomousAgent(MailboxActor):
                 agent_id=self.actor_id,
                 offered_skills=matching_skills,
                 availability=self.availability,
-                estimated_time=self._estimate_task_time(task_announcement)
+                estimated_time=self._estimate_task_time(task_announcement),
             )
 
             sender_ref = self.actor_system.get_actor_ref(msg.sender)
@@ -638,7 +712,7 @@ class AutonomousAgent(MailboxActor):
                 await sender_ref.tell(
                     CoordinationProtocol.SKILL_OFFER,
                     offer.__dict__,
-                    correlation_id=task_announcement.task_id
+                    correlation_id=task_announcement.task_id,
                 )
 
             return {"status": "offered"}
@@ -658,13 +732,13 @@ class AutonomousAgent(MailboxActor):
         if await self._should_join_group(task_dict):
             await sender_ref.tell(
                 CoordinationProtocol.GROUP_ACCEPT,
-                {"group_id": group_id, "agent_id": self.actor_id}
+                {"group_id": group_id, "agent_id": self.actor_id},
             )
             return {"status": "accepted"}
         else:
             await sender_ref.tell(
                 CoordinationProtocol.GROUP_REJECT,
-                {"group_id": group_id, "agent_id": self.actor_id, "reason": "busy"}
+                {"group_id": group_id, "agent_id": self.actor_id, "reason": "busy"},
             )
             return {"status": "rejected"}
 
@@ -729,6 +803,7 @@ class AutonomousAgent(MailboxActor):
 
 # Example specialized agents
 
+
 class DataProcessorAgent(AutonomousAgent):
     """Agent specialized in data processing tasks"""
 
@@ -737,7 +812,7 @@ class DataProcessorAgent(AutonomousAgent):
             Skill("data_cleaning", SkillLevel.EXPERT, success_rate=0.95),
             Skill("data_transformation", SkillLevel.ADVANCED, success_rate=0.92),
             Skill("data_validation", SkillLevel.EXPERT, success_rate=0.98),
-            Skill("etl_pipeline", SkillLevel.INTERMEDIATE, success_rate=0.88)
+            Skill("etl_pipeline", SkillLevel.INTERMEDIATE, success_rate=0.88),
         ]
         super().__init__(agent_id, skills)
 
@@ -759,7 +834,7 @@ class DataProcessorAgent(AutonomousAgent):
         group_id = msg.payload.get("group_id")
         await self.coord_hub.tell(
             CoordinationProtocol.TASK_COMPLETE,
-            {"group_id": group_id, "results": result}
+            {"group_id": group_id, "results": result},
         )
 
         return {"status": "completed", "result": result}
@@ -788,7 +863,7 @@ class AnalyticsAgent(AutonomousAgent):
             Skill("statistical_analysis", SkillLevel.EXPERT, success_rate=0.96),
             Skill("predictive_modeling", SkillLevel.ADVANCED, success_rate=0.89),
             Skill("anomaly_detection", SkillLevel.EXPERT, success_rate=0.94),
-            Skill("report_generation", SkillLevel.INTERMEDIATE, success_rate=0.98)
+            Skill("report_generation", SkillLevel.INTERMEDIATE, success_rate=0.98),
         ]
         super().__init__(agent_id, skills)
 
@@ -801,7 +876,7 @@ class MLModelAgent(AutonomousAgent):
             Skill("model_training", SkillLevel.ADVANCED, success_rate=0.91),
             Skill("model_evaluation", SkillLevel.EXPERT, success_rate=0.95),
             Skill("hyperparameter_tuning", SkillLevel.INTERMEDIATE, success_rate=0.87),
-            Skill("model_deployment", SkillLevel.ADVANCED, success_rate=0.93)
+            Skill("model_deployment", SkillLevel.ADVANCED, success_rate=0.93),
         ]
         super().__init__(agent_id, skills)
 
@@ -824,7 +899,7 @@ async def demo_decentralized_coordination():
         (DataProcessorAgent, "data_agent_1"),
         (DataProcessorAgent, "data_agent_2"),
         (AnalyticsAgent, "analytics_agent_1"),
-        (MLModelAgent, "ml_agent_1")
+        (MLModelAgent, "ml_agent_1"),
     ]
 
     for agent_class, agent_id in agent_types:
@@ -847,10 +922,10 @@ async def demo_decentralized_coordination():
             ("data_cleaning", SkillLevel.INTERMEDIATE),
             ("data_validation", SkillLevel.INTERMEDIATE),
             ("statistical_analysis", SkillLevel.ADVANCED),
-            ("model_training", SkillLevel.INTERMEDIATE)
+            ("model_training", SkillLevel.INTERMEDIATE),
         ],
         priority=MessagePriority.HIGH,
-        deadline=time.time() + 300  # 5 minutes
+        deadline=time.time() + 300,  # 5 minutes
     )
 
     print(f"Task announced: {task_id}")

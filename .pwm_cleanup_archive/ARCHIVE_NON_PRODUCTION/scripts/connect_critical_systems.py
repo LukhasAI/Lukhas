@@ -3,10 +3,7 @@
 Connect Critical Unused Systems
 Integrates dreams, identity, consciousness, and other critical but disconnected modules.
 """
-import os
 from pathlib import Path
-from typing import List, Dict, Tuple
-import ast
 
 
 class SystemConnector:
@@ -139,7 +136,7 @@ __all__ = ['SystemIntegrationHub', 'get_integration_hub']
 
         hub_path = self.root_path / "orchestration" / "integration_hub.py"
         hub_path.parent.mkdir(exist_ok=True)
-        with open(hub_path, 'w') as f:
+        with open(hub_path, "w") as f:
             f.write(hub_content)
 
         self.connections_made.append(("Created", str(hub_path)))
@@ -163,17 +160,17 @@ integration_hub = get_integration_hub()
 
             # Insert after first imports
             if "from orchestration.integration_hub" not in content:
-                lines = content.split('\n')
+                lines = content.split("\n")
                 insert_pos = 0
                 for i, line in enumerate(lines):
-                    if line.strip() and not line.startswith('#'):
+                    if line.strip() and not line.startswith("#"):
                         insert_pos = i + 1
                         break
 
                 lines.insert(insert_pos, new_imports)
-                content = '\n'.join(lines)
+                content = "\n".join(lines)
 
-                with open(api_init, 'w') as f:
+                with open(api_init, "w") as f:
                     f.write(content)
 
                 self.connections_made.append(("Updated", str(api_init)))
@@ -245,7 +242,7 @@ register_with_hub()
 '''
 
         bridge_path = self.root_path / "consciousness" / "dream_bridge.py"
-        with open(bridge_path, 'w') as f:
+        with open(bridge_path, "w") as f:
             f.write(bridge_content)
 
         self.connections_made.append(("Created", str(bridge_path)))
@@ -326,7 +323,7 @@ hub.register_component('identity_connector', _identity_connector)
 '''
 
         connector_path = self.root_path / "identity" / "connector.py"
-        with open(connector_path, 'w') as f:
+        with open(connector_path, "w") as f:
             f.write(identity_connector)
 
         self.connections_made.append(("Created", str(connector_path)))
@@ -338,7 +335,7 @@ hub.register_component('identity_connector', _identity_connector)
         main_files = [
             self.root_path / "main.py",
             self.root_path / "app.py",
-            self.root_path / "run.py"
+            self.root_path / "run.py",
         ]
 
         for main_file in main_files:
@@ -350,16 +347,16 @@ hub.register_component('identity_connector', _identity_connector)
                     import_line = "\n# Initialize system integration hub\nfrom orchestration.integration_hub import get_integration_hub\nintegration_hub = get_integration_hub()\n"
 
                     # Find where to insert (after imports)
-                    lines = content.split('\n')
+                    lines = content.split("\n")
                     insert_pos = 0
                     for i, line in enumerate(lines):
-                        if line.startswith('import ') or line.startswith('from '):
+                        if line.startswith("import ") or line.startswith("from "):
                             insert_pos = i + 1
 
                     lines.insert(insert_pos, import_line)
-                    content = '\n'.join(lines)
+                    content = "\n".join(lines)
 
-                    with open(main_file, 'w') as f:
+                    with open(main_file, "w") as f:
                         f.write(content)
 
                     self.connections_made.append(("Updated", str(main_file)))
@@ -461,7 +458,7 @@ hub.register_component('colony_swarm', integration)
 
         integration_path = self.root_path / "colony" / "swarm_integration.py"
         integration_path.parent.mkdir(exist_ok=True)
-        with open(integration_path, 'w') as f:
+        with open(integration_path, "w") as f:
             f.write(integration_content)
 
         self.connections_made.append(("Created", str(integration_path)))

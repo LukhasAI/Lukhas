@@ -39,6 +39,8 @@ during a response generation process.
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing_extensions import Literal
+
+# Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`. The relative import `from core.models import BaseModel`
 # suggests a dependency three levels up from the current `reasoning` directory.
 # This path might be fragile if the directory structure changes.
@@ -46,13 +48,14 @@ from typing_extensions import Literal
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: An incorrect or fragile import path for a base model can lead to runtime errors
 # and hinder maintainability, especially if this auto-generated code is part of a larger system.
-from core.models import BaseModel # Assuming this path is correct within the project structure.
+from core.models import (
+    BaseModel,  # Assuming this path is correct within the project structure.
+)
 
-import structlog
-
-# Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing response_reasoning_delta_event.py module (Data Model Definition).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_delta_event.py module (Data Model Definition).",
+    module_path=__file__,
+)
 
 __all__ = ["ResponseReasoningDeltaEvent"]
 
@@ -65,12 +68,13 @@ class ResponseReasoningDeltaEvent(BaseModel):
     Represents a partial update event for reasoning content within a response item.
     This model is likely used in streaming or progressive updates of reasoning steps.
     """
+
     content_index: int
     """The index of the reasoning content part within the output item."""
 
     # ΛNOTE: The `delta` field carries the actual piece of changed or new reasoning content.
     # Its flexible `object` type allows for various forms of symbolic updates (text, structured data).
-    delta: object # Kept as 'object' as per original; could be Union[str, Dict, List] if known
+    delta: object  # Kept as 'object' as per original; could be Union[str, Dict, List] if known
     """The partial update (delta) to the reasoning content. The exact type depends on the content being updated."""
 
     # ΛNOTE: `item_id` links this delta to a specific element (e.g., a thought node) in a larger reasoning structure.
@@ -93,7 +97,11 @@ class ResponseReasoningDeltaEvent(BaseModel):
     # Human-readable comment: This fixed literal type is common in event-driven or union-type systems
     # for discriminating between different event or model types.
 
-logger.debug("ResponseReasoningDeltaEvent data model class defined.", class_name="ResponseReasoningDeltaEvent") # Removed manual ΛTRACE prefix
+
+logger.debug(
+    "ResponseReasoningDeltaEvent data model class defined.",
+    class_name="ResponseReasoningDeltaEvent",
+)  # Removed manual ΛTRACE prefix
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Response Reasoning Delta Event Model

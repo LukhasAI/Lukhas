@@ -3,32 +3,38 @@ Symbolic Loop Harmonizer
 Harmonizes reasoning loops by detecting and correcting symbolic misalignments
 """
 
-from core.common import get_logger
 import asyncio
-from typing import Dict, Any, List, Optional, Tuple, Set
-from datetime import datetime, timedelta
-from collections import defaultdict
 import json
-import numpy as np
+from collections import defaultdict
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
 
 class HarmonizerMode(Enum):
     """Operating modes for the harmonizer"""
+
     PASSIVE = "passive"  # Monitor only
-    ACTIVE = "active"    # Apply corrections
-    ADAPTIVE = "adaptive" # Learn and adapt
-    DREAM = "dream"      # Dream-state integration
+    ACTIVE = "active"  # Apply corrections
+    ADAPTIVE = "adaptive"  # Learn and adapt
+    DREAM = "dream"  # Dream-state integration
 
 
 class SymbolicPatch:
     """Represents a symbolic correction patch"""
 
-    def __init__(self, patch_type: str, target_symbol: str,
-                 correction: Any, confidence: float = 0.8):
+    def __init__(
+        self,
+        patch_type: str,
+        target_symbol: str,
+        correction: Any,
+        confidence: float = 0.8,
+    ):
         self.patch_type = patch_type
         self.target_symbol = target_symbol
         self.correction = correction
@@ -45,7 +51,7 @@ class SymbolicPatch:
             "confidence": self.confidence,
             "timestamp": self.timestamp.isoformat(),
             "applied": self.applied,
-            "impact": self.impact
+            "impact": self.impact,
         }
 
 
@@ -71,15 +77,15 @@ class SymbolicLoopHarmonizer:
             "memory_anchoring": self._memory_anchoring_strategy,
             "symbol_realignment": self._symbol_realignment_strategy,
             "resonance_tuning": self._resonance_tuning_strategy,
-            "dream_integration": self._dream_integration_strategy
+            "dream_integration": self._dream_integration_strategy,
         }
 
         self.log_dir = Path("lukhas/logs")
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
-    async def harmonize_trace(self,
-                            unstable_trace: Dict[str, Any],
-                            context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def harmonize_trace(
+        self, unstable_trace: Dict[str, Any], context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """
         Harmonize an unstable reasoning trace
 
@@ -138,7 +144,7 @@ class SymbolicLoopHarmonizer:
             "patches_applied": len(applied_patches),
             "harmony_score": harmony_score,
             "mode": self.mode.value,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         self.harmony_history.append(result)
@@ -149,7 +155,9 @@ class SymbolicLoopHarmonizer:
 
         return result
 
-    async def _analyze_symbolic_stability(self, trace: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_symbolic_stability(
+        self, trace: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Analyze symbolic stability of a reasoning trace
         """
@@ -159,7 +167,7 @@ class SymbolicLoopHarmonizer:
             "loop_detection": False,
             "divergence_risk": 0.0,
             "unstable_symbols": [],
-            "recommendation": "none"
+            "recommendation": "none",
         }
 
         # Analyze symbol usage patterns
@@ -210,16 +218,16 @@ class SymbolicLoopHarmonizer:
         # Simple loop detection - check for repeated subsequences
         for window_size in range(2, min(5, len(strategies) // 2)):
             for i in range(len(strategies) - window_size * 2):
-                pattern = strategies[i:i+window_size]
-                next_pattern = strategies[i+window_size:i+window_size*2]
+                pattern = strategies[i : i + window_size]
+                next_pattern = strategies[i + window_size : i + window_size * 2]
                 if pattern == next_pattern:
                     return True
 
         return False
 
-    async def _generate_symbolic_patches(self,
-                                       analysis: Dict[str, Any],
-                                       trace: Dict[str, Any]) -> List[SymbolicPatch]:
+    async def _generate_symbolic_patches(
+        self, analysis: Dict[str, Any], trace: Dict[str, Any]
+    ) -> List[SymbolicPatch]:
         """
         Generate symbolic patches based on analysis
         """
@@ -254,9 +262,9 @@ class SymbolicLoopHarmonizer:
 
         return patches
 
-    async def _polarity_inversion_strategy(self,
-                                         trace: Dict[str, Any],
-                                         analysis: Dict[str, Any]) -> Optional[SymbolicPatch]:
+    async def _polarity_inversion_strategy(
+        self, trace: Dict[str, Any], analysis: Dict[str, Any]
+    ) -> Optional[SymbolicPatch]:
         """
         Invert reasoning polarity to correct severe drift
         """
@@ -266,14 +274,14 @@ class SymbolicLoopHarmonizer:
             correction={
                 "action": "invert",
                 "strength": min(analysis["drift_score"], 1.0),
-                "apply_to": "future_steps"
+                "apply_to": "future_steps",
             },
-            confidence=0.8
+            confidence=0.8,
         )
 
-    async def _memory_anchoring_strategy(self,
-                                       trace: Dict[str, Any],
-                                       analysis: Dict[str, Any]) -> Optional[SymbolicPatch]:
+    async def _memory_anchoring_strategy(
+        self, trace: Dict[str, Any], analysis: Dict[str, Any]
+    ) -> Optional[SymbolicPatch]:
         """
         Anchor reasoning to stable memory patterns
         """
@@ -283,14 +291,14 @@ class SymbolicLoopHarmonizer:
             correction={
                 "action": "reinforce_anchor",
                 "anchor_points": ["initial_premise", "core_axioms"],
-                "strength": 0.7
+                "strength": 0.7,
             },
-            confidence=0.75
+            confidence=0.75,
         )
 
-    async def _symbol_realignment_strategy(self,
-                                         trace: Dict[str, Any],
-                                         analysis: Dict[str, Any]) -> Optional[SymbolicPatch]:
+    async def _symbol_realignment_strategy(
+        self, trace: Dict[str, Any], analysis: Dict[str, Any]
+    ) -> Optional[SymbolicPatch]:
         """
         Realign unstable symbols with registry
         """
@@ -305,14 +313,14 @@ class SymbolicLoopHarmonizer:
                 "action": "realign",
                 "symbols": unstable[:5],  # Limit to 5 symbols
                 "method": "registry_lookup",
-                "fallback": "auto_define"
+                "fallback": "auto_define",
             },
-            confidence=0.85
+            confidence=0.85,
         )
 
-    async def _resonance_tuning_strategy(self,
-                                       trace: Dict[str, Any],
-                                       analysis: Dict[str, Any]) -> Optional[SymbolicPatch]:
+    async def _resonance_tuning_strategy(
+        self, trace: Dict[str, Any], analysis: Dict[str, Any]
+    ) -> Optional[SymbolicPatch]:
         """
         Tune reasoning resonance to break loops
         """
@@ -322,14 +330,14 @@ class SymbolicLoopHarmonizer:
             correction={
                 "action": "detune",
                 "shift": 0.1 + (0.2 * analysis.get("divergence_risk", 0.5)),
-                "damping": 0.3
+                "damping": 0.3,
             },
-            confidence=0.7
+            confidence=0.7,
         )
 
-    async def _dream_integration_strategy(self,
-                                        trace: Dict[str, Any],
-                                        analysis: Dict[str, Any]) -> Optional[SymbolicPatch]:
+    async def _dream_integration_strategy(
+        self, trace: Dict[str, Any], analysis: Dict[str, Any]
+    ) -> Optional[SymbolicPatch]:
         """
         Integrate dream-state insights for creative solutions
         """
@@ -342,14 +350,14 @@ class SymbolicLoopHarmonizer:
             correction={
                 "action": "inject_dream_pattern",
                 "pattern": self.dream_state.get("current_pattern", "default"),
-                "blend_ratio": 0.3
+                "blend_ratio": 0.3,
             },
-            confidence=0.6
+            confidence=0.6,
         )
 
-    async def _apply_symbolic_patch(self,
-                                  trace: Dict[str, Any],
-                                  patch: SymbolicPatch) -> Dict[str, Any]:
+    async def _apply_symbolic_patch(
+        self, trace: Dict[str, Any], patch: SymbolicPatch
+    ) -> Dict[str, Any]:
         """
         Apply a symbolic patch to a trace
         """
@@ -361,7 +369,9 @@ class SymbolicLoopHarmonizer:
             if "metadata" not in patched_trace:
                 patched_trace["metadata"] = {}
             patched_trace["metadata"]["polarity_inverted"] = True
-            patched_trace["metadata"]["inversion_strength"] = patch.correction["strength"]
+            patched_trace["metadata"]["inversion_strength"] = patch.correction[
+                "strength"
+            ]
 
         elif patch.patch_type == "memory_anchor":
             # Add memory anchors
@@ -376,7 +386,7 @@ class SymbolicLoopHarmonizer:
                     # Auto-define if needed
                     self.symbol_registry[symbol] = {
                         "definition": f"auto_defined_{symbol}",
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
                     }
 
         elif patch.patch_type == "resonance_tuning":
@@ -395,9 +405,9 @@ class SymbolicLoopHarmonizer:
 
         return patched_trace
 
-    async def _measure_patch_impact(self,
-                                  original: Dict[str, Any],
-                                  patched: Dict[str, Any]) -> Dict[str, Any]:
+    async def _measure_patch_impact(
+        self, original: Dict[str, Any], patched: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Measure the impact of a patch
         """
@@ -408,14 +418,14 @@ class SymbolicLoopHarmonizer:
         impact = {
             "drift_reduction": original_drift - patched_drift,
             "stability_improvement": 0.2,  # Placeholder
-            "side_effects": []
+            "side_effects": [],
         }
 
         return impact
 
-    async def _integrate_dream_state(self,
-                                   trace: Dict[str, Any],
-                                   patches: List[SymbolicPatch]) -> Dict[str, Any]:
+    async def _integrate_dream_state(
+        self, trace: Dict[str, Any], patches: List[SymbolicPatch]
+    ) -> Dict[str, Any]:
         """
         Integrate dream state adjustments
         """
@@ -474,7 +484,7 @@ class SymbolicLoopHarmonizer:
             "mode": result["mode"],
             "patches_applied": result["patches_applied"],
             "harmony_score": result["harmony_score"],
-            "analysis": result["analysis"]
+            "analysis": result["analysis"],
         }
 
         log_file = self.log_dir / "symbolic_harmonization.jsonl"
@@ -523,7 +533,7 @@ class SymbolicLoopHarmonizer:
             "average_harmony_score": avg_harmony,
             "total_patches_applied": total_patches,
             "mode_distribution": defaultdict(int),
-            "emotional_alignments": dict(self.emotional_alignments)
+            "emotional_alignments": dict(self.emotional_alignments),
         }
 
         for h in recent:
@@ -536,7 +546,9 @@ class SymbolicLoopHarmonizer:
 _harmonizer = None
 
 
-def get_harmonizer(mode: HarmonizerMode = HarmonizerMode.ACTIVE) -> SymbolicLoopHarmonizer:
+def get_harmonizer(
+    mode: HarmonizerMode = HarmonizerMode.ACTIVE,
+) -> SymbolicLoopHarmonizer:
     """Get or create the global harmonizer instance"""
     global _harmonizer
     if _harmonizer is None:
@@ -559,16 +571,14 @@ def harmonize_symbolic_loop(unstable_trace: Dict[str, Any]) -> Dict[str, Any]:
     asyncio.set_event_loop(loop)
 
     try:
-        result = loop.run_until_complete(
-            harmonizer.harmonize_trace(unstable_trace)
-        )
+        result = loop.run_until_complete(harmonizer.harmonize_trace(unstable_trace))
 
         # Extract suggestion from patches
         if result["patches_applied"] > 0:
             patch = harmonizer.patch_history[-1]
             return {
                 "suggestion": f"{patch.patch_type}: {patch.correction}",
-                "harmony_score": result["harmony_score"]
+                "harmony_score": result["harmony_score"],
             }
         else:
             drift_score = unstable_trace.get("drift_score", 0.0)
@@ -593,7 +603,7 @@ def adjust_dream_trajectory(patch: Dict[str, Any]) -> None:
     dream_state = {
         "active": True,
         "current_pattern": patch.get("pattern", "default"),
-        "influence": patch.get("influence", 0.5)
+        "influence": patch.get("influence", 0.5),
     }
 
     harmonizer.set_dream_state(dream_state)
@@ -611,7 +621,7 @@ def record_emotional_alignment_impact(patch: Dict[str, Any]) -> None:
         patch_type=patch.get("type", "unknown"),
         target_symbol=patch.get("target", "unknown"),
         correction=patch.get("correction", {}),
-        confidence=patch.get("confidence", 0.5)
+        confidence=patch.get("confidence", 0.5),
     )
 
     influence = patch.get("emotional_influence", 0.3)

@@ -13,17 +13,12 @@ to agents, modules, and symbolic functions.
 ΛPROVED_BY: Human Overseer (Gonzalo)
 """
 
+import logging
 from functools import wraps
-from core.common import get_logger
 
 # Default tier levels for symbolic gating
-TIERS = {
-    "GENESIS": 0,
-    "ALPHA": 1,
-    "BETA": 2,
-    "GAMMA": 3,
-    "OMEGA": 4
-}
+TIERS = {"GENESIS": 0, "ALPHA": 1, "BETA": 2, "GAMMA": 3, "OMEGA": 4}
+
 
 def tier_required(level: str):
     """
@@ -37,6 +32,7 @@ def tier_required(level: str):
     Raises:
         PermissionError if user_tier < required tier.
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, user_tier="GENESIS", **kwargs):
@@ -45,16 +41,23 @@ def tier_required(level: str):
 
             if current < required:
                 raise PermissionError(
-                    f"[ΛBLOCKED] Tier '{user_tier}' insufficient for '{level}' access.")
+                    f"[ΛBLOCKED] Tier '{user_tier}' insufficient for '{level}' access."
+                )
 
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
 
+
 # Example symbolic use case
+
+
 @tier_required("BETA")
 def collapse_kernel():
     logging.info("Executing symbolic collapse kernel... ✅")
+
 
 if __name__ == "__main__":
     try:

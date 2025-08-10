@@ -3,11 +3,14 @@
 # 🧠 PURPOSE: CLI command to preview the symbolic ETHICS.md policy
 # ===============================================================
 
+
 def main():
     print("\n📜 LUKHAS_AGI — ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
-    print("  To ensure that all actions, outputs, and identities of LUKHAS_AGI are bound by ethics, traceability, and symbolic consent.")
+    print(
+        "  To ensure that all actions, outputs, and identities of LUKHAS_AGI are bound by ethics, traceability, and symbolic consent."
+    )
     print("")
     print("🧬 Core Pillars:")
     print("  • Transparency — all outputs and changes are logged")
@@ -17,7 +20,7 @@ def main():
     print("")
 
     try:
-        with open("ETHICS.md", "r") as f:
+        with open("ETHICS.md") as f:
             print("📖 Full ETHICS.md Preview:\n")
             lines = f.readlines()
             for line in lines:
@@ -31,6 +34,7 @@ def main():
     print("🔗 For license info, run: lucasagi --about")
     print("📜 For tier access, run: lucasagi-tier")
     print("🧠 For core vision, run: lucasagi-manifesto\n")
+
 
 if __name__ == "__main__":
     main()

@@ -7,7 +7,6 @@ This demo shows how DAST, ABAS, and NIAS would work with the audit system.
 """
 
 import asyncio
-import json
 from datetime import datetime, timezone
 from enum import Enum
 
@@ -122,7 +121,7 @@ class IntegratedABASEngine:
                 "reason": "Low confidence in arbitration decision",
                 "estimated_review_time": "2 hours",
             }
-            print(f"   🚨 HITLO escalation triggered due to low confidence")
+            print("   🚨 HITLO escalation triggered due to low confidence")
 
         print(f"   ✅ Conflict resolved with audit ID: {audit_trail.audit_id}")
         print(f"   📊 Resolution: {resolution} (confidence: {confidence})")
@@ -295,8 +294,8 @@ async def demonstrate_phase3_integration():
 
     # Detect patterns
     if abas_emotion == EmotionalAuditState.CONCERNED:
-        print(f"   ⚠️  CONCERN DETECTED: ABAS arbitration caused user concern")
-        print(f"   🔄 RECOMMENDED ACTION: Review privacy vs personalization policy")
+        print("   ⚠️  CONCERN DETECTED: ABAS arbitration caused user concern")
+        print("   🔄 RECOMMENDED ACTION: Review privacy vs personalization policy")
 
     print()
     print("✨ PHASE 3 INTEGRATION COMPLETE!")

@@ -7,14 +7,13 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 Integration module for DreamProcessor and pattern recognition.
 """
 
-from typing import Dict, List, Any
 from datetime import datetime
-from dataclasses import dataclass
+from typing import Any, Dict, List
+
 
 class DreamProcessorIntegration:
     """Integrates pattern recognition and dream processing capabilities"""
@@ -23,7 +22,9 @@ class DreamProcessorIntegration:
         self.pattern_confidence_threshold = 0.65  # Lower threshold during dreams
         self.memory_relationships = {}
 
-    async def analyze_dream_patterns(self, dream_state: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze_dream_patterns(
+        self, dream_state: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Analyze patterns within a dream state"""
         try:
             # Extract patterns from dream state
@@ -39,7 +40,7 @@ class DreamProcessorIntegration:
                 "patterns": patterns,
                 "relationships": relationships,
                 "emotional_context": emotional_context,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             print(f"Error analyzing dream patterns: {e}")
@@ -55,7 +56,7 @@ class DreamProcessorIntegration:
                 pattern = {
                     "type": "symbolic",
                     "symbol": symbol,
-                    "confidence": self._calculate_pattern_confidence(symbol)
+                    "confidence": self._calculate_pattern_confidence(symbol),
                 }
                 patterns.append(pattern)
 
@@ -66,13 +67,15 @@ class DreamProcessorIntegration:
                     "type": "resonance",
                     "resonance_type": res_type,
                     "value": value,
-                    "confidence": value  # Use resonance value as confidence
+                    "confidence": value,  # Use resonance value as confidence
                 }
                 patterns.append(pattern)
 
         return patterns
 
-    def _find_memory_relationships(self, dream_state: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _find_memory_relationships(
+        self, dream_state: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Find relationships between memory fragments in dream state"""
         relationships = []
 
@@ -87,7 +90,7 @@ class DreamProcessorIntegration:
                         "type": "memory_reference",
                         "source": dream_state["id"],
                         "target": ref,
-                        "strength": self._calculate_relationship_strength(ref)
+                        "strength": self._calculate_relationship_strength(ref),
                     }
                     relationships.append(relationship)
 
@@ -95,11 +98,7 @@ class DreamProcessorIntegration:
 
     def _analyze_emotional_context(self, dream_state: Dict[str, Any]) -> Dict[str, Any]:
         """Analyze emotional context and resonance"""
-        context = {
-            "primary_emotion": None,
-            "intensity": 0.0,
-            "secondary_emotions": {}
-        }
+        context = {"primary_emotion": None, "intensity": 0.0, "secondary_emotions": {}}
 
         # Extract emotional context from resonance
         if "resonance" in dream_state:
@@ -136,12 +135,6 @@ class DreamProcessorIntegration:
         """Calculate relationship strength between memories"""
         # Simple implementation - could be enhanced
         return 0.8  # Default strong relationship for now
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

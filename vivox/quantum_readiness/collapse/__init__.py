@@ -3,11 +3,11 @@ VIVOX.QREADY Collapse Components
 """
 
 from .moral_superposition import (
-    MoralSuperposition,
-    EthicalQuantumState,
     EthicalDimension,
+    EthicalQuantumState,
+    MoralSuperposition,
     SuperpositionPath,
-    SuperpositionResolver
+    SuperpositionResolver,
 )
 
 __all__ = [

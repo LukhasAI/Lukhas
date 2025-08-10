@@ -1,8 +1,9 @@
-from typing import Dict, Any, List
 import datetime
+import hashlib
 import logging
 import time
-import hashlib
+from typing import Any, Dict, List
+
 
 class NLPEngine:
     def analyze(self, text: str) -> dict:
@@ -15,20 +16,24 @@ class NLPEngine:
             "formality": 0.5,
         }
 
+
 class LocationAnalyzer:
     def analyze(self, location: dict) -> dict:
         # Mock implementation
         return {}
+
 
 class TimeAnalyzer:
     def analyze(self, timestamp: float, timezone: str) -> dict:
         # Mock implementation
         return {"is_late_night": False}
 
+
 class DeviceAnalyzer:
     def analyze(self, device_info: dict) -> dict:
         # Mock implementation
         return {}
+
 
 class ContextAnalyzer:
     def __init__(self):
@@ -37,7 +42,9 @@ class ContextAnalyzer:
         self.time_analyzer = TimeAnalyzer()
         self.device_analyzer = DeviceAnalyzer()
 
-    async def analyze(self, user_input: str, metadata: Dict[str, Any], memory: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def analyze(
+        self, user_input: str, metadata: Dict[str, Any], memory: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """Analyze context from multiple sources"""
         # Extract basic intent and sentiment from text
         nlp_analysis = self.nlp_engine.analyze(user_input)
@@ -45,7 +52,7 @@ class ContextAnalyzer:
         # Analyze time context (time of day, day of week, etc.)
         time_context = self.time_analyzer.analyze(
             timestamp=metadata.get("timestamp", time.time()),
-            timezone=metadata.get("timezone", "UTC")
+            timezone=metadata.get("timezone", "UTC"),
         )
 
         # Analyze location context if available
@@ -66,18 +73,22 @@ class ContextAnalyzer:
             "intent": nlp_analysis["intent"],
             "sentiment": nlp_analysis["sentiment"],
             "emotion": nlp_analysis["emotion"],
-            "urgency": self._determine_urgency(nlp_analysis, time_context, device_context),
+            "urgency": self._determine_urgency(
+                nlp_analysis, time_context, device_context
+            ),
             "formality": self._determine_formality(nlp_analysis, historical_context),
             "time_context": time_context,
             "location_context": location_context,
             "device_context": device_context,
             "historical_context": historical_context,
-            "confidence": self._calculate_confidence(nlp_analysis, historical_context)
+            "confidence": self._calculate_confidence(nlp_analysis, historical_context),
         }
 
         return combined_context
 
-    def _analyze_memory(self, memory: List[Dict[str, Any]], current_intent: str) -> Dict[str, Any]:
+    def _analyze_memory(
+        self, memory: List[Dict[str, Any]], current_intent: str
+    ) -> Dict[str, Any]:
         """Analyze past interactions to inform current context"""
         if not memory:
             return {"familiarity": 0.1, "patterns": {}}
@@ -91,19 +102,21 @@ class ContextAnalyzer:
 
         # Find related past interactions
         related_interactions = [
-            m for m in memory
-            if m.get("context", {}).get("intent") == current_intent
+            m for m in memory if m.get("context", {}).get("intent") == current_intent
         ]
 
         return {
             "familiarity": familiarity,
             "patterns": patterns,
-            "related_interactions": related_interactions[:5]  # Limit to 5 most recent
+            "related_interactions": related_interactions[:5],  # Limit to 5 most recent
         }
 
-    def _determine_urgency(self, nlp_analysis: Dict[str, Any],
-                          time_context: Dict[str, Any],
-                          device_context: Dict[str, Any]) -> float:
+    def _determine_urgency(
+        self,
+        nlp_analysis: Dict[str, Any],
+        time_context: Dict[str, Any],
+        device_context: Dict[str, Any],
+    ) -> float:
         """Determine the urgency level of the interaction"""
         urgency = 0.5  # Default medium urgency
 
@@ -121,8 +134,9 @@ class ContextAnalyzer:
 
         return min(1.0, urgency)
 
-    def _determine_formality(self, nlp_analysis: Dict[str, Any],
-                             historical_context: Dict[str, Any]) -> float:
+    def _determine_formality(
+        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+    ) -> float:
         """Determine appropriate formality level"""
         # Start with medium formality
         formality = 0.5
@@ -137,8 +151,9 @@ class ContextAnalyzer:
 
         return max(0.1, min(0.9, formality))
 
-    def _calculate_confidence(self, nlp_analysis: Dict[str, Any],
-                             historical_context: Dict[str, Any]) -> float:
+    def _calculate_confidence(
+        self, nlp_analysis: Dict[str, Any], historical_context: Dict[str, Any]
+    ) -> float:
         """Calculate confidence in our context understanding"""
         # Base confidence on NLP understanding
         confidence = nlp_analysis.get("confidence", 0.5)
@@ -157,14 +172,17 @@ class ContextAnalyzer:
 class VoiceModulator:
     def __init__(self, settings: Dict[str, Any]):
         self.default_voice = settings.get("default_voice", "neutral")
-        self.emotion_mapping = settings.get("emotion_mapping", {
-            "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
-            "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
-            "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
-            "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
-            "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
-            "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0}
-        })
+        self.emotion_mapping = settings.get(
+            "emotion_mapping",
+            {
+                "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
+                "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
+                "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
+                "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
+                "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
+                "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
+            },
+        )
 
     def determine_parameters(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Determine voice parameters based on context"""
@@ -205,13 +223,20 @@ class VoiceModulator:
         # based on user preferences and context
         return self.default_voice
 
+
 class MemoryManager:
     def __init__(self, max_memories: int = 1000):
         self.memories = {}  # User ID -> list of memories
         self.max_memories = max_memories
 
-    def store_interaction(self, user_id: str, input: str, context: Dict[str, Any],
-                         response: str, timestamp: datetime.datetime) -> None:
+    def store_interaction(
+        self,
+        user_id: str,
+        input: str,
+        context: Dict[str, Any],
+        response: str,
+        timestamp: datetime.datetime,
+    ) -> None:
         """Store an interaction in memory"""
         if user_id not in self.memories:
             self.memories[user_id] = []
@@ -222,7 +247,7 @@ class MemoryManager:
             "context": context,
             "response": response,
             "timestamp": timestamp,
-            "importance": self._calculate_importance(context)
+            "importance": self._calculate_importance(context),
         }
 
         # Add to user's memories
@@ -231,12 +256,12 @@ class MemoryManager:
         # Trim if needed, removing least important memories first
         if len(self.memories[user_id]) > self.max_memories:
             self.memories[user_id] = sorted(
-                self.memories[user_id],
-                key=lambda x: x["importance"],
-                reverse=True
-            )[:self.max_memories]
+                self.memories[user_id], key=lambda x: x["importance"], reverse=True
+            )[: self.max_memories]
 
-    def get_relevant_memories(self, user_id: str, limit: int = 20) -> List[Dict[str, Any]]:
+    def get_relevant_memories(
+        self, user_id: str, limit: int = 20
+    ) -> List[Dict[str, Any]]:
         """Get relevant memories for a user"""
         if not user_id or user_id not in self.memories:
             return []
@@ -245,7 +270,7 @@ class MemoryManager:
         sorted_memories = sorted(
             self.memories[user_id],
             key=lambda x: (x["timestamp"].timestamp(), x["importance"]),
-            reverse=True
+            reverse=True,
         )
 
         return sorted_memories[:limit]
@@ -301,8 +326,7 @@ class ComplianceEngine:
             if isinstance(anonymized["device_info"], dict):
                 safe_keys = ["type", "os", "battery_level"]
                 anonymized["device_info"] = {
-                    k: v for k, v in anonymized["device_info"].items()
-                    if k in safe_keys
+                    k: v for k, v in anonymized["device_info"].items() if k in safe_keys
                 }
             else:
                 anonymized["device_info"] = {"type": "anonymized"}
@@ -373,7 +397,9 @@ class SafetyGuard:
 
         return response
 
-    def _log_ethical_concerns(self, issues: List[Dict[str, Any]], context: Dict[str, Any]) -> None:
+    def _log_ethical_concerns(
+        self, issues: List[Dict[str, Any]], context: Dict[str, Any]
+    ) -> None:
         """Log ethical concerns for review"""
         # Implementation would log issues for human review
         pass
@@ -383,6 +409,7 @@ class SafetyGuard:
         # Implementation would load guidelines from config
         return {}
 
+
 class LucasVoiceSystem:
     def __init__(self, config: Dict[str, Any]):
         self.logger = logging.getLogger("LucasVoiceSystem")
@@ -391,20 +418,25 @@ class LucasVoiceSystem:
         self.memory_manager = MemoryManager()
         self.compliance_engine = ComplianceEngine(
             gdpr_enabled=config.get("gdpr_enabled", True),
-            data_retention_days=config.get("data_retention_days", 30)
+            data_retention_days=config.get("data_retention_days", 30),
         )
         self.safety_guard = SafetyGuard()
 
-    async def process_input(self, user_input: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_input(
+        self, user_input: str, metadata: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process user input and generate appropriate voice response"""
         # Log the interaction with privacy safeguards
-        self.logger.info("Processing user input", extra={"metadata": self.compliance_engine.anonymize_metadata(metadata)})
+        self.logger.info(
+            "Processing user input",
+            extra={"metadata": self.compliance_engine.anonymize_metadata(metadata)},
+        )
 
         # Extract context from various sources
         context = await self.context_analyzer.analyze(
             user_input=user_input,
             metadata=metadata,
-            memory=self.memory_manager.get_relevant_memories(metadata.get("user_id"))
+            memory=self.memory_manager.get_relevant_memories(metadata.get("user_id")),
         )
 
         # Determine appropriate voice modulation based on context
@@ -423,12 +455,12 @@ class LucasVoiceSystem:
                 input=user_input,
                 context=context,
                 response=safe_response,
-                timestamp=datetime.datetime.now()
+                timestamp=datetime.datetime.now(),
             )
 
         # Return final response with voice parameters
         return {
             "response": safe_response,
             "voice_params": voice_params,
-            "context_understood": context.get("confidence", 0.0)
+            "context_understood": context.get("confidence", 0.0),
         }

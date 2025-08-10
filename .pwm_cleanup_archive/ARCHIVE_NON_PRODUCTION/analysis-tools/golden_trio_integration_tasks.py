@@ -6,7 +6,8 @@ Creates specific integration tasks for connecting DAST, ABAS, and NIAS component
 
 import json
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 
 class GoldenTrioIntegrationTasks:
     def __init__(self):
@@ -20,13 +21,13 @@ class GoldenTrioIntegrationTasks:
             "orchestration/security/dast/adapters.py",
             "orchestration/security/dast/intelligence.py",
             "orchestration/security/dast/processors.py",
-            "orchestration/security/dast/verify.py"
+            "orchestration/security/dast/verify.py",
         ]
 
         self.abas_files = [
             "core/neural_architectures/abas/abas_quantum_specialist.py",
             "identity/backend/database/crud.py",
-            "quantum/abas_quantum_specialist.py"
+            "quantum/abas_quantum_specialist.py",
         ]
 
         self.nias_files = [
@@ -45,7 +46,7 @@ class GoldenTrioIntegrationTasks:
             "core/interfaces/as_agent/sys/nias/validate_payload.py",
             "core/interfaces/as_agent/sys/nias/voice_narrator.py",
             "core/interfaces/nias/generate_nias_docs.py",
-            "core/modules/nias/openai_adapter.py"
+            "core/modules/nias/openai_adapter.py",
         ]
 
     def generate_dast_integration_tasks(self) -> List[Dict]:
@@ -53,13 +54,14 @@ class GoldenTrioIntegrationTasks:
         dast_tasks = []
 
         # Task 1: Create DAST Integration Hub
-        dast_tasks.append({
-            "id": "dast_integration_hub",
-            "type": "create_file",
-            "priority": "high",
-            "file": "dast/integration/dast_integration_hub.py",
-            "description": "Create central DAST integration hub",
-            "code": '''"""
+        dast_tasks.append(
+            {
+                "id": "dast_integration_hub",
+                "type": "create_file",
+                "priority": "high",
+                "file": "dast/integration/dast_integration_hub.py",
+                "description": "Create central DAST integration hub",
+                "code": '''"""
 DAST Integration Hub
 Central hub for connecting all DAST components to TrioOrchestrator and Audit System
 """
@@ -240,36 +242,41 @@ def get_dast_integration_hub() -> DASTIntegrationHub:
     if _dast_integration_hub is None:
         _dast_integration_hub = DASTIntegrationHub()
     return _dast_integration_hub
-'''
-        })
+''',
+            }
+        )
 
         # Task 2: Update each DAST component
         for dast_file in self.dast_files:
             component_name = Path(dast_file).stem
-            dast_tasks.append({
-                "id": f"integrate_{component_name}",
-                "type": "update_file",
-                "priority": "high",
-                "file": dast_file,
-                "description": f"Integrate {component_name} with DAST hub",
-                "changes": [
-                    {
-                        "action": "add_import",
-                        "line": 5,
-                        "content": "from dast.integration.dast_integration_hub import get_dast_integration_hub"
-                    },
-                    {
-                        "action": "add_to_init",
-                        "content": """        # Register with DAST integration hub
+            dast_tasks.append(
+                {
+                    "id": f"integrate_{component_name}",
+                    "type": "update_file",
+                    "priority": "high",
+                    "file": dast_file,
+                    "description": f"Integrate {component_name} with DAST hub",
+                    "changes": [
+                        {
+                            "action": "add_import",
+                            "line": 5,
+                            "content": "from dast.integration.dast_integration_hub import get_dast_integration_hub",
+                        },
+                        {
+                            "action": "add_to_init",
+                            "content": """        # Register with DAST integration hub
         self.dast_hub = get_dast_integration_hub()
         asyncio.create_task(self.dast_hub.register_component(
-            '""" + component_name + """',
+            '"""
+                            + component_name
+                            + """',
             __file__,
             self
-        ))"""
-                    }
-                ]
-            })
+        ))""",
+                        },
+                    ],
+                }
+            )
 
         return dast_tasks
 
@@ -278,13 +285,14 @@ def get_dast_integration_hub() -> DASTIntegrationHub:
         abas_tasks = []
 
         # Task 1: Create ABAS Integration Hub
-        abas_tasks.append({
-            "id": "abas_integration_hub",
-            "type": "create_file",
-            "priority": "high",
-            "file": "abas/integration/abas_integration_hub.py",
-            "description": "Create central ABAS integration hub",
-            "code": '''"""
+        abas_tasks.append(
+            {
+                "id": "abas_integration_hub",
+                "type": "create_file",
+                "priority": "high",
+                "file": "abas/integration/abas_integration_hub.py",
+                "description": "Create central ABAS integration hub",
+                "code": '''"""
 ABAS Integration Hub
 Central hub for connecting all ABAS components to TrioOrchestrator and Ethics Engine
 """
@@ -423,8 +431,9 @@ def get_abas_integration_hub() -> ABASIntegrationHub:
     if _abas_integration_hub is None:
         _abas_integration_hub = ABASIntegrationHub()
     return _abas_integration_hub
-'''
-        })
+''',
+            }
+        )
 
         return abas_tasks
 
@@ -433,13 +442,14 @@ def get_abas_integration_hub() -> ABASIntegrationHub:
         nias_tasks = []
 
         # Task 1: Create NIAS Integration Hub
-        nias_tasks.append({
-            "id": "nias_integration_hub",
-            "type": "create_file",
-            "priority": "high",
-            "file": "nias/integration/nias_integration_hub.py",
-            "description": "Create central NIAS integration hub",
-            "code": '''"""
+        nias_tasks.append(
+            {
+                "id": "nias_integration_hub",
+                "type": "create_file",
+                "priority": "high",
+                "file": "nias/integration/nias_integration_hub.py",
+                "description": "Create central NIAS integration hub",
+                "code": '''"""
 NIAS Integration Hub
 Central hub for connecting all NIAS components to TrioOrchestrator and Consent Management
 """
@@ -597,8 +607,9 @@ def get_nias_integration_hub() -> NIASIntegrationHub:
     if _nias_integration_hub is None:
         _nias_integration_hub = NIASIntegrationHub()
     return _nias_integration_hub
-'''
-        })
+''',
+            }
+        )
 
         return nias_tasks
 
@@ -609,7 +620,7 @@ def get_nias_integration_hub() -> NIASIntegrationHub:
                 "total_tasks": 0,
                 "systems": ["DAST", "ABAS", "NIAS"],
                 "priority": "high",
-                "estimated_hours": 8
+                "estimated_hours": 8,
             },
             "dast_tasks": self.generate_dast_integration_tasks(),
             "abas_tasks": self.generate_abas_integration_tasks(),
@@ -714,16 +725,16 @@ class TestGoldenTrioIntegration:
 
 if __name__ == "__main__":
     pytest.main([__file__])
-'''
+''',
                 }
-            ]
+            ],
         }
 
         all_tasks["metadata"]["total_tasks"] = (
-            len(all_tasks["dast_tasks"]) +
-            len(all_tasks["abas_tasks"]) +
-            len(all_tasks["nias_tasks"]) +
-            len(all_tasks["validation_tasks"])
+            len(all_tasks["dast_tasks"])
+            + len(all_tasks["abas_tasks"])
+            + len(all_tasks["nias_tasks"])
+            + len(all_tasks["validation_tasks"])
         )
 
         return all_tasks
@@ -732,10 +743,12 @@ if __name__ == "__main__":
         """Save all tasks to JSON file"""
         tasks = self.generate_all_tasks()
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(tasks, f, indent=2)
 
-        print(f"✅ Generated {tasks['metadata']['total_tasks']} Golden Trio integration tasks")
+        print(
+            f"✅ Generated {tasks['metadata']['total_tasks']} Golden Trio integration tasks"
+        )
         print(f"📄 Tasks saved to: {output_path}")
 
         return tasks
@@ -751,7 +764,9 @@ def main():
     print(f"  - ABAS Tasks: {len(tasks['abas_tasks'])}")
     print(f"  - NIAS Tasks: {len(tasks['nias_tasks'])}")
     print(f"  - Validation Tasks: {len(tasks['validation_tasks'])}")
-    print(f"\n⏱️  Estimated completion time: {tasks['metadata']['estimated_hours']} hours")
+    print(
+        f"\n⏱️  Estimated completion time: {tasks['metadata']['estimated_hours']} hours"
+    )
 
 
 if __name__ == "__main__":

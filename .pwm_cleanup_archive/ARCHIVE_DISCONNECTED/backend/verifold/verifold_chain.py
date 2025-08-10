@@ -10,12 +10,8 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import json
-import hashlib
-import binascii
-from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
-import time
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class CollapseChain:
@@ -33,8 +29,9 @@ class CollapseChain:
         self.logbook_path = Path(logbook_path)
         self.chain_cache = {}
 
-    def add_to_chain(self, collapse_record: Dict[str, Any],
-                     previous_hash: Optional[str] = None) -> str:
+    def add_to_chain(
+        self, collapse_record: Dict[str, Any], previous_hash: Optional[str] = None
+    ) -> str:
         """
         Add a CollapseHash record to the verifiable chain.
 
@@ -48,8 +45,9 @@ class CollapseChain:
         # TODO: Implement chain linking with cryptographic hash
         pass
 
-    def verify_chain_integrity(self, start_index: int = 0,
-                              end_index: Optional[int] = None) -> bool:
+    def verify_chain_integrity(
+        self, start_index: int = 0, end_index: Optional[int] = None
+    ) -> bool:
         """
         Verify the cryptographic integrity of the chain sequence.
 
@@ -80,7 +78,9 @@ class CollapseChain:
         # TODO: Implement cache rebuilding
         pass
 
-    def export_chain_segment(self, start_hash: str, end_hash: str) -> List[Dict[str, Any]]:
+    def export_chain_segment(
+        self, start_hash: str, end_hash: str
+    ) -> List[Dict[str, Any]]:
         """
         Export a segment of the chain between two hash points.
 
@@ -104,8 +104,9 @@ class CollapseChain:
         # TODO: Implement chain break detection
         pass
 
-    def calculate_chain_hash(self, record: Dict[str, Any],
-                           previous_chain_hash: str = "") -> str:
+    def calculate_chain_hash(
+        self, record: Dict[str, Any], previous_chain_hash: str = ""
+    ) -> str:
         """
         Calculate the chain hash for a record.
 

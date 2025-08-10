@@ -41,18 +41,23 @@
 """
 
 import json
-from typing import Dict, Any, List, Optional
 from collections import deque
-import numpy as np
-from core.common import get_logger
+from typing import Any, Dict, List
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+import numpy as np
+
+
 class MemoryDriftMirror:
     """
     Analyzes memory drift vectors to detect patterns and classify drift sequences.
     """
 
-    def __init__(self, drift_log_path: str = "memory_drift_log.jsonl", classification_log_path: str = "logs/memory_drift_classifications.jsonl", entropy_threshold: float = 0.6):
+    def __init__(
+        self,
+        drift_log_path: str = "memory_drift_log.jsonl",
+        classification_log_path: str = "logs/memory_drift_classifications.jsonl",
+        entropy_threshold: float = 0.6,
+    ):
         self.drift_log_path = drift_log_path
         self.classification_log_path = classification_log_path
         self.entropy_threshold = entropy_threshold
@@ -77,7 +82,7 @@ class MemoryDriftMirror:
         Loads the most recent drift vectors from the log file.
         """
         try:
-            with open(self.drift_log_path, "r") as f:
+            with open(self.drift_log_path) as f:
                 lines = f.readlines()
                 # Get the last 10 lines
                 recent_lines = lines[-10:]
@@ -88,7 +93,9 @@ class MemoryDriftMirror:
             # It's fine if the log file doesn't exist yet
             pass
 
-    def _classify_drift_sequence(self, drift_sequence: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _classify_drift_sequence(
+        self, drift_sequence: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """
         Classifies a drift sequence into types: "stable", "divergent", "looping", "collapse risk".
         """
@@ -99,9 +106,15 @@ class MemoryDriftMirror:
         entropy_deltas = [d.get("entropy_delta", 0.0) for d in last_three_drifts]
 
         if all(e > self.entropy_threshold for e in entropy_deltas):
-            return {"type": "collapse risk", "reason": "Entropy delta consistently high"}
+            return {
+                "type": "collapse risk",
+                "reason": "Entropy delta consistently high",
+            }
 
-        is_divergent = all(entropy_deltas[i] > entropy_deltas[i-1] for i in range(1, len(entropy_deltas)))
+        is_divergent = all(
+            entropy_deltas[i] > entropy_deltas[i - 1]
+            for i in range(1, len(entropy_deltas))
+        )
         if is_divergent:
             return {"type": "divergent", "reason": "Entropy delta is increasing"}
 
@@ -125,15 +138,23 @@ class MemoryDriftMirror:
         if classification["type"] == "collapse risk":
             # Check if the last 3 entries were also collapse risks
             try:
-                with open(self.classification_log_path, "r") as f:
+                with open(self.classification_log_path) as f:
                     lines = f.readlines()
-                    last_three_classifications = [json.loads(line) for line in lines[-3:]]
-                    if len(last_three_classifications) == 3 and all(c["type"] == "collapse risk" for c in last_three_classifications):
-                        logging.warning("Collapse risk detected more than once in the last 3 entries.")
+                    last_three_classifications = [
+                        json.loads(line) for line in lines[-3:]
+                    ]
+                    if len(last_three_classifications) == 3 and all(
+                        c["type"] == "collapse risk" for c in last_three_classifications
+                    ):
+                        logging.warning(
+                            "Collapse risk detected more than once in the last 3 entries."
+                        )
             except FileNotFoundError:
                 pass
 
         # This is a placeholder for a more sophisticated entropy calculation
         entropy_delta = np.random.rand()
         if entropy_delta > self.entropy_threshold:
-            logging.warning(f"Entropy delta ({entropy_delta}) exceeds threshold ({self.entropy_threshold}).")
+            logging.warning(
+                f"Entropy delta ({entropy_delta}) exceeds threshold ({self.entropy_threshold})."
+            )

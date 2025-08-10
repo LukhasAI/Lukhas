@@ -7,13 +7,14 @@ abstract_resoaning.md, providing sophisticated uncertainty quantification and
 meta-learning capabilities for reasoning confidence assessment.
 """
 
-import numpy as np
 import logging
-from typing import Dict, Any, List, Optional, Tuple, Union
-from datetime import datetime
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+from datetime import datetime
 from enum import Enum
+from typing import Any
+from typing import Optional
+
+import numpy as np
 
 logger = logging.getLogger("ConfidenceCalibration")
 
@@ -37,7 +38,7 @@ class ConfidenceMetrics:
     symbolic_confidence: float
     emotional_confidence: float
     cross_brain_coherence: float
-    uncertainty_decomposition: Dict[str, float]
+    uncertainty_decomposition: dict[str, float]
     meta_confidence: float
     calibration_score: float
 
@@ -50,9 +51,9 @@ class CalibrationRecord:
     actual_outcome: bool
     reasoning_complexity: float
     brain_coherence: float
-    uncertainty_types: List[str]
+    uncertainty_types: list[str]
     timestamp: datetime
-    context_features: Dict[str, Any]
+    context_features: dict[str, Any]
 
 
 class BayesianConfidenceEstimator:
@@ -64,12 +65,14 @@ class BayesianConfidenceEstimator:
         self.likelihood_cache = {}
 
     def estimate_confidence(
-        self, evidence: Dict[str, Any], prior_context: Optional[Dict[str, Any]] = None
+        self,
+        evidence: dict[str, Any],
+        prior_context: Optional[dict[str, Any]] = None,
     ) -> float:
         """Estimate Bayesian confidence based on evidence and priors"""
 
         # Extract evidence strength
-        evidence_strength = self._calculate_evidence_strength(evidence)
+        self._calculate_evidence_strength(evidence)
 
         # Get prior probability
         prior = self._get_prior_probability(evidence, prior_context)
@@ -84,16 +87,17 @@ class BayesianConfidenceEstimator:
         confidence = min(1.0, max(0.0, posterior))
 
         logger.debug(
-            f"Bayesian confidence: {confidence:.3f} (prior: {prior:.3f}, likelihood: {likelihood:.3f})"
+            f"Bayesian confidence: {confidence: .3f}(prior: {prior: .3f},
+                                                     likelihood: {likelihood: .3f})"
         )
 
         return confidence
 
-    def _calculate_evidence_strength(self, evidence: Dict[str, Any]) -> float:
+    def _calculate_evidence_strength(self, evidence: dict[str, Any]) -> float:
         """Calculate overall strength of evidence"""
         strengths = []
 
-        for key, value in evidence.items():
+        for _key, value in evidence.items():
             if isinstance(value, dict) and "confidence" in value:
                 strengths.append(value["confidence"])
             elif isinstance(value, (int, float)):
@@ -107,7 +111,7 @@ class BayesianConfidenceEstimator:
         return np.mean(strengths) if strengths else 0.5
 
     def _get_prior_probability(
-        self, evidence: Dict[str, Any], context: Optional[Dict[str, Any]]
+        self, evidence: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> float:
         """Get prior probability based on historical data"""
 
@@ -120,7 +124,7 @@ class BayesianConfidenceEstimator:
             # Default uninformative prior
             return 0.5
 
-    def _calculate_likelihood(self, evidence: Dict[str, Any]) -> float:
+    def _calculate_likelihood(self, evidence: dict[str, Any]) -> float:
         """Calculate likelihood of evidence given hypothesis"""
 
         # Simplified likelihood based on evidence coherence
@@ -130,7 +134,7 @@ class BayesianConfidenceEstimator:
             return 0.5
 
         # Calculate coherence as likelihood measure
-        mean_value = np.mean(evidence_values)
+        np.mean(evidence_values)
         std_value = np.std(evidence_values)
 
         # Higher coherence (lower std) suggests higher likelihood
@@ -144,7 +148,7 @@ class BayesianConfidenceEstimator:
         return 1.0
 
     def _generate_context_key(
-        self, evidence: Dict[str, Any], context: Optional[Dict[str, Any]]
+        self, evidence: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> str:
         """Generate key for context-based prior lookup"""
         evidence_hash = hash(str(sorted(evidence.keys())))
@@ -153,9 +157,9 @@ class BayesianConfidenceEstimator:
 
     def update_beliefs(
         self,
-        evidence: Dict[str, Any],
+        evidence: dict[str, Any],
         outcome: bool,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ):
         """Update prior beliefs based on observed outcomes"""
         context_key = self._generate_context_key(evidence, context)
@@ -178,7 +182,7 @@ class QuantumConfidenceEstimator:
         self.quantum_like_state_history = []
         self.coherence_threshold = 0.8
 
-    def estimate_confidence(self, quantum_like_state: Dict[str, Any]) -> float:
+    def estimate_confidence(self, quantum_like_state: dict[str, Any]) -> float:
         """Estimate confidence based on quantum-like state properties"""
 
         # Extract quantum properties
@@ -195,7 +199,11 @@ class QuantumConfidenceEstimator:
 
         # Combine quantum confidence components
         quantum_confidence = np.mean(
-            [coherence_confidence, entanglement_confidence, superposition_confidence]
+            [
+                coherence_confidence,
+                entanglement_confidence,
+                superposition_confidence,
+            ]
         )
 
         logger.debug(f"Quantum confidence: {quantum_confidence:.3f}")
@@ -229,7 +237,7 @@ class SymbolicConfidenceEstimator:
         self.logical_rules = {}
         self.contradiction_detector = ContradictionDetector()
 
-    def estimate_confidence(self, symbolic_reasoning: Dict[str, Any]) -> float:
+    def estimate_confidence(self, symbolic_reasoning: dict[str, Any]) -> float:
         """Estimate confidence based on symbolic reasoning quality"""
 
         # Extract symbolic reasoning components
@@ -251,7 +259,11 @@ class SymbolicConfidenceEstimator:
 
         # Combine symbolic confidence components
         symbolic_confidence = np.mean(
-            [consistency_confidence, premise_confidence, completeness_confidence]
+            [
+                consistency_confidence,
+                premise_confidence,
+                completeness_confidence,
+            ]
         ) * (1.0 - contradiction_penalty)
 
         logger.debug(f"Symbolic confidence: {symbolic_confidence:.3f}")
@@ -266,7 +278,7 @@ class SymbolicConfidenceEstimator:
         """Calculate confidence based on premise strength"""
         return premise_strength
 
-    def _calculate_completeness_confidence(self, reasoning_steps: List[Any]) -> float:
+    def _calculate_completeness_confidence(self, reasoning_steps: list[Any]) -> float:
         """Calculate confidence based on reasoning completeness"""
         # More steps generally indicate more thorough reasoning
         if not reasoning_steps:
@@ -277,7 +289,7 @@ class SymbolicConfidenceEstimator:
         )  # Normalize by expected number of steps
         return min(1.0, step_quality)
 
-    def _detect_contradictions(self, symbolic_reasoning: Dict[str, Any]) -> float:
+    def _detect_contradictions(self, symbolic_reasoning: dict[str, Any]) -> float:
         """Detect contradictions and return penalty factor"""
         # Simplified contradiction detection
         contradictions = self.contradiction_detector.find_contradictions(
@@ -292,7 +304,7 @@ class SymbolicConfidenceEstimator:
 class ContradictionDetector:
     """Detects logical contradictions in reasoning"""
 
-    def find_contradictions(self, reasoning: Dict[str, Any]) -> List[str]:
+    def find_contradictions(self, reasoning: dict[str, Any]) -> list[str]:
         """Find logical contradictions in symbolic reasoning"""
         contradictions = []
 
@@ -301,7 +313,7 @@ class ContradictionDetector:
 
         # Check for direct contradictions (simplified)
         for i, stmt1 in enumerate(statements):
-            for j, stmt2 in enumerate(statements[i + 1 :], i + 1):
+            for j, stmt2 in enumerate(statements[i + 1:], i + 1):
                 if self._are_contradictory(stmt1, stmt2):
                     contradictions.append(
                         f"Contradiction between statement {i} and {j}"
@@ -309,11 +321,12 @@ class ContradictionDetector:
 
         return contradictions
 
-    def _extract_statements(self, reasoning: Dict[str, Any]) -> List[str]:
+    def _extract_statements(self, reasoning: dict[str, Any]) -> list[str]:
         """Extract logical statements from reasoning"""
         statements = []
 
         # Recursively extract string statements
+
         def extract_strings(obj):
             if isinstance(obj, str):
                 statements.append(obj)
@@ -356,7 +369,7 @@ class EmotionalConfidenceEstimator:
     def __init__(self):
         self.emotional_patterns = {}
 
-    def estimate_confidence(self, emotional_signals: Dict[str, Any]) -> float:
+    def estimate_confidence(self, emotional_signals: dict[str, Any]) -> float:
         """Estimate confidence based on emotional evaluation"""
 
         # Extract emotional components
@@ -395,8 +408,8 @@ class UncertaintyDecomposer:
     """Decomposes uncertainty into different types"""
 
     def decompose_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, float]:
         """Decompose uncertainty into aleatory and epistemic components"""
 
         uncertainty_components = {}
@@ -429,7 +442,7 @@ class UncertaintyDecomposer:
         return uncertainty_components
 
     def _estimate_aleatory_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate aleatory (inherent randomness) uncertainty"""
         # Look for random or stochastic elements in the reasoning
@@ -451,7 +464,7 @@ class UncertaintyDecomposer:
         return min(1.0, uncertainty)
 
     def _estimate_epistemic_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate epistemic (knowledge gap) uncertainty"""
         # Look for knowledge gap indicators
@@ -474,7 +487,7 @@ class UncertaintyDecomposer:
         return min(1.0, uncertainty)
 
     def _estimate_linguistic_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate linguistic (ambiguity) uncertainty"""
         # Look for ambiguous language
@@ -497,7 +510,7 @@ class UncertaintyDecomposer:
         return min(1.0, uncertainty)
 
     def _estimate_temporal_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate temporal (time-dependent) uncertainty"""
         # Check for time-sensitive information
@@ -520,7 +533,7 @@ class UncertaintyDecomposer:
         return min(1.0, uncertainty)
 
     def _estimate_quantum_uncertainty(
-        self, reasoning_result: Dict[str, Any], context: Dict[str, Any]
+        self, reasoning_result: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Estimate quantum (indeterminacy) uncertainty"""
         # Extract quantum uncertainty from quantum-like state information
@@ -547,7 +560,7 @@ class MetaLearningCalibrator:
         prediction_confidence: float,
         actual_outcome: bool,
         reasoning_complexity: float,
-        context_features: Dict[str, Any],
+        context_features: dict[str, Any],
     ):
         """Update calibration based on observed outcomes"""
 
@@ -568,7 +581,8 @@ class MetaLearningCalibrator:
         self._update_calibration_model(record)
 
         logger.info(
-            f"Updated calibration: prediction={prediction_confidence:.3f}, outcome={actual_outcome}"
+            f"Updated calibration: prediction={prediction_confidence: .3f},
+            outcome={actual_outcome}"
         )
 
     def _update_calibration_model(self, record: CalibrationRecord):
@@ -590,7 +604,7 @@ class MetaLearningCalibrator:
             self.learning_rate * prediction_error
         )
 
-    def _generate_context_key(self, context_features: Dict[str, Any]) -> str:
+    def _generate_context_key(self, context_features: dict[str, Any]) -> str:
         """Generate key for context-based calibration"""
         key_features = [
             str(context_features.get("reasoning_type", "default")),
@@ -644,7 +658,9 @@ class AdvancedConfidenceCalibrator:
         logger.info("🎯 Advanced Confidence Calibrator initialized")
 
     def calibrate_confidence(
-        self, reasoning_result: Dict[str, Any], context: Optional[Dict[str, Any]] = None
+        self,
+        reasoning_result: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
     ) -> ConfidenceMetrics:
         """
         Perform comprehensive confidence calibration
@@ -667,7 +683,9 @@ class AdvancedConfidenceCalibrator:
             reasoning_result, context
         )
 
-        quantum_confidence = self.quantum_estimator.estimate_confidence(quantum_like_state)
+        quantum_confidence = self.quantum_estimator.estimate_confidence(
+            quantum_like_state
+        )
 
         symbolic_confidence = self.symbolic_estimator.estimate_confidence(
             symbolic_reasoning
@@ -720,7 +738,8 @@ class AdvancedConfidenceCalibrator:
         )
 
         logger.info(
-            f"✅ Confidence calibration complete: Overall={overall_confidence:.3f}, Meta={meta_confidence:.3f}"
+            f"✅ Confidence calibration complete: Overall={overall_confidence: .3f},
+            Meta={meta_confidence: .3f}"
         )
 
         return confidence_metrics
@@ -736,7 +755,13 @@ class AdvancedConfidenceCalibrator:
         """Calculate confidence in the confidence estimate (meta-confidence)"""
 
         # Calculate agreement between different confidence estimates
-        confidence_estimates = [bayesian, quantum, symbolic, emotional, coherence]
+        confidence_estimates = [
+            bayesian,
+            quantum,
+            symbolic,
+            emotional,
+            coherence,
+        ]
 
         # Meta-confidence is higher when estimates agree
         mean_confidence = np.mean(confidence_estimates)
@@ -755,7 +780,7 @@ class AdvancedConfidenceCalibrator:
         confidence_metrics: ConfidenceMetrics,
         actual_outcome: bool,
         reasoning_complexity: float,
-        context: Dict[str, Any],
+        context: dict[str, Any],
     ):
         """Update calibration based on observed outcomes"""
 
@@ -797,7 +822,7 @@ class AdvancedConfidenceCalibrator:
 
         logger.info(f"📊 Updated calibration from outcome: {actual_outcome}")
 
-    def get_calibration_summary(self) -> Dict[str, Any]:
+    def get_calibration_summary(self) -> dict[str, Any]:
         """Get summary of current calibration performance"""
 
         calibration_score = self.meta_learner.get_calibration_score()

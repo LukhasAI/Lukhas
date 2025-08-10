@@ -22,27 +22,25 @@ Author: LUKHAS AI System
 License: LUKHAS Commercial License
 """
 
-import sys
+import hashlib
 import os
+import random
+import sys
 import time
 import traceback
-import json
-import hashlib
-import random
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
-import unittest
-from unittest.mock import Mock, patch
-
+from typing import List
+from unittest.mock import Mock
 
 # ================================
 # TEST CONFIGURATION
 # ================================
 
+
 @dataclass
 class TestResult:
     """Test result data structure"""
+
     name: str
     status: str  # 'PASS', 'FAIL', 'SKIP'
     duration: float
@@ -93,10 +91,7 @@ class TestSuite:
             print(f"     ❌ FAIL ({duration:.3f}s): {str(e)}")
 
         test_result = TestResult(
-            name=test_name,
-            status=status,
-            duration=duration,
-            details=details
+            name=test_name, status=status, duration=duration, details=details
         )
 
         self.results.append(test_result)
@@ -107,6 +102,7 @@ class TestSuite:
 # ================================
 # SYSTEM VALIDATION TESTS
 # ================================
+
 
 class SystemValidationSuite(TestSuite):
     """System-wide validation tests"""
@@ -121,7 +117,7 @@ class SystemValidationSuite(TestSuite):
     def test_directory_structure(self):
         """Test that required directories exist"""
         base_path = os.path.dirname(os.path.abspath(__file__))
-        required_dirs = ['core', 'web', 'backend', 'mobile', 'utils', 'tests', 'assets']
+        required_dirs = ["core", "web", "backend", "mobile", "utils", "tests", "assets"]
 
         missing_dirs = []
         for dir_name in required_dirs:
@@ -137,10 +133,10 @@ class SystemValidationSuite(TestSuite):
         """Test that core files exist"""
         base_path = os.path.dirname(os.path.abspath(__file__))
         required_files = [
-            'qrg_generators.py',
-            'qrg_integration.py',
-            'README.md',
-            'ARCHITECTURE.md'
+            "qrg_generators.py",
+            "qrg_integration.py",
+            "README.md",
+            "ARCHITECTURE.md",
         ]
 
         missing_files = []
@@ -167,6 +163,7 @@ class SystemValidationSuite(TestSuite):
 # MODULE IMPORT TESTS
 # ================================
 
+
 class ModuleImportSuite(TestSuite):
     """Module import validation tests"""
 
@@ -175,7 +172,8 @@ class ModuleImportSuite(TestSuite):
         try:
             sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
             import qrg_generators
-            return hasattr(qrg_generators, 'ConsciousnessAdaptiveQRG')
+
+            return hasattr(qrg_generators, "ConsciousnessAdaptiveQRG")
         except ImportError as e:
             return f"Import error: {e}"
 
@@ -183,7 +181,8 @@ class ModuleImportSuite(TestSuite):
         """Test importing QRG integration module"""
         try:
             import qrg_integration
-            return hasattr(qrg_integration, 'QRGSystemIntegrator')
+
+            return hasattr(qrg_integration, "QRGSystemIntegrator")
         except ImportError as e:
             return f"Import error: {e}"
 
@@ -191,7 +190,8 @@ class ModuleImportSuite(TestSuite):
         """Test importing complete demo module"""
         try:
             import lukhus_qrg_complete_demo
-            return hasattr(lukhus_qrg_complete_demo, 'InteractiveDemoInterface')
+
+            return hasattr(lukhus_qrg_complete_demo, "InteractiveDemoInterface")
         except ImportError as e:
             return f"Import error: {e}"
 
@@ -209,6 +209,7 @@ class ModuleImportSuite(TestSuite):
 # FUNCTIONAL TESTS
 # ================================
 
+
 class FunctionalTestSuite(TestSuite):
     """Functional testing of core components"""
 
@@ -219,6 +220,7 @@ class FunctionalTestSuite(TestSuite):
         # Import with fallback mocks
         try:
             import qrg_generators
+
             self.qrg_module = qrg_generators
         except ImportError:
             self.qrg_module = self.create_mock_qrg_module()
@@ -229,12 +231,14 @@ class FunctionalTestSuite(TestSuite):
 
         # Mock QRG class
         mock_qrg = Mock()
-        mock_qrg.generate_qr_pattern.return_value = "█▀▀█ ▀▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
+        mock_qrg.generate_qr_pattern.return_value = (
+            "█▀▀█ ▀▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
+        )
         mock_qrg.get_consciousness_level.return_value = 0.75
         mock_qrg.get_security_metrics.return_value = {
-            'entropy': 0.92,
-            'complexity': 0.85,
-            'quantum_resistance': 0.78
+            "entropy": 0.92,
+            "complexity": 0.85,
+            "quantum_resistance": 0.78,
         }
 
         mock_module.ConsciousnessAdaptiveQRG.return_value = mock_qrg
@@ -267,7 +271,7 @@ class FunctionalTestSuite(TestSuite):
         try:
             qrg = self.qrg_module.QuantumEncryptedQRG()
             metrics = qrg.get_security_metrics()
-            required_keys = ['entropy', 'complexity', 'quantum_resistance']
+            required_keys = ["entropy", "complexity", "quantum_resistance"]
             return all(key in metrics for key in required_keys)
         except Exception as e:
             return f"Security metrics failed: {e}"
@@ -307,6 +311,7 @@ class FunctionalTestSuite(TestSuite):
 # ================================
 # PERFORMANCE TESTS
 # ================================
+
 
 class PerformanceTestSuite(TestSuite):
     """Performance and stress testing"""
@@ -364,7 +369,6 @@ class PerformanceTestSuite(TestSuite):
         """Test concurrent QRG generation"""
         try:
             import threading
-            import time
 
             results = []
             errors = []
@@ -422,6 +426,7 @@ class PerformanceTestSuite(TestSuite):
 # INTEGRATION TESTS
 # ================================
 
+
 class IntegrationTestSuite(TestSuite):
     """Integration testing of complete system"""
 
@@ -436,7 +441,7 @@ class IntegrationTestSuite(TestSuite):
                 "Apply quantum encryption",
                 "Add steganographic glyphs",
                 "Validate output",
-                "Generate security report"
+                "Generate security report",
             ]
 
             for step in steps:
@@ -476,13 +481,15 @@ class IntegrationTestSuite(TestSuite):
                 "Entropy validation",
                 "Steganographic detection resistance",
                 "Cultural sensitivity compliance",
-                "Constitutional AI alignment"
+                "Constitutional AI alignment",
             ]
 
             results = {}
             for validation in validations:
                 # Mock validation result
-                results[validation] = random.choice([True, True, True, False])  # 75% pass rate
+                results[validation] = random.choice(
+                    [True, True, True, False]
+                )  # 75% pass rate
 
             pass_rate = sum(results.values()) / len(results)
 
@@ -508,6 +515,7 @@ class IntegrationTestSuite(TestSuite):
 # MAIN TEST ORCHESTRATOR
 # ================================
 
+
 class UltimateTestOrchestrator:
     """Main test orchestrator for the ultimate test suite"""
 
@@ -517,7 +525,7 @@ class UltimateTestOrchestrator:
             ModuleImportSuite(),
             FunctionalTestSuite(),
             PerformanceTestSuite(),
-            IntegrationTestSuite()
+            IntegrationTestSuite(),
         ]
         self.start_time = None
         self.total_duration = 0
@@ -536,7 +544,9 @@ class UltimateTestOrchestrator:
         for suite in self.test_suites:
             print()
             suite.run_all_tests()
-            print(f"   📊 Suite Results: {suite.passed_tests} passed, {suite.failed_tests} failed, {suite.skipped_tests} skipped")
+            print(
+                f"   📊 Suite Results: {suite.passed_tests} passed, {suite.failed_tests} failed, {suite.skipped_tests} skipped"
+            )
 
         self.total_duration = time.time() - self.start_time
 
@@ -578,10 +588,12 @@ class UltimateTestOrchestrator:
         # Detailed results by suite
         print("\n📈 Detailed Results by Suite:")
         for i, suite in enumerate(self.test_suites):
-            suite_name = suite.__class__.__name__.replace('Suite', '')
+            suite_name = suite.__class__.__name__.replace("Suite", "")
             if suite.total_tests > 0:
                 suite_pass_rate = (suite.passed_tests / suite.total_tests) * 100
-                print(f"   {i+1}. {suite_name}: {suite_pass_rate:.1f}% ({suite.passed_tests}/{suite.total_tests})")
+                print(
+                    f"   {i+1}. {suite_name}: {suite_pass_rate:.1f}% ({suite.passed_tests}/{suite.total_tests})"
+                )
             else:
                 print(f"   {i+1}. {suite_name}: No tests run")
 
@@ -590,31 +602,40 @@ class UltimateTestOrchestrator:
         for suite in self.test_suites:
             for result in suite.results:
                 if result.status == "FAIL":
-                    failed_tests.append(f"{suite.__class__.__name__}: {result.name} - {result.details}")
+                    failed_tests.append(
+                        f"{suite.__class__.__name__}: {result.name} - {result.details}"
+                    )
 
         if failed_tests:
-            print(f"\n⚠️ Failed Tests Summary:")
+            print("\n⚠️ Failed Tests Summary:")
             for i, failure in enumerate(failed_tests[:10]):  # Show first 10 failures
                 print(f"   {i+1}. {failure}")
             if len(failed_tests) > 10:
                 print(f"   ... and {len(failed_tests) - 10} more failures")
 
         # Recommendations
-        print(f"\n💡 Recommendations:")
+        print("\n💡 Recommendations:")
         if total_failed == 0:
             print("   🎉 All tests passed! System is ready for deployment.")
         elif pass_rate >= 75:
-            print("   ✨ System is in good condition. Address failing tests for optimal performance.")
+            print(
+                "   ✨ System is in good condition. Address failing tests for optimal performance."
+            )
         else:
-            print("   🔧 System needs attention. Focus on fixing critical failing tests.")
+            print(
+                "   🔧 System needs attention. Focus on fixing critical failing tests."
+            )
 
-        print(f"\n🌟 LUKHAS Authentication System Testing Complete!")
-        print(f"📦 System is {'ready for production' if pass_rate >= 90 else 'ready for further development'}")
+        print("\n🌟 LUKHAS Authentication System Testing Complete!")
+        print(
+            f"📦 System is {'ready for production' if pass_rate >= 90 else 'ready for further development'}"
+        )
 
 
 # ================================
 # MAIN EXECUTION
 # ================================
+
 
 def main():
     """Main test execution function"""

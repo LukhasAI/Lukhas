@@ -27,14 +27,16 @@
 
 import asyncio
 import json
-import time
-import structlog # Changed from logging
 from datetime import datetime
 from pathlib import Path
 
+import structlog  # Changed from logging
+
 # Configure logging
 
-logger = structlog.get_logger("ΛTRACE.core.Adaptative_AGI.GUARDIAN.Demo") # More specific ΛTRACE logger
+logger = structlog.get_logger(
+    "ΛTRACE.core.Adaptative_AGI.GUARDIAN.Demo"
+)  # More specific ΛTRACE logger
 
 # ΛNOTE: This script configures its own logging when run directly.
 # If imported, it would ideally inherit structlog configuration from a higher level.
@@ -77,7 +79,7 @@ class GuardianSystemDemo:
         """Load the meta-learning manifest"""
         manifest_path = self.guardian_dir / "meta_learning_manifest.json"
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 return json.load(f)
         except Exception as e:
             logger.error("Failed to load manifest", error=str(e))
@@ -89,6 +91,7 @@ class GuardianSystemDemo:
             # Import and initialize Remediator Agent
             # ΛIMPORT_TODO: Consider if 'remediator_agent' should be a relative import e.g. 'from .remediator_agent import RemediatorAgent' if it's part of the GUARDIAN package.
             from remediator_agent import RemediatorAgent
+
             self.remediator_agent = RemediatorAgent()
             logger.info("✅ Remediator Agent v1.0.0 initialized successfully")
         except Exception as e:
@@ -98,6 +101,7 @@ class GuardianSystemDemo:
             # Import and initialize Reflection Layer
             # ΛIMPORT_TODO: Consider if 'reflection_layer' should be a relative import e.g. 'from .reflection_layer import ReflectionLayer'.
             from reflection_layer import ReflectionLayer
+
             self.reflection_layer = ReflectionLayer()
             logger.info("✅ Reflection Layer v1.0.0 initialized successfully")
         except Exception as e:
@@ -105,7 +109,10 @@ class GuardianSystemDemo:
 
     async def demonstrate_guardian_system(self):
         """Run complete Guardian System demonstration"""
-        logger.info("🚀 Starting Guardian System v1.0.0 Complete Demonstration", demo_id=self.demo_id)
+        logger.info(
+            "🚀 Starting Guardian System v1.0.0 Complete Demonstration",
+            demo_id=self.demo_id,
+        )
         # ΛPHASE_NODE: System Demonstration Start
 
         # Phase 1: System Architecture Overview
@@ -131,47 +138,67 @@ class GuardianSystemDemo:
         await self._demo_production_readiness()
 
         # ΛPHASE_NODE: System Demonstration End
-        logger.info("🎯 Guardian System v1.0.0 demonstration completed successfully!", demo_id=self.demo_id)
+        logger.info(
+            "🎯 Guardian System v1.0.0 demonstration completed successfully!",
+            demo_id=self.demo_id,
+        )
 
     async def _demo_system_architecture(self):
         """Demonstrate system architecture and manifest governance"""
-        logger.info("\n" + "="*70)
+        logger.info("\n" + "=" * 70)
         logger.info("📐 PHASE 1: GUARDIAN SYSTEM ARCHITECTURE")
-        logger.info("="*70)
+        logger.info("=" * 70)
 
         # Display manifest structure
         if self.manifest:
-            logger.info("Manifest details", manifest_version=self.manifest.get('manifest_version', 'Unknown'),
-                        framework_name=self.manifest.get('guardian_framework', {}).get('name', 'Unknown'))
+            logger.info(
+                "Manifest details",
+                manifest_version=self.manifest.get("manifest_version", "Unknown"),
+                framework_name=self.manifest.get("guardian_framework", {}).get(
+                    "name", "Unknown"
+                ),
+            )
 
-            components = self.manifest.get('components', {})
+            components = self.manifest.get("components", {})
             for component, config in components.items():
-                status = "🟢 ENABLED" if config.get('enabled') else "🔴 DISABLED"
-                version = config.get('version', 'Unknown')
-                logger.info(f"   └─ {component} v{version}: {status}", component_name=component, component_version=version, component_status=status)
+                status = "🟢 ENABLED" if config.get("enabled") else "🔴 DISABLED"
+                version = config.get("version", "Unknown")
+                logger.info(
+                    f"   └─ {component} v{version}: {status}",
+                    component_name=component,
+                    component_version=version,
+                    component_status=status,
+                )
 
             # Integration rules
-            rules = self.manifest.get('integration_rules', {})
-            logger.info("Integration Configuration",
-                        drift_threshold_reflection=rules.get('drift_threshold_reflection', 'Not set'),
-                        emotional_weight_voice_threshold=rules.get('emotional_weight_voice_threshold', 'Not set'),
-                        dream_trigger_threshold=rules.get('dream_trigger_threshold', 'Not set'),
-                        coordination_mode=rules.get('coordination_mode', 'Not set'))
+            rules = self.manifest.get("integration_rules", {})
+            logger.info(
+                "Integration Configuration",
+                drift_threshold_reflection=rules.get(
+                    "drift_threshold_reflection", "Not set"
+                ),
+                emotional_weight_voice_threshold=rules.get(
+                    "emotional_weight_voice_threshold", "Not set"
+                ),
+                dream_trigger_threshold=rules.get("dream_trigger_threshold", "Not set"),
+                coordination_mode=rules.get("coordination_mode", "Not set"),
+            )
         else:
-            logger.warning("Manifest not loaded, skipping architecture details based on manifest.")
+            logger.warning(
+                "Manifest not loaded, skipping architecture details based on manifest."
+            )
 
         await asyncio.sleep(2)
 
     async def _demo_remediator_agent(self):
         """Demonstrate Remediator Agent capabilities"""
-        logger.info("\n" + "="*70)
+        logger.info("\n" + "=" * 70)
         logger.info("🛡️ PHASE 2: REMEDIATOR AGENT v1.0.0 CAPABILITIES")
-        logger.info("="*70)
+        logger.info("=" * 70)
 
         try:
             # Import RemediationLevel for comparisons
             # ΛIMPORT_TODO: This import is repeated, ensure it's handled by the main component import or make it relative.
-            from remediator_agent import RemediationLevel
 
             # Test drift score analysis
             test_drift_scores = [0.3, 0.6, 0.8, 0.95]
@@ -182,29 +209,39 @@ class GuardianSystemDemo:
 
                 # Simulate system metrics for assessment
                 metrics = {
-                    'drift_score': drift_score,
-                    'performance': 1.0 - drift_score,
-                    'memory_usage': 0.5 + drift_score * 0.3,
-                    'error_rate': drift_score * 0.1
+                    "drift_score": drift_score,
+                    "performance": 1.0 - drift_score,
+                    "memory_usage": 0.5 + drift_score * 0.3,
+                    "error_rate": drift_score * 0.1,
                 }
 
                 # Analyze with remediator agent
                 assessment = self.remediator_agent.assess_system_state(metrics)
                 remediation_level, issues = assessment
-                logger.info("Remediation assessment", remediation_level=remediation_level.value, issues_found=len(issues))
+                logger.info(
+                    "Remediation assessment",
+                    remediation_level=remediation_level.value,
+                    issues_found=len(issues),
+                )
 
                 # If action required, demonstrate remediation
                 if remediation_level.value != "normal":
                     health_check = self.remediator_agent.check_system_health(metrics)
-                    logger.info("Health check performed", health_severity=health_check.severity.value)
+                    logger.info(
+                        "Health check performed",
+                        health_severity=health_check.severity.value,
+                    )
 
                 await asyncio.sleep(1)
 
             # Demonstrate agent status monitoring
             status = self.remediator_agent.get_agent_status()
-            logger.info("Agent Status Assessment", agent_status=status.get('status', 'Unknown'),
-                        uptime_hours=status.get('uptime_hours', 'Unknown'),
-                        events_processed=status.get('events_processed', 'Unknown'))
+            logger.info(
+                "Agent Status Assessment",
+                agent_status=status.get("status", "Unknown"),
+                uptime_hours=status.get("uptime_hours", "Unknown"),
+                events_processed=status.get("events_processed", "Unknown"),
+            )
 
         except Exception as e:
             logger.error("Remediator Agent demonstration failed", error=str(e))
@@ -214,47 +251,72 @@ class GuardianSystemDemo:
 
     async def _demo_reflection_layer(self):
         """Demonstrate Reflection Layer capabilities"""
-        logger.info("\n" + "="*70)
+        logger.info("\n" + "=" * 70)
         logger.info("🎭 PHASE 3: REFLECTION LAYER v1.0.0 CAPABILITIES")
-        logger.info("="*70)
+        logger.info("=" * 70)
 
         try:
             # Test symbolic conscience generation
             test_scenarios = [
-                {'drift_score': 0.3, 'context': 'routine_operation'},
-                {'drift_score': 0.7, 'context': 'moderate_drift_detected'},
-                {'drift_score': 0.9, 'context': 'critical_intervention_needed'}
+                {"drift_score": 0.3, "context": "routine_operation"},
+                {"drift_score": 0.7, "context": "moderate_drift_detected"},
+                {"drift_score": 0.9, "context": "critical_intervention_needed"},
             ]
 
             for scenario in test_scenarios:
-                logger.info("Generating symbolic conscience", scenario_context=scenario['context'], drift_score=scenario['drift_score'])
+                logger.info(
+                    "Generating symbolic conscience",
+                    scenario_context=scenario["context"],
+                    drift_score=scenario["drift_score"],
+                )
                 # ΛDRIFT_POINT: Reflection Layer processing simulated drift score.
 
                 # Generate reflection
-                reflection = self.reflection_layer.reflect_on_drift_score(scenario['drift_score'], [0.3, 0.4, scenario['drift_score']])
-                logger.info("Reflection generated", statement_preview=reflection.content[:100],
-                            emotional_weight=reflection.emotional_weight, symbolic_mood=reflection.symbolic_mood.value)
+                reflection = self.reflection_layer.reflect_on_drift_score(
+                    scenario["drift_score"], [0.3, 0.4, scenario["drift_score"]]
+                )
+                logger.info(
+                    "Reflection generated",
+                    statement_preview=reflection.content[:100],
+                    emotional_weight=reflection.emotional_weight,
+                    symbolic_mood=reflection.symbolic_mood.value,
+                )
 
                 # Check for voice alerts
                 if reflection.emotional_weight > 0.7:
-                    logger.info("Voice alert triggered for high emotional weight", emotional_weight=reflection.emotional_weight)
+                    logger.info(
+                        "Voice alert triggered for high emotional weight",
+                        emotional_weight=reflection.emotional_weight,
+                    )
                     # ΛCAUTION: High emotional weight detected, potential for system instability or significant event.
 
                 await asyncio.sleep(1.5)
 
             # Demonstrate ethical contemplation
             logger.info("Ethical Contemplation Demonstration")
-            ethical_reflection = self.reflection_layer.contemplate_ethical_conflict("autonomy vs safety", ["user", "system"], 0.6)
-            logger.info("Ethical contemplation result", statement_preview=ethical_reflection.content[:100])
+            ethical_reflection = self.reflection_layer.contemplate_ethical_conflict(
+                "autonomy vs safety", ["user", "system"], 0.6
+            )
+            logger.info(
+                "Ethical contemplation result",
+                statement_preview=ethical_reflection.content[:100],
+            )
 
             # Demonstrate future modeling
             logger.info("Future Scenario Modeling")
-            future_model = self.reflection_layer.model_symbolic_future("drift_escalation", 0.7, 0.8)
-            logger.info("Future model result", scenario="drift_escalation", probability=0.7, impact_preview=future_model.content[:50])
+            future_model = self.reflection_layer.model_symbolic_future(
+                "drift_escalation", 0.7, 0.8
+            )
+            logger.info(
+                "Future model result",
+                scenario="drift_escalation",
+                probability=0.7,
+                impact_preview=future_model.content[:50],
+            )
 
             # Show consciousness trends
             trends = self.reflection_layer.get_consciousness_trend()
-            logger.info("Consciousness Trend", trend=trends.get('trend', 'Unknown'))
+            logger.info("Consciousness Trend", trend=trends.get("trend", "Unknown"))
 
         except Exception as e:
             logger.error("Reflection Layer demonstration failed", error=str(e))
@@ -264,51 +326,78 @@ class GuardianSystemDemo:
 
     async def _demo_integration_patterns(self):
         """Demonstrate integration patterns between components"""
-        logger.info("\n" + "="*70)
+        logger.info("\n" + "=" * 70)
         logger.info("🔗 PHASE 4: INTEGRATION PATTERNS")
-        logger.info("="*70)
+        logger.info("=" * 70)
 
         if self.remediator_agent and self.reflection_layer:
             try:
                 # Import RemediationLevel for comparisons
                 # ΛIMPORT_TODO: This import is repeated, ensure it's handled by the main component import or make it relative.
-                from remediator_agent import RemediationLevel
 
                 # Simulate a drift event that triggers both systems
                 test_drift = 0.75
-                logger.info("Simulating integrated response to drift score", drift_score=test_drift)
+                logger.info(
+                    "Simulating integrated response to drift score",
+                    drift_score=test_drift,
+                )
                 # ΛDRIFT_POINT: Simulating integrated response to a significant drift event.
 
                 # Remediator analysis
                 metrics = {
-                    'drift_score': test_drift,
-                    'performance': 1.0 - test_drift,
-                    'memory_usage': 0.5 + test_drift * 0.3,
-                    'error_rate': test_drift * 0.1
+                    "drift_score": test_drift,
+                    "performance": 1.0 - test_drift,
+                    "memory_usage": 0.5 + test_drift * 0.3,
+                    "error_rate": test_drift * 0.1,
                 }
-                remediation_level, issues = self.remediator_agent.assess_system_state(metrics)
-                logger.info("Remediator assessment for integration", remediation_level=remediation_level.value, issues_found=len(issues))
+                remediation_level, issues = self.remediator_agent.assess_system_state(
+                    metrics
+                )
+                logger.info(
+                    "Remediator assessment for integration",
+                    remediation_level=remediation_level.value,
+                    issues_found=len(issues),
+                )
 
                 # Reflection layer response
-                reflection = self.reflection_layer.reflect_on_drift_score(test_drift, [0.5, 0.6, test_drift])
-                logger.info("Reflection layer response for integration", symbolic_mood=reflection.symbolic_mood.value, emotional_weight=reflection.emotional_weight)
+                reflection = self.reflection_layer.reflect_on_drift_score(
+                    test_drift, [0.5, 0.6, test_drift]
+                )
+                logger.info(
+                    "Reflection layer response for integration",
+                    symbolic_mood=reflection.symbolic_mood.value,
+                    emotional_weight=reflection.emotional_weight,
+                )
 
                 # Integration decision logic
                 critical_levels = ["critical", "emergency", "warning"]
-                if remediation_level.value in critical_levels and reflection.emotional_weight > 0.6:
-                    logger.info("INTEGRATION TRIGGER: Both systems recommend intervention")
-                    logger.info("Coordinated Response: Dream simulation + Remediation action")
+                if (
+                    remediation_level.value in critical_levels
+                    and reflection.emotional_weight > 0.6
+                ):
+                    logger.info(
+                        "INTEGRATION TRIGGER: Both systems recommend intervention"
+                    )
+                    logger.info(
+                        "Coordinated Response: Dream simulation + Remediation action"
+                    )
                     # ΛPHASE_NODE: Coordinated response triggered by high drift and emotional weight.
 
                     # Simulate dream trigger
                     # ΛDREAM_LOOP: Triggering dream simulation as part of integrated response.
                     dream_trigger_payload = {
-                        'drift_score': test_drift,
-                        'remediation_needed': True,
-                        'emotional_weight': reflection.emotional_weight
+                        "drift_score": test_drift,
+                        "remediation_needed": True,
+                        "emotional_weight": reflection.emotional_weight,
                     }
-                    dream_trigger = self.reflection_layer.trigger_dream_simulation(dream_trigger_payload)
-                    logger.info("Dream Simulation triggered", status=dream_trigger.get('status', 'triggered'), payload=dream_trigger_payload)
+                    dream_trigger = self.reflection_layer.trigger_dream_simulation(
+                        dream_trigger_payload
+                    )
+                    logger.info(
+                        "Dream Simulation triggered",
+                        status=dream_trigger.get("status", "triggered"),
+                        payload=dream_trigger_payload,
+                    )
 
                     # Execute remediation
                     health_event = self.remediator_agent.check_system_health(metrics)
@@ -318,8 +407,11 @@ class GuardianSystemDemo:
                         logger.info("Remediation: Failed or not needed")
                         # ΛCAUTION: Remediation indicated but failed or not executed, system might remain in undesirable state.
                 else:
-                    logger.info("No coordinated intervention triggered by this integration scenario.", remediation_level=remediation_level.value, emotional_weight=reflection.emotional_weight)
-
+                    logger.info(
+                        "No coordinated intervention triggered by this integration scenario.",
+                        remediation_level=remediation_level.value,
+                        emotional_weight=reflection.emotional_weight,
+                    )
 
             except Exception as e:
                 logger.error("Integration demonstration failed", error=str(e))
@@ -331,13 +423,13 @@ class GuardianSystemDemo:
 
     async def _demo_production_readiness(self):
         """Assess production readiness of the Guardian System"""
-        logger.info("\n" + "="*70)
+        logger.info("\n" + "=" * 70)
         logger.info("🏭 PHASE 5: PRODUCTION READINESS ASSESSMENT")
-        logger.info("="*70)
+        logger.info("=" * 70)
         # ΛPHASE_NODE: Production Readiness Assessment Start.
 
         readiness_score = 0
-        total_checks = 6 # Adjusted if more checks added
+        total_checks = 6  # Adjusted if more checks added
 
         # Check 1: Component availability
         if self.remediator_agent:
@@ -381,11 +473,15 @@ class GuardianSystemDemo:
         logger.info("   └─ Memoria System: Not connected (placeholder)")
         logger.info("   └─ Voice Pack: Not connected (placeholder)")
         logger.info("   └─ Dream Engine: Not connected (placeholder)")
-        readiness_score +=1 # Placeholder for now, assuming it passes if other checks are good.
+        readiness_score += (
+            1  # Placeholder for now, assuming it passes if other checks are good.
+        )
 
         # Final assessment
         readiness_percentage = (readiness_score / total_checks) * 100
-        logger.info("PRODUCTION READINESS", readiness_percentage=f"{readiness_percentage:.1f}%")
+        logger.info(
+            "PRODUCTION READINESS", readiness_percentage=f"{readiness_percentage:.1f}%"
+        )
 
         status_message = ""
         if readiness_percentage >= 80:
@@ -396,14 +492,15 @@ class GuardianSystemDemo:
             status_message = "🔴 STATUS: DEVELOPMENT MODE ONLY"
         logger.info(status_message)
 
-
         # Next steps
-        logger.info("NEXT STEPS FOR FULL DEPLOYMENT",
-                    step1="Connect to LUKHAS Intent Node infrastructure",
-                    step2="Integrate with Memoria system for dream replay",
-                    step3="Enable Voice Pack for audio consciousness alerts",
-                    step4="Implement quantum security protocols",
-                    step5="Deploy real-time monitoring dashboard")
+        logger.info(
+            "NEXT STEPS FOR FULL DEPLOYMENT",
+            step1="Connect to LUKHAS Intent Node infrastructure",
+            step2="Integrate with Memoria system for dream replay",
+            step3="Enable Voice Pack for audio consciousness alerts",
+            step4="Implement quantum security protocols",
+            step5="Deploy real-time monitoring dashboard",
+        )
         # ΛPHASE_NODE: Production Readiness Assessment End.
 
 
@@ -414,7 +511,8 @@ async def main():
 
 
 if __name__ == "__main__":
-    print("""
+    print(
+        """
     ┌─────────────────────────────────────────────────────────────┐
     │                 🛡️ GUARDIAN SYSTEM v1.0.0                   │
     │                   COMPLETE DEMONSTRATION                    │
@@ -423,7 +521,8 @@ if __name__ == "__main__":
     │  🎯 Status: Production-Ready Symbolic AGI Governance        │
     │  📋 Integration: LUKHAS Infrastructure Ready                │
     └─────────────────────────────────────────────────────────────┘
-    """)
+    """
+    )
 
     asyncio.run(main())
 

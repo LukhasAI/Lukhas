@@ -35,30 +35,34 @@
 """
 
 import asyncio
-import logging
 import hashlib
 import json
-from typing import Dict, Any, Optional, List
-from enum import Enum
+import logging
+from dataclasses import dataclass
 from datetime import datetime
-from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger("bio_oscillator")
+
 
 @dataclass
 class SecurityContext:
     """Security context for LUKHAS_ID verification"""
+
     lukhas_id: str
     access_level: int
     session_token: str
     verification_data: Dict[str, Any]
 
+
 class OscillationType(Enum):
-    DELTA = "delta"      # 0.5-4 Hz: Deep processing
-    THETA = "theta"      # 4-8 Hz: Memory formation
-    ALPHA = "alpha"      # 8-13 Hz: Idle synchronization
-    BETA = "beta"       # 13-32 Hz: Active processing
-    GAMMA = "gamma"     # 32+ Hz: Peak cognition
+    DELTA = "delta"  # 0.5-4 Hz: Deep processing
+    THETA = "theta"  # 4-8 Hz: Memory formation
+    ALPHA = "alpha"  # 8-13 Hz: Idle synchronization
+    BETA = "beta"  # 13-32 Hz: Active processing
+    GAMMA = "gamma"  # 32+ Hz: Peak cognition
+
 
 class OscillatorState(Enum):
     INACTIVE = "inactive"
@@ -67,6 +71,7 @@ class OscillatorState(Enum):
     PEAK = "peak"
     RESTING = "resting"
 
+
 # ΛLOCKED: bio_resilience
 # ΛTAG: phase_control
 class BioOscillator:
@@ -74,8 +79,9 @@ class BioOscillator:
     Bio-inspired oscillator for coordinating system-wide processing rhythms.
     Implements biological neural oscillation patterns for coordinated processing.
     """
+
     MAX_ENDOCRINE_VARIANCE = 0.5
-    MOOD_LOCK_TIMEOUT = 60 # seconds
+    MOOD_LOCK_TIMEOUT = 60  # seconds
     MAX_PHASE_SHIFT = 0.5
 
     def __init__(self, simulate_trauma_lock=False, auto_regulate_neuroplasticity=False):
@@ -107,12 +113,14 @@ class BioOscillator:
 
         logger.info("Bio-oscillator initialized")
 
-    async def start_oscillation(self,
-                              oscillation_type: OscillationType,
-                              initial_frequency: Optional[float] = None) -> bool:
+    async def start_oscillation(
+        self,
+        oscillation_type: OscillationType,
+        initial_frequency: Optional[float] = None,
+    ) -> bool:
         """Start oscillation at specified frequency"""
-        #ΛTAG: bio
-        #ΛTAG: pulse
+        # ΛTAG: bio
+        # ΛTAG: pulse
         if not self._check_verification():
             logger.error("Verification required")
             return False
@@ -130,9 +138,11 @@ class BioOscillator:
 
     async def _synchronize(self) -> None:
         """Synchronize all connected components"""
-        #ΛTAG: bio
-        #ΛTAG: pulse
-        logger.info(f"Synchronizing to {self.oscillation_type} at {self.target_frequency}Hz")
+        # ΛTAG: bio
+        # ΛTAG: pulse
+        logger.info(
+            f"Synchronizing to {self.oscillation_type} at {self.target_frequency}Hz"
+        )
 
         self.current_frequency = self.target_frequency
         self.state = OscillatorState.ACTIVE
@@ -143,14 +153,16 @@ class BioOscillator:
 
     async def _sync_component(self, component_id: str) -> None:
         """Synchronize a specific component"""
-        #ΛTAG: bio
-        #ΛTAG: pulse
+        # ΛTAG: bio
+        # ΛTAG: pulse
         if component_id not in self.synced_components:
             logger.warning(f"Component {component_id} not registered")
             return
 
         # Calculate phase relation
-        self.phase_relations[component_id] = self._calculate_phase_relation(component_id)
+        self.phase_relations[component_id] = self._calculate_phase_relation(
+            component_id
+        )
 
     def _calculate_phase_relation(self, component_id: str) -> float:
         """Calculate phase relationship for a component"""
@@ -160,19 +172,19 @@ class BioOscillator:
     def _get_default_frequency(self, oscillation_type: OscillationType) -> float:
         """Get default frequency for oscillation type"""
         frequencies = {
-            OscillationType.DELTA: 2.0,    # Center of delta range
-            OscillationType.THETA: 6.0,    # Center of theta range
-            OscillationType.ALPHA: 10.0,   # Center of alpha range
-            OscillationType.BETA: 20.0,    # Center of beta range
-            OscillationType.GAMMA: 40.0,   # Baseline gamma
+            OscillationType.DELTA: 2.0,  # Center of delta range
+            OscillationType.THETA: 6.0,  # Center of theta range
+            OscillationType.ALPHA: 10.0,  # Center of alpha range
+            OscillationType.BETA: 20.0,  # Center of beta range
+            OscillationType.GAMMA: 40.0,  # Baseline gamma
         }
         return frequencies[oscillation_type]
 
-    async def register_component(self,
-                               component_id: str,
-                               sync_factor: float = 1.0) -> bool:
+    async def register_component(
+        self, component_id: str, sync_factor: float = 1.0
+    ) -> bool:
         """Register a component for oscillation synchronization"""
-        #ΛTAG: bio
+        # ΛTAG: bio
         if not self._check_verification():
             logger.error("Verification required")
             return False
@@ -189,8 +201,8 @@ class BioOscillator:
 
     async def adjust_frequency(self, new_frequency: float) -> None:
         """Smoothly adjust oscillation frequency"""
-        #ΛTAG: bio
-        #ΛTAG: pulse
+        # ΛTAG: bio
+        # ΛTAG: pulse
         if not self._check_verification():
             logger.error("Verification required")
             return
@@ -212,9 +224,15 @@ class BioOscillator:
             "quantum_sync": self.quantum_sync,
             "timestamp": datetime.utcnow().isoformat(),
             "verification": {
-                "identity_legacy": self._security_context.lukhas_id if self._security_context else None,
-                "access_level": self._security_context.access_level if self._security_context else None
-            }
+                "identity_legacy": (
+                    self._security_context.lukhas_id if self._security_context else None
+                ),
+                "access_level": (
+                    self._security_context.access_level
+                    if self._security_context
+                    else None
+                ),
+            },
         }
 
     async def verify_lukhas_id(self, security_context: SecurityContext) -> bool:
@@ -227,7 +245,9 @@ class BioOscillator:
 
             # Verify access level
             if security_context.access_level < 2:  # Require level 2+
-                logger.error(f"Insufficient access level: {security_context.access_level}")
+                logger.error(
+                    f"Insufficient access level: {security_context.access_level}"
+                )
                 return False
 
             # Verify session token
@@ -270,7 +290,7 @@ class BioOscillator:
         token_data = {
             "identity_legacy": self._security_context.lukhas_id,
             "timestamp": datetime.utcnow().isoformat(),
-            "type": "bio_oscillator"
+            "type": "bio_oscillator",
         }
 
         return hashlib.sha256(
@@ -281,7 +301,7 @@ class BioOscillator:
         """Check if oscillator has valid verification"""
         return bool(self._verified and self._security_context)
 
-    #ΛTAG: neuroplastic_event
+    # ΛTAG: neuroplastic_event
     def register_neuroplastic_event(self, event_type: str):
         """
         Registers a neuroplastic event and adjusts the oscillator's state accordingly.
@@ -322,12 +342,14 @@ class MoodOscillator(BioOscillator):
             drift_score: The current drift score.
         """
         # #ΛTAG: endocrine_debug
-        logger.info(f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}")
+        logger.info(
+            f"Updating mood with affect_delta: {affect_delta} and drift_score: {drift_score}"
+        )
         self.affect_delta = affect_delta
         self.driftScore = drift_score
 
-        #ΛLOCKED: trauma_block
-        #ΛTAG: override_fallback
+        # ΛLOCKED: trauma_block
+        # ΛTAG: override_fallback
         if self.simulate_trauma_lock and self.driftScore > 0.8:
             self.mood_state = "trauma_lock"
             self.mood_intensity = 1.0
@@ -353,7 +375,9 @@ class MoodOscillator(BioOscillator):
 
         if self.auto_regulate_neuroplasticity:
             self.sync_threshold = 0.85 - (self.driftScore * 0.1)
-            logger.info(f"Neuroplasticity adjusted sync_threshold to {self.sync_threshold}")
+            logger.info(
+                f"Neuroplasticity adjusted sync_threshold to {self.sync_threshold}"
+            )
 
         # #ΛTAG: endocrine_debug
         logger.info(f"New mood: {self.mood_state} with intensity {self.mood_intensity}")
@@ -376,9 +400,11 @@ class MoodOscillator(BioOscillator):
         affect_delta = sum(emotional_context.values()) / len(emotional_context)
         self.update_mood(affect_delta, self.driftScore)
 
-    #LUKHAS_TAG: bio_drift_response
-    #ΛTAG: hormone_tuning
-    def bio_drift_response(self, emotional_signals: Dict[str, float]) -> Dict[str, float]:
+    # LUKHAS_TAG: bio_drift_response
+    # ΛTAG: hormone_tuning
+    def bio_drift_response(
+        self, emotional_signals: Dict[str, float]
+    ) -> Dict[str, float]:
         """
         Receives emotional signals and returns drift-adjusted pulse data.
 
@@ -392,16 +418,20 @@ class MoodOscillator(BioOscillator):
             return {
                 "frequency": self._get_default_frequency(OscillationType.DELTA),
                 "amplitude": 0.1,
-                "variability": 0.0
+                "variability": 0.0,
             }
 
-        affect_delta = sum(emotional_signals.values()) / len(emotional_signals) if emotional_signals else 0.0
+        affect_delta = (
+            sum(emotional_signals.values()) / len(emotional_signals)
+            if emotional_signals
+            else 0.0
+        )
         self.update_mood(affect_delta, self.driftScore)
 
         return {
             "frequency": self.target_frequency,
             "amplitude": affect_delta,
-            "variability": 1.0 - self.driftScore
+            "variability": 1.0 - self.driftScore,
         }
 
 

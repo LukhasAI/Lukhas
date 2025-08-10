@@ -1,6 +1,6 @@
-from fastapi import APIRouter
 from datetime import datetime
 
+from fastapi import APIRouter
 from interfaces.api.v1.rest.models import MetricsResponse
 
 router = APIRouter()

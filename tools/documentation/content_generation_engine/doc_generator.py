@@ -3,50 +3,54 @@ Documentation Generation Engine
 Implements intelligent documentation generation with Lukhas AGI capabilities.
 """
 
-import logging
-from typing import Dict, Any, List, Optional
-from pathlib import Path
 import ast
+import logging
+from pathlib import Path
+from typing import Any, Optional
+
 import jinja2
 from pydantic import BaseModel
 
 from ..symbolic_knowledge_core.knowledge_graph import (
-    SystemKnowledgeGraph,
     NodeType,
     RelationshipType,
-    SKGNode
+    SKGNode,
+    SystemKnowledgeGraph,
 )
 
 logger = logging.getLogger(__name__)
 
+
 class DocSection(BaseModel):
     """Represents a section of generated documentation."""
+
     title: str
     content: str
     section_type: str
-    metadata: Dict[str, Any] = {}
-    subsections: List['DocSection'] = []
+    metadata: dict[str, Any] = {}
+    subsections: list["DocSection"] = []
     importance_score: float = 1.0
     complexity_level: int = 1
 
+
 class DocumentationConfig(BaseModel):
     """Configuration for documentation generation."""
+
     output_format: str = "markdown"
     include_examples: bool = True
     complexity_level: int = 1
     cultural_context: Optional[str] = None
     voice_enabled: bool = False
-    bio_oscillator_data: Optional[Dict[str, Any]] = None
-    template_overrides: Optional[Dict[str, str]] = None
+    bio_oscillator_data: Optional[dict[str, Any]] = None
+    template_overrides: Optional[dict[str, str]] = None
+
 
 class DocGenerator:
     """
     Core documentation generation engine that integrates with Lukhas AGI capabilities.
     """
 
-    def __init__(self,
-                 skg: SystemKnowledgeGraph,
-                 template_dir: Optional[str] = None):
+    def __init__(self, skg: SystemKnowledgeGraph, template_dir: Optional[str] = None):
         self.skg = skg
 
         # Set up template engine
@@ -54,18 +58,18 @@ class DocGenerator:
         self.template_env = jinja2.Environment(
             loader=jinja2.FileSystemLoader(str(template_path)),
             trim_blocks=True,
-            lstrip_blocks=True
+            lstrip_blocks=True,
         )
 
         # Register custom filters
-        self.template_env.filters['format_type'] = self._format_type_name
-        self.template_env.filters['sanitize_markdown'] = self._sanitize_markdown
+        self.template_env.filters["format_type"] = self._format_type_name
+        self.template_env.filters["sanitize_markdown"] = self._sanitize_markdown
 
         logger.info(f"DocGenerator initialized with template path: {template_path}")
 
-    def generate_documentation(self,
-                            source_path: str,
-                            config: DocumentationConfig) -> str:
+    def generate_documentation(
+        self, source_path: str, config: DocumentationConfig
+    ) -> str:
         """
         Generate comprehensive documentation for a given source.
         Uses Lukhas's intelligence to structure and present information optimally.
@@ -92,14 +96,14 @@ class DocGenerator:
 
     def _analyze_source(self, source_path: str):
         """Analyze source code and build the knowledge graph."""
-        if source_path.endswith('.py'):
+        if source_path.endswith(".py"):
             self._analyze_python_file(source_path)
         # Add handlers for other file types as needed
 
     def _analyze_python_file(self, file_path: str):
         """Analyze a Python file and update the knowledge graph."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 tree = ast.parse(f.read())
 
             # Process module-level docstring
@@ -109,7 +113,7 @@ class DocGenerator:
                     node_type=NodeType.MODULE,
                     name=Path(file_path).stem,
                     description=ast.get_docstring(tree),
-                    source_location=file_path
+                    source_location=file_path,
                 )
                 self.skg.add_node(module_node)
 
@@ -137,9 +141,11 @@ class DocGenerator:
             source_location=file_path,
             properties={
                 "line_number": node.lineno,
-                "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
-                "bases": [b.id for b in node.bases if isinstance(b, ast.Name)]
-            }
+                "decorators": [
+                    d.id for d in node.decorator_list if isinstance(d, ast.Name)
+                ],
+                "bases": [b.id for b in node.bases if isinstance(b, ast.Name)],
+            },
         )
         self.skg.add_node(class_node)
 
@@ -148,10 +154,12 @@ class DocGenerator:
             if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 self._process_function(item, file_path, class_id)
 
-    def _process_function(self,
-                         node: ast.FunctionDef | ast.AsyncFunctionDef,
-                         file_path: str,
-                         parent_id: Optional[str] = None):
+    def _process_function(
+        self,
+        node: ast.FunctionDef | ast.AsyncFunctionDef,
+        file_path: str,
+        parent_id: Optional[str] = None,
+    ):
         """Process a function definition and add it to the knowledge graph."""
         func_id = f"{parent_id or file_path}::{node.name}"
 
@@ -173,20 +181,24 @@ class DocGenerator:
             properties={
                 "line_number": node.lineno,
                 "is_async": isinstance(node, ast.AsyncFunctionDef),
-                "decorators": [d.id for d in node.decorator_list if isinstance(d, ast.Name)],
+                "decorators": [
+                    d.id for d in node.decorator_list if isinstance(d, ast.Name)
+                ],
                 "arguments": args_info,
-                "returns": returns_type
-            }
+                "returns": returns_type,
+            },
         )
         self.skg.add_node(func_node)
 
         # Add relationship to parent if exists
         if parent_id:
-            self.skg.add_relationship(SKGRelationship(
-                source_id=parent_id,
-                target_id=func_id,
-                type=RelationshipType.CONTAINS
-            ))
+            self.skg.add_relationship(
+                SKGRelationship(
+                    source_id=parent_id,
+                    target_id=func_id,
+                    type=RelationshipType.CONTAINS,
+                )
+            )
 
     def _extract_type_hint(self, node: ast.AST) -> str:
         """Extract type hint information from AST node."""
@@ -200,14 +212,16 @@ class DocGenerator:
                     return f"{base}[{node.slice.id}]"
         return "Any"
 
-    def _process_arguments(self, args: ast.arguments) -> Dict[str, Any]:
+    def _process_arguments(self, args: ast.arguments) -> dict[str, Any]:
         """Process function arguments and their type hints."""
         processed_args = []
 
         for arg in args.args:
             arg_info = {
                 "name": arg.arg,
-                "type": self._extract_type_hint(arg.annotation) if arg.annotation else "Any"
+                "type": (
+                    self._extract_type_hint(arg.annotation) if arg.annotation else "Any"
+                ),
             }
             processed_args.append(arg_info)
 
@@ -215,10 +229,10 @@ class DocGenerator:
             "args": processed_args,
             "kwonly": len(args.kwonlyargs),
             "varargs": args.vararg.arg if args.vararg else None,
-            "kwargs": args.kwarg.arg if args.kwarg else None
+            "kwargs": args.kwarg.arg if args.kwarg else None,
         }
 
-    def _generate_sections(self, config: DocumentationConfig) -> List[DocSection]:
+    def _generate_sections(self, config: DocumentationConfig) -> list[DocSection]:
         """Generate documentation sections from the knowledge graph."""
         sections = []
 
@@ -229,22 +243,21 @@ class DocGenerator:
 
         return sections
 
-    def _generate_module_section(self,
-                               module_node: SKGNode,
-                               config: DocumentationConfig) -> DocSection:
+    def _generate_module_section(
+        self, module_node: SKGNode, config: DocumentationConfig
+    ) -> DocSection:
         """Generate documentation section for a module."""
         # Create main module section
         module_section = DocSection(
             title=f"Module: {module_node.name}",
             content=module_node.description or "",
             section_type="module",
-            metadata={"source_location": module_node.source_location}
+            metadata={"source_location": module_node.source_location},
         )
 
         # Add classes
         for class_node in self.skg.get_connected_nodes(
-            module_node.id,
-            RelationshipType.CONTAINS
+            module_node.id, RelationshipType.CONTAINS
         ):
             if class_node.node_type == NodeType.CLASS:
                 class_section = self._generate_class_section(class_node, config)
@@ -252,9 +265,9 @@ class DocGenerator:
 
         return module_section
 
-    def _generate_class_section(self,
-                              class_node: SKGNode,
-                              config: DocumentationConfig) -> DocSection:
+    def _generate_class_section(
+        self, class_node: SKGNode, config: DocumentationConfig
+    ) -> DocSection:
         """Generate documentation section for a class."""
         # Create class section
         class_section = DocSection(
@@ -263,14 +276,13 @@ class DocGenerator:
             section_type="class",
             metadata={
                 "source_location": class_node.source_location,
-                "properties": class_node.properties
-            }
+                "properties": class_node.properties,
+            },
         )
 
         # Add methods
         for method_node in self.skg.get_connected_nodes(
-            class_node.id,
-            RelationshipType.CONTAINS
+            class_node.id, RelationshipType.CONTAINS
         ):
             if method_node.node_type == NodeType.FUNCTION:
                 method_section = self._generate_function_section(method_node, config)
@@ -278,14 +290,16 @@ class DocGenerator:
 
         return class_section
 
-    def _generate_function_section(self,
-                                 func_node: SKGNode,
-                                 config: DocumentationConfig) -> DocSection:
+    def _generate_function_section(
+        self, func_node: SKGNode, config: DocumentationConfig
+    ) -> DocSection:
         """Generate documentation section for a function/method."""
         props = func_node.properties
 
         # Build signature
-        signature = self._build_function_signature(func_node.name, props.get("arguments", {}))
+        signature = self._build_function_signature(
+            func_node.name, props.get("arguments", {})
+        )
 
         # Create function section
         return DocSection(
@@ -294,11 +308,11 @@ class DocGenerator:
             section_type="function",
             metadata={
                 "source_location": func_node.source_location,
-                "properties": props
-            }
+                "properties": props,
+            },
         )
 
-    def _build_function_signature(self, name: str, args_info: Dict[str, Any]) -> str:
+    def _build_function_signature(self, name: str, args_info: dict[str, Any]) -> str:
         """Build a function signature string."""
         parts = []
 
@@ -319,9 +333,9 @@ class DocGenerator:
 
         return f"{name}({', '.join(parts)})"
 
-    def _enhance_with_lucas_patterns(self,
-                                   sections: List[DocSection],
-                                   config: DocumentationConfig) -> List[DocSection]:
+    def _enhance_with_lucas_patterns(
+        self, sections: list[DocSection], config: DocumentationConfig
+    ) -> list[DocSection]:
         """
         Apply Lukhas AGI patterns to enhance documentation quality.
         This could include:
@@ -334,8 +348,7 @@ class DocGenerator:
             # Adjust complexity if bio-oscillator data is available
             if config.bio_oscillator_data:
                 optimal_complexity = self._calculate_optimal_complexity(
-                    section,
-                    config.bio_oscillator_data
+                    section, config.bio_oscillator_data
                 )
                 section.complexity_level = optimal_complexity
 
@@ -351,9 +364,9 @@ class DocGenerator:
 
         return enhanced_sections
 
-    def _calculate_optimal_complexity(self,
-                                   section: DocSection,
-                                   bio_data: Dict[str, Any]) -> int:
+    def _calculate_optimal_complexity(
+        self, section: DocSection, bio_data: dict[str, Any]
+    ) -> int:
         """Calculate optimal complexity level based on bio-oscillator data."""
         # This would integrate with Lukhas's bio-oscillator
         base_complexity = section.complexity_level
@@ -363,14 +376,16 @@ class DocGenerator:
         optimal = base_complexity * attention_level * (1 - cognitive_load)
         return max(1, min(5, round(optimal)))
 
-    def _add_cultural_context(self,
-                            section: DocSection,
-                            cultural_context: str) -> DocSection:
+    def _add_cultural_context(
+        self, section: DocSection, cultural_context: str
+    ) -> DocSection:
         """Add cultural context to documentation content."""
         # This would use Lukhas's cultural adaptation system
         # For now, just add cultural-specific examples or explanations
         if section.content:
-            section.content += f"\n\nCultural Note: Adapted for {cultural_context} context."
+            section.content += (
+                f"\n\nCultural Note: Adapted for {cultural_context} context."
+            )
         return section
 
     def _prepare_for_voice(self, section: DocSection) -> DocSection:
@@ -380,17 +395,14 @@ class DocGenerator:
             section.title = f"<voice-emphasis>{section.title}</voice-emphasis>"
         return section
 
-    def _render_documentation(self,
-                            sections: List[DocSection],
-                            config: DocumentationConfig) -> str:
+    def _render_documentation(
+        self, sections: list[DocSection], config: DocumentationConfig
+    ) -> str:
         """Render final documentation using templates."""
         template_name = f"documentation.{config.output_format}.jinja2"
         template = self.template_env.get_template(template_name)
 
-        return template.render(
-            sections=sections,
-            config=config
-        )
+        return template.render(sections=sections, config=config)
 
     @staticmethod
     def _format_type_name(type_name: str) -> str:

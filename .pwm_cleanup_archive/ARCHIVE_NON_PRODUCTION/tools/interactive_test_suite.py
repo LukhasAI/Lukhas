@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Interactive Test Suite
@@ -22,19 +21,14 @@ transparency on mock modules and data, and comprehensive reporting.
 """
 
 import asyncio
-import importlib
 import json
-import os
 import subprocess
 import sys
 import time
-import traceback
-from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
-import openai
+from typing import Any, Dict, List, Optional
 
 # Rich terminal UI
 try:
@@ -58,10 +52,7 @@ except ImportError:
     from rich.console import Console
     from rich.layout import Layout
     from rich.live import Live
-    from rich.markdown import Markdown
     from rich.panel import Panel
-    from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn
-    from rich.syntax import Syntax
     from rich.table import Table
     from rich.tree import Tree
 

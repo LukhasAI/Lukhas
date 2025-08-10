@@ -4,10 +4,10 @@ Test Trauma Repair Integration
 Tests for memory trauma repair system integration
 """
 
-import pytest
-import asyncio
 import sys
 from pathlib import Path
+
+import pytest
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -18,33 +18,44 @@ class TestTraumaRepairIntegration:
 
     def test_trauma_repair_import(self):
         """Test that trauma repair can be imported"""
-        from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+        from memory.repair.trauma_repair_wrapper import (
+            get_memory_trauma_repair,
+        )
+
         assert get_memory_trauma_repair is not None
 
     def test_memory_hub_trauma_repair(self):
         """Test trauma repair integration in memory hub"""
         try:
             from memory.memory_hub import get_memory_hub
+
             hub = get_memory_hub()
 
             # Check if trauma repair is registered
-            if 'trauma_repair' in hub.services:
-                trauma_repair = hub.get_service('trauma_repair')
+            if "trauma_repair" in hub.services:
+                trauma_repair = hub.get_service("trauma_repair")
                 assert trauma_repair is not None
                 print("Trauma repair service found in hub")
             else:
                 print("Trauma repair service not found in hub services")
         except ImportError as e:
             # If memory hub has import issues, at least verify the service can be created
-            from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+            from memory.repair.trauma_repair_wrapper import (
+                get_memory_trauma_repair,
+            )
+
             trauma_repair = get_memory_trauma_repair()
             assert trauma_repair is not None
-            print(f"Memory hub import failed ({e}), but trauma repair service works standalone")
+            print(
+                f"Memory hub import failed ({e}), but trauma repair service works standalone"
+            )
 
     @pytest.mark.asyncio
     async def test_trauma_repair_functionality(self):
         """Test trauma repair basic functionality"""
-        from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+        from memory.repair.trauma_repair_wrapper import (
+            get_memory_trauma_repair,
+        )
 
         trauma_repair = get_memory_trauma_repair()
         if trauma_repair:
@@ -55,7 +66,7 @@ class TestTraumaRepairIntegration:
             result = await trauma_repair.scan_memory(
                 memory_id="test_memory_001",
                 memory_content={"data": "test content"},
-                context={"source": "test"}
+                context={"source": "test"},
             )
 
             assert isinstance(result, dict)
@@ -78,7 +89,9 @@ class TestTraumaRepairIntegration:
     @pytest.mark.asyncio
     async def test_forced_repair(self):
         """Test forced memory repair"""
-        from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+        from memory.repair.trauma_repair_wrapper import (
+            get_memory_trauma_repair,
+        )
 
         trauma_repair = get_memory_trauma_repair()
         if trauma_repair:
@@ -97,7 +110,9 @@ class TestTraumaRepairIntegration:
     @pytest.mark.asyncio
     async def test_memory_health_check(self):
         """Test memory health checking"""
-        from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+        from memory.repair.trauma_repair_wrapper import (
+            get_memory_trauma_repair,
+        )
 
         trauma_repair = get_memory_trauma_repair()
         if trauma_repair:
@@ -118,9 +133,9 @@ class TestTraumaRepairIntegration:
         """Test that mock implementation works"""
         try:
             from memory.repair.trauma_repair_mock import (
-                get_memory_trauma_repair,
+                RepairStrategy,
                 TraumaType,
-                RepairStrategy
+                get_memory_trauma_repair,
             )
 
             trauma_repair = get_memory_trauma_repair()
@@ -136,7 +151,9 @@ class TestTraumaRepairIntegration:
     @pytest.mark.asyncio
     async def test_healing_history(self):
         """Test healing history tracking"""
-        from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+        from memory.repair.trauma_repair_wrapper import (
+            get_memory_trauma_repair,
+        )
 
         trauma_repair = get_memory_trauma_repair()
         if trauma_repair:
@@ -146,7 +163,7 @@ class TestTraumaRepairIntegration:
             for i in range(5):
                 await trauma_repair.scan_memory(
                     memory_id=f"history_test_{i}",
-                    memory_content={"data": f"content_{i}"}
+                    memory_content={"data": f"content_{i}"},
                 )
 
             # Get healing history

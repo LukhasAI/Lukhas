@@ -1,4 +1,3 @@
 """
 Corequantumcreativemock Module
 """
-

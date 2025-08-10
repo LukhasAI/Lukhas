@@ -3,6 +3,7 @@
 # 🧠 PURPOSE: Terminal CLI to print the symbolic LUCAS AGI manifesto
 # ===============================================================
 
+
 def main():
     print("\n🌿 LUKHAS_AGI MANIFESTO — A Symbolic Promise")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -27,6 +28,7 @@ def main():
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 AGI with ethics. Intelligence with reflection.")
     print("🌍 Visit: https://www.whoislucas.com\n")
+
 
 if __name__ == "__main__":
     main()

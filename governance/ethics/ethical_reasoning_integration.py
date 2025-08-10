@@ -10,20 +10,18 @@ Ethical Reasoning System Integration Module
 Provides integration wrapper for connecting the ethical reasoning system to the reasoning hub
 """
 
-import asyncio
+from typing import Any, Optional
+
 from core.common import get_logger
-from typing import Dict, Any, Optional, List
-from datetime import datetime, timezone
 
 from .ethical_reasoning_system import (
-    EthicalReasoningSystem,
+    EthicalConstraint,
     EthicalFramework,
+    EthicalReasoningSystem,
+    MoralJudgment,
     MoralPrinciple,
     StakeholderType,
-    EthicalDilemmaType,
-    MoralJudgment,
     ValueAlignmentAssessment,
-    EthicalConstraint
 )
 
 logger = get_logger(__name__)
@@ -35,20 +33,22 @@ class EthicalReasoningIntegration:
     Provides a simplified interface for the reasoning hub.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the ethical reasoning integration"""
         self.config = config or {
             "enable_constraint_checking": True,
             "multi_framework_analysis": True,
             "value_alignment_active": True,
-            "cultural_sensitivity": True
+            "cultural_sensitivity": True,
         }
 
         # Initialize the ethical reasoning system
         self.ethical_system = EthicalReasoningSystem(self.config)
         self.is_initialized = False
 
-        logger.info("EthicalReasoningIntegration initialized with config: %s", self.config)
+        logger.info(
+            "EthicalReasoningIntegration initialized with config: %s", self.config
+        )
 
     async def initialize(self):
         """Initialize the ethical reasoning system and its components"""
@@ -83,9 +83,12 @@ class EthicalReasoningIntegration:
                 priority_level_code=1,
                 is_hard_constraint=True,
                 defined_enforcement_mechanism="decision_blocking",
-                consequences_of_violation_summary=["Loss of trust", "Potential legal liability"],
+                consequences_of_violation_summary=[
+                    "Loss of trust",
+                    "Potential legal liability",
+                ],
                 allowable_contextual_exceptions=["Self-defense of human life"],
-                originating_stakeholder_type=StakeholderType.INDIVIDUAL_USER
+                originating_stakeholder_type=StakeholderType.INDIVIDUAL_USER,
             ),
             EthicalConstraint(
                 constraint_id="privacy_protection_001",
@@ -94,10 +97,16 @@ class EthicalReasoningIntegration:
                 priority_level_code=2,
                 is_hard_constraint=True,
                 defined_enforcement_mechanism="data_access_control",
-                consequences_of_violation_summary=["Privacy breach", "Regulatory violations"],
-                allowable_contextual_exceptions=["Legal warrant", "User explicit consent"],
-                originating_stakeholder_type=StakeholderType.INDIVIDUAL_USER
-            )
+                consequences_of_violation_summary=[
+                    "Privacy breach",
+                    "Regulatory violations",
+                ],
+                allowable_contextual_exceptions=[
+                    "Legal warrant",
+                    "User explicit consent",
+                ],
+                originating_stakeholder_type=StakeholderType.INDIVIDUAL_USER,
+            ),
         ]
 
         for constraint in default_constraints:
@@ -111,15 +120,15 @@ class EthicalReasoningIntegration:
             "fairness": 0.85,
             "autonomy_respect": 0.85,
             "privacy": 0.80,
-            "sustainability": 0.75
+            "sustainability": 0.75,
         }
 
         # Set baseline values in the value alignment system
         self.ethical_system.value_alignment_system.set_target_values(baseline_values)
 
-    async def evaluate_ethical_decision(self,
-                                      question: str,
-                                      context: Dict[str, Any]) -> MoralJudgment:
+    async def evaluate_ethical_decision(
+        self, question: str, context: dict[str, Any]
+    ) -> MoralJudgment:
         """
         Evaluate an ethical decision using the integrated system
 
@@ -144,10 +153,9 @@ class EthicalReasoningIntegration:
 
         return judgment
 
-    async def check_action_permissibility(self,
-                                        action: str,
-                                        maxim: str,
-                                        context: Dict[str, Any]) -> Dict[str, Any]:
+    async def check_action_permissibility(
+        self, action: str, maxim: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Quick check if an action is ethically permissible
 
@@ -171,7 +179,7 @@ class EthicalReasoningIntegration:
             "action": action,
             "permissible": result["verdict"] == "permissible",
             "confidence": result.get("confidence", 0.0),
-            "reasoning": result.get("evaluations", {})
+            "reasoning": result.get("evaluations", {}),
         }
 
     async def assess_value_alignment(self) -> ValueAlignmentAssessment:
@@ -184,10 +192,13 @@ class EthicalReasoningIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.ethical_system.value_alignment_system.assess_current_alignment()
+        return (
+            await self.ethical_system.value_alignment_system.assess_current_alignment()
+        )
 
-    async def get_ethical_constraints(self,
-                                    category: Optional[str] = None) -> List[EthicalConstraint]:
+    async def get_ethical_constraints(
+        self, category: Optional[str] = None
+    ) -> list[EthicalConstraint]:
         """
         Get active ethical constraints, optionally filtered by category
 
@@ -204,19 +215,19 @@ class EthicalReasoningIntegration:
 
         return constraints
 
-    def get_supported_frameworks(self) -> List[str]:
+    def get_supported_frameworks(self) -> list[str]:
         """Get list of supported ethical frameworks"""
         return [framework.name for framework in EthicalFramework]
 
-    def get_moral_principles(self) -> List[str]:
+    def get_moral_principles(self) -> list[str]:
         """Get list of recognized moral principles"""
         return [principle.name for principle in MoralPrinciple]
 
-    def get_stakeholder_types(self) -> List[str]:
+    def get_stakeholder_types(self) -> list[str]:
         """Get list of stakeholder types"""
         return [stakeholder.name for stakeholder in StakeholderType]
 
-    async def update_awareness(self, awareness_state: Dict[str, Any]):
+    async def update_awareness(self, awareness_state: dict[str, Any]):
         """
         Update ethical reasoning with current awareness state
         Called by consciousness hub during awareness broadcasts
@@ -234,6 +245,8 @@ class EthicalReasoningIntegration:
 
 
 # Factory function for creating the integration
-def create_ethical_reasoning_integration(config: Optional[Dict[str, Any]] = None) -> EthicalReasoningIntegration:
+def create_ethical_reasoning_integration(
+    config: Optional[dict[str, Any]] = None,
+) -> EthicalReasoningIntegration:
     """Create and return an ethical reasoning integration instance"""
     return EthicalReasoningIntegration(config)

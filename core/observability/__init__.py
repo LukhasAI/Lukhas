@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .collector import Collector
+
     logger.debug("Imported Collector from .collector")
 except ImportError as e:
     logger.warning(f"Could not import Collector: {e}")
     Collector = None
 
 __all__ = [
-    'Collector',
+    "Collector",
 ]
 
 # Filter out None values from __all__ if imports failed

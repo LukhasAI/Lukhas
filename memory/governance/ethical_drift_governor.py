@@ -14,17 +14,13 @@ License:
   OpenAI-aligned AGI Symbolic Framework (internal use)
 """
 
-import json
 import hashlib
+import json
 import os
-from typing import Dict, Any, List, Optional, Set, Tuple
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-import structlog
-import openai
-
-from core.common import get_logger
+from typing import Any, Dict, List, Optional, Set
 
 
 class EthicalSeverity(Enum):

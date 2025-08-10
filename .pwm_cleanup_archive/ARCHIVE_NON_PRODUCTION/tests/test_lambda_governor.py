@@ -20,26 +20,23 @@ system-wide override capabilities for the LUKHAS AGI consciousness mesh.
 LUKHAS_TAG: governor_testing, arbitration_validation, claude_code
 """
 
-import pytest
 import asyncio
 import json
-import uuid
-from unittest.mock import Mock, AsyncMock, patch, mock_open
-from datetime import datetime, timezone, timedelta
-from pathlib import Path
-from typing import Dict, Any, List
+from datetime import datetime, timezone
+from unittest.mock import AsyncMock, patch
+
+import pytest
 
 # Import the governor system
 from ethics.governor.lambda_governor import (
-    LambdaGovernor,
-    EscalationSignal,
-    ArbitrationResponse,
     ActionDecision,
-    EscalationSource,
+    ArbitrationResponse,
     EscalationPriority,
-    InterventionExecution,
+    EscalationSignal,
+    EscalationSource,
+    LambdaGovernor,
+    create_escalation_signal,
     create_lambda_governor,
-    create_escalation_signal
 )
 
 
@@ -50,9 +47,7 @@ class TestLambdaGovernor:
     async def governor(self):
         """Create a test governor instance."""
         governor = LambdaGovernor(
-            response_timeout=1.0,
-            escalation_retention=10,
-            audit_log_retention=100
+            response_timeout=1.0, escalation_retention=10, audit_log_retention=100
         )
         yield governor
 
@@ -71,7 +66,7 @@ class TestLambdaGovernor:
             contradiction_density=0.4,
             memory_ids=["mem_001", "mem_002"],
             symbol_ids=["sym_001", "sym_002"],
-            context={"test": True}
+            context={"test": True},
         )
 
     def test_governor_initialization(self, governor):
@@ -92,8 +87,8 @@ class TestLambdaGovernor:
         mock_escalation_signal.contradiction_density = 0.1
         mock_escalation_signal.priority = EscalationPriority.LOW
 
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 response = await governor.receive_escalation(mock_escalation_signal)
 
         assert response.decision == ActionDecision.ALLOW
@@ -108,25 +103,30 @@ class TestLambdaGovernor:
         mock_escalation_signal.emotion_volatility = 0.6
         mock_escalation_signal.priority = EscalationPriority.MEDIUM
 
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 response = await governor.receive_escalation(mock_escalation_signal)
 
         assert response.decision in [ActionDecision.FREEZE, ActionDecision.QUARANTINE]
         assert "ΛINTERVENTION" in response.intervention_tags
 
-    async def test_receive_escalation_quarantine(self, governor, mock_escalation_signal):
+    async def test_receive_escalation_quarantine(
+        self, governor, mock_escalation_signal
+    ):
         """Test escalation processing resulting in QUARANTINE decision."""
         # Adjust signal for high risk
         mock_escalation_signal.drift_score = 0.8
         mock_escalation_signal.entropy = 0.9
         mock_escalation_signal.priority = EscalationPriority.HIGH
 
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 response = await governor.receive_escalation(mock_escalation_signal)
 
-        assert response.decision in [ActionDecision.QUARANTINE, ActionDecision.RESTRUCTURE]
+        assert response.decision in [
+            ActionDecision.QUARANTINE,
+            ActionDecision.RESTRUCTURE,
+        ]
         assert response.quarantine_scope is not None
         assert response.rollback_plan is not None
 
@@ -139,8 +139,8 @@ class TestLambdaGovernor:
         mock_escalation_signal.contradiction_density = 0.9
         mock_escalation_signal.priority = EscalationPriority.EMERGENCY
 
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 response = await governor.receive_escalation(mock_escalation_signal)
 
         assert response.decision == ActionDecision.SHUTDOWN
@@ -161,7 +161,9 @@ class TestLambdaGovernor:
         risk_score_with_history = await governor.evaluate_risk(mock_escalation_signal)
         assert risk_score_with_history > risk_score  # History should increase risk
 
-    async def test_evaluate_risk_with_state_factors(self, governor, mock_escalation_signal):
+    async def test_evaluate_risk_with_state_factors(
+        self, governor, mock_escalation_signal
+    ):
         """Test risk evaluation with system state factors."""
         # Add symbols to quarantine/frozen states
         governor.quarantined_symbols.add("sym_001")
@@ -188,7 +190,9 @@ class TestLambdaGovernor:
         decision = await governor.authorize_action(0.95, {})
         assert decision == ActionDecision.SHUTDOWN
 
-    async def test_log_governor_action(self, governor, mock_escalation_signal, tmp_path):
+    async def test_log_governor_action(
+        self, governor, mock_escalation_signal, tmp_path
+    ):
         """Test audit logging functionality."""
         # Use temporary log path
         governor.audit_log_path = tmp_path / "test_governor.jsonl"
@@ -202,7 +206,7 @@ class TestLambdaGovernor:
             risk_score=0.7,
             intervention_tags=["ΛTEST"],
             reasoning="Test reasoning",
-            affected_symbols=["sym_001"]
+            affected_symbols=["sym_001"],
         )
 
         await governor.log_governor_action(mock_escalation_signal, response)
@@ -211,7 +215,7 @@ class TestLambdaGovernor:
         assert governor.audit_log_path.exists()
 
         # Verify log content
-        with open(governor.audit_log_path, 'r') as f:
+        with open(governor.audit_log_path) as f:
             log_entry = json.loads(f.read().strip())
             assert log_entry["type"] == "governor_arbitration"
             assert "ΛGOVERNOR" in log_entry["ΛTAG"]
@@ -241,7 +245,7 @@ class TestLambdaGovernor:
             intervention_tags=[],
             reasoning="Test",
             affected_symbols=["sym_001"],
-            quarantine_scope={"test": True}
+            quarantine_scope={"test": True},
         )
 
         await governor.notify_mesh(mock_escalation_signal, response)
@@ -268,7 +272,7 @@ class TestLambdaGovernor:
             risk_score=0.5,
             intervention_tags=[],
             reasoning="Test",
-            affected_symbols=["sym_001", "sym_002"]
+            affected_symbols=["sym_001", "sym_002"],
         )
 
         execution = await governor._execute_intervention(response)
@@ -291,7 +295,7 @@ class TestLambdaGovernor:
             risk_score=0.7,
             intervention_tags=[],
             reasoning="Test",
-            affected_symbols=["sym_001"]
+            affected_symbols=["sym_001"],
         )
 
         execution = await governor._execute_intervention(response)
@@ -310,11 +314,13 @@ class TestLambdaGovernor:
             risk_score=0.8,
             intervention_tags=[],
             reasoning="Test",
-            affected_symbols=["sym_001"]
+            affected_symbols=["sym_001"],
         )
 
         # Mock execution failure
-        with patch.object(governor, '_execute_restructure', side_effect=Exception("Test error")):
+        with patch.object(
+            governor, "_execute_restructure", side_effect=Exception("Test error")
+        ):
             execution = await governor._execute_intervention(response)
 
         assert execution.execution_status == "failed"
@@ -324,11 +330,15 @@ class TestLambdaGovernor:
     def test_calculate_decision_confidence(self, governor, mock_escalation_signal):
         """Test decision confidence calculation."""
         # High risk score - high confidence
-        confidence = governor._calculate_decision_confidence(mock_escalation_signal, 0.9)
+        confidence = governor._calculate_decision_confidence(
+            mock_escalation_signal, 0.9
+        )
         assert confidence > 0.5
 
         # Moderate risk - lower confidence
-        confidence = governor._calculate_decision_confidence(mock_escalation_signal, 0.5)
+        confidence = governor._calculate_decision_confidence(
+            mock_escalation_signal, 0.5
+        )
         assert confidence < 0.8
 
         # Missing data - reduced confidence
@@ -340,18 +350,24 @@ class TestLambdaGovernor:
 
     def test_generate_intervention_tags(self, governor, mock_escalation_signal):
         """Test intervention tag generation."""
-        tags = governor._generate_intervention_tags(mock_escalation_signal, ActionDecision.FREEZE)
+        tags = governor._generate_intervention_tags(
+            mock_escalation_signal, ActionDecision.FREEZE
+        )
         assert "ΛINTERVENTION" in tags
         assert "ΛFREEZE_AUTHORIZED" in tags
         assert "ΛDRIFT_INTERVENTION" in tags
 
-        tags = governor._generate_intervention_tags(mock_escalation_signal, ActionDecision.SHUTDOWN)
+        tags = governor._generate_intervention_tags(
+            mock_escalation_signal, ActionDecision.SHUTDOWN
+        )
         assert "ΛSHUTDOWN_AUTHORIZED" in tags
         assert "ΛEMERGENCY_PROTOCOL" in tags
 
     def test_generate_reasoning(self, governor, mock_escalation_signal):
         """Test human-readable reasoning generation."""
-        reasoning = governor._generate_reasoning(mock_escalation_signal, 0.8, ActionDecision.QUARANTINE)
+        reasoning = governor._generate_reasoning(
+            mock_escalation_signal, 0.8, ActionDecision.QUARANTINE
+        )
         assert "Risk score 0.800" in reasoning
         assert "DRIFT_SENTINEL" in reasoning
         assert "requires memory isolation" in reasoning
@@ -360,35 +376,47 @@ class TestLambdaGovernor:
     def test_determine_quarantine_scope(self, governor, mock_escalation_signal):
         """Test quarantine scope determination."""
         # Test quarantine scope
-        scope = governor._determine_quarantine_scope(mock_escalation_signal, ActionDecision.QUARANTINE)
+        scope = governor._determine_quarantine_scope(
+            mock_escalation_signal, ActionDecision.QUARANTINE
+        )
         assert scope is not None
         assert scope["isolation_level"] == "selective"
         assert scope["duration"] == "24h"
 
         # Test shutdown scope
-        scope = governor._determine_quarantine_scope(mock_escalation_signal, ActionDecision.SHUTDOWN)
+        scope = governor._determine_quarantine_scope(
+            mock_escalation_signal, ActionDecision.SHUTDOWN
+        )
         assert scope["isolation_level"] == "full"
         assert scope["duration"] == "indefinite"
 
         # Test no scope for other decisions
-        scope = governor._determine_quarantine_scope(mock_escalation_signal, ActionDecision.ALLOW)
+        scope = governor._determine_quarantine_scope(
+            mock_escalation_signal, ActionDecision.ALLOW
+        )
         assert scope is None
 
     def test_create_rollback_plan(self, governor, mock_escalation_signal):
         """Test rollback plan creation."""
         # Test with intervention
-        plan = governor._create_rollback_plan(mock_escalation_signal, ActionDecision.FREEZE)
+        plan = governor._create_rollback_plan(
+            mock_escalation_signal, ActionDecision.FREEZE
+        )
         assert plan is not None
         assert plan["intervention_type"] == "FREEZE"
         assert len(plan["recovery_steps"]) == 4
         assert plan["conditions_for_rollback"]["manual_approval_required"] is False
 
         # Test shutdown requires manual approval
-        plan = governor._create_rollback_plan(mock_escalation_signal, ActionDecision.SHUTDOWN)
+        plan = governor._create_rollback_plan(
+            mock_escalation_signal, ActionDecision.SHUTDOWN
+        )
         assert plan["conditions_for_rollback"]["manual_approval_required"] is True
 
         # Test no plan for ALLOW
-        plan = governor._create_rollback_plan(mock_escalation_signal, ActionDecision.ALLOW)
+        plan = governor._create_rollback_plan(
+            mock_escalation_signal, ActionDecision.ALLOW
+        )
         assert plan is None
 
     def test_get_governor_status(self, governor):
@@ -419,12 +447,16 @@ class TestLambdaGovernor:
         assert governor.stats["decisions_by_type"]["QUARANTINE"] == 1
         assert governor.stats["average_response_time"] == pytest.approx(0.6, 0.01)
 
-    async def test_emergency_response_on_failure(self, governor, mock_escalation_signal):
+    async def test_emergency_response_on_failure(
+        self, governor, mock_escalation_signal
+    ):
         """Test emergency response when arbitration fails."""
         # Mock evaluation failure
-        with patch.object(governor, 'evaluate_risk', side_effect=Exception("Test failure")):
-            with patch.object(governor, 'log_governor_action') as mock_log:
-                with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(
+            governor, "evaluate_risk", side_effect=Exception("Test failure")
+        ):
+            with patch.object(governor, "log_governor_action") as mock_log:
+                with patch.object(governor, "notify_mesh") as mock_notify:
                     response = await governor.receive_escalation(mock_escalation_signal)
 
         assert response.decision == ActionDecision.FREEZE
@@ -452,7 +484,7 @@ class TestConvenienceFunctions:
             entropy=0.6,
             emotion_volatility=0.5,
             contradiction_density=0.4,
-            symbol_ids=["sym_001"]
+            symbol_ids=["sym_001"],
         )
 
         assert signal.source_module == EscalationSource.DRIFT_SENTINEL
@@ -480,21 +512,24 @@ class TestIntegrationScenarios:
                 entropy=0.85,
                 emotion_volatility=0.7,
                 contradiction_density=0.8,
-                symbol_ids=[f"cascade_sym_{i}"]
+                symbol_ids=[f"cascade_sym_{i}"],
             )
             signals.append(signal)
 
         # Process escalations
         responses = []
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 for signal in signals:
                     response = await governor.receive_escalation(signal)
                     responses.append(response)
 
         # Verify escalating interventions
         decisions = [r.decision for r in responses]
-        assert ActionDecision.QUARANTINE in decisions or ActionDecision.SHUTDOWN in decisions
+        assert (
+            ActionDecision.QUARANTINE in decisions
+            or ActionDecision.SHUTDOWN in decisions
+        )
 
         # Verify system state tracking
         assert len(governor.active_escalations) == 3
@@ -507,12 +542,12 @@ class TestIntegrationScenarios:
         sources = [
             EscalationSource.DRIFT_SENTINEL,
             EscalationSource.EMOTION_PROTOCOL,
-            EscalationSource.CONFLICT_RESOLVER
+            EscalationSource.CONFLICT_RESOLVER,
         ]
 
         responses = []
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 for source in sources:
                     signal = create_escalation_signal(
                         source_module=source,
@@ -522,7 +557,7 @@ class TestIntegrationScenarios:
                         entropy=0.5,
                         emotion_volatility=0.6,
                         contradiction_density=0.5,
-                        symbol_ids=["shared_symbol"]
+                        symbol_ids=["shared_symbol"],
                     )
                     response = await governor.receive_escalation(signal)
                     responses.append(response)
@@ -552,13 +587,13 @@ class TestGovernorPerformance:
                 entropy=0.5,
                 emotion_volatility=0.5,
                 contradiction_density=0.5,
-                symbol_ids=[f"load_sym_{i}"]
+                symbol_ids=[f"load_sym_{i}"],
             )
             signals.append(signal)
 
         # Process concurrently
-        with patch.object(governor, 'log_governor_action') as mock_log:
-            with patch.object(governor, 'notify_mesh') as mock_notify:
+        with patch.object(governor, "log_governor_action") as mock_log:
+            with patch.object(governor, "notify_mesh") as mock_notify:
                 tasks = [governor.receive_escalation(s) for s in signals]
                 responses = await asyncio.gather(*tasks)
 

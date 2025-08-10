@@ -17,17 +17,21 @@ Future features:
 - Enable symbolic filename generation
 """
 
-import json
-from pathlib import Path
-from datetime import datetime, timezone
-import sys
-import subprocess
 import argparse
+import json
 import os
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
 
 # Import security utilities
 try:
-    from core.interfaces.voice.core.sayit import safe_subprocess_run, SecurityError, get_env_var
+    from core.interfaces.voice.core.sayit import (
+        SecurityError,
+        get_env_var,
+        safe_subprocess_run,
+    )
 except ImportError:
     # Fallback for development
     def safe_subprocess_run(command, **kwargs):
@@ -39,11 +43,13 @@ except ImportError:
     def get_env_var(name, default=None, required=False):
         return os.getenv(name, default)
 
+
 try:
     from elevenlabs.client import ElevenLabs
 except ImportError:
     try:
-        from elevenlabs import generate, Voice
+        from elevenlabs import Voice, generate
+
         elevenlabs_enabled = True
     except ImportError as e:
         elevenlabs_enabled = False
@@ -71,9 +77,12 @@ EXPORT_PATH.mkdir(parents=True, exist_ok=True)
 try:
     args
 except NameError:
+
     class Args:
         mute = True
+
     args = Args()
+
 
 def generate_filename(dream):
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -81,12 +90,13 @@ def generate_filename(dream):
     mood = "-".join(dream.get("tags", [])[:2]) or "symbolic"
     return f"{tier}_{mood}_{timestamp}.txt"
 
+
 def export_as_text_narration():
     if not LOG_PATH.exists():
         print("❌ narration_log.jsonl not found.")
         return
 
-    with open(LOG_PATH, "r", encoding="utf-8") as f:
+    with open(LOG_PATH, encoding="utf-8") as f:
         logs = []
         for line in f:
             line = line.strip()
@@ -103,7 +113,7 @@ def export_as_text_narration():
         filename = generate_filename(entry)
         filepath = EXPORT_PATH / filename
         with open(filepath, "w", encoding="utf-8") as out:
-            out.write(f"🎙 LUCΛS VOICE EXPORT\n")
+            out.write("🎙 LUCΛS VOICE EXPORT\n")
             out.write(f"Text: {entry['text']}\n")
             out.write(f"Tier: {entry.get('tier', '-')}\n")
             out.write(f"Emotion Vector: {entry.get('emotion_vector', {})}\n")
@@ -111,12 +121,14 @@ def export_as_text_narration():
 
         if elevenlabs_enabled:
             try:
-                print(f"🧪 Attempting to generate audio for: {entry.get('message_id', 'unknown_dream')}")
+                print(
+                    f"🧪 Attempting to generate audio for: {entry.get('message_id', 'unknown_dream')}"
+                )
                 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
                 audio_stream = client.text_to_speech.convert(
                     text=entry["text"],
                     voice_id=LUKHAS_VOICE_ID,
-                    model_id="eleven_monolingual_v1"
+                    model_id="eleven_monolingual_v1",
                 )
 
                 audio_bytes = b"".join(audio_stream)
@@ -126,11 +138,11 @@ def export_as_text_narration():
                 if not audio_bytes:
                     print("❌ No audio returned from ElevenLabs.")
                 else:
-                    print(f"📦 Audio stream received and converted to bytes")
+                    print("📦 Audio stream received and converted to bytes")
 
                     with open(audio_path, "wb") as f:
                         f.write(audio_bytes)
-                    if 'args' in globals() and not args.mute:
+                    if "args" in globals() and not args.mute:
                         try:
                             # Use secure subprocess wrapper
                             safe_subprocess_run(["afplay", str(audio_path)], timeout=10)
@@ -147,9 +159,11 @@ def export_as_text_narration():
                 if not args.mute:
                     try:
                         # Use secure subprocess wrapper with input sanitization
-                        clean_text = entry["text"].replace('"', '\\"')[:200]  # Limit length and escape quotes
+                        clean_text = entry["text"].replace('"', '\\"')[
+                            :200
+                        ]  # Limit length and escape quotes
                         safe_subprocess_run(["say", clean_text], timeout=30)
-                        print(f"🗣️ Fallback narration via macOS 'say' succeeded.")
+                        print("🗣️ Fallback narration via macOS 'say' succeeded.")
                     except SecurityError as say_error:
                         print(f"⚠️ Fallback 'say' failed: {say_error}")
         else:
@@ -157,9 +171,12 @@ def export_as_text_narration():
 
     print(f"✅ Exported {len(logs)} symbolic narrations as text/audio → {EXPORT_PATH}")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Export LUKHAS narrations as audio")
-    parser.add_argument("--mute", action="store_true", help="Mute autoplay after export")
+    parser.add_argument(
+        "--mute", action="store_true", help="Mute autoplay after export"
+    )
     args = parser.parse_args()
 
     print("🧠 Starting LUKHAS audio exporter...")

@@ -15,11 +15,11 @@ Author: LUKHAS AGI Core
 
 import json
 import time
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Iterator, Tuple
+from collections.abc import Iterator
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
-import hashlib
+from typing import Any, Dict, List, Optional
 
 # TODO: Import when modules are implemented
 # from collapse_verifier import verify_collapse_signature
@@ -31,6 +31,7 @@ import hashlib
 @dataclass
 class ReplayEvent:
     """Container for a single replay event."""
+
     timestamp: float
     event_type: str  # 'measurement', 'verification', 'chain_link', 'anomaly'
     hash_value: str
@@ -43,6 +44,7 @@ class ReplayEvent:
 @dataclass
 class ReplaySequence:
     """Container for a complete replay sequence."""
+
     sequence_id: str
     start_time: float
     end_time: float
@@ -69,8 +71,9 @@ class CollapseReplayEngine:
         self.verification_cache = {}
         self.current_sequence = None
 
-    def load_collapse_sequence(self, start_index: int = 0,
-                             end_index: Optional[int] = None) -> List[Dict[str, Any]]:
+    def load_collapse_sequence(
+        self, start_index: int = 0, end_index: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
         """
         Load a sequence of CollapseHash records for replay.
 
@@ -88,7 +91,7 @@ class CollapseReplayEngine:
             return records
 
         try:
-            with open(self.logbook_path, 'r') as f:
+            with open(self.logbook_path) as f:
                 all_records = [json.loads(line.strip()) for line in f if line.strip()]
                 records = all_records[start_index:end_index]
         except (json.JSONDecodeError, FileNotFoundError) as e:
@@ -96,8 +99,9 @@ class CollapseReplayEngine:
 
         return records
 
-    def create_replay_sequence(self, records: List[Dict[str, Any]],
-                             sequence_id: Optional[str] = None) -> ReplaySequence:
+    def create_replay_sequence(
+        self, records: List[Dict[str, Any]], sequence_id: Optional[str] = None
+    ) -> ReplaySequence:
         """
         Create a replay sequence from CollapseHash records.
 
@@ -131,13 +135,15 @@ class CollapseReplayEngine:
             total_events=len(events),
             events=events,
             integrity_status=integrity_status,
-            narrative_summary=narrative_summary
+            narrative_summary=narrative_summary,
         )
 
         self.current_sequence = sequence
         return sequence
 
-    def _create_replay_event(self, record: Dict[str, Any], position: int) -> ReplayEvent:
+    def _create_replay_event(
+        self, record: Dict[str, Any], position: int
+    ) -> ReplayEvent:
         """
         Create a replay event from a CollapseHash record.
 
@@ -167,7 +173,7 @@ class CollapseReplayEngine:
             signature_valid=signature_valid,
             chain_position=position,
             narrative=narrative,
-            metadata=record.get("metadata", {})
+            metadata=record.get("metadata", {}),
         )
 
     def _classify_event_type(self, record: Dict[str, Any], position: int) -> str:
@@ -231,7 +237,9 @@ class CollapseReplayEngine:
 
         # Check temporal consistency
         timestamps = [event.timestamp for event in events]
-        temporal_consistent = all(timestamps[i] <= timestamps[i+1] for i in range(len(timestamps)-1))
+        temporal_consistent = all(
+            timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1)
+        )
 
         if failure_rate > 0.1:  # More than 10% failures
             return "compromised"
@@ -260,14 +268,19 @@ class CollapseReplayEngine:
         time_span = events[-1].timestamp - events[0].timestamp
         valid_events = sum(1 for event in events if event.signature_valid)
 
-        return (f"A quantum sequence spanning {time_span:.1f} seconds, "
-               f"containing {total_events} measurement events. "
-               f"{valid_events} events were cryptographically verified, "
-               f"revealing the evolution of quantum reality through precise observation.")
+        return (
+            f"A quantum sequence spanning {time_span:.1f} seconds, "
+            f"containing {total_events} measurement events. "
+            f"{valid_events} events were cryptographically verified, "
+            f"revealing the evolution of quantum reality through precise observation."
+        )
 
-    def replay_sequence(self, sequence: ReplaySequence,
-                       speed_factor: float = 1.0,
-                       real_time: bool = False) -> Iterator[ReplayEvent]:
+    def replay_sequence(
+        self,
+        sequence: ReplaySequence,
+        speed_factor: float = 1.0,
+        real_time: bool = False,
+    ) -> Iterator[ReplayEvent]:
         """
         Replay a sequence of quantum collapse events.
 
@@ -323,8 +336,9 @@ class CollapseReplayEngine:
         print(f"    {event.narrative}")
         print()
 
-    def export_replay_report(self, sequence: ReplaySequence,
-                           format: str = "json") -> str:
+    def export_replay_report(
+        self, sequence: ReplaySequence, format: str = "json"
+    ) -> str:
         """
         Export a replay sequence as a report.
 
@@ -337,25 +351,28 @@ class CollapseReplayEngine:
         """
         # TODO: Implement multi-format export
         if format == "json":
-            return json.dumps({
-                "sequence_id": sequence.sequence_id,
-                "start_time": sequence.start_time,
-                "end_time": sequence.end_time,
-                "total_events": sequence.total_events,
-                "integrity_status": sequence.integrity_status,
-                "narrative_summary": sequence.narrative_summary,
-                "events": [
-                    {
-                        "timestamp": event.timestamp,
-                        "event_type": event.event_type,
-                        "hash": event.hash_value,
-                        "valid": event.signature_valid,
-                        "position": event.chain_position,
-                        "narrative": event.narrative
-                    }
-                    for event in sequence.events
-                ]
-            }, indent=2)
+            return json.dumps(
+                {
+                    "sequence_id": sequence.sequence_id,
+                    "start_time": sequence.start_time,
+                    "end_time": sequence.end_time,
+                    "total_events": sequence.total_events,
+                    "integrity_status": sequence.integrity_status,
+                    "narrative_summary": sequence.narrative_summary,
+                    "events": [
+                        {
+                            "timestamp": event.timestamp,
+                            "event_type": event.event_type,
+                            "hash": event.hash_value,
+                            "valid": event.signature_valid,
+                            "position": event.chain_position,
+                            "narrative": event.narrative,
+                        }
+                        for event in sequence.events
+                    ],
+                },
+                indent=2,
+            )
         elif format == "markdown":
             return self._export_markdown_report(sequence)
         else:
@@ -364,13 +381,13 @@ class CollapseReplayEngine:
     def _export_markdown_report(self, sequence: ReplaySequence) -> str:
         """Export sequence as markdown report."""
         # TODO: Implement markdown export
-        md = f"# Quantum Collapse Replay Report\n\n"
+        md = "# Quantum Collapse Replay Report\n\n"
         md += f"**Sequence ID:** {sequence.sequence_id}\n"
         md += f"**Events:** {sequence.total_events}\n"
         md += f"**Integrity:** {sequence.integrity_status}\n"
         md += f"**Duration:** {sequence.end_time - sequence.start_time:.1f} seconds\n\n"
         md += f"## Summary\n\n{sequence.narrative_summary}\n\n"
-        md += f"## Event Timeline\n\n"
+        md += "## Event Timeline\n\n"
 
         for event in sequence.events:
             timestamp_str = datetime.fromtimestamp(event.timestamp).isoformat()
@@ -395,9 +412,7 @@ class CollapseReplayEngine:
         anomalies = []
 
         for event in sequence.events:
-            if not event.signature_valid:
-                anomalies.append(event)
-            elif event.event_type == "anomaly":
+            if not event.signature_valid or event.event_type == "anomaly":
                 anomalies.append(event)
 
         return anomalies
@@ -422,8 +437,8 @@ if __name__ == "__main__":
                 "location": "quantum_lab_alpha",
                 "experiment_id": "qm_001",
                 "measurement_type": "photon_polarization",
-                "entropy_score": 7.84
-            }
+                "entropy_score": 7.84,
+            },
         },
         {
             "timestamp": time.time() - 200,
@@ -434,8 +449,8 @@ if __name__ == "__main__":
                 "location": "quantum_lab_alpha",
                 "experiment_id": "qm_002",
                 "measurement_type": "electron_spin",
-                "entropy_score": 7.52
-            }
+                "entropy_score": 7.52,
+            },
         },
         {
             "timestamp": time.time() - 100,
@@ -446,9 +461,9 @@ if __name__ == "__main__":
                 "location": "quantum_lab_alpha",
                 "experiment_id": "qm_003",
                 "measurement_type": "bell_state_measurement",
-                "entropy_score": 3.21
-            }
-        }
+                "entropy_score": 3.21,
+            },
+        },
     ]
 
     # Create replay sequence

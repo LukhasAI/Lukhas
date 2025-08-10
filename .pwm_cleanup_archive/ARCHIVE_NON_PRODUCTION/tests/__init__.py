@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -26,6 +25,4 @@ __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
 # Test suite components
-__all__ = [
-    'test_drift_regression'
-]
+__all__ = ["test_drift_regression"]

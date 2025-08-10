@@ -9,10 +9,11 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import os
-from typing import Optional
-from pydantic import BaseSettings, Field, validator
 import secrets
-import openai
+from typing import Optional
+
+from pydantic import BaseSettings, Field, validator
+
 
 class LukhasConfig(BaseSettings):
     """Central configuration for LUKHAS AGI system"""
@@ -20,67 +21,73 @@ class LukhasConfig(BaseSettings):
     # Database Configuration
     database_url: str = Field(
         default_factory=lambda: os.getenv("DATABASE_URL", ""),
-        description="Main PostgreSQL database connection"
+        description="Main PostgreSQL database connection",
     )
 
     # Security
     secret_key: str = Field(
-        default_factory=lambda: os.getenv("LUKHAS_ID_SECRET", secrets.token_urlsafe(32)),
-        description="Main secret key for cryptographic operations"
+        default_factory=lambda: os.getenv(
+            "LUKHAS_ID_SECRET", secrets.token_urlsafe(32)
+        ),
+        description="Main secret key for cryptographic operations",
     )
 
     # API Endpoints - Use environment variables with sensible defaults
     api_base_url: str = Field(
         default_factory=lambda: os.getenv("API_BASE_URL", "http://localhost:8080"),
-        description="Base URL for main API"
+        description="Base URL for main API",
     )
 
     orchestration_api_url: str = Field(
-        default_factory=lambda: os.getenv("ORCHESTRATION_API_URL", "http://localhost:8080/api/v1/orchestration"),
-        description="Orchestration service endpoint"
+        default_factory=lambda: os.getenv(
+            "ORCHESTRATION_API_URL", "http://localhost:8080/api/v1/orchestration"
+        ),
+        description="Orchestration service endpoint",
     )
 
     memory_api_url: str = Field(
-        default_factory=lambda: os.getenv("MEMORY_API_URL", "http://localhost:8080/api/v1/memory"),
-        description="Memory service endpoint"
+        default_factory=lambda: os.getenv(
+            "MEMORY_API_URL", "http://localhost:8080/api/v1/memory"
+        ),
+        description="Memory service endpoint",
     )
 
     quantum_api_url: str = Field(
-        default_factory=lambda: os.getenv("QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"),
-        description="Quantum service endpoint"
+        default_factory=lambda: os.getenv(
+            "QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"
+        ),
+        description="Quantum service endpoint",
     )
 
     # External Services
     ollama_url: str = Field(
         default_factory=lambda: os.getenv("OLLAMA_URL", "http://localhost:11434"),
-        description="Ollama LLM service endpoint"
+        description="Ollama LLM service endpoint",
     )
 
     # Application Settings
     debug: bool = Field(
         default_factory=lambda: os.getenv("DEBUG", "false").lower() == "true",
-        description="Debug mode flag"
+        description="Debug mode flag",
     )
 
     environment: str = Field(
         default_factory=lambda: os.getenv("ENVIRONMENT", "development"),
-        description="Runtime environment (development/staging/production)"
+        description="Runtime environment (development/staging/production)",
     )
 
     # OpenAI Configuration
     openai_api_key: Optional[str] = Field(
-        default=None,
-        env="OPENAI_API_KEY",
-        description="OpenAI API key"
+        default=None, env="OPENAI_API_KEY", description="OpenAI API key"
     )
 
     # CORS Settings
     cors_origins: str = Field(
         default_factory=lambda: os.getenv(
             "LUKHAS_API_CORS_ORIGINS",
-            "http://localhost:3000,http://localhost:5000,https://*.lukhas.ai"
+            "http://localhost:3000,http://localhost:5000,https://*.lukhas.ai",
         ),
-        description="Allowed CORS origins (comma-separated)"
+        description="Allowed CORS origins (comma-separated)",
     )
 
     @validator("database_url")
@@ -123,8 +130,10 @@ class LukhasConfig(BaseSettings):
         env_file_encoding = "utf-8"
         case_sensitive = False
 
+
 # Global configuration instance
 _config: Optional[LukhasConfig] = None
+
 
 def get_config() -> LukhasConfig:
     """Get global configuration instance (singleton pattern)"""
@@ -132,6 +141,7 @@ def get_config() -> LukhasConfig:
     if _config is None:
         _config = LukhasConfig()
     return _config
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # HOW TO USE:

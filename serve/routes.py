@@ -1,20 +1,21 @@
 """FastAPI routes exposing core Lukhas capabilities"""
 
-from fastapi import APIRouter, HTTPException
-from typing import List
 import logging
 
+from fastapi import APIRouter, HTTPException
+
 from config.config import TIER_PERMISSIONS
+
 from .schemas import (
     DreamRequest,
     DreamResponse,
     GlyphFeedbackRequest,
     GlyphFeedbackResponse,
-    TierAuthRequest,
-    TierAuthResponse,
+    MemoryDumpResponse,
     PluginLoadRequest,
     PluginLoadResponse,
-    MemoryDumpResponse,
+    TierAuthRequest,
+    TierAuthResponse,
 )
 
 logger = logging.getLogger(__name__)
@@ -28,13 +29,13 @@ TOKEN_TIER_MAP = {
 # ΛLOCKED
 
 
-def compute_drift_score(symbols: List[str]) -> float:
+def compute_drift_score(symbols: list[str]) -> float:
     """Compute drift score from symbols"""
     # TODO: integrate real drift computation
     return len(symbols) / 10.0
 
 
-def compute_affect_delta(symbols: List[str]) -> float:
+def compute_affect_delta(symbols: list[str]) -> float:
     """Compute affect delta from symbols"""
     # TODO: integrate affect delta engine
     return len(symbols) * 0.1
@@ -53,9 +54,7 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
     )
     # TODO: replace with real dream engine logic
     dream = " ".join(req.symbols[::-1])
-    return DreamResponse(
-        dream=dream, driftScore=drift_score, affect_delta=affect_delta
-    )
+    return DreamResponse(dream=dream, driftScore=drift_score, affect_delta=affect_delta)
 
 
 @router.post("/glyph-feedback/", response_model=GlyphFeedbackResponse)
@@ -100,7 +99,8 @@ async def memory_dump() -> MemoryDumpResponse:
     affect_delta = 0.0
     # ΛTAG: affect_delta
     logger.info(
-        "Memory dump", extra={"folds": len(folds), "affect_delta": affect_delta}
+        "Memory dump",
+        extra={"folds": len(folds), "affect_delta": affect_delta},
     )
     # TODO: connect to memory subsystem
     emotional_state = {"affect_delta": affect_delta}

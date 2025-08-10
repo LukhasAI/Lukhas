@@ -551,7 +551,7 @@ class LUKHASConnectivityVisualizer:
 
     def generate_all_visualizations(self):
         """Generate all connectivity visualizations"""
-        print(f"🎨 Generating LUKHAS AGI Connectivity Visualizations...")
+        print("🎨 Generating LUKHAS AGI Connectivity Visualizations...")
         print(f"📁 Output directory: {self.output_dir}")
 
         # Generate individual visualizations
@@ -569,7 +569,7 @@ class LUKHASConnectivityVisualizer:
         html_file = self.generate_html_dashboard(image_files)
         print(f"✅ HTML dashboard: {html_file.name}")
 
-        print(f"\n🎉 Connectivity visualizations complete!")
+        print("\n🎉 Connectivity visualizations complete!")
         print(f"🌐 Open: {html_file}")
 
         return html_file

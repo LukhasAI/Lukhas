@@ -5,15 +5,13 @@
 
 import logging
 import uuid
-from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
+from typing import Any, Optional
 
-
-#TAG:core
-#TAG:symbolic
-#TAG:neuroplastic
-#TAG:colony
-
+# TAG:core
+# TAG:symbolic
+# TAG:neuroplastic
+# TAG:colony
 
 logger = logging.getLogger(__name__)
 
@@ -23,22 +21,27 @@ class SymbolicTraceMap:
     A class to map and visualize the flow of symbolic information through the memory system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.trace_map: Dict[str, List[Dict[str, Any]]] = {}
+        self.trace_map: dict[str, list[dict[str, Any]]] = {}
         logger.info("SymbolicTraceMap initialized. config=%s", self.config)
 
     # ΛMEMORY_TRACE
+
     def add_trace_node(
-        self, symbol_id: str, node_type: str, metadata: Optional[Dict[str, Any]] = None
+        self,
+        symbol_id: str,
+        node_type: str,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> None:
         """
-        Adds a node to the symbolic trace map.
+            Adds a node to the symbolic trace map.
 
-        Args:
-            symbol_id (str): The ID of the symbol being traced.
-            node_type (str): The type of node (e.g., "creation", "access", "modification").
-            metadata (Optional[Dict[str, Any]], optional): Additional metadata about the node. Defaults to None.
+            Args:
+                symbol_id (str): The ID of the symbol being traced.
+                node_type (str): The type of node (e.g., "creation", "access",
+        "modification").
+                metadata (Optional[Dict[str, Any]], optional): Additional metadata about the node. Defaults to None.
         """
         if symbol_id not in self.trace_map:
             self.trace_map[symbol_id] = []
@@ -51,10 +54,12 @@ class SymbolicTraceMap:
         }
         self.trace_map[symbol_id].append(node)
         logger.info(
-            "Symbolic trace node added. symbol_id=%s node_type=%s", symbol_id, node_type
+            "Symbolic trace node added. symbol_id=%s node_type=%s",
+            symbol_id,
+            node_type,
         )
 
-    def get_trace(self, symbol_id: str) -> List[Dict[str, Any]]:
+    def get_trace(self, symbol_id: str) -> list[dict[str, Any]]:
         """
         Retrieves the trace for a given symbol.
 

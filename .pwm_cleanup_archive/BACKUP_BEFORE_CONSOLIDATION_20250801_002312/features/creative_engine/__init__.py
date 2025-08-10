@@ -38,26 +38,24 @@ __version__ = "1.0.0"
 __author__ = "LUKHAS AGI System"
 
 # Export main components
-__all__ = [
-    'CreationEngine'
-]
+__all__ = ["CreationEngine"]
 
 # Module metadata for LUKHAS ecosystem
 MODULE_INFO = {
-    'name': 'lukhas_create',
-    'version': __version__,
-    'type': 'content_generation',
-    'capabilities': [
-        'text_creation',
-        'code_generation',
-        'design_concepts',
-        'creative_writing',
-        'technical_documentation',
-        'strategic_planning',
-        'innovation_ideation',
-        'multimedia_concepts'
+    "name": "lukhas_create",
+    "version": __version__,
+    "type": "content_generation",
+    "capabilities": [
+        "text_creation",
+        "code_generation",
+        "design_concepts",
+        "creative_writing",
+        "technical_documentation",
+        "strategic_planning",
+        "innovation_ideation",
+        "multimedia_concepts",
     ],
-    'bio_symbolic': True,
-    'learning_enabled': True,
-    'confidence_scoring': True
+    "bio_symbolic": True,
+    "learning_enabled": True,
+    "confidence_scoring": True,
 }

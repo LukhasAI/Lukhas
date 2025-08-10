@@ -16,28 +16,28 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import hashlib
-import json
 import os
-import tempfile
-import unittest
-from datetime import datetime, timezone, timedelta
-from typing import Dict, List, Any, Optional
-from unittest.mock import Mock, patch
 
 # Import the modules we're testing
 import sys
-sys.path.append('/Users/agi_dev/Downloads/Consolidation-Repo')
+import tempfile
+import unittest
+
+sys.path.append("/Users/agi_dev/Downloads/Consolidation-Repo")
 
 from memory.core_memory.causal_identity_tracker import (
-    CausalIdentityTracker, CausalOriginData, IdentityAnchor, IdentityLinkType
-)
-from memory.core_memory.identity_lineage_bridge import (
-    IdentityLineageBridge, ProtectionLevel, ThreatType
+    CausalIdentityTracker,
+    IdentityLinkType,
 )
 from memory.core_memory.fold_lineage_tracker import (
-    FoldLineageTracker, CausationType, EmotionVector
+    CausationType,
+    FoldLineageTracker,
+)
+from memory.core_memory.identity_lineage_bridge import (
+    IdentityLineageBridge,
+    ProtectionLevel,
+    ThreatType,
 )
 
 
@@ -55,15 +55,24 @@ class TestIdentityLineageValidation(unittest.TestCase):
         self.bridge = IdentityLineageBridge(self.identity_tracker, self.lineage_tracker)
 
         # Override storage paths to use temp directory
-        self.identity_tracker.identity_anchor_path = os.path.join(self.temp_dir, "identity_anchors.jsonl")
-        self.identity_tracker.causal_origin_path = os.path.join(self.temp_dir, "causal_origins.jsonl")
-        self.bridge.threats_log_path = os.path.join(self.temp_dir, "detected_threats.jsonl")
-        self.bridge.protection_log_path = os.path.join(self.temp_dir, "protection_actions.jsonl")
+        self.identity_tracker.identity_anchor_path = os.path.join(
+            self.temp_dir, "identity_anchors.jsonl"
+        )
+        self.identity_tracker.causal_origin_path = os.path.join(
+            self.temp_dir, "causal_origins.jsonl"
+        )
+        self.bridge.threats_log_path = os.path.join(
+            self.temp_dir, "detected_threats.jsonl"
+        )
+        self.bridge.protection_log_path = os.path.join(
+            self.temp_dir, "protection_actions.jsonl"
+        )
 
     def tearDown(self):
         """Clean up test fixtures."""
         # Clean up temporary directory
         import shutil
+
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     def test_memory_chain_cause_affect_recall_loop(self):
@@ -84,7 +93,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             anchor_type=IdentityLinkType.GENESIS_ANCHOR,
             emotional_resonance=initial_emotion,
             symbolic_signature="genesis_anchor_test_1",
-            protection_level=3
+            protection_level=3,
         )
 
         # Step 2: Create causal event (CAUSE)
@@ -95,7 +104,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             emotional_anchor_id=anchor_id,
             identity_anchor_id=anchor_id,
             intent_tag="exploration",
-            emotional_context=cause_emotion
+            emotional_context=cause_emotion,
         )
 
         # Track the causal state in lineage tracker
@@ -103,7 +112,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             fold_key=cause_fold_key,
             importance_score=0.8,
             drift_score=0.2,
-            content_hash=hashlib.sha256(b"cause_content").hexdigest()
+            content_hash=hashlib.sha256(b"cause_content").hexdigest(),
         )
 
         # Step 3: Create affect event (AFFECT)
@@ -114,7 +123,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             emotional_anchor_id=anchor_id,
             identity_anchor_id=anchor_id,
             intent_tag="consolidation",
-            emotional_context=affect_emotion
+            emotional_context=affect_emotion,
         )
 
         # Track causation link from cause to affect
@@ -123,14 +132,17 @@ class TestIdentityLineageValidation(unittest.TestCase):
             target_fold_key=affect_fold_key,
             causation_type=CausationType.EMOTIONAL_RESONANCE,
             strength=0.9,
-            metadata={"transition": "cause_to_affect", "causal_origin": affect_origin_id}
+            metadata={
+                "transition": "cause_to_affect",
+                "causal_origin": affect_origin_id,
+            },
         )
 
         self.lineage_tracker.track_fold_state(
             fold_key=affect_fold_key,
             importance_score=0.6,
             drift_score=0.4,
-            content_hash=hashlib.sha256(b"affect_content").hexdigest()
+            content_hash=hashlib.sha256(b"affect_content").hexdigest(),
         )
 
         # Step 4: Create recall event (RECALL)
@@ -141,7 +153,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             emotional_anchor_id=anchor_id,
             identity_anchor_id=anchor_id,
             intent_tag="analysis",
-            emotional_context=recall_emotion
+            emotional_context=recall_emotion,
         )
 
         # Track causation links creating the loop
@@ -150,7 +162,10 @@ class TestIdentityLineageValidation(unittest.TestCase):
             target_fold_key=recall_fold_key,
             causation_type=CausationType.REFLECTION_TRIGGERED,
             strength=0.7,
-            metadata={"transition": "affect_to_recall", "causal_origin": recall_origin_id}
+            metadata={
+                "transition": "affect_to_recall",
+                "causal_origin": recall_origin_id,
+            },
         )
 
         # Complete the loop: recall back to cause
@@ -159,14 +174,14 @@ class TestIdentityLineageValidation(unittest.TestCase):
             target_fold_key=cause_fold_key,
             causation_type=CausationType.ASSOCIATION,
             strength=0.5,
-            metadata={"transition": "recall_to_cause", "loop_detected": True}
+            metadata={"transition": "recall_to_cause", "loop_detected": True},
         )
 
         self.lineage_tracker.track_fold_state(
             fold_key=recall_fold_key,
             importance_score=0.7,
             drift_score=0.3,
-            content_hash=hashlib.sha256(b"recall_content").hexdigest()
+            content_hash=hashlib.sha256(b"recall_content").hexdigest(),
         )
 
         # VALIDATION: Analyze the complete causal chain
@@ -175,9 +190,21 @@ class TestIdentityLineageValidation(unittest.TestCase):
         recall_analysis = self.lineage_tracker.analyze_fold_lineage(recall_fold_key)
 
         # Verify causal chain exists
-        self.assertGreater(cause_analysis["total_causal_links"], 0, "Cause fold should have causal links")
-        self.assertGreater(affect_analysis["total_causal_links"], 0, "Affect fold should have causal links")
-        self.assertGreater(recall_analysis["total_causal_links"], 0, "Recall fold should have causal links")
+        self.assertGreater(
+            cause_analysis["total_causal_links"],
+            0,
+            "Cause fold should have causal links",
+        )
+        self.assertGreater(
+            affect_analysis["total_causal_links"],
+            0,
+            "Affect fold should have causal links",
+        )
+        self.assertGreater(
+            recall_analysis["total_causal_links"],
+            0,
+            "Recall fold should have causal links",
+        )
 
         # Verify emotional deltas were calculated
         cause_origin = self.identity_tracker.causal_origins[cause_origin_id]
@@ -189,14 +216,28 @@ class TestIdentityLineageValidation(unittest.TestCase):
         self.assertIsInstance(recall_origin.emotional_context_delta, dict)
 
         # Verify loop was detected (lineage depth should indicate connections)
-        self.assertGreater(cause_analysis["lineage_depth"], 1, "Causal loop should create complex lineage")
+        self.assertGreater(
+            cause_analysis["lineage_depth"],
+            1,
+            "Causal loop should create complex lineage",
+        )
 
         # Verify identity stability maintained through loop
-        stability_report = self.identity_tracker.get_identity_stability_report(cause_fold_key)
-        self.assertGreater(stability_report["overall_stability"], 0.3, "Identity should remain stable during causal loop")
+        stability_report = self.identity_tracker.get_identity_stability_report(
+            cause_fold_key
+        )
+        self.assertGreater(
+            stability_report["overall_stability"],
+            0.3,
+            "Identity should remain stable during causal loop",
+        )
 
-        print(f"✅ Memory chain validation: {cause_analysis['total_causal_links']} causal links detected")
-        print(f"✅ Emotional delta tracking: {len(cause_origin.emotional_context_delta)} emotions tracked")
+        print(
+            f"✅ Memory chain validation: {cause_analysis['total_causal_links']} causal links detected"
+        )
+        print(
+            f"✅ Emotional delta tracking: {len(cause_origin.emotional_context_delta)} emotions tracked"
+        )
         print(f"✅ Identity stability: {stability_report['overall_stability']:.3f}")
         print(f"✅ Loop complexity: Lineage depth {cause_analysis['lineage_depth']}")
 
@@ -218,7 +259,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             anchor_type=IdentityLinkType.SYMBOLIC_ANCHOR,
             emotional_resonance=stable_emotion,
             symbolic_signature="stable_anchor_test_2",
-            protection_level=4  # High protection
+            protection_level=4,  # High protection
         )
 
         # Create baseline memory fold with high stability
@@ -229,34 +270,40 @@ class TestIdentityLineageValidation(unittest.TestCase):
             emotional_anchor_id=stable_anchor_id,
             identity_anchor_id=stable_anchor_id,
             intent_tag="consolidation",
-            emotional_context=baseline_emotion
+            emotional_context=baseline_emotion,
         )
 
         self.lineage_tracker.track_fold_state(
             fold_key=baseline_fold_key,
             importance_score=0.9,
             drift_score=0.1,
-            content_hash=hashlib.sha256(b"stable_baseline").hexdigest()
+            content_hash=hashlib.sha256(b"stable_baseline").hexdigest(),
         )
 
         # Step 2: Inject collapse drift event
         collapse_fold_key = "fold_collapse_002"
-        collapse_emotion = {"valence": 0.1, "arousal": 0.9, "dominance": 0.2}  # Extreme emotional state
+        collapse_emotion = {
+            "valence": 0.1,
+            "arousal": 0.9,
+            "dominance": 0.2,
+        }  # Extreme emotional state
         collapse_origin_id = self.identity_tracker.create_causal_origin(
             fold_key=collapse_fold_key,
             emotional_anchor_id=stable_anchor_id,
             identity_anchor_id=stable_anchor_id,
             intent_tag="drift",
-            emotional_context=collapse_emotion
+            emotional_context=collapse_emotion,
         )
 
         # Simulate collapse with high drift and low importance
         self.lineage_tracker.track_fold_state(
             fold_key=collapse_fold_key,
             importance_score=0.2,  # Very low importance
-            drift_score=0.9,       # Very high drift (collapse indicator)
+            drift_score=0.9,  # Very high drift (collapse indicator)
             content_hash=hashlib.sha256(b"collapse_content").hexdigest(),
-            collapse_hash=hashlib.sha256(b"collapse_marker").hexdigest()  # Mark as collapsed
+            collapse_hash=hashlib.sha256(
+                b"collapse_marker"
+            ).hexdigest(),  # Mark as collapsed
         )
 
         # Track causation from baseline to collapse
@@ -265,56 +312,93 @@ class TestIdentityLineageValidation(unittest.TestCase):
             target_fold_key=collapse_fold_key,
             causation_type=CausationType.COLLAPSE_CASCADE,
             strength=0.95,
-            metadata={"event_type": "collapse_injection", "severity": "high"}
+            metadata={"event_type": "collapse_injection", "severity": "high"},
         )
 
         # Step 3: Detect threats and validate protection response
         detected_threats = self.bridge.detect_collapse_trauma_threats(collapse_fold_key)
-        self.assertGreater(len(detected_threats), 0, "Collapse event should trigger threat detection")
+        self.assertGreater(
+            len(detected_threats), 0, "Collapse event should trigger threat detection"
+        )
 
         # Verify threat classification
         threat_types = [threat.threat_type for threat in detected_threats]
-        self.assertIn(ThreatType.MEMORY_COLLAPSE, threat_types, "Memory collapse threat should be detected")
+        self.assertIn(
+            ThreatType.MEMORY_COLLAPSE,
+            threat_types,
+            "Memory collapse threat should be detected",
+        )
 
         # Step 4: Validate memory operation protection
         validation_result = self.bridge.validate_memory_operation(
             fold_key=collapse_fold_key,
             operation_type="collapse",
-            operation_metadata={"severity": "high", "trigger": "system_stress"}
+            operation_metadata={"severity": "high", "trigger": "system_stress"},
         )
 
         # Should be flagged for protection due to collapse
-        self.assertGreater(len(validation_result["detected_threats"]), 0, "Validation should detect threats")
-        self.assertIn("protection", validation_result["protection_actions"][0] if validation_result["protection_actions"] else "")
+        self.assertGreater(
+            len(validation_result["detected_threats"]),
+            0,
+            "Validation should detect threats",
+        )
+        self.assertIn(
+            "protection",
+            (
+                validation_result["protection_actions"][0]
+                if validation_result["protection_actions"]
+                else ""
+            ),
+        )
 
         # Step 5: Create recovery links for stabilization
         recovery_id = self.identity_tracker.create_recovery_link(
             source_fold_key=baseline_fold_key,  # Stable source
             target_fold_key=collapse_fold_key,  # Collapsed target
             recovery_strategy="identity_stabilization",
-            recovery_metadata={"recovery_type": "collapse_repair", "source_stability": 0.9}
+            recovery_metadata={
+                "recovery_type": "collapse_repair",
+                "source_stability": 0.9,
+            },
         )
 
         # Step 6: Validate identity stabilization after recovery
-        post_recovery_stability = self.identity_tracker.get_identity_stability_report(collapse_fold_key)
+        post_recovery_stability = self.identity_tracker.get_identity_stability_report(
+            collapse_fold_key
+        )
 
         # Recovery should improve stability
-        self.assertGreater(post_recovery_stability["overall_stability"], 0.2,
-                          "Recovery links should improve identity stability")
+        self.assertGreater(
+            post_recovery_stability["overall_stability"],
+            0.2,
+            "Recovery links should improve identity stability",
+        )
 
         # Verify protection was applied to stable anchor
         protection_status = self.bridge.get_identity_protection_status()
-        self.assertGreater(protection_status["protected_anchors_count"], 0,
-                          "Identity anchors should be protected during collapse")
+        self.assertGreater(
+            protection_status["protected_anchors_count"],
+            0,
+            "Identity anchors should be protected during collapse",
+        )
 
         # Verify threat mitigation
-        self.assertGreater(protection_status["protection_actions_count"], 0,
-                          "Protection actions should be triggered")
+        self.assertGreater(
+            protection_status["protection_actions_count"],
+            0,
+            "Protection actions should be triggered",
+        )
 
         print(f"✅ Collapse detection: {len(detected_threats)} threats identified")
-        print(f"✅ Protection triggers: {len(validation_result['protection_actions'])} actions taken")
-        print(f"✅ Recovery effectiveness: Stability improved to {post_recovery_stability['overall_stability']:.3f}")
-        print(f"✅ Identity protection: {protection_status['protected_anchors_count']} anchors protected")
+        print(
+            f"✅ Protection triggers: {len(validation_result['protection_actions'])} actions taken"
+        )
+        print(
+            f"✅ Recovery effectiveness: Stability improved to {post_recovery_stability['overall_stability']:.3f}"
+        )
+        print(
+            f"✅ Identity protection: {protection_status['protected_anchors_count']} anchors protected"
+        )
 
     def test_memory_integrity_over_recursive_encoding(self):
         """
@@ -334,7 +418,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             anchor_type=IdentityLinkType.CONTINUITY_THREAD,
             emotional_resonance=integrity_emotion,
             symbolic_signature="integrity_anchor_test_3",
-            protection_level=5  # Maximum protection for integrity
+            protection_level=5,  # Maximum protection for integrity
         )
 
         # Step 2: Create recursive encoding chain
@@ -346,7 +430,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
             emotion = {
                 "valence": 0.5 + (i * 0.1),
                 "arousal": 0.3 + (i * 0.05),
-                "dominance": 0.7 - (i * 0.05)
+                "dominance": 0.7 - (i * 0.05),
             }
 
             origin_id = self.identity_tracker.create_causal_origin(
@@ -354,7 +438,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
                 emotional_anchor_id=integrity_anchor_id,
                 identity_anchor_id=integrity_anchor_id,
                 intent_tag="learning" if i % 2 == 0 else "analysis",
-                emotional_context=emotion
+                emotional_context=emotion,
             )
 
             # Track fold state with increasing complexity
@@ -362,7 +446,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
                 fold_key=fold_key,
                 importance_score=0.8 - (i * 0.1),
                 drift_score=0.1 + (i * 0.05),
-                content_hash=hashlib.sha256(f"encode_layer_{i}".encode()).hexdigest()
+                content_hash=hashlib.sha256(f"encode_layer_{i}".encode()).hexdigest(),
             )
 
             encoding_folds.append(fold_key)
@@ -371,11 +455,11 @@ class TestIdentityLineageValidation(unittest.TestCase):
             # Create causal links between layers
             if i > 0:
                 self.lineage_tracker.track_causation(
-                    source_fold_key=encoding_folds[i-1],
+                    source_fold_key=encoding_folds[i - 1],
                     target_fold_key=fold_key,
                     causation_type=CausationType.EMERGENT_SYNTHESIS,
                     strength=0.8 - (i * 0.1),
-                    metadata={"encoding_layer": i, "recursive_depth": i}
+                    metadata={"encoding_layer": i, "recursive_depth": i},
                 )
 
         # Step 3: Create recursive loops (each layer connects back to layer 0)
@@ -385,7 +469,7 @@ class TestIdentityLineageValidation(unittest.TestCase):
                 target_fold_key=encoding_folds[0],  # Back to root
                 causation_type=CausationType.QUANTUM_ENTANGLEMENT,
                 strength=0.5,
-                metadata={"recursive_loop": True, "loop_depth": i}
+                metadata={"recursive_loop": True, "loop_depth": i},
             )
 
         # Step 4: Validate event chain integrity for each layer
@@ -399,8 +483,11 @@ class TestIdentityLineageValidation(unittest.TestCase):
             integrity_results.append(validation)
 
             # Check integrity score
-            self.assertGreater(validation.integrity_score, 0.5,
-                             f"Event chain {i} should maintain reasonable integrity")
+            self.assertGreater(
+                validation.integrity_score,
+                0.5,
+                f"Event chain {i} should maintain reasonable integrity",
+            )
 
             # Verify temporal consistency
             if validation.broken_links:
@@ -410,17 +497,28 @@ class TestIdentityLineageValidation(unittest.TestCase):
         root_analysis = self.lineage_tracker.analyze_fold_lineage(encoding_folds[0])
 
         # Should detect complex recursive structure
-        self.assertGreater(root_analysis["lineage_depth"], 3,
-                          "Recursive encoding should create complex lineage")
-        self.assertGreater(root_analysis["total_causal_links"], 8,
-                          "Recursive loops should create multiple causal links")
+        self.assertGreater(
+            root_analysis["lineage_depth"],
+            3,
+            "Recursive encoding should create complex lineage",
+        )
+        self.assertGreater(
+            root_analysis["total_causal_links"],
+            8,
+            "Recursive loops should create multiple causal links",
+        )
 
         # Step 6: Verify memory integrity under recursive stress
-        integrity_report = self.identity_tracker.get_identity_stability_report(encoding_folds[0])
+        integrity_report = self.identity_tracker.get_identity_stability_report(
+            encoding_folds[0]
+        )
 
         # Identity should remain stable despite recursive complexity
-        self.assertGreater(integrity_report["overall_stability"], 0.4,
-                          "Identity should maintain stability under recursive encoding")
+        self.assertGreater(
+            integrity_report["overall_stability"],
+            0.4,
+            "Identity should maintain stability under recursive encoding",
+        )
 
         # Step 7: Test recovery under recursive loop stress
         if integrity_report["overall_stability"] < 0.6:
@@ -428,32 +526,49 @@ class TestIdentityLineageValidation(unittest.TestCase):
             recovery_id = self.bridge.create_recovery_protocol(
                 threatened_anchor_id=integrity_anchor_id,
                 threat_type=ThreatType.CAUSAL_LOOP,
-                recovery_strategy="recursive_stabilization"
+                recovery_strategy="recursive_stabilization",
             )
 
             # Verify recovery was created
-            self.assertIsNotNone(recovery_id, "Recovery protocol should be created for recursive stress")
+            self.assertIsNotNone(
+                recovery_id, "Recovery protocol should be created for recursive stress"
+            )
 
         # Step 8: Validate final system integrity
         protection_status = self.bridge.get_identity_protection_status()
 
         # Calculate average integrity across all chains
-        avg_integrity = sum(result.integrity_score for result in integrity_results) / len(integrity_results)
+        avg_integrity = sum(
+            result.integrity_score for result in integrity_results
+        ) / len(integrity_results)
 
         # Verify system maintains overall integrity
-        self.assertGreater(avg_integrity, 0.6, "Average chain integrity should be maintained")
-        self.assertGreater(protection_status["system_health_score"], 0.3,
-                          "System health should be maintained under recursive load")
+        self.assertGreater(
+            avg_integrity, 0.6, "Average chain integrity should be maintained"
+        )
+        self.assertGreater(
+            protection_status["system_health_score"],
+            0.3,
+            "System health should be maintained under recursive load",
+        )
 
         print(f"✅ Recursive layers processed: {len(encoding_folds)} encoding layers")
         print(f"✅ Chain integrity average: {avg_integrity:.3f}")
-        print(f"✅ Lineage complexity: {root_analysis['lineage_depth']} depth, {root_analysis['total_causal_links']} links")
+        print(
+            f"✅ Lineage complexity: {root_analysis['lineage_depth']} depth, {root_analysis['total_causal_links']} links"
+        )
         print(f"✅ Identity stability: {integrity_report['overall_stability']:.3f}")
         print(f"✅ System health score: {protection_status['system_health_score']:.3f}")
 
         # Final integrity check
-        broken_chains = sum(1 for result in integrity_results if result.integrity_score < 0.5)
-        self.assertLessEqual(broken_chains, 1, "At most 1 chain should have low integrity in recursive scenario")
+        broken_chains = sum(
+            1 for result in integrity_results if result.integrity_score < 0.5
+        )
+        self.assertLessEqual(
+            broken_chains,
+            1,
+            "At most 1 chain should have low integrity in recursive scenario",
+        )
 
     def test_comprehensive_system_integration(self):
         """
@@ -472,14 +587,14 @@ class TestIdentityLineageValidation(unittest.TestCase):
             anchor_type=IdentityLinkType.GENESIS_ANCHOR,
             emotional_resonance={"valence": 0.7, "arousal": 0.4, "dominance": 0.8},
             symbolic_signature="master_integration_anchor",
-            protection_level=5
+            protection_level=5,
         )
 
         # Protect the master anchor
         protection_result = self.bridge.protect_identity_anchor(
             anchor_id=master_anchor_id,
             protection_level=ProtectionLevel.CRITICAL,
-            reason="integration_test_protection"
+            reason="integration_test_protection",
         )
         self.assertTrue(protection_result, "Master anchor protection should succeed")
 
@@ -492,7 +607,11 @@ class TestIdentityLineageValidation(unittest.TestCase):
                 emotional_anchor_id=master_anchor_id,
                 identity_anchor_id=master_anchor_id,
                 intent_tag="integration",
-                emotional_context={"valence": 0.6, "arousal": 0.3 + i*0.1, "dominance": 0.7}
+                emotional_context={
+                    "valence": 0.6,
+                    "arousal": 0.3 + i * 0.1,
+                    "dominance": 0.7,
+                },
             )
             test_folds.append(fold_key)
 
@@ -500,32 +619,46 @@ class TestIdentityLineageValidation(unittest.TestCase):
             self.lineage_tracker.track_fold_state(
                 fold_key=fold_key,
                 importance_score=0.8,
-                drift_score=0.1 + i*0.05,
-                content_hash=hashlib.sha256(f"integration_content_{i}".encode()).hexdigest()
+                drift_score=0.1 + i * 0.05,
+                content_hash=hashlib.sha256(
+                    f"integration_content_{i}".encode()
+                ).hexdigest(),
             )
 
         # Test memory operation validation
         validation_result = self.bridge.validate_memory_operation(
             fold_key=test_folds[0],
             operation_type="update",
-            operation_metadata={"integration_test": True}
+            operation_metadata={"integration_test": True},
         )
 
         # Should be approved for low-risk operation
-        self.assertTrue(validation_result["approved"], "Low-risk operations should be approved")
+        self.assertTrue(
+            validation_result["approved"], "Low-risk operations should be approved"
+        )
 
         # Test system status
         protection_status = self.bridge.get_identity_protection_status()
-        stability_report = self.identity_tracker.get_identity_stability_report(test_folds[0])
+        stability_report = self.identity_tracker.get_identity_stability_report(
+            test_folds[0]
+        )
 
         # Verify system health
-        self.assertGreater(protection_status["system_health_score"], 0.5,
-                          "Integrated system should maintain good health")
-        self.assertGreater(stability_report["overall_stability"], 0.6,
-                          "Identity stability should be maintained in integration test")
+        self.assertGreater(
+            protection_status["system_health_score"],
+            0.5,
+            "Integrated system should maintain good health",
+        )
+        self.assertGreater(
+            stability_report["overall_stability"],
+            0.6,
+            "Identity stability should be maintained in integration test",
+        )
 
         print(f"✅ System integration: {len(test_folds)} components integrated")
-        print(f"✅ Protection system: {protection_status['protected_anchors_count']} anchors protected")
+        print(
+            f"✅ Protection system: {protection_status['protected_anchors_count']} anchors protected"
+        )
         print(f"✅ Overall health: {protection_status['system_health_score']:.3f}")
         print(f"✅ Identity stability: {stability_report['overall_stability']:.3f}")
 

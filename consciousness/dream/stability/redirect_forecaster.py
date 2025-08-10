@@ -5,8 +5,10 @@ Date: 2025-07-19
 Description: Predicts the likelihood of a dream redirect being needed in the next cycle.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import numpy as np
+
 
 class RedirectForecaster:
     """
@@ -45,7 +47,9 @@ class RedirectForecaster:
         mean_drift = np.mean(historical_drift)
         drift_volatility = np.std(historical_drift)
 
-        forecast_score = (self.history_weight * mean_drift) + (self.volatility_weight * drift_volatility)
+        forecast_score = (self.history_weight * mean_drift) + (
+            self.volatility_weight * drift_volatility
+        )
         predicted_redirect = forecast_score > 0.5
 
         cause_weights = {

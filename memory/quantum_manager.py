@@ -65,19 +65,16 @@
 ```
 """
 
-import asyncio  # Added for async operations
 import json
 
 # Module imports
-import os
-from datetime import datetime, timedelta  # Added timedelta
+from datetime import datetime  # Added timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional
 
 try:
     import structlog
 except ImportError:
-    import logging
     structlog = None
 
 # Configure module logger
@@ -102,7 +99,9 @@ try:
         EnhancedMemoryVisualizer,
         VisualizationConfig,
     )
-    from quantum.systems.quantum_engine import Quantumoscillator as QuantumOscillator
+    from quantum.systems.quantum_engine import (
+        Quantumoscillator as QuantumOscillator,
+    )
 
     logger.info(
         "Successfully imported MemoryManager dependencies "
@@ -540,7 +539,7 @@ class EnhancedMemoryManager:
             raise FileNotFoundError(f"Memory package not found on disk: {memory_id}")
 
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 data = json.load(f)
             self.logger.info(
                 "Memory package loaded from disk.",

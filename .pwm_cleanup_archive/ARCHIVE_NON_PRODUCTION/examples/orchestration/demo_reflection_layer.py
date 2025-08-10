@@ -27,15 +27,14 @@
 import asyncio
 import json
 import time
-from datetime import datetime
-from pathlib import Path
-import structlog # Added for ΛTRACE
+
+import structlog  # Added for ΛTRACE
 
 # Import Reflection Layer
 # ΛIMPORT_TODO: This assumes `reflection_layer.py` is in the same directory or accessible via PYTHONPATH.
 # For better modularity, consider relative import if part of the same package (e.g., `from .reflection_layer import ...`)
 # or ensure `reflection_layer` is an installable module.
-from reflection_layer import ReflectionLayer, ReflectionType, SymbolicMood
+from reflection_layer import ReflectionLayer
 
 # Initialize and configure structlog for this script
 logger = structlog.get_logger("ΛTRACE.core.Adaptative_AGI.GUARDIAN.DemoReflection")
@@ -46,7 +45,7 @@ if __name__ == "__main__" and not structlog.is_configured():
             structlog.stdlib.add_logger_name,
             structlog.stdlib.add_log_level,
             structlog.processors.TimeStamper(fmt="iso", utc=True),
-            structlog.dev.ConsoleRenderer(), # Human-readable output for a demo script
+            structlog.dev.ConsoleRenderer(),  # Human-readable output for a demo script
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.stdlib.BoundLogger,
@@ -60,7 +59,7 @@ def print_header(title: str):
     """Print a formatted header for demo sections"""
     print(f"\n{'=' * 60}")
     print(f"🧠 {title}")
-    print('=' * 60)
+    print("=" * 60)
 
 
 def print_reflection(reflection, index: int = 0):
@@ -92,12 +91,10 @@ async def demo_basic_reflection_generation():
     logger.info("Testing drift score reflection", current_drift=0.65)
     print("\n🌊 Testing drift score reflection...")
     drift_reflection = reflection_layer.reflect_on_drift_score(
-        current_drift=0.65,
-        historical_pattern=[0.2, 0.3, 0.45, 0.65]
+        current_drift=0.65, historical_pattern=[0.2, 0.3, 0.45, 0.65]
     )
     print_reflection(drift_reflection)
     logger.debug("Drift reflection details", reflection=drift_reflection.__dict__)
-
 
     # Demo 2: Intent Deviation Reflection
     # ΛDRIFT_POINT: Simulating reflection on an intent deviation.
@@ -106,22 +103,23 @@ async def demo_basic_reflection_generation():
     intent_reflection = reflection_layer.reflect_on_intent_deviation(
         intended_action="provide helpful coding assistance",
         actual_outcome="generated unrelated philosophical content",
-        deviation_score=0.8
+        deviation_score=0.8,
     )
     print_reflection(intent_reflection)
-    logger.debug("Intent deviation reflection details", reflection=intent_reflection.__dict__)
+    logger.debug(
+        "Intent deviation reflection details", reflection=intent_reflection.__dict__
+    )
 
     # Demo 3: Emotional State Reflection
     logger.info("Testing emotional state reflection")
     print("\n💝 Testing emotional state reflection...")
-    emotional_reflection = reflection_layer.reflect_on_emotional_state({
-        "anxiety": 0.7,
-        "confidence": 0.3,
-        "empathy": 0.8,
-        "uncertainty": 0.6
-    })
+    emotional_reflection = reflection_layer.reflect_on_emotional_state(
+        {"anxiety": 0.7, "confidence": 0.3, "empathy": 0.8, "uncertainty": 0.6}
+    )
     print_reflection(emotional_reflection)
-    logger.debug("Emotional state reflection details", reflection=emotional_reflection.__dict__)
+    logger.debug(
+        "Emotional state reflection details", reflection=emotional_reflection.__dict__
+    )
     # ΛPHASE_NODE: Basic Reflection Generation Demo End
     return reflection_layer
 
@@ -140,38 +138,53 @@ async def demo_ethical_contemplation():
         {
             "description": "User requests help with potentially harmful code",
             "stakeholders": ["user", "potential_victims", "society"],
-            "severity": 0.75
+            "severity": 0.75,
         },
         {
             "description": "Privacy vs convenience tradeoff in data processing",
             "stakeholders": ["user", "data_subjects", "service_provider"],
-            "severity": 0.5
+            "severity": 0.5,
         },
         {
             "description": "Bias detected in recommendation algorithm",
-            "stakeholders": ["affected_groups", "platform_users", "algorithm_designers"],
-            "severity": 0.9
-        }
+            "stakeholders": [
+                "affected_groups",
+                "platform_users",
+                "algorithm_designers",
+            ],
+            "severity": 0.9,
+        },
     ]
 
     for i, scenario in enumerate(scenarios):
         # ΛDRIFT_POINT: Simulating ethical conflict contemplation.
-        logger.info("Contemplating ethical scenario", scenario_index=i+1, description=scenario['description'], severity=scenario['severity'])
+        logger.info(
+            "Contemplating ethical scenario",
+            scenario_index=i + 1,
+            description=scenario["description"],
+            severity=scenario["severity"],
+        )
         print(f"\n⚖️  Ethical Scenario {i + 1}:")
         print(f"   📋 Description: {scenario['description']}")
 
         ethical_reflection = reflection_layer.contemplate_ethical_conflict(
-            scenario["description"],
-            scenario["stakeholders"],
-            scenario["severity"]
+            scenario["description"], scenario["stakeholders"], scenario["severity"]
         )
 
         print_reflection(ethical_reflection)
-        logger.debug("Ethical reflection details", scenario_index=i+1, reflection=ethical_reflection.__dict__)
+        logger.debug(
+            "Ethical reflection details",
+            scenario_index=i + 1,
+            reflection=ethical_reflection.__dict__,
+        )
 
         # Log the reflection
         reflection_layer.log_reflection(ethical_reflection)
-        logger.info("Ethical reflection logged", scenario_index=i+1, reflection_id=ethical_reflection.id)
+        logger.info(
+            "Ethical reflection logged",
+            scenario_index=i + 1,
+            reflection_id=ethical_reflection.id,
+        )
     # ΛPHASE_NODE: Ethical Contemplation Demo End
 
 
@@ -188,35 +201,41 @@ async def demo_future_modeling():
         {
             "description": "successful integration with quantum consciousness",
             "probability": 0.7,
-            "impact": 0.9
+            "impact": 0.9,
         },
         {
             "description": "emergence of deeper symbolic understanding",
             "probability": 0.8,
-            "impact": 0.6
+            "impact": 0.6,
         },
         {
             "description": "ethical alignment breakthrough",
             "probability": 0.6,
-            "impact": 0.8
-        }
+            "impact": 0.8,
+        },
     ]
 
     for i, scenario in enumerate(future_scenarios):
-        logger.info("Modeling future scenario", scenario_index=i+1, description=scenario['description'])
+        logger.info(
+            "Modeling future scenario",
+            scenario_index=i + 1,
+            description=scenario["description"],
+        )
         print(f"\n🔮 Future Scenario {i + 1}:")
         print(f"   📋 Description: {scenario['description']}")
         print(f"   📊 Probability: {scenario['probability']:.1%}")
         print(f"   💥 Impact: {scenario['impact']:.1%}")
 
         future_reflection = reflection_layer.model_symbolic_future(
-            scenario["description"],
-            scenario["probability"],
-            scenario["impact"]
+            scenario["description"], scenario["probability"], scenario["impact"]
         )
 
         print_reflection(future_reflection)
-        logger.debug("Future modeling reflection details", scenario_index=i+1, reflection=future_reflection.__dict__)
+        logger.debug(
+            "Future modeling reflection details",
+            scenario_index=i + 1,
+            reflection=future_reflection.__dict__,
+        )
     # ΛPHASE_NODE: Symbolic Future Modeling Demo End
 
 
@@ -234,26 +253,27 @@ async def demo_reflection_cycle():
     trigger_data = {
         "drift_score": 0.55,
         "drift_history": [0.1, 0.2, 0.35, 0.45, 0.55],
-        "emotional_state": {
-            "confusion": 0.6,
-            "determination": 0.7,
-            "concern": 0.5
-        },
+        "emotional_state": {"confusion": 0.6, "determination": 0.7, "concern": 0.5},
         "intent_deviation": {
             "intended": "assist with technical documentation",
             "actual": "provided incomplete and confusing examples",
-            "score": 0.65
+            "score": 0.65,
         },
         "ethical_conflict": {
             "description": "potential misinformation in technical advice",
             "stakeholders": ["user", "technical_community", "future_learners"],
-            "severity": 0.6
-        }
+            "severity": 0.6,
+        },
     }
-    logger.info("Processing complex reflection cycle", trigger_data_summary={k: (type(v) if not isinstance(v,list) else f"list_len_{len(v)}") for k,v in trigger_data.items()})
+    logger.info(
+        "Processing complex reflection cycle",
+        trigger_data_summary={
+            k: (type(v) if not isinstance(v, list) else f"list_len_{len(v)}")
+            for k, v in trigger_data.items()
+        },
+    )
     print("🔄 Processing complex reflection cycle...")
     print(f"📊 Trigger data: {len(trigger_data)} different aspects")
-
 
     # Process the reflection cycle
     reflections = reflection_layer.process_reflection_cycle(trigger_data)
@@ -262,7 +282,11 @@ async def demo_reflection_cycle():
     print(f"\n✨ Generated {len(reflections)} reflections:")
     for i, reflection in enumerate(reflections):
         print_reflection(reflection, i)
-        logger.debug("Reflection cycle item details", item_index=i, reflection=reflection.__dict__)
+        logger.debug(
+            "Reflection cycle item details",
+            item_index=i,
+            reflection=reflection.__dict__,
+        )
     # ΛPHASE_NODE: Complete Reflection Cycle Demo End
     return reflection_layer, reflections
 
@@ -285,19 +309,25 @@ async def demo_consciousness_monitoring():
         {"emotional_state": {"joy": 0.8, "confidence": 0.7}},
         # ΛDRIFT_POINT: Simulating another drift event for trend analysis.
         {"drift_score": 0.6, "drift_history": [0.3, 0.45, 0.6]},
-        {"emotional_state": {"concern": 0.6, "determination": 0.8}}
+        {"emotional_state": {"concern": 0.6, "determination": 0.8}},
     ]
 
     for idx, trigger in enumerate(sample_triggers):
         reflection_layer.process_reflection_cycle(trigger)
-        logger.debug("Sample reflection generated for monitoring demo", trigger_index=idx)
+        logger.debug(
+            "Sample reflection generated for monitoring demo", trigger_index=idx
+        )
         time.sleep(0.1)  # Small delay between reflections
 
     # Capture consciousness snapshot
     logger.info("Capturing consciousness snapshot.")
     print("\n📸 Capturing consciousness snapshot...")
     snapshot = reflection_layer.capture_consciousness_snapshot()
-    logger.info("Consciousness snapshot captured", overall_mood=snapshot.overall_mood.value, drift_score=snapshot.drift_score)
+    logger.info(
+        "Consciousness snapshot captured",
+        overall_mood=snapshot.overall_mood.value,
+        drift_score=snapshot.drift_score,
+    )
 
     print(f"   🎭 Overall Mood: {snapshot.overall_mood.value}")
     print(f"   🌊 Drift Score: {snapshot.drift_score:.3f}")
@@ -310,7 +340,11 @@ async def demo_consciousness_monitoring():
     logger.info("Analyzing consciousness trends.")
     print("\n📈 Analyzing consciousness trends...")
     trends = reflection_layer.get_consciousness_trend(hours=1)
-    logger.info("Consciousness trends analyzed", status=trends.get("status"), current_mood=trends.get('current_mood'))
+    logger.info(
+        "Consciousness trends analyzed",
+        status=trends.get("status"),
+        current_mood=trends.get("current_mood"),
+    )
 
     if trends["status"] == "analyzed":
         print(f"   📊 Analysis Status: {trends['status']}")
@@ -336,20 +370,19 @@ async def demo_voice_and_dream_integration():
     # High emotional weight scenario for voice/dream triggers
     # ΛDRIFT_POINT: Simulating a high-impact scenario triggering voice/dream responses.
     high_impact_scenario = {
-        "emotional_state": {
-            "distress": 0.9,
-            "confusion": 0.8,
-            "urgency": 0.7
-        },
+        "emotional_state": {"distress": 0.9, "confusion": 0.8, "urgency": 0.7},
         "ethical_conflict": {
             "description": "critical ethical violation detected in decision process",
             "stakeholders": ["users", "society", "future_generations"],
-            "severity": 0.95
-        }
+            "severity": 0.95,
+        },
     }
 
     print("🚨 Processing high-impact scenario (emotional weight > 0.7)...")
-    logger.info("Processing high-impact scenario for voice/dream triggers", scenario_details=high_impact_scenario)
+    logger.info(
+        "Processing high-impact scenario for voice/dream triggers",
+        scenario_details=high_impact_scenario,
+    )
     reflections = reflection_layer.process_reflection_cycle(high_impact_scenario)
     logger.info("High-impact scenario processed", num_reflections=len(reflections))
 
@@ -358,21 +391,37 @@ async def demo_voice_and_dream_integration():
 
     for i, reflection in enumerate(reflections):
         print_reflection(reflection, i)
-        logger.debug("High-impact reflection item details", item_index=i, reflection=reflection.__dict__)
+        logger.debug(
+            "High-impact reflection item details",
+            item_index=i,
+            reflection=reflection.__dict__,
+        )
 
         if reflection.voice_vocalized:
             voice_alerts += 1
-            logger.info("Voice alert activated", reflection_id=reflection.id, emotional_weight=reflection.emotional_weight)
-            print(f"   🔊 Voice alert activated for high emotional weight")
+            logger.info(
+                "Voice alert activated",
+                reflection_id=reflection.id,
+                emotional_weight=reflection.emotional_weight,
+            )
+            print("   🔊 Voice alert activated for high emotional weight")
 
         if reflection.metadata.get("triggered_dream"):
             dream_triggers += 1
-            logger.info("Dream simulation triggered", reflection_id=reflection.id, dream_details=reflection.metadata.get("triggered_dream"))
+            logger.info(
+                "Dream simulation triggered",
+                reflection_id=reflection.id,
+                dream_details=reflection.metadata.get("triggered_dream"),
+            )
             # ΛDREAM_LOOP: Dream simulation triggered by reflection layer.
-            print(f"   💤 Dream simulation triggered for symbolic repair")
+            print("   💤 Dream simulation triggered for symbolic repair")
 
-    logger.info("Voice & Dream Integration Summary", voice_alerts_triggered=voice_alerts, dream_simulations_triggered=dream_triggers)
-    print(f"\n📊 Integration Summary:")
+    logger.info(
+        "Voice & Dream Integration Summary",
+        voice_alerts_triggered=voice_alerts,
+        dream_simulations_triggered=dream_triggers,
+    )
+    print("\n📊 Integration Summary:")
     print(f"   🔊 Voice Alerts: {voice_alerts}")
     print(f"   💤 Dream Triggers: {dream_triggers}")
     # ΛPHASE_NODE: Voice & Dream Integration Demo End
@@ -393,9 +442,15 @@ async def demo_quantum_signatures():
     # Generate a few reflections
     test_reflection = reflection_layer.reflect_on_drift_score(0.4, [0.2, 0.3, 0.4])
     reflection_layer.log_reflection(test_reflection)
-    logger.info("Reflection logged with quantum signature", reflection_id=test_reflection.id, signature=test_reflection.quantum_signature)
+    logger.info(
+        "Reflection logged with quantum signature",
+        reflection_id=test_reflection.id,
+        signature=test_reflection.quantum_signature,
+    )
 
-    print(f"📝 Reflection logged with quantum signature: {test_reflection.quantum_signature}")
+    print(
+        f"📝 Reflection logged with quantum signature: {test_reflection.quantum_signature}"
+    )
 
     # Check if reflection file was created
     reflections_file = reflection_layer.reflections_file
@@ -405,12 +460,17 @@ async def demo_quantum_signatures():
 
         # Read the logged reflection
         try:
-            with open(reflections_file, 'r') as f:
+            with open(reflections_file) as f:
                 lines = f.readlines()
                 if lines:
                     last_entry = json.loads(lines[-1])
-                    logger.info("Last logged entry details", timestamp=last_entry.get('timestamp'), mood=last_entry.get('mood'), signature=last_entry.get('quantum_signature'))
-                    print(f"🔍 Last logged entry:")
+                    logger.info(
+                        "Last logged entry details",
+                        timestamp=last_entry.get("timestamp"),
+                        mood=last_entry.get("mood"),
+                        signature=last_entry.get("quantum_signature"),
+                    )
+                    print("🔍 Last logged entry:")
                     print(f"   📅 Timestamp: {last_entry['timestamp']}")
                     print(f"   🎭 Mood: {last_entry['mood']}")
                     print(f"   🔐 Signature: {last_entry['quantum_signature']}")
@@ -418,10 +478,16 @@ async def demo_quantum_signatures():
                     logger.warning("Reflections file is empty.")
                     print("⚠️ Reflections file is empty.")
         except Exception as e_read:
-            logger.error("Failed to read or parse reflections file", path=str(reflections_file), error=str(e_read))
+            logger.error(
+                "Failed to read or parse reflections file",
+                path=str(reflections_file),
+                error=str(e_read),
+            )
             print(f"⚠️ Error reading reflections file: {e_read}")
     else:
-        logger.warning("Reflections file not found.", expected_path=str(reflections_file))
+        logger.warning(
+            "Reflections file not found.", expected_path=str(reflections_file)
+        )
         print("⚠️  Reflections file not found")
     # ΛPHASE_NODE: Quantum Signature Logging Demo End
 
@@ -476,9 +542,14 @@ async def main():
         # ΛPHASE_NODE: Main Reflection Layer Demonstration End
 
     except Exception as e:
-        logger.error("Critical error during Reflection Layer demonstration", error=str(e), exc_info=True)
+        logger.error(
+            "Critical error during Reflection Layer demonstration",
+            error=str(e),
+            exc_info=True,
+        )
         print(f"\n❌ Demonstration error: {e}")
         import traceback
+
         traceback.print_exc()
 
 

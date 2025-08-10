@@ -5,14 +5,12 @@ PWM Streamline Analyzer
 Focused redundancy analysis and streamlining recommendations for LUKHAS PWM.
 """
 
-import os
 import ast
-import hashlib
-from pathlib import Path
-from typing import Dict, List, Set, Tuple, Any
-from collections import defaultdict
 import json
 import logging
+from collections import defaultdict
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -21,12 +19,12 @@ logger = logging.getLogger(__name__)
 
 class StreamlineAnalyzer:
     """Analyzes specific modules for streamlining opportunities"""
-    
+
     def __init__(self):
         self.root_path = Path("/Users/agi_dev/Lukhas_PWM")
         self.key_modules = [
             "core",
-            "consciousness", 
+            "consciousness",
             "memory",
             "orchestration",
             "governance",
@@ -41,22 +39,22 @@ class StreamlineAnalyzer:
             'consolidation_opportunities': [],
             'unused_code': []
         }
-    
+
     def analyze(self) -> Dict[str, Any]:
         """Run focused streamlining analysis"""
         logger.info("🔍 Analyzing LUKHAS PWM for streamlining opportunities...\n")
-        
+
         # Analyze key modules
         for module in self.key_modules:
             logger.info(f"📂 Analyzing {module} module...")
             self._analyze_module(module)
-        
+
         # Find cross-module redundancies
         self._find_cross_module_redundancies()
-        
+
         # Generate recommendations
         recommendations = self._generate_recommendations()
-        
+
         # Create report
         report = {
             'summary': self._generate_summary(),
@@ -64,37 +62,37 @@ class StreamlineAnalyzer:
             'recommendations': recommendations,
             'streamlining_plan': self._create_streamlining_plan()
         }
-        
+
         # Save report
         report_path = self.root_path / "docs" / "reports" / "PWM_STREAMLINE_REPORT.json"
         report_path.parent.mkdir(parents=True, exist_ok=True)
         with open(report_path, 'w') as f:
             json.dump(report, f, indent=2)
-        
+
         # Print summary
         self._print_summary(report)
-        
+
         return report
-    
+
     def _analyze_module(self, module_name: str):
         """Analyze a specific module for redundancies"""
         module_path = self.root_path / module_name
         if not module_path.exists():
             return
-        
+
         # Collect module functions and classes
         functions = defaultdict(list)
         classes = defaultdict(list)
         imports = defaultdict(int)
-        
+
         for py_file in module_path.rglob("*.py"):
             try:
-                with open(py_file, 'r', encoding='utf-8') as f:
+                with open(py_file, encoding='utf-8') as f:
                     content = f.read()
-                
+
                 tree = ast.parse(content)
                 relative_path = py_file.relative_to(self.root_path)
-                
+
                 for node in ast.walk(tree):
                     if isinstance(node, ast.FunctionDef):
                         # Skip private and magic methods for now
@@ -105,24 +103,24 @@ class StreamlineAnalyzer:
                                 'name': node.name,
                                 'lines': (node.lineno, node.end_lineno or node.lineno)
                             })
-                    
+
                     elif isinstance(node, ast.ClassDef):
                         class_sig = self._get_class_signature(node)
                         classes[class_sig].append({
                             'file': str(relative_path),
                             'name': node.name
                         })
-                    
+
                     elif isinstance(node, ast.Import):
                         for alias in node.names:
                             imports[alias.name] += 1
                     elif isinstance(node, ast.ImportFrom):
                         if node.module:
                             imports[node.module] += 1
-                            
-            except Exception as e:
+
+            except Exception:
                 pass  # Skip files with syntax errors
-        
+
         # Find duplicates within module
         for func_sig, occurrences in functions.items():
             if len(occurrences) > 1:
@@ -131,7 +129,7 @@ class StreamlineAnalyzer:
                     'signature': func_sig,
                     'occurrences': occurrences
                 })
-        
+
         for class_sig, occurrences in classes.items():
             if len(occurrences) > 1:
                 self.findings['similar_classes'].append({
@@ -139,7 +137,7 @@ class StreamlineAnalyzer:
                     'signature': class_sig,
                     'occurrences': occurrences
                 })
-        
+
         # Find common imports
         common_imports = {imp: count for imp, count in imports.items() if count > 5}
         if common_imports:
@@ -147,12 +145,12 @@ class StreamlineAnalyzer:
                 'module': module_name,
                 'imports': common_imports
             })
-    
+
     def _get_function_signature(self, node: ast.FunctionDef) -> str:
         """Get normalized function signature"""
         args = [arg.arg for arg in node.args.args if arg.arg != 'self']
         return f"{node.name}({','.join(args)})"
-    
+
     def _get_class_signature(self, node: ast.ClassDef) -> str:
         """Get class signature based on public methods"""
         methods = []
@@ -160,11 +158,11 @@ class StreamlineAnalyzer:
             if isinstance(item, ast.FunctionDef) and not item.name.startswith('_'):
                 methods.append(item.name)
         return f"{node.name}[{','.join(sorted(methods))}]"
-    
+
     def _find_cross_module_redundancies(self):
         """Find redundancies across modules"""
         logger.info("\n🔎 Finding cross-module redundancies...")
-        
+
         # Common patterns across modules
         patterns = {
             'logger_initialization': {
@@ -184,18 +182,18 @@ class StreamlineAnalyzer:
                 'pattern': 'async def initialize'
             }
         }
-        
+
         # Find similar interfaces across modules
         interface_classes = defaultdict(list)
-        
+
         for module in self.key_modules:
             module_path = self.root_path / module
             if module_path.exists():
                 for py_file in module_path.rglob("*.py"):
                     try:
-                        with open(py_file, 'r', encoding='utf-8') as f:
+                        with open(py_file, encoding='utf-8') as f:
                             content = f.read()
-                        
+
                         # Check for common patterns
                         if 'get_logger(__name__)' in content:
                             patterns['logger_initialization']['files'].append(str(py_file.relative_to(self.root_path)))
@@ -203,17 +201,17 @@ class StreamlineAnalyzer:
                             patterns['config_loading']['files'].append(str(py_file.relative_to(self.root_path)))
                         if 'async def initialize' in content:
                             patterns['async_initialization']['files'].append(str(py_file.relative_to(self.root_path)))
-                        
+
                         # Find interface classes
                         tree = ast.parse(content)
                         for node in ast.walk(tree):
                             if isinstance(node, ast.ClassDef):
                                 if 'Interface' in node.name or 'Base' in node.name:
                                     interface_classes[node.name].append(str(py_file.relative_to(self.root_path)))
-                                    
+
                     except Exception:
                         pass
-        
+
         # Report common patterns
         for pattern_name, pattern_data in patterns.items():
             if len(pattern_data['files']) > 10:
@@ -224,7 +222,7 @@ class StreamlineAnalyzer:
                     'occurrences': len(pattern_data['files']),
                     'sample_files': pattern_data['files'][:5]
                 })
-        
+
         # Report similar interfaces
         for interface_name, files in interface_classes.items():
             if len(files) > 1:
@@ -233,7 +231,7 @@ class StreamlineAnalyzer:
                     'name': interface_name,
                     'files': files
                 })
-    
+
     def _generate_summary(self) -> Dict[str, Any]:
         """Generate analysis summary"""
         return {
@@ -244,31 +242,31 @@ class StreamlineAnalyzer:
             'consolidation_opportunities': len(self.findings['consolidation_opportunities']),
             'estimated_reduction': self._estimate_code_reduction()
         }
-    
+
     def _estimate_code_reduction(self) -> Dict[str, Any]:
         """Estimate potential code reduction"""
         # Conservative estimates
         duplicate_functions = sum(
-            len(f['occurrences']) - 1 
+            len(f['occurrences']) - 1
             for f in self.findings['duplicate_functions']
         ) * 20  # Average 20 lines per function
-        
+
         similar_classes = sum(
             len(c['occurrences']) - 1
             for c in self.findings['similar_classes']
         ) * 50  # Average 50 lines per class
-        
+
         pattern_consolidation = len(self.findings['consolidation_opportunities']) * 10
-        
+
         return {
             'lines': duplicate_functions + similar_classes + pattern_consolidation,
             'percentage': 5  # Conservative 5% reduction estimate
         }
-    
+
     def _generate_recommendations(self) -> List[Dict[str, Any]]:
         """Generate specific recommendations"""
         recommendations = []
-        
+
         # High priority: Remove exact duplicates
         if self.findings['duplicate_functions']:
             recommendations.append({
@@ -281,7 +279,7 @@ class StreamlineAnalyzer:
                     for f in self.findings['duplicate_functions'][:3]
                 ]
             })
-        
+
         # Medium priority: Consolidate similar classes
         if self.findings['similar_classes']:
             recommendations.append({
@@ -294,7 +292,7 @@ class StreamlineAnalyzer:
                     for c in self.findings['similar_classes'][:3]
                 ]
             })
-        
+
         # Create common utilities
         pattern_opportunities = [
             o for o in self.findings['consolidation_opportunities']
@@ -308,7 +306,7 @@ class StreamlineAnalyzer:
                 'impact': 'Reduce boilerplate and improve consistency',
                 'patterns': [p['name'] for p in pattern_opportunities]
             })
-        
+
         # Centralize imports
         if self.findings['redundant_imports']:
             recommendations.append({
@@ -318,9 +316,9 @@ class StreamlineAnalyzer:
                 'impact': 'Cleaner import sections and easier dependency management',
                 'modules': [r['module'] for r in self.findings['redundant_imports']]
             })
-        
+
         return recommendations
-    
+
     def _create_streamlining_plan(self) -> Dict[str, Any]:
         """Create actionable streamlining plan"""
         return {
@@ -364,37 +362,37 @@ class StreamlineAnalyzer:
                 ]
             }
         }
-    
+
     def _print_summary(self, report: Dict[str, Any]):
         """Print analysis summary"""
         print("\n" + "="*80)
         print("📊 STREAMLINING ANALYSIS SUMMARY")
         print("="*80)
-        
+
         summary = report['summary']
-        print(f"\n📈 Analysis Results:")
+        print("\n📈 Analysis Results:")
         print(f"   Modules analyzed: {summary['modules_analyzed']}")
         print(f"   Duplicate functions found: {summary['duplicate_functions']}")
         print(f"   Similar classes found: {summary['similar_classes']}")
         print(f"   Consolidation opportunities: {summary['consolidation_opportunities']}")
         print(f"   Estimated code reduction: {summary['estimated_reduction']['lines']} lines (~{summary['estimated_reduction']['percentage']}%)")
-        
+
         if report['recommendations']:
-            print(f"\n💡 Top Recommendations:")
+            print("\n💡 Top Recommendations:")
             for rec in report['recommendations'][:3]:
                 print(f"\n   [{rec['priority']}] {rec['action']}")
                 print(f"   {rec['description']}")
                 print(f"   Impact: {rec['impact']}")
-        
+
         plan = report['streamlining_plan']
-        print(f"\n📋 Streamlining Plan:")
+        print("\n📋 Streamlining Plan:")
         total_duration = 0
         for phase_key, phase in plan.items():
             print(f"\n   {phase_key.upper()}: {phase['name']} ({phase['duration']})")
             for task in phase['tasks'][:2]:
                 print(f"      - {task}")
-        
-        print(f"\n✅ Full report saved to: docs/reports/PWM_STREAMLINE_REPORT.json")
+
+        print("\n✅ Full report saved to: docs/reports/PWM_STREAMLINE_REPORT.json")
         print("="*80)
 
 

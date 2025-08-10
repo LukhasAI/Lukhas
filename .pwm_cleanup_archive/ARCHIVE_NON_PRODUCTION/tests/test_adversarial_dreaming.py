@@ -1,5 +1,6 @@
 from dream.engine.dream_engine import DreamEngine
 
+
 def test_adversarial_dreaming():
     # Setup
     engine = DreamEngine()

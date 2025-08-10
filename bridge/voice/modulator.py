@@ -15,21 +15,26 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any
+from typing import Any
+
 
 class VoiceModulator:
-    def __init__(self, settings: Dict[str, Any]):
-        self.default_voice = settings.get("default_voice", "neutral")
-        self.emotion_mapping = settings.get("emotion_mapping", {
-            "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
-            "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
-            "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
-            "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
-            "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
-            "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0}
-        })
 
-    def determine_parameters(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def __init__(self, settings: dict[str, Any]):
+        self.default_voice = settings.get("default_voice", "neutral")
+        self.emotion_mapping = settings.get(
+            "emotion_mapping",
+            {
+                "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
+                "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
+                "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
+                "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
+                "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
+                "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
+            },
+        )
+
+    def determine_parameters(self, context: dict[str, Any]) -> dict[str, Any]:
         params = self.emotion_mapping.get("neutral").copy()
         emotion = context.get("emotion", "neutral")
         if emotion in self.emotion_mapping:
@@ -49,8 +54,9 @@ class VoiceModulator:
         params["voice_id"] = self._select_voice(context)
         return params
 
-    def _select_voice(self, context: Dict[str, Any]) -> str:
+    def _select_voice(self, context: dict[str, Any]) -> str:
         return self.default_voice
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

@@ -13,41 +13,50 @@ Creates both JSON and HTML visualizations
 
 import json
 import os
-from collections import defaultdict
 from datetime import datetime
+
 
 def generate_connectivity_json():
     """Generate the master connectivity index"""
-    
+
     # Load the hybrid component mapping
-    with open('docs/reports/analysis/PWM_HYBRID_COMPONENT_MAPPING.json', 'r') as f:
+    with open("docs/reports/analysis/PWM_HYBRID_COMPONENT_MAPPING.json") as f:
         hybrid_data = json.load(f)
-    
+
     connectivity = {
         "generated_at": datetime.now().isoformat(),
         "system_name": "LUKHAS AI - Neuroplastic Architecture",
         "total_modules": 7,
-        "total_hybrid_components": hybrid_data['summary']['total_hybrid_components'] if 'summary' in hybrid_data else 203,
-        
+        "total_hybrid_components": (
+            hybrid_data["summary"]["total_hybrid_components"]
+            if "summary" in hybrid_data
+            else 203
+        ),
         "modules": {
             "CORE": {
                 "role": "Brain Stem - Foundation",
                 "status": "always_active",
                 "hybrid_subdirs": [
                     "nervous_system/tagging",
-                    "nervous_system/colony_base", 
+                    "nervous_system/colony_base",
                     "nervous_system/propagation",
-                    "hybrid_components/*"
+                    "hybrid_components/*",
                 ],
                 "connections": {
-                    "outgoing": ["consciousness", "memory", "quantum", "emotion", "governance", "bridge"],
+                    "outgoing": [
+                        "consciousness",
+                        "memory",
+                        "quantum",
+                        "emotion",
+                        "governance",
+                        "bridge",
+                    ],
                     "incoming": ["all_modules"],
-                    "bidirectional": ["consciousness", "memory", "quantum"]
+                    "bidirectional": ["consciousness", "memory", "quantum"],
                 },
                 "hormone_production": ["GABA", "Glutamate"],
-                "stress_response": "maintain_basics"
+                "stress_response": "maintain_basics",
             },
-            
             "CONSCIOUSNESS": {
                 "role": "Cortex - Awareness & Decision",
                 "status": "adaptive",
@@ -55,17 +64,16 @@ def generate_connectivity_json():
                     "quantum_integration",
                     "awareness",
                     "systems/dream_engine",
-                    "meta_cognitive"
+                    "meta_cognitive",
                 ],
                 "connections": {
                     "outgoing": ["memory", "emotion", "quantum", "governance"],
                     "incoming": ["core", "memory", "emotion"],
-                    "bidirectional": ["memory", "emotion", "quantum"]
+                    "bidirectional": ["memory", "emotion", "quantum"],
                 },
                 "hormone_production": ["Dopamine", "Serotonin"],
-                "stress_response": "delegate_to_governance"
+                "stress_response": "delegate_to_governance",
             },
-            
             "MEMORY": {
                 "role": "Hippocampus - Storage & Recall",
                 "status": "adaptive",
@@ -73,17 +81,16 @@ def generate_connectivity_json():
                     "emotional_memory_manager",
                     "fold_system",
                     "trauma_repair",
-                    "systems/dream_memory"
+                    "systems/dream_memory",
                 ],
                 "connections": {
                     "outgoing": ["consciousness", "emotion", "quantum"],
                     "incoming": ["all_modules"],
-                    "bidirectional": ["consciousness", "emotion"]
+                    "bidirectional": ["consciousness", "emotion"],
                 },
                 "hormone_production": ["Oxytocin"],
-                "stress_response": "activate_compression"
+                "stress_response": "activate_compression",
             },
-            
             "QUANTUM": {
                 "role": "Quantum Processor - Computation",
                 "status": "adaptive",
@@ -91,17 +98,16 @@ def generate_connectivity_json():
                     "processing",
                     "bio_integration",
                     "consciousness_collapse",
-                    "pattern_recognition"
+                    "pattern_recognition",
                 ],
                 "connections": {
                     "outgoing": ["consciousness", "memory", "bio"],
                     "incoming": ["core", "consciousness", "governance"],
-                    "bidirectional": ["consciousness", "memory", "bio"]
+                    "bidirectional": ["consciousness", "memory", "bio"],
                 },
                 "hormone_production": ["Glutamate"],
-                "stress_response": "crisis_acceleration"
+                "stress_response": "crisis_acceleration",
             },
-            
             "EMOTION": {
                 "role": "Limbic System - Affect & Mood",
                 "status": "adaptive",
@@ -109,17 +115,16 @@ def generate_connectivity_json():
                     "affect_detection",
                     "mood_regulation",
                     "colony_emotions",
-                    "memory_emotions"
+                    "memory_emotions",
                 ],
                 "connections": {
                     "outgoing": ["memory", "consciousness", "governance"],
                     "incoming": ["consciousness", "memory", "core"],
-                    "bidirectional": ["memory", "consciousness"]
+                    "bidirectional": ["memory", "consciousness"],
                 },
                 "hormone_production": ["Cortisol", "Serotonin", "Oxytocin"],
-                "stress_response": "trauma_processing"
+                "stress_response": "trauma_processing",
             },
-            
             "GOVERNANCE": {
                 "role": "Immune System - Protection & Ethics",
                 "status": "adaptive",
@@ -127,17 +132,16 @@ def generate_connectivity_json():
                     "guardian_system",
                     "ethics_engine",
                     "drift_detection",
-                    "emergency_protocols"
+                    "emergency_protocols",
                 ],
                 "connections": {
                     "outgoing": ["all_modules"],
                     "incoming": ["core", "consciousness"],
-                    "bidirectional": ["core"]
+                    "bidirectional": ["core"],
                 },
                 "hormone_production": ["Cortisol", "Adrenaline", "GABA"],
-                "stress_response": "assume_control"
+                "stress_response": "assume_control",
             },
-            
             "BRIDGE": {
                 "role": "Peripheral Nervous - I/O",
                 "status": "adaptive",
@@ -145,77 +149,85 @@ def generate_connectivity_json():
                     "api_gateway",
                     "llm_wrappers",
                     "emergency_channel",
-                    "human_interface"
+                    "human_interface",
                 ],
                 "connections": {
                     "outgoing": ["core", "consciousness", "memory"],
                     "incoming": ["all_modules"],
-                    "bidirectional": ["core"]
+                    "bidirectional": ["core"],
                 },
                 "hormone_production": ["Dopamine"],
-                "stress_response": "lockdown_mode"
-            }
+                "stress_response": "lockdown_mode",
+            },
         },
-        
         "hybrid_relationships": {
             "memory-emotion": {
                 "shared_components": [
                     "emotional_memory_manager",
                     "affect_detection",
-                    "mood_memory_coupling"
+                    "mood_memory_coupling",
                 ],
                 "signal_types": ["Oxytocin", "Serotonin"],
-                "strength": 0.85
+                "strength": 0.85,
             },
             "consciousness-quantum": {
                 "shared_components": [
                     "quantum_integration",
                     "conscious_collapse",
-                    "awareness_superposition"
+                    "awareness_superposition",
                 ],
                 "signal_types": ["Glutamate", "GABA"],
-                "strength": 0.75
+                "strength": 0.75,
             },
             "governance-all": {
                 "shared_components": [
                     "ethics_enforcement",
                     "drift_monitoring",
-                    "guardian_oversight"
+                    "guardian_oversight",
                 ],
                 "signal_types": ["Cortisol", "Adrenaline"],
-                "strength": 0.95
-            }
+                "strength": 0.95,
+            },
         },
-        
         "neuroplastic_states": {
             "normal": {
-                "hierarchy": ["core", "consciousness", "memory", "quantum", "emotion", "governance", "bridge"],
-                "active_hormones": ["Serotonin", "Dopamine", "Glutamate"]
+                "hierarchy": [
+                    "core",
+                    "consciousness",
+                    "memory",
+                    "quantum",
+                    "emotion",
+                    "governance",
+                    "bridge",
+                ],
+                "active_hormones": ["Serotonin", "Dopamine", "Glutamate"],
             },
             "stress": {
                 "hierarchy": ["governance", "core", "quantum", "consciousness"],
                 "active_hormones": ["Cortisol", "Adrenaline", "GABA"],
-                "suppressed": ["emotion", "creativity", "bridge"]
+                "suppressed": ["emotion", "creativity", "bridge"],
             },
             "trauma": {
                 "hierarchy": ["emotion", "memory", "governance", "core"],
                 "active_hormones": ["Cortisol", "Oxytocin", "GABA"],
-                "enhanced": ["trauma_vault", "repair_mechanisms"]
+                "enhanced": ["trauma_vault", "repair_mechanisms"],
             },
             "overload": {
                 "hierarchy": ["memory", "quantum", "core"],
                 "active_hormones": ["Adrenaline", "Glutamate"],
-                "enhanced": ["compression", "folding"]
-            }
-        }
+                "enhanced": ["compression", "folding"],
+            },
+        },
     }
-    
+
     return connectivity
+
 
 def generate_html_visualization(connectivity):
     """Generate an interactive HTML visualization"""
-    
-    html_template = """
+
+    html_template = (
+        """
 <!DOCTYPE html>
 <html>
 <head>
@@ -339,7 +351,9 @@ def generate_html_visualization(connectivity):
     <div id="info"></div>
     
     <script>
-        const connectivity = """ + json.dumps(connectivity, indent=2) + """;
+        const connectivity = """
+        + json.dumps(connectivity, indent=2)
+        + """;
         
         let currentState = 'normal';
         const modules = connectivity.modules;
@@ -489,37 +503,40 @@ def generate_html_visualization(connectivity):
 </body>
 </html>
 """
-    
+    )
+
     return html_template
+
 
 def main():
     print("Generating LUKHAS Neuroplastic Connectivity Map...")
-    
+
     # Generate connectivity data
     connectivity = generate_connectivity_json()
-    
+
     # Save JSON
-    json_path = 'docs/LUKHAS_CONNECTIVITY_INDEX.json'
+    json_path = "docs/LUKHAS_CONNECTIVITY_INDEX.json"
     os.makedirs(os.path.dirname(json_path), exist_ok=True)
-    with open(json_path, 'w') as f:
+    with open(json_path, "w") as f:
         json.dump(connectivity, f, indent=2)
     print(f"✓ Saved connectivity index to {json_path}")
-    
+
     # Generate and save HTML
     html = generate_html_visualization(connectivity)
-    html_path = 'docs/LUKHAS_CONNECTIVITY_MAP.html'
-    with open(html_path, 'w') as f:
+    html_path = "docs/LUKHAS_CONNECTIVITY_MAP.html"
+    with open(html_path, "w") as f:
         f.write(html)
     print(f"✓ Saved interactive map to {html_path}")
-    
+
     # Print summary
     print("\n=== Connectivity Summary ===")
     print(f"Total Modules: {connectivity['total_modules']}")
     print(f"Total Hybrid Components: {connectivity['total_hybrid_components']}")
     print(f"\nNeuroplastic States: {list(connectivity['neuroplastic_states'].keys())}")
-    print(f"\nKey Hybrid Relationships:")
-    for rel, data in connectivity['hybrid_relationships'].items():
+    print("\nKey Hybrid Relationships:")
+    for rel, data in connectivity["hybrid_relationships"].items():
         print(f"  {rel}: strength={data['strength']}, signals={data['signal_types']}")
+
 
 if __name__ == "__main__":
     main()

@@ -6,17 +6,21 @@ Generates QR-Gs with dual-layer (visible + steganographic) encoding.
 Handles tier-based encoding, decoding, and security warnings.
 """
 
-import qrcode
-from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
+from typing import Optional
+
+import qrcode
+
 
 @dataclass
 class GLYMPHData:
     """Represents GLYMPH data structure"""
+
     visible_layer: str
     hidden_layer: bytes
     tier_level: int
     emotional_entropy: float
+
 
 class GlyphStegoEncoder:
     """Handles dual-layer QR-G encoding with steganographic capabilities."""
@@ -26,10 +30,10 @@ class GlyphStegoEncoder:
         self.stego_key = None
         self.encoding_matrix = None
 
-    def encode_dual_layer(self, visible_data: str, hidden_data: bytes, tier: int) -> bytes:
+    def encode_dual_layer(
+        self, visible_data: str, hidden_data: bytes, tier: int
+    ) -> bytes:
         """Encode both visible and steganographic layers in QR-G."""
-        import base64
-        from PIL import Image
         from io import BytesIO
 
         qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H)
@@ -38,7 +42,7 @@ class GlyphStegoEncoder:
         img = qr.make_image(fill="black", back_color="white").convert("RGB")
 
         pixels = img.load()
-        hidden_bits = ''.join(format(byte, '08b') for byte in hidden_data)
+        hidden_bits = "".join(format(byte, "08b") for byte in hidden_data)
         bit_index = 0
 
         for y in range(img.size[1]):
@@ -70,8 +74,9 @@ class GlyphStegoEncoder:
 
     def decode_hidden_layer(self, qr_image: bytes, stego_key: bytes) -> Optional[bytes]:
         """Decode hidden steganographic layer with proper key."""
-        from PIL import Image
         from io import BytesIO
+
+        from PIL import Image
 
         try:
             img = Image.open(BytesIO(qr_image))
@@ -83,7 +88,7 @@ class GlyphStegoEncoder:
                     r, g, b = pixels[x, y]
                     hidden_bits += str(r & 1)
 
-            byte_list = [hidden_bits[i:i+8] for i in range(0, len(hidden_bits), 8)]
+            byte_list = [hidden_bits[i : i + 8] for i in range(0, len(hidden_bits), 8)]
             decoded_bytes = bytes([int(b, 2) for b in byte_list if len(b) == 8])
             return decoded_bytes
         except Exception:
@@ -100,13 +105,16 @@ class GlyphStegoEncoder:
 
     def validate_glyph_integrity(self, qr_image: bytes) -> bool:
         """Validate QR-G integrity and detect tampering."""
-        from PIL import Image
         from io import BytesIO
+
+        from PIL import Image
+
         try:
             img = Image.open(BytesIO(qr_image))
             return img.size[0] > 50 and img.format == "PNG"
         except Exception:
             return False
+
 
 # TODO: Implement steganographic algorithms
 # TODO: Add error correction for hidden layers

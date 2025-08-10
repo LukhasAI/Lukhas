@@ -5,9 +5,9 @@ Handles device location updates and privacy-aware tracking
 
 import asyncio
 import logging
-from typing import Optional, Callable, Dict, List
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -33,9 +33,9 @@ class LocationTracker:
         self.privacy_level = privacy_level  # low, medium, high
         self.tracking_enabled = False
         self.current_location: Optional[LocationUpdate] = None
-        self.location_history: List[LocationUpdate] = []
+        self.location_history: list[LocationUpdate] = []
         self.max_history_size = 100
-        self.update_callbacks: List[Callable] = []
+        self.update_callbacks: list[Callable] = []
         self.minimum_distance = 10  # meters
         self.minimum_time = 30  # seconds
         self.last_update_time: Optional[datetime] = None
@@ -167,7 +167,7 @@ class LocationTracker:
 
     async def get_location_history(
         self, max_age_hours: int = 24
-    ) -> List[LocationUpdate]:
+    ) -> list[LocationUpdate]:
         """Get recent location history"""
         cutoff_time = datetime.utcnow() - timedelta(hours=max_age_hours)
         return [loc for loc in self.location_history if loc.timestamp >= cutoff_time]
@@ -203,7 +203,7 @@ class LocationTracker:
             logger.error(f"Failed to set privacy level: {e}")
             return False
 
-    async def get_privacy_status(self) -> Dict:
+    async def get_privacy_status(self) -> dict:
         """Get current privacy and tracking status"""
         return {
             "privacy_level": self.privacy_level,

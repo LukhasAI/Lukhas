@@ -9,25 +9,26 @@ Author: lukhas AI Team
 TAGS: [CRITICAL, KeyFile, Voice, Audio]
 """
 
-from core.common import get_logger
 import json
 import os
-import numpy as np
-import wave
-import pyaudio
-import speech_recognition as sr
-import pyttsx3
-from typing import Dict, Any, Optional, List, Tuple, Union
 from enum import Enum
-from pathlib import Path
+from typing import Any, Optional, Union
+
+import pyttsx3
+import speech_recognition as sr
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
+
 class VoiceMode(Enum):
     """Voice processing modes"""
+
     TEXT_TO_SPEECH = "tts"
     SPEECH_TO_TEXT = "stt"
     BOTH = "both"
+
 
 class VoiceProcessor:
     """Main voice processing system for lukhas AGI"""
@@ -38,7 +39,7 @@ class VoiceProcessor:
         self.engine = pyttsx3.init()
         self.setup_voice_properties()
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
+    def _load_config(self, config_path: str) -> dict[str, Any]:
         """Load voice configuration"""
         try:
             with open(config_path) as f:
@@ -60,7 +61,9 @@ class VoiceProcessor:
                 self.engine.setProperty("voice", voice.id)
                 break
 
-    async def text_to_speech(self, text: str, output_path: Optional[str] = None) -> bool:
+    async def text_to_speech(
+        self, text: str, output_path: Optional[str] = None
+    ) -> bool:
         """Convert text to speech
 
         Args:
@@ -105,9 +108,9 @@ class VoiceProcessor:
             logger.error(f"Speech-to-text failed: {e}")
             return None
 
-    async def process_voice(self,
-                          input_data: Union[str, bytes],
-                          mode: VoiceMode = VoiceMode.BOTH) -> Dict[str, Any]:
+    async def process_voice(
+        self, input_data: Union[str, bytes], mode: VoiceMode = VoiceMode.BOTH
+    ) -> dict[str, Any]:
         """Process voice data
 
         Args:

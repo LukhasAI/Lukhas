@@ -21,7 +21,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -68,10 +68,10 @@ class AwarenessInput:
     session_id: str
     awareness_type: AwarenessType
     timestamp: datetime = field(default_factory=datetime.utcnow)
-    context_data: Dict[str, Any] = field(default_factory=dict)
-    bio_metrics: Dict[str, float] = field(default_factory=dict)
-    symbolic_state: Dict[str, Any] = field(default_factory=dict)
-    environmental_data: Dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
+    bio_metrics: dict[str, float] = field(default_factory=dict)
+    symbolic_state: dict[str, Any] = field(default_factory=dict)
+    environmental_data: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -82,10 +82,10 @@ class AwarenessOutput:
     user_id: str
     tier_assignment: TierLevel
     confidence_score: float
-    reasoning: List[str] = field(default_factory=list)
-    bio_feedback: Dict[str, Any] = field(default_factory=dict)
+    reasoning: list[str] = field(default_factory=list)
+    bio_feedback: dict[str, Any] = field(default_factory=dict)
     symbolic_signature: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=datetime.utcnow)
     expires_at: Optional[datetime] = None
 
@@ -98,10 +98,10 @@ class SessionContext:
     user_id: str
     created_at: datetime = field(default_factory=datetime.utcnow)
     last_activity: datetime = field(default_factory=datetime.utcnow)
-    tier_history: List[TierLevel] = field(default_factory=list)
+    tier_history: list[TierLevel] = field(default_factory=list)
     assessment_count: int = 0
     status: ProtocolStatus = ProtocolStatus.INITIALIZING
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class AwarenessAssessor(ABC):
@@ -110,17 +110,14 @@ class AwarenessAssessor(ABC):
     @abstractmethod
     async def assess(self, input_data: AwarenessInput) -> AwarenessOutput:
         """Assess awareness and return tier assignment"""
-        pass
 
     @abstractmethod
-    def get_supported_types(self) -> List[AwarenessType]:
+    def get_supported_types(self) -> list[AwarenessType]:
         """Get list of supported awareness types"""
-        pass
 
     @abstractmethod
-    def get_assessor_info(self) -> Dict[str, Any]:
+    def get_assessor_info(self) -> dict[str, Any]:
         """Get information about this assessor"""
-        pass
 
 
 class AwarenessProtocolInterface(ABC):
@@ -128,46 +125,40 @@ class AwarenessProtocolInterface(ABC):
 
     @abstractmethod
     async def initialize_session(
-        self, user_id: str, session_data: Dict[str, Any]
+        self, user_id: str, session_data: dict[str, Any]
     ) -> SessionContext:
         """Initialize a new awareness session"""
-        pass
 
     @abstractmethod
     async def assess_awareness(self, input_data: AwarenessInput) -> AwarenessOutput:
         """Assess user awareness and assign tier"""
-        pass
 
     @abstractmethod
     async def update_session(
-        self, session_id: str, update_data: Dict[str, Any]
+        self, session_id: str, update_data: dict[str, Any]
     ) -> SessionContext:
         """Update session context"""
-        pass
 
     @abstractmethod
     async def terminate_session(self, session_id: str) -> bool:
         """Terminate an awareness session"""
-        pass
 
     @abstractmethod
     def get_session_status(self, session_id: str) -> Optional[SessionContext]:
         """Get current session status"""
-        pass
 
     @abstractmethod
     def register_assessor(self, assessor: AwarenessAssessor) -> bool:
         """Register an awareness assessor"""
-        pass
 
 
 class DefaultAwarenessProtocol(AwarenessProtocolInterface):
     """Default implementation of awareness protocol"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.sessions: Dict[str, SessionContext] = {}
-        self.assessors: Dict[AwarenessType, AwarenessAssessor] = {}
+        self.sessions: dict[str, SessionContext] = {}
+        self.assessors: dict[AwarenessType, AwarenessAssessor] = {}
         self.logger = logger.getChild("DefaultAwarenessProtocol")
         self.session_timeout = timedelta(
             minutes=self.config.get("session_timeout_minutes", 60)
@@ -184,13 +175,15 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             self.assessors[awareness_type] = assessor
 
     async def initialize_session(
-        self, user_id: str, session_data: Dict[str, Any]
+        self, user_id: str, session_data: dict[str, Any]
     ) -> SessionContext:
         """Initialize a new awareness session"""
         session_id = self._generate_session_id(user_id)
 
         session = SessionContext(
-            session_id=session_id, user_id=user_id, metadata=session_data.copy()
+            session_id=session_id,
+            user_id=user_id,
+            metadata=session_data.copy(),
         )
 
         self.sessions[session_id] = session
@@ -241,7 +234,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
             raise
 
     async def update_session(
-        self, session_id: str, update_data: Dict[str, Any]
+        self, session_id: str, update_data: dict[str, Any]
     ) -> SessionContext:
         """Update session context"""
         session = self.sessions.get(session_id)
@@ -292,7 +285,7 @@ class DefaultAwarenessProtocol(AwarenessProtocolInterface):
         data = f"{user_id}:{timestamp}:{hash(user_id)}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
-    def get_protocol_metrics(self) -> Dict[str, Any]:
+    def get_protocol_metrics(self) -> dict[str, Any]:
         """Get protocol performance metrics"""
         active_sessions = sum(
             1
@@ -340,11 +333,11 @@ class DefaultAwarenessAssessor(AwarenessAssessor):
 
         return output
 
-    def get_supported_types(self) -> List[AwarenessType]:
+    def get_supported_types(self) -> list[AwarenessType]:
         """Get list of supported awareness types"""
         return [self.awareness_type]
 
-    def get_assessor_info(self) -> Dict[str, Any]:
+    def get_assessor_info(self) -> dict[str, Any]:
         """Get information about this assessor"""
         return {
             "name": self.__class__.__name__,
@@ -400,8 +393,10 @@ class DefaultAwarenessAssessor(AwarenessAssessor):
 
 
 # Factory function for creating protocol instances
+
+
 def create_awareness_protocol(
-    protocol_type: str = "default", config: Optional[Dict[str, Any]] = None
+    protocol_type: str = "default", config: Optional[dict[str, Any]] = None
 ) -> AwarenessProtocolInterface:
     """Factory function to create awareness protocol instances"""
     if protocol_type == "default":
@@ -415,7 +410,7 @@ _default_protocol: Optional[DefaultAwarenessProtocol] = None
 
 
 def get_default_protocol(
-    config: Optional[Dict[str, Any]] = None,
+    config: Optional[dict[str, Any]] = None,
 ) -> DefaultAwarenessProtocol:
     """Get the default awareness protocol instance"""
     global _default_protocol

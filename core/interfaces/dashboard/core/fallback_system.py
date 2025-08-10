@@ -45,32 +45,35 @@
 
 import asyncio
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Set, Callable, Union
-from dataclasses import dataclass, field
-from enum import Enum
-import json
 import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Callable, Optional
 
 # Import existing LUKHAS systems
-from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel as BioFallbackLevel
-from dashboard.core.self_healing_manager import SelfHealingManager, ComponentHealthStatus
-from dashboard.core.universal_adaptive_dashboard import DashboardMorphState, DashboardContext
-from dashboard.core.dashboard_colony_agent import DashboardColonyAgent, DashboardAgentRole
+from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
+from dashboard.core.dashboard_colony_agent import (
+    DashboardAgentRole,
+    DashboardColonyAgent,
+)
+from dashboard.core.self_healing_manager import SelfHealingManager
 
 logger = logging.getLogger("ΛTRACE.fallback_system")
 
 
 class DashboardFallbackLevel(Enum):
     """Dashboard-specific fallback levels with progressive degradation."""
-    OPTIMAL = 1     # Full functionality with all intelligence features
-    DEGRADED = 2    # Simplified morphing with basic colony integration
-    MINIMAL = 3     # Static tabs with essential monitoring only
-    EMERGENCY = 4   # Text-only critical status display
+
+    OPTIMAL = 1  # Full functionality with all intelligence features
+    DEGRADED = 2  # Simplified morphing with basic colony integration
+    MINIMAL = 3  # Static tabs with essential monitoring only
+    EMERGENCY = 4  # Text-only critical status display
 
 
 class FallbackTrigger(Enum):
     """Triggers that can initiate fallback activation."""
+
     COMPONENT_FAILURE = "component_failure"
     RESOURCE_EXHAUSTION = "resource_exhaustion"
     PERFORMANCE_DEGRADATION = "performance_degradation"
@@ -83,6 +86,7 @@ class FallbackTrigger(Enum):
 
 class RecoveryStrategy(Enum):
     """Strategies for recovering from fallback states."""
+
     IMMEDIATE_RETRY = "immediate_retry"
     GRADUAL_ESCALATION = "gradual_escalation"
     RESOURCE_REALLOCATION = "resource_reallocation"
@@ -94,13 +98,14 @@ class RecoveryStrategy(Enum):
 @dataclass
 class FallbackCondition:
     """Represents a condition that can trigger fallback."""
+
     condition_id: str
     trigger_type: FallbackTrigger
     severity_threshold: float
     target_level: DashboardFallbackLevel
     description: str
     recovery_strategy: RecoveryStrategy
-    affected_components: List[str] = field(default_factory=list)
+    affected_components: list[str] = field(default_factory=list)
     cooldown_period: int = 60  # seconds
     last_triggered: Optional[datetime] = None
 
@@ -108,20 +113,22 @@ class FallbackCondition:
 @dataclass
 class FallbackState:
     """Represents the current fallback state of the dashboard."""
+
     current_level: DashboardFallbackLevel
     active_since: datetime
     trigger_reason: str
-    affected_components: Set[str]
-    available_features: List[str]
-    disabled_features: List[str]
+    affected_components: set[str]
+    available_features: list[str]
+    disabled_features: list[str]
     recovery_attempts: int = 0
     next_recovery_attempt: Optional[datetime] = None
-    metrics: Dict[str, Any] = field(default_factory=dict)
+    metrics: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class FallbackEvent:
     """Represents a fallback event for logging and analysis."""
+
     event_id: str
     event_type: str  # "activation", "recovery", "escalation"
     from_level: Optional[DashboardFallbackLevel]
@@ -130,7 +137,7 @@ class FallbackEvent:
     timestamp: datetime
     duration_seconds: Optional[float] = None
     success: bool = True
-    details: Dict[str, Any] = field(default_factory=dict)
+    details: dict[str, Any] = field(default_factory=dict)
 
 
 class DashboardFallbackSystem:
@@ -149,7 +156,7 @@ class DashboardFallbackSystem:
 
         # Dashboard colony agents
         self.fallback_coordinator: Optional[DashboardColonyAgent] = None
-        self.support_agents: List[DashboardColonyAgent] = []
+        self.support_agents: list[DashboardColonyAgent] = []
 
         # Current fallback state
         self.current_state = FallbackState(
@@ -158,50 +165,94 @@ class DashboardFallbackSystem:
             trigger_reason="system_initialization",
             affected_components=set(),
             available_features=self._get_optimal_features(),
-            disabled_features=[]
+            disabled_features=[],
         )
 
         # Fallback conditions and configuration
-        self.fallback_conditions: Dict[str, FallbackCondition] = {}
-        self.fallback_history: List[FallbackEvent] = []
-        self.recovery_strategies: Dict[RecoveryStrategy, Callable] = {}
+        self.fallback_conditions: dict[str, FallbackCondition] = {}
+        self.fallback_history: list[FallbackEvent] = []
+        self.recovery_strategies: dict[RecoveryStrategy, Callable] = {}
 
         # Level configurations
         self.level_configurations = {
             DashboardFallbackLevel.OPTIMAL: {
                 "features": [
-                    "full_morphing", "colony_intelligence", "oracle_predictions",
-                    "ethics_guidance", "advanced_tabs", "real_time_streaming",
-                    "predictive_insights", "cross_colony_coordination",
-                    "quantum_enhancement", "dream_integration"
+                    "full_morphing",
+                    "colony_intelligence",
+                    "oracle_predictions",
+                    "ethics_guidance",
+                    "advanced_tabs",
+                    "real_time_streaming",
+                    "predictive_insights",
+                    "cross_colony_coordination",
+                    "quantum_enhancement",
+                    "dream_integration",
                 ],
-                "resource_requirements": {"cpu": 1.0, "memory": 1.0, "network": 1.0},
-                "performance_targets": {"response_time": 2.0, "throughput": 1000}
+                "resource_requirements": {
+                    "cpu": 1.0,
+                    "memory": 1.0,
+                    "network": 1.0,
+                },
+                "performance_targets": {
+                    "response_time": 2.0,
+                    "throughput": 1000,
+                },
             },
             DashboardFallbackLevel.DEGRADED: {
                 "features": [
-                    "basic_morphing", "essential_colony_integration", "core_tabs",
-                    "basic_streaming", "health_monitoring", "error_recovery"
+                    "basic_morphing",
+                    "essential_colony_integration",
+                    "core_tabs",
+                    "basic_streaming",
+                    "health_monitoring",
+                    "error_recovery",
                 ],
-                "resource_requirements": {"cpu": 0.6, "memory": 0.7, "network": 0.8},
-                "performance_targets": {"response_time": 5.0, "throughput": 500}
+                "resource_requirements": {
+                    "cpu": 0.6,
+                    "memory": 0.7,
+                    "network": 0.8,
+                },
+                "performance_targets": {
+                    "response_time": 5.0,
+                    "throughput": 500,
+                },
             },
             DashboardFallbackLevel.MINIMAL: {
                 "features": [
-                    "static_tabs", "basic_monitoring", "essential_status",
-                    "core_health_display", "manual_refresh"
+                    "static_tabs",
+                    "basic_monitoring",
+                    "essential_status",
+                    "core_health_display",
+                    "manual_refresh",
                 ],
-                "resource_requirements": {"cpu": 0.3, "memory": 0.4, "network": 0.5},
-                "performance_targets": {"response_time": 10.0, "throughput": 100}
+                "resource_requirements": {
+                    "cpu": 0.3,
+                    "memory": 0.4,
+                    "network": 0.5,
+                },
+                "performance_targets": {
+                    "response_time": 10.0,
+                    "throughput": 100,
+                },
             },
             DashboardFallbackLevel.EMERGENCY: {
                 "features": [
-                    "text_only_status", "critical_alerts", "basic_navigation",
-                    "emergency_contacts", "system_restart_controls"
+                    "text_only_status",
+                    "critical_alerts",
+                    "basic_navigation",
+                    "emergency_contacts",
+                    "system_restart_controls",
                 ],
-                "resource_requirements": {"cpu": 0.1, "memory": 0.2, "network": 0.2},
-                "performance_targets": {"response_time": 30.0, "throughput": 10}
-            }
+                "resource_requirements": {
+                    "cpu": 0.1,
+                    "memory": 0.2,
+                    "network": 0.2,
+                },
+                "performance_targets": {
+                    "response_time": 30.0,
+                    "throughput": 10,
+                },
+            },
         }
 
         # Performance metrics
@@ -211,13 +262,13 @@ class DashboardFallbackSystem:
             "average_fallback_duration": 0.0,
             "recovery_success_rate": 0.0,
             "predictive_fallbacks": 0,
-            "emergency_activations": 0
+            "emergency_activations": 0,
         }
 
         # Event handlers
-        self.fallback_activation_handlers: List[Callable] = []
-        self.recovery_success_handlers: List[Callable] = []
-        self.level_change_handlers: List[Callable] = []
+        self.fallback_activation_handlers: list[Callable] = []
+        self.recovery_success_handlers: list[Callable] = []
+        self.level_change_handlers: list[Callable] = []
 
         self.logger.info("Dashboard Fallback System initialized")
 
@@ -273,7 +324,7 @@ class DashboardFallbackSystem:
         support_roles = [
             DashboardAgentRole.PERFORMANCE_MONITOR,
             DashboardAgentRole.HEALING_SPECIALIST,
-            DashboardAgentRole.INTELLIGENCE_AGGREGATOR
+            DashboardAgentRole.INTELLIGENCE_AGGREGATOR,
         ]
 
         for role in support_roles:
@@ -281,8 +332,10 @@ class DashboardFallbackSystem:
             await agent.initialize()
             self.support_agents.append(agent)
 
-        self.logger.info("Fallback colony agents initialized",
-                        agents=len(self.support_agents) + 1)
+        self.logger.info(
+            "Fallback colony agents initialized",
+            agents=len(self.support_agents) + 1,
+        )
 
     async def _setup_fallback_conditions(self):
         """Setup conditions that trigger fallback activation."""
@@ -296,7 +349,7 @@ class DashboardFallbackSystem:
             description="Critical dashboard component failure",
             recovery_strategy=RecoveryStrategy.COLONY_COORDINATION,
             affected_components=["morphing_engine", "oracle_integration"],
-            cooldown_period=30
+            cooldown_period=30,
         )
 
         # Performance degradation conditions
@@ -307,7 +360,7 @@ class DashboardFallbackSystem:
             target_level=DashboardFallbackLevel.DEGRADED,
             description="Dashboard performance below acceptable threshold",
             recovery_strategy=RecoveryStrategy.RESOURCE_REALLOCATION,
-            cooldown_period=60
+            cooldown_period=60,
         )
 
         # System overload conditions
@@ -318,7 +371,7 @@ class DashboardFallbackSystem:
             target_level=DashboardFallbackLevel.MINIMAL,
             description="System resource exhaustion",
             recovery_strategy=RecoveryStrategy.GRADUAL_ESCALATION,
-            cooldown_period=120
+            cooldown_period=120,
         )
 
         # Emergency conditions
@@ -329,11 +382,13 @@ class DashboardFallbackSystem:
             target_level=DashboardFallbackLevel.EMERGENCY,
             description="Emergency situation requiring minimal functionality",
             recovery_strategy=RecoveryStrategy.MANUAL_INTERVENTION,
-            cooldown_period=300
+            cooldown_period=300,
         )
 
-        self.logger.info("Fallback conditions configured",
-                        conditions=len(self.fallback_conditions))
+        self.logger.info(
+            "Fallback conditions configured",
+            conditions=len(self.fallback_conditions),
+        )
 
     async def _setup_recovery_strategies(self):
         """Setup recovery strategies for different fallback scenarios."""
@@ -344,13 +399,17 @@ class DashboardFallbackSystem:
             RecoveryStrategy.RESOURCE_REALLOCATION: self._resource_reallocation_recovery,
             RecoveryStrategy.COLONY_COORDINATION: self._colony_coordination_recovery,
             RecoveryStrategy.PREDICTIVE_RECOVERY: self._predictive_recovery,
-            RecoveryStrategy.MANUAL_INTERVENTION: self._manual_intervention_recovery
+            RecoveryStrategy.MANUAL_INTERVENTION: self._manual_intervention_recovery,
         }
 
-        self.logger.info("Recovery strategies configured",
-                        strategies=len(self.recovery_strategies))
+        self.logger.info(
+            "Recovery strategies configured",
+            strategies=len(self.recovery_strategies),
+        )
 
-    async def evaluate_fallback_need(self, context: Dict[str, Any]) -> Optional[DashboardFallbackLevel]:
+    async def evaluate_fallback_need(
+        self, context: dict[str, Any]
+    ) -> Optional[DashboardFallbackLevel]:
         """Evaluate if fallback activation is needed based on current context."""
 
         current_time = datetime.now()
@@ -359,8 +418,11 @@ class DashboardFallbackSystem:
 
         for condition_id, condition in self.fallback_conditions.items():
             # Check cooldown period
-            if (condition.last_triggered and
-                (current_time - condition.last_triggered).total_seconds() < condition.cooldown_period):
+            if (
+                condition.last_triggered
+                and (current_time - condition.last_triggered).total_seconds()
+                < condition.cooldown_period
+            ):
                 continue
 
             # Evaluate condition based on trigger type
@@ -371,27 +433,37 @@ class DashboardFallbackSystem:
                     highest_severity = severity
                     recommended_level = condition.target_level
 
-                self.logger.warning("Fallback condition triggered",
-                                  condition_id=condition_id,
-                                  severity=severity,
-                                  target_level=condition.target_level.name)
+                self.logger.warning(
+                    "Fallback condition triggered",
+                    condition_id=condition_id,
+                    severity=severity,
+                    target_level=condition.target_level.name,
+                )
 
         return recommended_level
 
-    async def activate_fallback(self, target_level: DashboardFallbackLevel,
-                              trigger: FallbackTrigger, reason: str,
-                              affected_components: Set[str] = None) -> bool:
+    async def activate_fallback(
+        self,
+        target_level: DashboardFallbackLevel,
+        trigger: FallbackTrigger,
+        reason: str,
+        affected_components: set[str] = None,
+    ) -> bool:
         """Activate fallback to specified level."""
 
         if target_level == self.current_state.current_level:
-            self.logger.info("Already at target fallback level", level=target_level.name)
+            self.logger.info(
+                "Already at target fallback level", level=target_level.name
+            )
             return True
 
-        self.logger.warning("Activating dashboard fallback",
-                          from_level=self.current_state.current_level.name,
-                          to_level=target_level.name,
-                          trigger=trigger.value,
-                          reason=reason)
+        self.logger.warning(
+            "Activating dashboard fallback",
+            from_level=self.current_state.current_level.name,
+            to_level=target_level.name,
+            trigger=trigger.value,
+            reason=reason,
+        )
 
         # Create fallback event
         event = FallbackEvent(
@@ -401,19 +473,22 @@ class DashboardFallbackSystem:
             to_level=target_level,
             trigger=trigger,
             timestamp=datetime.now(),
-            details={"reason": reason, "affected_components": list(affected_components or [])}
+            details={
+                "reason": reason,
+                "affected_components": list(affected_components or []),
+            },
         )
 
         try:
             # Coordinate with colonies for graceful degradation
             if self.fallback_coordinator:
-                coordination_result = await self.fallback_coordinator.execute_task(
+                await self.fallback_coordinator.execute_task(
                     "coordinate_fallback_activation",
                     {
                         "target_level": target_level.name,
                         "reason": reason,
-                        "affected_components": list(affected_components or [])
-                    }
+                        "affected_components": list(affected_components or []),
+                    },
                 )
 
             # Apply fallback configuration
@@ -427,8 +502,10 @@ class DashboardFallbackSystem:
                 trigger_reason=reason,
                 affected_components=affected_components or set(),
                 available_features=self.level_configurations[target_level]["features"],
-                disabled_features=list(set(previous_state.available_features) -
-                                     set(self.level_configurations[target_level]["features"]))
+                disabled_features=list(
+                    set(previous_state.available_features)
+                    - set(self.level_configurations[target_level]["features"])
+                ),
             )
 
             # Update metrics
@@ -452,16 +529,20 @@ class DashboardFallbackSystem:
             # Schedule recovery attempt
             await self._schedule_recovery_attempt()
 
-            self.logger.info("Fallback activation completed successfully",
-                           level=target_level.name,
-                           available_features=len(self.current_state.available_features))
+            self.logger.info(
+                "Fallback activation completed successfully",
+                level=target_level.name,
+                available_features=len(self.current_state.available_features),
+            )
 
             return True
 
         except Exception as e:
-            self.logger.error("Fallback activation failed",
-                            target_level=target_level.name,
-                            error=str(e))
+            self.logger.error(
+                "Fallback activation failed",
+                target_level=target_level.name,
+                error=str(e),
+            )
 
             event.success = False
             event.details["error"] = str(e)
@@ -484,10 +565,12 @@ class DashboardFallbackSystem:
         if strategy is None:
             strategy = await self._determine_optimal_recovery_strategy()
 
-        self.logger.info("Attempting fallback recovery",
-                        current_level=self.current_state.current_level.name,
-                        strategy=strategy.value,
-                        attempt=self.current_state.recovery_attempts + 1)
+        self.logger.info(
+            "Attempting fallback recovery",
+            current_level=self.current_state.current_level.name,
+            strategy=strategy.value,
+            attempt=self.current_state.recovery_attempts + 1,
+        )
 
         # Create recovery event
         event = FallbackEvent(
@@ -497,7 +580,10 @@ class DashboardFallbackSystem:
             to_level=DashboardFallbackLevel.OPTIMAL,  # Target optimal
             trigger=FallbackTrigger.MANUAL_OVERRIDE,  # Recovery trigger
             timestamp=datetime.now(),
-            details={"strategy": strategy.value, "attempt": self.current_state.recovery_attempts + 1}
+            details={
+                "strategy": strategy.value,
+                "attempt": self.current_state.recovery_attempts + 1,
+            },
         )
 
         try:
@@ -506,7 +592,10 @@ class DashboardFallbackSystem:
             if recovery_handler:
                 recovery_success = await recovery_handler()
             else:
-                self.logger.warning("Recovery strategy not implemented", strategy=strategy.value)
+                self.logger.warning(
+                    "Recovery strategy not implemented",
+                    strategy=strategy.value,
+                )
                 recovery_success = False
 
             if recovery_success:
@@ -519,31 +608,41 @@ class DashboardFallbackSystem:
                 # Update state
                 previous_level = self.current_state.current_level
                 self.current_state.current_level = target_level
-                self.current_state.available_features = self.level_configurations[target_level]["features"]
+                self.current_state.available_features = self.level_configurations[
+                    target_level
+                ]["features"]
                 self.current_state.recovery_attempts += 1
 
                 # Update metrics
                 if target_level == DashboardFallbackLevel.OPTIMAL:
                     self.metrics["successful_recoveries"] += 1
-                    duration = (datetime.now() - self.current_state.active_since).total_seconds()
+                    duration = (
+                        datetime.now() - self.current_state.active_since
+                    ).total_seconds()
                     self._update_average_fallback_duration(duration)
 
                 # Record successful event
                 event.to_level = target_level
                 event.success = True
-                event.duration_seconds = (datetime.now() - event.timestamp).total_seconds()
+                event.duration_seconds = (
+                    datetime.now() - event.timestamp
+                ).total_seconds()
 
                 # Notify handlers
                 for handler in self.recovery_success_handlers:
                     try:
                         await handler(previous_level, target_level, event)
                     except Exception as e:
-                        self.logger.error("Recovery success handler error", error=str(e))
+                        self.logger.error(
+                            "Recovery success handler error", error=str(e)
+                        )
 
-                self.logger.info("Fallback recovery successful",
-                               from_level=previous_level.name,
-                               to_level=target_level.name,
-                               duration=event.duration_seconds)
+                self.logger.info(
+                    "Fallback recovery successful",
+                    from_level=previous_level.name,
+                    to_level=target_level.name,
+                    duration=event.duration_seconds,
+                )
 
                 return True
             else:
@@ -556,16 +655,20 @@ class DashboardFallbackSystem:
                 event.success = False
                 event.details["failure_reason"] = "Recovery strategy execution failed"
 
-                self.logger.warning("Fallback recovery failed",
-                                  strategy=strategy.value,
-                                  attempts=self.current_state.recovery_attempts)
+                self.logger.warning(
+                    "Fallback recovery failed",
+                    strategy=strategy.value,
+                    attempts=self.current_state.recovery_attempts,
+                )
 
                 return False
 
         except Exception as e:
-            self.logger.error("Fallback recovery error",
-                            strategy=strategy.value,
-                            error=str(e))
+            self.logger.error(
+                "Fallback recovery error",
+                strategy=strategy.value,
+                error=str(e),
+            )
 
             event.success = False
             event.details["error"] = str(e)
@@ -575,7 +678,7 @@ class DashboardFallbackSystem:
         finally:
             self.fallback_history.append(event)
 
-    async def get_fallback_status(self) -> Dict[str, Any]:
+    async def get_fallback_status(self) -> dict[str, Any]:
         """Get comprehensive fallback system status."""
 
         return {
@@ -587,18 +690,19 @@ class DashboardFallbackSystem:
             "recovery_attempts": self.current_state.recovery_attempts,
             "next_recovery_attempt": (
                 self.current_state.next_recovery_attempt.isoformat()
-                if self.current_state.next_recovery_attempt else None
+                if self.current_state.next_recovery_attempt
+                else None
             ),
             "affected_components": list(self.current_state.affected_components),
             "metrics": self.metrics.copy(),
             "recent_events": [
                 {
                     "event_type": event.event_type,
-                    "from_level": event.from_level.name if event.from_level else None,
+                    "from_level": (event.from_level.name if event.from_level else None),
                     "to_level": event.to_level.name,
                     "trigger": event.trigger.value,
                     "timestamp": event.timestamp.isoformat(),
-                    "success": event.success
+                    "success": event.success,
                 }
                 for event in self.fallback_history[-10:]  # Last 10 events
             ],
@@ -606,10 +710,10 @@ class DashboardFallbackSystem:
                 level.name: {
                     "features": config["features"],
                     "resource_requirements": config["resource_requirements"],
-                    "performance_targets": config["performance_targets"]
+                    "performance_targets": config["performance_targets"],
                 }
                 for level, config in self.level_configurations.items()
-            }
+            },
         }
 
     # Background monitoring loops
@@ -624,12 +728,15 @@ class DashboardFallbackSystem:
                 # Evaluate fallback need
                 recommended_level = await self.evaluate_fallback_need(context)
 
-                if recommended_level and recommended_level != self.current_state.current_level:
+                if (
+                    recommended_level
+                    and recommended_level != self.current_state.current_level
+                ):
                     # Activate fallback
                     await self.activate_fallback(
                         recommended_level,
                         FallbackTrigger.PERFORMANCE_DEGRADATION,
-                        "Automatic fallback based on monitoring"
+                        "Automatic fallback based on monitoring",
                     )
 
                 await asyncio.sleep(10)  # Monitor every 10 seconds
@@ -643,9 +750,11 @@ class DashboardFallbackSystem:
         while True:
             try:
                 # Check if recovery attempt is due
-                if (self.current_state.current_level != DashboardFallbackLevel.OPTIMAL and
-                    self.current_state.next_recovery_attempt and
-                    datetime.now() >= self.current_state.next_recovery_attempt):
+                if (
+                    self.current_state.current_level != DashboardFallbackLevel.OPTIMAL
+                    and self.current_state.next_recovery_attempt
+                    and datetime.now() >= self.current_state.next_recovery_attempt
+                ):
 
                     await self.attempt_recovery()
 
@@ -687,11 +796,13 @@ class DashboardFallbackSystem:
         # - Modify UI elements
         # - Update performance targets
 
-        self.logger.info("Fallback configuration applied",
-                        level=level.name,
-                        features=len(config["features"]))
+        self.logger.info(
+            "Fallback configuration applied",
+            level=level.name,
+            features=len(config["features"]),
+        )
 
-    def _get_optimal_features(self) -> List[str]:
+    def _get_optimal_features(self) -> list[str]:
         """Get list of features available at optimal level."""
         return self.level_configurations[DashboardFallbackLevel.OPTIMAL]["features"]
 
@@ -701,7 +812,7 @@ class DashboardFallbackSystem:
         await self.activate_fallback(
             DashboardFallbackLevel.EMERGENCY,
             FallbackTrigger.SYSTEM_OVERLOAD,
-            "Emergency activation due to system failure"
+            "Emergency activation due to system failure",
         )
 
     def _update_average_fallback_duration(self, duration: float):
@@ -710,14 +821,19 @@ class DashboardFallbackSystem:
         if total_ops > 0:
             current_avg = self.metrics["average_fallback_duration"]
             self.metrics["average_fallback_duration"] = (
-                (current_avg * (total_ops - 1) + duration) / total_ops
-            )
+                current_avg * (total_ops - 1) + duration
+            ) / total_ops
 
     def _calculate_recovery_success_rate(self):
         """Calculate recovery success rate."""
-        total_recoveries = sum(1 for event in self.fallback_history if event.event_type == "recovery")
-        successful_recoveries = sum(1 for event in self.fallback_history
-                                  if event.event_type == "recovery" and event.success)
+        total_recoveries = sum(
+            1 for event in self.fallback_history if event.event_type == "recovery"
+        )
+        successful_recoveries = sum(
+            1
+            for event in self.fallback_history
+            if event.event_type == "recovery" and event.success
+        )
 
         self.metrics["recovery_success_rate"] = (
             successful_recoveries / total_recoveries if total_recoveries > 0 else 0.0
@@ -755,14 +871,17 @@ class DashboardFallbackSystem:
         # Implementation would wait for manual intervention
         return False  # Usually requires human action
 
-    # Additional utility methods (implementations would be added based on specific requirements)
+    # Additional utility methods (implementations would be added based on
+    # specific requirements)
 
-    async def _evaluate_condition_severity(self, condition: FallbackCondition, context: Dict[str, Any]) -> float:
+    async def _evaluate_condition_severity(
+        self, condition: FallbackCondition, context: dict[str, Any]
+    ) -> float:
         """Evaluate severity of a fallback condition."""
         # Implementation would analyze context to determine severity
         return 0.0
 
-    async def _gather_system_context(self) -> Dict[str, Any]:
+    async def _gather_system_context(self) -> dict[str, Any]:
         """Gather current system context for evaluation."""
         # Implementation would collect system metrics and status
         return {}
@@ -783,17 +902,17 @@ class DashboardFallbackSystem:
     async def _schedule_recovery_attempt(self):
         """Schedule next recovery attempt."""
         # Implementation would schedule recovery based on current conditions
-        self.current_state.next_recovery_attempt = datetime.now() + timedelta(seconds=60)
+        self.current_state.next_recovery_attempt = datetime.now() + timedelta(
+            seconds=60
+        )
 
     async def _analyze_fallback_patterns(self):
         """Analyze fallback patterns for optimization."""
         # Implementation would analyze historical data for patterns
-        pass
 
     async def _optimize_fallback_thresholds(self):
         """Optimize fallback thresholds based on performance."""
         # Implementation would adjust thresholds based on analysis
-        pass
 
 
 logger.info("ΛFALLBACK: Dashboard Fallback System loaded. 4-level resilience ready.")

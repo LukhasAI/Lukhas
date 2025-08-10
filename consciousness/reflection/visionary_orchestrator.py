@@ -48,30 +48,32 @@ License: lukhas Proprietary (Enterprise) / Open Core (Community)
 """
 
 import asyncio
-from core.common import get_logger
+import json
 import time
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Any, Callable, Union
-from dataclasses import dataclass, field
 from enum import Enum, auto
 from pathlib import Path
-import json
+from typing import Any, Callable, Dict, List, Optional
+
 import yaml
 
 # lukhas Core Imports (based on audit findings)
 try:
-    from core.advanced_symbolic_loop import EnhancedCoreIntegrator
-    from core.memory.memoria_manager import MemoryManager
-#     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
-#     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-#     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-#     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-#     from system.CORE.quantum.quantum_processor import QuantumEngine  # TODO: Install or implement CORE
-    from orchestration.orchestrator import CoreOrchestrator
     from agent.flagship import Agent
-    from core.common.config import Config
     from common.exceptions import LException, SafetyViolationError
+
+    from core.advanced_symbolic_loop import EnhancedCoreIntegrator
+    from core.common.config import Config
     from core.logging import get_lukhas_logger
+    from core.memory.memoria_manager import MemoryManager
+
+    #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+    #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+    #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+    #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
+    #     from system.CORE.quantum.quantum_processor import QuantumEngine  # TODO: Install or implement CORE
+    from orchestration.orchestrator import CoreOrchestrator
 except ImportError as e:
     # Graceful degradation for development/testing
     print(f"Warning: lukhas core modules not fully available: {e}")
@@ -287,7 +289,7 @@ class VisionaryAGIOrchestrator:
 
         if config_path and config_path.exists():
             try:
-                with open(config_path, "r") as f:
+                with open(config_path) as f:
                     if config_path.suffix.lower() == ".yaml":
                         user_config = yaml.safe_load(f)
                     else:

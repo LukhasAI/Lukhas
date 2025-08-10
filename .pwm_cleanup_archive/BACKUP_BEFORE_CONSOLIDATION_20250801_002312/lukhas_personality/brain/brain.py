@@ -12,6 +12,7 @@ Advanced: lukhas_brain.py
 Integration Date: 2025-05-31T07:55:27.705072
 """
 
+
 # CORE/lukhas_brain.py
 class LUKHASBrain:
     def __init__(self, core_integrator, config=None):
@@ -25,14 +26,14 @@ class LUKHASBrain:
         # Enhanced memory manager with integrations
         self.memory_manager = EnhancedMemoryManager(
             emotional_oscillator=self.emotional_oscillator,
-            quantum_attention=self.quantum_attention
+            quantum_attention=self.quantum_attention,
         )
 
         # Decision engine with access to memory
         self.decision_engine = DecisionEngine(
             quantum_attention=self.quantum_attention,
             ethics_engine=self.ethics_engine,
-            memory_manager=self.memory_manager
+            memory_manager=self.memory_manager,
         )
 
         # Register with core

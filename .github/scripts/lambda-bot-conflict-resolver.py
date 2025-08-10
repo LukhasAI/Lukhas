@@ -4,18 +4,16 @@
 # ΛTAG: conflict-resolution, lambda-bot
 """
 
-import sys
-import re
-import os
-import subprocess
 import argparse
+import subprocess
+import sys
 from pathlib import Path
 
 
 def resolve_documentation_conflicts(file_path):
     """Resolve conflicts in documentation files intelligently."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Remove conflict markers and merge intelligently
@@ -76,7 +74,7 @@ def resolve_documentation_conflicts(file_path):
 def resolve_python_conflicts(file_path):
     """Resolve conflicts in Python files intelligently."""
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Remove conflict markers and merge Python code intelligently

@@ -3,12 +3,11 @@ Identity Validator - Advanced validation engine for SEEDRA
 Provides comprehensive identity verification and validation
 """
 
-import asyncio
-import re
 import logging
-from typing import Dict, List, Optional, Tuple
-from datetime import datetime, timedelta
+import re
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Dict, List
 
 logger = logging.getLogger(__name__)
 

@@ -14,9 +14,10 @@ Unit tests for the HealixMapper class, using mocked dependencies for
 accent and emotion components.
 """
 
-import pytest
-from unittest.mock import MagicMock
 import logging
+from unittest.mock import MagicMock
+
+import pytest
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.tests.test_healix_mapper")
@@ -26,33 +27,56 @@ logger.info("ΛTRACE: Initializing test_healix_mapper module.")
 #       The original was 'from core.spine.healix_mapper import HealixMapper'.
 #       Adjusting to a more standard Python package import.
 HEALIX_MAPPER_AVAILABLE = False
-HealixMapper = None # Placeholder
+HealixMapper = None  # Placeholder
 try:
     # Assuming 'core' is a top-level package in PYTHONPATH or the tests are run from a level
     # where 'core' is discoverable.
     from core.spine.healix_mapper import HealixMapper
+
     HEALIX_MAPPER_AVAILABLE = True
-    logger.info("ΛTRACE: HealixMapper imported successfully from core.spine.healix_mapper.")
+    logger.info(
+        "ΛTRACE: HealixMapper imported successfully from core.spine.healix_mapper."
+    )
 except ImportError:
-    logger.error("ΛTRACE: Failed to import HealixMapper from core.spine.healix_mapper. Tests will be skipped.")
+    logger.error(
+        "ΛTRACE: Failed to import HealixMapper from core.spine.healix_mapper. Tests will be skipped."
+    )
+
     # Define a dummy class if import fails
     class HealixMapper:
-        def __init__(self, accent_model, emotion_model): logger.warning("ΛTRACE: Using DUMMY HealixMapper.")
-        def map_helix_from_memory(self, user_id): return []
-        def find_resonant_memories(self, target_tone, user_id): return []
+        def __init__(self, accent_model, emotion_model):
+            logger.warning("ΛTRACE: Using DUMMY HealixMapper.")
+
+        def map_helix_from_memory(self, user_id):
+            return []
+
+        def find_resonant_memories(self, target_tone, user_id):
+            return []
 
 
 # Human-readable comment: Fixture to provide a mocked HealixMapper instance.
 @pytest.fixture
-def mock_mapper_instance() -> HealixMapper: # Renamed fixture
+def mock_mapper_instance() -> HealixMapper:  # Renamed fixture
     """Pytest fixture to provide an instance of HealixMapper with mocked dependencies."""
-    logger.debug("ΛTRACE: Creating HealixMapper instance with mocked dependencies for test.")
+    logger.debug(
+        "ΛTRACE: Creating HealixMapper instance with mocked dependencies for test."
+    )
 
     mock_accent = MagicMock()
-    mock_accent.tier = "T3" # Assuming this is used by HealixMapper
+    mock_accent.tier = "T3"  # Assuming this is used by HealixMapper
     mock_accent.get_user_memory_chain.return_value = [
-        {"timestamp": "2025-01-01", "type": "cultural_trigger", "hash": "abc123", "recall_count": 1},
-        {"timestamp": "2025-01-02", "type": "curiosity", "hash": "def456", "recall_count": 3}
+        {
+            "timestamp": "2025-01-01",
+            "type": "cultural_trigger",
+            "hash": "abc123",
+            "recall_count": 1,
+        },
+        {
+            "timestamp": "2025-01-02",
+            "type": "curiosity",
+            "hash": "def456",
+            "recall_count": 3,
+        },
     ]
     logger.debug("ΛTRACE: Mock AccentEngine created and configured.")
 
@@ -80,7 +104,9 @@ def mock_mapper_instance() -> HealixMapper: # Renamed fixture
         # So, if HealixMapper is missing, these tests should ideally be skipped.
         # The skipif decorator handles this at the test function level.
         # This fixture will return a dummy if HealixMapper itself failed to import.
-        logger.warning("ΛTRACE: HealixMapper not available, returning a basic MagicMock for HealixMapper for fixture.")
+        logger.warning(
+            "ΛTRACE: HealixMapper not available, returning a basic MagicMock for HealixMapper for fixture."
+        )
         return MagicMock(spec=HealixMapper)
 
 
@@ -92,10 +118,16 @@ def test_map_helix_from_memory(mock_mapper_instance: HealixMapper):
     result = mock_mapper_instance.map_helix_from_memory("lukhas_dev")
     logger.debug(f"ΛTRACE: map_helix_from_memory returned: {result}")
 
-    assert len(result) == 2, "Should return two mapped entries based on mock_accent setup"
+    assert (
+        len(result) == 2
+    ), "Should return two mapped entries based on mock_accent setup"
     # This assertion depends on the internal logic of HealixMapper using the mock_emotion.suggest_tone
-    if result and isinstance(result, list) and result[0].get("tone"): # Check if tone exists
-        assert result[0]["tone"] == "nostalgic", "Tone should be 'nostalgic' from mock_emotion"
+    if (
+        result and isinstance(result, list) and result[0].get("tone")
+    ):  # Check if tone exists
+        assert (
+            result[0]["tone"] == "nostalgic"
+        ), "Tone should be 'nostalgic' from mock_emotion"
     logger.info("ΛTRACE: test_map_helix_from_memory finished.")
 
 
@@ -108,8 +140,11 @@ def test_find_resonant_memories(mock_mapper_instance: HealixMapper):
     logger.debug(f"ΛTRACE: find_resonant_memories returned: {result}")
 
     # This assertion also depends on HealixMapper's internal logic how it uses the mocks
-    assert len(result) == 2, "Should return two entries based on mock_accent and filtering logic"
+    assert (
+        len(result) == 2
+    ), "Should return two entries based on mock_accent and filtering logic"
     logger.info("ΛTRACE: test_find_resonant_memories finished.")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: test_healix_mapper.py

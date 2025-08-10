@@ -5,13 +5,13 @@ Demonstrates full capabilities of LUKHAS bio-symbolic integration
 """
 
 import asyncio
-import sys
 import json
+import sys
 from datetime import datetime
-import random
-sys.path.append('.')
 
-from bio.symbolic.bio_symbolic import bio_symbolic, integrate_biological_state, SymbolicGlyph
+sys.path.append(".")
+
+from bio.symbolic.bio_symbolic import bio_symbolic, integrate_biological_state
 
 
 async def run_comprehensive_test():
@@ -31,10 +31,10 @@ async def run_comprehensive_test():
         hr = 60 + 20 * (1 - energy)  # Lower HR when more energy
 
         rhythm_data = {
-            'type': 'rhythm',
-            'period': 24,
-            'phase': 'night' if hour < 6 or hour > 18 else 'day',
-            'amplitude': energy
+            "type": "rhythm",
+            "period": 24,
+            "phase": "night" if hour < 6 or hour > 18 else "day",
+            "amplitude": energy,
         }
 
         result = bio_symbolic.process(rhythm_data)
@@ -52,15 +52,15 @@ async def run_comprehensive_test():
         ("Baseline", 0.2, "chronic"),
         ("Work Deadline", 0.6, "acute"),
         ("Emergency", 0.9, "acute"),
-        ("Recovery", 0.4, "intermittent")
+        ("Recovery", 0.4, "intermittent"),
     ]
 
     for scenario, level, duration in stress_scenarios:
         stress_data = {
-            'type': 'stress',
-            'stress_type': 'psychological',
-            'level': level,
-            'duration': duration
+            "type": "stress",
+            "stress_type": "psychological",
+            "level": level,
+            "duration": duration,
         }
 
         result = bio_symbolic.process(stress_data)
@@ -79,15 +79,15 @@ async def run_comprehensive_test():
         ("Post-Breakfast", 0.8, 0.8, 0.2),
         ("Peak Performance", 0.95, 0.9, 0.1),
         ("Afternoon Dip", 0.5, 0.6, 0.4),
-        ("Evening Wind-down", 0.3, 0.4, 0.7)
+        ("Evening Wind-down", 0.3, 0.4, 0.7),
     ]
 
     for state_name, atp, efficiency, stress in energy_states:
         energy_data = {
-            'type': 'energy',
-            'atp_level': atp,
-            'efficiency': efficiency,
-            'stress': stress
+            "type": "energy",
+            "atp_level": atp,
+            "efficiency": efficiency,
+            "stress": stress,
         }
 
         result = bio_symbolic.process(energy_data)
@@ -105,15 +105,15 @@ async def run_comprehensive_test():
         ("Perfect Balance", 37.0, 7.4, 90),
         ("Slight Fever", 38.2, 7.35, 110),
         ("Dehydration", 37.5, 7.3, 120),
-        ("Hypothermia Risk", 35.8, 7.45, 70)
+        ("Hypothermia Risk", 35.8, 7.45, 70),
     ]
 
     for state_name, temp, ph, glucose in homeo_states:
         homeo_data = {
-            'type': 'homeostasis',
-            'temperature': temp,
-            'ph': ph,
-            'glucose': glucose
+            "type": "homeostasis",
+            "temperature": temp,
+            "ph": ph,
+            "glucose": glucose,
         }
 
         result = bio_symbolic.process(homeo_data)
@@ -128,18 +128,34 @@ async def run_comprehensive_test():
     print("-" * 60)
 
     sleep_stages = [
-        ("REM Sleep", {'theta': 0.8, 'beta': 0.2}, {'serotonin': 0.3, 'acetylcholine': 0.9}),
-        ("Deep Sleep", {'delta': 0.9, 'theta': 0.1}, {'serotonin': 0.7, 'acetylcholine': 0.2}),
-        ("Light Sleep", {'alpha': 0.6, 'theta': 0.4}, {'serotonin': 0.5, 'acetylcholine': 0.5}),
-        ("Meditation", {'alpha': 0.8, 'theta': 0.2}, {'serotonin': 0.8, 'dopamine': 0.6})
+        (
+            "REM Sleep",
+            {"theta": 0.8, "beta": 0.2},
+            {"serotonin": 0.3, "acetylcholine": 0.9},
+        ),
+        (
+            "Deep Sleep",
+            {"delta": 0.9, "theta": 0.1},
+            {"serotonin": 0.7, "acetylcholine": 0.2},
+        ),
+        (
+            "Light Sleep",
+            {"alpha": 0.6, "theta": 0.4},
+            {"serotonin": 0.5, "acetylcholine": 0.5},
+        ),
+        (
+            "Meditation",
+            {"alpha": 0.8, "theta": 0.2},
+            {"serotonin": 0.8, "dopamine": 0.6},
+        ),
     ]
 
     for stage_name, waves, neurotrans in sleep_stages:
         neural_data = {
-            'type': 'neural',
-            'stage': stage_name,
-            'brain_waves': waves,
-            'neurotransmitters': neurotrans
+            "type": "neural",
+            "stage": stage_name,
+            "brain_waves": waves,
+            "neurotransmitters": neurotrans,
         }
 
         result = bio_symbolic.process(neural_data)
@@ -155,43 +171,43 @@ async def run_comprehensive_test():
 
     scenarios = [
         {
-            'name': "Peak Performance",
-            'data': {
-                'heart_rate': 65,
-                'temperature': 37.0,
-                'cortisol': 8,
-                'energy_level': 0.9,
-                'ph': 7.4,
-                'glucose': 95
-            }
+            "name": "Peak Performance",
+            "data": {
+                "heart_rate": 65,
+                "temperature": 37.0,
+                "cortisol": 8,
+                "energy_level": 0.9,
+                "ph": 7.4,
+                "glucose": 95,
+            },
         },
         {
-            'name': "Stress Response",
-            'data': {
-                'heart_rate': 95,
-                'temperature': 37.8,
-                'cortisol': 18,
-                'energy_level': 0.6,
-                'ph': 7.35,
-                'glucose': 130
-            }
+            "name": "Stress Response",
+            "data": {
+                "heart_rate": 95,
+                "temperature": 37.8,
+                "cortisol": 18,
+                "energy_level": 0.6,
+                "ph": 7.35,
+                "glucose": 130,
+            },
         },
         {
-            'name': "Deep Rest",
-            'data': {
-                'heart_rate': 55,
-                'temperature': 36.5,
-                'cortisol': 4,
-                'energy_level': 0.3,
-                'ph': 7.42,
-                'glucose': 85
-            }
-        }
+            "name": "Deep Rest",
+            "data": {
+                "heart_rate": 55,
+                "temperature": 36.5,
+                "cortisol": 4,
+                "energy_level": 0.3,
+                "ph": 7.42,
+                "glucose": 85,
+            },
+        },
     ]
 
     for scenario in scenarios:
         print(f"\n🔗 Scenario: {scenario['name']}")
-        integrated = await integrate_biological_state(scenario['data'])
+        integrated = await integrate_biological_state(scenario["data"])
 
         print(f"  Primary Symbol: {integrated['primary_symbol']}")
         print(f"  All Symbols: {' + '.join(integrated['all_symbols'])}")
@@ -199,8 +215,8 @@ async def run_comprehensive_test():
         print(f"  Quality: {integrated['integration_quality']}")
 
         # Show biological readings
-        print(f"  Biological State:")
-        for key, value in scenario['data'].items():
+        print("  Biological State:")
+        for key, value in scenario["data"].items():
             print(f"    - {key}: {value}")
 
     # Test 7: DNA Sequence Processing
@@ -211,15 +227,11 @@ async def run_comprehensive_test():
         ("Gene Promoter", "TATAAAAGGCC", "promoter"),
         ("Structural Region", "GGCCGGCCGGCC", "structural"),
         ("Regulatory Element", "ATCGATCGATCG", "regulatory"),
-        ("Coding Sequence", "ATGGCATTAGCA", "coding")
+        ("Coding Sequence", "ATGGCATTAGCA", "coding"),
     ]
 
     for sample_name, sequence, function in dna_samples:
-        dna_data = {
-            'type': 'dna',
-            'sequence': sequence,
-            'function': function
-        }
+        dna_data = {"type": "dna", "sequence": sequence, "function": function}
 
         result = bio_symbolic.process(dna_data)
         print(f"\n{sample_name}:")
@@ -241,25 +253,25 @@ async def run_comprehensive_test():
 
     # Save test results
     test_results = {
-        'test_id': f"BIO_SYM_TEST_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
-        'timestamp': datetime.utcnow().isoformat(),
-        'statistics': stats,
-        'test_sections': [
+        "test_id": f"BIO_SYM_TEST_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}",
+        "timestamp": datetime.utcnow().isoformat(),
+        "statistics": stats,
+        "test_sections": [
             "Circadian Rhythm Cycle",
             "Stress Response Adaptation",
             "Mitochondrial Energy States",
             "Homeostatic Balance States",
             "Neural States & Dream Generation",
             "Full Bio-Symbolic Integration",
-            "DNA Sequence Analysis"
-        ]
+            "DNA Sequence Analysis",
+        ],
     }
 
-    with open('logs/bio_symbolic_test_results.json', 'w') as f:
+    with open("logs/bio_symbolic_test_results.json", "w") as f:
         json.dump(test_results, f, indent=2)
 
-    print(f"\n✅ Test results saved to: logs/bio_symbolic_test_results.json")
-    print(f"\n🎉 COMPREHENSIVE TEST COMPLETE!")
+    print("\n✅ Test results saved to: logs/bio_symbolic_test_results.json")
+    print("\n🎉 COMPREHENSIVE TEST COMPLETE!")
     print(f"Test ended at: {datetime.utcnow().isoformat()}")
 
 

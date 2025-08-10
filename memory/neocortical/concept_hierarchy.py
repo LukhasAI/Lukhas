@@ -12,29 +12,23 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import numpy as np
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Set, Optional, Tuple
-from collections import defaultdict, deque
-import json
-import math
 import time
-
-import structlog
-
-from core.common import get_logger
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Set
 
 
 @dataclass
 class ConceptNode:
     """Node in the concept hierarchy"""
+
     concept_id: str
     name: str
     level: int = 0  # 0 = most specific, higher = more abstract
 
     # Hierarchical relationships
-    parent: Optional['ConceptNode'] = None
-    children: Set['ConceptNode'] = field(default_factory=set)
+    parent: Optional["ConceptNode"] = None
+    children: Set["ConceptNode"] = field(default_factory=set)
 
     # Properties
     attributes: Dict[str, Any] = field(default_factory=dict)
@@ -49,19 +43,19 @@ class ConceptNode:
     access_count: int = 0
     creation_time: float = field(default_factory=lambda: time.time())
 
-    def add_child(self, child: 'ConceptNode'):
+    def add_child(self, child: "ConceptNode"):
         """Add child concept"""
         self.children.add(child)
         child.parent = self
         child.level = self.level + 1
 
-    def remove_child(self, child: 'ConceptNode'):
+    def remove_child(self, child: "ConceptNode"):
         """Remove child concept"""
         if child in self.children:
             self.children.remove(child)
             child.parent = None
 
-    def get_ancestors(self) -> List['ConceptNode']:
+    def get_ancestors(self) -> List["ConceptNode"]:
         """Get all ancestor nodes up to root"""
         ancestors = []
         current = self.parent
@@ -70,7 +64,7 @@ class ConceptNode:
             current = current.parent
         return ancestors
 
-    def get_descendants(self) -> List['ConceptNode']:
+    def get_descendants(self) -> List["ConceptNode"]:
         """Get all descendant nodes"""
         descendants = []
         queue = deque(self.children)
@@ -82,13 +76,13 @@ class ConceptNode:
 
         return descendants
 
-    def get_siblings(self) -> Set['ConceptNode']:
+    def get_siblings(self) -> Set["ConceptNode"]:
         """Get sibling nodes (same parent)"""
         if not self.parent:
             return set()
         return self.parent.children - {self}
 
-    def calculate_similarity(self, other: 'ConceptNode') -> float:
+    def calculate_similarity(self, other: "ConceptNode") -> float:
         """Calculate similarity to another concept"""
         # Find common ancestor
         ancestors1 = set(self.get_ancestors() + [self])
@@ -123,7 +117,7 @@ class ConceptHierarchy:
         max_depth: int = 7,
         branching_factor: int = 10,
         similarity_threshold: float = 0.7,
-        enable_dynamic_reorganization: bool = True
+        enable_dynamic_reorganization: bool = True,
     ):
         self.max_depth = max_depth
         self.branching_factor = branching_factor
@@ -131,11 +125,7 @@ class ConceptHierarchy:
         self.enable_dynamic_reorganization = enable_dynamic_reorganization
 
         # Root node
-        self.root = ConceptNode(
-            concept_id="root",
-            name="UNIVERSAL",
-            level=0
-        )
+        self.root = ConceptNode(concept_id="root", name="UNIVERSAL", level=0)
 
         # Concept storage
         self.concepts: Dict[str, ConceptNode] = {"root": self.root}
@@ -149,7 +139,7 @@ class ConceptHierarchy:
         logger.info(
             "ConceptHierarchy initialized",
             max_depth=max_depth,
-            branching_factor=branching_factor
+            branching_factor=branching_factor,
         )
 
     def add_concept(
@@ -157,7 +147,7 @@ class ConceptHierarchy:
         name: str,
         parent_name: Optional[str] = None,
         attributes: Optional[Dict[str, Any]] = None,
-        examples: Optional[List[str]] = None
+        examples: Optional[List[str]] = None,
     ) -> str:
         """Add new concept to hierarchy"""
 
@@ -180,7 +170,7 @@ class ConceptHierarchy:
             concept_id=concept_id,
             name=name,
             attributes=attributes or {},
-            examples=examples or []
+            examples=examples or [],
         )
 
         # Find parent
@@ -217,7 +207,7 @@ class ConceptHierarchy:
             concept_id=concept_id,
             name=name,
             parent=parent.name,
-            level=concept.level
+            level=concept.level,
         )
 
         return concept_id
@@ -244,10 +234,7 @@ class ConceptHierarchy:
         return list(reversed(path))
 
     def activate_concept(
-        self,
-        concept_name: str,
-        activation_strength: float = 1.0,
-        spread: bool = True
+        self, concept_name: str, activation_strength: float = 1.0, spread: bool = True
     ) -> Dict[str, float]:
         """
         Activate concept and optionally spread activation.
@@ -289,9 +276,7 @@ class ConceptHierarchy:
         return activations
 
     def find_common_ancestor(
-        self,
-        concept1_name: str,
-        concept2_name: str
+        self, concept1_name: str, concept2_name: str
     ) -> Optional[ConceptNode]:
         """Find lowest common ancestor of two concepts"""
 
@@ -312,11 +297,7 @@ class ConceptHierarchy:
         # Return most specific (highest level)
         return max(common, key=lambda n: n.level)
 
-    def get_semantic_distance(
-        self,
-        concept1_name: str,
-        concept2_name: str
-    ) -> float:
+    def get_semantic_distance(self, concept1_name: str, concept2_name: str) -> float:
         """
         Calculate semantic distance between concepts.
         Returns value between 0 (same) and 1 (unrelated).
@@ -339,12 +320,8 @@ class ConceptHierarchy:
 
         ontology = {
             "concepts": {},
-            "relationships": {
-                "is_a": [],
-                "part_of": [],
-                "related_to": []
-            },
-            "properties": {}
+            "relationships": {"is_a": [], "part_of": [], "related_to": []},
+            "properties": {},
         }
 
         # Extract concepts
@@ -354,24 +331,22 @@ class ConceptHierarchy:
                     "level": concept.level,
                     "attributes": concept.attributes,
                     "examples": concept.examples[:5],  # Limit examples
-                    "access_count": concept.access_count
+                    "access_count": concept.access_count,
                 }
 
                 # Extract is-a relationships
                 if concept.parent:
-                    ontology["relationships"]["is_a"].append({
-                        "child": concept.name,
-                        "parent": concept.parent.name
-                    })
+                    ontology["relationships"]["is_a"].append(
+                        {"child": concept.name, "parent": concept.parent.name}
+                    )
 
                 # Extract properties
                 for attr_name, attr_value in concept.attributes.items():
                     if attr_name not in ontology["properties"]:
                         ontology["properties"][attr_name] = []
-                    ontology["properties"][attr_name].append({
-                        "concept": concept.name,
-                        "value": attr_value
-                    })
+                    ontology["properties"][attr_name].append(
+                        {"concept": concept.name, "value": attr_value}
+                    )
 
         return ontology
 
@@ -431,9 +406,7 @@ class ConceptHierarchy:
         return best_parent
 
     def _calculate_match_score(
-        self,
-        concept: ConceptNode,
-        parent_candidate: ConceptNode
+        self, concept: ConceptNode, parent_candidate: ConceptNode
     ) -> float:
         """Calculate how well concept fits under parent"""
 
@@ -441,12 +414,17 @@ class ConceptHierarchy:
 
         # Attribute overlap
         if concept.attributes and parent_candidate.attributes:
-            common_attrs = set(concept.attributes.keys()) & set(parent_candidate.attributes.keys())
+            common_attrs = set(concept.attributes.keys()) & set(
+                parent_candidate.attributes.keys()
+            )
             if common_attrs:
                 score += len(common_attrs) / len(concept.attributes.keys())
 
         # Name similarity (simple)
-        if concept.name in parent_candidate.name or parent_candidate.name in concept.name:
+        if (
+            concept.name in parent_candidate.name
+            or parent_candidate.name in concept.name
+        ):
             score += 0.5
 
         # Check examples
@@ -506,7 +484,7 @@ class ConceptHierarchy:
                 intermediate = ConceptNode(
                     concept_id=f"intermediate_{cluster_key}_{self.total_concepts}",
                     name=f"{overloaded_node.name}_{cluster_key}",
-                    attributes={"cluster_type": cluster_key}
+                    attributes={"cluster_type": cluster_key},
                 )
 
                 # Relink children
@@ -550,7 +528,7 @@ class ConceptHierarchy:
         """Decay all concept activations"""
 
         for concept in self.concepts.values():
-            concept.activation *= (1 - decay_rate)
+            concept.activation *= 1 - decay_rate
             if concept.activation < 0.01:
                 concept.activation = 0.0
 
@@ -576,7 +554,7 @@ class ConceptHierarchy:
             "max_depth_used": max(depth_dist.keys()) if depth_dist else 0,
             "reorganizations": self.reorganizations,
             "depth_distribution": dict(depth_dist),
-            "most_accessed": accessed_concepts[:5]
+            "most_accessed": accessed_concepts[:5],
         }
 
 
@@ -591,18 +569,28 @@ if __name__ == "__main__":
     # Add concepts
     hierarchy.add_concept("Animal")
     hierarchy.add_concept("Mammal", parent_name="Animal")
-    hierarchy.add_concept("Dog", parent_name="Mammal", attributes={"legs": 4, "sound": "bark"})
-    hierarchy.add_concept("Cat", parent_name="Mammal", attributes={"legs": 4, "sound": "meow"})
+    hierarchy.add_concept(
+        "Dog", parent_name="Mammal", attributes={"legs": 4, "sound": "bark"}
+    )
+    hierarchy.add_concept(
+        "Cat", parent_name="Mammal", attributes={"legs": 4, "sound": "meow"}
+    )
     hierarchy.add_concept("Bird", parent_name="Animal")
     hierarchy.add_concept("Eagle", parent_name="Bird", attributes={"can_fly": True})
 
     # Add more specific concepts
-    hierarchy.add_concept("Golden Retriever", parent_name="Dog",
-                         attributes={"color": "golden", "size": "large"},
-                         examples=["Buddy", "Max"])
-    hierarchy.add_concept("Siamese Cat", parent_name="Cat",
-                         attributes={"color": "cream", "origin": "Thailand"},
-                         examples=["Luna", "Milo"])
+    hierarchy.add_concept(
+        "Golden Retriever",
+        parent_name="Dog",
+        attributes={"color": "golden", "size": "large"},
+        examples=["Buddy", "Max"],
+    )
+    hierarchy.add_concept(
+        "Siamese Cat",
+        parent_name="Cat",
+        attributes={"color": "cream", "origin": "Thailand"},
+        examples=["Luna", "Milo"],
+    )
 
     # Test path retrieval
     print("Paths:")
@@ -611,23 +599,29 @@ if __name__ == "__main__":
 
     # Test activation spreading
     print("\n--- Activation Test ---")
-    activations = hierarchy.activate_concept("Dog", activation_strength=0.8, spread=True)
+    activations = hierarchy.activate_concept(
+        "Dog", activation_strength=0.8, spread=True
+    )
     print("Activated concepts:")
-    for concept, activation in sorted(activations.items(), key=lambda x: x[1], reverse=True):
+    for concept, activation in sorted(
+        activations.items(), key=lambda x: x[1], reverse=True
+    ):
         print(f"  {concept}: {activation:.2f}")
 
     # Test semantic distance
     print("\n--- Semantic Distance ---")
     print(f"Dog <-> Cat: {hierarchy.get_semantic_distance('Dog', 'Cat'):.2f}")
     print(f"Dog <-> Eagle: {hierarchy.get_semantic_distance('Dog', 'Eagle'):.2f}")
-    print(f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}")
+    print(
+        f"Golden Retriever <-> Siamese Cat: {hierarchy.get_semantic_distance('Golden Retriever', 'Siamese Cat'):.2f}"
+    )
 
     # Extract ontology
     print("\n--- Ontology ---")
     ontology = hierarchy.extract_ontology()
     print(f"Concepts: {len(ontology['concepts'])}")
     print(f"Is-a relationships: {len(ontology['relationships']['is_a'])}")
-    for rel in ontology['relationships']['is_a'][:5]:
+    for rel in ontology["relationships"]["is_a"][:5]:
         print(f"  {rel['child']} is-a {rel['parent']}")
 
     # Metrics

@@ -5,19 +5,19 @@ Advanced: privacy_manager.py
 Integration Date: 2025-05-31T07:55:27.767309
 """
 
-import logging
-import json
-import hashlib
 import base64
+import hashlib
+import json
+import logging
 import os
-import time
 from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
+
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 logger = logging.getLogger(__name__)
+
 
 class PrivacyManager:
     """
@@ -30,9 +30,9 @@ class PrivacyManager:
         self.privacy_settings = {}
         self.user_permissions = {}
         self.data_retention_policies = {
-            'interaction_history': 30,  # Days to keep interaction history
-            'user_data': 365,           # Days to keep user data
-            'system_logs': 90           # Days to keep system logs
+            "interaction_history": 30,  # Days to keep interaction history
+            "user_data": 365,  # Days to keep user data
+            "system_logs": 90,  # Days to keep system logs
         }
         self.privacy_log = []
         self.anonymization_salt = os.urandom(16)  # Salt for anonymization
@@ -44,11 +44,13 @@ class PrivacyManager:
         self.privacy_settings[key] = value
 
         # Log the change
-        self.log_privacy_event({
-            'action': 'privacy_setting_changed',
-            'setting': key,
-            'new_value': value
-        })
+        self.log_privacy_event(
+            {
+                "action": "privacy_setting_changed",
+                "setting": key,
+                "new_value": value,
+            }
+        )
 
     def get_privacy_setting(self, key):
         """Get a privacy setting"""
@@ -60,8 +62,8 @@ class PrivacyManager:
             return data
 
         # Determine which privacy mechanisms to apply
-        should_anonymize = self.privacy_settings.get('anonymize_data', True)
-        should_encrypt = self.privacy_settings.get('encrypt_sensitive_data', True)
+        should_anonymize = self.privacy_settings.get("anonymize_data", True)
+        should_encrypt = self.privacy_settings.get("encrypt_sensitive_data", True)
 
         processed_data = data
 
@@ -84,11 +86,22 @@ class PrivacyManager:
         anonymized_data = json.loads(json.dumps(data))
 
         # Fields to anonymize
-        pii_fields = ['name', 'email', 'address', 'phone', 'ip_address',
-                     'user_id', 'full_name', 'birth_date', 'social_security_number',
-                     'credit_card', 'password']
+        pii_fields = [
+            "name",
+            "email",
+            "address",
+            "phone",
+            "ip_address",
+            "user_id",
+            "full_name",
+            "birth_date",
+            "social_security_number",
+            "credit_card",
+            "password",
+        ]
 
         # Helper function to recursively process dictionary
+
         def anonymize_dict(d):
             if not isinstance(d, dict):
                 return d
@@ -102,7 +115,10 @@ class PrivacyManager:
                     d[key] = anonymize_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [anonymize_dict(item) if isinstance(item, dict) else item for item in d[key]]
+                    d[key] = [
+                        (anonymize_dict(item) if isinstance(item, dict) else item)
+                        for item in d[key]
+                    ]
             return d
 
         return anonymize_dict(anonymized_data)
@@ -116,10 +132,17 @@ class PrivacyManager:
         encrypted_data = json.loads(json.dumps(data))
 
         # Fields to encrypt
-        sensitive_fields = ['password', 'credit_card', 'social_security_number',
-                          'health_data', 'biometric_data', 'financial_data']
+        sensitive_fields = [
+            "password",
+            "credit_card",
+            "social_security_number",
+            "health_data",
+            "biometric_data",
+            "financial_data",
+        ]
 
         # Helper function to recursively process dictionary
+
         def encrypt_dict(d):
             if not isinstance(d, dict):
                 return d
@@ -134,14 +157,17 @@ class PrivacyManager:
                     d[key] = encrypt_dict(d[key])
                 elif isinstance(d[key], list):
                     # Recurse into lists
-                    d[key] = [encrypt_dict(item) if isinstance(item, dict) else item for item in d[key]]
+                    d[key] = [
+                        encrypt_dict(item) if isinstance(item, dict) else item
+                        for item in d[key]
+                    ]
             return d
 
         return encrypt_dict(encrypted_data)
 
     def decrypt_field(self, encrypted_value):
         """Decrypt an encrypted field value"""
-        if not encrypted_value or not encrypted_value.startswith('ENCRYPTED:'):
+        if not encrypted_value or not encrypted_value.startswith("ENCRYPTED:"):
             return encrypted_value
 
         # Remove prefix
@@ -151,7 +177,7 @@ class PrivacyManager:
             # Convert from base64 to bytes and decrypt
             encrypted_bytes = base64.b64decode(encrypted_bytes)
             decrypted_bytes = self.cipher_suite.decrypt(encrypted_bytes)
-            return decrypted_bytes.decode('utf-8')
+            return decrypted_bytes.decode("utf-8")
         except Exception as e:
             logger.error(f"Error decrypting value: {e}")
             return "[Decryption Error]"
@@ -170,46 +196,51 @@ class PrivacyManager:
         """
         # Default deny if user has no permissions
         if user_id not in self.user_permissions:
-            return {'allowed': False, 'reason': 'User has no permissions'}
+            return {"allowed": False, "reason": "User has no permissions"}
 
         # Get user's permissions
         permissions = self.user_permissions[user_id]
 
         # Check for explicit permission for this action
-        if action in permissions.get('allowed_actions', []):
-            return {'allowed': True}
+        if action in permissions.get("allowed_actions", []):
+            return {"allowed": True}
 
         # Check for explicit denial for this action
-        if action in permissions.get('denied_actions', []):
-            return {'allowed': False, 'reason': f"Action '{action}' explicitly denied"}
+        if action in permissions.get("denied_actions", []):
+            return {
+                "allowed": False,
+                "reason": f"Action '{action}' explicitly denied",
+            }
 
         # Check resource-specific permissions if resource provided
-        if resource and 'resources' in permissions:
-            if resource in permissions['resources']:
+        if resource and "resources" in permissions:
+            if resource in permissions["resources"]:
                 # Check if action is allowed for this resource
-                resource_permissions = permissions['resources'][resource]
-                if action in resource_permissions.get('allowed_actions', []):
-                    return {'allowed': True}
-                if action in resource_permissions.get('denied_actions', []):
-                    return {'allowed': False, 'reason': f"Action '{action}' denied for resource '{resource}'"}
+                resource_permissions = permissions["resources"][resource]
+                if action in resource_permissions.get("allowed_actions", []):
+                    return {"allowed": True}
+                if action in resource_permissions.get("denied_actions", []):
+                    return {
+                        "allowed": False,
+                        "reason": f"Action '{action}' denied for resource '{resource}'",
+                    }
 
         # Handle default permission policy
-        default_policy = self.privacy_settings.get('default_permission_policy', 'deny')
+        default_policy = self.privacy_settings.get("default_permission_policy", "deny")
 
-        if default_policy == 'allow':
-            return {'allowed': True}
+        if default_policy == "allow":
+            return {"allowed": True}
         else:
-            return {'allowed': False, 'reason': 'Default denial of permission'}
+            return {"allowed": False, "reason": "Default denial of permission"}
 
     def set_user_permissions(self, user_id, permissions):
         """Set permissions for a user"""
         self.user_permissions[user_id] = permissions
 
         # Log the change
-        self.log_privacy_event({
-            'action': 'user_permissions_updated',
-            'user_id': user_id
-        })
+        self.log_privacy_event(
+            {"action": "user_permissions_updated", "user_id": user_id}
+        )
 
     def apply_retention_policy(self, data_type, data):
         """Apply data retention policy to the given data"""
@@ -226,15 +257,19 @@ class PrivacyManager:
         # Filter data based on timestamp
         if isinstance(data, list):
             # Handle lists of items
+
             def should_retain(item):
                 # Check if item has timestamp
-                if isinstance(item, dict) and 'timestamp' in item:
+                if isinstance(item, dict) and "timestamp" in item:
                     try:
-                        # Parse timestamp from ISO format or check if it's a float timestamp
-                        if isinstance(item['timestamp'], str):
-                            item_time = datetime.fromisoformat(item['timestamp']).timestamp()
+                        # Parse timestamp from ISO format or check if it's a float
+                        # timestamp
+                        if isinstance(item["timestamp"], str):
+                            item_time = datetime.fromisoformat(
+                                item["timestamp"]
+                            ).timestamp()
                         else:
-                            item_time = float(item['timestamp'])
+                            item_time = float(item["timestamp"])
 
                         return item_time >= cutoff_timestamp
                     except (ValueError, TypeError):
@@ -246,12 +281,14 @@ class PrivacyManager:
 
         elif isinstance(data, dict):
             # Handle dictionary with timestamps as keys or with timestamp field
-            if 'timestamp' in data:
+            if "timestamp" in data:
                 try:
-                    if isinstance(data['timestamp'], str):
-                        item_time = datetime.fromisoformat(data['timestamp']).timestamp()
+                    if isinstance(data["timestamp"], str):
+                        item_time = datetime.fromisoformat(
+                            data["timestamp"]
+                        ).timestamp()
                     else:
-                        item_time = float(data['timestamp'])
+                        item_time = float(data["timestamp"])
 
                     if item_time < cutoff_timestamp:
                         return None  # Don't retain
@@ -267,29 +304,30 @@ class PrivacyManager:
         # This would extract all data related to a user
         # Simplified implementation
         report = {
-            'user_id': user_id,
-            'report_generated': datetime.now().isoformat(),
-            'data_categories': [
+            "user_id": user_id,
+            "report_generated": datetime.now().isoformat(),
+            "data_categories": [
                 {
-                    'category': 'user_profile',
-                    'retention_period': f"{self.data_retention_policies.get('user_data', 365)} days",
-                    'processing_purpose': 'Personalization and user identification'
+                    "category": "user_profile",
+                    "retention_period": f"{self.data_retention_policies.get('user_data',
+                                                                            365)} days",
+                    "processing_purpose": "Personalization and user identification",
                 },
                 {
-                    'category': 'interaction_history',
-                    'retention_period': f"{self.data_retention_policies.get('interaction_history', 30)} days",
-                    'processing_purpose': 'Service improvement and user experience optimization'
-                }
+                    "category": "interaction_history",
+                    "retention_period": f"{self.data_retention_policies.get('interaction_history', 30)} days",
+                    "processing_purpose": "Service improvement and user experience optimization",
+                },
             ],
-            'data_sharing': [],  # Would list third parties data is shared with
-            'data_subject_rights': {
-                'access': True,
-                'rectification': True,
-                'erasure': True,
-                'restrict_processing': True,
-                'data_portability': True,
-                'object': True
-            }
+            "data_sharing": [],  # Would list third parties data is shared with
+            "data_subject_rights": {
+                "access": True,
+                "rectification": True,
+                "erasure": True,
+                "restrict_processing": True,
+                "data_portability": True,
+                "object": True,
+            },
         }
 
         return report
@@ -300,8 +338,8 @@ class PrivacyManager:
             return
 
         # Add timestamp if not present
-        if 'timestamp' not in event:
-            event['timestamp'] = datetime.now().isoformat()
+        if "timestamp" not in event:
+            event["timestamp"] = datetime.now().isoformat()
 
         # Add event to log
         self.privacy_log.append(event)
@@ -343,13 +381,13 @@ class PrivacyManager:
             return None
 
         # Convert to string and bytes
-        value_bytes = str(value).encode('utf-8')
+        value_bytes = str(value).encode("utf-8")
 
         # Encrypt
         encrypted_bytes = self.cipher_suite.encrypt(value_bytes)
 
         # Convert to base64 string and add prefix
-        encrypted_string = base64.b64encode(encrypted_bytes).decode('utf-8')
+        encrypted_string = base64.b64encode(encrypted_bytes).decode("utf-8")
         return f"ENCRYPTED:{encrypted_string}"
 
     def _generate_encryption_key(self):
@@ -358,15 +396,15 @@ class PrivacyManager:
         # and possibly derived from a master key
 
         # Get encryption password from environment variable
-        password_str = os.getenv('PRIVACY_MANAGER_SECRET', 'default-key-for-dev')
-        password = password_str.encode('utf-8')
+        password_str = os.getenv("PRIVACY_MANAGER_SECRET", "default-key-for-dev")
+        password = password_str.encode("utf-8")
 
         # Create a key derivation function
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=self.anonymization_salt,
-            iterations=100000
+            iterations=100000,
         )
 
         # Derive key

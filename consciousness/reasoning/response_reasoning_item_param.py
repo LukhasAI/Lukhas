@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 # ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
 # ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝
 # ██║     ██║   ██║██║  ███╗███████║███████║███████╗
@@ -40,14 +41,16 @@ It provides type definitions for parameters used when creating or updating
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 
-from typing import Iterable, Optional
+from collections.abc import Iterable
+from typing import Optional
+
 from typing_extensions import Literal, Required, TypedDict
 
-import structlog
-
 # Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing response_reasoning_item_param.py module (TypedDict Definitions).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_item_param.py module (TypedDict Definitions).",
+    module_path=__file__,
+)
 
 __all__ = ["ResponseReasoningItemParam", "Summary"]
 
@@ -59,6 +62,7 @@ class Summary(TypedDict, total=False):
     TypedDict for parameters used to create or update a reasoning summary.
     The `total=False` indicates that not all fields are required for every operation.
     """
+
     # ΛNOTE: The `text` field holds the actual symbolic summary content.
     text: Required[str]
     """
@@ -69,7 +73,11 @@ class Summary(TypedDict, total=False):
     type: Required[Literal["summary_text"]]
     """The type of the object. Always `summary_text`. (Required)"""
     # Human-readable comment: Fixed literal type ensures type safety for this parameter.
-logger.debug("Summary TypedDict for parameters defined.", typed_dict_name="Summary") # Removed manual ΛTRACE prefix
+
+
+logger.debug(
+    "Summary TypedDict for parameters defined.", typed_dict_name="Summary"
+)  # Removed manual ΛTRACE prefix
 
 
 # ΛNOTE: The `ResponseReasoningItemParam` TypedDict defines the symbolic structure
@@ -82,6 +90,7 @@ class ResponseReasoningItemParam(TypedDict, total=False):
     The `total=False` indicates that not all fields are required for every operation
     (e.g., some might be be optional for updates).
     """
+
     # AIDENTITY: `id` is the unique symbolic identifier for the reasoning content being parameterized.
     id: Required[str]
     """The unique identifier of the reasoning content. (Required)"""
@@ -106,7 +115,12 @@ class ResponseReasoningItemParam(TypedDict, total=False):
     The status of the item (e.g., 'in_progress', 'completed', 'incomplete').
     This might be set when creating or updating the item's status. (Optional for creation, may be required for updates)
     """
-logger.debug("ResponseReasoningItemParam TypedDict for parameters defined.", typed_dict_name="ResponseReasoningItemParam") # Removed manual ΛTRACE prefix
+
+
+logger.debug(
+    "ResponseReasoningItemParam TypedDict for parameters defined.",
+    typed_dict_name="ResponseReasoningItemParam",
+)  # Removed manual ΛTRACE prefix
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Response Reasoning Item Parameter Types

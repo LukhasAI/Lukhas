@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Symbolic Knowledge Loader
@@ -33,21 +32,21 @@ __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
 import json
-import os
 import logging
-from typing import Dict, Any, List, Optional, Union
-from pathlib import Path
-import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
 # Set up structured logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SymbolicConcept:
     """Represents a unified symbolic concept with LUKHAS integration."""
+
     concept: str
     definition: str
     affect_tag: Optional[str] = None
@@ -65,6 +64,7 @@ class SymbolicConcept:
             # Generate a simple hash for symbolic identification
             self.symbolic_hash = f"concept_{hash(self.concept) % 10000:04d}"
 
+
 class SymbolicKnowledgeLoader:
     """
     🧠 LUKHAS Symbolic Knowledge Base Loader
@@ -75,7 +75,9 @@ class SymbolicKnowledgeLoader:
 
     def __init__(self, base_path: Optional[str] = None):
         """Initialize the knowledge loader with optional base path."""
-        self.base_path = Path(base_path) if base_path else Path(__file__).parent.parent.parent
+        self.base_path = (
+            Path(base_path) if base_path else Path(__file__).parent.parent.parent
+        )
         self.knowledge_cache: Dict[str, SymbolicConcept] = {}
         self.affect_mappings: Dict[str, str] = {}
         self.glyph_registry: Dict[str, List[str]] = {}
@@ -83,28 +85,34 @@ class SymbolicKnowledgeLoader:
         # Default affect mappings for core concepts
         self._initialize_default_affect_mappings()
 
-        logger.info(f"🔍 ΛTRACE: SymbolicKnowledgeLoader initialized with base path: {self.base_path}")
+        logger.info(
+            f"🔍 ΛTRACE: SymbolicKnowledgeLoader initialized with base path: {self.base_path}"
+        )
 
     def _initialize_default_affect_mappings(self):
         """Initialize default affect tags for common concepts."""
-        self.affect_mappings.update({
-            "consciousness": "wonder",
-            "emotion": "resonance",
-            "memory": "nostalgia",
-            "fear": "anxiety",
-            "collapse": "dread",
-            "creativity": "inspiration",
-            "learning": "curiosity",
-            "empathy": "warmth",
-            "problem": "tension",
-            "solution": "relief",
-            "understanding": "clarity",
-            "confusion": "uncertainty",
-            "success": "joy",
-            "failure": "disappointment"
-        })
+        self.affect_mappings.update(
+            {
+                "consciousness": "wonder",
+                "emotion": "resonance",
+                "memory": "nostalgia",
+                "fear": "anxiety",
+                "collapse": "dread",
+                "creativity": "inspiration",
+                "learning": "curiosity",
+                "empathy": "warmth",
+                "problem": "tension",
+                "solution": "relief",
+                "understanding": "clarity",
+                "confusion": "uncertainty",
+                "success": "joy",
+                "failure": "disappointment",
+            }
+        )
 
-    def load_symbolic_ontology(self, path: Union[str, Path]) -> Dict[str, SymbolicConcept]:
+    def load_symbolic_ontology(
+        self, path: Union[str, Path]
+    ) -> Dict[str, SymbolicConcept]:
         """
         Load and normalize a symbolic ontology from JSON file.
 
@@ -123,7 +131,7 @@ class SymbolicKnowledgeLoader:
             if not file_path.exists():
                 raise FileNotFoundError(f"Knowledge base file not found: {file_path}")
 
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 raw_data = json.load(f)
 
             concepts = {}
@@ -131,11 +139,15 @@ class SymbolicKnowledgeLoader:
                 # Handle both simple and complex concept structures
                 if isinstance(concept_data, dict):
                     # Complex structure with definition and related terms
-                    definition = concept_data.get('definition', f"Concept: {concept_name}")
-                    related = concept_data.get('related', [])
-                    affect_tag = concept_data.get('affect_tag', self._infer_affect_tag(concept_name))
-                    importance = concept_data.get('importance', 5.0)
-                    glyph_links = concept_data.get('glyph_links', [])
+                    definition = concept_data.get(
+                        "definition", f"Concept: {concept_name}"
+                    )
+                    related = concept_data.get("related", [])
+                    affect_tag = concept_data.get(
+                        "affect_tag", self._infer_affect_tag(concept_name)
+                    )
+                    importance = concept_data.get("importance", 5.0)
+                    glyph_links = concept_data.get("glyph_links", [])
                 else:
                     # Simple string definition
                     definition = str(concept_data)
@@ -150,7 +162,7 @@ class SymbolicKnowledgeLoader:
                     affect_tag=affect_tag,
                     glyph_links=glyph_links,
                     importance=importance,
-                    related=related
+                    related=related,
                 )
 
             # Update cache
@@ -160,7 +172,9 @@ class SymbolicKnowledgeLoader:
             return concepts
 
         except Exception as e:
-            logger.error(f"🚨 ΛTRACE: Failed to load symbolic ontology from {path}: {e}")
+            logger.error(
+                f"🚨 ΛTRACE: Failed to load symbolic ontology from {path}: {e}"
+            )
             raise
 
     def _infer_affect_tag(self, concept: str) -> str:
@@ -172,24 +186,26 @@ class SymbolicKnowledgeLoader:
             return self.affect_mappings[concept_lower]
 
         # Infer from keywords
-        if any(word in concept_lower for word in ['fear', 'anxiety', 'worry']):
+        if any(word in concept_lower for word in ["fear", "anxiety", "worry"]):
             return "anxiety"
-        elif any(word in concept_lower for word in ['joy', 'happiness', 'delight']):
+        elif any(word in concept_lower for word in ["joy", "happiness", "delight"]):
             return "joy"
-        elif any(word in concept_lower for word in ['love', 'affection', 'care']):
+        elif any(word in concept_lower for word in ["love", "affection", "care"]):
             return "warmth"
-        elif any(word in concept_lower for word in ['anger', 'rage', 'fury']):
+        elif any(word in concept_lower for word in ["anger", "rage", "fury"]):
             return "anger"
-        elif any(word in concept_lower for word in ['sad', 'grief', 'sorrow']):
+        elif any(word in concept_lower for word in ["sad", "grief", "sorrow"]):
             return "melancholy"
-        elif any(word in concept_lower for word in ['creative', 'innovation', 'art']):
+        elif any(word in concept_lower for word in ["creative", "innovation", "art"]):
             return "inspiration"
-        elif any(word in concept_lower for word in ['learn', 'study', 'discover']):
+        elif any(word in concept_lower for word in ["learn", "study", "discover"]):
             return "curiosity"
         else:
             return "neutral"
 
-    def normalize_knowledge_structure(self, concepts: Dict[str, SymbolicConcept]) -> Dict[str, Dict[str, Any]]:
+    def normalize_knowledge_structure(
+        self, concepts: Dict[str, SymbolicConcept]
+    ) -> Dict[str, Dict[str, Any]]:
         """
         Normalize concepts to unified LUKHAS structure.
 
@@ -216,15 +232,21 @@ class SymbolicKnowledgeLoader:
                 "system_integrations": {
                     "memory": True,  # Available for memory enrichment
                     "narrative": True,  # Available for story construction
-                    "ethics": concept.importance >= 7.0,  # High-importance concepts for ethics
-                    "reasoning": len(concept.related) > 2  # Connected concepts for reasoning
-                }
+                    "ethics": concept.importance
+                    >= 7.0,  # High-importance concepts for ethics
+                    "reasoning": len(concept.related)
+                    > 2,  # Connected concepts for reasoning
+                },
             }
 
-        logger.info(f"🔍 ΛTRACE: Normalized {len(normalized)} concepts for system integration")
+        logger.info(
+            f"🔍 ΛTRACE: Normalized {len(normalized)} concepts for system integration"
+        )
         return normalized
 
-    def merge_knowledge_bases(self, *knowledge_bases: Dict[str, SymbolicConcept]) -> Dict[str, SymbolicConcept]:
+    def merge_knowledge_bases(
+        self, *knowledge_bases: Dict[str, SymbolicConcept]
+    ) -> Dict[str, SymbolicConcept]:
         """
         Merge multiple knowledge bases with conflict resolution.
 
@@ -245,22 +267,32 @@ class SymbolicKnowledgeLoader:
                     # Handle conflict - prioritize higher importance
                     existing = merged[concept_name]
                     if concept.importance > existing.importance:
-                        conflict_log.append(f"Replaced {concept_name}: {existing.importance} -> {concept.importance}")
+                        conflict_log.append(
+                            f"Replaced {concept_name}: {existing.importance} -> {concept.importance}"
+                        )
                         merged[concept_name] = concept
                     else:
                         # Merge related terms and glyph links
                         existing.related = list(set(existing.related + concept.related))
-                        existing.glyph_links = list(set(existing.glyph_links + concept.glyph_links))
-                        conflict_log.append(f"Merged {concept_name}: Enhanced with additional relations")
+                        existing.glyph_links = list(
+                            set(existing.glyph_links + concept.glyph_links)
+                        )
+                        conflict_log.append(
+                            f"Merged {concept_name}: Enhanced with additional relations"
+                        )
                 else:
                     merged[concept_name] = concept
 
         if conflict_log:
-            logger.info(f"🔍 ΛTRACE: Knowledge merge conflicts resolved: {len(conflict_log)} items")
+            logger.info(
+                f"🔍 ΛTRACE: Knowledge merge conflicts resolved: {len(conflict_log)} items"
+            )
             for log_entry in conflict_log[:5]:  # Log first 5 conflicts
                 logger.info(f"  - {log_entry}")
 
-        logger.info(f"🔍 ΛTRACE: Merged {len(knowledge_bases)} knowledge bases into {len(merged)} concepts")
+        logger.info(
+            f"🔍 ΛTRACE: Merged {len(knowledge_bases)} knowledge bases into {len(merged)} concepts"
+        )
         return merged
 
     def get_concept(self, concept_name: str) -> Optional[SymbolicConcept]:
@@ -299,8 +331,11 @@ class SymbolicKnowledgeLoader:
 
     def get_concepts_by_affect(self, affect_tag: str) -> List[SymbolicConcept]:
         """Get all concepts with a specific affect tag."""
-        return [concept for concept in self.knowledge_cache.values()
-                if concept.affect_tag == affect_tag]
+        return [
+            concept
+            for concept in self.knowledge_cache.values()
+            if concept.affect_tag == affect_tag
+        ]
 
     def export_for_memory_system(self) -> Dict[str, Any]:
         """Export knowledge in format suitable for memory system integration."""
@@ -310,15 +345,15 @@ class SymbolicKnowledgeLoader:
                     "definition": concept.definition,
                     "affect_context": concept.affect_tag,
                     "symbolic_weight": concept.importance / 10.0,
-                    "associative_links": concept.related
+                    "associative_links": concept.related,
                 }
                 for concept in self.knowledge_cache.values()
             },
             "metadata": {
                 "total_concepts": len(self.knowledge_cache),
                 "generation_timestamp": datetime.now().isoformat(),
-                "integration_ready": True
-            }
+                "integration_ready": True,
+            },
         }
 
     def export_for_narrative_system(self) -> Dict[str, Any]:
@@ -330,12 +365,12 @@ class SymbolicKnowledgeLoader:
                     "narrative_weight": concept.importance,
                     "emotional_resonance": concept.affect_tag,
                     "story_connections": concept.related,
-                    "glyph_anchors": concept.glyph_links
+                    "glyph_anchors": concept.glyph_links,
                 }
                 for concept in self.knowledge_cache.values()
                 if concept.importance >= 6.0  # Higher threshold for narrative use
             },
-            "concept_relationships": self._build_concept_graph()
+            "concept_relationships": self._build_concept_graph(),
         }
 
     def export_for_ethics_system(self) -> Dict[str, Any]:
@@ -345,7 +380,7 @@ class SymbolicKnowledgeLoader:
                 "ethical_weight": concept.importance,
                 "moral_implications": concept.definition,
                 "associated_values": concept.related,
-                "emotional_impact": concept.affect_tag
+                "emotional_impact": concept.affect_tag,
             }
             for concept in self.knowledge_cache.values()
             if concept.importance >= 7.0  # High threshold for ethical considerations
@@ -354,7 +389,7 @@ class SymbolicKnowledgeLoader:
         return {
             "ethical_grounding": high_importance_concepts,
             "policy_concepts": self._extract_policy_relevant_concepts(),
-            "compliance_keywords": list(high_importance_concepts.keys())
+            "compliance_keywords": list(high_importance_concepts.keys()),
         }
 
     def _build_concept_graph(self) -> Dict[str, List[str]]:
@@ -367,19 +402,34 @@ class SymbolicKnowledgeLoader:
     def _extract_policy_relevant_concepts(self) -> List[str]:
         """Extract concepts relevant for policy and compliance."""
         policy_keywords = [
-            "ethics", "responsibility", "privacy", "security", "safety",
-            "trust", "transparency", "fairness", "justice", "harm",
-            "benefit", "rights", "consent", "autonomy", "dignity"
+            "ethics",
+            "responsibility",
+            "privacy",
+            "security",
+            "safety",
+            "trust",
+            "transparency",
+            "fairness",
+            "justice",
+            "harm",
+            "benefit",
+            "rights",
+            "consent",
+            "autonomy",
+            "dignity",
         ]
 
         relevant = []
         for concept in self.knowledge_cache.values():
-            if any(keyword in concept.concept.lower() or
-                   keyword in concept.definition.lower()
-                   for keyword in policy_keywords):
+            if any(
+                keyword in concept.concept.lower()
+                or keyword in concept.definition.lower()
+                for keyword in policy_keywords
+            ):
                 relevant.append(concept.concept)
 
         return relevant
+
 
 # Convenience functions for direct usage
 def load_symbolic_ontology(path: Union[str, Path]) -> Dict[str, SymbolicConcept]:
@@ -395,7 +445,10 @@ def load_symbolic_ontology(path: Union[str, Path]) -> Dict[str, SymbolicConcept]
     loader = SymbolicKnowledgeLoader()
     return loader.load_symbolic_ontology(path)
 
-def normalize_knowledge_structure(concepts: Dict[str, SymbolicConcept]) -> Dict[str, Dict[str, Any]]:
+
+def normalize_knowledge_structure(
+    concepts: Dict[str, SymbolicConcept],
+) -> Dict[str, Dict[str, Any]]:
     """
     Convenience function to normalize knowledge structure.
 
@@ -408,7 +461,10 @@ def normalize_knowledge_structure(concepts: Dict[str, SymbolicConcept]) -> Dict[
     loader = SymbolicKnowledgeLoader()
     return loader.normalize_knowledge_structure(concepts)
 
-def merge_knowledge_bases(*knowledge_bases: Dict[str, SymbolicConcept]) -> Dict[str, SymbolicConcept]:
+
+def merge_knowledge_bases(
+    *knowledge_bases: Dict[str, SymbolicConcept]
+) -> Dict[str, SymbolicConcept]:
     """
     Convenience function to merge multiple knowledge bases.
 
@@ -420,6 +476,7 @@ def merge_knowledge_bases(*knowledge_bases: Dict[str, SymbolicConcept]) -> Dict[
     """
     loader = SymbolicKnowledgeLoader()
     return loader.merge_knowledge_bases(*knowledge_bases)
+
 
 # CLAUDE CHANGELOG
 # - Created comprehensive symbolic knowledge loader for Task 17 foundational knowledge integration # CLAUDE_EDIT_v1.0

@@ -1,8 +1,6 @@
-import pytest
-
-from core.colonies.reasoning_colony import ReasoningColony
-from core.symbolism.tags import TagScope, TagPermission
 from bio.symbolic.dna_simulator import DNASimulator
+from core.colonies.reasoning_colony import ReasoningColony
+from core.symbolism.tags import TagPermission, TagScope
 
 
 def test_dna_entanglement():

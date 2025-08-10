@@ -12,6 +12,7 @@ DEPENDENCIES:
 - lukhas_gatekeeper.py
 """
 
+
 def manage_voice_handoff(user_query, context_state):
     """
     Orchestrates voice handoff between Lukhas and GPT.
@@ -37,6 +38,7 @@ def manage_voice_handoff(user_query, context_state):
         return {"source": "GPT", "tone": "neutral", "handoff": True}
 
     return {"source": "Lukhas", "tone": emotion, "handoff": False}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_duet_conductor.py)

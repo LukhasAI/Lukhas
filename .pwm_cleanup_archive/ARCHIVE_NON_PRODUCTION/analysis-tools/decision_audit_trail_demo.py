@@ -9,12 +9,9 @@ colony/swarm infrastructure.
 """
 
 import asyncio
-import json
-import time
 import uuid
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class DecisionAuditDemo:
@@ -267,12 +264,12 @@ class DecisionAuditDemo:
             print(f"      🔹 {channel}")
             print(f"         {description}")
 
-        print(f"\n   📊 Event Bus Statistics:")
+        print("\n   📊 Event Bus Statistics:")
         print(f"      📨 Messages Sent: {len(self.event_bus_messages)}")
         print(
             f"      🎯 Subscribers Notified: {len(self.event_bus_messages) * 3}"
         )  # Avg 3 subscribers per message
-        print(f"      ⚡ Avg Delivery Time: 15ms")
+        print("      ⚡ Avg Delivery Time: 15ms")
         print()
 
     async def _demo_colony_consensus(self):
@@ -342,7 +339,7 @@ class DecisionAuditDemo:
             "Cross-colony collaboration has reduced false positives by 25%",
         ]
 
-        print(f"\n   🧠 Emergent Intelligence Insights:")
+        print("\n   🧠 Emergent Intelligence Insights:")
         for i, pattern in enumerate(emergent_patterns, 1):
             print(f"      {i}. {pattern}")
         print()
@@ -375,7 +372,7 @@ class DecisionAuditDemo:
             },
         ]
 
-        print(f"\n   🚨 Active Alerts:")
+        print("\n   🚨 Active Alerts:")
         for alert in active_alerts:
             icon = "ℹ️" if alert["level"] == "info" else "⚠️"
             print(f"      {icon} {alert['level'].upper()}: {alert['message']}")
@@ -549,7 +546,7 @@ class DecisionAuditDemo:
         for benefit in benefits:
             print(f"   • {benefit}")
 
-        print(f"\n🔗 Integration with Existing Systems:")
+        print("\n🔗 Integration with Existing Systems:")
         integrations = [
             "SEEDRA Core: Enhanced consent and privacy audit trails",
             "Shared Ethics Engine: Swarm-validated ethical decision logging",
@@ -563,7 +560,7 @@ class DecisionAuditDemo:
         for integration in integrations:
             print(f"   • {integration}")
 
-        print(f"\n🎯 Next Steps for Implementation:")
+        print("\n🎯 Next Steps for Implementation:")
         next_steps = [
             "1. Deploy audit_decision_embedding_engine.py to production",
             "2. Add @DecisionAuditDecorator to critical decision functions",

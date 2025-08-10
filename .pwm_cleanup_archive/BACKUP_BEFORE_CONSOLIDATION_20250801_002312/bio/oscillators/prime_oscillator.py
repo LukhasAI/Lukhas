@@ -5,14 +5,16 @@ This module implements the core bio-inspired oscillator that uses prime number r
 for harmonic synchronization, inspired by biological rhythms and quantum phenomena.
 """
 
-import numpy as np
-import math
-from typing import Dict, List, Any, Optional
 import logging
+import math
+from typing import Any, Dict, Optional
+
+import numpy as np
+
 from .base_oscillator import BaseOscillator, OscillatorConfig
 
-
 logger = logging.getLogger("PrimeOscillator")
+
 
 class PrimeHarmonicOscillator(BaseOscillator):
     """
@@ -29,10 +31,12 @@ class PrimeHarmonicOscillator(BaseOscillator):
     - Energy-efficient oscillations
     """
 
-    def __init__(self,
-                 base_freq: float = 3.0,
-                 ratio: float = 1.0,
-                 config: Optional[OscillatorConfig] = None):
+    def __init__(
+        self,
+        base_freq: float = 3.0,
+        ratio: float = 1.0,
+        config: Optional[OscillatorConfig] = None,
+    ):
         """
         Initialize prime harmonic oscillator
 
@@ -99,7 +103,7 @@ class PrimeHarmonicOscillator(BaseOscillator):
         self.coherence_history.append(coherence)
 
         # Calculate energy usage
-        energy = (value ** 2) * self._amplitude
+        energy = (value**2) * self._amplitude
         self.energy_history.append(energy)
 
         # Keep history bounded
@@ -112,7 +116,9 @@ class PrimeHarmonicOscillator(BaseOscillator):
         """Update oscillator performance metrics"""
         if self.coherence_history:
             self.metrics["coherence"] = np.mean(self.coherence_history[-100:])
-            self.metrics["energy_efficiency"] = 1.0 / (np.mean(self.energy_history[-100:]) + 1e-6)
+            self.metrics["energy_efficiency"] = 1.0 / (
+                np.mean(self.energy_history[-100:]) + 1e-6
+            )
             self.metrics["stability"] = 1.0 - np.std(self.coherence_history[-100:])
 
     def __next__(self) -> float:
@@ -129,5 +135,5 @@ class PrimeHarmonicOscillator(BaseOscillator):
             "amplitude": self._amplitude,
             "metrics": self.metrics,
             "base_frequency": self.base_freq,
-            "ratio": self.ratio
+            "ratio": self.ratio,
         }

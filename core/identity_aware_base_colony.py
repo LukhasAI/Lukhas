@@ -28,19 +28,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import logging
 import time
-from typing import Dict, Any, List, Optional, Union, Callable
-from datetime import datetime, timezone
 from abc import ABC, abstractmethod
-import json
+from datetime import datetime, timezone
+from typing import Any, Optional
 
 # Import base colony infrastructure
 try:
     from core.colonies.base_colony import BaseColony
-    from core.symbolism.tags import TagScope, TagPermission
-    from core.event_sourcing import get_global_event_store
+
     BASE_COLONY_AVAILABLE = True
 except ImportError:
     BASE_COLONY_AVAILABLE = False
@@ -50,27 +47,31 @@ except ImportError:
 try:
     from .pwm_cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
         QuantumIdentityManager,
-        QuantumUserContext,
         QuantumTierLevel,
-        AGIIdentityType,
+        QuantumUserContext,
+        authorize_quantum_access,
         get_quantum_identity_manager,
-        authorize_quantum_access
     )
+
     QUANTUM_IDENTITY_AVAILABLE = True
 except ImportError:
     QUANTUM_IDENTITY_AVAILABLE = False
 
 # Import Oracle & Ethics integration
 try:
-    from core.oracle_nervous_system import OracleNervousSystemHub
     from core.colonies.ethics_swarm_colony import EthicsSwarmColony
+    from core.oracle_nervous_system import OracleNervousSystemHub
+
     ORACLE_ETHICS_AVAILABLE = True
 except ImportError:
     ORACLE_ETHICS_AVAILABLE = False
 
 # Import consciousness integration
 try:
-    from consciousness.systems.consciousness_colony_integration import DistributedConsciousnessEngine
+    from consciousness.systems.consciousness_colony_integration import (
+        DistributedConsciousnessEngine,
+    )
+
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:
     CONSCIOUSNESS_AVAILABLE = False
@@ -80,17 +81,14 @@ logger = logging.getLogger("ΛTRACE.identity_aware_colony")
 
 class IdentityValidationError(Exception):
     """Raised when identity validation fails."""
-    pass
 
 
 class TierAccessDeniedError(Exception):
     """Raised when user tier is insufficient for operation."""
-    pass
 
 
 class QuantumSecurityError(Exception):
     """Raised when quantum security validation fails."""
-    pass
 
 
 class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
@@ -101,7 +99,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
     control, post-quantum cryptography, and advanced AGI identity models.
     """
 
-    def __init__(self, colony_id: str, capabilities: List[str], **kwargs):
+    def __init__(self, colony_id: str, capabilities: list[str], **kwargs):
         """
         Initialize identity-aware colony.
 
@@ -119,25 +117,27 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         # Quantum identity components
         self.quantum_identity_manager: Optional[QuantumIdentityManager] = None
-        self.oracle_hub: Optional['OracleNervousSystemHub'] = None
-        self.ethics_colony: Optional['EthicsSwarmColony'] = None
-        self.consciousness_engine: Optional['DistributedConsciousnessEngine'] = None
+        self.oracle_hub: Optional[OracleNervousSystemHub] = None
+        self.ethics_colony: Optional[EthicsSwarmColony] = None
+        self.consciousness_engine: Optional[DistributedConsciousnessEngine] = None
 
         # Identity-aware state
-        self.active_user_contexts: Dict[str, QuantumUserContext] = {}
-        self.tier_capability_matrix: Dict[QuantumTierLevel, List[str]] = {}
-        self.identity_audit_log: List[Dict[str, Any]] = []
+        self.active_user_contexts: dict[str, QuantumUserContext] = {}
+        self.tier_capability_matrix: dict[QuantumTierLevel, list[str]] = {}
+        self.identity_audit_log: list[dict[str, Any]] = []
 
         # Performance tracking
-        self.identity_validation_times: List[float] = []
-        self.tier_authorization_cache: Dict[str, Dict[str, bool]] = {}
+        self.identity_validation_times: list[float] = []
+        self.tier_authorization_cache: dict[str, dict[str, bool]] = {}
 
         # Initialize identity components
         self._initialize_identity_integration()
         self._setup_tier_capability_matrix()
         self._initialize_oracle_ethics_integration()
 
-        self.logger.info(f"Identity-aware colony {colony_id} initialized with quantum security")
+        self.logger.info(
+            f"Identity-aware colony {colony_id} initialized with quantum security"
+        )
 
     def _initialize_identity_integration(self):
         """Initialize quantum identity management integration."""
@@ -156,33 +156,60 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         # Define capability access by tier level
         tier_capabilities = {
             QuantumTierLevel.QUANTUM_TIER_0: [
-                "basic_query", "simple_reasoning", "basic_memory"
+                "basic_query",
+                "simple_reasoning",
+                "basic_memory",
             ],
             QuantumTierLevel.QUANTUM_TIER_1: [
-                "basic_query", "simple_reasoning", "basic_memory",
-                "advanced_reasoning", "creativity_basic", "ethics_consultation"
+                "basic_query",
+                "simple_reasoning",
+                "basic_memory",
+                "advanced_reasoning",
+                "creativity_basic",
+                "ethics_consultation",
             ],
             QuantumTierLevel.QUANTUM_TIER_2: [
-                "basic_query", "simple_reasoning", "basic_memory",
-                "advanced_reasoning", "creativity_basic", "ethics_consultation",
-                "quantum_processing", "consciousness_access", "oracle_prediction"
+                "basic_query",
+                "simple_reasoning",
+                "basic_memory",
+                "advanced_reasoning",
+                "creativity_basic",
+                "ethics_consultation",
+                "quantum_processing",
+                "consciousness_access",
+                "oracle_prediction",
             ],
             QuantumTierLevel.QUANTUM_TIER_3: [
-                "basic_query", "simple_reasoning", "basic_memory",
-                "advanced_reasoning", "creativity_basic", "ethics_consultation",
-                "quantum_processing", "consciousness_access", "oracle_prediction",
-                "advanced_creativity", "temporal_reasoning", "swarm_coordination"
+                "basic_query",
+                "simple_reasoning",
+                "basic_memory",
+                "advanced_reasoning",
+                "creativity_basic",
+                "ethics_consultation",
+                "quantum_processing",
+                "consciousness_access",
+                "oracle_prediction",
+                "advanced_creativity",
+                "temporal_reasoning",
+                "swarm_coordination",
             ],
             QuantumTierLevel.QUANTUM_TIER_4: [
-                "basic_query", "simple_reasoning", "basic_memory",
-                "advanced_reasoning", "creativity_basic", "ethics_consultation",
-                "quantum_processing", "consciousness_access", "oracle_prediction",
-                "advanced_creativity", "temporal_reasoning", "swarm_coordination",
-                "superintelligence_features", "cross_colony_orchestration"
+                "basic_query",
+                "simple_reasoning",
+                "basic_memory",
+                "advanced_reasoning",
+                "creativity_basic",
+                "ethics_consultation",
+                "quantum_processing",
+                "consciousness_access",
+                "oracle_prediction",
+                "advanced_creativity",
+                "temporal_reasoning",
+                "swarm_coordination",
+                "superintelligence_features",
+                "cross_colony_orchestration",
             ],
-            QuantumTierLevel.QUANTUM_TIER_5: [
-                "*"  # All capabilities
-            ]
+            QuantumTierLevel.QUANTUM_TIER_5: ["*"],  # All capabilities
         }
 
         # Filter capabilities based on colony's actual capabilities
@@ -206,7 +233,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
                 self.tier_capability_matrix[tier] = list(set(available_caps))
 
-        self.logger.debug(f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers")
+        self.logger.debug(
+            f"Tier capability matrix configured for {len(self.tier_capability_matrix)} tiers"
+        )
 
     def _initialize_oracle_ethics_integration(self):
         """Initialize Oracle & Ethics nervous system integration."""
@@ -216,10 +245,16 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 # For now, we'll indicate they're available for integration
                 self.logger.info("Oracle & Ethics integration enabled")
             except Exception as e:
-                self.logger.error(f"Failed to initialize Oracle & Ethics integration: {e}")
+                self.logger.error(
+                    f"Failed to initialize Oracle & Ethics integration: {e}"
+                )
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any],
-                          user_context: Optional[QuantumUserContext] = None) -> Dict[str, Any]:
+    async def execute_task(
+        self,
+        task_id: str,
+        task_data: dict[str, Any],
+        user_context: Optional[QuantumUserContext] = None,
+    ) -> dict[str, Any]:
         """
         Execute task with identity-aware processing and quantum security.
 
@@ -245,7 +280,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             if user_id and user_id in self.active_user_contexts:
                 user_context = self.active_user_contexts[user_id]
             else:
-                raise IdentityValidationError("No user context provided for identity-aware colony")
+                raise IdentityValidationError(
+                    "No user context provided for identity-aware colony"
+                )
 
         # Validate quantum identity
         await self._validate_quantum_identity(user_context)
@@ -265,13 +302,19 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         ethics_approval = await self._validate_ethics(user_context, task_data)
 
         # Consciousness-aware processing (if available)
-        consciousness_context = await self._get_consciousness_context(user_context, task_data)
+        consciousness_context = await self._get_consciousness_context(
+            user_context, task_data
+        )
 
         try:
             # Execute the actual task with identity context
             result = await self._execute_identity_aware_task(
-                task_id, task_data, user_context,
-                oracle_insights, ethics_approval, consciousness_context
+                task_id,
+                task_data,
+                user_context,
+                oracle_insights,
+                ethics_approval,
+                consciousness_context,
             )
 
             # Post-quantum audit logging
@@ -316,7 +359,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 pass
 
             # Check identity expiration
-            if user_context.expires_at and user_context.expires_at < datetime.now(timezone.utc):
+            if user_context.expires_at and user_context.expires_at < datetime.now(
+                timezone.utc
+            ):
                 raise IdentityValidationError("User identity has expired")
 
             # Update active contexts
@@ -325,7 +370,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         except Exception as e:
             raise QuantumSecurityError(f"Quantum identity validation failed: {e}")
 
-    async def _authorize_task_execution(self, user_context: QuantumUserContext, operation: str) -> bool:
+    async def _authorize_task_execution(
+        self, user_context: QuantumUserContext, operation: str
+    ) -> bool:
         """Authorize task execution based on tier and capabilities."""
         # Check cache first
         cache_key = f"{user_context.user_id}:{operation}"
@@ -353,10 +400,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             # Check for exact matches in colony capabilities
             if not authorized:
                 for capability in self.capabilities:
-                    if operation in capability.lower() or capability.lower() in operation.lower():
-                        if capability in allowed_capabilities:
-                            authorized = True
-                            break
+                    if (
+                        operation in capability.lower()
+                        or capability.lower() in operation.lower()
+                    ) and capability in allowed_capabilities:
+                        authorized = True
+                        break
 
         # Use quantum identity manager for additional authorization
         if self.quantum_identity_manager:
@@ -376,8 +425,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         return authorized
 
-    async def _get_oracle_insights(self, user_context: QuantumUserContext,
-                                 task_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _get_oracle_insights(
+        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Get Oracle insights for task execution (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.oracle_hub:
             return None
@@ -388,14 +438,14 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         try:
             # Get predictive insights for task
-            oracle_query = {
+            {
                 "query_type": "prediction",
                 "context": {
                     "colony_id": self.colony_id,
                     "user_id": user_context.user_id,
                     "task_type": task_data.get("operation", "unknown"),
-                    "user_tier": user_context.tier_level.value
-                }
+                    "user_tier": user_context.tier_level.value,
+                },
             }
 
             # This would integrate with the actual Oracle nervous system
@@ -403,7 +453,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 "prediction_confidence": 0.8,
                 "suggested_approach": "standard_processing",
                 "risk_assessment": "low",
-                "optimization_hints": ["cache_results", "parallel_processing"]
+                "optimization_hints": ["cache_results", "parallel_processing"],
             }
 
             return oracle_insights
@@ -412,20 +462,21 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.logger.error(f"Failed to get Oracle insights: {e}")
             return None
 
-    async def _validate_ethics(self, user_context: QuantumUserContext,
-                             task_data: Dict[str, Any]) -> bool:
+    async def _validate_ethics(
+        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+    ) -> bool:
         """Validate task ethics using Ethics Swarm Colony (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.ethics_colony:
             return True  # Default to allow if ethics validation unavailable
 
         try:
             # Ethics validation for all tiers, but stricter for higher tiers
-            ethics_context = {
+            {
                 "user_id": user_context.user_id,
                 "user_tier": user_context.tier_level.value,
                 "task_type": task_data.get("operation", "unknown"),
                 "colony_id": self.colony_id,
-                "task_data": task_data
+                "task_data": task_data,
             }
 
             # Higher tiers require stricter ethical standards
@@ -440,8 +491,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.logger.error(f"Ethics validation failed: {e}")
             return False  # Fail secure
 
-    async def _get_consciousness_context(self, user_context: QuantumUserContext,
-                                       task_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _get_consciousness_context(
+        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Get consciousness context for identity-aware processing (if available)."""
         if not CONSCIOUSNESS_AVAILABLE or not self.consciousness_engine:
             return None
@@ -455,7 +507,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 "consciousness_level": user_context.consciousness_level,
                 "identity_type": user_context.identity_type.value,
                 "composite_agents": user_context.composite_agents,
-                "processing_mode": "identity_aware"
+                "processing_mode": "identity_aware",
             }
 
             return consciousness_context
@@ -465,11 +517,15 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             return None
 
     @abstractmethod
-    async def _execute_identity_aware_task(self, task_id: str, task_data: Dict[str, Any],
-                                         user_context: QuantumUserContext,
-                                         oracle_insights: Optional[Dict[str, Any]],
-                                         ethics_approval: bool,
-                                         consciousness_context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _execute_identity_aware_task(
+        self,
+        task_id: str,
+        task_data: dict[str, Any],
+        user_context: QuantumUserContext,
+        oracle_insights: Optional[dict[str, Any]],
+        ethics_approval: bool,
+        consciousness_context: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """
         Execute the actual task with full identity awareness.
 
@@ -488,11 +544,18 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         Returns:
             Task execution result
         """
-        raise NotImplementedError("Concrete colonies must implement _execute_identity_aware_task")
+        raise NotImplementedError(
+            "Concrete colonies must implement _execute_identity_aware_task"
+        )
 
-    async def _log_identity_audit(self, user_context: QuantumUserContext,
-                                task_id: str, operation: str, status: str,
-                                result: Dict[str, Any]):
+    async def _log_identity_audit(
+        self,
+        user_context: QuantumUserContext,
+        task_id: str,
+        operation: str,
+        status: str,
+        result: dict[str, Any],
+    ):
         """Log identity audit with post-quantum cryptographic proof."""
         audit_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -506,12 +569,14 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             "result_summary": {
                 "success": status == "success",
                 "result_size": len(str(result)),
-                "processing_time": result.get("processing_time", 0)
-            }
+                "processing_time": result.get("processing_time", 0),
+            },
         }
 
         # Generate collapse hash for audit entry (if quantum crypto available)
-        if self.quantum_identity_manager and hasattr(self.quantum_identity_manager, 'collapse_hash_manager'):
+        if self.quantum_identity_manager and hasattr(
+            self.quantum_identity_manager, "collapse_hash_manager"
+        ):
             try:
                 collapse_hash = self.quantum_identity_manager.collapse_hash_manager.generate_collapse_hash(
                     audit_entry
@@ -528,18 +593,22 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.identity_audit_log = self.identity_audit_log[-10000:]
 
         # Log to event store (if available)
-        if hasattr(self, 'event_store') and self.event_store:
+        if hasattr(self, "event_store") and self.event_store:
             try:
                 await self.event_store.store_event(
                     event_type="identity_audit",
                     event_data=audit_entry,
-                    correlation_id=task_id
+                    correlation_id=task_id,
                 )
             except Exception as e:
                 self.logger.error(f"Failed to store audit event: {e}")
 
-    async def _update_user_patterns(self, user_context: QuantumUserContext,
-                                  task_data: Dict[str, Any], result: Dict[str, Any]):
+    async def _update_user_patterns(
+        self,
+        user_context: QuantumUserContext,
+        task_data: dict[str, Any],
+        result: dict[str, Any],
+    ):
         """Update user behavior patterns for dynamic tier adjustment."""
         if not self.quantum_identity_manager:
             return
@@ -559,7 +628,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             task_complexity = task_data.get("complexity", 0.5)
             if success:
                 intelligence_boost = task_complexity * 0.01
-                user_context.intelligence_score = min(1.0, user_context.intelligence_score + intelligence_boost)
+                user_context.intelligence_score = min(
+                    1.0, user_context.intelligence_score + intelligence_boost
+                )
 
             # Update last access time
             user_context.last_accessed = datetime.now(timezone.utc)
@@ -579,17 +650,23 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             del self.active_user_contexts[user_id]
 
         # Clear authorization cache for user
-        keys_to_remove = [key for key in self.tier_authorization_cache.keys() if key.startswith(f"{user_id}:")]
+        keys_to_remove = [
+            key
+            for key in self.tier_authorization_cache
+            if key.startswith(f"{user_id}:")
+        ]
         for key in keys_to_remove:
             del self.tier_authorization_cache[key]
 
         self.logger.debug(f"Unregistered user context for {user_id}")
 
-    def get_supported_capabilities_for_tier(self, tier_level: QuantumTierLevel) -> List[str]:
+    def get_supported_capabilities_for_tier(
+        self, tier_level: QuantumTierLevel
+    ) -> list[str]:
         """Get capabilities supported for a specific tier level."""
         return self.tier_capability_matrix.get(tier_level, [])
 
-    def get_identity_statistics(self) -> Dict[str, Any]:
+    def get_identity_statistics(self) -> dict[str, Any]:
         """Get identity-related statistics for the colony."""
         active_users = len(self.active_user_contexts)
 
@@ -602,12 +679,16 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             identity_type = context.identity_type.name
 
             tier_distribution[tier] = tier_distribution.get(tier, 0) + 1
-            identity_type_distribution[identity_type] = identity_type_distribution.get(identity_type, 0) + 1
+            identity_type_distribution[identity_type] = (
+                identity_type_distribution.get(identity_type, 0) + 1
+            )
 
         # Performance metrics
         avg_validation_time = 0.0
         if self.identity_validation_times:
-            avg_validation_time = sum(self.identity_validation_times) / len(self.identity_validation_times)
+            avg_validation_time = sum(self.identity_validation_times) / len(
+                self.identity_validation_times
+            )
 
         return {
             "colony_id": self.colony_id,
@@ -619,8 +700,10 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             "quantum_identity_enabled": self.quantum_identity_manager is not None,
             "oracle_integration_enabled": ORACLE_ETHICS_AVAILABLE,
             "consciousness_integration_enabled": CONSCIOUSNESS_AVAILABLE,
-            "supported_tier_levels": [tier.name for tier in self.tier_capability_matrix.keys()],
-            "total_capabilities": len(self.capabilities)
+            "supported_tier_levels": [
+                tier.name for tier in self.tier_capability_matrix
+            ],
+            "total_capabilities": len(self.capabilities),
         }
 
 
@@ -629,11 +712,15 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
     Default implementation of identity-aware colony for testing and demonstration.
     """
 
-    async def _execute_identity_aware_task(self, task_id: str, task_data: Dict[str, Any],
-                                         user_context: QuantumUserContext,
-                                         oracle_insights: Optional[Dict[str, Any]],
-                                         ethics_approval: bool,
-                                         consciousness_context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _execute_identity_aware_task(
+        self,
+        task_id: str,
+        task_data: dict[str, Any],
+        user_context: QuantumUserContext,
+        oracle_insights: Optional[dict[str, Any]],
+        ethics_approval: bool,
+        consciousness_context: Optional[dict[str, Any]],
+    ) -> dict[str, Any]:
         """Default identity-aware task execution."""
         start_time = time.time()
 
@@ -649,8 +736,10 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
             "oracle_insights_used": oracle_insights is not None,
             "ethics_approved": ethics_approval,
             "consciousness_aware": consciousness_context is not None,
-            "capabilities_used": self.get_supported_capabilities_for_tier(user_context.tier_level),
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "capabilities_used": self.get_supported_capabilities_for_tier(
+                user_context.tier_level
+            ),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Include Oracle insights in result if available
@@ -665,8 +754,13 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
 
 
 # Factory function for creating identity-aware colonies
-def create_identity_aware_colony(colony_id: str, capabilities: List[str],
-                                colony_class: Optional[type] = None) -> IdentityAwareBaseColony:
+
+
+def create_identity_aware_colony(
+    colony_id: str,
+    capabilities: list[str],
+    colony_class: Optional[type] = None,
+) -> IdentityAwareBaseColony:
     """
     Factory function to create identity-aware colonies.
 

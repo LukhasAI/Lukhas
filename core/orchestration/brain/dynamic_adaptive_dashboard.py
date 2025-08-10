@@ -23,49 +23,53 @@ Author: Aethios AGI Team
 Date: May 4, 2025
 """
 
+import asyncio
+import json
 import logging
 import time
-import json
-import asyncio
-from typing import Dict, List, Any, Optional
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Optional
+
+from aethios.core.context_analyzer import ContextAnalyzer
+from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
+from aethios.interface.voice.speech_processor import SpeechProcessor
 
 # Core system components
-from aethios.core.context_analyzer import ContextAnalyzer
-from aethios.interface.voice.speech_processor import SpeechProcessor
-from aethios.interface.voice.emotional_fingerprinter import EmotionalFingerprinter
 
 # Import the V1 system components
 try:
     # DAST (Dynamic Alignment & Symbolic Tasking) components
-    from V1.systems.core.modules.dast.dast_core import process_task, evaluate_compatibility
+    # ABAS (Adaptive Behavioral Arbitration System) components
+    from V1.systems.core.modules.abas.abas import (
+        evaluate_emotional_state,
+        is_allowed_now,
+    )
     from V1.systems.core.modules.dast.dast_logger import log_task_event
 
-    # ABAS (Adaptive Behavioral Arbitration System) components
-    from V1.systems.core.modules.abas.abas import evaluate_emotional_state, is_allowed_now
-
     # NIAS (Non-Intrusive Ad System) components
-    from V1.systems.core.modules.nias.nias_core import push_symbolic_message
-
     # Widget system from AGENT folder
-#     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
-#     from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO: Install or implement AGENT
+    #     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
+    # from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO:
+    # Install or implement AGENT
 
     V1_COMPONENTS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Could not # import V1  # External dependency components: {e}")
     V1_COMPONENTS_AVAILABLE = False
 
+
 @dataclass
 class UserProfile:
     """User profile information"""
+
     id: str
     tier: int = 1  # Default to tier 1
     name: Optional[str] = None
-    preferences: Dict[str, Any] = None
-    emotional_fingerprint: Dict[str, float] = None
-    device_capabilities: Dict[str, bool] = None
+    preferences: dict[str, Any] = None
+    emotional_fingerprint: dict[str, float] = None
+    device_capabilities: dict[str, bool] = None
+
 
 class AdaptiveDashboard:
     """
@@ -98,12 +102,14 @@ class AdaptiveDashboard:
 
         self.logger.info("Adaptive Dashboard initialized")
 
-    def _load_widget_registry(self) -> Dict[str, Any]:
+    def _load_widget_registry(self) -> dict[str, Any]:
         """Load the widget registry from file"""
         try:
-            registry_path = Path("/Users/grdm_admin/Developer/prototype_1/AGENT/lukhas_widget_registry.json")
+            registry_path = Path(
+                "/Users/grdm_admin/Developer/prototype_1/AGENT/lukhas_widget_registry.json"
+            )
             if registry_path.exists():
-                with open(registry_path, 'r') as f:
+                with open(registry_path) as f:
                     return json.load(f)
             else:
                 self.logger.warning(f"Widget registry file not found: {registry_path}")
@@ -112,7 +118,9 @@ class AdaptiveDashboard:
             self.logger.error(f"Error loading widget registry: {e}")
             return {"widget_types": {}}
 
-    async def generate_dashboard(self, user_profile: UserProfile, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def generate_dashboard(
+        self, user_profile: UserProfile, context: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Generate a personalized, adaptive dashboard for a user
 
@@ -129,7 +137,9 @@ class AdaptiveDashboard:
 
         # Combine with any existing context for this user
         if user_profile.id in self.active_dashboards:
-            existing_context = self.active_dashboards[user_profile.id].get("context", {})
+            existing_context = self.active_dashboards[user_profile.id].get(
+                "context", {}
+            )
             context = {**existing_context, **context}
 
         # Determine which widgets to show based on user tier
@@ -140,16 +150,21 @@ class AdaptiveDashboard:
         if V1_COMPONENTS_AVAILABLE:
             try:
                 emotional_state = evaluate_emotional_state(
-                    user_id=user_profile.id,
-                    current_context=context
+                    user_id=user_profile.id, current_context=context
                 )
 
                 # Adjust widgets based on emotional state
                 if not emotional_state.get("stable", True):
-                    # Filter out potentially stressful widgets during emotional instability
-                    available_widgets = [w for w in available_widgets
-                                        if not w.get("high_emotional_impact", False)]
-                    self.logger.info(f"Filtered widgets due to emotional state for user {user_profile.id}")
+                    # Filter out potentially stressful widgets during emotional
+                    # instability
+                    available_widgets = [
+                        w
+                        for w in available_widgets
+                        if not w.get("high_emotional_impact", False)
+                    ]
+                    self.logger.info(
+                        f"Filtered widgets due to emotional state for user {user_profile.id}"
+                    )
             except Exception as e:
                 self.logger.error(f"Error evaluating emotional state: {e}")
 
@@ -165,7 +180,7 @@ class AdaptiveDashboard:
                     ad_permission = evaluate_ad_permission(
                         widget_type=widget_type,
                         vendor_name=vendor_name,
-                        user_tier=user_profile.tier
+                        user_tier=user_profile.tier,
                     )
 
                     # Adjust widget based on NIAS evaluation
@@ -173,7 +188,9 @@ class AdaptiveDashboard:
                     widget["nias_reason"] = ad_permission.get("reason", "")
 
                     if not widget["show_ads"]:
-                        self.logger.info(f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}")
+                        self.logger.info(
+                            f"NIAS blocked ads for {widget_type} widget: {ad_permission.get('reason')}"
+                        )
                 except Exception as e:
                     self.logger.error(f"Error evaluating NIAS permissions: {e}")
                     widget["show_ads"] = False
@@ -195,7 +212,7 @@ class AdaptiveDashboard:
             "layout": layout,
             "emotional_state": emotional_state,
             "context": context,
-            "theme": self._determine_theme(context, emotional_state)
+            "theme": self._determine_theme(context, emotional_state),
         }
 
         # Cache the active dashboard
@@ -209,14 +226,14 @@ class AdaptiveDashboard:
                     user_id=user_profile.id,
                     tier=user_profile.tier,
                     context=context,
-                    result={"widget_count": len(processed_widgets)}
+                    result={"widget_count": len(processed_widgets)},
                 )
             except Exception as e:
                 self.logger.error(f"Error logging DAST task event: {e}")
 
         return dashboard_config
 
-    def _get_available_widgets(self, user_tier: int) -> List[Dict[str, Any]]:
+    def _get_available_widgets(self, user_tier: int) -> list[dict[str, Any]]:
         """
         Get available widgets based on user tier
 
@@ -229,7 +246,9 @@ class AdaptiveDashboard:
         available_widgets = []
 
         # Go through widget registry and filter by tier
-        for widget_type, widget_info in self.widget_registry.get("widget_types", {}).items():
+        for widget_type, widget_info in self.widget_registry.get(
+            "widget_types", {}
+        ).items():
             required_tier = widget_info.get("required_tier", 1)
 
             if user_tier >= required_tier and widget_info.get("status", "") == "live":
@@ -240,7 +259,7 @@ class AdaptiveDashboard:
                     "tier_level": required_tier,
                     "vendor": widget_info.get("example_vendor", "unknown"),
                     "ethics_scored": widget_info.get("ethics_scored", False),
-                    "token_cost": widget_info.get("token_cost", 1.0)
+                    "token_cost": widget_info.get("token_cost", 1.0),
                 }
 
                 available_widgets.append(widget_config)
@@ -249,10 +268,10 @@ class AdaptiveDashboard:
 
     def _generate_optimal_layout(
         self,
-        widgets: List[Dict[str, Any]],
+        widgets: list[dict[str, Any]],
         user_profile: UserProfile,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Generate optimal layout for widgets based on user preferences and device
 
@@ -269,7 +288,7 @@ class AdaptiveDashboard:
             "type": "grid",
             "columns": 2,
             "rows": (len(widgets) + 1) // 2,
-            "widget_positions": {}
+            "widget_positions": {},
         }
 
         # If user has device capabilities
@@ -286,20 +305,30 @@ class AdaptiveDashboard:
 
         # Position important widgets at the top
         # Sort widgets by token cost (higher cost = more important)
-        sorted_widgets = sorted(widgets, key=lambda w: w.get("token_cost", 0), reverse=True)
+        sorted_widgets = sorted(
+            widgets, key=lambda w: w.get("token_cost", 0), reverse=True
+        )
 
         # Create widget positions
         for i, widget in enumerate(sorted_widgets):
             if layout["type"] == "grid":
                 row = i // layout["columns"]
                 col = i % layout["columns"]
-                layout["widget_positions"][widget["type"]] = {"row": row, "col": col}
+                layout["widget_positions"][widget["type"]] = {
+                    "row": row,
+                    "col": col,
+                }
             else:  # stack
-                layout["widget_positions"][widget["type"]] = {"row": i, "col": 0}
+                layout["widget_positions"][widget["type"]] = {
+                    "row": i,
+                    "col": 0,
+                }
 
         return layout
 
-    def _determine_theme(self, context: Dict[str, Any], emotional_state: Dict[str, Any]) -> Dict[str, Any]:
+    def _determine_theme(
+        self, context: dict[str, Any], emotional_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Determine appropriate UI theme based on context and emotional state
 
@@ -317,7 +346,7 @@ class AdaptiveDashboard:
             "background_color": "#ffffff",
             "accent_color": "#00b7c3",
             "dark_mode": False,
-            "font_size": "medium"
+            "font_size": "medium",
         }
 
         # Check if it's night time
@@ -332,15 +361,15 @@ class AdaptiveDashboard:
             # If user is stressed, use calming colors
             if emotional_state.get("stress", 0) > 0.7:
                 theme["primary_color"] = "#4a6fa5"  # Calming blue
-                theme["accent_color"] = "#93c5fd"   # Soft blue
+                theme["accent_color"] = "#93c5fd"  # Soft blue
 
             # If user is happy, use vibrant colors
             elif emotional_state.get("joy", 0) > 0.7:
-                theme["accent_color"] = "#f59e0b"   # Vibrant yellow/gold
+                theme["accent_color"] = "#f59e0b"  # Vibrant yellow/gold
 
         return theme
 
-    async def add_widget(self, user_id: str, widget_type: str) -> Dict[str, Any]:
+    async def add_widget(self, user_id: str, widget_type: str) -> dict[str, Any]:
         """
         Add a widget to a user's dashboard
 
@@ -353,24 +382,38 @@ class AdaptiveDashboard:
         """
         # Check if user has an active dashboard
         if user_id not in self.active_dashboards:
-            return {"status": "error", "message": "User does not have an active dashboard"}
+            return {
+                "status": "error",
+                "message": "User does not have an active dashboard",
+            }
 
         dashboard = self.active_dashboards[user_id]
         user_tier = dashboard.get("user_tier", 1)
 
         # Check if widget exists and user has access
         widget_info = self.widget_registry.get("widget_types", {}).get(widget_type, {})
-        required_tier = widget_info.get("required_tier", 5)  # Default to highest tier if not specified
+        required_tier = widget_info.get(
+            "required_tier", 5
+        )  # Default to highest tier if not specified
 
         if not widget_info:
-            return {"status": "error", "message": f"Widget type '{widget_type}' not found"}
+            return {
+                "status": "error",
+                "message": f"Widget type '{widget_type}' not found",
+            }
 
         if user_tier < required_tier:
-            return {"status": "error", "message": f"User tier {user_tier} does not have access to this widget (requires tier {required_tier})"}
+            return {
+                "status": "error",
+                "message": f"User tier {user_tier} does not have access to this widget (requires tier {required_tier})",
+            }
 
         # Check if widget is already in dashboard
         if any(w["type"] == widget_type for w in dashboard["widgets"]):
-            return {"status": "error", "message": f"Widget '{widget_type}' is already in the dashboard"}
+            return {
+                "status": "error",
+                "message": f"Widget '{widget_type}' is already in the dashboard",
+            }
 
         # Create widget configuration
         widget_config = {
@@ -380,7 +423,7 @@ class AdaptiveDashboard:
             "vendor": widget_info.get("example_vendor", "unknown"),
             "ethics_scored": widget_info.get("ethics_scored", False),
             "token_cost": widget_info.get("token_cost", 1.0),
-            "show_ads": False  # Default to no ads
+            "show_ads": False,  # Default to no ads
         }
 
         # If NIAS is available, evaluate ad permissions
@@ -389,7 +432,7 @@ class AdaptiveDashboard:
                 ad_permission = evaluate_ad_permission(
                     widget_type=widget_type,
                     vendor_name=widget_info.get("example_vendor", "unknown"),
-                    user_tier=user_tier
+                    user_tier=user_tier,
                 )
 
                 widget_config["show_ads"] = ad_permission.get("allowed", False)
@@ -418,11 +461,17 @@ class AdaptiveDashboard:
                             break
 
                     if not position_taken:
-                        layout["widget_positions"][widget_type] = {"row": row, "col": col}
+                        layout["widget_positions"][widget_type] = {
+                            "row": row,
+                            "col": col,
+                        }
                         break
         else:  # stack
             layout["rows"] = len(dashboard["widgets"])
-            layout["widget_positions"][widget_type] = {"row": layout["rows"] - 1, "col": 0}
+            layout["widget_positions"][widget_type] = {
+                "row": layout["rows"] - 1,
+                "col": 0,
+            }
 
         # If DAST is available, log this as a symbolic task
         if V1_COMPONENTS_AVAILABLE:
@@ -431,20 +480,23 @@ class AdaptiveDashboard:
                     task_type="widget_addition",
                     user_id=user_id,
                     widget_type=widget_type,
-                    result={"success": True}
+                    result={"success": True},
                 )
             except Exception as e:
                 self.logger.error(f"Error logging DAST task event: {e}")
 
-        return {"status": "success", "message": f"Widget '{widget_type}' added to dashboard"}
+        return {
+            "status": "success",
+            "message": f"Widget '{widget_type}' added to dashboard",
+        }
 
     async def process_widget_interaction(
         self,
         user_id: str,
         widget_type: str,
         action: str,
-        payload: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
+        payload: dict[str, Any] = None,
+    ) -> dict[str, Any]:
         """
         Process interaction with a widget
 
@@ -459,7 +511,10 @@ class AdaptiveDashboard:
         """
         # Check if user has an active dashboard
         if user_id not in self.active_dashboards:
-            return {"status": "error", "message": "User does not have an active dashboard"}
+            return {
+                "status": "error",
+                "message": "User does not have an active dashboard",
+            }
 
         dashboard = self.active_dashboards[user_id]
 
@@ -471,7 +526,10 @@ class AdaptiveDashboard:
                 break
 
         if widget is None:
-            return {"status": "error", "message": f"Widget '{widget_type}' not found in dashboard"}
+            return {
+                "status": "error",
+                "message": f"Widget '{widget_type}' not found in dashboard",
+            }
 
         # If V1 components are available, use ABAS to check if interaction is allowed
         if V1_COMPONENTS_AVAILABLE:
@@ -479,14 +537,14 @@ class AdaptiveDashboard:
                 abas_result = is_allowed_now(
                     user_id=user_id,
                     action_type=f"widget_{action}",
-                    context=dashboard["context"]
+                    context=dashboard["context"],
                 )
 
                 if not abas_result.get("allowed", True):
                     return {
                         "status": "blocked",
                         "message": f"ABAS blocked interaction: {abas_result.get('reason', 'Unknown reason')}",
-                        "recommended_action": abas_result.get("recommended_action")
+                        "recommended_action": abas_result.get("recommended_action"),
                     }
             except Exception as e:
                 self.logger.error(f"Error checking ABAS permissions: {e}")
@@ -500,7 +558,7 @@ class AdaptiveDashboard:
                     widget_type=widget_type,
                     action=action,
                     user_id=user_id,
-                    payload=payload or {}
+                    payload=payload or {},
                 )
 
                 # Log task event using DAST
@@ -510,22 +568,28 @@ class AdaptiveDashboard:
                             task_type=f"widget_{action}",
                             user_id=user_id,
                             widget_type=widget_type,
-                            result={"success": result.get("status") == "success"}
+                            result={"success": result.get("status") == "success"},
                         )
                     except Exception as e:
                         self.logger.error(f"Error logging DAST task event: {e}")
             except Exception as e:
                 self.logger.error(f"Error processing widget action: {e}")
-                result = {"status": "error", "message": f"Widget processing error: {str(e)}"}
+                result = {
+                    "status": "error",
+                    "message": f"Widget processing error: {str(e)}",
+                }
 
         return result
 
+
 # Example usage
+
+
 async def main():
     # Setup logging
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     # Create dashboard
@@ -538,11 +602,17 @@ async def main():
         name="Test User",
         preferences={"dark_mode": True},
         emotional_fingerprint={"joy": 0.7, "sadness": 0.1, "anger": 0.05},
-        device_capabilities={"is_mobile": False, "screen_width": 1920, "screen_height": 1080}
+        device_capabilities={
+            "is_mobile": False,
+            "screen_width": 1920,
+            "screen_height": 1080,
+        },
     )
 
     # Generate dashboard
-    result = await dashboard.generate_dashboard(user, {"time_context": {"is_night": True}})
+    result = await dashboard.generate_dashboard(
+        user, {"time_context": {"is_night": True}}
+    )
 
     print(f"Generated dashboard with {len(result['widgets'])} widgets")
     print(f"Layout type: {result['layout']['type']}")
@@ -559,9 +629,10 @@ async def main():
         "user123",
         "reminder",
         "create",
-        {"text": "Remember to demo the dashboard", "due": "tomorrow"}
+        {"text": "Remember to demo the dashboard", "due": "tomorrow"},
     )
     print(f"Interaction result: {interaction_result}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -12,9 +12,9 @@ Features:
 - Security checks
 """
 
-import re
 import json
-from typing import Dict, Optional, Tuple
+import re
+
 
 class QRGParser:
     """Parse and validate QR-G codes"""
@@ -23,7 +23,7 @@ class QRGParser:
         self.config = config
         self.valid_patterns = {}
 
-    def parse_qr_code(self, qr_data: str) -> Dict:
+    def parse_qr_code(self, qr_data: str) -> dict:
         """Parse QR-G code data"""
         # ΛTAG: qrg_parse
         try:
@@ -40,11 +40,12 @@ class QRGParser:
         pattern = self.config.get("qr_format", r"^[A-Z0-9|:{}\s]+$")
         return bool(re.match(pattern, qr_data))
 
-    def extract_metadata(self, qr_data: str) -> Dict:
+    def extract_metadata(self, qr_data: str) -> dict:
         """Extract metadata from QR-G code"""
         # ΛTAG: qrg_metadata
         parsed = self.parse_qr_code(qr_data)
         return parsed.get("metadata", {}) if isinstance(parsed, dict) else {}
+
 
 class GLYMPHParser:
     """Parse and interpret GLYMPH symbols"""
@@ -53,7 +54,7 @@ class GLYMPHParser:
         self.config = config
         self.symbol_map = {}
 
-    def parse_glymph(self, glymph_data: str) -> Dict:
+    def parse_glymph(self, glymph_data: str) -> dict:
         """Parse GLYMPH symbol data"""
         # ΛTAG: glymph_parse
         tokens = glymph_data.split("-")

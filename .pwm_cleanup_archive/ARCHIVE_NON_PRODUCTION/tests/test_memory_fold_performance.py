@@ -5,17 +5,16 @@ Tests the efficiency of the memory fold architecture vs traditional storage
 """
 
 import asyncio
-import time
-import sys
-import os
-from datetime import datetime
-import random
 import json
+import os
+import random
+import sys
+import time
+from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from memory.core_system import create_memory_fold_system
-from memory.structural_conscience import create_structural_conscience
 
 
 async def generate_test_memories(count: int) -> list:
@@ -24,9 +23,21 @@ async def generate_test_memories(count: int) -> list:
 
     # Common tags that will be reused (simulating real-world patterns)
     common_tags = [
-        "2025", "january", "system", "colony", "reasoning",
-        "creativity", "memory", "oracle", "ethics", "quantum",
-        "bio-symbolic", "coherence", "drift", "dream", "evolution"
+        "2025",
+        "january",
+        "system",
+        "colony",
+        "reasoning",
+        "creativity",
+        "memory",
+        "oracle",
+        "ethics",
+        "quantum",
+        "bio-symbolic",
+        "coherence",
+        "drift",
+        "dream",
+        "evolution",
     ]
 
     # Colonies that generate memories
@@ -41,7 +52,7 @@ async def generate_test_memories(count: int) -> list:
                 "data": base_memory["data"],
                 "tags": random.sample(common_tags, random.randint(3, 7)),
                 "emotional_weight": random.random(),
-                "colony_source": random.choice(colonies)
+                "colony_source": random.choice(colonies),
             }
         else:
             # Unique content
@@ -50,11 +61,11 @@ async def generate_test_memories(count: int) -> list:
                     "content": f"Memory content {i}",
                     "timestamp": datetime.utcnow().isoformat(),
                     "value": random.random(),
-                    "context": f"Context for memory {i}"
+                    "context": f"Context for memory {i}",
                 },
                 "tags": random.sample(common_tags, random.randint(3, 7)),
                 "emotional_weight": random.random(),
-                "colony_source": random.choice(colonies)
+                "colony_source": random.choice(colonies),
             }
 
         memories.append(memory)
@@ -69,17 +80,16 @@ async def test_memory_fold_performance():
 
     # Create memory fold system
     memory_system = create_memory_fold_system(
-        enable_conscience=True,
-        enable_auto_tagging=True
+        enable_conscience=True, enable_auto_tagging=True
     )
 
     # Test parameters
     memory_count = 1000
 
-    print(f"📊 Test Configuration:")
+    print("📊 Test Configuration:")
     print(f"  - Memory items to process: {memory_count}")
-    print(f"  - Conscience enabled: Yes")
-    print(f"  - Auto-tagging enabled: Yes")
+    print("  - Conscience enabled: Yes")
+    print("  - Auto-tagging enabled: Yes")
     print()
 
     # Generate test memories
@@ -87,7 +97,7 @@ async def test_memory_fold_performance():
     test_memories = await generate_test_memories(memory_count)
 
     # Test 1: Fold-in performance
-    print(f"\n🧪 TEST 1: Fold-in Performance")
+    print("\n🧪 TEST 1: Fold-in Performance")
     print("-" * 50)
 
     start_time = time.time()
@@ -99,7 +109,7 @@ async def test_memory_fold_performance():
             data=memory["data"],
             tags=memory["tags"],
             emotional_weight=memory["emotional_weight"],
-            colony_source=memory["colony_source"]
+            colony_source=memory["colony_source"],
         )
         op_time = (time.time() - op_start) * 1000  # Convert to ms
         fold_in_times.append(op_time)
@@ -111,21 +121,23 @@ async def test_memory_fold_performance():
     total_fold_in_time = time.time() - start_time
     avg_fold_in_time = sum(fold_in_times) / len(fold_in_times)
 
-    print(f"\n  ✅ Fold-in Results:")
+    print("\n  ✅ Fold-in Results:")
     print(f"    - Total time: {total_fold_in_time:.2f}s")
     print(f"    - Average per item: {avg_fold_in_time:.2f}ms")
     print(f"    - Items per second: {memory_count / total_fold_in_time:.0f}")
 
     # Get statistics
     stats = memory_system.get_statistics()
-    print(f"\n  📊 Deduplication Statistics:")
+    print("\n  📊 Deduplication Statistics:")
     print(f"    - Total items stored: {stats['total_items']}")
     print(f"    - Total unique tags: {stats['total_tags']}")
     print(f"    - Deduplication saves: {stats['deduplication_saves']}")
-    print(f"    - Storage efficiency: {(1 - stats['total_items']/memory_count) * 100:.1f}% saved")
+    print(
+        f"    - Storage efficiency: {(1 - stats['total_items']/memory_count) * 100:.1f}% saved"
+    )
 
     # Test 2: Fold-out performance
-    print(f"\n🧪 TEST 2: Fold-out Performance")
+    print("\n🧪 TEST 2: Fold-out Performance")
     print("-" * 50)
 
     # Test tag-based retrieval
@@ -135,9 +147,7 @@ async def test_memory_fold_performance():
     for tag in test_tags:
         op_start = time.time()
         results = await memory_system.fold_out_by_tag(
-            tag_name=tag,
-            include_related=True,
-            max_items=50
+            tag_name=tag, include_related=True, max_items=50
         )
         op_time = (time.time() - op_start) * 1000
         fold_out_times.append(op_time)
@@ -145,12 +155,12 @@ async def test_memory_fold_performance():
         print(f"  Tag '{tag}': {len(results)} items in {op_time:.2f}ms")
 
     avg_fold_out_time = sum(fold_out_times) / len(fold_out_times)
-    print(f"\n  ✅ Fold-out Results:")
+    print("\n  ✅ Fold-out Results:")
     print(f"    - Average retrieval time: {avg_fold_out_time:.2f}ms")
     print(f"    - Performance: {'EXCELLENT' if avg_fold_out_time < 10 else 'GOOD'}")
 
     # Test 3: Colony-based retrieval
-    print(f"\n🧪 TEST 3: Colony-based Retrieval")
+    print("\n🧪 TEST 3: Colony-based Retrieval")
     print("-" * 50)
 
     for colony in ["reasoning", "creativity", "memory"]:
@@ -161,10 +171,11 @@ async def test_memory_fold_performance():
         print(f"  Colony '{colony}': {len(results)} items in {op_time:.2f}ms")
 
     # Test 4: Memory export/import
-    print(f"\n🧪 TEST 4: LKF-Pack Export/Import")
+    print("\n🧪 TEST 4: LKF-Pack Export/Import")
     print("-" * 50)
 
     from pathlib import Path
+
     export_path = Path("/tmp/test_memory_fold.lkf")
 
     # Export
@@ -172,7 +183,7 @@ async def test_memory_fold_performance():
     export_stats = await memory_system.export_archive(export_path)
     export_time = (time.time() - op_start) * 1000
 
-    print(f"  Export Results:")
+    print("  Export Results:")
     print(f"    - Export time: {export_time:.2f}ms")
     print(f"    - Compressed size: {export_stats['compressed_size']} bytes")
     print(f"    - Compression ratio: {export_stats['compression_ratio']:.2f}")
@@ -184,7 +195,7 @@ async def test_memory_fold_performance():
     import_stats = await new_system.import_archive(export_path)
     import_time = (time.time() - op_start) * 1000
 
-    print(f"\n  Import Results:")
+    print("\n  Import Results:")
     print(f"    - Import time: {import_time:.2f}ms")
     print(f"    - Items imported: {import_stats['imported']}")
     print(f"    - Items skipped: {import_stats['skipped']}")
@@ -193,27 +204,31 @@ async def test_memory_fold_performance():
     export_path.unlink()
 
     # Final performance summary
-    print(f"\n🏆 PERFORMANCE SUMMARY")
+    print("\n🏆 PERFORMANCE SUMMARY")
     print("=" * 70)
     print(f"✅ Fold-in Performance: {avg_fold_in_time:.2f}ms per item")
     print(f"✅ Fold-out Performance: {avg_fold_out_time:.2f}ms per query")
-    print(f"✅ Deduplication Efficiency: {stats['deduplication_saves']} duplicates eliminated")
+    print(
+        f"✅ Deduplication Efficiency: {stats['deduplication_saves']} duplicates eliminated"
+    )
     print(f"✅ Tag Reuse: {stats['average_items_per_tag']:.1f} items per tag")
     print(f"✅ Memory Compression: {export_stats['compression_ratio']:.2f}x reduction")
 
     # Performance verdict
     if avg_fold_in_time < 2 and avg_fold_out_time < 10:
-        print(f"\n🌟 VERDICT: EXCELLENT PERFORMANCE")
-        print(f"   Sub-2ms fold-in maintains real-time capabilities")
-        print(f"   Sub-10ms fold-out ensures responsive retrieval")
-        print(f"   Memory fold architecture successfully balances performance with rich features")
+        print("\n🌟 VERDICT: EXCELLENT PERFORMANCE")
+        print("   Sub-2ms fold-in maintains real-time capabilities")
+        print("   Sub-10ms fold-out ensures responsive retrieval")
+        print(
+            "   Memory fold architecture successfully balances performance with rich features"
+        )
     elif avg_fold_in_time < 5 and avg_fold_out_time < 20:
-        print(f"\n⭐ VERDICT: GOOD PERFORMANCE")
-        print(f"   Performance suitable for production use")
-        print(f"   Consider optimization for higher throughput scenarios")
+        print("\n⭐ VERDICT: GOOD PERFORMANCE")
+        print("   Performance suitable for production use")
+        print("   Consider optimization for higher throughput scenarios")
     else:
-        print(f"\n⚠️ VERDICT: PERFORMANCE NEEDS OPTIMIZATION")
-        print(f"   Consider reducing auto-tagging or tag relationship updates")
+        print("\n⚠️ VERDICT: PERFORMANCE NEEDS OPTIMIZATION")
+        print("   Consider reducing auto-tagging or tag relationship updates")
 
 
 async def test_memory_fold_vs_traditional():
@@ -228,18 +243,20 @@ async def test_memory_fold_vs_traditional():
         "Colony reasoning activated",
         "Quantum coherence at 102.22%",
         "Ethics validation passed",
-        "Memory consolidation in progress"
+        "Memory consolidation in progress",
     ]
 
     # Generate 1000 memories with lots of duplicates
     for i in range(1000):
         content = random.choice(base_contents)
-        memories.append({
-            "id": i,
-            "content": content,
-            "timestamp": datetime.utcnow().isoformat(),
-            "tags": random.sample(["system", "colony", "quantum", "ethics"], 2)
-        })
+        memories.append(
+            {
+                "id": i,
+                "content": content,
+                "timestamp": datetime.utcnow().isoformat(),
+                "tags": random.sample(["system", "colony", "quantum", "ethics"], 2),
+            }
+        )
 
     # Traditional storage (no deduplication)
     traditional_size = sum(len(json.dumps(m)) for m in memories)
@@ -250,12 +267,12 @@ async def test_memory_fold_vs_traditional():
 
     # Estimate memory fold size
     fold_size = (
-        len(unique_contents) * 50 +  # Unique content storage
-        len(unique_tags) * 20 +       # Tag registry
-        len(memories) * 20            # References only
+        len(unique_contents) * 50  # Unique content storage
+        + len(unique_tags) * 20  # Tag registry
+        + len(memories) * 20  # References only
     )
 
-    print(f"📊 Storage Comparison (1000 memories):")
+    print("📊 Storage Comparison (1000 memories):")
     print(f"  Traditional Storage: {traditional_size:,} bytes")
     print(f"  Memory Fold Storage: {fold_size:,} bytes")
     print(f"  Space Saved: {(1 - fold_size/traditional_size) * 100:.1f}%")

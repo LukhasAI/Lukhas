@@ -5,9 +5,11 @@ This module provides a clean interface for integrating all LUKHAS AGI systems
 together, wrapping the more complex system coordinator functionality.
 """
 
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import structlog
-from .system_coordinator import SystemCoordinator, get_system_coordinator
+
+from .system_coordinator import get_system_coordinator
 
 logger = structlog.get_logger(__name__)
 
@@ -52,7 +54,7 @@ class IntegrationLayer:
             return {
                 "status": "integrated_fallback",
                 "systems": systems or ["memory", "consciousness", "reasoning"],
-                "coordinator": "fallback"
+                "coordinator": "fallback",
             }
 
     def get_integration_status(self) -> Dict[str, Any]:
@@ -60,7 +62,7 @@ class IntegrationLayer:
         return {
             "coordinator_available": self.coordinator is not None,
             "layer_status": "operational",
-            "timestamp": "2025-07-24"
+            "timestamp": "2025-07-24",
         }
 
     def shutdown(self):

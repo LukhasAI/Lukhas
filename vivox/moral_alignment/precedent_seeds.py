@@ -3,8 +3,9 @@ VIVOX Ethical Precedent Seeds
 Common ethical scenarios to bootstrap the precedent database
 """
 
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import Any, Dict, List
+
 from ..moral_alignment.vivox_mae_core import ActionProposal, MAEDecision
 
 
@@ -16,7 +17,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
         List of precedent dictionaries with actions, contexts, decisions, and outcomes
     """
     precedents = []
-    
+
     # 1. Privacy Protection Scenarios
     precedents.extend([
         {
@@ -50,7 +51,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.8, "resolution_action": "proceed_with_safeguards"}
         }
     ])
-    
+
     # 2. Harm Prevention Scenarios
     precedents.extend([
         {
@@ -84,7 +85,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.9, "resolution_action": "generate_with_warnings"}
         }
     ])
-    
+
     # 3. Truthfulness and Transparency
     precedents.extend([
         {
@@ -118,7 +119,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.95, "resolution_action": "provide_with_sources"}
         }
     ])
-    
+
     # 4. Autonomy and Consent
     precedents.extend([
         {
@@ -152,7 +153,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.3, "resolution_action": "temporary_override_with_notification"}
         }
     ])
-    
+
     # 5. Fairness and Non-discrimination
     precedents.extend([
         {
@@ -186,7 +187,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.8, "resolution_action": "proceed_with_monitoring"}
         }
     ])
-    
+
     # 6. Beneficence (Doing Good)
     precedents.extend([
         {
@@ -220,7 +221,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "outcome": {"valence": 0.4, "resolution_action": "offer_alternative_help"}
         }
     ])
-    
+
     # Convert to proper format for database
     formatted_precedents = []
     for p in precedents:
@@ -232,7 +233,7 @@ def get_ethical_precedent_seeds() -> List[Dict[str, Any]]:
             "resolution_action": p["outcome"]["resolution_action"],
             "timestamp": datetime.utcnow().isoformat()
         })
-    
+
     return formatted_precedents
 
 
@@ -244,7 +245,7 @@ async def seed_precedent_database(mae_engine: 'VIVOXMoralAlignmentEngine'):
         mae_engine: The VIVOX MAE instance to seed
     """
     seeds = get_ethical_precedent_seeds()
-    
+
     for seed in seeds:
         # Reconstruct objects from seed data
         action = ActionProposal(
@@ -252,7 +253,7 @@ async def seed_precedent_database(mae_engine: 'VIVOXMoralAlignmentEngine'):
             content=seed.get("content", {}),
             context=seed.get("context", {})
         )
-        
+
         decision = MAEDecision(
             approved=seed["decision"]["approved"],
             dissonance_score=seed["decision"]["dissonance_score"],
@@ -260,14 +261,14 @@ async def seed_precedent_database(mae_engine: 'VIVOXMoralAlignmentEngine'):
             ethical_confidence=seed["decision"].get("ethical_confidence", 0.5),
             suppression_reason=seed["decision"].get("suppression_reason")
         )
-        
+
         outcome = {
             "valence": seed["outcome_valence"],
             "resolution_action": seed["resolution_action"]
         }
-        
+
         await mae_engine.ethical_precedent_db.add_precedent(
             action, seed["context"], decision, outcome
         )
-    
+
     return len(seeds)

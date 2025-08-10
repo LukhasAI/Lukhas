@@ -1,4 +1,3 @@
-
 """
 
 #TAG:governance
@@ -27,6 +26,7 @@
 
 from core.lukhas_emotion_log import get_emotion_state
 
+
 def synthesize_voice(text, tone=None, actor="Lukhas"):
     """
     Synthesizes voice output using ElevenLabs or fallback TTS.
@@ -47,6 +47,7 @@ def synthesize_voice(text, tone=None, actor="Lukhas"):
     # Placeholder: Integrate with ElevenLabs or local TTS
     voice_profile = f"{actor}_{tone}"
     return f"[Voice: {voice_profile}] {text}"
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

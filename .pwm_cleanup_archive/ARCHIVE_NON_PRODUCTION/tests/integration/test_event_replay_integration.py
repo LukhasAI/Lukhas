@@ -4,7 +4,6 @@ Tests for Agent 1 Task 2: core/event_replay_snapshot.py integration
 """
 
 import asyncio
-import os
 import sys
 import tempfile
 import time
@@ -20,10 +19,8 @@ from core.core_hub import get_core_hub
 from core.event_replay_snapshot import (
     ActorStateSnapshot,
     Event,
-    EventSourcedActor,
     EventStore,
     EventType,
-    ReplayController,
     SnapshotStore,
 )
 
@@ -217,11 +214,7 @@ class TestEventReplayIntegration:
         from core.event_replay_snapshot import (
             ActorStateSnapshot,
             Event,
-            EventSourcedActor,
-            EventStore,
             EventType,
-            ReplayController,
-            SnapshotStore,
         )
 
         # Verify enum has all required values

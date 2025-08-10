@@ -13,15 +13,11 @@ from __future__ import annotations
 ╚══════════════════════════════════════════════════════════════════════════════╝
 """
 
-
 import asyncio
 import time
-from dataclasses import dataclass, field
-from typing import Awaitable, Dict, Optional
-
-import structlog
-
-from core.common import get_logger
+from collections.abc import Awaitable
+from dataclasses import dataclass
+from typing import Dict, Optional
 
 
 @dataclass
@@ -122,4 +118,3 @@ class SymbolicLoopMonitor:
                         pass
                     self._loops.pop(loop_id, None)
             await asyncio.sleep(self.check_interval)
-

@@ -7,7 +7,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 Memory Processing System for LUKHAS.
 Memory Processing System for LUKHAS.
@@ -18,11 +17,13 @@ It implements the MATADA node structure and integrates with the core memory heli
 
 import datetime
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class EmotionalState(Enum):
     NEUTRAL = "neutral"
@@ -31,9 +32,11 @@ class EmotionalState(Enum):
     CURIOUS = "curious"
     EMPATHETIC = "empathetic"
 
+
 @dataclass
 class MemoryNode:
     """MATADA memory node structure"""
+
     content: str
     context: Dict[str, Any]
     timestamp: datetime.datetime
@@ -41,6 +44,7 @@ class MemoryNode:
     importance: float = 0.0
     references: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 class MemoryProcessor:
     """Main memory processing system implementing MATADA architecture"""
@@ -50,8 +54,13 @@ class MemoryProcessor:
         self.max_memories = max_memories
         self.interaction_count = 0
 
-    def store_interaction(self, user_id: str, content: str, context: Dict[str, Any],
-                         emotional_state: EmotionalState = EmotionalState.NEUTRAL) -> None:
+    def store_interaction(
+        self,
+        user_id: str,
+        content: str,
+        context: Dict[str, Any],
+        emotional_state: EmotionalState = EmotionalState.NEUTRAL,
+    ) -> None:
         """Store an interaction in memory using MATADA node structure"""
         if user_id not in self.memories:
             self.memories[user_id] = []
@@ -63,7 +72,7 @@ class MemoryProcessor:
             timestamp=datetime.datetime.now(),
             emotional_state=emotional_state,
             importance=self._calculate_importance(context),
-            metadata={"interaction_id": self.interaction_count}
+            metadata={"interaction_id": self.interaction_count},
         )
 
         self.interaction_count += 1
@@ -74,23 +83,27 @@ class MemoryProcessor:
         # Trim if needed, removing least important memories first
         if len(self.memories[user_id]) > self.max_memories:
             self.memories[user_id] = sorted(
-                self.memories[user_id],
-                key=lambda x: x.importance,
-                reverse=True
-            )[:self.max_memories]
+                self.memories[user_id], key=lambda x: x.importance, reverse=True
+            )[: self.max_memories]
 
-        logger.info(f"Stored memory for user {user_id} with importance {memory.importance:.2f}")
+        logger.info(
+            f"Stored memory for user {user_id} with importance {memory.importance:.2f}"
+        )
 
-    def get_relevant_memories(self, user_id: str, context: Dict[str, Any],
-                            limit: int = 5) -> List[MemoryNode]:
+    def get_relevant_memories(
+        self, user_id: str, context: Dict[str, Any], limit: int = 5
+    ) -> List[MemoryNode]:
         """Retrieve relevant memories based on context similarity"""
         if user_id not in self.memories:
             return []
 
         def calculate_relevance(memory: MemoryNode) -> float:
             # Context matching score (0-1)
-            context_score = sum(1 for k, v in context.items()
-                              if k in memory.context and memory.context[k] == v)
+            context_score = sum(
+                1
+                for k, v in context.items()
+                if k in memory.context and memory.context[k] == v
+            )
             context_score = context_score / max(len(context), len(memory.context))
 
             # Time decay factor (1.0 -> 0.0)
@@ -100,11 +113,7 @@ class MemoryProcessor:
             return context_score * time_factor * memory.importance
 
         # Sort memories by relevance
-        memories = sorted(
-            self.memories[user_id],
-            key=calculate_relevance,
-            reverse=True
-        )
+        memories = sorted(self.memories[user_id], key=calculate_relevance, reverse=True)
 
         return memories[:limit]
 
@@ -129,8 +138,9 @@ class MemoryProcessor:
 
         return importance
 
-    def update_memory_references(self, user_id: str, memory_id: str,
-                               referenced_ids: List[str]) -> None:
+    def update_memory_references(
+        self, user_id: str, memory_id: str, referenced_ids: List[str]
+    ) -> None:
         """Update memory node references to build connections"""
         if user_id not in self.memories:
             return
@@ -141,19 +151,22 @@ class MemoryProcessor:
                 memory.references = list(set(memory.references))  # Remove duplicates
                 break
 
-    def get_emotional_summary(self, user_id: str,
-                            timeframe: Optional[datetime.timedelta] = None) -> Dict[EmotionalState, int]:
+    def get_emotional_summary(
+        self, user_id: str, timeframe: Optional[datetime.timedelta] = None
+    ) -> Dict[EmotionalState, int]:
         """Get summary of emotional states from recent interactions"""
         if user_id not in self.memories:
-            return {state: 0 for state in EmotionalState}
+            return dict.fromkeys(EmotionalState, 0)
 
         if timeframe:
             cutoff = datetime.datetime.now() - timeframe
-            relevant_memories = [m for m in self.memories[user_id] if m.timestamp >= cutoff]
+            relevant_memories = [
+                m for m in self.memories[user_id] if m.timestamp >= cutoff
+            ]
         else:
             relevant_memories = self.memories[user_id]
 
-        summary = {state: 0 for state in EmotionalState}
+        summary = dict.fromkeys(EmotionalState, 0)
         for memory in relevant_memories:
             summary[memory.emotional_state] += 1
 
@@ -173,7 +186,7 @@ class MemoryProcessor:
                 "emotional_state": memory.emotional_state.value,
                 "importance": memory.importance,
                 "references": memory.references,
-                "metadata": memory.metadata
+                "metadata": memory.metadata,
             }
             memory_data.append(memory_dict)
 
@@ -181,7 +194,7 @@ class MemoryProcessor:
             "user_id": user_id,
             "export_timestamp": datetime.datetime.now().isoformat(),
             "memory_count": len(memory_data),
-            "memories": memory_data
+            "memories": memory_data,
         }
 
     def import_memories(self, data: Dict[str, Any]) -> int:
@@ -200,7 +213,7 @@ class MemoryProcessor:
                     emotional_state=EmotionalState(memory_dict["emotional_state"]),
                     importance=memory_dict["importance"],
                     references=memory_dict["references"],
-                    metadata=memory_dict["metadata"]
+                    metadata=memory_dict["metadata"],
                 )
 
                 if user_id not in self.memories:
@@ -214,9 +227,12 @@ class MemoryProcessor:
 
         return imported_count
 
-    def cluster_memories(self, user_id: str,
-                        cluster_key: str = "emotional_state",
-                        min_cluster_size: int = 2) -> Dict[Any, List[MemoryNode]]:
+    def cluster_memories(
+        self,
+        user_id: str,
+        cluster_key: str = "emotional_state",
+        min_cluster_size: int = 2,
+    ) -> Dict[Any, List[MemoryNode]]:
         """Cluster memories based on specified attribute"""
         if user_id not in self.memories:
             return {}
@@ -237,9 +253,12 @@ class MemoryProcessor:
         # Filter out small clusters
         return {k: v for k, v in clusters.items() if len(v) >= min_cluster_size}
 
-    def get_memory_timeline(self, user_id: str,
-                          start_time: Optional[datetime.datetime] = None,
-                          end_time: Optional[datetime.datetime] = None) -> List[MemoryNode]:
+    def get_memory_timeline(
+        self,
+        user_id: str,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+    ) -> List[MemoryNode]:
         """Get chronological timeline of memories within timeframe"""
         if user_id not in self.memories:
             return []
@@ -252,12 +271,6 @@ class MemoryProcessor:
             memories = [m for m in memories if m.timestamp <= end_time]
 
         return sorted(memories, key=lambda x: x.timestamp)
-
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

@@ -1,20 +1,25 @@
 """Memoria core component for symbolic trace management."""
+
 try:
     import structlog  # type: ignore
+
     from core.common import get_logger
 except ImportError:  # pragma: no cover - fallback when structlog isn't installed
     import logging
+
     def get_logger(name):
         return logging.getLogger(name)
 
+
 logger = get_logger(__name__)
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 from quantum_mind import ConsciousnessPhase, get_current_phase
 
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "memoria"
+
 
 @dataclass
 class CoreMemoriaConfig:
@@ -77,6 +82,7 @@ def create_core_memoria_component(
     initial_config: Optional[Dict[str, Any]] = None,
 ) -> CoreMemoriaComponent:
     return CoreMemoriaComponent(config=initial_config)
+
 
 __all__ = [
     "CoreMemoriaComponent",

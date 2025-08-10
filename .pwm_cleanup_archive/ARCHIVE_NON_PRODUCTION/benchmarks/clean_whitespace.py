@@ -1,34 +1,33 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 Utility script to remove trailing whitespace from Python files
 """
 
-import os
-import re
 from pathlib import Path
+
 
 def clean_trailing_whitespace(file_path):
     """Remove trailing whitespace from a file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Remove trailing whitespace from each line
-        lines = content.split('\n')
+        lines = content.split("\n")
         cleaned_lines = [line.rstrip() for line in lines]
-        cleaned_content = '\n'.join(cleaned_lines)
+        cleaned_content = "\n".join(cleaned_lines)
 
         # Only write if changes were made
         if content != cleaned_content:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(cleaned_content)
             return True
         return False
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
         return False
+
 
 def main():
     """Clean trailing whitespace from all Python files."""
@@ -46,6 +45,7 @@ def main():
             print(f"Cleaned: {py_file.relative_to(repo_root)}")
 
     print(f"\nTotal files cleaned: {cleaned_count}")
+
 
 if __name__ == "__main__":
     main()

@@ -43,23 +43,31 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Optional, Dict, Any
+from typing import Any, Dict, Optional
 
 # Dummy memory store for placeholder
 _RECENT_INTERACTIONS = []
 MAX_RECENT_INTERACTIONS = 10
 
-def store_interaction(user_input: str, system_response: str, context: Optional[Dict[str, Any]] = None):
+
+def store_interaction(
+    user_input: str, system_response: str, context: Optional[Dict[str, Any]] = None
+):
     """Stores an interaction for later recall."""
     if len(_RECENT_INTERACTIONS) >= MAX_RECENT_INTERACTIONS:
-        _RECENT_INTERACTIONS.pop(0) # Remove oldest
-    _RECENT_INTERACTIONS.append({
-        "user_input": user_input,
-        "system_response": system_response,
-        "context": context or {}
-    })
+        _RECENT_INTERACTIONS.pop(0)  # Remove oldest
+    _RECENT_INTERACTIONS.append(
+        {
+            "user_input": user_input,
+            "system_response": system_response,
+            "context": context or {},
+        }
+    )
 
-def recall_last_interaction(current_input: Optional[str] = None) -> Optional[Dict[str, Any]]:
+
+def recall_last_interaction(
+    current_input: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
     """
     Recalls the last interaction.
     Placeholder implementation.
@@ -72,13 +80,20 @@ def recall_last_interaction(current_input: Optional[str] = None) -> Optional[Dic
     # In a real system, this would be a more complex summary or embedding.
     return {
         "summary": f"Last user input: '{last_interaction['user_input'][:50]}...', Last system response: '{last_interaction['system_response'][:50]}...'",
-        "full_interaction": last_interaction # For more detailed use if needed
+        "full_interaction": last_interaction,  # For more detailed use if needed
     }
 
-if __name__ == '__main__':
-    print(recall_last_interaction()) # No interactions yet
+
+if __name__ == "__main__":
+    print(recall_last_interaction())  # No interactions yet
     store_interaction("Hello LUKHAS", "Hello User!", {"session_id": "123"})
-    store_interaction("What is AI?", "AI is artificial intelligence.", {"session_id": "123"})
+    store_interaction(
+        "What is AI?", "AI is artificial intelligence.", {"session_id": "123"}
+    )
     print(recall_last_interaction())
-    store_interaction("Tell me a joke.", "Why did the scarecrow win an award? Because he was outstanding in his field!", {"session_id": "124"})
+    store_interaction(
+        "Tell me a joke.",
+        "Why did the scarecrow win an award? Because he was outstanding in his field!",
+        {"session_id": "124"},
+    )
     print(recall_last_interaction("Irrelevant current input"))

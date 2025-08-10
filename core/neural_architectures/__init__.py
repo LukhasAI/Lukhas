@@ -12,25 +12,26 @@ This module provides sophisticated neural processing capabilities including
 adaptive neural networks, pattern recognition, cross-modal integration,
 and quantum-enhanced processing.
 """
+
 try:
     from .neural_integrator import (
+        AdaptiveNeuralNetwork,
+        NeuralArchitectureType,
+        NeuralContext,
         NeuralIntegrator,
         NeuralMode,
-        NeuralArchitectureType,
         NeuralPattern,
-        NeuralContext,
-        AdaptiveNeuralNetwork,
-        get_neural_integrator
+        get_neural_integrator,
     )
 except ImportError:
     # Neural integrator not available due to torch dependency
     pass
 __all__ = [
-    'NeuralIntegrator',
-    'NeuralMode',
-    'NeuralArchitectureType',
-    'NeuralPattern',
-    'NeuralContext',
-    'AdaptiveNeuralNetwork',
-    'get_neural_integrator'
+    "NeuralIntegrator",
+    "NeuralMode",
+    "NeuralArchitectureType",
+    "NeuralPattern",
+    "NeuralContext",
+    "AdaptiveNeuralNetwork",
+    "get_neural_integrator",
 ]

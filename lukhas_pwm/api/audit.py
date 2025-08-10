@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
-from lukhas_pwm.audit.store import audit_log_write, audit_log_read
+
+from lukhas_pwm.audit.store import audit_log_read, audit_log_write
 
 router = APIRouter(prefix="/audit", tags=["audit"])
 
@@ -41,18 +42,18 @@ def view_audit(audit_id: str):
     badge_config = {
         "strict": {
             "style": "background:#dc3545; color:white;",  # Red
-            "tooltip": "STRICT: Lowest temperature, strict tool allowlist, enhanced Guardian validation"
+            "tooltip": "STRICT: Lowest temperature, strict tool allowlist, enhanced Guardian validation",
         },
         "balanced": {
-            "style": "background:#28a745; color:white;",  # Green  
-            "tooltip": "BALANCED: Moderate settings, standard tool allowlist, normal Guardian checks"
+            "style": "background:#28a745; color:white;",  # Green
+            "tooltip": "BALANCED: Moderate settings, standard tool allowlist, normal Guardian checks",
         },
         "creative": {
             "style": "background:#007bff; color:white;",  # Blue
-            "tooltip": "CREATIVE: Higher temperature, expanded tool allowlist, relaxed constraints"
-        }
+            "tooltip": "CREATIVE: Higher temperature, expanded tool allowlist, relaxed constraints",
+        },
     }
-    
+
     config = badge_config.get(safety_mode, badge_config["balanced"])
     badge_style = config["style"]
     badge_tooltip = config["tooltip"]
@@ -68,12 +69,12 @@ def view_audit(audit_id: str):
           </div>
         </div>
         """
-    
+
     # Tool usage analytics
     tool_analytics = obj.get("tool_analytics", {})
     tools_used = tool_analytics.get("tools_used", [])
     incidents = tool_analytics.get("incidents", [])
-    
+
     if tools_used:
         tools_used_html = "<h4>✅ Tools Actually Used:</h4><ul>"
         for tool_call in tools_used:
@@ -83,7 +84,7 @@ def view_audit(audit_id: str):
             status_emoji = "✅" if status == "executed" else "⚠️"
             tools_used_html += f"""
             <li>
-              <code>{tool_name}</code> 
+              <code>{tool_name}</code>
               {status_emoji} {status}
               <span style="color:#666; margin-left:10px;">({duration}ms)</span>
             </li>
@@ -95,7 +96,7 @@ def view_audit(audit_id: str):
           {tools_used_html}
         </div>
         """
-    
+
     # Security incidents display
     if incidents:
         incidents_html = "<h4>🚨 Blocked Attempts:</h4>"

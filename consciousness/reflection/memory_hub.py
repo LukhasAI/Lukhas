@@ -16,12 +16,14 @@ a unified interface for external systems to interact with memory.
 """
 
 import asyncio
-from core.common import get_logger
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 
-from core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
+from core.bridges.memory_consciousness_bridge import (
+    get_memory_consciousness_bridge,
+)
 from core.bridges.memory_learning_bridge import MemoryLearningBridge
+from core.common import get_logger
 from memory.core.base_manager import BaseMemoryManager
 
 # Task 3C: Add connectivity imports
@@ -42,17 +44,18 @@ try:
 except ImportError:
     SymbolicMemoryMapper = None
     logging.warning("SymbolicMemoryMapper not available")
-from memory.distributed_state_manager import (
-    DistributedStateManager,
-    MultiNodeStateManager,
-)
 from dream.core.dream_memory_manager import DreamMemoryManager
-from memory.quantum_manager import EnhancedMemoryManager
+
 from consciousness.reflection.unified_memory_manager import (
     DriftMemoryManager,
     EnhancedMemoryManager,
     QuantumMemoryManager,
 )
+from memory.distributed_state_manager import (
+    DistributedStateManager,
+    MultiNodeStateManager,
+)
+from memory.quantum_manager import EnhancedMemoryManager
 from memory.voice_memory_manager import MemoryManager
 
 # Agent 1 Task 6: Golden Helix Memory Mapper integration
@@ -85,7 +88,9 @@ except ImportError as e:
 
 # Agent 1 Task 10: Unified Emotional Memory Manager integration
 try:
-    from memory.emotional_memory_manager_unified import UnifiedEmotionalMemoryManager
+    from memory.emotional_memory_manager_unified import (
+        UnifiedEmotionalMemoryManager,
+    )
 
     UNIFIED_EMOTIONAL_MEMORY_AVAILABLE = True
 except ImportError as e:
@@ -94,7 +99,10 @@ except ImportError as e:
 
 # High-priority integrations
 try:
-    from memory.systems.memory_planning_wrapper import MemoryPlanner, get_memory_planner
+    from memory.systems.memory_planning_wrapper import (
+        MemoryPlanner,
+        get_memory_planner,
+    )
 
     MEMORY_PLANNING_AVAILABLE = True
 except ImportError as e:
@@ -564,7 +572,9 @@ class MemoryHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from core.integration.service_discovery import (
+                get_service_discovery,
+            )
 
             discovery = get_service_discovery()
 
@@ -681,7 +691,9 @@ class MemoryHub:
             if hasattr(self, "distributedstatemanager"):
                 self.state_manager = self.distributedstatemanager
             else:
-                from memory.distributed_state_manager import DistributedStateManager
+                from memory.distributed_state_manager import (
+                    DistributedStateManager,
+                )
 
                 self.state_manager = DistributedStateManager(node_id="memory_hub")
 

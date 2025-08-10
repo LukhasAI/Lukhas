@@ -1,11 +1,9 @@
 """Glyph Exchange API for LUKHAS.
 
-
 #TAG:core
 #TAG:glyph
 #TAG:neuroplastic
 #TAG:colony
-
 
 This module exposes FastAPI endpoints to export and import symbolic GLYPHs
 and to receive compressed dream tags from external systems.
@@ -13,19 +11,18 @@ and to receive compressed dream tags from external systems.
 
 from __future__ import annotations
 
-
 import base64
 import json
 import logging
 import zlib
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from symbolic.features.glyphs import GLYPH_MAP
 from core.glyph.glyph_memory_integration import get_glyph_memory_system
+from symbolic.features.glyphs import GLYPH_MAP
 
 logger = logging.getLogger("api.glyph_exchange")
 
@@ -34,11 +31,11 @@ router = APIRouter(prefix="/glyph", tags=["glyph"])
 
 class GlyphImportItem(BaseModel):
     glyph: str = Field(..., description="Unicode glyph symbol")
-    meaning: Optional[str] = Field(None, description="Optional glyph meaning")
+    meaning: str | None = Field(None, description="Optional glyph meaning")
 
 
 class GlyphImportRequest(BaseModel):
-    glyphs: List[GlyphImportItem]
+    glyphs: list[GlyphImportItem]
     user_id: str = Field(..., description="ID of importing system")
 
 
@@ -54,7 +51,7 @@ class CompressedDreamTagRequest(BaseModel):
 class APIResponse(BaseModel):
     status: str = Field(..., description="Response status")
     data: Any = Field(..., description="Response data")
-    message: Optional[str] = Field(None, description="Optional message")
+    message: str | None = Field(None, description="Optional message")
     timestamp: str = Field(default_factory=lambda: datetime.now().isoformat())
 
 
@@ -68,7 +65,7 @@ APIResponse.model_rebuild()
 async def export_glyphs(limit: int = 100) -> APIResponse:
     """Export registered glyphs and usage counts."""
     system = get_glyph_memory_system()
-    glyph_counts: Dict[str, int] = {
+    glyph_counts: dict[str, int] = {
         g: len(folds) for g, folds in system.glyph_index.glyph_to_folds.items()
     }
     sorted_glyphs = sorted(glyph_counts.items(), key=lambda x: x[1], reverse=True)

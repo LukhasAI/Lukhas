@@ -40,21 +40,21 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import numpy as np
 import math
-from typing import Dict, List, Optional, Tuple, Any, Union
 from dataclasses import dataclass
 from datetime import datetime, timezone
-import structlog
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 
 # For production, would use PyTorch/TensorFlow
 # Here we implement attention from scratch for demonstration
-from core.common import get_logger
 
 
 @dataclass
 class AttentionConfig:
     """Configuration for attention mechanisms"""
+
     hidden_dim: int = 1024
     num_heads: int = 8
     dropout_rate: float = 0.1
@@ -84,7 +84,7 @@ class MultiHeadAttention:
             "Multi-head attention initialized",
             hidden_dim=config.hidden_dim,
             num_heads=config.num_heads,
-            head_dim=self.head_dim
+            head_dim=self.head_dim,
         )
 
     def _init_projections(self):
@@ -107,7 +107,7 @@ class MultiHeadAttention:
         key: np.ndarray,
         value: np.ndarray,
         mask: Optional[np.ndarray] = None,
-        position_bias: Optional[np.ndarray] = None
+        position_bias: Optional[np.ndarray] = None,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Apply multi-head attention.
@@ -141,9 +141,7 @@ class MultiHeadAttention:
         # Apply mask if provided
         if mask is not None:
             attention_scores = np.where(
-                mask.reshape(batch_size, 1, seq_len, seq_len),
-                attention_scores,
-                -1e9
+                mask.reshape(batch_size, 1, seq_len, seq_len), attention_scores, -1e9
             )
 
         # Temperature scaling
@@ -158,7 +156,7 @@ class MultiHeadAttention:
                 1, 1 - self.config.dropout_rate, attention_weights.shape
             )
             attention_weights *= dropout_mask
-            attention_weights /= (1 - self.config.dropout_rate)
+            attention_weights /= 1 - self.config.dropout_rate
 
         # Apply attention to values
         attention_output = np.matmul(attention_weights, V)
@@ -202,12 +200,10 @@ class TemporalAttention:
 
         # Temporal decay parameters
         self.decay_rate = 0.001  # Decay per day
-        self.min_weight = 0.1    # Minimum temporal weight
+        self.min_weight = 0.1  # Minimum temporal weight
 
     def compute_temporal_bias(
-        self,
-        query_time: datetime,
-        memory_times: List[datetime]
+        self, query_time: datetime, memory_times: List[datetime]
     ) -> np.ndarray:
         """
         Compute temporal bias based on time differences.
@@ -223,10 +219,7 @@ class TemporalAttention:
             time_diff = (current_time - mem_time.timestamp()) / 86400.0
 
             # Exponential decay
-            temporal_weight = max(
-                self.min_weight,
-                np.exp(-self.decay_rate * time_diff)
-            )
+            temporal_weight = max(self.min_weight, np.exp(-self.decay_rate * time_diff))
 
             # Convert to log space for addition to attention scores
             bias[0, i] = np.log(temporal_weight + 1e-8)
@@ -239,7 +232,7 @@ class TemporalAttention:
         memory_embeddings: np.ndarray,
         query_time: datetime,
         memory_times: List[datetime],
-        **kwargs
+        **kwargs,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Apply temporal attention to memories.
@@ -259,9 +252,7 @@ class TemporalAttention:
 
         # Apply attention without position bias (temporal weights handled differently)
         output, attention_weights = self.base_attention.forward(
-            query_batch,
-            memories,
-            memories
+            query_batch, memories, memories
         )
 
         # Apply temporal weights to attention scores
@@ -287,16 +278,13 @@ class HierarchicalAttention:
         self.num_levels = num_levels
 
         # Create attention layers for each level
-        self.level_attentions = [
-            MultiHeadAttention(config) for _ in range(num_levels)
-        ]
+        self.level_attentions = [MultiHeadAttention(config) for _ in range(num_levels)]
 
         # Pooling sizes for each level
-        self.pool_sizes = [2 ** i for i in range(num_levels)]
+        self.pool_sizes = [2**i for i in range(num_levels)]
 
     def create_hierarchical_representations(
-        self,
-        memories: np.ndarray
+        self, memories: np.ndarray
     ) -> List[np.ndarray]:
         """
         Create multi-scale representations of memories.
@@ -330,10 +318,7 @@ class HierarchicalAttention:
         return representations
 
     def forward(
-        self,
-        query: np.ndarray,
-        memories: np.ndarray,
-        return_all_levels: bool = False
+        self, query: np.ndarray, memories: np.ndarray, return_all_levels: bool = False
     ) -> Tuple[np.ndarray, Dict[str, np.ndarray]]:
         """
         Apply hierarchical attention across multiple scales.
@@ -372,8 +357,7 @@ class HierarchicalAttention:
 
         # Prepare attention info
         attention_info = {
-            f"level_{i}_weights": weights
-            for i, weights in enumerate(level_weights)
+            f"level_{i}_weights": weights for i, weights in enumerate(level_weights)
         }
 
         if return_all_levels:
@@ -403,13 +387,11 @@ class CrossModalAttention:
         self.modality_embeddings = {
             "text": np.random.randn(config.hidden_dim) * 0.1,
             "image": np.random.randn(config.hidden_dim) * 0.1,
-            "audio": np.random.randn(config.hidden_dim) * 0.1
+            "audio": np.random.randn(config.hidden_dim) * 0.1,
         }
 
     def forward(
-        self,
-        modality_embeddings: Dict[str, np.ndarray],
-        primary_modality: str = "text"
+        self, modality_embeddings: Dict[str, np.ndarray], primary_modality: str = "text"
     ) -> Dict[str, np.ndarray]:
         """
         Apply cross-modal attention between different modalities.
@@ -428,7 +410,7 @@ class CrossModalAttention:
             logger.warning(
                 "Primary modality not found",
                 primary=primary_modality,
-                available=list(modality_embeddings.keys())
+                available=list(modality_embeddings.keys()),
             )
             return modality_embeddings
 
@@ -489,7 +471,7 @@ class MemoryAttentionOrchestrator:
         query: Union[str, np.ndarray],
         memories: List[Dict[str, Any]],
         mode: str = "multi_head",
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[Dict[str, Any]] = None,
     ) -> List[Tuple[int, float]]:
         """
         Compute relevance scores for memories using specified attention mode.
@@ -535,20 +517,16 @@ class MemoryAttentionOrchestrator:
             query_time = context.get("query_time", datetime.now(timezone.utc))
 
             _, attention_weights = self.temporal.forward(
-                query_embedding,
-                memory_array,
-                query_time,
-                memory_times
+                query_embedding, memory_array, query_time, memory_times
             )
 
         elif mode == "hierarchical":
             # Use hierarchical attention
-            _, attention_info = self.hierarchical.forward(
-                query_embedding,
-                memory_array
-            )
+            _, attention_info = self.hierarchical.forward(query_embedding, memory_array)
             # Use finest level weights
-            attention_weights = attention_info.get("level_0_weights", np.ones(len(memory_array)))
+            attention_weights = attention_info.get(
+                "level_0_weights", np.ones(len(memory_array))
+            )
 
         elif mode == "cross_modal" and context and "modalities" in context:
             # Use cross-modal attention
@@ -563,9 +541,7 @@ class MemoryAttentionOrchestrator:
             memory_batch = memory_array.reshape(1, len(memory_array), -1)
 
             _, attention_weights = self.multi_head.forward(
-                query_batch,
-                memory_batch,
-                memory_batch
+                query_batch, memory_batch, memory_batch
             )
             attention_weights = attention_weights.squeeze()
 
@@ -574,7 +550,9 @@ class MemoryAttentionOrchestrator:
         # Handle different shapes of attention_weights
         if attention_weights.ndim > 1:
             # Average across dimensions if needed
-            weights = attention_weights.mean(axis=tuple(range(attention_weights.ndim-1)))
+            weights = attention_weights.mean(
+                axis=tuple(range(attention_weights.ndim - 1))
+            )
         else:
             weights = attention_weights
 
@@ -595,9 +573,7 @@ class MemoryAttentionOrchestrator:
         return embedding / np.linalg.norm(embedding)
 
     def explain_attention(
-        self,
-        attention_weights: np.ndarray,
-        memory_items: List[Dict[str, Any]]
+        self, attention_weights: np.ndarray, memory_items: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Generate human-readable explanation of attention patterns.
@@ -613,7 +589,7 @@ class MemoryAttentionOrchestrator:
             "top_attended_memories": [],
             "attention_distribution": {},
             "attention_entropy": 0.0,
-            "focus_score": 0.0
+            "focus_score": 0.0,
         }
 
         # Get top attended memories
@@ -627,19 +603,21 @@ class MemoryAttentionOrchestrator:
         for idx in top_indices:
             if idx < len(memory_items):
                 memory = memory_items[idx]
-                analysis["top_attended_memories"].append({
-                    "index": int(idx),
-                    "weight": float(weights[idx]),
-                    "content": str(memory.get("content", ""))[:100],
-                    "tags": memory.get("tags", [])
-                })
+                analysis["top_attended_memories"].append(
+                    {
+                        "index": int(idx),
+                        "weight": float(weights[idx]),
+                        "content": str(memory.get("content", ""))[:100],
+                        "tags": memory.get("tags", []),
+                    }
+                )
 
         # Attention distribution
         analysis["attention_distribution"] = {
             "max": float(weights.max()),
             "min": float(weights.min()),
             "mean": float(weights.mean()),
-            "std": float(weights.std())
+            "std": float(weights.std()),
         }
 
         # Attention entropy (how distributed the attention is)
@@ -660,7 +638,7 @@ def create_attention_orchestrator(
     num_heads: int = 8,
     enable_temporal: bool = True,
     enable_hierarchical: bool = True,
-    enable_cross_modal: bool = True
+    enable_cross_modal: bool = True,
 ) -> MemoryAttentionOrchestrator:
     """
     Create a configured attention orchestrator for memory systems.

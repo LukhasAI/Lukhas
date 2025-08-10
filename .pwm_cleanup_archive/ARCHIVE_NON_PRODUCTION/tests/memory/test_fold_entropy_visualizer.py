@@ -1,4 +1,5 @@
 import unittest
+
 from memory import FoldEntropyVisualizer
 
 

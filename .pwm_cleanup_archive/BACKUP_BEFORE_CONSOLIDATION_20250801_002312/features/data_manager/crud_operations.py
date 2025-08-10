@@ -1,9 +1,10 @@
 import logging
-from typing import Dict, Optional
-from datetime import datetime
 import uuid
+from datetime import datetime
+from typing import Dict, Optional
 
 logger = logging.getLogger(__name__)
+
 
 class DataManagerCRUD:
     """
@@ -17,7 +18,9 @@ class DataManagerCRUD:
         self._sessions = {}
         logger.info("DataManagerCRUD initialized")
 
-    def create_diagnostic_session(self, user_id: str, initial_data: Dict) -> Optional[str]:
+    def create_diagnostic_session(
+        self, user_id: str, initial_data: Dict
+    ) -> Optional[str]:
         """Creates a new diagnostic session"""
         try:
             session_id = str(uuid.uuid4())
@@ -26,7 +29,7 @@ class DataManagerCRUD:
                 "user_id": user_id,
                 "created_at": datetime.now().isoformat(),
                 "status": initial_data.get("status", "created"),
-                **initial_data
+                **initial_data,
             }
             self._sessions[session_id] = session_data
             logger.info(f"Created diagnostic session {session_id} for user {user_id}")

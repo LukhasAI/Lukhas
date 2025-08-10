@@ -5,14 +5,13 @@ Advanced: quantum_engine.py
 Integration Date: 2025-05-31T07:55:28.283461
 """
 
-
-
 """
 📦 MODULE      : quantum_engine.py
 🧾 DESCRIPTION : Quantum-enhanced oscillation and trauma repair for LUKHAS_AGI_3.8.
 """
 
 import numpy as np
+
 
 class QuantumOscillator:
     def __init__(self, entanglement_factor=0.5):

@@ -1,25 +1,24 @@
 """Symbolic glyph generation utilities.
 
-
 #TAG:core
 #TAG:symbolic
 #TAG:neuroplastic
 #TAG:colony
 
-
 This module handles GLYPH creation and symbolic evaluation logic.
 """
 
-import math
 import hashlib
 import json
-from typing import Any, Dict, Sequence, Optional, List
+import math
+from collections.abc import Sequence
 from datetime import datetime, timezone
+from typing import Any
 
 # ΛTAG: glyph_engine
 
 
-def generate_glyph(state_dict: Dict[str, Any]) -> str:
+def generate_glyph(state_dict: dict[str, Any]) -> str:
     """Generate a glyph from a state dictionary.
 
     Parameters
@@ -36,7 +35,7 @@ def generate_glyph(state_dict: Dict[str, Any]) -> str:
 
     # Extract core components for glyph generation
     timestamp = state_dict.get("timestamp", datetime.now(timezone.utc).isoformat())
-    user_id = state_dict.get("user_id", "anonymous")
+    state_dict.get("user_id", "anonymous")
     tier_level = state_dict.get("tier_level", 0)
 
     # Create a deterministic hash from state components
@@ -84,7 +83,7 @@ def generate_glyph(state_dict: Dict[str, Any]) -> str:
             ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             if (datetime.now(timezone.utc) - ts).total_seconds() < 3600:
                 glyph += "◎"  # ◎ recent activity marker
-        except:
+        except BaseException:
             pass
 
     return glyph
@@ -152,7 +151,7 @@ def evaluate_resonance(symbolic_vector: Sequence[float]) -> float:
 
 def detect_attractors(
     symbolic_history: Sequence[Sequence[float]],
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Detect attractor patterns in symbolic history.
 
     Attractors are recurring patterns or states that the system tends toward.

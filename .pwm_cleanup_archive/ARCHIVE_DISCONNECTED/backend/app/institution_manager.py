@@ -8,11 +8,12 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from fastapi import APIRouter, Form, HTTPException
-from backend.app.id_generator import generate_lucas_id, generate_username_slug
 from backend.app.emailer import send_welcome_email
+from backend.app.id_generator import generate_lucas_id, generate_username_slug
+from fastapi import APIRouter, Form
 
 router = APIRouter()
+
 
 @router.post("/institution/signup")
 def institution_signup(organization_name: str = Form(...), email: str = Form(...)):
@@ -26,14 +27,21 @@ def institution_signup(organization_name: str = Form(...), email: str = Form(...
     qrglyph_url = f"https://lukhasid.io/assets/qrglyphs/{username_slug}.png"
 
     # Send welcome email
-    send_welcome_email(to_email=email, username=username_slug, lukhas_id_code=lukhas_id_code, qrglyph_url=qrglyph_url)
+    send_welcome_email(
+        to_email=email,
+        username=username_slug,
+        lukhas_id_code=lukhas_id_code,
+        qrglyph_url=qrglyph_url,
+    )
 
     # Simulate DB insert (to replace with real DB session later)
-    print(f"✅ New Institution LucasID created: {lukhas_id_code} for {username_slug} (ENT)")
+    print(
+        f"✅ New Institution LucasID created: {lukhas_id_code} for {username_slug} (ENT)"
+    )
 
     return {
         "message": "Institution signup successful",
         "identity_legacy_code": lukhas_id_code,
         "username_slug": username_slug,
-        "qrglyph_url": qrglyph_url
+        "qrglyph_url": qrglyph_url,
     }

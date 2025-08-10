@@ -19,25 +19,27 @@
 """
 
 import functools
-from typing import Optional, Dict, Any, Callable, Union
 from datetime import datetime, timezone
-import structlog
 from enum import Enum
+from typing import Any, Callable, Optional, Union
 
-from core.decorators import core_tier_required
+import structlog
 
 logger = structlog.get_logger(__name__)
 
 # Try to import identity client
 try:
     from identity.interface import IdentityClient
+
     IDENTITY_AVAILABLE = True
 except ImportError:
     IDENTITY_AVAILABLE = False
-    logger.warning("Identity system not available - running without identity validation")
+    logger.warning(
+        "Identity system not available - running without identity validation"
+    )
 
 # Global identity client instance
-_identity_client: Optional['IdentityClient'] = None
+_identity_client: Optional["IdentityClient"] = None
 
 # Lambda Tier Definitions
 LAMBDA_TIERS = [
@@ -46,7 +48,7 @@ LAMBDA_TIERS = [
     "LAMBDA_TIER_2",  # Standard features
     "LAMBDA_TIER_3",  # Enhanced features
     "LAMBDA_TIER_4",  # Advanced features
-    "LAMBDA_TIER_5"   # Full access
+    "LAMBDA_TIER_5",  # Full access
 ]
 
 
@@ -59,7 +61,7 @@ class TierMappingConfig:
         2: "LAMBDA_TIER_2",
         3: "LAMBDA_TIER_3",
         4: "LAMBDA_TIER_4",
-        5: "LAMBDA_TIER_5"
+        5: "LAMBDA_TIER_5",
     }
 
     # Map EmotionalTier (T0-T5) to LAMBDA_TIER system
@@ -69,7 +71,7 @@ class TierMappingConfig:
         "T2": "LAMBDA_TIER_2",
         "T3": "LAMBDA_TIER_3",
         "T4": "LAMBDA_TIER_4",
-        "T5": "LAMBDA_TIER_5"
+        "T5": "LAMBDA_TIER_5",
     }
 
     # Reverse mappings
@@ -77,7 +79,7 @@ class TierMappingConfig:
     LAMBDA_TO_EMOTIONAL = {v: k for k, v in EMOTIONAL_TO_LAMBDA.items()}
 
     @classmethod
-    def normalize_tier(cls, tier: Union[str, int, 'Enum']) -> str:
+    def normalize_tier(cls, tier: Union[str, int, "Enum"]) -> str:
         """Normalize any tier representation to LAMBDA_TIER format.
 
         Args:
@@ -87,7 +89,7 @@ class TierMappingConfig:
             str: Normalized LAMBDA_TIER string
         """
         # Handle Enum types
-        if hasattr(tier, 'value'):
+        if hasattr(tier, "value"):
             tier = tier.value
 
         if isinstance(tier, str):
@@ -102,7 +104,7 @@ class TierMappingConfig:
                 try:
                     num = int(tier.split("_")[1])
                     return f"LAMBDA_TIER_{num}"
-                except:
+                except BaseException:
                     pass
         elif isinstance(tier, int):
             # Oneiric database tier
@@ -126,7 +128,7 @@ class TierMappingConfig:
             return 0  # Default to base tier
 
 
-def get_identity_client() -> Optional['IdentityClient']:
+def get_identity_client() -> Optional["IdentityClient"]:
     """Get or create the global identity client instance."""
     global _identity_client
 
@@ -144,7 +146,10 @@ def get_identity_client() -> Optional['IdentityClient']:
     return _identity_client
 
 
-def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_consent: Optional[str] = None):
+def require_identity(
+    required_tier: Union[str, int] = "LAMBDA_TIER_1",
+    check_consent: Optional[str] = None,
+):
     """
     Decorator that enforces identity validation and tier requirements.
 
@@ -154,10 +159,12 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
 
     Example:
         @require_identity(required_tier="LAMBDA_TIER_3", check_consent="dream_generation")
+
         def generate_dream(user_id: str, dream_params: dict):
             # Function implementation
             pass
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -165,19 +172,23 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
             normalized_tier = TierMappingConfig.normalize_tier(required_tier)
 
             # Extract user_id from various possible locations
-            user_id = kwargs.get('user_id') or kwargs.get('lambda_id') or kwargs.get('identity_legacy')
+            user_id = (
+                kwargs.get("user_id")
+                or kwargs.get("lambda_id")
+                or kwargs.get("identity_legacy")
+            )
 
             # Try to get from first positional arg if it looks like a user ID
             if not user_id and args:
-                if isinstance(args[0], str) and args[0].startswith('Λ'):
+                if isinstance(args[0], str) and args[0].startswith("Λ"):
                     user_id = args[0]
 
             # Check for Oneiric-style user object
-            if not user_id and 'user' in kwargs:
-                user_obj = kwargs['user']
-                if hasattr(user_obj, 'identity_legacy'):
+            if not user_id and "user" in kwargs:
+                user_obj = kwargs["user"]
+                if hasattr(user_obj, "identity_legacy"):
                     user_id = user_obj.lukhas_id
-                elif hasattr(user_obj, 'id'):
+                elif hasattr(user_obj, "id"):
                     user_id = user_obj.id
 
             if not user_id:
@@ -187,7 +198,9 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
             # Get identity client
             client = get_identity_client()
             if not client:
-                logger.warning(f"Identity validation skipped for {func.__name__} - client not available")
+                logger.warning(
+                    f"Identity validation skipped for {func.__name__} - client not available"
+                )
                 return func(*args, **kwargs)
 
             # Verify tier access
@@ -195,9 +208,11 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
                 logger.warning(
                     f"Access denied for {func.__name__}",
                     user_id=user_id,
-                    required_tier=normalized_tier
+                    required_tier=normalized_tier,
                 )
-                raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}")
+                raise PermissionError(
+                    f"Insufficient tier level. Required: {normalized_tier}"
+                )
 
             # Check consent if specified
             if check_consent:
@@ -205,7 +220,7 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
                     logger.warning(
                         f"Consent denied for {func.__name__}",
                         user_id=user_id,
-                        consent_action=check_consent
+                        consent_action=check_consent,
                     )
                     raise PermissionError(f"Consent not granted for: {check_consent}")
 
@@ -218,14 +233,15 @@ def require_identity(required_tier: Union[str, int] = "LAMBDA_TIER_1", check_con
                     "required_tier": normalized_tier,
                     "original_tier": str(required_tier),
                     "consent_checked": check_consent,
-                    "timestamp": datetime.now(timezone.utc).isoformat()
-                }
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
             )
 
             # Execute function
             return func(*args, **kwargs)
 
         return wrapper
+
     return decorator
 
 
@@ -248,12 +264,14 @@ class IdentityContext:
 
     def __enter__(self):
         if self.client:
-            self.has_access = self.client.verify_user_access(self.user_id, self.required_tier)
+            self.has_access = self.client.verify_user_access(
+                self.user_id, self.required_tier
+            )
             if self.has_access:
                 self.client.log_activity(
                     "context_enter",
                     self.user_id,
-                    {"required_tier": self.required_tier}
+                    {"required_tier": self.required_tier},
                 )
         else:
             # No client available, grant access by default
@@ -268,12 +286,14 @@ class IdentityContext:
                 self.user_id,
                 {
                     "required_tier": self.required_tier,
-                    "error": str(exc_val) if exc_val else None
-                }
+                    "error": str(exc_val) if exc_val else None,
+                },
             )
 
 
-def validate_and_log(user_id: str, activity: str, metadata: Optional[Dict[str, Any]] = None) -> bool:
+def validate_and_log(
+    user_id: str, activity: str, metadata: Optional[dict[str, Any]] = None
+) -> bool:
     """
     Quick validation and logging helper.
 
@@ -297,6 +317,8 @@ def validate_and_log(user_id: str, activity: str, metadata: Optional[Dict[str, A
 
 
 # Example integration patterns for different modules
+
+
 class ModuleIntegrationExamples:
     """Examples of how to integrate identity into various module types."""
 
@@ -304,13 +326,15 @@ class ModuleIntegrationExamples:
     @require_identity(required_tier="LAMBDA_TIER_2", check_consent="memory_access")
     def memory_operation_example(user_id: str, memory_key: str, operation: str):
         """Example of tier-gated memory operation."""
-        logger.info(f"Performing memory {operation} for user {user_id} on key {memory_key}")
+        logger.info(
+            f"Performing memory {operation} for user {user_id} on key {memory_key}"
+        )
         # Actual memory operation would go here
         return {"status": "success", "operation": operation}
 
     @staticmethod
     @require_identity(required_tier="LAMBDA_TIER_3", check_consent="dream_generation")
-    def dream_generation_example(user_id: str, dream_params: Dict[str, Any]):
+    def dream_generation_example(user_id: str, dream_params: dict[str, Any]):
         """Example of tier-gated dream generation."""
         logger.info(f"Generating dream for user {user_id} with params {dream_params}")
         # Actual dream generation would go here
@@ -325,7 +349,7 @@ class ModuleIntegrationExamples:
         return {"quantum_result": "entangled"}
 
     @staticmethod
-    def context_manager_example(user_id: str, data: Dict[str, Any]):
+    def context_manager_example(user_id: str, data: dict[str, Any]):
         """Example using context manager for tier validation."""
         # Basic tier operations
         with IdentityContext(user_id, "LAMBDA_TIER_1") as ctx:
@@ -351,5 +375,5 @@ __all__ = [
     "validate_and_log",
     "ModuleIntegrationExamples",
     "TierMappingConfig",
-    "LAMBDA_TIERS"
+    "LAMBDA_TIERS",
 ]

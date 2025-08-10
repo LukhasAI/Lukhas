@@ -13,13 +13,12 @@ Automated system to achieve 100% connectivity in the lukhas architecture.
 Fixes broken imports, creates missing modules, and establishes proper interconnections.
 """
 
+import json
 import os
 import re
-import ast
-import json
-from pathlib import Path
-from collections import defaultdict
 import subprocess
+from pathlib import Path
+
 
 class LambdaConnectivityResolver:
     def __init__(self, lambda_root):
@@ -35,7 +34,7 @@ class LambdaConnectivityResolver:
     def load_analysis(self):
         """Load previous connectivity analysis."""
         try:
-            with open(self.lambda_root / 'lambda_dependency_report.json', 'r') as f:
+            with open(self.lambda_root / "lambda_dependency_report.json") as f:
                 self.analysis = json.load(f)
             print("✅ Loaded previous connectivity analysis")
         except FileNotFoundError:
@@ -232,11 +231,13 @@ class AdvancedQuantumBio:
 '''
         self.write_file(module_path / "advanced_quantum_bio.py", advanced_content)
 
-        self.modules_created.extend([
-            str(module_path / "enhanced_awareness.py"),
-            str(module_path / "quantum_bio_components.py"),
-            str(module_path / "advanced_quantum_bio.py")
-        ])
+        self.modules_created.extend(
+            [
+                str(module_path / "enhanced_awareness.py"),
+                str(module_path / "quantum_bio_components.py"),
+                str(module_path / "advanced_quantum_bio.py"),
+            ]
+        )
 
     def create_bio_core_module(self):
         """Create unified bio_core module."""
@@ -320,10 +321,9 @@ class Orchestra:
 '''
         self.write_file(module_path / "oscillator.py", oscillator_content)
 
-        self.modules_created.extend([
-            str(module_path / "bio_core.py"),
-            str(module_path / "oscillator.py")
-        ])
+        self.modules_created.extend(
+            [str(module_path / "bio_core.py"), str(module_path / "oscillator.py")]
+        )
 
     def standardize_voice_synthesis(self):
         """Standardize voice synthesis module."""
@@ -495,11 +495,11 @@ voice_modulator = VoiceModulator()
         """Fix broken import statements across the system."""
         print("🔧 Fixing broken imports...")
 
-        if 'broken_imports' not in self.analysis.get('details', {}):
+        if "broken_imports" not in self.analysis.get("details", {}):
             print("⚠️  No broken imports data found")
             return
 
-        broken_imports = self.analysis['details']['broken_imports']
+        broken_imports = self.analysis["details"]["broken_imports"]
 
         for file_path, broken_imports_str in broken_imports.items():
             self.fix_file_imports(file_path, broken_imports_str)
@@ -514,7 +514,7 @@ voice_modulator = VoiceModulator()
             return
 
         try:
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Parse broken imports
@@ -527,7 +527,7 @@ voice_modulator = VoiceModulator()
 
             # Write back if changed
             if fixed_content != content:
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(fixed_content)
                 self.import_fixes.append(str(file_path))
 
@@ -537,32 +537,34 @@ voice_modulator = VoiceModulator()
     def apply_import_fix(self, content, broken_import):
         """Apply specific import fix."""
         fixes = {
-            'bio_symbolic': 'from bio.symbolic import BioSymbolic',
-            'bio_awareness.enhanced_awareness': 'from bio.awareness import EnhancedAwareness',
-            'bio_awareness.quantum_bio_components': 'from bio.awareness import QuantumBioComponents',
-            'bio_awareness.advanced_quantum_bio': 'from bio.awareness import AdvancedQuantumBio',
-            'voice_synthesis': 'from voice.voice.synthesis import voice_synthesis_function as voice_synthesis',
-            'voice_safety_guard': 'from voice.voice.voice_safety_guard import voice_safety_guard',
-            'voice_profiling': 'from voice.voice.voice_profiling import voice_profiling',
-            'voice_modulator': 'from voice.voice.voice_modulator import voice_modulator',
-            'bio_core.oscillator.orchestrator': 'from bio.core.oscillator import Orchestra as orchestrator',
-            'bio_core.oscillator.quantum_layer': 'from bio.core.oscillator import Oscillator',
-            'voice.emotional_modulator': 'from voice.voice.voice_modulator import VoiceModulator',
-            'voice.synthesis': 'from voice.voice.synthesis import VoiceSynthesis',
-            'voice.speak': 'from voice.voice.synthesis import voice_synthesis_function as speak',
-            'voice.listen': 'from voice.voice.synthesis import voice_synthesis_function as listen'
+            "bio_symbolic": "from bio.symbolic import BioSymbolic",
+            "bio_awareness.enhanced_awareness": "from bio.awareness import EnhancedAwareness",
+            "bio_awareness.quantum_bio_components": "from bio.awareness import QuantumBioComponents",
+            "bio_awareness.advanced_quantum_bio": "from bio.awareness import AdvancedQuantumBio",
+            "voice_synthesis": "from voice.voice.synthesis import voice_synthesis_function as voice_synthesis",
+            "voice_safety_guard": "from voice.voice.voice_safety_guard import voice_safety_guard",
+            "voice_profiling": "from voice.voice.voice_profiling import voice_profiling",
+            "voice_modulator": "from voice.voice.voice_modulator import voice_modulator",
+            "bio_core.oscillator.orchestrator": "from bio.core.oscillator import Orchestra as orchestrator",
+            "bio_core.oscillator.quantum_layer": "from bio.core.oscillator import Oscillator",
+            "voice.emotional_modulator": "from voice.voice.voice_modulator import VoiceModulator",
+            "voice.synthesis": "from voice.voice.synthesis import VoiceSynthesis",
+            "voice.speak": "from voice.voice.synthesis import voice_synthesis_function as speak",
+            "voice.listen": "from voice.voice.synthesis import voice_synthesis_function as listen",
         }
 
         if broken_import in fixes:
             # Replace the broken import line
             import_patterns = [
-                rf'^\s*import\s+{re.escape(broken_import)}.*$',
-                rf'^\s*from\s+{re.escape(broken_import)}\s+import.*$'
+                rf"^\s*import\s+{re.escape(broken_import)}.*$",
+                rf"^\s*from\s+{re.escape(broken_import)}\s+import.*$",
             ]
 
             for pattern in import_patterns:
                 if re.search(pattern, content, re.MULTILINE):
-                    content = re.sub(pattern, fixes[broken_import], content, flags=re.MULTILINE)
+                    content = re.sub(
+                        pattern, fixes[broken_import], content, flags=re.MULTILINE
+                    )
                     break
 
         return content
@@ -576,12 +578,12 @@ voice_modulator = VoiceModulator()
             root_path = Path(root)
 
             # Skip __pycache__ and .git directories
-            if '__pycache__' in str(root_path) or '.git' in str(root_path):
+            if "__pycache__" in str(root_path) or ".git" in str(root_path):
                 continue
 
             # Check if directory has Python files but no __init__.py
-            has_python_files = any(f.endswith('.py') for f in files)
-            has_init = '__init__.py' in files
+            has_python_files = any(f.endswith(".py") for f in files)
+            has_init = "__init__.py" in files
 
             if has_python_files and not has_init:
                 self.create_init_file(root_path)
@@ -604,7 +606,7 @@ voice_modulator = VoiceModulator()
     def write_file(self, path, content):
         """Write content to file."""
         try:
-            with open(path, 'w', encoding='utf-8') as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
             self.fixes_applied.append(f"Created: {path}")
         except Exception as e:
@@ -616,9 +618,12 @@ voice_modulator = VoiceModulator()
 
         # Re-run dependency analysis
         try:
-            result = subprocess.run([
-                'python', 'lambda_dependency_connectivity_test.py'
-            ], capture_output=True, text=True, cwd=self.lambda_root)
+            result = subprocess.run(
+                ["python", "lambda_dependency_connectivity_test.py"],
+                capture_output=True,
+                text=True,
+                cwd=self.lambda_root,
+            )
 
             if result.returncode == 0:
                 print("✅ Connectivity validation completed")
@@ -633,42 +638,43 @@ voice_modulator = VoiceModulator()
     def generate_report(self):
         """Generate connectivity resolution report."""
         report = {
-            'timestamp': '2025-06-08',
-            'goal': '100% Connectivity Achievement',
-            'modules_created': len(self.modules_created),
-            'init_files_created': len(self.init_files_created),
-            'import_fixes_applied': len(self.import_fixes),
-            'total_fixes': len(self.fixes_applied),
-            'details': {
-                'modules_created': self.modules_created,
-                'init_files_created': self.init_files_created,
-                'import_fixes': self.import_fixes,
-                'all_fixes': self.fixes_applied
-            }
+            "timestamp": "2025-06-08",
+            "goal": "100% Connectivity Achievement",
+            "modules_created": len(self.modules_created),
+            "init_files_created": len(self.init_files_created),
+            "import_fixes_applied": len(self.import_fixes),
+            "total_fixes": len(self.fixes_applied),
+            "details": {
+                "modules_created": self.modules_created,
+                "init_files_created": self.init_files_created,
+                "import_fixes": self.import_fixes,
+                "all_fixes": self.fixes_applied,
+            },
         }
 
         return report
 
     def print_summary(self, report):
         """Print resolution summary."""
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("🎯 lukhas SYSTEM 100% CONNECTIVITY RESOLUTION")
-        print("="*80)
+        print("=" * 80)
         print(f"🔧 Modules Created: {report['modules_created']}")
         print(f"📁 Init Files Created: {report['init_files_created']}")
         print(f"🔗 Import Fixes Applied: {report['import_fixes_applied']}")
         print(f"✅ Total Fixes Applied: {report['total_fixes']}")
 
-        print(f"\n🚀 NEW MODULES CREATED:")
-        for module in report['details']['modules_created'][:10]:
+        print("\n🚀 NEW MODULES CREATED:")
+        for module in report["details"]["modules_created"][:10]:
             print(f"   ✅ {module}")
 
-        print(f"\n🔗 CONNECTIVITY IMPROVEMENTS:")
+        print("\n🔗 CONNECTIVITY IMPROVEMENTS:")
         print(f"   📁 Added {report['init_files_created']} __init__.py files")
         print(f"   🔧 Fixed {report['import_fixes_applied']} import statements")
         print(f"   🚀 Created {report['modules_created']} core modules")
 
-        print(f"\n🎉 TARGET: 100% CONNECTIVITY ACHIEVED!")
+        print("\n🎉 TARGET: 100% CONNECTIVITY ACHIEVED!")
+
 
 def main():
     """Main execution function."""
@@ -691,10 +697,10 @@ def main():
     resolver.print_summary(report)
 
     # Save report
-    with open('lambda_100_percent_connectivity_report.json', 'w') as f:
+    with open("lambda_100_percent_connectivity_report.json", "w") as f:
         json.dump(report, f, indent=2, default=str)
 
-    print(f"\n💾 Full report saved to: lambda_100_percent_connectivity_report.json")
+    print("\n💾 Full report saved to: lambda_100_percent_connectivity_report.json")
 
     if validation_success:
         print("\n🎉 100% CONNECTIVITY GOAL ACHIEVED!")
@@ -702,6 +708,7 @@ def main():
         print("\n⚠️  Additional optimization may be needed")
 
     return report
+
 
 if __name__ == "__main__":
     main()

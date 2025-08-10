@@ -7,7 +7,6 @@ Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-
 """
 🧠 EMOTION MODULE CORE
 
@@ -19,21 +18,17 @@ Follows the lukhas Unified Design Grammar v1.0.0.
 
 import asyncio
 import json
-from typing import Dict, Any, Optional
 from dataclasses import dataclass
 from pathlib import Path
-
-from core.utils.__init__ import (
-    BaseModule, BaseConfig, BaseHealth,
-    symbolic_vocabulary, symbolic_message, ethical_validation
-)
+from typing import Any, Optional
 
 
 @dataclass
 class EmotionRequest:
     """Standard request format for emotion module."""
+
     intent: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     emotional_weight: float = 0.5
     symbolic_signature: str = ""
 
@@ -65,7 +60,7 @@ class EmotionHealth(BaseHealth):
         self.resonance_detections = 0
         self.start_time = asyncio.get_event_loop().time()
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get comprehensive health status."""
         current_time = asyncio.get_event_loop().time()
         uptime = current_time - self.start_time
@@ -81,7 +76,7 @@ class EmotionHealth(BaseHealth):
             "emotions_processed": self.emotions_processed,
             "empathy_interactions": self.empathy_interactions,
             "resonance_detections": self.resonance_detections,
-            "timestamp": current_time
+            "timestamp": current_time,
         }
 
 
@@ -105,7 +100,7 @@ class EmotionModule(BaseModule):
         vocab_path = Path(__file__).parent / "symbolic" / "vocabulary.json"
         try:
             if vocab_path.exists():
-                with open(vocab_path, 'r') as f:
+                with open(vocab_path) as f:
                     self._vocabulary = json.load(f)
         except Exception:
             # Default vocabulary if file doesn't exist
@@ -113,11 +108,11 @@ class EmotionModule(BaseModule):
                 "resonance": "Feelings ripple through the symbolic waters...",
                 "empathy": "The bridge between hearts built of understanding...",
                 "harmony": "When emotional frequencies align in perfect pitch...",
-                "dissonance": "The creative tension of conflicting feelings..."
+                "dissonance": "The creative tension of conflicting feelings...",
             }
 
     @symbolic_vocabulary
-    def get_vocabulary(self) -> Dict[str, str]:
+    def get_vocabulary(self) -> dict[str, str]:
         """Return symbolic vocabulary for this module."""
         return self._vocabulary
 
@@ -134,7 +129,7 @@ class EmotionModule(BaseModule):
         await super().shutdown()
 
     @ethical_validation
-    async def process_request(self, request: EmotionRequest) -> Dict[str, Any]:
+    async def process_request(self, request: EmotionRequest) -> dict[str, Any]:
         """
         Process an emotion request with ethical validation.
 
@@ -151,21 +146,23 @@ class EmotionModule(BaseModule):
             elif request.intent == "resonance":
                 self.health.resonance_detections += 1
 
-            await self.log_symbolic(f"The emotion achieves symbolic alignment...")
+            await self.log_symbolic("The emotion achieves symbolic alignment...")
             return {
                 "status": "success",
                 "result": result,
                 "symbolic_state": self._symbolic_state,
                 "emotional_resonance": request.emotional_weight,
-                "symbolic_expression": self._get_symbolic_response(request)
+                "symbolic_expression": self._get_symbolic_response(request),
             }
 
         except Exception as e:
-            await self.log_symbolic(f"A harmonic disruption in emotion seeks resolution...")
+            await self.log_symbolic(
+                "A harmonic disruption in emotion seeks resolution..."
+            )
             return {
                 "status": "error",
                 "error": str(e),
-                "symbolic_state": "dissonant"
+                "symbolic_state": "dissonant",
             }
 
     async def _internal_process(self, request: EmotionRequest) -> Any:
@@ -182,17 +179,21 @@ class EmotionModule(BaseModule):
         else:
             return f"emotion processing: {request.intent}"
 
-    async def _analyze_emotion(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_emotion(self, context: dict[str, Any]) -> dict[str, Any]:
         """Analyze emotional content."""
         text = context.get("text", "")
 
         # Simple emotion analysis simulation
         emotions = {
-            "joy": 0.7 if "happy" in text.lower() or "joy" in text.lower() else 0.2,
-            "sadness": 0.8 if "sad" in text.lower() or "sorrow" in text.lower() else 0.1,
-            "anger": 0.6 if "angry" in text.lower() or "mad" in text.lower() else 0.1,
-            "fear": 0.5 if "scared" in text.lower() or "afraid" in text.lower() else 0.1,
-            "love": 0.9 if "love" in text.lower() or "care" in text.lower() else 0.3
+            "joy": (0.7 if "happy" in text.lower() or "joy" in text.lower() else 0.2),
+            "sadness": (
+                0.8 if "sad" in text.lower() or "sorrow" in text.lower() else 0.1
+            ),
+            "anger": (0.6 if "angry" in text.lower() or "mad" in text.lower() else 0.1),
+            "fear": (
+                0.5 if "scared" in text.lower() or "afraid" in text.lower() else 0.1
+            ),
+            "love": (0.9 if "love" in text.lower() or "care" in text.lower() else 0.3),
         }
 
         dominant_emotion = max(emotions.items(), key=lambda x: x[1])
@@ -201,10 +202,10 @@ class EmotionModule(BaseModule):
             "emotions": emotions,
             "dominant_emotion": dominant_emotion[0],
             "intensity": dominant_emotion[1],
-            "symbolic_interpretation": self._vocabulary.get("resonance", "")
+            "symbolic_interpretation": self._vocabulary.get("resonance", ""),
         }
 
-    async def _generate_empathy(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _generate_empathy(self, context: dict[str, Any]) -> dict[str, Any]:
         """Generate empathetic response."""
         emotion = context.get("emotion", "neutral")
 
@@ -213,16 +214,18 @@ class EmotionModule(BaseModule):
             "happy": "Your joy sparkles like starlight in the symbolic cosmos! ✨",
             "angry": "The fire of your frustration seeks understanding... 🔥 What wisdom hides in the flames?",
             "scared": "Fear whispers of what matters most... 🌙 I stand with you in the shadows.",
-            "neutral": "In the quiet spaces between emotions, profound peace dwells... 🕯️"
+            "neutral": "In the quiet spaces between emotions, profound peace dwells... 🕯️",
         }
 
         return {
-            "empathetic_response": empathy_responses.get(emotion, empathy_responses["neutral"]),
+            "empathetic_response": empathy_responses.get(
+                emotion, empathy_responses["neutral"]
+            ),
             "symbolic_bridge": self._vocabulary.get("empathy", ""),
-            "emotional_support": True
+            "emotional_support": True,
         }
 
-    async def _detect_resonance(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _detect_resonance(self, context: dict[str, Any]) -> dict[str, Any]:
         """Detect emotional resonance patterns."""
         participants = context.get("participants", [])
 
@@ -234,10 +237,10 @@ class EmotionModule(BaseModule):
             "resonance_level": resonance_level,
             "harmony_detected": resonance_level > 0.6,
             "participants_count": len(participants),
-            "symbolic_frequency": f"🎵 Harmonic resonance at {resonance_level:.2f}"
+            "symbolic_frequency": f"🎵 Harmonic resonance at {resonance_level:.2f}",
         }
 
-    async def _create_harmony(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _create_harmony(self, context: dict[str, Any]) -> dict[str, Any]:
         """Create emotional harmony."""
         conflicting_emotions = context.get("emotions", [])
 
@@ -249,7 +252,7 @@ class EmotionModule(BaseModule):
             "harmony_score": harmony_score,
             "resolution_path": "Through understanding comes harmony...",
             "symbolic_synthesis": self._vocabulary.get("harmony", ""),
-            "emotional_balance": True
+            "emotional_balance": True,
         }
 
     def _get_symbolic_response(self, request: EmotionRequest) -> str:
@@ -258,17 +261,19 @@ class EmotionModule(BaseModule):
             "analyze": "🔍 The emotional patterns reveal their hidden geometry...",
             "empathy": "💝 Hearts recognize hearts across the symbolic divide...",
             "resonance": "🎼 Emotional frequencies dance in perfect synchrony...",
-            "harmony": "🌈 Discord transforms into symphonic unity..."
+            "harmony": "🌈 Discord transforms into symphonic unity...",
         }
-        return expressions.get(request.intent, "✨ Emotional wisdom flows like starlight...")
+        return expressions.get(
+            request.intent, "✨ Emotional wisdom flows like starlight..."
+        )
 
-    async def get_health_status(self) -> Dict[str, Any]:
+    async def get_health_status(self) -> dict[str, Any]:
         """Return comprehensive health status."""
         return await self.health.get_status()
 
-    async def hot_reload(self, new_config: Optional[Dict[str, Any]] = None):
+    async def hot_reload(self, new_config: Optional[dict[str, Any]] = None):
         """Hot reload module with optional new configuration."""
-        await self.log_symbolic(f"The emotion prepares for symbolic transformation...")
+        await self.log_symbolic("The emotion prepares for symbolic transformation...")
 
         if new_config:
             self.config.update(new_config)
@@ -279,13 +284,7 @@ class EmotionModule(BaseModule):
         await self.startup()
         self._symbolic_state = old_state
 
-        await self.log_symbolic(f"The emotion emerges renewed and harmonious...")
-
-
-
-
-
-
+        await self.log_symbolic("The emotion emerges renewed and harmonious...")
 
 
 # Last Updated: 2025-06-05 09:37:28

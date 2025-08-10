@@ -17,24 +17,23 @@ Version: 2.0.0
 Last Updated: July 5, 2025
 """
 
-import json
-import jwt
-import hashlib
 import base64
+import json
 import secrets
-from typing import Dict, List, Any, Optional, Union, Tuple
-from dataclasses import dataclass, asdict
+import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Any, Optional
+
+import jwt
 import requests
-import xml.etree.ElementTree as ET
 from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
 
 
 class AuthenticationMethod(Enum):
     """Supported authentication methods."""
+
     SAML_SSO = "saml_sso"
     OAUTH2_OIDC = "oauth2_oidc"
     LDAP = "ldap"
@@ -48,6 +47,7 @@ class AuthenticationMethod(Enum):
 
 class UserRole(Enum):
     """Enterprise user roles for RBAC."""
+
     ADMIN = "admin"
     MANAGER = "manager"
     USER = "user"
@@ -59,6 +59,7 @@ class UserRole(Enum):
 
 class AuthenticationStatus(Enum):
     """Authentication result status."""
+
     SUCCESS = "success"
     FAILED = "failed"
     MFA_REQUIRED = "mfa_required"
@@ -70,14 +71,15 @@ class AuthenticationStatus(Enum):
 @dataclass
 class EnterpriseUser:
     """Enterprise user profile with extended attributes."""
+
     user_id: str
     username: str
     email: str
     display_name: str
     department: str
-    roles: List[UserRole]
+    roles: list[UserRole]
     lambda_id: Optional[str]
-    authentication_methods: List[AuthenticationMethod]
+    authentication_methods: list[AuthenticationMethod]
     last_login: Optional[datetime]
     created_at: datetime
     updated_at: datetime
@@ -87,12 +89,13 @@ class EnterpriseUser:
     employee_id: Optional[str]
     manager_id: Optional[str]
     security_clearance: Optional[str]
-    attributes: Dict[str, Any]
+    attributes: dict[str, Any]
 
 
 @dataclass
 class AuthenticationResult:
     """Result of authentication attempt."""
+
     status: AuthenticationStatus
     user: Optional[EnterpriseUser]
     access_token: Optional[str]
@@ -100,21 +103,22 @@ class AuthenticationResult:
     expires_at: Optional[datetime]
     mfa_token: Optional[str]
     lambda_id: Optional[str]
-    permissions: List[str]
+    permissions: list[str]
     session_id: str
     error_message: Optional[str]
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
 class SAMLConfiguration:
     """SAML SSO configuration."""
+
     entity_id: str
     sso_url: str
     sls_url: str
     x509_cert: str
     private_key: str
-    attribute_mapping: Dict[str, str]
+    attribute_mapping: dict[str, str]
     name_id_format: str
     sign_requests: bool
     encrypt_assertions: bool
@@ -123,13 +127,14 @@ class SAMLConfiguration:
 @dataclass
 class OAuthConfiguration:
     """OAuth 2.0/OpenID Connect configuration."""
+
     client_id: str
     client_secret: str
     authorization_url: str
     token_url: str
     userinfo_url: str
     jwks_url: str
-    scope: List[str]
+    scope: list[str]
     redirect_uri: str
     response_type: str
     grant_type: str
@@ -138,6 +143,7 @@ class OAuthConfiguration:
 @dataclass
 class LDAPConfiguration:
     """LDAP/Active Directory configuration."""
+
     server_uri: str
     bind_dn: str
     bind_password: str
@@ -145,7 +151,7 @@ class LDAPConfiguration:
     user_filter: str
     group_base_dn: str
     group_filter: str
-    attribute_mapping: Dict[str, str]
+    attribute_mapping: dict[str, str]
     use_ssl: bool
     ca_cert_file: Optional[str]
     timeout: int
@@ -170,8 +176,8 @@ class EnterpriseAuthenticationModule:
         self.ldap_config: Optional[LDAPConfiguration] = None
 
         # In-memory session store (use Redis/database in production)
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
-        self.user_cache: Dict[str, EnterpriseUser] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
+        self.user_cache: dict[str, EnterpriseUser] = {}
 
         # Load provider configurations
         self._load_authentication_providers()
@@ -183,12 +189,14 @@ class EnterpriseAuthenticationModule:
 
         # MFA settings
         self.mfa_enabled = self.config.get("mfa_enabled", True)
-        self.mfa_required_roles = self.config.get("mfa_required_roles", ["admin", "manager"])
+        self.mfa_required_roles = self.config.get(
+            "mfa_required_roles", ["admin", "manager"]
+        )
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
+    def _load_config(self, config_path: str) -> dict[str, Any]:
         """Load enterprise authentication configuration."""
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 return json.load(f)
         except FileNotFoundError:
             # Default configuration
@@ -202,20 +210,20 @@ class EnterpriseAuthenticationModule:
                     "require_lowercase": True,
                     "require_numbers": True,
                     "require_special_chars": True,
-                    "max_age_days": 90
+                    "max_age_days": 90,
                 },
                 "lockout_policy": {
                     "max_attempts": 5,
                     "lockout_duration_minutes": 30,
-                    "reset_failed_attempts_hours": 24
+                    "reset_failed_attempts_hours": 24,
                 },
                 "audit_logging": {
                     "enabled": True,
                     "log_successful_logins": True,
                     "log_failed_attempts": True,
                     "log_privilege_escalation": True,
-                    "retention_days": 365
-                }
+                    "retention_days": 365,
+                },
             }
 
     def _initialize_encryption(self) -> Fernet:
@@ -250,7 +258,7 @@ class EnterpriseAuthenticationModule:
         username: str,
         password: Optional[str] = None,
         authentication_method: AuthenticationMethod = AuthenticationMethod.JWT_TOKEN,
-        additional_data: Optional[Dict[str, Any]] = None
+        additional_data: Optional[dict[str, Any]] = None,
     ) -> AuthenticationResult:
         """
         Authenticate user using specified method.
@@ -289,7 +297,7 @@ class EnterpriseAuthenticationModule:
                     permissions=[],
                     session_id=session_id,
                     error_message=f"Unsupported authentication method: {authentication_method}",
-                    metadata={}
+                    metadata={},
                 )
 
         except Exception as e:
@@ -304,23 +312,24 @@ class EnterpriseAuthenticationModule:
                 permissions=[],
                 session_id=session_id,
                 error_message=f"Authentication error: {str(e)}",
-                metadata={"exception": str(e)}
+                metadata={"exception": str(e)},
             )
 
-    def _authenticate_ldap(self, username: str, password: str, session_id: str) -> AuthenticationResult:
+    def _authenticate_ldap(
+        self, username: str, password: str, session_id: str
+    ) -> AuthenticationResult:
         """Authenticate user against LDAP/Active Directory."""
         if not self.ldap_config:
             return self._failed_auth_result(session_id, "LDAP not configured")
 
         try:
-            import ldap3
-            from ldap3 import Server, Connection, ALL, NTLM
+            from ldap3 import ALL, Connection, Server
 
             # Connect to LDAP server
             server = Server(
                 self.ldap_config.server_uri,
                 get_info=ALL,
-                use_ssl=self.ldap_config.use_ssl
+                use_ssl=self.ldap_config.use_ssl,
             )
 
             # Bind with service account
@@ -328,16 +337,12 @@ class EnterpriseAuthenticationModule:
                 server,
                 user=self.ldap_config.bind_dn,
                 password=self.ldap_config.bind_password,
-                auto_bind=True
+                auto_bind=True,
             )
 
             # Search for user
             user_filter = self.ldap_config.user_filter.format(username=username)
-            conn.search(
-                self.ldap_config.user_base_dn,
-                user_filter,
-                attributes=['*']
-            )
+            conn.search(self.ldap_config.user_base_dn, user_filter, attributes=["*"])
 
             if not conn.entries:
                 return self._failed_auth_result(session_id, "User not found in LDAP")
@@ -367,11 +372,13 @@ class EnterpriseAuthenticationModule:
                     permissions=self._get_user_permissions(enterprise_user),
                     session_id=session_id,
                     error_message=None,
-                    metadata={"ldap_dn": user_dn}
+                    metadata={"ldap_dn": user_dn},
                 )
 
             # Generate tokens
-            access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             self._create_session(session_id, enterprise_user, access_token)
@@ -387,13 +394,17 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"ldap_dn": user_dn}
+                metadata={"ldap_dn": user_dn},
             )
 
         except Exception as e:
-            return self._failed_auth_result(session_id, f"LDAP authentication failed: {str(e)}")
+            return self._failed_auth_result(
+                session_id, f"LDAP authentication failed: {str(e)}"
+            )
 
-    def _authenticate_oauth(self, auth_data: Dict[str, Any], session_id: str) -> AuthenticationResult:
+    def _authenticate_oauth(
+        self, auth_data: dict[str, Any], session_id: str
+    ) -> AuthenticationResult:
         """Authenticate user using OAuth 2.0/OpenID Connect."""
         if not self.oauth_config:
             return self._failed_auth_result(session_id, "OAuth not configured")
@@ -402,25 +413,27 @@ class EnterpriseAuthenticationModule:
             # Exchange authorization code for tokens
             auth_code = auth_data.get("code")
             if not auth_code:
-                return self._failed_auth_result(session_id, "Authorization code required")
+                return self._failed_auth_result(
+                    session_id, "Authorization code required"
+                )
 
             token_data = {
                 "grant_type": "authorization_code",
                 "code": auth_code,
                 "redirect_uri": self.oauth_config.redirect_uri,
                 "client_id": self.oauth_config.client_id,
-                "client_secret": self.oauth_config.client_secret
+                "client_secret": self.oauth_config.client_secret,
             }
 
             # Request access token
             token_response = requests.post(
-                self.oauth_config.token_url,
-                data=token_data,
-                timeout=30
+                self.oauth_config.token_url, data=token_data, timeout=30
             )
 
             if token_response.status_code != 200:
-                return self._failed_auth_result(session_id, "Failed to obtain access token")
+                return self._failed_auth_result(
+                    session_id, "Failed to obtain access token"
+                )
 
             tokens = token_response.json()
             access_token = tokens.get("access_token")
@@ -429,11 +442,13 @@ class EnterpriseAuthenticationModule:
             userinfo_response = requests.get(
                 self.oauth_config.userinfo_url,
                 headers={"Authorization": f"Bearer {access_token}"},
-                timeout=30
+                timeout=30,
             )
 
             if userinfo_response.status_code != 200:
-                return self._failed_auth_result(session_id, "Failed to get user information")
+                return self._failed_auth_result(
+                    session_id, "Failed to get user information"
+                )
 
             userinfo = userinfo_response.json()
 
@@ -441,7 +456,9 @@ class EnterpriseAuthenticationModule:
             enterprise_user = self._create_enterprise_user_from_oauth(userinfo)
 
             # Generate internal tokens
-            internal_access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            internal_access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             self._create_session(session_id, enterprise_user, internal_access_token)
@@ -457,13 +474,20 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"oauth_provider": "configured", "external_token": access_token}
+                metadata={
+                    "oauth_provider": "configured",
+                    "external_token": access_token,
+                },
             )
 
         except Exception as e:
-            return self._failed_auth_result(session_id, f"OAuth authentication failed: {str(e)}")
+            return self._failed_auth_result(
+                session_id, f"OAuth authentication failed: {str(e)}"
+            )
 
-    def _authenticate_saml(self, auth_data: Dict[str, Any], session_id: str) -> AuthenticationResult:
+    def _authenticate_saml(
+        self, auth_data: dict[str, Any], session_id: str
+    ) -> AuthenticationResult:
         """Authenticate user using SAML SSO."""
         if not self.saml_config:
             return self._failed_auth_result(session_id, "SAML not configured")
@@ -480,14 +504,17 @@ class EnterpriseAuthenticationModule:
             # Parse XML
             root = ET.fromstring(decoded_response)
 
-            # Extract user attributes (this is simplified - real implementation would use proper SAML library)
+            # Extract user attributes (this is simplified - real implementation would
+            # use proper SAML library)
             attributes = self._extract_saml_attributes(root)
 
             # Create enterprise user from SAML attributes
             enterprise_user = self._create_enterprise_user_from_saml(attributes)
 
             # Generate tokens
-            access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             self._create_session(session_id, enterprise_user, access_token)
@@ -503,13 +530,17 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"saml_provider": "configured"}
+                metadata={"saml_provider": "configured"},
             )
 
         except Exception as e:
-            return self._failed_auth_result(session_id, f"SAML authentication failed: {str(e)}")
+            return self._failed_auth_result(
+                session_id, f"SAML authentication failed: {str(e)}"
+            )
 
-    def _authenticate_jwt(self, auth_data: Dict[str, Any], session_id: str) -> AuthenticationResult:
+    def _authenticate_jwt(
+        self, auth_data: dict[str, Any], session_id: str
+    ) -> AuthenticationResult:
         """Authenticate user using JWT token."""
         try:
             token = auth_data.get("token")
@@ -518,9 +549,7 @@ class EnterpriseAuthenticationModule:
 
             # Decode and validate JWT
             payload = jwt.decode(
-                token,
-                self.jwt_secret,
-                algorithms=[self.jwt_algorithm]
+                token, self.jwt_secret, algorithms=[self.jwt_algorithm]
             )
 
             # Check expiration
@@ -536,7 +565,9 @@ class EnterpriseAuthenticationModule:
             enterprise_user = self._get_or_create_user(user_id, payload)
 
             # Generate new tokens
-            access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             self._create_session(session_id, enterprise_user, access_token)
@@ -552,7 +583,7 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"jwt_validated": True}
+                metadata={"jwt_validated": True},
             )
 
         except jwt.ExpiredSignatureError:
@@ -560,15 +591,21 @@ class EnterpriseAuthenticationModule:
         except jwt.InvalidTokenError:
             return self._failed_auth_result(session_id, "Invalid token")
         except Exception as e:
-            return self._failed_auth_result(session_id, f"JWT authentication failed: {str(e)}")
+            return self._failed_auth_result(
+                session_id, f"JWT authentication failed: {str(e)}"
+            )
 
-    def _authenticate_certificate(self, auth_data: Dict[str, Any], session_id: str) -> AuthenticationResult:
+    def _authenticate_certificate(
+        self, auth_data: dict[str, Any], session_id: str
+    ) -> AuthenticationResult:
         """Authenticate user using client certificate."""
         try:
             # Extract certificate from auth data
             cert_pem = auth_data.get("certificate")
             if not cert_pem:
-                return self._failed_auth_result(session_id, "Client certificate required")
+                return self._failed_auth_result(
+                    session_id, "Client certificate required"
+                )
 
             # Load and validate certificate
             from cryptography import x509
@@ -587,17 +624,24 @@ class EnterpriseAuthenticationModule:
                     email = attribute.value
 
             if not user_id:
-                return self._failed_auth_result(session_id, "Certificate missing user identifier")
+                return self._failed_auth_result(
+                    session_id, "Certificate missing user identifier"
+                )
 
             # Create or get user
-            enterprise_user = self._get_or_create_user(user_id, {
-                "email": email,
-                "display_name": user_id,
-                "authentication_method": "certificate"
-            })
+            enterprise_user = self._get_or_create_user(
+                user_id,
+                {
+                    "email": email,
+                    "display_name": user_id,
+                    "authentication_method": "certificate",
+                },
+            )
 
             # Generate tokens
-            access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             self._create_session(session_id, enterprise_user, access_token)
@@ -613,20 +657,22 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"certificate_auth": True}
+                metadata={"certificate_auth": True},
             )
 
         except Exception as e:
-            return self._failed_auth_result(session_id, f"Certificate authentication failed: {str(e)}")
+            return self._failed_auth_result(
+                session_id, f"Certificate authentication failed: {str(e)}"
+            )
 
-    def verify_mfa(self, mfa_token: str, mfa_code: str, mfa_method: AuthenticationMethod) -> AuthenticationResult:
+    def verify_mfa(
+        self, mfa_token: str, mfa_code: str, mfa_method: AuthenticationMethod
+    ) -> AuthenticationResult:
         """Verify multi-factor authentication."""
         try:
             # Decode MFA token to get user information
             mfa_payload = jwt.decode(
-                mfa_token,
-                self.jwt_secret,
-                algorithms=[self.jwt_algorithm]
+                mfa_token, self.jwt_secret, algorithms=[self.jwt_algorithm]
             )
 
             user_id = mfa_payload.get("user_id")
@@ -652,7 +698,9 @@ class EnterpriseAuthenticationModule:
                 return self._failed_auth_result("", "User not found")
 
             # Generate tokens
-            access_token, refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             # Create session
             session_id = self._generate_session_id()
@@ -669,7 +717,7 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id=session_id,
                 error_message=None,
-                metadata={"mfa_verified": True, "mfa_method": mfa_method.value}
+                metadata={"mfa_verified": True, "mfa_method": mfa_method.value},
             )
 
         except Exception as e:
@@ -680,9 +728,7 @@ class EnterpriseAuthenticationModule:
         try:
             # Decode refresh token
             payload = jwt.decode(
-                refresh_token,
-                self.jwt_secret,
-                algorithms=[self.jwt_algorithm]
+                refresh_token, self.jwt_secret, algorithms=[self.jwt_algorithm]
             )
 
             # Verify it's a refresh token
@@ -699,7 +745,9 @@ class EnterpriseAuthenticationModule:
                 return self._failed_auth_result("", "User not found")
 
             # Generate new tokens
-            access_token, new_refresh_token, expires_at = self._generate_tokens(enterprise_user)
+            access_token, new_refresh_token, expires_at = self._generate_tokens(
+                enterprise_user
+            )
 
             return AuthenticationResult(
                 status=AuthenticationStatus.SUCCESS,
@@ -712,7 +760,7 @@ class EnterpriseAuthenticationModule:
                 permissions=self._get_user_permissions(enterprise_user),
                 session_id="",
                 error_message=None,
-                metadata={"token_refreshed": True}
+                metadata={"token_refreshed": True},
             )
 
         except jwt.ExpiredSignatureError:
@@ -740,7 +788,7 @@ class EnterpriseAuthenticationModule:
             return True
         return False
 
-    def get_user_permissions(self, user: EnterpriseUser) -> List[str]:
+    def get_user_permissions(self, user: EnterpriseUser) -> list[str]:
         """Get user permissions based on roles."""
         return self._get_user_permissions(user)
 
@@ -760,11 +808,11 @@ class EnterpriseAuthenticationModule:
         payload = {
             "user_id": user_id,
             "token_type": "mfa",
-            "exp": datetime.utcnow() + timedelta(minutes=10)
+            "exp": datetime.utcnow() + timedelta(minutes=10),
         }
         return jwt.encode(payload, self.jwt_secret, algorithm=self.jwt_algorithm)
 
-    def _generate_tokens(self, user: EnterpriseUser) -> Tuple[str, str, datetime]:
+    def _generate_tokens(self, user: EnterpriseUser) -> tuple[str, str, datetime]:
         """Generate access and refresh tokens."""
         now = datetime.utcnow()
         expires_at = now + timedelta(hours=self.token_expiry_hours)
@@ -778,20 +826,24 @@ class EnterpriseAuthenticationModule:
             "lambda_id": user.lambda_id,
             "token_type": "access",
             "iat": now,
-            "exp": expires_at
+            "exp": expires_at,
         }
 
-        access_token = jwt.encode(access_payload, self.jwt_secret, algorithm=self.jwt_algorithm)
+        access_token = jwt.encode(
+            access_payload, self.jwt_secret, algorithm=self.jwt_algorithm
+        )
 
         # Refresh token (longer expiry)
         refresh_payload = {
             "sub": user.user_id,
             "token_type": "refresh",
             "iat": now,
-            "exp": now + timedelta(days=30)
+            "exp": now + timedelta(days=30),
         }
 
-        refresh_token = jwt.encode(refresh_payload, self.jwt_secret, algorithm=self.jwt_algorithm)
+        refresh_token = jwt.encode(
+            refresh_payload, self.jwt_secret, algorithm=self.jwt_algorithm
+        )
 
         return access_token, refresh_token, expires_at
 
@@ -801,11 +853,14 @@ class EnterpriseAuthenticationModule:
             "user": user,
             "access_token": access_token,
             "created_at": datetime.utcnow(),
-            "expires_at": datetime.utcnow() + timedelta(hours=self.config.get("session_timeout_hours", 8)),
-            "last_activity": datetime.utcnow()
+            "expires_at": datetime.utcnow()
+            + timedelta(hours=self.config.get("session_timeout_hours", 8)),
+            "last_activity": datetime.utcnow(),
         }
 
-    def _failed_auth_result(self, session_id: str, error_message: str) -> AuthenticationResult:
+    def _failed_auth_result(
+        self, session_id: str, error_message: str
+    ) -> AuthenticationResult:
         """Create failed authentication result."""
         return AuthenticationResult(
             status=AuthenticationStatus.FAILED,
@@ -818,7 +873,7 @@ class EnterpriseAuthenticationModule:
             permissions=[],
             session_id=session_id,
             error_message=error_message,
-            metadata={}
+            metadata={},
         )
 
     def _requires_mfa(self, user: EnterpriseUser) -> bool:
@@ -835,46 +890,66 @@ class EnterpriseAuthenticationModule:
 
         return any(role in required_roles for role in user_role_values)
 
-    def _get_user_permissions(self, user: EnterpriseUser) -> List[str]:
+    def _get_user_permissions(self, user: EnterpriseUser) -> list[str]:
         """Get user permissions based on roles."""
         permissions = set()
 
         for role in user.roles:
             if role == UserRole.ADMIN:
-                permissions.update([
-                    "lambda_id.generate", "lambda_id.validate", "lambda_id.upgrade",
-                    "user.create", "user.read", "user.update", "user.delete",
-                    "admin.system", "admin.users", "admin.audit",
-                    "commercial.manage", "enterprise.configure"
-                ])
+                permissions.update(
+                    [
+                        "lambda_id.generate",
+                        "lambda_id.validate",
+                        "lambda_id.upgrade",
+                        "user.create",
+                        "user.read",
+                        "user.update",
+                        "user.delete",
+                        "admin.system",
+                        "admin.users",
+                        "admin.audit",
+                        "commercial.manage",
+                        "enterprise.configure",
+                    ]
+                )
             elif role == UserRole.MANAGER:
-                permissions.update([
-                    "lambda_id.generate", "lambda_id.validate", "lambda_id.upgrade",
-                    "user.read", "user.update",
-                    "team.manage", "reports.view"
-                ])
+                permissions.update(
+                    [
+                        "lambda_id.generate",
+                        "lambda_id.validate",
+                        "lambda_id.upgrade",
+                        "user.read",
+                        "user.update",
+                        "team.manage",
+                        "reports.view",
+                    ]
+                )
             elif role == UserRole.USER:
-                permissions.update([
-                    "lambda_id.generate", "lambda_id.validate",
-                    "profile.read", "profile.update"
-                ])
+                permissions.update(
+                    [
+                        "lambda_id.generate",
+                        "lambda_id.validate",
+                        "profile.read",
+                        "profile.update",
+                    ]
+                )
             elif role == UserRole.VIEWER:
-                permissions.update([
-                    "lambda_id.validate", "profile.read"
-                ])
+                permissions.update(["lambda_id.validate", "profile.read"])
             elif role == UserRole.AUDITOR:
-                permissions.update([
-                    "audit.read", "reports.view", "logs.access"
-                ])
+                permissions.update(["audit.read", "reports.view", "logs.access"])
             elif role == UserRole.DEVELOPER:
-                permissions.update([
-                    "lambda_id.generate", "lambda_id.validate",
-                    "api.access", "development.tools"
-                ])
+                permissions.update(
+                    [
+                        "lambda_id.generate",
+                        "lambda_id.validate",
+                        "api.access",
+                        "development.tools",
+                    ]
+                )
             elif role == UserRole.INTEGRATOR:
-                permissions.update([
-                    "integration.configure", "api.admin", "webhooks.manage"
-                ])
+                permissions.update(
+                    ["integration.configure", "api.admin", "webhooks.manage"]
+                )
 
         return list(permissions)
 
@@ -885,8 +960,13 @@ class EnterpriseAuthenticationModule:
 
         username = getattr(ldap_entry, mapping.get("username", "uid")).value
         email = getattr(ldap_entry, mapping.get("email", "mail")).value
-        display_name = getattr(ldap_entry, mapping.get("display_name", "displayName")).value
-        department = getattr(ldap_entry, mapping.get("department", "department")).value or "Unknown"
+        display_name = getattr(
+            ldap_entry, mapping.get("display_name", "displayName")
+        ).value
+        department = (
+            getattr(ldap_entry, mapping.get("department", "department")).value
+            or "Unknown"
+        )
 
         # Determine roles (simplified logic)
         roles = [UserRole.USER]  # Default role
@@ -909,10 +989,12 @@ class EnterpriseAuthenticationModule:
             employee_id=None,
             manager_id=None,
             security_clearance=None,
-            attributes={}
+            attributes={},
         )
 
-    def _create_enterprise_user_from_oauth(self, userinfo: Dict[str, Any]) -> EnterpriseUser:
+    def _create_enterprise_user_from_oauth(
+        self, userinfo: dict[str, Any]
+    ) -> EnterpriseUser:
         """Create EnterpriseUser from OAuth userinfo."""
         username = userinfo.get("preferred_username", userinfo.get("sub"))
         email = userinfo.get("email")
@@ -936,10 +1018,12 @@ class EnterpriseAuthenticationModule:
             employee_id=None,
             manager_id=None,
             security_clearance=None,
-            attributes=userinfo
+            attributes=userinfo,
         )
 
-    def _create_enterprise_user_from_saml(self, attributes: Dict[str, Any]) -> EnterpriseUser:
+    def _create_enterprise_user_from_saml(
+        self, attributes: dict[str, Any]
+    ) -> EnterpriseUser:
         """Create EnterpriseUser from SAML attributes."""
         username = attributes.get("username", attributes.get("nameID"))
         email = attributes.get("email")
@@ -963,10 +1047,12 @@ class EnterpriseAuthenticationModule:
             employee_id=attributes.get("employeeID"),
             manager_id=None,
             security_clearance=None,
-            attributes=attributes
+            attributes=attributes,
         )
 
-    def _get_or_create_user(self, user_id: str, user_data: Dict[str, Any]) -> EnterpriseUser:
+    def _get_or_create_user(
+        self, user_id: str, user_data: dict[str, Any]
+    ) -> EnterpriseUser:
         """Get existing user or create new one."""
         if user_id in self.user_cache:
             return self.user_cache[user_id]
@@ -990,31 +1076,39 @@ class EnterpriseAuthenticationModule:
             employee_id=None,
             manager_id=None,
             security_clearance=None,
-            attributes=user_data
+            attributes=user_data,
         )
 
         self.user_cache[user_id] = user
         return user
 
-    def _extract_saml_attributes(self, saml_root) -> Dict[str, Any]:
+    def _extract_saml_attributes(self, saml_root) -> dict[str, Any]:
         """Extract attributes from SAML response (simplified)."""
         # This is a simplified implementation
         # Real implementation would use proper SAML parsing library
         attributes = {}
 
         # Extract NameID
-        nameid_element = saml_root.find(".//{urn:oasis:names:tc:SAML:2.0:assertion}NameID")
+        nameid_element = saml_root.find(
+            ".//{urn:oasis:names:tc:SAML:2.0:assertion}NameID"
+        )
         if nameid_element is not None:
             attributes["nameID"] = nameid_element.text
             attributes["username"] = nameid_element.text
 
         # Extract attribute statements
-        attr_statements = saml_root.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeStatement")
+        attr_statements = saml_root.findall(
+            ".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeStatement"
+        )
         for attr_statement in attr_statements:
-            attrs = attr_statement.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}Attribute")
+            attrs = attr_statement.findall(
+                ".//{urn:oasis:names:tc:SAML:2.0:assertion}Attribute"
+            )
             for attr in attrs:
                 attr_name = attr.get("Name")
-                attr_values = attr.findall(".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeValue")
+                attr_values = attr.findall(
+                    ".//{urn:oasis:names:tc:SAML:2.0:assertion}AttributeValue"
+                )
                 if attr_values:
                     attributes[attr_name] = attr_values[0].text
 
@@ -1038,7 +1132,7 @@ class EnterpriseAuthenticationModule:
 
 
 # Configuration example
-def get_enterprise_auth_config_template() -> Dict[str, Any]:
+def get_enterprise_auth_config_template() -> dict[str, Any]:
     """Get template for enterprise authentication configuration."""
     return {
         "authentication_methods": ["oauth2_oidc", "ldap", "saml_sso", "jwt_token"],
@@ -1061,7 +1155,7 @@ def get_enterprise_auth_config_template() -> Dict[str, Any]:
                 "scope": ["openid", "profile", "email"],
                 "redirect_uri": "https://your-app.com/auth/callback",
                 "response_type": "code",
-                "grant_type": "authorization_code"
+                "grant_type": "authorization_code",
             },
             "ldap": {
                 "server_uri": "ldaps://ldap.company.com:636",
@@ -1075,11 +1169,11 @@ def get_enterprise_auth_config_template() -> Dict[str, Any]:
                     "username": "uid",
                     "email": "mail",
                     "display_name": "displayName",
-                    "department": "department"
+                    "department": "department",
                 },
                 "use_ssl": True,
                 "ca_cert_file": "/path/to/ca-cert.pem",
-                "timeout": 30
+                "timeout": 30,
             },
             "saml": {
                 "entity_id": "https://your-app.com/saml/metadata",
@@ -1090,12 +1184,12 @@ def get_enterprise_auth_config_template() -> Dict[str, Any]:
                 "attribute_mapping": {
                     "username": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
                     "email": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-                    "display_name": "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
+                    "display_name": "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname",
                 },
                 "name_id_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
                 "sign_requests": True,
-                "encrypt_assertions": False
-            }
+                "encrypt_assertions": False,
+            },
         },
         "password_policy": {
             "min_length": 12,
@@ -1104,12 +1198,12 @@ def get_enterprise_auth_config_template() -> Dict[str, Any]:
             "require_numbers": True,
             "require_special_chars": True,
             "max_age_days": 90,
-            "history_count": 12
+            "history_count": 12,
         },
         "lockout_policy": {
             "max_attempts": 5,
             "lockout_duration_minutes": 30,
-            "reset_failed_attempts_hours": 24
+            "reset_failed_attempts_hours": 24,
         },
         "audit_logging": {
             "enabled": True,
@@ -1119,13 +1213,13 @@ def get_enterprise_auth_config_template() -> Dict[str, Any]:
             "log_session_management": True,
             "retention_days": 365,
             "log_format": "json",
-            "log_destination": "database"
+            "log_destination": "database",
         },
         "security": {
             "require_secure_cookies": True,
             "csrf_protection": True,
             "rate_limiting": True,
             "ip_whitelist": [],
-            "allowed_domains": ["company.com", "subsidiary.com"]
-        }
+            "allowed_domains": ["company.com", "subsidiary.com"],
+        },
     }

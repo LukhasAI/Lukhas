@@ -8,17 +8,18 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from Crypto.Cipher import AES
-from Crypto.Random import get_random_bytes
 from hashlib import sha256
-import base64
+
+from Crypto.Cipher import AES
 
 # ── AES Symbolic Vault Encryption ─────────────────────────────
+
 
 def encrypt_data(plain_data: bytes, key: bytes) -> bytes:
     cipher = AES.new(key, AES.MODE_EAX)
     ciphertext, tag = cipher.encrypt_and_digest(plain_data)
     return cipher.nonce + tag + ciphertext  # [nonce][tag][ciphertext]
+
 
 def decrypt_data(encrypted_data: bytes, key: bytes) -> bytes:
     nonce = encrypted_data[:16]
@@ -27,13 +28,16 @@ def decrypt_data(encrypted_data: bytes, key: bytes) -> bytes:
     cipher = AES.new(key, AES.MODE_EAX, nonce)
     return cipher.decrypt_and_verify(ciphertext, tag)
 
+
 def generate_key_from_seed(seed_phrase: str) -> bytes:
     """
     Symbolically derive a secure AES key from a seed phrase.
     """
-    return sha256(seed_phrase.encode('utf-8')).digest()
+    return sha256(seed_phrase.encode("utf-8")).digest()
+
 
 # ── Symbolic Collapse Hash Generator ──────────────────────────
+
 
 def generate_collapse_hash(user_id_or_data, vault_type=None, timestamp=None) -> str:
     """
@@ -61,9 +65,11 @@ def generate_trace_index(category: str, data_dict: dict) -> str:
     Generate unique trace index for governance tracking (ethics module compatibility).
     """
     from datetime import datetime
+
     timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     data_hash = generate_collapse_hash(data_dict)[-12:]  # Last 12 chars for brevity
     return f"{category}_{timestamp}_{data_hash}"
+
 
 # ===============================================================
 # 💾 HOW TO USE

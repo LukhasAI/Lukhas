@@ -38,17 +38,17 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any, Optional, List, Union
+from typing import Any, Optional
+
 from core.common import get_logger
-from datetime import datetime
-import numpy as np
 
 logger = get_logger(__name__)
+
 
 class VoiceEmotionalModulator:
     """Handles emotional modulation of voice parameters"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize voice emotional modulator
 
         Args:
@@ -63,14 +63,14 @@ class VoiceEmotionalModulator:
             "volume": 1.0,
             "emphasis": 0.5,
             "inflection": 0.5,
-            "articulation": 0.5
+            "articulation": 0.5,
         }
 
         # Track emotion influence
         self.emotion_influence = {
             "primary": None,
             "secondary": None,
-            "intensity": 0.5
+            "intensity": 0.5,
         }
 
         # Emotional profile configurations
@@ -81,7 +81,7 @@ class VoiceEmotionalModulator:
                 "volume": 1.1,
                 "emphasis": 0.7,
                 "inflection": 0.8,
-                "articulation": 0.7
+                "articulation": 0.7,
             },
             "sadness": {
                 "pitch": 0.8,
@@ -89,7 +89,7 @@ class VoiceEmotionalModulator:
                 "volume": 0.9,
                 "emphasis": 0.3,
                 "inflection": 0.4,
-                "articulation": 0.5
+                "articulation": 0.5,
             },
             "anger": {
                 "pitch": 1.1,
@@ -97,7 +97,7 @@ class VoiceEmotionalModulator:
                 "volume": 1.2,
                 "emphasis": 0.9,
                 "inflection": 0.7,
-                "articulation": 0.8
+                "articulation": 0.8,
             },
             "fear": {
                 "pitch": 1.2,
@@ -105,18 +105,20 @@ class VoiceEmotionalModulator:
                 "volume": 0.9,
                 "emphasis": 0.6,
                 "inflection": 0.9,
-                "articulation": 0.7
-            }
+                "articulation": 0.7,
+            },
             # Add more emotion profiles as needed
         }
 
         logger.info("Voice emotional modulator initialized")
 
-    def get_modulation_params(self,
-                          emotion: str,
-                          intensity: float = 0.5,
-                          secondary_emotion: Optional[str] = None,
-                          secondary_intensity: float = 0.2) -> Dict[str, float]:
+    def get_modulation_params(
+        self,
+        emotion: str,
+        intensity: float = 0.5,
+        secondary_emotion: Optional[str] = None,
+        secondary_intensity: float = 0.2,
+    ) -> dict[str, float]:
         """Get modulation parameters for an emotional state
 
         Args:
@@ -135,35 +137,31 @@ class VoiceEmotionalModulator:
         if emotion in self.emotion_profiles:
             profile = self.emotion_profiles[emotion]
             for param, value in profile.items():
-                params[param] = self._interpolate_param(
-                    params[param],
-                    value,
-                    intensity
-                )
+                params[param] = self._interpolate_param(params[param], value, intensity)
 
         # Layer secondary emotion if specified
         if secondary_emotion and secondary_emotion in self.emotion_profiles:
             profile = self.emotion_profiles[secondary_emotion]
             for param, value in profile.items():
                 params[param] = self._interpolate_param(
-                    params[param],
-                    value,
-                    secondary_intensity
+                    params[param], value, secondary_intensity
                 )
 
         # Update internal state
         self.emotion_influence = {
             "primary": emotion,
             "secondary": secondary_emotion,
-            "intensity": intensity
+            "intensity": intensity,
         }
 
         return params
 
-    def adapt_to_user_emotion(self,
-                          user_emotion: str,
-                          system_emotion: str,
-                          adaptation_strength: float = 0.5) -> Dict[str, float]:
+    def adapt_to_user_emotion(
+        self,
+        user_emotion: str,
+        system_emotion: str,
+        adaptation_strength: float = 0.5,
+    ) -> dict[str, float]:
         """Adapt voice parameters to user's emotional state
 
         Args:
@@ -187,14 +185,12 @@ class VoiceEmotionalModulator:
                     current = params[param]
                     target = user_profile[param]
                     params[param] = self._interpolate_param(
-                        current,
-                        target,
-                        adaptation_strength
+                        current, target, adaptation_strength
                     )
 
         return params
 
-    def get_emotional_influence(self) -> Dict[str, Any]:
+    def get_emotional_influence(self) -> dict[str, Any]:
         """Get current emotional influence state
 
         Returns:
@@ -202,10 +198,7 @@ class VoiceEmotionalModulator:
         """
         return dict(self.emotion_influence)
 
-    def _interpolate_param(self,
-                        start: float,
-                        end: float,
-                        factor: float) -> float:
+    def _interpolate_param(self, start: float, end: float, factor: float) -> float:
         """Interpolate between parameter values
 
         Args:
@@ -217,6 +210,7 @@ class VoiceEmotionalModulator:
             Interpolated value
         """
         return start + ((end - start) * factor)
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

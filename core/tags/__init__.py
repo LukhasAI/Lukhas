@@ -7,20 +7,20 @@ from .registry import (
     TagCategory,
     TagDefinition,
     TagRegistry,
-    get_tag_registry,
     explain_tag,
     get_decision_tags,
-    get_hormone_tags
+    get_hormone_tags,
+    get_tag_registry,
 )
 
 __all__ = [
-    'TagCategory',
-    'TagDefinition', 
-    'TagRegistry',
-    'get_tag_registry',
-    'explain_tag',
-    'get_decision_tags',
-    'get_hormone_tags'
+    "TagCategory",
+    "TagDefinition",
+    "TagRegistry",
+    "get_tag_registry",
+    "explain_tag",
+    "get_decision_tags",
+    "get_hormone_tags",
 ]
 
 # Initialize the global registry on import

@@ -2,22 +2,22 @@
 
 from __future__ import annotations
 
+from typing import Any
 
-from typing import Any, Dict, List
 from core.common import get_logger
 
 # ΛTAG: ethical_tag_misinterpretation
 
-#TAG:governance
-#TAG:ethics
-#TAG:neuroplastic
-#TAG:colony
+# TAG:governance
+# TAG:ethics
+# TAG:neuroplastic
+# TAG:colony
 
 
 logger = get_logger(__name__)
 
 
-def simulate_misinterpretation_scenarios() -> List[Dict[str, Any]]:
+def simulate_misinterpretation_scenarios() -> list[dict[str, Any]]:
     """Simulate several ethical tag misinterpretations.
 
     Returns
@@ -26,7 +26,7 @@ def simulate_misinterpretation_scenarios() -> List[Dict[str, Any]]:
         List of scenario records including symbolic trace, failure reason,
         and resolution steps.
     """
-    scenarios: List[Dict[str, Any]] = []
+    scenarios: list[dict[str, Any]] = []
 
     for idx in range(5):
         tag = f"ethical_{idx}"
@@ -35,7 +35,13 @@ def simulate_misinterpretation_scenarios() -> List[Dict[str, Any]]:
         resolution = {"review": "overseer", "action": "tag_corrected"}
 
         logger.info(
-            "misinterpretation", extra={"tag": tag, "trace": trace, "failure": failure, "resolution": resolution}
+            "misinterpretation",
+            extra={
+                "tag": tag,
+                "trace": trace,
+                "failure": failure,
+                "resolution": resolution,
+            },
         )
         scenarios.append(
             {

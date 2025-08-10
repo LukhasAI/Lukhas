@@ -31,53 +31,66 @@ to provide sophisticated neural processing capabilities for the AGI system.
 """
 
 import asyncio
-import logging
 import json
-import time
-import numpy as np
-from typing import Dict, List, Optional, Any, Union, Tuple, Callable
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from enum import Enum
-import uuid
+import logging
 import threading
+import time
+import uuid
+from collections import defaultdict, deque
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from collections import defaultdict, deque
 
 # Import core components
 try:
-    from ..consciousness.consciousness_integrator import ConsciousnessIntegrator, ConsciousnessEvent
+    from quantum.systems.quantum_inspired_processor import (
+        QuantumInspiredProcessor,
+    )
+
+    from ..consciousness.consciousness_integrator import (
+        ConsciousnessEvent,
+        ConsciousnessIntegrator,
+    )
     from ..memory.enhanced_memory_manager import EnhancedMemoryManager
-    from quantum.systems.quantum_inspired_processor import QuantumInspiredProcessor
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
 
 logger = logging.getLogger("neural")
 
+
 class NeuralMode(Enum):
     """Neural processing modes"""
-    LEARNING = "learning"           # Active learning mode
-    INFERENCE = "inference"         # Pattern recognition mode
-    INTEGRATION = "integration"     # Cross-modal integration
-    ADAPTATION = "adaptation"       # Architecture adaptation
-    CONSOLIDATION = "consolidation" # Memory consolidation
-    OPTIMIZATION = "optimization"   # Performance optimization
+
+    LEARNING = "learning"  # Active learning mode
+    INFERENCE = "inference"  # Pattern recognition mode
+    INTEGRATION = "integration"  # Cross-modal integration
+    ADAPTATION = "adaptation"  # Architecture adaptation
+    CONSOLIDATION = "consolidation"  # Memory consolidation
+    OPTIMIZATION = "optimization"  # Performance optimization
+
 
 class NeuralArchitectureType(Enum):
     """Types of neural architectures"""
-    ATTENTION = "attention"         # Attention-based processing
-    TRANSFORMER = "transformer"     # Transformer architecture
-    RECURRENT = "recurrent"         # Recurrent neural networks
-    CONVOLUTIONAL = "convolutional" # Convolutional networks
-    HYBRID = "hybrid"              # Hybrid architectures
-    QUANTUM = "quantum"            # Quantum-enhanced networks
+
+    ATTENTION = "attention"  # Attention-based processing
+    TRANSFORMER = "transformer"  # Transformer architecture
+    RECURRENT = "recurrent"  # Recurrent neural networks
+    CONVOLUTIONAL = "convolutional"  # Convolutional networks
+    HYBRID = "hybrid"  # Hybrid architectures
+    QUANTUM = "quantum"  # Quantum-enhanced networks
+
 
 @dataclass
 class NeuralPattern:
     """Represents a learned neural pattern"""
+
     id: str
     pattern_type: str
     features: np.ndarray
@@ -88,9 +101,11 @@ class NeuralPattern:
     associations: List[str]
     emotional_weight: float
 
+
 @dataclass
 class NeuralContext:
     """Context for neural processing operations"""
+
     mode: NeuralMode
     architecture_type: NeuralArchitectureType
     input_dimensions: Tuple[int, ...]
@@ -99,13 +114,16 @@ class NeuralContext:
     memory_context: Dict[str, Any]
     emotional_context: Dict[str, float]
 
+
 class AdaptiveNeuralNetwork(nn.Module):
     """
     Adaptive neural network that can modify its architecture
     based on learning requirements and performance metrics.
     """
 
-    def __init__(self, input_size: int, output_size: int, hidden_sizes: List[int] = None):
+    def __init__(
+        self, input_size: int, output_size: int, hidden_sizes: List[int] = None
+    ):
         super().__init__()
         self.input_size = input_size
         self.output_size = output_size
@@ -145,7 +163,7 @@ class AdaptiveNeuralNetwork(nn.Module):
         # Analyze performance trends
         if len(self.performance_history) >= 10:
             recent_performance = list(self.performance_history)[-10:]
-            avg_accuracy = np.mean([p.get('accuracy', 0) for p in recent_performance])
+            avg_accuracy = np.mean([p.get("accuracy", 0) for p in recent_performance])
 
             # Adaptation logic
             if avg_accuracy < 0.7:  # Low performance
@@ -163,7 +181,9 @@ class AdaptiveNeuralNetwork(nn.Module):
         # Rebuild network with new architecture
         self._rebuild_network(current_hidden_sizes)
 
-        logger.info(f"Expanded neural architecture: {self.hidden_sizes} -> {current_hidden_sizes}")
+        logger.info(
+            f"Expanded neural architecture: {self.hidden_sizes} -> {current_hidden_sizes}"
+        )
 
     def _optimize_architecture(self):
         """Optimize network architecture for efficiency"""
@@ -172,7 +192,9 @@ class AdaptiveNeuralNetwork(nn.Module):
             optimized_sizes = self.hidden_sizes[:-1]  # Remove last layer
             self._rebuild_network(optimized_sizes)
 
-            logger.info(f"Optimized neural architecture: {self.hidden_sizes} -> {optimized_sizes}")
+            logger.info(
+                f"Optimized neural architecture: {self.hidden_sizes} -> {optimized_sizes}"
+            )
 
     def _rebuild_network(self, new_hidden_sizes: List[int]):
         """Rebuild network with new architecture"""
@@ -202,11 +224,14 @@ class AdaptiveNeuralNetwork(nn.Module):
             logger.info("Could not restore all weights during architecture change")
 
         # Record adaptation
-        self.adaptation_history.append({
-            'timestamp': datetime.now(),
-            'new_architecture': new_hidden_sizes,
-            'reason': 'performance_optimization'
-        })
+        self.adaptation_history.append(
+            {
+                "timestamp": datetime.now(),
+                "new_architecture": new_hidden_sizes,
+                "reason": "performance_optimization",
+            }
+        )
+
 
 class NeuralIntegrator:
     """
@@ -253,37 +278,37 @@ class NeuralIntegrator:
                     "input_size": 512,
                     "hidden_sizes": [256, 128],
                     "output_size": 128,
-                    "attention_heads": 8
+                    "attention_heads": 8,
                 },
                 "transformer": {
                     "input_size": 512,
                     "hidden_sizes": [256, 128],
                     "output_size": 128,
-                    "num_layers": 6
+                    "num_layers": 6,
                 },
                 "recurrent": {
                     "input_size": 256,
                     "hidden_sizes": [128, 64],
                     "output_size": 64,
-                    "sequence_length": 50
-                }
+                    "sequence_length": 50,
+                },
             },
             "processing": {
                 "batch_size": 32,
                 "learning_rate": 0.001,
                 "max_patterns": 10000,
-                "pattern_similarity_threshold": 0.8
+                "pattern_similarity_threshold": 0.8,
             },
             "adaptation": {
                 "performance_threshold": 0.7,
                 "adaptation_interval": 100,
-                "max_architectures": 10
-            }
+                "max_architectures": 10,
+            },
         }
 
         if config_path and Path(config_path).exists():
             try:
-                with open(config_path, 'r') as f:
+                with open(config_path) as f:
                     user_config = json.load(f)
                 default_config.update(user_config)
             except Exception as e:
@@ -332,7 +357,7 @@ class NeuralIntegrator:
             network = AdaptiveNeuralNetwork(
                 input_size=arch_config["input_size"],
                 output_size=arch_config["output_size"],
-                hidden_sizes=arch_config.get("hidden_sizes", [128, 64])
+                hidden_sizes=arch_config.get("hidden_sizes", [128, 64]),
             )
 
             self.neural_networks[arch_name] = network
@@ -349,8 +374,7 @@ class NeuralIntegrator:
 
         # Start processing thread
         self.processing_thread = threading.Thread(
-            target=self._neural_processing_loop,
-            daemon=True
+            target=self._neural_processing_loop, daemon=True
         )
         self.processing_thread.start()
 
@@ -409,15 +433,21 @@ class NeuralIntegrator:
                     timestamp=datetime.now(),
                     event_type="neural_mode_change",
                     source_module="neural",
-                    data={"new_mode": new_mode.value, "previous_mode": self.current_mode.value},
-                    priority=IntegrationPriority.HIGH
+                    data={
+                        "new_mode": new_mode.value,
+                        "previous_mode": self.current_mode.value,
+                    },
+                    priority=IntegrationPriority.HIGH,
                 )
                 await self.consciousness_integrator.submit_event(event)
 
     async def _evaluate_neural_mode(self) -> NeuralMode:
         """Evaluate and determine appropriate neural mode"""
         # This is a simplified evaluation - in practice, this would be more sophisticated
-        if self.consciousness_integrator and self.consciousness_integrator.current_context:
+        if (
+            self.consciousness_integrator
+            and self.consciousness_integrator.current_context
+        ):
             context = self.consciousness_integrator.current_context
 
             # Check for learning activity
@@ -453,21 +483,21 @@ class NeuralIntegrator:
         pattern_id = str(uuid.uuid4())
 
         # Extract features
-        features = np.array(pattern_data.get('features', []))
+        features = np.array(pattern_data.get("features", []))
         if len(features) == 0:
             return
 
         # Create neural pattern
         pattern = NeuralPattern(
             id=pattern_id,
-            pattern_type=pattern_data.get('type', 'unknown'),
+            pattern_type=pattern_data.get("type", "unknown"),
             features=features,
-            confidence=pattern_data.get('confidence', 0.5),
+            confidence=pattern_data.get("confidence", 0.5),
             created_at=datetime.now(),
             last_accessed=datetime.now(),
             access_count=1,
-            associations=pattern_data.get('associations', []),
-            emotional_weight=pattern_data.get('emotional_weight', 0.0)
+            associations=pattern_data.get("associations", []),
+            emotional_weight=pattern_data.get("emotional_weight", 0.0),
         )
 
         # Store pattern
@@ -512,10 +542,12 @@ class NeuralIntegrator:
                 avg_loss = np.mean(recent_performance)
 
                 # Adapt based on performance
-                network.adapt_architecture({
-                    'accuracy': 1.0 - avg_loss,  # Simplified accuracy calculation
-                    'loss': avg_loss
-                })
+                network.adapt_architecture(
+                    {
+                        "accuracy": 1.0 - avg_loss,  # Simplified accuracy calculation
+                        "loss": avg_loss,
+                    }
+                )
 
     async def _integrate_with_consciousness(self):
         """Integrate neural processing with consciousness system"""
@@ -525,12 +557,12 @@ class NeuralIntegrator:
         try:
             # Send neural insights to consciousness
             neural_insights = {
-                'current_mode': self.current_mode.value,
-                'active_patterns': len(self.pattern_database),
-                'network_performance': {
+                "current_mode": self.current_mode.value,
+                "active_patterns": len(self.pattern_database),
+                "network_performance": {
                     name: np.mean(metrics[-10:]) if metrics else 0.0
                     for name, metrics in self.performance_metrics.items()
-                }
+                },
             }
 
             event = ConsciousnessEvent(
@@ -539,7 +571,7 @@ class NeuralIntegrator:
                 event_type="neural_insights",
                 source_module="neural",
                 data=neural_insights,
-                priority=IntegrationPriority.MEDIUM
+                priority=IntegrationPriority.MEDIUM,
             )
 
             await self.consciousness_integrator.submit_event(event)
@@ -560,8 +592,10 @@ class NeuralIntegrator:
 
                 for pattern in recent_patterns:
                     # Quantum-enhanced feature extraction
-                    enhanced_features = await self.quantum_inspired_processor.enhance_features(
-                        pattern.features
+                    enhanced_features = (
+                        await self.quantum_inspired_processor.enhance_features(
+                            pattern.features
+                        )
                     )
 
                     # Update pattern with enhanced features
@@ -590,8 +624,7 @@ class NeuralIntegrator:
                 for _ in range(10):  # Process up to 10 items per cycle
                     try:
                         item = await asyncio.wait_for(
-                            self.processing_queue.get(),
-                            timeout=0.1
+                            self.processing_queue.get(), timeout=0.1
                         )
                         await self._process_queue_item(item)
                     except asyncio.TimeoutError:
@@ -605,28 +638,32 @@ class NeuralIntegrator:
         """Process a single queue item"""
         # Process different types of queue items
         if isinstance(item, dict):
-            if item.get('type') == 'pattern':
-                await self._learn_pattern(item['data'])
-            elif item.get('type') == 'training':
-                await self._train_networks_on_pattern(item['data'])
+            if item.get("type") == "pattern":
+                await self._learn_pattern(item["data"])
+            elif item.get("type") == "training":
+                await self._train_networks_on_pattern(item["data"])
 
     async def _prune_patterns(self):
         """Prune old or low-confidence patterns"""
         # Sort patterns by access count and confidence
         sorted_patterns = sorted(
             self.pattern_database.items(),
-            key=lambda x: (x[1].access_count, x[1].confidence)
+            key=lambda x: (x[1].access_count, x[1].confidence),
         )
 
         # Remove oldest/lowest patterns
-        patterns_to_remove = len(sorted_patterns) - self.config["processing"]["max_patterns"]
+        patterns_to_remove = (
+            len(sorted_patterns) - self.config["processing"]["max_patterns"]
+        )
         for i in range(patterns_to_remove):
             pattern_id, _ = sorted_patterns[i]
             del self.pattern_database[pattern_id]
 
         logger.info(f"Pruned {patterns_to_remove} patterns from database")
 
-    async def process_input(self, input_data: np.ndarray, context: NeuralContext) -> Dict[str, Any]:
+    async def process_input(
+        self, input_data: np.ndarray, context: NeuralContext
+    ) -> Dict[str, Any]:
         """Process input through neural networks"""
         results = {}
 
@@ -641,23 +678,27 @@ class NeuralIntegrator:
                 with torch.no_grad():
                     output = network(input_tensor)
 
-                results['output'] = output.numpy()
-                results['confidence'] = float(torch.max(output))
+                results["output"] = output.numpy()
+                results["confidence"] = float(torch.max(output))
 
                 # Find similar patterns
                 similar_patterns = await self._find_similar_patterns(input_data)
-                results['similar_patterns'] = similar_patterns
+                results["similar_patterns"] = similar_patterns
 
             else:
-                logger.warning(f"No neural network found for architecture: {context.architecture_type}")
+                logger.warning(
+                    f"No neural network found for architecture: {context.architecture_type}"
+                )
 
         except Exception as e:
             logger.error(f"Error processing input: {e}")
-            results['error'] = str(e)
+            results["error"] = str(e)
 
         return results
 
-    async def _find_similar_patterns(self, input_features: np.ndarray) -> List[Dict[str, Any]]:
+    async def _find_similar_patterns(
+        self, input_features: np.ndarray
+    ) -> List[Dict[str, Any]]:
         """Find patterns similar to input features"""
         similar_patterns = []
         threshold = self.config["processing"]["pattern_similarity_threshold"]
@@ -669,37 +710,42 @@ class NeuralIntegrator:
             )
 
             if similarity > threshold:
-                similar_patterns.append({
-                    'id': pattern.id,
-                    'type': pattern.pattern_type,
-                    'similarity': float(similarity),
-                    'confidence': pattern.confidence,
-                    'associations': pattern.associations
-                })
+                similar_patterns.append(
+                    {
+                        "id": pattern.id,
+                        "type": pattern.pattern_type,
+                        "similarity": float(similarity),
+                        "confidence": pattern.confidence,
+                        "associations": pattern.associations,
+                    }
+                )
 
         # Sort by similarity
-        similar_patterns.sort(key=lambda x: x['similarity'], reverse=True)
+        similar_patterns.sort(key=lambda x: x["similarity"], reverse=True)
         return similar_patterns[:5]  # Return top 5
 
     async def get_neural_status(self) -> Dict[str, Any]:
         """Get current neural processing status"""
         return {
-            'integrator_id': self.integrator_id,
-            'current_mode': self.current_mode.value,
-            'active_processes': self.active_processes,
-            'neural_networks': {
+            "integrator_id": self.integrator_id,
+            "current_mode": self.current_mode.value,
+            "active_processes": self.active_processes,
+            "neural_networks": {
                 name: {
-                    'architecture': network.hidden_sizes,
-                    'performance': np.mean(metrics[-10:]) if metrics else 0.0
+                    "architecture": network.hidden_sizes,
+                    "performance": np.mean(metrics[-10:]) if metrics else 0.0,
                 }
                 for name, (network, metrics) in zip(
                     self.neural_networks.keys(),
-                    [(n, self.performance_metrics[name]) for n in self.neural_networks.values()]
+                    [
+                        (n, self.performance_metrics[name])
+                        for n in self.neural_networks.values()
+                    ],
                 )
             },
-            'pattern_database_size': len(self.pattern_database),
-            'queue_size': self.processing_queue.qsize(),
-            'uptime': (datetime.now() - self.start_time).total_seconds()
+            "pattern_database_size": len(self.pattern_database),
+            "queue_size": self.processing_queue.qsize(),
+            "uptime": (datetime.now() - self.start_time).total_seconds(),
         }
 
     async def shutdown(self):
@@ -713,8 +759,10 @@ class NeuralIntegrator:
 
         logger.info("Neural integrator shutdown complete")
 
+
 # Global instance for easy access
 neural_integrator: Optional[NeuralIntegrator] = None
+
 
 async def get_neural_integrator() -> NeuralIntegrator:
     """Get or create the global neural integrator instance"""
@@ -723,6 +771,7 @@ async def get_neural_integrator() -> NeuralIntegrator:
         neural_integrator = NeuralIntegrator()
         await neural_integrator.initialize_components()
     return neural_integrator
+
 
 if __name__ == "__main__":
     # Test the neural integrator
@@ -739,13 +788,15 @@ if __name__ == "__main__":
             output_dimensions=(128,),
             processing_parameters={},
             memory_context={},
-            emotional_context={}
+            emotional_context={},
         )
 
         # Process test input
         test_input = np.random.randn(512)
         results = await integrator.process_input(test_input, context)
-        print(f"Neural Processing Results: {json.dumps(results, indent=2, default=str)}")
+        print(
+            f"Neural Processing Results: {json.dumps(results, indent=2, default=str)}"
+        )
 
         # Let it run for a bit
         await asyncio.sleep(5.0)

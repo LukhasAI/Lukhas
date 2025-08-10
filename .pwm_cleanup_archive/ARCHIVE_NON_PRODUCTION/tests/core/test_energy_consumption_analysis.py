@@ -24,19 +24,18 @@
 
 import asyncio
 import json
-import pytest
 import time
-from datetime import datetime
-from unittest.mock import Mock, patch, AsyncMock
+
+import pytest
 
 from core.energy_consumption_analysis import (
-    EnergyComponent,
-    EnergyProfile,
-    EnergyMetric,
+    EnergyAwareComponent,
     EnergyBudget,
-    EnergyModel,
+    EnergyComponent,
     EnergyConsumptionAnalyzer,
-    EnergyAwareComponent
+    EnergyMetric,
+    EnergyModel,
+    EnergyProfile,
 )
 
 
@@ -51,7 +50,7 @@ class TestEnergyMetric:
             operation="test_op",
             energy_joules=1.5,
             duration_ms=100.0,
-            metadata={"test": "data"}
+            metadata={"test": "data"},
         )
 
         assert metric.component == EnergyComponent.CPU
@@ -67,7 +66,7 @@ class TestEnergyMetric:
             component=EnergyComponent.CPU,
             operation="test_op",
             energy_joules=1.0,
-            duration_ms=1000.0  # 1 second
+            duration_ms=1000.0,  # 1 second
         )
 
         assert metric.power_watts == 1.0  # 1J/1s = 1W
@@ -79,7 +78,7 @@ class TestEnergyMetric:
             component=EnergyComponent.CPU,
             operation="test_op",
             energy_joules=1.0,
-            duration_ms=0.0
+            duration_ms=0.0,
         )
 
         assert metric.power_watts == 0.0
@@ -93,7 +92,7 @@ class TestEnergyMetric:
             operation="data_transfer",
             energy_joules=0.5,
             duration_ms=50.0,
-            metadata={"bytes": 1024}
+            metadata={"bytes": 1024},
         )
 
         data = metric.to_dict()
@@ -116,8 +115,8 @@ class TestEnergyBudget:
             time_window_seconds=3600.0,
             component_budgets={
                 EnergyComponent.CPU: 400.0,
-                EnergyComponent.MEMORY: 300.0
-            }
+                EnergyComponent.MEMORY: 300.0,
+            },
         )
 
         assert budget.total_budget_joules == 1000.0
@@ -197,7 +196,7 @@ class TestEnergyModel:
 
         # Add enough observations to build model
         for i in range(10):
-            model.record_observation("test_op", 100 + i*10, 1.0 + i*0.1, 10.0)
+            model.record_observation("test_op", 100 + i * 10, 1.0 + i * 0.1, 10.0)
 
         energy, confidence = model.predict_energy("test_op", 150)
         assert energy > 0
@@ -237,11 +236,7 @@ class TestEnergyConsumptionAnalyzer:
     def test_record_energy_consumption(self, analyzer):
         """Test recording energy consumption"""
         analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "test_operation",
-            1.5,
-            100.0,
-            {"test": "metadata"}
+            EnergyComponent.CPU, "test_operation", 1.5, 100.0, {"test": "metadata"}
         )
 
         assert len(analyzer.metrics) == 1
@@ -251,10 +246,7 @@ class TestEnergyConsumptionAnalyzer:
     def test_create_budget(self, analyzer):
         """Test creating energy budgets"""
         budget = analyzer.create_budget(
-            "test_budget",
-            1000.0,
-            3600.0,
-            {EnergyComponent.CPU: 500.0}
+            "test_budget", 1000.0, 3600.0, {EnergyComponent.CPU: 500.0}
         )
 
         assert "test_budget" in analyzer.budgets
@@ -265,12 +257,7 @@ class TestEnergyConsumptionAnalyzer:
         """Test budget consumption tracking"""
         analyzer.create_budget("test_budget", 100.0, 60.0)
 
-        analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "test_op",
-            50.0,
-            10.0
-        )
+        analyzer.record_energy_consumption(EnergyComponent.CPU, "test_op", 50.0, 10.0)
 
         budget = analyzer.budgets["test_budget"]
         assert budget.consumed_joules == 50.0
@@ -285,7 +272,7 @@ class TestEnergyConsumptionAnalyzer:
                 "test_op",
                 1.0 + i * 0.1,
                 10.0,
-                {"input_size": 100 + i * 10}
+                {"input_size": 100 + i * 10},
             )
 
         prediction = analyzer.predict_operation_energy("test_op", 150)
@@ -297,18 +284,8 @@ class TestEnergyConsumptionAnalyzer:
     def test_energy_statistics(self, analyzer):
         """Test energy statistics calculation"""
         # Add test data
-        analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "op1",
-            1.0,
-            10.0
-        )
-        analyzer.record_energy_consumption(
-            EnergyComponent.NETWORK,
-            "op2",
-            0.5,
-            5.0
-        )
+        analyzer.record_energy_consumption(EnergyComponent.CPU, "op1", 1.0, 10.0)
+        analyzer.record_energy_consumption(EnergyComponent.NETWORK, "op2", 0.5, 5.0)
 
         stats = analyzer.get_energy_statistics()
         assert stats["total_energy_joules"] == 1.5
@@ -329,12 +306,7 @@ class TestEnergyConsumptionAnalyzer:
         analyzer.create_budget("test_budget", 100.0, 60.0)
 
         # Consume 85% of budget
-        analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "heavy_op",
-            85.0,
-            100.0
-        )
+        analyzer.record_energy_consumption(EnergyComponent.CPU, "heavy_op", 85.0, 100.0)
 
         # Should trigger recommendations
         assert len(analyzer.recommendations) > 0
@@ -359,12 +331,7 @@ class TestEnergyConsumptionAnalyzer:
     def test_export_metrics(self, analyzer, tmp_path):
         """Test exporting metrics to file"""
         # Add some test data
-        analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "test_op",
-            1.0,
-            10.0
-        )
+        analyzer.record_energy_consumption(EnergyComponent.CPU, "test_op", 1.0, 10.0)
 
         export_file = tmp_path / "energy_metrics.json"
         analyzer.export_metrics(str(export_file))
@@ -383,10 +350,7 @@ class TestEnergyConsumptionAnalyzer:
         """Test carbon footprint calculation"""
         # 3.6MJ = 1kWh
         analyzer.record_energy_consumption(
-            EnergyComponent.CPU,
-            "test_op",
-            3600000.0,  # 1 kWh in joules
-            1000.0
+            EnergyComponent.CPU, "test_op", 3600000.0, 1000.0  # 1 kWh in joules
         )
 
         stats = analyzer.get_energy_statistics()
@@ -408,10 +372,7 @@ class TestEnergyAwareComponent:
             return value * 2
 
         result = await component.execute_with_energy_tracking(
-            "multiply",
-            test_operation,
-            5,
-            input_size=10
+            "multiply", test_operation, 5, input_size=10
         )
 
         assert result == 10
@@ -432,9 +393,7 @@ class TestEnergyAwareComponent:
 
         # First operation should succeed
         result = await component.execute_with_energy_tracking(
-            "expensive_op",
-            expensive_operation,
-            input_size=1000
+            "expensive_op", expensive_operation, input_size=1000
         )
         assert result == "done"
 
@@ -451,11 +410,7 @@ class TestIntegration:
         analyzer = EnergyConsumptionAnalyzer()
 
         # Create budget
-        analyzer.create_budget(
-            "hourly_budget",
-            3600.0,  # 3.6kJ
-            3600.0   # 1 hour
-        )
+        analyzer.create_budget("hourly_budget", 3600.0, 3600.0)  # 3.6kJ  # 1 hour
 
         # Start monitoring
         await analyzer.start_monitoring()
@@ -469,8 +424,7 @@ class TestIntegration:
 
         for component, op, energy, duration in operations:
             analyzer.record_energy_consumption(
-                component, op, energy, duration,
-                {"timestamp": time.time()}
+                component, op, energy, duration, {"timestamp": time.time()}
             )
             await asyncio.sleep(0.01)
 
@@ -505,16 +459,14 @@ class TestIntegration:
 
             for i in range(count):
                 await component.execute_with_energy_tracking(
-                    f"op_{i}",
-                    work,
-                    input_size=i*10
+                    f"op_{i}", work, input_size=i * 10
                 )
 
         # Run multiple components concurrently
         await asyncio.gather(
             simulate_component("comp1", 5),
             simulate_component("comp2", 5),
-            simulate_component("comp3", 5)
+            simulate_component("comp3", 5),
         )
 
         # Verify all operations were tracked
@@ -540,10 +492,7 @@ class TestPerformance:
         # Record 10000 metrics
         for i in range(10000):
             analyzer.record_energy_consumption(
-                EnergyComponent.CPU,
-                f"op_{i % 10}",
-                0.1,
-                1.0
+                EnergyComponent.CPU, f"op_{i % 10}", 0.1, 1.0
             )
 
         elapsed = time.time() - start_time
@@ -564,7 +513,7 @@ class TestPerformance:
                 EnergyComponent.CPU if i % 2 else EnergyComponent.NETWORK,
                 f"op_{i % 20}",
                 0.1 + (i % 10) * 0.01,
-                1.0 + (i % 5)
+                1.0 + (i % 5),
             )
 
         start_time = time.time()

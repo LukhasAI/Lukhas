@@ -37,7 +37,7 @@ try:
         print(f'   Innovation Score: {solution["innovation_score"]}/10')
         print(f'   Feasibility: {solution["feasibility"]}/10')
 
-    print(f"\n📊 Creativity Metrics:")
+    print("\n📊 Creativity Metrics:")
     print(
         f'   Average Innovation Score: {sum(s["innovation_score"] for s in solutions) / len(solutions):.1f}/10'
     )

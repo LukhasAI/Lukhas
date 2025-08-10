@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS Glyph Engine - Simple wrapper for the GLYPH system
 Provides high-level interface for concept encoding and glyph operations
 """
 
-from typing import Dict, Any, Optional
-from .glyph import Glyph, GlyphFactory, GlyphType, EmotionVector
 import hashlib
 import json
+from typing import Dict, Optional
+
+from .glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
+
 
 class GlyphEngine:
     """
@@ -22,7 +23,9 @@ class GlyphEngine:
         self.factory = GlyphFactory()
         self._glyph_cache = {}
 
-    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None) -> str:
+    def encode_concept(
+        self, concept: str, emotion: Optional[Dict[str, float]] = None
+    ) -> str:
         """
         Encode a concept into a GLYPH representation.
 
@@ -39,36 +42,40 @@ class GlyphEngine:
             emotion_vector = EmotionVector(**emotion)
 
         # Create appropriate glyph based on concept type
-        if any(word in concept.lower() for word in ['remember', 'memory', 'recall']):
+        if any(word in concept.lower() for word in ["remember", "memory", "recall"]):
             glyph = self.factory.create_memory_glyph(concept, emotion_vector)
-        elif any(word in concept.lower() for word in ['feel', 'emotion', 'mood']):
-            glyph = self.factory.create_emotion_glyph(emotion_vector or EmotionVector(intensity=0.5))
-        elif any(word in concept.lower() for word in ['think', 'consciousness', 'aware']):
+        elif any(word in concept.lower() for word in ["feel", "emotion", "mood"]):
+            glyph = self.factory.create_emotion_glyph(
+                emotion_vector or EmotionVector(intensity=0.5)
+            )
+        elif any(
+            word in concept.lower() for word in ["think", "consciousness", "aware"]
+        ):
             # Create a consciousness/thought glyph
             glyph = Glyph(
                 glyph_type=GlyphType.CAUSAL,
                 symbol="🧠",
                 emotion_vector=emotion_vector or EmotionVector(),
-                semantic_tags={concept}
+                semantic_tags={concept},
             )
         else:
             # Default to action glyph
             glyph = self.factory.create_action_glyph(
-                action_type=concept,
-                parameters={},
-                required_tier=1
+                action_type=concept, parameters={}, required_tier=1
             )
 
         # Generate symbolic hash
         glyph_data = {
-            'id': glyph.id,
-            'type': glyph.glyph_type.value,
-            'symbol': glyph.symbol,
-            'concept': concept
+            "id": glyph.id,
+            "type": glyph.glyph_type.value,
+            "symbol": glyph.symbol,
+            "concept": concept,
         }
 
         # Create a readable GLYPH representation
-        glyph_hash = hashlib.sha256(json.dumps(glyph_data, sort_keys=True).encode()).hexdigest()[:8]
+        glyph_hash = hashlib.sha256(
+            json.dumps(glyph_data, sort_keys=True).encode()
+        ).hexdigest()[:8]
         glyph_repr = f"GLYPH[{glyph.symbol}:{glyph_hash}]"
 
         # Cache the glyph
@@ -88,7 +95,9 @@ class GlyphEngine:
         """
         return self._glyph_cache.get(glyph_repr)
 
-    def create_memory_glyph(self, memory_content: str, emotion: Optional[Dict[str, float]] = None) -> Glyph:
+    def create_memory_glyph(
+        self, memory_content: str, emotion: Optional[Dict[str, float]] = None
+    ) -> Glyph:
         """Create a memory-specific glyph."""
         emotion_vector = EmotionVector(**emotion) if emotion else None
         return self.factory.create_memory_glyph(memory_content, emotion_vector)
@@ -100,4 +109,4 @@ class GlyphEngine:
 
 
 # Export the GlyphEngine as the main interface
-__all__ = ['GlyphEngine']
+__all__ = ["GlyphEngine"]

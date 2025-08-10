@@ -7,15 +7,16 @@ Please use lukhas.memory.EmotionalMemoryManager instead.
 """
 
 import warnings
+
 warnings.warn(
     "lukhas.memory.systems.emotional_memory_manager is deprecated and will be removed in v2.0.0. "
     "Please use lukhas.memory.EmotionalMemoryManager instead. "
     "The new implementation provides enhanced emotional state tracking and memory-emotion integration.",
     DeprecationWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, Optional
 
 
 class EmotionalModulator:

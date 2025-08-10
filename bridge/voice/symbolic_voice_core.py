@@ -1,9 +1,10 @@
-import requests
-import os
-import sys
-import uuid
 import json
+import os
 import subprocess
+import sys
+
+import requests
+
 from core.common import get_logger
 
 # Configure logging
@@ -13,27 +14,30 @@ API_KEY = os.getenv("VOICE_SYSTEMS_API_KEY", "")
 LUKHAS = {
     "name": "Lukhas",
     "persona": "Symbolic AGI Voice",
-    "voice_id": os.getenv("LUKHAS_VOICE_ID", "")
+    "voice_id": os.getenv("LUKHAS_VOICE_ID", ""),
 }
 
 VOICES = {
     "lukhas_core": {
         "id": os.getenv("LUKHAS_CORE_VOICE_ID", ""),  # Original Lukhas voice
-        "style": "default"
+        "style": "default",
     },
     "dream_lukhas": {
         "id": os.getenv("DREAM_LUCAS_VOICE_ID", ""),  # Quiet, crackling fire intimacy
-        "style": "narration"
+        "style": "narration",
     },
     "guardian_lukhas": {
         "id": os.getenv("GUARDIAN_LUCAS_VOICE_ID", ""),  # Strong, noble, protector
-        "style": "news"
+        "style": "news",
     },
     "reflective_lukhas": {
-        "id": os.getenv("REFLECTIVE_LUCAS_VOICE_ID", ""),  # British, melancholic, articulate
-        "style": "conversational"
-    }
+        "id": os.getenv(
+            "REFLECTIVE_LUCAS_VOICE_ID", ""
+        ),  # British, melancholic, articulate
+        "style": "conversational",
+    },
 }
+
 
 def speak(text, traits=None):
     if not text:
@@ -41,7 +45,6 @@ def speak(text, traits=None):
 
     stability = 0.6
     similarity_boost = 0.8
-    style = "default"
 
     if traits:
         if traits.get("openness", 0) > 0.75:
@@ -84,10 +87,7 @@ def speak(text, traits=None):
 
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{selected_voice['id']}"
 
-    headers = {
-        "xi-api-key": API_KEY,
-        "Content-Type": "application/json"
-    }
+    headers = {"xi-api-key": API_KEY, "Content-Type": "application/json"}
 
     payload = {
         "text": text,
@@ -95,8 +95,8 @@ def speak(text, traits=None):
         "voice_settings": {
             "stability": stability,
             "similarity_boost": similarity_boost,
-            "style": selected_voice["style"]
-        }
+            "style": selected_voice["style"],
+        },
     }
 
     response = requests.post(url, json=payload, headers=headers, timeout=30)
@@ -108,12 +108,14 @@ def speak(text, traits=None):
     logger.info("🧪 Response size:", len(response.content))
 
     if response.status_code == 200 and response.content:
-        audio_file = f"/tmp/cove-last.mp3"
+        audio_file = "/tmp/cove-last.mp3"
         logger.info("✅ Writing audio file...")
         try:
             with open(audio_file, "wb") as f:
                 f.write(response.content)
-            logger.info(f"🔉 Audio saved at: {audio_file} ({len(response.content)} bytes)")
+            logger.info(
+                f"🔉 Audio saved at: {audio_file} ({len(response.content)} bytes)"
+            )
 
             script_path = "/tmp/play_last_audio.sh"
             with open(script_path, "w") as script:
@@ -130,7 +132,9 @@ def speak(text, traits=None):
                 except FileNotFoundError:
                     logger.warning("⚠️ pbcopy command not found (macOS only)")
             else:
-                logger.error("❌ Audio file was not created despite successful response.")
+                logger.error(
+                    "❌ Audio file was not created despite successful response."
+                )
         except Exception as e:
             logger.error("❌ Error saving audio file:", e)
     else:
@@ -140,6 +144,7 @@ def speak(text, traits=None):
             logger.error("📜 Response body:", response.json())
         except Exception:
             logger.error("📜 Raw response:", response.text)
+
 
 if __name__ == "__main__":
     message = sys.argv[1] if len(sys.argv) > 1 else "Hello, Gonzo."

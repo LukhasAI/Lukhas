@@ -5,7 +5,6 @@ Shows how to retrofit existing code with universal audit trail embedding
 """
 
 import asyncio
-import json
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -191,9 +190,7 @@ class ConnectivityAssessmentWithAudits:
         """Evaluate if files can be safely consolidated (your existing logic)"""
 
         # Safety criteria (your existing logic)
-        if risk_level == "high":
-            return False
-        elif risk_level == "medium" and len(files) > 5:
+        if risk_level == "high" or risk_level == "medium" and len(files) > 5:
             return False
         else:
             return True
@@ -204,15 +201,15 @@ class ConnectivityAssessmentWithAudits:
         print("\n📋 CONNECTIVITY ASSESSMENT REPORT WITH AUDIT TRAILS")
         print("=" * 60)
 
-        print(f"\n📊 Decision Summary:")
+        print("\n📊 Decision Summary:")
         print(f"   Total Decisions Made: {len(self.decisions_made)}")
         print(f"   Audit Trails Generated: {len(self.audit_system.audit_trails)}")
         print(f"   Event Bus Messages: {len(self.audit_system.event_bus_messages)}")
-        print(f"   Average Colony Consensus: 94%")
-        print(f"   Average Swarm Confidence: 91%")
-        print(f"   Compliance Rate: 100%")
+        print("   Average Colony Consensus: 94%")
+        print("   Average Swarm Confidence: 91%")
+        print("   Compliance Rate: 100%")
 
-        print(f"\n🔍 Detailed Audit Trail:")
+        print("\n🔍 Detailed Audit Trail:")
         for i, decision in enumerate(self.decisions_made, 1):
             print(
                 f"   {i}. {decision['context']['category'].replace('_', ' ').title()}"
@@ -220,7 +217,7 @@ class ConnectivityAssessmentWithAudits:
             print(f"      Decision: {decision['outcome']['decision']}")
             print(f"      Audit ID: {decision['audit_id']}")
             print(f"      Confidence: {decision['outcome']['confidence']}")
-            print(f"      Full audit trail available in colony storage")
+            print("      Full audit trail available in colony storage")
             print()
 
         print("✅ Every decision fully traceable and compliant!")

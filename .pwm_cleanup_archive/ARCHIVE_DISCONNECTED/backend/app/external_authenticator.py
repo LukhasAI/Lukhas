@@ -14,6 +14,7 @@ from datetime import datetime
 
 external_sessions = {}
 
+
 def initiate_external_auth(user_id: int, service_name: str):
     """
     Symbolically initiate an OAuth handshake for a cloud service (e.g., Google Drive, Dropbox).
@@ -23,10 +24,11 @@ def initiate_external_auth(user_id: int, service_name: str):
         "user_id": user_id,
         "service": service_name,
         "initiated_at": str(datetime.utcnow()),
-        "status": "pending"
+        "status": "pending",
     }
     print(f"🔗 External auth initiated for {service_name}: session {session_id}")
     return session_id
+
 
 def confirm_external_auth(session_id: str, token_data: dict):
     """
@@ -35,23 +37,28 @@ def confirm_external_auth(session_id: str, token_data: dict):
     if session_id not in external_sessions:
         raise ValueError("Invalid session ID for external auth.")
 
-    external_sessions[session_id].update({
-        "status": "active",
-        "token": token_data,
-        "confirmed_at": str(datetime.utcnow())
-    })
+    external_sessions[session_id].update(
+        {
+            "status": "active",
+            "token": token_data,
+            "confirmed_at": str(datetime.utcnow()),
+        }
+    )
     print(f"✅ External auth confirmed: {session_id}")
     return external_sessions[session_id]
+
 
 def list_active_auth_services(user_id: int):
     """
     List all active symbolic external auth services linked to a LUKHASID user.
     """
     services = [
-        session for session in external_sessions.values()
+        session
+        for session in external_sessions.values()
         if session["user_id"] == user_id and session["status"] == "active"
     ]
     return services
+
 
 # ===============================================================
 # 💾 HOW TO USE

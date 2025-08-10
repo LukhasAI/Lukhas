@@ -129,7 +129,7 @@ def generate_migration_summary():
     ethics_tasks = extract_tasks_from_ethics_todo()
     code_todos = extract_code_todos()
 
-    print(f"\n📊 **Sources Found:**")
+    print("\n📊 **Sources Found:**")
     print(f"- REALITY_TODO.md: {len(reality_tasks)} pending tasks")
     print(f"- DEVELOPMENT_CHECKLIST.md: {len(dev_tasks)} tasks")
     print(f"- ethics/TODO.md: {len(ethics_tasks)} tasks")
@@ -140,7 +140,7 @@ def generate_migration_summary():
     )
     print(f"\n🎯 **Total Tasks to Consolidate**: {total_tasks}")
 
-    print(f"\n📋 **High-Priority Code TODOs:**")
+    print("\n📋 **High-Priority Code TODOs:**")
     priority_keywords = ["auth", "security", "performance", "integration", "tier"]
 
     priority_todos = [
@@ -155,7 +155,7 @@ def generate_migration_summary():
         print(f"  📝 {desc}")
         print()
 
-    print(f"\n✅ **Migration Status:**")
+    print("\n✅ **Migration Status:**")
     print("- ✅ MASTER_TASK_TRACKER.md created")
     print("- ⏳ Task migration needed")
     print("- ⏳ Source file consolidation pending")
@@ -220,7 +220,7 @@ def main():
     # Analyze tasks
     summary = generate_migration_summary()
 
-    print(f"\n🎯 **Next Steps:**")
+    print("\n🎯 **Next Steps:**")
     print("1. Review the analysis above")
     print("2. Manually migrate high-priority tasks to MASTER_TASK_TRACKER.md")
     print("3. Run this script with --consolidate to mark source files")
@@ -230,7 +230,7 @@ def main():
     import sys
 
     if "--consolidate" in sys.argv:
-        print(f"\n🏗️ **Marking source files as consolidated...**")
+        print("\n🏗️ **Marking source files as consolidated...**")
         create_archive_marker("docs/reports/REALITY_TODO.md")
         create_archive_marker("DEVELOPMENT_CHECKLIST.md")
         create_archive_marker("ethics/TODO.md")

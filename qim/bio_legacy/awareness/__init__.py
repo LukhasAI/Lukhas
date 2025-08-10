@@ -24,7 +24,9 @@ __all__ = [
 # Modules herein should focus on bridging biological signals or concepts
 # with the AGI's awareness and processing streams.
 
-logger.info("ΛTRACE: core.integration.bio_awareness package initialized.", exports=__all__)
+logger.info(
+    "ΛTRACE: core.integration.bio_awareness package initialized.", exports=__all__
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

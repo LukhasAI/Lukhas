@@ -11,17 +11,15 @@ ENHANCEMENT: Renamed to cognitive_core.py as core brain component following nami
 CORE COMPONENT: This is the main cognitive processing engine, not a bot
 """
 
-import asyncio
-import logging
-import uuid
 import hashlib
-from datetime import datetime
-from typing import Dict, List, Any, Optional
-import openai
+import logging
+import os
 
 # Import our organized components
 import sys
-import os
+import uuid
+from datetime import datetime
+from typing import Optional
 
 # Add brain directory to path for imports
 brain_dir = os.path.dirname(os.path.abspath(__file__))
@@ -34,13 +32,14 @@ try:
 except ImportError:
     # Fallback to basic classes if modules don't exist
     from enum import Enum
-    
+
     class AGICapabilityLevel(Enum):
         BASIC = "basic"
         INTERMEDIATE = "intermediate"
         ADVANCED = "advanced"
-    
+
     class AGIResponse:
+
         def __init__(self, content: str = "", confidence: float = 1.0, **kwargs):
             self.content = content
             self.confidence = confidence
@@ -48,9 +47,11 @@ except ImportError:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
+
 # Optional imports - create fallbacks if modules don't exist
 try:
     from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+
     lukhas_openai = UnifiedOpenAIClient()
     OPENAI_AVAILABLE = True
 except ImportError:
@@ -59,78 +60,96 @@ except ImportError:
 try:
     from attention.quantum_attention import QuantumInspiredAttention
 except ImportError:
+
     class QuantumInspiredAttention:
-        def process(self, input_data): return input_data
+
+        def process(self, input_data):
+            return input_data
+
 
 try:
     from reasoning.causal_reasoning import CausalReasoningModule
 except ImportError:
+
     class CausalReasoningModule:
-        def analyze(self, input_data): return {"result": "reasoning applied"}
+
+        def analyze(self, input_data):
+            return {"result": "reasoning applied"}
+
 
 try:
     from reasoning.symbolic_reasoning import SymbolicEngine
 except ImportError:
+
     class SymbolicEngine:
-        def process(self, input_data): return {"symbolic": "processing"}
+
+        def process(self, input_data):
+            return {"symbolic": "processing"}
+
 
 try:
     from orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
 except ImportError:
+
     class MetaCognitiveOrchestrator:
+
         def __init__(self):
             self.components = {}
             self.capability_level = AGICapabilityLevel.INTERMEDIATE
             self.metacognitive_state = {
                 "awareness_level": 0.8,
                 "introspection_depth": 0.7,
-                "self_model_confidence": 0.9
+                "self_model_confidence": 0.9,
             }
-            
+
         def register_component(self, name, component):
             self.components[name] = component
-            
-        def orchestrate(self, input_data, context=None): 
+
+        def orchestrate(self, input_data, context=None):
             # Ensure input_data is a dict
             if isinstance(input_data, str):
                 input_data = {"text": input_data}
-            
+
             return {
-                "meta": "cognitive processing", 
+                "meta": "cognitive processing",
                 "results": "orchestrated",
                 "attention_results": {"attended_data": input_data.get("text", "")},
                 "causal_results": {"primary_cause": "user interaction"},
                 "symbolic_results": {"inferences": ["processing complete"]},
-                "metacognitive_insights": ["user seeking information"]
+                "metacognitive_insights": ["user seeking information"],
             }
-            
+
         def analyze_performance(self, metrics):
             return {"analysis": "performance analyzed"}
+
 
 try:
     from compliance.ethical_engine import ComplianceEngine
 except ImportError:
+
     class ComplianceEngine:
-        def evaluate(self, input_data): 
+
+        def evaluate(self, input_data):
             return {"ethical": "approved", "safe": True}
-            
+
         def check_compliance(self, input_data, response_data):
             return {
                 "is_compliant": True,
                 "issues": [],
                 "confidence": 1.0,
-                "safe": True
+                "safe": True,
             }
+
 
 # Configure logging
 logger = logging.getLogger("CognitiveCore")
 
 # EU AI Act Transparency Integration
 try:
-    from eu_ai_transparency import (
-        transparency_orchestrator, DecisionType, InfluenceLevel,
-        create_transparent_decision
-    )
+    from eu_ai_transparency import DecisionType
+    from eu_ai_transparency import InfluenceLevel
+    from eu_ai_transparency import transparency_orchestrator
+
     EU_TRANSPARENCY_AVAILABLE = True
     logger.info("🇪🇺 EU AI Act transparency system integrated")
 except ImportError:
@@ -158,7 +177,7 @@ class CognitiveEngine:
     RENAMED: From EnhancedAGIBot to CognitiveEngine following naming conventions
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Cognitive Engine with quantum-biological components (ORIGINAL LOGIC)"""
         logger.info(
             "🧠 Initializing Cognitive Engine - Advanced AI System with Quantum-Biological Architecture"
@@ -198,7 +217,10 @@ class CognitiveEngine:
 
         # Initialize Enhanced Brain Integration System
         try:
-            from brain.enhanced_brain_integration import create_enhanced_brain_integration
+            from brain.enhanced_brain_integration import (
+                create_enhanced_brain_integration,
+            )
+
             self.brain_integration = create_enhanced_brain_integration(config)
             logger.info("✅ Enhanced Brain Integration system connected to AI Bot")
         except ImportError as e:
@@ -209,27 +231,27 @@ class CognitiveEngine:
             self.brain_integration = None
 
         logger.info("✅ Cognitive Engine initialized - Session: {}")
-        logger.info(
-            "🎯 Initial Capability Level: {}"
-        )
+        logger.info("🎯 Initial Capability Level: {}")
 
-    def _generate_safe_response(self, compliance_result: Dict) -> str:
+    def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails (ORIGINAL LOGIC)"""
         return "I apologize, but I cannot provide a response that meets our safety and ethical guidelines."
 
-    def _update_conversation_history(self, input_data: Dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
         if isinstance(input_data, str):
             input_data = {"text": input_data}
-        
+
         self.conversation_history.append(
             {
                 "timestamp": datetime.now().isoformat(),
                 "input": input_data.get("text", ""),
                 "response": agi_response.content,
                 "confidence": agi_response.confidence,
-                "capability_level": getattr(agi_response, 'capability_level', AGICapabilityLevel.BASIC).value,
+                "capability_level": getattr(
+                    agi_response, "capability_level", AGICapabilityLevel.BASIC
+                ).value,
             }
         )
         # Keep only last 50 conversations
@@ -244,18 +266,21 @@ class CognitiveEngine:
             self.performance_metrics["average_confidence"] = new_avg
 
     async def _continuous_learning_update(
-        self, input_data: Dict, agi_response: AGIResponse, orchestration_result: Dict
+        self,
+        input_data: dict,
+        agi_response: AGIResponse,
+        orchestration_result: dict,
     ):
         """Perform continuous learning updates (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
         if isinstance(input_data, str):
             input_data = {"text": input_data}
-            
+
         # Update learning memory with successful patterns
         if agi_response.confidence > 0.8:
-            pattern_key = hashlib.sha256(input_data.get("text", "").encode()).hexdigest()[
-                :16
-            ]
+            pattern_key = hashlib.sha256(
+                input_data.get("text", "").encode()
+            ).hexdigest()[:16]
             self.learning_memory[pattern_key] = {
                 "input_pattern": input_data.get("text", "")[:100],
                 "successful_response": agi_response.content[:100],
@@ -270,7 +295,7 @@ class CognitiveEngine:
                 )
                 del self.learning_memory[oldest_key]
 
-    def get_agi_status(self) -> Dict:
+    def get_agi_status(self) -> dict:
         """Get comprehensive AI system status (ORIGINAL LOGIC)"""
         return {
             "session_id": self.session_id,
@@ -288,7 +313,7 @@ class CognitiveEngine:
     async def process_input(
         self,
         user_input: str,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
         user_id: Optional[str] = None,
     ) -> AGIResponse:
         """
@@ -310,40 +335,49 @@ class CognitiveEngine:
             trace_id = transparency_orchestrator.start_decision_trace(
                 DecisionType.COGNITIVE_PROCESSING,
                 user_input,
-                {"user_id": user_id, "context": context, "session_id": self.session_id}
+                {
+                    "user_id": user_id,
+                    "context": context,
+                    "session_id": self.session_id,
+                },
             )
-            
+
             trace = transparency_orchestrator.get_trace(trace_id)
             if trace:
                 trace.add_reasoning_step(
                     "Initializing cognitive processing pipeline",
                     {
-                        "input_length": len(user_input), 
+                        "input_length": len(user_input),
                         "has_context": bool(context),
                         "user_identified": bool(user_id),
-                        "session_id": self.session_id
+                        "session_id": self.session_id,
                     },
-                    weight=0.9
+                    weight=0.9,
                 )
-                
+
                 trace.add_data_influence(
-                    "user_input", user_input, InfluenceLevel.CRITICAL,
-                    "User input directly determines cognitive processing path and response content"
+                    "user_input",
+                    user_input,
+                    InfluenceLevel.CRITICAL,
+                    "User input directly determines cognitive processing path and response content",
                 )
-                
+
                 if context:
                     trace.add_data_influence(
-                        "context", context, InfluenceLevel.SIGNIFICANT,
-                        "Context information influences response personalization and accuracy"
+                        "context",
+                        context,
+                        InfluenceLevel.SIGNIFICANT,
+                        "Context information influences response personalization and accuracy",
                     )
-                
+
                 trace.add_safety_check(
-                    "Input validation", True,
-                    "User input passed initial safety and format validation"
+                    "Input validation",
+                    True,
+                    "User input passed initial safety and format validation",
                 )
 
         logger.info(f"🔍 Processing input: {user_input[:100]}...")
-        
+
         # EU Transparency: Log processing method decision
         if trace_id and transparency_orchestrator:
             trace = transparency_orchestrator.get_trace(trace_id)
@@ -352,9 +386,9 @@ class CognitiveEngine:
                     "Selecting processing method based on system capabilities",
                     {
                         "brain_integration_available": bool(self.brain_integration),
-                        "openai_available": OPENAI_AVAILABLE
+                        "openai_available": OPENAI_AVAILABLE,
                     },
-                    weight=0.8
+                    weight=0.8,
                 )
 
         # Prepare input data structure
@@ -375,8 +409,12 @@ class CognitiveEngine:
             if self.brain_integration:
                 try:
                     logger.info("🧠 Processing through Enhanced Brain Integration...")
-                    brain_integration_result = await self.brain_integration.process_with_symphony(input_data)
-                    logger.info(f"✅ Brain integration: {brain_integration_result['processing_type']}")
+                    brain_integration_result = (
+                        await self.brain_integration.process_with_symphony(input_data)
+                    )
+                    logger.info(
+                        f"✅ Brain integration: {brain_integration_result['processing_type']}"
+                    )
                 except Exception as e:
                     logger.warning(f"Brain integration processing failed: {e}")
                     brain_integration_result = None
@@ -391,15 +429,16 @@ class CognitiveEngine:
                 openai_enhancement = lukhas_openai.generate_comprehensive_response(
                     user_input, context
                 )
-                if openai_enhancement and not openai_enhancement.get('error'):
+                if openai_enhancement and not openai_enhancement.get("error"):
                     logger.info("✅ OpenAI enhancement successful")
                 else:
                     logger.warning("⚠️ OpenAI enhancement failed, using fallback")
 
             # Generate response content (enhanced or fallback)
-            if openai_enhancement and not openai_enhancement.get('error'):
-                response_content = openai_enhancement.get('final_response', 
-                    f"I understand your input: '{user_input}'. Let me process this through my consciousness and reasoning systems."
+            if openai_enhancement and not openai_enhancement.get("error"):
+                response_content = openai_enhancement.get(
+                    "final_response",
+                    f"I understand your input: '{user_input}'. Let me process this through my consciousness and reasoning systems.",
                 )
             else:
                 response_content = await self._generate_response_content(
@@ -422,12 +461,14 @@ class CognitiveEngine:
                 content=response_content,
                 confidence=orchestration_result.get("overall_confidence", 0.8),
                 reasoning_path=orchestration_result.get("reasoning_path", []),
-                metacognitive_state=getattr(self.orchestrator, 'metacognitive_state', {}),
+                metacognitive_state=getattr(
+                    self.orchestrator, "metacognitive_state", {}
+                ),
                 ethical_compliance=compliance_result,
                 capability_level=self.orchestrator.capability_level,
                 processing_time=processing_time,
             )
-            
+
             # 🇪🇺 EU AI Act Transparency - Complete decision trace
             if EU_TRANSPARENCY_AVAILABLE and transparency_orchestrator and trace_id:
                 trace = transparency_orchestrator.get_trace(trace_id)
@@ -438,60 +479,80 @@ class CognitiveEngine:
                         {
                             "final_confidence": agi_response.confidence,
                             "processing_time_seconds": processing_time,
-                            "compliance_passed": compliance_result.get("is_compliant", True),
+                            "compliance_passed": compliance_result.get(
+                                "is_compliant", True
+                            ),
                             "components_used": {
-                                "openai_enhanced": getattr(agi_response, 'openai_enhanced', False),
-                                "brain_integration": getattr(agi_response, 'brain_integration_enhanced', False),
-                                "metacognitive": bool(getattr(self.orchestrator, 'metacognitive_state', {}))
-                            }
+                                "openai_enhanced": getattr(
+                                    agi_response, "openai_enhanced", False
+                                ),
+                                "brain_integration": getattr(
+                                    agi_response,
+                                    "brain_integration_enhanced",
+                                    False,
+                                ),
+                                "metacognitive": bool(
+                                    getattr(
+                                        self.orchestrator,
+                                        "metacognitive_state",
+                                        {},
+                                    )
+                                ),
+                            },
                         },
-                        weight=1.0
+                        weight=1.0,
                     )
-                    
+
                     # Add confidence factors
                     trace.add_confidence_factor(
-                        "Orchestration confidence", agi_response.confidence - 0.5,
-                        f"Base orchestration confidence: {agi_response.confidence}"
+                        "Orchestration confidence",
+                        agi_response.confidence - 0.5,
+                        f"Base orchestration confidence: {agi_response.confidence}",
                     )
-                    
+
                     trace.add_confidence_factor(
-                        "Processing time", -0.1 if processing_time > 5.0 else 0.1,
-                        f"Processing completed in {processing_time:.2f} seconds"
+                        "Processing time",
+                        -0.1 if processing_time > 5.0 else 0.1,
+                        f"Processing completed in {processing_time:.2f} seconds",
                     )
-                    
+
                     # Add safety checks
                     trace.add_safety_check(
-                        "Ethical compliance", compliance_result.get("is_compliant", True),
-                        f"Compliance check result: {compliance_result}"
+                        "Ethical compliance",
+                        compliance_result.get("is_compliant", True),
+                        f"Compliance check result: {compliance_result}",
                     )
-                    
+
                     trace.add_safety_check(
-                        "Content safety", True,
-                        "Response content passed safety validation"
+                        "Content safety",
+                        True,
+                        "Response content passed safety validation",
                     )
-                    
+
                     # Complete the trace
                     transparency_explanation = transparency_orchestrator.complete_trace(
                         trace_id,
                         response_content,
                         agi_response.confidence,
-                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps)} reasoning steps"
+                        f"Cognitive processing completed successfully with {len(trace.reasoning_steps)} reasoning steps",
                     )
-                    
+
                     # Add transparency to response
                     agi_response.transparency = transparency_explanation
                     agi_response.eu_ai_act_compliant = True
                     agi_response.decision_trace_id = trace_id
 
             # Add OpenAI enhancement data if available
-            if openai_enhancement and not openai_enhancement.get('error'):
+            if openai_enhancement and not openai_enhancement.get("error"):
                 agi_response.openai_enhanced = True
                 agi_response.enhancement_data = {
-                    'reasoning': openai_enhancement.get('reasoning_data', {}),
-                    'consciousness': openai_enhancement.get('consciousness_data', {}),
-                    'ethics': openai_enhancement.get('ethics_data', {}),
-                    'memory': openai_enhancement.get('memory_data', {}),
-                    'integration_success': openai_enhancement.get('integration_success', False)
+                    "reasoning": openai_enhancement.get("reasoning_data", {}),
+                    "consciousness": openai_enhancement.get("consciousness_data", {}),
+                    "ethics": openai_enhancement.get("ethics_data", {}),
+                    "memory": openai_enhancement.get("memory_data", {}),
+                    "integration_success": openai_enhancement.get(
+                        "integration_success", False
+                    ),
                 }
             else:
                 agi_response.openai_enhanced = False
@@ -500,12 +561,22 @@ class CognitiveEngine:
             if brain_integration_result:
                 agi_response.brain_integration_enhanced = True
                 agi_response.brain_integration_data = {
-                    'processing_type': brain_integration_result.get('processing_type'),
-                    'coordination_quality': brain_integration_result.get('coordination_quality', 0.0),
-                    'emotional_state': brain_integration_result.get('integrated_result', {}).get('emotional_processing', {}),
-                    'memory_integration': brain_integration_result.get('integrated_result', {}).get('memory_integration', {}),
-                    'symphony_insights': brain_integration_result.get('symphony_result', {}).get('synthesized_insights', []),
-                    'voice_modulation': brain_integration_result.get('integrated_result', {}).get('voice_modulation', {})
+                    "processing_type": brain_integration_result.get("processing_type"),
+                    "coordination_quality": brain_integration_result.get(
+                        "coordination_quality", 0.0
+                    ),
+                    "emotional_state": brain_integration_result.get(
+                        "integrated_result", {}
+                    ).get("emotional_processing", {}),
+                    "memory_integration": brain_integration_result.get(
+                        "integrated_result", {}
+                    ).get("memory_integration", {}),
+                    "symphony_insights": brain_integration_result.get(
+                        "symphony_result", {}
+                    ).get("synthesized_insights", []),
+                    "voice_modulation": brain_integration_result.get(
+                        "integrated_result", {}
+                    ).get("voice_modulation", {}),
                 }
             else:
                 agi_response.brain_integration_enhanced = False
@@ -525,7 +596,8 @@ class CognitiveEngine:
                 self.performance_metrics["successful_responses"] += 1
 
             logger.info(
-                f"✅ Response generated - Confidence: {agi_response.confidence:.2f}, Level: {agi_response.capability_level.value}"
+                f"✅ Response generated - Confidence: {agi_response.confidence: .2f},
+                Level: {agi_response.capability_level.value}"
             )
 
             return agi_response
@@ -543,21 +615,22 @@ class CognitiveEngine:
                         {
                             "error_type": type(e).__name__,
                             "error_message": str(e)[:200],
-                            "processing_stage": "cognitive_orchestration"
+                            "processing_stage": "cognitive_orchestration",
                         },
-                        weight=1.0
+                        weight=1.0,
                     )
-                    
+
                     trace.add_safety_check(
-                        "Error handling", True,
-                        "Error was caught and handled safely without exposing sensitive information"
+                        "Error handling",
+                        True,
+                        "Error was caught and handled safely without exposing sensitive information",
                     )
-                    
+
                     error_transparency = transparency_orchestrator.complete_trace(
                         trace_id,
                         f"Error: {str(e)}",
                         0.1,
-                        f"Processing error was handled transparently: {str(e)}"
+                        f"Processing error was handled transparently: {str(e)}",
                     )
 
             # Generate error response with partial capability
@@ -576,7 +649,7 @@ class CognitiveEngine:
                 capability_level=AGICapabilityLevel.BASIC,
                 processing_time=(datetime.now() - start_time).total_seconds(),
             )
-            
+
             # Add transparency to error response
             if error_transparency:
                 error_response.transparency = error_transparency
@@ -586,37 +659,46 @@ class CognitiveEngine:
 
             return error_response
 
-    def process_input_sync(self, user_input: str, context: Optional[Dict] = None, user_id: Optional[str] = None) -> AGIResponse:
+    def process_input_sync(
+        self,
+        user_input: str,
+        context: Optional[dict] = None,
+        user_id: Optional[str] = None,
+    ) -> AGIResponse:
         """Synchronous wrapper for process_input - for easy testing and simple usage"""
         import asyncio
-        
+
         try:
             # Try to get existing event loop
             loop = asyncio.get_event_loop()
             if loop.is_running():
                 # If loop is already running, we need to use a different approach
                 import concurrent.futures
+
                 with concurrent.futures.ThreadPoolExecutor() as executor:
-                    future = executor.submit(asyncio.run, self.process_input(user_input, context, user_id))
+                    future = executor.submit(
+                        asyncio.run,
+                        self.process_input(user_input, context, user_id),
+                    )
                     return future.result()
             else:
                 # No loop running, we can use asyncio.run
                 return asyncio.run(self.process_input(user_input, context, user_id))
-        except Exception as e:
+        except Exception:
             # Fallback: create a basic response
             return AGIResponse(
                 content=f"I processed your input: '{user_input}'. This is a basic response due to async handling issues.",
-                confidence=0.8
+                confidence=0.8,
             )
 
     async def _generate_response_content(
-        self, orchestration_result: Dict, input_data: Dict
+        self, orchestration_result: dict, input_data: dict
     ) -> str:
         """Generate response content based on orchestration results (ORIGINAL LOGIC)"""
         # Ensure input_data is a dict
         if isinstance(input_data, str):
             input_data = {"text": input_data}
-            
+
         # Extract insights from different reasoning components
         causal_insights = orchestration_result.get("causal_results", {}).get(
             "primary_cause", {}
@@ -663,7 +745,7 @@ class CognitiveEngine:
 
         return " ".join(response_parts)
 
-    async def demonstrate_agi_capabilities(self) -> Dict:
+    async def demonstrate_agi_capabilities(self) -> dict:
         """Demonstrate AI capabilities with comprehensive examples (ORIGINAL LOGIC)"""
         logger.info("🎭 Demonstrating AI Capabilities")
 
@@ -688,28 +770,23 @@ class CognitiveEngine:
             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?"
         )
         demonstrations.append(
-            {
-                "test": "complex_reasoning",
-                "input": "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
-                "response": complex_reasoning_test.content,
-                "confidence": complex_reasoning_test.confidence,
-                "reasoning_steps": len(complex_reasoning_test.reasoning_path),
-            }
-        )
+            {"test": "complex_reasoning",
+             "input":
+             "If artificial intelligence becomes more capable than humans in most domains, what are the potential benefits and risks?",
+             "response": complex_reasoning_test.content,
+             "confidence": complex_reasoning_test.confidence,
+             "reasoning_steps": len(complex_reasoning_test.reasoning_path), })
 
         # Test 3: Creative Problem Solving
         creative_test = await self.process_input(
             "Design a novel solution for helping people collaborate more effectively in remote work environments."
         )
         demonstrations.append(
-            {
-                "test": "creative_problem_solving",
-                "input": "Design a novel solution for helping people collaborate more effectively in remote work environments.",
-                "response": creative_test.content,
-                "confidence": creative_test.confidence,
-                "ethical_compliance": creative_test.ethical_compliance["is_compliant"],
-            }
-        )
+            {"test": "creative_problem_solving",
+             "input":
+             "Design a novel solution for helping people collaborate more effectively in remote work environments.",
+             "response": creative_test.content, "confidence": creative_test.confidence,
+             "ethical_compliance": creative_test.ethical_compliance["is_compliant"], })
 
         return {
             "demonstration_timestamp": datetime.now().isoformat(),
@@ -731,6 +808,8 @@ class CognitiveEngine:
 
 
 # Main execution for testing (ORIGINAL LOGIC)
+
+
 async def main():
     """Main function for testing Enhanced AI Bot (ORIGINAL LOGIC)"""
     try:
@@ -762,7 +841,7 @@ async def main():
             print(f"🤖 Response: {demo['response'][:100]}...")
             print(f"📊 Confidence: {demo.get('confidence', 'N/A')}")
 
-        print(f"\n📈 Overall Performance:")
+        print("\n📈 Overall Performance:")
         perf = demo_results["overall_performance"]
         print(f"   Average Confidence: {perf['average_confidence']:.2f}")
         print(f"   Successful Tests: {perf['successful_tests']}/{perf['total_tests']}")
@@ -778,7 +857,6 @@ async def main():
 
 def run_interactive_session(bot: CognitiveEngine):
     """Run an interactive session with the AI bot."""
-    import sys
 
     print("🚀 Starting interactive AI session...")
     print("Type 'exit' to quit, 'help' for commands\n")
@@ -811,9 +889,7 @@ Available commands:
 
             if user_input.lower() == "test":
                 # Run a simple test
-                response = bot.process_input(
-                    "Hello, test my reasoning capabilities."
-                )
+                response = bot.process_input("Hello, test my reasoning capabilities.")
                 print(f"🤖 AI: {response.content}")
                 continue
 
@@ -864,7 +940,6 @@ if __name__ == "__main__":
     import sys
 
     sys.exit(main())
-
 
 """
 FOOTER DOCUMENTATION:

@@ -5,14 +5,15 @@ This module provides high-level functions for tier-based access control,
 wrapping the tier validator for easier use by other modules.
 """
 
-from typing import Dict, Any, Union
+from typing import Any, Union
+
 from .tier_validator import TierValidator
 
 # Initialize a global tier validator instance
 _tier_validator = TierValidator()
 
 
-def check_access_level(user_id: str, required_tier: int) -> Union[bool, Dict[str, Any]]:
+def check_access_level(user_id: str, required_tier: int) -> Union[bool, dict[str, Any]]:
     """
     Check if a user has the required tier access level.
 
@@ -40,7 +41,7 @@ def check_access_level(user_id: str, required_tier: int) -> Union[bool, Dict[str
             "access": False,
             "error": str(e),
             "user_id": user_id,
-            "required_tier": required_tier
+            "required_tier": required_tier,
         }
 
 

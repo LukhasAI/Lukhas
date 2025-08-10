@@ -1,0 +1,126 @@
+import json
+import os
+import threading
+import time
+from pathlib import Path
+from typing import Any
+from typing import Dict
+from typing import Optional
+
+_FEED_DIR = Path(os.getenv("LUKHAS_FEEDBACK_DIR", ".lukhas_feedback"))
+_FEED_FILE = _FEED_DIR / "feedback.jsonl"
+_LUT_FILE = _FEED_DIR / "lut.json"
+_FEED_DIR.mkdir(parents=True, exist_ok=True)
+_FEED_FILE.touch(exist_ok=True)
+_LUT_LOCK = threading.Lock()
+
+# --- public api ---
+
+
+def record_feedback(card: Dict[str, Any]) -> Dict[str, Any]:
+    """Append a feedback card and update bounded LUT. Returns the updated LUT."""
+    card = _sanitize_card(card)
+    with _LUT_LOCK:
+        _append_jsonl(_FEED_FILE, card)
+        lut = _recompute_lut_locked()
+        _write_json(_LUT_FILE, lut)
+        return lut
+
+
+def get_lut() -> Dict[str, Any]:
+    with _LUT_LOCK:
+        return _read_json(_LUT_FILE) or _default_lut()
+
+
+# --- helpers ---
+
+
+def _sanitize_card(card: Dict[str, Any]) -> Dict[str, Any]:
+    now = int(time.time() * 1000)
+    c = {
+        "target_action_id": str(card.get("target_action_id", ""))[:128],
+        "rating": int(card.get("rating", 0)),
+        "note": str(card.get("note", ""))[:1000],
+        "user_id": str(card.get("user_id", "anon"))[:64],
+        "context_hash": str(card.get("context_hash", ""))[:128],
+        "ts": now,
+    }
+    if c["rating"] < 1:
+        c["rating"] = 1
+    if c["rating"] > 5:
+        c["rating"] = 5
+    c["note"] = c["note"].replace("\n", " ").strip()
+    return c
+
+
+def _append_jsonl(path: Path, obj: Dict[str, Any]):
+    line = json.dumps(obj, ensure_ascii=False)
+    with path.open("a", encoding="utf-8") as f:
+        f.write(line + "\n")
+
+
+def _read_json(path: Path) -> Optional[Dict[str, Any]]:
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text("utf-8"))
+    except Exception:
+        return None
+
+
+def _write_json(path: Path, obj: Dict[str, Any]):
+    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+# --- bounded LUT logic ---
+
+
+def _default_lut() -> Dict[str, Any]:
+    return {
+        "version": 1,
+        "updated_ms": int(time.time() * 1000),
+        "style": {
+            "temperature_delta": 0.0,  # [-0.2, +0.2]
+            "top_p_delta": 0.0,  # [-0.2, +0.2]
+            "memory_write_boost": 0.0,  # [0.0, +0.2]
+            "verbosity_bias": 0.0,  # [-0.3, +0.3] UI hint
+        },
+    }
+
+
+def _recompute_lut_locked() -> Dict[str, Any]:
+    N = 200
+    try:
+        lines = _FEED_FILE.read_text("utf-8").splitlines()[-N:]
+    except Exception:
+        lines = []
+    total, weight_sum = 0.0, 0.0
+    for i, line in enumerate(reversed(lines)):
+        try:
+            card = json.loads(line)
+            r = float(card.get("rating", 3))
+            w = 0.98**i
+            total += (r - 3.0) * w
+            weight_sum += w
+        except Exception:
+            continue
+    delta = (total / weight_sum) if weight_sum else 0.0
+
+    def clamp(v, lo, hi):
+        return max(lo, min(hi, v))
+
+    temp_delta = clamp(0.05 * delta, -0.2, 0.2)
+    top_p_delta = clamp(0.05 * delta, -0.2, 0.2)
+    mem_boost = clamp(0.04 * max(0.0, delta), 0.0, 0.2)
+
+    lut = _default_lut()
+    lut["style"].update(
+        {
+            "temperature_delta": temp_delta,
+            "top_p_delta": top_p_delta,
+            "memory_write_boost": mem_boost,
+            "verbosity_bias": clamp(0.1 * delta, -0.3, 0.3),
+        }
+    )
+    lut["updated_ms"] = int(time.time() * 1000)
+    return lut

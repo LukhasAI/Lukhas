@@ -7,10 +7,12 @@ enforcing rules and constraints on the swarm's behavior. It also includes
 a simple mechanism for dream control.
 """
 
+
 class GovernanceLayer:
     """
     A symbolic firewall that enforces governance rules.
     """
+
     def __init__(self, drift_score_threshold=0.8, max_dream_entropy=0.9):
         self.drift_score_threshold = drift_score_threshold
         self.max_dream_entropy = max_dream_entropy
@@ -30,12 +32,16 @@ class GovernanceLayer:
         """
         if action["type"] == "symbolic_propagation":
             if action["drift_score"] > self.drift_score_threshold:
-                print(f"GovernanceLayer: Denied action due to high drift score: {action['drift_score']}")
+                print(
+                    f"GovernanceLayer: Denied action due to high drift score: {action['drift_score']}"
+                )
                 return False
 
         if action["type"] == "dream_session":
             if action["entropy"] > self.max_dream_entropy:
-                print(f"GovernanceLayer: Denied action due to high dream entropy: {action['entropy']}")
+                print(
+                    f"GovernanceLayer: Denied action due to high dream entropy: {action['entropy']}"
+                )
                 return False
 
         for rule in self.rules:
@@ -44,6 +50,7 @@ class GovernanceLayer:
 
         print("GovernanceLayer: Action approved.")
         return True
+
 
 if __name__ == "__main__":
     governance = GovernanceLayer()

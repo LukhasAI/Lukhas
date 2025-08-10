@@ -53,7 +53,8 @@
 
 from typing import Any, Dict, List, Optional
 
-from .memory_optimization import TieredMemoryCache, MemoryTier
+from .memory_optimization import MemoryTier, TieredMemoryCache
+
 
 # ΛTAG: symbolic_memory_core
 class SymbolAwareTieredMemory:

@@ -44,25 +44,23 @@ import collections
 import dataclasses
 import enum
 import itertools as it
-from core.common import get_logger
 from collections.abc import Iterator
-from typing import Any, cast, Optional, Union
-from typing_extensions import Literal
+from typing import Any, Optional, Union, cast
 
 import torch
 from torch._C import FunctionSchema
 from torch._C._autograd import _ProfilerResult
 from torch._C._profiler import (
+    RecordScope,
     _EventType,
     _ExtraFields_Allocation,
     _ExtraFields_TorchOp,
     _ProfilerEvent,
     _TensorMetadata,
-    RecordScope,
 )
 from torch._utils import _element_size
 from torch.profiler import _utils
-
+from typing_extensions import Literal
 
 KeyAndID = tuple["Key", int]
 TensorAndID = tuple["TensorKey", int]
@@ -280,13 +278,19 @@ class SchemaMatcher:
     def match_schemas(cls, t: _ExtraFields_TorchOp) -> tuple[FunctionSchema, ...]:
         signature = tuple(
             # Tensor
-            TensorKey.from_tensor(i) if isinstance(i, _TensorMetadata)
-            #
-            # TensorList
-            else [TensorKey.from_tensor(j) for j in i] if isinstance(i, list)
-            #
-            # Scalar and uncaptured inputs.
-            else i
+            (
+                TensorKey.from_tensor(i)
+                if isinstance(i, _TensorMetadata)
+                #
+                # TensorList
+                else (
+                    [TensorKey.from_tensor(j) for j in i]
+                    if isinstance(i, list)
+                    #
+                    # Scalar and uncaptured inputs.
+                    else i
+                )
+            )
             for i in t.inputs
         )
 

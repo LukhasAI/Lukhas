@@ -12,8 +12,8 @@ Provides quantum-enhanced bio-oscillator functionality.
 
 import math
 import random
-from typing import Dict, Any, List, Optional, Tuple
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -178,7 +178,9 @@ class QuantumBioOscillator:
 
         # Update quantum-like states
         self.quantum_like_state["entanglement_pairs"].append(entanglement_id)
-        other_oscillator.quantum_like_state["entanglement_pairs"].append(entanglement_id)
+        other_oscillator.quantum_like_state["entanglement_pairs"].append(
+            entanglement_id
+        )
 
         return entanglement_data
 
@@ -207,7 +209,8 @@ class QuantumBioOscillator:
 
             # Calculate entanglement effect based on other oscillator's state
             phase_difference = abs(
-                self.quantum_like_state["phase"] - other_oscillator.quantum_like_state["phase"]
+                self.quantum_like_state["phase"]
+                - other_oscillator.quantum_like_state["phase"]
             )
             correlation_factor = entanglement_data["phase_correlation"]
 
@@ -223,7 +226,9 @@ class QuantumBioOscillator:
         # Apply entanglement effects to quantum-like state
         if active_entanglements > 0:
             avg_effect = total_effect / active_entanglements
-            self.quantum_like_state["phase"] += avg_effect * 0.1  # Small phase adjustment
+            self.quantum_like_state["phase"] += (
+                avg_effect * 0.1
+            )  # Small phase adjustment
             self.quantum_like_state["coherence"] += (
                 avg_effect * 0.05
             )  # Coherence enhancement
@@ -309,7 +314,9 @@ class QuantumBioOscillator:
         self.quantum_like_state["coherence"] *= decoherence_factor
 
         # Ensure coherence doesn't go below minimum
-        self.quantum_like_state["coherence"] = max(0.1, self.quantum_like_state["coherence"])
+        self.quantum_like_state["coherence"] = max(
+            0.1, self.quantum_like_state["coherence"]
+        )
 
     def evolve_quantum_like_state(self, time_step: float) -> Dict[str, Any]:
         """
@@ -465,7 +472,8 @@ class QuantumBioOscillator:
             freq_similarity = (
                 1.0
                 - abs(
-                    self.quantum_like_state["frequency"] - other.quantum_like_state["frequency"]
+                    self.quantum_like_state["frequency"]
+                    - other.quantum_like_state["frequency"]
                 )
                 / 10.0
             )
@@ -486,7 +494,9 @@ class QuantumBioOscillator:
         if field_strength > 0.5:
             # Enhance coherence when field is strong
             self.quantum_like_state["coherence"] += field_strength * 0.1
-            self.quantum_like_state["coherence"] = min(1.0, self.quantum_like_state["coherence"])
+            self.quantum_like_state["coherence"] = min(
+                1.0, self.quantum_like_state["coherence"]
+            )
 
         return {
             "coherence_field_strength": field_strength,

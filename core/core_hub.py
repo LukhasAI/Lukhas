@@ -10,7 +10,7 @@ a unified interface for external systems to interact with core.
 import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from core.bio_symbolic_swarm_hub import BioSymbolicSwarmHub
@@ -46,7 +46,12 @@ try:
 except Exception as e:
     logging.error(f"Failed to import LUKHΛS CORE components: {e}")
     SwarmHub = object
-    (EnhancedCoreConfig, CoreMessageType, EnhancedCoreIntegrator, BioOrchestrator) = (
+    (
+        EnhancedCoreConfig,
+        CoreMessageType,
+        EnhancedCoreIntegrator,
+        BioOrchestrator,
+    ) = (
         object,
         object,
         object,
@@ -105,10 +110,10 @@ class CoreHub:
 
     def __init__(self):
         self.name = "core_hub"
-        self.services: Dict[str, Any] = {}
-        self.event_handlers: Dict[str, List[callable]] = {}
+        self.services: dict[str, Any] = {}
+        self.event_handlers: dict[str, list[callable]] = {}
         self.is_initialized = False
-        self.connected_hubs: List[Dict[str, Any]] = []
+        self.connected_hubs: list[dict[str, Any]] = []
 
         # Initialize components
         self.swarm = SwarmHub()
@@ -127,6 +132,7 @@ class CoreHub:
             logger.warning(f"BioOrchestrator init failed: {e}, using fallback")
 
             class MinimalBioOrchestrator:
+
                 def __init__(self):
                     self.config = {}
 
@@ -160,7 +166,9 @@ class CoreHub:
         # Agent 1 Task 5: Initialize resource efficiency analyzer
         try:
             self.resource_analyzer = ResourceEfficiencyAnalyzer(
-                sample_interval=1.0, history_size=3600, enable_memory_profiling=True
+                sample_interval=1.0,
+                history_size=3600,
+                enable_memory_profiling=True,
             )
             self.register_service("resource_analyzer", self.resource_analyzer)
             logger.info("Resource efficiency analyzer initialized")
@@ -229,14 +237,26 @@ class CoreHub:
         additional_services = [
             ("swarm_coordinator", "SwarmCoordinator", "core.swarm"),
             ("task_manager", "TaskManager", "core.task_manager"),
-            ("resource_scheduler", "ResourceScheduler", "core.resource_scheduler"),
-            ("symbolic_bridge", "SymbolicBridge", "core.bridges.symbolic_bridge"),
+            (
+                "resource_scheduler",
+                "ResourceScheduler",
+                "core.resource_scheduler",
+            ),
+            (
+                "symbolic_bridge",
+                "SymbolicBridge",
+                "core.bridges.symbolic_bridge",
+            ),
             (
                 "bio_symbolic_swarm_hub",
                 "BioSymbolicSwarmHub",
                 "core.bio_symbolic_swarm_hub",
             ),
-            ("enhanced_swarm_hub", "EnhancedSwarmHub", "core.enhanced_swarm_hub"),
+            (
+                "enhanced_swarm_hub",
+                "EnhancedSwarmHub",
+                "core.enhanced_swarm_hub",
+            ),
         ]
 
         for service_name, class_name, module_path in additional_services:
@@ -358,13 +378,13 @@ class CoreHub:
         """Get a registered service by name"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered service names"""
         return list(self.services.keys())
 
     async def process_event(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process events from other systems"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
@@ -388,7 +408,8 @@ class CoreHub:
         self.event_handlers[event_type].append(handler)
 
     async def initialize_connectivity(self) -> None:
-        """Initialize connections to TrioOrchestrator, IntegrationBridge, and EthicsService"""
+        """Initialize connections to TrioOrchestrator, IntegrationBridge,
+        and EthicsService"""
         logger.info("Initializing core module connectivity...")
 
         # Connect to TrioOrchestrator
@@ -442,7 +463,7 @@ class CoreHub:
 
         logger.info("Core module connectivity initialization complete")
 
-    def get_endpoints(self) -> Dict[str, str]:
+    def get_endpoints(self) -> dict[str, str]:
         """Get available service endpoints for the core module"""
         endpoints = {
             "event_processing": "/core/events",
@@ -460,8 +481,8 @@ class CoreHub:
         return endpoints
 
     async def handle_ethics_event(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle ethics-related events from the EthicsService"""
         logger.info(f"Received ethics event: {event_type}")
 
@@ -483,7 +504,7 @@ class CoreHub:
             await self.process_event(f"ethics_{event_type}", event_data)
             return {"action": "processed", "response": "event_handled"}
 
-    def broadcast_to_all_hubs(self, message: Dict[str, Any]) -> Dict[str, List[Any]]:
+    def broadcast_to_all_hubs(self, message: dict[str, Any]) -> dict[str, list[Any]]:
         responses = {}
         for hub_info in self.connected_hubs:
             hub_name = hub_info["name"]
@@ -497,7 +518,7 @@ class CoreHub:
                 responses[hub_name] = {"error": str(e)}
         return responses
 
-    def receive_message(self, message: Dict[str, Any]) -> Dict[str, Any]:
+    def receive_message(self, message: dict[str, Any]) -> dict[str, Any]:
         return {
             "hub": self.name,
             "received": True,
@@ -510,7 +531,7 @@ class CoreHub:
         self,
         event_type: str,
         actor_id: str,
-        data: Dict[str, Any],
+        data: dict[str, Any],
         correlation_id: Optional[str] = None,
         causation_id: Optional[str] = None,
     ) -> str:
@@ -622,7 +643,7 @@ class CoreHub:
 
     async def get_resource_efficiency_report(
         self, duration_hours: float = 1.0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get resource efficiency report"""
         if "resource_analyzer" not in self.services:
             return {
@@ -646,7 +667,7 @@ class CoreHub:
             logger.error(f"Failed to generate efficiency report: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def get_current_resource_snapshot(self) -> Dict[str, Any]:
+    async def get_current_resource_snapshot(self) -> dict[str, Any]:
         """Get current resource usage snapshot"""
         if "resource_analyzer" not in self.services:
             return {"status": "unavailable"}

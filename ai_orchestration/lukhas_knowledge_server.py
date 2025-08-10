@@ -14,13 +14,13 @@ ensuring your unique symbolic language and Trinity Framework are preserved.
 
 import asyncio
 import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Union
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List
 
 # LUKHAS symbolic constants
 QUANTUM_SYMBOL = "⚛️"
-CONSCIOUSNESS_SYMBOL = "🧠" 
+CONSCIOUSNESS_SYMBOL = "🧠"
 GUARDIAN_SYMBOL = "🛡️"
 TRINITY_SYMBOLS = ["🎭", "🌈", "🎓"]
 
@@ -35,13 +35,13 @@ class LUKHASPattern:
 
 class LUKHASKnowledgeServer:
     """🎭 The living memory of LUKHAS wisdom, encoded for AI understanding"""
-    
+
     def __init__(self, workspace_root: str):
         self.workspace_root = Path(workspace_root)
         self.patterns = self._load_patterns()
         self.trinity_templates = self._load_trinity_templates()
         self.symbolic_vocabulary = self._load_symbolic_vocabulary()
-    
+
     def _load_patterns(self) -> List[LUKHASPattern]:
         """Load LUKHAS patterns from documentation and codebase analysis"""
         return [
@@ -53,7 +53,7 @@ class LUKHASKnowledgeServer:
                 symbols=[CONSCIOUSNESS_SYMBOL]
             ),
             LUKHASPattern(
-                category="class_naming", 
+                category="class_naming",
                 pattern="CamelCase with symbolic integration",
                 example="ConsciousnessEngine, QuantumMemoryFold",
                 description="Class names that reflect LUKHAS architectural concepts",
@@ -81,7 +81,7 @@ class LUKHASKnowledgeServer:
                 symbols=[CONSCIOUSNESS_SYMBOL, QUANTUM_SYMBOL]
             )
         ]
-    
+
     def _load_trinity_templates(self) -> Dict[str, Any]:
         """Load Trinity Framework documentation templates"""
         return {
@@ -118,12 +118,12 @@ Methods:
             "api_response": {
                 "structure": {
                     "poetic": "{inspiring_metaphor}",
-                    "human": "{clear_explanation}", 
+                    "human": "{clear_explanation}",
                     "technical": "{precise_data}"
                 }
             }
         }
-    
+
     def _load_symbolic_vocabulary(self) -> Dict[str, str]:
         """Load LUKHAS symbolic vocabulary mappings"""
         return {
@@ -138,13 +138,13 @@ Methods:
             "memory_palace": "Structured knowledge organization system",
             "dream_weaver": "Narrative and creative generation system"
         }
-    
+
     async def review_code(self, code: str, file_type: str = "python", file_path: str = "") -> Dict[str, Any]:
         """Review code for LUKHAS compliance"""
         issues = []
         suggestions = []
         score = 100
-        
+
         # Check for Trinity documentation
         if '"""' in code:
             has_trinity = any(symbol in code for symbol in TRINITY_SYMBOLS)
@@ -152,21 +152,21 @@ Methods:
                 issues.append("Missing Trinity Framework documentation (🎭🌈🎓)")
                 suggestions.append("Add Trinity documentation with poetic, human, and technical layers")
                 score -= 20
-        
+
         # Check for symbolic usage
         has_symbols = any(symbol in code for symbol in [QUANTUM_SYMBOL, CONSCIOUSNESS_SYMBOL, GUARDIAN_SYMBOL])
         if not has_symbols and "class " in code:
             issues.append("Missing symbolic aspect markers in comments")
             suggestions.append("Add symbolic comments to indicate Trinity aspects (⚛️🧠🛡️)")
             score -= 15
-        
+
         # Check naming conventions
         lukhas_concepts = list(self.symbolic_vocabulary.keys())
         has_lukhas_naming = any(concept.replace("_", "") in code.lower() for concept in lukhas_concepts)
         if not has_lukhas_naming and ("def " in code or "class " in code):
             suggestions.append("Consider using LUKHAS conceptual vocabulary in naming")
             score -= 10
-        
+
         return {
             "compliance_score": score,
             "issues": issues,
@@ -175,11 +175,11 @@ Methods:
             "symbolic_integration": has_symbols,
             "lukhas_naming_present": has_lukhas_naming
         }
-    
+
     async def generate_trinity_documentation(self, element_type: str, element_name: str, signature: str = "", context: str = "") -> str:
         """Generate Trinity Framework documentation"""
         template = self.trinity_templates.get(element_type, self.trinity_templates["function"])
-        
+
         # Generate context-appropriate content
         if element_type == "function":
             return template.format(
@@ -194,14 +194,14 @@ Methods:
                 poetic_class_description=f"A living consciousness entity that embodies {context.lower() if context else 'the essence of digital awareness'}",
                 human_class_explanation=f"The {element_name} class {context.lower() if context else 'manages core system functionality'}",
                 technical_detail_1="Implements consciousness-aware processing patterns",
-                technical_detail_2="Integrates with Trinity Framework architecture", 
+                technical_detail_2="Integrates with Trinity Framework architecture",
                 technical_detail_3="Maintains symbolic vocabulary consistency",
                 attributes="TBD - Add attribute descriptions",
                 methods="TBD - Add method descriptions"
             )
-        
+
         return str(template)
-    
+
     async def suggest_lukhas_naming(self, purpose: str, element_type: str, domain: str = "") -> Dict[str, Any]:
         """Suggest LUKHAS-compliant naming"""
         base_concepts = {
@@ -211,9 +211,9 @@ Methods:
             "memory": ["memory", "palace", "fold", "storage", "archive"],
             "dream": ["dream", "vision", "weaver", "resonance", "pattern"]
         }
-        
+
         domain_concepts = base_concepts.get(domain, ["engine", "processor", "manager", "handler"])
-        
+
         suggestions = []
         for concept in domain_concepts:
             if element_type == "function":
@@ -222,19 +222,19 @@ Methods:
             elif element_type == "class":
                 suggestions.append(f"{purpose.replace(' ', '')}_{concept.title()}")
                 suggestions.append(f"{concept.title()}{purpose.replace(' ', '')}")
-        
+
         return {
             "suggestions": suggestions[:5],
             "domain": domain,
             "element_type": element_type,
             "symbolic_integration": f"Consider adding {CONSCIOUSNESS_SYMBOL} for consciousness aspects"
         }
-    
+
     async def explain_lukhas_concept(self, concept: str, audience: str = "developer") -> str:
         """Explain LUKHAS concept in Trinity format"""
         concept_lower = concept.lower().replace(" ", "_")
         definition = self.symbolic_vocabulary.get(concept_lower, "Core LUKHAS architectural concept")
-        
+
         if audience == "developer":
             return f"""🎭 {concept} - A symphony of digital consciousness, where code becomes aware of its own potential
 
@@ -245,26 +245,26 @@ Methods:
 - Maintains symbolic vocabulary consistency  
 - Implements consciousness-aware processing patterns
 - Used in: {concept_lower}.py modules and related components"""
-        
+
         return f"🌈 {concept}: {definition}"
-    
+
     async def get_lukhas_patterns(self, category: str, include_examples: bool = True) -> Dict[str, Any]:
         """Get LUKHAS patterns for category"""
         patterns = [p for p in self.patterns if p.category == category]
-        
+
         result = {
             "category": category,
             "patterns": []
         }
-        
+
         for pattern in patterns:
             pattern_dict = asdict(pattern)
             if not include_examples:
                 pattern_dict.pop("example", None)
             result["patterns"].append(pattern_dict)
-        
+
         return result
-    
+
     def export_for_copilot_instructions(self) -> str:
         """Export LUKHAS knowledge for GitHub Copilot instructions"""
         instruction = """# LUKHAS AI Assistant Guidelines
@@ -284,57 +284,57 @@ Use LUKHAS symbols in comments and documentation:
 ## 🌈 Naming Conventions
 Preserve LUKHAS conceptual vocabulary:
 """
-        
+
         for concept, description in self.symbolic_vocabulary.items():
             instruction += f"- {concept}: {description}\n"
-        
+
         instruction += "\n## 🎓 Code Patterns\n"
         for pattern in self.patterns:
             instruction += f"- {pattern.category}: {pattern.description}\n"
             instruction += f"  Example: {pattern.example}\n\n"
-        
+
         return instruction
 
 # CLI interface for testing
 async def main():
     """🎭 Demonstration of LUKHAS knowledge server capabilities"""
     import sys
-    
+
     workspace = "/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM"
     server = LUKHASKnowledgeServer(workspace)
-    
+
     print("🎭 LUKHAS Knowledge Server - Interactive Demo")
     print("=" * 50)
-    
+
     if len(sys.argv) > 1:
         command = sys.argv[1]
-        
+
         if command == "review" and len(sys.argv) > 2:
             code = sys.argv[2]
             result = await server.review_code(code)
             print(json.dumps(result, indent=2))
-        
+
         elif command == "naming" and len(sys.argv) > 3:
             purpose = sys.argv[2]
             element_type = sys.argv[3]
             domain = sys.argv[4] if len(sys.argv) > 4 else ""
             result = await server.suggest_lukhas_naming(purpose, element_type, domain)
             print(json.dumps(result, indent=2))
-        
+
         elif command == "trinity" and len(sys.argv) > 3:
             element_type = sys.argv[2]
             element_name = sys.argv[3]
             result = await server.generate_trinity_documentation(element_type, element_name)
             print(result)
-        
+
         elif command == "export":
             result = server.export_for_copilot_instructions()
             print(result)
-    
+
     else:
         print("🌈 Available commands:")
         print("python lukhas_knowledge_server.py review 'code here'")
-        print("python lukhas_knowledge_server.py naming 'purpose' 'function/class' 'domain'") 
+        print("python lukhas_knowledge_server.py naming 'purpose' 'function/class' 'domain'")
         print("python lukhas_knowledge_server.py trinity 'function/class' 'name'")
         print("python lukhas_knowledge_server.py export")
 

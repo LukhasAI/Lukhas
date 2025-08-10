@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -25,27 +24,31 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import unittest
-import json
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
-from dataclasses import dataclass
+import os
 
 # Internal imports
 import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+import unittest
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Optional
+
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from core.symbolic.glyphs.glyph import (
-    Glyph, GlyphType, GlyphPriority, GlyphFactory, EmotionVector, CausalLink
+    EmotionVector,
+    Glyph,
+    GlyphFactory,
+    GlyphPriority,
 )
-from memory.core_memory.glyph_memory_bridge import GlyphMemoryBridge
 from core.symbolic.glyphs.glyph_sentinel import GlyphSentinel
+from memory.core_memory.glyph_memory_bridge import GlyphMemoryBridge
 
 
 @dataclass
 class MockMemoryEvent:
     """Mock memory event for timeline testing."""
+
     event_id: str
     content: str
     emotion_data: Dict[str, float]
@@ -88,12 +91,12 @@ class MockMemoryTimeline:
 
         # Create glyph-indexed memory using bridge
         memory_data = {
-            'event_id': event.event_id,
-            'content': event.content,
-            'emotion_data': event.emotion_data,
-            'timestamp': event.timestamp.isoformat(),
-            'context_tags': event.context_tags,
-            'importance_score': event.importance_score
+            "event_id": event.event_id,
+            "content": event.content,
+            "emotion_data": event.emotion_data,
+            "timestamp": event.timestamp.isoformat(),
+            "context_tags": event.context_tags,
+            "importance_score": event.importance_score,
         }
 
         indexed_memory = self.bridge.create_glyph_indexed_memory(glyph, memory_data)
@@ -108,7 +111,9 @@ class MockMemoryTimeline:
         event_ids = self.glyph_index.get(glyph_id, [])
         return [self.events[event_id] for event_id in event_ids]
 
-    def reconstruct_temporal_sequence(self, start_time: datetime, end_time: datetime) -> List[MockMemoryEvent]:
+    def reconstruct_temporal_sequence(
+        self, start_time: datetime, end_time: datetime
+    ) -> List[MockMemoryEvent]:
         """Reconstruct temporal sequence of memories within time range."""
         sequence = []
 
@@ -123,23 +128,32 @@ class MockMemoryTimeline:
     def get_glyph_memory_chain(self, root_glyph_id: str) -> Dict[str, Any]:
         """Get memory chain following glyph causal links."""
         chain = {
-            'root_glyph_id': root_glyph_id,
-            'chain_events': [],
-            'causal_links': [],
-            'total_memories': 0
+            "root_glyph_id": root_glyph_id,
+            "chain_events": [],
+            "causal_links": [],
+            "total_memories": 0,
         }
 
         # Start with root glyph memories
         root_memories = self.recall_by_glyph(root_glyph_id)
-        chain['chain_events'].extend([{
-            'event_id': mem.event_id,
-            'glyph_id': mem.glyph_id,
-            'content': mem.content[:100] + "..." if len(mem.content) > 100 else mem.content,
-            'timestamp': mem.timestamp.isoformat(),
-            'importance_score': mem.importance_score
-        } for mem in root_memories])
+        chain["chain_events"].extend(
+            [
+                {
+                    "event_id": mem.event_id,
+                    "glyph_id": mem.glyph_id,
+                    "content": (
+                        mem.content[:100] + "..."
+                        if len(mem.content) > 100
+                        else mem.content
+                    ),
+                    "timestamp": mem.timestamp.isoformat(),
+                    "importance_score": mem.importance_score,
+                }
+                for mem in root_memories
+            ]
+        )
 
-        chain['total_memories'] = len(root_memories)
+        chain["total_memories"] = len(root_memories)
         return chain
 
     def analyze_memory_drift(self, glyph_id: str) -> Dict[str, Any]:
@@ -147,7 +161,7 @@ class MockMemoryTimeline:
         memories = self.recall_by_glyph(glyph_id)
 
         if not memories:
-            return {'drift_detected': False, 'analysis': 'No memories found for glyph'}
+            return {"drift_detected": False, "analysis": "No memories found for glyph"}
 
         # Analyze temporal spread
         timestamps = [mem.timestamp for mem in memories]
@@ -158,20 +172,24 @@ class MockMemoryTimeline:
         emotion_variance = self._calculate_emotion_variance(emotions)
 
         # Analyze content coherence
-        content_coherence = self._calculate_content_coherence([mem.content for mem in memories])
+        content_coherence = self._calculate_content_coherence(
+            [mem.content for mem in memories]
+        )
 
         # Determine drift level
         drift_score = (emotion_variance * 0.4) + ((1.0 - content_coherence) * 0.6)
         drift_detected = drift_score > 0.5
 
         return {
-            'drift_detected': drift_detected,
-            'drift_score': drift_score,
-            'memory_count': len(memories),
-            'time_span_hours': time_span.total_seconds() / 3600,
-            'emotion_variance': emotion_variance,
-            'content_coherence': content_coherence,
-            'analysis': 'High drift detected' if drift_detected else 'Stable memory pattern'
+            "drift_detected": drift_detected,
+            "drift_score": drift_score,
+            "memory_count": len(memories),
+            "time_span_hours": time_span.total_seconds() / 3600,
+            "emotion_variance": emotion_variance,
+            "content_coherence": content_coherence,
+            "analysis": (
+                "High drift detected" if drift_detected else "Stable memory pattern"
+            ),
         }
 
     def _calculate_emotion_variance(self, emotions: List[Dict[str, float]]) -> float:
@@ -233,35 +251,43 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
         # Create a sequence of memory events with associated glyphs
         events_data = [
             {
-                'content': 'Learning about artificial consciousness and symbolic reasoning',
-                'emotions': {'curiosity': 0.8, 'fascination': 0.7, 'anticipation': 0.6},
-                'tags': ['learning', 'consciousness', 'symbolic'],
-                'importance': 0.9
+                "content": "Learning about artificial consciousness and symbolic reasoning",
+                "emotions": {"curiosity": 0.8, "fascination": 0.7, "anticipation": 0.6},
+                "tags": ["learning", "consciousness", "symbolic"],
+                "importance": 0.9,
             },
             {
-                'content': 'Debugging memory fold compression algorithm',
-                'emotions': {'focus': 0.9, 'determination': 0.8, 'slight_frustration': 0.3},
-                'tags': ['debugging', 'memory', 'algorithm'],
-                'importance': 0.7
+                "content": "Debugging memory fold compression algorithm",
+                "emotions": {
+                    "focus": 0.9,
+                    "determination": 0.8,
+                    "slight_frustration": 0.3,
+                },
+                "tags": ["debugging", "memory", "algorithm"],
+                "importance": 0.7,
             },
             {
-                'content': 'Breakthrough in glyph-based symbolic representation',
-                'emotions': {'joy': 0.9, 'excitement': 0.8, 'satisfaction': 0.9},
-                'tags': ['breakthrough', 'glyph', 'symbolic'],
-                'importance': 1.0
+                "content": "Breakthrough in glyph-based symbolic representation",
+                "emotions": {"joy": 0.9, "excitement": 0.8, "satisfaction": 0.9},
+                "tags": ["breakthrough", "glyph", "symbolic"],
+                "importance": 1.0,
             },
             {
-                'content': 'Collaborative discussion on ethical AI constraints',
-                'emotions': {'thoughtfulness': 0.8, 'concern': 0.6, 'responsibility': 0.9},
-                'tags': ['ethics', 'collaboration', 'ai_safety'],
-                'importance': 0.8
+                "content": "Collaborative discussion on ethical AI constraints",
+                "emotions": {
+                    "thoughtfulness": 0.8,
+                    "concern": 0.6,
+                    "responsibility": 0.9,
+                },
+                "tags": ["ethics", "collaboration", "ai_safety"],
+                "importance": 0.8,
             },
             {
-                'content': 'Dream processing integration with memory consolidation',
-                'emotions': {'wonder': 0.7, 'curiosity': 0.8, 'innovation': 0.6},
-                'tags': ['dreams', 'memory', 'integration'],
-                'importance': 0.8
-            }
+                "content": "Dream processing integration with memory consolidation",
+                "emotions": {"wonder": 0.7, "curiosity": 0.8, "innovation": 0.6},
+                "tags": ["dreams", "memory", "integration"],
+                "importance": 0.8,
+            },
         ]
 
         created_events = []
@@ -272,48 +298,48 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
             # Create mock memory event
             event = MockMemoryEvent(
                 event_id=f"event_{i+1:03d}",
-                content=event_data['content'],
-                emotion_data=event_data['emotions'],
-                timestamp=self.test_start_time + timedelta(hours=i*2),
-                context_tags=event_data['tags'],
-                importance_score=event_data['importance']
+                content=event_data["content"],
+                emotion_data=event_data["emotions"],
+                timestamp=self.test_start_time + timedelta(hours=i * 2),
+                context_tags=event_data["tags"],
+                importance_score=event_data["importance"],
             )
 
             # Create associated glyph based on event characteristics
-            if 'learning' in event_data['tags']:
+            if "learning" in event_data["tags"]:
                 glyph = GlyphFactory.create_memory_glyph(
                     memory_key=f"learning_memory_{i}",
-                    emotion_vector=self._create_emotion_vector(event_data['emotions'])
+                    emotion_vector=self._create_emotion_vector(event_data["emotions"]),
                 )
-            elif 'breakthrough' in event_data['tags']:
+            elif "breakthrough" in event_data["tags"]:
                 glyph = GlyphFactory.create_action_glyph(
                     action_type="breakthrough_discovery",
-                    emotion_vector=self._create_emotion_vector(event_data['emotions'])
+                    emotion_vector=self._create_emotion_vector(event_data["emotions"]),
                 )
-            elif 'ethics' in event_data['tags']:
+            elif "ethics" in event_data["tags"]:
                 glyph = GlyphFactory.create_ethical_glyph(
                     ethical_principle="ai_safety",
-                    emotion_vector=self._create_emotion_vector(event_data['emotions'])
+                    emotion_vector=self._create_emotion_vector(event_data["emotions"]),
                 )
-            elif 'dreams' in event_data['tags']:
+            elif "dreams" in event_data["tags"]:
                 glyph = GlyphFactory.create_dream_glyph(
                     dream_symbol="💭",
-                    emotion_vector=self._create_emotion_vector(event_data['emotions'])
+                    emotion_vector=self._create_emotion_vector(event_data["emotions"]),
                 )
             else:
                 glyph = GlyphFactory.create_memory_glyph(
                     memory_key=f"general_memory_{i}",
-                    emotion_vector=self._create_emotion_vector(event_data['emotions'])
+                    emotion_vector=self._create_emotion_vector(event_data["emotions"]),
                 )
 
             # Add semantic tags
-            for tag in event_data['tags']:
+            for tag in event_data["tags"]:
                 glyph.add_semantic_tag(tag)
 
             # Set priority based on importance
-            if event_data['importance'] >= 0.9:
+            if event_data["importance"] >= 0.9:
                 glyph.priority = GlyphPriority.CRITICAL
-            elif event_data['importance'] >= 0.8:
+            elif event_data["importance"] >= 0.8:
                 glyph.priority = GlyphPriority.HIGH
             else:
                 glyph.priority = GlyphPriority.MEDIUM
@@ -334,7 +360,9 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
             self.assertTrue(len(memories) > 0)
             self.assertEqual(memories[0].glyph_id, glyph.id)
 
-        print(f"✓ Created mock memory timeline with {len(created_events)} events and {len(created_glyphs)} glyphs")
+        print(
+            f"✓ Created mock memory timeline with {len(created_events)} events and {len(created_glyphs)} glyphs"
+        )
 
     def test_glyph_based_memory_recall(self):
         """Test memory recall using glyph anchoring."""
@@ -354,7 +382,9 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
             for memory in memories:
                 self.assertEqual(memory.glyph_id, glyph_id)
 
-            print(f"✓ Successfully recalled {len(memories)} memories for glyph {glyph_id[:8]}...")
+            print(
+                f"✓ Successfully recalled {len(memories)} memories for glyph {glyph_id[:8]}..."
+            )
 
     def test_temporal_sequence_reconstruction(self):
         """Test reconstruction of temporal memory sequences."""
@@ -373,13 +403,15 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
 
         # Verify temporal ordering
         for i in range(1, len(sequence)):
-            self.assertLessEqual(sequence[i-1].timestamp, sequence[i].timestamp)
+            self.assertLessEqual(sequence[i - 1].timestamp, sequence[i].timestamp)
 
         # Verify all events are within time range
         for event in sequence:
             self.assertTrue(start_time <= event.timestamp <= end_time)
 
-        print(f"✓ Reconstructed temporal sequence with {len(sequence)} events in chronological order")
+        print(
+            f"✓ Reconstructed temporal sequence with {len(sequence)} events in chronological order"
+        )
 
     def test_memory_drift_analysis(self):
         """Test memory drift detection using glyph stability."""
@@ -392,15 +424,15 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
             MockMemoryEvent(
                 event_id="stable_1",
                 content="Working on symbolic AI research with focused attention",
-                emotion_data={'focus': 0.8, 'curiosity': 0.7, 'satisfaction': 0.6},
-                timestamp=datetime.now() - timedelta(hours=5)
+                emotion_data={"focus": 0.8, "curiosity": 0.7, "satisfaction": 0.6},
+                timestamp=datetime.now() - timedelta(hours=5),
             ),
             MockMemoryEvent(
                 event_id="stable_2",
                 content="Continuing symbolic AI research with sustained focus",
-                emotion_data={'focus': 0.9, 'curiosity': 0.8, 'satisfaction': 0.7},
-                timestamp=datetime.now() - timedelta(hours=3)
-            )
+                emotion_data={"focus": 0.9, "curiosity": 0.8, "satisfaction": 0.7},
+                timestamp=datetime.now() - timedelta(hours=3),
+            ),
         ]
 
         # Drifting memories (varying emotions and content)
@@ -408,15 +440,15 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
             MockMemoryEvent(
                 event_id="drift_1",
                 content="Starting work on quantum consciousness algorithms",
-                emotion_data={'excitement': 0.9, 'uncertainty': 0.3, 'curiosity': 0.8},
-                timestamp=datetime.now() - timedelta(hours=4)
+                emotion_data={"excitement": 0.9, "uncertainty": 0.3, "curiosity": 0.8},
+                timestamp=datetime.now() - timedelta(hours=4),
             ),
             MockMemoryEvent(
                 event_id="drift_2",
                 content="Debugging poetry generation system with frustration",
-                emotion_data={'frustration': 0.7, 'fatigue': 0.6, 'determination': 0.4},
-                timestamp=datetime.now() - timedelta(hours=2)
-            )
+                emotion_data={"frustration": 0.7, "fatigue": 0.6, "determination": 0.4},
+                timestamp=datetime.now() - timedelta(hours=2),
+            ),
         ]
 
         # Add events to timeline
@@ -431,13 +463,17 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
         drifting_analysis = self.timeline.analyze_memory_drift(glyph2.id)
 
         # Verify drift detection
-        self.assertFalse(stable_analysis['drift_detected'])
-        self.assertTrue(drifting_analysis['drift_detected'])
+        self.assertFalse(stable_analysis["drift_detected"])
+        self.assertTrue(drifting_analysis["drift_detected"])
 
         # Verify drift scores
-        self.assertLess(stable_analysis['drift_score'], drifting_analysis['drift_score'])
+        self.assertLess(
+            stable_analysis["drift_score"], drifting_analysis["drift_score"]
+        )
 
-        print(f"✓ Drift analysis: Stable={stable_analysis['drift_score']:.3f}, Drifting={drifting_analysis['drift_score']:.3f}")
+        print(
+            f"✓ Drift analysis: Stable={stable_analysis['drift_score']:.3f}, Drifting={drifting_analysis['drift_score']:.3f}"
+        )
 
     def test_glyph_memory_chain_reconstruction(self):
         """Test reconstruction of memory chains via glyph causal links."""
@@ -448,21 +484,23 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
         # Set up causal link
         child_glyph.causal_link.parent_glyph_id = parent_glyph.id
         child_glyph.causal_link.causal_origin_id = parent_glyph.id
-        child_glyph.causal_link.update_emotional_delta(parent_glyph.emotion_vector, child_glyph.emotion_vector)
+        child_glyph.causal_link.update_emotional_delta(
+            parent_glyph.emotion_vector, child_glyph.emotion_vector
+        )
 
         # Create memory events
         parent_event = MockMemoryEvent(
             event_id="parent_event",
             content="Initial insight into symbolic reasoning patterns",
-            emotion_data={'insight': 0.9, 'excitement': 0.8},
-            timestamp=datetime.now() - timedelta(hours=6)
+            emotion_data={"insight": 0.9, "excitement": 0.8},
+            timestamp=datetime.now() - timedelta(hours=6),
         )
 
         child_event = MockMemoryEvent(
             event_id="child_event",
             content="Applied symbolic patterns to memory compression",
-            emotion_data={'accomplishment': 0.8, 'satisfaction': 0.9},
-            timestamp=datetime.now() - timedelta(hours=3)
+            emotion_data={"accomplishment": 0.8, "satisfaction": 0.9},
+            timestamp=datetime.now() - timedelta(hours=3),
         )
 
         # Add to timeline
@@ -473,11 +511,13 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
         chain = self.timeline.get_glyph_memory_chain(parent_glyph.id)
 
         # Verify chain structure
-        self.assertEqual(chain['root_glyph_id'], parent_glyph.id)
-        self.assertTrue(chain['total_memories'] > 0)
-        self.assertTrue(len(chain['chain_events']) > 0)
+        self.assertEqual(chain["root_glyph_id"], parent_glyph.id)
+        self.assertTrue(chain["total_memories"] > 0)
+        self.assertTrue(len(chain["chain_events"]) > 0)
 
-        print(f"✓ Reconstructed memory chain from root glyph {parent_glyph.id[:8]} with {chain['total_memories']} memories")
+        print(
+            f"✓ Reconstructed memory chain from root glyph {parent_glyph.id[:8]} with {chain['total_memories']} memories"
+        )
 
     def _create_emotion_vector(self, emotion_data: Dict[str, float]) -> EmotionVector:
         """Helper method to create emotion vector from dictionary."""
@@ -485,24 +525,24 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
 
         # Map common emotion names to EmotionVector attributes
         emotion_mapping = {
-            'curiosity': 'anticipation',
-            'fascination': 'surprise',
-            'focus': 'trust',
-            'determination': 'trust',
-            'slight_frustration': 'anger',
-            'joy': 'joy',
-            'excitement': 'joy',
-            'satisfaction': 'joy',
-            'thoughtfulness': 'trust',
-            'concern': 'fear',
-            'responsibility': 'trust',
-            'wonder': 'surprise',
-            'innovation': 'anticipation',
-            'insight': 'surprise',
-            'accomplishment': 'joy',
-            'uncertainty': 'fear',
-            'frustration': 'anger',
-            'fatigue': 'sadness'
+            "curiosity": "anticipation",
+            "fascination": "surprise",
+            "focus": "trust",
+            "determination": "trust",
+            "slight_frustration": "anger",
+            "joy": "joy",
+            "excitement": "joy",
+            "satisfaction": "joy",
+            "thoughtfulness": "trust",
+            "concern": "fear",
+            "responsibility": "trust",
+            "wonder": "surprise",
+            "innovation": "anticipation",
+            "insight": "surprise",
+            "accomplishment": "joy",
+            "uncertainty": "fear",
+            "frustration": "anger",
+            "fatigue": "sadness",
         }
 
         for emotion, value in emotion_data.items():
@@ -519,9 +559,9 @@ class TestGlyphMemoryTimeline(unittest.TestCase):
 
 def run_glyph_memory_timeline_tests():
     """Run the complete glyph memory timeline test suite."""
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("🧪 RUNNING GLYPH MEMORY TIMELINE TESTS")
-    print("="*80)
+    print("=" * 80)
 
     # Create test suite
     loader = unittest.TestLoader()
@@ -532,13 +572,15 @@ def run_glyph_memory_timeline_tests():
     result = runner.run(suite)
 
     # Print summary
-    print("\n" + "="*80)
+    print("\n" + "=" * 80)
     print("📊 TEST SUMMARY")
-    print("="*80)
+    print("=" * 80)
     print(f"Tests run: {result.testsRun}")
     print(f"Failures: {len(result.failures)}")
     print(f"Errors: {len(result.errors)}")
-    print(f"Success rate: {((result.testsRun - len(result.failures) - len(result.errors)) / result.testsRun * 100):.1f}%")
+    print(
+        f"Success rate: {((result.testsRun - len(result.failures) - len(result.errors)) / result.testsRun * 100):.1f}%"
+    )
 
     if result.failures:
         print("\n❌ FAILURES:")
@@ -550,7 +592,7 @@ def run_glyph_memory_timeline_tests():
         for test, traceback in result.errors:
             print(f"  - {test}: {traceback}")
 
-    print("="*80)
+    print("=" * 80)
     return result.wasSuccessful()
 
 

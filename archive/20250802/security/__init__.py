@@ -3,7 +3,7 @@ try:
 except Exception:  # pragma: no cover - optional dependency
     HardwareRoot = None  # type: ignore
 
-from .moderator import SymbolicComplianceRules, ModerationWrapper
+from .moderator import ModerationWrapper, SymbolicComplianceRules
 
 __all__ = [
     "HardwareRoot",

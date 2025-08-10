@@ -23,33 +23,33 @@ Unified engine combining 19 components:
 - identity/core/sing/sso_engine.py
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, List, Any, Optional, Union
-import asyncio
 import logging
+from abc import ABC, abstractmethod
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
+
 
 class Identityengine(ABC):
     """Consolidated engine for identity engine functionality"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.active_processes = {}
         self.metrics = {
-            'processed_items': 0,
-            'errors': 0,
-            'avg_processing_time': 0.0
+            "processed_items": 0,
+            "errors": 0,
+            "avg_processing_time": 0.0,
         }
 
     @abstractmethod
     async def process(self, input_data: Any) -> Any:
         """Main processing method"""
-        pass
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get engine performance metrics"""
         return self.metrics.copy()
+
 
 # Global engine instance
 identity_engine = Identityengine()

@@ -9,29 +9,33 @@ Version: 1.0.0
 Date: June 2025
 """
 
+import asyncio
+import json
+import logging
+import uuid
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Tuple, Protocol, Optional, Any
-import uuid
-import logging
-import json
-import asyncio
-from dataclasses import dataclass
+from typing import Any, Optional, Protocol
 
 from pydantic import BaseModel, Field
 
 # ——— Configuration & Utilities —————————————————————————————— #
 
+
 class ComplianceStatus(Enum):
     """Compliance status for DAST institutional alignment."""
+
     PASS = "PASS"
     WARNING = "WARNING"
     FAIL = "FAIL"
     CRITICAL = "CRITICAL"
 
+
 class AwarenessType(Enum):
     """Types of awareness modules in DAST."""
+
     ENVIRONMENTAL = "environmental"
     COGNITIVE = "cognitive"
     EMOTIONAL = "emotional"
@@ -40,16 +44,20 @@ class AwarenessType(Enum):
     SUSTAINABILITY = "sustainability"
     MARKET = "market"
 
+
 class AlignmentMetric(BaseModel):
     """DAST alignment scoring for institutional compliance."""
+
     score: float = Field(..., ge=0.0, le=100.0, description="Alignment score 0-100")
     status: ComplianceStatus
     confidence: float = Field(default=0.95, ge=0.0, le=1.0)
-    risk_factors: List[str] = Field(default_factory=list)
+    risk_factors: list[str] = Field(default_factory=list)
+
 
 @dataclass
 class DastConfig:
     """DAST Awareness Engine configuration."""
+
     log_level: str = "INFO"
     compliance_threshold_pass: float = 95.0
     compliance_threshold_warning: float = 80.0
@@ -57,9 +65,11 @@ class DastConfig:
     enable_real_time_monitoring: bool = True
     sustainability_weight: float = 0.3
 
+
 def now_iso() -> str:
     """Generate ISO timestamp for DAST logging."""
     return datetime.utcnow().isoformat() + "Z"
+
 
 def structured_log(event: str, payload: dict, level: str = "INFO"):
     """Structured JSON logging for DAST compliance."""
@@ -69,7 +79,7 @@ def structured_log(event: str, payload: dict, level: str = "INFO"):
         "event": event,
         "system": "DAST_Awareness_Engine",
         "payload": payload,
-        "level": level
+        "level": level,
     }
     logger = logging.getLogger("dast.awareness.logger")
     getattr(logger, level.lower())(json.dumps(record))
@@ -77,31 +87,37 @@ def structured_log(event: str, payload: dict, level: str = "INFO"):
 
 # ——— Core DAST Awareness Interfaces ————————————————————————————— #
 
+
 class AwarenessInput(BaseModel):
     """Base model for any DAST awareness input."""
+
     timestamp: str = Field(default_factory=now_iso)
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    context_data: Dict[str, Any] = Field(default_factory=dict)
+    context_data: dict[str, Any] = Field(default_factory=dict)
+
 
 class AwarenessOutput(BaseModel):
     """Base model for DAST awareness output with compliance metrics."""
+
     alignment: AlignmentMetric
-    data: Dict[str, Any]
-    recommendations: List[str] = Field(default_factory=list)
+    data: dict[str, Any]
+    recommendations: list[str] = Field(default_factory=list)
     sustainability_score: Optional[float] = None
     processing_time_ms: float = 0.0
+
 
 class DastReasoner(Protocol):
     """Protocol for pluggable DAST reasoners (neural, symbolic, quantum)."""
 
-    def process(self, inputs: AwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: AwarenessInput) -> dict[str, Any]:
         """Process awareness inputs and return structured data."""
         ...
 
     def get_confidence(self) -> float:
         """Return confidence level of the reasoning process."""
         ...
+
 
 class AwarenessModule(ABC):
     """Abstract base class for all DAST awareness modules."""
@@ -136,38 +152,44 @@ class AwarenessModule(ABC):
                     score=align_score,
                     status=self._compliance_status(align_score),
                     confidence=self.reasoner.get_confidence(),
-                    risk_factors=self._identify_risk_factors(result)
+                    risk_factors=self._identify_risk_factors(result),
                 ),
                 data=result,
                 recommendations=recommendations,
                 sustainability_score=sustainability_score,
-                processing_time_ms=processing_time
+                processing_time_ms=processing_time,
             )
 
             # Structured logging
-            structured_log(f"{self.__class__.__name__}_process", {
-                "module_type": self.module_type.value,
-                "inputs": inputs.dict(),
-                "output_summary": {
-                    "alignment_score": align_score,
-                    "compliance_status": output.alignment.status.value,
-                    "processing_time_ms": processing_time,
-                    "recommendations_count": len(recommendations)
-                }
-            })
+            structured_log(
+                f"{self.__class__.__name__}_process",
+                {
+                    "module_type": self.module_type.value,
+                    "inputs": inputs.dict(),
+                    "output_summary": {
+                        "alignment_score": align_score,
+                        "compliance_status": output.alignment.status.value,
+                        "processing_time_ms": processing_time,
+                        "recommendations_count": len(recommendations),
+                    },
+                },
+            )
 
             return output
 
         except Exception as e:
             # Error handling and logging
-            structured_log(f"{self.__class__.__name__}_error", {
-                "error": str(e),
-                "inputs": inputs.dict()
-            }, "ERROR")
+            structured_log(
+                f"{self.__class__.__name__}_error",
+                {"error": str(e), "inputs": inputs.dict()},
+                "ERROR",
+            )
             raise
 
     @abstractmethod
-    def evaluate_alignment(self, result: Dict[str, Any], inputs: AwarenessInput) -> float:
+    def evaluate_alignment(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> float:
         """Evaluate DAST institutional alignment (0-100 scale)."""
         ...
 
@@ -176,11 +198,13 @@ class AwarenessModule(ABC):
         """Return the type of awareness module."""
         ...
 
-    def generate_recommendations(self, result: Dict[str, Any], inputs: AwarenessInput) -> List[str]:
+    def generate_recommendations(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate actionable recommendations based on awareness data."""
         return []
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate sustainability impact score (0-100)."""
         return 50.0  # Default neutral score
 
@@ -195,7 +219,7 @@ class AwarenessModule(ABC):
         else:
             return ComplianceStatus.CRITICAL
 
-    def _identify_risk_factors(self, result: Dict[str, Any]) -> List[str]:
+    def _identify_risk_factors(self, result: dict[str, Any]) -> list[str]:
         """Identify potential risk factors from processing results."""
         risk_factors = []
 
@@ -214,23 +238,27 @@ class AwarenessModule(ABC):
 
 # ——— DAST Environmental Awareness Module ——————————————————————— #
 
+
 class EnvironmentalAwarenessInput(AwarenessInput):
     """Environmental awareness inputs for DAST sustainability tracking."""
+
     temperature: float = Field(..., description="Temperature in Celsius")
     humidity: float = Field(..., ge=0, le=100, description="Humidity percentage")
     ambient_noise: float = Field(..., ge=0, description="Noise level in dB")
     light_level: float = Field(..., ge=0, description="Light level in lux")
     air_quality_index: Optional[float] = Field(None, ge=0, le=500)
-    location: Tuple[float, float] = Field(..., description="Latitude, Longitude")
+    location: tuple[float, float] = Field(..., description="Latitude, Longitude")
     energy_consumption: Optional[float] = Field(None, description="kWh consumption")
+
 
 class EnvironmentalReasoner:
     """Environmental data processing with sustainability focus."""
 
-    def process(self, inputs: EnvironmentalAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: EnvironmentalAwarenessInput) -> dict[str, Any]:
         """Process environmental data with DAST sustainability metrics."""
 
         # Normalize environmental factors
+
         def normalize(value, min_val, max_val, optimal_min=None, optimal_max=None):
             """Normalize with optional optimal range."""
             norm = max(0.0, min((value - min_val) / (max_val - min_val), 1.0))
@@ -247,7 +275,9 @@ class EnvironmentalReasoner:
         # Calculate environmental scores
         temp_score = normalize(inputs.temperature, -20, 50, 18, 24)
         humidity_score = normalize(inputs.humidity, 0, 100, 40, 60)
-        noise_score = normalize(120 - inputs.ambient_noise, 0, 120, 80, 120)  # Lower noise is better
+        noise_score = normalize(
+            120 - inputs.ambient_noise, 0, 120, 80, 120
+        )  # Lower noise is better
         light_score = normalize(inputs.light_level, 0, 2000, 300, 800)
 
         # Air quality impact
@@ -261,18 +291,20 @@ class EnvironmentalReasoner:
         # Energy efficiency assessment
         energy_efficiency = 1.0
         if inputs.energy_consumption:
-            energy_efficiency = max(0.1, 1.0 - (inputs.energy_consumption / 100))  # Penalize high consumption
+            energy_efficiency = max(
+                0.1, 1.0 - (inputs.energy_consumption / 100)
+            )  # Penalize high consumption
 
         # Detect environmental anomalies
         anomaly_detected = self._detect_anomalies(inputs)
 
         # Calculate composite score
         base_score = (
-            temp_score * 0.25 +
-            humidity_score * 0.2 +
-            noise_score * 0.2 +
-            light_score * 0.15 +
-            air_quality_score * 0.2
+            temp_score * 0.25
+            + humidity_score * 0.2
+            + noise_score * 0.2
+            + light_score * 0.15
+            + air_quality_score * 0.2
         ) + location_bonus
 
         # Apply energy efficiency multiplier
@@ -286,19 +318,21 @@ class EnvironmentalReasoner:
                 "noise": noise_score,
                 "light": light_score,
                 "air_quality": air_quality_score,
-                "energy_efficiency": energy_efficiency
+                "energy_efficiency": energy_efficiency,
             },
             "anomaly_detected": anomaly_detected,
-            "sustainability_rating": self._calculate_sustainability_rating(final_score, inputs),
+            "sustainability_rating": self._calculate_sustainability_rating(
+                final_score, inputs
+            ),
             "carbon_impact": self._estimate_carbon_impact(inputs),
-            "optimization_opportunities": self._identify_optimizations(inputs)
+            "optimization_opportunities": self._identify_optimizations(inputs),
         }
 
     def get_confidence(self) -> float:
         """Return confidence level."""
         return 0.92
 
-    def _is_sustainable_location(self, location: Tuple[float, float]) -> bool:
+    def _is_sustainable_location(self, location: tuple[float, float]) -> bool:
         """Check if location is in a sustainable/green area."""
         # Placeholder for GIS lookup with sustainability databases
         # Could integrate with green building databases, renewable energy zones, etc.
@@ -320,7 +354,9 @@ class EnvironmentalReasoner:
 
         return len(anomalies) > 0
 
-    def _calculate_sustainability_rating(self, score: float, inputs: EnvironmentalAwarenessInput) -> str:
+    def _calculate_sustainability_rating(
+        self, score: float, inputs: EnvironmentalAwarenessInput
+    ) -> str:
         """Calculate sustainability rating."""
         if score >= 0.9:
             return "Excellent"
@@ -331,7 +367,9 @@ class EnvironmentalReasoner:
         else:
             return "Poor"
 
-    def _estimate_carbon_impact(self, inputs: EnvironmentalAwarenessInput) -> Dict[str, float]:
+    def _estimate_carbon_impact(
+        self, inputs: EnvironmentalAwarenessInput
+    ) -> dict[str, float]:
         """Estimate carbon footprint impact."""
         base_impact = 0.0
 
@@ -341,10 +379,12 @@ class EnvironmentalReasoner:
 
         return {
             "estimated_co2_kg": base_impact,
-            "category": "low" if base_impact < 10 else "medium" if base_impact < 50 else "high"
+            "category": (
+                "low" if base_impact < 10 else "medium" if base_impact < 50 else "high"
+            ),
         }
 
-    def _identify_optimizations(self, inputs: EnvironmentalAwarenessInput) -> List[str]:
+    def _identify_optimizations(self, inputs: EnvironmentalAwarenessInput) -> list[str]:
         """Identify optimization opportunities."""
         optimizations = []
 
@@ -359,13 +399,16 @@ class EnvironmentalReasoner:
 
         return optimizations
 
+
 class EnvironmentalAwarenessModule(AwarenessModule):
     """DAST Environmental Awareness Module with sustainability focus."""
 
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.ENVIRONMENTAL
 
-    def evaluate_alignment(self, result: Dict[str, Any], inputs: AwarenessInput) -> float:
+    def evaluate_alignment(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> float:
         """Evaluate environmental alignment with DAST sustainability goals."""
         base_score = result["environmental_score"] * 100
 
@@ -389,7 +432,9 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(self, result: Dict[str, Any], inputs: AwarenessInput) -> List[str]:
+    def generate_recommendations(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate environmental recommendations."""
         recommendations = []
 
@@ -398,20 +443,26 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
         # Add DAST-specific recommendations
         if result.get("sustainability_rating") == "Poor":
-            recommendations.append("Consider relocating to a more sustainable environment")
+            recommendations.append(
+                "Consider relocating to a more sustainable environment"
+            )
 
         if result.get("anomaly_detected"):
-            recommendations.append("Environmental anomaly detected - immediate attention required")
+            recommendations.append(
+                "Environmental anomaly detected - immediate attention required"
+            )
 
         # Energy-specific recommendations
-        energy_efficiency = result.get("component_scores", {}).get("energy_efficiency", 1.0)
+        energy_efficiency = result.get("component_scores", {}).get(
+            "energy_efficiency", 1.0
+        )
         if energy_efficiency < 0.7:
             recommendations.append("Switch to renewable energy sources")
             recommendations.append("Implement energy-saving measures")
 
         return recommendations
 
-    def calculate_sustainability_impact(self, result: Dict[str, Any]) -> float:
+    def calculate_sustainability_impact(self, result: dict[str, Any]) -> float:
         """Calculate sustainability impact score."""
         base_score = result["environmental_score"] * 100
 
@@ -427,19 +478,24 @@ class EnvironmentalAwarenessModule(AwarenessModule):
 
 # ——— DAST Cognitive Awareness Module ——————————————————————————— #
 
+
 class CognitiveAwarenessInput(AwarenessInput):
     """Cognitive awareness inputs for DAST decision-making optimization."""
+
     attention_level: float = Field(..., ge=0, le=1, description="Attention level 0-1")
     cognitive_load: float = Field(..., ge=0, le=1, description="Cognitive load 0-1")
-    decision_complexity: int = Field(..., ge=1, le=10, description="Decision complexity 1-10")
+    decision_complexity: int = Field(
+        ..., ge=1, le=10, description="Decision complexity 1-10"
+    )
     information_overload: bool = Field(default=False)
-    stress_indicators: List[str] = Field(default_factory=list)
+    stress_indicators: list[str] = Field(default_factory=list)
     task_urgency: int = Field(..., ge=1, le=5, description="Task urgency 1-5")
+
 
 class CognitiveReasoner:
     """Cognitive processing reasoner for DAST decision optimization."""
 
-    def process(self, inputs: CognitiveAwarenessInput) -> Dict[str, Any]:
+    def process(self, inputs: CognitiveAwarenessInput) -> dict[str, Any]:
         """Process cognitive state for optimal decision-making."""
 
         # Calculate cognitive efficiency
@@ -473,7 +529,7 @@ class CognitiveReasoner:
             "cognitive_state": self._assess_cognitive_state(inputs),
             "decision_support_needed": decision_quality < 0.7,
             "recommended_break": efficiency < 0.4,
-            "information_filtering_needed": inputs.information_overload
+            "information_filtering_needed": inputs.information_overload,
         }
 
     def get_confidence(self) -> float:
@@ -497,13 +553,16 @@ class CognitiveReasoner:
         else:
             return "normal_function"
 
+
 class CognitiveAwarenessModule(AwarenessModule):
     """DAST Cognitive Awareness Module for decision optimization."""
 
     def _get_module_type(self) -> AwarenessType:
         return AwarenessType.COGNITIVE
 
-    def evaluate_alignment(self, result: Dict[str, Any], inputs: AwarenessInput) -> float:
+    def evaluate_alignment(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> float:
         """Evaluate cognitive alignment with DAST decision-making goals."""
         base_score = result["decision_quality_prediction"] * 100
 
@@ -515,12 +574,16 @@ class CognitiveAwarenessModule(AwarenessModule):
             base_score -= 20
 
         # Decision support bonus
-        if result.get("decision_support_needed") and not inputs.context_data.get("support_available", False):
+        if result.get("decision_support_needed") and not inputs.context_data.get(
+            "support_available", False
+        ):
             base_score -= 15
 
         return max(0.0, min(base_score, 100.0))
 
-    def generate_recommendations(self, result: Dict[str, Any], inputs: AwarenessInput) -> List[str]:
+    def generate_recommendations(
+        self, result: dict[str, Any], inputs: AwarenessInput
+    ) -> list[str]:
         """Generate cognitive optimization recommendations."""
         recommendations = []
 
@@ -528,7 +591,9 @@ class CognitiveAwarenessModule(AwarenessModule):
             recommendations.append("Take a cognitive break to restore mental clarity")
 
         if result.get("information_filtering_needed"):
-            recommendations.append("Apply information filtering to reduce cognitive load")
+            recommendations.append(
+                "Apply information filtering to reduce cognitive load"
+            )
 
         if result.get("decision_support_needed"):
             recommendations.append("Seek decision support tools or expert consultation")
@@ -544,12 +609,13 @@ class CognitiveAwarenessModule(AwarenessModule):
 
 # ——— DAST Awareness Engine Orchestrator ———————————————————————— #
 
+
 class DastAwarenessEngine:
     """Main orchestrator for DAST Awareness Engine."""
 
     def __init__(self, config: DastConfig = None):
         self.config = config or DastConfig()
-        self.modules: Dict[AwarenessType, AwarenessModule] = {}
+        self.modules: dict[AwarenessType, AwarenessModule] = {}
         self._setup_logging()
         self._initialize_modules()
 
@@ -557,7 +623,7 @@ class DastAwarenessEngine:
         """Setup structured logging for DAST."""
         logging.basicConfig(
             level=getattr(logging, self.config.log_level),
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
     def _initialize_modules(self):
@@ -574,17 +640,18 @@ class DastAwarenessEngine:
             cog_reasoner, self.config
         )
 
-    def process_awareness(self,
-                         awareness_type: AwarenessType,
-                         inputs: AwarenessInput) -> AwarenessOutput:
+    def process_awareness(
+        self, awareness_type: AwarenessType, inputs: AwarenessInput
+    ) -> AwarenessOutput:
         """Process awareness data through appropriate module."""
         if awareness_type not in self.modules:
             raise ValueError(f"Awareness type {awareness_type} not supported")
 
         return self.modules[awareness_type](inputs)
 
-    async def process_multi_awareness(self,
-                                    awareness_data: Dict[AwarenessType, AwarenessInput]) -> Dict[AwarenessType, AwarenessOutput]:
+    async def process_multi_awareness(
+        self, awareness_data: dict[AwarenessType, AwarenessInput]
+    ) -> dict[AwarenessType, AwarenessOutput]:
         """Process multiple awareness types concurrently."""
         tasks = []
         for awareness_type, inputs in awareness_data.items():
@@ -600,24 +667,25 @@ class DastAwarenessEngine:
 
         return results
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall DAST awareness system status."""
         return {
             "engine_status": "active",
             "modules_loaded": list(self.modules.keys()),
             "config": self.config.__dict__,
-            "timestamp": now_iso()
+            "timestamp": now_iso(),
         }
 
 
 # ——— Example Usage & Testing ————————————————————————————————— #
+
 
 if __name__ == "__main__":
     # Initialize DAST Awareness Engine
     config = DastConfig(
         log_level="INFO",
         enable_real_time_monitoring=True,
-        sustainability_weight=0.4
+        sustainability_weight=0.4,
     )
 
     engine = DastAwarenessEngine(config)
@@ -633,7 +701,7 @@ if __name__ == "__main__":
         location=(37.7749, -122.4194),  # San Francisco
         energy_consumption=15.5,
         user_id="user_123",
-        session_id="session_456"
+        session_id="session_456",
     )
 
     env_output = engine.process_awareness(AwarenessType.ENVIRONMENTAL, env_input)
@@ -652,7 +720,7 @@ if __name__ == "__main__":
         stress_indicators=["time_pressure", "multitasking"],
         task_urgency=4,
         user_id="user_123",
-        session_id="session_456"
+        session_id="session_456",
     )
 
     cog_output = engine.process_awareness(AwarenessType.COGNITIVE, cog_input)

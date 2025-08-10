@@ -1,24 +1,22 @@
-#╭──────────────────────────────────────────────────────────────────────────────╮
-#│                             LUClukhasS :: CONTROL PANEL                          │
-#│                              Module: lucasctl.py                           │
-#│                              Author: Gonzo R.D.M | Version: v2.1             │
-#╰──────────────────────────────────────────────────────────────────────────────╯
+# ╭──────────────────────────────────────────────────────────────────────────────╮
+# │                             LUClukhasS :: CONTROL PANEL                          │
+# │                              Module: lucasctl.py                           │
+# │                              Author: Gonzo R.D.M | Version: v2.1             │
+# ╰──────────────────────────────────────────────────────────────────────────────╯
 #
-#📜 Description:
+# 📜 Description:
 #    This module provides the CLI interface for Lukhas AI assistant,
 #    handling user commands and symbolic inputs.
 #
-#🔗 Related Modules:
+# 🔗 Related Modules:
 #    - publish_queue_manager.py (queue management)
 #    - voice_narrator.py (voice output)
 #    - dream_recorder.py (dream logging)
 #
-#🧠 Symbolic CLI Input Handler: Extended to include publishing queue trigger.
+# 🧠 Symbolic CLI Input Handler: Extended to include publishing queue trigger.
 
 import os
-import sys
-from datetime import datetime
-import glob
+
 
 def main_menu():
     menu_options = """
@@ -37,6 +35,7 @@ def main_menu():
     0. 🚪 Exit
     """
     print(menu_options)
+
 
 def symbolic_cli_handler():
     while True:
@@ -70,11 +69,13 @@ def symbolic_cli_handler():
             # Use the publish_queue_manager to handle narration, visualization, and export
             try:
                 import aid.dream_engine.publish_queue_manager as pqm
+
                 pqm.handle_publish_queue()
             except Exception as e:
                 print(f"⚠️ Failed to process publish queue: {e}")
         else:
             print("❓ Invalid choice. Please try again.")
+
 
 if __name__ == "__main__":
     symbolic_cli_handler()

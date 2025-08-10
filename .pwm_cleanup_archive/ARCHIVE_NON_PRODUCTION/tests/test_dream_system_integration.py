@@ -6,26 +6,29 @@ Comprehensive integration tests for the complete dream system including
 dream-memory integration, replay-reflection coordination, and system interoperability.
 """
 
+from datetime import datetime
+from unittest.mock import patch
+
 import pytest
-import asyncio
-import json
-import uuid
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
 
 # Import all dream system components
 from memory.core_memory.dream_integration import (
-    DreamIntegrator, DreamType, DreamState, get_dream_integrator
-)
-from memory.core_memory.replay_system import (
-    MemoryReplayer, ReplayMode, ReplayDirection, get_memory_replayer
+    DreamIntegrator,
+    DreamType,
 )
 from memory.core_memory.reflection_engine import (
-    MemoryReflector, ReflectionType, ReflectionDepth, get_memory_reflector
+    MemoryReflector,
+    ReflectionDepth,
+    ReflectionType,
+)
+from memory.core_memory.replay_system import (
+    MemoryReplayer,
+    ReplayMode,
 )
 
 # Note: Legacy compatibility modules have been deprecated
 # Direct imports from memory.core_memory modules should be used instead
+
 
 class TestDreamSystemInteroperability:
     """Test interoperability between dream system components."""
@@ -43,16 +46,14 @@ class TestDreamSystemInteroperability:
         """Test using dream insights to create memory replay sequences."""
         # 1. Create and integrate a dream
         dream_id = self.dream_integrator.initiate_dream_formation(
-            self.test_memory_ids,
-            DreamType.MEMORY_CONSOLIDATION,
-            self.emotional_context
+            self.test_memory_ids, DreamType.MEMORY_CONSOLIDATION, self.emotional_context
         )
 
         # Add fragments
         fragments = [
             {"type": "connection", "insight": "Memory A relates to Memory B"},
             {"type": "pattern", "insight": "Learning progression detected"},
-            {"type": "emotion", "insight": "Positive feedback loop"}
+            {"type": "emotion", "insight": "Positive feedback loop"},
         ]
 
         for fragment in fragments:
@@ -69,7 +70,7 @@ class TestDreamSystemInteroperability:
         # Create replay sequence from dream-connected memories
         sequence_id = self.memory_replayer.create_replay_sequence(
             connected_memories,
-            ReplayMode.ASSOCIATIVE  # Use associative mode for dream connections
+            ReplayMode.ASSOCIATIVE,  # Use associative mode for dream connections
         )
 
         assert sequence_id is not None
@@ -95,13 +96,12 @@ class TestDreamSystemInteroperability:
         """Test reflecting on dream-generated insights."""
         # 1. Create dream with insights
         dream_id = self.dream_integrator.initiate_dream_formation(
-            self.test_memory_ids,
-            DreamType.CREATIVE_SYNTHESIS
+            self.test_memory_ids, DreamType.CREATIVE_SYNTHESIS
         )
 
         self.dream_integrator.add_dream_fragment(
             dream_id,
-            {"type": "meta_insight", "content": "Learning pattern recognition"}
+            {"type": "meta_insight", "content": "Learning pattern recognition"},
         )
 
         integration_result = self.dream_integrator.process_dream_integration(dream_id)
@@ -112,24 +112,30 @@ class TestDreamSystemInteroperability:
         dream_memory_data = [
             {
                 "memory_id": "dream_memory_001",
-                "content": {"dream_insight": insight["insight"] for insight in insights},
+                "content": {
+                    "dream_insight": insight["insight"] for insight in insights
+                },
                 "timestamp": datetime.now().isoformat(),
-                "emotional_state": self.emotional_context
+                "emotional_state": self.emotional_context,
             }
         ]
 
         # 3. Initiate reflection on dream-influenced memories
         session_id = self.memory_reflector.initiate_reflection_session(
             self.test_memory_ids,
-            [ReflectionType.META_LEARNING, ReflectionType.PATTERN_ANALYSIS]
+            [ReflectionType.META_LEARNING, ReflectionType.PATTERN_ANALYSIS],
         )
 
         # Process reflection
-        reflection_result = self.memory_reflector.process_reflection_analysis(session_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            session_id
+        )
         assert reflection_result["success"] is True
 
         # 4. Verify reflection insights complement dream insights
-        reflection_insights = self.memory_reflector.get_insights_by_type(ReflectionType.META_LEARNING)
+        reflection_insights = self.memory_reflector.get_insights_by_type(
+            ReflectionType.META_LEARNING
+        )
         assert len(reflection_insights) > 0
 
         # Both dream and reflection should contribute to understanding
@@ -140,8 +146,7 @@ class TestDreamSystemInteroperability:
         """Test using replay patterns to guide dream formation."""
         # 1. Create memory replay to identify patterns
         sequence_id = self.memory_replayer.create_replay_sequence(
-            self.test_memory_ids,
-            ReplayMode.CHRONOLOGICAL
+            self.test_memory_ids, ReplayMode.CHRONOLOGICAL
         )
 
         session_id = self.memory_replayer.start_replay_session(sequence_id)
@@ -152,11 +157,13 @@ class TestDreamSystemInteroperability:
             memory = self.memory_replayer.get_next_memory(session_id)
             if memory is None:
                 break
-            replay_pattern.append({
-                "memory_id": memory["memory_fold_id"],
-                "emotional_state": memory["emotional_state"],
-                "position": memory["position"]
-            })
+            replay_pattern.append(
+                {
+                    "memory_id": memory["memory_fold_id"],
+                    "emotional_state": memory["emotional_state"],
+                    "position": memory["position"],
+                }
+            )
 
         # 2. Use replay patterns to inform dream formation
         # Extract emotional progression from replay
@@ -166,7 +173,7 @@ class TestDreamSystemInteroperability:
         dream_id = self.dream_integrator.initiate_dream_formation(
             [mem["memory_id"] for mem in replay_pattern],
             DreamType.PROBLEM_SOLVING,
-            {"pattern_recognition": 0.9}  # High focus on pattern
+            {"pattern_recognition": 0.9},  # High focus on pattern
         )
 
         # Add fragment based on replay pattern
@@ -175,8 +182,8 @@ class TestDreamSystemInteroperability:
             {
                 "type": "temporal_pattern",
                 "pattern": replay_pattern,
-                "insight": "Chronological progression reveals learning curve"
-            }
+                "insight": "Chronological progression reveals learning curve",
+            },
         )
 
         # 3. Verify dream integration
@@ -190,8 +197,7 @@ class TestDreamSystemInteroperability:
         """Test complete workflow: Replay -> Dream -> Reflection -> Assessment."""
         # 1. REPLAY: Analyze memory sequence
         sequence_id = self.memory_replayer.create_replay_sequence(
-            self.test_memory_ids,
-            ReplayMode.EMOTIONAL
+            self.test_memory_ids, ReplayMode.EMOTIONAL
         )
 
         session_id = self.memory_replayer.start_replay_session(sequence_id)
@@ -205,12 +211,14 @@ class TestDreamSystemInteroperability:
             emotional_sequence.append(memory["emotional_state"])
 
         # 2. DREAM: Create dream based on emotional patterns
-        avg_valence = sum(state.get("valence", 0.5) for state in emotional_sequence) / len(emotional_sequence)
+        avg_valence = sum(
+            state.get("valence", 0.5) for state in emotional_sequence
+        ) / len(emotional_sequence)
 
         dream_id = self.dream_integrator.initiate_dream_formation(
             self.test_memory_ids,
             DreamType.EMOTIONAL_PROCESSING,
-            {"emotional_intensity": avg_valence}
+            {"emotional_intensity": avg_valence},
         )
 
         self.dream_integrator.add_dream_fragment(
@@ -218,8 +226,8 @@ class TestDreamSystemInteroperability:
             {
                 "type": "emotional_synthesis",
                 "pattern": emotional_sequence,
-                "insight": f"Average emotional valence: {avg_valence:.2f}"
-            }
+                "insight": f"Average emotional valence: {avg_valence:.2f}",
+            },
         )
 
         dream_result = self.dream_integrator.process_dream_integration(dream_id)
@@ -228,14 +236,18 @@ class TestDreamSystemInteroperability:
         reflection_session_id = self.memory_reflector.initiate_reflection_session(
             self.test_memory_ids,
             [ReflectionType.EMOTIONAL_REFLECTION, ReflectionType.PATTERN_ANALYSIS],
-            ReflectionDepth.META
+            ReflectionDepth.META,
         )
 
-        reflection_result = self.memory_reflector.process_reflection_analysis(reflection_session_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            reflection_session_id
+        )
 
         # 4. ASSESSMENT: Generate comprehensive assessment
         assessment = self.memory_reflector.generate_self_assessment()
-        optimization_recommendations = self.memory_reflector.recommend_memory_optimization()
+        optimization_recommendations = (
+            self.memory_reflector.recommend_memory_optimization()
+        )
 
         # 5. Verify integrated workflow results
         assert dream_result["success"] is True
@@ -245,7 +257,9 @@ class TestDreamSystemInteroperability:
 
         # Verify cross-system coherence
         dream_insights = self.dream_integrator.get_dream_insights(dream_id)
-        reflection_insights = self.memory_reflector.get_insights_by_type(ReflectionType.EMOTIONAL_REFLECTION)
+        reflection_insights = self.memory_reflector.get_insights_by_type(
+            ReflectionType.EMOTIONAL_REFLECTION
+        )
 
         # Both systems should contribute complementary insights
         total_insights = len(dream_insights) + len(reflection_insights)
@@ -255,17 +269,18 @@ class TestDreamSystemInteroperability:
         assert "emotional_tendencies" in assessment
         assert assessment["meta_cognitive_awareness"] >= 0
 
+
 class TestLegacyCompatibility:
     """Test backward compatibility with legacy import paths."""
 
     def test_lukhas_dreams_compatibility(self):
         """Test lukhas_dreams compatibility module."""
         # Should be able to import from legacy path
-        assert hasattr(lukhas_dreams, 'DreamIntegrator')
-        assert hasattr(lukhas_dreams, 'get_dream_integrator')
-        assert hasattr(lukhas_dreams, 'initiate_dream')
-        assert hasattr(lukhas_dreams, 'add_fragment')
-        assert hasattr(lukhas_dreams, 'integrate_dream')
+        assert hasattr(lukhas_dreams, "DreamIntegrator")
+        assert hasattr(lukhas_dreams, "get_dream_integrator")
+        assert hasattr(lukhas_dreams, "initiate_dream")
+        assert hasattr(lukhas_dreams, "add_fragment")
+        assert hasattr(lukhas_dreams, "integrate_dream")
 
         # Should work the same as new imports
         integrator = lukhas_dreams.get_dream_integrator()
@@ -284,11 +299,11 @@ class TestLegacyCompatibility:
     def test_lukhas_replayer_compatibility(self):
         """Test lukhas_replayer compatibility module."""
         # Should be able to import from legacy path
-        assert hasattr(lukhas_replayer, 'MemoryReplayer')
-        assert hasattr(lukhas_replayer, 'get_memory_replayer')
-        assert hasattr(lukhas_replayer, 'create_sequence')
-        assert hasattr(lukhas_replayer, 'start_session')
-        assert hasattr(lukhas_replayer, 'get_next')
+        assert hasattr(lukhas_replayer, "MemoryReplayer")
+        assert hasattr(lukhas_replayer, "get_memory_replayer")
+        assert hasattr(lukhas_replayer, "create_sequence")
+        assert hasattr(lukhas_replayer, "start_session")
+        assert hasattr(lukhas_replayer, "get_next")
 
         # Should work the same as new imports
         replayer = lukhas_replayer.get_memory_replayer()
@@ -307,11 +322,11 @@ class TestLegacyCompatibility:
     def test_lukhas_reflector_compatibility(self):
         """Test lukhas_reflector compatibility module."""
         # Should be able to import from legacy path
-        assert hasattr(lukhas_reflector, 'MemoryReflector')
-        assert hasattr(lukhas_reflector, 'get_memory_reflector')
-        assert hasattr(lukhas_reflector, 'initiate_reflection')
-        assert hasattr(lukhas_reflector, 'process_reflection')
-        assert hasattr(lukhas_reflector, 'get_self_assessment')
+        assert hasattr(lukhas_reflector, "MemoryReflector")
+        assert hasattr(lukhas_reflector, "get_memory_reflector")
+        assert hasattr(lukhas_reflector, "initiate_reflection")
+        assert hasattr(lukhas_reflector, "process_reflection")
+        assert hasattr(lukhas_reflector, "get_self_assessment")
 
         # Should work the same as new imports
         reflector = lukhas_reflector.get_memory_reflector()
@@ -332,23 +347,30 @@ class TestLegacyCompatibility:
         # Use legacy modules for complete workflow
 
         # 1. Create dream using legacy interface
-        dream_id = lukhas_dreams.initiate_dream(["mem_001", "mem_002"], "creative_synthesis")
+        dream_id = lukhas_dreams.initiate_dream(
+            ["mem_001", "mem_002"], "creative_synthesis"
+        )
         lukhas_dreams.add_fragment(dream_id, {"legacy": "test"})
         dream_result = lukhas_dreams.integrate_dream(dream_id)
 
         # 2. Create replay using legacy interface
-        sequence_id = lukhas_replayer.create_sequence(["mem_001", "mem_002"], "chronological")
+        sequence_id = lukhas_replayer.create_sequence(
+            ["mem_001", "mem_002"], "chronological"
+        )
         session_id = lukhas_replayer.start_session(sequence_id)
         memory = lukhas_replayer.get_next(session_id)
 
         # 3. Create reflection using legacy interface
-        reflection_session_id = lukhas_reflector.initiate_reflection(["mem_001", "mem_002"])
+        reflection_session_id = lukhas_reflector.initiate_reflection(
+            ["mem_001", "mem_002"]
+        )
         reflection_result = lukhas_reflector.process_reflection(reflection_session_id)
 
         # All should work together seamlessly
         assert dream_result["success"] is True
         assert memory is not None
         assert reflection_result["success"] is True
+
 
 class TestSystemPerformanceIntegration:
     """Test performance characteristics of integrated dream system."""
@@ -365,7 +387,7 @@ class TestSystemPerformanceIntegration:
         memory_sets = [
             [f"set1_mem_{i}" for i in range(5)],
             [f"set2_mem_{i}" for i in range(5)],
-            [f"set3_mem_{i}" for i in range(5)]
+            [f"set3_mem_{i}" for i in range(5)],
         ]
 
         # Start concurrent operations
@@ -385,7 +407,9 @@ class TestSystemPerformanceIntegration:
                 sequence_ids.append(session_id)
 
             # Start reflection
-            reflection_id = self.memory_reflector.initiate_reflection_session(memory_set)
+            reflection_id = self.memory_reflector.initiate_reflection_session(
+                memory_set
+            )
             reflection_session_ids.append(reflection_id)
 
         # Process all operations
@@ -419,14 +443,13 @@ class TestSystemPerformanceIntegration:
         # Test dream integration with large set
         dream_id = self.dream_integrator.initiate_dream_formation(
             large_memory_set[:50],  # Use subset for dream
-            DreamType.MEMORY_CONSOLIDATION
+            DreamType.MEMORY_CONSOLIDATION,
         )
 
         # Add multiple fragments
         for i in range(10):
             self.dream_integrator.add_dream_fragment(
-                dream_id,
-                {"fragment": i, "content": f"Large scale fragment {i}"}
+                dream_id, {"fragment": i, "content": f"Large scale fragment {i}"}
             )
 
         dream_result = self.dream_integrator.process_dream_integration(dream_id)
@@ -454,7 +477,9 @@ class TestSystemPerformanceIntegration:
             large_memory_set[:30]  # Use subset for reflection
         )
 
-        reflection_result = self.memory_reflector.process_reflection_analysis(reflection_session_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            reflection_session_id
+        )
         assert reflection_result["success"] is True
 
         # All systems should handle large scale data
@@ -470,8 +495,7 @@ class TestSystemPerformanceIntegration:
         dream_ids = []
         for i in range(3):
             dream_id = self.dream_integrator.initiate_dream_formation(
-                shared_memory_ids,
-                DreamType.MEMORY_CONSOLIDATION
+                shared_memory_ids, DreamType.MEMORY_CONSOLIDATION
             )
             dream_ids.append(dream_id)
 
@@ -486,7 +510,9 @@ class TestSystemPerformanceIntegration:
         # Multiple reflections on same memories
         reflection_session_ids = []
         for i in range(2):  # Limited by reflector capacity
-            session_id = self.memory_reflector.initiate_reflection_session(shared_memory_ids)
+            session_id = self.memory_reflector.initiate_reflection_session(
+                shared_memory_ids
+            )
             reflection_session_ids.append(session_id)
 
         # Process all operations
@@ -508,6 +534,7 @@ class TestSystemPerformanceIntegration:
         dream_links = self.dream_integrator.memory_linker.active_links
         assert len(dream_links) > 0
 
+
 class TestSystemErrorRecovery:
     """Test error recovery and resilience in integrated operations."""
 
@@ -528,8 +555,11 @@ class TestSystemErrorRecovery:
         reflection_id = self.memory_reflector.initiate_reflection_session(memory_ids)
 
         # Simulate error in dream system
-        with patch.object(self.dream_integrator, 'process_dream_integration',
-                         return_value={"success": False, "error": "Simulated error"}):
+        with patch.object(
+            self.dream_integrator,
+            "process_dream_integration",
+            return_value={"success": False, "error": "Simulated error"},
+        ):
             dream_result = self.dream_integrator.process_dream_integration(dream_id)
             assert dream_result["success"] is False
 
@@ -537,7 +567,9 @@ class TestSystemErrorRecovery:
         memory = self.memory_replayer.get_next_memory(session_id)
         assert memory is not None
 
-        reflection_result = self.memory_reflector.process_reflection_analysis(reflection_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            reflection_id
+        )
         assert reflection_result["success"] is True
 
         # Systems should remain operational
@@ -554,7 +586,9 @@ class TestSystemErrorRecovery:
         # Fill dream integrator to capacity
         dream_ids = []
         for i in range(10):  # Exceed normal capacity
-            dream_id = self.dream_integrator.initiate_dream_formation([f"dream_mem_{i}"])
+            dream_id = self.dream_integrator.initiate_dream_formation(
+                [f"dream_mem_{i}"]
+            )
             if dream_id:
                 dream_ids.append(dream_id)
 
@@ -581,6 +615,7 @@ class TestSystemErrorRecovery:
 
         assert dream_status["system_status"] == "operational"
         assert replay_status["system_status"] == "operational"
+
 
 class TestDataConsistency:
     """Test data consistency across dream system components."""
@@ -611,7 +646,9 @@ class TestDataConsistency:
             if memory:
                 replayed_memories.append(memory["memory_fold_id"])
 
-        reflection_result = self.memory_reflector.process_reflection_analysis(reflection_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            reflection_id
+        )
 
         # Verify memory references are consistent
         dream_session = self.dream_integrator.dream_archive[dream_id]
@@ -623,7 +660,9 @@ class TestDataConsistency:
         # All should reference the same memory set
         assert dream_memory_refs == set(memory_ids)
         assert reflection_memory_refs == set(memory_ids)
-        assert set(replayed_memories) == set(memory_ids) or len(replayed_memories) == len(memory_ids)
+        assert set(replayed_memories) == set(memory_ids) or len(
+            replayed_memories
+        ) == len(memory_ids)
 
     def test_temporal_consistency(self):
         """Test temporal consistency across operations."""
@@ -639,13 +678,16 @@ class TestDataConsistency:
 
         # Process with delays to ensure temporal ordering
         import time
+
         time.sleep(0.01)  # Small delay
 
         self.dream_integrator.add_dream_fragment(dream_id, {"temporal": "test"})
         dream_result = self.dream_integrator.process_dream_integration(dream_id)
 
         session_id = self.memory_replayer.start_replay_session(sequence_id)
-        reflection_result = self.memory_reflector.process_reflection_analysis(reflection_id)
+        reflection_result = self.memory_reflector.process_reflection_analysis(
+            reflection_id
+        )
 
         # Record end time
         end_time = datetime.now()
@@ -669,42 +711,46 @@ class TestDataConsistency:
         assert dream_end >= dream_start
         assert reflection_end >= reflection_start
 
+
 # Test fixtures and utilities
 @pytest.fixture
 def integrated_dream_system():
     """Fixture providing integrated dream system components."""
     return {
-        'dream_integrator': DreamIntegrator(),
-        'memory_replayer': MemoryReplayer(),
-        'memory_reflector': MemoryReflector()
+        "dream_integrator": DreamIntegrator(),
+        "memory_replayer": MemoryReplayer(),
+        "memory_reflector": MemoryReflector(),
     }
+
 
 @pytest.fixture
 def sample_memory_dataset():
     """Fixture providing comprehensive memory dataset."""
     return {
-        'learning_memories': [f"learn_mem_{i:03d}" for i in range(20)],
-        'emotional_memories': [f"emotion_mem_{i:03d}" for i in range(15)],
-        'pattern_memories': [f"pattern_mem_{i:03d}" for i in range(10)],
-        'creative_memories': [f"creative_mem_{i:03d}" for i in range(12)]
+        "learning_memories": [f"learn_mem_{i:03d}" for i in range(20)],
+        "emotional_memories": [f"emotion_mem_{i:03d}" for i in range(15)],
+        "pattern_memories": [f"pattern_mem_{i:03d}" for i in range(10)],
+        "creative_memories": [f"creative_mem_{i:03d}" for i in range(12)],
     }
+
 
 # End-to-End Integration Tests
 class TestEndToEndIntegration:
     """Comprehensive end-to-end integration tests."""
 
-    def test_complete_cognitive_cycle(self, integrated_dream_system, sample_memory_dataset):
+    def test_complete_cognitive_cycle(
+        self, integrated_dream_system, sample_memory_dataset
+    ):
         """Test complete cognitive processing cycle using all dream system components."""
-        dream_integrator = integrated_dream_system['dream_integrator']
-        memory_replayer = integrated_dream_system['memory_replayer']
-        memory_reflector = integrated_dream_system['memory_reflector']
+        dream_integrator = integrated_dream_system["dream_integrator"]
+        memory_replayer = integrated_dream_system["memory_replayer"]
+        memory_reflector = integrated_dream_system["memory_reflector"]
 
-        learning_memories = sample_memory_dataset['learning_memories'][:5]
+        learning_memories = sample_memory_dataset["learning_memories"][:5]
 
         # Phase 1: Memory Replay Analysis
         sequence_id = memory_replayer.create_replay_sequence(
-            learning_memories,
-            ReplayMode.CHRONOLOGICAL
+            learning_memories, ReplayMode.CHRONOLOGICAL
         )
         session_id = memory_replayer.start_replay_session(sequence_id)
 
@@ -713,35 +759,35 @@ class TestEndToEndIntegration:
         for _ in range(len(learning_memories)):
             memory = memory_replayer.get_next_memory(session_id)
             if memory:
-                temporal_patterns.append({
-                    'id': memory['memory_fold_id'],
-                    'position': memory['position'],
-                    'emotional_state': memory['emotional_state']
-                })
+                temporal_patterns.append(
+                    {
+                        "id": memory["memory_fold_id"],
+                        "position": memory["position"],
+                        "emotional_state": memory["emotional_state"],
+                    }
+                )
 
         # Phase 2: Dream Formation Based on Patterns
         avg_emotional_state = {}
         if temporal_patterns:
             # Calculate average emotional state
-            for key in temporal_patterns[0]['emotional_state']:
+            for key in temporal_patterns[0]["emotional_state"]:
                 avg_emotional_state[key] = sum(
-                    pattern['emotional_state'][key] for pattern in temporal_patterns
+                    pattern["emotional_state"][key] for pattern in temporal_patterns
                 ) / len(temporal_patterns)
 
         dream_id = dream_integrator.initiate_dream_formation(
-            learning_memories,
-            DreamType.MEMORY_CONSOLIDATION,
-            avg_emotional_state
+            learning_memories, DreamType.MEMORY_CONSOLIDATION, avg_emotional_state
         )
 
         # Add insights from temporal analysis
         dream_integrator.add_dream_fragment(
             dream_id,
             {
-                'type': 'temporal_analysis',
-                'patterns': temporal_patterns,
-                'insight': 'Learning progression shows consistent improvement'
-            }
+                "type": "temporal_analysis",
+                "patterns": temporal_patterns,
+                "insight": "Learning progression shows consistent improvement",
+            },
         )
 
         dream_result = dream_integrator.process_dream_integration(dream_id)
@@ -750,24 +796,28 @@ class TestEndToEndIntegration:
         reflection_session_id = memory_reflector.initiate_reflection_session(
             learning_memories,
             [ReflectionType.PATTERN_ANALYSIS, ReflectionType.META_LEARNING],
-            ReflectionDepth.META
+            ReflectionDepth.META,
         )
 
-        reflection_result = memory_reflector.process_reflection_analysis(reflection_session_id)
+        reflection_result = memory_reflector.process_reflection_analysis(
+            reflection_session_id
+        )
 
         # Phase 4: Comprehensive Assessment
         dream_insights = dream_integrator.get_dream_insights(dream_id)
-        reflection_insights = memory_reflector.get_insights_by_type(ReflectionType.PATTERN_ANALYSIS)
+        reflection_insights = memory_reflector.get_insights_by_type(
+            ReflectionType.PATTERN_ANALYSIS
+        )
         self_assessment = memory_reflector.generate_self_assessment()
         optimization_recommendations = memory_reflector.recommend_memory_optimization()
 
         # Verification: All phases should complete successfully
         assert len(temporal_patterns) > 0
-        assert dream_result['success'] is True
-        assert reflection_result['success'] is True
+        assert dream_result["success"] is True
+        assert reflection_result["success"] is True
         assert len(dream_insights) > 0
         assert len(reflection_insights) > 0
-        assert self_assessment['total_insights'] > 0
+        assert self_assessment["total_insights"] > 0
 
         # Verification: Cross-system coherence
         total_system_insights = len(dream_insights) + len(reflection_insights)
@@ -778,23 +828,24 @@ class TestEndToEndIntegration:
         replay_status = memory_replayer.get_system_status()
         reflection_status = memory_reflector.get_system_status()
 
-        assert dream_status['system_status'] == 'operational'
-        assert replay_status['system_status'] == 'operational'
-        assert reflection_status['system_status'] == 'operational'
+        assert dream_status["system_status"] == "operational"
+        assert replay_status["system_status"] == "operational"
+        assert reflection_status["system_status"] == "operational"
 
         # Return comprehensive results for further analysis
         return {
-            'temporal_patterns': temporal_patterns,
-            'dream_insights': dream_insights,
-            'reflection_insights': reflection_insights,
-            'self_assessment': self_assessment,
-            'optimization_recommendations': optimization_recommendations,
-            'system_status': {
-                'dream': dream_status,
-                'replay': replay_status,
-                'reflection': reflection_status
-            }
+            "temporal_patterns": temporal_patterns,
+            "dream_insights": dream_insights,
+            "reflection_insights": reflection_insights,
+            "self_assessment": self_assessment,
+            "optimization_recommendations": optimization_recommendations,
+            "system_status": {
+                "dream": dream_status,
+                "replay": replay_status,
+                "reflection": reflection_status,
+            },
         }
+
 
 if __name__ == "__main__":
     # Run the integration tests

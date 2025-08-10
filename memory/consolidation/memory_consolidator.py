@@ -11,15 +11,12 @@ This script helps consolidate and organize the memory system components.
 Tags: memory, organization, consolidation, critical
 """
 
-import os
+import re
 import shutil
 from pathlib import Path
-from core.common import get_logger
-from typing import Dict, List, Set
-import json
-import re
 
 logger = logging.getLogger("memory_consolidation")
+
 
 class MemorySystemConsolidator:
     def __init__(self, root_path: str):
@@ -37,35 +34,24 @@ class MemorySystemConsolidator:
                     "trauma_lock.py",
                     "identity_legacy.py",
                     "memory_identity.py",
-                    "dream_reflection_loop.py"
-                ]
+                    "dream_reflection_loop.py",
+                ],
             },
             "memory_folds.py": {
                 "path": self.core_memory_path,
                 "tags": ["memory", "core", "critical", "patterns", "fold-engine"],
-                "dependencies": [
-                    "numpy",
-                    "chromadb",
-                    "redis"
-                ]
+                "dependencies": ["numpy", "chromadb", "redis"],
             },
             "trauma_lock.py": {
                 "path": self.core_memory_path,
                 "tags": ["memory", "core", "critical", "security", "trauma"],
-                "dependencies": [
-                    "memory_folds.py",
-                    "identity_legacy.py"
-                ]
+                "dependencies": ["memory_folds.py", "identity_legacy.py"],
             },
             "pattern_engine.py": {
                 "path": self.core_memory_path,
                 "tags": ["memory", "core", "critical", "patterns", "neural"],
-                "dependencies": [
-                    "memory_folds.py",
-                    "numpy",
-                    "tensorflow"
-                ]
-            }
+                "dependencies": ["memory_folds.py", "numpy", "tensorflow"],
+            },
         }
 
     def consolidate(self):
@@ -98,9 +84,9 @@ class MemorySystemConsolidator:
 
     def _merge_implementations(self, source: Path, target: Path):
         """Merge two implementations, keeping the best parts of each."""
-        with open(source, 'r') as f:
+        with open(source) as f:
             source_content = f.read()
-        with open(target, 'r') as f:
+        with open(target) as f:
             target_content = f.read()
 
         # TODO: Implement smart merging logic
@@ -131,31 +117,37 @@ Licensed under the LUKHAS Core License - see LICENSE.md for details.
         for filename, info in self.critical_files.items():
             filepath = info["path"] / filename
             if filepath.exists():
-                with open(filepath, 'r') as f:
+                with open(filepath) as f:
                     content = f.read()
 
                 # Remove existing docstring if present
-                content = re.sub(r'"""[\s\S]*?"""', '', content, count=1)
+                content = re.sub(r'"""[\s\S]*?"""', "", content, count=1)
 
                 # Add new header
                 header = header_template.format(
-                    name=filename.replace('.py', ' ').replace('_', ' ').title(),
+                    name=filename.replace(".py", " ").replace("_", " ").title(),
                     dependencies=", ".join(info["dependencies"]),
-                    description=f"Core component of the LUKHAS memory system",
+                    description="Core component of the LUKHAS memory system",
                     purpose="Provides critical memory system functionality",
-                    role="manages core memory operations" if "manager" in filename else "provides essential memory functionality",
-                    tags=", ".join(info["tags"])
+                    role=(
+                        "manages core memory operations"
+                        if "manager" in filename
+                        else "provides essential memory functionality"
+                    ),
+                    tags=", ".join(info["tags"]),
                 )
 
-                with open(filepath, 'w') as f:
+                with open(filepath, "w") as f:
                     f.write(header + content)
 
                 logger.info(f"Tagged {filename}")
+
 
 def main():
     logging.basicConfig(level=logging.INFO)
     consolidator = MemorySystemConsolidator("/Users/A_G_I/Lukhas")
     consolidator.consolidate()
+
 
 if __name__ == "__main__":
     main()

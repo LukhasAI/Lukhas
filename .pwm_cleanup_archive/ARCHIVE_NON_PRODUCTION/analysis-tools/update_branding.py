@@ -4,14 +4,14 @@ Safe Branding Update Script
 Updates old Lucas/lucas branding to LUKHAS/lukhas
 """
 
+import argparse
+import json
 import os
 import re
-import json
 import shutil
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple, Optional
-import argparse
+from pathlib import Path
+from typing import List, Optional, Tuple
 
 
 class BrandingUpdater:
@@ -20,50 +20,55 @@ class BrandingUpdater:
     def __init__(self, repo_path: str, dry_run: bool = True):
         self.repo_path = Path(repo_path)
         self.dry_run = dry_run
-        self.backup_dir = self.repo_path / f".branding_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        self.backup_dir = (
+            self.repo_path
+            / f".branding_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
         self.changes_made = []
 
         # Branding mappings - order matters for proper replacement
         self.branding_map = [
             # Exact case mappings
-            ('LUCAS', 'LUKHAS'),
-            ('Lucas', 'LUKHAS'),
-            ('lucas', 'lukhas'),
-            ('LucAS', 'LUKHAS'),
-            ('Lucλs', 'LUKHAS'),
-            ('LUCΛS', 'LUKHAS'),
+            ("LUCAS", "LUKHAS"),
+            ("Lucas", "LUKHAS"),
+            ("lucas", "lukhas"),
+            ("LucAS", "LUKHAS"),
+            ("Lucλs", "LUKHAS"),
+            ("LUCΛS", "LUKHAS"),
             # URL/path safe versions
-            ('lucas-ai', 'lukhas-ai'),
-            ('Lucas-AI', 'LUKHAS-AI'),
-            ('LUCAS_AI', 'LUKHAS_AI'),
-            ('lucas_ai', 'lukhas_ai'),
+            ("lucas-ai", "lukhas-ai"),
+            ("Lucas-AI", "LUKHAS-AI"),
+            ("LUCAS_AI", "LUKHAS_AI"),
+            ("lucas_ai", "lukhas_ai"),
         ]
 
         # Patterns to check but NOT replace (for safety)
         self.exclude_patterns = [
-            r'\.git/',
-            r'\.venv/',
-            r'__pycache__',
-            r'\.pyc$',
-            r'\.backup',
-            r'node_modules/',
+            r"\.git/",
+            r"\.venv/",
+            r"__pycache__",
+            r"\.pyc$",
+            r"\.backup",
+            r"node_modules/",
         ]
 
     def load_files_to_update(self, file_list_path: str) -> List[str]:
         """Load list of files that need branding updates"""
-        with open(file_list_path, 'r') as f:
+        with open(file_list_path) as f:
             data = json.load(f)
 
         files = []
-        if 'branding_updates' in data:
-            files = [item['file'] for item in data['branding_updates']]
-        elif 'branding' in data:
-            files = [item['file'] for item in data['branding']]
+        if "branding_updates" in data:
+            files = [item["file"] for item in data["branding_updates"]]
+        elif "branding" in data:
+            files = [item["file"] for item in data["branding"]]
 
         # Filter out excluded patterns
         filtered_files = []
         for file_path in files:
-            if not any(re.search(pattern, file_path) for pattern in self.exclude_patterns):
+            if not any(
+                re.search(pattern, file_path) for pattern in self.exclude_patterns
+            ):
                 full_path = self.repo_path / file_path
                 if full_path.exists() and full_path.is_file():
                     filtered_files.append(file_path)
@@ -83,7 +88,7 @@ class BrandingUpdater:
         full_path = self.repo_path / file_path
 
         try:
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 original_content = f.read()
 
             updated_content = original_content
@@ -100,7 +105,7 @@ class BrandingUpdater:
             if updated_content != original_content:
                 if not self.dry_run:
                     self.backup_file(file_path)
-                    with open(full_path, 'w', encoding='utf-8') as f:
+                    with open(full_path, "w", encoding="utf-8") as f:
                         f.write(updated_content)
 
                 return True, changes
@@ -122,7 +127,9 @@ class BrandingUpdater:
                 new_filename = new_filename.replace(old_brand, new_brand)
 
         if new_filename != filename:
-            new_path = os.path.join(directory, new_filename) if directory else new_filename
+            new_path = (
+                os.path.join(directory, new_filename) if directory else new_filename
+            )
             return new_path
         return None
 
@@ -144,23 +151,22 @@ class BrandingUpdater:
             if updated:
                 files_updated += 1
                 total_changes += len(changes)
-                print(f"  ✅ Content updated:")
+                print("  ✅ Content updated:")
                 for change in changes:
                     print(f"     - {change}")
-                self.changes_made.append({
-                    'file': file_path,
-                    'changes': changes
-                })
+                self.changes_made.append({"file": file_path, "changes": changes})
 
             # Check if filename needs update
             new_filename = self.update_filename_if_needed(file_path)
             if new_filename:
-                print(f"  📝 Filename change needed: {os.path.basename(file_path)} → {os.path.basename(new_filename)}")
+                print(
+                    f"  📝 Filename change needed: {os.path.basename(file_path)} → {os.path.basename(new_filename)}"
+                )
                 if not self.dry_run:
                     full_old_path = self.repo_path / file_path
                     full_new_path = self.repo_path / new_filename
                     full_old_path.rename(full_new_path)
-                    print(f"  ✅ File renamed")
+                    print("  ✅ File renamed")
 
         # Summary
         print("\n" + "=" * 70)
@@ -171,26 +177,26 @@ class BrandingUpdater:
         print(f"Total branding changes: {total_changes}")
 
         if self.dry_run:
-            print(f"\n⚠️  DRY RUN - No files were actually modified")
-            print(f"Run with --execute to apply changes")
+            print("\n⚠️  DRY RUN - No files were actually modified")
+            print("Run with --execute to apply changes")
         else:
-            print(f"\n✅ Updates applied successfully")
+            print("\n✅ Updates applied successfully")
             print(f"Backup created at: {self.backup_dir}")
 
     def save_report(self, output_file: str = "branding_update_report.json"):
         """Save detailed report of changes"""
         report = {
-            'timestamp': datetime.now().isoformat(),
-            'mode': 'dry_run' if self.dry_run else 'executed',
-            'backup_dir': str(self.backup_dir) if not self.dry_run else None,
-            'summary': {
-                'files_processed': len(self.changes_made),
-                'total_changes': sum(len(c['changes']) for c in self.changes_made)
+            "timestamp": datetime.now().isoformat(),
+            "mode": "dry_run" if self.dry_run else "executed",
+            "backup_dir": str(self.backup_dir) if not self.dry_run else None,
+            "summary": {
+                "files_processed": len(self.changes_made),
+                "total_changes": sum(len(c["changes"]) for c in self.changes_made),
             },
-            'detailed_changes': self.changes_made
+            "detailed_changes": self.changes_made,
         }
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"\n📄 Detailed report saved to: {output_file}")
@@ -198,14 +204,21 @@ class BrandingUpdater:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Update branding from Lucas/lucas to LUKHAS/lukhas'
+        description="Update branding from Lucas/lucas to LUKHAS/lukhas"
     )
-    parser.add_argument('repo_path', help='Path to repository')
-    parser.add_argument('file_list', help='JSON file with list of files to update')
-    parser.add_argument('--execute', action='store_true',
-                       help='Actually perform updates (default is dry run)')
-    parser.add_argument('-o', '--output', default='branding_update_report.json',
-                       help='Output file for detailed report')
+    parser.add_argument("repo_path", help="Path to repository")
+    parser.add_argument("file_list", help="JSON file with list of files to update")
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Actually perform updates (default is dry run)",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="branding_update_report.json",
+        help="Output file for detailed report",
+    )
 
     args = parser.parse_args()
 

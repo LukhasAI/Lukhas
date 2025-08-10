@@ -9,13 +9,18 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import logging
-from core.config import config, LukhasConfig # Import LukhasConfig for type hinting if needed
+
+from core.config import (  # Import LukhasConfig for type hinting if needed
+    LukhasConfig,
+    config,
+)
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.config_manager")
 logger.info("ΛTRACE: Initializing config_manager module.")
 
 # --- Legacy Compatibility Functions ---
+
 
 # Human-readable comment: Function to get the current configuration object.
 def get_config() -> LukhasConfig:
@@ -25,6 +30,7 @@ def get_config() -> LukhasConfig:
     """
     logger.debug("ΛTRACE: get_config() called. Returning global 'config' instance.")
     return config
+
 
 # Human-readable comment: Function to set/update the configuration object (discouraged).
 def set_config(new_config: LukhasConfig) -> None:
@@ -37,19 +43,28 @@ def set_config(new_config: LukhasConfig) -> None:
         new_config (LukhasConfig): The new configuration object to set globally.
     """
     global config
-    logger.warning("ΛTRACE: set_config() called. Overwriting global 'config' instance. This is generally discouraged.")
+    logger.warning(
+        "ΛTRACE: set_config() called. Overwriting global 'config' instance. This is generally discouraged."
+    )
     if not isinstance(new_config, LukhasConfig):
-        logger.error(f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config)}.")
+        logger.error(
+            f"ΛTRACE: set_config() failed. Expected LukhasConfig instance, got {type(new_config)}."
+        )
         raise TypeError(f"Expected LukhasConfig instance, got {type(new_config)}")
     config = new_config
-    logger.info(f"ΛTRACE: Global 'config' instance has been updated by set_config(). New tier: {config.tier.value if config else 'N/A'}")
+    logger.info(
+        f"ΛTRACE: Global 'config' instance has been updated by set_config(). New tier: {config.tier.value if config else 'N/A'}"
+    )
+
 
 # --- Public API Exposure ---
 
 # Human-readable comment: Defines the public API of this module for `from .config_manager import *`.
-__all__ = ['config', 'get_config', 'set_config']
+__all__ = ["config", "get_config", "set_config"]
 
-logger.info(f"ΛTRACE: config_manager module initialized. Exposed symbols in __all__: {__all__}")
+logger.info(
+    f"ΛTRACE: config_manager module initialized. Exposed symbols in __all__: {__all__}"
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: config_manager.py

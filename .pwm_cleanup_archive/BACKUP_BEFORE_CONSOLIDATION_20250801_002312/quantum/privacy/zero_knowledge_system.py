@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -33,24 +32,25 @@ __version__ = "1.0.0"
 __tier__ = 2
 
 
-from zksnark import ZkSnark, CircuitGenerator
 from bulletproofs import BulletproofSystem
-import hashlib
+from zksnark import ZkSnark
+
 
 class ZeroKnowledgePrivacyEngine:
     """
     Implements zero-knowledge proofs for private AI interactions
     """
+
     def __init__(self):
         self.zksnark_system = ZkSnark(curve="BN254")
         self.bulletproof_system = BulletproofSystem()
         self.circuit_cache: Dict[str, Circuit] = {}
-        
+
     async def create_privacy_preserving_proof(
         self,
         statement: PrivacyStatement,
         witness: PrivateWitness,
-        proof_type: str = "adaptive"
+        proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:
         """
         Generate ZK proof for private computation
@@ -61,65 +61,58 @@ class ZeroKnowledgePrivacyEngine:
                 return await self._create_zksnark_proof(statement, witness)
             else:
                 return await self._create_bulletproof(statement, witness)
-                
+
     async def _create_zksnark_proof(
-        self,
-        statement: PrivacyStatement,
-        witness: PrivateWitness
+        self, statement: PrivacyStatement, witness: PrivateWitness
     ) -> ZkSnarkProof:
         """
         Create succinct non-interactive proof
         """
         # 1. Generate arithmetic circuit
         circuit = await self._generate_circuit(statement)
-        
+
         # 2. Trusted setup (in practice, use ceremony or updateable)
         if circuit.id not in self.circuit_cache:
             setup_params = await self.zksnark_system.trusted_setup(circuit)
             self.circuit_cache[circuit.id] = setup_params
         else:
             setup_params = self.circuit_cache[circuit.id]
-            
+
         # 3. Generate proof
         proof = await self.zksnark_system.prove(
             circuit,
             setup_params,
             public_input=statement.public_input,
-            private_witness=witness
+            private_witness=witness,
         )
-        
+
         return ZkSnarkProof(
             proof_data=proof,
             public_input=statement.public_input,
-            verification_key=setup_params.verification_key
+            verification_key=setup_params.verification_key,
         )
-    
+
     async def verify_private_computation(
         self,
         claimed_result: Any,
         proof: ZeroKnowledgeProof,
-        expected_computation: Computation
+        expected_computation: Computation,
     ) -> bool:
         """
         Verify computation was done correctly without seeing private data
         """
         if isinstance(proof, ZkSnarkProof):
             return await self.zksnark_system.verify(
-                proof.verification_key,
-                proof.public_input,
-                proof.proof_data
+                proof.verification_key, proof.public_input, proof.proof_data
             )
         elif isinstance(proof, BulletProof):
-            return await self.bulletproof_system.verify(
-                proof,
-                expected_computation
-            )
-
+            return await self.bulletproof_system.verify(proof, expected_computation)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Validation and Compliance
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 def __validate_module__():
     """Validate module initialization and compliance."""
@@ -127,14 +120,15 @@ def __validate_module__():
         "quantum_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
-        "tier_2_access": True
+        "tier_2_access": True,
     }
-    
+
     failed = [k for k, v in validations.items() if not v]
     if failed:
         logger.warning(f"Module validation warnings: {failed}")
-    
+
     return len(failed) == 0
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Module Health and Monitoring
@@ -145,7 +139,7 @@ MODULE_HEALTH = {
     "quantum_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

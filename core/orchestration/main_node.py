@@ -18,23 +18,23 @@
 """
 
 import asyncio
-import logging
-from datetime import datetime
 import json
-import os
+import logging
 import sys
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('adaptive_agi.log')
-    ]
+        logging.FileHandler("adaptive_agi.log"),
+    ],
 )
 
 logger = logging.getLogger(__name__)
+
 
 class AdaptiveAGISystem:
     """
@@ -58,7 +58,7 @@ class AdaptiveAGISystem:
             "status": "initializing",
             "start_time": datetime.now().isoformat(),
             "active_sessions": {},
-            "system_health": {}
+            "system_health": {},
         }
 
         logger.info("System initialization complete")
@@ -67,19 +67,26 @@ class AdaptiveAGISystem:
         """Load all system components"""
         try:
             # Frontend components
-            from voice.speech_processor import SpeechProcessor
-            from core.common.interfaces.ui.multimodal.image_generator import AdaptiveImageGenerator
-            from core.common.interfaces.ui.adaptive.adaptive_interface_generator import AdaptiveInterfaceGenerator
-
-            # Backend components
-            from memory.node import Node
             from learning.meta_learning import MetaLearningSystem
-            from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import NeuroSymbolicEngine
-            from identity.core.id_service.identity_manager import IdentityManager
-            from orchestration.brain.privacy_manager import PrivacyManager
+
+            from core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
+                AdaptiveInterfaceGenerator,
+            )
+            from core.common.interfaces.ui.multimodal.image_generator import (
+                AdaptiveImageGenerator,
+            )
 
             # Utils and config
             from core.orchestration.brain.config.settings import load_settings
+            from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
+                NeuroSymbolicEngine,
+            )
+            from identity.core.id_service.identity_manager import IdentityManager
+
+            # Backend components
+            from memory.node import Node
+            from orchestration.brain.privacy_manager import PrivacyManager
+            from voice.speech_processor import SpeechProcessor
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator
@@ -114,7 +121,6 @@ class AdaptiveAGISystem:
         """Set up event handling between components"""
         # Example handler setup
         # self.speech_processor.on_transcription = self.handle_transcription
-        pass
 
     async def start(self):
         """Start the system and run the main processing loop"""
@@ -125,7 +131,7 @@ class AdaptiveAGISystem:
             # Start any background tasks
             background_tasks = [
                 self.monitor_system_health(),
-                self.process_scheduled_tasks()
+                self.process_scheduled_tasks(),
             ]
 
             # Run until stopped
@@ -144,13 +150,17 @@ class AdaptiveAGISystem:
         session_id = f"session_{user_id}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
 
         # Check privacy and security
-        privacy_check = self.privacy_manager.check_permissions(user_id, "create_session")
+        privacy_check = self.privacy_manager.check_permissions(
+            user_id, "create_session"
+        )
         if not privacy_check["allowed"]:
-            logger.warning(f"Privacy check failed for {user_id}: {privacy_check['reason']}")
+            logger.warning(
+                f"Privacy check failed for {user_id}: {privacy_check['reason']}"
+            )
             return {"status": "denied", "reason": privacy_check["reason"]}
 
         # Load or create user identity
-        user_identity = await self.identity_manager.get_user_identity(user_id)
+        await self.identity_manager.get_user_identity(user_id)
 
         # Initialize session state
         self.system_state["active_sessions"][session_id] = {
@@ -158,16 +168,18 @@ class AdaptiveAGISystem:
             "start_time": datetime.now().isoformat(),
             "context": context or {},
             "state": "active",
-            "interactions": 0
+            "interactions": 0,
         }
 
         # Generate initial interface based on user profile
-        device_info = context.get("device_info", {"type": "desktop", "orientation": "landscape"})
+        device_info = context.get(
+            "device_info", {"type": "desktop", "orientation": "landscape"}
+        )
         interface_spec = self.interface_generator.generate_interface(
             user_id,
             context or {},
             ["voice_interaction", "image_generation", "text_completion"],
-            device_info
+            device_info,
         )
 
         logger.info(f"Session {session_id} created for user {user_id}")
@@ -175,7 +187,7 @@ class AdaptiveAGISystem:
         return {
             "status": "created",
             "session_id": session_id,
-            "interface": interface_spec
+            "interface": interface_spec,
         }
 
     async def process_user_input(self, session_id, input_data):
@@ -201,7 +213,10 @@ class AdaptiveAGISystem:
 
             # Queue audio for processing
             self.speech_processor.audio_queue.put(audio_data)
-            response = {"status": "processing", "message": "Voice input queued for processing"}
+            response = {
+                "status": "processing",
+                "message": "Voice input queued for processing",
+            }
 
         elif input_type == "text":
             # Process text input directly
@@ -217,16 +232,14 @@ class AdaptiveAGISystem:
                 "status": "success",
                 "text_response": cognitive_response.get("response"),
                 "confidence": cognitive_response.get("confidence", 0.9),
-                "additional_actions": cognitive_response.get("suggested_actions", [])
+                "additional_actions": cognitive_response.get("suggested_actions", []),
             }
 
             # Check if we should generate an image
             if cognitive_response.get("generate_image", False):
                 image_prompt = cognitive_response.get("image_prompt", text)
                 image_result = await self.image_generator.generate_image(
-                    image_prompt,
-                    style="minimalist",
-                    user_context=context
+                    image_prompt, style="minimalist", user_context=context
                 )
                 response["generated_image"] = image_result
 
@@ -237,27 +250,26 @@ class AdaptiveAGISystem:
             size = input_data.get("size", "1024x1024")
 
             image_result = await self.image_generator.generate_image(
-                prompt,
-                style=style,
-                size=size,
-                user_context=session["context"]
+                prompt, style=style, size=size, user_context=session["context"]
             )
 
-            response = {
-                "status": "success",
-                "generated_image": image_result
-            }
+            response = {"status": "success", "generated_image": image_result}
 
         else:
-            response = {"status": "error", "message": f"Unsupported input type: {input_type}"}
+            response = {
+                "status": "error",
+                "message": f"Unsupported input type: {input_type}",
+            }
 
         # Learn from this interaction
-        self.meta_learning.incorporate_feedback({
-            "session_id": session_id,
-            "input_data": input_data,
-            "response": response,
-            "user_id": user_id
-        })
+        self.meta_learning.incorporate_feedback(
+            {
+                "session_id": session_id,
+                "input_data": input_data,
+                "response": response,
+                "user_id": user_id,
+            }
+        )
 
         return response
 
@@ -291,10 +303,10 @@ class AdaptiveAGISystem:
                 "interactions": archived_session["interactions"],
                 "duration": self._calculate_duration(
                     archived_session["start_time"],
-                    archived_session["end_time"]
+                    archived_session["end_time"],
                 ),
-                "learning_insights": learning_report.get("adaptation_progress", 0)
-            }
+                "learning_insights": learning_report.get("adaptation_progress", 0),
+            },
         }
 
     async def monitor_system_health(self):
@@ -306,7 +318,7 @@ class AdaptiveAGISystem:
                     "speech_processor": hasattr(self, "speech_processor"),
                     "image_generator": hasattr(self, "image_generator"),
                     "meta_learning": hasattr(self, "meta_learning"),
-                    "neuro_symbolic_engine": hasattr(self, "neuro_symbolic_engine")
+                    "neuro_symbolic_engine": hasattr(self, "neuro_symbolic_engine"),
                 }
 
                 # Update system health
@@ -314,10 +326,12 @@ class AdaptiveAGISystem:
                     "timestamp": datetime.now().isoformat(),
                     "components": component_health,
                     "active_sessions": len(self.system_state["active_sessions"]),
-                    "memory_usage": self._get_memory_usage()
+                    "memory_usage": self._get_memory_usage(),
                 }
 
-                logger.debug(f"System health updated: {len(self.system_state['active_sessions'])} active sessions")
+                logger.debug(
+                    f"System health updated: {len(self.system_state['active_sessions'])} active sessions"
+                )
 
                 # Wait before next check
                 await asyncio.sleep(60)  # Check every minute
@@ -380,22 +394,23 @@ class AdaptiveAGISystem:
         # This implementation is specific to Unix-like systems
         try:
             import resource
+
             usage = resource.getrusage(resource.RUSAGE_SELF)
             return usage.ru_maxrss / 1024 / 1024  # Convert to MB
-        except:
+        except BaseException:
             return 0
 
     def _save_system_state(self):
         """Save system state for potential recovery"""
         try:
             state_file = "system_state.json"
-            with open(state_file, 'w') as f:
+            with open(state_file, "w") as f:
                 # Filter state to include only serializable and relevant parts
                 save_state = {
                     "status": self.system_state["status"],
                     "start_time": self.system_state["start_time"],
                     "end_time": self.system_state.get("end_time"),
-                    "session_count": len(self.system_state["active_sessions"])
+                    "session_count": len(self.system_state["active_sessions"]),
                 }
                 json.dump(save_state, f)
 

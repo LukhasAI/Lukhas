@@ -1,5 +1,3 @@
-
-
 """
 ┌────────────────────────────────────────────────────────────────────────────┐
 │ 📦 MODULE      : consent_manager.py                                        │
@@ -23,6 +21,7 @@ from lucas_config import TIER_PERMISSIONS
 # Tier Validation
 # ----------------------------
 
+
 def is_action_allowed(action_name, tier_level):
     """
     Checks if the requested action is permitted for the given user trust tier.
@@ -30,9 +29,11 @@ def is_action_allowed(action_name, tier_level):
     allowed_actions = TIER_PERMISSIONS.get(tier_level, [])
     return action_name in allowed_actions
 
+
 # ----------------------------
 # Revocation Logic
 # ----------------------------
+
 
 def revoke_access(reason=None):
     """
@@ -44,9 +45,11 @@ def revoke_access(reason=None):
         print(f"Reason: {reason}")
     return False
 
+
 # ----------------------------
 # Grant/Recheck Helper
 # ----------------------------
+
 
 def verify_or_revoke(action_name, tier_level, emotion_intensity):
     """
@@ -55,11 +58,12 @@ def verify_or_revoke(action_name, tier_level, emotion_intensity):
     """
     if not is_action_allowed(action_name, tier_level):
         return revoke_access("Insufficient tier level")
-    
+
     if emotion_intensity > 0.9:
         return revoke_access("Emotional state too elevated")
-    
+
     return True
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for consent_manager.py)

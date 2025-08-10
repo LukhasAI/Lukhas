@@ -12,25 +12,26 @@ Central integration point for NIAS, Dream, and Superposition systems.
 Provides unified consciousness processing with OpenAI enhancement.
 """
 
-import asyncio
 import json
-from core.common import get_logger
-from typing import Dict, Any, Optional, List, Tuple
-from datetime import datetime
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import numpy as np
+from typing import Any, Dict, List, Optional
 
+import numpy as np
+from contracts import ProcessingResult
 from openai import AsyncOpenAI
-from contracts import IConsciousnessModule, IQuantumModule, ProcessingResult, AgentContext
-from quantum.attention_economics import QuantumAttentionEconomics
+
+from core.common import get_logger
 from orchestration.brain.consciousness_core import ConsciousnessCore
+from quantum.attention_economics import QuantumAttentionEconomics
 
 logger = get_logger(__name__)
 
 
 class ConsciousnessState(Enum):
     """States of consciousness processing"""
+
     WAKING = "waking"
     DREAMING = "dreaming"
     SUPERPOSITION = "superposition"
@@ -41,6 +42,7 @@ class ConsciousnessState(Enum):
 @dataclass
 class QuantumConsciousnessState:
     """Represents the quantum consciousness state"""
+
     state_type: ConsciousnessState
     coherence: float = 1.0
     entanglement_strength: float = 0.0
@@ -62,7 +64,7 @@ class QuantumConsciousnessState:
             "dream_dimension": self.dream_narrative,
             "attention_economics": self.attention_tokens,
             "emotional_field": self.emotional_vector,
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
         }
 
 
@@ -87,7 +89,9 @@ class QuantumConsciousnessHub:
         self.dast_router = None
 
         # Initialize Quantum Attention Economics
-        self.quantum_attention_economics = QuantumAttentionEconomics(openai_api_key=openai_api_key)
+        self.quantum_attention_economics = QuantumAttentionEconomics(
+            openai_api_key=openai_api_key
+        )
 
         # Initialize Consciousness Core
         self.consciousness_core = ConsciousnessCore()
@@ -103,14 +107,16 @@ class QuantumConsciousnessHub:
 
         logger.info("Quantum Consciousness Hub initialized")
 
-    def inject_components(self,
-                         nias_core: Any = None,
-                         dream_adapter: Any = None,
-                         quantum_processor: Any = None,
-                         abas_gate: Any = None,
-                         dast_router: Any = None,
-                         quantum_attention_economics: Optional[QuantumAttentionEconomics] = None,
-                         consciousness_core: Optional[ConsciousnessCore] = None) -> None:
+    def inject_components(
+        self,
+        nias_core: Any = None,
+        dream_adapter: Any = None,
+        quantum_processor: Any = None,
+        abas_gate: Any = None,
+        dast_router: Any = None,
+        quantum_attention_economics: Optional[QuantumAttentionEconomics] = None,
+        consciousness_core: Optional[ConsciousnessCore] = None,
+    ) -> None:
         """Inject component dependencies"""
         self.nias_core = nias_core
         self.dream_adapter = dream_adapter
@@ -128,10 +134,9 @@ class QuantumConsciousnessHub:
 
         logger.info("Components injected into Quantum Consciousness Hub")
 
-    async def process_consciousness_event(self,
-                                        agent_id: str,
-                                        event_type: str,
-                                        event_data: Dict[str, Any]) -> ProcessingResult:
+    async def process_consciousness_event(
+        self, agent_id: str, event_type: str, event_data: Dict[str, Any]
+    ) -> ProcessingResult:
         """
         Enhanced consciousness event processing with quantum processing integration.
 
@@ -141,14 +146,17 @@ class QuantumConsciousnessHub:
         """
         try:
             # Get or create consciousness state
-            state = self.current_states.get(agent_id, QuantumConsciousnessState(
-                state_type=ConsciousnessState.WAKING
-            ))
+            state = self.current_states.get(
+                agent_id,
+                QuantumConsciousnessState(state_type=ConsciousnessState.WAKING),
+            )
 
             # Route through quantum attention economics
             if self.quantum_attention_economics:
-                attention_result = await self.quantum_attention_economics.process_attention_event(
-                    event_type, event_data
+                attention_result = (
+                    await self.quantum_attention_economics.process_attention_event(
+                        event_type, event_data
+                    )
                 )
                 event_data["attention_analysis"] = attention_result
 
@@ -160,13 +168,19 @@ class QuantumConsciousnessHub:
 
             # Route based on event type
             if event_type == "symbolic_message":
-                result = await self._process_symbolic_message(agent_id, event_data, state)
+                result = await self._process_symbolic_message(
+                    agent_id, event_data, state
+                )
             elif event_type == "dream_injection":
-                result = await self._process_dream_injection(agent_id, event_data, state)
+                result = await self._process_dream_injection(
+                    agent_id, event_data, state
+                )
             elif event_type == "quantum_query":
                 result = await self._process_quantum_query(agent_id, event_data, state)
             elif event_type == "attention_bid":
-                result = await self._process_attention_economics(agent_id, event_data, state)
+                result = await self._process_attention_economics(
+                    agent_id, event_data, state
+                )
             else:
                 result = await self._process_generic_event(agent_id, event_data, state)
 
@@ -179,10 +193,7 @@ class QuantumConsciousnessHub:
 
         except Exception as e:
             logger.error(f"Error processing consciousness event: {e}")
-            return ProcessingResult(
-                success=False,
-                error=str(e)
-            )
+            return ProcessingResult(success=False, error=str(e))
 
     async def _check_emotional_safety(self, emotional_context: Dict[str, Any]) -> bool:
         """Check if interaction is emotionally safe using ABAS principles"""
@@ -198,16 +209,16 @@ class QuantumConsciousnessHub:
             try:
                 response = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Assess emotional safety for interaction.
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Assess emotional safety for interaction.
                         Consider stress, vulnerability, and overall wellbeing.
-                        Prioritize user safety over engagement."""
-                    }, {
-                        "role": "user",
-                        "content": json.dumps(emotional_context)
-                    }],
-                    temperature=0.3
+                        Prioritize user safety over engagement.""",
+                        },
+                        {"role": "user", "content": json.dumps(emotional_context)},
+                    ],
+                    temperature=0.3,
                 )
 
                 # Parse AI assessment
@@ -219,9 +230,9 @@ class QuantumConsciousnessHub:
 
         return True
 
-    async def _defer_to_dream_state(self,
-                                   agent_id: str,
-                                   event_data: Dict[str, Any]) -> ProcessingResult:
+    async def _defer_to_dream_state(
+        self, agent_id: str, event_data: Dict[str, Any]
+    ) -> ProcessingResult:
         """Defer processing to dream state when not emotionally ready"""
         # Create dream deferral entry
         dream_entry = {
@@ -229,7 +240,7 @@ class QuantumConsciousnessHub:
             "deferred_at": datetime.now().isoformat(),
             "original_event": event_data,
             "reason": "emotional_safety",
-            "dream_priority": "gentle"
+            "dream_priority": "gentle",
         }
 
         # Store in dream queue (integration with dream system)
@@ -241,14 +252,16 @@ class QuantumConsciousnessHub:
             data={
                 "status": "deferred_to_dream",
                 "message": "This moment wasn't meant for this 🕊️",
-                "dream_id": dream_entry.get("dream_id")
-            }
+                "dream_id": dream_entry.get("dream_id"),
+            },
         )
 
-    async def _process_symbolic_message(self,
-                                       agent_id: str,
-                                       event_data: Dict[str, Any],
-                                       state: QuantumConsciousnessState) -> ProcessingResult:
+    async def _process_symbolic_message(
+        self,
+        agent_id: str,
+        event_data: Dict[str, Any],
+        state: QuantumConsciousnessState,
+    ) -> ProcessingResult:
         """Process NIAS symbolic message through consciousness hub"""
         message = event_data.get("message", {})
         context = event_data.get("context", {})
@@ -258,30 +271,58 @@ class QuantumConsciousnessHub:
             try:
                 interpretation = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """You are the NIAS symbolic interpreter.
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """You are the NIAS symbolic interpreter.
                         Analyze the message for symbolic meaning, emotional resonance,
-                        and alignment with user's consciousness state."""
-                    }, {
-                        "role": "user",
-                        "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation()}"
-                    }],
-                    functions=[{
-                        "name": "interpret_symbolic_message",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "symbolic_meaning": {"type": "string"},
-                                "emotional_resonance": {"type": "number", "minimum": 0, "maximum": 1},
-                                "quantum_alignment": {"type": "number", "minimum": 0, "maximum": 1},
-                                "delivery_mode": {"type": "string", "enum": ["direct", "dream", "superposition", "block"]},
-                                "consciousness_tags": {"type": "array", "items": {"type": "string"}}
+                        and alignment with user's consciousness state.""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Message: {json.dumps(message)}\nContext: {json.dumps(context)}\nState: {state.to_quantum_representation()}",
+                        },
+                    ],
+                    functions=[
+                        {
+                            "name": "interpret_symbolic_message",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "symbolic_meaning": {"type": "string"},
+                                    "emotional_resonance": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "quantum_alignment": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "delivery_mode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "direct",
+                                            "dream",
+                                            "superposition",
+                                            "block",
+                                        ],
+                                    },
+                                    "consciousness_tags": {
+                                        "type": "array",
+                                        "items": {"type": "string"},
+                                    },
+                                },
+                                "required": [
+                                    "symbolic_meaning",
+                                    "emotional_resonance",
+                                    "delivery_mode",
+                                ],
                             },
-                            "required": ["symbolic_meaning", "emotional_resonance", "delivery_mode"]
                         }
-                    }],
-                    function_call={"name": "interpret_symbolic_message"}
+                    ],
+                    function_call={"name": "interpret_symbolic_message"},
                 )
 
                 # Extract interpretation
@@ -289,33 +330,45 @@ class QuantumConsciousnessHub:
                 result_data = json.loads(func_call.arguments)
 
                 # Update consciousness state
-                state.nias_symbolic_tags.extend(result_data.get("consciousness_tags", []))
+                state.nias_symbolic_tags.extend(
+                    result_data.get("consciousness_tags", [])
+                )
                 state.emotional_vector["resonance"] = result_data["emotional_resonance"]
 
                 # Route to appropriate delivery mode
                 delivery_mode = result_data["delivery_mode"]
                 if delivery_mode == "direct":
-                    return await self._deliver_direct_consciousness(agent_id, message, result_data)
+                    return await self._deliver_direct_consciousness(
+                        agent_id, message, result_data
+                    )
                 elif delivery_mode == "dream":
-                    return await self._queue_for_dream_delivery(agent_id, message, result_data)
+                    return await self._queue_for_dream_delivery(
+                        agent_id, message, result_data
+                    )
                 elif delivery_mode == "superposition":
-                    return await self._create_superposition_state(agent_id, message, result_data)
+                    return await self._create_superposition_state(
+                        agent_id, message, result_data
+                    )
                 else:
-                    return ProcessingResult(success=True, data={"status": "blocked", "reason": result_data["symbolic_meaning"]})
+                    return ProcessingResult(
+                        success=True,
+                        data={
+                            "status": "blocked",
+                            "reason": result_data["symbolic_meaning"],
+                        },
+                    )
 
             except Exception as e:
                 logger.error(f"OpenAI symbolic interpretation failed: {e}")
 
         # Fallback to basic processing
         return ProcessingResult(
-            success=True,
-            data={"status": "processed", "mode": "basic"}
+            success=True, data={"status": "processed", "mode": "basic"}
         )
 
-    async def _deliver_direct_consciousness(self,
-                                          agent_id: str,
-                                          message: Dict[str, Any],
-                                          interpretation: Dict[str, Any]) -> ProcessingResult:
+    async def _deliver_direct_consciousness(
+        self, agent_id: str, message: Dict[str, Any], interpretation: Dict[str, Any]
+    ) -> ProcessingResult:
         """Deliver message directly to consciousness"""
         return ProcessingResult(
             success=True,
@@ -324,46 +377,45 @@ class QuantumConsciousnessHub:
                 "mode": "direct",
                 "symbolic_meaning": interpretation["symbolic_meaning"],
                 "resonance": interpretation["emotional_resonance"],
-                "timestamp": datetime.now().isoformat()
-            }
+                "timestamp": datetime.now().isoformat(),
+            },
         )
 
-    async def _queue_for_dream_delivery(self,
-                                       agent_id: str,
-                                       message: Dict[str, Any],
-                                       interpretation: Dict[str, Any]) -> ProcessingResult:
+    async def _queue_for_dream_delivery(
+        self, agent_id: str, message: Dict[str, Any], interpretation: Dict[str, Any]
+    ) -> ProcessingResult:
         """Queue message for dream-state delivery"""
         if self.dream_adapter:
-            dream_id = await self.dream_adapter.queue_symbolic_dream({
-                "agent_id": agent_id,
-                "message": message,
-                "interpretation": interpretation,
-                "dream_seeds": interpretation.get("consciousness_tags", [])
-            })
+            dream_id = await self.dream_adapter.queue_symbolic_dream(
+                {
+                    "agent_id": agent_id,
+                    "message": message,
+                    "interpretation": interpretation,
+                    "dream_seeds": interpretation.get("consciousness_tags", []),
+                }
+            )
 
             return ProcessingResult(
                 success=True,
                 data={
                     "status": "queued_for_dream",
                     "dream_id": dream_id,
-                    "message": "Saved for your dreams 🌙"
-                }
+                    "message": "Saved for your dreams 🌙",
+                },
             )
 
-        return ProcessingResult(
-            success=False,
-            error="Dream adapter not available"
-        )
+        return ProcessingResult(success=False, error="Dream adapter not available")
 
-    async def _create_superposition_state(self,
-                                         agent_id: str,
-                                         message: Dict[str, Any],
-                                         interpretation: Dict[str, Any]) -> ProcessingResult:
+    async def _create_superposition_state(
+        self, agent_id: str, message: Dict[str, Any], interpretation: Dict[str, Any]
+    ) -> ProcessingResult:
         """Create quantum superposition for parallel consciousness processing"""
         state = self.current_states.get(agent_id)
 
         if not state:
-            state = QuantumConsciousnessState(state_type=ConsciousnessState.SUPERPOSITION)
+            state = QuantumConsciousnessState(
+                state_type=ConsciousnessState.SUPERPOSITION
+            )
             self.current_states[agent_id] = state
 
         # Update to superposition state
@@ -375,7 +427,9 @@ class QuantumConsciousnessHub:
 
         # Process through quantum layer if available
         if self.quantum_processor:
-            quantum_result = await self.quantum_processor.process_superposition(branches)
+            quantum_result = await self.quantum_processor.process_superposition(
+                branches
+            )
             state.superposition_weights = quantum_result.get("weights", [])
 
         return ProcessingResult(
@@ -384,13 +438,13 @@ class QuantumConsciousnessHub:
                 "status": "superposition_created",
                 "branches": len(branches),
                 "coherence": state.coherence,
-                "message": "Exploring quantum possibilities ✨"
-            }
+                "message": "Exploring quantum possibilities ✨",
+            },
         )
 
-    async def _generate_consciousness_branches(self,
-                                             message: Dict[str, Any],
-                                             interpretation: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def _generate_consciousness_branches(
+        self, message: Dict[str, Any], interpretation: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Generate parallel consciousness branches for superposition"""
         branches = []
 
@@ -398,23 +452,28 @@ class QuantumConsciousnessHub:
             try:
                 response = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Generate parallel consciousness branches for quantum processing.
-                        Each branch represents a different interpretation or response pathway."""
-                    }, {
-                        "role": "user",
-                        "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation)}"
-                    }],
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Generate parallel consciousness branches for quantum processing.
+                        Each branch represents a different interpretation or response pathway.""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Message: {json.dumps(message)}\nInterpretation: {json.dumps(interpretation)}",
+                        },
+                    ],
                     n=3,  # Generate 3 parallel branches
-                    temperature=0.9
+                    temperature=0.9,
                 )
 
                 for choice in response.choices:
-                    branches.append({
-                        "interpretation": choice.message.content,
-                        "probability": 1.0 / len(response.choices)
-                    })
+                    branches.append(
+                        {
+                            "interpretation": choice.message.content,
+                            "probability": 1.0 / len(response.choices),
+                        }
+                    )
 
             except Exception as e:
                 logger.error(f"Failed to generate consciousness branches: {e}")
@@ -424,15 +483,17 @@ class QuantumConsciousnessHub:
             branches = [
                 {"interpretation": "primary_pathway", "probability": 0.6},
                 {"interpretation": "alternative_pathway", "probability": 0.3},
-                {"interpretation": "creative_pathway", "probability": 0.1}
+                {"interpretation": "creative_pathway", "probability": 0.1},
             ]
 
         return branches
 
-    async def _process_dream_injection(self,
-                                      agent_id: str,
-                                      event_data: Dict[str, Any],
-                                      state: QuantumConsciousnessState) -> ProcessingResult:
+    async def _process_dream_injection(
+        self,
+        agent_id: str,
+        event_data: Dict[str, Any],
+        state: QuantumConsciousnessState,
+    ) -> ProcessingResult:
         """Process dream injection into consciousness"""
         dream_content = event_data.get("dream_content", {})
 
@@ -448,7 +509,7 @@ class QuantumConsciousnessHub:
                     prompt=f"Ethereal dream visualization: {state.dream_narrative[:500]}",
                     size="1024x1024",
                     quality="standard",
-                    style="vivid"
+                    style="vivid",
                 )
 
                 return ProcessingResult(
@@ -456,8 +517,8 @@ class QuantumConsciousnessHub:
                     data={
                         "status": "dream_visualized",
                         "visualization_url": visualization.data[0].url,
-                        "narrative": state.dream_narrative
-                    }
+                        "narrative": state.dream_narrative,
+                    },
                 )
 
             except Exception as e:
@@ -465,16 +526,15 @@ class QuantumConsciousnessHub:
 
         return ProcessingResult(
             success=True,
-            data={
-                "status": "dream_processed",
-                "narrative": state.dream_narrative
-            }
+            data={"status": "dream_processed", "narrative": state.dream_narrative},
         )
 
-    async def _process_quantum_query(self,
-                                    agent_id: str,
-                                    event_data: Dict[str, Any],
-                                    state: QuantumConsciousnessState) -> ProcessingResult:
+    async def _process_quantum_query(
+        self,
+        agent_id: str,
+        event_data: Dict[str, Any],
+        state: QuantumConsciousnessState,
+    ) -> ProcessingResult:
         """Process quantum consciousness query"""
         query_type = event_data.get("query_type", "state")
 
@@ -484,8 +544,8 @@ class QuantumConsciousnessHub:
                 data={
                     "coherence": state.coherence,
                     "state": state.state_type.value,
-                    "entanglement": state.entanglement_strength
-                }
+                    "entanglement": state.entanglement_strength,
+                },
             )
         elif query_type == "collapse":
             # Collapse superposition to definite state
@@ -494,18 +554,17 @@ class QuantumConsciousnessHub:
                 success=True,
                 data={
                     "collapsed_to": collapsed_state,
-                    "previous_state": state.state_type.value
-                }
+                    "previous_state": state.state_type.value,
+                },
             )
         else:
             return ProcessingResult(
-                success=True,
-                data=state.to_quantum_representation()
+                success=True, data=state.to_quantum_representation()
             )
 
-    async def _collapse_quantum_state(self,
-                                     agent_id: str,
-                                     state: QuantumConsciousnessState) -> str:
+    async def _collapse_quantum_state(
+        self, agent_id: str, state: QuantumConsciousnessState
+    ) -> str:
         """Collapse quantum superposition to definite state"""
         if state.state_type != ConsciousnessState.SUPERPOSITION:
             return state.state_type.value
@@ -515,7 +574,7 @@ class QuantumConsciousnessHub:
         if weights:
             # Weighted random selection
             states = [ConsciousnessState.WAKING, ConsciousnessState.DREAMING]
-            probabilities = weights[:len(states)]
+            probabilities = weights[: len(states)]
             probabilities = probabilities / np.sum(probabilities)  # Normalize
 
             collapsed = np.random.choice(states, p=probabilities)
@@ -528,10 +587,12 @@ class QuantumConsciousnessHub:
         state.state_type = ConsciousnessState.WAKING
         return ConsciousnessState.WAKING.value
 
-    async def _process_attention_economics(self,
-                                          agent_id: str,
-                                          event_data: Dict[str, Any],
-                                          state: QuantumConsciousnessState) -> ProcessingResult:
+    async def _process_attention_economics(
+        self,
+        agent_id: str,
+        event_data: Dict[str, Any],
+        state: QuantumConsciousnessState,
+    ) -> ProcessingResult:
         """Process attention economics bid"""
         bid_amount = event_data.get("bid_amount", 0.0)
         bid_type = event_data.get("bid_type", "standard")
@@ -541,18 +602,21 @@ class QuantumConsciousnessHub:
             try:
                 valuation = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Calculate fair attention token value based on:
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Calculate fair attention token value based on:
                         - Current consciousness state and coherence
                         - Emotional investment level
                         - Market dynamics and scarcity
-                        - Ethical considerations"""
-                    }, {
-                        "role": "user",
-                        "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation()}"
-                    }],
-                    temperature=0.3
+                        - Ethical considerations""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Bid: {bid_amount} {bid_type}\nState: {state.to_quantum_representation()}",
+                        },
+                    ],
+                    temperature=0.3,
                 )
 
                 # Update attention tokens
@@ -564,8 +628,8 @@ class QuantumConsciousnessHub:
                         data={
                             "status": "bid_accepted",
                             "new_balance": state.attention_tokens,
-                            "assessment": value_assessment
-                        }
+                            "assessment": value_assessment,
+                        },
                     )
 
             except Exception as e:
@@ -573,62 +637,63 @@ class QuantumConsciousnessHub:
 
         return ProcessingResult(
             success=False,
-            data={"status": "bid_rejected", "reason": "Below attention threshold"}
+            data={"status": "bid_rejected", "reason": "Below attention threshold"},
         )
 
-    async def _process_generic_event(self,
-                                    agent_id: str,
-                                    event_data: Dict[str, Any],
-                                    state: QuantumConsciousnessState) -> ProcessingResult:
+    async def _process_generic_event(
+        self,
+        agent_id: str,
+        event_data: Dict[str, Any],
+        state: QuantumConsciousnessState,
+    ) -> ProcessingResult:
         """Process generic consciousness event"""
         # Use AI to understand and route generic events
         if self.openai:
             try:
                 routing = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": "Route consciousness event to appropriate handler"
-                    }, {
-                        "role": "user",
-                        "content": json.dumps(event_data)
-                    }]
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "Route consciousness event to appropriate handler",
+                        },
+                        {"role": "user", "content": json.dumps(event_data)},
+                    ],
                 )
 
                 route_decision = routing.choices[0].message.content
 
                 return ProcessingResult(
                     success=True,
-                    data={
-                        "status": "processed",
-                        "routing": route_decision
-                    }
+                    data={"status": "processed", "routing": route_decision},
                 )
 
             except Exception as e:
                 logger.error(f"Generic event routing failed: {e}")
 
         return ProcessingResult(
-            success=True,
-            data={"status": "processed", "mode": "generic"}
+            success=True, data={"status": "processed", "mode": "generic"}
         )
 
-    async def get_consciousness_state(self, agent_id: str) -> Optional[QuantumConsciousnessState]:
+    async def get_consciousness_state(
+        self, agent_id: str
+    ) -> Optional[QuantumConsciousnessState]:
         """Get current consciousness state for an agent"""
         return self.current_states.get(agent_id)
 
-    async def create_entanglement(self,
-                                 agent1_id: str,
-                                 agent2_id: str,
-                                 entanglement_type: str = "bell_state") -> ProcessingResult:
+    async def create_entanglement(
+        self, agent1_id: str, agent2_id: str, entanglement_type: str = "bell_state"
+    ) -> ProcessingResult:
         """Create quantum entanglement between two consciousness states"""
         # Get or create states
-        state1 = self.current_states.get(agent1_id, QuantumConsciousnessState(
-            state_type=ConsciousnessState.ENTANGLED
-        ))
-        state2 = self.current_states.get(agent2_id, QuantumConsciousnessState(
-            state_type=ConsciousnessState.ENTANGLED
-        ))
+        state1 = self.current_states.get(
+            agent1_id,
+            QuantumConsciousnessState(state_type=ConsciousnessState.ENTANGLED),
+        )
+        state2 = self.current_states.get(
+            agent2_id,
+            QuantumConsciousnessState(state_type=ConsciousnessState.ENTANGLED),
+        )
 
         # Update to entangled state
         state1.state_type = ConsciousnessState.ENTANGLED
@@ -646,8 +711,8 @@ class QuantumConsciousnessHub:
                 "status": "entangled",
                 "type": entanglement_type,
                 "agents": [agent1_id, agent2_id],
-                "strength": 1.0
-            }
+                "strength": 1.0,
+            },
         )
 
     async def measure_quantum_coherence(self, agent_id: str) -> float:
@@ -660,7 +725,11 @@ class QuantumConsciousnessHub:
         base_coherence = state.coherence
 
         # Reduce coherence for rapid state changes
-        recent_states = [s for s in self.state_history[-10:] if s.timestamp > datetime.now().timestamp() - 300]
+        recent_states = [
+            s
+            for s in self.state_history[-10:]
+            if s.timestamp > datetime.now().timestamp() - 300
+        ]
         state_changes = len(set(s.state_type for s in recent_states))
 
         coherence_penalty = (state_changes - 1) * 0.1
@@ -675,14 +744,18 @@ class QuantumConsciousnessHub:
             return {"error": "No consciousness state found"}
 
         # Gather historical data
-        agent_history = [s for s in self.state_history if hasattr(s, 'agent_id') and s.agent_id == agent_id]
+        agent_history = [
+            s
+            for s in self.state_history
+            if hasattr(s, "agent_id") and s.agent_id == agent_id
+        ]
 
         report = {
             "agent_id": agent_id,
             "current_state": state.to_quantum_representation(),
             "coherence": await self.measure_quantum_coherence(agent_id),
             "state_transitions": len(agent_history),
-            "attention_balance": state.attention_tokens
+            "attention_balance": state.attention_tokens,
         }
 
         # Generate AI insights if available
@@ -690,14 +763,14 @@ class QuantumConsciousnessHub:
             try:
                 insights = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Generate consciousness insights report.
-                        Analyze patterns, suggest optimizations, identify concerns."""
-                    }, {
-                        "role": "user",
-                        "content": json.dumps(report)
-                    }]
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Generate consciousness insights report.
+                        Analyze patterns, suggest optimizations, identify concerns.""",
+                        },
+                        {"role": "user", "content": json.dumps(report)},
+                    ],
                 )
 
                 report["ai_insights"] = insights.choices[0].message.content
@@ -712,7 +785,9 @@ class QuantumConsciousnessHub:
 _hub_instance = None
 
 
-def get_quantum_consciousness_hub(openai_api_key: Optional[str] = None) -> QuantumConsciousnessHub:
+def get_quantum_consciousness_hub(
+    openai_api_key: Optional[str] = None,
+) -> QuantumConsciousnessHub:
     """Get or create the singleton Quantum Consciousness Hub instance"""
     global _hub_instance
     if _hub_instance is None:

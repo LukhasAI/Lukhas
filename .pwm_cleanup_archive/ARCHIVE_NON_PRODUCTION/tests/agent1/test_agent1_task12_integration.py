@@ -5,8 +5,8 @@ Tests the integration of PersonaEngine with the identity hub system.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -15,8 +15,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
     from core.identity.persona_engine import (
         PersonaEngine,
-        create_identity_component,
         create_and_initialize_identity_component,
+        create_identity_component,
     )
     from identity.identity_hub import IdentityHub, get_identity_hub
 

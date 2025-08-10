@@ -7,9 +7,11 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
+from core.common import get_logger
+
 
 class ConsciousnessState:
     """
@@ -19,8 +21,13 @@ class ConsciousnessState:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[Dict] = None, level: float = 0.0,
-                 awareness_type: str = "basic", emotional_tone: str = "neutral"):
+    def __init__(
+        self,
+        config: Optional[Dict] = None,
+        level: float = 0.0,
+        awareness_type: str = "basic",
+        emotional_tone: str = "neutral",
+    ):
         self.config = config or {}
         self.logger = get_logger(__name__)
         self.is_initialized = False
@@ -67,7 +74,7 @@ class ConsciousnessState:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -76,7 +83,7 @@ class ConsciousnessState:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -85,7 +92,9 @@ class ConsciousnessState:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data if it's a dict
-        category = data.get('category', 'generic') if isinstance(data, dict) else 'generic'
+        category = (
+            data.get("category", "generic") if isinstance(data, dict) else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -151,7 +160,7 @@ class ConsciousnessState:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -160,20 +169,26 @@ class ConsciousnessState:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Export the main class with alias BEFORE using it
 lukhasConsciousnessState = ConsciousnessState
+
 
 # Factory function for easy instantiation
 def create_consciousness_component(config: Optional[Dict] = None) -> ConsciousnessState:
     """Create and return a consciousness component instance"""
     return ConsciousnessState(config)
 
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> ConsciousnessState:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> ConsciousnessState:
     """Create, initialize and return a consciousness component instance"""
     component = ConsciousnessState(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage
@@ -204,4 +219,4 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 # Module exports
-__all__ = ['ConsciousnessState', 'lukhasConsciousnessState']
+__all__ = ["ConsciousnessState", "lukhasConsciousnessState"]

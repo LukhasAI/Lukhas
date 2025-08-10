@@ -15,20 +15,24 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any, Optional, List, Union
-from core.common import get_logger
 from datetime import datetime
+from typing import Any, Optional
 
-from .voice_profiling import VoiceProfileManager, VoiceProfile
+from core.common import get_logger
+
+from .voice_profiling import VoiceProfile, VoiceProfileManager
 
 logger = get_logger(__name__)
+
 
 class VoicePersonalityIntegrator:
     """Integrates personality traits and emotional modulation into voice synthesis"""
 
-    def __init__(self,
-                profile_manager: VoiceProfileManager,
-                config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        profile_manager: VoiceProfileManager,
+        config: Optional[dict[str, Any]] = None,
+    ):
         """Initialize voice personality integrator
 
         Args:
@@ -42,7 +46,7 @@ class VoicePersonalityIntegrator:
         self.emotional_state = {
             "current_emotion": "neutral",
             "emotion_intensity": 0.5,
-            "emotional_history": []
+            "emotional_history": [],
         }
 
         # Voice modulation parameters
@@ -50,15 +54,17 @@ class VoicePersonalityIntegrator:
             "pitch": 1.0,
             "rate": 1.0,
             "volume": 1.0,
-            "emphasis": 0.5
+            "emphasis": 0.5,
         }
 
         logger.info("Voice personality integrator initialized")
 
-    def adapt_to_emotion(self,
-                      emotion: str,
-                      intensity: float = 0.5,
-                      context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def adapt_to_emotion(
+        self,
+        emotion: str,
+        intensity: float = 0.5,
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Adapt voice modulation based on emotion
 
         Args:
@@ -72,7 +78,7 @@ class VoicePersonalityIntegrator:
         self._update_emotional_state(emotion, intensity)
 
         # Get base profile for this emotion
-        profile = self._get_emotional_profile(emotion)
+        self._get_emotional_profile(emotion)
         modulation = dict(self.base_modulation)
 
         # Apply emotion-specific modulation
@@ -99,10 +105,9 @@ class VoicePersonalityIntegrator:
 
         return modulation
 
-    def enhance_text_expression(self,
-                            text: str,
-                            emotion: str,
-                            context: Optional[Dict[str, Any]] = None) -> str:
+    def enhance_text_expression(
+        self, text: str, emotion: str, context: Optional[dict[str, Any]] = None
+    ) -> str:
         """Enhance text for better emotional expression
 
         Args:
@@ -114,7 +119,7 @@ class VoicePersonalityIntegrator:
             Enhanced text optimized for emotional expression
         """
         # Get profile for this emotion
-        profile = self._get_emotional_profile(emotion)
+        self._get_emotional_profile(emotion)
 
         if not text or not emotion:
             return text
@@ -139,11 +144,13 @@ class VoicePersonalityIntegrator:
             intensity: Emotion intensity
         """
         # Track emotion changes
-        self.emotional_state["emotional_history"].append({
-            "emotion": emotion,
-            "intensity": intensity,
-            "timestamp": datetime.now().isoformat()
-        })
+        self.emotional_state["emotional_history"].append(
+            {
+                "emotion": emotion,
+                "intensity": intensity,
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
         # Limit history length
         if len(self.emotional_state["emotional_history"]) > 100:
@@ -162,6 +169,7 @@ class VoicePersonalityIntegrator:
             VoiceProfile if available, else None
         """
         return self.profile_manager.get_profile_for_emotion(emotion)
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

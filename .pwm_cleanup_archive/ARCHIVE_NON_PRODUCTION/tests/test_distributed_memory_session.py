@@ -1,5 +1,7 @@
 import pytest
+
 from memory.systems.distributed_memory_fold import DistributedMemoryFold
+
 
 @pytest.mark.asyncio
 async def test_session_lifecycle():

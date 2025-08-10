@@ -8,7 +8,10 @@ import logging
 from typing import Optional
 
 from core.actor_system import Actor, ActorSystem
-from core.supervision import SupervisorActor, SupervisionStrategy, RootSupervisor
+from core.supervision import (
+    RootSupervisor,
+    SupervisionStrategy,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -57,9 +60,7 @@ def patch_actor_for_supervision():
         while self._running:
             try:
                 # Get message from mailbox
-                message = await asyncio.wait_for(
-                    self.mailbox.get(), timeout=1.0
-                )
+                message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
 
                 await self._process_message(message)
                 self._stats["messages_processed"] += 1
@@ -75,12 +76,16 @@ def patch_actor_for_supervision():
                 # Notify supervisor of failure (enhanced from original)
                 if self.supervisor:
                     import traceback
-                    await self.supervisor.tell("child_failed", {
-                        "child_id": self.actor_id,
-                        "error": str(e),
-                        "error_type": type(e).__name__,
-                        "stack_trace": traceback.format_exc()
-                    })
+
+                    await self.supervisor.tell(
+                        "child_failed",
+                        {
+                            "child_id": self.actor_id,
+                            "error": str(e),
+                            "error_type": type(e).__name__,
+                            "stack_trace": traceback.format_exc(),
+                        },
+                    )
 
     # Apply patch
     Actor._message_loop = new_message_loop
@@ -99,12 +104,15 @@ class SupervisedActorSystem(ActorSystem):
         super().__init__(system_name)
         self.default_supervision_strategy = SupervisionStrategy()
 
-    async def create_supervised_actor(self,
-                                    actor_class: type,
-                                    actor_id: str,
-                                    supervisor_id: Optional[str] = None,
-                                    supervision_strategy: Optional[SupervisionStrategy] = None,
-                                    *args, **kwargs):
+    async def create_supervised_actor(
+        self,
+        actor_class: type,
+        actor_id: str,
+        supervisor_id: Optional[str] = None,
+        supervision_strategy: Optional[SupervisionStrategy] = None,
+        *args,
+        **kwargs,
+    ):
         """Create an actor under supervision"""
 
         # Determine supervisor
@@ -119,12 +127,15 @@ class SupervisedActorSystem(ActorSystem):
             supervisor_ref = self.get_actor_ref("root-supervisor")
 
         # Create the actor under supervision
-        response = await supervisor_ref.ask("create_child", {
-            "child_class": actor_class,
-            "child_id": actor_id,
-            "args": args,
-            "kwargs": kwargs
-        })
+        response = await supervisor_ref.ask(
+            "create_child",
+            {
+                "child_class": actor_class,
+                "child_id": actor_id,
+                "args": args,
+                "kwargs": kwargs,
+            },
+        )
 
         if response.get("status") == "error":
             raise RuntimeError(f"Failed to create supervised actor: {response}")
@@ -134,6 +145,7 @@ class SupervisedActorSystem(ActorSystem):
 
 # Global supervised actor system instance
 _global_supervised_system = None
+
 
 async def get_supervised_actor_system() -> SupervisedActorSystem:
     """Get the global supervised actor system instance"""

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -21,15 +20,11 @@ Agent 10 Advanced Systems Implementation
 import asyncio
 from typing import Any, Dict, List, Optional
 
-import structlog
-
 # Import priority emotion components
 from .affect_stagnation_detector import AffectStagnationDetector
 from .dreamseed_upgrade import DreamSeedEmotionEngine
 from .mood_regulator import MoodRegulator
 from .recurring_emotion_tracker import RecurringEmotionTracker
-
-from core.common import get_logger
 
 
 class EmotionHub:

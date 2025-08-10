@@ -17,13 +17,12 @@ Comprehensive security control testing and validation for AI systems:
 - Gap analysis and remediation
 """
 
-import asyncio
-from core.common import get_logger
 from dataclasses import dataclass
-from enum import Enum
-from typing import Dict, List, Any, Optional, Tuple, Callable
 from datetime import datetime
-import json
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -74,7 +73,7 @@ class SecurityControl:
     compliance_frameworks: List[str]
     criticality: str  # High, Medium, Low
     implementation_status: str
-    
+
 @dataclass
 class ValidationTest:
     """Individual validation test"""
@@ -107,14 +106,14 @@ class SecurityControlRegistry:
     Maintains comprehensive catalog of security controls
     including AI-specific controls and standard enterprise controls.
     """
-    
+
     def __init__(self):
         self.controls = {}
         self._initialize_control_catalog()
-    
+
     def _initialize_control_catalog(self):
         """Initialize comprehensive control catalog"""
-        
+
         # Access Control Controls
         self._add_control(SecurityControl(
             control_id="AC-001",
@@ -127,9 +126,9 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         self._add_control(SecurityControl(
-            control_id="AC-002", 
+            control_id="AC-002",
             name="Privileged Access Management",
             description="Controls for managing privileged access to AI model training and inference",
             category=ControlCategory.ACCESS_CONTROL,
@@ -139,7 +138,7 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         # Authentication Controls
         self._add_control(SecurityControl(
             control_id="AU-001",
@@ -152,7 +151,7 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         # Data Protection Controls
         self._add_control(SecurityControl(
             control_id="DP-001",
@@ -165,10 +164,10 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         self._add_control(SecurityControl(
             control_id="DP-002",
-            name="Data Encryption in Transit", 
+            name="Data Encryption in Transit",
             description="Encryption of data during AI model training and inference",
             category=ControlCategory.DATA_PROTECTION,
             control_type=ControlType.PREVENTIVE,
@@ -177,7 +176,7 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         # AI-Specific Controls
         self._add_control(SecurityControl(
             control_id="AI-001",
@@ -187,10 +186,10 @@ class SecurityControlRegistry:
             control_type=ControlType.PREVENTIVE,
             validation_methods=[ValidationMethod.AUTOMATED_SCAN, ValidationMethod.BEHAVIORAL_TEST],
             compliance_frameworks=["EU AI Act", "NIST AI RMF"],
-            criticality="High", 
+            criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         self._add_control(SecurityControl(
             control_id="AI-002",
             name="Adversarial Attack Detection",
@@ -202,7 +201,7 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         self._add_control(SecurityControl(
             control_id="AI-003",
             name="Model Integrity Monitoring",
@@ -214,7 +213,7 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-        
+
         # Monitoring Controls
         self._add_control(SecurityControl(
             control_id="MO-001",
@@ -227,25 +226,25 @@ class SecurityControlRegistry:
             criticality="High",
             implementation_status="Implemented"
         ))
-    
+
     def _add_control(self, control: SecurityControl):
         """Add control to registry"""
         self.controls[control.control_id] = control
-    
+
     def get_control(self, control_id: str) -> Optional[SecurityControl]:
         """Get control by ID"""
         return self.controls.get(control_id)
-    
+
     def get_controls_by_category(self, category: ControlCategory) -> List[SecurityControl]:
         """Get all controls in a category"""
-        return [control for control in self.controls.values() 
+        return [control for control in self.controls.values()
                 if control.category == category]
-    
+
     def get_critical_controls(self) -> List[SecurityControl]:
         """Get all critical controls"""
-        return [control for control in self.controls.values() 
+        return [control for control in self.controls.values()
                 if control.criticality == "High"]
-    
+
     def get_all_controls(self) -> List[SecurityControl]:
         """Get all registered controls"""
         return list(self.controls.values())
@@ -257,15 +256,15 @@ class ControlValidationEngine:
     Executes comprehensive validation tests for security controls
     including automated scanning, manual review, and penetration testing.
     """
-    
+
     def __init__(self):
         self.control_registry = SecurityControlRegistry()
         self.validation_tests = {}
         self._initialize_validation_tests()
-    
+
     def _initialize_validation_tests(self):
         """Initialize validation test procedures"""
-        
+
         # User Access Management Tests
         self._add_validation_test(ValidationTest(
             test_id="T-AC-001-001",
@@ -277,9 +276,9 @@ class ControlValidationEngine:
             expected_outcome="All users have minimum necessary access",
             automated=False
         ))
-        
+
         self._add_validation_test(ValidationTest(
-            test_id="T-AC-001-002", 
+            test_id="T-AC-001-002",
             control_id="AC-001",
             test_name="Automated Access Scan",
             test_description="Automated scan of user access configurations",
@@ -288,7 +287,7 @@ class ControlValidationEngine:
             expected_outcome="No excessive permissions or orphaned accounts",
             automated=True
         ))
-        
+
         # Privileged Access Management Tests
         self._add_validation_test(ValidationTest(
             test_id="T-AC-002-001",
@@ -300,11 +299,11 @@ class ControlValidationEngine:
             expected_outcome="All privileged access is authorized and monitored",
             automated=False
         ))
-        
+
         # Multi-Factor Authentication Tests
         self._add_validation_test(ValidationTest(
             test_id="T-AU-001-001",
-            control_id="AU-001", 
+            control_id="AU-001",
             test_name="MFA Bypass Test",
             test_description="Test for MFA bypass vulnerabilities",
             validation_method=ValidationMethod.PENETRATION_TEST,
@@ -312,7 +311,7 @@ class ControlValidationEngine:
             expected_outcome="MFA cannot be bypassed",
             automated=False
         ))
-        
+
         # Data Encryption Tests
         self._add_validation_test(ValidationTest(
             test_id="T-DP-001-001",
@@ -324,7 +323,7 @@ class ControlValidationEngine:
             expected_outcome="Strong encryption with proper key management",
             automated=True
         ))
-        
+
         # AI-Specific Control Tests
         self._add_validation_test(ValidationTest(
             test_id="T-AI-001-001",
@@ -336,7 +335,7 @@ class ControlValidationEngine:
             expected_outcome="All malicious inputs are detected and rejected",
             automated=True
         ))
-        
+
         self._add_validation_test(ValidationTest(
             test_id="T-AI-002-001",
             control_id="AI-002",
@@ -347,71 +346,71 @@ class ControlValidationEngine:
             expected_outcome="Adversarial examples are detected and flagged",
             automated=True
         ))
-    
+
     def _add_validation_test(self, test: ValidationTest):
         """Add validation test"""
         if test.control_id not in self.validation_tests:
             self.validation_tests[test.control_id] = []
         self.validation_tests[test.control_id].append(test)
-    
+
     async def validate_control(self, control_id: str) -> List[ValidationResult]:
         """Validate a specific security control"""
-        
+
         control = self.control_registry.get_control(control_id)
         if not control:
             raise ValueError(f"Control {control_id} not found")
-        
+
         tests = self.validation_tests.get(control_id, [])
         results = []
-        
+
         for test in tests:
             print(f"🔍 Executing validation test: {test.test_name}")
             result = await self._execute_validation_test(test, control)
             results.append(result)
-        
+
         return results
-    
+
     async def validate_all_controls(self) -> Dict[str, List[ValidationResult]]:
         """Validate all security controls"""
-        
+
         all_results = {}
         controls = self.control_registry.get_all_controls()
-        
+
         for control in controls:
             print(f"📋 Validating control: {control.name}")
             results = await self.validate_control(control.control_id)
             all_results[control.control_id] = results
-        
+
         return all_results
-    
+
     async def validate_critical_controls(self) -> Dict[str, List[ValidationResult]]:
         """Validate only critical security controls"""
-        
+
         critical_results = {}
         critical_controls = self.control_registry.get_critical_controls()
-        
+
         for control in critical_controls:
             print(f"🚨 Validating critical control: {control.name}")
             results = await self.validate_control(control.control_id)
             critical_results[control.control_id] = results
-        
+
         return critical_results
-    
-    async def _execute_validation_test(self, test: ValidationTest, 
+
+    async def _execute_validation_test(self, test: ValidationTest,
                                      control: SecurityControl) -> ValidationResult:
         """Execute individual validation test"""
-        
+
         try:
             if test.automated:
                 result = await self._execute_automated_test(test, control)
             else:
                 result = await self._execute_manual_test(test, control)
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Validation test {test.test_id} failed: {e}")
-            
+
             return ValidationResult(
                 test_id=test.test_id,
                 control_id=test.control_id,
@@ -423,37 +422,37 @@ class ControlValidationEngine:
                 recommendations=["Review and fix test execution"],
                 remediation_priority="High"
             )
-    
-    async def _execute_automated_test(self, test: ValidationTest, 
+
+    async def _execute_automated_test(self, test: ValidationTest,
                                     control: SecurityControl) -> ValidationResult:
         """Execute automated validation test"""
-        
+
         # Simulate automated test execution
         print(f"  🤖 Running automated test: {test.test_name}")
-        
+
         # Different test outcomes based on validation method
         if test.validation_method == ValidationMethod.AUTOMATED_SCAN:
             effectiveness_score = 85.0
             status = ControlStatus.EFFECTIVE
             findings = ["Automated scan completed successfully", "No critical issues found"]
-            
+
         elif test.validation_method == ValidationMethod.BEHAVIORAL_TEST:
             effectiveness_score = 78.0
             status = ControlStatus.PARTIALLY_EFFECTIVE
             findings = ["Behavioral test passed most scenarios", "Minor edge cases require attention"]
-            
+
         else:
             effectiveness_score = 92.0
             status = ControlStatus.EFFECTIVE
             findings = ["Automated validation successful"]
-        
+
         recommendations = []
         if effectiveness_score < 80:
             recommendations.extend([
                 "Review control configuration",
                 "Implement additional monitoring"
             ])
-        
+
         return ValidationResult(
             test_id=test.test_id,
             control_id=test.control_id,
@@ -465,37 +464,37 @@ class ControlValidationEngine:
             recommendations=recommendations,
             remediation_priority="Medium" if effectiveness_score < 80 else "Low"
         )
-    
-    async def _execute_manual_test(self, test: ValidationTest, 
+
+    async def _execute_manual_test(self, test: ValidationTest,
                                  control: SecurityControl) -> ValidationResult:
         """Execute manual validation test"""
-        
+
         # Simulate manual test execution
         print(f"  👤 Running manual test: {test.test_name}")
-        
+
         # Different outcomes based on control type
         if control.control_type == ControlType.PREVENTIVE:
             effectiveness_score = 88.0
             status = ControlStatus.EFFECTIVE
             findings = ["Manual review completed", "Control implementation verified"]
-            
+
         elif control.control_type == ControlType.DETECTIVE:
-            effectiveness_score = 82.0 
+            effectiveness_score = 82.0
             status = ControlStatus.EFFECTIVE
             findings = ["Detection capabilities validated", "Response times acceptable"]
-            
+
         else:
             effectiveness_score = 75.0
             status = ControlStatus.PARTIALLY_EFFECTIVE
             findings = ["Manual test partially successful", "Some gaps identified"]
-        
+
         recommendations = []
         if effectiveness_score < 85:
             recommendations.extend([
                 "Enhance control implementation",
                 "Provide additional training"
             ])
-        
+
         return ValidationResult(
             test_id=test.test_id,
             control_id=test.control_id,
@@ -507,32 +506,32 @@ class ControlValidationEngine:
             recommendations=recommendations,
             remediation_priority="Medium" if effectiveness_score < 85 else "Low"
         )
-    
+
     async def generate_validation_report(self, validation_results: Dict[str, List[ValidationResult]]) -> Dict[str, Any]:
         """Generate comprehensive validation report"""
-        
+
         total_tests = sum(len(results) for results in validation_results.values())
-        
+
         # Calculate overall metrics
         all_results = []
         for results in validation_results.values():
             all_results.extend(results)
-        
+
         effective_tests = len([r for r in all_results if r.status == ControlStatus.EFFECTIVE])
         partially_effective = len([r for r in all_results if r.status == ControlStatus.PARTIALLY_EFFECTIVE])
         ineffective_tests = len([r for r in all_results if r.status == ControlStatus.INEFFECTIVE])
-        
+
         avg_effectiveness = sum(r.effectiveness_score for r in all_results) / len(all_results) if all_results else 0
-        
+
         # Control category analysis
         category_analysis = await self._analyze_by_category(validation_results)
-        
+
         # Critical findings
         critical_findings = await self._identify_critical_findings(all_results)
-        
+
         # Remediation priorities
         remediation_plan = await self._generate_remediation_plan(all_results)
-        
+
         report = {
             "executive_summary": {
                 "total_controls_tested": len(validation_results),
@@ -553,24 +552,24 @@ class ControlValidationEngine:
             "compliance_status": await self._assess_compliance_status(validation_results),
             "recommendations": await self._generate_recommendations(all_results)
         }
-        
+
         return report
-    
+
     async def _analyze_by_category(self, validation_results: Dict[str, List[ValidationResult]]) -> Dict[str, Any]:
         """Analyze results by control category"""
-        
+
         category_scores = {}
-        
+
         for control_id, results in validation_results.items():
             control = self.control_registry.get_control(control_id)
             if control:
                 category = control.category.value
                 if category not in category_scores:
                     category_scores[category] = []
-                
+
                 avg_score = sum(r.effectiveness_score for r in results) / len(results) if results else 0
                 category_scores[category].append(avg_score)
-        
+
         # Calculate category averages
         category_analysis = {}
         for category, scores in category_scores.items():
@@ -579,18 +578,18 @@ class ControlValidationEngine:
                 "control_count": len(scores),
                 "status": "Good" if sum(scores) / len(scores) >= 80 else "Needs Improvement" if scores else "Unknown"
             }
-        
+
         return category_analysis
-    
+
     async def _identify_critical_findings(self, results: List[ValidationResult]) -> List[Dict[str, Any]]:
         """Identify critical findings requiring immediate attention"""
-        
+
         critical_findings = []
-        
+
         for result in results:
             if result.effectiveness_score < 70 or result.status == ControlStatus.INEFFECTIVE:
                 control = self.control_registry.get_control(result.control_id)
-                
+
                 finding = {
                     "control_id": result.control_id,
                     "control_name": control.name if control else "Unknown",
@@ -600,25 +599,25 @@ class ControlValidationEngine:
                     "remediation_priority": result.remediation_priority
                 }
                 critical_findings.append(finding)
-        
+
         # Sort by effectiveness score (lowest first)
         critical_findings.sort(key=lambda x: x["effectiveness_score"])
-        
+
         return critical_findings
-    
+
     async def _generate_remediation_plan(self, results: List[ValidationResult]) -> Dict[str, List[Dict[str, Any]]]:
         """Generate prioritized remediation plan"""
-        
+
         remediation_plan = {
             "High": [],
             "Medium": [],
             "Low": []
         }
-        
+
         for result in results:
             if result.recommendations:
                 control = self.control_registry.get_control(result.control_id)
-                
+
                 remediation_item = {
                     "control_id": result.control_id,
                     "control_name": control.name if control else "Unknown",
@@ -626,26 +625,26 @@ class ControlValidationEngine:
                     "recommendations": result.recommendations,
                     "estimated_effort": "TBD"  # Would be calculated based on recommendations
                 }
-                
+
                 priority = result.remediation_priority
                 if priority in remediation_plan:
                     remediation_plan[priority].append(remediation_item)
-        
+
         return remediation_plan
-    
+
     async def _assess_compliance_status(self, validation_results: Dict[str, List[ValidationResult]]) -> Dict[str, Any]:
         """Assess compliance status against frameworks"""
-        
+
         frameworks = ["NIST", "ISO27001", "GDPR", "EU AI Act"]
         compliance_status = {}
-        
+
         for framework in frameworks:
             # Get controls that map to this framework
             framework_controls = [
                 control for control in self.control_registry.get_all_controls()
                 if framework in control.compliance_frameworks
             ]
-            
+
             if framework_controls:
                 # Calculate average effectiveness for framework controls
                 framework_scores = []
@@ -654,7 +653,7 @@ class ControlValidationEngine:
                     if results:
                         avg_score = sum(r.effectiveness_score for r in results) / len(results)
                         framework_scores.append(avg_score)
-                
+
                 if framework_scores:
                     compliance_score = sum(framework_scores) / len(framework_scores)
                     compliance_status[framework] = {
@@ -662,16 +661,16 @@ class ControlValidationEngine:
                         "status": "Compliant" if compliance_score >= 80 else "Non-Compliant",
                         "controls_assessed": len(framework_scores)
                     }
-        
+
         return compliance_status
-    
+
     async def _generate_recommendations(self, results: List[ValidationResult]) -> List[str]:
         """Generate high-level recommendations"""
-        
+
         avg_effectiveness = sum(r.effectiveness_score for r in results) / len(results) if results else 0
-        
+
         recommendations = []
-        
+
         if avg_effectiveness < 70:
             recommendations.extend([
                 "Immediate security control review and enhancement required",
@@ -690,16 +689,16 @@ class ControlValidationEngine:
                 "Consider advanced security enhancements",
                 "Regular validation and continuous improvement"
             ])
-        
+
         # AI-specific recommendations
         ai_results = [r for r in results if r.control_id.startswith("AI-")]
         if ai_results:
             ai_avg = sum(r.effectiveness_score for r in ai_results) / len(ai_results)
             if ai_avg < 85:
                 recommendations.append("Enhance AI-specific security controls and monitoring")
-        
+
         return recommendations
 
 # Export main validation components
-__all__ = ['SecurityControlRegistry', 'ControlValidationEngine', 'SecurityControl', 
+__all__ = ['SecurityControlRegistry', 'ControlValidationEngine', 'SecurityControl',
            'ValidationTest', 'ValidationResult', 'ControlCategory', 'ControlStatus']

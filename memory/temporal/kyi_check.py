@@ -21,6 +21,7 @@ from datetime import datetime
 
 interaction_registry = {}
 
+
 def record_interaction(user_id: int, interaction: str):
     """
     Log user interaction with timestamp for symbolic trace.
@@ -31,12 +32,14 @@ def record_interaction(user_id: int, interaction: str):
     interaction_registry[user_id].append((interaction, timestamp))
     print(f"🕵️ KYI recorded: User {user_id} → {interaction} @ {timestamp}")
 
+
 def check_kyi_threshold(user_id: int, expected: int = 3) -> bool:
     """
     Ensure user has fulfilled enough interactions to qualify for Tier 3+.
     """
     interactions = interaction_registry.get(user_id, [])
     return len(interactions) >= expected
+
 
 def get_user_interactions(user_id: int):
     """

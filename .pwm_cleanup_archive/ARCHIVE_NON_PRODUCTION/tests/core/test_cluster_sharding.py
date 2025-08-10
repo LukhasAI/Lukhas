@@ -1,4 +1,3 @@
-import pytest
 from core.cluster_sharding import ShardManager
 
 

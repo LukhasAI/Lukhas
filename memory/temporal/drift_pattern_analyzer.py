@@ -12,20 +12,13 @@
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
-import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List
 
-import structlog
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
-
-
-from core.common import get_logger
 
 class DriftPatternAnalyzer:
     """
@@ -51,7 +44,7 @@ class DriftPatternAnalyzer:
         logger.info("Analyzing drift patterns.")
 
         # 1. Read the drift log.
-        with open("orchestration/brain/DRIFT_LOG.md", "r") as f:
+        with open("orchestration/brain/DRIFT_LOG.md") as f:
             drift_log: List[str] = f.readlines()
 
         # 2. Identify recurring drift motifs.

@@ -17,11 +17,13 @@ from collections import defaultdict
 
 LOG_PATH = "data/dream_log.jsonl"
 
+
 def load_dreams():
     if not os.path.exists(LOG_PATH):
         return []
-    with open(LOG_PATH, "r", encoding="utf-8") as f:
+    with open(LOG_PATH, encoding="utf-8") as f:
         return [json.loads(line.strip()) for line in f if line.strip()]
+
 
 def summarize_dreams():
     dreams = load_dreams()
@@ -42,11 +44,13 @@ def summarize_dreams():
         "total_dreams": total,
         "dreams_with_collapse": collapses,
         "average_resonance": round(avg_resonance, 3),
-        "dreams_by_phase": dict(by_phase)
+        "dreams_by_phase": dict(by_phase),
     }
 
     return summary
 
+
 if __name__ == "__main__":
     from pprint import pprint
+
     pprint(summarize_dreams())

@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-
-from typing import List, Dict
-
+from typing import Dict, List
 
 # ΛNOTE: Placeholder scoring parameters
+
 
 def collapse_score(fold_state: List[Dict[str, float]]) -> float:
     """Return collapse likelihood score in [0.0, 1.0]."""

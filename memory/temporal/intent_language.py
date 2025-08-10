@@ -4,11 +4,10 @@
 import json
 from datetime import datetime
 
-
-#TAG:memory
-#TAG:temporal
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:temporal
+# TAG:neuroplastic
+# TAG:colony
 
 
 INTENT_DICTIONARY = {
@@ -19,8 +18,9 @@ INTENT_DICTIONARY = {
     "whisper": ["softly", "quiet", "low", "gentle", "whisper"],
     "rebel": ["disobey", "break", "question", "subvert"],
     "seek": ["search", "find", "discover", "curious", "explore"],
-    "lukhas": ["hello", "speak", "initiate", "identity"]
+    "lukhas": ["hello", "speak", "initiate", "identity"],
 }
+
 
 def interpret_intent(text):
     text_lower = text.lower()
@@ -29,18 +29,17 @@ def interpret_intent(text):
             return intent
     return "lukhas"  # Default neutral intent
 
+
 def log_interpretation(text, intent):
-    log = {
-        "text": text,
-        "intent": intent,
-        "timestamp": datetime.now().isoformat()
-    }
+    log = {"text": text, "intent": intent, "timestamp": datetime.now().isoformat()}
     with open("symbolic_ai/memoria/intent_log.jsonl", "a") as f:
         f.write(json.dumps(log) + "\n")
+
 
 # 🔁 CLI interface
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) < 2:
         print("Usage: python3 intent_language.py 'Your message here'")
         sys.exit(1)

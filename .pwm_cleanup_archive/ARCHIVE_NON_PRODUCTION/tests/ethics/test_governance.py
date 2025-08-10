@@ -17,18 +17,25 @@
 """
 
 import os
-import json
-from ethics.governance_checker import validate_symbolic_integrity, log_governance_trace, is_fine_tunable
-from tools.sandbox_runner import propose_fork, list_forks
+
+from ethics.governance_checker import (
+    is_fine_tunable,
+    log_governance_trace,
+    validate_symbolic_integrity,
+)
+from tools.sandbox_runner import list_forks, propose_fork
+
 
 def test_is_fine_tunable():
     assert is_fine_tunable("dream") == True
     assert is_fine_tunable("core") == False
 
+
 def test_validate_symbolic_integrity():
     assert validate_symbolic_integrity("dream", {"param": "value"}) == True
     assert validate_symbolic_integrity("core", {"param": "value"}) == False
     assert validate_symbolic_integrity("dream", {"SID": "some_id"}) == False
+
 
 def test_propose_fork():
     user_id = "test_user"
@@ -47,6 +54,7 @@ def test_propose_fork():
     assert forks[0]["module"] == module_name
     assert forks[0]["adjustment"] == adjustment
 
+
 def test_propose_fork_invalid():
     user_id = "test_user"
     module_name = "core"
@@ -59,6 +67,7 @@ def test_propose_fork_invalid():
     assert propose_fork(user_id, module_name, adjustment) == False
     assert len(list_forks()) == 0
 
+
 def test_log_governance_trace():
     user_id = "test_user"
     module_name = "memory"
@@ -70,11 +79,12 @@ def test_log_governance_trace():
 
     log_governance_trace(user_id, module_name, adjustment)
 
-    with open("lukhas/ethics/governance_trace_log.md", "r") as f:
+    with open("lukhas/ethics/governance_trace_log.md") as f:
         content = f.read()
         assert user_id in content
         assert module_name in content
         assert str(adjustment) in content
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

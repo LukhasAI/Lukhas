@@ -3,6 +3,7 @@
 
 # This module will adjust sync rates based on the user’s cognitive load.
 
+
 class CognitiveSyncAdapter:
     """Adjusts entropy sync rates based on cognitive load with AGI-proof tracking."""
 

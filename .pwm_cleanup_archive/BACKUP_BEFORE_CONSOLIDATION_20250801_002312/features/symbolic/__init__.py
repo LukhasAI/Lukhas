@@ -20,17 +20,20 @@ log.info("core.symbolic module initialized (currently a placeholder structure)")
 # ΛNOTE: Exposing GLYPH_MAP for system-wide access to standardized symbolic glyphs.
 #        This supports symbolic coordination and a unified visual/conceptual language.
 # ΛSYMBOLIC_UNITY: GLYPH_MAP is a key component in achieving symbolic unity.
+# CLAUDE_EDIT_v0.1: Integrated drift detection submodule
+# --- Collapse Mechanisms ---
+from .collapse import CollapseBridge, CollapseEngine, trigger_collapse
+
+# CLAUDE_EDIT_v0.1: Added redaction engine import for complete GLYPH integration
+# --- Drift Detection ---
+from .drift import (
+    SymbolicDriftTracker,
+    calculate_drift_score,
+    get_drift_status,
+)
 from .glyphs import GLYPH_MAP, get_glyph_meaning  # ΛGLYPH
 from .security.glyph_redactor_engine import GlyphRedactorEngine  # ΛREDACT
 
-# CLAUDE_EDIT_v0.1: Added redaction engine import for complete GLYPH integration
-
-# --- Drift Detection ---
-from .drift import SymbolicDriftTracker, calculate_drift_score, get_drift_status
-# CLAUDE_EDIT_v0.1: Integrated drift detection submodule
-
-# --- Collapse Mechanisms ---
-from .collapse import CollapseEngine, CollapseBridge, trigger_collapse
 # CLAUDE_EDIT_v0.1: Integrated collapse mechanisms
 
 # --- Placeholder for Future Symbolic Constants & Logic ---
@@ -93,15 +96,15 @@ from .collapse import CollapseEngine, CollapseBridge, trigger_collapse
 # CLAUDE_EDIT_v0.1: Export list for symbolic module
 __all__ = [
     # GLYPH components
-    'GLYPH_MAP',
-    'get_glyph_meaning',
-    'GlyphRedactorEngine',
+    "GLYPH_MAP",
+    "get_glyph_meaning",
+    "GlyphRedactorEngine",
     # Drift detection
-    'SymbolicDriftTracker',
-    'calculate_drift_score',
-    'get_drift_status',
+    "SymbolicDriftTracker",
+    "calculate_drift_score",
+    "get_drift_status",
     # Collapse mechanisms
-    'CollapseEngine',
-    'CollapseBridge',
-    'trigger_collapse',
+    "CollapseEngine",
+    "CollapseBridge",
+    "trigger_collapse",
 ]

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Path Validation Tool
@@ -23,14 +22,16 @@ module integrity.
 import ast
 import json
 import logging
+from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
-from collections import defaultdict, deque
+from typing import Dict, List
+
 # Using built-in collections instead of networkx for dependency management
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class ImportAnalyzer:
     """Analyzes Python imports and dependencies."""
@@ -44,7 +45,7 @@ class ImportAnalyzer:
     def analyze_file(self, file_path: Path) -> Dict:
         """Analyze imports in a single Python file."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             tree = ast.parse(content)
@@ -58,21 +59,17 @@ class ImportAnalyzer:
                     if node.module:
                         imports.add(node.module)
 
-            return {
-                'file': str(file_path),
-                'imports': list(imports),
-                'valid': True
-            }
+            return {"file": str(file_path), "imports": list(imports), "valid": True}
 
         except Exception as e:
             error = f"Error analyzing {file_path}: {e}"
             self.errors.append(error)
             logger.warning(error)
             return {
-                'file': str(file_path),
-                'imports': [],
-                'valid': False,
-                'error': str(e)
+                "file": str(file_path),
+                "imports": [],
+                "valid": False,
+                "error": str(e),
             }
 
     def build_dependency_graph(self) -> Dict:
@@ -87,22 +84,22 @@ class ImportAnalyzer:
 
         for py_file in python_files:
             # Skip __pycache__ and .git directories
-            if '__pycache__' in str(py_file) or '.git' in str(py_file):
+            if "__pycache__" in str(py_file) or ".git" in str(py_file):
                 continue
 
             # Get relative path for module identification
             try:
                 rel_path = py_file.relative_to(self.root_path)
-                module_name = str(rel_path).replace('/', '.').replace('.py', '')
+                module_name = str(rel_path).replace("/", ".").replace(".py", "")
 
                 # Analyze imports
                 file_analysis = self.analyze_file(py_file)
                 all_imports[module_name] = file_analysis
 
                 # Add to dependency graph
-                for imp in file_analysis['imports']:
+                for imp in file_analysis["imports"]:
                     # Filter for local imports (lukhas.*)
-                    if imp.startswith('lukhas') or imp.startswith('.'):
+                    if imp.startswith("lukhas") or imp.startswith("."):
                         self.dependency_graph[module_name].add(imp)
 
             except Exception as e:
@@ -146,36 +143,39 @@ class ImportAnalyzer:
     def validate_import_paths(self, imports_data: Dict) -> Dict:
         """Validate that all import paths exist and are accessible."""
         validation_results = {
-            'valid_imports': 0,
-            'invalid_imports': 0,
-            'missing_modules': [],
-            'broken_imports': []
+            "valid_imports": 0,
+            "invalid_imports": 0,
+            "missing_modules": [],
+            "broken_imports": [],
         }
 
         for module, data in imports_data.items():
-            if not data['valid']:
+            if not data["valid"]:
                 continue
 
-            for imp in data['imports']:
+            for imp in data["imports"]:
                 # Check if import path exists for local modules
-                if imp.startswith('lukhas'):
+                if imp.startswith("lukhas"):
                     # Convert import to file path
-                    imp_path = self.root_path / (imp.replace('.', '/') + '.py')
+                    imp_path = self.root_path / (imp.replace(".", "/") + ".py")
 
                     if imp_path.exists():
-                        validation_results['valid_imports'] += 1
+                        validation_results["valid_imports"] += 1
                     else:
-                        validation_results['invalid_imports'] += 1
-                        validation_results['missing_modules'].append({
-                            'module': module,
-                            'missing_import': imp,
-                            'expected_path': str(imp_path)
-                        })
+                        validation_results["invalid_imports"] += 1
+                        validation_results["missing_modules"].append(
+                            {
+                                "module": module,
+                                "missing_import": imp,
+                                "expected_path": str(imp_path),
+                            }
+                        )
                 else:
                     # External import - assume valid
-                    validation_results['valid_imports'] += 1
+                    validation_results["valid_imports"] += 1
 
         return validation_results
+
 
 class PathValidator:
     """Main path validation orchestrator."""
@@ -189,47 +189,47 @@ class PathValidator:
         logger.info("Starting LUKHAS path validation...")
 
         results = {
-            'timestamp': str(Path(__file__).stat().st_mtime),
-            'root_path': str(self.root_path),
-            'validation_status': 'running'
+            "timestamp": str(Path(__file__).stat().st_mtime),
+            "root_path": str(self.root_path),
+            "validation_status": "running",
         }
 
         try:
             # 1. Build dependency graph
             imports_data = self.analyzer.build_dependency_graph()
-            results['total_modules'] = len(imports_data)
+            results["total_modules"] = len(imports_data)
 
             # 2. Find circular dependencies
             cycles = self.analyzer.find_circular_dependencies()
-            results['circular_dependencies'] = {
-                'count': len(cycles),
-                'cycles': cycles[:10]  # Limit to first 10 for readability
+            results["circular_dependencies"] = {
+                "count": len(cycles),
+                "cycles": cycles[:10],  # Limit to first 10 for readability
             }
 
             # 3. Validate import paths
             path_validation = self.analyzer.validate_import_paths(imports_data)
-            results['path_validation'] = path_validation
+            results["path_validation"] = path_validation
 
             # 4. Error summary
-            results['errors'] = {
-                'count': len(self.analyzer.errors),
-                'details': self.analyzer.errors[:20]  # Limit for readability
+            results["errors"] = {
+                "count": len(self.analyzer.errors),
+                "details": self.analyzer.errors[:20],  # Limit for readability
             }
 
             # 5. Overall status
             if cycles:
-                results['validation_status'] = 'warning_circular_deps'
-            elif path_validation['invalid_imports'] > 0:
-                results['validation_status'] = 'warning_broken_imports'
+                results["validation_status"] = "warning_circular_deps"
+            elif path_validation["invalid_imports"] > 0:
+                results["validation_status"] = "warning_broken_imports"
             elif self.analyzer.errors:
-                results['validation_status'] = 'warning_parse_errors'
+                results["validation_status"] = "warning_parse_errors"
             else:
-                results['validation_status'] = 'passed'
+                results["validation_status"] = "passed"
 
         except Exception as e:
             logger.error(f"Validation failed: {e}")
-            results['validation_status'] = 'failed'
-            results['error'] = str(e)
+            results["validation_status"] = "failed"
+            results["error"] = str(e)
 
         return results
 
@@ -252,8 +252,8 @@ class PathValidator:
 
 """
 
-        if 'path_validation' in results:
-            pv = results['path_validation']
+        if "path_validation" in results:
+            pv = results["path_validation"]
             report += f"""- **Valid Imports**: {pv.get('valid_imports', 0)}
 - **Invalid Imports**: {pv.get('invalid_imports', 0)}
 - **Missing Modules**: {len(pv.get('missing_modules', []))}
@@ -261,7 +261,7 @@ class PathValidator:
 """
 
         # Circular dependencies section
-        cycles = results.get('circular_dependencies', {}).get('cycles', [])
+        cycles = results.get("circular_dependencies", {}).get("cycles", [])
         if cycles:
             report += f"""## ⚠️ Circular Dependencies Found
 
@@ -274,12 +274,14 @@ class PathValidator:
             if len(cycles) > 5:
                 report += f"\n... and {len(cycles) - 5} more cycles.\n"
         else:
-            report += "## ✅ No Circular Dependencies\n\nAll import paths are acyclic.\n"
+            report += (
+                "## ✅ No Circular Dependencies\n\nAll import paths are acyclic.\n"
+            )
 
         # Missing imports section
-        missing = results.get('path_validation', {}).get('missing_modules', [])
+        missing = results.get("path_validation", {}).get("missing_modules", [])
         if missing:
-            report += f"\n## ❌ Missing Import Paths\n\n"
+            report += "\n## ❌ Missing Import Paths\n\n"
             for miss in missing[:10]:  # Show first 10
                 report += f"- **{miss['module']}** imports `{miss['missing_import']}` (expected: {miss['expected_path']})\n"
 
@@ -287,9 +289,9 @@ class PathValidator:
                 report += f"\n... and {len(missing) - 10} more missing imports.\n"
 
         # Errors section
-        errors = results.get('errors', {}).get('details', [])
+        errors = results.get("errors", {}).get("details", [])
         if errors:
-            report += f"\n## 🔍 Parse Errors\n\n"
+            report += "\n## 🔍 Parse Errors\n\n"
             for error in errors[:5]:  # Show first 5
                 report += f"- {error}\n"
 
@@ -297,36 +299,41 @@ class PathValidator:
                 report += f"\n... and {len(errors) - 5} more errors.\n"
 
         # Recommendations
-        report += f"""
+        report += """
 ## Recommendations
 
 """
         if cycles:
-            report += "1. **Resolve circular dependencies** by refactoring import structure\n"
+            report += (
+                "1. **Resolve circular dependencies** by refactoring import structure\n"
+            )
         if missing:
             report += "2. **Fix missing import paths** or update import statements\n"
         if errors:
             report += "3. **Review syntax errors** in files that failed to parse\n"
 
-        if results['validation_status'] == 'passed':
+        if results["validation_status"] == "passed":
             report += "✅ All validation checks passed! The codebase has healthy import structure.\n"
 
         # Save report if output path provided
         if output_path:
-            with open(output_path, 'w') as f:
+            with open(output_path, "w") as f:
                 f.write(report)
             logger.info(f"Report saved to {output_path}")
 
         return report
 
+
 def main():
     """CLI entry point."""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Validate LUKHAS import paths and dependencies')
-    parser.add_argument('--root', default='.', help='Root directory to analyze')
-    parser.add_argument('--output', help='Output file for report')
-    parser.add_argument('--json', help='Output JSON results to file')
+    parser = argparse.ArgumentParser(
+        description="Validate LUKHAS import paths and dependencies"
+    )
+    parser.add_argument("--root", default=".", help="Root directory to analyze")
+    parser.add_argument("--output", help="Output file for report")
+    parser.add_argument("--json", help="Output JSON results to file")
 
     args = parser.parse_args()
 
@@ -334,7 +341,7 @@ def main():
 
     if args.json:
         results = validator.run_validation()
-        with open(args.json, 'w') as f:
+        with open(args.json, "w") as f:
             json.dump(results, f, indent=2)
         print(f"JSON results saved to {args.json}")
 
@@ -343,7 +350,8 @@ def main():
     if not args.output:
         print(report)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
 
 """

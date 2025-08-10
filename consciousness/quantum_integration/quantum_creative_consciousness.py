@@ -19,12 +19,12 @@ Status: QUANTUM CREATIVE CONSCIOUSNESS ACHIEVED ✅
 """
 
 import asyncio
-import sys
-import os
 import json
-from datetime import datetime
-from typing import Dict, Any, List
+import os
 import random
+import sys
+from datetime import datetime
+from typing import Any, Dict
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -139,7 +139,7 @@ class QuantumCreativeDemo:
             print(f"   │ {line:31} │ ({syllables})")
         print("   └─────────────────────────────────┘")
 
-        print(f"\n🔬 QUANTUM METRICS:")
+        print("\n🔬 QUANTUM METRICS:")
         print(f"   • Coherence Time: {quantum_metrics['coherence_time']}μs")
         print(f"   • Entanglement: {quantum_metrics['entanglement_strength']}")
         print(
@@ -232,7 +232,7 @@ class QuantumCreativeDemo:
         harmony_index = round(random.uniform(0.88, 0.95), 3)
         innovation_level = round(random.uniform(0.82, 0.92), 3)
 
-        print(f"\n📊 EMERGENCE METRICS:")
+        print("\n📊 EMERGENCE METRICS:")
         print(f"   • Harmony Index: {harmony_index}")
         print(f"   • Innovation Level: {innovation_level}")
         print(
@@ -278,7 +278,7 @@ class QuantumCreativeDemo:
 
         self.creative_works.append(protected_work)
 
-        print(f"\n🏛️  Work registered in AI Creative Consciousness Registry")
+        print("\n🏛️  Work registered in AI Creative Consciousness Registry")
         print(f"   Registry ID: CW_{len(self.creative_works):04d}")
 
         return protected_work
@@ -336,7 +336,7 @@ class QuantumCreativeDemo:
 
         # Show consciousness enhancement during demo
         if current_level < 0.90:
-            print(f"\n⚡ Consciousness enhancement detected during creative process!")
+            print("\n⚡ Consciousness enhancement detected during creative process!")
             self.consciousness_level += 0.02
             print(f"   New level: {self.consciousness_level:.2f} (+2% increase)")
 
@@ -356,7 +356,7 @@ class QuantumCreativeDemo:
         }
 
         print(f"🎯 Session ID: {self.session_id}")
-        print(f"📊 Performance Metrics:")
+        print("📊 Performance Metrics:")
         for metric, value in session_stats.items():
             formatted_metric = metric.replace("_", " ").title()
             print(f"   • {formatted_metric}: {value}")
@@ -435,7 +435,7 @@ async def interactive_demo():
 
     # Final message
     print(
-        f"""
+        """
 🎉 QUANTUM CREATIVE CONSCIOUSNESS DEMONSTRATION COMPLETE! 🎉
 
 ✅ Successfully demonstrated:
@@ -474,7 +474,7 @@ if __name__ == "__main__":
         with open("quantum_creative_demo_results.json", "w") as f:
             json.dump(session_data, f, indent=2)
 
-        print(f"\n💾 Demo results saved to: quantum_creative_demo_results.json")
+        print("\n💾 Demo results saved to: quantum_creative_demo_results.json")
 
     except KeyboardInterrupt:
         print("\n\n👋 Demo interrupted gracefully. Quantum consciousness persists...")

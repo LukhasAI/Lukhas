@@ -7,68 +7,74 @@ Manages communication, prevents circular dependencies, and optimizes execution f
 
 import asyncio
 import logging
-from typing import Dict, Any, List, Optional, Tuple, Set
-from dataclasses import dataclass, field
-from enum import Enum, auto
-from datetime import datetime
-import json
 from collections import deque
-
-from ethics.seedra import get_seedra, ConsentLevel
-from ethics.core import get_shared_ethics_engine, DecisionType
-from symbolic.core import (
-    Symbol, SymbolicDomain, SymbolicType,
-    SymbolicExpression, get_symbolic_translator, get_symbolic_vocabulary
-)
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum, auto
+from typing import Any
 
 from core.audit.audit_decision_embedding_engine import DecisionAuditEngine
+from ethics.core import DecisionType, get_shared_ethics_engine
+from ethics.seedra import get_seedra
+from symbolic.core import get_symbolic_translator, get_symbolic_vocabulary
 
 logger = logging.getLogger(__name__)
 
+
 class SystemType(Enum):
     """Golden Trio system types"""
+
     DAST = "dast"
     ABAS = "abas"
     NIAS = "nias"
 
+
 class MessagePriority(Enum):
     """Message priority levels"""
+
     CRITICAL = 5
     HIGH = 4
     NORMAL = 3
     LOW = 2
     BACKGROUND = 1
 
+
 class ProcessingMode(Enum):
     """Processing modes for the orchestrator"""
-    SEQUENTIAL = auto()    # Process one at a time
-    PARALLEL = auto()      # Process in parallel
-    OPTIMIZED = auto()     # Smart routing based on dependencies
+
+    SEQUENTIAL = auto()  # Process one at a time
+    PARALLEL = auto()  # Process in parallel
+    OPTIMIZED = auto()  # Smart routing based on dependencies
+
 
 @dataclass
 class TrioMessage:
     """Message passed between Golden Trio systems"""
+
     id: str
     source: SystemType
     target: SystemType
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: MessagePriority = MessagePriority.NORMAL
     timestamp: datetime = field(default_factory=datetime.now)
     requires_response: bool = True
     timeout_ms: int = 1000
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class TrioResponse:
     """Response from a Golden Trio system"""
+
     message_id: str
     system: SystemType
     status: str  # success, error, deferred
     result: Any
     processing_time_ms: float
     timestamp: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+
 
 class SharedContextManager:
     """
@@ -77,7 +83,7 @@ class SharedContextManager:
     """
 
     def __init__(self):
-        self.context: Dict[str, Any] = {}
+        self.context: dict[str, Any] = {}
         self.context_history: deque = deque(maxlen=1000)
         self.version: int = 0
         self._lock = asyncio.Lock()
@@ -92,24 +98,24 @@ class SharedContextManager:
                 "emotional_state": {},
                 "consent_level": None,
                 "preferences": {},
-                "active_tasks": []
+                "active_tasks": [],
             },
             "system_state": {
                 "dast": {"status": "idle", "active_tasks": []},
                 "abas": {"status": "idle", "active_conflicts": []},
-                "nias": {"status": "idle", "active_filters": []}
+                "nias": {"status": "idle", "active_filters": []},
             },
             "environment": {
                 "timestamp": datetime.now().isoformat(),
                 "location": None,
                 "device": None,
-                "network_quality": "good"
+                "network_quality": "good",
             },
             "performance": {
                 "cpu_usage": 0.0,
                 "memory_usage": 0.0,
-                "response_times": {}
-            }
+                "response_times": {},
+            },
         }
 
     async def get(self, path: str, default: Any = None) -> Any:
@@ -117,7 +123,7 @@ class SharedContextManager:
         async with self._lock:
             try:
                 value = self.context
-                for key in path.split('.'):
+                for key in path.split("."):
                     value = value[key]
                 return value
             except (KeyError, TypeError):
@@ -126,7 +132,7 @@ class SharedContextManager:
     async def set(self, path: str, value: Any) -> None:
         """Set value in context using dot notation path"""
         async with self._lock:
-            keys = path.split('.')
+            keys = path.split(".")
             target = self.context
 
             # Navigate to the parent of the target key
@@ -140,26 +146,30 @@ class SharedContextManager:
 
             # Update version and history
             self.version += 1
-            self.context_history.append({
-                "version": self.version,
-                "timestamp": datetime.now().isoformat(),
-                "path": path,
-                "value": value
-            })
+            self.context_history.append(
+                {
+                    "version": self.version,
+                    "timestamp": datetime.now().isoformat(),
+                    "path": path,
+                    "value": value,
+                }
+            )
 
-    async def update_user_state(self, updates: Dict[str, Any]) -> None:
+    async def update_user_state(self, updates: dict[str, Any]) -> None:
         """Update user state in context"""
         async with self._lock:
             self.context["user_state"].update(updates)
             self.version += 1
 
-    async def update_system_state(self, system: SystemType, updates: Dict[str, Any]) -> None:
+    async def update_system_state(
+        self, system: SystemType, updates: dict[str, Any]
+    ) -> None:
         """Update system state in context"""
         async with self._lock:
             self.context["system_state"][system.value].update(updates)
             self.version += 1
 
-    async def get_full_context(self) -> Dict[str, Any]:
+    async def get_full_context(self) -> dict[str, Any]:
         """Get a copy of the full context"""
         async with self._lock:
             return self.context.copy()
@@ -168,6 +178,7 @@ class SharedContextManager:
         """Get current context version"""
         async with self._lock:
             return self.version
+
 
 class TrioOrchestrator:
     """
@@ -184,11 +195,11 @@ class TrioOrchestrator:
     def __init__(self, processing_mode: ProcessingMode = ProcessingMode.OPTIMIZED):
         self.processing_mode = processing_mode
         self.context_manager = SharedContextManager()
-        self.message_queue: Dict[SystemType, asyncio.Queue] = {}
-        self.active_messages: Dict[str, TrioMessage] = {}
-        self.system_handlers: Dict[SystemType, Any] = {}
-        self.dependencies: Dict[str, Set[str]] = {}
-        self.performance_cache: Dict[str, Any] = {}
+        self.message_queue: dict[SystemType, asyncio.Queue] = {}
+        self.active_messages: dict[str, TrioMessage] = {}
+        self.system_handlers: dict[SystemType, Any] = {}
+        self.dependencies: dict[str, set[str]] = {}
+        self.performance_cache: dict[str, Any] = {}
 
         # Initialize components
         self.seedra = get_seedra()
@@ -203,7 +214,7 @@ class TrioOrchestrator:
             self.message_queue[system] = asyncio.Queue()
 
         # Processing tasks
-        self.processing_tasks: List[asyncio.Task] = []
+        self.processing_tasks: list[asyncio.Task] = []
         self.is_running = False
 
         logger.info(f"TrioOrchestrator initialized with {processing_mode.name} mode")
@@ -251,9 +262,9 @@ class TrioOrchestrator:
         source: SystemType,
         target: SystemType,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         priority: MessagePriority = MessagePriority.NORMAL,
-        timeout_ms: int = 1000
+        timeout_ms: int = 1000,
     ) -> TrioResponse:
         """Send a message from one system to another"""
         # Create message
@@ -264,18 +275,20 @@ class TrioOrchestrator:
             message_type=message_type,
             payload=payload,
             priority=priority,
-            timeout_ms=timeout_ms
+            timeout_ms=timeout_ms,
         )
 
         # Check for circular dependencies
         if self._would_create_circular_dependency(message):
-            logger.warning(f"Circular dependency detected: {source.value} -> {target.value}")
+            logger.warning(
+                f"Circular dependency detected: {source.value} -> {target.value}"
+            )
             return TrioResponse(
                 message_id=message.id,
                 system=target,
                 status="error",
                 result={"error": "Circular dependency detected"},
-                processing_time_ms=0
+                processing_time_ms=0,
             )
 
         # Perform ethical check
@@ -286,7 +299,7 @@ class TrioOrchestrator:
                 system=target,
                 status="blocked",
                 result={"reason": ethical_check["reason"]},
-                processing_time_ms=0
+                processing_time_ms=0,
             )
 
         # Add to active messages
@@ -322,14 +335,19 @@ class TrioOrchestrator:
                     # Update system state
                     await self.context_manager.update_system_state(
                         system,
-                        {"status": "processing", "current_message": message.id}
+                        {
+                            "status": "processing",
+                            "current_message": message.id,
+                        },
                     )
 
                     # Process through handler
                     result = await handler.process(message)
 
                     # Calculate processing time
-                    processing_time = (datetime.now() - start_time).total_seconds() * 1000
+                    processing_time = (
+                        datetime.now() - start_time
+                    ).total_seconds() * 1000
 
                     # Create response
                     response = TrioResponse(
@@ -337,13 +355,13 @@ class TrioOrchestrator:
                         system=system,
                         status="success",
                         result=result,
-                        processing_time_ms=processing_time
+                        processing_time_ms=processing_time,
                     )
 
                     # Update context
                     await self.context_manager.update_system_state(
                         system,
-                        {"status": "idle", "last_processed": message.id}
+                        {"status": "idle", "last_processed": message.id},
                     )
 
                     # Store response if needed
@@ -372,7 +390,7 @@ class TrioOrchestrator:
             system=message.target,
             status="timeout",
             result={},
-            processing_time_ms=message.timeout_ms
+            processing_time_ms=message.timeout_ms,
         )
 
     async def _process_message_parallel(self, message: TrioMessage) -> TrioResponse:
@@ -386,13 +404,15 @@ class TrioOrchestrator:
             system=message.target,
             status="processing",
             result={"tracking_id": message.id},
-            processing_time_ms=0
+            processing_time_ms=0,
         )
 
     async def _process_message_optimized(self, message: TrioMessage) -> TrioResponse:
         """Process message with optimization"""
         # Check cache first
-        cache_key = f"{message.source.value}:{message.target.value}:{message.message_type}"
+        cache_key = (
+            f"{message.source.value}:{message.target.value}:{message.message_type}"
+        )
         if cache_key in self.performance_cache:
             cached_result = self.performance_cache[cache_key]
             if self._is_cache_valid(cached_result):
@@ -401,7 +421,7 @@ class TrioOrchestrator:
                     system=message.target,
                     status="cached",
                     result=cached_result["result"],
-                    processing_time_ms=0
+                    processing_time_ms=0,
                 )
 
         # Route based on priority
@@ -416,32 +436,32 @@ class TrioOrchestrator:
         """Check if message would create circular dependency"""
         # Simple check - prevent A->B->A patterns
         for active_msg in self.active_messages.values():
-            if (active_msg.source == message.target and
-                active_msg.target == message.source):
+            if (
+                active_msg.source == message.target
+                and active_msg.target == message.source
+            ):
                 return True
         return False
 
-    async def _check_ethical_compliance(self, message: TrioMessage) -> Dict[str, Any]:
+    async def _check_ethical_compliance(self, message: TrioMessage) -> dict[str, Any]:
         """Check if message complies with ethical guidelines"""
         action = {
             "type": f"trio_message_{message.message_type}",
             "source": message.source.value,
             "target": message.target.value,
-            "payload": message.payload
+            "payload": message.payload,
         }
 
         context = await self.context_manager.get_full_context()
 
         decision = await self.ethics_engine.evaluate_action(
-            action,
-            context,
-            f"trio_orchestrator_{message.source.value}"
+            action, context, f"trio_orchestrator_{message.source.value}"
         )
 
         return {
             "decision": decision.decision_type,
             "reason": decision.reasoning,
-            "confidence": decision.confidence
+            "confidence": decision.confidence,
         }
 
     async def _dependency_resolver(self) -> None:
@@ -461,7 +481,7 @@ class TrioOrchestrator:
             except Exception as e:
                 logger.error(f"Error in dependency resolver: {e}")
 
-    def _detect_deadlocks(self) -> List[Tuple[str, str]]:
+    def _detect_deadlocks(self) -> list[tuple[str, str]]:
         """Detect potential deadlocks"""
         deadlocks = []
 
@@ -469,13 +489,12 @@ class TrioOrchestrator:
         for msg_id1, msg1 in self.active_messages.items():
             for msg_id2, msg2 in self.active_messages.items():
                 if msg_id1 != msg_id2:
-                    if (msg1.source == msg2.target and
-                        msg1.target == msg2.source):
+                    if msg1.source == msg2.target and msg1.target == msg2.source:
                         deadlocks.append((msg_id1, msg_id2))
 
         return deadlocks
 
-    async def _resolve_deadlocks(self, deadlocks: List[Tuple[str, str]]) -> None:
+    async def _resolve_deadlocks(self, deadlocks: list[tuple[str, str]]) -> None:
         """Resolve detected deadlocks"""
         for msg_id1, msg_id2 in deadlocks:
             logger.warning(f"Resolving deadlock between {msg_id1} and {msg_id2}")
@@ -506,9 +525,10 @@ class TrioOrchestrator:
     def _generate_message_id(self) -> str:
         """Generate unique message ID"""
         import uuid
+
         return str(uuid.uuid4())
 
-    def _is_cache_valid(self, cached_result: Dict[str, Any]) -> bool:
+    def _is_cache_valid(self, cached_result: dict[str, Any]) -> bool:
         """Check if cached result is still valid"""
         if "timestamp" not in cached_result:
             return False
@@ -516,7 +536,7 @@ class TrioOrchestrator:
         age_seconds = (datetime.now() - cached_result["timestamp"]).total_seconds()
         return age_seconds < 60  # 1 minute cache
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get status of all systems"""
         context = await self.context_manager.get_full_context()
 
@@ -524,35 +544,37 @@ class TrioOrchestrator:
             "orchestrator": {
                 "processing_mode": self.processing_mode.name,
                 "active_messages": len(self.active_messages),
-                "is_running": self.is_running
+                "is_running": self.is_running,
             },
             "systems": context["system_state"],
             "queues": {
                 system.value: self.message_queue[system].qsize()
                 for system in SystemType
             },
-            "context_version": await self.context_manager.get_version()
+            "context_version": await self.context_manager.get_version(),
         }
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Perform health check"""
         return {
             "status": "healthy" if self.is_running else "stopped",
             "systems_registered": len(self.system_handlers),
             "active_messages": len(self.active_messages),
             "processing_tasks": len(self.processing_tasks),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     # Additional methods for DAST/ABAS/NIAS integration
-    async def register_component(self, component_name: str, component_instance: Any) -> None:
+    async def register_component(
+        self, component_name: str, component_instance: Any
+    ) -> None:
         """Register a component (hub) with the orchestrator"""
         # Determine system type from component name
-        if 'dast' in component_name.lower():
+        if "dast" in component_name.lower():
             system_type = SystemType.DAST
-        elif 'abas' in component_name.lower():
+        elif "abas" in component_name.lower():
             system_type = SystemType.ABAS
-        elif 'nias' in component_name.lower():
+        elif "nias" in component_name.lower():
             system_type = SystemType.NIAS
         else:
             logger.warning(f"Unknown component type: {component_name}")
@@ -560,14 +582,19 @@ class TrioOrchestrator:
 
         # Register as system handler
         self.register_system_handler(system_type, component_instance)
-        logger.info(f"Registered component {component_name} as {system_type.value} handler")
+        logger.info(
+            f"Registered component {component_name} as {system_type.value} handler"
+        )
 
-    async def notify_task_created(self, system: str, task_id: str, task_data: Dict[str, Any]) -> None:
+    async def notify_task_created(
+        self, system: str, task_id: str, task_data: dict[str, Any]
+    ) -> None:
         """Notify orchestrator of task creation"""
         # Update context with new task
         await self.context_manager.set(
             f"system_state.{system}.active_tasks",
-            await self.context_manager.get(f"system_state.{system}.active_tasks", []) + [task_id]
+            await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+            + [task_id],
         )
 
         # Log event
@@ -578,42 +605,56 @@ class TrioOrchestrator:
             "system": system,
             "created_at": datetime.now(),
             "data": task_data,
-            "status": "created"
+            "status": "created",
         }
 
-    async def notify_task_completed(self, system: str, task_id: str, result: Dict[str, Any]) -> None:
+    async def notify_task_completed(
+        self, system: str, task_id: str, result: dict[str, Any]
+    ) -> None:
         """Notify orchestrator of task completion"""
         # Update context
-        active_tasks = await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+        active_tasks = await self.context_manager.get(
+            f"system_state.{system}.active_tasks", []
+        )
         if task_id in active_tasks:
             active_tasks.remove(task_id)
-            await self.context_manager.set(f"system_state.{system}.active_tasks", active_tasks)
+            await self.context_manager.set(
+                f"system_state.{system}.active_tasks", active_tasks
+            )
 
         # Update task metadata
         if f"task_{task_id}" in self.performance_cache:
-            self.performance_cache[f"task_{task_id}"].update({
-                "completed_at": datetime.now(),
-                "status": "completed",
-                "result": result
-            })
+            self.performance_cache[f"task_{task_id}"].update(
+                {
+                    "completed_at": datetime.now(),
+                    "status": "completed",
+                    "result": result,
+                }
+            )
 
         logger.info(f"Task completed in {system}: {task_id}")
 
     async def notify_task_failed(self, system: str, task_id: str, error: str) -> None:
         """Notify orchestrator of task failure"""
         # Update context
-        active_tasks = await self.context_manager.get(f"system_state.{system}.active_tasks", [])
+        active_tasks = await self.context_manager.get(
+            f"system_state.{system}.active_tasks", []
+        )
         if task_id in active_tasks:
             active_tasks.remove(task_id)
-            await self.context_manager.set(f"system_state.{system}.active_tasks", active_tasks)
+            await self.context_manager.set(
+                f"system_state.{system}.active_tasks", active_tasks
+            )
 
         # Update task metadata
         if f"task_{task_id}" in self.performance_cache:
-            self.performance_cache[f"task_{task_id}"].update({
-                "failed_at": datetime.now(),
-                "status": "failed",
-                "error": error
-            })
+            self.performance_cache[f"task_{task_id}"].update(
+                {
+                    "failed_at": datetime.now(),
+                    "status": "failed",
+                    "error": error,
+                }
+            )
 
         logger.error(f"Task failed in {system}: {task_id} - {error}")
 
@@ -621,22 +662,28 @@ class TrioOrchestrator:
         """Process audit event from decision audit system"""
         # Store audit event in context
         audit_events = await self.context_manager.get("audit_events", [])
-        audit_events.append({
-            "audit_id": getattr(audit_entry, 'audit_id', 'unknown'),
-            "decision_id": getattr(audit_entry, 'decision_id', 'unknown'),
-            "timestamp": datetime.now().isoformat(),
-            "type": "decision_audit"
-        })
+        audit_events.append(
+            {
+                "audit_id": getattr(audit_entry, "audit_id", "unknown"),
+                "decision_id": getattr(audit_entry, "decision_id", "unknown"),
+                "timestamp": datetime.now().isoformat(),
+                "type": "decision_audit",
+            }
+        )
 
         # Keep only last 100 audit events
         if len(audit_events) > 100:
             audit_events = audit_events[-100:]
 
         await self.context_manager.set("audit_events", audit_events)
-        logger.info(f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}")
+        logger.info(
+            f"Processed audit event: {getattr(audit_entry, 'audit_id', 'unknown')}"
+        )
+
 
 # Global instance
 _trio_orchestrator_instance = None
+
 
 def get_trio_orchestrator() -> TrioOrchestrator:
     """Get or create TrioOrchestrator instance"""
@@ -644,6 +691,7 @@ def get_trio_orchestrator() -> TrioOrchestrator:
     if _trio_orchestrator_instance is None:
         _trio_orchestrator_instance = TrioOrchestrator()
     return _trio_orchestrator_instance
+
 
 __all__ = [
     "TrioOrchestrator",
@@ -653,5 +701,5 @@ __all__ = [
     "ProcessingMode",
     "TrioMessage",
     "TrioResponse",
-    "get_trio_orchestrator"
+    "get_trio_orchestrator",
 ]

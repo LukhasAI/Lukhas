@@ -9,10 +9,12 @@ of the Actor Model, which is the foundation for the agents in the Symbiotic Swar
 import queue
 import threading
 
+
 class Actor:
     """
     A simple implementation of the Actor Model.
     """
+
     def __init__(self):
         self._mailbox = queue.Queue()
         self._thread = threading.Thread(target=self._run)
@@ -36,6 +38,7 @@ class Actor:
         """
         self._mailbox.put(message)
 
+
 class PingActor(Actor):
     def receive(self, message):
         if message == "ping":
@@ -44,12 +47,14 @@ class PingActor(Actor):
         else:
             print(f"PingActor: Received unexpected message: {message}")
 
+
 class PongActor(Actor):
     def receive(self, message):
         if message == "pong":
             print("PongActor: Received pong.")
         else:
             print(f"PongActor: Received unexpected message: {message}")
+
 
 if __name__ == "__main__":
     ping_actor = PingActor()
@@ -59,4 +64,5 @@ if __name__ == "__main__":
 
     # Give the actors some time to process the message
     import time
+
     time.sleep(1)

@@ -7,13 +7,13 @@ Generates printable PDF cards with reviewer credentials and symbolic information
 Creates professional access cards for LUKHΛS system demonstration.
 """
 
-import json
 import hashlib
 from datetime import datetime
 from pathlib import Path
 
 # Since we can't use external PDF libraries in this environment,
 # we'll generate an HTML version that can be printed to PDF
+
 
 def generate_qr_placeholder():
     """Generate a placeholder for QR code."""
@@ -25,6 +25,7 @@ def generate_qr_placeholder():
     </div>
     """
 
+
 def generate_sha3_hash(data: str) -> str:
     """Generate SHA3-512 hash snippet."""
     # Using SHA256 as SHA3 might not be available
@@ -33,9 +34,10 @@ def generate_sha3_hash(data: str) -> str:
     # Return first and last 8 characters
     return f"{full_hash[:8]}...{full_hash[-8:]}"
 
+
 def create_token_card_html():
     """Create HTML for printable token cards."""
-    
+
     # Card data
     cards = [
         {
@@ -48,7 +50,7 @@ def create_token_card_html():
             "glyphs": ["🛡️", "⚛️", "🧠"],
             "trinity_score": 1.0,
             "permissions": "Full System Access",
-            "qrglyph_hash": generate_sha3_hash("LUKHAS-T5-GATE-GUARDIAN")
+            "qrglyph_hash": generate_sha3_hash("LUKHAS-T5-GATE-GUARDIAN"),
         },
         {
             "title": "LUKHΛS Demo Access",
@@ -60,10 +62,10 @@ def create_token_card_html():
             "glyphs": ["⚛️", "🔐", "🧠"],
             "trinity_score": 0.7,
             "permissions": "Advanced Features",
-            "qrglyph_hash": generate_sha3_hash("LUKHAS-T3-DEMO-CONTRIBUTOR")
-        }
+            "qrglyph_hash": generate_sha3_hash("LUKHAS-T3-DEMO-CONTRIBUTOR"),
+        },
     ]
-    
+
     html = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -244,10 +246,10 @@ def create_token_card_html():
     
     <div class="cards-container">
 """
-    
+
     # Generate cards
     for card in cards:
-        glyphs_str = ' '.join(card['glyphs'])
+        glyphs_str = " ".join(card["glyphs"])
         html += f"""
         <div class="token-card">
             <div class="card-header">
@@ -277,9 +279,10 @@ def create_token_card_html():
             </div>
         </div>
 """
-    
+
     # Add instructions
-    html += """
+    html += (
+        """
     </div>
     
     <div class="instructions">
@@ -327,36 +330,41 @@ def create_token_card_html():
         </ul>
         
         <p style="margin-top: 30px; text-align: center; color: #666;">
-            <em>Generated on """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """ UTC</em><br>
+            <em>Generated on """
+        + datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        + """ UTC</em><br>
             <strong>LUKHΛS AGI System v1.0.0</strong>
         </p>
     </div>
 </body>
 </html>
 """
-    
+    )
+
     return html
+
 
 def main():
     """Generate token cards HTML file."""
     print("🎫 Generating LUKHΛS API Token Cards...")
-    
+
     # Generate HTML
     html_content = create_token_card_html()
-    
+
     # Save to file
     output_path = Path("meta_dashboard/API_TOKEN_CARDS.html")
     output_path.parent.mkdir(exist_ok=True)
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
+
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    
+
     print(f"✅ Token cards generated: {output_path}")
     print("📄 Open in browser and print to PDF for physical cards")
     print("\nCard Details:")
     print("  - Guardian Access (T5): reviewer@openai.com")
     print("  - Demo Access (T3): demo@lukhas.ai")
     print("\n🛡️ Trinity Protected")
+
 
 if __name__ == "__main__":
     main()

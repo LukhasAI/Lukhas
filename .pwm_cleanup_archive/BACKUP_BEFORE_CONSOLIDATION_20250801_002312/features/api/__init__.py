@@ -20,7 +20,7 @@ logger.info("ΛTRACE: Initializing core.api package.")
 # __all__ = ["DreamAPI"]
 
 # For now, keeping it simple as the original file was minimal.
-__all__ = [] # Explicitly state that nothing is exported by default from this __init__
+__all__ = []  # Explicitly state that nothing is exported by default from this __init__
 
 logger.info("ΛTRACE: core.api package initialized.")
 

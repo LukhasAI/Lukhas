@@ -12,24 +12,25 @@ DEPENDENCIES:
 - LUKHAS_AGI_2.CORE.voice_safety_guard.VoiceSafetyFilter
 """
 
-from core.common import get_logger
-import asyncio
 import os
-import json
-import time
-import uuid
 import random
 import re
-from datetime import datetime
-from typing import Dict, Any, Optional, List, Union, Callable, BinaryIO
+import time
+import uuid
+from typing import Any
+from typing import Optional
+
+from core.common import get_logger
 
 # Import relevant components
-from core.voice_profiling import VoiceProfileManager, VoiceProfile
+from core.voice_profiling import VoiceProfile
+from core.voice_profiling import VoiceProfileManager
 from core.voice_safety_guard import VoiceSafetyFilter
 
 # Import personality integration
 try:
     from core.personality.voice_personality import VoicePersonalityIntegrator
+
     PERSONALITY_AVAILABLE = True
 except ImportError:
     PERSONALITY_AVAILABLE = False
@@ -38,6 +39,7 @@ except ImportError:
 # Import memory helix for accent learning and word curiosity
 try:
     from core.voice_memory_helix import VoiceMemoryHelix
+
     MEMORY_HELIX_AVAILABLE = True
 except ImportError:
     MEMORY_HELIX_AVAILABLE = False
@@ -46,12 +48,14 @@ except ImportError:
 # Try to import symbolic world for enhanced reasoning
 try:
     from bio_symbolic.symbolic_world import SymbolicWorld
+
     SYMBOLIC_WORLD_AVAILABLE = True
 except ImportError:
     SYMBOLIC_WORLD_AVAILABLE = False
 
 # Configure logging
 logger = get_logger(__name__)
+
 
 class VoiceNode:
     """
@@ -68,7 +72,7 @@ class VoiceNode:
     the LUKHAS core system.
     """
 
-    def __init__(self, core_interface=None, config: Dict[str, Any] = None):
+    def __init__(self, core_interface=None, config: dict[str, Any] = None):
         """
         Initialize the Voice Node with access to the core system
 
@@ -87,7 +91,9 @@ class VoiceNode:
         self.personality_integrator = None
         if PERSONALITY_AVAILABLE and self.config.get("use_personality", True):
             try:
-                self.personality_integrator = VoicePersonalityIntegrator(core_interface, self.config.get("personality_config"))
+                self.personality_integrator = VoicePersonalityIntegrator(
+                    core_interface, self.config.get("personality_config")
+                )
                 logger.info("Voice personality integration enabled")
             except Exception as e:
                 logger.warning(f"Failed to initialize personality integration: {e}")
@@ -96,8 +102,12 @@ class VoiceNode:
         self.memory_helix = None
         if MEMORY_HELIX_AVAILABLE and self.config.get("use_memory_helix", True):
             try:
-                self.memory_helix = VoiceMemoryHelix(core_interface, self.config.get("memory_helix_config"))
-                logger.info("Voice memory helix enabled for accent learning and word curiosity")
+                self.memory_helix = VoiceMemoryHelix(
+                    core_interface, self.config.get("memory_helix_config")
+                )
+                logger.info(
+                    "Voice memory helix enabled for accent learning and word curiosity"
+                )
             except Exception as e:
                 logger.warning(f"Failed to initialize memory helix: {e}")
 
@@ -122,7 +132,7 @@ class VoiceNode:
             "elevenlabs": {
                 "api_key": os.environ.get("ELEVENLABS_API_KEY", ""),
                 "enabled": self.config.get("enable_elevenlabs", True),
-                "fallback_voice_id": "s0XGIcqmceN2l7kjsqoZ", # Default ElevenLabs voice
+                "fallback_voice_id": "s0XGIcqmceN2l7kjsqoZ",  # Default ElevenLabs voice
                 "model": "eleven_monolingual_v1",
                 "stability": 0.5,
                 "similarity_boost": 0.75,
@@ -152,31 +162,25 @@ class VoiceNode:
         # Register with core if available
         if self.core:
             try:
-                self.core.register_component(
-                    "voice_node",
-                    self,
-                    self.process_message
-                )
+                self.core.register_component("voice_node", self, self.process_message)
 
                 # Subscribe to relevant events
                 self.core.subscribe_to_events(
                     "user_interaction",
                     self.handle_interaction_event,
-                    "voice_node"
+                    "voice_node",
                 )
 
                 # Subscribe to emotion events to adapt voice
                 self.core.subscribe_to_events(
-                    "emotion_change",
-                    self.handle_emotion_change,
-                    "voice_node"
+                    "emotion_change", self.handle_emotion_change, "voice_node"
                 )
 
                 logger.info("VoiceNode registered with core system")
             except Exception as e:
                 logger.error(f"Failed to register VoiceNode with core: {e}")
 
-    async def process_message(self, message: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_message(self, message: dict[str, Any]) -> dict[str, Any]:
         """
         Process incoming messages directed to the voice node
 
@@ -193,21 +197,22 @@ class VoiceNode:
                 message.get("text", ""),
                 message.get("profile_name"),
                 message.get("emotion"),
-                message.get("context", {})
+                message.get("context", {}),
             )
         elif message_type == "voice_input":
             return await self.process_voice_input(
-                message.get("audio_data"),
-                message.get("context", {})
+                message.get("audio_data"), message.get("context", {})
             )
         elif message_type == "voice_handoff":
             return await self.manage_voice_handoff(
-                message.get("user_query", ""),
-                message.get("context_state", {})
+                message.get("user_query", ""), message.get("context_state", {})
             )
         else:
             logger.warning(f"Unknown message type: {message_type}")
-            return {"status": "error", "message": f"Unknown message type: {message_type}"}
+            return {
+                "status": "error",
+                "message": f"Unknown message type: {message_type}",
+            }
 
     async def synthesize_voice(
         self,
@@ -216,9 +221,9 @@ class VoiceNode:
         emotion: Optional[str] = None,
         actor: str = "Lukhas",
         voice_id: Optional[str] = None,
-        context: Dict[str, Any] = {},
-        provider: Optional[str] = None
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] = None,
+        provider: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize voice output with the specified profile and emotion
 
@@ -235,8 +240,10 @@ class VoiceNode:
             Response with audio path or error
         """
         # Validate and process input
+        if context is None:
+            context = {}
         if not text.strip():
-            text = f"Hello, I am Lukhas."
+            text = "Hello, I am Lukhas."
 
         # Create synthesis ID for tracking
         synthesis_id = f"synth_{int(time.time())}_{str(uuid.uuid4())[:8]}"
@@ -249,7 +256,7 @@ class VoiceNode:
                 "id": synthesis_id,
                 "status": "rejected",
                 "reason": safety_result["reason"],
-                "alternative": safety_result.get("alternative_text")
+                "alternative": safety_result.get("alternative_text"),
             }
 
         # Apply personality enhancement if available
@@ -257,21 +264,33 @@ class VoiceNode:
         if self.personality_integrator and context.get("enhance_personality", True):
             try:
                 # Enhance text with personality
-                text = await self.personality_integrator.enhance_voice_text(text, emotion or "neutral", context)
+                text = await self.personality_integrator.enhance_voice_text(
+                    text, emotion or "neutral", context
+                )
 
                 # Get voice modulation parameters
-                personality_modulation = self.personality_integrator.get_voice_modulation(emotion or "neutral", context)
+                personality_modulation = (
+                    self.personality_integrator.get_voice_modulation(
+                        emotion or "neutral", context
+                    )
+                )
                 if personality_modulation:
                     # Store in context for use during synthesis
                     context["personality_modulation"] = personality_modulation
 
                 # Record personality adaptation
-                self.personality_integrator.adapt_to_interaction({
-                    "type": "voice_synthesis",
-                    "text_length": len(text),
-                    "emotion": emotion,
-                    "context": {k: v for k, v in context.items() if isinstance(v, (str, int, float, bool))}
-                })
+                self.personality_integrator.adapt_to_interaction(
+                    {
+                        "type": "voice_synthesis",
+                        "text_length": len(text),
+                        "emotion": emotion,
+                        "context": {
+                            k: v
+                            for k, v in context.items()
+                            if isinstance(v, (str, int, float, bool))
+                        },
+                    }
+                )
 
                 logger.debug("Text enhanced with personality")
             except Exception as e:
@@ -284,21 +303,28 @@ class VoiceNode:
                 # Detect new words for curiosity
                 new_words = await self.memory_helix.detect_new_words(text)
                 if new_words and context.get("enable_word_curiosity", True):
-                    # Mark that we found new words - this could trigger curiosity in responses
+                    # Mark that we found new words - this could trigger curiosity in
+                    # responses
                     context["new_words_detected"] = new_words
 
                 # Check for accent-specific pronunciations
-                accent_info = context.get("accent_info") or await self._detect_user_accent(context)
+                accent_info = context.get(
+                    "accent_info"
+                ) or await self._detect_user_accent(context)
                 if accent_info:
                     # Store accent info in context
                     context["accent_info"] = accent_info
 
                     # Apply accent-specific pronunciations if we should adapt
                     if context.get("adapt_to_accent", True):
-                        text = await self._apply_accent_pronunciations(text, accent_info)
+                        text = await self._apply_accent_pronunciations(
+                            text, accent_info
+                        )
 
                 # Check if we should be curious about pronunciation
-                if random.random() < 0.15 and context.get("enable_word_curiosity", True):
+                if random.random() < 0.15 and context.get(
+                    "enable_word_curiosity", True
+                ):
                     curious_word = self.memory_helix.get_curious_word()
                     if curious_word:
                         context["curious_about_word"] = curious_word
@@ -310,7 +336,9 @@ class VoiceNode:
         # Apply symbolic reasoning to enhance context if available
         if self.symbolic_world and context:
             try:
-                enhanced_context = self.symbolic_world.enhance_voice_context(text, context)
+                enhanced_context = self.symbolic_world.enhance_voice_context(
+                    text, context
+                )
                 if enhanced_context:
                     context = enhanced_context
                     logger.debug("Context enhanced with symbolic reasoning")
@@ -371,7 +399,7 @@ class VoiceNode:
             "actor": actor,
             "provider": selected_provider,
             "timestamp": time.time(),
-            "parameters": voice_params
+            "parameters": voice_params,
         }
 
         self.voice_history.append(synthesis_entry)
@@ -380,43 +408,66 @@ class VoiceNode:
 
         # File path for audio output
         file_extension = "mp3" if selected_provider == "elevenlabs" else "wav"
-        audio_path = os.path.join(self.audio_storage_path, f"{audio_id}.{file_extension}")
+        audio_path = os.path.join(
+            self.audio_storage_path, f"{audio_id}.{file_extension}"
+        )
 
         # Try synthesis with selected provider
         try:
-            if selected_provider == "elevenlabs" and self.voice_providers["elevenlabs"]["enabled"]:
+            if (
+                selected_provider == "elevenlabs"
+                and self.voice_providers["elevenlabs"]["enabled"]
+            ):
                 # This would call the actual ElevenLabs API
                 # For now, simulate a successful synthesis
-                provider_params = self.voice_providers["elevenlabs"]
+                self.voice_providers["elevenlabs"]
 
                 # Generate audio file path
 
-                logger.info(f"Synthesized voice with ElevenLabs, profile {profile.name}, emotion {emotion}")
+                logger.info(
+                    f"Synthesized voice with ElevenLabs, profile {profile.name},
+                    emotion {emotion}"
+                )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif selected_provider == "coqui" and self.voice_providers["coqui"]["enabled"]:
+            elif (
+                selected_provider == "coqui"
+                and self.voice_providers["coqui"]["enabled"]
+            ):
                 # This would use Coqui TTS
-                provider_params = self.voice_providers["coqui"]
+                self.voice_providers["coqui"]
 
-                logger.info(f"Synthesized voice with Coqui TTS, profile {profile.name}, emotion {emotion}")
+                logger.info(
+                    f"Synthesized voice with Coqui TTS, profile {profile.name},
+                    emotion {emotion}"
+                )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
-            elif selected_provider == "edge_tts" and self.voice_providers["edge_tts"]["enabled"]:
+            elif (
+                selected_provider == "edge_tts"
+                and self.voice_providers["edge_tts"]["enabled"]
+            ):
                 # This would use Edge TTS
-                provider_params = self.voice_providers["edge_tts"]
+                self.voice_providers["edge_tts"]
 
-                logger.info(f"Synthesized voice with Edge TTS, profile {profile.name}, emotion {emotion}")
+                logger.info(
+                    f"Synthesized voice with Edge TTS, profile {profile.name},
+                    emotion {emotion}"
+                )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
 
             else:
                 # Fallback to system TTS
-                logger.info(f"Synthesized voice with system TTS, profile {profile.name}, emotion {emotion}")
+                logger.info(
+                    f"Synthesized voice with system TTS, profile {profile.name},
+                    emotion {emotion}"
+                )
                 synthesis_entry["status"] = "success"
                 synthesis_entry["audio_path"] = audio_path
                 synthesis_entry["audio_id"] = audio_id
@@ -429,21 +480,31 @@ class VoiceNode:
             # Try system TTS as final fallback
             try:
                 # This would use system TTS
-                logger.info(f"Falling back to system TTS, profile {profile.name}, emotion {emotion}")
+                logger.info(
+                    f"Falling back to system TTS, profile {profile.name},
+                    emotion {emotion}"
+                )
                 synthesis_entry["status"] = "success"
-                synthesis_entry["audio_path"] = audio_path.replace(file_extension, "wav")
+                synthesis_entry["audio_path"] = audio_path.replace(
+                    file_extension, "wav"
+                )
                 synthesis_entry["audio_id"] = audio_id
                 synthesis_entry["provider"] = "system_tts"
                 synthesis_entry["fallback_reason"] = str(e)
             except Exception as e2:
                 logger.error(f"System TTS fallback failed: {e2}")
                 synthesis_entry["status"] = "error"
-                synthesis_entry["message"] = f"All synthesis methods failed. Original error: {e}, Fallback error: {e2}"
+                synthesis_entry["message"] = (
+                    f"All synthesis methods failed. Original error: {e},
+                    Fallback error: {e2}"
+                )
                 return synthesis_entry
 
         return synthesis_entry
 
-    async def process_voice_input(self, audio_data, context: Dict[str, Any] = {}) -> Dict[str, Any]:
+    async def process_voice_input(
+        self, audio_data, context: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Process voice input and convert to text
 
@@ -456,14 +517,18 @@ class VoiceNode:
         """
         # This would integrate with a speech recognition service
         # For now, return a placeholder
+        if context is None:
+            context = {}
         logger.info("Processing voice input")
         return {
             "status": "success",
             "text": "[Voice transcription would happen here]",
-            "confidence": 0.95
+            "confidence": 0.95,
         }
 
-    async def manage_voice_handoff(self, user_query: str, context_state: Dict[str, Any] = {}) -> Dict[str, Any]:
+    async def manage_voice_handoff(
+        self, user_query: str, context_state: dict[str, Any] = None
+    ) -> dict[str, Any]:
         """
         Orchestrate voice handoff between Lukhas and GPT
 
@@ -474,6 +539,8 @@ class VoiceNode:
         Returns:
             Handoff decision
         """
+        if context_state is None:
+            context_state = {}
         emotion = context_state.get("emotion", "neutral")
         intensity = context_state.get("intensity", 0)
         dst_urgency = context_state.get("DST_urgency", False)
@@ -489,7 +556,7 @@ class VoiceNode:
 
         return {"source": "Lukhas", "tone": emotion, "handoff": False}
 
-    async def handle_interaction_event(self, event: Dict[str, Any]) -> None:
+    async def handle_interaction_event(self, event: dict[str, Any]) -> None:
         """
         Handle user interaction events to adapt voice profile and personality
 
@@ -509,7 +576,7 @@ class VoiceNode:
                     "user_id": event.get("user_id"),
                     "content_length": len(event.get("content", "")),
                     "emotion": event.get("emotion", "neutral"),
-                    "context": event.get("context", {})
+                    "context": event.get("context", {}),
                 }
 
                 # Adapt personality to this interaction
@@ -518,7 +585,7 @@ class VoiceNode:
             except Exception as e:
                 logger.warning(f"Failed to adapt personality to interaction: {e}")
 
-    async def handle_emotion_change(self, event: Dict[str, Any]) -> None:
+    async def handle_emotion_change(self, event: dict[str, Any]) -> None:
         """
         Handle emotion change events to adapt voice profile and personality
 
@@ -537,7 +604,9 @@ class VoiceNode:
         if emotion in ["excited", "urgent"] and intensity > 0.7:
             # Use more expressive profiles for high intensity emotions
             profiles = self.profile_manager.list_profiles()
-            expressive_profiles = [p for p in profiles if "expressive" in p.name.lower()]
+            expressive_profiles = [
+                p for p in profiles if "expressive" in p.name.lower()
+            ]
 
             if expressive_profiles:
                 self.last_used_profile = expressive_profiles[0]
@@ -551,7 +620,7 @@ class VoiceNode:
                     "type": "emotion_change",
                     "emotion": emotion,
                     "intensity": intensity,
-                    "source": source
+                    "source": source,
                 }
 
                 # Adapt personality to this emotion change
@@ -560,16 +629,18 @@ class VoiceNode:
             except Exception as e:
                 logger.warning(f"Failed to adapt personality to emotion change: {e}")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get status of the voice node"""
         status = {
             "active": True,
             "profile_count": len(self.profile_manager.list_profiles()),
-            "last_used_profile": self.last_used_profile.name if self.last_used_profile else None,
+            "last_used_profile": (
+                self.last_used_profile.name if self.last_used_profile else None
+            ),
             "providers": {
                 name: {"enabled": config["enabled"]}
                 for name, config in self.voice_providers.items()
-            }
+            },
         }
 
         # Add personality status if available
@@ -577,14 +648,14 @@ class VoiceNode:
             try:
                 status["personality"] = {
                     "active": True,
-                    "traits": self.personality_integrator.personality_traits
+                    "traits": self.personality_integrator.personality_traits,
                 }
             except Exception as e:
                 logger.warning(f"Failed to get personality status: {e}")
 
         return status
 
-    def _select_provider(self, context: Optional[Dict[str, Any]], emotion: str) -> str:
+    def _select_provider(self, context: Optional[dict[str, Any]], emotion: str) -> str:
         """
         Select the appropriate TTS provider based on context.
 
@@ -619,7 +690,9 @@ class VoiceNode:
 
         return provider
 
-    def _get_voice_parameters(self, profile: VoiceProfile, emotion: str, actor: str) -> Dict[str, Any]:
+    def _get_voice_parameters(
+        self, profile: VoiceProfile, emotion: str, actor: str
+    ) -> dict[str, Any]:
         """
         Get voice parameters based on profile, emotion, and personality.
 
@@ -677,25 +750,26 @@ class VoiceNode:
         voice_map = {
             "elevenlabs": {
                 "Lukhas": "pNInz6obpgDQGcFmaJgB",  # Example voice ID
-                "GPT": "EXAVITQu4vr4xnSDxMaL"     # Example voice ID
+                "GPT": "EXAVITQu4vr4xnSDxMaL",  # Example voice ID
             },
             "edge_tts": {
                 "Lukhas": "en-US-GuyNeural",
-                "GPT": "en-US-AriaNeural"
+                "GPT": "en-US-AriaNeural",
             },
-            "coqui": {
-                "Lukhas": "p326",
-                "GPT": "p225"
-            }
+            "coqui": {"Lukhas": "p326", "GPT": "p225"},
         }
 
         # Get voice ID for the specified provider and actor
         provider_map = voice_map.get(provider, {})
-        voice_id = provider_map.get(actor, provider_map.get("Lukhas", self.default_voice_id))
+        voice_id = provider_map.get(
+            actor, provider_map.get("Lukhas", self.default_voice_id)
+        )
 
         return voice_id
 
-    async def _detect_user_accent(self, context: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _detect_user_accent(
+        self, context: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """
         Detect the user's accent from context or audio if available.
 
@@ -734,33 +808,50 @@ class VoiceNode:
             # Map location to likely accent (simplified)
             accent_map = {
                 "US": {"name": "general_american", "region": "North America"},
-                "UK": {"name": "received_pronunciation", "region": "United Kingdom"},
+                "UK": {
+                    "name": "received_pronunciation",
+                    "region": "United Kingdom",
+                },
                 "AU": {"name": "australian", "region": "Australia"},
                 "CA": {"name": "canadian", "region": "Canada"},
                 "IN": {"name": "indian", "region": "South Asia"},
-                "SG": {"name": "singaporean", "region": "Southeast Asia"}
+                "SG": {"name": "singaporean", "region": "Southeast Asia"},
             }
 
-            country_code = location.get("country_code") if isinstance(location, dict) else str(location)[:2].upper()
+            country_code = (
+                location.get("country_code")
+                if isinstance(location, dict)
+                else str(location)[:2].upper()
+            )
             if country_code in accent_map:
-                logger.debug(f"Inferred accent from location: {accent_map[country_code]['name']}")
+                logger.debug(
+                    f"Inferred accent from location: {accent_map[country_code]['name']}"
+                )
                 return accent_map[country_code]
 
         # If no accent detected but we have a memory helix with accent data
-        if self.memory_helix and hasattr(self.memory_helix, "accent_memory") and self.memory_helix.accent_memory:
+        if (
+            self.memory_helix
+            and hasattr(self.memory_helix, "accent_memory")
+            and self.memory_helix.accent_memory
+        ):
             # Use the most common accent in our memory
-            accent_counts = {name: len(data.get("example_words", []))
-                            for name, data in self.memory_helix.accent_memory.items()}
+            accent_counts = {
+                name: len(data.get("example_words", []))
+                for name, data in self.memory_helix.accent_memory.items()
+            }
 
             if accent_counts:
                 most_common_accent = max(accent_counts.items(), key=lambda x: x[1])[0]
                 accent_data = self.memory_helix.accent_memory[most_common_accent]
-                logger.debug(f"Using most common accent from memory: {most_common_accent}")
+                logger.debug(
+                    f"Using most common accent from memory: {most_common_accent}"
+                )
                 return {
                     "name": most_common_accent,
                     "region": accent_data.get("region", "unknown"),
                     "confidence": 0.5,  # Medium confidence as it's a fallback
-                    "source": "memory_fallback"
+                    "source": "memory_fallback",
                 }
 
         # Fall back to a default if no accent detected
@@ -769,10 +860,12 @@ class VoiceNode:
             "name": "general_american",
             "region": "North America",
             "confidence": 0.4,
-            "source": "default"
+            "source": "default",
         }
 
-    async def _apply_accent_pronunciations(self, text: str, accent_info: Dict[str, Any]) -> str:
+    async def _apply_accent_pronunciations(
+        self, text: str, accent_info: dict[str, Any]
+    ) -> str:
         """
         Apply accent-specific pronunciations to the text for more natural speech.
 
@@ -790,7 +883,7 @@ class VoiceNode:
         accent_name = accent_info.get("name", "general_american")
 
         # Extract words from the text
-        words = re.findall(r'\b[a-zA-Z\']+\b', text)
+        words = re.findall(r"\b[a-zA-Z\']+\b", text)
         if not words:
             return text
 
@@ -807,7 +900,9 @@ class VoiceNode:
                 continue
 
             # Get pronunciation for this word in this accent
-            pronunciation = self.memory_helix.get_pronunciation_for_word(word_lower, accent_name)
+            pronunciation = self.memory_helix.get_pronunciation_for_word(
+                word_lower, accent_name
+            )
             if not pronunciation:
                 continue
 
@@ -827,7 +922,8 @@ class VoiceNode:
                 replacement = f'<phoneme alphabet="ipa" ph="{pronunciation}">{original_word}</phoneme>'
             else:
                 # For other providers, use a simple text substitution approach
-                # This is a simplification - real implementation would be more sophisticated
+                # This is a simplification - real implementation would be more
+                # sophisticated
                 replacement = f"{original_word}({pronunciation})"
 
             # Add to replacements list
@@ -837,10 +933,14 @@ class VoiceNode:
         modified_text = text
         for original, replacement in replacements:
             # Only replace whole words (not parts of words)
-            modified_text = re.sub(r'\b' + re.escape(original) + r'\b', replacement, modified_text)
+            modified_text = re.sub(
+                r"\b" + re.escape(original) + r"\b", replacement, modified_text
+            )
 
         # Log how many words were adapted
         if replacements:
-            logger.debug(f"Applied {len(replacements)} accent-specific pronunciations for {accent_name} accent")
+            logger.debug(
+                f"Applied {len(replacements)} accent-specific pronunciations for {accent_name} accent"
+            )
 
         return modified_text

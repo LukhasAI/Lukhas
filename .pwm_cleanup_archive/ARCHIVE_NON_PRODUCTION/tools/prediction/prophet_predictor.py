@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Prophet Predictor
@@ -22,16 +21,13 @@ symbolic cascade events in LUKHAS AGI systems.
 
 import asyncio
 import json
-import logging
-import math
 import statistics
-import time
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Set, Union, Any
+from typing import Any, Dict, List, Optional, Tuple
 
 import structlog
 
@@ -43,7 +39,7 @@ structlog.configure(
         structlog.stdlib.add_log_level,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.add_log_level,
-        structlog.processors.JSONRenderer()
+        structlog.processors.JSONRenderer(),
     ],
     wrapper_class=structlog.stdlib.BoundLogger,
     logger_factory=structlog.stdlib.LoggerFactory(),
@@ -55,6 +51,7 @@ logger = structlog.get_logger()
 
 class AlertLevel(Enum):
     """ΛPROPHET alert severity levels."""
+
     INFO = "INFO"
     WARNING = "WARNING"
     CRITICAL = "CRITICAL"
@@ -63,6 +60,7 @@ class AlertLevel(Enum):
 
 class CascadeType(Enum):
     """Predicted cascade types."""
+
     ENTROPY_SPIRAL = "ENTROPY_SPIRAL"
     IDENTITY_RECURSION = "IDENTITY_RECURSION"
     MEMORY_COLLAPSE = "MEMORY_COLLAPSE"
@@ -74,6 +72,7 @@ class CascadeType(Enum):
 
 class InterventionType(Enum):
     """Recommended intervention strategies."""
+
     ENTROPY_BUFFER = "ENTROPY_BUFFER"
     STABILIZER_INJECTION = "STABILIZER_INJECTION"
     THRESHOLD_ADJUSTMENT = "THRESHOLD_ADJUSTMENT"
@@ -86,6 +85,7 @@ class InterventionType(Enum):
 @dataclass
 class SymbolicMetrics:
     """Symbolic system metrics for trajectory analysis."""
+
     timestamp: datetime
     entropy_level: float
     phase_drift: float
@@ -99,30 +99,32 @@ class SymbolicMetrics:
     def risk_score(self) -> float:
         """Calculate composite risk score."""
         return (
-            self.entropy_level * 0.25 +
-            abs(self.phase_drift) * 0.20 +
-            min(self.motif_conflicts / 10.0, 1.0) * 0.15 +
-            self.emotion_volatility * 0.15 +
-            self.contradiction_density * 0.10 +
-            (1.0 - self.memory_fold_integrity) * 0.10 +
-            self.governor_stress * 0.05
+            self.entropy_level * 0.25
+            + abs(self.phase_drift) * 0.20
+            + min(self.motif_conflicts / 10.0, 1.0) * 0.15
+            + self.emotion_volatility * 0.15
+            + self.contradiction_density * 0.10
+            + (1.0 - self.memory_fold_integrity) * 0.10
+            + self.governor_stress * 0.05
         )
 
 
 @dataclass
 class PredictionResult:
     """Cascade prediction result with confidence metrics."""
+
     cascade_type: CascadeType
     confidence: float
     time_to_cascade: Optional[int]  # seconds
     risk_trajectory: List[float]
     contributing_factors: List[str]
-    recommended_interventions: List['InterventionRecommendation']
+    recommended_interventions: List["InterventionRecommendation"]
 
 
 @dataclass
 class InterventionRecommendation:
     """Recommended intervention with implementation details."""
+
     intervention_type: InterventionType
     priority: AlertLevel
     target_component: str
@@ -135,6 +137,7 @@ class InterventionRecommendation:
 @dataclass
 class ProphetSignal:
     """ΛPROPHET signal structure."""
+
     signal_id: str
     timestamp: datetime
     alert_level: AlertLevel
@@ -157,7 +160,9 @@ class SymbolicTrajectoryAnalyzer:
         """Add new metrics to trajectory analysis."""
         self.metrics_history.append(metrics)
 
-    def analyze_trajectory(self, metrics_data: List[SymbolicMetrics]) -> Dict[str, float]:
+    def analyze_trajectory(
+        self, metrics_data: List[SymbolicMetrics]
+    ) -> Dict[str, float]:
         """Analyze symbolic trajectory for cascade indicators."""
         if len(metrics_data) < 10:
             return {"trajectory_score": 0.0, "trend_stability": 1.0, "volatility": 0.0}
@@ -187,9 +192,13 @@ class SymbolicTrajectoryAnalyzer:
             "phase_drift_acceleration": phase_drift_acceleration,
             "pattern_match_score": pattern_match_score,
             "overall_risk": self._calculate_overall_risk(
-                trajectory_score, trend_stability, volatility,
-                entropy_trend, phase_drift_acceleration, pattern_match_score
-            )
+                trajectory_score,
+                trend_stability,
+                volatility,
+                entropy_trend,
+                phase_drift_acceleration,
+                pattern_match_score,
+            ),
         }
 
     def _calculate_trajectory_score(self, risk_scores: List[float]) -> float:
@@ -221,7 +230,7 @@ class SymbolicTrajectoryAnalyzer:
         mean_value = statistics.mean(values)
 
         # Coefficient of variation
-        cv = volatility / mean_value if mean_value != 0 else float('inf')
+        cv = volatility / mean_value if mean_value != 0 else float("inf")
 
         # Convert to stability score (higher stability = lower volatility)
         return max(0.0, 1.0 - min(1.0, cv))
@@ -244,8 +253,10 @@ class SymbolicTrajectoryAnalyzer:
             return 0.0
 
         # Calculate differences
-        first_diffs = [values[i+1] - values[i] for i in range(len(values)-1)]
-        second_diffs = [first_diffs[i+1] - first_diffs[i] for i in range(len(first_diffs)-1)]
+        first_diffs = [values[i + 1] - values[i] for i in range(len(values) - 1)]
+        second_diffs = [
+            first_diffs[i + 1] - first_diffs[i] for i in range(len(first_diffs) - 1)
+        ]
 
         if not second_diffs:
             return 0.0
@@ -309,24 +320,30 @@ class SymbolicTrajectoryAnalyzer:
 
         # Check if last 5 values are generally increasing
         increasing_count = 0
-        for i in range(len(values)-1):
-            if values[i+1] >= values[i]:
+        for i in range(len(values) - 1):
+            if values[i + 1] >= values[i]:
                 increasing_count += 1
 
         return increasing_count >= 3
 
-    def _calculate_overall_risk(self, trajectory_score: float, trend_stability: float,
-                               volatility: float, entropy_trend: float,
-                               phase_drift_acceleration: float, pattern_match_score: float) -> float:
+    def _calculate_overall_risk(
+        self,
+        trajectory_score: float,
+        trend_stability: float,
+        volatility: float,
+        entropy_trend: float,
+        phase_drift_acceleration: float,
+        pattern_match_score: float,
+    ) -> float:
         """Calculate overall cascade risk score."""
         # Weighted combination of risk factors
         risk_score = (
-            trajectory_score * 0.30 +
-            (1.0 - trend_stability) * 0.15 +
-            volatility * 0.15 +
-            max(0, entropy_trend) * 0.15 +
-            abs(phase_drift_acceleration) * 0.10 +
-            pattern_match_score * 0.15
+            trajectory_score * 0.30
+            + (1.0 - trend_stability) * 0.15
+            + volatility * 0.15
+            + max(0, entropy_trend) * 0.15
+            + abs(phase_drift_acceleration) * 0.10
+            + pattern_match_score * 0.15
         )
 
         return max(0.0, min(1.0, risk_score))
@@ -336,8 +353,11 @@ class SymbolicTrajectoryAnalyzer:
         # In real implementation, this would load from historical data
         return {
             "entropy_spiral": {"entropy_threshold": 0.7, "phase_drift_threshold": 0.3},
-            "memory_collapse": {"integrity_threshold": 0.4, "volatility_threshold": 0.6},
-            "identity_recursion": {"emotion_volatility_threshold": 0.8}
+            "memory_collapse": {
+                "integrity_threshold": 0.4,
+                "volatility_threshold": 0.6,
+            },
+            "identity_recursion": {"emotion_volatility_threshold": 0.8},
         }
 
 
@@ -356,22 +376,30 @@ class CascadePredictor:
             CascadeType.MEMORY_COLLAPSE: {"memory_integrity": 0.4, "volatility": 0.6},
             CascadeType.ETHICAL_DRIFT: {"governor_stress": 0.7, "phase_drift": 0.4},
             CascadeType.REALITY_DISTORTION: {"dream_convergence": 0.8, "entropy": 0.7},
-            CascadeType.GOVERNOR_CONFLICT: {"governor_stress": 0.9, "contradiction_density": 0.6},
-            CascadeType.SYMBOLIC_FRAGMENTATION: {"motif_conflicts": 8, "entropy": 0.6}
+            CascadeType.GOVERNOR_CONFLICT: {
+                "governor_stress": 0.9,
+                "contradiction_density": 0.6,
+            },
+            CascadeType.SYMBOLIC_FRAGMENTATION: {"motif_conflicts": 8, "entropy": 0.6},
         }
 
-    def predict_cascade_risk(self, timeline: List[SymbolicMetrics],
-                            thresholds: Dict[str, float] = None) -> Optional[PredictionResult]:
+    def predict_cascade_risk(
+        self, timeline: List[SymbolicMetrics], thresholds: Dict[str, float] = None
+    ) -> Optional[PredictionResult]:
         """Predict cascade risk from symbolic metrics timeline."""
         if len(timeline) < 10:
-            logger.warning("Insufficient data for cascade prediction", data_points=len(timeline))
+            logger.warning(
+                "Insufficient data for cascade prediction", data_points=len(timeline)
+            )
             return None
 
         # Analyze trajectory
         trajectory_analysis = self.trajectory_analyzer.analyze_trajectory(timeline)
 
         # Determine most likely cascade type
-        cascade_type, confidence = self._classify_cascade_type(timeline[-1], trajectory_analysis)
+        cascade_type, confidence = self._classify_cascade_type(
+            timeline[-1], trajectory_analysis
+        )
 
         if confidence < self.confidence_threshold:
             return None
@@ -380,10 +408,14 @@ class CascadePredictor:
         time_to_cascade = self._estimate_time_to_cascade(timeline, trajectory_analysis)
 
         # Identify contributing factors
-        contributing_factors = self._identify_contributing_factors(timeline[-1], trajectory_analysis)
+        contributing_factors = self._identify_contributing_factors(
+            timeline[-1], trajectory_analysis
+        )
 
         # Generate intervention recommendations
-        interventions = self._generate_interventions(cascade_type, timeline[-1], confidence)
+        interventions = self._generate_interventions(
+            cascade_type, timeline[-1], confidence
+        )
 
         # Create risk trajectory
         risk_trajectory = [m.risk_score() for m in timeline[-20:]]
@@ -394,26 +426,31 @@ class CascadePredictor:
             time_to_cascade=time_to_cascade,
             risk_trajectory=risk_trajectory,
             contributing_factors=contributing_factors,
-            recommended_interventions=interventions
+            recommended_interventions=interventions,
         )
 
         self.prediction_history.append(prediction)
 
-        logger.info("Cascade prediction generated",
-                   cascade_type=cascade_type.value,
-                   confidence=confidence,
-                   time_to_cascade=time_to_cascade)
+        logger.info(
+            "Cascade prediction generated",
+            cascade_type=cascade_type.value,
+            confidence=confidence,
+            time_to_cascade=time_to_cascade,
+        )
 
         return prediction
 
-    def _classify_cascade_type(self, current_metrics: SymbolicMetrics,
-                              trajectory: Dict[str, float]) -> Tuple[CascadeType, float]:
+    def _classify_cascade_type(
+        self, current_metrics: SymbolicMetrics, trajectory: Dict[str, float]
+    ) -> Tuple[CascadeType, float]:
         """Classify the most likely cascade type with confidence."""
         cascade_scores = {}
 
         # Score each cascade type based on current metrics and trajectory
         for cascade_type, thresholds in self.cascade_thresholds.items():
-            score = self._score_cascade_type(cascade_type, current_metrics, trajectory, thresholds)
+            score = self._score_cascade_type(
+                cascade_type, current_metrics, trajectory, thresholds
+            )
             cascade_scores[cascade_type] = score
 
         # Find highest scoring cascade type
@@ -422,8 +459,13 @@ class CascadePredictor:
 
         return cascade_type, confidence
 
-    def _score_cascade_type(self, cascade_type: CascadeType, metrics: SymbolicMetrics,
-                           trajectory: Dict[str, float], thresholds: Dict[str, float]) -> float:
+    def _score_cascade_type(
+        self,
+        cascade_type: CascadeType,
+        metrics: SymbolicMetrics,
+        trajectory: Dict[str, float],
+        thresholds: Dict[str, float],
+    ) -> float:
         """Score likelihood of specific cascade type."""
         score = 0.0
         factor_count = 0
@@ -480,7 +522,9 @@ class CascadePredictor:
         elif cascade_type == CascadeType.GOVERNOR_CONFLICT:
             if metrics.governor_stress > thresholds.get("governor_stress", 0.9):
                 score += 0.6
-            if metrics.contradiction_density > thresholds.get("contradiction_density", 0.6):
+            if metrics.contradiction_density > thresholds.get(
+                "contradiction_density", 0.6
+            ):
                 score += 0.4
             factor_count = 2
 
@@ -502,8 +546,9 @@ class CascadePredictor:
 
         return score / max(1, factor_count) if factor_count > 0 else 0.0
 
-    def _estimate_time_to_cascade(self, timeline: List[SymbolicMetrics],
-                                 trajectory: Dict[str, float]) -> Optional[int]:
+    def _estimate_time_to_cascade(
+        self, timeline: List[SymbolicMetrics], trajectory: Dict[str, float]
+    ) -> Optional[int]:
         """Estimate time until cascade occurs in seconds."""
         if trajectory["overall_risk"] < 0.5:
             return None
@@ -523,13 +568,16 @@ class CascadePredictor:
             return 60  # Already critical - cascade imminent
 
         # Estimate time based on current slope
-        estimated_seconds = int(risk_to_critical / (trajectory_slope / 100))  # Rough approximation
+        estimated_seconds = int(
+            risk_to_critical / (trajectory_slope / 100)
+        )  # Rough approximation
 
         # Clamp to reasonable range (1 minute to 24 hours)
         return max(60, min(86400, estimated_seconds))
 
-    def _identify_contributing_factors(self, metrics: SymbolicMetrics,
-                                     trajectory: Dict[str, float]) -> List[str]:
+    def _identify_contributing_factors(
+        self, metrics: SymbolicMetrics, trajectory: Dict[str, float]
+    ) -> List[str]:
         """Identify key contributing factors to cascade risk."""
         factors = []
 
@@ -540,16 +588,22 @@ class CascadePredictor:
             factors.append(f"Significant phase drift ({metrics.phase_drift:.3f})")
 
         if metrics.emotion_volatility > 0.7:
-            factors.append(f"Emotional volatility spike ({metrics.emotion_volatility:.3f})")
+            factors.append(
+                f"Emotional volatility spike ({metrics.emotion_volatility:.3f})"
+            )
 
         if metrics.motif_conflicts > 5:
             factors.append(f"High motif conflicts ({metrics.motif_conflicts})")
 
         if metrics.contradiction_density > 0.5:
-            factors.append(f"Dense contradictions ({metrics.contradiction_density:.3f})")
+            factors.append(
+                f"Dense contradictions ({metrics.contradiction_density:.3f})"
+            )
 
         if metrics.memory_fold_integrity < 0.6:
-            factors.append(f"Memory fold degradation ({metrics.memory_fold_integrity:.3f})")
+            factors.append(
+                f"Memory fold degradation ({metrics.memory_fold_integrity:.3f})"
+            )
 
         if metrics.governor_stress > 0.6:
             factors.append(f"Governor system stress ({metrics.governor_stress:.3f})")
@@ -558,12 +612,15 @@ class CascadePredictor:
             factors.append(f"System volatility ({trajectory['volatility']:.3f})")
 
         if trajectory["pattern_match_score"] > 0.6:
-            factors.append(f"Cascade pattern detected ({trajectory['pattern_match_score']:.3f})")
+            factors.append(
+                f"Cascade pattern detected ({trajectory['pattern_match_score']:.3f})"
+            )
 
         return factors[:5]  # Return top 5 factors
 
-    def _generate_interventions(self, cascade_type: CascadeType,
-                               metrics: SymbolicMetrics, confidence: float) -> List[InterventionRecommendation]:
+    def _generate_interventions(
+        self, cascade_type: CascadeType, metrics: SymbolicMetrics, confidence: float
+    ) -> List[InterventionRecommendation]:
         """Generate intervention recommendations based on cascade type."""
         interventions = []
 
@@ -579,26 +636,28 @@ class CascadePredictor:
 
         # Generate cascade-specific interventions
         if cascade_type == CascadeType.ENTROPY_SPIRAL:
-            interventions.extend([
-                InterventionRecommendation(
-                    intervention_type=InterventionType.ENTROPY_BUFFER,
-                    priority=priority,
-                    target_component="symbolic_entropy_engine",
-                    description="Insert entropy buffer to stabilize symbolic state transitions",
-                    estimated_effectiveness=0.85,
-                    implementation_effort="MEDIUM",
-                    expected_risk_reduction=0.4
-                ),
-                InterventionRecommendation(
-                    intervention_type=InterventionType.STABILIZER_INJECTION,
-                    priority=AlertLevel.WARNING,
-                    target_component="phase_drift_controller",
-                    description="Inject ΛTUNE stabilizers to reduce phase misalignment",
-                    estimated_effectiveness=0.75,
-                    implementation_effort="LOW",
-                    expected_risk_reduction=0.3
-                )
-            ])
+            interventions.extend(
+                [
+                    InterventionRecommendation(
+                        intervention_type=InterventionType.ENTROPY_BUFFER,
+                        priority=priority,
+                        target_component="symbolic_entropy_engine",
+                        description="Insert entropy buffer to stabilize symbolic state transitions",
+                        estimated_effectiveness=0.85,
+                        implementation_effort="MEDIUM",
+                        expected_risk_reduction=0.4,
+                    ),
+                    InterventionRecommendation(
+                        intervention_type=InterventionType.STABILIZER_INJECTION,
+                        priority=AlertLevel.WARNING,
+                        target_component="phase_drift_controller",
+                        description="Inject ΛTUNE stabilizers to reduce phase misalignment",
+                        estimated_effectiveness=0.75,
+                        implementation_effort="LOW",
+                        expected_risk_reduction=0.3,
+                    ),
+                ]
+            )
 
         elif cascade_type == CascadeType.MEMORY_COLLAPSE:
             interventions.append(
@@ -609,31 +668,33 @@ class CascadePredictor:
                     description="Perform emergency memory defragmentation and integrity check",
                     estimated_effectiveness=0.9,
                     implementation_effort="HIGH",
-                    expected_risk_reduction=0.6
+                    expected_risk_reduction=0.6,
                 )
             )
 
         elif cascade_type == CascadeType.IDENTITY_RECURSION:
-            interventions.extend([
-                InterventionRecommendation(
-                    intervention_type=InterventionType.SYMBOLIC_QUARANTINE,
-                    priority=priority,
-                    target_component="emotion_identity_engine",
-                    description="Quarantine recursive identity patterns to break feedback loop",
-                    estimated_effectiveness=0.8,
-                    implementation_effort="MEDIUM",
-                    expected_risk_reduction=0.5
-                ),
-                InterventionRecommendation(
-                    intervention_type=InterventionType.ENTROPY_BUFFER,
-                    priority=AlertLevel.WARNING,
-                    target_component="emotional_volatility_controller",
-                    description="Deploy emotional volatility buffer to reduce recursion risk",
-                    estimated_effectiveness=0.7,
-                    implementation_effort="LOW",
-                    expected_risk_reduction=0.3
-                )
-            ])
+            interventions.extend(
+                [
+                    InterventionRecommendation(
+                        intervention_type=InterventionType.SYMBOLIC_QUARANTINE,
+                        priority=priority,
+                        target_component="emotion_identity_engine",
+                        description="Quarantine recursive identity patterns to break feedback loop",
+                        estimated_effectiveness=0.8,
+                        implementation_effort="MEDIUM",
+                        expected_risk_reduction=0.5,
+                    ),
+                    InterventionRecommendation(
+                        intervention_type=InterventionType.ENTROPY_BUFFER,
+                        priority=AlertLevel.WARNING,
+                        target_component="emotional_volatility_controller",
+                        description="Deploy emotional volatility buffer to reduce recursion risk",
+                        estimated_effectiveness=0.7,
+                        implementation_effort="LOW",
+                        expected_risk_reduction=0.3,
+                    ),
+                ]
+            )
 
         elif cascade_type == CascadeType.GOVERNOR_CONFLICT:
             interventions.append(
@@ -644,7 +705,7 @@ class CascadePredictor:
                     description="Implement governor arbitration override to resolve conflicts",
                     estimated_effectiveness=0.95,
                     implementation_effort="HIGH",
-                    expected_risk_reduction=0.7
+                    expected_risk_reduction=0.7,
                 )
             )
 
@@ -658,7 +719,7 @@ class CascadePredictor:
                     description="Adjust safety thresholds to increase cascade sensitivity",
                     estimated_effectiveness=0.6,
                     implementation_effort="LOW",
-                    expected_risk_reduction=0.2
+                    expected_risk_reduction=0.2,
                 )
             )
 
@@ -678,13 +739,15 @@ class LambdaProphet:
             "logs/symbolic_drift_tracker.jsonl",
             "logs/ethical_governor.jsonl",
             "logs/memory_collapse_events.jsonl",
-            "logs/dream_convergence.jsonl"
+            "logs/dream_convergence.jsonl",
         ]
         self.signal_counter = 0
 
         logger.info("ΛPROPHET system initialized", ΛTAG="ΛPROPHET_INIT")
 
-    async def analyze_symbolic_trajectory(self, log_data: List[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def analyze_symbolic_trajectory(
+        self, log_data: List[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """Analyze symbolic trajectory from log data for cascade prediction."""
         if log_data is None:
             log_data = await self._load_log_data()
@@ -693,51 +756,74 @@ class LambdaProphet:
         metrics_timeline = self._extract_symbolic_metrics(log_data)
 
         if len(metrics_timeline) < 10:
-            logger.warning("Insufficient metrics for trajectory analysis",
-                         metrics_count=len(metrics_timeline))
-            return {"status": "insufficient_data", "metrics_count": len(metrics_timeline)}
+            logger.warning(
+                "Insufficient metrics for trajectory analysis",
+                metrics_count=len(metrics_timeline),
+            )
+            return {
+                "status": "insufficient_data",
+                "metrics_count": len(metrics_timeline),
+            }
 
         # Analyze trajectory patterns
-        trajectory_analysis = self.trajectory_analyzer.analyze_trajectory(metrics_timeline)
+        trajectory_analysis = self.trajectory_analyzer.analyze_trajectory(
+            metrics_timeline
+        )
 
-        logger.info("Symbolic trajectory analyzed",
-                   overall_risk=trajectory_analysis["overall_risk"],
-                   trend_stability=trajectory_analysis["trend_stability"],
-                   pattern_match=trajectory_analysis["pattern_match_score"])
+        logger.info(
+            "Symbolic trajectory analyzed",
+            overall_risk=trajectory_analysis["overall_risk"],
+            trend_stability=trajectory_analysis["trend_stability"],
+            pattern_match=trajectory_analysis["pattern_match_score"],
+        )
 
         return {
             "status": "analysis_complete",
             "metrics_analyzed": len(metrics_timeline),
             "trajectory_analysis": trajectory_analysis,
-            "latest_metrics": self._metrics_to_dict(metrics_timeline[-1]) if metrics_timeline else None
+            "latest_metrics": (
+                self._metrics_to_dict(metrics_timeline[-1])
+                if metrics_timeline
+                else None
+            ),
         }
 
-    def predict_cascade_risk(self, timeline: List[SymbolicMetrics] = None,
-                            thresholds: Dict[str, float] = None) -> Optional[PredictionResult]:
+    def predict_cascade_risk(
+        self,
+        timeline: List[SymbolicMetrics] = None,
+        thresholds: Dict[str, float] = None,
+    ) -> Optional[PredictionResult]:
         """Predict cascade risk with confidence scoring."""
         if timeline is None:
             # Use internal timeline from recent analysis
             timeline = list(self.trajectory_analyzer.metrics_history)
 
         if len(timeline) < 10:
-            logger.warning("Insufficient timeline data for prediction", timeline_length=len(timeline))
+            logger.warning(
+                "Insufficient timeline data for prediction",
+                timeline_length=len(timeline),
+            )
             return None
 
         # Generate cascade prediction
         prediction = self.cascade_predictor.predict_cascade_risk(timeline, thresholds)
 
         if prediction:
-            logger.info("Cascade prediction generated",
-                       cascade_type=prediction.cascade_type.value,
-                       confidence=prediction.confidence,
-                       time_to_cascade=prediction.time_to_cascade,
-                       interventions_count=len(prediction.recommended_interventions))
+            logger.info(
+                "Cascade prediction generated",
+                cascade_type=prediction.cascade_type.value,
+                confidence=prediction.confidence,
+                time_to_cascade=prediction.time_to_cascade,
+                interventions_count=len(prediction.recommended_interventions),
+            )
         else:
             logger.info("No significant cascade risk detected")
 
         return prediction
 
-    def recommend_intervention(self, symbolic_state: SymbolicMetrics) -> List[InterventionRecommendation]:
+    def recommend_intervention(
+        self, symbolic_state: SymbolicMetrics
+    ) -> List[InterventionRecommendation]:
         """Recommend interventions based on current symbolic state."""
         # Create minimal timeline for analysis
         timeline = [symbolic_state]
@@ -757,7 +843,7 @@ class LambdaProphet:
                     description="Emergency shutdown recommended due to critical risk level",
                     estimated_effectiveness=1.0,
                     implementation_effort="HIGH",
-                    expected_risk_reduction=1.0
+                    expected_risk_reduction=1.0,
                 )
             )
 
@@ -771,7 +857,7 @@ class LambdaProphet:
                         description="Deploy entropy buffer to stabilize high entropy levels",
                         estimated_effectiveness=0.8,
                         implementation_effort="MEDIUM",
-                        expected_risk_reduction=0.4
+                        expected_risk_reduction=0.4,
                     )
                 )
 
@@ -784,7 +870,7 @@ class LambdaProphet:
                         description="Inject ΛTUNE stabilizers to correct phase misalignment",
                         estimated_effectiveness=0.75,
                         implementation_effort="LOW",
-                        expected_risk_reduction=0.3
+                        expected_risk_reduction=0.3,
                     )
                 )
 
@@ -797,17 +883,21 @@ class LambdaProphet:
                     description="Adjust monitoring thresholds for enhanced sensitivity",
                     estimated_effectiveness=0.6,
                     implementation_effort="LOW",
-                    expected_risk_reduction=0.2
+                    expected_risk_reduction=0.2,
                 )
             )
 
-        logger.info("Intervention recommendations generated",
-                   risk_level=risk_level,
-                   interventions_count=len(interventions))
+        logger.info(
+            "Intervention recommendations generated",
+            risk_level=risk_level,
+            interventions_count=len(interventions),
+        )
 
         return interventions
 
-    def emit_prophet_signal(self, level: AlertLevel, details: Dict[str, Any]) -> ProphetSignal:
+    def emit_prophet_signal(
+        self, level: AlertLevel, details: Dict[str, Any]
+    ) -> ProphetSignal:
         """Emit ΛPROPHET signal with structured metadata."""
         self.signal_counter += 1
 
@@ -826,27 +916,39 @@ class LambdaProphet:
             signal_type=signal_type,
             prediction=details.get("prediction"),
             confidence=details.get("confidence", 0.0),
-            metadata=details
+            metadata=details,
         )
 
         # Log the signal using ΛTAG format
-        self.log_prediction_event({
-            "signal_id": signal.signal_id,
-            "signal_type": signal_type,
-            "alert_level": level.value,
-            "confidence": signal.confidence,
-            "prediction_type": signal.prediction.cascade_type.value if signal.prediction else None,
-            "time_to_cascade": signal.prediction.time_to_cascade if signal.prediction else None,
-            "intervention_count": len(signal.prediction.recommended_interventions) if signal.prediction else 0
-        })
+        self.log_prediction_event(
+            {
+                "signal_id": signal.signal_id,
+                "signal_type": signal_type,
+                "alert_level": level.value,
+                "confidence": signal.confidence,
+                "prediction_type": (
+                    signal.prediction.cascade_type.value if signal.prediction else None
+                ),
+                "time_to_cascade": (
+                    signal.prediction.time_to_cascade if signal.prediction else None
+                ),
+                "intervention_count": (
+                    len(signal.prediction.recommended_interventions)
+                    if signal.prediction
+                    else 0
+                ),
+            }
+        )
 
         return signal
 
     def log_prediction_event(self, metadata: Dict[str, Any]):
         """Log prediction event with ΛTAG structured format."""
-        logger.info("ΛPROPHET prediction event",
-                   ΛTAG=metadata.get("signal_type", "ΛPROPHET_EVENT"),
-                   **metadata)
+        logger.info(
+            "ΛPROPHET prediction event",
+            ΛTAG=metadata.get("signal_type", "ΛPROPHET_EVENT"),
+            **metadata,
+        )
 
     async def _load_log_data(self) -> List[Dict[str, Any]]:
         """Load log data from configured sources."""
@@ -859,38 +961,44 @@ class LambdaProphet:
                 continue
 
             try:
-                with open(log_path, 'r') as f:
+                with open(log_path) as f:
                     for line in f:
                         line = line.strip()
                         if line:
                             try:
                                 event = json.loads(line)
-                                event['_source'] = log_source
+                                event["_source"] = log_source
                                 all_log_data.append(event)
                             except json.JSONDecodeError:
                                 continue
 
-                logger.info("Loaded log data", source=log_source, events=len(all_log_data))
+                logger.info(
+                    "Loaded log data", source=log_source, events=len(all_log_data)
+                )
 
             except Exception as e:
                 logger.error("Failed to load log data", source=log_source, error=str(e))
 
         # Sort by timestamp
-        all_log_data.sort(key=lambda x: x.get('timestamp', ''))
+        all_log_data.sort(key=lambda x: x.get("timestamp", ""))
 
         return all_log_data
 
-    def _extract_symbolic_metrics(self, log_data: List[Dict[str, Any]]) -> List[SymbolicMetrics]:
+    def _extract_symbolic_metrics(
+        self, log_data: List[Dict[str, Any]]
+    ) -> List[SymbolicMetrics]:
         """Extract SymbolicMetrics from raw log data."""
         metrics_list = []
 
         for event in log_data:
             try:
                 # Parse timestamp
-                timestamp_str = event.get('timestamp', event.get('time', ''))
+                timestamp_str = event.get("timestamp", event.get("time", ""))
                 if timestamp_str:
-                    if timestamp_str.endswith('Z'):
-                        timestamp = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+                    if timestamp_str.endswith("Z"):
+                        timestamp = datetime.fromisoformat(
+                            timestamp_str.replace("Z", "+00:00")
+                        )
                     else:
                         timestamp = datetime.fromisoformat(timestamp_str)
                 else:
@@ -899,22 +1007,46 @@ class LambdaProphet:
                 # Extract symbolic metrics with fallback values
                 metrics = SymbolicMetrics(
                     timestamp=timestamp,
-                    entropy_level=float(event.get('entropy_level', event.get('entropy', 0.3))),
-                    phase_drift=float(event.get('phase_drift', event.get('drift_score', 0.0))),
-                    motif_conflicts=int(event.get('motif_conflicts', event.get('conflicts', 0))),
-                    emotion_volatility=float(event.get('emotion_volatility', event.get('volatility', 0.2))),
-                    contradiction_density=float(event.get('contradiction_density', event.get('contradictions', 0.1))),
-                    memory_fold_integrity=float(event.get('memory_fold_integrity',
-                                                        event.get('memory_integrity', 0.8))),
-                    governor_stress=float(event.get('governor_stress', event.get('stress_level', 0.1))),
-                    dream_convergence=float(event.get('dream_convergence',
-                                                   event.get('convergence_factor', 0.2)))
+                    entropy_level=float(
+                        event.get("entropy_level", event.get("entropy", 0.3))
+                    ),
+                    phase_drift=float(
+                        event.get("phase_drift", event.get("drift_score", 0.0))
+                    ),
+                    motif_conflicts=int(
+                        event.get("motif_conflicts", event.get("conflicts", 0))
+                    ),
+                    emotion_volatility=float(
+                        event.get("emotion_volatility", event.get("volatility", 0.2))
+                    ),
+                    contradiction_density=float(
+                        event.get(
+                            "contradiction_density", event.get("contradictions", 0.1)
+                        )
+                    ),
+                    memory_fold_integrity=float(
+                        event.get(
+                            "memory_fold_integrity", event.get("memory_integrity", 0.8)
+                        )
+                    ),
+                    governor_stress=float(
+                        event.get("governor_stress", event.get("stress_level", 0.1))
+                    ),
+                    dream_convergence=float(
+                        event.get(
+                            "dream_convergence", event.get("convergence_factor", 0.2)
+                        )
+                    ),
                 )
 
                 metrics_list.append(metrics)
 
             except (ValueError, TypeError) as e:
-                logger.warning("Failed to parse symbolic metrics", event_id=event.get('id', 'unknown'), error=str(e))
+                logger.warning(
+                    "Failed to parse symbolic metrics",
+                    event_id=event.get("id", "unknown"),
+                    error=str(e),
+                )
                 continue
 
         logger.info("Extracted symbolic metrics", metrics_count=len(metrics_list))
@@ -932,25 +1064,30 @@ class LambdaProphet:
             "memory_fold_integrity": metrics.memory_fold_integrity,
             "governor_stress": metrics.governor_stress,
             "dream_convergence": metrics.dream_convergence,
-            "risk_score": metrics.risk_score()
+            "risk_score": metrics.risk_score(),
         }
 
 
 # Export functions for CLI and integration use
-async def analyze_symbolic_trajectory(log_data: List[Dict[str, Any]] = None) -> Dict[str, Any]:
+async def analyze_symbolic_trajectory(
+    log_data: List[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
     """Public API function for symbolic trajectory analysis."""
     prophet = LambdaProphet()
     return await prophet.analyze_symbolic_trajectory(log_data)
 
 
-def predict_cascade_risk(timeline: List[SymbolicMetrics] = None,
-                        thresholds: Dict[str, float] = None) -> Optional[PredictionResult]:
+def predict_cascade_risk(
+    timeline: List[SymbolicMetrics] = None, thresholds: Dict[str, float] = None
+) -> Optional[PredictionResult]:
     """Public API function for cascade risk prediction."""
     prophet = LambdaProphet()
     return prophet.predict_cascade_risk(timeline, thresholds)
 
 
-def recommend_intervention(symbolic_state: SymbolicMetrics) -> List[InterventionRecommendation]:
+def recommend_intervention(
+    symbolic_state: SymbolicMetrics,
+) -> List[InterventionRecommendation]:
     """Public API function for intervention recommendations."""
     prophet = LambdaProphet()
     return prophet.recommend_intervention(symbolic_state)
@@ -973,16 +1110,31 @@ async def main():
     """Main CLI interface for ΛPROPHET."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="ΛPROPHET - Predictive Symbolic Cascade Detection Engine")
-    parser.add_argument("--logs", type=str, default="logs/",
-                       help="Directory or file path containing log data")
-    parser.add_argument("--format", choices=["markdown", "json", "cli"], default="cli",
-                       help="Output format")
+    parser = argparse.ArgumentParser(
+        description="ΛPROPHET - Predictive Symbolic Cascade Detection Engine"
+    )
+    parser.add_argument(
+        "--logs",
+        type=str,
+        default="logs/",
+        help="Directory or file path containing log data",
+    )
+    parser.add_argument(
+        "--format",
+        choices=["markdown", "json", "cli"],
+        default="cli",
+        help="Output format",
+    )
     parser.add_argument("--output", type=str, help="Output file path")
-    parser.add_argument("--watch", action="store_true",
-                       help="Enable real-time monitoring mode")
-    parser.add_argument("--confidence-threshold", type=float, default=0.7,
-                       help="Minimum confidence threshold for predictions")
+    parser.add_argument(
+        "--watch", action="store_true", help="Enable real-time monitoring mode"
+    )
+    parser.add_argument(
+        "--confidence-threshold",
+        type=float,
+        default=0.7,
+        help="Minimum confidence threshold for predictions",
+    )
 
     args = parser.parse_args()
 
@@ -1018,16 +1170,27 @@ async def main():
                             else:
                                 alert_level = AlertLevel.INFO
 
-                            signal = prophet.emit_prophet_signal(alert_level, {
-                                "prediction": prediction,
-                                "confidence": prediction.confidence
-                            })
+                            signal = prophet.emit_prophet_signal(
+                                alert_level,
+                                {
+                                    "prediction": prediction,
+                                    "confidence": prediction.confidence,
+                                },
+                            )
 
-                            print(f"🚨 {signal.signal_type} - {signal.alert_level.value}")
+                            print(
+                                f"🚨 {signal.signal_type} - {signal.alert_level.value}"
+                            )
                             print(f"   Cascade Type: {prediction.cascade_type.value}")
                             print(f"   Confidence: {prediction.confidence:.3f}")
-                            print(f"   Time to Cascade: {prediction.time_to_cascade}s" if prediction.time_to_cascade else "   Time to Cascade: Unknown")
-                            print(f"   Interventions: {len(prediction.recommended_interventions)}")
+                            print(
+                                f"   Time to Cascade: {prediction.time_to_cascade}s"
+                                if prediction.time_to_cascade
+                                else "   Time to Cascade: Unknown"
+                            )
+                            print(
+                                f"   Interventions: {len(prediction.recommended_interventions)}"
+                            )
                             print()
 
                 # Wait before next analysis
@@ -1062,14 +1225,16 @@ async def main():
 
         # Write output
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 f.write(output)
             print(f"📋 Report saved to {args.output}")
         else:
             print(output)
 
 
-def _generate_markdown_report(analysis: Dict[str, Any], prediction: Optional[PredictionResult]) -> str:
+def _generate_markdown_report(
+    analysis: Dict[str, Any], prediction: Optional[PredictionResult]
+) -> str:
     """Generate markdown format report."""
     report = []
     report.append("# 🔮 ΛPROPHET - Symbolic Cascade Prediction Report\n")
@@ -1098,34 +1263,49 @@ def _generate_markdown_report(analysis: Dict[str, Any], prediction: Optional[Pre
         if prediction.recommended_interventions:
             report.append("\n### 💡 Recommended Interventions\n")
             for i, intervention in enumerate(prediction.recommended_interventions, 1):
-                priority_emoji = {"EMERGENCY": "🚨", "CRITICAL": "🔴", "WARNING": "🟡", "INFO": "🔵"}
+                priority_emoji = {
+                    "EMERGENCY": "🚨",
+                    "CRITICAL": "🔴",
+                    "WARNING": "🟡",
+                    "INFO": "🔵",
+                }
                 emoji = priority_emoji.get(intervention.priority.value, "⚪")
 
-                report.append(f"**{i}. {emoji} {intervention.intervention_type.value}**")
+                report.append(
+                    f"**{i}. {emoji} {intervention.intervention_type.value}**"
+                )
                 report.append(f"   - Target: {intervention.target_component}")
                 report.append(f"   - Description: {intervention.description}")
-                report.append(f"   - Effectiveness: {intervention.estimated_effectiveness:.1%}")
-                report.append(f"   - Risk Reduction: {intervention.expected_risk_reduction:.1%}")
+                report.append(
+                    f"   - Effectiveness: {intervention.estimated_effectiveness:.1%}"
+                )
+                report.append(
+                    f"   - Risk Reduction: {intervention.expected_risk_reduction:.1%}"
+                )
                 report.append("")
     else:
         report.append("## ✅ No Significant Cascade Risk Detected\n")
         report.append("Current symbolic system metrics are within acceptable ranges.")
 
     report.append("---")
-    report.append("*Generated by ΛPROPHET - Predictive Symbolic Cascade Detection Engine*")
+    report.append(
+        "*Generated by ΛPROPHET - Predictive Symbolic Cascade Detection Engine*"
+    )
 
     return "\n".join(report)
 
 
-def _generate_json_report(analysis: Dict[str, Any], prediction: Optional[PredictionResult]) -> str:
+def _generate_json_report(
+    analysis: Dict[str, Any], prediction: Optional[PredictionResult]
+) -> str:
     """Generate JSON format report."""
     report_data = {
         "metadata": {
             "analysis_date": datetime.now(timezone.utc).isoformat(),
             "metrics_analyzed": analysis["metrics_analyzed"],
-            "analysis_status": analysis["status"]
+            "analysis_status": analysis["status"],
         },
-        "trajectory_analysis": analysis["trajectory_analysis"]
+        "trajectory_analysis": analysis["trajectory_analysis"],
     }
 
     if analysis.get("latest_metrics"):
@@ -1145,10 +1325,11 @@ def _generate_json_report(analysis: Dict[str, Any], prediction: Optional[Predict
                     "description": i.description,
                     "estimated_effectiveness": i.estimated_effectiveness,
                     "implementation_effort": i.implementation_effort,
-                    "expected_risk_reduction": i.expected_risk_reduction
-                } for i in prediction.recommended_interventions
+                    "expected_risk_reduction": i.expected_risk_reduction,
+                }
+                for i in prediction.recommended_interventions
             ],
-            "risk_trajectory": prediction.risk_trajectory
+            "risk_trajectory": prediction.risk_trajectory,
         }
     else:
         report_data["cascade_prediction"] = None
@@ -1156,19 +1337,25 @@ def _generate_json_report(analysis: Dict[str, Any], prediction: Optional[Predict
     return json.dumps(report_data, indent=2)
 
 
-def _generate_cli_report(analysis: Dict[str, Any], prediction: Optional[PredictionResult]) -> str:
+def _generate_cli_report(
+    analysis: Dict[str, Any], prediction: Optional[PredictionResult]
+) -> str:
     """Generate CLI format report."""
     report = []
     report.append("🔮 ΛPROPHET SYMBOLIC CASCADE ANALYSIS REPORT")
     report.append("=" * 60)
 
     trajectory = analysis["trajectory_analysis"]
-    report.append(f"Analysis: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC")
-    report.append(f"Metrics: {analysis['metrics_analyzed']} | Risk: {trajectory['overall_risk']:.3f}")
+    report.append(
+        f"Analysis: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC"
+    )
+    report.append(
+        f"Metrics: {analysis['metrics_analyzed']} | Risk: {trajectory['overall_risk']:.3f}"
+    )
     report.append("")
 
     if prediction:
-        report.append(f"🚨 CASCADE PREDICTION DETECTED:")
+        report.append("🚨 CASCADE PREDICTION DETECTED:")
         report.append(f"  • Type: {prediction.cascade_type.value}")
         report.append(f"  • Confidence: {prediction.confidence:.3f}")
 
@@ -1186,12 +1373,19 @@ def _generate_cli_report(analysis: Dict[str, Any], prediction: Optional[Predicti
             report.append("")
             report.append("⚡ RECOMMENDED ACTIONS:")
             for intervention in prediction.recommended_interventions[:2]:
-                priority_symbol = {"EMERGENCY": "🚨", "CRITICAL": "🔴", "WARNING": "🟡", "INFO": "🔵"}
+                priority_symbol = {
+                    "EMERGENCY": "🚨",
+                    "CRITICAL": "🔴",
+                    "WARNING": "🟡",
+                    "INFO": "🔵",
+                }
                 symbol = priority_symbol.get(intervention.priority.value, "⚪")
 
                 report.append(f"  {symbol} {intervention.description}")
                 report.append(f"    Target: {intervention.target_component}")
-                report.append(f"    Risk Reduction: {intervention.expected_risk_reduction:.1%}")
+                report.append(
+                    f"    Risk Reduction: {intervention.expected_risk_reduction:.1%}"
+                )
     else:
         report.append("✅ NO SIGNIFICANT CASCADE RISK DETECTED")
         report.append("")

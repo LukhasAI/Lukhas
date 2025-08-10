@@ -5,15 +5,15 @@ Natural language and other interfaces for consciousness interaction.
 """
 
 from .natural_language_interface import (
-    NaturalLanguageConsciousnessInterface,
-    ConversationManager,
     ConversationIntent,
-    EmotionalTone
+    ConversationManager,
+    EmotionalTone,
+    NaturalLanguageConsciousnessInterface,
 )
 
 __all__ = [
-    'NaturalLanguageConsciousnessInterface',
-    'ConversationManager',
-    'ConversationIntent',
-    'EmotionalTone'
+    "NaturalLanguageConsciousnessInterface",
+    "ConversationManager",
+    "ConversationIntent",
+    "EmotionalTone",
 ]

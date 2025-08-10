@@ -1,10 +1,12 @@
 """Routes exposing the OpenAI Modulated Service"""
 
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import StreamingResponse, JSONResponse
 import logging
 
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import JSONResponse, StreamingResponse
+
 from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
+
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
 logger = logging.getLogger(__name__)
@@ -36,6 +38,7 @@ async def modulated_chat(req: ModulatedChatRequest):
 async def modulated_chat_stream(req: ModulatedChatRequest):
     """Stream a response via OpenAI with LUKHAS modulation applied"""
     service = get_service()
+
     async def token_gen():
         async for chunk in await service.generate_stream(
             prompt=req.prompt,
@@ -43,6 +46,7 @@ async def modulated_chat_stream(req: ModulatedChatRequest):
             task=req.task,
         ):
             yield chunk
+
     return StreamingResponse(token_gen(), media_type="text/plain")
 
 

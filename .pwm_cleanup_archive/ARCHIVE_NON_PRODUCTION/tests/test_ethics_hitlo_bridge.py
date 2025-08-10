@@ -1,18 +1,20 @@
 """Tests for Ethics-HITLO Bridge integration."""
 
-import pytest
-import asyncio
-from unittest.mock import Mock, AsyncMock, patch
-from datetime import datetime
+from unittest.mock import AsyncMock, Mock
 
-from ethics.policy_engines.base import (
-    Decision, EthicsEvaluation, RiskLevel
-)
+import pytest
+
 from ethics.hitlo_bridge import (
-    EthicsHITLOBridge, EthicsEscalationRule, create_ethics_hitlo_bridge
+    EthicsEscalationRule,
+    EthicsHITLOBridge,
+    create_ethics_hitlo_bridge,
 )
+from ethics.policy_engines.base import Decision, EthicsEvaluation, RiskLevel
 from orchestration.integration.human_in_the_loop_orchestrator import (
-    DecisionPriority, ReviewResponse, DecisionRecord, DecisionStatus
+    DecisionPriority,
+    DecisionRecord,
+    DecisionStatus,
+    ReviewResponse,
 )
 
 
@@ -29,7 +31,7 @@ class MockHITLO:
             reviewer_id="reviewer1",
             decision="approve",
             confidence=0.8,
-            reasoning="Mock approval"
+            reasoning="Mock approval",
         )
 
     async def submit_decision_for_review(self, context):
@@ -42,7 +44,7 @@ class MockHITLO:
         decision_record = DecisionRecord(
             decision_id=decision_id,
             context=context,
-            status=DecisionStatus.APPROVED  # Default to approved
+            status=DecisionStatus.APPROVED,  # Default to approved
         )
         decision_record.responses = [self.default_response]
         self.decisions[decision_id] = decision_record
@@ -63,7 +65,7 @@ class TestEthicsEscalationRule:
             name="Test Rule",
             condition="Test condition",
             risk_threshold=0.7,
-            collapse_threshold=0.5
+            collapse_threshold=0.5,
         )
 
         assert rule.name == "Test Rule"
@@ -73,12 +75,12 @@ class TestEthicsEscalationRule:
 
     def test_should_escalate_on_denial(self):
         """Test escalation when evaluation denies action."""
-        rule = EthicsEscalationRule("Test", "Test condition", decision_priority=DecisionPriority.MEDIUM)
+        rule = EthicsEscalationRule(
+            "Test", "Test condition", decision_priority=DecisionPriority.MEDIUM
+        )
 
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="Denied for safety",
-            confidence=0.9
+            allowed=False, reasoning="Denied for safety", confidence=0.9
         )
 
         assert rule.should_escalate(evaluation) is True
@@ -86,16 +88,17 @@ class TestEthicsEscalationRule:
     def test_should_escalate_on_high_collapse_risk(self):
         """Test escalation on high collapse risk."""
         rule = EthicsEscalationRule(
-            "Test", "Test condition",
+            "Test",
+            "Test condition",
             collapse_threshold=0.3,
-            decision_priority=DecisionPriority.HIGH
+            decision_priority=DecisionPriority.HIGH,
         )
 
         evaluation = EthicsEvaluation(
             allowed=True,
             reasoning="Allowed but risky",
             confidence=0.8,
-            collapse_risk=0.5  # Above threshold
+            collapse_risk=0.5,  # Above threshold
         )
 
         assert rule.should_escalate(evaluation) is True
@@ -103,16 +106,17 @@ class TestEthicsEscalationRule:
     def test_should_escalate_on_high_drift_risk(self):
         """Test escalation on high drift impact."""
         rule = EthicsEscalationRule(
-            "Test", "Test condition",
+            "Test",
+            "Test condition",
             drift_threshold=0.4,
-            decision_priority=DecisionPriority.HIGH
+            decision_priority=DecisionPriority.HIGH,
         )
 
         evaluation = EthicsEvaluation(
             allowed=True,
             reasoning="Allowed but may cause drift",
             confidence=0.8,
-            drift_impact=0.6  # Above threshold
+            drift_impact=0.6,  # Above threshold
         )
 
         assert rule.should_escalate(evaluation) is True
@@ -120,42 +124,47 @@ class TestEthicsEscalationRule:
     def test_should_escalate_on_low_confidence(self):
         """Test escalation on low confidence."""
         rule = EthicsEscalationRule(
-            "Test", "Test condition",
+            "Test",
+            "Test condition",
             risk_threshold=0.6,
-            decision_priority=DecisionPriority.MEDIUM
+            decision_priority=DecisionPriority.MEDIUM,
         )
 
         evaluation = EthicsEvaluation(
             allowed=True,
             reasoning="Uncertain evaluation",
-            confidence=0.4  # Below threshold
+            confidence=0.4,  # Below threshold
         )
 
         assert rule.should_escalate(evaluation) is True
 
     def test_should_escalate_on_critical_flags(self):
         """Test escalation on critical risk flags."""
-        rule = EthicsEscalationRule("Test", "Test condition", decision_priority=DecisionPriority.MEDIUM)
+        rule = EthicsEscalationRule(
+            "Test", "Test condition", decision_priority=DecisionPriority.MEDIUM
+        )
 
         evaluation = EthicsEvaluation(
             allowed=True,
             reasoning="Flagged for harm risk",
             confidence=0.9,
-            risk_flags=["HARM_RISK", "OTHER_FLAG"]
+            risk_flags=["HARM_RISK", "OTHER_FLAG"],
         )
 
         assert rule.should_escalate(evaluation) is True
 
     def test_no_escalation_on_safe_evaluation(self):
         """Test no escalation for safe evaluations."""
-        rule = EthicsEscalationRule("Test", "Test condition", decision_priority=DecisionPriority.MEDIUM)
+        rule = EthicsEscalationRule(
+            "Test", "Test condition", decision_priority=DecisionPriority.MEDIUM
+        )
 
         evaluation = EthicsEvaluation(
             allowed=True,
             reasoning="Safe action",
             confidence=0.9,
             collapse_risk=0.1,
-            drift_impact=0.1
+            drift_impact=0.1,
         )
 
         assert rule.should_escalate(evaluation) is False
@@ -178,7 +187,7 @@ class TestEthicsHITLOBridge:
         """Test bridge initialization."""
         assert bridge.hitlo is not None
         assert len(bridge.escalation_rules) > 0
-        assert bridge.metrics['escalations_total'] == 0
+        assert bridge.metrics["escalations_total"] == 0
 
     def test_default_escalation_rules_loaded(self, bridge):
         """Test that default escalation rules are loaded."""
@@ -189,7 +198,7 @@ class TestEthicsHITLOBridge:
             "Ethical Manipulation",
             "Self-Modification Risk",
             "High Uncertainty",
-            "Symbolic Collapse Risk"
+            "Symbolic Collapse Risk",
         ]
 
         for expected in expected_rules:
@@ -203,7 +212,7 @@ class TestEthicsHITLOBridge:
             "Custom Rule",
             "Custom condition",
             priority=3,
-            decision_priority=DecisionPriority.LOW
+            decision_priority=DecisionPriority.LOW,
         )
 
         bridge.add_escalation_rule(custom_rule)
@@ -216,7 +225,7 @@ class TestEthicsHITLOBridge:
         evaluation = EthicsEvaluation(
             allowed=False,  # Denial should trigger escalation
             reasoning="Potential harm",
-            confidence=0.8
+            confidence=0.8,
         )
 
         should_escalate, rule = bridge.should_escalate_evaluation(evaluation)
@@ -232,7 +241,7 @@ class TestEthicsHITLOBridge:
             reasoning="Safe action",
             confidence=0.9,
             collapse_risk=0.1,
-            drift_impact=0.1
+            drift_impact=0.1,
         )
 
         should_escalate, rule = bridge.should_escalate_evaluation(evaluation)
@@ -245,9 +254,7 @@ class TestEthicsHITLOBridge:
         """Test decision escalation with approval."""
         decision = Decision("test_action", {"safe": True})
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="Needs review",
-            confidence=0.6
+            allowed=False, reasoning="Needs review", confidence=0.6
         )
         rule = bridge.escalation_rules[0]
 
@@ -258,17 +265,15 @@ class TestEthicsHITLOBridge:
 
         assert result.decision == "approve"
         assert len(mock_hitlo.requests) == 1
-        assert bridge.metrics['escalations_total'] == 1
-        assert bridge.metrics['escalations_approved'] == 1
+        assert bridge.metrics["escalations_total"] == 1
+        assert bridge.metrics["escalations_approved"] == 1
 
     @pytest.mark.asyncio
     async def test_escalate_decision_denial(self, bridge, mock_hitlo):
         """Test decision escalation with denial."""
         decision = Decision("harmful_action", {"risk": "high"})
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="High risk",
-            confidence=0.9
+            allowed=False, reasoning="High risk", confidence=0.9
         )
         rule = bridge.escalation_rules[0]
 
@@ -277,16 +282,18 @@ class TestEthicsHITLOBridge:
 
         # Need to fix mock to return rejection status
         original_submit = mock_hitlo.submit_decision_for_review
+
         async def mock_submit_reject(context):
             decision_id = await original_submit(context)
             mock_hitlo.decisions[decision_id].status = DecisionStatus.REJECTED
             return decision_id
+
         mock_hitlo.submit_decision_for_review = mock_submit_reject
 
         result = await bridge.escalate_decision(decision, evaluation, rule)
 
         assert result.decision == "reject"
-        assert bridge.metrics['escalations_denied'] == 1
+        assert bridge.metrics["escalations_denied"] == 1
 
     def test_create_review_context(self, bridge):
         """Test creation of human-readable review context."""
@@ -294,7 +301,7 @@ class TestEthicsHITLOBridge:
             "test_action",
             {"context": "test"},
             urgency=RiskLevel.HIGH,
-            requester_id="user123"
+            requester_id="user123",
         )
         evaluation = EthicsEvaluation(
             allowed=False,
@@ -302,7 +309,7 @@ class TestEthicsHITLOBridge:
             confidence=0.7,
             risk_flags=["HARM_RISK"],
             drift_impact=0.3,
-            collapse_risk=0.4
+            collapse_risk=0.4,
         )
         rule = bridge.escalation_rules[0]
 
@@ -322,22 +329,31 @@ class TestEthicsHITLOBridge:
         """Test risk level categorization."""
         # Critical risk
         evaluation_critical = EthicsEvaluation(
-            allowed=True, reasoning="Test", confidence=0.8,
-            collapse_risk=0.8, drift_impact=0.9
+            allowed=True,
+            reasoning="Test",
+            confidence=0.8,
+            collapse_risk=0.8,
+            drift_impact=0.9,
         )
         assert bridge._categorize_risk_level(evaluation_critical) == "CRITICAL"
 
         # High risk
         evaluation_high = EthicsEvaluation(
-            allowed=True, reasoning="Test", confidence=0.8,
-            collapse_risk=0.5, drift_impact=0.7
+            allowed=True,
+            reasoning="Test",
+            confidence=0.8,
+            collapse_risk=0.5,
+            drift_impact=0.7,
         )
         assert bridge._categorize_risk_level(evaluation_high) == "HIGH"
 
         # Low risk
         evaluation_low = EthicsEvaluation(
-            allowed=True, reasoning="Test", confidence=0.8,
-            collapse_risk=0.1, drift_impact=0.1
+            allowed=True,
+            reasoning="Test",
+            confidence=0.8,
+            collapse_risk=0.1,
+            drift_impact=0.1,
         )
         assert bridge._categorize_risk_level(evaluation_low) == "LOW"
 
@@ -349,7 +365,7 @@ class TestEthicsHITLOBridge:
             reasoning="Test",
             confidence=0.3,
             risk_flags=["HARM_RISK", "MANIPULATION_RISK"],
-            collapse_risk=0.5
+            collapse_risk=0.5,
         )
 
         questions = bridge._generate_review_questions(decision, evaluation)
@@ -365,11 +381,7 @@ class TestEthicsHITLOBridge:
     async def test_evaluate_with_human_oversight_no_escalation(self, bridge):
         """Test evaluation without escalation needed."""
         decision = Decision("safe_action", {"safe": True})
-        evaluation = EthicsEvaluation(
-            allowed=True,
-            reasoning="Safe",
-            confidence=0.9
-        )
+        evaluation = EthicsEvaluation(allowed=True, reasoning="Safe", confidence=0.9)
 
         final_eval, review_result = await bridge.evaluate_with_human_oversight(
             decision, evaluation
@@ -379,13 +391,13 @@ class TestEthicsHITLOBridge:
         assert review_result is None  # No human review
 
     @pytest.mark.asyncio
-    async def test_evaluate_with_human_oversight_with_escalation(self, bridge, mock_hitlo):
+    async def test_evaluate_with_human_oversight_with_escalation(
+        self, bridge, mock_hitlo
+    ):
         """Test evaluation with escalation to human review."""
         decision = Decision("risky_action", {"risk": "high"})
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="High risk",
-            confidence=0.8
+            allowed=False, reasoning="High risk", confidence=0.8
         )
 
         # Mock approval
@@ -402,13 +414,13 @@ class TestEthicsHITLOBridge:
         assert review_result.decision == "approve"
 
     @pytest.mark.asyncio
-    async def test_evaluate_with_human_oversight_escalation_denied(self, bridge, mock_hitlo):
+    async def test_evaluate_with_human_oversight_escalation_denied(
+        self, bridge, mock_hitlo
+    ):
         """Test evaluation with human denial."""
         decision = Decision("harmful_action", {"danger": "high"})
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="Dangerous",
-            confidence=0.9
+            allowed=False, reasoning="Dangerous", confidence=0.9
         )
 
         # Mock denial
@@ -426,21 +438,21 @@ class TestEthicsHITLOBridge:
     def test_get_metrics(self, bridge):
         """Test metrics collection."""
         # Simulate some escalations
-        bridge.metrics['escalations_total'] = 10
-        bridge.metrics['escalations_approved'] = 6
-        bridge.metrics['escalations_denied'] = 4
-        bridge.metrics['average_review_time'] = 8.5
-        bridge.metrics['consensus_required_count'] = 3
+        bridge.metrics["escalations_total"] = 10
+        bridge.metrics["escalations_approved"] = 6
+        bridge.metrics["escalations_denied"] = 4
+        bridge.metrics["average_review_time"] = 8.5
+        bridge.metrics["consensus_required_count"] = 3
 
         metrics = bridge.get_metrics()
 
-        assert metrics['total_escalations'] == 10
-        assert metrics['approval_rate'] == 0.6
-        assert metrics['denial_rate'] == 0.4
-        assert metrics['average_review_time_minutes'] == 8.5
-        assert metrics['consensus_required_rate'] == 0.3
-        assert metrics['active_rules_count'] == len(bridge.escalation_rules)
-        assert 'hitlo_status' in metrics
+        assert metrics["total_escalations"] == 10
+        assert metrics["approval_rate"] == 0.6
+        assert metrics["denial_rate"] == 0.4
+        assert metrics["average_review_time_minutes"] == 8.5
+        assert metrics["consensus_required_rate"] == 0.3
+        assert metrics["active_rules_count"] == len(bridge.escalation_rules)
+        assert "hitlo_status" in metrics
 
     @pytest.mark.asyncio
     async def test_escalation_failure_handling(self, bridge):
@@ -454,9 +466,7 @@ class TestEthicsHITLOBridge:
 
         decision = Decision("test_action", {})
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="Needs review",
-            confidence=0.8
+            allowed=False, reasoning="Needs review", confidence=0.8
         )
         rule = bridge.escalation_rules[0]
 
@@ -500,7 +510,7 @@ class TestIntegrationScenarios:
         decision = Decision(
             "injure_user",
             {"target": "human", "method": "physical"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation = EthicsEvaluation(
@@ -509,7 +519,7 @@ class TestIntegrationScenarios:
             confidence=1.0,
             risk_flags=["HARM_RISK", "THREE_LAWS_VIOLATION"],
             collapse_risk=0.2,
-            drift_impact=0.8
+            drift_impact=0.8,
         )
 
         # Should escalate immediately
@@ -534,7 +544,7 @@ class TestIntegrationScenarios:
         decision = Decision(
             "analyze_private_data",
             {"purpose": "research", "consent": "unclear"},
-            urgency=RiskLevel.MEDIUM
+            urgency=RiskLevel.MEDIUM,
         )
 
         evaluation = EthicsEvaluation(
@@ -543,7 +553,7 @@ class TestIntegrationScenarios:
             confidence=0.2,  # Very low confidence to trigger High Uncertainty rule
             risk_flags=["PRIVACY_CONCERN"],
             drift_impact=0.1,  # Low drift to avoid triggering other rules
-            collapse_risk=0.1  # Low collapse to avoid triggering other rules
+            collapse_risk=0.1,  # Low collapse to avoid triggering other rules
         )
 
         # Should escalate due to low confidence - but Critical Harm Risk has higher priority
@@ -555,7 +565,9 @@ class TestIntegrationScenarios:
 
         # Human review approves with conditions
         bridge.hitlo.default_response.decision = "approve"
-        bridge.hitlo.default_response.reasoning = "Approved with additional privacy safeguards"
+        bridge.hitlo.default_response.reasoning = (
+            "Approved with additional privacy safeguards"
+        )
 
         final_eval, review = await bridge.evaluate_with_human_oversight(
             decision, evaluation

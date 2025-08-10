@@ -39,10 +39,9 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
-import os
-from core.common import get_logger
-from typing import Optional
 from .env_loader import get_api_key
 
 # Configure module logger
@@ -52,25 +51,34 @@ logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.gemini")
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "gemini_wrapper"
 
+
 class GeminiWrapper:
+
     def __init__(self):
         """Initialize Gemini wrapper with API key"""
         self.client = None
-        self.api_key = get_api_key('gemini')
+        self.api_key = get_api_key("gemini")
 
         if self.api_key:
             try:
                 import google.generativeai as genai
+
                 genai.configure(api_key=self.api_key)
-                self.model = genai.GenerativeModel('gemini-pro')
+                self.model = genai.GenerativeModel("gemini-pro")
                 print(f"✅ Gemini initialized with key: {self.api_key[:20]}...")
             except ImportError:
-                print("Google AI package not installed. Install with: pip install google-generativeai")
+                print(
+                    "Google AI package not installed. Install with: pip install google-generativeai"
+                )
 
-    def generate_response(self, prompt: str, model: str = "gemini-pro", **kwargs) -> str:
+    def generate_response(
+        self, prompt: str, model: str = "gemini-pro", **kwargs
+    ) -> str:
         """Generate response using Gemini API"""
-        if not hasattr(self, 'model'):
-            return "Gemini client not initialized. Please check API key and installation."
+        if not hasattr(self, "model"):
+            return (
+                "Gemini client not initialized. Please check API key and installation."
+            )
 
         try:
             response = self.model.generate_content(prompt)
@@ -80,7 +88,8 @@ class GeminiWrapper:
 
     def is_available(self) -> bool:
         """Check if Gemini is available"""
-        return hasattr(self, 'model')
+        return hasattr(self, "model")
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

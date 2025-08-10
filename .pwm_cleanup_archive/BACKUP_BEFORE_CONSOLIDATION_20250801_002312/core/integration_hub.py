@@ -3,13 +3,11 @@ Unified Integration Module for Core Systems
 Provides unified integration capabilities for various system components.
 """
 
-from typing import Dict, Any, List, Optional, Callable, Union
-import threading
-import asyncio
-import json
 import logging
-from datetime import datetime
+import threading
 from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 
 @dataclass

@@ -54,8 +54,8 @@
 """
 
 import datetime
-from typing import Dict, Any, List, Optional
-from core.common import get_logger
+from typing import Any, Dict, List
+
 
 class MemoryManager:
     """
@@ -69,8 +69,14 @@ class MemoryManager:
         self.max_memories = max_memories
         self.logger = logging.getLogger("MemoryManager")
 
-    def store_interaction(self, user_id: str, input: str, context: Dict[str, Any],
-                         response: str, timestamp: datetime.datetime) -> None:
+    def store_interaction(
+        self,
+        user_id: str,
+        input: str,
+        context: Dict[str, Any],
+        response: str,
+        timestamp: datetime.datetime,
+    ) -> None:
         """Store a user interaction in memory."""
         if user_id not in self.memories:
             self.memories[user_id] = []
@@ -80,7 +86,7 @@ class MemoryManager:
             "context": context,
             "response": response,
             "timestamp": timestamp,
-            "importance": self._calculate_importance(context)
+            "importance": self._calculate_importance(context),
         }
 
         self.memories[user_id].append(memory)
@@ -88,12 +94,12 @@ class MemoryManager:
         # Prune old memories if we exceed the limit
         if len(self.memories[user_id]) > self.max_memories:
             self.memories[user_id] = sorted(
-                self.memories[user_id],
-                key=lambda x: x["importance"],
-                reverse=True
-            )[:self.max_memories]
+                self.memories[user_id], key=lambda x: x["importance"], reverse=True
+            )[: self.max_memories]
 
-    def get_relevant_memories(self, user_id: str, limit: int = 20) -> List[Dict[str, Any]]:
+    def get_relevant_memories(
+        self, user_id: str, limit: int = 20
+    ) -> List[Dict[str, Any]]:
         """Get relevant memories for a user, sorted by importance and recency."""
         if not user_id or user_id not in self.memories:
             return []
@@ -101,12 +107,13 @@ class MemoryManager:
         sorted_memories = sorted(
             self.memories[user_id],
             key=lambda x: (x["timestamp"].timestamp(), x["importance"]),
-            reverse=True
+            reverse=True,
         )
         return sorted_memories[:limit]
 
-    def store_voice_preference(self, user_id: str, parameters: Dict[str, Any],
-                              feedback: Dict[str, Any]) -> None:
+    def store_voice_preference(
+        self, user_id: str, parameters: Dict[str, Any], feedback: Dict[str, Any]
+    ) -> None:
         """Store voice preferences for a user based on feedback."""
         if user_id not in self.voice_preferences:
             self.voice_preferences[user_id] = []
@@ -114,7 +121,7 @@ class MemoryManager:
         preference = {
             "parameters": parameters,
             "feedback": feedback,
-            "timestamp": datetime.datetime.now()
+            "timestamp": datetime.datetime.now(),
         }
 
         self.voice_preferences[user_id].append(preference)
@@ -151,12 +158,15 @@ class MemoryManager:
         for user_id in self.memories:
             original_count = len(self.memories[user_id])
             self.memories[user_id] = [
-                memory for memory in self.memories[user_id]
+                memory
+                for memory in self.memories[user_id]
                 if memory["timestamp"] > cutoff_date
             ]
             removed_count = original_count - len(self.memories[user_id])
             if removed_count > 0:
-                self.logger.info(f"Removed {removed_count} old interactions for user {user_id}")
+                self.logger.info(
+                    f"Removed {removed_count} old interactions for user {user_id}"
+                )
 
     def _calculate_importance(self, context: Dict[str, Any]) -> float:
         """Calculate the importance score of an interaction based on context."""
@@ -178,10 +188,6 @@ class MemoryManager:
             importance += 0.1
 
         return min(1.0, importance)
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

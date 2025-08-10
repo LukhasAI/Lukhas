@@ -6,17 +6,17 @@ tier-aware permission resolution.
 """
 
 from .identity_tag_resolver import (
+    IdentityTag,
     IdentityTagResolver,
     IdentityTagType,
     TrustLevel,
     TrustRelationship,
-    IdentityTag
 )
 
 __all__ = [
-    'IdentityTagResolver',
-    'IdentityTagType',
-    'TrustLevel',
-    'TrustRelationship',
-    'IdentityTag'
+    "IdentityTagResolver",
+    "IdentityTagType",
+    "TrustLevel",
+    "TrustRelationship",
+    "IdentityTag",
 ]

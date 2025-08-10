@@ -3,9 +3,9 @@
 
 from typing import TYPE_CHECKING
 
-
 if TYPE_CHECKING:
     from orchestration.brain.spine.trait_manager import load_traits
+
 
 def generate_empathic_response(emotion, intensity=0.5):
     mood = emotion.lower()
@@ -35,7 +35,11 @@ def generate_empathic_response(emotion, intensity=0.5):
         # Optional voice output for empathy
         try:
             from symbolic.lukhas_voice import speak
-            speak(f"🫂 {generate_empathic_response(emotion, intensity)}", emotion={"mood": emotion, "intensity": intensity})
+
+            speak(
+                f"🫂 {generate_empathic_response(emotion, intensity)}",
+                emotion={"mood": emotion, "intensity": intensity},
+            )
         except ImportError:
             pass
 
@@ -63,14 +67,15 @@ if __name__ == "__main__":
 # ✅ Enhances affective modeling, emotional bonding, and narrative continuity# lukhas_visualizer.py
 # Trait bar and emoji visualizer for LUKHAS personality module
 
-# from orchestration.brain.spine.trait_manager import load_traits  # Moved to TYPE_CHECKING
+# from orchestration.brain.spine.trait_manager import load_traits  # Moved
+# to TYPE_CHECKING
 
 EMOJI_MAP = {
     "openness": "🌈",
     "conscientiousness": "📘",
     "extraversion": "🎤",
     "agreeableness": "🫂",
-    "neuroticism": "🌪️"
+    "neuroticism": "🌪️",
 }
 
 

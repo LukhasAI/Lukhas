@@ -7,4 +7,4 @@ Integration Date: 2025-05-31T07:55:29.369610
 
 from .elevenlabs_client import ElevenLabsClient
 
-__all__ = ['ElevenLabsClient']
+__all__ = ["ElevenLabsClient"]

@@ -1,4 +1,3 @@
 """
 Rate_Modulator Module
 """
-

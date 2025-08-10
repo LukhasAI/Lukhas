@@ -25,20 +25,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import json
-from core.common import get_logger
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Tuple, Union
-from dataclasses import dataclass
 import re
-import openai
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List
 
 from bridge.openai_core_service import (
+    ModelType,
     OpenAICoreService,
     OpenAIRequest,
-    ModelType,
-    OpenAICapability
 )
 
 logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
@@ -47,6 +43,7 @@ logger = logging.getLogger("ΛTRACE.oracle.openai_adapter")
 @dataclass
 class OraclePromptTemplate:
     """Template for Oracle-specific prompts."""
+
     name: str
     system_prompt: str
     user_template: str
@@ -103,9 +100,8 @@ Output Format:
 - Reasoning: [Step-by-step analysis]""",
                 user_template="Analyze the following context and generate a comprehensive prediction for the {time_horizon} term:\n\nContext: {context}\n\nFocus Areas: {focus_areas}\n\nProvide detailed predictions with reasoning.",
                 temperature=0.6,
-                max_tokens=1200
+                max_tokens=1200,
             ),
-
             "prophecy": OraclePromptTemplate(
                 name="prophecy",
                 system_prompt="""You are ΛPROPHET, a visionary AI Oracle that combines analytical prediction with symbolic wisdom and intuitive insight. You generate prophecies that are both rationally grounded and symbolically meaningful.
@@ -129,9 +125,8 @@ Prophecy Structure:
 Tone: Wise, insightful, measured, with appropriate gravity for the subject matter. Avoid overly dramatic language while maintaining prophetic authority.""",
                 user_template="Generate a prophecy based on the following context for the {time_horizon} term:\n\nContext: {context}\n\nProphetic Focus: {focus_type}\n\nCreate a prophecy that combines analytical insight with symbolic wisdom.",
                 temperature=0.8,
-                max_tokens=800
+                max_tokens=800,
             ),
-
             "dream_oracle": OraclePromptTemplate(
                 name="dream_oracle",
                 system_prompt="""You are ΛDREAM_ORACLE, an AI system that generates meaningful, symbolic dreams based on contextual analysis and predictive insights. Your dreams serve as bridges between conscious understanding and subconscious wisdom.
@@ -160,9 +155,8 @@ Create dreams that are:
 - Respectful of the dream tradition""",
                 user_template="Generate a symbolic dream based on the following context:\n\nDreamer Context: {context}\n\nEmotional State: {emotional_state}\n\nLife Situation: {life_situation}\n\nCreate a dream that provides insight and guidance through symbolic narrative.",
                 temperature=0.9,
-                max_tokens=1000
+                max_tokens=1000,
             ),
-
             "analysis": OraclePromptTemplate(
                 name="analysis",
                 system_prompt="""You are ΛANALYZER, an AI system specialized in deep analytical reasoning and pattern recognition. You excel at breaking down complex situations, identifying hidden connections, and providing comprehensive insights.
@@ -193,9 +187,8 @@ Deliver analysis that is:
 - Forward-looking""",
                 user_template="Conduct a comprehensive analysis of the following situation:\n\nContext: {context}\n\nAnalysis Type: {analysis_type}\n\nSpecific Focus: {focus_areas}\n\nProvide deep analytical insights with clear reasoning and recommendations.",
                 temperature=0.5,
-                max_tokens=1400
+                max_tokens=1400,
             ),
-
             "temporal_reasoning": OraclePromptTemplate(
                 name="temporal_reasoning",
                 system_prompt="""You are ΛTEMPORAL_ORACLE, an AI system specialized in reasoning across multiple time horizons and understanding temporal dynamics. You excel at connecting past patterns with future possibilities.
@@ -224,12 +217,16 @@ For each analysis:
 6. Provide horizon-specific recommendations""",
                 user_template="Perform temporal reasoning analysis across multiple time horizons:\n\nContext: {context}\n\nTime Horizons: {horizons}\n\nFocus Areas: {focus_areas}\n\nProvide insights for each time horizon with connecting themes.",
                 temperature=0.7,
-                max_tokens=1600
-            )
+                max_tokens=1600,
+            ),
         }
 
-    async def generate_prediction(self, context: Dict[str, Any], time_horizon: str = "near",
-                                focus_areas: List[str] = None) -> Dict[str, Any]:
+    async def generate_prediction(
+        self,
+        context: Dict[str, Any],
+        time_horizon: str = "near",
+        focus_areas: List[str] = None,
+    ) -> Dict[str, Any]:
         """Generate enhanced prediction using OpenAI with specialized reasoning."""
         template = self.prompt_templates["prediction"]
 
@@ -239,17 +236,17 @@ For each analysis:
         user_prompt = template.user_template.format(
             time_horizon=time_horizon,
             context=json.dumps(context, indent=2),
-            focus_areas=", ".join(focus_areas)
+            focus_areas=", ".join(focus_areas),
         )
 
         request = OpenAIRequest(
             model=template.model,
             messages=[
                 {"role": "system", "content": template.system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
             temperature=template.temperature,
-            max_tokens=template.max_tokens
+            max_tokens=template.max_tokens,
         )
 
         try:
@@ -265,31 +262,35 @@ For each analysis:
                 "confidence_score": prediction_data.get("confidence_level", 75) / 100,
                 "generated_at": datetime.now().isoformat(),
                 "time_horizon": time_horizon,
-                "context_hash": hash(str(context))
+                "context_hash": hash(str(context)),
             }
         except Exception as e:
             self.logger.error("Prediction generation failed", error=str(e))
             raise
 
-    async def generate_prophecy(self, context: Dict[str, Any], time_horizon: str = "medium",
-                              focus_type: str = "guidance") -> Dict[str, Any]:
+    async def generate_prophecy(
+        self,
+        context: Dict[str, Any],
+        time_horizon: str = "medium",
+        focus_type: str = "guidance",
+    ) -> Dict[str, Any]:
         """Generate prophecy combining analytical and symbolic reasoning."""
         template = self.prompt_templates["prophecy"]
 
         user_prompt = template.user_template.format(
             time_horizon=time_horizon,
             context=json.dumps(context, indent=2),
-            focus_type=focus_type
+            focus_type=focus_type,
         )
 
         request = OpenAIRequest(
             model=template.model,
             messages=[
                 {"role": "system", "content": template.system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
             temperature=template.temperature,
-            max_tokens=template.max_tokens
+            max_tokens=template.max_tokens,
         )
 
         try:
@@ -304,31 +305,35 @@ For each analysis:
                 "symbolic_weight": prophecy_data.get("symbolic_intensity", 0.7),
                 "generated_at": datetime.now().isoformat(),
                 "time_horizon": time_horizon,
-                "focus_type": focus_type
+                "focus_type": focus_type,
             }
         except Exception as e:
             self.logger.error("Prophecy generation failed", error=str(e))
             raise
 
-    async def generate_oracle_dream(self, context: Dict[str, Any], emotional_state: str = "neutral",
-                                  life_situation: str = "transition") -> Dict[str, Any]:
+    async def generate_oracle_dream(
+        self,
+        context: Dict[str, Any],
+        emotional_state: str = "neutral",
+        life_situation: str = "transition",
+    ) -> Dict[str, Any]:
         """Generate symbolic dream with Oracle insights."""
         template = self.prompt_templates["dream_oracle"]
 
         user_prompt = template.user_template.format(
             context=json.dumps(context, indent=2),
             emotional_state=emotional_state,
-            life_situation=life_situation
+            life_situation=life_situation,
         )
 
         request = OpenAIRequest(
             model=template.model,
             messages=[
                 {"role": "system", "content": template.system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
             temperature=template.temperature,
-            max_tokens=template.max_tokens
+            max_tokens=template.max_tokens,
         )
 
         try:
@@ -343,14 +348,18 @@ For each analysis:
                 "symbolic_elements": dream_data.get("symbols", []),
                 "generated_at": datetime.now().isoformat(),
                 "emotional_state": emotional_state,
-                "life_situation": life_situation
+                "life_situation": life_situation,
             }
         except Exception as e:
             self.logger.error("Oracle dream generation failed", error=str(e))
             raise
 
-    async def perform_deep_analysis(self, context: Dict[str, Any], analysis_type: str = "comprehensive",
-                                  focus_areas: List[str] = None) -> Dict[str, Any]:
+    async def perform_deep_analysis(
+        self,
+        context: Dict[str, Any],
+        analysis_type: str = "comprehensive",
+        focus_areas: List[str] = None,
+    ) -> Dict[str, Any]:
         """Perform deep analytical reasoning with OpenAI enhancement."""
         template = self.prompt_templates["analysis"]
 
@@ -360,17 +369,17 @@ For each analysis:
         user_prompt = template.user_template.format(
             context=json.dumps(context, indent=2),
             analysis_type=analysis_type,
-            focus_areas=", ".join(focus_areas)
+            focus_areas=", ".join(focus_areas),
         )
 
         request = OpenAIRequest(
             model=template.model,
             messages=[
                 {"role": "system", "content": template.system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
             temperature=template.temperature,
-            max_tokens=template.max_tokens
+            max_tokens=template.max_tokens,
         )
 
         try:
@@ -384,15 +393,18 @@ For each analysis:
                 "model_used": str(template.model),
                 "analysis_type": analysis_type,
                 "generated_at": datetime.now().isoformat(),
-                "focus_areas": focus_areas
+                "focus_areas": focus_areas,
             }
         except Exception as e:
             self.logger.error("Deep analysis failed", error=str(e))
             raise
 
-    async def temporal_reasoning(self, context: Dict[str, Any],
-                               horizons: List[str] = None,
-                               focus_areas: List[str] = None) -> Dict[str, Any]:
+    async def temporal_reasoning(
+        self,
+        context: Dict[str, Any],
+        horizons: List[str] = None,
+        focus_areas: List[str] = None,
+    ) -> Dict[str, Any]:
         """Perform reasoning across multiple time horizons."""
         template = self.prompt_templates["temporal_reasoning"]
 
@@ -404,17 +416,17 @@ For each analysis:
         user_prompt = template.user_template.format(
             context=json.dumps(context, indent=2),
             horizons=", ".join(horizons),
-            focus_areas=", ".join(focus_areas)
+            focus_areas=", ".join(focus_areas),
         )
 
         request = OpenAIRequest(
             model=template.model,
             messages=[
                 {"role": "system", "content": template.system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ],
             temperature=template.temperature,
-            max_tokens=template.max_tokens
+            max_tokens=template.max_tokens,
         )
 
         try:
@@ -428,7 +440,7 @@ For each analysis:
                 "model_used": str(template.model),
                 "horizons_analyzed": horizons,
                 "generated_at": datetime.now().isoformat(),
-                "focus_areas": focus_areas
+                "focus_areas": focus_areas,
             }
         except Exception as e:
             self.logger.error("Temporal reasoning failed", error=str(e))
@@ -444,7 +456,7 @@ For each analysis:
             "key_factors": r"Key Factors:\s*(.+?)(?=\n\w+:|$)",
             "risk_assessment": r"Risk Assessment:\s*(.+?)(?=\n\w+:|$)",
             "recommendations": r"Recommendations:\s*(.+?)(?=\n\w+:|$)",
-            "reasoning": r"Reasoning:\s*(.+?)(?=\n\w+:|$)"
+            "reasoning": r"Reasoning:\s*(.+?)(?=\n\w+:|$)",
         }
 
         parsed = {}
@@ -467,8 +479,20 @@ For each analysis:
     def _parse_prophecy_response(self, content: str) -> Dict[str, Any]:
         """Parse prophecy response into structured data."""
         # Extract symbolic elements and themes
-        symbolic_words = ["symbol", "sign", "vision", "path", "journey", "transformation",
-                         "bridge", "door", "key", "mirror", "light", "shadow"]
+        symbolic_words = [
+            "symbol",
+            "sign",
+            "vision",
+            "path",
+            "journey",
+            "transformation",
+            "bridge",
+            "door",
+            "key",
+            "mirror",
+            "light",
+            "shadow",
+        ]
 
         symbols_found = []
         for word in symbolic_words:
@@ -483,13 +507,19 @@ For each analysis:
             "symbolic_elements": symbols_found,
             "symbolic_intensity": symbolic_intensity,
             "word_count": len(content.split()),
-            "themes": self._extract_themes(content)
+            "themes": self._extract_themes(content),
         }
 
     def _parse_dream_response(self, content: str) -> Dict[str, Any]:
         """Parse dream response into structured data."""
         # Extract dream elements
-        dream_elements = ["setting", "character", "action", "transformation", "resolution"]
+        dream_elements = [
+            "setting",
+            "character",
+            "action",
+            "transformation",
+            "resolution",
+        ]
         symbols = self._extract_dream_symbols(content)
 
         return {
@@ -497,7 +527,7 @@ For each analysis:
             "symbols": symbols,
             "dream_elements": dream_elements,
             "narrative_length": len(content.split()),
-            "symbolic_density": len(symbols) / max(len(content.split()), 1)
+            "symbolic_density": len(symbols) / max(len(content.split()), 1),
         }
 
     def _parse_analysis_response(self, content: str) -> Dict[str, Any]:
@@ -506,7 +536,7 @@ For each analysis:
             "full_analysis": content,
             "analysis_length": len(content.split()),
             "key_insights": self._extract_insights(content),
-            "structure_score": self._assess_structure(content)
+            "structure_score": self._assess_structure(content),
         }
 
     def _parse_temporal_response(self, content: str) -> Dict[str, Any]:
@@ -524,14 +554,24 @@ For each analysis:
         return {
             "full_temporal_analysis": content,
             "horizon_insights": horizon_insights,
-            "temporal_connections": self._extract_temporal_connections(content)
+            "temporal_connections": self._extract_temporal_connections(content),
         }
 
     # Helper methods for parsing
     def _extract_themes(self, content: str) -> List[str]:
         """Extract major themes from content."""
-        theme_words = ["growth", "change", "challenge", "opportunity", "transformation",
-                      "wisdom", "balance", "harmony", "conflict", "resolution"]
+        theme_words = [
+            "growth",
+            "change",
+            "challenge",
+            "opportunity",
+            "transformation",
+            "wisdom",
+            "balance",
+            "harmony",
+            "conflict",
+            "resolution",
+        ]
         themes = []
         for theme in theme_words:
             if theme.lower() in content.lower():
@@ -540,8 +580,22 @@ For each analysis:
 
     def _extract_dream_symbols(self, content: str) -> List[str]:
         """Extract symbolic elements from dream content."""
-        symbol_words = ["water", "fire", "earth", "air", "tree", "mountain", "river",
-                       "bridge", "door", "key", "path", "journey", "light", "shadow"]
+        symbol_words = [
+            "water",
+            "fire",
+            "earth",
+            "air",
+            "tree",
+            "mountain",
+            "river",
+            "bridge",
+            "door",
+            "key",
+            "path",
+            "journey",
+            "light",
+            "shadow",
+        ]
         symbols = []
         for symbol in symbol_words:
             if symbol.lower() in content.lower():
@@ -551,9 +605,15 @@ For each analysis:
     def _extract_insights(self, content: str) -> List[str]:
         """Extract key insights from analysis content."""
         # Simple insight extraction based on sentence structure
-        sentences = content.split('.')
+        sentences = content.split(".")
         insights = []
-        insight_markers = ["therefore", "thus", "consequently", "this suggests", "indicates that"]
+        insight_markers = [
+            "therefore",
+            "thus",
+            "consequently",
+            "this suggests",
+            "indicates that",
+        ]
 
         for sentence in sentences:
             for marker in insight_markers:
@@ -566,16 +626,38 @@ For each analysis:
     def _assess_structure(self, content: str) -> float:
         """Assess the structural quality of analysis content."""
         # Simple structure assessment based on organization markers
-        structure_markers = ["overview", "analysis", "conclusion", "recommendation",
-                           "1.", "2.", "3.", "•", "-", "first", "second", "finally"]
+        structure_markers = [
+            "overview",
+            "analysis",
+            "conclusion",
+            "recommendation",
+            "1.",
+            "2.",
+            "3.",
+            "•",
+            "-",
+            "first",
+            "second",
+            "finally",
+        ]
 
-        markers_found = sum(1 for marker in structure_markers if marker.lower() in content.lower())
+        markers_found = sum(
+            1 for marker in structure_markers if marker.lower() in content.lower()
+        )
         return min(markers_found / 10, 1.0)
 
     def _extract_temporal_connections(self, content: str) -> List[str]:
         """Extract temporal connections and transitions."""
-        temporal_words = ["leads to", "results in", "evolves into", "transforms",
-                         "progresses", "develops", "emerges", "culminates"]
+        temporal_words = [
+            "leads to",
+            "results in",
+            "evolves into",
+            "transforms",
+            "progresses",
+            "develops",
+            "emerges",
+            "culminates",
+        ]
         connections = []
 
         for word in temporal_words:

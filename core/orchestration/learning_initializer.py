@@ -14,10 +14,11 @@ it with the service registry. This prevents circular dependencies by ensuring
 the learning service is initialized at the orchestration layer.
 """
 
-import structlog
 from typing import Optional
 
-from orchestration.service_registry import register_factory, ServiceNames
+import structlog
+
+from orchestration.service_registry import ServiceNames, register_factory
 
 # Initialize logger
 logger = structlog.get_logger("ΛTRACE.orchestration.learning_initializer")
@@ -42,7 +43,11 @@ def _create_learning_service():
         return service
 
     except ImportError as e:
-        logger.error("ΛTRACE: Failed to import learning service", error=str(e), exc_info=True)
+        logger.error(
+            "ΛTRACE: Failed to import learning service",
+            error=str(e),
+            exc_info=True,
+        )
 
         # Return a fallback service if the real one can't be imported
         logger.warning("ΛTRACE: Using fallback learning service")
@@ -50,56 +55,89 @@ def _create_learning_service():
         class FallbackLearningService:
             """Fallback service when the real learning service can't be imported."""
 
-            def learn_from_data(self, user_id: str, data_source: dict,
-                              learning_mode: str = "supervised",
-                              learning_objectives: Optional[list] = None) -> dict:
-                logger.warning("ΛTRACE: Fallback learning service - learn_from_data called")
+            def learn_from_data(
+                self,
+                user_id: str,
+                data_source: dict,
+                learning_mode: str = "supervised",
+                learning_objectives: Optional[list] = None,
+            ) -> dict:
+                logger.warning(
+                    "ΛTRACE: Fallback learning service - learn_from_data called"
+                )
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
-                    "fallback": True
+                    "fallback": True,
                 }
 
-            def adapt_behavior(self, user_id: str, adaptation_context: dict,
-                             behavior_targets: list, adaptation_strategy: str = "gradual") -> dict:
-                logger.warning("ΛTRACE: Fallback learning service - adapt_behavior called")
+            def adapt_behavior(
+                self,
+                user_id: str,
+                adaptation_context: dict,
+                behavior_targets: list,
+                adaptation_strategy: str = "gradual",
+            ) -> dict:
+                logger.warning(
+                    "ΛTRACE: Fallback learning service - adapt_behavior called"
+                )
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
-                    "fallback": True
+                    "fallback": True,
                 }
 
-            def synthesize_knowledge(self, user_id: str, knowledge_sources: list,
-                                   synthesis_method: str = "integration") -> dict:
-                logger.warning("ΛTRACE: Fallback learning service - synthesize_knowledge called")
+            def synthesize_knowledge(
+                self,
+                user_id: str,
+                knowledge_sources: list,
+                synthesis_method: str = "integration",
+            ) -> dict:
+                logger.warning(
+                    "ΛTRACE: Fallback learning service - synthesize_knowledge called"
+                )
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
-                    "fallback": True
+                    "fallback": True,
                 }
 
-            def transfer_learning(self, user_id: str, source_domain: str,
-                                target_domain: str, knowledge_to_transfer: dict) -> dict:
-                logger.warning("ΛTRACE: Fallback learning service - transfer_learning called")
+            def transfer_learning(
+                self,
+                user_id: str,
+                source_domain: str,
+                target_domain: str,
+                knowledge_to_transfer: dict,
+            ) -> dict:
+                logger.warning(
+                    "ΛTRACE: Fallback learning service - transfer_learning called"
+                )
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
-                    "fallback": True
+                    "fallback": True,
                 }
 
-            def get_learning_metrics(self, user_id: str, include_detailed: bool = False) -> dict:
-                logger.warning("ΛTRACE: Fallback learning service - get_learning_metrics called")
+            def get_learning_metrics(
+                self, user_id: str, include_detailed: bool = False
+            ) -> dict:
+                logger.warning(
+                    "ΛTRACE: Fallback learning service - get_learning_metrics called"
+                )
                 return {
                     "success": False,
                     "error": "Learning service not available (using fallback)",
-                    "fallback": True
+                    "fallback": True,
                 }
 
         return FallbackLearningService()
 
     except Exception as e:
-        logger.error("ΛTRACE: Unexpected error creating learning service",
-                    error=str(e), exc_info=True)
+        logger.error(
+            "ΛTRACE: Unexpected error creating learning service",
+            error=str(e),
+            exc_info=True,
+        )
         raise
 
 
@@ -120,9 +158,9 @@ def initialize_learning_service():
 
 
 # Auto-initialize when this module is imported
-# This ensures the factory is registered even if initialize_learning_service() isn't called explicitly
+# This ensures the factory is registered even if
+# initialize_learning_service() isn't called explicitly
 initialize_learning_service()
-
 
 if __name__ == "__main__":
     # Example/test usage
@@ -134,14 +172,16 @@ if __name__ == "__main__":
     learning_service = get_service(ServiceNames.LEARNING)
 
     if learning_service:
-        logger.info("ΛTRACE: Learning service retrieved successfully",
-                   service_type=type(learning_service).__name__)
+        logger.info(
+            "ΛTRACE: Learning service retrieved successfully",
+            service_type=type(learning_service).__name__,
+        )
 
         # Test a method
         result = learning_service.learn_from_data(
             "test_user",
             {"elements": ["test1", "test2"], "labels": ["a", "b"]},
-            "supervised"
+            "supervised",
         )
         print("Test result:", result)
     else:

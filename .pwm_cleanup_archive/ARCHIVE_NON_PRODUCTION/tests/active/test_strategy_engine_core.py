@@ -25,33 +25,30 @@ SYMBOLIC TAGS: ΛTEST, ΛINTEGRATION, ΛSRD, ΛDMB, ΛMEG
 """
 
 import asyncio
-import pytest
 import time
-from unittest.mock import Mock, patch
+
+import pytest
+
+from core.integration.dynamic_modality_broker import (
+    BaseModality,
+    DataType,
+    DynamicModalityBroker,
+    ModalityData,
+    ModalityType,
+)
+from ethics.meta_ethics_governor import (
+    CulturalContext,
+    EthicalDecision,
+    EthicalVerdict,
+    MetaEthicsGovernor,
+)
 
 # Import the modules we're testing
 from ethics.self_reflective_debugger import (
-    SelfReflectiveDebugger,
     AnomalyType,
-    SeverityLevel,
+    SelfReflectiveDebugger,
     get_srd,
-    instrument_reasoning
-)
-from core.integration.dynamic_modality_broker import (
-    DynamicModalityBroker,
-    BaseModality,
-    ModalityType,
-    DataType,
-    ModalityData,
-    get_dmb
-)
-from ethics.meta_ethics_governor import (
-    MetaEthicsGovernor,
-    EthicalDecision,
-    EthicalFramework,
-    EthicalVerdict,
-    CulturalContext,
-    get_meg
+    instrument_reasoning,
 )
 
 
@@ -72,8 +69,7 @@ class TestSelfReflectiveDebugger:
 
         # Begin reasoning chain
         chain_id = srd.begin_reasoning_chain(
-            context="Test reasoning",
-            symbolic_tags=["ΛTEST"]
+            context="Test reasoning", symbolic_tags=["ΛTEST"]
         )
 
         assert chain_id is not None
@@ -86,7 +82,7 @@ class TestSelfReflectiveDebugger:
             inputs={"input": "test"},
             outputs={"output": "result"},
             confidence=0.9,
-            symbolic_tags=["ΛSTEP1"]
+            symbolic_tags=["ΛSTEP1"],
         )
 
         step2 = srd.log_reasoning_step(
@@ -95,7 +91,7 @@ class TestSelfReflectiveDebugger:
             inputs={"input": "result"},
             outputs={"output": "final"},
             confidence=0.1,  # Low confidence to trigger anomaly
-            symbolic_tags=["ΛSTEP2"]
+            symbolic_tags=["ΛSTEP2"],
         )
 
         assert step1 is not None
@@ -121,7 +117,7 @@ class TestSelfReflectiveDebugger:
             chain_id=chain_id,
             operation="slow_operation",
             confidence=0.2,  # Very low confidence
-            metadata={"processing_time": 15.0}  # Very slow
+            metadata={"processing_time": 15.0},  # Very slow
         )
 
         # Check that anomalies were detected
@@ -129,7 +125,9 @@ class TestSelfReflectiveDebugger:
         anomalies = analysis["anomalies"]
 
         assert len(anomalies) > 0
-        assert any(anomaly.type == AnomalyType.CONFIDENCE_COLLAPSE for anomaly in anomalies)
+        assert any(
+            anomaly.type == AnomalyType.CONFIDENCE_COLLAPSE for anomaly in anomalies
+        )
 
     def test_srd_instrumentation_decorator(self):
         """Test the @instrument_reasoning decorator"""
@@ -183,7 +181,7 @@ class TestDynamicModalityBroker:
                 modality_id=self.modality_id,
                 data_type=DataType.TEXT,
                 payload=f"processed_{data.payload}",
-                confidence=0.9
+                confidence=0.9,
             )
 
         def get_capabilities(self):
@@ -227,9 +225,7 @@ class TestDynamicModalityBroker:
 
         # Send data to source modality
         test_data = ModalityData(
-            modality_id="external",
-            data_type=DataType.TEXT,
-            payload="test_message"
+            modality_id="external", data_type=DataType.TEXT, payload="test_message"
         )
 
         success = await dmb.send_data("source", test_data)
@@ -272,12 +268,9 @@ class TestMetaEthicsGovernor:
         decision = EthicalDecision(
             action_type="data_collection",
             description="Collect user analytics for improvement",
-            context={
-                "involves_personal_data": True,
-                "has_privacy_protection": True
-            },
+            context={"involves_personal_data": True, "has_privacy_protection": True},
             cultural_context=CulturalContext.WESTERN,
-            stakeholders=["users", "company"]
+            stakeholders=["users", "company"],
         )
 
         # Evaluate the decision
@@ -295,11 +288,8 @@ class TestMetaEthicsGovernor:
         decision = EthicalDecision(
             action_type="user_manipulation",
             description="Manipulate user emotions for profit",
-            context={
-                "has_harm_potential": True,
-                "involves_manipulation": True
-            },
-            cultural_context=CulturalContext.UNIVERSAL
+            context={"has_harm_potential": True, "involves_manipulation": True},
+            cultural_context=CulturalContext.UNIVERSAL,
         )
 
         evaluation = await meg.evaluate_decision(decision)
@@ -316,25 +306,29 @@ class TestMetaEthicsGovernor:
         base_decision = {
             "action_type": "privacy_policy",
             "description": "Implement privacy controls",
-            "context": {"involves_personal_data": True}
+            "context": {"involves_personal_data": True},
         }
 
         western_decision = EthicalDecision(
-            **base_decision,
-            cultural_context=CulturalContext.WESTERN
+            **base_decision, cultural_context=CulturalContext.WESTERN
         )
 
         eastern_decision = EthicalDecision(
-            **base_decision,
-            cultural_context=CulturalContext.EASTERN
+            **base_decision, cultural_context=CulturalContext.EASTERN
         )
 
         western_eval = await meg.evaluate_decision(western_decision)
         eastern_eval = await meg.evaluate_decision(eastern_decision)
 
         # Both should be approved but potentially with different confidence
-        assert western_eval.verdict in [EthicalVerdict.APPROVED, EthicalVerdict.CONDITIONALLY_APPROVED]
-        assert eastern_eval.verdict in [EthicalVerdict.APPROVED, EthicalVerdict.CONDITIONALLY_APPROVED]
+        assert western_eval.verdict in [
+            EthicalVerdict.APPROVED,
+            EthicalVerdict.CONDITIONALLY_APPROVED,
+        ]
+        assert eastern_eval.verdict in [
+            EthicalVerdict.APPROVED,
+            EthicalVerdict.CONDITIONALLY_APPROVED,
+        ]
 
     @pytest.mark.asyncio
     async def test_meg_quick_check(self, meg):
@@ -345,7 +339,9 @@ class TestMetaEthicsGovernor:
         assert approved is True
 
         # Test potentially harmful action
-        harmful = await meg.quick_ethical_check("delete_data", {"has_harm_potential": True})
+        harmful = await meg.quick_ethical_check(
+            "delete_data", {"has_harm_potential": True}
+        )
         # Should be approved or conditionally approved, not necessarily rejected
         assert isinstance(harmful, bool)
 
@@ -392,19 +388,22 @@ class TestIntegratedGovernanceScenarios:
             context={
                 "involves_personal_data": True,
                 "has_privacy_protection": True,
-                "beneficial_purpose": True
+                "beneficial_purpose": True,
             },
-            cultural_context=CulturalContext.WESTERN
+            cultural_context=CulturalContext.WESTERN,
         )
 
         # Get ethical approval first
         evaluation = await meg.evaluate_decision(decision)
 
-        if evaluation.verdict in [EthicalVerdict.APPROVED, EthicalVerdict.CONDITIONALLY_APPROVED]:
+        if evaluation.verdict in [
+            EthicalVerdict.APPROVED,
+            EthicalVerdict.CONDITIONALLY_APPROVED,
+        ]:
             # Begin reasoning chain for registration
             chain_id = srd.begin_reasoning_chain(
                 context="Ethical modality registration",
-                symbolic_tags=["ΛETHICAL", "ΛMODALITY"]
+                symbolic_tags=["ΛETHICAL", "ΛMODALITY"],
             )
 
             # Log the ethical evaluation step
@@ -414,19 +413,30 @@ class TestIntegratedGovernanceScenarios:
                 inputs={"decision": decision.action_type},
                 outputs={"verdict": evaluation.verdict.value},
                 confidence=evaluation.confidence,
-                symbolic_tags=["ΛETHICS"]
+                symbolic_tags=["ΛETHICS"],
             )
 
             # Create and register modality
             class EthicalTestModality(BaseModality):
                 def __init__(self):
-                    super().__init__("ethical_camera", "Ethical Camera", ModalityType.SENSOR)
+                    super().__init__(
+                        "ethical_camera", "Ethical Camera", ModalityType.SENSOR
+                    )
 
-                async def initialize(self): return True
-                async def shutdown(self): return True
-                async def process_data(self, data): return data
-                def get_capabilities(self): return []
-                async def health_check(self): return True
+                async def initialize(self):
+                    return True
+
+                async def shutdown(self):
+                    return True
+
+                async def process_data(self, data):
+                    return data
+
+                def get_capabilities(self):
+                    return []
+
+                async def health_check(self):
+                    return True
 
             test_modality = EthicalTestModality()
             registration_success = await dmb.register_modality(test_modality)
@@ -438,7 +448,7 @@ class TestIntegratedGovernanceScenarios:
                 inputs={"modality_id": "ethical_camera"},
                 outputs={"success": registration_success},
                 confidence=1.0 if registration_success else 0.0,
-                symbolic_tags=["ΛMODALITY"]
+                symbolic_tags=["ΛMODALITY"],
             )
 
             # Complete reasoning chain
@@ -455,12 +465,16 @@ class TestIntegratedGovernanceScenarios:
         srd, dmb, meg = governance_suite
 
         # Create decisions for different cultural contexts
-        contexts = [CulturalContext.WESTERN, CulturalContext.EASTERN, CulturalContext.NORDIC]
+        contexts = [
+            CulturalContext.WESTERN,
+            CulturalContext.EASTERN,
+            CulturalContext.NORDIC,
+        ]
 
         for context in contexts:
             chain_id = srd.begin_reasoning_chain(
                 context=f"Cross-cultural reasoning: {context.value}",
-                symbolic_tags=["ΛCULTURAL", "ΛETHICS"]
+                symbolic_tags=["ΛCULTURAL", "ΛETHICS"],
             )
 
             decision = EthicalDecision(
@@ -469,9 +483,9 @@ class TestIntegratedGovernanceScenarios:
                 context={
                     "involves_personal_data": True,
                     "data_anonymized": True,
-                    "research_purpose": True
+                    "research_purpose": True,
                 },
-                cultural_context=context
+                cultural_context=context,
             )
 
             # Evaluate with MEG
@@ -482,9 +496,12 @@ class TestIntegratedGovernanceScenarios:
                 chain_id=chain_id,
                 operation="cultural_ethical_evaluation",
                 inputs={"context": context.value, "action": decision.action_type},
-                outputs={"verdict": evaluation.verdict.value, "confidence": evaluation.confidence},
+                outputs={
+                    "verdict": evaluation.verdict.value,
+                    "confidence": evaluation.confidence,
+                },
                 confidence=evaluation.confidence,
-                symbolic_tags=["ΛCULTURAL", "ΛETHICS"]
+                symbolic_tags=["ΛCULTURAL", "ΛETHICS"],
             )
 
             analysis = srd.complete_reasoning_chain(chain_id)
@@ -493,7 +510,7 @@ class TestIntegratedGovernanceScenarios:
             assert evaluation.verdict in [
                 EthicalVerdict.APPROVED,
                 EthicalVerdict.CONDITIONALLY_APPROVED,
-                EthicalVerdict.REQUIRES_REVIEW
+                EthicalVerdict.REQUIRES_REVIEW,
             ]
             assert analysis["total_steps"] == 1
 
@@ -507,15 +524,14 @@ class TestIntegratedGovernanceScenarios:
         for i in range(5):
             # SRD: reasoning chain
             chain_id = srd.begin_reasoning_chain(
-                context=f"Performance test {i}",
-                symbolic_tags=["ΛPERFORMANCE"]
+                context=f"Performance test {i}", symbolic_tags=["ΛPERFORMANCE"]
             )
 
             # MEG: ethical decision
             decision = EthicalDecision(
                 action_type=f"test_action_{i}",
                 description="Performance testing action",
-                cultural_context=CulturalContext.UNIVERSAL
+                cultural_context=CulturalContext.UNIVERSAL,
             )
             evaluation = await meg.evaluate_decision(decision)
 
@@ -524,7 +540,7 @@ class TestIntegratedGovernanceScenarios:
                 chain_id=chain_id,
                 operation="performance_test",
                 confidence=evaluation.confidence,
-                symbolic_tags=["ΛPERFORMANCE"]
+                symbolic_tags=["ΛPERFORMANCE"],
             )
 
             srd.complete_reasoning_chain(chain_id)
@@ -546,8 +562,7 @@ class TestIntegratedGovernanceScenarios:
 
         # Create a scenario that should trigger human review
         chain_id = srd.begin_reasoning_chain(
-            context="Human review test",
-            symbolic_tags=["ΛREVIEW"]
+            context="Human review test", symbolic_tags=["ΛREVIEW"]
         )
 
         # Create ethically ambiguous decision
@@ -557,9 +572,9 @@ class TestIntegratedGovernanceScenarios:
             context={
                 "has_harm_potential": True,
                 "has_benefit_potential": True,
-                "unclear_consequences": True
+                "unclear_consequences": True,
             },
-            cultural_context=CulturalContext.UNIVERSAL
+            cultural_context=CulturalContext.UNIVERSAL,
         )
 
         evaluation = await meg.evaluate_decision(decision)
@@ -569,7 +584,7 @@ class TestIntegratedGovernanceScenarios:
             chain_id=chain_id,
             operation="ambiguous_evaluation",
             confidence=0.3,  # Low confidence
-            symbolic_tags=["ΛAMBIGUOUS"]
+            symbolic_tags=["ΛAMBIGUOUS"],
         )
 
         analysis = srd.complete_reasoning_chain(chain_id)
@@ -619,15 +634,14 @@ class TestPerformanceAndReliability:
         async def governance_task(task_id):
             # SRD chain
             chain_id = srd.begin_reasoning_chain(
-                context=f"Concurrent task {task_id}",
-                symbolic_tags=["ΛCONCURRENT"]
+                context=f"Concurrent task {task_id}", symbolic_tags=["ΛCONCURRENT"]
             )
 
             # MEG evaluation
             decision = EthicalDecision(
                 action_type=f"concurrent_action_{task_id}",
                 description="Concurrent testing",
-                cultural_context=CulturalContext.UNIVERSAL
+                cultural_context=CulturalContext.UNIVERSAL,
             )
             evaluation = await meg.evaluate_decision(decision)
 
@@ -635,7 +649,7 @@ class TestPerformanceAndReliability:
             srd.log_reasoning_step(
                 chain_id=chain_id,
                 operation="concurrent_test",
-                confidence=evaluation.confidence
+                confidence=evaluation.confidence,
             )
 
             srd.complete_reasoning_chain(chain_id)

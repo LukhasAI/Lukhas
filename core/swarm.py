@@ -17,11 +17,9 @@ from core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from core.enhanced_swarm import AgentState
     from core.enhanced_swarm import EnhancedColony as AgentColonyEnhanced
     from core.enhanced_swarm import EnhancedSwarmAgent as SwarmAgentEnhanced
     from core.enhanced_swarm import EnhancedSwarmHub as SwarmHubEnhanced
-    from core.enhanced_swarm import MessageType
 
     ENHANCED_AVAILABLE = True
 except ImportError:
@@ -56,7 +54,7 @@ class SwarmAgent(Actor):
             self._enhanced_agent = None
 
     def receive(self, message):
-        with self.tracer.trace_agent_operation(self.agent_id, "receive_message") as ctx:
+        with self.tracer.trace_agent_operation(self.agent_id, "receive_message"):
             if self._enhanced_agent:
                 return self._enhanced_agent.receive(message)
             else:
@@ -122,7 +120,7 @@ class AgentColony:
         )  # Simplified calculation
 
     def create_agent(self, agent_id, capabilities=None):
-        with self.tracer.trace_agent_operation(self.colony_id, "create_agent") as ctx:
+        with self.tracer.trace_agent_operation(self.colony_id, "create_agent"):
             agent = SwarmAgent(agent_id, self, capabilities)
             self.agents[agent_id] = agent
             self.supervisor.add_child(agent_id, agent)
@@ -134,7 +132,10 @@ class AgentColony:
         if self._enhanced_colony:
             self._enhanced_colony.populate_agents(count)
             # Sync enhanced agents to legacy agents dict
-            for agent_id, enhanced_agent in self._enhanced_colony.agents.items():
+            for (
+                agent_id,
+                enhanced_agent,
+            ) in self._enhanced_colony.agents.items():
                 legacy_agent = SwarmAgent(agent_id, self, capabilities)
                 legacy_agent._enhanced_agent = enhanced_agent
                 self.agents[agent_id] = legacy_agent
@@ -179,7 +180,11 @@ class SwarmHub:
             self._enhanced_hub = None
 
     def register_colony(
-        self, colony_id, symbolic_address=None, capabilities=None, agent_count=0
+        self,
+        colony_id,
+        symbolic_address=None,
+        capabilities=None,
+        agent_count=0,
     ):
         colony = AgentColony(colony_id, capabilities, agent_count)
         self.colonies[colony_id] = {
@@ -282,13 +287,11 @@ class SwarmHub:
         reasoning = self.create_colony(
             "reasoning", ["logical_reasoning", "problem_solving"], 3
         )
-        memory = self.create_colony("memory", ["episodic_memory", "semantic_memory"], 3)
-        creativity = self.create_colony(
-            "creativity", ["idea_generation", "synthesis"], 2
-        )
+        self.create_colony("memory", ["episodic_memory", "semantic_memory"], 3)
+        self.create_colony("creativity", ["idea_generation", "synthesis"], 2)
 
         # Start colonies (enhanced behavior)
-        for colony_id, info in self.colonies.items():
+        for _colony_id, info in self.colonies.items():
             colony = info["colony"]
             if colony._enhanced_colony:
                 await colony._enhanced_colony.start()
@@ -298,7 +301,10 @@ class SwarmHub:
             "task_id": "collaborative_reasoning",
             "type": "logical_reasoning",
             "data": {
-                "premises": ["All AI systems can learn", "LUKHAS is an AI system"],
+                "premises": [
+                    "All AI systems can learn",
+                    "LUKHAS is an AI system",
+                ],
                 "query": "Can LUKHAS learn?",
             },
             "required_consensus": 0.67,

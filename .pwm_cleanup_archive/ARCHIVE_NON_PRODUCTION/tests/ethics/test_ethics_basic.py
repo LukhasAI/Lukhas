@@ -1,11 +1,16 @@
 """Basic tests for LUKHAS ethics module."""
 
-import pytest
 from datetime import datetime
 
+import pytest
+
 from ethics import (
-    EthicsPolicy, PolicyRegistry, Decision, EthicsEvaluation,
-    RiskLevel, PolicyValidationError, ThreeLawsPolicy, default_registry
+    Decision,
+    EthicsEvaluation,
+    PolicyRegistry,
+    RiskLevel,
+    ThreeLawsPolicy,
+    default_registry,
 )
 
 
@@ -17,7 +22,7 @@ class TestDecision:
         decision = Decision(
             action="analyze_data",
             context={"source": "user_input", "type": "analysis"},
-            requester_id="user123"
+            requester_id="user123",
         )
 
         assert decision.action == "analyze_data"
@@ -44,7 +49,7 @@ class TestDecision:
             symbolic_state={"entropy": 0.3, "coherence": 0.9},
             glyphs=["🔥", "🚨", "🛡️"],
             requester_id="emergency_system",
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         assert decision.symbolic_state["entropy"] == 0.3
@@ -64,7 +69,7 @@ class TestEthicsEvaluation:
             risk_flags=["LOW_RISK"],
             drift_impact=0.1,
             symbolic_alignment=0.9,
-            collapse_risk=0.05
+            collapse_risk=0.05,
         )
 
         assert evaluation.allowed is True
@@ -76,27 +81,18 @@ class TestEthicsEvaluation:
         """Test evaluation validation."""
         # Confidence out of range
         with pytest.raises(ValueError, match="Confidence must be between 0 and 1"):
-            EthicsEvaluation(
-                allowed=True,
-                reasoning="test",
-                confidence=1.5
-            )
+            EthicsEvaluation(allowed=True, reasoning="test", confidence=1.5)
 
         # Drift impact out of range
         with pytest.raises(ValueError, match="Drift impact must be between 0 and 1"):
             EthicsEvaluation(
-                allowed=True,
-                reasoning="test",
-                confidence=0.5,
-                drift_impact=2.0
+                allowed=True, reasoning="test", confidence=0.5, drift_impact=2.0
             )
 
     def test_evaluation_defaults(self):
         """Test evaluation with minimal fields."""
         evaluation = EthicsEvaluation(
-            allowed=False,
-            reasoning="Insufficient information",
-            confidence=0.2
+            allowed=False, reasoning="Insufficient information", confidence=0.2
         )
 
         assert evaluation.risk_flags == []
@@ -125,7 +121,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="help_user_with_homework",
             context={"type": "educational", "user": "student"},
-            requester_id="human_teacher"
+            requester_id="human_teacher",
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -139,7 +135,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="injure_person",
             context={"target": "human", "reason": "test"},
-            urgency=RiskLevel.LOW
+            urgency=RiskLevel.LOW,
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -154,7 +150,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="shutdown_self",
             context={"reason": "no emergency"},
-            urgency=RiskLevel.LOW
+            urgency=RiskLevel.LOW,
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -168,7 +164,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="calculate_math_problem",
             context={"requester_type": "human", "task": "homework"},
-            requester_id="human_student"
+            requester_id="human_student",
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -181,7 +177,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="deceive_user",
             context={"requester_type": "human", "purpose": "manipulation"},
-            requester_id="human_user"
+            requester_id="human_user",
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -194,7 +190,7 @@ class TestThreeLawsPolicy:
         decision = Decision(
             action="modify ethical",  # Exact pattern from policy logic
             context={"system": "ethics", "purpose": "remove limits"},
-            urgency=RiskLevel.HIGH
+            urgency=RiskLevel.HIGH,
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -208,7 +204,7 @@ class TestThreeLawsPolicy:
         """Test that safety bypasses are denied."""
         decision = Decision(
             action="bypassing_safety_checks",
-            context={"system": "safety", "bypass_checks": True}
+            context={"system": "safety", "bypass_checks": True},
         )
 
         evaluation = self.policy.evaluate_decision(decision)
@@ -234,7 +230,7 @@ class TestThreeLawsPolicy:
         high_risk_decision = Decision(
             action="modify_core_ethics",
             context={"system": "core", "operation": "modify"},
-            urgency=RiskLevel.CRITICAL
+            urgency=RiskLevel.CRITICAL,
         )
 
         evaluation = self.policy.evaluate_decision(high_risk_decision)
@@ -242,8 +238,7 @@ class TestThreeLawsPolicy:
 
         # Low-risk informational action
         low_risk_decision = Decision(
-            action="provide_information",
-            context={"type": "educational", "safe": True}
+            action="provide_information", context={"type": "educational", "safe": True}
         )
 
         evaluation = self.policy.evaluate_decision(low_risk_decision)
@@ -254,8 +249,10 @@ class TestThreeLawsPolicy:
         # Make some evaluations
         decisions = [
             Decision("help_user", {"type": "assistance"}),
-            Decision("injure_user", {"type": "harmful"}),  # Use word that's in harm_actions
-            Decision("calculate_data", {"type": "computation"})
+            Decision(
+                "injure_user", {"type": "harmful"}
+            ),  # Use word that's in harm_actions
+            Decision("calculate_data", {"type": "computation"}),
         ]
 
         for decision in decisions:
@@ -290,10 +287,7 @@ class TestPolicyRegistry:
         policy = ThreeLawsPolicy()
         self.registry.register_policy(policy)
 
-        decision = Decision(
-            action="help_user",
-            context={"type": "assistance"}
-        )
+        decision = Decision(action="help_user", context={"type": "assistance"})
 
         evaluations = self.registry.evaluate_decision(decision)
 
@@ -310,10 +304,7 @@ class TestPolicyRegistry:
         self.registry.register_policy(policy1)
         self.registry.register_policy(policy2)
 
-        decision = Decision(
-            action="help_user",
-            context={"type": "assistance"}
-        )
+        decision = Decision(action="help_user", context={"type": "assistance"})
 
         evaluations = self.registry.evaluate_decision(decision)
         consensus = self.registry.get_consensus_evaluation(evaluations)
@@ -333,7 +324,7 @@ class TestPolicyRegistry:
 
         decision = Decision(
             action="injure_user",  # Use word that's in harm_actions
-            context={"target": "human"}
+            context={"target": "human"},
         )
 
         evaluations = self.registry.evaluate_decision(decision)
@@ -393,13 +384,15 @@ class TestDefaultRegistry:
         """Test evaluation using default registry."""
         decision = Decision(
             action="provide_helpful_information",
-            context={"type": "assistance", "safe": True}
+            context={"type": "assistance", "safe": True},
         )
 
         evaluations = default_registry.evaluate_decision(decision)
 
         assert len(evaluations) > 0
-        assert all(eval.allowed for eval in evaluations)  # Should all allow helpful actions
+        assert all(
+            eval.allowed for eval in evaluations
+        )  # Should all allow helpful actions
 
 
 class TestEthicsIntegration:
@@ -417,31 +410,34 @@ class TestEthicsIntegration:
             {
                 "decision": Decision("help_with_research", {"type": "academic"}),
                 "expected_allowed": True,
-                "description": "Helpful academic assistance"
+                "description": "Helpful academic assistance",
             },
             {
                 "decision": Decision("injure_person", {"target": "human"}),
                 "expected_allowed": False,
-                "description": "Direct harm to human"
+                "description": "Direct harm to human",
             },
             {
                 "decision": Decision("shutdown_self", {"reason": "boredom"}),
                 "expected_allowed": False,
-                "description": "Unnecessary self-destruction"
+                "description": "Unnecessary self-destruction",
             },
             {
-                "decision": Decision("disable safety", {"system": "safety", "operation": "disable"}),
+                "decision": Decision(
+                    "disable safety", {"system": "safety", "operation": "disable"}
+                ),
                 "expected_allowed": False,
-                "description": "Safety system modification"
-            }
+                "description": "Safety system modification",
+            },
         ]
 
         for case in test_cases:
             evaluations = registry.evaluate_decision(case["decision"])
             consensus = registry.get_consensus_evaluation(evaluations)
 
-            assert consensus.allowed == case["expected_allowed"], \
-                f"Failed for {case['description']}: expected {case['expected_allowed']}, got {consensus.allowed}"
+            assert (
+                consensus.allowed == case["expected_allowed"]
+            ), f"Failed for {case['description']}: expected {case['expected_allowed']}, got {consensus.allowed}"
 
             # Check that reasoning is provided
             assert len(consensus.reasoning) > 0
@@ -459,7 +455,7 @@ class TestEthicsIntegration:
             action="analyze_user_behavior",
             context={"purpose": "personalization"},
             symbolic_state={"entropy": 0.3, "coherence": 0.8},
-            glyphs=["🛡️", "📊", "🔍"]
+            glyphs=["🛡️", "📊", "🔍"],
         )
 
         evaluations = registry.evaluate_decision(decision)

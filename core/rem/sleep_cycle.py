@@ -5,17 +5,19 @@ Triggers a symbolic sleep/dream cycle for Lucʌs.
 Logs a memory trace, folds it, seeds a dream, and stores the dream output.
 """
 
-from modules.memoria import log_trace
-from modules.fold_token import fold_trace
-from modules.dream_seed import seed_dream
 from dream.core.dream_log import dream_logger
+from modules.dream_seed import seed_dream
+from modules.fold_token import fold_trace
+from modules.memoria import log_trace
 
 # Step 1: Log a symbolic memory trace (simulate for now)
-trace = log_trace({
-    "event": "User enters symbolic rest mode",
-    "emotion": {"valence": -0.1, "arousal": 0.2},
-    "traits": {"calm": 0.9}
-})
+trace = log_trace(
+    {
+        "event": "User enters symbolic rest mode",
+        "emotion": {"valence": -0.1, "arousal": 0.2},
+        "traits": {"calm": 0.9},
+    }
+)
 
 # Step 2: Fold the trace into a symbolic token
 folded = fold_trace(trace)
@@ -30,6 +32,6 @@ dream_logger.log_dream(
     metadata={
         "source_token": folded.get("token_id"),
         "collapse_id": folded.get("fold_path"),
-        "resonance": folded.get("resonance", 0.0)
-    }
+        "resonance": folded.get("resonance", 0.0),
+    },
 )

@@ -6,7 +6,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Memory System Connection Visualizer
 ===================================
 
@@ -16,10 +15,10 @@ Creates a visual map of relationships and dependencies.
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
-def load_all_specifications() -> Dict[str, Any]:
+def load_all_specifications() -> dict[str, Any]:
     """Load all JSON specifications."""
     base_path = Path("/Users/agi_dev/Downloads/Consolidation-Repo/lukhas/core/memory")
     specs = {}
@@ -42,9 +41,8 @@ def load_all_specifications() -> Dict[str, Any]:
     return specs
 
 
-def analyze_connections(specs: Dict[str, Any]) -> Dict[str, List[str]]:
+def analyze_connections(specs: dict[str, Any]) -> dict[str, list[str]]:
     """Analyze connections between specifications."""
-    connections = {}
 
     # Define connection patterns based on content analysis
     connection_map = {
@@ -62,21 +60,35 @@ def analyze_connections(specs: Dict[str, Any]) -> Dict[str, List[str]]:
         },
         "Node Architecture Integration": {
             "depends_on": ["Matada Cognitive Dna Concepts"],
-            "provides_to": ["Memory Fold Implementation", "Unified Memory Integration"],
+            "provides_to": [
+                "Memory Fold Implementation",
+                "Unified Memory Integration",
+            ],
             "bridges": ["MATADA concepts", "Lukhas infrastructure"],
-            "key_exports": ["lukhas_schema_enhancements", "migration_strategy"],
+            "key_exports": [
+                "lukhas_schema_enhancements",
+                "migration_strategy",
+            ],
         },
         "Advanced Memory Roadmap": {
             "enhances": ["All components"],
             "provides_to": ["Unified Memory Integration"],
-            "enterprise_features": ["vector_databases", "alignment_systems", "scaling"],
+            "enterprise_features": [
+                "vector_databases",
+                "alignment_systems",
+                "scaling",
+            ],
             "key_exports": ["enterprise_architecture", "research_roadmap"],
         },
         "Memory Fold Implementation": {
             "depends_on": ["Node Architecture Integration"],
             "provides_to": ["Unified Memory Integration"],
             "operational_layer": ["fold_in", "fold_out", "mycelium_networks"],
-            "key_exports": ["fold_operations", "deduplication", "tag_management"],
+            "key_exports": [
+                "fold_operations",
+                "deduplication",
+                "tag_management",
+            ],
         },
         "Unified Memory Integration": {
             "depends_on": ["All other components"],
@@ -89,7 +101,7 @@ def analyze_connections(specs: Dict[str, Any]) -> Dict[str, List[str]]:
     return connection_map
 
 
-def print_connection_summary(connections: Dict[str, Dict]):
+def print_connection_summary(connections: dict[str, dict]):
     """Print a summary of all connections."""
     print("📊 MEMORY SYSTEM CONNECTION ANALYSIS")
     print("=" * 60)
@@ -228,7 +240,7 @@ def main():
     # Load specifications
     specs = load_all_specifications()
     print(f"📁 Loaded {len(specs)} specifications:")
-    for spec_name in specs.keys():
+    for spec_name in specs:
         print(f"  • {spec_name}")
 
     # Analyze connections

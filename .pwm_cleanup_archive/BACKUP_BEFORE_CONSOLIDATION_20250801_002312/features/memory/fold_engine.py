@@ -1,4 +1,4 @@
-22# ═══════════════════════════════════════════════════
+22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py
 # MODULE: core.memory.fold_engine
 # DESCRIPTION: Core engine for managing memory folds, symbolic patterns, and associations within the LUKHAS AI system.
@@ -19,18 +19,16 @@ symbolic patterns within them. It forms a core part of the AGI's memory architec
 """
 
 # Standard Library Imports
+import hashlib  # LUKHAS_TAG: memory_integrity
 import json  # ΛNOTE: Used for potential serialization if content is complex, though not directly in to_dict.
-import uuid  # ΛNOTE: Potentially for generating unique keys if not provided. Not used currently for fold keys.
-from typing import Dict, Any, List, Optional, Union, Set, Tuple
+import os  # LUKHAS_TAG: file_operations
+from datetime import datetime, timezone
 from enum import Enum
-from datetime import datetime, timezone, timedelta
-from collections import defaultdict  # ΛTRACE: Used for efficient indexing in AGIMemory.
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 # Third-Party Imports
 import numpy as np  # For np.clip in importance calculation. #ΛCAUTION: Ensure numpy is a managed dependency.
 import structlog  # ΛTRACE: Standardized logging.
-import hashlib  # LUKHAS_TAG: memory_integrity
-import os  # LUKHAS_TAG: file_operations
 
 # LUKHAS Core Imports
 # from ..core.decorators import core_tier_required # Conceptual placeholder for tier system.
@@ -169,7 +167,9 @@ class MemoryFold:
     # ΛEXPOSE: Retrieves the content of the memory fold and updates access metadata.
     # ΛRECALL: This is a direct recall mechanism for a memory fold.
     # LUKHAS_TAG: memory_access_core, dreamseed_tiered_access
-    def retrieve(self, tier_level: int = 3, query_context: Optional[Dict[str, Any]] = None) -> Any:
+    def retrieve(
+        self, tier_level: int = 3, query_context: Optional[Dict[str, Any]] = None
+    ) -> Any:
         """
         Retrieves the content of this memory fold with tiered access control.
 
@@ -186,7 +186,9 @@ class MemoryFold:
         old_state = self.to_dict()
 
         # Check tier access permissions
-        access_granted, filtered_content = self._check_tier_access(tier_level, query_context)
+        access_granted, filtered_content = self._check_tier_access(
+            tier_level, query_context
+        )
 
         if not access_granted:
             logger.warning(
@@ -406,7 +408,9 @@ class MemoryFold:
     # AINTERNAL: Calculates the current importance score, considering access patterns and associations.
     # ΛDREAM_LOOP: This method represents a dynamic update loop for memory importance, akin to synaptic plasticity.
     # LUKHAS_TAG: dynamic_importance_core
-    def _calculate_current_importance(self, dream_drift_feedback: Optional[Dict[str, Any]] = None) -> float:
+    def _calculate_current_importance(
+        self, dream_drift_feedback: Optional[Dict[str, Any]] = None
+    ) -> float:
         """
         Recalculates the importance score dynamically based on recency, frequency, associations, and dream feedback.
         #ΛMEMORY_TIER: Internal Logic - Dynamic memory valuation.
@@ -442,11 +446,18 @@ class MemoryFold:
         )  # Max bonus of 0.15
 
         # DREAMSEED: Dream drift feedback factor
-        dream_factor = self._calculate_dream_drift_factor(dream_drift_feedback) if dream_drift_feedback else 0.0
+        dream_factor = (
+            self._calculate_dream_drift_factor(dream_drift_feedback)
+            if dream_drift_feedback
+            else 0.0
+        )
 
         # Combine factors: recency weighted more, then frequency, associations, and dream feedback
         dynamic_bonus = (
-            (recency_factor * 0.20) + (frequency_factor * 0.20) + association_factor + dream_factor
+            (recency_factor * 0.20)
+            + (frequency_factor * 0.20)
+            + association_factor
+            + dream_factor
         )
 
         final_score = np.clip(
@@ -468,7 +479,9 @@ class MemoryFold:
         return final_score
 
     # LUKHAS_TAG: dreamseed_drift_feedback
-    def _calculate_dream_drift_factor(self, dream_drift_feedback: Dict[str, Any]) -> float:
+    def _calculate_dream_drift_factor(
+        self, dream_drift_feedback: Dict[str, Any]
+    ) -> float:
         """
         Calculate importance adjustment based on dream drift feedback.
 
@@ -503,7 +516,9 @@ class MemoryFold:
         # Contradiction locks importance (no change)
         if contradiction_flag:
             adjustment = 0.0  # Lock current importance
-            logger.info(f"Dream contradiction detected - importance locked for fold {self.key}")
+            logger.info(
+                f"Dream contradiction detected - importance locked for fold {self.key}"
+            )
 
         # Scale by dream significance
         adjustment *= dream_significance
@@ -520,7 +535,9 @@ class MemoryFold:
         return adjustment
 
     # LUKHAS_TAG: dreamseed_tiered_access
-    def _check_tier_access(self, tier_level: int, query_context: Optional[Dict[str, Any]] = None) -> Tuple[bool, Any]:
+    def _check_tier_access(
+        self, tier_level: int, query_context: Optional[Dict[str, Any]] = None
+    ) -> Tuple[bool, Any]:
         """
         Check if the given tier level allows access to this memory fold.
 
@@ -551,23 +568,24 @@ class MemoryFold:
         """
         # Memory type based tier requirements
         tier_requirements = {
-            MemoryType.IDENTITY: 5,      # Highest protection
-            MemoryType.SYSTEM: 4,        # High protection
-            MemoryType.EMOTIONAL: 3,     # Medium protection
-            MemoryType.PROCEDURAL: 2,    # Low protection
-            MemoryType.SEMANTIC: 1,      # Basic protection
-            MemoryType.EPISODIC: 1,      # Basic protection
-            MemoryType.ASSOCIATIVE: 0,   # Minimal protection
-            MemoryType.CONTEXT: 0,       # Minimal protection
-            MemoryType.UNDEFINED: 1      # Default protection
+            MemoryType.IDENTITY: 5,  # Highest protection
+            MemoryType.SYSTEM: 4,  # High protection
+            MemoryType.EMOTIONAL: 3,  # Medium protection
+            MemoryType.PROCEDURAL: 2,  # Low protection
+            MemoryType.SEMANTIC: 1,  # Basic protection
+            MemoryType.EPISODIC: 1,  # Basic protection
+            MemoryType.ASSOCIATIVE: 0,  # Minimal protection
+            MemoryType.CONTEXT: 0,  # Minimal protection
+            MemoryType.UNDEFINED: 1,  # Default protection
         }
 
         base_tier = tier_requirements.get(self.memory_type, 1)
 
         # Adjust for priority
-        if self.priority == MemoryPriority.CRITICAL:
-            base_tier = min(base_tier + 1, 5)
-        elif self.priority == MemoryPriority.HIGH:
+        if (
+            self.priority == MemoryPriority.CRITICAL
+            or self.priority == MemoryPriority.HIGH
+        ):
             base_tier = min(base_tier + 1, 5)
 
         # Adjust for collapse state
@@ -575,12 +593,14 @@ class MemoryFold:
             base_tier = max(base_tier - 1, 0)  # Collapsed memories easier to access
 
         # Adjust for drift score
-        if hasattr(self, 'driftScore') and self.driftScore > 0.5:
+        if hasattr(self, "driftScore") and self.driftScore > 0.5:
             base_tier = min(base_tier + 1, 5)  # High drift requires higher tier
 
         return base_tier
 
-    def _get_tier_filtered_content(self, tier_level: int, query_context: Optional[Dict[str, Any]] = None) -> Any:
+    def _get_tier_filtered_content(
+        self, tier_level: int, query_context: Optional[Dict[str, Any]] = None
+    ) -> Any:
         """
         Get content filtered according to tier level.
 
@@ -601,7 +621,9 @@ class MemoryFold:
             # T0-T2: Collapse-filtered memories only
             return self._get_collapse_filtered_content()
 
-    def _get_full_contextual_content(self, query_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def _get_full_contextual_content(
+        self, query_context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """Get full content with symbolic entanglement context."""
         full_content = {
             "core_content": self.content,
@@ -612,20 +634,20 @@ class MemoryFold:
                 "importance_score": self.importance_score,
                 "created_at": self.created_at_utc.isoformat(),
                 "last_accessed": self.last_accessed_utc.isoformat(),
-                "access_count": self.access_count
+                "access_count": self.access_count,
             },
             "symbolic_context": {
                 "associated_keys": list(self.associated_keys),
                 "tags": list(self.tags),
-                "drift_score": getattr(self, 'driftScore', 0.0),
-                "entropy_delta": getattr(self, 'entropyDelta', 0.0),
-                "collapse_hash": self.collapseHash
+                "drift_score": getattr(self, "driftScore", 0.0),
+                "entropy_delta": getattr(self, "entropyDelta", 0.0),
+                "collapse_hash": self.collapseHash,
             },
             "entanglement_trace": {
                 "query_context": query_context,
                 "tier_level": 5,
-                "access_timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "access_timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         }
 
         return full_content
@@ -633,9 +655,8 @@ class MemoryFold:
     def _get_emotional_weighted_content(self) -> Dict[str, Any]:
         """Get content with emotional weighting."""
         # Check if this memory has emotional significance
-        has_emotional_content = (
-            self.memory_type == MemoryType.EMOTIONAL or
-            any(tag in ["joy", "sadness", "fear", "anger", "love"] for tag in self.tags)
+        has_emotional_content = self.memory_type == MemoryType.EMOTIONAL or any(
+            tag in ["joy", "sadness", "fear", "anger", "love"] for tag in self.tags
         )
 
         if has_emotional_content:
@@ -643,7 +664,7 @@ class MemoryFold:
                 "content": self.content,
                 "emotional_weight": self.importance_score,
                 "memory_type": self.memory_type.value,
-                "tags": list(self.tags)
+                "tags": list(self.tags),
             }
         else:
             # Non-emotional content gets basic representation
@@ -662,7 +683,7 @@ class MemoryFold:
             return {
                 "summary": summary,
                 "collapse_hash": self.collapseHash,
-                "memory_type": self.memory_type.value
+                "memory_type": self.memory_type.value,
             }
         else:
             # Non-collapsed memory - return full content
@@ -720,8 +741,8 @@ def fold_dream_experience(
     dream_id: str,
     dream_content: str,
     dream_metadata: Dict[str, Any],
-    memory_manager: Optional['AGIMemory'] = None,
-    emotional_memory: Optional[Any] = None
+    memory_manager: Optional["AGIMemory"] = None,
+    emotional_memory: Optional[Any] = None,
 ) -> Dict[str, Any]:
     """
     Integrate dream experience into memory through comprehensive folding process.
@@ -742,8 +763,8 @@ def fold_dream_experience(
     logger.info(f"Starting dream folding process: dream_id={dream_id}")
 
     # Initialize components
-    from .dream_trace_linker import create_dream_trace_linker
     from ..compression.symbolic_delta import create_advanced_compressor
+    from .dream_trace_linker import create_dream_trace_linker
     from .fold_lineage_tracker import create_lineage_tracker
 
     dream_linker = create_dream_trace_linker()
@@ -758,7 +779,7 @@ def fold_dream_experience(
         "symbolic_links": [],
         "drift_metrics": {},
         "safeguard_flags": [],
-        "success": False
+        "success": False,
     }
 
     try:
@@ -768,14 +789,14 @@ def fold_dream_experience(
         dream_trace = dream_linker.link_dream_to_memory(
             dream_id=dream_id,
             dream_content=dream_content,
-            dream_metadata=dream_metadata
+            dream_metadata=dream_metadata,
         )
 
         folding_results["processing_stages"]["trace_linking"] = {
             "trace_id": dream_trace.trace_id,
             "entanglement_level": dream_trace.entanglement_level,
             "tier_gate": dream_trace.tier_gate,
-            "safeguard_flags": dream_trace.safeguard_flags
+            "safeguard_flags": dream_trace.safeguard_flags,
         }
         folding_results["safeguard_flags"].extend(dream_trace.safeguard_flags)
 
@@ -785,14 +806,16 @@ def fold_dream_experience(
         compression_result = symbolic_compressor.compress_memory_delta(
             fold_key=f"DREAM_FOLD_{dream_id}",
             content=dream_content,
-            importance_score=min(dream_trace.drift_score + 0.2, 0.95)  # Dreams get slight importance boost
+            importance_score=min(
+                dream_trace.drift_score + 0.2, 0.95
+            ),  # Dreams get slight importance boost
         )
 
         folding_results["processing_stages"]["compression"] = {
             "compression_ratio": compression_result["metrics"]["compression_ratio"],
             "motifs_extracted": compression_result["metrics"]["motifs_extracted"],
             "entropy_preserved": compression_result["metrics"]["entropy_preserved"],
-            "loop_flag": compression_result["loop_flag"]
+            "loop_flag": compression_result["loop_flag"],
         }
 
         if compression_result["loop_flag"]:
@@ -802,7 +825,9 @@ def fold_dream_experience(
         logger.debug(f"Stage 3: Creating memory folds for {dream_id}")
 
         # Determine memory type based on dream characteristics
-        memory_type = _determine_dream_memory_type(dream_content, dream_metadata, dream_trace)
+        memory_type = _determine_dream_memory_type(
+            dream_content, dream_metadata, dream_trace
+        )
 
         # Create primary dream fold
         dream_fold = MemoryFold(
@@ -814,13 +839,17 @@ def fold_dream_experience(
                 "trace_data": {
                     "trace_id": dream_trace.trace_id,
                     "symbolic_origin_id": dream_trace.symbolic_origin_id,
-                    "entanglement_level": dream_trace.entanglement_level
-                }
+                    "entanglement_level": dream_trace.entanglement_level,
+                },
             },
             memory_type=memory_type,
-            priority=MemoryPriority.HIGH if dream_trace.entanglement_level > 8 else MemoryPriority.MEDIUM,
+            priority=(
+                MemoryPriority.HIGH
+                if dream_trace.entanglement_level > 8
+                else MemoryPriority.MEDIUM
+            ),
             owner_id="DREAMSEED_SYSTEM",
-            timestamp_utc=datetime.now(timezone.utc)
+            timestamp_utc=datetime.now(timezone.utc),
         )
 
         # Add dream-specific tags
@@ -829,12 +858,14 @@ def fold_dream_experience(
         for glyph in dream_trace.glyphs:
             dream_fold.add_tag(f"glyph_{glyph.lower()}")
 
-        folding_results["created_folds"].append({
-            "fold_key": dream_fold.key,
-            "memory_type": memory_type.value,
-            "importance_score": dream_fold.importance_score,
-            "tags": list(dream_fold.tags)
-        })
+        folding_results["created_folds"].append(
+            {
+                "fold_key": dream_fold.key,
+                "memory_type": memory_type.value,
+                "importance_score": dream_fold.importance_score,
+                "tags": list(dream_fold.tags),
+            }
+        )
 
         # Stage 4: Emotional Imprint Propagation
         logger.debug(f"Stage 4: Propagating emotional imprints for {dream_id}")
@@ -849,25 +880,27 @@ def fold_dream_experience(
                     "context": {
                         "dream_id": dream_id,
                         "echo_id": echo.echo_id,
-                        "propagation_strength": echo.propagation_strength
+                        "propagation_strength": echo.propagation_strength,
                     },
-                    "tags": ["dream_emotion", echo.source_emotion, echo.target_emotion]
+                    "tags": ["dream_emotion", echo.source_emotion, echo.target_emotion],
                 }
 
                 emotional_result = emotional_memory.process_experience(
                     experience_content=emotional_experience,
-                    event_intensity=echo.propagation_strength
+                    event_intensity=echo.propagation_strength,
                 )
 
-                emotional_propagation_results.append({
-                    "echo_id": echo.echo_id,
-                    "propagation_strength": echo.propagation_strength,
-                    "emotional_result": emotional_result
-                })
+                emotional_propagation_results.append(
+                    {
+                        "echo_id": echo.echo_id,
+                        "propagation_strength": echo.propagation_strength,
+                        "emotional_result": emotional_result,
+                    }
+                )
 
         folding_results["processing_stages"]["emotional_propagation"] = {
             "echoes_processed": len(emotional_propagation_results),
-            "propagation_results": emotional_propagation_results
+            "propagation_results": emotional_propagation_results,
         }
 
         # Stage 5: Fold Lineage Tracking
@@ -883,8 +916,8 @@ def fold_dream_experience(
                 "dream_id": dream_id,
                 "trace_id": dream_trace.trace_id,
                 "entanglement_level": dream_trace.entanglement_level,
-                "compression_ratio": compression_result["metrics"]["compression_ratio"]
-            }
+                "compression_ratio": compression_result["metrics"]["compression_ratio"],
+            },
         )
 
         # Track fold state
@@ -892,14 +925,16 @@ def fold_dream_experience(
             fold_key=dream_fold.key,
             importance_score=dream_fold.importance_score,
             drift_score=dream_trace.drift_score,
-            content_hash=hashlib.sha256(str(dream_fold.content).encode()).hexdigest()[:16],
-            causative_events=[f"dream_folding_{dream_id}"]
+            content_hash=hashlib.sha256(str(dream_fold.content).encode()).hexdigest()[
+                :16
+            ],
+            causative_events=[f"dream_folding_{dream_id}"],
         )
 
         folding_results["processing_stages"]["lineage_tracking"] = {
             "causation_id": causation_id,
             "fold_tracked": True,
-            "causation_strength": dream_trace.drift_score
+            "causation_strength": dream_trace.drift_score,
         }
 
         # Stage 6: Drift and Entropy Scoring
@@ -909,9 +944,13 @@ def fold_dream_experience(
             "dream_drift_score": dream_trace.drift_score,
             "entropy_delta": dream_trace.entropy_delta,
             "compression_entropy": compression_result["metrics"]["entropy_preserved"],
-            "emotional_drift": sum(echo.propagation_strength for echo in dream_trace.emotional_echoes),
+            "emotional_drift": sum(
+                echo.propagation_strength for echo in dream_trace.emotional_echoes
+            ),
             "symbolic_complexity": dream_trace.entanglement_level / 15.0,  # Normalized
-            "overall_stability": _calculate_folding_stability(dream_trace, compression_result)
+            "overall_stability": _calculate_folding_stability(
+                dream_trace, compression_result
+            ),
         }
 
         folding_results["drift_metrics"] = drift_metrics
@@ -927,7 +966,7 @@ def fold_dream_experience(
             for identity_sig in dream_trace.identity_signatures:
                 for related_memory in identity_sig.related_memories:
                     dream_fold.add_association(related_memory)
-                    if hasattr(memory_manager, 'get_fold'):
+                    if hasattr(memory_manager, "get_fold"):
                         related_fold = memory_manager.get_fold(related_memory)
                         if related_fold:
                             related_fold.add_association(dream_fold.key)
@@ -954,18 +993,23 @@ def _determine_dream_memory_type(
     """Determine appropriate memory type for a dream experience."""
 
     # Check for identity-related content
-    if any(sig.identity_marker in ["core_self", "personality", "values"]
-           for sig in dream_trace.identity_signatures):
+    if any(
+        sig.identity_marker in ["core_self", "personality", "values"]
+        for sig in dream_trace.identity_signatures
+    ):
         return MemoryType.IDENTITY
 
     # Check for strong emotional content
-    if (dream_trace.emotional_echoes and
-        any(echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes)):
+    if dream_trace.emotional_echoes and any(
+        echo.propagation_strength > 0.7 for echo in dream_trace.emotional_echoes
+    ):
         return MemoryType.EMOTIONAL
 
     # Check for procedural/skill-related content
-    if any(keyword in dream_content.lower()
-           for keyword in ["learn", "practice", "skill", "how to", "method"]):
+    if any(
+        keyword in dream_content.lower()
+        for keyword in ["learn", "practice", "skill", "how to", "method"]
+    ):
         return MemoryType.PROCEDURAL
 
     # Check dream type in metadata
@@ -982,7 +1026,9 @@ def _determine_dream_memory_type(
         return MemoryType.SEMANTIC  # Lower entanglement suggests concept/knowledge
 
 
-def _calculate_folding_stability(dream_trace: Any, compression_result: Dict[str, Any]) -> float:
+def _calculate_folding_stability(
+    dream_trace: Any, compression_result: Dict[str, Any]
+) -> float:
     """Calculate overall stability score for dream folding process."""
 
     # Base stability from drift score (inverted - lower drift = higher stability)
@@ -1001,10 +1047,10 @@ def _calculate_folding_stability(dream_trace: Any, compression_result: Dict[str,
 
     # Weighted combination
     overall_stability = (
-        base_stability * 0.4 +
-        compression_stability * 0.3 +
-        entanglement_stability * 0.3 -
-        safeguard_penalty
+        base_stability * 0.4
+        + compression_stability * 0.3
+        + entanglement_stability * 0.3
+        - safeguard_penalty
     )
 
     return max(0.0, min(overall_stability, 1.0))
@@ -1028,7 +1074,7 @@ class MemoryIntegrityLedger:
         os.makedirs(os.path.dirname(cls.LEDGER_PATH), exist_ok=True)
         if cls._last_hash is None and os.path.exists(cls.LEDGER_PATH):
             try:
-                with open(cls.LEDGER_PATH, "r", encoding="utf-8") as f:
+                with open(cls.LEDGER_PATH, encoding="utf-8") as f:
                     for line in f:
                         pass
                     if line:
@@ -1143,7 +1189,9 @@ class SymbolicDeltaCompressor:
     COMPRESSED_MEMORY_PATH = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/fold/compressed_symbolic_memory.jsonl"
 
     @classmethod
-    def compress_fold_delta(cls, fold_key: str, content: Any, emotion_priority: float = 0.5) -> Dict[str, Any]:
+    def compress_fold_delta(
+        cls, fold_key: str, content: Any, emotion_priority: float = 0.5
+    ) -> Dict[str, Any]:
         """
         Compresses fold content using emotion-priority entropy encoding.
 
@@ -1160,8 +1208,22 @@ class SymbolicDeltaCompressor:
         content_hash = hashlib.sha256(content_str.encode()).hexdigest()[:16]
 
         # Emotion-priority encoding (simplified heuristic)
-        emotional_keywords = ["feel", "emotion", "happy", "sad", "anger", "fear", "joy", "love", "hate"]
-        emotion_score = sum(1 for keyword in emotional_keywords if keyword.lower() in content_str.lower())
+        emotional_keywords = [
+            "feel",
+            "emotion",
+            "happy",
+            "sad",
+            "anger",
+            "fear",
+            "joy",
+            "love",
+            "hate",
+        ]
+        emotion_score = sum(
+            1
+            for keyword in emotional_keywords
+            if keyword.lower() in content_str.lower()
+        )
         adjusted_priority = emotion_priority * (1 + emotion_score * 0.1)
 
         # Motif detection (simplified pattern matching)
@@ -1176,11 +1238,15 @@ class SymbolicDeltaCompressor:
             "compression_ratio": 0.75,  # Stub value
             "entropy_bits": len(content_str) * 0.6,  # Simplified entropy calculation
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            "compression_method": "emotion_entropy_v1"
+            "compression_method": "emotion_entropy_v1",
         }
 
         cls._write_compressed_memory(compressed_data)
-        logger.debug("SymbolicDeltaCompressor_fold_compressed", fold_key=fold_key, compression_ratio=compressed_data["compression_ratio"])
+        logger.debug(
+            "SymbolicDeltaCompressor_fold_compressed",
+            fold_key=fold_key,
+            compression_ratio=compressed_data["compression_ratio"],
+        )
 
         return compressed_data
 
@@ -1197,13 +1263,17 @@ class SymbolicDeltaCompressor:
         motifs = []
         for word, count in word_counts.items():
             if count > 1:
-                motifs.append({
-                    "pattern": word,
-                    "frequency": count,
-                    "significance": min(count * 0.1, 1.0)
-                })
+                motifs.append(
+                    {
+                        "pattern": word,
+                        "frequency": count,
+                        "significance": min(count * 0.1, 1.0),
+                    }
+                )
 
-        return sorted(motifs, key=lambda x: x["frequency"], reverse=True)[:5]  # Top 5 motifs
+        return sorted(motifs, key=lambda x: x["frequency"], reverse=True)[
+            :5
+        ]  # Top 5 motifs
 
     @classmethod
     def _write_compressed_memory(cls, compressed_data: Dict[str, Any]):
@@ -1213,7 +1283,11 @@ class SymbolicDeltaCompressor:
             with open(cls.COMPRESSED_MEMORY_PATH, "a", encoding="utf-8") as f:
                 f.write(json.dumps(compressed_data) + "\n")
         except Exception as e:
-            logger.error("SymbolicDeltaCompressor_write_failed", error=str(e), fold_key=compressed_data.get("fold_key"))
+            logger.error(
+                "SymbolicDeltaCompressor_write_failed",
+                error=str(e),
+                fold_key=compressed_data.get("fold_key"),
+            )
 
 
 # ═══════════════════════════════════════════════════

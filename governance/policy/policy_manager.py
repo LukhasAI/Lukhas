@@ -64,6 +64,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 # 4. ISO/IEC 27001
 # 5. Lukhas Governance Policies
 
+
 def determine_active_regulations(user_location):
     """
     Determines which legal frameworks apply based on user or deployment location.
@@ -88,6 +89,7 @@ def determine_active_regulations(user_location):
     regulations.append("Lukhas Governance Policies")
     return regulations
 
+
 def log_active_regulations(subsystem, user_location, logger=None):
     """
     Logs the active regulations for a given subsystem and user location.
@@ -103,6 +105,7 @@ def log_active_regulations(subsystem, user_location, logger=None):
         logger(log_message)
     else:
         print(log_message)
+
 
 # ==============================================================================
 # 🔍 USAGE GUIDE (for policy_manager.py)
@@ -133,11 +136,6 @@ def log_active_regulations(subsystem, user_location, logger=None):
 #    #guide:policy_manager_compliance
 #
 # ==============================================================================
-
-
-
-
-
 
 
 # Last Updated: 2025-06-05 09:37:28

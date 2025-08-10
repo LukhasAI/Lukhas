@@ -5,11 +5,11 @@ Defines specialized event types for identity system coordination,
 authentication tracking, and tier-based orchestration.
 """
 
-from enum import Enum
-from dataclasses import dataclass, field
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 import uuid
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
 
 
 class IdentityEventType(Enum):
@@ -94,11 +94,12 @@ class IdentityEventType(Enum):
 
 class IdentityEventPriority(Enum):
     """Priority levels for identity events."""
-    LOW = 1          # Informational events
-    NORMAL = 2       # Standard operations
-    HIGH = 3         # Important operations
-    CRITICAL = 4     # Security-critical events
-    EMERGENCY = 5    # System-threatening events
+
+    LOW = 1  # Informational events
+    NORMAL = 2  # Standard operations
+    HIGH = 3  # Important operations
+    CRITICAL = 4  # Security-critical events
+    EMERGENCY = 5  # System-threatening events
 
 
 @dataclass
@@ -124,10 +125,10 @@ class IdentityEvent:
     session_id: Optional[str] = None
 
     # Event payload
-    data: Dict[str, Any] = field(default_factory=dict)
+    data: dict[str, Any] = field(default_factory=dict)
 
     # Security context
-    security_context: Dict[str, Any] = field(default_factory=dict)
+    security_context: dict[str, Any] = field(default_factory=dict)
     encryption_used: bool = False
     signed: bool = False
 
@@ -147,7 +148,7 @@ class IdentityEvent:
     processing_end: Optional[datetime] = None
     processing_duration_ms: Optional[float] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert event to dictionary for serialization."""
         return {
             "event_id": self.event_id,
@@ -171,13 +172,15 @@ class IdentityEvent:
             "requires_healing": self.requires_healing,
             "healing_priority": self.healing_priority,
             "healing_strategy": self.healing_strategy,
-            "processing_duration_ms": self.processing_duration_ms
+            "processing_duration_ms": self.processing_duration_ms,
         }
 
     def calculate_processing_duration(self):
         """Calculate processing duration if start and end times are set."""
         if self.processing_start and self.processing_end:
-            duration = (self.processing_end - self.processing_start).total_seconds() * 1000
+            duration = (
+                self.processing_end - self.processing_start
+            ).total_seconds() * 1000
             self.processing_duration_ms = duration
             return duration
         return None
@@ -189,10 +192,12 @@ class IdentityEvent:
             IdentityEventType.SECURITY_ANOMALY_DETECTED,
             IdentityEventType.SECURITY_THREAT_IDENTIFIED,
             IdentityEventType.SECURITY_LOCKDOWN_TRIGGERED,
-            IdentityEventType.CONSCIOUSNESS_SPOOFING_DETECTED
+            IdentityEventType.CONSCIOUSNESS_SPOOFING_DETECTED,
         ]
-        return (self.event_type in security_critical_types or
-                self.priority in [IdentityEventPriority.CRITICAL, IdentityEventPriority.EMERGENCY])
+        return self.event_type in security_critical_types or self.priority in [
+            IdentityEventPriority.CRITICAL,
+            IdentityEventPriority.EMERGENCY,
+        ]
 
     def requires_colony_coordination(self) -> bool:
         """Check if this event requires colony coordination."""
@@ -200,16 +205,19 @@ class IdentityEvent:
             IdentityEventType.COLONY_VERIFICATION_START,
             IdentityEventType.COLONY_CONSENSUS_VOTING,
             IdentityEventType.COLONY_HEALING_TRIGGERED,
-            IdentityEventType.VERIFICATION_CONSENSUS_REACHED
+            IdentityEventType.VERIFICATION_CONSENSUS_REACHED,
         ]
-        return (self.event_type in colony_events or
-                self.consensus_required or
-                self.tier_level >= 3)
+        return (
+            self.event_type in colony_events
+            or self.consensus_required
+            or self.tier_level >= 3
+        )
 
 
 @dataclass
 class AuthenticationContext:
     """Context for authentication events."""
+
     method: str
     factor_count: int
     device_id: str
@@ -222,11 +230,12 @@ class AuthenticationContext:
 @dataclass
 class VerificationResult:
     """Result of verification process."""
+
     verified: bool
     confidence_score: float
     verification_method: str
-    colony_consensus: Optional[Dict[str, Any]] = None
-    failure_reasons: List[str] = field(default_factory=list)
+    colony_consensus: Optional[dict[str, Any]] = None
+    failure_reasons: list[str] = field(default_factory=list)
     verification_duration_ms: float = 0.0
     agents_involved: int = 1
 
@@ -234,10 +243,11 @@ class VerificationResult:
 @dataclass
 class TierChangeContext:
     """Context for tier change events."""
+
     previous_tier: int
     new_tier: int
     change_reason: str
     approval_required: bool
     approver_id: Optional[str] = None
-    benefits_delta: Dict[str, Any] = field(default_factory=dict)
+    benefits_delta: dict[str, Any] = field(default_factory=dict)
     cooldown_period: Optional[int] = None  # seconds

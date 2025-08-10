@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -40,13 +39,13 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
+
+from learning.systems.voice_duet import VoiceIntegrator
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from learning.systems.voice_duet import VoiceIntegrator
 from quantum.layer import QuantumBioOscillator
 
 logger = logging.getLogger("quantum_voice")

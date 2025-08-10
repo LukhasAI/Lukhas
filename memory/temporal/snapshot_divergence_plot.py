@@ -11,13 +11,21 @@ Author: Jules 03
 Date: 2025-07-18
 Description: Provides a snapshot divergence visualizer.
 """
+
 import json
 from pathlib import Path
+
 import matplotlib.pyplot as plt
 
 # LUKHAS_TAG: drift_visualization
 
-def plot_snapshot_drift_overlay(dream_id: str, snapshot_dir="snapshots", redirect_log_path="dream/logs/redirect_log.jsonl", output_dir="trace/viz"):
+
+def plot_snapshot_drift_overlay(
+    dream_id: str,
+    snapshot_dir="snapshots",
+    redirect_log_path="dream/logs/redirect_log.jsonl",
+    output_dir="trace/viz",
+):
     """
     Plots snapshot drift overlay for a given dream.
     """
@@ -26,7 +34,7 @@ def plot_snapshot_drift_overlay(dream_id: str, snapshot_dir="snapshots", redirec
         print(f"Snapshot file not found at {snapshot_path}")
         return
 
-    with open(snapshot_path, "r") as f:
+    with open(snapshot_path) as f:
         snapshots = json.load(f)
 
     redirect_log_path = Path(redirect_log_path)
@@ -34,7 +42,7 @@ def plot_snapshot_drift_overlay(dream_id: str, snapshot_dir="snapshots", redirec
         print(f"Redirect log file not found at {redirect_log_path}")
         redirects = []
     else:
-        with open(redirect_log_path, "r") as f:
+        with open(redirect_log_path) as f:
             redirects = [json.loads(line) for line in f]
 
     timestamps = [snapshot["timestamp"] for snapshot in snapshots]
@@ -42,12 +50,19 @@ def plot_snapshot_drift_overlay(dream_id: str, snapshot_dir="snapshots", redirec
 
     plt.figure(figsize=(12, 6))
     plt.plot(timestamps, drift_scores, label="Drift Score")
-    plt.axhline(y=0.5, color='r', linestyle='--', label="Redirect Threshold")
+    plt.axhline(y=0.5, color="r", linestyle="--", label="Redirect Threshold")
 
     for redirect in redirects:
         if redirect["snapshot_id"] == dream_id:
-            plt.axvline(x=redirect["timestamp"], color='r', linestyle='--', label="Redirect")
-            plt.text(redirect["timestamp"], redirect["drift_score"], redirect["severity"], color="red")
+            plt.axvline(
+                x=redirect["timestamp"], color="r", linestyle="--", label="Redirect"
+            )
+            plt.text(
+                redirect["timestamp"],
+                redirect["drift_score"],
+                redirect["severity"],
+                color="red",
+            )
 
     plt.xlabel("Time")
     plt.ylabel("Score")

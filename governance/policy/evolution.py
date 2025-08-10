@@ -47,12 +47,13 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from core.common import get_logger
 import threading
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any, Optional
+
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -80,7 +81,7 @@ class EvolutionEvent:
     memory_id: str
     evolution_type: EvolutionType
     timestamp: datetime
-    parameters: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
     success: bool = False
     notes: str = ""
 
@@ -89,8 +90,8 @@ class MemoryEvolutionEngine:
     """Core engine for memory evolution and adaptation"""
 
     def __init__(self):
-        self.evolution_history: Dict[str, List[EvolutionEvent]] = {}
-        self.evolution_rules: Dict[str, callable] = {}
+        self.evolution_history: dict[str, list[EvolutionEvent]] = {}
+        self.evolution_rules: dict[str, callable] = {}
         self.lock = threading.RLock()
         self.evolution_counter = 0
 
@@ -109,7 +110,7 @@ class MemoryEvolutionEngine:
             "integration": self._integration_rule,
         }
 
-    def _consolidation_rule(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _consolidation_rule(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Rule for memory consolidation"""
         try:
             # Placeholder consolidation logic
@@ -124,7 +125,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to consolidate memory: %s", e)
             return memory_data
 
-    def _adaptation_rule(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _adaptation_rule(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Rule for memory adaptation"""
         try:
             # Placeholder adaptation logic
@@ -139,7 +140,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to adapt memory: %s", e)
             return memory_data
 
-    def _strengthening_rule(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _strengthening_rule(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Rule for memory strengthening"""
         try:
             # Placeholder strengthening logic
@@ -151,7 +152,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to strengthen memory: %s", e)
             return memory_data
 
-    def _decay_rule(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _decay_rule(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Rule for memory decay"""
         try:
             # Placeholder decay logic
@@ -163,7 +164,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to decay memory: %s", e)
             return memory_data
 
-    def _integration_rule(self, memory_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _integration_rule(self, memory_data: dict[str, Any]) -> dict[str, Any]:
         """Rule for memory integration"""
         try:
             # Placeholder integration logic
@@ -175,7 +176,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to integrate memory: %s", e)
             return memory_data
 
-    def _extract_key_features(self, memory_data: Dict[str, Any]) -> List[str]:
+    def _extract_key_features(self, memory_data: dict[str, Any]) -> list[str]:
         """Extract key features from memory data"""
         try:
             features = []
@@ -193,8 +194,8 @@ class MemoryEvolutionEngine:
             return []
 
     def _calculate_adaptive_features(
-        self, memory_data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, memory_data: dict[str, Any]
+    ) -> dict[str, float]:
         """Calculate adaptive features"""
         try:
             features = {
@@ -214,7 +215,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to calculate adaptive features: %s", e)
             return {}
 
-    def _find_integration_links(self, memory_data: Dict[str, Any]) -> List[str]:
+    def _find_integration_links(self, memory_data: dict[str, Any]) -> list[str]:
         """Find potential integration links"""
         try:
             links = []
@@ -237,8 +238,8 @@ class MemoryEvolutionEngine:
             return []
 
     def evolve_memory(
-        self, memory_id: str, memory_data: Dict[str, Any], evolution_type: EvolutionType
-    ) -> Optional[Dict[str, Any]]:
+        self, memory_id: str, memory_data: dict[str, Any], evolution_type: EvolutionType
+    ) -> Optional[dict[str, Any]]:
         """Evolve a memory using the specified evolution type"""
         try:
             with self.lock:
@@ -279,7 +280,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to evolve memory %s: %s", memory_id, e)
             return None
 
-    def get_evolution_history(self, memory_id: str) -> List[EvolutionEvent]:
+    def get_evolution_history(self, memory_id: str) -> list[EvolutionEvent]:
         """Get evolution history for a memory"""
         try:
             with self.lock:
@@ -299,7 +300,7 @@ class MemoryEvolutionEngine:
             logger.error("Failed to add evolution rule %s: %s", name, e)
             return False
 
-    def get_evolution_stats(self) -> Dict[str, Any]:
+    def get_evolution_stats(self) -> dict[str, Any]:
         """Get evolution statistics"""
         try:
             with self.lock:
@@ -342,8 +343,8 @@ def get_global_evolution_engine() -> MemoryEvolutionEngine:
 
 
 def evolve_memory_globally(
-    memory_id: str, memory_data: Dict[str, Any], evolution_type: EvolutionType
-) -> Optional[Dict[str, Any]]:
+    memory_id: str, memory_data: dict[str, Any], evolution_type: EvolutionType
+) -> Optional[dict[str, Any]]:
     """Evolve a memory using the global evolution engine"""
     engine = get_global_evolution_engine()
     return engine.evolve_memory(memory_id, memory_data, evolution_type)

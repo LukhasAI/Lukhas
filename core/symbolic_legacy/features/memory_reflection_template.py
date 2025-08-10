@@ -1,5 +1,6 @@
 # LUKHAS_TAG: symbolic_template, memory_reflection
-from typing import Dict, Any
+from typing import Any
+
 
 class MemoryReflectionTemplate:
     """
@@ -9,7 +10,7 @@ class MemoryReflectionTemplate:
     def __init__(self):
         self.name = "memory_reflection"
 
-    def process_signal(self, signal: Dict[str, Any]) -> Dict[str, Any]:
+    def process_signal(self, signal: dict[str, Any]) -> dict[str, Any]:
         """
         Processes a signal and returns a memory reflection.
         """
@@ -18,5 +19,6 @@ class MemoryReflectionTemplate:
             "reflection": "unknown",
             "confidence": 0.0,
         }
+
 
 plugin = MemoryReflectionTemplate

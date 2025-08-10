@@ -16,34 +16,34 @@ Main exports:
 
 # Import main components
 from .api import identity_router
+from .login import LoginRequest, LoginResponse, UserProfile
 from .middleware import (
-    get_current_user,
     AuthContext,
-    require_tier,
+    TierGate,
+    extract_user_context,
+    get_current_user,
+    inject_user_context,
     require_permission,
-    require_trinity_active,
     require_t1_or_above,
     require_t2_or_above,
     require_t3_or_above,
     require_t4_or_above,
     require_t5,
-    TierGate,
-    inject_user_context,
-    extract_user_context
+    require_tier,
+    require_trinity_active,
 )
-from .user_db import user_db
 from .registration import RegistrationRequest, RegistrationResponse
-from .login import LoginRequest, LoginResponse, UserProfile
+from .user_db import user_db
 from .verify import VerifyResponse, get_tier_permissions
 
 # Export main components
 __all__ = [
     # Router
     "identity_router",
-    
+
     # Database
     "user_db",
-    
+
     # Middleware and dependencies
     "get_current_user",
     "AuthContext",
@@ -58,7 +58,7 @@ __all__ = [
     "TierGate",
     "inject_user_context",
     "extract_user_context",
-    
+
     # Models
     "RegistrationRequest",
     "RegistrationResponse",
@@ -66,7 +66,7 @@ __all__ = [
     "LoginResponse",
     "UserProfile",
     "VerifyResponse",
-    
+
     # Utilities
     "get_tier_permissions"
 ]

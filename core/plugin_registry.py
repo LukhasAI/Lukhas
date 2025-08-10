@@ -5,12 +5,10 @@
 
 from __future__ import annotations
 
-
 import importlib.metadata
 import logging
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +45,9 @@ class PluginRegistry:
     """Registry handling plugin discovery and access."""
 
     def __init__(self) -> None:
-        self._plugins: Dict[PluginType, Dict[str, Plugin]] = {pt: {} for pt in PluginType}
+        self._plugins: dict[PluginType, dict[str, Plugin]] = {
+            pt: {} for pt in PluginType
+        }
         self._load_entry_points()
 
     def _load_entry_points(self) -> None:
@@ -55,10 +55,10 @@ class PluginRegistry:
         try:
             eps = importlib.metadata.entry_points()
             # Handle Python 3.9 vs 3.10+ compatibility
-            if hasattr(eps, 'select'):  # Python 3.10+
+            if hasattr(eps, "select"):  # Python 3.10+
                 group = eps.select(group="lukhas.plugins")
-            elif isinstance(eps, dict) and 'lukhas.plugins' in eps:  # Python 3.9
-                group = eps['lukhas.plugins']
+            elif isinstance(eps, dict) and "lukhas.plugins" in eps:  # Python 3.9
+                group = eps["lukhas.plugins"]
             else:
                 group = []
             for ep in group:
@@ -77,15 +77,15 @@ class PluginRegistry:
         pname = plugin.get_plugin_name()
         self._plugins[ptype][pname] = plugin
 
-    def get_plugin(self, plugin_type: PluginType, name: str) -> Optional[Plugin]:
+    def get_plugin(self, plugin_type: PluginType, name: str) -> Plugin | None:
         """Retrieve a plugin by type and name."""
         return self._plugins[plugin_type].get(name)
 
-    def list_plugins(self, plugin_type: Optional[PluginType] = None) -> List[Plugin]:
+    def list_plugins(self, plugin_type: PluginType | None = None) -> list[Plugin]:
         """List registered plugins by type or all."""
         if plugin_type:
             return list(self._plugins[plugin_type].values())
-        all_plugins: List[Plugin] = []
+        all_plugins: list[Plugin] = []
         for plugins in self._plugins.values():
             all_plugins.extend(plugins.values())
         return all_plugins

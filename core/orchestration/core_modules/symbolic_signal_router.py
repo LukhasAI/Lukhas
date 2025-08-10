@@ -8,9 +8,11 @@ This module provides a centralized signal routing and logging mechanism.
 """
 
 import logging
-from orchestration.signals import SymbolicSignal, DiagnosticSignalType
+
+from orchestration.signals import DiagnosticSignalType, SymbolicSignal
 
 logger = logging.getLogger(__name__)
+
 
 def route_signal(signal: SymbolicSignal):
     """
@@ -38,4 +40,3 @@ def route_signal(signal: SymbolicSignal):
 
     # TODO: Implement actual routing logic here.
     # For now, we'll just log the signal.
-    pass

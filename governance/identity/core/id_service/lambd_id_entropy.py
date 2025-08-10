@@ -20,15 +20,16 @@ Created: 2025-07-05
 
 import math
 import re
-import hashlib
 import statistics
-from typing import Dict, List, Optional, Tuple, Set
-from datetime import datetime, timedelta
 from collections import Counter
+from datetime import datetime
 from enum import Enum
+from typing import Optional
+
 
 class EntropyLevel(Enum):
     """Entropy quality levels"""
+
     VERY_LOW = "very_low"
     LOW = "low"
     MEDIUM = "medium"
@@ -36,8 +37,10 @@ class EntropyLevel(Enum):
     VERY_HIGH = "very_high"
     CRYPTOGRAPHIC = "cryptographic"
 
+
 class EntropyAnalysis:
     """Comprehensive entropy analysis results"""
+
     def __init__(self):
         self.shannon_entropy: float = 0.0
         self.normalized_entropy: float = 0.0
@@ -45,8 +48,9 @@ class EntropyAnalysis:
         self.pattern_score: float = 0.0
         self.randomness_score: float = 0.0
         self.security_level: EntropyLevel = EntropyLevel.VERY_LOW
-        self.recommendations: List[str] = []
-        self.warnings: List[str] = []
+        self.recommendations: list[str] = []
+        self.warnings: list[str] = []
+
 
 class LambdaIDEntropy:
     """
@@ -59,8 +63,8 @@ class LambdaIDEntropy:
     def __init__(self, config_path: Optional[str] = None):
         """Initialize entropy engine with configuration"""
         self.config = self._load_config(config_path)
-        self.entropy_history: List[Dict] = []
-        self.pattern_database: Set[str] = set()
+        self.entropy_history: list[dict] = []
+        self.pattern_database: set[str] = set()
         self.weak_patterns = self._load_weak_patterns()
         self.tier_requirements = self._load_tier_requirements()
 
@@ -85,13 +89,15 @@ class LambdaIDEntropy:
         tier, timestamp_hash, symbolic_char, entropy_hash = components
 
         # Analyze individual components
-        timestamp_entropy = self._analyze_component_entropy(timestamp_hash)
-        entropy_hash_entropy = self._analyze_component_entropy(entropy_hash)
-        symbolic_entropy = self._analyze_symbolic_entropy(symbolic_char, tier)
+        self._analyze_component_entropy(timestamp_hash)
+        self._analyze_component_entropy(entropy_hash)
+        self._analyze_symbolic_entropy(symbolic_char, tier)
 
         # Calculate overall entropy scores
         analysis.shannon_entropy = self._calculate_combined_shannon_entropy(components)
-        analysis.normalized_entropy = self._normalize_entropy(analysis.shannon_entropy, len(lambda_id))
+        analysis.normalized_entropy = self._normalize_entropy(
+            analysis.shannon_entropy, len(lambda_id)
+        )
         analysis.character_diversity = self._calculate_character_diversity(lambda_id)
         analysis.pattern_score = self._analyze_patterns(lambda_id)
         analysis.randomness_score = self._analyze_randomness(entropy_hash)
@@ -108,7 +114,7 @@ class LambdaIDEntropy:
 
         return analysis
 
-    def _calculate_combined_shannon_entropy(self, components: Tuple) -> float:
+    def _calculate_combined_shannon_entropy(self, components: tuple) -> float:
         """Calculate Shannon entropy for the complete ΛiD"""
         tier, timestamp_hash, symbolic_char, entropy_hash = components
 
@@ -207,7 +213,7 @@ class LambdaIDEntropy:
         # Check for longer repetitive patterns
         for length in range(2, min(len(text) // 2 + 1, 4)):
             for i in range(len(text) - length * 2 + 1):
-                if text[i:i + length] == text[i + length:i + length * 2]:
+                if text[i : i + length] == text[i + length : i + length * 2]:
                     penalty += 0.2
 
         return min(penalty, 1.0)
@@ -221,13 +227,17 @@ class LambdaIDEntropy:
 
         for i in range(len(ascii_values) - 2):
             # Check for ascending sequences
-            if (ascii_values[i + 1] == ascii_values[i] + 1 and
-                ascii_values[i + 2] == ascii_values[i] + 2):
+            if (
+                ascii_values[i + 1] == ascii_values[i] + 1
+                and ascii_values[i + 2] == ascii_values[i] + 2
+            ):
                 penalty += 0.3
 
             # Check for descending sequences
-            if (ascii_values[i + 1] == ascii_values[i] - 1 and
-                ascii_values[i + 2] == ascii_values[i] - 2):
+            if (
+                ascii_values[i + 1] == ascii_values[i] - 1
+                and ascii_values[i + 2] == ascii_values[i] - 2
+            ):
                 penalty += 0.3
 
         return min(penalty, 1.0)
@@ -267,11 +277,13 @@ class LambdaIDEntropy:
         expected_frequency = len(text) / len(char_counts)
 
         # Calculate variance from expected uniform distribution
-        variance = sum((count - expected_frequency) ** 2 for count in char_counts.values())
+        variance = sum(
+            (count - expected_frequency) ** 2 for count in char_counts.values()
+        )
         variance /= len(char_counts)
 
         # Normalize score (lower variance = higher score)
-        max_variance = expected_frequency ** 2
+        max_variance = expected_frequency**2
         uniformity_score = 1.0 - (variance / max_variance)
 
         return max(uniformity_score, 0.0)
@@ -303,8 +315,10 @@ class LambdaIDEntropy:
         expected_frequency = len(text) / len(char_counts)
 
         # Calculate chi-square statistic
-        chi_square = sum((count - expected_frequency) ** 2 / expected_frequency
-                        for count in char_counts.values())
+        chi_square = sum(
+            (count - expected_frequency) ** 2 / expected_frequency
+            for count in char_counts.values()
+        )
 
         # Normalize to 0-1 scale (this is a simplified version)
         # In practice, you'd compare against chi-square distribution
@@ -318,10 +332,10 @@ class LambdaIDEntropy:
         """Determine overall security level based on entropy analysis"""
         # Weighted scoring
         total_score = (
-            analysis.normalized_entropy * 0.3 +
-            analysis.character_diversity * 0.2 +
-            analysis.pattern_score * 0.3 +
-            analysis.randomness_score * 0.2
+            analysis.normalized_entropy * 0.3
+            + analysis.character_diversity * 0.2
+            + analysis.pattern_score * 0.3
+            + analysis.randomness_score * 0.2
         )
 
         if total_score >= 0.9:
@@ -337,14 +351,20 @@ class LambdaIDEntropy:
         else:
             return EntropyLevel.VERY_LOW
 
-    def _generate_recommendations(self, analysis: EntropyAnalysis, tier: int) -> List[str]:
+    def _generate_recommendations(
+        self, analysis: EntropyAnalysis, tier: int
+    ) -> list[str]:
         """Generate entropy improvement recommendations"""
         recommendations = []
 
-        tier_min_entropy = self.tier_requirements.get(f"tier_{tier}", {}).get("min_entropy", 0.5)
+        tier_min_entropy = self.tier_requirements.get(f"tier_{tier}", {}).get(
+            "min_entropy", 0.5
+        )
 
         if analysis.normalized_entropy < tier_min_entropy:
-            recommendations.append(f"Increase entropy for Tier {tier} (current: {analysis.normalized_entropy:.2f}, required: {tier_min_entropy:.2f})")
+            recommendations.append(
+                f"Increase entropy for Tier {tier} (current: {analysis.normalized_entropy:.2f}, required: {tier_min_entropy:.2f})"
+            )
 
         if analysis.character_diversity < 0.7:
             recommendations.append("Improve character diversity in entropy generation")
@@ -357,7 +377,9 @@ class LambdaIDEntropy:
 
         return recommendations
 
-    def _detect_entropy_warnings(self, analysis: EntropyAnalysis, components: Tuple) -> List[str]:
+    def _detect_entropy_warnings(
+        self, analysis: EntropyAnalysis, components: tuple
+    ) -> list[str]:
         """Detect entropy-related warnings"""
         warnings = []
 
@@ -372,9 +394,9 @@ class LambdaIDEntropy:
 
         return warnings
 
-    def _parse_lambda_id(self, lambda_id: str) -> Optional[Tuple]:
+    def _parse_lambda_id(self, lambda_id: str) -> Optional[tuple]:
         """Parse ΛiD into components"""
-        pattern = re.compile(r'^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$')
+        pattern = re.compile(r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$")
         match = pattern.match(lambda_id)
 
         if not match:
@@ -387,21 +409,25 @@ class LambdaIDEntropy:
 
         return tier, timestamp_hash, symbolic_char, entropy_hash
 
-    def _store_entropy_analysis(self, lambda_id: str, analysis: EntropyAnalysis) -> None:
+    def _store_entropy_analysis(
+        self, lambda_id: str, analysis: EntropyAnalysis
+    ) -> None:
         """Store entropy analysis for temporal tracking"""
-        self.entropy_history.append({
-            "timestamp": datetime.now().isoformat(),
-            "lambda_id": lambda_id,
-            "shannon_entropy": analysis.shannon_entropy,
-            "normalized_entropy": analysis.normalized_entropy,
-            "security_level": analysis.security_level.value
-        })
+        self.entropy_history.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "lambda_id": lambda_id,
+                "shannon_entropy": analysis.shannon_entropy,
+                "normalized_entropy": analysis.normalized_entropy,
+                "security_level": analysis.security_level.value,
+            }
+        )
 
         # Keep only recent history (last 1000 entries)
         if len(self.entropy_history) > 1000:
             self.entropy_history = self.entropy_history[-1000:]
 
-    def get_entropy_statistics(self) -> Dict:
+    def get_entropy_statistics(self) -> dict:
         """Get entropy statistics from historical data"""
         if not self.entropy_history:
             return {"message": "No entropy history available"}
@@ -414,36 +440,52 @@ class LambdaIDEntropy:
             "median_entropy": statistics.median(entropies),
             "min_entropy": min(entropies),
             "max_entropy": max(entropies),
-            "entropy_std": statistics.stdev(entropies) if len(entropies) > 1 else 0.0
+            "entropy_std": statistics.stdev(entropies) if len(entropies) > 1 else 0.0,
         }
 
-    def _load_config(self, config_path: Optional[str] = None) -> Dict:
+    def _load_config(self, config_path: Optional[str] = None) -> dict:
         """Load entropy engine configuration"""
         return {
             "history_limit": 1000,
             "statistical_tests": ["distribution", "runs", "chi_square"],
             "pattern_detection": True,
-            "temporal_analysis": True
+            "temporal_analysis": True,
         }
 
-    def _load_weak_patterns(self) -> List[str]:
+    def _load_weak_patterns(self) -> list[str]:
         """Load known weak patterns to detect"""
         return [
-            "1234", "abcd", "0000", "ffff",
-            "1111", "aaaa", "test", "null",
-            "admin", "user", "pass", "demo"
+            "1234",
+            "abcd",
+            "0000",
+            "ffff",
+            "1111",
+            "aaaa",
+            "test",
+            "null",
+            "admin",
+            "user",
+            "pass",
+            "demo",
         ]
 
-    def _load_tier_requirements(self) -> Dict:
+    def _load_tier_requirements(self) -> dict:
         """Load entropy requirements for each tier"""
         return {
             "tier_0": {"min_entropy": 0.3, "symbols": ["◊", "○", "□"]},
             "tier_1": {"min_entropy": 0.4, "symbols": ["◊", "○", "□", "△", "▽"]},
             "tier_2": {"min_entropy": 0.5, "symbols": ["🌀", "✨", "🔮", "◊", "⟐"]},
-            "tier_3": {"min_entropy": 0.6, "symbols": ["🌀", "✨", "🔮", "⟐", "◈", "⬟"]},
+            "tier_3": {
+                "min_entropy": 0.6,
+                "symbols": ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],
+            },
             "tier_4": {"min_entropy": 0.7, "symbols": ["⟐", "◈", "⬟", "⬢", "⟁", "◐"]},
-            "tier_5": {"min_entropy": 0.8, "symbols": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"]}
+            "tier_5": {
+                "min_entropy": 0.8,
+                "symbols": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"],
+            },
         }
+
 
 # Example usage and testing
 if __name__ == "__main__":
@@ -452,9 +494,9 @@ if __name__ == "__main__":
     # Test ΛiDs with different entropy levels
     test_ids = [
         "Λ2-A9F3-🌀-X7K1",  # Good entropy
-        "Λ0-1234-○-ABCD",   # Weak patterns
+        "Λ0-1234-○-ABCD",  # Weak patterns
         "Λ5-B2E8-⟐-Z9M4",  # High entropy
-        "Λ1-0000-△-1111"    # Very weak entropy
+        "Λ1-0000-△-1111",  # Very weak entropy
     ]
 
     for lambda_id in test_ids:

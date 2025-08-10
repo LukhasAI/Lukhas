@@ -13,10 +13,10 @@
 Unit tests for the SpeechProcessor class.
 """
 
-import unittest
 import logging
-import pytest # For async capabilities if needed, and skipif
-import time # For performance test
+import unittest
+
+import pytest  # For async capabilities if needed, and skipif
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.tests.test_voice_processing")
@@ -27,26 +27,45 @@ logger.info("ΛTRACE: Initializing test_voice_processing module.")
 #       Adjusted based on `grep` output.
 # ΛIMPORT_TODO: Verify path for SpeechProcessor; currently assumed 'orchestration.brain.interfaces.speech_processor'.
 SPEECH_PROCESSOR_AVAILABLE = False
-SpeechProcessor = None # Placeholder
+SpeechProcessor = None  # Placeholder
 try:
     # Assuming 'orchestration' is a top-level package accessible in PYTHONPATH
-    from orchestration_src.brain.interfaces.speech_processor import SpeechProcessor
+    from orchestration_src.brain.interfaces.speech_processor import (
+        SpeechProcessor,
+    )
+
     SPEECH_PROCESSOR_AVAILABLE = True
-    logger.info("ΛTRACE: SpeechProcessor imported successfully from orchestration_src.brain.interfaces.speech_processor.")
+    logger.info(
+        "ΛTRACE: SpeechProcessor imported successfully from orchestration_src.brain.interfaces.speech_processor."
+    )
 except ImportError:
     logger.error("ΛTRACE: Failed to import SpeechProcessor. Tests will be skipped.")
+
     # Define a dummy class if import fails
     class SpeechProcessor:
-        def __init__(self): logger.warning("ΛTRACE: Using DUMMY SpeechProcessor due to import failure.")
-        def process_voice_input(self, text): return f"Processed: {text}"
-        def handle_emotional_fingerprinting(self, text): return "dummy_emotion"
-        def generate_modulation_profile(self, text): return {"pitch_shift": 0.0}
-        def calculate_drift(self, sequence): return 0.0
-        def generate_symbolic_signature(self, text): return "SYM-DUMMY"
+        def __init__(self):
+            logger.warning("ΛTRACE: Using DUMMY SpeechProcessor due to import failure.")
+
+        def process_voice_input(self, text):
+            return f"Processed: {text}"
+
+        def handle_emotional_fingerprinting(self, text):
+            return "dummy_emotion"
+
+        def generate_modulation_profile(self, text):
+            return {"pitch_shift": 0.0}
+
+        def calculate_drift(self, sequence):
+            return 0.0
+
+        def generate_symbolic_signature(self, text):
+            return "SYM-DUMMY"
 
 
 # Human-readable comment: Test suite for the SpeechProcessor class.
-@pytest.mark.skipif(not SPEECH_PROCESSOR_AVAILABLE, reason="SpeechProcessor not available")
+@pytest.mark.skipif(
+    not SPEECH_PROCESSOR_AVAILABLE, reason="SpeechProcessor not available"
+)
 class TestSpeechProcessor(unittest.TestCase):
     """Test suite for the SpeechProcessor class."""
 
@@ -62,7 +81,9 @@ class TestSpeechProcessor(unittest.TestCase):
         """Tests the basic processing of a voice input string."""
         logger.info("ΛTRACE: Running test_process_voice_input.")
         test_input = "Hello, how are you?"
-        expected_output = "Processed: Hello, how are you?" # Based on original dummy logic
+        expected_output = (
+            "Processed: Hello, how are you?"  # Based on original dummy logic
+        )
         logger.debug(f"ΛTRACE: Input: '{test_input}'")
         actual_output = self.processor.process_voice_input(test_input)
         logger.debug(f"ΛTRACE: Output: '{actual_output}'")
@@ -74,7 +95,7 @@ class TestSpeechProcessor(unittest.TestCase):
         """Tests the emotional fingerprinting feature."""
         logger.info("ΛTRACE: Running test_handle_emotional_fingerprinting.")
         test_input = "I'm feeling great!"
-        expected_emotion = "happy" # Based on original dummy logic
+        expected_emotion = "happy"  # Based on original dummy logic
         logger.debug(f"ΛTRACE: Input for emotion fingerprinting: '{test_input}'")
         actual_emotion = self.processor.handle_emotional_fingerprinting(test_input)
         logger.debug(f"ΛTRACE: Detected emotion: '{actual_emotion}'")
@@ -89,7 +110,9 @@ class TestSpeechProcessor(unittest.TestCase):
         logger.debug("ΛTRACE: Testing with empty input string.")
         with self.assertRaises(ValueError):
             self.processor.process_voice_input(test_input)
-        logger.info("ΛTRACE: test_invalid_input finished, ValueError confirmed for empty input.")
+        logger.info(
+            "ΛTRACE: test_invalid_input finished, ValueError confirmed for empty input."
+        )
 
     # Human-readable comment: Tests symbolic voice modulation profile generation.
     def test_symbolic_voice_modulation(self):
@@ -105,7 +128,9 @@ class TestSpeechProcessor(unittest.TestCase):
         # If it's a mock/dummy, this might need adjustment or be tested differently.
         # For now, keeping a similar structure.
         if isinstance(modulation.get("pitch_shift"), (int, float)):
-             self.assertGreaterEqual(modulation["pitch_shift"], 0.0) # Adjusted for more general case
+            self.assertGreaterEqual(
+                modulation["pitch_shift"], 0.0
+            )  # Adjusted for more general case
         logger.info("ΛTRACE: test_symbolic_voice_modulation finished.")
 
     # Human-readable comment: Tests calculation of emotional resonance drift.
@@ -113,10 +138,12 @@ class TestSpeechProcessor(unittest.TestCase):
         """Tests the calculation of emotional resonance drift from a sequence."""
         logger.info("ΛTRACE: Running test_emotional_resonance_drift.")
         emotional_sequence = ["happy", "sad", "neutral", "sad"]
-        logger.debug(f"ΛTRACE: Emotional sequence for drift calculation: {emotional_sequence}")
+        logger.debug(
+            f"ΛTRACE: Emotional sequence for drift calculation: {emotional_sequence}"
+        )
         drift_score = self.processor.calculate_drift(emotional_sequence)
         logger.debug(f"ΛTRACE: Calculated drift score: {drift_score}")
-        self.assertGreater(drift_score, 0.0) # Original was 0.2, making it more general
+        self.assertGreater(drift_score, 0.0)  # Original was 0.2, making it more general
         logger.info("ΛTRACE: test_emotional_resonance_drift finished.")
 
     # Human-readable comment: Tests generation of a symbolic signature (DNA hash).
@@ -129,6 +156,7 @@ class TestSpeechProcessor(unittest.TestCase):
         logger.debug(f"ΛTRACE: Generated signature: '{sig}'")
         self.assertTrue(sig.startswith("SYM-"))
         logger.info("ΛTRACE: test_signature_dna_hash finished.")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: test_voice_processing.py

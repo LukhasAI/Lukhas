@@ -1,10 +1,10 @@
-import unittest
 import random
+import unittest
 
 from bio.eeg_sync_bridge import (
+    BrainwaveBand,
     ingest_mock_eeg,
     map_to_symbolic_state,
-    BrainwaveBand,
 )
 
 

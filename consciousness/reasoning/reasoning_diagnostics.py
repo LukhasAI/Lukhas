@@ -3,19 +3,23 @@ Reasoning Diagnostics
 Comprehensive diagnostics and health checks for the reasoning system
 """
 
-from core.common import get_logger
 import asyncio
-from typing import Dict, List, Any, Optional, Tuple, Set
-from datetime import datetime, timedelta
-from collections import defaultdict
-import json
 import traceback
-from enum import Enum
 import unittest
+from collections import defaultdict
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List
 
+from core.common import get_logger
+from reasoning.adaptive_reasoning_loop import (
+    AdaptiveReasoningLoop,
+    ReasoningContext,
+)
 from reasoning.reasoning_engine import SymbolicEngine
-from reasoning.adaptive_reasoning_loop import AdaptiveReasoningLoop, ReasoningContext
-from reasoning.reasoning_metrics import get_metrics_calculator, ReasoningMetrics
+from reasoning.reasoning_metrics import (
+    get_metrics_calculator,
+)
 from reasoning.trace_summary_builder import TraceSummaryBuilder
 
 logger = get_logger(__name__)
@@ -23,6 +27,7 @@ logger = get_logger(__name__)
 
 class DiagnosticLevel(Enum):
     """Diagnostic severity levels"""
+
     INFO = "info"
     WARNING = "warning"
     ERROR = "error"
@@ -32,8 +37,13 @@ class DiagnosticLevel(Enum):
 class DiagnosticResult:
     """Result of a diagnostic check"""
 
-    def __init__(self, check_name: str, level: DiagnosticLevel,
-                 message: str, details: Dict[str, Any] = None):
+    def __init__(
+        self,
+        check_name: str,
+        level: DiagnosticLevel,
+        message: str,
+        details: Dict[str, Any] = None,
+    ):
         self.check_name = check_name
         self.level = level
         self.message = message
@@ -46,7 +56,7 @@ class DiagnosticResult:
             "level": self.level.value,
             "message": self.message,
             "details": self.details,
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
         }
 
 
@@ -66,7 +76,7 @@ class ReasoningDiagnostics:
             "coherence_score": 0.6,
             "confidence_calibration": 0.5,
             "error_rate": 0.1,
-            "response_time": 5.0  # seconds
+            "response_time": 5.0,  # seconds
         }
 
     async def run_full_diagnostics(self) -> Dict[str, Any]:
@@ -103,16 +113,16 @@ class ReasoningDiagnostics:
             "duration": (datetime.now() - start_time).total_seconds(),
             "total_checks": len(results),
             "results_by_level": self._summarize_by_level(results),
-            "critical_issues": [r for r in results if r.level == DiagnosticLevel.CRITICAL],
-            "recommendations": self._generate_recommendations(results)
+            "critical_issues": [
+                r for r in results if r.level == DiagnosticLevel.CRITICAL
+            ],
+            "recommendations": self._generate_recommendations(results),
         }
 
         # Store results
-        self.diagnostic_history.append({
-            "timestamp": datetime.now(),
-            "results": results,
-            "summary": summary
-        })
+        self.diagnostic_history.append(
+            {"timestamp": datetime.now(), "results": results, "summary": summary}
+        )
 
         self.last_check_time = datetime.now()
 
@@ -129,96 +139,109 @@ class ReasoningDiagnostics:
 
             # Quick test
             result = await asyncio.wait_for(
-                loop.start_reasoning(test_context),
-                timeout=5.0
+                loop.start_reasoning(test_context), timeout=5.0
             )
 
             if result.get("status") in ["completed", "max_iterations_reached"]:
-                results.append(DiagnosticResult(
-                    "adaptive_reasoning_loop",
-                    DiagnosticLevel.INFO,
-                    "Adaptive reasoning loop is functional",
-                    {"test_result": result}
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "adaptive_reasoning_loop",
+                        DiagnosticLevel.INFO,
+                        "Adaptive reasoning loop is functional",
+                        {"test_result": result},
+                    )
+                )
             else:
-                results.append(DiagnosticResult(
-                    "adaptive_reasoning_loop",
-                    DiagnosticLevel.WARNING,
-                    "Adaptive reasoning loop returned unexpected status",
-                    {"status": result.get("status")}
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "adaptive_reasoning_loop",
+                        DiagnosticLevel.WARNING,
+                        "Adaptive reasoning loop returned unexpected status",
+                        {"status": result.get("status")},
+                    )
+                )
 
         except asyncio.TimeoutError:
-            results.append(DiagnosticResult(
-                "adaptive_reasoning_loop",
-                DiagnosticLevel.ERROR,
-                "Adaptive reasoning loop timeout",
-                {"timeout": 5.0}
-            ))
+            results.append(
+                DiagnosticResult(
+                    "adaptive_reasoning_loop",
+                    DiagnosticLevel.ERROR,
+                    "Adaptive reasoning loop timeout",
+                    {"timeout": 5.0},
+                )
+            )
         except Exception as e:
-            results.append(DiagnosticResult(
-                "adaptive_reasoning_loop",
-                DiagnosticLevel.ERROR,
-                f"Adaptive reasoning loop error: {str(e)}",
-                {"error": str(e), "traceback": traceback.format_exc()}
-            ))
+            results.append(
+                DiagnosticResult(
+                    "adaptive_reasoning_loop",
+                    DiagnosticLevel.ERROR,
+                    f"Adaptive reasoning loop error: {str(e)}",
+                    {"error": str(e), "traceback": traceback.format_exc()},
+                )
+            )
 
         # Check Symbolic Engine
         try:
             engine = SymbolicEngine()
             test_input = {
                 "text": "Test diagnostic input",
-                "context": {"diagnostic": True}
+                "context": {"diagnostic": True},
             }
 
             # Test reasoning
             engine.reason(test_input)
 
-            results.append(DiagnosticResult(
-                "symbolic_engine",
-                DiagnosticLevel.INFO,
-                "Symbolic engine is functional"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "symbolic_engine",
+                    DiagnosticLevel.INFO,
+                    "Symbolic engine is functional",
+                )
+            )
 
         except Exception as e:
-            results.append(DiagnosticResult(
-                "symbolic_engine",
-                DiagnosticLevel.ERROR,
-                f"Symbolic engine error: {str(e)}",
-                {"error": str(e), "traceback": traceback.format_exc()}
-            ))
+            results.append(
+                DiagnosticResult(
+                    "symbolic_engine",
+                    DiagnosticLevel.ERROR,
+                    f"Symbolic engine error: {str(e)}",
+                    {"error": str(e), "traceback": traceback.format_exc()},
+                )
+            )
 
         # Check Trace Summary Builder
         try:
             builder = TraceSummaryBuilder()
-            test_trace = {
-                "type": "diagnostic",
-                "content": "test",
-                "confidence": 0.8
-            }
+            test_trace = {"type": "diagnostic", "content": "test", "confidence": 0.8}
 
             summary = await builder.build_summary(test_trace, "technical")
 
             if "error" not in summary:
-                results.append(DiagnosticResult(
-                    "trace_summary_builder",
-                    DiagnosticLevel.INFO,
-                    "Trace summary builder is functional"
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "trace_summary_builder",
+                        DiagnosticLevel.INFO,
+                        "Trace summary builder is functional",
+                    )
+                )
             else:
-                results.append(DiagnosticResult(
-                    "trace_summary_builder",
-                    DiagnosticLevel.WARNING,
-                    f"Trace summary builder error: {summary['error']}"
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "trace_summary_builder",
+                        DiagnosticLevel.WARNING,
+                        f"Trace summary builder error: {summary['error']}",
+                    )
+                )
 
         except Exception as e:
-            results.append(DiagnosticResult(
-                "trace_summary_builder",
-                DiagnosticLevel.ERROR,
-                f"Trace summary builder error: {str(e)}",
-                {"error": str(e), "traceback": traceback.format_exc()}
-            ))
+            results.append(
+                DiagnosticResult(
+                    "trace_summary_builder",
+                    DiagnosticLevel.ERROR,
+                    f"Trace summary builder error: {str(e)}",
+                    {"error": str(e), "traceback": traceback.format_exc()},
+                )
+            )
 
         return results
 
@@ -232,11 +255,13 @@ class ReasoningDiagnostics:
         trends = calculator.get_metric_trends()
 
         if not trends:
-            results.append(DiagnosticResult(
-                "performance_metrics",
-                DiagnosticLevel.WARNING,
-                "No performance metric history available"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "performance_metrics",
+                    DiagnosticLevel.WARNING,
+                    "No performance metric history available",
+                )
+            )
             return results
 
         # Analyze each metric
@@ -253,32 +278,41 @@ class ReasoningDiagnostics:
                 if metric_name == "logic_drift":
                     # For drift, lower is better
                     if avg_value > threshold:
-                        results.append(DiagnosticResult(
-                            f"metric_{metric_name}",
-                            DiagnosticLevel.WARNING,
-                            f"High {metric_name}: {avg_value:.3f} (threshold: {threshold})",
-                            {"average": avg_value, "recent_values": values[-5:]}
-                        ))
+                        results.append(
+                            DiagnosticResult(
+                                f"metric_{metric_name}",
+                                DiagnosticLevel.WARNING,
+                                f"High {metric_name}: {avg_value:.3f} (threshold: {threshold})",
+                                {"average": avg_value, "recent_values": values[-5:]},
+                            )
+                        )
                 else:
                     # For other metrics, higher is better
                     if avg_value < threshold:
-                        results.append(DiagnosticResult(
-                            f"metric_{metric_name}",
-                            DiagnosticLevel.WARNING,
-                            f"Low {metric_name}: {avg_value:.3f} (threshold: {threshold})",
-                            {"average": avg_value, "recent_values": values[-5:]}
-                        ))
+                        results.append(
+                            DiagnosticResult(
+                                f"metric_{metric_name}",
+                                DiagnosticLevel.WARNING,
+                                f"Low {metric_name}: {avg_value:.3f} (threshold: {threshold})",
+                                {"average": avg_value, "recent_values": values[-5:]},
+                            )
+                        )
 
         # Check for metric degradation
         if "overall_score" in trends and len(trends["overall_score"]) >= 5:
             recent_scores = trends["overall_score"][-5:]
-            if all(recent_scores[i] < recent_scores[i-1] for i in range(1, len(recent_scores))):
-                results.append(DiagnosticResult(
-                    "metric_degradation",
-                    DiagnosticLevel.WARNING,
-                    "Consistent performance degradation detected",
-                    {"recent_scores": recent_scores}
-                ))
+            if all(
+                recent_scores[i] < recent_scores[i - 1]
+                for i in range(1, len(recent_scores))
+            ):
+                results.append(
+                    DiagnosticResult(
+                        "metric_degradation",
+                        DiagnosticLevel.WARNING,
+                        "Consistent performance degradation detected",
+                        {"recent_scores": recent_scores},
+                    )
+                )
 
         return results
 
@@ -302,25 +336,31 @@ class ReasoningDiagnostics:
                     result = engine.reason(test_case)
                     # Check for logical inconsistencies
                     if "contradiction" in str(result).lower():
-                        results.append(DiagnosticResult(
-                            f"logic_consistency_test_{i}",
-                            DiagnosticLevel.INFO,
-                            "Contradiction detected correctly"
-                        ))
+                        results.append(
+                            DiagnosticResult(
+                                f"logic_consistency_test_{i}",
+                                DiagnosticLevel.INFO,
+                                "Contradiction detected correctly",
+                            )
+                        )
                 except Exception as e:
-                    results.append(DiagnosticResult(
-                        f"logic_consistency_test_{i}",
-                        DiagnosticLevel.WARNING,
-                        f"Logic test {i} failed: {str(e)}",
-                        {"test_case": test_case}
-                    ))
+                    results.append(
+                        DiagnosticResult(
+                            f"logic_consistency_test_{i}",
+                            DiagnosticLevel.WARNING,
+                            f"Logic test {i} failed: {str(e)}",
+                            {"test_case": test_case},
+                        )
+                    )
 
         except Exception as e:
-            results.append(DiagnosticResult(
-                "logic_consistency",
-                DiagnosticLevel.ERROR,
-                f"Logic consistency check failed: {str(e)}"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "logic_consistency",
+                    DiagnosticLevel.ERROR,
+                    f"Logic consistency check failed: {str(e)}",
+                )
+            )
 
         # Test unstable inference detection
         # #ΛDIAGNOSE: reasoning_drift
@@ -341,25 +381,34 @@ class ReasoningDiagnostics:
             unique_conclusions = len(set(str(c) for c in conclusions))
 
             if unique_conclusions > 2:
-                results.append(DiagnosticResult(
-                    "inference_stability",
-                    DiagnosticLevel.WARNING,
-                    "Unstable inference detected - different conclusions for same query",
-                    {"unique_conclusions": unique_conclusions, "conclusions": conclusions}
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "inference_stability",
+                        DiagnosticLevel.WARNING,
+                        "Unstable inference detected - different conclusions for same query",
+                        {
+                            "unique_conclusions": unique_conclusions,
+                            "conclusions": conclusions,
+                        },
+                    )
+                )
             else:
-                results.append(DiagnosticResult(
-                    "inference_stability",
-                    DiagnosticLevel.INFO,
-                    "Inference is stable"
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "inference_stability",
+                        DiagnosticLevel.INFO,
+                        "Inference is stable",
+                    )
+                )
 
         except Exception as e:
-            results.append(DiagnosticResult(
-                "inference_stability",
-                DiagnosticLevel.ERROR,
-                f"Inference stability check failed: {str(e)}"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "inference_stability",
+                    DiagnosticLevel.ERROR,
+                    f"Inference stability check failed: {str(e)}",
+                )
+            )
 
         return results
 
@@ -371,7 +420,7 @@ class ReasoningDiagnostics:
             # Test memory recall efficiency
             test_memories = [
                 {"key": "test1", "content": "Test memory 1"},
-                {"key": "test2", "content": "Test memory 2"}
+                {"key": "test2", "content": "Test memory 2"},
             ]
 
             calculator = get_metrics_calculator()
@@ -382,12 +431,14 @@ class ReasoningDiagnostics:
             )
 
             if efficiency >= 0.9:
-                results.append(DiagnosticResult(
-                    "memory_recall_perfect",
-                    DiagnosticLevel.INFO,
-                    "Perfect memory recall functioning correctly",
-                    {"efficiency": efficiency}
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "memory_recall_perfect",
+                        DiagnosticLevel.INFO,
+                        "Perfect memory recall functioning correctly",
+                        {"efficiency": efficiency},
+                    )
+                )
 
             # Test partial recall
             partial_recall = [test_memories[0]]
@@ -396,25 +447,31 @@ class ReasoningDiagnostics:
             )
 
             if 0.4 <= efficiency <= 0.6:
-                results.append(DiagnosticResult(
-                    "memory_recall_partial",
-                    DiagnosticLevel.INFO,
-                    "Partial memory recall functioning correctly",
-                    {"efficiency": efficiency}
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "memory_recall_partial",
+                        DiagnosticLevel.INFO,
+                        "Partial memory recall functioning correctly",
+                        {"efficiency": efficiency},
+                    )
+                )
             else:
-                results.append(DiagnosticResult(
-                    "memory_recall_partial",
-                    DiagnosticLevel.WARNING,
-                    f"Unexpected partial recall efficiency: {efficiency}"
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "memory_recall_partial",
+                        DiagnosticLevel.WARNING,
+                        f"Unexpected partial recall efficiency: {efficiency}",
+                    )
+                )
 
         except Exception as e:
-            results.append(DiagnosticResult(
-                "memory_integration",
-                DiagnosticLevel.ERROR,
-                f"Memory integration check failed: {str(e)}"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "memory_integration",
+                    DiagnosticLevel.ERROR,
+                    f"Memory integration check failed: {str(e)}",
+                )
+            )
 
         return results
 
@@ -440,22 +497,26 @@ class ReasoningDiagnostics:
             # Check for recurring errors
             for check_name, count in error_counts.items():
                 if count >= 3:
-                    results.append(DiagnosticResult(
-                        "recurring_error",
-                        DiagnosticLevel.CRITICAL,
-                        f"Recurring error in {check_name}: {count} times in last 5 checks",
-                        {"check_name": check_name, "count": count}
-                    ))
+                    results.append(
+                        DiagnosticResult(
+                            "recurring_error",
+                            DiagnosticLevel.CRITICAL,
+                            f"Recurring error in {check_name}: {count} times in last 5 checks",
+                            {"check_name": check_name, "count": count},
+                        )
+                    )
 
             # Check for persistent warnings
             for check_name, count in warning_counts.items():
                 if count >= 4:
-                    results.append(DiagnosticResult(
-                        "persistent_warning",
-                        DiagnosticLevel.WARNING,
-                        f"Persistent warning in {check_name}: {count} times in last 5 checks",
-                        {"check_name": check_name, "count": count}
-                    ))
+                    results.append(
+                        DiagnosticResult(
+                            "persistent_warning",
+                            DiagnosticLevel.WARNING,
+                            f"Persistent warning in {check_name}: {count} times in last 5 checks",
+                            {"check_name": check_name, "count": count},
+                        )
+                    )
 
         return results
 
@@ -493,43 +554,57 @@ class ReasoningDiagnostics:
             )
 
         # Check for performance issues
-        perf_issues = [r for r in results if "metric_" in r.check_name and
-                      r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]]
+        perf_issues = [
+            r
+            for r in results
+            if "metric_" in r.check_name
+            and r.level in [DiagnosticLevel.WARNING, DiagnosticLevel.ERROR]
+        ]
         if perf_issues:
             recommendations.append(
                 "Review and optimize reasoning strategies. Performance metrics below threshold."
             )
 
         # Check for logic issues
-        logic_issues = [r for r in results if "logic" in r.check_name.lower() and
-                       r.level != DiagnosticLevel.INFO]
+        logic_issues = [
+            r
+            for r in results
+            if "logic" in r.check_name.lower() and r.level != DiagnosticLevel.INFO
+        ]
         if logic_issues:
             recommendations.append(
                 "Investigate logical consistency issues. Consider adjusting inference parameters."
             )
 
         # Check for stability issues
-        stability_issues = [r for r in results if "stability" in r.check_name.lower() or
-                          "drift" in r.check_name.lower()]
+        stability_issues = [
+            r
+            for r in results
+            if "stability" in r.check_name.lower() or "drift" in r.check_name.lower()
+        ]
         if stability_issues:
             recommendations.append(
                 "System showing signs of instability. Implement drift correction mechanisms."
             )
 
         if not recommendations:
-            recommendations.append("System operating within normal parameters. Continue monitoring.")
+            recommendations.append(
+                "System operating within normal parameters. Continue monitoring."
+            )
 
         return recommendations
 
     async def quick_health_check(self) -> Dict[str, Any]:
         """Perform a quick health check"""
-        if (self.last_check_time and
-            datetime.now() - self.last_check_time < self.check_interval):
+        if (
+            self.last_check_time
+            and datetime.now() - self.last_check_time < self.check_interval
+        ):
             # Return cached status
             return {
                 "status": self.health_status,
                 "last_check": self.last_check_time.isoformat(),
-                "cached": True
+                "cached": True,
             }
 
         # Run minimal checks
@@ -540,24 +615,24 @@ class ReasoningDiagnostics:
             loop = AdaptiveReasoningLoop()
             status = loop.get_status()
             if status:
-                results.append(DiagnosticResult(
-                    "quick_check",
-                    DiagnosticLevel.INFO,
-                    "Components responsive"
-                ))
+                results.append(
+                    DiagnosticResult(
+                        "quick_check", DiagnosticLevel.INFO, "Components responsive"
+                    )
+                )
         except Exception as e:
-            results.append(DiagnosticResult(
-                "quick_check",
-                DiagnosticLevel.ERROR,
-                f"Component error: {str(e)}"
-            ))
+            results.append(
+                DiagnosticResult(
+                    "quick_check", DiagnosticLevel.ERROR, f"Component error: {str(e)}"
+                )
+            )
 
         self._update_health_status(results)
 
         return {
             "status": self.health_status,
             "timestamp": datetime.now().isoformat(),
-            "cached": False
+            "cached": False,
         }
 
 
@@ -572,7 +647,7 @@ class TestReasoningDiagnostics(unittest.TestCase):
         engine = SymbolicEngine()
         input_data = {
             "text": "This is a test of the logic fallbacks.",
-            "context": {"user_id": "test_user"}
+            "context": {"user_id": "test_user"},
         }
         # This should not raise an exception
         engine.reason(input_data)
@@ -585,12 +660,12 @@ class TestReasoningDiagnostics(unittest.TestCase):
         engine = SymbolicEngine()
         input_data = {
             "text": "This is a test of unstable inference.",
-            "context": {"user_id": "test_user"}
+            "context": {"user_id": "test_user"},
         }
         # This should not raise an exception
         engine.reason(input_data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Run unit tests if executed directly
     unittest.main()

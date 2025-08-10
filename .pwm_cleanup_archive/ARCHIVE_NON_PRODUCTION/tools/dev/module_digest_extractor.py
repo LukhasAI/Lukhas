@@ -1,15 +1,18 @@
 import json
 import logging
 import re
-from dataclasses import dataclass, field
+from collections.abc import Iterable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Iterable
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 # ΛTAG: digest_extraction
 
-HEADER_MARKER_RE = re.compile(r"#\s*ΛHEADER_START(?P<body>.*?)#\s*ΛHEADER_END", re.DOTALL)
+HEADER_MARKER_RE = re.compile(
+    r"#\s*ΛHEADER_START(?P<body>.*?)#\s*ΛHEADER_END", re.DOTALL
+)
 FOOTER_MARKER_RE = re.compile(r"#\s*ΛFOOTER_START(?P<body>.*)", re.DOTALL)
 TRIPLE_HEADER_RE = re.compile(r"\A[\"']{3}(?P<body>.*?)[\"']{3}", re.DOTALL)
 TRIPLE_BLOCK_RE = re.compile(r"[\"']{3}(?P<body>.*?)[\"']{3}", re.DOTALL)
@@ -18,6 +21,7 @@ MODULE_RE = re.compile(r"Module:\s*(?P<name>[\w_\.]+)")
 VERSION_RE = re.compile(r"Version:\s*(?P<version>[^|\n]+)")
 TAGS_RE = re.compile(r"Symbolic Tags:\s*(?P<tags>.+)")
 TRACE_FIELD_RE = re.compile(r"#\s*(Λ[A-Z_]+):\s*(.*)")
+
 
 @dataclass
 class ModuleDigest:
@@ -35,7 +39,9 @@ class ModuleDigestExtractor:
     """Extract module metadata from core.common headers/footers."""
 
     def __init__(self, base_path: Optional[str] = None):
-        repo_root = Path(base_path) if base_path else Path(__file__).resolve().parents[2]
+        repo_root = (
+            Path(base_path) if base_path else Path(__file__).resolve().parents[2]
+        )
         self.repo_root = repo_root
         self.lukhas_root = repo_root / "lukhas"
         self.digest_dir = self.lukhas_root / "tools" / "digest"
@@ -140,4 +146,3 @@ class ModuleDigestExtractor:
 
         if self.anomalies:
             logger.info("Anomalies detected: %s", self.anomalies)
-

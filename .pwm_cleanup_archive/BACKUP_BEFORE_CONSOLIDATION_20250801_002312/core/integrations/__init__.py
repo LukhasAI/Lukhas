@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .nias_dream_bridge import NiasDreamBridge
+
     logger.debug("Imported NiasDreamBridge from .nias_dream_bridge")
 except ImportError as e:
     logger.warning(f"Could not import NiasDreamBridge: {e}")
     NiasDreamBridge = None
 
 __all__ = [
-    'NiasDreamBridge',
+    "NiasDreamBridge",
 ]
 
 # Filter out None values from __all__ if imports failed

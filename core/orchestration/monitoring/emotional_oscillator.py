@@ -7,10 +7,10 @@ Integration Date: 2025-05-31T07:55:28.263428
 
 """
 📦 MODULE      : oscillator.py
-🧾 DESCRIPTION : Emotional oscillator for LUKHAS_AGI_3.8 subsystems (e.g., ethics, risk). 
+🧾 DESCRIPTION : Emotional oscillator for LUKHAS_AGI_3.8 subsystems (e.g., ethics, risk).
 Handles amplitude, frequency, and phase dynamics for local emotional modulation.
 
-🛠️ NOTE       : This module operates independently of the full AGI-level oscillator prototype, 
+🛠️ NOTE       : This module operates independently of the full AGI-level oscillator prototype,
 which includes prime harmonics, entanglement-like correlation, and tensor collapse logic.
 
 📚 CONTEXT    : Integrated into subsystem layers. Feeds compliance drift and ethics monitoring.
@@ -20,8 +20,11 @@ which includes prime harmonics, entanglement-like correlation, and tensor collap
   - Parameter limits enforced (frequency, amplitude, phase shift).
 """
 
+
 import numpy as np
+
 from governance_extended.compliance_hooks import compliance_drift_detect
+
 
 class EmotionalOscillator:
     # Compliance-safe parameter ranges
@@ -31,12 +34,13 @@ class EmotionalOscillator:
 
     def __init__(self, base_frequency=1.0, base_amplitude=1.0, phase_shift=0.0):
         """
-        Initialize the emotional oscillator with base frequency, amplitude, and phase shift.
+            Initialize the emotional oscillator with base frequency, amplitude,
+        and phase shift.
 
-        Args:
-            base_frequency (float): The default oscillation frequency.
-            base_amplitude (float): The default oscillation amplitude.
-            phase_shift (float): The phase offset in radians.
+            Args:
+                base_frequency (float): The default oscillation frequency.
+                base_amplitude (float): The default oscillation amplitude.
+                phase_shift (float): The phase offset in radians.
         """
         self.frequency = base_frequency
         self.amplitude = base_amplitude
@@ -53,7 +57,11 @@ class EmotionalOscillator:
         Returns:
             float: The oscillation value.
         """
-        oscillation = self.amplitude * modulation_factor * np.sin(2 * np.pi * self.frequency * time_step + self.phase_shift)
+        oscillation = (
+            self.amplitude
+            * modulation_factor
+            * np.sin(2 * np.pi * self.frequency * time_step + self.phase_shift)
+        )
         return oscillation
 
     def adjust_parameters(self, frequency=None, amplitude=None, phase_shift=None):
@@ -65,21 +73,44 @@ class EmotionalOscillator:
             amplitude (float, optional): New amplitude.
             phase_shift (float, optional): New phase shift.
         """
-        original_state = {"frequency": self.frequency, "amplitude": self.amplitude, "phase_shift": self.phase_shift}
+        original_state = {
+            "frequency": self.frequency,
+            "amplitude": self.amplitude,
+            "phase_shift": self.phase_shift,
+        }
 
         if frequency is not None:
-            self.frequency = max(self.FREQUENCY_RANGE[0], min(frequency, self.FREQUENCY_RANGE[1]))
+            self.frequency = max(
+                self.FREQUENCY_RANGE[0],
+                min(frequency, self.FREQUENCY_RANGE[1]),
+            )
         if amplitude is not None:
-            self.amplitude = max(self.AMPLITUDE_RANGE[0], min(amplitude, self.AMPLITUDE_RANGE[1]))
+            self.amplitude = max(
+                self.AMPLITUDE_RANGE[0],
+                min(amplitude, self.AMPLITUDE_RANGE[1]),
+            )
         if phase_shift is not None:
-            self.phase_shift = max(self.PHASE_SHIFT_RANGE[0], min(phase_shift, self.PHASE_SHIFT_RANGE[1]))
+            self.phase_shift = max(
+                self.PHASE_SHIFT_RANGE[0],
+                min(phase_shift, self.PHASE_SHIFT_RANGE[1]),
+            )
 
         # Trigger compliance drift detection
-        updated_state = {"frequency": self.frequency, "amplitude": self.amplitude, "phase_shift": self.phase_shift}
-        compliance_drift_detect(subsystem="emotional_oscillator", original=original_state, updated=updated_state)
+        updated_state = {
+            "frequency": self.frequency,
+            "amplitude": self.amplitude,
+            "phase_shift": self.phase_shift,
+        }
+        compliance_drift_detect(
+            subsystem="emotional_oscillator",
+            original=original_state,
+            updated=updated_state,
+        )
 
 
 # Utility function to clarify subsystem-local scope
+
+
 def oscillator_scope():
     """
     Returns the operational scope of this oscillator module.
@@ -87,5 +118,7 @@ def oscillator_scope():
     Returns:
         str: Scope description with compliance coverage.
     """
-    return ("Subsystem-local emotional modulation (LUKHAS_AGI_3.8). "
-            "Parameter limits ensure EU AI Act, GDPR, ISO/IEC 27001 compliance.")
+    return (
+        "Subsystem-local emotional modulation (LUKHAS_AGI_3.8). "
+        "Parameter limits ensure EU AI Act, GDPR, ISO/IEC 27001 compliance."
+    )

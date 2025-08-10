@@ -3,16 +3,17 @@
 Analyze import patterns in the codebase to understand migration needs
 """
 
-import os
 import ast
 import json
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
-from collections import defaultdict
 import logging
+from collections import defaultdict
+from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
+
 
 class ImportAnalyzer:
     def __init__(self, root_path: Path):
@@ -42,7 +43,7 @@ class ImportAnalyzer:
         """Map all current Python modules and their locations"""
         logger.info("Mapping current module locations...")
 
-        for py_file in self.root_path.rglob('*.py'):
+        for py_file in self.root_path.rglob("*.py"):
             if self._should_skip(py_file):
                 continue
 
@@ -57,7 +58,7 @@ class ImportAnalyzer:
     def _get_module_from_file(self, file_path: Path) -> str:
         """Extract main class/module name from file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 tree = ast.parse(f.read())
 
             # Look for classes
@@ -75,7 +76,7 @@ class ImportAnalyzer:
         """Analyze all import statements in the codebase"""
         logger.info("Analyzing import statements...")
 
-        py_files = list(self.root_path.rglob('*.py'))
+        py_files = list(self.root_path.rglob("*.py"))
 
         for i, py_file in enumerate(py_files):
             if i % 100 == 0:
@@ -89,7 +90,7 @@ class ImportAnalyzer:
     def _analyze_file_imports(self, file_path: Path):
         """Analyze imports in a single file"""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 tree = ast.parse(content)
 
@@ -99,10 +100,10 @@ class ImportAnalyzer:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         import_info = {
-                            'type': 'import',
-                            'module': alias.name,
-                            'line': node.lineno,
-                            'file': str(relative_path)
+                            "type": "import",
+                            "module": alias.name,
+                            "line": node.lineno,
+                            "file": str(relative_path),
                         }
                         self.import_patterns[alias.name].add(str(relative_path))
                         self.file_imports[str(relative_path)].append(import_info)
@@ -110,11 +111,11 @@ class ImportAnalyzer:
                 elif isinstance(node, ast.ImportFrom):
                     if node.module:
                         import_info = {
-                            'type': 'from',
-                            'module': node.module,
-                            'names': [n.name for n in node.names],
-                            'line': node.lineno,
-                            'file': str(relative_path)
+                            "type": "from",
+                            "module": node.module,
+                            "names": [n.name for n in node.names],
+                            "line": node.lineno,
+                            "file": str(relative_path),
                         }
                         self.import_patterns[node.module].add(str(relative_path))
                         self.file_imports[str(relative_path)].append(import_info)
@@ -127,58 +128,73 @@ class ImportAnalyzer:
         logger.info("Identifying potential old import patterns...")
 
         # Common old patterns
-        old_prefixes = ['lukhas.', 'src.', 'lib.', 'modules.']
+        old_prefixes = ["lukhas.", "src.", "lib.", "modules."]
 
         for module, files in self.import_patterns.items():
             # Check if import doesn't resolve to current module
-            is_external = any(module.startswith(ext) for ext in
-                            ['numpy', 'pandas', 'torch', 'tensorflow', 'sklearn',
-                             'matplotlib', 'os', 'sys', 'json', 'logging'])
+            is_external = any(
+                module.startswith(ext)
+                for ext in [
+                    "numpy",
+                    "pandas",
+                    "torch",
+                    "tensorflow",
+                    "sklearn",
+                    "matplotlib",
+                    "os",
+                    "sys",
+                    "json",
+                    "logging",
+                ]
+            )
 
             if is_external:
                 continue
 
             # Check if module path doesn't exist
-            module_file = module.replace('.', '/') + '.py'
+            module_file = module.replace(".", "/") + ".py"
             if not (self.root_path / module_file).exists():
                 # Check without .py
-                module_dir = module.replace('.', '/')
+                module_dir = module.replace(".", "/")
                 if not (self.root_path / module_dir).exists():
                     # This might be an old import
-                    self.potential_old_imports.append({
-                        'module': module,
-                        'used_in': list(files),
-                        'count': len(files)
-                    })
+                    self.potential_old_imports.append(
+                        {"module": module, "used_in": list(files), "count": len(files)}
+                    )
 
             # Check for old prefixes
             for prefix in old_prefixes:
                 if module.startswith(prefix):
-                    self.potential_old_imports.append({
-                        'module': module,
-                        'used_in': list(files),
-                        'count': len(files),
-                        'pattern': prefix
-                    })
+                    self.potential_old_imports.append(
+                        {
+                            "module": module,
+                            "used_in": list(files),
+                            "count": len(files),
+                            "pattern": prefix,
+                        }
+                    )
                     break
 
     def _generate_report(self):
         """Generate analysis report"""
         report = {
-            'total_files_analyzed': len(self.file_imports),
-            'total_import_statements': sum(len(imports) for imports in self.file_imports.values()),
-            'unique_modules_imported': len(self.import_patterns),
-            'potential_old_imports': len(self.potential_old_imports),
-            'old_import_details': sorted(self.potential_old_imports,
-                                       key=lambda x: x['count'], reverse=True)[:50],
-            'module_locations': self.module_locations
+            "total_files_analyzed": len(self.file_imports),
+            "total_import_statements": sum(
+                len(imports) for imports in self.file_imports.values()
+            ),
+            "unique_modules_imported": len(self.import_patterns),
+            "potential_old_imports": len(self.potential_old_imports),
+            "old_import_details": sorted(
+                self.potential_old_imports, key=lambda x: x["count"], reverse=True
+            )[:50],
+            "module_locations": self.module_locations,
         }
 
         # Save report
-        output_dir = self.root_path / 'scripts' / 'import_migration'
+        output_dir = self.root_path / "scripts" / "import_migration"
         output_dir.mkdir(exist_ok=True)
 
-        with open(output_dir / 'import_analysis_report.json', 'w') as f:
+        with open(output_dir / "import_analysis_report.json", "w") as f:
             json.dump(report, f, indent=2)
 
         # Generate human-readable summary
@@ -194,12 +210,14 @@ Potential Old Imports: {report['potential_old_imports']}
 Top Old Import Patterns Found:
 """
 
-        for old_import in report['old_import_details'][:20]:
-            summary += f"\n- {old_import['module']} (used in {old_import['count']} files)"
-            if 'pattern' in old_import:
+        for old_import in report["old_import_details"][:20]:
+            summary += (
+                f"\n- {old_import['module']} (used in {old_import['count']} files)"
+            )
+            if "pattern" in old_import:
                 summary += f" [Pattern: {old_import['pattern']}]"
 
-        with open(output_dir / 'import_analysis_summary.txt', 'w') as f:
+        with open(output_dir / "import_analysis_summary.txt", "w") as f:
             f.write(summary)
 
         logger.info(f"Analysis complete! Reports saved to {output_dir}")
@@ -208,22 +226,36 @@ Top Old Import Patterns Found:
     def _should_skip(self, path: Path) -> bool:
         """Check if path should be skipped"""
         skip_dirs = {
-            '__pycache__', '.git', 'venv', '.venv', 'env',
-            'build', 'dist', 'node_modules', '.pytest_cache',
-            'scripts', 'visualizations', 'analysis_output'
+            "__pycache__",
+            ".git",
+            "venv",
+            ".venv",
+            "env",
+            "build",
+            "dist",
+            "node_modules",
+            ".pytest_cache",
+            "scripts",
+            "visualizations",
+            "analysis_output",
         }
 
         return any(part in skip_dirs for part in path.parts)
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Analyze import patterns in Python codebase')
-    parser.add_argument('path', nargs='?', default='.', help='Root path to analyze')
+
+    parser = argparse.ArgumentParser(
+        description="Analyze import patterns in Python codebase"
+    )
+    parser.add_argument("path", nargs="?", default=".", help="Root path to analyze")
     args = parser.parse_args()
 
     root_path = Path(args.path).resolve()
     analyzer = ImportAnalyzer(root_path)
     analyzer.analyze()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -16,22 +16,21 @@ Author: LUKHAS AGI System
 Last Updated: 2025-07-26
 """
 
+from datetime import datetime
+from unittest.mock import MagicMock, patch
+
 import pytest
-import asyncio
-import json
-from unittest.mock import Mock, patch, MagicMock
-from datetime import datetime, timezone
 
 # Import the unified VeriFold system
 from core.verifold.verifold_unified import (
     UnifiedVeriFoldSystem,
-    VeriFoldRecord,
-    VeriFoldSnapshot,
     VeriFoldCollapseType,
     VeriFoldPhase,
-    get_global_verifold_system,
+    VeriFoldRecord,
+    VeriFoldSnapshot,
     generate_verifold_hash,
-    verify_verifold_hash
+    get_global_verifold_system,
+    verify_verifold_hash,
 )
 
 
@@ -45,12 +44,18 @@ class TestVeriFoldUnifiedSystem:
         self.test_tier = "LAMBDA_TIER_3"
 
         # Mock identity context
-        self.identity_patcher = patch('lukhas.core.verifold.verifold_unified.IdentityContext')
+        self.identity_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.IdentityContext"
+        )
         self.mock_identity = self.identity_patcher.start()
-        self.mock_identity.return_value.__enter__.return_value.get_user_tier.return_value = self.test_tier
+        self.mock_identity.return_value.__enter__.return_value.get_user_tier.return_value = (
+            self.test_tier
+        )
 
         # Mock the require_identity decorator
-        self.auth_patcher = patch('lukhas.core.verifold.verifold_unified.require_identity')
+        self.auth_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.require_identity"
+        )
         self.mock_auth = self.auth_patcher.start()
         self.mock_auth.return_value = lambda func: func  # Pass-through decorator
 
@@ -74,14 +79,14 @@ class TestVeriFoldUnifiedSystem:
             "emotional_state": "focused",
             "ethical_context": "tier_3_approved",
             "entropy": 0.4,
-            "metadata": {"operation": "memory_consolidation"}
+            "metadata": {"operation": "memory_consolidation"},
         }
 
         record = self.system.generate_verifold_hash(
             collapse_data,
             self.test_user_id,
             self.test_tier,
-            VeriFoldCollapseType.MEMORY
+            VeriFoldCollapseType.MEMORY,
         )
 
         # Verify record structure
@@ -110,14 +115,12 @@ class TestVeriFoldUnifiedSystem:
         collapse_data = {
             "intent_vector": [0.2, 0.8, 0.1],
             "emotional_state": "confident",
-            "entropy": 0.3
+            "entropy": 0.3,
         }
 
         # Generate record
         record = self.system.generate_verifold_hash(
-            collapse_data,
-            self.test_user_id,
-            self.test_tier
+            collapse_data, self.test_user_id, self.test_tier
         )
 
         # Verify the record
@@ -130,10 +133,12 @@ class TestVeriFoldUnifiedSystem:
             verifold_hash="corrupted_hash_123456789",
             signature=record.signature,
             public_key=record.public_key,
-            verified=record.verified
+            verified=record.verified,
         )
 
-        is_valid_corrupted = self.system.verify_verifold_record(corrupted_record, self.test_user_id)
+        is_valid_corrupted = self.system.verify_verifold_record(
+            corrupted_record, self.test_user_id
+        )
         assert is_valid_corrupted is False
 
     def test_collapse_type_classification(self):
@@ -145,20 +150,14 @@ class TestVeriFoldUnifiedSystem:
             (VeriFoldCollapseType.COGNITIVE, "reasoning_chain"),
             (VeriFoldCollapseType.ETHICAL, "moral_arbitration"),
             (VeriFoldCollapseType.TEMPORAL, "timeline_sync"),
-            (VeriFoldCollapseType.IDENTITY, "self_model_update")
+            (VeriFoldCollapseType.IDENTITY, "self_model_update"),
         ]
 
         for collapse_type, operation in test_cases:
-            collapse_data = {
-                "operation": operation,
-                "entropy": 0.5
-            }
+            collapse_data = {"operation": operation, "entropy": 0.5}
 
             record = self.system.generate_verifold_hash(
-                collapse_data,
-                self.test_user_id,
-                self.test_tier,
-                collapse_type
+                collapse_data, self.test_user_id, self.test_tier, collapse_type
             )
 
             assert record.snapshot.collapse_type == collapse_type
@@ -171,16 +170,14 @@ class TestVeriFoldUnifiedSystem:
             (0.4, VeriFoldPhase.PERTURBATION),
             (0.6, VeriFoldPhase.CRITICAL),
             (0.8, VeriFoldPhase.CASCADE),
-            (0.96, VeriFoldPhase.SINGULARITY)
+            (0.96, VeriFoldPhase.SINGULARITY),
         ]
 
         for entropy, expected_phase in test_cases:
             collapse_data = {"entropy": entropy}
 
             record = self.system.generate_verifold_hash(
-                collapse_data,
-                self.test_user_id,
-                self.test_tier
+                collapse_data, self.test_user_id, self.test_tier
             )
 
             assert record.snapshot.phase == expected_phase
@@ -192,13 +189,13 @@ class TestVeriFoldUnifiedSystem:
         for i in range(5):
             collapse_data = {"entropy": 0.8 + i * 0.02}  # Increasing entropy
             self.system.generate_verifold_hash(
-                collapse_data,
-                self.test_user_id,
-                self.test_tier
+                collapse_data, self.test_user_id, self.test_tier
             )
 
         # Monitor for cascade
-        status = await self.system.monitor_collapse_cascade(self.test_user_id, threshold=0.7)
+        status = await self.system.monitor_collapse_cascade(
+            self.test_user_id, threshold=0.7
+        )
 
         assert "cascade_risk" in status
         assert "system_entropy" in status
@@ -223,13 +220,12 @@ class TestVeriFoldUnifiedSystem:
             record = self.system.generate_verifold_hash(
                 collapse_data,
                 self.test_user_id,
-                "LAMBDA_TIER_4"  # High tier for intervention access
+                "LAMBDA_TIER_4",  # High tier for intervention access
             )
 
         # Trigger intervention
         result = await self.system.trigger_collapse_intervention(
-            self.test_user_id,
-            intervention_type="moderate"
+            self.test_user_id, intervention_type="moderate"
         )
 
         assert "intervention_type" in result
@@ -247,17 +243,13 @@ class TestVeriFoldUnifiedSystem:
         tier_test_cases = [
             ("LAMBDA_TIER_1", "basic_user"),
             ("LAMBDA_TIER_3", "advanced_user"),
-            ("LAMBDA_TIER_5", "admin_user")
+            ("LAMBDA_TIER_5", "admin_user"),
         ]
 
         for tier, user_id in tier_test_cases:
             collapse_data = {"entropy": 0.5}
 
-            record = self.system.generate_verifold_hash(
-                collapse_data,
-                user_id,
-                tier
-            )
+            record = self.system.generate_verifold_hash(collapse_data, user_id, tier)
 
             assert record.snapshot.lambda_tier == tier
             assert record.snapshot.user_id == user_id
@@ -268,9 +260,7 @@ class TestVeriFoldUnifiedSystem:
         for i in range(3):
             collapse_data = {"entropy": 0.3 + i * 0.1}
             self.system.generate_verifold_hash(
-                collapse_data,
-                self.test_user_id,
-                self.test_tier
+                collapse_data, self.test_user_id, self.test_tier
             )
 
         metrics = self.system.get_system_metrics()
@@ -294,7 +284,9 @@ class TestVeriFoldBackwardCompatibility:
     def setup_method(self):
         """Setup test environment."""
         # Mock the require_identity decorator
-        self.auth_patcher = patch('lukhas.core.verifold.verifold_unified.require_identity')
+        self.auth_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.require_identity"
+        )
         self.mock_auth = self.auth_patcher.start()
         self.mock_auth.return_value = lambda func: func  # Pass-through decorator
 
@@ -307,14 +299,10 @@ class TestVeriFoldBackwardCompatibility:
         collapse_data = {
             "intent_vector": [0.7, 0.2, 0.1],
             "emotional_state": "determined",
-            "entropy": 0.6
+            "entropy": 0.6,
         }
 
-        record = generate_verifold_hash(
-            collapse_data,
-            "compat_user",
-            "LAMBDA_TIER_2"
-        )
+        record = generate_verifold_hash(collapse_data, "compat_user", "LAMBDA_TIER_2")
 
         assert isinstance(record, VeriFoldRecord)
         assert record.snapshot.user_id == "compat_user"
@@ -326,11 +314,7 @@ class TestVeriFoldBackwardCompatibility:
         collapse_data = {"entropy": 0.4}
 
         # Generate using compatibility function
-        record = generate_verifold_hash(
-            collapse_data,
-            "verify_user",
-            "LAMBDA_TIER_1"
-        )
+        record = generate_verifold_hash(collapse_data, "verify_user", "LAMBDA_TIER_1")
 
         # Verify using compatibility function
         is_valid = verify_verifold_hash(record, "verify_user")
@@ -345,7 +329,9 @@ class TestVeriFoldCryptography:
         self.system = UnifiedVeriFoldSystem()
 
         # Mock the require_identity decorator
-        self.auth_patcher = patch('lukhas.core.verifold.verifold_unified.require_identity')
+        self.auth_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.require_identity"
+        )
         self.mock_auth = self.auth_patcher.start()
         self.mock_auth.return_value = lambda func: func
 
@@ -368,7 +354,7 @@ class TestVeriFoldCryptography:
             "phase": VeriFoldPhase.STABLE,
             "entropy_score": 0.3,
             "timestamp": "2025-07-26T12:00:00Z",
-            "metadata": {}
+            "metadata": {},
         }
 
         snapshot1 = VeriFoldSnapshot(**snapshot_data)
@@ -395,7 +381,7 @@ class TestVeriFoldCryptography:
             "phase": VeriFoldPhase.STABLE,
             "entropy_score": 0.2,
             "timestamp": "2025-07-26T12:00:00Z",
-            "metadata": {}
+            "metadata": {},
         }
 
         # Create snapshots with small differences
@@ -410,15 +396,15 @@ class TestVeriFoldCryptography:
 
         assert hash1 != hash2
 
-    @patch('lukhas.core.verifold.verifold_unified.PQ_AVAILABLE', True)
-    @patch('lukhas.core.verifold.verifold_unified.oqs')
+    @patch("lukhas.core.verifold.verifold_unified.PQ_AVAILABLE", True)
+    @patch("lukhas.core.verifold.verifold_unified.oqs")
     def test_post_quantum_signatures(self, mock_oqs):
         """Test post-quantum signature generation and verification."""
         # Mock OQS behavior
         mock_signer = MagicMock()
-        mock_signer.generate_keypair.return_value = b'mock_public_key'
-        mock_signer.export_secret_key.return_value = b'mock_private_key'
-        mock_signer.sign.return_value = b'mock_signature'
+        mock_signer.generate_keypair.return_value = b"mock_public_key"
+        mock_signer.export_secret_key.return_value = b"mock_private_key"
+        mock_signer.sign.return_value = b"mock_signature"
         mock_signer.verify.return_value = True
         mock_signer.set_public_key.return_value = None
 
@@ -430,18 +416,20 @@ class TestVeriFoldCryptography:
         # Test signature generation
         signature_hex, public_key_hex = self.system._sign_verifold_hash(test_hash)
 
-        assert signature_hex == b'mock_signature'.hex()
-        assert public_key_hex == b'mock_public_key'.hex()
+        assert signature_hex == b"mock_signature".hex()
+        assert public_key_hex == b"mock_public_key".hex()
 
         # Test signature verification
-        is_valid = self.system._verify_signature(test_hash, signature_hex, public_key_hex)
+        is_valid = self.system._verify_signature(
+            test_hash, signature_hex, public_key_hex
+        )
         assert is_valid is True
 
         # Verify OQS was called correctly
         mock_oqs.Signature.assert_called_with("SPHINCS+-SHAKE256-128f-simple")
         mock_signer.generate_keypair.assert_called_once()
         mock_signer.sign.assert_called_with(test_hash.encode())
-        mock_signer.verify.assert_called_with(test_hash.encode(), b'mock_signature')
+        mock_signer.verify.assert_called_with(test_hash.encode(), b"mock_signature")
 
 
 class TestVeriFoldIntegration:
@@ -450,7 +438,9 @@ class TestVeriFoldIntegration:
     def setup_method(self):
         """Setup test environment."""
         # Mock the require_identity decorator
-        self.auth_patcher = patch('lukhas.core.verifold.verifold_unified.require_identity')
+        self.auth_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.require_identity"
+        )
         self.mock_auth = self.auth_patcher.start()
         self.mock_auth.return_value = lambda func: func
 
@@ -478,19 +468,22 @@ class TestVeriFoldIntegration:
             "entropy": 0.45,
             "metadata": {
                 "fold_type": "episodic",
-                "consolidation_strategy": "temporal_clustering"
-            }
+                "consolidation_strategy": "temporal_clustering",
+            },
         }
 
         record = system.generate_verifold_hash(
             memory_collapse_data,
             "memory_user",
             "LAMBDA_TIER_2",
-            VeriFoldCollapseType.MEMORY
+            VeriFoldCollapseType.MEMORY,
         )
 
         assert record.snapshot.collapse_type == VeriFoldCollapseType.MEMORY
-        assert record.snapshot.system_context.get("operation") == "memory_fold_consolidation"
+        assert (
+            record.snapshot.system_context.get("operation")
+            == "memory_fold_consolidation"
+        )
         assert record.snapshot.metadata["fold_type"] == "episodic"
 
     def test_emotional_system_integration(self):
@@ -504,19 +497,22 @@ class TestVeriFoldIntegration:
             "regulation_strategy": "adaptive_dampening",
             "entropy": 0.6,
             "emotional_state": "transitioning",
-            "ethical_context": "emotional_stability_protocol"
+            "ethical_context": "emotional_stability_protocol",
         }
 
         record = system.generate_verifold_hash(
             emotion_collapse_data,
             "emotion_user",
             "LAMBDA_TIER_3",
-            VeriFoldCollapseType.EMOTIONAL
+            VeriFoldCollapseType.EMOTIONAL,
         )
 
         assert record.snapshot.collapse_type == VeriFoldCollapseType.EMOTIONAL
         assert record.snapshot.emotional_state == "transitioning"
-        assert record.snapshot.system_context.get("regulation_strategy") == "adaptive_dampening"
+        assert (
+            record.snapshot.system_context.get("regulation_strategy")
+            == "adaptive_dampening"
+        )
 
 
 # Performance and stress tests
@@ -528,7 +524,9 @@ class TestVeriFoldPerformance:
         self.system = UnifiedVeriFoldSystem()
 
         # Mock the require_identity decorator
-        self.auth_patcher = patch('lukhas.core.verifold.verifold_unified.require_identity')
+        self.auth_patcher = patch(
+            "lukhas.core.verifold.verifold_unified.require_identity"
+        )
         self.mock_auth = self.auth_patcher.start()
         self.mock_auth.return_value = lambda func: func
 
@@ -546,13 +544,13 @@ class TestVeriFoldPerformance:
             collapse_data = {
                 "entropy": 0.3 + (i % 10) * 0.05,
                 "operation": f"bulk_test_{i}",
-                "iteration": i
+                "iteration": i,
             }
 
             self.system.generate_verifold_hash(
                 collapse_data,
                 f"bulk_user_{i % 5}",  # 5 different users
-                f"LAMBDA_TIER_{(i % 5) + 1}"  # Tiers 1-5
+                f"LAMBDA_TIER_{(i % 5) + 1}",  # Tiers 1-5
             )
 
         end_time = datetime.now()
@@ -575,9 +573,7 @@ class TestVeriFoldPerformance:
             collapse_data = {"entropy": 0.4, "iteration": i}
 
             self.system.generate_verifold_hash(
-                collapse_data,
-                "memory_test_user",
-                "LAMBDA_TIER_2"
+                collapse_data, "memory_test_user", "LAMBDA_TIER_2"
             )
 
         # History should be trimmed to 500 most recent

@@ -8,19 +8,13 @@ to create a sustainable, energy-efficient AI system.
 """
 
 import asyncio
-import json
-import time
-import uuid
-from typing import Dict, List, Any, Optional
 import logging
-
-# Import our core components
-from core.event_sourcing import get_global_event_store, AIAgentAggregate, EventReplayService
-from core.actor_system import get_global_actor_system, AIAgentActor, ActorRef
-from core.distributed_tracing import create_ai_tracer, get_global_collector
-from core.efficient_communication import EfficientCommunicationFabric, MessagePriority
+import uuid
+from typing import Any, Dict, Optional
 
 from bio import MitochondriaModel
+
+# Import our core components
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -29,8 +23,6 @@ logger = logging.getLogger(__name__)
 
 from core.colonies.base_colony import BaseColony
 from core.colonies.reasoning_colony import ReasoningColony
-from core.event_sourcing import EventReplayService
-from core.distributed_tracing import get_global_collector
 
 
 class DistributedAISystem:
@@ -150,8 +142,8 @@ class DistributedAISystem:
         return stats
 
 
-from core.colonies.memory_colony import MemoryColony
 from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony import MemoryColony
 
 
 async def demo_integrated_system():
@@ -212,7 +204,7 @@ async def demo_integrated_system():
                 print(f"    ⚡ Energy Efficiency: {efficiency:.1%}")
 
         # Get comprehensive system statistics
-        print(f"\n📊 System Performance Analysis")
+        print("\n📊 System Performance Analysis")
         print("-" * 40)
 
         final_stats = await system.get_system_statistics()
@@ -222,15 +214,15 @@ async def demo_integrated_system():
             print(f"  Capabilities: {colony_stats.get('capabilities', [])}")
             print(f"  Is Running: {colony_stats.get('is_running', False)}")
 
-        print(f"\n🎉 Demo completed successfully!")
+        print("\n🎉 Demo completed successfully!")
         print(f"   Total colonies: {final_stats['colony_count']}")
         print(f"   Tasks executed: {len(results)}")
-        print(f"   System efficiency: Optimized for sustainability")
+        print("   System efficiency: Optimized for sustainability")
 
     finally:
         # Clean shutdown
         await system.stop()
-        print(f"\n🛑 System stopped gracefully")
+        print("\n🛑 System stopped gracefully")
 
 
 if __name__ == "__main__":

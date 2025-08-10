@@ -14,9 +14,10 @@
 
 # ΛTIER: 1.1 — Symbolic Memory Initialization Layer
 
-import random
 import hashlib
 import json
+import random
+
 
 def generate_seed_memory(seed_phrase: str) -> dict:
     """
@@ -39,10 +40,13 @@ def generate_seed_memory(seed_phrase: str) -> dict:
         "conceptual_layer": random.choice(["Identity", "Ethics", "Perception"]),
         "emotional_charge": random.uniform(-1.0, 1.0),
         "parent_id": None,
-        "origin_theory": random.choice(["Platonic Ideal", "Constructivist", "Empirical"]),
+        "origin_theory": random.choice(
+            ["Platonic Ideal", "Constructivist", "Empirical"]
+        ),
         "timestamp": None,
         "embedded": False,
     }
+
 
 def seed_memory_store(seed_list: list[str], save_path: str = None) -> list[dict]:
     """
@@ -58,9 +62,10 @@ def seed_memory_store(seed_list: list[str], save_path: str = None) -> list[dict]
     memory_bank = [generate_seed_memory(seed) for seed in seed_list]
     # 💾 Optionally persist memory bank as a symbolic registry
     if save_path:
-        with open(save_path, 'w') as f:
+        with open(save_path, "w") as f:
             json.dump(memory_bank, f, indent=2)
     return memory_bank
+
 
 # 🧪 Example Execution
 if __name__ == "__main__":

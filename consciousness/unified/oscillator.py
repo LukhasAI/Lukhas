@@ -11,11 +11,10 @@ Specialized oscillator for coordinating abstract reasoning across brain systems
 """
 
 import asyncio
-import time
 import math
-from core.common import get_logger
-from typing import Dict, Any, List, Optional
+import time
 from datetime import datetime
+from typing import Any, Dict, List
 
 logger = logging.getLogger("AbstractReasoningOscillator")
 

@@ -23,8 +23,9 @@ This component handles identity functionality in the AI consciousness computing 
 
 import asyncio
 import logging
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Optional
+
 
 class PersonaEngine:
     """
@@ -35,7 +36,7 @@ class PersonaEngine:
     100% system connectivity and consciousness computing capabilities.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = logging.getLogger(__name__)
         self.is_initialized = False
@@ -63,7 +64,7 @@ class PersonaEngine:
         # Placeholder for identity-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> Dict:
+    async def process(self, data: Any) -> dict:
         """Process identity data"""
         if not self.is_initialized:
             await self.initialize()
@@ -77,7 +78,7 @@ class PersonaEngine:
                 "component": self.__class__.__name__,
                 "category": "identity",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -86,7 +87,7 @@ class PersonaEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_identity_processing(self, data: Any) -> Any:
@@ -95,7 +96,9 @@ class PersonaEngine:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data or default to generic
-        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+        category = (
+            data.get("category", "generic") if isinstance(data, dict) else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -110,27 +113,27 @@ class PersonaEngine:
         else:
             return await self._process_generic(data)
 
-    async def _process_consciousness(self, data: Any) -> Dict:
+    async def _process_consciousness(self, data: Any) -> dict:
         """Process consciousness-related data"""
         return {"consciousness_level": "active", "awareness": "enhanced"}
 
-    async def _process_governance(self, data: Any) -> Dict:
+    async def _process_governance(self, data: Any) -> dict:
         """Process governance-related data"""
         return {"policy_compliant": True, "ethics_check": "passed"}
 
-    async def _process_voice(self, data: Any) -> Dict:
+    async def _process_voice(self, data: Any) -> dict:
         """Process voice-related data"""
         return {"voice_processed": True, "audio_quality": "high"}
 
-    async def _process_identity(self, data: Any) -> Dict:
+    async def _process_identity(self, data: Any) -> dict:
         """Process identity-related data"""
         return {"identity_verified": True, "persona": "active"}
 
-    async def _process_quantum(self, data: Any) -> Dict:
+    async def _process_quantum(self, data: Any) -> dict:
         """Process quantum-related data"""
         return {"quantum_like_state": "entangled", "coherence": "stable"}
 
-    async def _process_generic(self, data: Any) -> Dict:
+    async def _process_generic(self, data: Any) -> dict:
         """Process generic data"""
         return {"processed": True, "data": data}
 
@@ -154,14 +157,14 @@ class PersonaEngine:
         # Implement validation logic specific to identity
         return True
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get component status"""
         return {
             "component": self.__class__.__name__,
             "category": "identity",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -170,13 +173,21 @@ class PersonaEngine:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
-def create_identity_component(config: Optional[Dict] = None) -> PersonaEngine:
+
+
+def create_identity_component(config: Optional[dict] = None) -> PersonaEngine:
     """Create and return a identity component instance"""
     return PersonaEngine(config)
 
+
 # Async factory function
-async def create_and_initialize_identity_component(config: Optional[Dict] = None) -> PersonaEngine:
+
+
+async def create_and_initialize_identity_component(
+    config: Optional[dict] = None,
+) -> PersonaEngine:
     """Create, initialize and return a identity component instance"""
     component = PersonaEngine(config)
     await component.initialize()
@@ -185,6 +196,7 @@ async def create_and_initialize_identity_component(config: Optional[Dict] = None
     component = lukhasPersonaEngine(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

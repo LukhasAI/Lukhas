@@ -1,17 +1,18 @@
 import time
-import os
-import psutil
+
 
 def get_cpu_flops():
     # This is a simplified and estimated approach.
     # We are assuming a high-end CPU can perform 2 TFLOPs.
     return 2 * 10**12
 
+
 def get_power_consumption():
     # This is highly platform-dependent and may not work on all systems.
     # It's a placeholder for a more accurate power measurement tool.
     # As a fallback, we will assume a constant power draw of 200W for a high-end CPU under load.
     return 200
+
 
 def run_heavy_task():
     # Simulate a heavy computational load
@@ -22,6 +23,7 @@ def run_heavy_task():
         result += i * i
     end_time = time.time()
     return end_time - start_time
+
 
 def main():
     # The following measurements are estimations and not accurate.
@@ -39,6 +41,7 @@ def main():
     print(f"Estimated CPU TFLOPs: {cpu_flops / 10**12:.4f}")
     print(f"Average Power Consumption (Watts): {avg_power_watts:.4f}")
     print(f"Estimated TFLOPs/Watt: {tflops_per_watt:.4f}")
+
 
 if __name__ == "__main__":
     main()

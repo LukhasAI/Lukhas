@@ -1,16 +1,22 @@
+import hashlib
+import json
+import secrets
+import time
+from datetime import datetime
+from enum import Enum
+from typing import Optional
 
 
 class UserContext:
     """User context for ID generation."""
+
     def __init__(self, user_id=None, metadata=None):
         self.user_id = user_id
         self.metadata = metadata or {}
 
     def to_dict(self):
-        return {
-            'user_id': self.user_id,
-            'metadata': self.metadata
-        }
+        return {"user_id": self.user_id, "metadata": self.metadata}
+
 
 """
 LUKHAS ΛiD Generator
@@ -31,22 +37,17 @@ Author: LUKHAS AI Systems
 Created: 2025-07-05
 """
 
-import hashlib
-import secrets
-import time
-import json
-from typing import Dict, List, Optional, Tuple
-from datetime import datetime
-from enum import Enum
 
 class TierLevel(Enum):
     """User tier levels for ΛiD generation"""
+
     GUEST = 0
     VISITOR = 1
     FRIEND = 2
     TRUSTED = 3
     INNER_CIRCLE = 4
     ROOT_DEV = 5
+
 
 class LambdaIDGenerator:
     """
@@ -70,8 +71,8 @@ class LambdaIDGenerator:
     def generate_lambda_id(
         self,
         tier: TierLevel,
-        user_context: Optional[Dict] = None,
-        symbolic_preference: Optional[str] = None
+        user_context: Optional[dict] = None,
+        symbolic_preference: Optional[str] = None,
     ) -> str:
         """
         Generate a new ΛiD with tier-appropriate characteristics.
@@ -114,9 +115,7 @@ class LambdaIDGenerator:
         return hash_obj.hexdigest()[:4].upper()
 
     def _select_symbolic_element(
-        self,
-        tier: TierLevel,
-        preference: Optional[str] = None
+        self, tier: TierLevel, preference: Optional[str] = None
     ) -> str:
         """
         Select appropriate symbolic character based on tier and preference.
@@ -132,9 +131,7 @@ class LambdaIDGenerator:
         return secrets.choice(tier_symbols) if tier_symbols else "◊"
 
     def _generate_entropy_hash(
-        self,
-        tier: TierLevel,
-        user_context: Optional[Dict] = None
+        self, tier: TierLevel, user_context: Optional[dict] = None
     ) -> str:
         """Generate 4-character entropy hash with tier-specific complexity"""
         # Base entropy from secure random
@@ -156,28 +153,28 @@ class LambdaIDGenerator:
     def _handle_collision(
         self,
         tier: TierLevel,
-        user_context: Optional[Dict] = None,
-        symbolic_preference: Optional[str] = None
+        user_context: Optional[dict] = None,
+        symbolic_preference: Optional[str] = None,
     ) -> str:
         """Handle ΛiD collision by regenerating with additional entropy"""
         # Add collision counter to context
         collision_context = user_context.copy() if user_context else {}
-        collision_context['collision_retry'] = True
-        collision_context['retry_timestamp'] = time.time()
+        collision_context["collision_retry"] = True
+        collision_context["retry_timestamp"] = time.time()
 
         return self.generate_lambda_id(tier, collision_context, symbolic_preference)
 
-    def _load_config(self, config_path: Optional[str] = None) -> Dict:
+    def _load_config(self, config_path: Optional[str] = None) -> dict:
         """Load ΛiD generation configuration"""
         # TODO: Load from actual config file
         return {
             "id_length": 4,
             "max_retries": 5,
             "symbolic_enabled": True,
-            "tier_restrictions": True
+            "tier_restrictions": True,
         }
 
-    def _load_symbolic_chars(self) -> Dict[str, List[str]]:
+    def _load_symbolic_chars(self) -> dict[str, list[str]]:
         """Load tier-appropriate symbolic characters"""
         return {
             "tier_0": ["◊", "○", "□"],  # Basic shapes for guests
@@ -185,10 +182,10 @@ class LambdaIDGenerator:
             "tier_2": ["🌀", "✨", "🔮", "◊", "⟐"],  # Mystical symbols
             "tier_3": ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],  # Advanced symbols
             "tier_4": ["⟐", "◈", "⬟", "⬢", "⟁", "◐"],  # Complex geometrics
-            "tier_5": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"]  # Full symbolic set
+            "tier_5": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"],  # Full symbolic set
         }
 
-    def _load_reserved_combinations(self) -> List[str]:
+    def _load_reserved_combinations(self) -> list[str]:
         """Load reserved ΛiD combinations that should not be generated"""
         return [
             "Λ0-0000-○-0000",  # Reserved system ID
@@ -197,31 +194,29 @@ class LambdaIDGenerator:
         ]
 
     def _log_generation(
-        self,
-        lambda_id: str,
-        tier: TierLevel,
-        user_context: Optional[Dict] = None
+        self, lambda_id: str, tier: TierLevel, user_context: Optional[dict] = None
     ) -> None:
         """Log ΛiD generation event for audit trail"""
-        log_entry = {
+        {
             "timestamp": datetime.now().isoformat(),
             "lambda_id": lambda_id,
             "tier": tier.value,
             "context": user_context or {},
-            "generator_version": "1.0.0"
+            "generator_version": "1.0.0",
         }
 
         # TODO: Implement actual logging to file/database
         print(f"ΛiD Generated: {lambda_id} (Tier {tier.value})")
 
-    def get_generation_stats(self) -> Dict:
+    def get_generation_stats(self) -> dict:
         """Get statistics about generated ΛiDs"""
         return {
             "total_generated": len(self.generated_ids),
             "collision_rate": 0.0,  # TODO: Calculate actual collision rate
             "tier_distribution": {},  # TODO: Calculate tier distribution
-            "symbolic_usage": {}  # TODO: Calculate symbolic character usage
+            "symbolic_usage": {},  # TODO: Calculate symbolic character usage
         }
+
 
 # Example usage and testing
 if __name__ == "__main__":
@@ -236,13 +231,11 @@ if __name__ == "__main__":
     user_context = {
         "email": "user@example.com",
         "registration_time": time.time(),
-        "preferences": {"symbolic_style": "mystical"}
+        "preferences": {"symbolic_style": "mystical"},
     }
 
     personalized_id = generator.generate_lambda_id(
-        TierLevel.FRIEND,
-        user_context,
-        symbolic_preference="🌀"
+        TierLevel.FRIEND, user_context, symbolic_preference="🌀"
     )
     print(f"Personalized ΛiD: {personalized_id}")
 

@@ -1,7 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
+
 from dream.core.dream_feedback_controller import DreamFeedbackController
-from dream.core.dream_snapshot import DreamSnapshotStore
+
 
 class TestDreamFeedbackController(unittest.TestCase):
     def test_check_drift_event(self):
@@ -14,11 +15,12 @@ class TestDreamFeedbackController(unittest.TestCase):
         controller.snapshot_store = MagicMock()
         controller.snapshot_store.get_recent_snapshots.return_value = [
             {"dream_id": "dream1"},
-            {"dream_id": "dream2"}
+            {"dream_id": "dream2"},
         ]
         redirection = controller.trigger_redirection("user1", {"emotion": "happy"})
         self.assertEqual(redirection["action"], "redirect")
         self.assertEqual(redirection["target_snapshot"]["dream_id"], "dream2")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -10,11 +10,10 @@ Quantum Dream Adapter for Dream Systems
 Provides quantum-based dream processing and adaptation capabilities.
 """
 
-from typing import Dict, Any, List, Optional, Tuple
 import math
 import random
-import numpy as np
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -279,7 +278,9 @@ class QuantumDreamAdapter:
 
         return correlation / comparisons if comparisons > 0 else 0.0
 
-    def measure_quantum_like_state(self, observable: str = "coherence") -> Dict[str, Any]:
+    def measure_quantum_like_state(
+        self, observable: str = "coherence"
+    ) -> Dict[str, Any]:
         """
         Perform probabilistic observation on the dream state.
 
@@ -305,7 +306,9 @@ class QuantumDreamAdapter:
 
         elif observable == "phase":
             # Measure phase
-            measurement_result["value"] = self.quantum_like_state["phase"] % (2 * math.pi)
+            measurement_result["value"] = self.quantum_like_state["phase"] % (
+                2 * math.pi
+            )
 
         elif observable == "entanglement":
             # Measure entanglement strength

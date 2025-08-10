@@ -1,7 +1,9 @@
-import unittest
 import asyncio
+import unittest
+
 from core.bio_systems.bio_oscillator import MoodOscillator, OscillationType
 from core.bio_systems.bio_simulation_controller import BioSimulationController
+
 
 class TestBioPhaseControl(unittest.IsolatedAsyncioTestCase):
 
@@ -29,10 +31,14 @@ class TestBioPhaseControl(unittest.IsolatedAsyncioTestCase):
         mood_oscillator.affect_delta = 0.8
         mood_oscillator.target_frequency = 100.0
         controller.stabilize_oscillator(mood_oscillator)
-        await asyncio.sleep(0.01) # allow the task to run
+        await asyncio.sleep(0.01)  # allow the task to run
         self.assertEqual(mood_oscillator.driftScore, 0.0)
         self.assertEqual(mood_oscillator.affect_delta, 0.0)
-        self.assertEqual(mood_oscillator.target_frequency, mood_oscillator._get_default_frequency(OscillationType.ALPHA))
+        self.assertEqual(
+            mood_oscillator.target_frequency,
+            mood_oscillator._get_default_frequency(OscillationType.ALPHA),
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

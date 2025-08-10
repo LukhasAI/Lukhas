@@ -4,7 +4,6 @@ from symbolic.service_analysis import (
 )
 
 
-
 def test_compute_digital_friction_zero_calls():
     assert compute_digital_friction(0, 5.0, 10.0) == 0.0
 

@@ -12,12 +12,12 @@ Usage:
 """
 
 import sys
-import subprocess
 from pathlib import Path
+
 
 def check_dependencies():
     """Check if required dependencies are installed."""
-    required_packages = ['flask', 'flask_socketio']
+    required_packages = ["flask", "flask_socketio"]
     missing = []
 
     for package in required_packages:
@@ -33,6 +33,7 @@ def check_dependencies():
         return False
 
     return True
+
 
 def main():
     print("🚀 VeriFold Web Journal Launcher")
@@ -62,12 +63,14 @@ def main():
     try:
         # Import and run the web journal
         from web_journal_app import main as run_web_journal
+
         run_web_journal()
     except KeyboardInterrupt:
         print("\n🛑 Web Journal stopped by user")
     except Exception as e:
         print(f"❌ Error starting Web Journal: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -21,11 +21,12 @@ DESCRIPTION:
 """
 
 import json
-from datetime import datetime
 import os
+from datetime import datetime
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 os.makedirs(os.path.dirname(DREAM_LOG_PATH), exist_ok=True)
+
 
 def record_dream_message(message, user_context=None):
     log_entry = {
@@ -34,23 +35,34 @@ def record_dream_message(message, user_context=None):
         "tags": message.get("tags", []),
         "emotion_vector": message.get("emotion_vector", {}),
         "source_widget": message.get("source_widget", "unknown"),
-        "user_id": user_context.get("user_id") if user_context else "anonymous",
+        "user_id": (user_context.get("user_id") if user_context else "anonymous"),
         "context_tier": user_context.get("tier") if user_context else None,
-        "deferred_reason": "dream_fallback"
+        "deferred_reason": "dream_fallback",
     }
 
     # Optional symbolic reaction based on emotion_vector
     ev = log_entry["emotion_vector"]
     if ev:
-        joy, stress, calm, longing = ev.get("joy", 0), ev.get("stress", 0), ev.get("calm", 0), ev.get("longing", 0)
-        if joy > 0.7: log_entry["emoji"] = "🧡"
-        elif calm > 0.6: log_entry["emoji"] = "🌙"
-        elif stress > 0.6: log_entry["emoji"] = "⚠️"
-        elif longing > 0.6: log_entry["emoji"] = "💭"
-        else: log_entry["emoji"] = "✨"
+        joy, stress, calm, longing = (
+            ev.get("joy", 0),
+            ev.get("stress", 0),
+            ev.get("calm", 0),
+            ev.get("longing", 0),
+        )
+        if joy > 0.7:
+            log_entry["emoji"] = "🧡"
+        elif calm > 0.6:
+            log_entry["emoji"] = "🌙"
+        elif stress > 0.6:
+            log_entry["emoji"] = "⚠️"
+        elif longing > 0.6:
+            log_entry["emoji"] = "💭"
+        else:
+            log_entry["emoji"] = "✨"
 
     with open(DREAM_LOG_PATH, "a") as f:
         f.write(json.dumps(log_entry) + "\n")
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

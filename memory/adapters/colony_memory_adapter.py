@@ -40,28 +40,30 @@
 
 import asyncio
 import time
-from collections import defaultdict, deque
+from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, Callable
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 from uuid import uuid4
 
-import structlog
-
-from ..core.interfaces.memory_interface import (
-    BaseMemoryInterface, MemoryType, MemoryState, MemoryMetadata,
-    MemoryOperation, MemoryResponse, ValidationResult, memory_registry
-)
 from ..core.colony_memory_validator import (
-    ColonyMemoryValidator, ValidationMode, ConsensusResult
+    ColonyMemoryValidator,
+    ConsensusResult,
+    ValidationMode,
 )
-
-from core.common import get_logger
+from ..core.interfaces.memory_interface import (
+    BaseMemoryInterface,
+    MemoryMetadata,
+    MemoryOperation,
+    MemoryResponse,
+    MemoryType,
+    memory_registry,
+)
 
 
 @dataclass
 class ColonyMemoryStats:
     """Statistics for colony memory operations"""
+
     colony_id: str
     total_operations: int = 0
     successful_operations: int = 0
@@ -82,6 +84,7 @@ class ColonyMemoryStats:
 @dataclass
 class AdapterConfig:
     """Configuration for colony memory adapter"""
+
     enable_validation: bool = True
     default_validation_mode: ValidationMode = ValidationMode.QUORUM
     consensus_threshold: float = 0.67
@@ -106,7 +109,7 @@ class ColonyMemoryAdapter:
         self,
         colony_id: str,
         config: Optional[AdapterConfig] = None,
-        validator: Optional[ColonyMemoryValidator] = None
+        validator: Optional[ColonyMemoryValidator] = None,
     ):
         self.colony_id = colony_id
         self.config = config or AdapterConfig()
@@ -144,7 +147,7 @@ class ColonyMemoryAdapter:
         logger.info(
             "Colony memory adapter initialized",
             colony_id=colony_id,
-            validation_enabled=config.enable_validation if config else True
+            validation_enabled=config.enable_validation if config else True,
         )
 
     async def start(self):
@@ -173,9 +176,7 @@ class ColonyMemoryAdapter:
         logger.info("Colony memory adapter stopped")
 
     def register_memory_interface(
-        self,
-        memory_type: MemoryType,
-        interface: BaseMemoryInterface
+        self, memory_type: MemoryType, interface: BaseMemoryInterface
     ):
         """Register a memory interface for a specific type"""
         self.memory_interfaces[memory_type] = interface
@@ -186,21 +187,16 @@ class ColonyMemoryAdapter:
         logger.info(
             "Memory interface registered",
             memory_type=memory_type.value,
-            colony_id=self.colony_id
+            colony_id=self.colony_id,
         )
 
     def register_interface_factory(
-        self,
-        memory_type: MemoryType,
-        factory: Callable[..., BaseMemoryInterface]
+        self, memory_type: MemoryType, factory: Callable[..., BaseMemoryInterface]
     ):
         """Register a factory for creating memory interfaces"""
         self.interface_factories[memory_type] = factory
 
-        logger.info(
-            "Interface factory registered",
-            memory_type=memory_type.value
-        )
+        logger.info("Interface factory registered", memory_type=memory_type.value)
 
     def register_colony(self, colony_id: str, colony_info: Dict[str, Any]):
         """Register a colony for distributed operations"""
@@ -233,7 +229,7 @@ class ColonyMemoryAdapter:
         metadata: Optional[MemoryMetadata] = None,
         distributed: bool = False,
         validate: bool = None,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Create a new memory through the adapter"""
 
@@ -243,7 +239,7 @@ class ColonyMemoryAdapter:
             return MemoryResponse(
                 operation_id=str(uuid4()),
                 success=False,
-                error_message=f"No interface available for {memory_type.value}"
+                error_message=f"No interface available for {memory_type.value}",
             )
 
         # Create operation
@@ -252,9 +248,11 @@ class ColonyMemoryAdapter:
             content=content,
             metadata=metadata or MemoryMetadata(memory_type=memory_type),
             parameters=kwargs,
-            target_colonies=self._select_colonies() if distributed else [self.colony_id],
+            target_colonies=(
+                self._select_colonies() if distributed else [self.colony_id]
+            ),
             require_consensus=distributed,
-            consensus_threshold=self.config.consensus_threshold
+            consensus_threshold=self.config.consensus_threshold,
         )
 
         return await self._execute_operation(interface, operation, validate)
@@ -265,7 +263,7 @@ class ColonyMemoryAdapter:
         memory_id: str,
         use_cache: bool = None,
         distributed: bool = False,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Read a memory through the adapter"""
 
@@ -278,7 +276,7 @@ class ColonyMemoryAdapter:
                     operation_id=str(uuid4()),
                     success=True,
                     memory_id=memory_id,
-                    content=cached_result
+                    content=cached_result,
                 )
             self.cache_misses += 1
 
@@ -288,7 +286,7 @@ class ColonyMemoryAdapter:
             return MemoryResponse(
                 operation_id=str(uuid4()),
                 success=False,
-                error_message=f"No interface available for {memory_type.value}"
+                error_message=f"No interface available for {memory_type.value}",
             )
 
         # Create operation
@@ -296,7 +294,9 @@ class ColonyMemoryAdapter:
             operation_type="read",
             memory_id=memory_id,
             parameters=kwargs,
-            target_colonies=self._select_colonies() if distributed else [self.colony_id]
+            target_colonies=(
+                self._select_colonies() if distributed else [self.colony_id]
+            ),
         )
 
         response = await self._execute_operation(interface, operation)
@@ -315,7 +315,7 @@ class ColonyMemoryAdapter:
         metadata: Optional[MemoryMetadata] = None,
         distributed: bool = False,
         validate: bool = None,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Update a memory through the adapter"""
 
@@ -324,7 +324,7 @@ class ColonyMemoryAdapter:
             return MemoryResponse(
                 operation_id=str(uuid4()),
                 success=False,
-                error_message=f"No interface available for {memory_type.value}"
+                error_message=f"No interface available for {memory_type.value}",
             )
 
         operation = MemoryOperation(
@@ -333,8 +333,10 @@ class ColonyMemoryAdapter:
             content=content,
             metadata=metadata,
             parameters=kwargs,
-            target_colonies=self._select_colonies() if distributed else [self.colony_id],
-            require_consensus=distributed
+            target_colonies=(
+                self._select_colonies() if distributed else [self.colony_id]
+            ),
+            require_consensus=distributed,
         )
 
         response = await self._execute_operation(interface, operation, validate)
@@ -350,7 +352,7 @@ class ColonyMemoryAdapter:
         memory_type: MemoryType,
         memory_id: str,
         distributed: bool = False,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Delete a memory through the adapter"""
 
@@ -359,15 +361,17 @@ class ColonyMemoryAdapter:
             return MemoryResponse(
                 operation_id=str(uuid4()),
                 success=False,
-                error_message=f"No interface available for {memory_type.value}"
+                error_message=f"No interface available for {memory_type.value}",
             )
 
         operation = MemoryOperation(
             operation_type="delete",
             memory_id=memory_id,
             parameters=kwargs,
-            target_colonies=self._select_colonies() if distributed else [self.colony_id],
-            require_consensus=distributed
+            target_colonies=(
+                self._select_colonies() if distributed else [self.colony_id]
+            ),
+            require_consensus=distributed,
         )
 
         response = await self._execute_operation(interface, operation)
@@ -385,27 +389,27 @@ class ColonyMemoryAdapter:
         filters: Optional[Dict[str, Any]] = None,
         limit: int = 50,
         distributed: bool = False,
-        **kwargs
+        **kwargs,
     ) -> List[MemoryResponse]:
         """Search memories through the adapter"""
 
         interface = await self._get_interface(memory_type)
         if not interface:
-            return [MemoryResponse(
-                operation_id=str(uuid4()),
-                success=False,
-                error_message=f"No interface available for {memory_type.value}"
-            )]
+            return [
+                MemoryResponse(
+                    operation_id=str(uuid4()),
+                    success=False,
+                    error_message=f"No interface available for {memory_type.value}",
+                )
+            ]
 
         operation = MemoryOperation(
             operation_type="search",
             content=query,
-            parameters={
-                "filters": filters,
-                "limit": limit,
-                **kwargs
-            },
-            target_colonies=self._select_colonies() if distributed else [self.colony_id]
+            parameters={"filters": filters, "limit": limit, **kwargs},
+            target_colonies=(
+                self._select_colonies() if distributed else [self.colony_id]
+            ),
         )
 
         response = await self._execute_operation(interface, operation)
@@ -419,7 +423,7 @@ class ColonyMemoryAdapter:
         self,
         interface: BaseMemoryInterface,
         operation: MemoryOperation,
-        validate: Optional[bool] = None
+        validate: Optional[bool] = None,
     ) -> MemoryResponse:
         """Execute operation with optional validation"""
 
@@ -434,7 +438,7 @@ class ColonyMemoryAdapter:
                     consensus_outcome = await self.validator.validate_memory_operation(
                         operation,
                         self.config.default_validation_mode,
-                        operation.target_colonies
+                        operation.target_colonies,
                     )
 
                     if consensus_outcome.result != ConsensusResult.SUCCESS:
@@ -442,7 +446,7 @@ class ColonyMemoryAdapter:
                         return MemoryResponse(
                             operation_id=operation.operation_id,
                             success=False,
-                            error_message=f"Validation failed: {consensus_outcome.result.value}"
+                            error_message=f"Validation failed: {consensus_outcome.result.value}",
                         )
 
             # Execute operation
@@ -466,7 +470,11 @@ class ColonyMemoryAdapter:
                     stats = self.colony_stats[colony_id]
                     stats.total_operations += 1
                     stats.last_operation_time = time.time()
-                    stats.memory_types_handled.add(operation.metadata.memory_type if operation.metadata else MemoryType.EPISODIC)
+                    stats.memory_types_handled.add(
+                        operation.metadata.memory_type
+                        if operation.metadata
+                        else MemoryType.EPISODIC
+                    )
 
                     if response.success:
                         stats.successful_operations += 1
@@ -479,18 +487,20 @@ class ColonyMemoryAdapter:
                     else:
                         alpha = 0.1  # Exponential moving average
                         stats.average_response_time = (
-                            alpha * execution_time +
-                            (1 - alpha) * stats.average_response_time
+                            alpha * execution_time
+                            + (1 - alpha) * stats.average_response_time
                         )
 
             # Add to history
-            self.operation_history.append({
-                "operation_id": operation.operation_id,
-                "type": operation.operation_type,
-                "success": response.success,
-                "execution_time": execution_time,
-                "timestamp": time.time()
-            })
+            self.operation_history.append(
+                {
+                    "operation_id": operation.operation_id,
+                    "type": operation.operation_type,
+                    "success": response.success,
+                    "execution_time": execution_time,
+                    "timestamp": time.time(),
+                }
+            )
 
             return response
 
@@ -499,20 +509,22 @@ class ColonyMemoryAdapter:
             logger.error(
                 "Operation execution failed",
                 operation_id=operation.operation_id,
-                error=str(e)
+                error=str(e),
             )
 
             return MemoryResponse(
                 operation_id=operation.operation_id,
                 success=False,
                 error_message=str(e),
-                execution_time_ms=(time.time() - start_time) * 1000
+                execution_time_ms=(time.time() - start_time) * 1000,
             )
 
         finally:
             self.active_operations.pop(operation.operation_id, None)
 
-    async def _get_interface(self, memory_type: MemoryType) -> Optional[BaseMemoryInterface]:
+    async def _get_interface(
+        self, memory_type: MemoryType
+    ) -> Optional[BaseMemoryInterface]:
         """Get or create interface for memory type"""
 
         # Check local interfaces first
@@ -541,7 +553,8 @@ class ColonyMemoryAdapter:
 
         # Load balancing: select based on performance
         active_colonies = [
-            cid for cid, stats in self.colony_stats.items()
+            cid
+            for cid, stats in self.colony_stats.items()
             if stats.is_active and stats.success_rate > 0.5
         ]
 
@@ -552,7 +565,7 @@ class ColonyMemoryAdapter:
         active_colonies.sort(
             key=lambda cid: (
                 -self.colony_stats[cid].success_rate,
-                self.colony_stats[cid].average_response_time
+                self.colony_stats[cid].average_response_time,
             )
         )
 
@@ -586,7 +599,8 @@ class ColonyMemoryAdapter:
                 # Clean expired cache entries
                 current_time = time.time()
                 expired_keys = [
-                    key for key, (_, cache_time) in self.memory_cache.items()
+                    key
+                    for key, (_, cache_time) in self.memory_cache.items()
                     if current_time - cache_time > self.config.cache_ttl
                 ]
                 for key in expired_keys:
@@ -620,7 +634,11 @@ class ColonyMemoryAdapter:
     def get_adapter_stats(self) -> Dict[str, Any]:
         """Get comprehensive adapter statistics"""
         success_rate = self.successful_operations / max(self.total_operations, 1)
-        avg_response_time = sum(self.response_times) / len(self.response_times) if self.response_times else 0
+        avg_response_time = (
+            sum(self.response_times) / len(self.response_times)
+            if self.response_times
+            else 0
+        )
 
         cache_hit_rate = self.cache_hits / max(self.cache_hits + self.cache_misses, 1)
 
@@ -633,11 +651,13 @@ class ColonyMemoryAdapter:
             "average_response_time_ms": avg_response_time,
             "active_operations": len(self.active_operations),
             "registered_colonies": len(self.registered_colonies),
-            "active_colonies": sum(1 for stats in self.colony_stats.values() if stats.is_active),
+            "active_colonies": sum(
+                1 for stats in self.colony_stats.values() if stats.is_active
+            ),
             "memory_interfaces": len(self.memory_interfaces),
             "cache_entries": len(self.memory_cache),
             "cache_hit_rate": cache_hit_rate,
-            "validator_stats": self.validator.get_metrics()
+            "validator_stats": self.validator.get_metrics(),
         }
 
     def get_colony_stats(self) -> Dict[str, Dict[str, Any]]:
@@ -648,7 +668,7 @@ class ColonyMemoryAdapter:
                 "success_rate": stats.success_rate,
                 "average_response_time": stats.average_response_time,
                 "is_active": stats.is_active,
-                "memory_types": [mt.value for mt in stats.memory_types_handled]
+                "memory_types": [mt.value for mt in stats.memory_types_handled],
             }
             for colony_id, stats in self.colony_stats.items()
         }
@@ -662,10 +682,8 @@ async def demonstrate_colony_adapter():
     adapter = ColonyMemoryAdapter(
         colony_id="main_colony",
         config=AdapterConfig(
-            enable_validation=True,
-            enable_caching=True,
-            load_balancing=True
-        )
+            enable_validation=True, enable_caching=True, load_balancing=True
+        ),
     )
 
     await adapter.start()

@@ -8,6 +8,7 @@ from .base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
 
+
 # ΛTAG: temporal_ops
 class TemporalColony(BaseColony):
     """Colony supporting reversible temporal reasoning."""
@@ -38,15 +39,21 @@ class TemporalColony(BaseColony):
             return copy.deepcopy(self.state_history[index])
         return None
 
-    def _apply_operations(self, state: Dict[str, Any], operations: List[Dict[str, Any]]) -> None:
+    def _apply_operations(
+        self, state: Dict[str, Any], operations: List[Dict[str, Any]]
+    ) -> None:
         for op in operations:
             if op.get("type") == "add_glyph":
                 state.setdefault("glyphs", []).append(op.get("value"))
-            elif op.get("type") == "remove_glyph" and op.get("value") in state.get("glyphs", []):
+            elif op.get("type") == "remove_glyph" and op.get("value") in state.get(
+                "glyphs", []
+            ):
                 state["glyphs"].remove(op.get("value"))
             # ✅ TODO: implement more operation types
 
-    def simulate_future_state(self, operations: List[Dict[str, Any]], from_index: Optional[int] = None) -> Dict[str, Any]:
+    def simulate_future_state(
+        self, operations: List[Dict[str, Any]], from_index: Optional[int] = None
+    ) -> Dict[str, Any]:
         """Return a simulated state after applying operations without committing."""
         base_state = self.get_state(from_index)
         if base_state is None:
@@ -56,7 +63,9 @@ class TemporalColony(BaseColony):
         logger.info("Simulated future state", glyphs=future_state.get("glyphs"))
         return future_state
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         logger.info("TemporalColony executing task", task_id=task_id)
         operations = task_data.get("operations", [])
         if task_data.get("simulate"):

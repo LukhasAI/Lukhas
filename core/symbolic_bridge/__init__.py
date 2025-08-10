@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 
 try:
     from .token_map import TokenMap
+
     logger.debug("Imported TokenMap from .token_map")
 except ImportError as e:
     logger.warning(f"Could not import TokenMap: {e}")
@@ -16,14 +17,15 @@ except ImportError as e:
 
 try:
     from .integrator import Integrator
+
     logger.debug("Imported Integrator from .integrator")
 except ImportError as e:
     logger.warning(f"Could not import Integrator: {e}")
     Integrator = None
 
 __all__ = [
-    'TokenMap',
-    'Integrator',
+    "TokenMap",
+    "Integrator",
 ]
 
 # Filter out None values from __all__ if imports failed

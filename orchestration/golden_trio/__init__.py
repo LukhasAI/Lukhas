@@ -1,4 +1,3 @@
 """
 Golden_Trio Module
 """
-

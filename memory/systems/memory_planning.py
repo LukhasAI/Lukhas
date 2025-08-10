@@ -1,19 +1,18 @@
 from __future__ import annotations
-# mypy: allow-untyped-defs
 
+# mypy: allow-untyped-defs
 import collections
 import dataclasses
 import itertools
 import pprint
-from typing import Any, Optional, Protocol, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional, Protocol
 
 import sympy
-
 import torch
 from torch.utils._ordered_set import OrderedSet
 
 from .. import config
-from ..utils import _align, align, cache_on_self, CachedMethod, IndentedBuffer
+from ..utils import CachedMethod, IndentedBuffer, _align, align, cache_on_self
 from ..virtualized import V
 from .wrapper import (
     AllocateLine,
@@ -23,7 +22,6 @@ from .wrapper import (
     NullLine,
     ReuseLine,
 )
-
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

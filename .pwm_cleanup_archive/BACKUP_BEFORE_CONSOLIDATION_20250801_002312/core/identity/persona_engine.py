@@ -23,8 +23,9 @@ This component handles identity functionality in the AI consciousness computing 
 
 import asyncio
 import logging
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 
 class PersonaEngine:
     """
@@ -77,7 +78,7 @@ class PersonaEngine:
                 "component": self.__class__.__name__,
                 "category": "identity",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -86,7 +87,7 @@ class PersonaEngine:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_identity_processing(self, data: Any) -> Any:
@@ -95,7 +96,9 @@ class PersonaEngine:
         # This is a placeholder that should be enhanced based on requirements
 
         # Extract category from data or default to generic
-        category = data.get("category", "generic") if isinstance(data, dict) else "generic"
+        category = (
+            data.get("category", "generic") if isinstance(data, dict) else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -161,7 +164,7 @@ class PersonaEngine:
             "category": "identity",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -170,13 +173,17 @@ class PersonaEngine:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
 def create_identity_component(config: Optional[Dict] = None) -> PersonaEngine:
     """Create and return a identity component instance"""
     return PersonaEngine(config)
 
+
 # Async factory function
-async def create_and_initialize_identity_component(config: Optional[Dict] = None) -> PersonaEngine:
+async def create_and_initialize_identity_component(
+    config: Optional[Dict] = None,
+) -> PersonaEngine:
     """Create, initialize and return a identity component instance"""
     component = PersonaEngine(config)
     await component.initialize()
@@ -185,6 +192,7 @@ async def create_and_initialize_identity_component(config: Optional[Dict] = None
     component = lukhasPersonaEngine(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

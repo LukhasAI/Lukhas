@@ -18,18 +18,21 @@
 └────────────────────────────────────────────────────────────────────────────
 """
 
+from typing import List, Optional
+
 import numpy as np
 from qiskit import QuantumCircuit
-from typing import Optional, List, Tuple
+
 
 class QuantumAssociativeMemoryBank:
     """
     Quantum-enhanced associative memory with superposition storage
     """
+
     def __init__(self, capacity_qubits: int = 10):
-        self.capacity = 2 ** capacity_qubits
-        self.memory_register = QuantumRegister(capacity_qubits, 'memory')
-        self.query_register = QuantumRegister(capacity_qubits, 'query')
+        self.capacity = 2**capacity_qubits
+        self.memory_register = QuantumRegister(capacity_qubits, "memory")
+        self.query_register = QuantumRegister(capacity_qubits, "query")
         self.oracle_circuits: Dict[str, QuantumCircuit] = {}
 
         # Quantum error correction
@@ -46,16 +49,14 @@ class QuantumAssociativeMemoryBank:
         self,
         memory_id: str,
         quantum_like_state: QuantumLikeState,
-        associations: List[str]
+        associations: List[str],
     ):
         """
         Store information in superposition-like state
         """
         # 1. Encode classical data into quantum-like state
         encoded_state = await self._encode_to_quantum(
-            memory_id,
-            quantum_like_state,
-            associations
+            memory_id, quantum_like_state, associations
         )
 
         # 2. Apply error correction encoding
@@ -69,9 +70,7 @@ class QuantumAssociativeMemoryBank:
         await self.decoherence_mitigator.stabilize(protected_state)
 
     async def quantum_associative_recall(
-        self,
-        query: QuantumQuery,
-        num_iterations: Optional[int] = None
+        self, query: QuantumQuery, num_iterations: Optional[int] = None
     ) -> List[QuantumMemory]:
         """
         Retrieve memories using quantum parallelism
@@ -85,7 +84,7 @@ class QuantumAssociativeMemoryBank:
 
         # 3. Grover's algorithm iterations
         if num_iterations is None:
-            num_iterations = int(np.pi/4 * np.sqrt(self.capacity))
+            num_iterations = int(np.pi / 4 * np.sqrt(self.capacity))
 
         for _ in range(num_iterations):
             circuit.append(query_oracle, self.memory_register[:])
@@ -98,9 +97,7 @@ class QuantumAssociativeMemoryBank:
         return self._extract_memories(results, query)
 
     def _create_grover_oracle(
-        self,
-        memory_id: str,
-        associations: List[str]
+        self, memory_id: str, associations: List[str]
     ) -> QuantumCircuit:
         """
         Create Grover oracle for specific memory pattern
@@ -111,7 +108,7 @@ class QuantumAssociativeMemoryBank:
         pattern = self._hash_to_quantum_pattern(memory_id, associations)
 
         # Multi-controlled phase flip for pattern
-        control_qubits = [i for i, bit in enumerate(pattern) if bit == '1']
+        control_qubits = [i for i, bit in enumerate(pattern) if bit == "1"]
         if control_qubits:
             oracle.mcp(np.pi, control_qubits, self.memory_register[-1])
 

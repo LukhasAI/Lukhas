@@ -15,11 +15,11 @@ Integration Date: 2025-05-31T07:55:27.729011
 # ║ 🔄 UPDATED: 2025-04-30                                            ║
 # ╚═══════════════════════════════════════════════════════════════════╝
 
-import streamlit as st
-from pathlib import Path
-import subprocess
 import re
-import os
+import subprocess
+from pathlib import Path
+
+import streamlit as st
 
 st.set_page_config(page_title="LUKHAS TEAM  Dashboard", layout="wide")
 
@@ -33,7 +33,9 @@ st.sidebar.title("Settings")
 # Optional: Light/Dark mode (assume already handled elsewhere)
 
 # ─── Tabs Layout ──────────────────────────────────────────────────────
-tab_docs, tab_tests, tab_compliance, tab_experiments = st.tabs(["Documentation 📚", "Testing 🧪", "Compliance 🛡️", "Experimental Modules 🔬"])
+tab_docs, tab_tests, tab_compliance, tab_experiments = st.tabs(
+    ["Documentation 📚", "Testing 🧪", "Compliance 🛡️", "Experimental Modules 🔬"]
+)
 
 # ──────────────────────────────
 # 📚 DOCUMENTATION TAB
@@ -48,7 +50,9 @@ with tab_docs:
         with manual_path.open("r") as f:
             content = f.read()
         # Extract modules with header and footer blocks
-        module_blocks = re.findall(r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL)
+        module_blocks = re.findall(
+            r"(### 📦 (.*?))(.*?)(?=### 📦|$)", content, re.DOTALL
+        )
         modules = [m[1].strip() for m in module_blocks]
         selected_module = st.selectbox("📦 Select Module", modules)
         # Display selected module content
@@ -60,8 +64,12 @@ with tab_docs:
         if selected_block:
             full_header, body = selected_block
             # Attempt to split body into header info and footer (usage guide)
-            header_info_match = re.search(r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL)
-            usage_guide_match = re.search(r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL)
+            header_info_match = re.search(
+                r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL
+            )
+            usage_guide_match = re.search(
+                r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
+            )
             st.markdown(f"## 📘 Details for `{selected_module}`")
             if header_info_match:
                 st.markdown(header_info_match.group(1))
@@ -78,7 +86,11 @@ with tab_docs:
             if st.button("🔄 Sync manual.md to Notion"):
                 with st.spinner("Syncing with Notion..."):
                     try:
-                        result = subprocess.run(["python3", "tools/notion_sync.py"], capture_output=True, text=True)
+                        result = subprocess.run(
+                            ["python3", "tools/notion_sync.py"],
+                            capture_output=True,
+                            text=True,
+                        )
                         if result.returncode == 0:
                             st.success("✅ Notion sync complete!")
                         else:
@@ -89,7 +101,10 @@ with tab_docs:
             if st.button("📤 Export manual.md as PDF"):
                 try:
                     import pypandoc
-                    output = pypandoc.convert_file('manual.md', 'pdf', outputfile='Document_Manual.pdf')
+
+                    output = pypandoc.convert_file(
+                        "manual.md", "pdf", outputfile="Document_Manual.pdf"
+                    )
                     st.success("📄 Exported to Document_Manual.pdf")
                 except Exception as e:
                     st.error(f"❌ PDF export failed: {e}")
@@ -97,7 +112,11 @@ with tab_docs:
             if st.button("🛠️ Build/Update manual.md"):
                 with st.spinner("Building manual..."):
                     try:
-                        result = subprocess.run(["python3", "tools/build_manual.py"], capture_output=True, text=True)
+                        result = subprocess.run(
+                            ["python3", "tools/build_manual.py"],
+                            capture_output=True,
+                            text=True,
+                        )
                         if result.returncode == 0:
                             st.success("✅ manual.md built/updated!")
                         else:
@@ -117,12 +136,17 @@ with tab_tests:
                 # Use subprocess and stream output
                 result = subprocess.run(
                     ["python3", "-m", "unittest", "discover", "-s", "tests"],
-                    capture_output=True, text=True
+                    capture_output=True,
+                    text=True,
                 )
                 if result.returncode == 0:
-                    test_output_placeholder.success("✅ All tests passed!\n\n" + result.stdout)
+                    test_output_placeholder.success(
+                        "✅ All tests passed!\n\n" + result.stdout
+                    )
                 else:
-                    test_output_placeholder.error("❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr)
+                    test_output_placeholder.error(
+                        "❌ Test failures:\n\n" + result.stdout + "\n" + result.stderr
+                    )
             except Exception as e:
                 test_output_placeholder.error(f"❌ Error running tests: {e}")
 
@@ -139,7 +163,9 @@ with tab_compliance:
         with compliance_path.open("r") as f:
             compliance_md = f.read()
         # Try to find a markdown table
-        table_match = re.search(r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md)
+        table_match = re.search(
+            r"(\|.+\|\n(\|[-:]+\|)+\n([\s\S]+?))(\n\n|$)", compliance_md
+        )
         if table_match:
             table_md = table_match.group(1)
             st.markdown(table_md)
@@ -151,9 +177,12 @@ with tab_compliance:
         if trace_path.exists():
             st.subheader("📊 Symbolic Trace Dashboard")
             import pandas as pd
+
             try:
                 df = pd.read_csv(trace_path)
-                filter_cols = st.multiselect("Filter Columns", df.columns.tolist(), default=df.columns.tolist())
+                filter_cols = st.multiselect(
+                    "Filter Columns", df.columns.tolist(), default=df.columns.tolist()
+                )
                 st.dataframe(df[filter_cols] if filter_cols else df)
             except Exception as e:
                 st.error(f"Error loading symbolic trace dashboard: {e}")
@@ -179,16 +208,23 @@ with tab_compliance:
             st.subheader("🧰 Trace Summary Tools")
             try:
                 import importlib.util
-                spec = importlib.util.spec_from_file_location("trace_tools", str(tools_path))
+
+                spec = importlib.util.spec_from_file_location(
+                    "trace_tools", str(tools_path)
+                )
                 trace_tools = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(trace_tools)
 
-                summary = trace_tools.summarize_trace("logs/symbolic_trace_dashboard.csv")
+                summary = trace_tools.summarize_trace(
+                    "logs/symbolic_trace_dashboard.csv"
+                )
                 st.markdown("### 🔍 Summary")
                 st.json(summary)
 
                 if st.button("🧹 Filter Low Confidence Entries"):
-                    filtered = trace_tools.filter_trace("logs/symbolic_trace_dashboard.csv", confidence_threshold=0.6)
+                    filtered = trace_tools.filter_trace(
+                        "logs/symbolic_trace_dashboard.csv", confidence_threshold=0.6
+                    )
                     st.dataframe(filtered)
             except Exception as e:
                 st.error(f"Error loading trace tools: {e}")

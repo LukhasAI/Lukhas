@@ -8,12 +8,12 @@ Implements GDPR-compliant registration flow with Trinity Framework integration.
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
-from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, EmailStr, Field, validator
-from typing import Optional, List
-import re
 import logging
-from datetime import datetime, timezone
+import re
+from typing import List, Optional
+
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel, EmailStr, Field, validator
 
 from .user_db import user_db
 
@@ -30,7 +30,7 @@ class RegistrationRequest(BaseModel):
     cultural_profile: Optional[str] = Field("universal", description="Cultural background")
     personality_type: Optional[str] = Field("balanced", description="Personality profile")
     consent: bool = Field(..., description="GDPR consent acknowledgment")
-    
+
     @validator('password')
     def validate_password_strength(cls, v):
         """Ensure password meets security requirements."""
@@ -41,7 +41,7 @@ class RegistrationRequest(BaseModel):
         if not re.search(r"[0-9]", v):
             raise ValueError("Password must contain numbers")
         return v
-    
+
     @validator('tier')
     def validate_tier_request(cls, v):
         """Validate tier request - new users typically start at T1."""
@@ -88,7 +88,7 @@ async def register_user(request: RegistrationRequest):
                 status_code=400,
                 detail="GDPR consent is required for registration"
             )
-        
+
         # Check if user already exists
         existing_user = user_db.get_user_by_email(request.email)
         if existing_user:
@@ -96,7 +96,7 @@ async def register_user(request: RegistrationRequest):
                 status_code=409,
                 detail="User with this email already exists"
             )
-        
+
         # Create user with symbolic initialization
         user_data = user_db.create_user(
             email=request.email,
@@ -105,13 +105,13 @@ async def register_user(request: RegistrationRequest):
             cultural_profile=request.cultural_profile,
             personality_type=request.personality_type
         )
-        
+
         # Extract user ID
         user_id = request.email.split('@')[0].replace('.', '_').lower()
-        
+
         # Log registration event
         logger.info(f"New user registered: {user_id} with tier {request.tier}")
-        
+
         return RegistrationResponse(
             success=True,
             message=f"Welcome to LUKHΛS! Your identity has been created with {request.tier} access.",
@@ -123,7 +123,7 @@ async def register_user(request: RegistrationRequest):
             consent_logged=True,
             trinity_score=user_data["metadata"]["trinity_score"]
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -144,18 +144,18 @@ async def check_email_availability(email: EmailStr):
     """
     try:
         existing_user = user_db.get_user_by_email(email)
-        
+
         if existing_user:
             return {
                 "available": False,
                 "message": "Email already registered"
             }
-        
+
         return {
             "available": True,
             "message": "Email available for registration"
         }
-        
+
     except Exception as e:
         logger.error(f"Email check error: {str(e)}")
         raise HTTPException(

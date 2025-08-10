@@ -42,30 +42,29 @@ SYMBOLIC TAGS IMPLEMENTED:
 LUKHAS_TAG: unified_drift, lambda_tier_integration, identity_aware_drift
 """
 
-import json
 import hashlib
+import json
 import os
-import numpy as np
-from typing import Dict, Any, List, Optional, Set, Tuple, Union
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 import structlog
 
-# Unified tier system imports
-from core.tier_unification_adapter import (
-    get_unified_adapter,
-    TierMappingConfig
-)
 from core.identity_integration import (
-    require_identity,
     get_identity_client,
-    IdentityContext
+    require_identity,
 )
 
 # LUKHAS Core Imports
-from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker, DriftScore, DriftPhase
-from memory.emotional import EmotionalMemory, EmotionVector
+from core.symbolic.drift.symbolic_drift_tracker import (
+    DriftPhase,
+    SymbolicDriftTracker,
+)
+
+# Unified tier system imports
 from memory.systems.memory_drift_tracker import MemoryDriftTracker
 
 logger = structlog.get_logger(__name__)
@@ -73,27 +72,30 @@ logger = structlog.get_logger(__name__)
 
 class DriftDimension(Enum):
     """Dimensions of drift analysis."""
-    SYMBOLIC = "symbolic"          # Symbol/GLYPH changes
-    EMOTIONAL = "emotional"        # Emotional state drift
-    MEMORY = "memory"             # Memory structure drift
-    COHERENCE = "coherence"       # Narrative coherence drift
-    IDENTITY = "identity"         # Identity stability drift
-    ETHICAL = "ethical"           # Ethical alignment drift
-    TEMPORAL = "temporal"         # Temporal pattern drift
+
+    SYMBOLIC = "symbolic"  # Symbol/GLYPH changes
+    EMOTIONAL = "emotional"  # Emotional state drift
+    MEMORY = "memory"  # Memory structure drift
+    COHERENCE = "coherence"  # Narrative coherence drift
+    IDENTITY = "identity"  # Identity stability drift
+    ETHICAL = "ethical"  # Ethical alignment drift
+    TEMPORAL = "temporal"  # Temporal pattern drift
 
 
 class DriftSeverity(Enum):
     """Drift severity levels aligned with tier access."""
-    STABLE = "stable"           # 0.0-0.2 - All tiers
-    MINOR = "minor"             # 0.2-0.4 - LAMBDA_TIER_1+
-    MODERATE = "moderate"       # 0.4-0.6 - LAMBDA_TIER_2+
-    SIGNIFICANT = "significant" # 0.6-0.8 - LAMBDA_TIER_3+
-    CRITICAL = "critical"       # 0.8-1.0 - LAMBDA_TIER_4+
+
+    STABLE = "stable"  # 0.0-0.2 - All tiers
+    MINOR = "minor"  # 0.2-0.4 - LAMBDA_TIER_1+
+    MODERATE = "moderate"  # 0.4-0.6 - LAMBDA_TIER_2+
+    SIGNIFICANT = "significant"  # 0.6-0.8 - LAMBDA_TIER_3+
+    CRITICAL = "critical"  # 0.8-1.0 - LAMBDA_TIER_4+
 
 
 @dataclass
 class UnifiedDriftContext:
     """Enhanced drift analysis context with user identity."""
+
     user_id: str  # Lambda ID
     session_id: str
     lambda_tier: str
@@ -102,12 +104,15 @@ class UnifiedDriftContext:
     temporal_window_hours: int = 24
     include_predictions: bool = False
     anonymize_data: bool = True
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
 
 
 @dataclass
 class UnifiedDriftResult:
     """Comprehensive drift analysis result with user context."""
+
     user_id: str
     overall_drift_score: float  # 0.0-1.0
     dimension_scores: Dict[str, float]
@@ -123,7 +128,9 @@ class UnifiedDriftResult:
     temporal_patterns: Dict[str, Any] = field(default_factory=dict)
     recommendations: List[str] = field(default_factory=list)
     consent_limited: List[str] = field(default_factory=list)
-    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    timestamp: str = field(
+        default_factory=lambda: datetime.now(timezone.utc).isoformat()
+    )
 
 
 # LUKHAS_TAG: unified_drift_access_matrix
@@ -134,7 +141,7 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": False,
         "detailed_analysis": False,
         "cascade_detection": False,
-        "consent_required": ["basic_drift_access"]
+        "consent_required": ["basic_drift_access"],
     },
     "LAMBDA_TIER_1": {
         "max_dimensions": 2,
@@ -142,7 +149,7 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": False,
         "detailed_analysis": False,
         "cascade_detection": False,
-        "consent_required": ["drift_analysis"]
+        "consent_required": ["drift_analysis"],
     },
     "LAMBDA_TIER_2": {
         "max_dimensions": 4,
@@ -150,7 +157,7 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": True,
         "detailed_analysis": True,
         "cascade_detection": False,
-        "consent_required": ["drift_analysis", "detailed_drift_access"]
+        "consent_required": ["drift_analysis", "detailed_drift_access"],
     },
     "LAMBDA_TIER_3": {
         "max_dimensions": 6,
@@ -158,7 +165,11 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": True,
         "detailed_analysis": True,
         "cascade_detection": True,
-        "consent_required": ["drift_analysis", "detailed_drift_access", "cascade_risk_analysis"]
+        "consent_required": [
+            "drift_analysis",
+            "detailed_drift_access",
+            "cascade_risk_analysis",
+        ],
     },
     "LAMBDA_TIER_4": {
         "max_dimensions": 7,
@@ -166,7 +177,12 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": True,
         "detailed_analysis": True,
         "cascade_detection": True,
-        "consent_required": ["drift_analysis", "detailed_drift_access", "cascade_risk_analysis", "predictive_drift_modeling"]
+        "consent_required": [
+            "drift_analysis",
+            "detailed_drift_access",
+            "cascade_risk_analysis",
+            "predictive_drift_modeling",
+        ],
     },
     "LAMBDA_TIER_5": {
         "max_dimensions": 7,
@@ -174,8 +190,8 @@ UNIFIED_DRIFT_ACCESS_MATRIX = {
         "include_predictions": True,
         "detailed_analysis": True,
         "cascade_detection": True,
-        "consent_required": ["drift_analysis"]  # System tier has fewer restrictions
-    }
+        "consent_required": ["drift_analysis"],  # System tier has fewer restrictions
+    },
 }
 
 
@@ -192,7 +208,9 @@ class UnifiedDriftSystem:
 
         # Initialize component drift trackers
         self.symbolic_tracker = SymbolicDriftTracker(config.get("symbolic", {}))
-        self.memory_tracker = MemoryDriftTracker(config.get("memory_log_path", "unified_drift.jsonl"))
+        self.memory_tracker = MemoryDriftTracker(
+            config.get("memory_log_path", "unified_drift.jsonl")
+        )
 
         # Get centralized identity client
         self.identity_client = get_identity_client()
@@ -206,18 +224,30 @@ class UnifiedDriftSystem:
         self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/drift"
         os.makedirs(self.logs_dir, exist_ok=True)
 
-        self.unified_log_path = os.path.join(self.logs_dir, "unified_drift_analysis.jsonl")
-        self.cascade_log_path = os.path.join(self.logs_dir, "drift_cascade_alerts.jsonl")
-        self.baseline_log_path = os.path.join(self.logs_dir, "user_drift_baselines.jsonl")
+        self.unified_log_path = os.path.join(
+            self.logs_dir, "unified_drift_analysis.jsonl"
+        )
+        self.cascade_log_path = os.path.join(
+            self.logs_dir, "drift_cascade_alerts.jsonl"
+        )
+        self.baseline_log_path = os.path.join(
+            self.logs_dir, "user_drift_baselines.jsonl"
+        )
 
-        logger.info("UnifiedDriftSystem initialized",
-                   identity_client_available=self.identity_client is not None,
-                   components=["symbolic", "memory", "emotional", "coherence"])
+        logger.info(
+            "UnifiedDriftSystem initialized",
+            identity_client_available=self.identity_client is not None,
+            components=["symbolic", "memory", "emotional", "coherence"],
+        )
 
     # LUKHAS_TAG: unified_drift_analysis
     @require_identity(required_tier="LAMBDA_TIER_1", check_consent="drift_analysis")
-    def analyze_unified_drift(self, user_id: str, current_state: Dict[str, Any],
-                            context: Optional[UnifiedDriftContext] = None) -> UnifiedDriftResult:
+    def analyze_unified_drift(
+        self,
+        user_id: str,
+        current_state: Dict[str, Any],
+        context: Optional[UnifiedDriftContext] = None,
+    ) -> UnifiedDriftResult:
         """
         Performs comprehensive drift analysis across all dimensions.
 
@@ -234,12 +264,13 @@ class UnifiedDriftSystem:
                 user_id=user_id,
                 session_id=f"session_{hashlib.md5(user_id.encode()).hexdigest()[:8]}",
                 lambda_tier=self._get_user_tier(user_id),
-                analysis_scope=[DriftDimension.SYMBOLIC, DriftDimension.EMOTIONAL]
+                analysis_scope=[DriftDimension.SYMBOLIC, DriftDimension.EMOTIONAL],
             )
 
         # Get user's tier access permissions
-        tier_permissions = UNIFIED_DRIFT_ACCESS_MATRIX.get(context.lambda_tier,
-                                                          UNIFIED_DRIFT_ACCESS_MATRIX["LAMBDA_TIER_1"])
+        tier_permissions = UNIFIED_DRIFT_ACCESS_MATRIX.get(
+            context.lambda_tier, UNIFIED_DRIFT_ACCESS_MATRIX["LAMBDA_TIER_1"]
+        )
 
         # Verify consent for analysis
         consent_limited = []
@@ -262,7 +293,9 @@ class UnifiedDriftSystem:
 
         # Symbolic drift analysis
         if DriftDimension.SYMBOLIC in analysis_scope:
-            symbolic_score = self._analyze_symbolic_drift(current_state, user_baseline, user_id)
+            symbolic_score = self._analyze_symbolic_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["symbolic"] = symbolic_score
             if symbolic_score > 0.6:
                 symbolic_tags.append("ΛDRIFT:symbolic_high")
@@ -270,45 +303,71 @@ class UnifiedDriftSystem:
 
         # Emotional drift analysis
         if DriftDimension.EMOTIONAL in analysis_scope:
-            emotional_score = self._analyze_emotional_drift(current_state, user_baseline, user_id)
+            emotional_score = self._analyze_emotional_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["emotional"] = emotional_score
             if emotional_score > 0.6:
                 symbolic_tags.append("ΛDRIFT:emotional_high")
                 risk_indicators.append("emotional_instability")
 
         # Memory drift analysis (Tier 2+)
-        if DriftDimension.MEMORY in analysis_scope and context.lambda_tier in ["LAMBDA_TIER_2", "LAMBDA_TIER_3", "LAMBDA_TIER_4", "LAMBDA_TIER_5"]:
-            memory_score = self._analyze_memory_drift(current_state, user_baseline, user_id)
+        if DriftDimension.MEMORY in analysis_scope and context.lambda_tier in [
+            "LAMBDA_TIER_2",
+            "LAMBDA_TIER_3",
+            "LAMBDA_TIER_4",
+            "LAMBDA_TIER_5",
+        ]:
+            memory_score = self._analyze_memory_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["memory"] = memory_score
             if memory_score > 0.5:
                 symbolic_tags.append("ΛDRIFT:memory_moderate")
 
         # Coherence drift analysis (Tier 2+)
-        if DriftDimension.COHERENCE in analysis_scope and tier_permissions["detailed_analysis"]:
-            coherence_score = self._analyze_coherence_drift(current_state, user_baseline, user_id)
+        if (
+            DriftDimension.COHERENCE in analysis_scope
+            and tier_permissions["detailed_analysis"]
+        ):
+            coherence_score = self._analyze_coherence_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["coherence"] = coherence_score
             if coherence_score < 0.7:
                 symbolic_tags.append("ΛCOHERENCE:degraded")
                 risk_indicators.append("coherence_loss")
 
         # Identity drift analysis (Tier 3+)
-        if DriftDimension.IDENTITY in analysis_scope and tier_permissions["cascade_detection"]:
-            identity_score = self._analyze_identity_drift(current_state, user_baseline, user_id)
+        if (
+            DriftDimension.IDENTITY in analysis_scope
+            and tier_permissions["cascade_detection"]
+        ):
+            identity_score = self._analyze_identity_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["identity"] = identity_score
             if identity_score > 0.7:
                 symbolic_tags.append("ΛIDENTITY:instability")
                 risk_indicators.append("identity_cascade_risk")
 
         # Ethical drift analysis (Tier 3+)
-        if DriftDimension.ETHICAL in analysis_scope and tier_permissions["cascade_detection"]:
-            ethical_score = self._analyze_ethical_drift(current_state, user_baseline, user_id)
+        if (
+            DriftDimension.ETHICAL in analysis_scope
+            and tier_permissions["cascade_detection"]
+        ):
+            ethical_score = self._analyze_ethical_drift(
+                current_state, user_baseline, user_id
+            )
             dimension_scores["ethical"] = ethical_score
             if ethical_score > 0.6:
                 symbolic_tags.append("ΛETHICAL:drift_detected")
                 risk_indicators.append("ethical_alignment_shift")
 
         # Calculate overall drift score
-        overall_score = np.mean(list(dimension_scores.values())) if dimension_scores else 0.0
+        overall_score = (
+            np.mean(list(dimension_scores.values())) if dimension_scores else 0.0
+        )
 
         # Determine severity and phase
         severity = self._calculate_severity(overall_score)
@@ -330,7 +389,9 @@ class UnifiedDriftSystem:
         trend_direction = self._analyze_trend_direction(user_id, overall_score)
 
         # Generate recommendations
-        recommendations = self._generate_recommendations(dimension_scores, severity, risk_indicators)
+        recommendations = self._generate_recommendations(
+            dimension_scores, severity, risk_indicators
+        )
 
         # Create unified result
         unified_result = UnifiedDriftResult(
@@ -347,7 +408,7 @@ class UnifiedDriftSystem:
             coherence_score=coherence_score,
             trend_direction=trend_direction,
             recommendations=recommendations,
-            consent_limited=consent_limited
+            consent_limited=consent_limited,
         )
 
         # Store result in history
@@ -368,8 +429,8 @@ class UnifiedDriftSystem:
                     "severity": severity.value,
                     "dimensions_analyzed": len(dimension_scores),
                     "cascade_risk": cascade_risk,
-                    "lambda_tier": context.lambda_tier
-                }
+                    "lambda_tier": context.lambda_tier,
+                },
             )
 
         # Check for cascade alerts
@@ -379,17 +440,21 @@ class UnifiedDriftSystem:
         # Log to unified drift log
         self._log_unified_drift(unified_result)
 
-        logger.info("Unified drift analysis complete",
-                   user_id=user_id,
-                   overall_score=overall_score,
-                   severity=severity.value,
-                   cascade_risk=cascade_risk,
-                   dimensions=len(dimension_scores))
+        logger.info(
+            "Unified drift analysis complete",
+            user_id=user_id,
+            overall_score=overall_score,
+            severity=severity.value,
+            cascade_risk=cascade_risk,
+            dimensions=len(dimension_scores),
+        )
 
         return unified_result
 
     # LUKHAS_TAG: drift_trend_analysis
-    @require_identity(required_tier="LAMBDA_TIER_2", check_consent="detailed_drift_access")
+    @require_identity(
+        required_tier="LAMBDA_TIER_2", check_consent="detailed_drift_access"
+    )
     def analyze_drift_trends(self, user_id: str, days: int = 7) -> Dict[str, Any]:
         """
         Analyzes drift trends over time for a user.
@@ -406,13 +471,14 @@ class UnifiedDriftSystem:
                 "user_id": user_id,
                 "trend_status": "insufficient_data",
                 "days_analyzed": 0,
-                "recommendations": ["Continue using system to build drift history"]
+                "recommendations": ["Continue using system to build drift history"],
             }
 
         # Filter to recent results
         cutoff_time = datetime.now(timezone.utc) - timedelta(days=days)
         recent_results = [
-            result for result in self.drift_history[user_id]
+            result
+            for result in self.drift_history[user_id]
             if datetime.fromisoformat(result.timestamp) >= cutoff_time
         ]
 
@@ -421,7 +487,7 @@ class UnifiedDriftSystem:
                 "user_id": user_id,
                 "trend_status": "insufficient_recent_data",
                 "days_analyzed": days,
-                "total_analyses": len(recent_results)
+                "total_analyses": len(recent_results),
             }
 
         # Calculate trend metrics
@@ -448,7 +514,14 @@ class UnifiedDriftSystem:
 
         # Dimension-specific trends
         dimension_trends = {}
-        for dimension in ["symbolic", "emotional", "memory", "coherence", "identity", "ethical"]:
+        for dimension in [
+            "symbolic",
+            "emotional",
+            "memory",
+            "coherence",
+            "identity",
+            "ethical",
+        ]:
             dimension_scores = [
                 r.dimension_scores.get(dimension, 0.0)
                 for r in recent_results
@@ -457,8 +530,16 @@ class UnifiedDriftSystem:
             if dimension_scores:
                 dimension_trends[dimension] = {
                     "average": np.mean(dimension_scores),
-                    "trend": "increasing" if len(dimension_scores) > 1 and np.polyfit(range(len(dimension_scores)), dimension_scores, 1)[0] > 0.02 else "stable",
-                    "volatility": np.std(dimension_scores)
+                    "trend": (
+                        "increasing"
+                        if len(dimension_scores) > 1
+                        and np.polyfit(
+                            range(len(dimension_scores)), dimension_scores, 1
+                        )[0]
+                        > 0.02
+                        else "stable"
+                    ),
+                    "volatility": np.std(dimension_scores),
                 }
 
         trend_result = {
@@ -472,7 +553,7 @@ class UnifiedDriftSystem:
             "max_cascade_risk": max_cascade_risk,
             "average_stability": avg_stability,
             "dimension_trends": dimension_trends,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         # Log trend analysis
@@ -484,8 +565,8 @@ class UnifiedDriftSystem:
                     "trend_status": trend_status,
                     "days_analyzed": days,
                     "average_drift": avg_drift,
-                    "max_cascade_risk": max_cascade_risk
-                }
+                    "max_cascade_risk": max_cascade_risk,
+                },
             )
 
         return trend_result
@@ -497,6 +578,7 @@ class UnifiedDriftSystem:
         if self.identity_client:
             try:
                 from identity.core.user_tier_mapping import get_user_tier
+
                 return get_user_tier(user_id) or "LAMBDA_TIER_1"
             except:
                 pass
@@ -512,11 +594,13 @@ class UnifiedDriftSystem:
                 "memory": 0.2,
                 "coherence": 0.8,
                 "identity": 0.1,
-                "ethical": 0.05
+                "ethical": 0.05,
             }
         return self.user_baselines[user_id]
 
-    def _analyze_symbolic_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_symbolic_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze symbolic drift using symbolic tracker."""
         current_symbols = current_state.get("symbols", [])
         baseline_symbols = current_state.get("baseline_symbols", [])
@@ -527,7 +611,9 @@ class UnifiedDriftSystem:
             )
         return baseline.get("symbolic", 0.3)
 
-    def _analyze_emotional_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_emotional_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze emotional drift from current state."""
         current_emotion = current_state.get("emotion_vector", {})
         baseline_emotion = current_state.get("baseline_emotion", {})
@@ -541,19 +627,29 @@ class UnifiedDriftSystem:
 
         return baseline.get("emotional", 0.25)
 
-    def _analyze_memory_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_memory_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze memory drift using memory tracker."""
         if self.memory_tracker:
             current_snapshot = current_state.get("memory_snapshot", {})
             prior_snapshot = current_state.get("prior_memory_snapshot", {})
 
             if current_snapshot and prior_snapshot:
-                drift_result = self.memory_tracker.track_drift(current_snapshot, prior_snapshot)
-                return min(1.0, drift_result.get("entropy_delta", 0.0) + drift_result.get("emotional_delta", 0.0))
+                drift_result = self.memory_tracker.track_drift(
+                    current_snapshot, prior_snapshot
+                )
+                return min(
+                    1.0,
+                    drift_result.get("entropy_delta", 0.0)
+                    + drift_result.get("emotional_delta", 0.0),
+                )
 
         return baseline.get("memory", 0.2)
 
-    def _analyze_coherence_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_coherence_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze narrative/logical coherence drift."""
         coherence_score = current_state.get("coherence_score", 0.8)
         baseline_coherence = baseline.get("coherence", 0.8)
@@ -561,7 +657,9 @@ class UnifiedDriftSystem:
         # Return drift as deviation from baseline (inverted for coherence)
         return abs(baseline_coherence - coherence_score)
 
-    def _analyze_identity_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_identity_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze identity stability drift."""
         identity_stability = current_state.get("identity_stability", 0.9)
         baseline_identity = baseline.get("identity", 0.1)
@@ -569,7 +667,9 @@ class UnifiedDriftSystem:
         # Higher instability = higher drift
         return max(0.0, 1.0 - identity_stability)
 
-    def _analyze_ethical_drift(self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str) -> float:
+    def _analyze_ethical_drift(
+        self, current_state: Dict[str, Any], baseline: Dict[str, float], user_id: str
+    ) -> float:
         """Analyze ethical alignment drift."""
         ethical_alignment = current_state.get("ethical_alignment", 0.95)
         baseline_ethical = baseline.get("ethical", 0.05)
@@ -590,7 +690,9 @@ class UnifiedDriftSystem:
         else:
             return DriftSeverity.CRITICAL
 
-    def _calculate_phase(self, overall_score: float, dimension_scores: Dict[str, float]) -> DriftPhase:
+    def _calculate_phase(
+        self, overall_score: float, dimension_scores: Dict[str, float]
+    ) -> DriftPhase:
         """Calculate drift phase based on scores."""
         if overall_score < 0.25:
             return DriftPhase.EARLY
@@ -601,9 +703,13 @@ class UnifiedDriftSystem:
         else:
             return DriftPhase.CASCADE
 
-    def _calculate_cascade_risk(self, dimension_scores: Dict[str, float], user_id: str) -> float:
+    def _calculate_cascade_risk(
+        self, dimension_scores: Dict[str, float], user_id: str
+    ) -> float:
         """Calculate cascade risk from multiple high drift dimensions."""
-        high_drift_dimensions = [score for score in dimension_scores.values() if score > 0.6]
+        high_drift_dimensions = [
+            score for score in dimension_scores.values() if score > 0.6
+        ]
 
         if len(high_drift_dimensions) >= 3:
             return min(1.0, 0.5 + 0.2 * len(high_drift_dimensions))
@@ -617,7 +723,9 @@ class UnifiedDriftSystem:
         if user_id not in self.drift_history or len(self.drift_history[user_id]) < 3:
             return "stable"
 
-        recent_scores = [r.overall_drift_score for r in self.drift_history[user_id][-5:]]
+        recent_scores = [
+            r.overall_drift_score for r in self.drift_history[user_id][-5:]
+        ]
 
         if len(recent_scores) >= 3:
             slope = np.polyfit(range(len(recent_scores)), recent_scores, 1)[0]
@@ -628,8 +736,12 @@ class UnifiedDriftSystem:
 
         return "stable"
 
-    def _generate_recommendations(self, dimension_scores: Dict[str, float],
-                                severity: DriftSeverity, risk_indicators: List[str]) -> List[str]:
+    def _generate_recommendations(
+        self,
+        dimension_scores: Dict[str, float],
+        severity: DriftSeverity,
+        risk_indicators: List[str],
+    ) -> List[str]:
         """Generate recommendations based on analysis."""
         recommendations = []
 
@@ -659,7 +771,7 @@ class UnifiedDriftSystem:
             "cascade_risk": result.cascade_risk,
             "overall_score": result.overall_drift_score,
             "risk_indicators": result.risk_indicators,
-            "lambda_tier": result.lambda_tier
+            "lambda_tier": result.lambda_tier,
         }
 
         self.cascade_alerts.append(alert)
@@ -668,10 +780,12 @@ class UnifiedDriftSystem:
         with open(self.cascade_log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(alert) + "\n")
 
-        logger.critical("Cascade alert triggered",
-                       user_id=user_id,
-                       cascade_risk=result.cascade_risk,
-                       risk_indicators=result.risk_indicators)
+        logger.critical(
+            "Cascade alert triggered",
+            user_id=user_id,
+            cascade_risk=result.cascade_risk,
+            risk_indicators=result.risk_indicators,
+        )
 
     def _log_unified_drift(self, result: UnifiedDriftResult):
         """Log unified drift result."""
@@ -682,7 +796,9 @@ class UnifiedDriftSystem:
 
 
 # Factory function for easy integration
-def create_unified_drift_system(config: Optional[Dict[str, Any]] = None) -> UnifiedDriftSystem:
+def create_unified_drift_system(
+    config: Optional[Dict[str, Any]] = None,
+) -> UnifiedDriftSystem:
     """Create a new unified drift system instance."""
     return UnifiedDriftSystem(config)
 

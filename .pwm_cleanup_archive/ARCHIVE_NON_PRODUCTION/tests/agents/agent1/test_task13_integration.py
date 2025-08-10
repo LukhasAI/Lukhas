@@ -15,23 +15,24 @@ Test Coverage:
 - Full reasoning process with trace logging
 """
 
-import sys
-import os
-import tempfile
 import json
+import os
+import sys
 from datetime import datetime
-from typing import Dict, Any, Optional
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 
 def test_symbolic_tracer_import():
     """Test that SymbolicTracer can be imported and used independently."""
     print("🧪 Test 1: SymbolicTracer Import and Basic Functionality")
 
     try:
-        from features.symbolic.tracer import (SymbolicTracer, InferenceStep,
-                                              SymbolicTrace, DecisionTrail)
+        from features.symbolic.tracer import (
+            SymbolicTracer,
+        )
+
         print("✅ SymbolicTracer imports successful")
 
         # Test basic tracer functionality
@@ -40,8 +41,7 @@ def test_symbolic_tracer_import():
         print(f"✅ Trail started with ID: {trail_id}")
 
         # Test trace logging
-        tracer.trace("TestAgent", "reasoning_start",
-                    {"input": "test data"}, trail_id)
+        tracer.trace("TestAgent", "reasoning_start", {"input": "test data"}, trail_id)
         print("✅ Trace event logged successfully")
 
         # Test trail completion
@@ -56,12 +56,14 @@ def test_symbolic_tracer_import():
         print(f"❌ SymbolicTracer import test failed: {e}")
         return False
 
+
 def test_reasoning_engine_tracer_integration():
     """Test that SymbolicEngine properly integrates SymbolicTracer."""
     print("\n🧪 Test 2: Reasoning Engine Integration")
 
     try:
         from reasoning.reasoning_engine import SymbolicEngine
+
         print("✅ SymbolicEngine imported successfully")
 
         # Initialize engine (should initialize tracer automatically)
@@ -69,7 +71,7 @@ def test_reasoning_engine_tracer_integration():
         print("✅ SymbolicEngine initialized")
 
         # Check if tracer was initialized
-        assert hasattr(engine, 'symbolic_tracer')
+        assert hasattr(engine, "symbolic_tracer")
         if engine.symbolic_tracer is not None:
             print("✅ SymbolicTracer integrated successfully")
         else:
@@ -80,6 +82,7 @@ def test_reasoning_engine_tracer_integration():
     except Exception as e:
         print(f"❌ Reasoning engine integration test failed: {e}")
         return False
+
 
 def test_reasoning_trail_interface_methods():
     """Test the SymbolicTracer interface methods in SymbolicEngine."""
@@ -100,18 +103,21 @@ def test_reasoning_trail_interface_methods():
                 "SymbolicEngine",
                 "pattern_detection",
                 {"patterns_found": 3, "confidence": 0.85},
-                trail_id
+                trail_id,
             )
             print("✅ Traced reasoning event")
 
             # Test getting trail
             active_trail = engine.get_reasoning_trail(trail_id)
             if active_trail:
-                print(f"✅ Retrieved active trail with {len(active_trail.traces)} events")
+                print(
+                    f"✅ Retrieved active trail with {len(active_trail.traces)} events"
+                )
 
             # Test ending trail
-            completed_trail = engine.end_reasoning_trail(trail_id,
-                                                        "Interface test completed")
+            completed_trail = engine.end_reasoning_trail(
+                trail_id, "Interface test completed"
+            )
             if completed_trail:
                 print("✅ Successfully ended reasoning trail")
 
@@ -126,6 +132,7 @@ def test_reasoning_trail_interface_methods():
     except Exception as e:
         print(f"❌ Interface methods test failed: {e}")
         return False
+
 
 def test_reasoning_with_trace_integration():
     """Test full reasoning process with trace integration."""
@@ -143,7 +150,7 @@ def test_reasoning_with_trace_integration():
         test_input = {
             "text": "The system shows improved performance because of the new algorithm",
             "context": {"domain": "system_analysis", "priority": "high"},
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Trace the start of reasoning
@@ -152,7 +159,7 @@ def test_reasoning_with_trace_integration():
                 "TestSuite",
                 "reasoning_input_received",
                 {"input_keys": list(test_input.keys())},
-                trail_id
+                trail_id,
             )
 
         # Perform reasoning
@@ -165,17 +172,19 @@ def test_reasoning_with_trace_integration():
                 "TestSuite",
                 "reasoning_completed",
                 {"result_confidence": result.get("confidence", 0.0)},
-                trail_id
+                trail_id,
             )
 
             # End the trail
             completed_trail = engine.end_reasoning_trail(
                 trail_id,
-                f"Reasoning completed with confidence {result.get('confidence', 0.0)}"
+                f"Reasoning completed with confidence {result.get('confidence', 0.0)}",
             )
 
             if completed_trail:
-                print(f"✅ Complete trail with {len(completed_trail.traces)} trace events")
+                print(
+                    f"✅ Complete trail with {len(completed_trail.traces)} trace events"
+                )
 
                 # Validate trail JSON serialization
                 trail_json = completed_trail.to_json()
@@ -189,6 +198,7 @@ def test_reasoning_with_trace_integration():
     except Exception as e:
         print(f"❌ Full reasoning with tracing test failed: {e}")
         return False
+
 
 def test_error_handling_and_fallback():
     """Test error handling when SymbolicTracer is not available."""
@@ -224,6 +234,7 @@ def test_error_handling_and_fallback():
         print(f"❌ Error handling test failed: {e}")
         return False
 
+
 def test_tracer_integration_with_reasoning_patterns():
     """Test tracer integration with symbolic pattern detection."""
     print("\n🧪 Test 6: Tracer Integration with Reasoning Patterns")
@@ -239,34 +250,36 @@ def test_tracer_integration_with_reasoning_patterns():
                 "name": "Causation Pattern",
                 "input": {
                     "text": "The server crashed because the memory was exhausted",
-                    "context": {"domain": "system_diagnosis"}
-                }
+                    "context": {"domain": "system_diagnosis"},
+                },
             },
             {
                 "name": "Correlation Pattern",
                 "input": {
                     "text": "User satisfaction is associated with response time",
-                    "context": {"domain": "performance_analysis"}
-                }
+                    "context": {"domain": "performance_analysis"},
+                },
             },
             {
                 "name": "Conditional Pattern",
                 "input": {
                     "text": "If the load balancer fails, then backup systems activate",
-                    "context": {"domain": "failover_planning"}
-                }
-            }
+                    "context": {"domain": "failover_planning"},
+                },
+            },
         ]
 
         for test_case in test_cases:
-            trail_id = engine.start_reasoning_trail(f"Pattern test: {test_case['name']}")
+            trail_id = engine.start_reasoning_trail(
+                f"Pattern test: {test_case['name']}"
+            )
 
             if trail_id:
                 engine.trace_reasoning_event(
                     "PatternTester",
                     "pattern_test_start",
                     {"pattern_type": test_case["name"]},
-                    trail_id
+                    trail_id,
                 )
 
             result = engine.reason(test_case["input"])
@@ -277,13 +290,14 @@ def test_tracer_integration_with_reasoning_patterns():
                     "pattern_detection_complete",
                     {
                         "patterns_detected": len(result.get("symbolic_patterns", [])),
-                        "confidence": result.get("confidence", 0.0)
+                        "confidence": result.get("confidence", 0.0),
                     },
-                    trail_id
+                    trail_id,
                 )
 
-                engine.end_reasoning_trail(trail_id,
-                                         f"{test_case['name']} analysis complete")
+                engine.end_reasoning_trail(
+                    trail_id, f"{test_case['name']} analysis complete"
+                )
 
             print(f"✅ {test_case['name']} test completed")
 
@@ -292,6 +306,7 @@ def test_tracer_integration_with_reasoning_patterns():
     except Exception as e:
         print(f"❌ Pattern integration test failed: {e}")
         return False
+
 
 def main():
     """Run all Agent 1 Task 13 integration tests."""
@@ -305,7 +320,7 @@ def main():
         test_reasoning_trail_interface_methods,
         test_reasoning_with_trace_integration,
         test_error_handling_and_fallback,
-        test_tracer_integration_with_reasoning_patterns
+        test_tracer_integration_with_reasoning_patterns,
     ]
 
     results = []
@@ -341,6 +356,7 @@ def main():
         print(f"⚠️  {total-passed} tests failed. Review integration issues.")
 
     return passed == total
+
 
 if __name__ == "__main__":
     success = main()

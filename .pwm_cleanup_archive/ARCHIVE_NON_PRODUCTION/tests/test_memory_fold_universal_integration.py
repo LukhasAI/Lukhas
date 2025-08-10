@@ -15,21 +15,21 @@ This test shows how memories flow through:
 """
 
 import asyncio
-import pytest
-from datetime import datetime, timedelta
-from typing import Dict, Any
+from datetime import datetime
 
-# Import the universal bridge
-from memory.core_universal_bridge import (
-    MemoryFoldUniversalBridge,
-    BridgeConfiguration,
-    create_universal_memory,
-    bridge_dream_snapshot,
-)
+import pytest
 
 # Import memory systems
 from memory.core import MemoryFoldSystem
-from memory.systems.dream_memory_fold import DreamSnapshot, DreamMemoryFold
+
+# Import the universal bridge
+from memory.core_universal_bridge import (
+    BridgeConfiguration,
+    MemoryFoldUniversalBridge,
+    bridge_dream_snapshot,
+    create_universal_memory,
+)
+from memory.systems.dream_memory_fold import DreamMemoryFold, DreamSnapshot
 
 
 class TestMemoryFoldUniversalIntegration:

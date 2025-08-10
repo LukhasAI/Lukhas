@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 AI - Import Path Fixer
@@ -21,17 +20,17 @@ locations, updating import statements, creating missing service modules, and
 fixing common import patterns.
 """
 
-import ast
-import re
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional, Any
+import re
 from collections import defaultdict
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class ImportPathAnalyzer:
     """Analyzes and maps import paths to actual file locations."""
@@ -47,13 +46,13 @@ class ImportPathAnalyzer:
         logger.info("Building module registry...")
 
         for py_file in self.root_path.rglob("*.py"):
-            if '__pycache__' in str(py_file) or '.git' in str(py_file):
+            if "__pycache__" in str(py_file) or ".git" in str(py_file):
                 continue
 
             try:
                 # Get module path relative to root
                 rel_path = py_file.relative_to(self.root_path)
-                module_path = str(rel_path).replace('/', '.').replace('.py', '')
+                module_path = str(rel_path).replace("/", ".").replace(".py", "")
 
                 # Skip if it's a broken symlink
                 if not py_file.exists():
@@ -61,10 +60,10 @@ class ImportPathAnalyzer:
 
                 # Store module info
                 self.module_registry[module_path] = {
-                    'file_path': py_file,
-                    'module_path': module_path,
-                    'directory': py_file.parent,
-                    'name': py_file.stem
+                    "file_path": py_file,
+                    "module_path": module_path,
+                    "directory": py_file.parent,
+                    "name": py_file.stem,
                 }
 
             except Exception as e:
@@ -80,20 +79,20 @@ class ImportPathAnalyzer:
             return broken_import
 
         # Remove 'lukhas.' prefix if present for matching
-        clean_import = broken_import.replace('lukhas.', '')
+        clean_import = broken_import.replace("lukhas.", "")
 
         # Look for exact matches without lukhas prefix
         if clean_import in self.module_registry:
             return clean_import
 
         # Split import into parts for fuzzy matching
-        import_parts = clean_import.split('.')
+        import_parts = clean_import.split(".")
 
         best_match = None
         best_score = 0
 
         for module_path in self.module_registry:
-            module_parts = module_path.split('.')
+            module_parts = module_path.split(".")
 
             # Calculate match score
             score = 0
@@ -133,13 +132,13 @@ class ImportPathAnalyzer:
 
         # Common service patterns that are missing
         service_patterns = [
-            'creativity.creativity_service',
-            'learning.learning_service',
-            'memory.memory_service',
-            'ethics.ethics_service',
-            'quantum.quantum_service',
-            'trace.drift_metrics',
-            'core.symbolic.symbolic_drift_tracker'
+            "creativity.creativity_service",
+            "learning.learning_service",
+            "memory.memory_service",
+            "ethics.ethics_service",
+            "quantum.quantum_service",
+            "trace.drift_metrics",
+            "core.symbolic.symbolic_drift_tracker",
         ]
 
         created_services = []
@@ -147,8 +146,8 @@ class ImportPathAnalyzer:
         for service_pattern in service_patterns:
             if service_pattern not in self.module_registry:
                 # Create the service module
-                service_parts = service_pattern.split('.')
-                service_dir = self.root_path / '/'.join(service_parts[:-1])
+                service_parts = service_pattern.split(".")
+                service_dir = self.root_path / "/".join(service_parts[:-1])
                 service_file = service_dir / f"{service_parts[-1]}.py"
 
                 # Create directory if it doesn't exist
@@ -158,7 +157,7 @@ class ImportPathAnalyzer:
                 service_content = self.generate_service_module(service_pattern)
 
                 try:
-                    with open(service_file, 'w') as f:
+                    with open(service_file, "w") as f:
                         f.write(service_content)
 
                     created_services.append(service_pattern)
@@ -166,10 +165,10 @@ class ImportPathAnalyzer:
 
                     # Add to registry
                     self.module_registry[service_pattern] = {
-                        'file_path': service_file,
-                        'module_path': service_pattern,
-                        'directory': service_dir,
-                        'name': service_parts[-1]
+                        "file_path": service_file,
+                        "module_path": service_pattern,
+                        "directory": service_dir,
+                        "name": service_parts[-1],
                     }
 
                 except Exception as e:
@@ -180,8 +179,8 @@ class ImportPathAnalyzer:
     def generate_service_module(self, service_pattern: str) -> str:
         """Generate a basic service module."""
 
-        parts = service_pattern.split('.')
-        service_name = parts[-1].replace('_', ' ').title().replace(' ', '')
+        parts = service_pattern.split(".")
+        service_name = parts[-1].replace("_", " ").title().replace(" ", "")
         subsystem = parts[0].title()
 
         return f'''"""
@@ -296,6 +295,7 @@ Copyright (c) 2025 AI Research. All rights reserved.
 """
 '''
 
+
 class ImportFixer:
     """Main import path fixing engine."""
 
@@ -309,7 +309,7 @@ class ImportFixer:
         """Fix import statements in a single file."""
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             original_content = content
@@ -318,33 +318,39 @@ class ImportFixer:
             # Fix each broken import
             for broken_import, fixed_import in fixes.items():
                 # Pattern for 'from X import Y' statements
-                from_pattern = rf'from\s+{re.escape(broken_import)}\s+import'
-                from_replacement = f'from {fixed_import} import'
+                from_pattern = rf"from\s+{re.escape(broken_import)}\s+import"
+                from_replacement = f"from {fixed_import} import"
 
                 if re.search(from_pattern, content):
                     content = re.sub(from_pattern, from_replacement, content)
                     changes_made = True
-                    logger.info(f"Fixed 'from {broken_import} import' -> 'from {fixed_import} import'")
+                    logger.info(
+                        f"Fixed 'from {broken_import} import' -> 'from {fixed_import} import'"
+                    )
 
                 # Pattern for 'import X' statements
-                import_pattern = rf'import\s+{re.escape(broken_import)}(?=\s|$|,)'
-                import_replacement = f'import {fixed_import}'
+                import_pattern = rf"import\s+{re.escape(broken_import)}(?=\s|$|,)"
+                import_replacement = f"import {fixed_import}"
 
                 if re.search(import_pattern, content):
                     content = re.sub(import_pattern, import_replacement, content)
                     changes_made = True
-                    logger.info(f"Fixed 'import {broken_import}' -> 'import {fixed_import}'")
+                    logger.info(
+                        f"Fixed 'import {broken_import}' -> 'import {fixed_import}'"
+                    )
 
             # Write back if changes made and not dry run
             if changes_made and not self.dry_run:
-                with open(file_path, 'w', encoding='utf-8') as f:
+                with open(file_path, "w", encoding="utf-8") as f:
                     f.write(content)
 
-                self.fixes_applied.append({
-                    'file': str(file_path),
-                    'fixes': fixes,
-                    'changes_count': len(fixes)
-                })
+                self.fixes_applied.append(
+                    {
+                        "file": str(file_path),
+                        "fixes": fixes,
+                        "changes_count": len(fixes),
+                    }
+                )
 
             return changes_made
 
@@ -368,14 +374,18 @@ class ImportFixer:
 
         # Load broken imports from validation results
         try:
-            with open(self.root_path.parent / 'path_validation_results.json', 'r') as f:
+            with open(self.root_path.parent / "path_validation_results.json") as f:
                 validation_data = json.load(f)
 
-            broken_imports = validation_data.get('path_validation', {}).get('missing_modules', [])
+            broken_imports = validation_data.get("path_validation", {}).get(
+                "missing_modules", []
+            )
 
         except FileNotFoundError:
-            logger.error("path_validation_results.json not found. Run path validator first.")
-            return {'error': 'validation results not found'}
+            logger.error(
+                "path_validation_results.json not found. Run path validator first."
+            )
+            return {"error": "validation results not found"}
 
         # Group broken imports by file
         fixes_by_file = defaultdict(dict)
@@ -383,15 +393,15 @@ class ImportFixer:
         unfixed_count = 0
 
         for broken_import_info in broken_imports:
-            module = broken_import_info['module']
-            missing_import = broken_import_info['missing_import']
+            module = broken_import_info["module"]
+            missing_import = broken_import_info["missing_import"]
 
             # Find best match for the broken import
             best_match = self.analyzer.find_best_match(missing_import)
 
             if best_match:
                 # Convert module path to file path
-                module_file = self.root_path / (module.replace('.', '/') + '.py')
+                module_file = self.root_path / (module.replace(".", "/") + ".py")
 
                 if module_file.exists():
                     fixes_by_file[module_file][missing_import] = best_match
@@ -409,26 +419,33 @@ class ImportFixer:
                 files_modified += 1
 
         results = {
-            'dry_run': dry_run,
-            'total_broken_imports': len(broken_imports),
-            'fixed_imports': fixed_count,
-            'unfixed_imports': unfixed_count,
-            'files_modified': files_modified,
-            'success_rate': f"{fixed_count/(fixed_count+unfixed_count)*100:.1f}%" if (fixed_count+unfixed_count) > 0 else "0%",
-            'fixes_applied': self.fixes_applied
+            "dry_run": dry_run,
+            "total_broken_imports": len(broken_imports),
+            "fixed_imports": fixed_count,
+            "unfixed_imports": unfixed_count,
+            "files_modified": files_modified,
+            "success_rate": (
+                f"{fixed_count/(fixed_count+unfixed_count)*100:.1f}%"
+                if (fixed_count + unfixed_count) > 0
+                else "0%"
+            ),
+            "fixes_applied": self.fixes_applied,
         }
 
         return results
+
 
 def main():
     """CLI entry point."""
     import argparse
 
-    parser = argparse.ArgumentParser(description='Fix broken import paths in LUKHAS')
-    parser.add_argument('--root', default='.', help='Root directory to fix')
-    parser.add_argument('--dry-run', action='store_true', help='Preview fixes without applying')
-    parser.add_argument('--apply', action='store_true', help='Apply fixes to files')
-    parser.add_argument('--output', help='Save results to JSON file')
+    parser = argparse.ArgumentParser(description="Fix broken import paths in LUKHAS")
+    parser.add_argument("--root", default=".", help="Root directory to fix")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Preview fixes without applying"
+    )
+    parser.add_argument("--apply", action="store_true", help="Apply fixes to files")
+    parser.add_argument("--output", help="Save results to JSON file")
 
     args = parser.parse_args()
 
@@ -439,7 +456,7 @@ def main():
     results = fixer.run_import_fixes(dry_run=dry_run)
 
     # Print summary
-    print(f"🔧 Import Path Fixer Results")
+    print("🔧 Import Path Fixer Results")
     print("=" * 40)
     print(f"Mode: {'DRY RUN' if results.get('dry_run') else 'APPLIED'}")
     print(f"Total Broken Imports: {results.get('total_broken_imports', 0)}")
@@ -449,14 +466,15 @@ def main():
     print(f"Success Rate: {results.get('success_rate', '0%')}")
 
     if args.output:
-        with open(args.output, 'w') as f:
+        with open(args.output, "w") as f:
             json.dump(results, f, indent=2)
         print(f"\n📄 Results saved to {args.output}")
 
     if dry_run:
-        print(f"\n💡 Run with --apply to make actual changes")
+        print("\n💡 Run with --apply to make actual changes")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
 
 """

@@ -6,17 +6,20 @@ Exports symbolic events, GLYMPHs, and memory hashes to blockchain-compatible for
 Enables cross-chain interoperability and Web3 integration.
 """
 
-from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
+from typing import Dict, List
+
 
 @dataclass
 class BlockchainEvent:
     """Represents a blockchain-compatible event"""
+
     event_type: str
     timestamp: int
     lukhas_id: str
     data_hash: str
     metadata: Dict
+
 
 class VeriFoldBridgeAdapter:
     """Bridges VeriFold data to blockchain networks."""
@@ -45,6 +48,7 @@ class VeriFoldBridgeAdapter:
         """Synchronize Lukhas_ID across multiple blockchain networks."""
         # TODO: Implement cross-chain ID synchronization
         pass
+
 
 # TODO: Implement blockchain connectivity
 # TODO: Add cross-chain verification

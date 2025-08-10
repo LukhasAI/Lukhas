@@ -15,7 +15,6 @@ Known Issues from validation_report.json:
 
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 def apply_actor_ref_fixes():
@@ -25,7 +24,7 @@ def apply_actor_ref_fixes():
     # Files that likely contain send_message calls
     test_files = [
         "research_validation_pack.py",
-        "lukhas/core/test_coordination_simple.py"
+        "lukhas/core/test_coordination_simple.py",
     ]
 
     replacements = 0
@@ -37,8 +36,8 @@ def apply_actor_ref_fixes():
             original_content = content
 
             # Pattern: actor_ref.send_message(...) → actor_ref.tell(...)
-            pattern = r'(\w*actor_ref\w*)\.send_message\('
-            replacement = r'\1.tell('
+            pattern = r"(\w*actor_ref\w*)\.send_message\("
+            replacement = r"\1.tell("
 
             new_content = re.sub(pattern, replacement, content, flags=re.IGNORECASE)
 
@@ -48,11 +47,13 @@ def apply_actor_ref_fixes():
                 replacements += changes
 
                 # Backup and save
-                backup_path = path.with_suffix(path.suffix + '.bak')
+                backup_path = path.with_suffix(path.suffix + ".bak")
                 path.rename(backup_path)
                 path.write_text(new_content)
 
-                print(f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})")
+                print(
+                    f"  ✅ Fixed {changes} instances in {path.name} (backup: {backup_path.name})"
+                )
 
     print(f"  📊 Total ActorRef fixes applied: {replacements}")
     return replacements
@@ -70,35 +71,39 @@ def fix_communication_fabric():
     content = fabric_path.read_text()
 
     # Check if total_messages is already in get_statistics
-    if 'total_messages' not in content:
+    if "total_messages" not in content:
         # Find the get_statistics method and add total_messages
-        stats_pattern = r'(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)'
+        stats_pattern = r"(def get_statistics\(self\) -> Dict\[str, Any\]:[\s\S]*?return {[\s\S]*?)(}[\s\n]*?)"
 
         def add_total_messages(match):
             stats_dict = match.group(1)
             closing = match.group(2)
 
             # Add total_messages if not present
-            if 'total_messages' not in stats_dict:
+            if "total_messages" not in stats_dict:
                 # Insert before the closing brace
-                new_stats = stats_dict + '            "total_messages": self._message_count,\n            '
+                new_stats = (
+                    stats_dict
+                    + '            "total_messages": self._message_count,\n            '
+                )
                 return new_stats + closing
             return match.group(0)
 
         content = re.sub(stats_pattern, add_total_messages, content)
 
     # Check if send_large_data method exists
-    if 'def send_large_data' not in content:
+    if "def send_large_data" not in content:
         # Find the class definition and add the method
-        class_pattern = r'(class EfficientCommunicationFabric[\s\S]*?)(\n\n\nclass|\Z)'
+        class_pattern = r"(class EfficientCommunicationFabric[\s\S]*?)(\n\n\nclass|\Z)"
 
         def add_send_large_data(match):
             class_content = match.group(1)
-            rest = match.group(2) if match.group(2) else ''
+            rest = match.group(2) if match.group(2) else ""
 
             # Add the method before the class ends
             new_method = '''
-    async def send_large_data(self, recipient: str, data: bytes, chunk_size: int = 1024*1024) -> bool:
+    async def send_large_data(self, recipient: str, data: bytes, chunk_size: int = \
+    1024*1024) -> bool:
         """Send large data in chunks to prevent memory issues"""
         if len(data) <= chunk_size:
             # Small data, send normally
@@ -145,13 +150,13 @@ def fix_communication_fabric():
         content = re.sub(class_pattern, add_send_large_data, content, flags=re.DOTALL)
 
     # Add uuid import if needed for send_large_data
-    if 'send_large_data' in content and 'import uuid' not in content:
+    if "send_large_data" in content and "import uuid" not in content:
         # Add import at the top
-        import_pattern = r'(import [\w\s,]*?\n)'
-        content = re.sub(import_pattern, r'\1import uuid\n', content, count=1)
+        import_pattern = r"(import [\w\s,]*?\n)"
+        content = re.sub(import_pattern, r"\1import uuid\n", content, count=1)
 
     # Write back the updated content
-    backup_path = fabric_path.with_suffix('.bak')
+    backup_path = fabric_path.with_suffix(".bak")
     fabric_path.rename(backup_path)
     fabric_path.write_text(content)
 
@@ -171,7 +176,7 @@ def fix_integrated_system():
     content = system_path.read_text()
 
     # Add DistributedAIAgent class if it doesn't exist
-    if 'class DistributedAIAgent' not in content:
+    if "class DistributedAIAgent" not in content:
         # Add the class at the end before the demo function
         agent_class = '''
 
@@ -205,15 +210,17 @@ class DistributedAIAgent:
 '''
 
         # Insert before the demo function
-        demo_pattern = r'(\n\nasync def demo_integrated_system)'
-        content = re.sub(demo_pattern, agent_class + r'\1', content)
+        demo_pattern = r"(\n\nasync def demo_integrated_system)"
+        content = re.sub(demo_pattern, agent_class + r"\1", content)
 
     # Write back
-    backup_path = system_path.with_suffix('.bak')
+    backup_path = system_path.with_suffix(".bak")
     system_path.rename(backup_path)
     system_path.write_text(content)
 
-    print(f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})")
+    print(
+        f"  ✅ Updated integrated_system.py with DistributedAIAgent (backup: {backup_path.name})"
+    )
     return True
 
 
@@ -229,21 +236,26 @@ def update_validation_script():
     content = validation_path.read_text()
 
     # Fix import - add DistributedAIAgent import
-    if 'DistributedAIAgent' in content and 'from core.integrated_system import' in content:
+    if (
+        "DistributedAIAgent" in content
+        and "from core.integrated_system import" in content
+    ):
         # Import pattern already exists, make sure DistributedAIAgent is included
-        import_pattern = r'from core\.core\.integrated_system import ([^\n]*)'
+        import_pattern = r"from core\.core\.integrated_system import ([^\n]*)"
 
         def fix_import(match):
             imports = match.group(1)
-            if 'DistributedAIAgent' not in imports:
-                return f"from core.integrated_system import {imports}, DistributedAIAgent"
+            if "DistributedAIAgent" not in imports:
+                return (
+                    f"from core.integrated_system import {imports}, DistributedAIAgent"
+                )
             return match.group(0)
 
         content = re.sub(import_pattern, fix_import, content)
 
     # Fix the Actor System test that uses send_message
-    if 'actor_ref.send_message' in content:
-        content = content.replace('actor_ref.send_message', 'actor_ref.tell')
+    if "actor_ref.send_message" in content:
+        content = content.replace("actor_ref.send_message", "actor_ref.tell")
         print("  ✅ Fixed actor_ref.send_message → .tell()")
 
     # Fix the communication fabric test for total_messages
@@ -252,7 +264,7 @@ def update_validation_script():
         print("  ✅ total_messages access should work after fabric fix")
 
     # Write back
-    backup_path = validation_path.with_suffix('.bak')
+    backup_path = validation_path.with_suffix(".bak")
     validation_path.rename(backup_path)
     validation_path.write_text(content)
 

@@ -1,4 +1,3 @@
 """
 Cognitive Module
 """
-

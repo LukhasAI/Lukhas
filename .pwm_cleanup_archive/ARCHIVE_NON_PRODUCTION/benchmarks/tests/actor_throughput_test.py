@@ -4,11 +4,11 @@ Optimized Actor Benchmark - Testing for higher throughput
 Reduces overhead and optimizes for speed
 """
 
-import time
-import threading
-import queue
-from datetime import datetime
 import json
+import queue
+import threading
+import time
+from datetime import datetime
 
 
 class FastActor:
@@ -126,22 +126,24 @@ def run_optimized_benchmark(num_actors=500, num_messages=50000):
 
     # Results
     results = {
-        'test_timestamp': datetime.now().isoformat(),
-        'configuration': {
-            'num_actors': num_actors,
-            'num_messages': num_messages,
-            'optimization': 'batch_processing_bounded_queues'
+        "test_timestamp": datetime.now().isoformat(),
+        "configuration": {
+            "num_actors": num_actors,
+            "num_messages": num_messages,
+            "optimization": "batch_processing_bounded_queues",
         },
-        'performance': {
-            'messages_sent': sent_count,
-            'messages_failed': failed_sends,
-            'messages_processed': total_processed,
-            'send_time_seconds': send_time,
-            'total_time_seconds': total_time,
-            'send_throughput_msg_sec': send_throughput,
-            'overall_throughput_msg_sec': overall_throughput,
-            'processing_efficiency': (total_processed / sent_count * 100) if sent_count > 0 else 0
-        }
+        "performance": {
+            "messages_sent": sent_count,
+            "messages_failed": failed_sends,
+            "messages_processed": total_processed,
+            "send_time_seconds": send_time,
+            "total_time_seconds": total_time,
+            "send_throughput_msg_sec": send_throughput,
+            "overall_throughput_msg_sec": overall_throughput,
+            "processing_efficiency": (
+                (total_processed / sent_count * 100) if sent_count > 0 else 0
+            ),
+        },
     }
 
     # Display results
@@ -153,7 +155,9 @@ def run_optimized_benchmark(num_actors=500, num_messages=50000):
     print(f"Total Time: {total_time:.3f} seconds")
     print(f"Send Throughput: {send_throughput:,.0f} msg/sec")
     print(f"Overall Throughput: {overall_throughput:,.0f} msg/sec")
-    print(f"Processing Efficiency: {results['performance']['processing_efficiency']:.1f}%")
+    print(
+        f"Processing Efficiency: {results['performance']['processing_efficiency']:.1f}%"
+    )
 
     # Evaluation
     best_throughput = max(send_throughput, overall_throughput)
@@ -168,9 +172,9 @@ def run_optimized_benchmark(num_actors=500, num_messages=50000):
         print(f"❌ MODERATE performance ({best_throughput:,.0f} msg/sec)")
 
     # Save results
-    with open('optimized_actor_benchmark_results.json', 'w') as f:
+    with open("optimized_actor_benchmark_results.json", "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\n💾 Results saved to: optimized_actor_benchmark_results.json")
+    print("\n💾 Results saved to: optimized_actor_benchmark_results.json")
 
     return results
 
@@ -195,8 +199,8 @@ if __name__ == "__main__":
             if result:
                 all_results.append(result)
                 throughput = max(
-                    result['performance']['send_throughput_msg_sec'],
-                    result['performance']['overall_throughput_msg_sec']
+                    result["performance"]["send_throughput_msg_sec"],
+                    result["performance"]["overall_throughput_msg_sec"],
                 )
                 best_overall = max(best_overall, throughput)
         except Exception as e:
@@ -206,7 +210,7 @@ if __name__ == "__main__":
         time.sleep(1)
 
     # Final summary
-    print(f"\n🏆 FINAL RESULTS")
+    print("\n🏆 FINAL RESULTS")
     print("=" * 50)
     print(f"Best Throughput Achieved: {best_overall:,.0f} messages/sec")
 
@@ -214,6 +218,8 @@ if __name__ == "__main__":
         print("✅ VALIDATES the 33K+ msg/sec claim!")
     else:
         print(f"❌ Does not validate 33K+ claim (achieved: {best_overall:,.0f})")
-        print("💡 Actual system may be optimized differently or use different architecture")
+        print(
+            "💡 Actual system may be optimized differently or use different architecture"
+        )
 
     print(f"\n📁 {len(all_results)} test results saved")

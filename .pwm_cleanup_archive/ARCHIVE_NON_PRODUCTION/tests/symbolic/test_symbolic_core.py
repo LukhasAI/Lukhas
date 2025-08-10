@@ -135,7 +135,10 @@ class TestCollapseMechanisms:
     def test_collapse_system_imports(self):
         """Test collapse system imports."""
         try:
-            from core.symbolic.collapse import COLLAPSE_CONFIG, trigger_collapse
+            from core.symbolic.collapse import (
+                COLLAPSE_CONFIG,
+                trigger_collapse,
+            )
 
             # Check configuration
             assert isinstance(COLLAPSE_CONFIG, dict)

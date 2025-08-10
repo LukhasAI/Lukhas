@@ -39,19 +39,21 @@ to a reasoning summary, typically used in streaming responses.
 
 from typing_extensions import Literal
 
+# Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
 # ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from core.models import BaseModel # Assuming this path is correct within the project structure.
+from core.models import (
+    BaseModel,  # Assuming this path is correct within the project structure.
+)
 
-import structlog
-
-# Initialize ΛTRACE logger for this module
-from core.common import get_logger
-logger.info("ΛTRACE: Initializing response_reasoning_summary_text_delta_event.py module (Data Model Definition).", module_path=__file__)
+logger.info(
+    "ΛTRACE: Initializing response_reasoning_summary_text_delta_event.py module (Data Model Definition).",
+    module_path=__file__,
+)
 
 __all__ = ["ResponseReasoningSummaryTextDeltaEvent"]
 
@@ -64,6 +66,7 @@ class ResponseReasoningSummaryTextDeltaEvent(BaseModel):
     Represents an event carrying a textual delta (partial update) for a reasoning summary part.
     This is used for streaming text content of reasoning summaries.
     """
+
     # ΛNOTE: `delta` contains the actual incremental piece of symbolic text for the summary.
     delta: str
     """The text delta (a piece of text) that was added to the summary part."""
@@ -90,7 +93,11 @@ class ResponseReasoningSummaryTextDeltaEvent(BaseModel):
     """The type of the event. Always 'response.reasoning_summary_text.delta' for this model."""
     # Human-readable comment: Fixed literal type for event discrimination.
 
-logger.debug("ResponseReasoningSummaryTextDeltaEvent data model class defined.", class_name="ResponseReasoningSummaryTextDeltaEvent") # Removed manual ΛTRACE prefix
+
+logger.debug(
+    "ResponseReasoningSummaryTextDeltaEvent data model class defined.",
+    class_name="ResponseReasoningSummaryTextDeltaEvent",
+)  # Removed manual ΛTRACE prefix
 
 # ═══════════════════════════════════════════════════════════════════════════
 # LUKHAS AI - Response Reasoning Summary Text Delta Event Model

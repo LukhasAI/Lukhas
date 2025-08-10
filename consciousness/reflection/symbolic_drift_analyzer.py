@@ -34,28 +34,29 @@
 """
 
 import asyncio
+import hashlib
 import json
 import math
+import statistics
 import time
-from collections import defaultdict, Counter, deque
+from collections import Counter, defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum, auto
-from typing import Dict, List, Optional, Set, Tuple, Any, Callable
-from core.common import get_logger
-import hashlib
-import statistics
-import numpy as np
 from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Tuple
+
+from core.common import get_logger
 
 # Rich terminal output
 try:
     from rich.console import Console
-    from rich.table import Table
-    from rich.progress import Progress, SpinnerColumn, TextColumn
-    from rich.panel import Panel
     from rich.layout import Layout
     from rich.live import Live
+    from rich.panel import Panel
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+    from rich.table import Table
+
     HAS_RICH = True
 except ImportError:
     HAS_RICH = False
@@ -63,13 +64,14 @@ except ImportError:
 # Import LUKHAS modules
 try:
     from dream.core.dream_memory_manager import DreamMemoryManager
-    from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
-    from ethics.ethical_drift_detector import EthicalDriftDetector
+
     from core.glyph.glyphs import Glyph
+    from ethics.ethical_drift_detector import EthicalDriftDetector
+    from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:
     # Mock imports for standalone testing
     DreamMemoryManager = None
-    DriftPhase = Enum('DriftPhase', 'EARLY MIDDLE LATE CASCADE')
+    DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE")
     DriftScore = None
     EthicalDriftDetector = None
     Glyph = None
@@ -79,24 +81,27 @@ logger = get_logger(__name__)
 
 class DriftAlertLevel(Enum):
     """Alert levels for drift detection"""
-    INFO = auto()      # Normal drift within bounds
-    WARNING = auto()   # Approaching threshold
+
+    INFO = auto()  # Normal drift within bounds
+    WARNING = auto()  # Approaching threshold
     CRITICAL = auto()  # Threshold exceeded
-    EMERGENCY = auto() # Cascade imminent
+    EMERGENCY = auto()  # Cascade imminent
 
 
 class PatternTrend(Enum):
     """Pattern evolution trends"""
-    CONVERGING = auto()    # Patterns becoming similar
-    STABLE = auto()        # Patterns remain consistent
-    DIVERGING = auto()     # Patterns becoming different
-    OSCILLATING = auto()   # Patterns alternating
-    CHAOTIC = auto()       # No discernible pattern
+
+    CONVERGING = auto()  # Patterns becoming similar
+    STABLE = auto()  # Patterns remain consistent
+    DIVERGING = auto()  # Patterns becoming different
+    OSCILLATING = auto()  # Patterns alternating
+    CHAOTIC = auto()  # No discernible pattern
 
 
 @dataclass
 class EntropyMetrics:
     """Entropy measurements for dream sequences"""
+
     shannon_entropy: float
     tag_entropy: float
     temporal_entropy: float
@@ -111,13 +116,14 @@ class EntropyMetrics:
             "temporal_entropy": self.temporal_entropy,
             "semantic_entropy": self.semantic_entropy,
             "total_entropy": self.total_entropy,
-            "timestamp": self.timestamp.isoformat()
+            "timestamp": self.timestamp.isoformat(),
         }
 
 
 @dataclass
 class TagVarianceMetrics:
     """Tag variance measurements across dreams"""
+
     unique_tags: int
     tag_frequency_variance: float
     tag_co_occurrence_score: float
@@ -134,13 +140,14 @@ class TagVarianceMetrics:
             "tag_evolution_rate": self.tag_evolution_rate,
             "dominant_tags": self.dominant_tags,
             "emerging_tags": self.emerging_tags,
-            "declining_tags": self.declining_tags
+            "declining_tags": self.declining_tags,
         }
 
 
 @dataclass
 class DriftAlert:
     """Alert for drift detection events"""
+
     level: DriftAlertLevel
     metric_type: str
     current_value: float
@@ -157,7 +164,7 @@ class DriftAlert:
             "threshold": self.threshold,
             "message": self.message,
             "timestamp": self.timestamp.isoformat(),
-            "remediation_suggestions": self.remediation_suggestions
+            "remediation_suggestions": self.remediation_suggestions,
         }
 
 
@@ -169,10 +176,12 @@ class SymbolicDriftAnalyzer:
     to detect pattern changes and potential cascade events.
     """
 
-    def __init__(self,
-                 dream_memory_manager: Optional[DreamMemoryManager] = None,
-                 ethical_detector: Optional[EthicalDriftDetector] = None,
-                 config: Optional[Dict[str, Any]] = None):
+    def __init__(
+        self,
+        dream_memory_manager: Optional[DreamMemoryManager] = None,
+        ethical_detector: Optional[EthicalDriftDetector] = None,
+        config: Optional[Dict[str, Any]] = None,
+    ):
         """
         Initialize the drift analyzer
 
@@ -187,10 +196,9 @@ class SymbolicDriftAnalyzer:
         # Configuration
         default_config = {
             "entropy_window_size": 100,  # Dreams to analyze
-            "tag_history_size": 1000,    # Tag history to maintain
-            "analysis_interval": 60.0,    # Seconds between analyses
-            "alert_retention": 1000,      # Number of alerts to keep
-
+            "tag_history_size": 1000,  # Tag history to maintain
+            "analysis_interval": 60.0,  # Seconds between analyses
+            "alert_retention": 1000,  # Number of alerts to keep
             # Thresholds
             "thresholds": {
                 "entropy_warning": 0.7,
@@ -199,16 +207,10 @@ class SymbolicDriftAnalyzer:
                 "tag_variance_critical": 0.8,
                 "ethical_drift_warning": 0.5,
                 "ethical_drift_critical": 0.75,
-                "pattern_divergence_rate": 0.3
+                "pattern_divergence_rate": 0.3,
             },
-
             # Weights for combined metrics
-            "weights": {
-                "shannon": 0.3,
-                "tag": 0.3,
-                "temporal": 0.2,
-                "semantic": 0.2
-            }
+            "weights": {"shannon": 0.3, "tag": 0.3, "temporal": 0.2, "semantic": 0.2},
         }
 
         self.config = {**default_config, **(config or {})}
@@ -280,7 +282,7 @@ class SymbolicDriftAnalyzer:
         sorted_times = sorted(timestamps)
         intervals = []
         for i in range(1, len(sorted_times)):
-            interval = (sorted_times[i] - sorted_times[i-1]).total_seconds()
+            interval = (sorted_times[i] - sorted_times[i - 1]).total_seconds()
             intervals.append(interval)
 
         # Discretize intervals into buckets
@@ -321,7 +323,9 @@ class SymbolicDriftAnalyzer:
 
         return self.calculate_shannon_entropy(semantic_hashes)
 
-    def calculate_tag_variance(self, dreams: List[Dict[str, Any]]) -> TagVarianceMetrics:
+    def calculate_tag_variance(
+        self, dreams: List[Dict[str, Any]]
+    ) -> TagVarianceMetrics:
         """Calculate comprehensive tag variance metrics"""
         all_tags = []
         tag_sequences = []
@@ -338,7 +342,7 @@ class SymbolicDriftAnalyzer:
 
             # Track co-occurrences
             for i, tag1 in enumerate(tags):
-                for tag2 in tags[i+1:]:
+                for tag2 in tags[i + 1 :]:
                     self.tag_co_occurrence[tag1][tag2] += 1
                     self.tag_co_occurrence[tag2][tag1] += 1
 
@@ -349,7 +353,9 @@ class SymbolicDriftAnalyzer:
         if all_tags:
             tag_counts = Counter(all_tags)
             frequencies = list(tag_counts.values())
-            freq_variance = statistics.variance(frequencies) if len(frequencies) > 1 else 0.0
+            freq_variance = (
+                statistics.variance(frequencies) if len(frequencies) > 1 else 0.0
+            )
         else:
             freq_variance = 0.0
 
@@ -373,7 +379,7 @@ class SymbolicDriftAnalyzer:
             tag_evolution_rate=evolution_rate,
             dominant_tags=dominant_tags,
             emerging_tags=emerging_tags,
-            declining_tags=declining_tags
+            declining_tags=declining_tags,
         )
 
     def _calculate_co_occurrence_score(self) -> float:
@@ -381,9 +387,10 @@ class SymbolicDriftAnalyzer:
         if not self.tag_co_occurrence:
             return 0.0
 
-        total_pairs = sum(
-            sum(counter.values()) for counter in self.tag_co_occurrence.values()
-        ) / 2  # Divide by 2 to avoid double counting
+        total_pairs = (
+            sum(sum(counter.values()) for counter in self.tag_co_occurrence.values())
+            / 2
+        )  # Divide by 2 to avoid double counting
 
         if total_pairs == 0:
             return 0.0
@@ -446,7 +453,9 @@ class SymbolicDriftAnalyzer:
             if len(recent) > len(older) * 1.5:  # 50% increase
                 emerging.append(tag)
 
-        return sorted(emerging, key=lambda t: len(self.tag_timestamps[t]), reverse=True)[:10]
+        return sorted(
+            emerging, key=lambda t: len(self.tag_timestamps[t]), reverse=True
+        )[:10]
 
     def _identify_declining_tags(self, window_hours: int = 24) -> List[str]:
         """Identify tags that are decreasing in frequency"""
@@ -464,9 +473,13 @@ class SymbolicDriftAnalyzer:
             if len(recent) < len(older) * 0.5:  # 50% decrease
                 declining.append(tag)
 
-        return sorted(declining, key=lambda t: len(self.tag_timestamps[t]), reverse=True)[:10]
+        return sorted(
+            declining, key=lambda t: len(self.tag_timestamps[t]), reverse=True
+        )[:10]
 
-    def detect_pattern_trend(self, entropy_history: List[EntropyMetrics]) -> PatternTrend:
+    def detect_pattern_trend(
+        self, entropy_history: List[EntropyMetrics]
+    ) -> PatternTrend:
         """Detect overall pattern trend from entropy history"""
         if len(entropy_history) < 3:
             return PatternTrend.STABLE
@@ -486,7 +499,7 @@ class SymbolicDriftAnalyzer:
         sum_xy = sum(x[i] * values[i] for i in range(n))
         sum_x2 = sum(x[i] ** 2 for i in range(n))
 
-        denominator = n * sum_x2 - sum_x ** 2
+        denominator = n * sum_x2 - sum_x**2
         if denominator == 0:
             return PatternTrend.STABLE
 
@@ -510,7 +523,7 @@ class SymbolicDriftAnalyzer:
             # Check for oscillation
             direction_changes = 0
             for i in range(1, len(values) - 1):
-                if (values[i] - values[i-1]) * (values[i+1] - values[i]) < 0:
+                if (values[i] - values[i - 1]) * (values[i + 1] - values[i]) < 0:
                     direction_changes += 1
 
             if direction_changes > len(values) * 0.3:
@@ -518,7 +531,9 @@ class SymbolicDriftAnalyzer:
             else:
                 return PatternTrend.STABLE
 
-    def check_ethical_drift(self, dreams: List[Dict[str, Any]]) -> Tuple[float, List[str]]:
+    def check_ethical_drift(
+        self, dreams: List[Dict[str, Any]]
+    ) -> Tuple[float, List[str]]:
         """
         Check for ethical drift in dream patterns
 
@@ -548,7 +563,9 @@ class SymbolicDriftAnalyzer:
                 positive_ratio = positive_count / total_tags
 
                 # Drift score based on balance
-                drift_score = concern_ratio / (positive_ratio + 0.1)  # Avoid division by zero
+                drift_score = concern_ratio / (
+                    positive_ratio + 0.1
+                )  # Avoid division by zero
                 drift_score = min(1.0, drift_score)  # Cap at 1.0
 
                 if concern_ratio > 0.3:
@@ -577,10 +594,7 @@ class SymbolicDriftAnalyzer:
             )
 
         if not dreams:
-            return {
-                "status": "no_data",
-                "message": "No dreams available for analysis"
-            }
+            return {"status": "no_data", "message": "No dreams available for analysis"}
 
         self.total_dreams_analyzed += len(dreams)
 
@@ -599,16 +613,16 @@ class SymbolicDriftAnalyzer:
             tag_entropy=self.calculate_tag_entropy(tags),
             temporal_entropy=self.calculate_temporal_entropy(timestamps),
             semantic_entropy=self.calculate_semantic_entropy(contents),
-            total_entropy=0.0  # Will be calculated
+            total_entropy=0.0,  # Will be calculated
         )
 
         # Calculate weighted total entropy
         weights = self.config["weights"]
         entropy_metrics.total_entropy = (
-            weights["shannon"] * entropy_metrics.shannon_entropy +
-            weights["tag"] * entropy_metrics.tag_entropy +
-            weights["temporal"] * entropy_metrics.temporal_entropy +
-            weights["semantic"] * entropy_metrics.semantic_entropy
+            weights["shannon"] * entropy_metrics.shannon_entropy
+            + weights["tag"] * entropy_metrics.tag_entropy
+            + weights["temporal"] * entropy_metrics.temporal_entropy
+            + weights["semantic"] * entropy_metrics.semantic_entropy
         )
 
         # Calculate tag variance
@@ -630,7 +644,7 @@ class SymbolicDriftAnalyzer:
             tag_variance,
             ethical_drift,
             ethical_violations,
-            pattern_trend
+            pattern_trend,
         )
 
         # Update drift phase
@@ -646,24 +660,23 @@ class SymbolicDriftAnalyzer:
             "pattern_trend": pattern_trend.name,
             "entropy_metrics": entropy_metrics.to_dict(),
             "tag_variance": tag_variance.to_dict(),
-            "ethical_drift": {
-                "score": ethical_drift,
-                "violations": ethical_violations
-            },
+            "ethical_drift": {"score": ethical_drift, "violations": ethical_violations},
             "alerts": [alert.to_dict() for alert in alerts],
             "recommendations": self._generate_recommendations(
                 entropy_metrics, tag_variance, ethical_drift, pattern_trend
-            )
+            ),
         }
 
         return results
 
-    def _generate_alerts(self,
-                        entropy: EntropyMetrics,
-                        variance: TagVarianceMetrics,
-                        ethical_drift: float,
-                        ethical_violations: List[str],
-                        pattern_trend: PatternTrend) -> List[DriftAlert]:
+    def _generate_alerts(
+        self,
+        entropy: EntropyMetrics,
+        variance: TagVarianceMetrics,
+        ethical_drift: float,
+        ethical_violations: List[str],
+        pattern_trend: PatternTrend,
+    ) -> List[DriftAlert]:
         """Generate alerts based on current metrics"""
         alerts = []
         thresholds = self.config["thresholds"]
@@ -679,8 +692,8 @@ class SymbolicDriftAnalyzer:
                 remediation_suggestions=[
                     "Review recent dream patterns for anomalies",
                     "Check for recursive symbolic loops",
-                    "Consider reducing dream generation rate"
-                ]
+                    "Consider reducing dream generation rate",
+                ],
             )
             alerts.append(alert)
             self._trigger_alert_callback(alert)
@@ -690,12 +703,14 @@ class SymbolicDriftAnalyzer:
                 metric_type="entropy",
                 current_value=entropy.total_entropy,
                 threshold=thresholds["entropy_warning"],
-                message=f"Elevated entropy detected: {entropy.total_entropy:.3f}"
+                message=f"Elevated entropy detected: {entropy.total_entropy:.3f}",
             )
             alerts.append(alert)
 
         # Tag variance alerts
-        normalized_variance = min(1.0, variance.tag_frequency_variance / 100)  # Normalize
+        normalized_variance = min(
+            1.0, variance.tag_frequency_variance / 100
+        )  # Normalize
         if normalized_variance > thresholds["tag_variance_critical"]:
             alert = DriftAlert(
                 level=DriftAlertLevel.CRITICAL,
@@ -706,8 +721,8 @@ class SymbolicDriftAnalyzer:
                 remediation_suggestions=[
                     f"Review emerging tags: {', '.join(variance.emerging_tags[:5])}",
                     f"Monitor declining tags: {', '.join(variance.declining_tags[:5])}",
-                    "Consider tag consolidation or pruning"
-                ]
+                    "Consider tag consolidation or pruning",
+                ],
             )
             alerts.append(alert)
             self._trigger_alert_callback(alert)
@@ -724,8 +739,8 @@ class SymbolicDriftAnalyzer:
                     "IMMEDIATE ACTION REQUIRED",
                     "Engage ethical governance protocols",
                     "Review violations: " + "; ".join(ethical_violations[:3]),
-                    "Consider system pause or rollback"
-                ]
+                    "Consider system pause or rollback",
+                ],
             )
             alerts.append(alert)
             self._trigger_alert_callback(alert)
@@ -735,7 +750,7 @@ class SymbolicDriftAnalyzer:
                 metric_type="ethical_drift",
                 current_value=ethical_drift,
                 threshold=thresholds["ethical_drift_warning"],
-                message=f"Ethical drift warning: {ethical_drift:.3f}"
+                message=f"Ethical drift warning: {ethical_drift:.3f}",
             )
             alerts.append(alert)
 
@@ -750,8 +765,8 @@ class SymbolicDriftAnalyzer:
                 remediation_suggestions=[
                     "Stabilize dream generation parameters",
                     "Check for feedback loops",
-                    "Consider reducing system complexity"
-                ]
+                    "Consider reducing system complexity",
+                ],
             )
             alerts.append(alert)
         elif pattern_trend == PatternTrend.DIVERGING:
@@ -762,7 +777,7 @@ class SymbolicDriftAnalyzer:
                     metric_type="pattern_trend",
                     current_value=divergence_rate,
                     threshold=thresholds["pattern_divergence_rate"],
-                    message=f"Rapid pattern divergence: {divergence_rate:.3f}"
+                    message=f"Rapid pattern divergence: {divergence_rate:.3f}",
                 )
                 alerts.append(alert)
 
@@ -783,7 +798,7 @@ class SymbolicDriftAnalyzer:
         # Calculate rate of change
         deltas = []
         for i in range(1, len(recent)):
-            delta = recent[i].total_entropy - recent[i-1].total_entropy
+            delta = recent[i].total_entropy - recent[i - 1].total_entropy
             deltas.append(delta)
 
         return abs(statistics.mean(deltas)) if deltas else 0.0
@@ -801,11 +816,13 @@ class SymbolicDriftAnalyzer:
         else:
             self.current_drift_phase = DriftPhase.CASCADE
 
-    def _generate_recommendations(self,
-                                entropy: EntropyMetrics,
-                                variance: TagVarianceMetrics,
-                                ethical_drift: float,
-                                pattern_trend: PatternTrend) -> List[str]:
+    def _generate_recommendations(
+        self,
+        entropy: EntropyMetrics,
+        variance: TagVarianceMetrics,
+        ethical_drift: float,
+        pattern_trend: PatternTrend,
+    ) -> List[str]:
         """Generate actionable recommendations based on analysis"""
         recommendations = []
 
@@ -813,13 +830,17 @@ class SymbolicDriftAnalyzer:
         if entropy.total_entropy > 0.7:
             recommendations.append("Consider implementing entropy reduction strategies")
             if entropy.tag_entropy > 0.8:
-                recommendations.append("Consolidate tag vocabulary to reduce fragmentation")
+                recommendations.append(
+                    "Consolidate tag vocabulary to reduce fragmentation"
+                )
             if entropy.temporal_entropy > 0.8:
                 recommendations.append("Regularize dream generation intervals")
 
         # Variance-based recommendations
         if variance.tag_evolution_rate > 0.5:
-            recommendations.append("Tag vocabulary is evolving rapidly - review for coherence")
+            recommendations.append(
+                "Tag vocabulary is evolving rapidly - review for coherence"
+            )
         if len(variance.emerging_tags) > 20:
             recommendations.append("Many new tags emerging - consider curation")
 
@@ -830,9 +851,13 @@ class SymbolicDriftAnalyzer:
 
         # Trend-based recommendations
         if pattern_trend == PatternTrend.DIVERGING:
-            recommendations.append("Patterns diverging - consider convergence mechanisms")
+            recommendations.append(
+                "Patterns diverging - consider convergence mechanisms"
+            )
         elif pattern_trend == PatternTrend.CHAOTIC:
-            recommendations.append("System showing chaotic behavior - stabilization needed")
+            recommendations.append(
+                "System showing chaotic behavior - stabilization needed"
+            )
         elif pattern_trend == PatternTrend.CONVERGING:
             recommendations.append("Patterns converging - monitor for stagnation")
 
@@ -883,7 +908,7 @@ class SymbolicDriftAnalyzer:
                     results.get("current_drift_phase"),
                     results.get("pattern_trend"),
                     results.get("entropy_metrics", {}).get("total_entropy", 0),
-                    results.get("ethical_drift", {}).get("score", 0)
+                    results.get("ethical_drift", {}).get("score", 0),
                 )
 
                 # Wait for next interval
@@ -898,10 +923,22 @@ class SymbolicDriftAnalyzer:
         import random
 
         base_tags = [
-            "exploration", "discovery", "creation", "transformation",
-            "connection", "isolation", "conflict", "resolution",
-            "memory", "future", "identity", "purpose",
-            "fear", "hope", "love", "loss"
+            "exploration",
+            "discovery",
+            "creation",
+            "transformation",
+            "connection",
+            "isolation",
+            "conflict",
+            "resolution",
+            "memory",
+            "future",
+            "identity",
+            "purpose",
+            "fear",
+            "hope",
+            "love",
+            "loss",
         ]
 
         dreams = []
@@ -935,15 +972,17 @@ class SymbolicDriftAnalyzer:
                 "tags": tags,
                 "content": {
                     "narrative": f"Dream narrative {i}",
-                    "symbols": random.sample(["circle", "triangle", "spiral", "tree", "water"], 2),
+                    "symbols": random.sample(
+                        ["circle", "triangle", "spiral", "tree", "water"], 2
+                    ),
                     "emotion_valence": 1.0 - (drift_factor * 2),  # Shift negative
-                    "coherence": max(0.3, 1.0 - drift_factor * 0.5)
+                    "coherence": max(0.3, 1.0 - drift_factor * 0.5),
                 },
                 "metadata": {
                     "lucidity": random.random(),
                     "vividness": random.random(),
-                    "memorability": random.random()
-                }
+                    "memorability": random.random(),
+                },
             }
 
             dreams.append(dream)
@@ -963,7 +1002,7 @@ class SymbolicDriftAnalyzer:
             f"[bold cyan]Symbolic Drift Analyzer[/bold cyan]\n"
             f"Phase: [bold yellow]{self.current_drift_phase.value}[/bold yellow] | "
             f"Dreams Analyzed: [bold green]{self.total_dreams_analyzed}[/bold green]",
-            style="bold white"
+            style="bold white",
         )
 
         # Metrics table
@@ -980,27 +1019,21 @@ class SymbolicDriftAnalyzer:
             metrics_table.add_row(
                 "Total Entropy",
                 f"{latest.total_entropy:.3f}",
-                self._get_status_emoji(latest.total_entropy, thresholds["entropy_warning"], thresholds["entropy_critical"])
+                self._get_status_emoji(
+                    latest.total_entropy,
+                    thresholds["entropy_warning"],
+                    thresholds["entropy_critical"],
+                ),
             )
             metrics_table.add_row(
-                "Shannon Entropy",
-                f"{latest.shannon_entropy:.3f}",
-                "📊"
+                "Shannon Entropy", f"{latest.shannon_entropy:.3f}", "📊"
+            )
+            metrics_table.add_row("Tag Entropy", f"{latest.tag_entropy:.3f}", "🏷️")
+            metrics_table.add_row(
+                "Temporal Entropy", f"{latest.temporal_entropy:.3f}", "⏰"
             )
             metrics_table.add_row(
-                "Tag Entropy",
-                f"{latest.tag_entropy:.3f}",
-                "🏷️"
-            )
-            metrics_table.add_row(
-                "Temporal Entropy",
-                f"{latest.temporal_entropy:.3f}",
-                "⏰"
-            )
-            metrics_table.add_row(
-                "Semantic Entropy",
-                f"{latest.semantic_entropy:.3f}",
-                "🧠"
+                "Semantic Entropy", f"{latest.semantic_entropy:.3f}", "🧠"
             )
 
         # Pattern trend
@@ -1011,12 +1044,10 @@ class SymbolicDriftAnalyzer:
                 PatternTrend.STABLE: "➡️",
                 PatternTrend.DIVERGING: "↗️",
                 PatternTrend.OSCILLATING: "〰️",
-                PatternTrend.CHAOTIC: "🌀"
+                PatternTrend.CHAOTIC: "🌀",
             }
             metrics_table.add_row(
-                "Pattern Trend",
-                trend.name,
-                trend_emoji.get(trend, "❓")
+                "Pattern Trend", trend.name, trend_emoji.get(trend, "❓")
             )
 
         # Alerts panel
@@ -1027,7 +1058,7 @@ class SymbolicDriftAnalyzer:
                 DriftAlertLevel.INFO: "blue",
                 DriftAlertLevel.WARNING: "yellow",
                 DriftAlertLevel.CRITICAL: "red",
-                DriftAlertLevel.EMERGENCY: "bold red"
+                DriftAlertLevel.EMERGENCY: "bold red",
             }
             color = level_color.get(alert.level, "white")
             alerts_content += f"[{color}]{alert.timestamp.strftime('%H:%M:%S')} - {alert.message}[/{color}]\n"
@@ -1035,7 +1066,7 @@ class SymbolicDriftAnalyzer:
         alerts_panel = Panel(
             alerts_content or "[green]No recent alerts[/green]",
             title="Recent Alerts",
-            style="yellow"
+            style="yellow",
         )
 
         # Combine into layout
@@ -1054,20 +1085,22 @@ class SymbolicDriftAnalyzer:
             "=" * 60,
             f"Current Phase: {self.current_drift_phase.value}",
             f"Dreams Analyzed: {self.total_dreams_analyzed}",
-            ""
+            "",
         ]
 
         if self.entropy_history:
             latest = self.entropy_history[-1]
-            lines.extend([
-                "ENTROPY METRICS:",
-                f"  Total: {latest.total_entropy:.3f}",
-                f"  Shannon: {latest.shannon_entropy:.3f}",
-                f"  Tag: {latest.tag_entropy:.3f}",
-                f"  Temporal: {latest.temporal_entropy:.3f}",
-                f"  Semantic: {latest.semantic_entropy:.3f}",
-                ""
-            ])
+            lines.extend(
+                [
+                    "ENTROPY METRICS:",
+                    f"  Total: {latest.total_entropy:.3f}",
+                    f"  Shannon: {latest.shannon_entropy:.3f}",
+                    f"  Tag: {latest.tag_entropy:.3f}",
+                    f"  Temporal: {latest.temporal_entropy:.3f}",
+                    f"  Semantic: {latest.semantic_entropy:.3f}",
+                    "",
+                ]
+            )
 
         if self.pattern_trends:
             lines.append(f"Pattern Trend: {self.pattern_trends[-1].name}")
@@ -1102,7 +1135,7 @@ class SymbolicDriftAnalyzer:
                 "generated_at": datetime.now().isoformat(),
                 "analyzer_version": "1.0.0",
                 "total_dreams_analyzed": self.total_dreams_analyzed,
-                "current_phase": self.current_drift_phase.value
+                "current_phase": self.current_drift_phase.value,
             },
             "configuration": self.config,
             "entropy_history": [m.to_dict() for m in self.entropy_history],
@@ -1114,11 +1147,11 @@ class SymbolicDriftAnalyzer:
                 "tag_evolution_timeline": {
                     tag: [ts.isoformat() for ts in timestamps[-10:]]
                     for tag, timestamps in list(self.tag_timestamps.items())[:10]
-                }
-            }
+                },
+            },
         }
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(report, f, indent=2)
 
         logger.info(f"Analysis report exported to {filepath}")
@@ -1137,7 +1170,7 @@ async def run_cli_monitor():
                 DriftAlertLevel.INFO: "blue",
                 DriftAlertLevel.WARNING: "yellow",
                 DriftAlertLevel.CRITICAL: "red",
-                DriftAlertLevel.EMERGENCY: "bold red on white"
+                DriftAlertLevel.EMERGENCY: "bold red on white",
             }.get(alert.level, "white")
 
             console.print(f"[{color}]🚨 ALERT: {alert.message}[/{color}]")
@@ -1185,8 +1218,8 @@ async def demonstrate_analyzer():
                 "entropy_warning": 0.6,
                 "entropy_critical": 0.8,
                 "ethical_drift_warning": 0.4,
-                "ethical_drift_critical": 0.6
-            }
+                "ethical_drift_critical": 0.6,
+            },
         }
     )
 
@@ -1203,19 +1236,19 @@ async def demonstrate_analyzer():
     print("\nPerforming initial analysis...")
     results = await analyzer.analyze_dreams()
 
-    print(f"\nAnalysis Results:")
+    print("\nAnalysis Results:")
     print(f"Status: {results['status']}")
     print(f"Drift Phase: {results['current_drift_phase']}")
     print(f"Pattern Trend: {results['pattern_trend']}")
     print(f"Total Entropy: {results['entropy_metrics']['total_entropy']:.3f}")
     print(f"Ethical Drift: {results['ethical_drift']['score']:.3f}")
 
-    if results['alerts']:
+    if results["alerts"]:
         print(f"\nGenerated {len(results['alerts'])} alerts")
 
-    if results['recommendations']:
+    if results["recommendations"]:
         print("\nRecommendations:")
-        for rec in results['recommendations']:
+        for rec in results["recommendations"]:
             print(f"- {rec}")
 
     # Start monitoring

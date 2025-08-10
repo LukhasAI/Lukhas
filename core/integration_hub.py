@@ -3,13 +3,11 @@ Unified Integration Module for Core Systems
 Provides unified integration capabilities for various system components.
 """
 
-from typing import Dict, Any, List, Optional, Callable, Union
-import threading
-import asyncio
-import json
 import logging
-from datetime import datetime
+import threading
 from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Optional
 
 
 @dataclass
@@ -37,7 +35,7 @@ class IntegrationResult:
     """Result of an integration operation."""
 
     success: bool
-    result_data: Dict[str, Any] = field(default_factory=dict)
+    result_data: dict[str, Any] = field(default_factory=dict)
     error_message: Optional[str] = None
     execution_time: float = 0.0
     component_id: Optional[str] = None
@@ -91,7 +89,7 @@ class UnifiedIntegration:
         self,
         component_id: str,
         component: Any,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> IntegrationResult:
         """
         Register a component with the integration system.
@@ -123,7 +121,10 @@ class UnifiedIntegration:
 
                 return IntegrationResult(
                     success=True,
-                    result_data={"component_id": component_id, "registered": True},
+                    result_data={
+                        "component_id": component_id,
+                        "registered": True,
+                    },
                     component_id=component_id,
                 )
 
@@ -158,7 +159,10 @@ class UnifiedIntegration:
 
                 return IntegrationResult(
                     success=True,
-                    result_data={"component_id": component_id, "unregistered": True},
+                    result_data={
+                        "component_id": component_id,
+                        "unregistered": True,
+                    },
                     component_id=component_id,
                 )
 
@@ -173,8 +177,8 @@ class UnifiedIntegration:
         self,
         component_id: str,
         method_name: str,
-        args: List[Any] = None,
-        kwargs: Dict[str, Any] = None,
+        args: list[Any] = None,
+        kwargs: dict[str, Any] = None,
     ) -> IntegrationResult:
         """
         Invoke a method on a registered component.
@@ -224,7 +228,10 @@ class UnifiedIntegration:
 
             return IntegrationResult(
                 success=True,
-                result_data={"method_result": result, "method_name": method_name},
+                result_data={
+                    "method_result": result,
+                    "method_name": method_name,
+                },
                 execution_time=execution_time,
                 component_id=component_id,
             )
@@ -243,15 +250,16 @@ class UnifiedIntegration:
                 component_id=component_id,
             )
 
-    def batch_invoke(self, operations: List[Dict[str, Any]]) -> List[IntegrationResult]:
+    def batch_invoke(self, operations: list[dict[str, Any]]) -> list[IntegrationResult]:
         """
-        Perform batch invocation of multiple operations.
+            Perform batch invocation of multiple operations.
 
-        Args:
-            operations: List of operation dictionaries with component_id, method_name, args, kwargs
+            Args:
+                operations: List of operation dictionaries with component_id, method_name,
+        args, kwargs
 
-        Returns:
-            List of integration results
+            Returns:
+                List of integration results
         """
         results = []
 
@@ -276,7 +284,7 @@ class UnifiedIntegration:
         return results
 
     def create_data_pipeline(
-        self, pipeline_config: Dict[str, Any]
+        self, pipeline_config: dict[str, Any]
     ) -> IntegrationResult:
         """
         Create a data processing pipeline.
@@ -295,7 +303,8 @@ class UnifiedIntegration:
 
             if not steps:
                 return IntegrationResult(
-                    success=False, error_message="Pipeline must have at least one step"
+                    success=False,
+                    error_message="Pipeline must have at least one step",
                 )
 
             pipeline = {
@@ -317,7 +326,8 @@ class UnifiedIntegration:
 
         except Exception as e:
             return IntegrationResult(
-                success=False, error_message=f"Failed to create pipeline: {str(e)}"
+                success=False,
+                error_message=f"Failed to create pipeline: {str(e)}",
             )
 
     def execute_pipeline(self, pipeline_id: str, input_data: Any) -> IntegrationResult:
@@ -336,7 +346,8 @@ class UnifiedIntegration:
         try:
             if pipeline_id not in self.integration_handlers:
                 return IntegrationResult(
-                    success=False, error_message=f"Pipeline {pipeline_id} not found"
+                    success=False,
+                    error_message=f"Pipeline {pipeline_id} not found",
                 )
 
             pipeline = self.integration_handlers[pipeline_id]
@@ -364,7 +375,10 @@ class UnifiedIntegration:
                     return IntegrationResult(
                         success=False,
                         error_message=f"Pipeline step {i} failed: {step_result.error_message}",
-                        result_data={"step_results": step_results, "failed_step": i},
+                        result_data={
+                            "step_results": step_results,
+                            "failed_step": i,
+                        },
                     )
 
                 # Update current data for next step
@@ -399,7 +413,7 @@ class UnifiedIntegration:
 
     def get_component_status(
         self, component_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get status information for components.
 
@@ -437,7 +451,7 @@ class UnifiedIntegration:
                 },
             }
 
-    def get_integration_metrics(self) -> Dict[str, Any]:
+    def get_integration_metrics(self) -> dict[str, Any]:
         """
         Get integration system metrics.
 
@@ -480,7 +494,7 @@ class UnifiedIntegration:
 
         self.logger.info("Integration system cleaned up")
 
-    def export_configuration(self) -> Dict[str, Any]:
+    def export_configuration(self) -> dict[str, Any]:
         """
         Export current configuration and component setup.
 
@@ -516,7 +530,7 @@ class UnifiedIntegration:
             "export_timestamp": datetime.now().isoformat(),
         }
 
-    def import_configuration(self, config_data: Dict[str, Any]) -> IntegrationResult:
+    def import_configuration(self, config_data: dict[str, Any]) -> IntegrationResult:
         """
         Import configuration and recreate pipelines.
 
@@ -532,7 +546,10 @@ class UnifiedIntegration:
             imported_pipelines = 0
 
             for pipeline_id, pipeline_data in pipelines.items():
-                pipeline_config = {"id": pipeline_id, "steps": pipeline_data["steps"]}
+                pipeline_config = {
+                    "id": pipeline_id,
+                    "steps": pipeline_data["steps"],
+                }
 
                 result = self.create_data_pipeline(pipeline_config)
                 if result.success:
@@ -550,5 +567,6 @@ class UnifiedIntegration:
 
         except Exception as e:
             return IntegrationResult(
-                success=False, error_message=f"Failed to import configuration: {str(e)}"
+                success=False,
+                error_message=f"Failed to import configuration: {str(e)}",
             )

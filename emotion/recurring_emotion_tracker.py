@@ -9,14 +9,12 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-from core.common import get_logger
-from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 import numpy as np
 
 from emotion.affect_stagnation_detector import AffectStagnationDetector
-from memory.emotional import EmotionalMemory, EmotionVector
+from memory.emotional import EmotionalMemory
 
 log = logging.getLogger(__name__)
 

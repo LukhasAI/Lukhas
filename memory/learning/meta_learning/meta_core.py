@@ -5,9 +5,8 @@ Advanced: meta_core.py
 Integration Date: 2025-05-31T07:55:28.137869
 """
 
-from typing import Dict, Any, List
-from core.common import get_logger
-from datetime import datetime
+from typing import Any, Dict
+
 
 class MetaCore:
     """Altman-inspired self-improving system"""
@@ -17,7 +16,7 @@ class MetaCore:
         self.vectors = {
             "capability": self._track_growth(),
             "safety": self._track_boundaries(),
-            "efficiency": self._track_performance()
+            "efficiency": self._track_performance(),
         }
 
     async def evolve(self, performance_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -25,5 +24,5 @@ class MetaCore:
         return {
             "improvements": self._analyze_growth_opportunities(),
             "safety_checks": self._validate_boundaries(),
-            "proposals": self._generate_enhancement_plan()
+            "proposals": self._generate_enhancement_plan(),
         }

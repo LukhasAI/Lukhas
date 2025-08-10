@@ -55,21 +55,19 @@ TODO: Add predictive drift modeling with 15-minute lookahead
 IDEA: Implement drift sonification for audio-based anomaly detection
 """
 
-import json
 import time
-from typing import Dict, Any, List, Optional, Tuple, Deque
-from datetime import datetime, timezone, timedelta
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
-import numpy as np
-import structlog
+from typing import Any, Deque, Dict, List, Optional
 
-from core.common import get_logger, GLYPHToken, create_glyph
+import numpy as np
 
 
 class DriftSeverity(Enum):
     """Drift severity levels."""
+
     NOMINAL = "NOMINAL"
     CAUTION = "CAUTION"
     WARNING = "WARNING"
@@ -79,6 +77,7 @@ class DriftSeverity(Enum):
 
 class LoopType(Enum):
     """Types of recursive loops detected."""
+
     NONE = "NONE"
     OSCILLATORY = "OSCILLATORY"
     ESCALATING = "ESCALATING"
@@ -88,6 +87,7 @@ class LoopType(Enum):
 @dataclass
 class DriftSnapshot:
     """Point-in-time drift measurement."""
+
     timestamp: str
     total_drift: float
     entropy_drift: float
@@ -104,14 +104,15 @@ class DriftSnapshot:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
-            'severity': self.severity.value,
-            'loop_type': self.loop_type.value
+            "severity": self.severity.value,
+            "loop_type": self.loop_type.value,
         }
 
 
 @dataclass
 class DriftAlert:
     """Active drift alert information."""
+
     alert_id: str
     timestamp: str
     severity: DriftSeverity
@@ -123,15 +124,13 @@ class DriftAlert:
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary."""
-        return {
-            **asdict(self),
-            'severity': self.severity.value
-        }
+        return {**asdict(self), "severity": self.severity.value}
 
 
 @dataclass
 class RemediationAction:
     """Drift remediation action record."""
+
     action_id: str
     timestamp: str
     action_type: str
@@ -149,10 +148,12 @@ class DriftDashboard:
     across the LUKHAS AGI system.
     """
 
-    def __init__(self,
-                 history_window: int = 1000,
-                 alert_retention: int = 100,
-                 update_interval: float = 1.0):
+    def __init__(
+        self,
+        history_window: int = 1000,
+        alert_retention: int = 100,
+        update_interval: float = 1.0,
+    ):
         """
         Initialize drift dashboard.
 
@@ -172,9 +173,9 @@ class DriftDashboard:
         self.remediation_log: Deque[RemediationAction] = deque(maxlen=50)
 
         # Statistical tracking
-        self.component_stats = defaultdict(lambda: {
-            'mean': 0.0, 'std': 0.0, 'max': 0.0, 'min': float('inf')
-        })
+        self.component_stats = defaultdict(
+            lambda: {"mean": 0.0, "std": 0.0, "max": 0.0, "min": float("inf")}
+        )
 
         # Pattern detection
         self.loop_detector = LoopPatternDetector()
@@ -182,16 +183,18 @@ class DriftDashboard:
 
         # Control interfaces
         self.remediation_triggers = {
-            'reset_drift': self._reset_drift_component,
-            'harmonize_dream': self._trigger_dream_harmonization,
-            'compress_memory': self._trigger_memory_compression,
-            'enforce_ethics': self._trigger_ethics_enforcement,
-            'quarantine_symbol': self._quarantine_symbol
+            "reset_drift": self._reset_drift_component,
+            "harmonize_dream": self._trigger_dream_harmonization,
+            "compress_memory": self._trigger_memory_compression,
+            "enforce_ethics": self._trigger_ethics_enforcement,
+            "quarantine_symbol": self._quarantine_symbol,
         }
 
-        logger.info("ΛDASH Drift Dashboard initialized",
-                   history_window=history_window,
-                   alert_retention=alert_retention)
+        logger.info(
+            "ΛDASH Drift Dashboard initialized",
+            history_window=history_window,
+            alert_retention=alert_retention,
+        )
 
     def update(self, drift_data: Dict[str, Any]) -> DriftSnapshot:
         """
@@ -204,14 +207,11 @@ class DriftDashboard:
             DriftSnapshot: Processed snapshot with alerts
         """
         # Extract drift components
-        total_drift = drift_data.get('symbolic_drift_score', 0.0)
-        factors = drift_data.get('drift_factors', {})
+        total_drift = drift_data.get("symbolic_drift_score", 0.0)
+        factors = drift_data.get("drift_factors", {})
 
         # Detect loop patterns
-        loop_type = self.loop_detector.detect(
-            self.drift_history,
-            total_drift
-        )
+        loop_type = self.loop_detector.detect(self.drift_history, total_drift)
 
         # Determine severity
         severity = self._calculate_severity(total_drift, loop_type)
@@ -220,15 +220,15 @@ class DriftDashboard:
         snapshot = DriftSnapshot(
             timestamp=datetime.now(timezone.utc).isoformat(),
             total_drift=total_drift,
-            entropy_drift=factors.get('entropy_factor', 0.0),
-            ethical_drift=factors.get('ethical_factor', 0.0),
-            temporal_drift=factors.get('temporal_factor', 0.0),
-            symbol_drift=factors.get('symbol_factor', 0.0),
-            emotional_drift=factors.get('emotional_factor', 0.0),
+            entropy_drift=factors.get("entropy_factor", 0.0),
+            ethical_drift=factors.get("ethical_factor", 0.0),
+            temporal_drift=factors.get("temporal_factor", 0.0),
+            symbol_drift=factors.get("symbol_factor", 0.0),
+            emotional_drift=factors.get("emotional_factor", 0.0),
             severity=severity,
             loop_type=loop_type,
             active_alerts=list(self.active_alerts.keys()),
-            quarantined_symbols=drift_data.get('quarantined_symbols', [])
+            quarantined_symbols=drift_data.get("quarantined_symbols", []),
         )
 
         # Update history
@@ -241,23 +241,22 @@ class DriftDashboard:
         self._check_alerts(snapshot, drift_data)
 
         # Predict cascade risk
-        cascade_risk = self.cascade_predictor.predict(
-            self.drift_history,
-            snapshot
-        )
+        cascade_risk = self.cascade_predictor.predict(self.drift_history, snapshot)
 
         if cascade_risk > 0.7:
             self._create_alert(
                 component="CASCADE_PREDICTOR",
                 severity=DriftSeverity.WARNING,
-                message=f"High cascade risk detected: {cascade_risk:.2%}"
+                message=f"High cascade risk detected: {cascade_risk:.2%}",
             )
 
-        logger.info("ΛDASH updated",
-                   drift_score=total_drift,
-                   severity=severity.value,
-                   loop_type=loop_type.value,
-                   active_alerts=len(self.active_alerts))
+        logger.info(
+            "ΛDASH updated",
+            drift_score=total_drift,
+            severity=severity.value,
+            loop_type=loop_type.value,
+            active_alerts=len(self.active_alerts),
+        )
 
         return snapshot
 
@@ -273,43 +272,41 @@ class DriftDashboard:
 
         # Component trends
         component_trends = {
-            'entropy': [s.entropy_drift for s in recent_history],
-            'ethical': [s.ethical_drift for s in recent_history],
-            'temporal': [s.temporal_drift for s in recent_history],
-            'symbol': [s.symbol_drift for s in recent_history],
-            'emotional': [s.emotional_drift for s in recent_history]
+            "entropy": [s.entropy_drift for s in recent_history],
+            "ethical": [s.ethical_drift for s in recent_history],
+            "temporal": [s.temporal_drift for s in recent_history],
+            "symbol": [s.symbol_drift for s in recent_history],
+            "emotional": [s.emotional_drift for s in recent_history],
         }
 
         # Alert summary
         alert_summary = {
-            'active': len(self.active_alerts),
-            'by_severity': defaultdict(int),
-            'recent': [a.to_dict() for a in list(self.alert_history)[-10:]]
+            "active": len(self.active_alerts),
+            "by_severity": defaultdict(int),
+            "recent": [a.to_dict() for a in list(self.alert_history)[-10:]],
         }
 
         for alert in self.active_alerts.values():
-            alert_summary['by_severity'][alert.severity.value] += 1
+            alert_summary["by_severity"][alert.severity.value] += 1
 
         # Current state
         current = self.drift_history[-1] if self.drift_history else None
 
         return {
-            'timestamp': datetime.now(timezone.utc).isoformat(),
-            'current_state': current.to_dict() if current else None,
-            'history': {
-                'timestamps': [s.timestamp for s in recent_history],
-                'total_drift': [s.total_drift for s in recent_history],
-                'component_trends': component_trends
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "current_state": current.to_dict() if current else None,
+            "history": {
+                "timestamps": [s.timestamp for s in recent_history],
+                "total_drift": [s.total_drift for s in recent_history],
+                "component_trends": component_trends,
             },
-            'statistics': dict(self.component_stats),
-            'alerts': alert_summary,
-            'remediation_log': [r.to_dict() for r in list(self.remediation_log)[-10:]],
-            'system_health': self._calculate_system_health()
+            "statistics": dict(self.component_stats),
+            "alerts": alert_summary,
+            "remediation_log": [r.to_dict() for r in list(self.remediation_log)[-10:]],
+            "system_health": self._calculate_system_health(),
         }
 
-    def trigger_remediation(self,
-                          action_type: str,
-                          parameters: Dict[str, Any]) -> str:
+    def trigger_remediation(self, action_type: str, parameters: Dict[str, Any]) -> str:
         """
         Trigger a remediation action.
 
@@ -329,9 +326,9 @@ class DriftDashboard:
             action_id=action_id,
             timestamp=datetime.now(timezone.utc).isoformat(),
             action_type=action_type,
-            target_component=parameters.get('component', 'system'),
+            target_component=parameters.get("component", "system"),
             parameters=parameters,
-            status='executing'
+            status="executing",
         )
 
         self.remediation_log.append(action)
@@ -339,24 +336,24 @@ class DriftDashboard:
         # Execute remediation
         try:
             result = self.remediation_triggers[action_type](parameters)
-            action.status = 'completed'
+            action.status = "completed"
             action.result = result
-            logger.info("Remediation completed",
-                       action_id=action_id,
-                       type=action_type)
+            logger.info("Remediation completed", action_id=action_id, type=action_type)
         except Exception as e:
-            action.status = 'failed'
-            action.result = {'error': str(e)}
-            logger.error("Remediation failed",
-                        action_id=action_id,
-                        type=action_type,
-                        error=str(e))
+            action.status = "failed"
+            action.result = {"error": str(e)}
+            logger.error(
+                "Remediation failed",
+                action_id=action_id,
+                type=action_type,
+                error=str(e),
+            )
 
         return action_id
 
-    def _calculate_severity(self,
-                          drift_score: float,
-                          loop_type: LoopType) -> DriftSeverity:
+    def _calculate_severity(
+        self, drift_score: float, loop_type: LoopType
+    ) -> DriftSeverity:
         """Calculate drift severity based on score and patterns."""
         # Base severity from drift score
         if drift_score < 0.2:
@@ -371,7 +368,10 @@ class DriftDashboard:
             severity = DriftSeverity.QUARANTINE
 
         # Escalate for dangerous loop patterns
-        if loop_type == LoopType.ESCALATING and severity.value < DriftSeverity.CASCADE.value:
+        if (
+            loop_type == LoopType.ESCALATING
+            and severity.value < DriftSeverity.CASCADE.value
+        ):
             severity = DriftSeverity.CASCADE
         elif loop_type == LoopType.CHAOTIC:
             severity = DriftSeverity.QUARANTINE
@@ -381,37 +381,37 @@ class DriftDashboard:
     def _update_statistics(self, snapshot: DriftSnapshot):
         """Update component statistics."""
         components = {
-            'entropy': snapshot.entropy_drift,
-            'ethical': snapshot.ethical_drift,
-            'temporal': snapshot.temporal_drift,
-            'symbol': snapshot.symbol_drift,
-            'emotional': snapshot.emotional_drift,
-            'total': snapshot.total_drift
+            "entropy": snapshot.entropy_drift,
+            "ethical": snapshot.ethical_drift,
+            "temporal": snapshot.temporal_drift,
+            "symbol": snapshot.symbol_drift,
+            "emotional": snapshot.emotional_drift,
+            "total": snapshot.total_drift,
         }
 
         for name, value in components.items():
             stats = self.component_stats[name]
-            stats['max'] = max(stats['max'], value)
-            stats['min'] = min(stats['min'], value)
+            stats["max"] = max(stats["max"], value)
+            stats["min"] = min(stats["min"], value)
 
             # Rolling statistics (simplified)
             if len(self.drift_history) > 10:
                 recent_values = [
-                    getattr(s, f"{name}_drift" if name != 'total' else 'total_drift')
+                    getattr(s, f"{name}_drift" if name != "total" else "total_drift")
                     for s in list(self.drift_history)[-50:]
                 ]
-                stats['mean'] = np.mean(recent_values)
-                stats['std'] = np.std(recent_values)
+                stats["mean"] = np.mean(recent_values)
+                stats["std"] = np.std(recent_values)
 
     def _check_alerts(self, snapshot: DriftSnapshot, raw_data: Dict[str, Any]):
         """Check for alert conditions."""
         # Component threshold alerts
         thresholds = {
-            'entropy': 0.7,
-            'ethical': 0.5,
-            'temporal': 0.6,
-            'symbol': 0.65,
-            'emotional': 0.55
+            "entropy": 0.7,
+            "ethical": 0.5,
+            "temporal": 0.6,
+            "symbol": 0.65,
+            "emotional": 0.55,
         }
 
         for component, threshold in thresholds.items():
@@ -420,7 +420,7 @@ class DriftDashboard:
                 self._create_alert(
                     component=component.upper(),
                     severity=DriftSeverity.WARNING,
-                    message=f"{component.capitalize()} drift exceeds threshold: {value:.3f}"
+                    message=f"{component.capitalize()} drift exceeds threshold: {value:.3f}",
                 )
 
         # Cascade alerts
@@ -428,7 +428,7 @@ class DriftDashboard:
             self._create_alert(
                 component="SYSTEM",
                 severity=DriftSeverity.CASCADE,
-                message="System entering cascade risk zone"
+                message="System entering cascade risk zone",
             )
 
         # Loop pattern alerts
@@ -436,7 +436,7 @@ class DriftDashboard:
             self._create_alert(
                 component="LOOP_DETECTOR",
                 severity=DriftSeverity.WARNING,
-                message=f"Escalating drift pattern detected"
+                message="Escalating drift pattern detected",
             )
 
     def _create_alert(self, component: str, severity: DriftSeverity, message: str):
@@ -449,21 +449,25 @@ class DriftDashboard:
                 timestamp=datetime.now(timezone.utc).isoformat(),
                 severity=severity,
                 component=component,
-                drift_value=self.drift_history[-1].total_drift if self.drift_history else 0.0,
-                message=message
+                drift_value=(
+                    self.drift_history[-1].total_drift if self.drift_history else 0.0
+                ),
+                message=message,
             )
             self.active_alerts[alert_key] = alert
             self.alert_history.append(alert)
 
-            logger.warning("Drift alert created",
-                         component=component,
-                         severity=severity.value,
-                         message=message)
+            logger.warning(
+                "Drift alert created",
+                component=component,
+                severity=severity.value,
+                message=message,
+            )
 
     def _calculate_system_health(self) -> Dict[str, Any]:
         """Calculate overall system health metrics."""
         if not self.drift_history:
-            return {'status': 'unknown', 'score': 0.0}
+            return {"status": "unknown", "score": 0.0}
 
         recent = list(self.drift_history)[-50:]
         current = recent[-1]
@@ -480,69 +484,70 @@ class DriftDashboard:
         alert_factor = 1.0 - min(alert_load, 1.0)
 
         # Combined score
-        overall = (health_score * 0.5 + stability * 0.3 + alert_factor * 0.2)
+        overall = health_score * 0.5 + stability * 0.3 + alert_factor * 0.2
 
         if overall > 0.8:
-            status = 'excellent'
+            status = "excellent"
         elif overall > 0.6:
-            status = 'good'
+            status = "good"
         elif overall > 0.4:
-            status = 'fair'
+            status = "fair"
         elif overall > 0.2:
-            status = 'poor'
+            status = "poor"
         else:
-            status = 'critical'
+            status = "critical"
 
         return {
-            'status': status,
-            'score': overall,
-            'components': {
-                'drift_health': health_score,
-                'stability': stability,
-                'alert_load': alert_factor
-            }
+            "status": status,
+            "score": overall,
+            "components": {
+                "drift_health": health_score,
+                "stability": stability,
+                "alert_load": alert_factor,
+            },
         }
 
     # Remediation action implementations
     def _reset_drift_component(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Reset drift for specific component."""
-        component = params.get('component', 'all')
+        component = params.get("component", "all")
         logger.info(f"Resetting drift for component: {component}")
         # Implementation would interface with SymbolicDriftTracker
-        return {'status': 'reset_initiated', 'component': component}
+        return {"status": "reset_initiated", "component": component}
 
     def _trigger_dream_harmonization(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Trigger dream harmonization for drift remediation."""
         logger.info("Triggering dream harmonization")
         # Implementation would interface with DreamSymbolic system
-        return {'status': 'harmonization_started', 'dream_id': 'HARM_' + str(int(time.time()))}
+        return {
+            "status": "harmonization_started",
+            "dream_id": "HARM_" + str(int(time.time())),
+        }
 
     def _trigger_memory_compression(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Trigger memory compression to reduce drift."""
         logger.info("Triggering memory compression")
         # Implementation would interface with MemoryFold compression
-        return {'status': 'compression_initiated', 'target_reduction': 0.3}
+        return {"status": "compression_initiated", "target_reduction": 0.3}
 
     def _trigger_ethics_enforcement(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Enforce ethical constraints to reduce drift."""
         logger.info("Triggering ethics enforcement")
         # Implementation would interface with EthicsGovernor
-        return {'status': 'enforcement_active', 'constraint_level': 'strict'}
+        return {"status": "enforcement_active", "constraint_level": "strict"}
 
     def _quarantine_symbol(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Quarantine a high-risk symbol."""
-        symbol = params.get('symbol', 'UNKNOWN')
+        symbol = params.get("symbol", "UNKNOWN")
         logger.warning(f"Quarantining symbol: {symbol}")
         # Implementation would interface with symbolic quarantine system
-        return {'status': 'quarantined', 'symbol': symbol, 'duration': '15m'}
+        return {"status": "quarantined", "symbol": symbol, "duration": "15m"}
 
 
 class LoopPatternDetector:
     """Detects recursive loop patterns in drift history."""
 
-    def detect(self,
-               history: Deque[DriftSnapshot],
-               current_drift: float) -> LoopType:
+    def detect(self, history: Deque[DriftSnapshot], current_drift: float) -> LoopType:
         """
         Detect loop patterns in drift history.
 
@@ -581,7 +586,7 @@ class LoopPatternDetector:
         # Count direction changes
         changes = 0
         for i in range(1, len(values) - 1):
-            if (values[i] > values[i-1]) != (values[i+1] > values[i]):
+            if (values[i] > values[i - 1]) != (values[i + 1] > values[i]):
                 changes += 1
 
         return changes > len(values) * 0.6
@@ -592,16 +597,14 @@ class LoopPatternDetector:
             return False
 
         # Check if mostly increasing
-        increases = sum(1 for i in range(1, len(values)) if values[i] > values[i-1])
+        increases = sum(1 for i in range(1, len(values)) if values[i] > values[i - 1])
         return increases > len(values) * 0.7
 
 
 class CascadePredictor:
     """Predicts cascade risk from drift patterns."""
 
-    def predict(self,
-                history: Deque[DriftSnapshot],
-                current: DriftSnapshot) -> float:
+    def predict(self, history: Deque[DriftSnapshot], current: DriftSnapshot) -> float:
         """
         Predict cascade risk probability.
 
@@ -632,7 +635,7 @@ class CascadePredictor:
             current.ethical_drift,
             current.temporal_drift,
             current.symbol_drift,
-            current.emotional_drift
+            current.emotional_drift,
         ]
         imbalance = np.std(components)
         risk_factors.append(min(imbalance * 2, 1.0))
@@ -642,7 +645,7 @@ class CascadePredictor:
             LoopType.NONE: 0.0,
             LoopType.OSCILLATORY: 0.3,
             LoopType.ESCALATING: 0.7,
-            LoopType.CHAOTIC: 0.9
+            LoopType.CHAOTIC: 0.9,
         }
         risk_factors.append(loop_risk.get(current.loop_type, 0.0))
 

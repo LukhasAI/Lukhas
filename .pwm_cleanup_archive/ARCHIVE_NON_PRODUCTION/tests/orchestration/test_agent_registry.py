@@ -1,7 +1,10 @@
-import pytest
 from orchestration.agents.base import OrchestrationAgent
 from orchestration.agents.registry import AgentRegistry
-from orchestration.agents.types import AgentCapability, AgentContext, AgentResponse
+from orchestration.agents.types import (
+    AgentCapability,
+    AgentContext,
+    AgentResponse,
+)
 
 
 class DummyAgent(OrchestrationAgent):

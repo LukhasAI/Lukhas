@@ -1,6 +1,13 @@
 import unittest
-from memory.core_memory.fold_engine import MemoryFold, MemoryType, MemoryPriority
-from memory.core_memory.memory_introspection_engine import MemoryIntrospectionEngine
+
+from memory.core_memory.fold_engine import (
+    MemoryFold,
+    MemoryPriority,
+    MemoryType,
+)
+from memory.core_memory.memory_introspection_engine import (
+    MemoryIntrospectionEngine,
+)
 
 
 class TestMemoryIntrospectionEngine(unittest.TestCase):

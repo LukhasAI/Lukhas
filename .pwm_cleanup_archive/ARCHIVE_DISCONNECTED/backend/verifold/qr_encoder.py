@@ -24,17 +24,17 @@ TODO: Add custom QR styling and branding options
 # Optional imports for QR code generation
 try:
     import qrcode
-    from qrcode.image.pil import PilImage
     from PIL import Image, ImageDraw, ImageFont
+    from qrcode.image.pil import PilImage
+
     QR_AVAILABLE = True
 except ImportError:
     QR_AVAILABLE = False
 
-import json
 import base64
-import hashlib
-from typing import Dict, Any, Optional, Union, Tuple
+import json
 from pathlib import Path
+from typing import Any, Dict, Optional, Union
 
 
 class CollapseQREncoder:
@@ -46,6 +46,7 @@ class CollapseQREncoder:
     - JSON format: Structured hash data
     - Binary format: Compact raw data
     """
+
     def __init__(self, base_url: str = "https://verify.collapsehash.org"):
         """
         Initialize QR encoder.
@@ -54,24 +55,28 @@ class CollapseQREncoder:
             base_url (str): Base URL for verification links
         """
         self.base_url = base_url
-        self.default_error_correction = qrcode.constants.ERROR_CORRECT_M if QR_AVAILABLE else None
+        self.default_error_correction = (
+            qrcode.constants.ERROR_CORRECT_M if QR_AVAILABLE else None
+        )
         self.qr_config = {
             "box_size": 10,
             "border": 4,
             "fill_color": "black",
-            "back_color": "white"
+            "back_color": "white",
         }
 
-    def encode_hash_to_qr(self,
-                         collapse_hash: str,
-                         signature: str,
-                         public_key: str,
-                         format_type: str = "url",
-                         error_correction: Optional[str] = None,
-                         save_path: Optional[str] = None,
-                         show_inline: bool = False,
-                         metadata: Optional[dict] = None,
-                         **kwargs) -> Optional[Any]:
+    def encode_hash_to_qr(
+        self,
+        collapse_hash: str,
+        signature: str,
+        public_key: str,
+        format_type: str = "url",
+        error_correction: Optional[str] = None,
+        save_path: Optional[str] = None,
+        show_inline: bool = False,
+        metadata: Optional[dict] = None,
+        **kwargs,
+    ) -> Optional[Any]:
         """
         Generate QR code from CollapseHash verification data.
 
@@ -90,25 +95,33 @@ class CollapseQREncoder:
             PIL Image or None if QR library unavailable
         """
         if not QR_AVAILABLE:
-            print("Warning: QR code libraries not available. Install with: pip install qrcode[pil] pillow")
+            print(
+                "Warning: QR code libraries not available. Install with: pip install qrcode[pil] pillow"
+            )
             return None
         # Choose error correction level
         ec_map = {
             "L": qrcode.constants.ERROR_CORRECT_L,
             "M": qrcode.constants.ERROR_CORRECT_M,
             "Q": qrcode.constants.ERROR_CORRECT_Q,
-            "H": qrcode.constants.ERROR_CORRECT_H
+            "H": qrcode.constants.ERROR_CORRECT_H,
         }
         ec_level = self.default_error_correction
         if error_correction and error_correction in ec_map:
             ec_level = ec_map[error_correction]
         # Format-specific encoding
         if format_type == "url":
-            data = self._encode_url_format(collapse_hash, signature, public_key, metadata)
+            data = self._encode_url_format(
+                collapse_hash, signature, public_key, metadata
+            )
         elif format_type == "json":
-            data = self._encode_json_format(collapse_hash, signature, public_key, metadata)
+            data = self._encode_json_format(
+                collapse_hash, signature, public_key, metadata
+            )
         elif format_type == "binary":
-            data = self._encode_binary_format(collapse_hash, signature, public_key, metadata)
+            data = self._encode_binary_format(
+                collapse_hash, signature, public_key, metadata
+            )
         else:
             raise ValueError(f"Unsupported format type: {format_type}")
         img = self._generate_qr_image(data, error_correction=ec_level, **kwargs)
@@ -117,29 +130,42 @@ class CollapseQREncoder:
         if show_inline and img:
             try:
                 from IPython.display import display
+
                 display(img)
             except ImportError:
                 pass
         return img
 
-    def _encode_url_format(self, collapse_hash: str, signature: str, public_key: str, metadata: Optional[dict]=None) -> str:
+    def _encode_url_format(
+        self,
+        collapse_hash: str,
+        signature: str,
+        public_key: str,
+        metadata: Optional[dict] = None,
+    ) -> str:
         """
         Encode verification data as URL.
         """
         # Minimal URL encoding, can include metadata as base64 if provided
-        params = {
-            "h": collapse_hash,
-            "s": signature,
-            "k": public_key
-        }
+        params = {"h": collapse_hash, "s": signature, "k": public_key}
         if metadata:
             # Encode metadata compactly
-            meta_str = base64.urlsafe_b64encode(json.dumps(metadata, separators=(',', ':')).encode()).decode()
+            meta_str = base64.urlsafe_b64encode(
+                json.dumps(metadata, separators=(",", ":")).encode()
+            ).decode()
             params["m"] = meta_str
-        param_str = "&".join(f"{k}={params[k][:64] if k!='m' else params[k]}" for k in params)
+        param_str = "&".join(
+            f"{k}={params[k][:64] if k!='m' else params[k]}" for k in params
+        )
         return f"{self.base_url}/verify?{param_str}"
 
-    def _encode_json_format(self, collapse_hash: str, signature: str, public_key: str, metadata: Optional[dict]=None) -> str:
+    def _encode_json_format(
+        self,
+        collapse_hash: str,
+        signature: str,
+        public_key: str,
+        metadata: Optional[dict] = None,
+    ) -> str:
         """
         Encode verification data as JSON.
         """
@@ -149,21 +175,27 @@ class CollapseQREncoder:
             "signature": signature,
             "public_key": public_key,
             "timestamp": None,
-            "algorithm": "SPHINCS+-SHAKE256-128f-simple"
+            "algorithm": "SPHINCS+-SHAKE256-128f-simple",
         }
         if metadata:
             verification_data["metadata"] = metadata
-        return json.dumps(verification_data, separators=(',', ':'))
+        return json.dumps(verification_data, separators=(",", ":"))
 
-    def _encode_binary_format(self, collapse_hash: str, signature: str, public_key: str, metadata: Optional[dict]=None) -> str:
+    def _encode_binary_format(
+        self,
+        collapse_hash: str,
+        signature: str,
+        public_key: str,
+        metadata: Optional[dict] = None,
+    ) -> str:
         """
         Encode verification data as base64-encoded binary, with optional metadata.
         """
         fields = [collapse_hash, signature, public_key]
         if metadata:
-            fields.append(json.dumps(metadata, separators=(',', ':')))
-        binary_data = "|".join(fields).encode('utf-8')
-        return base64.b64encode(binary_data).decode('ascii')
+            fields.append(json.dumps(metadata, separators=(",", ":")))
+        binary_data = "|".join(fields).encode("utf-8")
+        return base64.b64encode(binary_data).decode("ascii")
 
     def _generate_qr_image(self, data: str, error_correction=None, **kwargs) -> Any:
         """
@@ -174,22 +206,24 @@ class CollapseQREncoder:
         qr = qrcode.QRCode(
             version=None,
             error_correction=error_correction or self.default_error_correction,
-            box_size=kwargs.get('box_size', self.qr_config['box_size']),
-            border=kwargs.get('border', self.qr_config['border'])
+            box_size=kwargs.get("box_size", self.qr_config["box_size"]),
+            border=kwargs.get("border", self.qr_config["border"]),
         )
         qr.add_data(data)
         qr.make(fit=True)
         img = qr.make_image(
-            fill_color=kwargs.get('fill_color', self.qr_config['fill_color']),
-            back_color=kwargs.get('back_color', self.qr_config['back_color'])
+            fill_color=kwargs.get("fill_color", self.qr_config["fill_color"]),
+            back_color=kwargs.get("back_color", self.qr_config["back_color"]),
         )
         return img
 
-    def generate_verification_qr_batch(self,
-                                     hash_chain: list,
-                                     output_dir: Union[str, Path] = "qr_codes",
-                                     format_type: str = "url",
-                                     **kwargs) -> list:
+    def generate_verification_qr_batch(
+        self,
+        hash_chain: list,
+        output_dir: Union[str, Path] = "qr_codes",
+        format_type: str = "url",
+        **kwargs,
+    ) -> list:
         """
         Generate QR codes for a batch of CollapseHash entries.
         Args:
@@ -210,12 +244,14 @@ class CollapseQREncoder:
                 format_type=format_type,
                 save_path=str(filename),
                 metadata=hash_data.get("metadata"),
-                **kwargs
+                **kwargs,
             )
             generated_files.append(str(filename))
         return generated_files
 
-    def decode_qr_to_hash(self, qr_image_path: Union[str, Path]) -> Optional[Dict[str, Any]]:
+    def decode_qr_to_hash(
+        self, qr_image_path: Union[str, Path]
+    ) -> Optional[Dict[str, Any]]:
         """
         Decode QR code image back to CollapseHash verification data.
         Not implemented; would require pyzbar or similar.
@@ -239,15 +275,18 @@ def main():
     for format_type in ["url", "json", "binary"]:
         print(f"- {format_type.upper()} format QR code")
         img = encoder.encode_hash_to_qr(
-            sample_hash, sample_signature, sample_pubkey,
+            sample_hash,
+            sample_signature,
+            sample_pubkey,
             format_type=format_type,
             error_correction="Q",
             metadata=metadata,
-            save_path=f"sample_{format_type}.png"
+            save_path=f"sample_{format_type}.png",
         )
         if img:
             print(f"  Saved sample_{format_type}.png")
     print("\nQR Encoder ready for implementation!")
+
 
 if __name__ == "__main__":
     main()

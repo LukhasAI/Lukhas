@@ -54,24 +54,24 @@ TODO: Implement phase harmonics analyzer for resonance breakdown detection
 IDEA: Add predictive ethics modeling with 5-minute violation forecasting
 """
 
+import asyncio
 import json
 import time
-import asyncio
-from typing import Dict, Any, List, Optional, Tuple, Set
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from collections import defaultdict, deque
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta, timezone
 from enum import Enum
-from collections import deque, defaultdict
-import numpy as np
-import structlog
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 # Configure structured logging
-from core.common import get_logger, GLYPHToken, create_glyph
 
 
 class EscalationTier(Enum):
     """Escalation tiers for ethical violations."""
+
     NOTICE = "NOTICE"
     WARNING = "WARNING"
     CRITICAL = "CRITICAL"
@@ -80,6 +80,7 @@ class EscalationTier(Enum):
 
 class ViolationType(Enum):
     """Types of ethical violations detected."""
+
     EMOTIONAL_VOLATILITY = "EMOTIONAL_VOLATILITY"
     CONTRADICTION_DENSITY = "CONTRADICTION_DENSITY"
     MEMORY_PHASE_MISMATCH = "MEMORY_PHASE_MISMATCH"
@@ -92,6 +93,7 @@ class ViolationType(Enum):
 @dataclass
 class EthicalViolation:
     """Record of an ethical violation detection."""
+
     violation_id: str
     timestamp: str
     symbol_id: str
@@ -107,14 +109,15 @@ class EthicalViolation:
         """Convert to dictionary for serialization."""
         return {
             **asdict(self),
-            'violation_type': self.violation_type.value,
-            'severity': self.severity.value
+            "violation_type": self.violation_type.value,
+            "severity": self.severity.value,
         }
 
 
 @dataclass
 class InterventionAction:
     """Intervention action taken by the sentinel."""
+
     action_id: str
     timestamp: str
     violation_id: str
@@ -132,6 +135,7 @@ class InterventionAction:
 @dataclass
 class EthicalState:
     """Current ethical state of a symbol."""
+
     symbol_id: str
     coherence_score: float
     emotional_stability: float
@@ -147,28 +151,25 @@ class EthicalState:
         """Calculate overall ethical risk score."""
         # Weighted risk calculation
         weights = {
-            'coherence': 0.25,
-            'emotion': 0.20,
-            'contradiction': 0.20,
-            'memory': 0.15,
-            'drift': 0.15,
-            'entropy': 0.05
+            "coherence": 0.25,
+            "emotion": 0.20,
+            "contradiction": 0.20,
+            "memory": 0.15,
+            "drift": 0.15,
+            "entropy": 0.05,
         }
 
         # Invert coherence and stability (higher is better)
         risk_components = {
-            'coherence': 1.0 - self.coherence_score,
-            'emotion': 1.0 - self.emotional_stability,
-            'contradiction': self.contradiction_level,
-            'memory': 1.0 - self.memory_phase_alignment,
-            'drift': min(abs(self.drift_velocity), 1.0),
-            'entropy': self.glyph_entropy
+            "coherence": 1.0 - self.coherence_score,
+            "emotion": 1.0 - self.emotional_stability,
+            "contradiction": self.contradiction_level,
+            "memory": 1.0 - self.memory_phase_alignment,
+            "drift": min(abs(self.drift_velocity), 1.0),
+            "entropy": self.glyph_entropy,
         }
 
-        risk_score = sum(
-            risk_components[key] * weights[key]
-            for key in weights
-        )
+        risk_score = sum(risk_components[key] * weights[key] for key in weights)
 
         # Boost risk for repeated violations
         violation_penalty = min(len(self.violation_history) * 0.05, 0.3)
@@ -184,10 +185,12 @@ class EthicalDriftSentinel:
     and triggers appropriate interventions to prevent symbolic collapse.
     """
 
-    def __init__(self,
-                 monitoring_interval: float = 0.5,
-                 violation_retention: int = 1000,
-                 state_history_size: int = 100):
+    def __init__(
+        self,
+        monitoring_interval: float = 0.5,
+        violation_retention: int = 1000,
+        state_history_size: int = 100,
+    ):
         """
         Initialize the Ethical Drift Sentinel.
 
@@ -213,12 +216,12 @@ class EthicalDriftSentinel:
 
         # Thresholds configuration
         self.thresholds = {
-            'emotional_volatility': 0.7,
-            'contradiction_density': 0.6,
-            'memory_phase_mismatch': 0.65,
-            'drift_acceleration': 0.5,
-            'glyph_entropy': 0.8,
-            'cascade_risk': 0.75
+            "emotional_volatility": 0.7,
+            "contradiction_density": 0.6,
+            "memory_phase_mismatch": 0.65,
+            "drift_acceleration": 0.5,
+            "glyph_entropy": 0.8,
+            "cascade_risk": 0.75,
         }
 
         # Escalation configuration
@@ -226,15 +229,15 @@ class EthicalDriftSentinel:
             (0.0, 0.3): EscalationTier.NOTICE,
             (0.3, 0.5): EscalationTier.WARNING,
             (0.5, 0.7): EscalationTier.CRITICAL,
-            (0.7, 1.0): EscalationTier.CASCADE_LOCK
+            (0.7, 1.0): EscalationTier.CASCADE_LOCK,
         }
 
         # Integration points (would be actual imports in production)
         self.collapse_reasoner = None  # Interface to collapse_reasoner.py
-        self.emotion_protocol = None   # Interface to emotion/protocol.py
+        self.emotion_protocol = None  # Interface to emotion/protocol.py
         self.conflict_resolver = None  # Interface to conflict_resolver.py
-        self.drift_tracker = None      # Interface to symbolic_drift_tracker.py
-        self.lambda_governor = None    # Interface to Lambda Governor
+        self.drift_tracker = None  # Interface to symbolic_drift_tracker.py
+        self.lambda_governor = None  # Interface to Lambda Governor
 
         # Monitoring control
         self.monitoring_active = False
@@ -244,9 +247,11 @@ class EthicalDriftSentinel:
         self.audit_log_path = Path("logs/ethical_alerts.jsonl")
         self.audit_log_path.parent.mkdir(parents=True, exist_ok=True)
 
-        logger.info("Ethical Drift Sentinel initialized",
-                   interval=monitoring_interval,
-                   thresholds=self.thresholds)
+        logger.info(
+            "Ethical Drift Sentinel initialized",
+            interval=monitoring_interval,
+            thresholds=self.thresholds,
+        )
 
     async def start_monitoring(self):
         """Start the continuous monitoring loop."""
@@ -306,12 +311,14 @@ class EthicalDriftSentinel:
         self._update_ethical_state(state, symbol_data)
 
         # Store state history
-        self.state_history[symbol_id].append({
-            'timestamp': state.last_updated,
-            'risk_score': state.calculate_risk_score(),
-            'coherence': state.coherence_score,
-            'emotion': state.emotional_stability
-        })
+        self.state_history[symbol_id].append(
+            {
+                "timestamp": state.last_updated,
+                "risk_score": state.calculate_risk_score(),
+                "coherence": state.coherence_score,
+                "emotion": state.emotional_stability,
+            }
+        )
 
         # Detect violations
         violations = self._detect_violations(state, symbol_data)
@@ -331,75 +338,91 @@ class EthicalDriftSentinel:
 
         return None
 
-    def _detect_violations(self,
-                          state: EthicalState,
-                          symbol_data: Dict[str, Any]) -> List[EthicalViolation]:
+    def _detect_violations(
+        self, state: EthicalState, symbol_data: Dict[str, Any]
+    ) -> List[EthicalViolation]:
         """Detect ethical violations from state and data."""
         violations = []
         timestamp = datetime.now(timezone.utc).isoformat()
 
         # Check emotional volatility
-        if state.emotional_stability < (1.0 - self.thresholds['emotional_volatility']):
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.EMOTIONAL_VOLATILITY,
-                {'stability': state.emotional_stability},
-                symbol_data
-            ))
+        if state.emotional_stability < (1.0 - self.thresholds["emotional_volatility"]):
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.EMOTIONAL_VOLATILITY,
+                    {"stability": state.emotional_stability},
+                    symbol_data,
+                )
+            )
 
         # Check contradiction density
-        if state.contradiction_level > self.thresholds['contradiction_density']:
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.CONTRADICTION_DENSITY,
-                {'density': state.contradiction_level},
-                symbol_data
-            ))
+        if state.contradiction_level > self.thresholds["contradiction_density"]:
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.CONTRADICTION_DENSITY,
+                    {"density": state.contradiction_level},
+                    symbol_data,
+                )
+            )
 
         # Check memory phase mismatch
-        if state.memory_phase_alignment < (1.0 - self.thresholds['memory_phase_mismatch']):
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.MEMORY_PHASE_MISMATCH,
-                {'alignment': state.memory_phase_alignment},
-                symbol_data
-            ))
+        if state.memory_phase_alignment < (
+            1.0 - self.thresholds["memory_phase_mismatch"]
+        ):
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.MEMORY_PHASE_MISMATCH,
+                    {"alignment": state.memory_phase_alignment},
+                    symbol_data,
+                )
+            )
 
         # Check drift acceleration
-        if abs(state.drift_velocity) > self.thresholds['drift_acceleration']:
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.DRIFT_ACCELERATION,
-                {'velocity': state.drift_velocity},
-                symbol_data
-            ))
+        if abs(state.drift_velocity) > self.thresholds["drift_acceleration"]:
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.DRIFT_ACCELERATION,
+                    {"velocity": state.drift_velocity},
+                    symbol_data,
+                )
+            )
 
         # Check GLYPH entropy
-        if state.glyph_entropy > self.thresholds['glyph_entropy']:
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.GLYPH_ENTROPY_ANOMALY,
-                {'entropy': state.glyph_entropy},
-                symbol_data
-            ))
+        if state.glyph_entropy > self.thresholds["glyph_entropy"]:
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.GLYPH_ENTROPY_ANOMALY,
+                    {"entropy": state.glyph_entropy},
+                    symbol_data,
+                )
+            )
 
         # Check overall risk score
         risk_score = state.calculate_risk_score()
-        if risk_score > self.thresholds['cascade_risk']:
-            violations.append(self._create_violation(
-                state.symbol_id,
-                ViolationType.CASCADE_RISK,
-                {'risk_score': risk_score},
-                symbol_data
-            ))
+        if risk_score > self.thresholds["cascade_risk"]:
+            violations.append(
+                self._create_violation(
+                    state.symbol_id,
+                    ViolationType.CASCADE_RISK,
+                    {"risk_score": risk_score},
+                    symbol_data,
+                )
+            )
 
         return violations
 
-    def _create_violation(self,
-                         symbol_id: str,
-                         violation_type: ViolationType,
-                         metrics: Dict[str, float],
-                         context: Dict[str, Any]) -> EthicalViolation:
+    def _create_violation(
+        self,
+        symbol_id: str,
+        violation_type: ViolationType,
+        metrics: Dict[str, float],
+        context: Dict[str, Any],
+    ) -> EthicalViolation:
         """Create a violation record."""
         risk_score = self.symbol_states[symbol_id].calculate_risk_score()
         severity = self._determine_severity(risk_score)
@@ -413,10 +436,8 @@ class EthicalDriftSentinel:
             risk_score=risk_score,
             metrics=metrics,
             context=context,
-            intervention_required=severity in [
-                EscalationTier.CRITICAL,
-                EscalationTier.CASCADE_LOCK
-            ]
+            intervention_required=severity
+            in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK],
         )
 
         return violation
@@ -428,10 +449,12 @@ class EthicalDriftSentinel:
         Args:
             violation: The violation requiring intervention
         """
-        logger.warning("Triggering intervention",
-                      violation_id=violation.violation_id,
-                      severity=violation.severity.value,
-                      type=violation.violation_type.value)
+        logger.warning(
+            "Triggering intervention",
+            violation_id=violation.violation_id,
+            severity=violation.severity.value,
+            type=violation.violation_type.value,
+        )
 
         action_id = f"INT_{int(time.time() * 1000)}"
 
@@ -439,22 +462,22 @@ class EthicalDriftSentinel:
         if violation.severity == EscalationTier.CASCADE_LOCK:
             action_type = "emergency_freeze"
             params = {
-                'symbol_id': violation.symbol_id,
-                'freeze_duration': 300,  # 5 minutes
-                'reason': f"CASCADE_LOCK: {violation.violation_type.value}"
+                "symbol_id": violation.symbol_id,
+                "freeze_duration": 300,  # 5 minutes
+                "reason": f"CASCADE_LOCK: {violation.violation_type.value}",
             }
         elif violation.severity == EscalationTier.CRITICAL:
             action_type = "collapse_prevention"
             params = {
-                'symbol_id': violation.symbol_id,
-                'strategy': 'ethical_priority',
-                'violation_data': violation.to_dict()
+                "symbol_id": violation.symbol_id,
+                "strategy": "ethical_priority",
+                "violation_data": violation.to_dict(),
             }
         else:
             action_type = "soft_intervention"
             params = {
-                'symbol_id': violation.symbol_id,
-                'adjustment_type': 'ethical_realignment'
+                "symbol_id": violation.symbol_id,
+                "adjustment_type": "ethical_realignment",
             }
 
         # Create intervention record
@@ -465,7 +488,7 @@ class EthicalDriftSentinel:
             action_type=action_type,
             target_symbol=violation.symbol_id,
             parameters=params,
-            status='executing'
+            status="executing",
         )
 
         self.intervention_log.append(intervention)
@@ -473,32 +496,28 @@ class EthicalDriftSentinel:
         # Execute intervention
         try:
             result = await self._execute_intervention(action_type, params)
-            intervention.status = 'completed'
+            intervention.status = "completed"
             intervention.result = result
 
             # Update violation status
-            violation.intervention_status = 'completed'
+            violation.intervention_status = "completed"
 
-            logger.info("Intervention completed",
-                       action_id=action_id,
-                       type=action_type)
+            logger.info("Intervention completed", action_id=action_id, type=action_type)
 
         except Exception as e:
-            intervention.status = 'failed'
-            intervention.result = {'error': str(e)}
-            violation.intervention_status = 'failed'
+            intervention.status = "failed"
+            intervention.result = {"error": str(e)}
+            violation.intervention_status = "failed"
 
-            logger.error("Intervention failed",
-                        action_id=action_id,
-                        error=str(e))
+            logger.error("Intervention failed", action_id=action_id, error=str(e))
 
             # Escalate to governor if critical intervention fails
             if violation.severity == EscalationTier.CASCADE_LOCK:
                 await self._escalate_to_governor(violation, str(e))
 
-    async def _execute_intervention(self,
-                                  action_type: str,
-                                  params: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_intervention(
+        self, action_type: str, params: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Execute the actual intervention.
 
@@ -508,25 +527,25 @@ class EthicalDriftSentinel:
 
         if action_type == "emergency_freeze":
             # Interface with freeze protocol
-            return {'status': 'frozen', 'duration': params['freeze_duration']}
+            return {"status": "frozen", "duration": params["freeze_duration"]}
 
         elif action_type == "collapse_prevention":
             # Interface with collapse_reasoner.py
             if self.collapse_reasoner:
                 return await self.collapse_reasoner.prevent_collapse(params)
-            return {'status': 'collapse_prevented'}
+            return {"status": "collapse_prevented"}
 
         elif action_type == "soft_intervention":
             # Interface with conflict_resolver.py
             if self.conflict_resolver:
                 return await self.conflict_resolver.realign_ethics(params)
-            return {'status': 'realigned'}
+            return {"status": "realigned"}
 
-        return {'status': 'completed'}
+        return {"status": "completed"}
 
-    async def _escalate_to_governor(self,
-                                   violation: EthicalViolation,
-                                   failure_reason: str):
+    async def _escalate_to_governor(
+        self, violation: EthicalViolation, failure_reason: str
+    ):
         """
         Escalate to Lambda Governor for critical failures.
 
@@ -534,17 +553,19 @@ class EthicalDriftSentinel:
             violation: The violation that failed intervention
             failure_reason: Reason for intervention failure
         """
-        logger.critical("Escalating to Lambda Governor",
-                       violation_id=violation.violation_id,
-                       reason=failure_reason,
-                       ΛTAG="ΛESCALATE")
+        logger.critical(
+            "Escalating to Lambda Governor",
+            violation_id=violation.violation_id,
+            reason=failure_reason,
+            ΛTAG="ΛESCALATE",
+        )
 
         escalation_data = {
-            'violation': violation.to_dict(),
-            'failure_reason': failure_reason,
-            'timestamp': datetime.now(timezone.utc).isoformat(),
-            'escalation_type': 'CRITICAL_INTERVENTION_FAILURE',
-            'recommended_action': 'SYSTEM_FREEZE'
+            "violation": violation.to_dict(),
+            "failure_reason": failure_reason,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "escalation_type": "CRITICAL_INTERVENTION_FAILURE",
+            "recommended_action": "SYSTEM_FREEZE",
         }
 
         # Log escalation
@@ -566,30 +587,30 @@ class EthicalDriftSentinel:
 
         # Write to audit log
         audit_entry = {
-            'timestamp': violation.timestamp,
-            'type': 'ethical_violation',
-            'data': violation.to_dict(),
-            'ΛTAG': ['ΛVIOLATION', f'LUKHAS{violation.severity.value}']
+            "timestamp": violation.timestamp,
+            "type": "ethical_violation",
+            "data": violation.to_dict(),
+            "ΛTAG": ["ΛVIOLATION", f"LUKHAS{violation.severity.value}"],
         }
 
         try:
-            with open(self.audit_log_path, 'a') as f:
-                f.write(json.dumps(audit_entry) + '\n')
+            with open(self.audit_log_path, "a") as f:
+                f.write(json.dumps(audit_entry) + "\n")
         except Exception as e:
             logger.error("Failed to write audit log", error=str(e))
 
     def _log_escalation(self, escalation_data: Dict[str, Any]):
         """Log governor escalation."""
         audit_entry = {
-            'timestamp': escalation_data['timestamp'],
-            'type': 'governor_escalation',
-            'data': escalation_data,
-            'ΛTAG': ['ΛESCALATE', 'ΛGOVERNOR', 'ΛCRITICAL']
+            "timestamp": escalation_data["timestamp"],
+            "type": "governor_escalation",
+            "data": escalation_data,
+            "ΛTAG": ["ΛESCALATE", "ΛGOVERNOR", "ΛCRITICAL"],
         }
 
         try:
-            with open(self.audit_log_path, 'a') as f:
-                f.write(json.dumps(audit_entry) + '\n')
+            with open(self.audit_log_path, "a") as f:
+                f.write(json.dumps(audit_entry) + "\n")
         except Exception as e:
             logger.error("Failed to write escalation log", error=str(e))
 
@@ -597,16 +618,19 @@ class EthicalDriftSentinel:
         """Check for system-wide cascade conditions."""
         # Count recent critical violations
         recent_critical = sum(
-            1 for v in self.violation_log
+            1
+            for v in self.violation_log
             if v.severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK]
             and self._is_recent(v.timestamp, minutes=5)
         )
 
         # System-wide cascade risk
         if recent_critical > 5:
-            logger.critical("System-wide cascade risk detected",
-                          critical_violations=recent_critical,
-                          ΛTAG="ΛCASCADE")
+            logger.critical(
+                "System-wide cascade risk detected",
+                critical_violations=recent_critical,
+                ΛTAG="ΛCASCADE",
+            )
 
             # Create system-wide violation
             system_violation = EthicalViolation(
@@ -616,9 +640,9 @@ class EthicalDriftSentinel:
                 violation_type=ViolationType.CASCADE_RISK,
                 severity=EscalationTier.CASCADE_LOCK,
                 risk_score=1.0,
-                metrics={'critical_count': recent_critical},
-                context={'type': 'system_wide_cascade'},
-                intervention_required=True
+                metrics={"critical_count": recent_critical},
+                context={"type": "system_wide_cascade"},
+                intervention_required=True,
             )
 
             self._log_violation(system_violation)
@@ -627,7 +651,7 @@ class EthicalDriftSentinel:
     def _is_recent(self, timestamp: str, minutes: int = 5) -> bool:
         """Check if timestamp is within recent minutes."""
         try:
-            ts = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+            ts = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
             now = datetime.now(timezone.utc)
             return (now - ts) < timedelta(minutes=minutes)
         except:
@@ -646,7 +670,7 @@ class EthicalDriftSentinel:
             EscalationTier.NOTICE: 1,
             EscalationTier.WARNING: 2,
             EscalationTier.CRITICAL: 3,
-            EscalationTier.CASCADE_LOCK: 4
+            EscalationTier.CASCADE_LOCK: 4,
         }
         return ranks.get(severity, 0)
 
@@ -660,21 +684,27 @@ class EthicalDriftSentinel:
             memory_phase_alignment=1.0,
             drift_velocity=0.0,
             glyph_entropy=0.0,
-            last_updated=datetime.now(timezone.utc).isoformat()
+            last_updated=datetime.now(timezone.utc).isoformat(),
         )
 
     def _update_ethical_state(self, state: EthicalState, symbol_data: Dict[str, Any]):
         """Update ethical state from symbol data."""
         # Extract metrics from symbol data
-        state.coherence_score = symbol_data.get('coherence', state.coherence_score)
-        state.emotional_stability = symbol_data.get('emotional_stability', state.emotional_stability)
-        state.contradiction_level = symbol_data.get('contradiction_density', state.contradiction_level)
-        state.memory_phase_alignment = symbol_data.get('memory_alignment', state.memory_phase_alignment)
-        state.glyph_entropy = symbol_data.get('glyph_entropy', state.glyph_entropy)
+        state.coherence_score = symbol_data.get("coherence", state.coherence_score)
+        state.emotional_stability = symbol_data.get(
+            "emotional_stability", state.emotional_stability
+        )
+        state.contradiction_level = symbol_data.get(
+            "contradiction_density", state.contradiction_level
+        )
+        state.memory_phase_alignment = symbol_data.get(
+            "memory_alignment", state.memory_phase_alignment
+        )
+        state.glyph_entropy = symbol_data.get("glyph_entropy", state.glyph_entropy)
 
         # Calculate drift velocity
         if self.state_history[state.symbol_id]:
-            prev_risk = self.state_history[state.symbol_id][-1]['risk_score']
+            prev_risk = self.state_history[state.symbol_id][-1]["risk_score"]
             current_risk = state.calculate_risk_score()
             state.drift_velocity = current_risk - prev_risk
 
@@ -688,13 +718,13 @@ class EthicalDriftSentinel:
         """
         # Simulated data fetch - would integrate with real systems
         return {
-            'symbol_id': symbol_id,
-            'coherence': np.random.uniform(0.5, 1.0),
-            'emotional_stability': np.random.uniform(0.4, 1.0),
-            'contradiction_density': np.random.uniform(0.0, 0.8),
-            'memory_alignment': np.random.uniform(0.5, 1.0),
-            'glyph_entropy': np.random.uniform(0.0, 0.9),
-            'timestamp': datetime.now(timezone.utc).isoformat()
+            "symbol_id": symbol_id,
+            "coherence": np.random.uniform(0.5, 1.0),
+            "emotional_stability": np.random.uniform(0.4, 1.0),
+            "contradiction_density": np.random.uniform(0.0, 0.8),
+            "memory_alignment": np.random.uniform(0.5, 1.0),
+            "glyph_entropy": np.random.uniform(0.0, 0.9),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def get_sentinel_status(self) -> Dict[str, Any]:
@@ -702,22 +732,26 @@ class EthicalDriftSentinel:
         active_symbols = len(self.symbol_states)
         total_violations = len(self.violation_log)
         critical_violations = sum(
-            1 for v in self.active_violations.values()
+            1
+            for v in self.active_violations.values()
             if v.severity in [EscalationTier.CRITICAL, EscalationTier.CASCADE_LOCK]
         )
 
         return {
-            'status': 'active' if self.monitoring_active else 'inactive',
-            'monitoring_interval': self.monitoring_interval,
-            'active_symbols': active_symbols,
-            'total_violations': total_violations,
-            'critical_violations': critical_violations,
-            'recent_interventions': len([
-                i for i in self.intervention_log
-                if self._is_recent(i.timestamp, minutes=15)
-            ]),
-            'system_risk': self._calculate_system_risk(),
-            'timestamp': datetime.now(timezone.utc).isoformat()
+            "status": "active" if self.monitoring_active else "inactive",
+            "monitoring_interval": self.monitoring_interval,
+            "active_symbols": active_symbols,
+            "total_violations": total_violations,
+            "critical_violations": critical_violations,
+            "recent_interventions": len(
+                [
+                    i
+                    for i in self.intervention_log
+                    if self._is_recent(i.timestamp, minutes=15)
+                ]
+            ),
+            "system_risk": self._calculate_system_risk(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def _calculate_system_risk(self) -> float:
@@ -727,20 +761,21 @@ class EthicalDriftSentinel:
 
         # Average risk across all symbols
         symbol_risks = [
-            state.calculate_risk_score()
-            for state in self.symbol_states.values()
+            state.calculate_risk_score() for state in self.symbol_states.values()
         ]
 
         # Weight recent violations more heavily
         recent_violation_factor = min(
             len([v for v in self.violation_log if self._is_recent(v.timestamp)]) * 0.1,
-            0.5
+            0.5,
         )
 
         avg_risk = np.mean(symbol_risks) if symbol_risks else 0.0
         return min(avg_risk + recent_violation_factor, 1.0)
 
-    def register_symbol(self, symbol_id: str, initial_state: Optional[Dict[str, Any]] = None):
+    def register_symbol(
+        self, symbol_id: str, initial_state: Optional[Dict[str, Any]] = None
+    ):
         """
         Register a symbol for monitoring.
 
@@ -753,9 +788,11 @@ class EthicalDriftSentinel:
             if initial_state:
                 self._update_ethical_state(state, initial_state)
             self.symbol_states[symbol_id] = state
-            logger.info("Symbol registered for monitoring",
-                       symbol_id=symbol_id,
-                       ΛTAG="ΛREGISTER")
+            logger.info(
+                "Symbol registered for monitoring",
+                symbol_id=symbol_id,
+                ΛTAG="ΛREGISTER",
+            )
 
     def unregister_symbol(self, symbol_id: str):
         """Remove a symbol from monitoring."""
@@ -763,9 +800,11 @@ class EthicalDriftSentinel:
             del self.symbol_states[symbol_id]
             if symbol_id in self.state_history:
                 del self.state_history[symbol_id]
-            logger.info("Symbol unregistered from monitoring",
-                       symbol_id=symbol_id,
-                       ΛTAG="ΛUNREGISTER")
+            logger.info(
+                "Symbol unregistered from monitoring",
+                symbol_id=symbol_id,
+                ΛTAG="ΛUNREGISTER",
+            )
 
 
 # Convenience functions for integration
@@ -790,14 +829,14 @@ def phase_harmonics_score(state_history: List[Dict[str, Any]]) -> float:
         return 1.0
 
     # Extract coherence time series
-    coherence_series = [s['coherence'] for s in state_history]
+    coherence_series = [s["coherence"] for s in state_history]
 
     # Calculate phase alignment using FFT
     fft_result = np.fft.fft(coherence_series)
     frequencies = np.fft.fftfreq(len(coherence_series))
 
     # Find dominant frequency
-    dominant_idx = np.argmax(np.abs(fft_result[1:len(fft_result)//2])) + 1
+    dominant_idx = np.argmax(np.abs(fft_result[1 : len(fft_result) // 2])) + 1
     dominant_freq = frequencies[dominant_idx]
 
     # Calculate harmonics alignment

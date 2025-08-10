@@ -1,8 +1,8 @@
 import asyncio
 import unittest
+
 from core.actor_system import (
     Actor,
-    ActorSystem,
     AIAgentActor,
     SupervisionStrategy,
     get_global_actor_system,
@@ -38,7 +38,9 @@ class TestActorSupervision(unittest.TestCase):
             await self.system.stop()
             # Reset global actor system for subsequent tests
             from core import actor_system
+
             actor_system._global_actor_system = None
+
         self.loop.run_until_complete(_tear_down())
         self.loop.close()
 
@@ -114,6 +116,7 @@ class TestActorSupervision(unittest.TestCase):
             self.assertIsNone(stopped_supervisor_ref)
 
         self.loop.run_until_complete(_test())
+
         async def _test():
             supervisor_ref = await self.system.create_actor(
                 SupervisorActor, "supervisor-1", strategy=SupervisionStrategy.RESTART

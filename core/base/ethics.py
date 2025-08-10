@@ -39,9 +39,9 @@
 
 # Module imports
 import logging
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -53,6 +53,7 @@ MODULE_NAME = "ethics"
 
 class EthicalPrinciple(Enum):
     """Core ethical principles"""
+
     BENEFICENCE = "beneficence"
     NON_MALEFICENCE = "non_maleficence"
     AUTONOMY = "autonomy"
@@ -63,10 +64,11 @@ class EthicalPrinciple(Enum):
 @dataclass
 class EthicalAssessment:
     """Result of an ethical assessment"""
+
     action: str
-    principles: Dict[EthicalPrinciple, float]  # 0-1 scores
+    principles: dict[EthicalPrinciple, float]  # 0-1 scores
     overall_score: float
-    concerns: List[str]
+    concerns: list[str]
     approved: bool
 
 
@@ -76,7 +78,7 @@ class EthicsValidator:
     def __init__(self, threshold: float = 0.7):
         self.threshold = threshold
 
-    def assess_action(self, action: str, context: Dict[str, Any]) -> EthicalAssessment:
+    def assess_action(self, action: str, context: dict[str, Any]) -> EthicalAssessment:
         """Assess an action for ethical compliance"""
         # Mock assessment for now
         principles = {
@@ -84,7 +86,7 @@ class EthicsValidator:
             EthicalPrinciple.NON_MALEFICENCE: 0.9,
             EthicalPrinciple.AUTONOMY: 0.85,
             EthicalPrinciple.JUSTICE: 0.8,
-            EthicalPrinciple.TRANSPARENCY: 0.95
+            EthicalPrinciple.TRANSPARENCY: 0.95,
         }
 
         overall = sum(principles.values()) / len(principles)
@@ -94,7 +96,7 @@ class EthicsValidator:
             principles=principles,
             overall_score=overall,
             concerns=[],
-            approved=overall >= self.threshold
+            approved=overall >= self.threshold,
         )
 
 

@@ -1,14 +1,13 @@
 import asyncio
-import unittest
-import sys
 import os
+import sys
+import unittest
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from memory.lightweight_concurrency import (
-    create_lightweight_actor_system,
-    LightweightActor,
     ai_agent_behavior,
+    create_lightweight_actor_system,
 )
 
 
@@ -44,7 +43,6 @@ class TestLightweightConcurrency(unittest.TestCase):
                 agent.actor_id, {"type": "ask", "question": "The sky is blue."}
             )
             await asyncio.sleep(0.01)
-
 
             await pool.shutdown()
 

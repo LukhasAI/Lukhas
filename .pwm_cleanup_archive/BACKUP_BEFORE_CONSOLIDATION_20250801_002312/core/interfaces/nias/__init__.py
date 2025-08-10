@@ -18,41 +18,49 @@ defines the public API of the NIAS package.
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
 
 # AIMPORT_TODO: Verify these relative imports work correctly in the context of the larger system.
 #               The '.src.core' structure implies a 'src' directory within 'nias'.
 try:
-    from .src.core.nias_plugin import NIASPlugin # ΛDEP: .src.core.nias_plugin
-    from .src.core.config import NIASConfig     # ΛDEP: .src.core.config
+    from .src.core.config import NIASConfig  # ΛDEP: .src.core.config
+    from .src.core.nias_plugin import NIASPlugin  # ΛDEP: .src.core.nias_plugin
 except ImportError as e:
-    log = structlog.get_logger() # Ensure log is defined
-    log.error("nias.__init__ failed to import NIASPlugin or NIASConfig. #AIMPORT_ERROR", error_details=str(e),
-              note="This might indicate missing 'src/core' subdirectories or files within 'nias', or issues with relative import paths.")
+    log = structlog.get_logger()  # Ensure log is defined
+    log.error(
+        "nias.__init__ failed to import NIASPlugin or NIASConfig. #AIMPORT_ERROR",
+        error_details=str(e),
+        note="This might indicate missing 'src/core' subdirectories or files within 'nias', or issues with relative import paths.",
+    )
+
     # Define placeholders if imports fail to allow system to load, though functionality will be impaired.
-    class NIASPlugin: # ΛPLACEHOLDER_CLASS
+    class NIASPlugin:  # ΛPLACEHOLDER_CLASS
         pass
-    class NIASConfig: # ΛPLACEHOLDER_CLASS
+
+    class NIASConfig:  # ΛPLACEHOLDER_CLASS
         pass
+
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
+log = (
+    structlog.get_logger()
+)  # ΛMODIFICATION: Initialized structlog (again, to ensure definition)
 # ΛCONFIG_END
 
 # ΛDUNDER_VARIABLES_START
 __version__ = "1.0.0"  # ΛVERSION_INFO
-__author__ = "Lukhas AGI Systems" # ΛAUTHOR_INFO
+__author__ = "Lukhas AGI Systems"  # ΛAUTHOR_INFO
 
 # ΛPUBLIC_API
-__all__ = [
-    "NIASPlugin",
-    "NIASConfig"
-]
+__all__ = ["NIASPlugin", "NIASConfig"]
 # ΛDUNDER_VARIABLES_END
 
 # ΛMAIN_LOGIC_START
-log.info("core.interfaces.nias package initialized", version=__version__, author=__author__)
+log.info(
+    "core.interfaces.nias package initialized", version=__version__, author=__author__
+)
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

@@ -4,9 +4,9 @@ Learning Services
 Dependency injection services for the learning module.
 """
 
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
+
 from hub.service_registry import get_service, inject_services
-from learning.learning_gateway import LearningRequest, LearningResponse
 
 
 class LearningService:
@@ -26,32 +26,31 @@ class LearningService:
         """Lazy load services to avoid circular imports"""
         if not self._initialized:
             try:
-                self._memory = get_service('memory_service')
+                self._memory = get_service("memory_service")
             except KeyError:
                 self._memory = None
 
             try:
-                self._identity = get_service('identity_service')
+                self._identity = get_service("identity_service")
             except KeyError:
                 self._identity = None
 
             try:
-                self._consciousness = get_service('consciousness_service')
+                self._consciousness = get_service("consciousness_service")
             except KeyError:
                 self._consciousness = None
 
             self._initialized = True
 
-    @inject_services(
-        memory='memory_service',
-        identity='identity_service'
-    )
-    async def train(self,
-                   agent_id: str,
-                   training_data: Dict[str, Any],
-                   config: Optional[Dict[str, Any]] = None,
-                   memory=None,
-                   identity=None) -> Dict[str, Any]:
+    @inject_services(memory="memory_service", identity="identity_service")
+    async def train(
+        self,
+        agent_id: str,
+        training_data: Dict[str, Any],
+        config: Optional[Dict[str, Any]] = None,
+        memory=None,
+        identity=None,
+    ) -> Dict[str, Any]:
         """
         Train a model with injected dependencies.
         """
@@ -71,10 +70,7 @@ class LearningService:
 
         # Perform training
         result = await self._perform_training(
-            agent_id=agent_id,
-            data=training_data,
-            context=context,
-            config=config
+            agent_id=agent_id, data=training_data, context=context, config=config
         )
 
         # Store training results in memory
@@ -83,30 +79,27 @@ class LearningService:
 
         return result
 
-    async def _perform_training(self,
-                              agent_id: str,
-                              data: Dict[str, Any],
-                              context: List[Dict[str, Any]],
-                              config: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _perform_training(
+        self,
+        agent_id: str,
+        data: Dict[str, Any],
+        context: List[Dict[str, Any]],
+        config: Optional[Dict[str, Any]],
+    ) -> Dict[str, Any]:
         """Perform actual training logic"""
         # Simplified training simulation
         return {
             "agent_id": agent_id,
             "training_complete": True,
-            "metrics": {
-                "loss": 0.234,
-                "accuracy": 0.912,
-                "iterations": 100
-            },
+            "metrics": {"loss": 0.234, "accuracy": 0.912, "iterations": 100},
             "context_used": len(context),
-            "config": config or {}
+            "config": config or {},
         }
 
-    @inject_services(consciousness='consciousness_service')
-    async def conscious_learning(self,
-                               agent_id: str,
-                               experience: Dict[str, Any],
-                               consciousness=None) -> Dict[str, Any]:
+    @inject_services(consciousness="consciousness_service")
+    async def conscious_learning(
+        self, agent_id: str, experience: Dict[str, Any], consciousness=None
+    ) -> Dict[str, Any]:
         """
         Learning that integrates with consciousness for meta-cognitive awareness.
         """
@@ -128,7 +121,7 @@ class LearningService:
         result = await self.train(
             agent_id,
             experience,
-            {"mode": learning_mode, "consciousness_integrated": True}
+            {"mode": learning_mode, "consciousness_integrated": True},
         )
 
         # Update consciousness with learning insights
@@ -137,9 +130,9 @@ class LearningService:
 
         return result
 
-    async def federated_learning(self,
-                               agent_ids: List[str],
-                               global_model: Dict[str, Any]) -> Dict[str, Any]:
+    async def federated_learning(
+        self, agent_ids: List[str], global_model: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """
         Coordinate federated learning across multiple agents.
         """
@@ -152,7 +145,7 @@ class LearningService:
             local_update = await self.train(
                 agent_id,
                 {"model": global_model, "local_data": True},
-                {"federated": True}
+                {"federated": True},
             )
             local_updates.append(local_update)
 
@@ -175,10 +168,7 @@ class LearningService:
         return {
             "type": "federated_aggregate",
             "num_agents": len(updates),
-            "aggregated_metrics": {
-                "loss": avg_loss,
-                "accuracy": avg_acc
-            }
+            "aggregated_metrics": {"loss": avg_loss, "accuracy": avg_acc},
         }
 
     async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
@@ -189,15 +179,17 @@ class LearningService:
             "agent_id": agent_id,
             "active_learning": False,
             "total_training_sessions": 0,
-            "last_training": None
+            "last_training": None,
         }
 
         if self._memory:
             history = await self._memory.get_learning_history(agent_id)
-            status.update({
-                "total_training_sessions": len(history),
-                "last_training": history[-1]["timestamp"] if history else None
-            })
+            status.update(
+                {
+                    "total_training_sessions": len(history),
+                    "last_training": history[-1]["timestamp"] if history else None,
+                }
+            )
 
         return status
 
@@ -217,10 +209,7 @@ def create_learning_service():
 from hub.service_registry import register_factory
 
 register_factory(
-    'learning_service',
+    "learning_service",
     create_learning_service,
-    {
-        "module": "learning",
-        "provides": ["training", "inference", "federated_learning"]
-    }
+    {"module": "learning", "provides": ["training", "inference", "federated_learning"]},
 )

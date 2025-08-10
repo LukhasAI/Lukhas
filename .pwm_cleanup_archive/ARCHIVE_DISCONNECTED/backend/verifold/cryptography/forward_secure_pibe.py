@@ -6,15 +6,18 @@ Implementation of fs-PIBE for Lukhas_ID recovery with forward secrecy.
 Prevents compromise of future keys even if current keys are exposed.
 """
 
-from typing import Tuple, Optional, Dict
 from dataclasses import dataclass
+from typing import Tuple
+
 
 @dataclass
 class FSPIBEParams:
     """Parameters for forward-secure PIBE system"""
+
     security_parameter: int
     time_periods: int
     identity_space_size: int
+
 
 class ForwardSecurePIBE:
     """Forward-secure puncturable identity-based encryption system."""
@@ -48,6 +51,7 @@ class ForwardSecurePIBE:
         """Puncture private key to prevent decryption of past periods."""
         # TODO: Implement key puncturing
         pass
+
 
 # TODO: Implement forward-secure key derivation
 # TODO: Add puncturing mechanism

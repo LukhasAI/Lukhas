@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Simple test for 512-dim optimization"""
 
-import numpy as np
 from datetime import datetime
 
+import numpy as np
+
 # Import the optimized memory functions directly
-exec(open('optimized_memory_item.py').read())
+exec(open("optimized_memory_item.py").read())
+
 
 def test_512_dim():
     print("🧪 Testing 512-Dimensional Embedding Optimization")
@@ -22,24 +24,25 @@ def test_512_dim():
 
     # Create memories
     memory_1024 = create_optimized_memory(
-        content=content,
-        tags=tags,
-        embedding=embedding_1024,
-        metadata=metadata
+        content=content, tags=tags, embedding=embedding_1024, metadata=metadata
     )
 
     memory_512 = create_optimized_memory_512(
         content=content,
         tags=tags,
         embedding=embedding_1024,  # Will be resized to 512
-        metadata=metadata
+        metadata=metadata,
     )
 
     print(f"1024-dim memory: {memory_1024.memory_usage_kb:.2f} KB")
     print(f"512-dim memory:  {memory_512.memory_usage_kb:.2f} KB")
 
     # Calculate savings
-    savings = (memory_1024.memory_usage - memory_512.memory_usage) / memory_1024.memory_usage * 100
+    savings = (
+        (memory_1024.memory_usage - memory_512.memory_usage)
+        / memory_1024.memory_usage
+        * 100
+    )
     print(f"Memory savings:  {savings:.1f}%")
 
     # Verify data integrity
@@ -52,6 +55,7 @@ def test_512_dim():
     print(f"✅ 512-dim embedding optimization provides {savings:.1f}% memory savings")
 
     return savings
+
 
 if __name__ == "__main__":
     test_512_dim()

@@ -2,7 +2,8 @@
 Unified Security Engine for LUKHAS AGI
 """
 
-from .secure_utils import safe_eval, safe_subprocess_run, sanitize_input
+from .secure_utils import sanitize_input
+
 
 class SecurityEngine:
     def __init__(self):

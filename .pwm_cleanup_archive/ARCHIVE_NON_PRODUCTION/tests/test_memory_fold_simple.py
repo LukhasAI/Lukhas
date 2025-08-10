@@ -3,11 +3,10 @@
 Simplified Memory Fold Performance Test (No External Dependencies)
 """
 
-import time
-import json
 import hashlib
+import json
 import random
-from datetime import datetime
+import time
 from collections import defaultdict
 
 
@@ -20,16 +19,14 @@ class SimplifiedMemoryFold:
         self.tag_items = defaultdict(set)
         self.tag_registry = {}
         self.content_hashes = {}
-        self.stats = {
-            "total_items": 0,
-            "total_tags": 0,
-            "deduplication_saves": 0
-        }
+        self.stats = {"total_items": 0, "total_tags": 0, "deduplication_saves": 0}
         self.next_id = 0
 
     def _hash_content(self, data):
         """Generate content hash."""
-        content = json.dumps(data, sort_keys=True) if isinstance(data, dict) else str(data)
+        content = (
+            json.dumps(data, sort_keys=True) if isinstance(data, dict) else str(data)
+        )
         return hashlib.sha256(content.encode()).hexdigest()
 
     def fold_in(self, data, tags):
@@ -86,15 +83,23 @@ def test_performance():
     memory_count = 10000
     duplicate_rate = 0.3  # 30% duplicates
 
-    print(f"📊 Test Configuration:")
+    print("📊 Test Configuration:")
     print(f"  - Memory items: {memory_count}")
     print(f"  - Duplicate rate: {duplicate_rate * 100}%")
     print()
 
     # Common tags
     common_tags = [
-        "system", "colony", "reasoning", "creativity", "memory",
-        "oracle", "ethics", "quantum", "2025", "january"
+        "system",
+        "colony",
+        "reasoning",
+        "creativity",
+        "memory",
+        "oracle",
+        "ethics",
+        "quantum",
+        "2025",
+        "january",
     ]
 
     # Generate test data
@@ -110,13 +115,13 @@ def test_performance():
             content = {
                 "id": i,
                 "data": f"Memory content {i}",
-                "value": i  # Fixed value for consistent hashing
+                "value": i,  # Fixed value for consistent hashing
             }
             base_contents.append(content)
 
         memory = {
             "data": content,
-            "tags": random.sample(common_tags, random.randint(2, 5))
+            "tags": random.sample(common_tags, random.randint(2, 5)),
         }
         test_memories.append(memory)
 
@@ -141,20 +146,22 @@ def test_performance():
     total_time = time.time() - start_time
     avg_time = sum(fold_times) / len(fold_times)
 
-    print(f"\n✅ Results:")
+    print("\n✅ Results:")
     print(f"  - Total time: {total_time:.2f}s")
     print(f"  - Average per item: {avg_time:.3f}ms")
     print(f"  - Throughput: {memory_count / total_time:.0f} items/sec")
 
     stats = fold_system.stats
-    print(f"\n📊 Deduplication Stats:")
+    print("\n📊 Deduplication Stats:")
     print(f"  - Unique items stored: {stats['total_items']}")
     print(f"  - Duplicates eliminated: {stats['deduplication_saves']}")
-    print(f"  - Storage efficiency: {(stats['deduplication_saves'] / memory_count) * 100:.1f}% saved")
+    print(
+        f"  - Storage efficiency: {(stats['deduplication_saves'] / memory_count) * 100:.1f}% saved"
+    )
     print(f"  - Unique tags: {stats['total_tags']}")
 
     # Test fold-out performance
-    print(f"\n🧪 TEST 2: Fold-out Performance")
+    print("\n🧪 TEST 2: Fold-out Performance")
     print("-" * 50)
 
     retrieval_times = []
@@ -170,7 +177,7 @@ def test_performance():
     print(f"\n✅ Average retrieval: {avg_retrieval:.3f}ms")
 
     # Storage comparison
-    print(f"\n🧪 TEST 3: Storage Efficiency")
+    print("\n🧪 TEST 3: Storage Efficiency")
     print("-" * 50)
 
     # Traditional storage (all items)
@@ -185,7 +192,7 @@ def test_performance():
     print(f"  Space saved: {(1 - fold_size/traditional_size) * 100:.1f}%")
 
     # Performance verdict
-    print(f"\n🏆 PERFORMANCE SUMMARY")
+    print("\n🏆 PERFORMANCE SUMMARY")
     print("=" * 70)
 
     if avg_time < 0.1:  # Sub-0.1ms
@@ -197,7 +204,7 @@ def test_performance():
     else:
         print("⚠️  NEEDS OPTIMIZATION: Consider performance improvements")
 
-    print(f"\nKey Metrics:")
+    print("\nKey Metrics:")
     print(f"  • Fold-in: {avg_time:.3f}ms per item")
     print(f"  • Fold-out: {avg_retrieval:.3f}ms per query")
     print(f"  • Deduplication: {stats['deduplication_saves']} items saved")

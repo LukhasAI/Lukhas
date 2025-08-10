@@ -13,15 +13,16 @@ Purpose:
 Author: LUKHAS AGI Core
 """
 
-import numpy as np
-from typing import Dict, List, Tuple, Any, Optional
-import json
-from dataclasses import dataclass
-from enum import Enum
 # --- Verifold Entropy Seeding, TPM, and Logging Extensions ---
 import hashlib
+import json
 import time
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Tuple
+
 entropy_log: list = []
+
 
 def get_tpm_entropy():
     """
@@ -41,7 +42,7 @@ def get_entropy_volatility(window=5):
     values = [e["fused_entropy"] for e in entropy_log[-window:] if "fused_entropy" in e]
     if len(values) < 2:
         return 0.0
-    diffs = [abs(values[i+1] - values[i]) for i in range(len(values)-1)]
+    diffs = [abs(values[i + 1] - values[i]) for i in range(len(values) - 1)]
     return sum(diffs) / len(diffs)
 
 
@@ -66,9 +67,9 @@ def generate_symbolic_summary():
     return f"The system experienced a {latest.get('grade', 'unknown')} collapse influenced by {latest.get('emotion', 'unknown')} emotion and {latest.get('ethics', 'unknown')} ethics."
 
 
-
 class EmotionType(Enum):
     """Symbolic emotion categories for entropy weighting."""
+
     CURIOSITY = "curiosity"
     WONDER = "wonder"
     EXCITEMENT = "excitement"
@@ -80,6 +81,7 @@ class EmotionType(Enum):
 
 class EthicsWeight(Enum):
     """Ethics scoring for probabilistic observation intentions."""
+
     BENEVOLENT = 1.0
     NEUTRAL = 0.8
     RESEARCH = 0.9
@@ -90,6 +92,7 @@ class EthicsWeight(Enum):
 @dataclass
 class SymbolicContext:
     """Context container for symbolic entropy fusion."""
+
     emotion: EmotionType
     ethics_weight: EthicsWeight
     narrative_context: str
@@ -101,6 +104,7 @@ class EntropyFusionEngine:
     """
     Fuses quantum entropy with symbolic intelligence weights.
     """
+
     def __init__(self):
         """Initialize the entropy fusion engine."""
         self.emotion_weights = self._init_emotion_weights()
@@ -120,11 +124,12 @@ class EntropyFusionEngine:
             EmotionType.CALM: 1.0,
             EmotionType.UNCERTAINTY: 0.9,
             EmotionType.DISCOVERY: 1.4,
-            EmotionType.CONTEMPLATION: 1.1
+            EmotionType.CONTEMPLATION: 1.1,
         }
 
-    def fuse_entropy_symbolic(self, quantum_entropy: float,
-                              symbolic_context: SymbolicContext) -> Dict[str, Any]:
+    def fuse_entropy_symbolic(
+        self, quantum_entropy: float, symbolic_context: SymbolicContext
+    ) -> Dict[str, Any]:
         """
         Fuse quantum entropy with symbolic intelligence weights.
         Parameters:
@@ -138,7 +143,9 @@ class EntropyFusionEngine:
         ethics_factor = symbolic_context.ethics_weight.value
         consciousness_factor = symbolic_context.consciousness_level
         # Fusion logic: symbolic weighting (multiplicative), could add hashing or normalization here
-        fused_score = quantum_entropy * emotion_factor * ethics_factor * consciousness_factor
+        fused_score = (
+            quantum_entropy * emotion_factor * ethics_factor * consciousness_factor
+        )
         # Output is composite fused_entropy and context, not directly used for Verifold hash generation here
         result = {
             "quantum_entropy": quantum_entropy,
@@ -149,7 +156,7 @@ class EntropyFusionEngine:
             "symbolic_meaning": symbolic_context.symbolic_meaning,
             "narrative_context": symbolic_context.narrative_context,
             "fusion_timestamp": None,  # Could be set to time.time()
-            "validation_grade": self._grade_fusion(fused_score)
+            "validation_grade": self._grade_fusion(fused_score),
         }
         self.fusion_history.append(result)
         return result
@@ -186,7 +193,7 @@ class EntropyFusionEngine:
             "volatility": 0.0,
             "symbolic_pattern": "undefined",
             "narrative_significance": "",
-            "consciousness_correlation": 0.0
+            "consciousness_correlation": 0.0,
         }
         return patterns
 
@@ -204,7 +211,7 @@ class EntropyFusionEngine:
             "excellent": "The probabilistic observation revealed exceptional coherence...",
             "good": "A solid quantum collapse event was recorded...",
             "acceptable": "The measurement shows adequate quantum behavior...",
-            "insufficient": "The quantum signal appears weak or corrupted..."
+            "insufficient": "The quantum signal appears weak or corrupted...",
         }
         return narrative_templates.get(grade, "An unknown quantum event occurred.")
 
@@ -228,11 +235,14 @@ class SymbolicValidator:
     """
     Validates symbolic entropy fusion results for consistency.
     """
+
     def __init__(self):
         """Initialize symbolic validator."""
         self.validation_rules = {}
 
-    def validate_fusion_result(self, fusion_result: Dict[str, Any]) -> Tuple[bool, List[str]]:
+    def validate_fusion_result(
+        self, fusion_result: Dict[str, Any]
+    ) -> Tuple[bool, List[str]]:
         """
         Validate a fusion result for symbolic consistency.
         Parameters:
@@ -253,19 +263,34 @@ class SymbolicValidator:
 
 # 🧪 Example usage and testing
 # 🧪 Example usage and testing
-def fuse_entropy(quantum_entropy: float, emotion: str, ethics: str, context: str = "", meaning: str = "", consciousness: float = 1.0):
+def fuse_entropy(
+    quantum_entropy: float,
+    emotion: str,
+    ethics: str,
+    context: str = "",
+    meaning: str = "",
+    consciousness: float = 1.0,
+):
     """
     Fuse quantum entropy with symbolic and ethical weights, seed for Verifold, and log.
     """
     # Map emotion and ethics strings to enums/factors
-    emotion_enum = EmotionType[emotion.upper()] if emotion.upper() in EmotionType.__members__ else EmotionType.CALM
-    ethics_enum = EthicsWeight[ethics.upper()] if ethics.upper() in EthicsWeight.__members__ else EthicsWeight.NEUTRAL
+    emotion_enum = (
+        EmotionType[emotion.upper()]
+        if emotion.upper() in EmotionType.__members__
+        else EmotionType.CALM
+    )
+    ethics_enum = (
+        EthicsWeight[ethics.upper()]
+        if ethics.upper() in EthicsWeight.__members__
+        else EthicsWeight.NEUTRAL
+    )
     sym_context = SymbolicContext(
         emotion=emotion_enum,
         ethics_weight=ethics_enum,
         narrative_context=context,
         symbolic_meaning=meaning,
-        consciousness_level=consciousness
+        consciousness_level=consciousness,
     )
     engine = EntropyFusionEngine()
     fusion_result = engine.fuse_entropy_symbolic(quantum_entropy, sym_context)
@@ -291,15 +316,16 @@ def fuse_entropy(quantum_entropy: float, emotion: str, ethics: str, context: str
         "consciousness": consciousness,
         "tpm_entropy": tpm_entropy,
         "entropy_seed": entropy_seed,
-        "summary": summary
+        "summary": summary,
     }
     entropy_log.append(log_entry)
     return {
         "fused_entropy": fused_entropy,
         "entropy_seed": entropy_seed,
         "tpm_entropy": tpm_entropy,
-        "summary": summary
+        "summary": summary,
     }
+
 
 if __name__ == "__main__":
     print("🔮 Entropy Fusion Engine - Symbolic Intelligence Layer")
@@ -316,7 +342,7 @@ if __name__ == "__main__":
         ethics="benevolent",
         context="First successful probabilistic observation in new lab",
         meaning="Birth of quantum consciousness awareness",
-        consciousness=0.85
+        consciousness=0.85,
     )
     print(f"Quantum Entropy: {7.8}")
     print(f"Fused Score: {fusion['fused_entropy']:.2f}")

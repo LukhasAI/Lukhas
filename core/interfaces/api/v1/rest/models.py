@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -18,8 +18,8 @@ class ProcessRequest(BaseModel):
 
     input_text: str = Field(..., min_length=1, max_length=10000)
     mode: ProcessingMode = ProcessingMode.HYBRID
-    context: Optional[Dict[str, Any]] = None
-    options: Optional[Dict[str, Any]] = None
+    context: dict[str, Any] | None = None
+    options: dict[str, Any] | None = None
 
     @field_validator("input_text")
     def validate_input(cls, v: str) -> str:
@@ -31,7 +31,7 @@ class ProcessRequest(BaseModel):
 class SymbolicState(BaseModel):
     """Symbolic state representation."""
 
-    glyphs: List[str]
+    glyphs: list[str]
     resonance: float = Field(..., ge=0.0, le=1.0)
     drift_score: float = Field(..., ge=0.0, le=1.0)
     entropy: float = Field(..., ge=0.0, le=1.0)
@@ -42,9 +42,9 @@ class ProcessResponse(BaseModel):
 
     request_id: str
     timestamp: datetime
-    result: Dict[str, Any]
-    symbolic_state: Optional[SymbolicState] = None
-    metadata: Dict[str, Any] = {}
+    result: dict[str, Any]
+    symbolic_state: SymbolicState | None = None
+    metadata: dict[str, Any] = {}
     processing_time_ms: float
 
 
@@ -54,7 +54,7 @@ class HealthStatus(BaseModel):
     status: str = Field(..., pattern="^(healthy|degraded|unhealthy)$")
     version: str
     uptime_seconds: float
-    components: Dict[str, bool]
+    components: dict[str, bool]
 
 
 class MetricsResponse(BaseModel):
@@ -63,7 +63,7 @@ class MetricsResponse(BaseModel):
     timestamp: datetime
     cpu_usage: float
     memory_usage: float
-    drift_metrics: Dict[str, float]
+    drift_metrics: dict[str, float]
     request_count: int
     average_response_time_ms: float
 
@@ -72,11 +72,11 @@ class CapabilityAnnouncement(BaseModel):
     """Agent capability announcement payload."""
 
     agent_id: str
-    capability: Dict[str, Any]
+    capability: dict[str, Any]
 
 
 class TaskAnnouncement(BaseModel):
     """Task announcement payload."""
 
     agent_id: str
-    task: Dict[str, Any]
+    task: dict[str, Any]

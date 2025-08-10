@@ -7,15 +7,16 @@ This module provides symbolic boot functionality for the LUKHAS AGI system.
 It handles system initialization and symbolic bootstrapping.
 """
 
+import logging
 import os
 import sys
-import logging
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class SymbolicBootstrap:
     """Handles symbolic bootstrapping of the AGI system."""
@@ -30,13 +31,7 @@ class SymbolicBootstrap:
 
     def validate_workspace(self) -> bool:
         """Validate the workspace structure."""
-        required_paths = [
-            "agents",
-            "orchestration",
-            "memory",
-            "creativity",
-            "dream"
-        ]
+        required_paths = ["agents", "orchestration", "memory", "creativity", "dream"]
 
         for path in required_paths:
             full_path = Path(self.workspace_path) / path
@@ -80,7 +75,7 @@ class SymbolicBootstrap:
             "workspace_valid": False,
             "modules_loaded": False,
             "boot_time": None,
-            "errors": []
+            "errors": [],
         }
 
         try:
@@ -96,7 +91,9 @@ class SymbolicBootstrap:
             if "error" not in modules:
                 boot_result["modules_loaded"] = True
             else:
-                boot_result["errors"].append(f"Module loading failed: {modules['error']}")
+                boot_result["errors"].append(
+                    f"Module loading failed: {modules['error']}"
+                )
 
             # Step 3: Set boot status
             if boot_result["workspace_valid"] and boot_result["modules_loaded"]:
@@ -120,11 +117,13 @@ class SymbolicBootstrap:
         return {
             "boot_status": self.boot_status,
             "workspace_path": self.workspace_path,
-            "modules": self.system_modules
+            "modules": self.system_modules,
         }
+
 
 # Global bootstrap instance
 _bootstrap = None
+
 
 def get_bootstrap() -> SymbolicBootstrap:
     """Get the global bootstrap instance."""
@@ -133,10 +132,12 @@ def get_bootstrap() -> SymbolicBootstrap:
         _bootstrap = SymbolicBootstrap()
     return _bootstrap
 
+
 def symbolic_boot(workspace_path: Optional[str] = None) -> Dict[str, Any]:
     """Perform symbolic boot with optional workspace path."""
     bootstrap = SymbolicBootstrap(workspace_path)
     return bootstrap.symbolic_boot()
+
 
 def main():
     """Main function for testing."""
@@ -150,12 +151,13 @@ def main():
     logger.info(f"Workspace Valid: {result['workspace_valid']}")
     logger.info(f"Modules Loaded: {result['modules_loaded']}")
 
-    if result['errors']:
+    if result["errors"]:
         logger.error("\n❌ Errors:")
-        for error in result['errors']:
+        for error in result["errors"]:
             logger.error(f"  • {error}")
 
     logger.info("\n🎯 Symbolic Boot Complete")
+
 
 if __name__ == "__main__":
     main()

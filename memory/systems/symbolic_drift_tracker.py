@@ -4,11 +4,10 @@
 ║ Provides compatibility alias to the core symbolic drift tracker implementation
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
+
 # ΛTAGS: ΛALIAS, ΛMEMORY_CORE, ΛSYMBOLIC_DRIFT
-import structlog
 from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
-from core.common import get_logger
 logger.debug("memory.core_memory.symbolic_drift_tracker alias loaded")
 
 __all__ = ["SymbolicDriftTracker"]

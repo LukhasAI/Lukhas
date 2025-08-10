@@ -26,14 +26,12 @@
 """
 
 # Module imports
-import logging
 import json
-import yaml
-import os
-from pathlib import Path
-from typing import Dict, List, Any, Optional
+import logging
+from collections import Counter, defaultdict
 from datetime import datetime
-from collections import defaultdict, Counter
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -41,6 +39,7 @@ logger = logging.getLogger(__name__)
 # Module constants
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "digest_extractor"
+
 
 class DigestExtractor:
     """Extract system digest from core.common codebase metadata."""
@@ -52,19 +51,19 @@ class DigestExtractor:
         self.digest_data = {
             "metadata": {
                 "generated": datetime.now().isoformat(),
-                "version": MODULE_VERSION
+                "version": MODULE_VERSION,
             },
             "subsystems": {},
             "agents": {},
             "tags": defaultdict(list),
             "metrics": {},
-            "state": {}
+            "state": {},
         }
 
     def load_symbol_map(self) -> Dict[str, Any]:
         """Load the symbol map for reference."""
         try:
-            with open(self.symbol_map_path, 'r') as f:
+            with open(self.symbol_map_path) as f:
                 return json.load(f)
         except Exception as e:
             logger.warning(f"Could not load symbol_map.json: {e}")
@@ -79,9 +78,7 @@ class DigestExtractor:
 
     def extract_module_info(self, py_file: Path) -> Dict[str, Any]:
         """Extract basic info from Python module."""
-        info = {
-            "path": str(py_file.relative_to(self.base_path))
-        }
+        info = {"path": str(py_file.relative_to(self.base_path))}
 
         # Check if file exists (handle broken symlinks)
         try:
@@ -96,25 +93,26 @@ class DigestExtractor:
 
         # Look for MODULE_VERSION and tags in file
         try:
-            content = py_file.read_text(encoding='utf-8')
-            lines = content.split('\n')
+            content = py_file.read_text(encoding="utf-8")
+            lines = content.split("\n")
 
             for line in lines[:100]:  # Check first 100 lines
-                if 'MODULE_VERSION' in line and '=' in line:
-                    version = line.split('=')[1].strip().strip('"\'')
-                    info['version'] = version
+                if "MODULE_VERSION" in line and "=" in line:
+                    version = line.split("=")[1].strip().strip("\"'")
+                    info["version"] = version
 
-                if 'ΛTAG' in line or '{LUKHAS' in line:
-                    if 'tags' not in info:
-                        info['tags'] = []
+                if "ΛTAG" in line or "{LUKHAS" in line:
+                    if "tags" not in info:
+                        info["tags"] = []
                     # Extract tag name
-                    if 'ΛTAG:' in line:
-                        tag = line.split('ΛTAG:')[1].split()[0].strip()
-                        info['tags'].append(tag)
-                    elif '{LUKHAS' in line:
+                    if "ΛTAG:" in line:
+                        tag = line.split("ΛTAG:")[1].split()[0].strip()
+                        info["tags"].append(tag)
+                    elif "{LUKHAS" in line:
                         import re
-                        tags = re.findall(r'{LUKHAS(\w+)}', line)
-                        info['tags'].extend(tags)
+
+                        tags = re.findall(r"{LUKHAS(\w+)}", line)
+                        info["tags"].extend(tags)
         except Exception as e:
             logger.debug(f"Could not parse {py_file}: {e}")
 
@@ -130,26 +128,26 @@ class DigestExtractor:
             "brief_files": [],
             "tag_count": Counter(),
             "file_count": 0,
-            "total_size": 0
+            "total_size": 0,
         }
 
         # Find Python files
         for py_file in subsystem_path.rglob("*.py"):
-            if '__pycache__' not in str(py_file):
+            if "__pycache__" not in str(py_file):
                 module_info = self.extract_module_info(py_file)
-                analysis['modules'].append(module_info)
-                analysis['file_count'] += 1
-                analysis['total_size'] += module_info['size']
+                analysis["modules"].append(module_info)
+                analysis["file_count"] += 1
+                analysis["total_size"] += module_info["size"]
 
                 # Count tags
-                if 'tags' in module_info:
-                    for tag in module_info['tags']:
-                        analysis['tag_count'][tag] += 1
-                        self.digest_data['tags'][tag].append(module_info['path'])
+                if "tags" in module_info:
+                    for tag in module_info["tags"]:
+                        analysis["tag_count"][tag] += 1
+                        self.digest_data["tags"][tag].append(module_info["path"])
 
         # Find brief files
         for brief_file in subsystem_path.rglob("*.brief.yaml"):
-            analysis['brief_files'].append(str(brief_file.relative_to(self.base_path)))
+            analysis["brief_files"].append(str(brief_file.relative_to(self.base_path)))
 
         return analysis
 
@@ -165,7 +163,7 @@ class DigestExtractor:
                     agent_name = agent_file.stem
                     agents[agent_name] = {
                         "path": str(agent_file.relative_to(self.base_path)),
-                        "info": self.extract_module_info(agent_file)
+                        "info": self.extract_module_info(agent_file),
                     }
 
         # Check for agent references in docs
@@ -174,7 +172,9 @@ class DigestExtractor:
             for doc_file in docs_path.glob("*.md"):
                 agent_name = doc_file.stem
                 if agent_name not in agents:
-                    agents[agent_name] = {"doc": str(doc_file.relative_to(self.base_path))}
+                    agents[agent_name] = {
+                        "doc": str(doc_file.relative_to(self.base_path))
+                    }
 
         return agents
 
@@ -183,22 +183,22 @@ class DigestExtractor:
         metrics = {
             "total_modules": 0,
             "total_size_mb": 0,
-            "subsystem_count": len(self.digest_data['subsystems']),
-            "agent_count": len(self.digest_data['agents']),
+            "subsystem_count": len(self.digest_data["subsystems"]),
+            "agent_count": len(self.digest_data["agents"]),
             "tag_usage": {},
             "brief_yaml_count": 0,
-            "dvnt_fixes": len(self.digest_data['tags'].get('DVNT', []))
+            "dvnt_fixes": len(self.digest_data["tags"].get("DVNT", [])),
         }
 
         # Aggregate from subsystems
-        for subsystem in self.digest_data['subsystems'].values():
-            metrics['total_modules'] += subsystem['file_count']
-            metrics['total_size_mb'] += subsystem['total_size'] / (1024 * 1024)
-            metrics['brief_yaml_count'] += len(subsystem['brief_files'])
+        for subsystem in self.digest_data["subsystems"].values():
+            metrics["total_modules"] += subsystem["file_count"]
+            metrics["total_size_mb"] += subsystem["total_size"] / (1024 * 1024)
+            metrics["brief_yaml_count"] += len(subsystem["brief_files"])
 
         # Tag usage summary
-        for tag, files in self.digest_data['tags'].items():
-            metrics['tag_usage'][tag] = len(files)
+        for tag, files in self.digest_data["tags"].items():
+            metrics["tag_usage"][tag] = len(files)
 
         return metrics
 
@@ -211,24 +211,24 @@ class DigestExtractor:
 
         # Analyze each subsystem
         for subsystem_dir in self.lukhas_path.iterdir():
-            if subsystem_dir.is_dir() and not subsystem_dir.name.startswith('__'):
+            if subsystem_dir.is_dir() and not subsystem_dir.name.startswith("__"):
                 logger.info(f"Analyzing subsystem: {subsystem_dir.name}")
                 analysis = self.analyze_subsystem(subsystem_dir)
-                self.digest_data['subsystems'][subsystem_dir.name] = analysis
+                self.digest_data["subsystems"][subsystem_dir.name] = analysis
 
         # Extract agent info
-        self.digest_data['agents'] = self.extract_agent_info()
+        self.digest_data["agents"] = self.extract_agent_info()
 
         # Calculate metrics
-        self.digest_data['metrics'] = self.calculate_metrics()
+        self.digest_data["metrics"] = self.calculate_metrics()
 
         # Add system state
-        self.digest_data['state'] = {
+        self.digest_data["state"] = {
             "architectural_transition": "in_progress",
             "test_coverage": "80.5%",
             "passing_tests": 687,
             "header_compliance": "<1%",
-            "brief_yaml_coverage": f"{self.digest_data['metrics']['brief_yaml_count']} files"
+            "brief_yaml_coverage": f"{self.digest_data['metrics']['brief_yaml_count']} files",
         }
 
         logger.info("Digest extraction complete")
@@ -239,16 +239,16 @@ class DigestExtractor:
         if not output_path:
             output_path = self.base_path / "LUKHAS_INTERNAL_DIGEST.md"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write("# LUKHAS AGI Internal System Digest\n\n")
             f.write(f"Generated: {self.digest_data['metadata']['generated']}\n\n")
 
             f.write("## System State\n\n")
-            for key, value in self.digest_data['state'].items():
+            for key, value in self.digest_data["state"].items():
                 f.write(f"- **{key.replace('_', ' ').title()}**: {value}\n")
 
             f.write("\n## Metrics Summary\n\n")
-            metrics = self.digest_data['metrics']
+            metrics = self.digest_data["metrics"]
             f.write(f"- Total Modules: {metrics['total_modules']}\n")
             f.write(f"- Total Size: {metrics['total_size_mb']:.2f} MB\n")
             f.write(f"- Subsystems: {metrics['subsystem_count']}\n")
@@ -256,75 +256,113 @@ class DigestExtractor:
             f.write(f"- #ΛDVNT Fixes: {metrics['dvnt_fixes']}\n")
 
             f.write("\n## Tag Distribution\n\n")
-            for tag, count in sorted(metrics['tag_usage'].items(), key=lambda x: x[1], reverse=True):
+            for tag, count in sorted(
+                metrics["tag_usage"].items(), key=lambda x: x[1], reverse=True
+            ):
                 f.write(f"- **{tag}**: {count} files\n")
 
             f.write("\n## Subsystem Analysis\n\n")
-            for name, data in self.digest_data['subsystems'].items():
+            for name, data in self.digest_data["subsystems"].items():
                 f.write(f"### {name}/\n")
                 f.write(f"- Files: {data['file_count']}\n")
                 f.write(f"- Size: {data['total_size'] / 1024:.1f} KB\n")
                 f.write(f"- Brief YAMLs: {len(data['brief_files'])}\n")
-                if data['tag_count']:
-                    top_tags = [f"{tag}({count})" for tag, count in data['tag_count'].most_common(3)]
+                if data["tag_count"]:
+                    top_tags = [
+                        f"{tag}({count})"
+                        for tag, count in data["tag_count"].most_common(3)
+                    ]
                     f.write(f"- Top Tags: {', '.join(top_tags)}\n")
                 f.write("\n")
 
             f.write("\n## Agent Registry\n\n")
-            for agent, info in self.digest_data['agents'].items():
-                f.write(f"- **{agent}**: {info.get('path', info.get('doc', 'No file found'))}\n")
+            for agent, info in self.digest_data["agents"].items():
+                f.write(
+                    f"- **{agent}**: {info.get('path', info.get('doc', 'No file found'))}\n"
+                )
 
     def save_public_summary(self, output_path: Optional[str] = None):
         """Save a public-facing summary."""
         if not output_path:
             output_path = self.base_path / "README_PREP.md"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write("# LUKHAS AGI System Overview\n\n")
             f.write("## Executive Summary\n\n")
-            f.write("LUKHAS AGI represents a sophisticated artificial general intelligence system ")
-            f.write("built on symbolic reasoning, emotional intelligence, and quantum-safe architecture.\n\n")
+            f.write(
+                "LUKHAS AGI represents a sophisticated artificial general intelligence system "
+            )
+            f.write(
+                "built on symbolic reasoning, emotional intelligence, and quantum-safe architecture.\n\n"
+            )
 
             f.write("### Key Capabilities\n\n")
-            f.write("- **Symbolic Reasoning**: Advanced logic processing with causal analysis\n")
-            f.write("- **Emotional Intelligence**: Comprehensive affect modeling and empathy\n")
+            f.write(
+                "- **Symbolic Reasoning**: Advanced logic processing with causal analysis\n"
+            )
+            f.write(
+                "- **Emotional Intelligence**: Comprehensive affect modeling and empathy\n"
+            )
             f.write("- **Consciousness Modeling**: Self-aware cognitive architecture\n")
-            f.write("- **Ethical Governance**: Built-in safety and compliance mechanisms\n")
-            f.write("- **Quantum Integration**: Future-proof quantum-inspired computing interfaces\n\n")
+            f.write(
+                "- **Ethical Governance**: Built-in safety and compliance mechanisms\n"
+            )
+            f.write(
+                "- **Quantum Integration**: Future-proof quantum-inspired computing interfaces\n\n"
+            )
 
             f.write("### System Architecture\n\n")
-            f.write(f"The system comprises {self.digest_data['metrics']['subsystem_count']} major subsystems:\n\n")
+            f.write(
+                f"The system comprises {self.digest_data['metrics']['subsystem_count']} major subsystems:\n\n"
+            )
 
             # Group subsystems by category
             categories = {
                 "Core Infrastructure": ["core", "config", "trace"],
-                "Cognitive Systems": ["memory", "reasoning", "consciousness", "learning"],
+                "Cognitive Systems": [
+                    "memory",
+                    "reasoning",
+                    "consciousness",
+                    "learning",
+                ],
                 "Emotional Systems": ["emotion", "creativity", "narrative"],
                 "Safety & Ethics": ["ethics", "identity", "quantum"],
-                "Integration": ["orchestration", "bridge"]
+                "Integration": ["orchestration", "bridge"],
             }
 
             for category, subsystems in categories.items():
                 f.write(f"**{category}**:\n")
                 for subsystem in subsystems:
-                    if subsystem in self.digest_data['subsystems']:
-                        data = self.digest_data['subsystems'][subsystem]
+                    if subsystem in self.digest_data["subsystems"]:
+                        data = self.digest_data["subsystems"][subsystem]
                         f.write(f"- `{subsystem}/`: {data['file_count']} modules\n")
                 f.write("\n")
 
             f.write("### Development Status\n\n")
             f.write(f"- Test Coverage: {self.digest_data['state']['test_coverage']}\n")
-            f.write(f"- System Stability: Production-ready core with ongoing enhancements\n")
-            f.write(f"- Active Development: {self.digest_data['metrics']['dvnt_fixes']} transition items\n")
+            f.write(
+                "- System Stability: Production-ready core with ongoing enhancements\n"
+            )
+            f.write(
+                f"- Active Development: {self.digest_data['metrics']['dvnt_fixes']} transition items\n"
+            )
 
             f.write("\n### Technical Specifications\n\n")
-            f.write(f"- Codebase Size: {self.digest_data['metrics']['total_size_mb']:.1f} MB\n")
-            f.write(f"- Module Count: {self.digest_data['metrics']['total_modules']}+ components\n")
-            f.write(f"- Agent Systems: {self.digest_data['metrics']['agent_count']} specialized agents\n")
+            f.write(
+                f"- Codebase Size: {self.digest_data['metrics']['total_size_mb']:.1f} MB\n"
+            )
+            f.write(
+                f"- Module Count: {self.digest_data['metrics']['total_modules']}+ components\n"
+            )
+            f.write(
+                f"- Agent Systems: {self.digest_data['metrics']['agent_count']} specialized agents\n"
+            )
 
             f.write("\n---\n")
             f.write("\n*For technical documentation, see [docs/](docs/)*\n")
-            f.write("*For contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md)*\n")
+            f.write(
+                "*For contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md)*\n"
+            )
 
 
 def main():
@@ -336,9 +374,9 @@ def main():
     extractor.save_internal_digest()
     extractor.save_public_summary()
 
-    print(f"✅ Generated LUKHAS_INTERNAL_DIGEST.md")
-    print(f"✅ Generated README_PREP.md")
-    print(f"\nSummary:")
+    print("✅ Generated LUKHAS_INTERNAL_DIGEST.md")
+    print("✅ Generated README_PREP.md")
+    print("\nSummary:")
     print(f"  - Analyzed {digest['metrics']['subsystem_count']} subsystems")
     print(f"  - Found {digest['metrics']['total_modules']} modules")
     print(f"  - Tracked {len(digest['tags'])} unique tags")

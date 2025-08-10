@@ -40,22 +40,21 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from core.common import get_logger
 import json
 import os
-import time
-import hashlib
+import re  # Add re for regex operations in extract_insights
 import uuid
-from typing import Dict, Any, List, Optional, Union, Tuple, Set
 from datetime import datetime, timedelta
-from enum import Enum
-import re # Add re for regex operations in extract_insights
+from typing import Any, Dict, List, Optional, Union
 
 # Import memory components
 # TODO: Resolve import paths if these files are moved or structure changes.
 # Assuming memory_folds and trauma_lock are now in the same directory
-from .memory_folds import AGIMemory, MemoryType, MemoryPriority, MemoryFold
-from .trauma_lock import TraumaLockSystem as TraumaLock # Renamed class in trauma_lock.py
+from .memory_folds import AGIMemory, MemoryFold, MemoryPriority, MemoryType
+from .trauma_lock import (
+    TraumaLockSystem as TraumaLock,  # Renamed class in trauma_lock.py
+)
+
 # from AID.core.lambda_id import ID, AccessTier  # TODO: Install or implement AID
 # from AID.core.memory_identity import MemoryIdentityIntegration, MemoryAccessPolicy  # TODO: Install or implement AID
 # Assuming dream_reflection_loop is in CORE/dream_engine
@@ -63,10 +62,14 @@ from .trauma_lock import TraumaLockSystem as TraumaLock # Renamed class in traum
 
 logger = logging.getLogger("v1_AGI.memory")
 
-from core.common import LukhasError, GuardianRejectionError, MemoryDriftError
+from core.common import LukhasError
+
+
 class MemoryAccessError(LukhasError):
     """Exception raised for memory access permission errors."""
+
     pass
+
 
 class MemoryManager:
     """
@@ -75,7 +78,11 @@ class MemoryManager:
     including integration with the trauma lock system and Lukhas_ID identity.
     """
 
-    def __init__(self, storage_path: str = "./memory_store", id_integration: Optional[MemoryIdentityIntegration] = None):
+    def __init__(
+        self,
+        storage_path: str = "./memory_store",
+        id_integration: Optional[MemoryIdentityIntegration] = None,
+    ):
         """
         Initialize the memory manager.
 
@@ -100,7 +107,7 @@ class MemoryManager:
             "last_access": None,
             "access_count": 0,
             "memory_types": {t.value: 0 for t in MemoryType},
-            "identity_protected": 0  # Count of memories requiring identity verification
+            "identity_protected": 0,  # Count of memories requiring identity verification
         }
 
         # Initialize access tier requirements for memory types
@@ -131,13 +138,13 @@ class MemoryManager:
             MemoryType.ASSOCIATIVE: AccessTier.TIER_1,
             MemoryType.SYSTEM: AccessTier.TIER_3,
             MemoryType.IDENTITY: AccessTier.TIER_2,
-            MemoryType.CONTEXT: AccessTier.TIER_1
+            MemoryType.CONTEXT: AccessTier.TIER_1,
         }
 
         # Memory priority overrides - higher priority memories might need higher access
         self.priority_overrides = {
             MemoryPriority.CRITICAL: AccessTier.TIER_3,
-            MemoryPriority.HIGH: AccessTier.TIER_2
+            MemoryPriority.HIGH: AccessTier.TIER_2,
         }
 
     def process_dream_cycle(self) -> Dict[str, Any]:
@@ -151,8 +158,10 @@ class MemoryManager:
         now = datetime.now()
 
         # Only run if enough time has passed since last cycle
-        if (self.last_dream_cycle and
-            now - self.last_dream_cycle < self.dream_cycle_interval):
+        if (
+            self.last_dream_cycle
+            and now - self.last_dream_cycle < self.dream_cycle_interval
+        ):
             return {"status": "skipped", "reason": "too_soon"}
 
         try:
@@ -170,14 +179,14 @@ class MemoryManager:
                     data={
                         "pattern_type": pattern["type"],
                         "confidence": pattern.get("confidence", 0.0),
-                        "timestamp": now.isoformat()
+                        "timestamp": now.isoformat(),
                     },
                     metadata={
                         "generated_by": "dream_reflection",
-                        "pattern_source": "memory_analysis"
+                        "pattern_source": "memory_analysis",
                     },
                     memory_type=MemoryType.ASSOCIATIVE,
-                    priority=MemoryPriority.MEDIUM
+                    priority=MemoryPriority.MEDIUM,
                 )
 
             self.last_dream_cycle = now
@@ -185,15 +194,12 @@ class MemoryManager:
             return {
                 "status": "success",
                 "patterns_found": len(patterns.get("patterns", [])),
-                "timestamp": now.isoformat()
+                "timestamp": now.isoformat(),
             }
 
         except Exception as e:
             logger.error(f"Error in dream cycle: {str(e)}")
-            return {
-                "status": "error",
-                "error": str(e)
-            }
+            return {"status": "error", "error": str(e)}
 
     def _get_recent_memories(self, days: int = 7) -> List[Dict[str, Any]]:
         """Get memories from the last N days for dream processing"""
@@ -203,21 +209,28 @@ class MemoryManager:
         for key, fold in self.memory_folds.folds.items():
             if fold.created_at >= cutoff:
                 memory = fold.retrieve()
-                recent_memories.append({
-                    "key": key,
-                    "content": memory,
-                    "type": fold.memory_type.value,
-                    "timestamp": fold.created_at.isoformat()
-                })
+                recent_memories.append(
+                    {
+                        "key": key,
+                        "content": memory,
+                        "type": fold.memory_type.value,
+                        "timestamp": fold.created_at.isoformat(),
+                    }
+                )
 
         return recent_memories
 
-    def store(self, key: str, data: Any, metadata: Dict[str, Any] = None,
-              memory_type: Union[MemoryType, str] = MemoryType.SEMANTIC,
-              priority: Union[MemoryPriority, int] = MemoryPriority.MEDIUM,
-              owner_id: Optional[str] = None,
-              tags: List[str] = None,
-              access_policy: Optional[MemoryAccessPolicy] = None) -> bool:
+    def store(
+        self,
+        key: str,
+        data: Any,
+        metadata: Dict[str, Any] = None,
+        memory_type: Union[MemoryType, str] = MemoryType.SEMANTIC,
+        priority: Union[MemoryPriority, int] = MemoryPriority.MEDIUM,
+        owner_id: Optional[str] = None,
+        tags: List[str] = None,
+        access_policy: Optional[MemoryAccessPolicy] = None,
+    ) -> bool:
         """
         Store data in memory.
 
@@ -247,10 +260,16 @@ class MemoryManager:
             memory = {
                 "data": data,
                 "metadata": metadata,
-                "memory_type": memory_type.value if isinstance(memory_type, MemoryType) else memory_type,
-                "priority": priority.value if isinstance(priority, MemoryPriority) else priority,
+                "memory_type": (
+                    memory_type.value
+                    if isinstance(memory_type, MemoryType)
+                    else memory_type
+                ),
+                "priority": (
+                    priority.value if isinstance(priority, MemoryPriority) else priority
+                ),
                 "owner_id": owner_id,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
             # Encrypt memory if identity integration is available
@@ -263,7 +282,7 @@ class MemoryManager:
                 content=memory,
                 memory_type=memory_type,
                 priority=priority,
-                owner_id=owner_id
+                owner_id=owner_id,
             )
 
             # Add tags if provided
@@ -275,12 +294,20 @@ class MemoryManager:
             if self.id_integration and owner_id:
                 # Determine minimum access tier
                 min_tier = self.tier_requirements.get(
-                    memory_type if isinstance(memory_type, MemoryType) else MemoryType(memory_type),
-                    AccessTier.TIER_1
+                    (
+                        memory_type
+                        if isinstance(memory_type, MemoryType)
+                        else MemoryType(memory_type)
+                    ),
+                    AccessTier.TIER_1,
                 )
 
                 # Apply priority overrides
-                priority_obj = priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
+                priority_obj = (
+                    priority
+                    if isinstance(priority, MemoryPriority)
+                    else MemoryPriority(priority)
+                )
                 if priority_obj in self.priority_overrides:
                     priority_tier = self.priority_overrides[priority_obj]
                     if priority_tier.value > min_tier.value:
@@ -290,7 +317,9 @@ class MemoryManager:
                 policy = access_policy or MemoryAccessPolicy.TIER_BASED
 
                 # Register with identity system
-                self.id_integration.register_memory(key, owner_id, memory_type, policy, min_tier)
+                self.id_integration.register_memory(
+                    key, owner_id, memory_type, policy, min_tier
+                )
 
                 # Track identity-protected memories
                 self.stats["identity_protected"] += 1
@@ -305,8 +334,14 @@ class MemoryManager:
                 self.stats["user_memories"][owner_id] += 1
 
             # Update memory type stats
-            mem_type_str = memory_type.value if isinstance(memory_type, MemoryType) else memory_type
-            self.stats["memory_types"][mem_type_str] = self.stats["memory_types"].get(mem_type_str, 0) + 1
+            mem_type_str = (
+                memory_type.value
+                if isinstance(memory_type, MemoryType)
+                else memory_type
+            )
+            self.stats["memory_types"][mem_type_str] = (
+                self.stats["memory_types"].get(mem_type_str, 0) + 1
+            )
 
             # Persist to disk
             self._persist_memory(key, memory)
@@ -317,7 +352,9 @@ class MemoryManager:
             logger.error(f"Failed to store memory: {str(e)}")
             return False
 
-    def retrieve(self, key: str, user_identity: Optional[ID] = None) -> Optional[Dict[str, Any]]:
+    def retrieve(
+        self, key: str, user_identity: Optional[ID] = None
+    ) -> Optional[Dict[str, Any]]:
         """
         Retrieve data from memory with identity verification.
 
@@ -353,7 +390,7 @@ class MemoryManager:
                     content=memory,
                     memory_type=memory_type,
                     priority=priority,
-                    owner_id=owner_id
+                    owner_id=owner_id,
                 )
                 logger.debug(f"Memory loaded from storage: {key}")
             else:
@@ -402,7 +439,7 @@ class MemoryManager:
             # Try to load from storage
             memory_path = os.path.join(self.storage_path, f"{key}.json")
             if os.path.exists(memory_path):
-                with open(memory_path, "r") as f:
+                with open(memory_path) as f:
                     memory = json.load(f)
             else:
                 logger.warning(f"Memory not found for forgetting: {key}")
@@ -411,14 +448,16 @@ class MemoryManager:
             memory = memory_fold.retrieve()
 
         # Check identity-based access control for permission to forget
-        if memory_fold and not self._verify_access(memory_fold, user_identity, require_owner=True):
+        if memory_fold and not self._verify_access(
+            memory_fold, user_identity, require_owner=True
+        ):
             logger.warning(f"Access denied to forget memory: {key}")
             return False
 
         # Instead of deleting, mark as forgotten while keeping the data
         memory_path = os.path.join(self.storage_path, f"{key}.json")
         if os.path.exists(memory_path):
-            with open(memory_path, "r") as f:
+            with open(memory_path) as f:
                 stored_memory = json.load(f)
 
             # Mark as forgotten with timestamp
@@ -427,7 +466,9 @@ class MemoryManager:
 
             stored_memory["metadata"]["forgotten"] = True
             stored_memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
-            stored_memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
+            stored_memory["metadata"]["forgotten_by"] = (
+                user_identity.get_user_id() if user_identity else "system"
+            )
 
             # Write back the updated memory with forgotten status
             with open(memory_path, "w") as f:
@@ -441,7 +482,9 @@ class MemoryManager:
 
             memory["metadata"]["forgotten"] = True
             memory["metadata"]["forgotten_at"] = datetime.now().isoformat()
-            memory["metadata"]["forgotten_by"] = user_identity.get_user_id() if user_identity else "system"
+            memory["metadata"]["forgotten_by"] = (
+                user_identity.get_user_id() if user_identity else "system"
+            )
 
             # Update the memory fold
             self.memory_folds.add_fold(
@@ -449,7 +492,7 @@ class MemoryManager:
                 content=memory,
                 memory_type=memory.get("memory_type", "semantic"),
                 priority=memory.get("priority", MemoryPriority.MEDIUM),
-                owner_id=memory.get("owner_id")
+                owner_id=memory.get("owner_id"),
             )
 
         # Notify identity integration if available
@@ -459,7 +502,9 @@ class MemoryManager:
         logger.info(f"Memory marked as forgotten: {key}")
         return True
 
-    def batch_forget(self, keys: List[str], user_identity: Optional[ID] = None) -> Dict[str, bool]:
+    def batch_forget(
+        self, keys: List[str], user_identity: Optional[ID] = None
+    ) -> Dict[str, bool]:
         """
         Remove multiple memories at once.
 
@@ -477,7 +522,9 @@ class MemoryManager:
 
         return results
 
-    def extract_user_insights(self, user_id: str, user_identity: Optional[ID] = None) -> Dict[str, Any]:
+    def extract_user_insights(
+        self, user_id: str, user_identity: Optional[ID] = None
+    ) -> Dict[str, Any]:
         """
         Extract insights and patterns from a specific user's memories.
         Adapted from prot1/memory_manager.py and enhanced for prot2.
@@ -499,14 +546,20 @@ class MemoryManager:
             if fold.owner_id == user_id:
                 # Verify access before including memory in insight generation
                 if not self._verify_access(fold, user_identity):
-                    logger.warning(f"Access denied to memory {key} for user {user_id} during insight extraction. Skipping.")
+                    logger.warning(
+                        f"Access denied to memory {key} for user {user_id} during insight extraction. Skipping."
+                    )
                     continue
 
                 # Retrieve and potentially decrypt
                 memory_content = fold.retrieve()
-                if self.id_integration and memory_content.get("_meta", {}).get("encrypted", False):
+                if self.id_integration and memory_content.get("_meta", {}).get(
+                    "encrypted", False
+                ):
                     if user_identity and fold.owner_id == user_identity.get_user_id():
-                         memory_content = self.id_integration.decrypt_memory_content(key, memory_content)
+                        memory_content = self.id_integration.decrypt_memory_content(
+                            key, memory_content
+                        )
                     # Add other conditions for decryption if necessary (e.g. admin)
 
                 # Ensure the memory is not marked as forgotten
@@ -516,24 +569,34 @@ class MemoryManager:
                 user_memories_data.append(memory_content)
 
         if not user_memories_data:
-            logger.info(f"No accessible memories found for user {user_id} to extract insights.")
-            return {"preferences": {}, "activity_patterns": {}, "summary_insights": [], "raw_memory_count": 0}
+            logger.info(
+                f"No accessible memories found for user {user_id} to extract insights."
+            )
+            return {
+                "preferences": {},
+                "activity_patterns": {},
+                "summary_insights": [],
+                "raw_memory_count": 0,
+            }
 
         preferences = {}
         # Look for memories of type PREFERENCE or analyze text from other types
         # For prot1 compatibility, we'll analyze 'text' field if present in 'data'
         for memory in user_memories_data:
             text_to_analyze = None
-            if memory.get("memory_type") == MemoryType.PREFERENCE.value: # Assuming PREFERENCE type exists
+            if (
+                memory.get("memory_type") == MemoryType.PREFERENCE.value
+            ):  # Assuming PREFERENCE type exists
                 if isinstance(memory.get("data"), dict) and "text" in memory["data"]:
                     text_to_analyze = memory["data"]["text"]
                 elif isinstance(memory.get("data"), str):
                     text_to_analyze = memory["data"]
-            elif isinstance(memory.get("data"), dict) and "text" in memory["data"]: # Fallback for other types
-                 text_to_analyze = memory["data"]["text"]
-            elif isinstance(memory.get("data"), str): # Fallback for string data
-                 text_to_analyze = memory["data"]
-
+            elif (
+                isinstance(memory.get("data"), dict) and "text" in memory["data"]
+            ):  # Fallback for other types
+                text_to_analyze = memory["data"]["text"]
+            elif isinstance(memory.get("data"), str):  # Fallback for string data
+                text_to_analyze = memory["data"]
 
             if text_to_analyze:
                 text_lower = text_to_analyze.lower()
@@ -547,18 +610,22 @@ class MemoryManager:
                     (r"needs? (.*)", "needs"),
                     (r"enjoys? (.*)", "enjoys"),
                     (r"avoids? (.*)", "avoids"),
-                    (r"favorite (?:is|color|food|movie|book|song|activity|place|etc\\.) (.*)", "favorites"),
-                    (r"allergic to (.*)", "allergies")
+                    (
+                        r"favorite (?:is|color|food|movie|book|song|activity|place|etc\\.) (.*)",
+                        "favorites",
+                    ),
+                    (r"allergic to (.*)", "allergies"),
                 ]
                 for pattern, category in preference_patterns:
                     matches = re.finditer(pattern, text_lower)
                     for match in matches:
-                        extracted_value = match.group(1).strip().split('.')[0].split(',')[0] # Get first part
-                        if extracted_value: # Ensure non-empty
+                        extracted_value = (
+                            match.group(1).strip().split(".")[0].split(",")[0]
+                        )  # Get first part
+                        if extracted_value:  # Ensure non-empty
                             preferences.setdefault(category, []).append(extracted_value)
                             # Avoid duplicate entries for the same preference
                             preferences[category] = list(set(preferences[category]))
-
 
         # Activity Patterns (e.g., peak interaction times)
         activity_patterns = {}
@@ -569,8 +636,9 @@ class MemoryManager:
                 try:
                     timestamps.append(datetime.fromisoformat(ts_str.replace("Z", "")))
                 except ValueError:
-                    logger.debug(f"Could not parse timestamp: {ts_str} for insight generation.")
-
+                    logger.debug(
+                        f"Could not parse timestamp: {ts_str} for insight generation."
+                    )
 
         if timestamps:
             hour_counts = {}
@@ -580,27 +648,39 @@ class MemoryManager:
 
             if hour_counts:
                 peak_hour = max(hour_counts, key=hour_counts.get)
-                if 5 <= peak_hour < 12: activity_patterns["peak_interaction_time"] = "morning"
-                elif 12 <= peak_hour < 17: activity_patterns["peak_interaction_time"] = "afternoon"
-                elif 17 <= peak_hour < 22: activity_patterns["peak_interaction_time"] = "evening"
-                else: activity_patterns["peak_interaction_time"] = "night"
+                if 5 <= peak_hour < 12:
+                    activity_patterns["peak_interaction_time"] = "morning"
+                elif 12 <= peak_hour < 17:
+                    activity_patterns["peak_interaction_time"] = "afternoon"
+                elif 17 <= peak_hour < 22:
+                    activity_patterns["peak_interaction_time"] = "evening"
+                else:
+                    activity_patterns["peak_interaction_time"] = "night"
                 activity_patterns["hourly_activity_distribution"] = hour_counts
 
         # Summary Insights
         summary_insights = []
         if len(user_memories_data) > 50:
-            summary_insights.append(f"User has an extensive interaction history with {len(user_memories_data)} memories.")
+            summary_insights.append(
+                f"User has an extensive interaction history with {len(user_memories_data)} memories."
+            )
         elif len(user_memories_data) > 10:
-            summary_insights.append(f"User has a moderate interaction history with {len(user_memories_data)} memories.")
+            summary_insights.append(
+                f"User has a moderate interaction history with {len(user_memories_data)} memories."
+            )
         else:
-            summary_insights.append(f"User has a limited interaction history with {len(user_memories_data)} memories.")
+            summary_insights.append(
+                f"User has a limited interaction history with {len(user_memories_data)} memories."
+            )
 
         if preferences.get("likes") and len(preferences["likes"]) >= 3:
             summary_insights.append("User has expressed multiple likes/preferences.")
         if preferences.get("dislikes") and len(preferences["dislikes"]) >= 1:
             summary_insights.append("User has expressed some dislikes.")
         if activity_patterns.get("peak_interaction_time"):
-            summary_insights.append(f"User is typically most active during the {activity_patterns['peak_interaction_time']}.")
+            summary_insights.append(
+                f"User is typically most active during the {activity_patterns['peak_interaction_time']}."
+            )
 
         # Optionally, store these insights as a new memory for the user or system
         # For example:
@@ -619,10 +699,12 @@ class MemoryManager:
             "preferences": preferences,
             "activity_patterns": activity_patterns,
             "summary_insights": summary_insights,
-            "analyzed_memory_count": len(user_memories_data)
+            "analyzed_memory_count": len(user_memories_data),
         }
 
-    def get_interaction_history(self, memory_type_filter: str = "CONTEXT", owner_id_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_interaction_history(
+        self, memory_type_filter: str = "CONTEXT", owner_id_filter: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
         """
         Retrieve a history of interactions or specific memory types, optionally filtered by owner.
         Args:
@@ -657,15 +739,20 @@ class MemoryManager:
 
                     if type_match and owner_match:
                         data_payload = memory_content.get("data")
-                        if data_payload: # Ensure data is not None
+                        if data_payload:  # Ensure data is not None
                             history.append(data_payload)
 
         # Sort by timestamp if available in the data payload (interaction_details)
         try:
             # Ensure that 'x' is a dictionary and has 'timestamp' before trying to sort
-            history.sort(key=lambda x: x.get("timestamp", "") if isinstance(x, dict) else "", reverse=False)
+            history.sort(
+                key=lambda x: x.get("timestamp", "") if isinstance(x, dict) else "",
+                reverse=False,
+            )
         except TypeError:
-            logger.warning("Could not sort interaction history by timestamp due to missing/inconsistent timestamp data.")
+            logger.warning(
+                "Could not sort interaction history by timestamp due to missing/inconsistent timestamp data."
+            )
 
         return history
 
@@ -683,7 +770,9 @@ class MemoryManager:
 
             # Write memory data to file
             with open(file_path, "w") as f:
-                json.dump(memory, f, default=str)  # default=str to handle non-serializable types like datetime
+                json.dump(
+                    memory, f, default=str
+                )  # default=str to handle non-serializable types like datetime
 
             logger.info(f"Memory persisted to disk: {key}")
         except Exception as e:
@@ -707,7 +796,7 @@ class MemoryManager:
                 return None
 
             # Read memory data from file
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 memory = json.load(f)
 
             logger.info(f"Memory loaded from disk: {key}")
@@ -716,7 +805,12 @@ class MemoryManager:
             logger.error(f"Failed to load memory from disk: {str(e)}")
             return None
 
-    def _verify_access(self, memory_fold: MemoryFold, user_identity: Optional[ID], require_owner: bool = False) -> bool:
+    def _verify_access(
+        self,
+        memory_fold: MemoryFold,
+        user_identity: Optional[ID],
+        require_owner: bool = False,
+    ) -> bool:
         """
         Verify access permissions for a memory fold based on user identity.
 
@@ -742,7 +836,14 @@ class MemoryManager:
         # For other cases, check specific policies or default deny
         return False
 
-    def _register_memory_with_id_integration(self, key: str, owner_id: str, memory_type: Union[MemoryType, str], priority: Union[MemoryPriority, int], access_policy: Optional[MemoryAccessPolicy] = None):
+    def _register_memory_with_id_integration(
+        self,
+        key: str,
+        owner_id: str,
+        memory_type: Union[MemoryType, str],
+        priority: Union[MemoryPriority, int],
+        access_policy: Optional[MemoryAccessPolicy] = None,
+    ):
         """
         Register a memory with the identity integration system.
 
@@ -758,12 +859,20 @@ class MemoryManager:
 
         # Determine minimum access tier
         min_tier = self.tier_requirements.get(
-            memory_type if isinstance(memory_type, MemoryType) else MemoryType(memory_type),
-            AccessTier.TIER_1
+            (
+                memory_type
+                if isinstance(memory_type, MemoryType)
+                else MemoryType(memory_type)
+            ),
+            AccessTier.TIER_1,
         )
 
         # Apply priority overrides
-        priority_obj = priority if isinstance(priority, MemoryPriority) else MemoryPriority(priority)
+        priority_obj = (
+            priority
+            if isinstance(priority, MemoryPriority)
+            else MemoryPriority(priority)
+        )
         if priority_obj in self.priority_overrides:
             priority_tier = self.priority_overrides[priority_obj]
             if priority_tier.value > min_tier.value:
@@ -773,10 +882,9 @@ class MemoryManager:
         policy = access_policy or MemoryAccessPolicy.TIER_BASED
 
         # Register with identity system
-        self.id_integration.register_memory(key, owner_id, memory_type, policy, min_tier)
-
-
-
+        self.id_integration.register_memory(
+            key, owner_id, memory_type, policy, min_tier
+        )
 
 
 # Last Updated: 2025-06-05 09:37:28

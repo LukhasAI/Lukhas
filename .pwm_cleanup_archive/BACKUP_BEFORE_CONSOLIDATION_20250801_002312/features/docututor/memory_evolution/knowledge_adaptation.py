@@ -3,10 +3,9 @@ Knowledge Adaptation System for DocuTutor.
 Handles the evolution and adaptation of knowledge over time.
 """
 
-from typing import Dict, List, Optional
-import numpy as np
-from scipy.spatial import distance
 from datetime import datetime
+from typing import Dict, List, Optional
+
 
 class KnowledgeNode:
     def __init__(self, content: str, metadata: Dict):
@@ -30,6 +29,7 @@ class KnowledgeNode:
         """Add or update a relationship with another node."""
         self.relationships[node_id] = max(0.0, min(1.0, strength))
 
+
 class KnowledgeGraph:
     def __init__(self):
         self.nodes: Dict[str, KnowledgeNode] = {}
@@ -45,7 +45,9 @@ class KnowledgeGraph:
         """Retrieve a node by its ID."""
         return self.nodes.get(node_id)
 
-    def update_relationships(self, node_id: str, related_ids: List[str], strengths: List[float]):
+    def update_relationships(
+        self, node_id: str, related_ids: List[str], strengths: List[float]
+    ):
         """Update relationships for a node with related nodes."""
         if node_id not in self.nodes:
             raise KeyError(f"Node {node_id} does not exist")
@@ -54,6 +56,7 @@ class KnowledgeGraph:
         for related_id, strength in zip(related_ids, strengths):
             if related_id in self.nodes:
                 node.add_relationship(related_id, strength)
+
 
 class KnowledgeAdaptation:
     def __init__(self):

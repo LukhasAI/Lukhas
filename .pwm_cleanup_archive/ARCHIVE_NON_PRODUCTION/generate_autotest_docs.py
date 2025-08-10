@@ -8,22 +8,25 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import sys
-import os
 import json
-import re
-from pathlib import Path
-from datetime import datetime
-from typing import Dict, Any, List # Added List
 import logging
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List  # Added List
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.generate_autotest_docs")
 # Basic configuration for the logger if no handlers are present
 if not logging.getLogger("ΛTRACE").handlers:
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s')
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - ΛTRACE: %(message)s",
+    )
 
 logger.info("ΛTRACE: Initializing generate_autotest_docs script.")
+
 
 # Human-readable comment: Extracts symbolic header blocks and key information from core.common files.
 # TODO: Consider using the `ast` module for more robust parsing of Python code structure.
@@ -39,34 +42,58 @@ def extract_symbolic_blocks(file_content: str) -> Dict[str, Any]:
     logger.debug("ΛTRACE: Extracting symbolic blocks from file content.")
     # Extract the main docstring (module-level)
     # Assumes it's at the beginning of the file, possibly after shebang or encoding.
-    main_doc_match = re.search(r'^(?:#![^\n]*\n)?(?:#.*coding[=:]\s*([-\w.]+).*\n)?\s*"""([\s\S]*?)"""', file_content, re.MULTILINE)
+    main_doc_match = re.search(
+        r'^(?:#![^\n]*\n)?(?:#.*coding[=:]\s*([-\w.]+).*\n)?\s*"""([\s\S]*?)"""',
+        file_content,
+        re.MULTILINE,
+    )
     main_docstring = main_doc_match.group(2).strip() if main_doc_match else ""
-    if not main_docstring: # Fallback for docstrings not at the very top
+    if not main_docstring:  # Fallback for docstrings not at the very top
         main_doc_match_alt = re.search(r'"""([\s\S]*?)"""', file_content)
-        main_docstring = main_doc_match_alt.group(1).strip() if main_doc_match_alt else ""
+        main_docstring = (
+            main_doc_match_alt.group(1).strip() if main_doc_match_alt else ""
+        )
 
-    logger.debug(f"ΛTRACE: Extracted main docstring (first 50 chars): '{main_docstring[:50]}...'")
+    logger.debug(
+        f"ΛTRACE: Extracted main docstring (first 50 chars): '{main_docstring[:50]}...'"
+    )
 
     # Extract class definitions
     classes: List[Dict[str, str]] = []
     # Regex to find 'class ClassName(PossibleBase):' or 'class ClassName:' followed by its docstring
-    class_matches = re.finditer(r'^class\s+(\w+)(?:\([\w\s,.]*\))?:\s*"""([\s\S]*?)"""', file_content, re.MULTILINE)
+    class_matches = re.finditer(
+        r'^class\s+(\w+)(?:\([\w\s,.]*\))?:\s*"""([\s\S]*?)"""',
+        file_content,
+        re.MULTILINE,
+    )
     for match in class_matches:
-        classes.append({
-            "name": match.group(1),
-            "docstring": match.group(2).strip().replace('"""', '') # Clean up quotes if captured
-        })
+        classes.append(
+            {
+                "name": match.group(1),
+                "docstring": match.group(2)
+                .strip()
+                .replace('"""', ""),  # Clean up quotes if captured
+            }
+        )
     logger.debug(f"ΛTRACE: Extracted {len(classes)} classes.")
 
     # Extract function definitions (both async and regular)
     functions: List[Dict[str, str]] = []
     # Regex to find 'def func_name(params):' or 'async def func_name(params):' followed by its docstring
-    func_matches = re.finditer(r'^(?:async\s+)?def\s+(\w+)\([^)]*\)(?:\s*->\s*[\w\[\], .\s]+)?:\s*"""([\s\S]*?)"""', file_content, re.MULTILINE)
+    func_matches = re.finditer(
+        r'^(?:async\s+)?def\s+(\w+)\([^)]*\)(?:\s*->\s*[\w\[\], .\s]+)?:\s*"""([\s\S]*?)"""',
+        file_content,
+        re.MULTILINE,
+    )
     for match in func_matches:
-        functions.append({
-            "name": match.group(1),
-            "docstring": match.group(2).strip().replace('"""', '') # Clean up quotes
-        })
+        functions.append(
+            {
+                "name": match.group(1),
+                "docstring": match.group(2)
+                .strip()
+                .replace('"""', ""),  # Clean up quotes
+            }
+        )
     logger.debug(f"ΛTRACE: Extracted {len(functions)} functions.")
 
     # Extract key features from the main docstring (example, adapt as needed)
@@ -74,10 +101,16 @@ def extract_symbolic_blocks(file_content: str) -> Dict[str, Any]:
     features: List[str] = []
     if main_docstring:
         # Example: looking for a section like "Core Features:"
-        feature_section_match = re.search(r'Core Features:\s*\n((?:-\s*.*\n)+)', main_docstring, re.IGNORECASE)
+        feature_section_match = re.search(
+            r"Core Features:\s*\n((?:-\s*.*\n)+)", main_docstring, re.IGNORECASE
+        )
         if feature_section_match:
             feature_lines_str = feature_section_match.group(1)
-            feature_lines = [line.strip()[1:].strip() for line in feature_lines_str.split('\n') if line.strip().startswith('-')]
+            feature_lines = [
+                line.strip()[1:].strip()
+                for line in feature_lines_str.split("\n")
+                if line.strip().startswith("-")
+            ]
             features.extend(feature_lines)
     logger.debug(f"ΛTRACE: Extracted {len(features)} features from main docstring.")
 
@@ -85,8 +118,9 @@ def extract_symbolic_blocks(file_content: str) -> Dict[str, Any]:
         "main_docstring": main_docstring,
         "classes": classes,
         "functions": functions,
-        "features": features
+        "features": features,
     }
+
 
 # Human-readable comment: Generates LukhasDoc style documentation for a Python file.
 def generate_lambda_doc(file_path: Path) -> Dict[str, Any]:
@@ -104,14 +138,14 @@ def generate_lambda_doc(file_path: Path) -> Dict[str, Any]:
         logger.error(f"ΛTRACE: Source file not found: {file_path}")
         raise FileNotFoundError(f"Source file not found: {file_path}")
 
-    with open(file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, encoding="utf-8") as f:
         content = f.read()
     logger.debug(f"ΛTRACE: Read {len(content)} characters from {file_path.name}.")
 
     blocks = extract_symbolic_blocks(content)
 
     # Attempt to extract version from a standard header if present
-    version = "1.0.0" # Default
+    version = "1.0.0"  # Default
     header_version_match = re.search(r"# VERSION:\s*([\w.-]+)", content, re.IGNORECASE)
     if header_version_match:
         version = header_version_match.group(1)
@@ -121,29 +155,32 @@ def generate_lambda_doc(file_path: Path) -> Dict[str, Any]:
     # This structure should be consistent with LUKHAS documentation standards.
     documentation = {
         "title": f"LUKHAS AGI - Module Documentation: {file_path.stem}",
-        "subtitle": blocks.get("main_docstring", "Module providing core functionalities.").split('\n')[0], # First line of main docstring
+        "subtitle": blocks.get(
+            "main_docstring", "Module providing core functionalities."
+        ).split("\n")[
+            0
+        ],  # First line of main docstring
         "generated_by": "LukhasDoc - LUKHAS Symbolic Documentation Engine",
         "timestamp": datetime.now().isoformat(),
         "version": version,
         "file_path": str(file_path),
         "file_name": file_path.name,
-        "file_size_lines": len(content.split('\n')),
-
+        "file_size_lines": len(content.split("\n")),
         "overview": {
             "description": blocks.get("main_docstring", "N/A"),
             # This is an example; actual design philosophy should be sourced or standardized.
             "design_philosophy": [
                 "Clarity and Maintainability",
                 "Robustness and Reliability",
-                "Adherence to LUKHAS Standards"
+                "Adherence to LUKHAS Standards",
             ],
-            "core_capabilities": blocks.get("features", [])
+            "core_capabilities": blocks.get("features", []),
         },
         "architecture": {
             "classes": blocks.get("classes", []),
             "functions": blocks.get("functions", []),
             # Key components might be manually defined or inferred if possible
-            "key_components": [cls["name"] for cls in blocks.get("classes", [])]
+            "key_components": [cls["name"] for cls in blocks.get("classes", [])],
         },
         # API Reference and Usage Examples would ideally be more detailed or standardized
         "api_reference": {
@@ -152,15 +189,16 @@ def generate_lambda_doc(file_path: Path) -> Dict[str, Any]:
         "usage_examples": {
             "notes": "See module-specific tests or examples for usage patterns."
         },
-        "symbolic_metadata": { # Extract from standard header if possible, or use defaults
-            "lukhas_signature": f"ΛTRACE: {file_path.stem} initialized", # Example
+        "symbolic_metadata": {  # Extract from standard header if possible, or use defaults
+            "lukhas_signature": f"ΛTRACE: {file_path.stem} initialized",  # Example
             "symbolic_scope": f"LUKHAS AGI Core - {file_path.stem}",
-            "tier_system": "Refer to file header", # Placeholder
-            "license": "PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED" # Default
-        }
+            "tier_system": "Refer to file header",  # Placeholder
+            "license": "PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED",  # Default
+        },
     }
     logger.info(f"ΛTRACE: Documentation dictionary generated for {file_path.name}.")
     return documentation
+
 
 # Human-readable comment: Exports the generated documentation data to a Markdown file.
 def export_to_markdown(doc_data: Dict[str, Any], output_path: Path) -> None:
@@ -176,46 +214,66 @@ def export_to_markdown(doc_data: Dict[str, Any], output_path: Path) -> None:
     md_content += f"**Generated by:** {doc_data['generated_by']}\n"
     md_content += f"**Version:** {doc_data['version']}\n"
     md_content += f"**Generated:** {doc_data['timestamp']}\n"
-    md_content += f"**File:** `{doc_data['file_name']}` ({doc_data['file_size_lines']} lines)\n\n"
+    md_content += (
+        f"**File:** `{doc_data['file_name']}` ({doc_data['file_size_lines']} lines)\n\n"
+    )
     md_content += "---\n\n"
 
     md_content += "## 🌟 Overview\n\n"
     md_content += f"{doc_data['overview']['description']}\n\n"
-    if doc_data['overview']['core_capabilities']:
+    if doc_data["overview"]["core_capabilities"]:
         md_content += "### ⚡ Core Capabilities\n\n"
-        for capability in doc_data['overview']['core_capabilities']:
+        for capability in doc_data["overview"]["core_capabilities"]:
             md_content += f"- {capability}\n"
         md_content += "\n"
 
     md_content += "---\n\n## 🏗️ Architecture\n\n"
-    if doc_data['architecture']['classes']:
+    if doc_data["architecture"]["classes"]:
         md_content += f"### 📚 Classes ({len(doc_data['architecture']['classes'])})\n\n"
-        for cls in doc_data['architecture']['classes']:
-            md_content += f"#### `{cls['name']}`\n\n```python\n{cls['docstring']}\n```\n\n"
+        for cls in doc_data["architecture"]["classes"]:
+            md_content += (
+                f"#### `{cls['name']}`\n\n```python\n{cls['docstring']}\n```\n\n"
+            )
 
-    if doc_data['architecture']['functions']:
-        md_content += f"### 🔧 Functions ({len(doc_data['architecture']['functions'])})\n\n"
-        for func in doc_data['architecture']['functions']:
-            md_content += f"#### `{func['name']}()`\n\n```python\n{func['docstring']}\n```\n\n"
+    if doc_data["architecture"]["functions"]:
+        md_content += (
+            f"### 🔧 Functions ({len(doc_data['architecture']['functions'])})\n\n"
+        )
+        for func in doc_data["architecture"]["functions"]:
+            md_content += (
+                f"#### `{func['name']}()`\n\n```python\n{func['docstring']}\n```\n\n"
+            )
 
     md_content += "---\n\n## 🔮 Symbolic Metadata (from source header if available)\n\n"
     # Attempt to pull from source file's actual footer block
     # This is a simplified extraction, real headers are more complex
-    source_file_path = Path(doc_data['file_path'])
+    source_file_path = Path(doc_data["file_path"])
     if source_file_path.exists():
-        with open(source_file_path, 'r', encoding='utf-8') as f_source:
+        with open(source_file_path, encoding="utf-8") as f_source:
             source_content = f_source.read()
-        footer_match = re.search(r"# ═══════════════════════════════════════════════════════════════════════════\n# FILENAME:.*?\n(# .*?\n)*# ═══════════════════════════════════════════════════════════════════════════", source_content, re.MULTILINE | re.DOTALL)
+        footer_match = re.search(
+            r"# ═══════════════════════════════════════════════════════════════════════════\n# FILENAME:.*?\n(# .*?\n)*# ═══════════════════════════════════════════════════════════════════════════",
+            source_content,
+            re.MULTILINE | re.DOTALL,
+        )
         if footer_match:
-             # Extract relevant lines from the matched footer block
+            # Extract relevant lines from the matched footer block
             footer_lines = footer_match.group(0).splitlines()
             symbolic_info_extracted = []
-            keywords_to_extract = ["VERSION:", "TIER SYSTEM:", "ΛTRACE INTEGRATION:", "CAPABILITIES:", "LICENSE:"]
+            keywords_to_extract = [
+                "VERSION:",
+                "TIER SYSTEM:",
+                "ΛTRACE INTEGRATION:",
+                "CAPABILITIES:",
+                "LICENSE:",
+            ]
             for line in footer_lines:
                 if any(keyword in line for keyword in keywords_to_extract):
-                    symbolic_info_extracted.append(line.strip("# ").strip()) # Clean up line
+                    symbolic_info_extracted.append(
+                        line.strip("# ").strip()
+                    )  # Clean up line
             if symbolic_info_extracted:
-                 md_content += "```\n" + "\n".join(symbolic_info_extracted) + "\n```\n\n"
+                md_content += "```\n" + "\n".join(symbolic_info_extracted) + "\n```\n\n"
             else:
                 md_content += "_Symbolic metadata block not found or keywords missing in source file footer._\n\n"
 
@@ -223,23 +281,31 @@ def export_to_markdown(doc_data: Dict[str, Any], output_path: Path) -> None:
     md_content += "**ΛSIGNATURE:** This document reflects the structure and embedded comments of the source file. Accuracy depends on the source file's adherence to LUKHAS documentation standards.\n"
 
     try:
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(md_content)
-        logger.info(f"ΛTRACE: Markdown documentation successfully saved to {output_path}")
-    except IOError as e:
-        logger.error(f"ΛTRACE: Failed to write Markdown file to {output_path}: {e}", exc_info=True)
+        logger.info(
+            f"ΛTRACE: Markdown documentation successfully saved to {output_path}"
+        )
+    except OSError as e:
+        logger.error(
+            f"ΛTRACE: Failed to write Markdown file to {output_path}: {e}",
+            exc_info=True,
+        )
+
 
 # Human-readable comment: Main function to drive the documentation generation process.
 def main():
     """Generates LukhasDoc documentation for the automatic_testing_system.py."""
     logger.info("ΛTRACE: Starting main documentation generation process.")
-    logger.info("🚀 LukhasDoc Documentation Generator for LUKHAS Automatic Testing System")
+    logger.info(
+        "🚀 LukhasDoc Documentation Generator for LUKHAS Automatic Testing System"
+    )
     logger.info("=" * 80)
 
     try:
         # Determine paths relative to this script file
-        script_dir = Path(__file__).parent.resolve() # 'core' directory
-        project_root = script_dir.parent # Parent of 'core'
+        script_dir = Path(__file__).parent.resolve()  # 'core' directory
+        project_root = script_dir.parent  # Parent of 'core'
 
         # Source file is core/automatic_testing_system.py
         source_file_path = script_dir / "automatic_testing_system.py"
@@ -250,8 +316,12 @@ def main():
         logger.info(f"ΛTRACE: Output directory path: {output_dir_path}")
 
         if not source_file_path.is_file():
-            logger.critical(f"ΛTRACE: Source file '{source_file_path}' not found. Cannot generate documentation.")
-            logger.error(f"❌ ERROR: Source file '{source_file_path}' not found. Please ensure it exists.")
+            logger.critical(
+                f"ΛTRACE: Source file '{source_file_path}' not found. Cannot generate documentation."
+            )
+            logger.error(
+                f"❌ ERROR: Source file '{source_file_path}' not found. Please ensure it exists."
+            )
             sys.exit(1)
 
         output_dir_path.mkdir(parents=True, exist_ok=True)
@@ -259,17 +329,21 @@ def main():
 
         logger.info(f"📖 Analyzing source file: {source_file_path.name}")
         doc_data = generate_lambda_doc(source_file_path)
-        logger.info(f"ΛTRACE: Documentation data generated for {source_file_path.name}.")
+        logger.info(
+            f"ΛTRACE: Documentation data generated for {source_file_path.name}."
+        )
 
         # Export to JSON
         json_output_path = output_dir_path / f"{source_file_path.stem}_docs.json"
-        with open(json_output_path, 'w', encoding='utf-8') as f:
+        with open(json_output_path, "w", encoding="utf-8") as f:
             json.dump(doc_data, f, indent=2, ensure_ascii=False)
         logger.info(f"ΛTRACE: JSON documentation saved to: {json_output_path}")
         logger.info(f"💾 JSON documentation saved: {json_output_path}")
 
         # Export to Markdown
-        md_output_path = output_dir_path / f"{source_file_path.stem.upper()}_DOCUMENTATION.md"
+        md_output_path = (
+            output_dir_path / f"{source_file_path.stem.upper()}_DOCUMENTATION.md"
+        )
         export_to_markdown(doc_data, md_output_path)
         # export_to_markdown will log success/failure
         logger.info(f"📝 Markdown documentation saved: {md_output_path}")
@@ -279,14 +353,21 @@ def main():
         logger.info(f"📂 View JSON data: {json_output_path}")
 
     except FileNotFoundError as e_fnf:
-        logger.critical(f"ΛTRACE: File not found during documentation generation: {e_fnf}", exc_info=True)
+        logger.critical(
+            f"ΛTRACE: File not found during documentation generation: {e_fnf}",
+            exc_info=True,
+        )
         logger.error(f"❌ FILE NOT FOUND ERROR: {e_fnf}")
         sys.exit(1)
     except Exception as e:
-        logger.critical(f"ΛTRACE: An unexpected error occurred during documentation generation: {e}", exc_info=True)
+        logger.critical(
+            f"ΛTRACE: An unexpected error occurred during documentation generation: {e}",
+            exc_info=True,
+        )
         logger.error(f"❌ AN UNEXPECTED ERROR OCCURRED: {e}")
-        logger.error(f"Traceback information logged separately")
+        logger.error("Traceback information logged separately")
         sys.exit(1)
+
 
 # Human-readable comment: Standard execution block for when the script is run directly.
 if __name__ == "__main__":

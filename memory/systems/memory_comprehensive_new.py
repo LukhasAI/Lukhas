@@ -24,11 +24,8 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-from core.common import get_logger
-import time
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Add current directory to path for imports
 current_dir = Path(__file__).parent
@@ -98,7 +95,7 @@ def test_memory_lifecycle(orchestrator):
         # Get current memory statistics for baseline
         memory_stats = orchestrator.get_memory_statistics()
 
-        print(f"✅ Memory lifecycle test completed")
+        print("✅ Memory lifecycle test completed")
         print(f"   - Total memories: {memory_stats['total_memories']}")
         print(f"   - Hippocampal: {memory_stats['hippocampal_memories']}")
         print(f"   - Neocortical: {memory_stats['neocortical_memories']}")
@@ -185,7 +182,7 @@ def test_error_conditions(orchestrator):
         passed_tests = sum(1 for t in test_results if t["status"] == "pass")
         total_tests = len(test_results)
 
-        print(f"✅ Error condition test completed")
+        print("✅ Error condition test completed")
         print(f"   - Tests passed: {passed_tests}/{total_tests}")
         for result in test_results:
             status_icon = "✅" if result["status"] == "pass" else "❌"

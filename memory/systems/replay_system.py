@@ -51,16 +51,14 @@
 ```
 """
 
-import json
-from core.common import get_logger
-import asyncio
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple, Iterator, Union
-from dataclasses import dataclass, asdict
-from enum import Enum
 import uuid
-import heapq
 from collections import defaultdict, deque
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -69,30 +67,38 @@ logger = get_logger(__name__)
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "replay_system"
 
+
 class ReplayMode(Enum):
     """Memory replay modes."""
+
     CHRONOLOGICAL = "chronological"
     EMOTIONAL = "emotional"
     CAUSAL = "causal"
     SYMBOLIC = "symbolic"
     ASSOCIATIVE = "associative"
 
+
 class ReplayDirection(Enum):
     """Replay direction options."""
+
     FORWARD = "forward"
     BACKWARD = "backward"
     BIDIRECTIONAL = "bidirectional"
 
+
 class ReplayQuality(Enum):
     """Quality levels for memory replay."""
+
     HIGH_FIDELITY = "high_fidelity"
     STANDARD = "standard"
     COMPRESSED = "compressed"
     SUMMARY = "summary"
 
+
 @dataclass
 class MemorySnapshot:
     """Snapshot of memory state at a specific point."""
+
     snapshot_id: str
     timestamp: str
     memory_fold_id: str
@@ -102,9 +108,11 @@ class MemorySnapshot:
     symbolic_weight: float
     replay_quality: ReplayQuality
 
+
 @dataclass
 class ReplaySequence:
     """Sequence of memory snapshots for replay."""
+
     sequence_id: str
     snapshots: List[MemorySnapshot]
     replay_mode: ReplayMode
@@ -114,9 +122,11 @@ class ReplaySequence:
     created_at: str
     metadata: Dict[str, Any]
 
+
 @dataclass
 class ReplaySession:
     """Active replay session with state tracking."""
+
     session_id: str
     sequence: ReplaySequence
     current_position: int
@@ -127,6 +137,7 @@ class ReplaySession:
     last_accessed: str
     access_count: int
 
+
 class TemporalIndex:
     """Temporal indexing system for efficient memory traversal."""
 
@@ -136,8 +147,9 @@ class TemporalIndex:
         self.reverse_index = {}  # memory_fold_id -> timestamp
         self.causal_chains = defaultdict(list)  # cause_id -> [effect_ids]
 
-    def add_memory_timestamp(self, memory_fold_id: str, timestamp: str,
-                           causal_predecessors: List[str] = None) -> bool:
+    def add_memory_timestamp(
+        self, memory_fold_id: str, timestamp: str, causal_predecessors: List[str] = None
+    ) -> bool:
         """Add memory to temporal index."""
         try:
             # Add to time index
@@ -153,7 +165,9 @@ class TemporalIndex:
                 for pred_id in causal_predecessors:
                     self.causal_chains[pred_id].append(memory_fold_id)
 
-            self.logger.debug(f"Added memory to temporal index: {memory_fold_id} at {timestamp}")
+            self.logger.debug(
+                f"Added memory to temporal index: {memory_fold_id} at {timestamp}"
+            )
             return True
 
         except Exception as e:
@@ -170,7 +184,9 @@ class TemporalIndex:
 
         return memories
 
-    def get_causal_sequence(self, root_memory_id: str, max_depth: int = 10) -> List[str]:
+    def get_causal_sequence(
+        self, root_memory_id: str, max_depth: int = 10
+    ) -> List[str]:
         """Get causal sequence starting from a root memory."""
         sequence = [root_memory_id]
         queue = deque([root_memory_id])
@@ -191,8 +207,9 @@ class TemporalIndex:
 
         return sequence
 
-    def find_temporal_neighbors(self, memory_fold_id: str,
-                              window_minutes: int = 60) -> List[str]:
+    def find_temporal_neighbors(
+        self, memory_fold_id: str, window_minutes: int = 60
+    ) -> List[str]:
         """Find memories that occurred near a given memory in time."""
         if memory_fold_id not in self.reverse_index:
             return []
@@ -207,6 +224,7 @@ class TemporalIndex:
 
         # Remove the target memory itself
         return [mid for mid in neighbors if mid != memory_fold_id]
+
 
 class MemoryReplayer:
     """
@@ -224,7 +242,7 @@ class MemoryReplayer:
         # Core components
         self.temporal_index = TemporalIndex()
         self.active_sessions = {}  # session_id -> ReplaySession
-        self.sequence_cache = {}   # sequence_id -> ReplaySequence
+        self.sequence_cache = {}  # sequence_id -> ReplaySequence
 
         # Configuration
         self.max_active_sessions = self.config.get("max_active_sessions", 10)
@@ -238,13 +256,18 @@ class MemoryReplayer:
 
         self.logger.info("Memory replay system initialized")
 
-    def create_replay_sequence(self, memory_fold_ids: List[str],
-                             replay_mode: ReplayMode = ReplayMode.CHRONOLOGICAL,
-                             direction: ReplayDirection = ReplayDirection.FORWARD,
-                             quality: ReplayQuality = ReplayQuality.STANDARD) -> Optional[str]:
+    def create_replay_sequence(
+        self,
+        memory_fold_ids: List[str],
+        replay_mode: ReplayMode = ReplayMode.CHRONOLOGICAL,
+        direction: ReplayDirection = ReplayDirection.FORWARD,
+        quality: ReplayQuality = ReplayQuality.STANDARD,
+    ) -> Optional[str]:
         """Create a new replay sequence from memory folds."""
         try:
-            sequence_id = f"seq_{uuid.uuid4().hex[:8]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            sequence_id = (
+                f"seq_{uuid.uuid4().hex[:8]}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            )
 
             # Create snapshots from memory folds
             snapshots = self._create_memory_snapshots(memory_fold_ids, quality)
@@ -272,15 +295,17 @@ class MemoryReplayer:
                 metadata={
                     "source_memory_count": len(memory_fold_ids),
                     "snapshot_count": len(ordered_snapshots),
-                    "quality_level": quality.value
-                }
+                    "quality_level": quality.value,
+                },
             )
 
             # Cache the sequence
             self._cache_sequence(sequence)
 
             self.sequences_created += 1
-            self.logger.info(f"Created replay sequence: {sequence_id} ({len(ordered_snapshots)} snapshots)")
+            self.logger.info(
+                f"Created replay sequence: {sequence_id} ({len(ordered_snapshots)} snapshots)"
+            )
 
             return sequence_id
 
@@ -288,10 +313,13 @@ class MemoryReplayer:
             self.logger.error(f"Failed to create replay sequence: {e}")
             return None
 
-    def start_replay_session(self, sequence_id: str,
-                           playback_speed: float = None,
-                           loop_mode: bool = False,
-                           filters: Dict[str, Any] = None) -> Optional[str]:
+    def start_replay_session(
+        self,
+        sequence_id: str,
+        playback_speed: float = None,
+        loop_mode: bool = False,
+        filters: Dict[str, Any] = None,
+    ) -> Optional[str]:
         """Start a new replay session."""
         try:
             # Check session capacity
@@ -307,7 +335,9 @@ class MemoryReplayer:
             sequence = self.sequence_cache[sequence_id]
 
             # Create session
-            session_id = f"session_{uuid.uuid4().hex[:6]}_{datetime.now().strftime('%H%M%S')}"
+            session_id = (
+                f"session_{uuid.uuid4().hex[:6]}_{datetime.now().strftime('%H%M%S')}"
+            )
 
             session = ReplaySession(
                 session_id=session_id,
@@ -318,7 +348,7 @@ class MemoryReplayer:
                 filters=filters or {},
                 started_at=datetime.now().isoformat(),
                 last_accessed=datetime.now().isoformat(),
-                access_count=0
+                access_count=0,
             )
 
             self.active_sessions[session_id] = session
@@ -368,7 +398,7 @@ class MemoryReplayer:
                 "symbolic_weight": snapshot.symbolic_weight,
                 "position": session.current_position - 1,
                 "total_snapshots": len(session.sequence.snapshots),
-                "session_id": session_id
+                "session_id": session_id,
             }
 
         except Exception as e:
@@ -394,8 +424,9 @@ class MemoryReplayer:
             self.logger.error(f"Failed to seek to position: {e}")
             return False
 
-    def find_memories_by_content(self, search_terms: List[str],
-                               time_range: Tuple[str, str] = None) -> List[str]:
+    def find_memories_by_content(
+        self, search_terms: List[str], time_range: Tuple[str, str] = None
+    ) -> List[str]:
         """Find memories containing specific content terms."""
         # This would integrate with the actual memory storage system
         # For now, return a mock implementation
@@ -417,8 +448,9 @@ class MemoryReplayer:
 
         return memories
 
-    def create_associative_sequence(self, seed_memory_id: str,
-                                  max_associations: int = 20) -> Optional[str]:
+    def create_associative_sequence(
+        self, seed_memory_id: str, max_associations: int = 20
+    ) -> Optional[str]:
         """Create a replay sequence based on associative connections."""
         try:
             # Start with seed memory
@@ -426,11 +458,11 @@ class MemoryReplayer:
 
             # Find temporal neighbors
             neighbors = self.temporal_index.find_temporal_neighbors(seed_memory_id)
-            associated_memories.extend(neighbors[:max_associations//2])
+            associated_memories.extend(neighbors[: max_associations // 2])
 
             # Find causal connections
             causal_sequence = self.temporal_index.get_causal_sequence(seed_memory_id)
-            associated_memories.extend(causal_sequence[:max_associations//2])
+            associated_memories.extend(causal_sequence[: max_associations // 2])
 
             # Remove duplicates while preserving order
             unique_memories = []
@@ -442,9 +474,7 @@ class MemoryReplayer:
 
             # Create sequence
             return self.create_replay_sequence(
-                unique_memories,
-                ReplayMode.ASSOCIATIVE,
-                ReplayDirection.FORWARD
+                unique_memories, ReplayMode.ASSOCIATIVE, ReplayDirection.FORWARD
             )
 
         except Exception as e:
@@ -463,7 +493,10 @@ class MemoryReplayer:
             "sequence_id": session.sequence.sequence_id,
             "current_position": session.current_position,
             "total_snapshots": len(session.sequence.snapshots),
-            "progress_percentage": (session.current_position / len(session.sequence.snapshots)) * 100,
+            "progress_percentage": (
+                session.current_position / len(session.sequence.snapshots)
+            )
+            * 100,
             "playback_speed": session.playback_speed,
             "loop_mode": session.loop_mode,
             "replay_mode": session.sequence.replay_mode.value,
@@ -472,7 +505,7 @@ class MemoryReplayer:
             "started_at": session.started_at,
             "last_accessed": session.last_accessed,
             "access_count": session.access_count,
-            "filters_active": len(session.filters) > 0
+            "filters_active": len(session.filters) > 0,
         }
 
     def close_session(self, session_id: str) -> bool:
@@ -511,20 +544,21 @@ class MemoryReplayer:
                 "sequences_created": self.sequences_created,
                 "sessions_started": self.sessions_started,
                 "total_replay_time": f"{self.total_replay_time:.1f}s",
-                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1):.1f}s"
+                "avg_session_duration": f"{self.total_replay_time / max(self.sessions_started, 1):.1f}s",
             },
             "configuration": {
                 "max_active_sessions": self.max_active_sessions,
                 "default_playback_speed": self.default_playback_speed,
-                "cache_size_limit": self.cache_size_limit
+                "cache_size_limit": self.cache_size_limit,
             },
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     # Private methods
 
-    def _create_memory_snapshots(self, memory_fold_ids: List[str],
-                               quality: ReplayQuality) -> List[MemorySnapshot]:
+    def _create_memory_snapshots(
+        self, memory_fold_ids: List[str], quality: ReplayQuality
+    ) -> List[MemorySnapshot]:
         """Create memory snapshots from fold IDs."""
         snapshots = []
 
@@ -538,19 +572,25 @@ class MemoryReplayer:
                 emotional_state={"valence": 0.5, "arousal": 0.3},
                 causal_links=[],
                 symbolic_weight=0.5,
-                replay_quality=quality
+                replay_quality=quality,
             )
             snapshots.append(snapshot)
 
         return snapshots
 
-    def _order_snapshots(self, snapshots: List[MemorySnapshot],
-                        mode: ReplayMode, direction: ReplayDirection) -> List[MemorySnapshot]:
+    def _order_snapshots(
+        self,
+        snapshots: List[MemorySnapshot],
+        mode: ReplayMode,
+        direction: ReplayDirection,
+    ) -> List[MemorySnapshot]:
         """Order snapshots according to replay mode and direction."""
         if mode == ReplayMode.CHRONOLOGICAL:
             ordered = sorted(snapshots, key=lambda s: s.timestamp)
         elif mode == ReplayMode.EMOTIONAL:
-            ordered = sorted(snapshots, key=lambda s: sum(s.emotional_state.values()), reverse=True)
+            ordered = sorted(
+                snapshots, key=lambda s: sum(s.emotional_state.values()), reverse=True
+            )
         elif mode == ReplayMode.SYMBOLIC:
             ordered = sorted(snapshots, key=lambda s: s.symbolic_weight, reverse=True)
         else:
@@ -566,8 +606,9 @@ class MemoryReplayer:
         # Mock calculation - would be based on actual content analysis
         return len(snapshots) * 2.5  # 2.5 seconds per snapshot
 
-    def _calculate_coherence_score(self, snapshots: List[MemorySnapshot],
-                                 mode: ReplayMode) -> float:
+    def _calculate_coherence_score(
+        self, snapshots: List[MemorySnapshot], mode: ReplayMode
+    ) -> float:
         """Calculate coherence score for the sequence."""
         if len(snapshots) < 2:
             return 1.0
@@ -590,8 +631,9 @@ class MemoryReplayer:
 
         self.sequence_cache[sequence.sequence_id] = sequence
 
-    def _apply_filters(self, snapshot: MemorySnapshot,
-                      filters: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_filters(
+        self, snapshot: MemorySnapshot, filters: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply filters to snapshot content."""
         if not filters:
             return snapshot.content
@@ -613,30 +655,40 @@ class MemoryReplayer:
 
         return filtered_content
 
+
 # Default instance for module-level access
 default_memory_replayer = MemoryReplayer()
+
 
 def get_memory_replayer() -> MemoryReplayer:
     """Get the default memory replayer instance."""
     return default_memory_replayer
 
+
 # Module interface functions
-def create_sequence(memory_fold_ids: List[str], mode: str = "chronological") -> Optional[str]:
+def create_sequence(
+    memory_fold_ids: List[str], mode: str = "chronological"
+) -> Optional[str]:
     """Module-level function to create replay sequence."""
     try:
         replay_mode = ReplayMode(mode)
-        return default_memory_replayer.create_replay_sequence(memory_fold_ids, replay_mode)
+        return default_memory_replayer.create_replay_sequence(
+            memory_fold_ids, replay_mode
+        )
     except ValueError:
         logger.error(f"Invalid replay mode: {mode}")
         return None
+
 
 def start_session(sequence_id: str, **kwargs) -> Optional[str]:
     """Module-level function to start replay session."""
     return default_memory_replayer.start_replay_session(sequence_id, **kwargs)
 
+
 def get_next(session_id: str) -> Optional[Dict[str, Any]]:
     """Module-level function to get next memory."""
     return default_memory_replayer.get_next_memory(session_id)
+
 
 def get_replayer_status() -> Dict[str, Any]:
     """Module-level function to get system status."""
@@ -645,17 +697,17 @@ def get_replayer_status() -> Dict[str, Any]:
 
 # Module exports
 __all__ = [
-    'MemoryReplayer',
-    'ReplaySequence',
-    'MemorySnapshot',
-    'ReplayMode',
-    'ReplayDirection',
-    'ReplayQuality',
-    'get_memory_replayer',
-    'create_sequence',
-    'start_session',
-    'get_next',
-    'get_replayer_status'
+    "MemoryReplayer",
+    "ReplaySequence",
+    "MemorySnapshot",
+    "ReplayMode",
+    "ReplayDirection",
+    "ReplayQuality",
+    "get_memory_replayer",
+    "create_sequence",
+    "start_session",
+    "get_next",
+    "get_replayer_status",
 ]
 
 """

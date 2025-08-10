@@ -7,11 +7,12 @@ Date: 2025-06-23
 Simple, working shared memory for multi-agent collaboration.
 """
 
-import json
 import asyncio
+import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List
+
 
 class AgentMemory:
     """Simple shared memory for agents"""
@@ -29,7 +30,7 @@ class AgentMemory:
         """Load memory from file"""
         try:
             if self.memory_file.exists():
-                with open(self.memory_file, 'r') as f:
+                with open(self.memory_file) as f:
                     self._memory = json.load(f)
         except Exception:
             self._memory = {}
@@ -37,7 +38,7 @@ class AgentMemory:
     def _save_memory(self):
         """Save memory to file"""
         try:
-            with open(self.memory_file, 'w') as f:
+            with open(self.memory_file, "w") as f:
                 json.dump(self._memory, f, indent=2)
         except Exception:
             pass
@@ -47,10 +48,7 @@ class AgentMemory:
         if key not in self._memory:
             self._memory[key] = []
 
-        entry = {
-            "timestamp": datetime.now().isoformat(),
-            "data": data
-        }
+        entry = {"timestamp": datetime.now().isoformat(), "data": data}
         self._memory[key].append(entry)
         self._save_memory()
 
@@ -62,8 +60,11 @@ class AgentMemory:
         """Read all memory"""
         return self._memory.copy()
 
+
 # For backward compatibility
-def append_to_shared_memory(agent_id: str, event_type: str, data: Dict[str, Any]) -> bool:
+def append_to_shared_memory(
+    agent_id: str, event_type: str, data: Dict[str, Any]
+) -> bool:
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)
@@ -72,7 +73,10 @@ def append_to_shared_memory(agent_id: str, event_type: str, data: Dict[str, Any]
     except Exception:
         return False
 
-def read_from_shared_memory(agent_id: str, event_type: str = None, limit: int = 100) -> List[Dict]:
+
+def read_from_shared_memory(
+    agent_id: str, event_type: str = None, limit: int = 100
+) -> List[Dict]:
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)
@@ -83,6 +87,6 @@ def read_from_shared_memory(agent_id: str, event_type: str = None, limit: int = 
             all_entries = []
             for entries in all_memory.values():
                 all_entries.extend(entries)
-            return sorted(all_entries, key=lambda x: x.get('timestamp', ''))[-limit:]
+            return sorted(all_entries, key=lambda x: x.get("timestamp", ""))[-limit:]
     except Exception:
         return []

@@ -36,15 +36,13 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, AsyncGenerator, Union
+import asyncio
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 from qiskit import QuantumCircuit
-import asyncio
-import structlog
-
-from core.common import get_logger
 
 
 @dataclass
@@ -274,6 +272,7 @@ class CollaborativeSessionRequest:
 
 # Abstract base classes for quantum creative components
 
+
 class QuantumCreativeComponent(ABC):
     """Base class for all quantum creative components."""
 
@@ -371,6 +370,7 @@ class ZeroKnowledgeCreativityValidator(QuantumCreativeComponent):
 
 # Specialized creative artists
 
+
 class QuantumVisualArtist(QuantumCreativeComponent):
     """Quantum-enhanced visual artist."""
 
@@ -436,6 +436,7 @@ class Quantum3DSculptor(QuantumCreativeComponent):
 
 # Advanced systems
 
+
 class SwarmCreativityOrchestrator(QuantumCreativeComponent):
     """Orchestrates swarm creativity."""
 
@@ -458,6 +459,7 @@ class CrossCulturalSynthesizer(QuantumCreativeComponent):
 
 
 # Haiku-specific components
+
 
 class QuantumSyllableCounter(QuantumCreativeComponent):
     """Quantum syllable counting system."""
@@ -521,6 +523,7 @@ class SeasonalReferenceEncoder(QuantumCreativeComponent):
 
 # Music components
 
+
 class HarmonicQuantumInspiredProcessor(QuantumCreativeComponent):
     """Processes harmonic structures quantum-mechanically."""
 
@@ -562,6 +565,7 @@ class CulturalScaleQuantumLibrary(QuantumCreativeComponent):
 
 
 # Bio-cognitive components
+
 
 class NeuralOscillator(QuantumCreativeComponent):
     """Simulates neural oscillations."""
@@ -635,6 +639,7 @@ class REMDreamSynthesizer(QuantumCreativeComponent):
 
 # IP Protection components
 
+
 class CreativeBlockchain(QuantumCreativeComponent):
     """Blockchain for creative work protection."""
 
@@ -656,6 +661,7 @@ class QuantumWatermarkEmbedder(QuantumCreativeComponent):
 
 
 # Collaborative components
+
 
 class CreativityMeshNetwork(QuantumCreativeComponent):
     """Mesh network for collaborative creativity."""
@@ -698,6 +704,7 @@ class EmergenceDetector(QuantumCreativeComponent):
 
 
 # Personalization components
+
 
 class QuantumAestheticProfiler(QuantumCreativeComponent):
     """Profiles aesthetic preferences quantum-mechanically."""
@@ -743,6 +750,7 @@ class CreativityStyleEvolver(QuantumCreativeComponent):
 
 # Monitoring components
 
+
 class CreativityMonitor(QuantumCreativeComponent):
     """Monitors creativity processes."""
 
@@ -765,6 +773,7 @@ class CreativeEvolutionEngine(QuantumCreativeComponent):
 
 # Legacy components (for compatibility)
 
+
 class NeuroHaikuGenerator(QuantumCreativeComponent):
     """Legacy neural haiku generator."""
 
@@ -784,13 +793,14 @@ class NeuroHaikuGenerator(QuantumCreativeComponent):
 
 # Module validation and health
 
+
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
         "quantum_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
-        "consolidation_complete": True
+        "consolidation_complete": True,
     }
 
     failed = [k for k, v in validations.items() if not v]
@@ -806,7 +816,7 @@ MODULE_HEALTH = {
     "bio_integration": "enabled",
     "consolidation_status": "unified",
     "last_update": "2025-07-29",
-    "compliance_status": "verified"
+    "compliance_status": "verified",
 }
 
 # Validate on import

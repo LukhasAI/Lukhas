@@ -4,12 +4,11 @@ Cross-Layer Import Checker
 Identifies and validates cross-layer imports in the LUKHAS codebase.
 """
 import ast
-import os
-import re
-from pathlib import Path
-from typing import Dict, List, Set, Tuple
-from collections import defaultdict
 import json
+import re
+from collections import defaultdict
+from pathlib import Path
+from typing import Dict, List, Tuple
 
 
 class CrossLayerChecker:
@@ -17,34 +16,34 @@ class CrossLayerChecker:
 
     # Define layer hierarchy (lower number = more foundational)
     LAYER_HIERARCHY = {
-        'core': 0,
-        'memory': 1,
-        'identity': 1,
-        'bio': 2,
-        'symbolic': 2,
-        'quantum': 2,
-        'orchestration': 3,
-        'ethics': 3,
-        'bridge': 3,
-        'consciousness': 4,
-        'learning': 4,
-        'reasoning': 4,
-        'emotion': 5,
-        'creativity': 5,
-        'dream': 5,
-        'dreams': 5,
-        'features': 6,
-        'voice': 6,
-        'api': 7,
-        'dashboard': 7,
-        'tools': 8,
-        'tests': 9,
-        'benchmarks': 9,
-        'examples': 9
+        "core": 0,
+        "memory": 1,
+        "identity": 1,
+        "bio": 2,
+        "symbolic": 2,
+        "quantum": 2,
+        "orchestration": 3,
+        "ethics": 3,
+        "bridge": 3,
+        "consciousness": 4,
+        "learning": 4,
+        "reasoning": 4,
+        "emotion": 5,
+        "creativity": 5,
+        "dream": 5,
+        "dreams": 5,
+        "features": 6,
+        "voice": 6,
+        "api": 7,
+        "dashboard": 7,
+        "tools": 8,
+        "tests": 9,
+        "benchmarks": 9,
+        "examples": 9,
     }
 
     # Cross-layer import pattern
-    CROSS_LAYER_PATTERN = re.compile(r'#\s*🔁\s*Cross-layer:\s*(.+)')
+    CROSS_LAYER_PATTERN = re.compile(r"#\s*🔁\s*Cross-layer:\s*(.+)")
 
     def __init__(self, root_path: Path):
         self.root_path = root_path
@@ -54,7 +53,7 @@ class CrossLayerChecker:
 
     def get_module_layer(self, module_path: str) -> str:
         """Determine which layer a module belongs to."""
-        parts = module_path.split('.')
+        parts = module_path.split(".")
         for part in parts:
             if part in self.LAYER_HIERARCHY:
                 return part
@@ -64,11 +63,11 @@ class CrossLayerChecker:
             if f"/{layer}/" in module_path or module_path.startswith(f"{layer}/"):
                 return layer
 
-        return 'unknown'
+        return "unknown"
 
     def is_valid_cross_layer(self, from_layer: str, to_layer: str) -> bool:
         """Check if a cross-layer import is architecturally valid."""
-        if from_layer == 'unknown' or to_layer == 'unknown':
+        if from_layer == "unknown" or to_layer == "unknown":
             return True  # Can't validate unknown layers
 
         from_level = self.LAYER_HIERARCHY.get(from_layer, 999)
@@ -84,9 +83,9 @@ class CrossLayerChecker:
         imports = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
-                lines = content.split('\n')
+                lines = content.split("\n")
 
             tree = ast.parse(content)
 
@@ -105,18 +104,15 @@ class CrossLayerChecker:
                         tag_comment = ""
 
                         if line_no < len(lines):
-                            next_line = lines[line_no] if line_no < len(lines) - 1 else ""
+                            next_line = (
+                                lines[line_no] if line_no < len(lines) - 1 else ""
+                            )
                             match = self.CROSS_LAYER_PATTERN.search(next_line)
                             if match:
                                 tagged = True
                                 tag_comment = match.group(1)
 
-                        imports.append((
-                            alias.name,
-                            to_layer,
-                            tagged,
-                            tag_comment
-                        ))
+                        imports.append((alias.name, to_layer, tagged, tag_comment))
 
                 elif isinstance(node, ast.ImportFrom):
                     if node.module:
@@ -128,32 +124,33 @@ class CrossLayerChecker:
                         tag_comment = ""
 
                         if line_no < len(lines):
-                            next_line = lines[line_no] if line_no < len(lines) - 1 else ""
+                            next_line = (
+                                lines[line_no] if line_no < len(lines) - 1 else ""
+                            )
                             match = self.CROSS_LAYER_PATTERN.search(next_line)
                             if match:
                                 tagged = True
                                 tag_comment = match.group(1)
 
-                        imports.append((
-                            node.module,
-                            to_layer,
-                            tagged,
-                            tag_comment
-                        ))
+                        imports.append((node.module, to_layer, tagged, tag_comment))
 
             # Check all imports for cross-layer violations
             for module, to_layer, tagged, comment in imports:
-                if from_layer != to_layer and from_layer != 'unknown' and to_layer != 'unknown':
+                if (
+                    from_layer != to_layer
+                    and from_layer != "unknown"
+                    and to_layer != "unknown"
+                ):
                     is_valid = self.is_valid_cross_layer(from_layer, to_layer)
 
                     import_info = {
-                        'file': str(file_path.relative_to(self.root_path)),
-                        'from_layer': from_layer,
-                        'to_layer': to_layer,
-                        'module': module,
-                        'valid': is_valid,
-                        'tagged': tagged,
-                        'tag_comment': comment
+                        "file": str(file_path.relative_to(self.root_path)),
+                        "from_layer": from_layer,
+                        "to_layer": to_layer,
+                        "module": module,
+                        "valid": is_valid,
+                        "tagged": tagged,
+                        "tag_comment": comment,
                     }
 
                     self.cross_layer_imports.append(import_info)
@@ -178,7 +175,9 @@ class CrossLayerChecker:
                 print(f"Processing file {i}/{len(python_files)}...")
 
             # Skip test files and migrations
-            if any(skip in str(file_path) for skip in ['__pycache__', 'migration', '.pyc']):
+            if any(
+                skip in str(file_path) for skip in ["__pycache__", "migration", ".pyc"]
+            ):
                 continue
 
             self.extract_imports(file_path)
@@ -189,25 +188,29 @@ class CrossLayerChecker:
         # Count violations by layer pair
         violation_matrix = defaultdict(lambda: defaultdict(int))
         for v in self.violations:
-            violation_matrix[v['from_layer']][v['to_layer']] += 1
+            violation_matrix[v["from_layer"]][v["to_layer"]] += 1
 
         # Count all cross-layer imports by layer pair
         import_matrix = defaultdict(lambda: defaultdict(int))
         for imp in self.cross_layer_imports:
-            import_matrix[imp['from_layer']][imp['to_layer']] += 1
+            import_matrix[imp["from_layer"]][imp["to_layer"]] += 1
 
         report = {
-            'summary': {
-                'total_cross_layer_imports': len(self.cross_layer_imports),
-                'architectural_violations': len(self.violations),
-                'tagged_imports': len(self.tagged_imports),
-                'violation_rate': len(self.violations) / len(self.cross_layer_imports) if self.cross_layer_imports else 0
+            "summary": {
+                "total_cross_layer_imports": len(self.cross_layer_imports),
+                "architectural_violations": len(self.violations),
+                "tagged_imports": len(self.tagged_imports),
+                "violation_rate": (
+                    len(self.violations) / len(self.cross_layer_imports)
+                    if self.cross_layer_imports
+                    else 0
+                ),
             },
-            'layer_hierarchy': self.LAYER_HIERARCHY,
-            'violations': self.violations[:50],  # Top 50 violations
-            'violation_matrix': dict(violation_matrix),
-            'import_matrix': dict(import_matrix),
-            'tagged_imports': self.tagged_imports[:20]  # Sample of tagged imports
+            "layer_hierarchy": self.LAYER_HIERARCHY,
+            "violations": self.violations[:50],  # Top 50 violations
+            "violation_matrix": dict(violation_matrix),
+            "import_matrix": dict(import_matrix),
+            "tagged_imports": self.tagged_imports[:20],  # Sample of tagged imports
         }
 
         return report
@@ -217,19 +220,19 @@ class CrossLayerChecker:
         print("\n🔍 Cross-Layer Import Analysis")
         print("=" * 50)
 
-        print(f"\n📊 Summary:")
+        print("\n📊 Summary:")
         print(f"  Total cross-layer imports: {len(self.cross_layer_imports)}")
         print(f"  Architectural violations: {len(self.violations)}")
         print(f"  Tagged cross-layer imports: {len(self.tagged_imports)}")
 
         if self.violations:
-            print(f"\n❌ Top Violations (showing first 10):")
+            print("\n❌ Top Violations (showing first 10):")
             for v in self.violations[:10]:
                 print(f"  {v['from_layer']} → {v['to_layer']}: {v['file']}")
                 print(f"    Importing: {v['module']}")
 
         if self.tagged_imports:
-            print(f"\n✅ Tagged Cross-Layer Imports (showing first 5):")
+            print("\n✅ Tagged Cross-Layer Imports (showing first 5):")
             for t in self.tagged_imports[:5]:
                 print(f"  {t['from_layer']} → {t['to_layer']}: {t['tag_comment']}")
                 print(f"    File: {t['file']}")
@@ -249,7 +252,7 @@ def main():
 
     # Save report
     report_path = root_path / "scripts" / "cross_layer_report.json"
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(report, f, indent=2, default=str)
 
     print(f"\n📄 Report saved to: {report_path}")

@@ -21,6 +21,7 @@ DESCRIPTION:
 
 """
 
+
 def evaluate_emotional_state(user_context):
     """
     Analyze emotional context and return a symbolic weight factor.
@@ -39,6 +40,7 @@ def evaluate_emotional_state(user_context):
     base_weight = 1.0 - min(stress, 1.0)
     mood_mod = (joy - stress) * 0.1
     return max(0.0, min(1.0, base_weight + mood_mod))
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

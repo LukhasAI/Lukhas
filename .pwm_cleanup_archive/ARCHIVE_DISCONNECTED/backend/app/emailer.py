@@ -8,9 +8,10 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-import smtplib
 import os
+import smtplib
 from email.mime.text import MIMEText
+
 from .email_templates import generate_welcome_email
 
 # Load config from environment variables for security
@@ -20,13 +21,16 @@ SMTP_USERNAME = os.getenv("SMTP_USERNAME")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
 SMTP_SENDER = os.getenv("SMTP_SENDER", "hello@lukhasid.io")
 
+
 def send_welcome_email(to_email, username, lukhas_id_code, qrglyph_url):
     """
     Sends a symbolic welcome email with the user's LUKHASID and QRGLYMPH.
     """
     # Check that required environment variables are set
     if not SMTP_USERNAME or not SMTP_PASSWORD:
-        raise ValueError("SMTP_USERNAME and SMTP_PASSWORD environment variables must be set")
+        raise ValueError(
+            "SMTP_USERNAME and SMTP_PASSWORD environment variables must be set"
+        )
 
     html_content = generate_welcome_email(username, lukhas_id_code, qrglyph_url)
     msg = MIMEText(html_content, "html")

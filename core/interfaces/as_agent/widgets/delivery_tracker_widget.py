@@ -20,9 +20,12 @@ Integration Date: 2025-05-31T07:55:30.487994
 """
 
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 
-def create_delivery_widget(vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"):
+
+def create_delivery_widget(
+    vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"
+):
     """
     Creates a delivery tracker widget for visualization in dashboard.
 
@@ -37,7 +40,11 @@ def create_delivery_widget(vendor, delivery_id, user_tier, estimated_eta, delive
     - dict: delivery widget spec
     """
     tier_icons = {0: "🕸️", 1: "📦", 2: "🚚", 3: "📍", 4: "🛰️", 5: "🌐"}
-    color_map = {"in_transit": "#2196f3", "delayed": "#ff9800", "delivered": "#4caf50"}
+    color_map = {
+        "in_transit": "#2196f3",
+        "delayed": "#ff9800",
+        "delivered": "#4caf50",
+    }
 
     widget = {
         "type": "delivery_tracking",
@@ -53,16 +60,17 @@ def create_delivery_widget(vendor, delivery_id, user_tier, estimated_eta, delive
         "animation": {
             "type": "roadmap_path",
             "pulse": True,
-            "loop_eta": estimated_eta
+            "loop_eta": estimated_eta,
         },
         "DST_hooks": {
             "auto_refresh": True,
             "check_interval_minutes": 10,
-            "fallback_vendor_query": True
-        }
+            "fallback_vendor_query": True,
+        },
     }
 
     return widget
+
 
 def update_delivery_status(widget, new_status, new_eta=None):
     """
@@ -76,7 +84,11 @@ def update_delivery_status(widget, new_status, new_eta=None):
     Returns:
     - dict: Updated widget
     """
-    color_map = {"in_transit": "#2196f3", "delayed": "#ff9800", "delivered": "#4caf50"}
+    color_map = {
+        "in_transit": "#2196f3",
+        "delayed": "#ff9800",
+        "delivered": "#4caf50",
+    }
 
     widget["status"] = new_status
     widget["color"] = color_map.get(new_status, "#9e9e9e")

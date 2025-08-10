@@ -8,11 +8,12 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
-import numpy as np
-from typing import Dict, List, Optional, Tuple, TYPE_CHECKING, Any # Added Any
 from dataclasses import dataclass
 from enum import Enum
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple  # Added Any
+
+import numpy as np
+import structlog
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)
@@ -20,31 +21,47 @@ logger = structlog.get_logger("ΛTRACE.core.adaptive_systems.crista_optimizer")
 logger.info("ΛTRACE: Initializing crista_optimizer module.")
 
 if TYPE_CHECKING:
-    from .symbolic_network import SymbolicNetwork # Assuming symbolic_network.py is in the same directory
+    from .symbolic_network import (
+        SymbolicNetwork,  # Assuming symbolic_network.py is in the same directory
+    )
+
 
 # Enum for Optimization Modes
 # Specifies the different optimization modes the CristaOptimizer can operate in.
 class OptimizationMode(Enum):
     """Specifies the different optimization modes the CristaOptimizer can operate in."""
-    FISSION = "fission"  # Mode for splitting nodes
-    FUSION = "fusion"    # Mode for merging nodes
-    STABILIZATION = "stabilization" # Mode for maintaining and rebalancing topology
-    ADAPTIVE = "adaptive"  # Mode for dynamically choosing fission, fusion, or stabilization
 
-logger.info(f"ΛTRACE: OptimizationMode Enum defined with values: {[mode.value for mode in OptimizationMode]}")
+    FISSION = "fission"  # Mode for splitting nodes
+    FUSION = "fusion"  # Mode for merging nodes
+    STABILIZATION = "stabilization"  # Mode for maintaining and rebalancing topology
+    ADAPTIVE = (
+        "adaptive"  # Mode for dynamically choosing fission, fusion, or stabilization
+    )
+
+
+logger.info(
+    f"ΛTRACE: OptimizationMode Enum defined with values: {[mode.value for mode in OptimizationMode]}"
+)
+
 
 # Dataclass for Network Configuration
 # Holds configuration parameters for symbolic network optimization processes.
 @dataclass
 class NetworkConfig:
     """Holds configuration parameters for symbolic network optimization processes."""
+
     fission_threshold: float = 0.7  # Error level above which node fission is considered
-    fusion_threshold: float = 0.3   # Activity level below which node fusion is considered
-    remodeling_rate: float = 0.42   # Rate/intensity of remodeling operations
-    max_nodes: int = 1000           # Maximum allowable nodes in the network
-    min_nodes: int = 10             # Minimum allowable nodes in the network
-    entropy_balance_weight: float = 0.1 # Weight for entropy balancing adjustments
-    logger.info(f"ΛTRACE: NetworkConfig defined with default values: fission_threshold={fission_threshold}, etc.")
+    fusion_threshold: float = (
+        0.3  # Activity level below which node fusion is considered
+    )
+    remodeling_rate: float = 0.42  # Rate/intensity of remodeling operations
+    max_nodes: int = 1000  # Maximum allowable nodes in the network
+    min_nodes: int = 10  # Minimum allowable nodes in the network
+    entropy_balance_weight: float = 0.1  # Weight for entropy balancing adjustments
+    logger.info(
+        f"ΛTRACE: NetworkConfig defined with default values: fission_threshold={fission_threshold}, etc."
+    )
+
 
 # Class representing a Symbolic Processing Node
 # Represents a single symbolic processing unit within the cognitive network.
@@ -54,6 +71,7 @@ class SymbolicNode:
     Represents a single symbolic processing unit within the cognitive network.
     Manages its own state, connections, and performance metrics.
     """
+
     # Initialization
     def __init__(self, node_id: str, symbolic_weight: float = 1.0):
         """
@@ -64,16 +82,18 @@ class SymbolicNode:
         """
         self.node_id = node_id
         self.symbolic_weight = symbolic_weight
-        self.connections: List[str] = [] # Stores IDs of connected nodes
+        self.connections: List[str] = []  # Stores IDs of connected nodes
         self.error_level: float = 0.0
         self.activity_level: float = 0.0
         self.entropy: float = 0.0
         # Get a child logger for this specific class instance for finer-grained logging if needed
         self.logger = logger.getChild(f"SymbolicNode.{node_id}")
-        self.logger.info(f"ΛTRACE: SymbolicNode '{node_id}' created with weight {symbolic_weight}.")
+        self.logger.info(
+            f"ΛTRACE: SymbolicNode '{node_id}' created with weight {symbolic_weight}."
+        )
 
     # Method to split a node
-    def split(self, style: str = "crista_junction") -> List['SymbolicNode']:
+    def split(self, style: str = "crista_junction") -> List["SymbolicNode"]:
         """
         Splits the current node into two child nodes, distributing its weight and connections.
         This simulates a fission-like process to handle overload or increase specialization.
@@ -82,18 +102,26 @@ class SymbolicNode:
         Returns:
             List[SymbolicNode]: A list containing the two new child nodes.
         """
-        self.logger.info(f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id}' using style '{style}'.")
+        self.logger.info(
+            f"ΛTRACE: Attempting to split SymbolicNode '{self.node_id}' using style '{style}'."
+        )
         child_nodes: List[SymbolicNode] = []
         split_weight = self.symbolic_weight / 2
 
-        for i in range(2): # Typically splits into two
+        for i in range(2):  # Typically splits into two
             child_id = f"{self.node_id}_split_{i}"
             child = SymbolicNode(child_id, split_weight)
-            child.connections = self.connections.copy() # Children inherit connections initially
+            child.connections = (
+                self.connections.copy()
+            )  # Children inherit connections initially
             child_nodes.append(child)
-            self.logger.info(f"ΛTRACE: Created child node '{child_id}' during split of '{self.node_id}'.")
+            self.logger.info(
+                f"ΛTRACE: Created child node '{child_id}' during split of '{self.node_id}'."
+            )
 
-        self.logger.info(f"ΛTRACE: SymbolicNode '{self.node_id}' successfully split into {len(child_nodes)} nodes.")
+        self.logger.info(
+            f"ΛTRACE: SymbolicNode '{self.node_id}' successfully split into {len(child_nodes)} nodes."
+        )
         return child_nodes
 
     # Method to update node metrics
@@ -108,7 +136,10 @@ class SymbolicNode:
         self.error_level = error
         self.activity_level = activity
         self.entropy = entropy
-        self.logger.debug(f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error}, Activity={activity}, Entropy={entropy}")
+        self.logger.debug(
+            f"ΛTRACE: Metrics updated for SymbolicNode '{self.node_id}': Error={error}, Activity={activity}, Entropy={entropy}"
+        )
+
 
 # Class managing the Symbolic Cognitive Network
 # Manages the collection of SymbolicNodes and their interconnections,
@@ -118,6 +149,7 @@ class SymbolicNetwork:
     Manages the collection of SymbolicNodes and their interconnections,
     representing the topology of the symbolic cognitive network.
     """
+
     # Initialization
     def __init__(self, config: NetworkConfig):
         """
@@ -127,8 +159,10 @@ class SymbolicNetwork:
         """
         self.config = config
         self.nodes: Dict[str, SymbolicNode] = {}
-        self.connections: List[Tuple[str, str]] = [] # List of (source_id, target_id) tuples
-        self.logger = logger.getChild("SymbolicNetwork") # Child logger for this class
+        self.connections: List[Tuple[str, str]] = (
+            []
+        )  # List of (source_id, target_id) tuples
+        self.logger = logger.getChild("SymbolicNetwork")  # Child logger for this class
         self.logger.info("ΛTRACE: SymbolicNetwork initialized.")
 
     # Method to add a node
@@ -142,24 +176,32 @@ class SymbolicNetwork:
         """
         Removes a SymbolicNode from the network by its ID, also cleaning up its connections.
         """
-        self.logger.debug(f"ΛTRACE: Attempting to remove node '{node_id}' from SymbolicNetwork.")
+        self.logger.debug(
+            f"ΛTRACE: Attempting to remove node '{node_id}' from SymbolicNetwork."
+        )
         if node_id in self.nodes:
             del self.nodes[node_id]
             # Remove connections involving the deleted node
             self.connections = [
-                (src, dst) for src, dst in self.connections
+                (src, dst)
+                for src, dst in self.connections
                 if src != node_id and dst != node_id
             ]
-            self.logger.info(f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork.")
+            self.logger.info(
+                f"ΛTRACE: Node '{node_id}' and its connections removed from SymbolicNetwork."
+            )
         else:
-            self.logger.warning(f"ΛTRACE: Attempted to remove non-existent node '{node_id}'.")
+            self.logger.warning(
+                f"ΛTRACE: Attempted to remove non-existent node '{node_id}'."
+            )
 
     # Method to find high-error nodes
     def high_error_nodes(self) -> List[SymbolicNode]:
         """Returns a list of nodes whose error level exceeds the configured fission threshold."""
         self.logger.debug("ΛTRACE: Identifying high error nodes.")
         nodes = [
-            node for node in self.nodes.values()
+            node
+            for node in self.nodes.values()
             if node.error_level > self.config.fission_threshold
         ]
         self.logger.info(f"ΛTRACE: Found {len(nodes)} high error nodes.")
@@ -171,9 +213,12 @@ class SymbolicNetwork:
         Identifies pairs of nodes with low activity levels, making them candidates for fusion.
         Returns a limited number of pairs to manage merge complexity per cycle.
         """
-        self.logger.debug("ΛTRACE: Identifying low activity node pairs for potential fusion.")
+        self.logger.debug(
+            "ΛTRACE: Identifying low activity node pairs for potential fusion."
+        )
         low_activity_nodes = [
-            node for node in self.nodes.values()
+            node
+            for node in self.nodes.values()
             if node.activity_level < self.config.fusion_threshold
         ]
 
@@ -185,7 +230,9 @@ class SymbolicNetwork:
 
         # Limit to prevent excessive merging in one cycle
         limited_pairs = pairs[:5]
-        self.logger.info(f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5).")
+        self.logger.info(
+            f"ΛTRACE: Found {len(limited_pairs)} low activity pairs (limited to 5)."
+        )
         return limited_pairs
 
     # Method to merge node pairs
@@ -199,23 +246,29 @@ class SymbolicNetwork:
         for node1, node2 in node_pairs:
             if node1.node_id in self.nodes and node2.node_id in self.nodes:
                 # Create merged node
-                merged_id = f"{node1.node_id}_merged_with_{node2.node_id}" # More descriptive ID
+                merged_id = f"{node1.node_id}_merged_with_{node2.node_id}"  # More descriptive ID
                 merged_weight = node1.symbolic_weight + node2.symbolic_weight
                 merged_node = SymbolicNode(merged_id, merged_weight)
                 self.logger.debug(f"ΛTRACE: Creating merged node '{merged_id}'.")
 
                 # Combine connections (simple union, could be more complex)
-                merged_node.connections = list(set(node1.connections + node2.connections))
+                merged_node.connections = list(
+                    set(node1.connections + node2.connections)
+                )
 
                 # Remove original nodes and add the new merged node
-                self.remove_node(node1.node_id) # remove_node already logs
+                self.remove_node(node1.node_id)  # remove_node already logs
                 self.remove_node(node2.node_id)
-                self.add_node(merged_node) # add_node already logs
+                self.add_node(merged_node)  # add_node already logs
 
-                self.logger.info(f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'.")
-                merged_count +=1
+                self.logger.info(
+                    f"ΛTRACE: Successfully merged nodes '{node1.node_id}' and '{node2.node_id}' into '{merged_id}'."
+                )
+                merged_count += 1
             else:
-                self.logger.warning(f"ΛTRACE: Skipping merge for pair ({node1.node_id}, {node2.node_id}) as one or both no longer exist.")
+                self.logger.warning(
+                    f"ΛTRACE: Skipping merge for pair ({node1.node_id}, {node2.node_id}) as one or both no longer exist."
+                )
         self.logger.info(f"ΛTRACE: Merged {merged_count} node pairs.")
 
     # Method for entropy balancing
@@ -231,13 +284,17 @@ class SymbolicNetwork:
 
         total_entropy = sum(node.entropy for node in self.nodes.values())
         avg_entropy = total_entropy / len(self.nodes)
-        self.logger.debug(f"ΛTRACE: Total entropy: {total_entropy}, Average entropy: {avg_entropy}.")
+        self.logger.debug(
+            f"ΛTRACE: Total entropy: {total_entropy}, Average entropy: {avg_entropy}."
+        )
 
         for node in self.nodes.values():
             entropy_diff = node.entropy - avg_entropy
             adjustment = entropy_diff * self.config.entropy_balance_weight
-            node.entropy -= adjustment # Adjust node's entropy
-            self.logger.debug(f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment:.4f}, new entropy: {node.entropy:.4f}.")
+            node.entropy -= adjustment  # Adjust node's entropy
+            self.logger.debug(
+                f"ΛTRACE: Node '{node.node_id}' entropy adjusted by {-adjustment:.4f}, new entropy: {node.entropy:.4f}."
+            )
         self.logger.info("ΛTRACE: Entropy balance pass completed.")
 
     # Method to relink drifted edges
@@ -252,7 +309,8 @@ class SymbolicNetwork:
 
         # Filter out connections where source or destination node no longer exists
         valid_connections = [
-            (src, dst) for src, dst in self.connections
+            (src, dst)
+            for src, dst in self.connections
             if src in active_node_ids and dst in active_node_ids
         ]
         self.connections = valid_connections
@@ -261,7 +319,10 @@ class SymbolicNetwork:
         # TODO: Potentially implement more sophisticated relinking logic here,
         # e.g., finding nearest neighbors for orphaned connections if desired.
         # ΛNOTE: Relinking logic for drifted edges is currently basic (removal). Future enhancements could include finding nearest neighbors.
-        self.logger.info(f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}.")
+        self.logger.info(
+            f"ΛTRACE: Relinked drifted edges. Removed {removed_count} invalid connections. Current connections: {len(self.connections)}."
+        )
+
 
 # Class managing overall network topology
 # Manages the overall network topology, including analysis and
@@ -271,6 +332,7 @@ class TopologyManager:
     Manages the overall network topology, including analysis and
     recommending optimization strategies based on network metrics.
     """
+
     # Initialization
     def __init__(self, network: SymbolicNetwork):
         """
@@ -279,7 +341,9 @@ class TopologyManager:
             network (SymbolicNetwork): The symbolic network instance to manage.
         """
         self.network = network
-        self.optimization_history: List[Dict[str, Any]] = [] # Stores history of optimizations
+        self.optimization_history: List[Dict[str, Any]] = (
+            []
+        )  # Stores history of optimizations
         self.logger = logger.getChild("TopologyManager")
         self.logger.info("ΛTRACE: TopologyManager initialized.")
 
@@ -293,11 +357,20 @@ class TopologyManager:
         self.logger.debug("ΛTRACE: Analyzing network topology.")
         num_nodes = len(self.network.nodes)
         metrics = {
-            'node_count': float(num_nodes),
-            'connection_density': len(self.network.connections) / max(num_nodes, 1), # Avoid division by zero
-            'avg_error': np.mean([node.error_level for node in self.network.nodes.values()]) if num_nodes else 0.0,
-            'avg_activity': np.mean([node.activity_level for node in self.network.nodes.values()]) if num_nodes else 0.0,
-            'total_entropy': sum(node.entropy for node in self.network.nodes.values())
+            "node_count": float(num_nodes),
+            "connection_density": len(self.network.connections)
+            / max(num_nodes, 1),  # Avoid division by zero
+            "avg_error": (
+                np.mean([node.error_level for node in self.network.nodes.values()])
+                if num_nodes
+                else 0.0
+            ),
+            "avg_activity": (
+                np.mean([node.activity_level for node in self.network.nodes.values()])
+                if num_nodes
+                else 0.0
+            ),
+            "total_entropy": sum(node.entropy for node in self.network.nodes.values()),
         }
         self.logger.info(f"ΛTRACE: Topology analysis complete: {metrics}")
         return metrics
@@ -312,15 +385,20 @@ class TopologyManager:
         Returns:
             OptimizationMode: The recommended optimization mode.
         """
-        self.logger.debug(f"ΛTRACE: Recommending optimization based on metrics: {metrics}")
-        if metrics['avg_error'] > self.network.config.fission_threshold:
+        self.logger.debug(
+            f"ΛTRACE: Recommending optimization based on metrics: {metrics}"
+        )
+        if metrics["avg_error"] > self.network.config.fission_threshold:
             recommendation = OptimizationMode.FISSION
-        elif metrics['avg_activity'] < self.network.config.fusion_threshold:
+        elif metrics["avg_activity"] < self.network.config.fusion_threshold:
             recommendation = OptimizationMode.FUSION
         else:
             recommendation = OptimizationMode.STABILIZATION
-        self.logger.info(f"ΛTRACE: Recommended optimization mode: {recommendation.value}")
+        self.logger.info(
+            f"ΛTRACE: Recommended optimization mode: {recommendation.value}"
+        )
         return recommendation
+
 
 # Main CristaOptimizer Class
 # Simulates mitochondrial cristae-like remodeling (fusion, fission, detachment)
@@ -332,8 +410,11 @@ class CristaOptimizer:
     within a symbolic cognitive graph network in the LUKHAS AGI system.
     This class orchestrates the adaptive changes to the network topology.
     """
+
     # Initialization
-    def __init__(self, network: SymbolicNetwork, config: Optional[NetworkConfig] = None):
+    def __init__(
+        self, network: SymbolicNetwork, config: Optional[NetworkConfig] = None
+    ):
         """
         Initializes the CristaOptimizer.
         Args:
@@ -341,22 +422,26 @@ class CristaOptimizer:
             config (Optional[NetworkConfig]): Configuration for the optimizer. Defaults if None.
         """
         self.network = network
-        self.config = config or NetworkConfig() # Use provided config or default
+        self.config = config or NetworkConfig()  # Use provided config or default
         self.topology_manager = TopologyManager(network)
         self.optimization_cycles: int = 0
-        self.logger = logger.getChild("CristaOptimizer") # Child logger for this class
+        self.logger = logger.getChild("CristaOptimizer")  # Child logger for this class
 
         # Performance tracking metrics
         self.performance_metrics: Dict[str, Any] = {
-            'fission_operations': 0,
-            'fusion_operations': 0,
-            'stabilization_operations': 0,
-            'error_reduction': 0.0
+            "fission_operations": 0,
+            "fusion_operations": 0,
+            "stabilization_operations": 0,
+            "error_reduction": 0.0,
         }
-        self.logger.info(f"ΛTRACE: CristaOptimizer initialized with config: {self.config}")
+        self.logger.info(
+            f"ΛTRACE: CristaOptimizer initialized with config: {self.config}"
+        )
 
     # Main optimization method
-    def optimize(self, error_signal: float, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def optimize(
+        self, error_signal: float, context: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Performs a single optimization cycle on the symbolic architecture based on
         the magnitude of an error signal and optional contextual information.
@@ -367,7 +452,9 @@ class CristaOptimizer:
             Dict[str, Any]: A dictionary containing results and metrics of the optimization cycle.
         """
         self.optimization_cycles += 1
-        self.logger.info(f"ΛTRACE: Starting CristaOptimizer cycle {self.optimization_cycles} with error_signal: {error_signal:.4f}, context: {context}")
+        self.logger.info(
+            f"ΛTRACE: Starting CristaOptimizer cycle {self.optimization_cycles} with error_signal: {error_signal:.4f}, context: {context}"
+        )
         initial_metrics = self.topology_manager.analyze_topology()
 
         # Update network error metrics based on the external error signal
@@ -382,39 +469,53 @@ class CristaOptimizer:
         if error_signal > self.config.fission_threshold:
             result = self._induce_fission()
             operation_type_str = OptimizationMode.FISSION.value
-        elif error_signal < self.config.fusion_threshold: # Assuming error can be low, indicating underutilization
+        elif (
+            error_signal < self.config.fusion_threshold
+        ):  # Assuming error can be low, indicating underutilization
             result = self._induce_fusion()
             operation_type_str = OptimizationMode.FUSION.value
         else:
             result = self._stabilize_topology()
             operation_type_str = OptimizationMode.STABILIZATION.value
 
-        self.logger.info(f"ΛTRACE: Operation type '{operation_type_str}' chosen for cycle {self.optimization_cycles}.")
+        self.logger.info(
+            f"ΛTRACE: Operation type '{operation_type_str}' chosen for cycle {self.optimization_cycles}."
+        )
         final_metrics = self.topology_manager.analyze_topology()
 
         # Calculate performance improvement for this cycle
-        error_reduction_this_cycle = initial_metrics.get('avg_error', 0.0) - final_metrics.get('avg_error', 0.0)
-        self.performance_metrics['error_reduction'] = float(self.performance_metrics.get('error_reduction', 0.0)) + error_reduction_this_cycle
-
+        error_reduction_this_cycle = initial_metrics.get(
+            "avg_error", 0.0
+        ) - final_metrics.get("avg_error", 0.0)
+        self.performance_metrics["error_reduction"] = (
+            float(self.performance_metrics.get("error_reduction", 0.0))
+            + error_reduction_this_cycle
+        )
 
         optimization_result = {
-            'operation_type': operation_type_str,
-            'cycle': self.optimization_cycles,
-            'initial_metrics': initial_metrics,
-            'final_metrics': final_metrics,
-            'error_reduction_cycle': error_reduction_this_cycle,
-            'cumulative_error_reduction': self.performance_metrics['error_reduction'],
-            'nodes_affected': result.get('nodes_affected', 0),
-            'success': result.get('success', True) # Assumes success unless operation indicates otherwise
+            "operation_type": operation_type_str,
+            "cycle": self.optimization_cycles,
+            "initial_metrics": initial_metrics,
+            "final_metrics": final_metrics,
+            "error_reduction_cycle": error_reduction_this_cycle,
+            "cumulative_error_reduction": self.performance_metrics["error_reduction"],
+            "nodes_affected": result.get("nodes_affected", 0),
+            "success": result.get(
+                "success", True
+            ),  # Assumes success unless operation indicates otherwise
         }
 
-        self.logger.info(f"ΛTRACE: CristaOptimizer cycle {self.optimization_cycles} completed. Result: {optimization_result}")
+        self.logger.info(
+            f"ΛTRACE: CristaOptimizer cycle {self.optimization_cycles} completed. Result: {optimization_result}"
+        )
         return optimization_result
 
     # Private method to update network error
     def _update_network_error(self, error_signal: float) -> None:
         """Distributes the global error_signal to individual network nodes, possibly with variation."""
-        self.logger.debug(f"ΛTRACE: Updating network node errors with global error_signal: {error_signal:.4f}.")
+        self.logger.debug(
+            f"ΛTRACE: Updating network node errors with global error_signal: {error_signal:.4f}."
+        )
         if not self.network.nodes:
             self.logger.warning("ΛTRACE: No nodes in network to update error for.")
             return
@@ -422,11 +523,13 @@ class CristaOptimizer:
         for node in self.network.nodes.values():
             # Distribute error signal, original logic included randomization
             # For simplicity and predictability in logging, direct assignment or simple scaling:
-            node_error = error_signal * (0.8 + 0.4 * np.random.random()) # Retaining original randomization
-            node.update_metrics( # This now calls SymbolicNode's own logger
+            node_error = error_signal * (
+                0.8 + 0.4 * np.random.random()
+            )  # Retaining original randomization
+            node.update_metrics(  # This now calls SymbolicNode's own logger
                 error=node_error,
-                activity=node.activity_level, # Activity and entropy not directly updated by global error here
-                entropy=node.entropy
+                activity=node.activity_level,  # Activity and entropy not directly updated by global error here
+                entropy=node.entropy,
             )
         self.logger.info("ΛTRACE: Network node errors updated.")
 
@@ -437,14 +540,18 @@ class CristaOptimizer:
         and potentially increase processing resolution.
         """
         self.logger.info("ΛTRACE: Inducing fission.")
-        high_error_nodes = self.network.high_error_nodes() # Already logs
+        high_error_nodes = self.network.high_error_nodes()  # Already logs
         nodes_split_count = 0
 
         # Limit splits per cycle to prevent excessive fragmentation
         for node in high_error_nodes[:5]:
             if len(self.network.nodes) < self.config.max_nodes:
-                self.logger.debug(f"ΛTRACE: Attempting fission for high-error node '{node.node_id}'.")
-                child_nodes = node.split(style="crista_junction") # Node's split method logs details
+                self.logger.debug(
+                    f"ΛTRACE: Attempting fission for high-error node '{node.node_id}'."
+                )
+                child_nodes = node.split(
+                    style="crista_junction"
+                )  # Node's split method logs details
 
                 # Remove original node and add its children to the network
                 self.network.remove_node(node.node_id)
@@ -452,16 +559,22 @@ class CristaOptimizer:
                     self.network.add_node(child)
                 nodes_split_count += 1
             else:
-                self.logger.warning(f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id}'.")
+                self.logger.warning(
+                    f"ΛTRACE: Max node count ({self.config.max_nodes}) reached. Skipping fission for node '{node.node_id}'."
+                )
                 break
 
-        current_fission_ops = int(self.performance_metrics.get('fission_operations', 0))
-        self.performance_metrics['fission_operations'] = current_fission_ops + nodes_split_count
-        self.logger.info(f"ΛTRACE: Fission induced. Nodes split in this cycle: {nodes_split_count}.")
+        current_fission_ops = int(self.performance_metrics.get("fission_operations", 0))
+        self.performance_metrics["fission_operations"] = (
+            current_fission_ops + nodes_split_count
+        )
+        self.logger.info(
+            f"ΛTRACE: Fission induced. Nodes split in this cycle: {nodes_split_count}."
+        )
         return {
-            'success': True,
-            'nodes_affected': nodes_split_count, # Number of original nodes that were split
-            'operation': OptimizationMode.FISSION.value
+            "success": True,
+            "nodes_affected": nodes_split_count,  # Number of original nodes that were split
+            "operation": OptimizationMode.FISSION.value,
         }
 
     # Private method for fusion
@@ -472,26 +585,40 @@ class CristaOptimizer:
         """
         self.logger.info("ΛTRACE: Inducing fusion.")
         if len(self.network.nodes) <= self.config.min_nodes:
-            self.logger.warning(f"ΛTRACE: Minimum node count ({self.config.min_nodes}) reached. Skipping fusion.")
-            return {'success': False, 'reason': 'Minimum node count reached', 'nodes_affected': 0}
+            self.logger.warning(
+                f"ΛTRACE: Minimum node count ({self.config.min_nodes}) reached. Skipping fusion."
+            )
+            return {
+                "success": False,
+                "reason": "Minimum node count reached",
+                "nodes_affected": 0,
+            }
 
-        low_activity_pairs = self.network.low_activity_pairs() # Already logs
+        low_activity_pairs = self.network.low_activity_pairs()  # Already logs
         if not low_activity_pairs:
             self.logger.info("ΛTRACE: No suitable low-activity pairs found for fusion.")
-            return {'success': True, 'nodes_affected': 0, 'operation': OptimizationMode.FUSION.value} # Successful, but no action
+            return {
+                "success": True,
+                "nodes_affected": 0,
+                "operation": OptimizationMode.FUSION.value,
+            }  # Successful, but no action
 
-        self.network.merge_nodes(low_activity_pairs) # Already logs details
+        self.network.merge_nodes(low_activity_pairs)  # Already logs details
 
         # nodes_affected is the number of original nodes removed by merging
         nodes_affected_count = len(low_activity_pairs) * 2
-        current_fusion_ops = int(self.performance_metrics.get('fusion_operations', 0))
-        self.performance_metrics['fusion_operations'] = current_fusion_ops + len(low_activity_pairs)
+        current_fusion_ops = int(self.performance_metrics.get("fusion_operations", 0))
+        self.performance_metrics["fusion_operations"] = current_fusion_ops + len(
+            low_activity_pairs
+        )
 
-        self.logger.info(f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs)}. Nodes affected: {nodes_affected_count}.")
+        self.logger.info(
+            f"ΛTRACE: Fusion induced. Node pairs merged: {len(low_activity_pairs)}. Nodes affected: {nodes_affected_count}."
+        )
         return {
-            'success': True,
-            'nodes_affected': nodes_affected_count,
-            'operation': OptimizationMode.FUSION.value
+            "success": True,
+            "nodes_affected": nodes_affected_count,
+            "operation": OptimizationMode.FUSION.value,
         }
 
     # Private method for stabilization
@@ -501,16 +628,22 @@ class CristaOptimizer:
         entropy balancing and relinking drifted edges, to maintain network stability.
         """
         self.logger.info("ΛTRACE: Stabilizing topology.")
-        self.network.entropy_balance_pass() # Already logs
-        self.network.relink_drifted_edges() # Already logs
+        self.network.entropy_balance_pass()  # Already logs
+        self.network.relink_drifted_edges()  # Already logs
 
-        current_stabilization_ops = int(self.performance_metrics.get('stabilization_operations', 0))
-        self.performance_metrics['stabilization_operations'] = current_stabilization_ops + 1
+        current_stabilization_ops = int(
+            self.performance_metrics.get("stabilization_operations", 0)
+        )
+        self.performance_metrics["stabilization_operations"] = (
+            current_stabilization_ops + 1
+        )
         self.logger.info("ΛTRACE: Topology stabilization complete.")
         return {
-            'success': True,
-            'nodes_affected': len(self.network.nodes), # All nodes potentially affected by rebalancing
-            'operation': OptimizationMode.STABILIZATION.value
+            "success": True,
+            "nodes_affected": len(
+                self.network.nodes
+            ),  # All nodes potentially affected by rebalancing
+            "operation": OptimizationMode.STABILIZATION.value,
         }
 
     # Method to get performance summary
@@ -522,12 +655,14 @@ class CristaOptimizer:
             Dict[str, Any]: A dictionary containing performance metrics.
         """
         self.logger.debug("ΛTRACE: Getting performance summary.")
-        current_metrics = self.topology_manager.analyze_topology() # Already logs
+        current_metrics = self.topology_manager.analyze_topology()  # Already logs
         summary = {
-            'optimization_cycles': self.optimization_cycles,
-            'performance_metrics': self.performance_metrics.copy(), # Send a copy
-            'current_network_metrics': current_metrics,
-            'network_health': self._assess_network_health(current_metrics) # Already logs
+            "optimization_cycles": self.optimization_cycles,
+            "performance_metrics": self.performance_metrics.copy(),  # Send a copy
+            "current_network_metrics": current_metrics,
+            "network_health": self._assess_network_health(
+                current_metrics
+            ),  # Already logs
         }
         self.logger.info(f"ΛTRACE: Performance summary generated: {summary}")
         return summary
@@ -543,8 +678,10 @@ class CristaOptimizer:
         """
         self.logger.debug(f"ΛTRACE: Assessing network health with metrics: {metrics}")
         health_status: str
-        avg_error = metrics.get('avg_error', 1.0) # Default to high error if metric missing
-        avg_activity = metrics.get('avg_activity', 0.0) # Default to low activity
+        avg_error = metrics.get(
+            "avg_error", 1.0
+        )  # Default to high error if metric missing
+        avg_activity = metrics.get("avg_activity", 0.0)  # Default to low activity
 
         if avg_error < 0.2 and avg_activity > 0.7:
             health_status = "excellent"
@@ -560,15 +697,18 @@ class CristaOptimizer:
     # Method to reset performance metrics
     def reset_performance_metrics(self) -> None:
         """Resets the optimizer's internal performance tracking metrics and cycle count."""
-        self.logger.info("ΛTRACE: Resetting performance metrics and optimization cycles.")
+        self.logger.info(
+            "ΛTRACE: Resetting performance metrics and optimization cycles."
+        )
         self.performance_metrics = {
-            'fission_operations': 0,
-            'fusion_operations': 0,
-            'stabilization_operations': 0,
-            'error_reduction': 0.0
+            "fission_operations": 0,
+            "fusion_operations": 0,
+            "stabilization_operations": 0,
+            "error_reduction": 0.0,
         }
         self.optimization_cycles = 0
         self.logger.info("ΛTRACE: Performance metrics and cycle count have been reset.")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: crista_optimizer.py

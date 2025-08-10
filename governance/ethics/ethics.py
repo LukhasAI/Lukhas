@@ -32,15 +32,20 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 # 🧠 PURPOSE: CLI command to preview the symbolic ETHICS.md policy
 # ===============================================================
 
+
 def main():
     print("\n📜 Λ_AGI — ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
-    print("  To ensure that all actions, outputs, and identities of Λ_AGI are bound by ethics, traceability, and symbolic consent.")
+    print(
+        "  To ensure that all actions, outputs, and identities of Λ_AGI are bound by ethics, traceability, and symbolic consent."
+    )
     print("\n📜 lukhas_AGI — ETHICAL FRAMEWORK PREVIEW")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("🧠 Purpose:")
-    print("  To ensure that all actions, outputs, and identities of lukhas_AGI are bound by ethics, traceability, and symbolic consent.")
+    print(
+        "  To ensure that all actions, outputs, and identities of lukhas_AGI are bound by ethics, traceability, and symbolic consent."
+    )
     print("")
     print("🧬 Core Pillars:")
     print("  • Transparency — all outputs and changes are logged")
@@ -50,7 +55,7 @@ def main():
     print("")
 
     try:
-        with open("ETHICS.md", "r") as f:
+        with open("ETHICS.md") as f:
             print("📖 Full ETHICS.md Preview:\n")
             lines = f.readlines()
             for line in lines:
@@ -64,6 +69,7 @@ def main():
     print("🔗 For license info, run: lukhasagi --about")
     print("📜 For tier access, run: lukhasagi-tier")
     print("🧠 For core vision, run: lukhasagi-manifesto\n")
+
 
 if __name__ == "__main__":
     main()

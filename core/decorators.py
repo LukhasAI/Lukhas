@@ -18,21 +18,22 @@
 """
 
 import functools
-import structlog
-from typing import Callable, Optional, Union, Any
 from datetime import datetime, timezone
+from typing import Callable, Optional, Union
+
+import structlog
 
 # Import from tier_system if available, otherwise create placeholder
 try:
-    from memory.systems.tier_system import (
-        lukhas_tier_required as _tier_required_impl,
-        TierLevel,
-        PermissionScope
-    )
+    from memory.systems.tier_system import PermissionScope, TierLevel
+    from memory.systems.tier_system import lukhas_tier_required as _tier_required_impl
+
     _HAS_TIER_SYSTEM = True
 except ImportError:
     _HAS_TIER_SYSTEM = False
+
     # Placeholder implementations
+
     class TierLevel:
         PUBLIC = 0
         AUTHENTICATED = 1
@@ -49,9 +50,9 @@ except ImportError:
         DREAM = "dream"
         VOICE = "voice"
 
+
 # Import identity client for tier validation
 try:
-    from governance.identity.interface import IdentityClient
     _HAS_IDENTITY_CLIENT = True
 except ImportError:
     _HAS_IDENTITY_CLIENT = False
@@ -59,7 +60,9 @@ except ImportError:
 logger = structlog.get_logger(__name__)
 
 
-def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = None) -> Callable:
+def lukhas_tier_required(
+    level: Union[int, TierLevel], scope: Optional[str] = None
+) -> Callable:
     """
     Decorator for enforcing tier-based access control across LUKHAS modules.
 
@@ -72,10 +75,12 @@ def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = No
 
     Example:
         @lukhas_tier_required(level=3)
+
         def sensitive_operation():
             pass
 
         @lukhas_tier_required(level=TierLevel.ADMIN, scope="quantum")
+
         def quantum_admin_function():
             pass
     """
@@ -89,7 +94,7 @@ def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = No
                 2: TierLevel.ELEVATED,
                 3: TierLevel.PRIVILEGED,
                 4: TierLevel.ADMIN,
-                5: TierLevel.SYSTEM
+                5: TierLevel.SYSTEM,
             }
             tier_level = tier_map.get(level, TierLevel.PUBLIC)
         else:
@@ -97,13 +102,16 @@ def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = No
 
         # Convert scope string to PermissionScope if needed
         if scope:
-            scope_enum = getattr(PermissionScope, scope.upper(), PermissionScope.MEMORY_FOLD)
+            scope_enum = getattr(
+                PermissionScope, scope.upper(), PermissionScope.MEMORY_FOLD
+            )
         else:
             scope_enum = PermissionScope.MEMORY_FOLD
 
         return _tier_required_impl(tier_level, scope_enum)
     else:
         # Placeholder implementation with logging
+
         def decorator(func: Callable) -> Callable:
             @functools.wraps(func)
             def wrapper(*args, **kwargs):
@@ -112,11 +120,13 @@ def lukhas_tier_required(level: Union[int, TierLevel], scope: Optional[str] = No
                     function=func.__name__,
                     required_level=level,
                     scope=scope,
-                    timestamp=datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
                 # In placeholder mode, just execute the function
                 return func(*args, **kwargs)
+
             return wrapper
+
         return decorator
 
 
@@ -130,6 +140,7 @@ def glyph_bind(glyph_pattern: str) -> Callable:
     Returns:
         Decorated function with glyph binding
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -137,11 +148,13 @@ def glyph_bind(glyph_pattern: str) -> Callable:
                 "glyph_bind",
                 function=func.__name__,
                 glyph=glyph_pattern,
-                timestamp=datetime.now(timezone.utc).isoformat()
+                timestamp=datetime.now(timezone.utc).isoformat(),
             )
             return func(*args, **kwargs)
+
         wrapper._glyph_pattern = glyph_pattern
         return wrapper
+
     return decorator
 
 
@@ -155,6 +168,7 @@ def trace(tag: Optional[str] = None) -> Callable:
     Returns:
         Decorated function with trace logging
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -163,7 +177,7 @@ def trace(tag: Optional[str] = None) -> Callable:
                 "trace_enter",
                 trace_id=trace_id,
                 tag=tag,
-                timestamp=datetime.now(timezone.utc).isoformat()
+                timestamp=datetime.now(timezone.utc).isoformat(),
             )
             try:
                 result = func(*args, **kwargs)
@@ -171,7 +185,7 @@ def trace(tag: Optional[str] = None) -> Callable:
                     "trace_exit",
                     trace_id=trace_id,
                     tag=tag,
-                    timestamp=datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
                 return result
             except Exception as e:
@@ -180,23 +194,26 @@ def trace(tag: Optional[str] = None) -> Callable:
                     trace_id=trace_id,
                     tag=tag,
                     error=str(e),
-                    timestamp=datetime.now(timezone.utc).isoformat()
+                    timestamp=datetime.now(timezone.utc).isoformat(),
                 )
                 raise
+
         return wrapper
+
     return decorator
 
 
 def core_tier_required(tier: Union[str, int, TierLevel]):
     """
     Core tier requirement decorator for LUKHAS system functions.
-    
+
     Args:
         tier: Required tier level (string, int, or TierLevel enum)
-        
+
     Returns:
         Decorated function with tier requirement checking
     """
+
     def decorator(func: Callable) -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -206,12 +223,14 @@ def core_tier_required(tier: Union[str, int, TierLevel]):
                 "core_tier_check",
                 function=func.__name__,
                 required_tier=tier,
-                timestamp=datetime.now(timezone.utc).isoformat()
+                timestamp=datetime.now(timezone.utc).isoformat(),
             )
-            
+
             # Call the original function - in production, add tier validation here
             return func(*args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -222,5 +241,5 @@ __all__ = [
     "glyph_bind",
     "trace",
     "TierLevel",
-    "PermissionScope"
+    "PermissionScope",
 ]

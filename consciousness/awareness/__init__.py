@@ -16,8 +16,9 @@
 """
 
 # Module imports
+from typing import Any, Dict, Optional
+
 from core.common import get_logger
-from typing import Optional, Dict, Any
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -47,27 +48,32 @@ logger.info("ΛTRACE: Initializing 'core.advanced.brain.awareness' package.")
 
 # Human-readable comment: Import core classes/functions to be available at package level.
 try:
-    from .lukhas_awareness_protocol import LucasAwarenessProtocol
     from .bio_symbolic_awareness_adapter import BioSymbolicAwarenessAdapter
+    from .lukhas_awareness_protocol import LucasAwarenessProtocol
     from .symbolic_trace_logger import SymbolicTraceLogger
+
     logger.info("ΛTRACE: Core awareness components imported.")
 except ImportError as e:
-    logger.error(f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True)
+    logger.error(
+        f"ΛTRACE: Failed to import core awareness components: {e}", exc_info=True
+    )
     # Define placeholders if needed for graceful degradation, though usually not for __init__.py
-    LucasAwarenessProtocol = None # type: ignore
-    BioSymbolicAwarenessAdapter = None # type: ignore
-    SymbolicTraceLogger = None # type: ignore
+    LucasAwarenessProtocol = None  # type: ignore
+    BioSymbolicAwarenessAdapter = None  # type: ignore
+    SymbolicTraceLogger = None  # type: ignore
 
 
 # Human-readable comment: Defines the public API of the 'awareness' package.
 __all__ = [
-    'LucasAwarenessProtocol',
-    'BioSymbolicAwarenessAdapter',
-    'SymbolicTraceLogger'
+    "LucasAwarenessProtocol",
+    "BioSymbolicAwarenessAdapter",
+    "SymbolicTraceLogger",
     # Add other names to be exported by 'from core.advanced.brain.awareness import *'
 ]
 
-logger.info(f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}")
+logger.info(
+    f"ΛTRACE: 'core.advanced.brain.awareness' package initialized. Exposed symbols in __all__: {__all__}"
+)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

@@ -15,21 +15,22 @@ Version: 2.0.0
 Last Updated: July 5, 2025
 """
 
-from dataclasses import dataclass
-from typing import Dict, List, Optional, Union, Tuple, Any
-from enum import Enum
-import re
-import json
 import hashlib
+import json
+import re
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Optional
 
-from ..id_service.lambd_id_validator import LambdaIDValidator
 from ..id_service.entropy_engine import EntropyEngine
+from ..id_service.lambd_id_validator import LambdaIDValidator
 
 
 class CommercialTier(Enum):
     """Commercial tier definitions with enhanced permissions."""
+
     BUSINESS = "business"
     ENTERPRISE = "enterprise"
     CORPORATE = "corporate"
@@ -38,6 +39,7 @@ class CommercialTier(Enum):
 
 class BrandStatus(Enum):
     """Brand prefix registration status."""
+
     PENDING = "pending"
     APPROVED = "approved"
     REJECTED = "rejected"
@@ -48,6 +50,7 @@ class BrandStatus(Enum):
 @dataclass
 class BrandPrefix:
     """Represents a registered brand prefix for commercial ΛiDs."""
+
     brand_code: str
     company_name: str
     contact_email: str
@@ -55,31 +58,31 @@ class BrandPrefix:
     status: BrandStatus
     registration_date: datetime
     expiry_date: datetime
-    verification_documents: Dict[str, str]
-    usage_stats: Dict[str, Any]
-    restrictions: Dict[str, Any]
+    verification_documents: dict[str, str]
+    usage_stats: dict[str, Any]
+    restrictions: dict[str, Any]
 
     def is_valid(self) -> bool:
         """Check if brand prefix is currently valid."""
         return (
-            self.status == BrandStatus.APPROVED and
-            self.expiry_date > datetime.utcnow()
+            self.status == BrandStatus.APPROVED and self.expiry_date > datetime.utcnow()
         )
 
 
 @dataclass
 class CommercialLambdaIDResult:
     """Enhanced result object for commercial ΛiD operations."""
+
     success: bool
     lambda_id: Optional[str] = None
     brand_prefix: Optional[str] = None
     commercial_tier: Optional[CommercialTier] = None
     generation_time: Optional[datetime] = None
     entropy_score: Optional[float] = None
-    validation_result: Optional[Dict[str, Any]] = None
-    billing_info: Optional[Dict[str, Any]] = None
+    validation_result: Optional[dict[str, Any]] = None
+    billing_info: Optional[dict[str, Any]] = None
     error: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class CommercialModule:
@@ -97,24 +100,24 @@ class CommercialModule:
         self.config = self._load_config(config_path)
         self.validator = LambdaIDValidator()
         self.entropy_engine = EntropyEngine()
-        self.registered_brands: Dict[str, BrandPrefix] = {}
-        self.usage_tracking: Dict[str, Dict[str, Any]] = {}
+        self.registered_brands: dict[str, BrandPrefix] = {}
+        self.usage_tracking: dict[str, dict[str, Any]] = {}
 
         # Commercial symbolic characters (exclusive to paid tiers)
         self.commercial_symbols = {
             CommercialTier.BUSINESS: ["⬢", "⬡", "⬟", "◈", "◇", "⬛", "⬜"],
             CommercialTier.ENTERPRISE: ["⟐", "⟡", "⟢", "⟣", "⟤", "⟥", "⟦", "⟧"],
             CommercialTier.CORPORATE: ["⬢", "⬡", "⬟", "◈", "◇", "⟐", "⟡", "⟢"],
-            CommercialTier.WHITE_LABEL: ["★", "☆", "✦", "✧", "✩", "✪", "⭐", "🌟"]
+            CommercialTier.WHITE_LABEL: ["★", "☆", "✦", "✧", "✩", "✪", "⭐", "🌟"],
         }
 
         # Initialize brand registry
         self._load_brand_registry()
 
-    def _load_config(self, config_path: str) -> Dict[str, Any]:
+    def _load_config(self, config_path: str) -> dict[str, Any]:
         """Load commercial module configuration."""
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 return json.load(f)
         except FileNotFoundError:
             # Default configuration
@@ -125,35 +128,34 @@ class CommercialModule:
                         "monthly_cost": 99.99,
                         "max_lambda_ids": 1000,
                         "max_brand_prefixes": 5,
-                        "rate_limit": 5000
+                        "rate_limit": 5000,
                     },
                     "enterprise": {
                         "base_tier": 4,
                         "monthly_cost": 499.99,
                         "max_lambda_ids": 10000,
                         "max_brand_prefixes": 20,
-                        "rate_limit": 20000
-                    }
+                        "rate_limit": 20000,
+                    },
                 },
                 "brand_prefix_validation": {
                     "min_length": 2,
                     "max_length": 8,
                     "allowed_chars": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
                     "reserved_prefixes": ["LUKHAS", "LAMBDA", "ADMIN", "SYSTEM"],
-                    "verification_required": True
+                    "verification_required": True,
                 },
                 "billing": {
                     "currency": "USD",
                     "billing_cycle": "monthly",
-                    "grace_period_days": 7
-                }
+                    "grace_period_days": 7,
+                },
             }
 
     def _load_brand_registry(self):
         """Load registered brand prefixes from storage."""
         # In production, this would load from database
         # For now, initialize with empty registry
-        pass
 
     def register_brand_prefix(
         self,
@@ -161,8 +163,8 @@ class CommercialModule:
         company_name: str,
         contact_email: str,
         commercial_tier: CommercialTier,
-        verification_documents: Dict[str, str]
-    ) -> Dict[str, Any]:
+        verification_documents: dict[str, str],
+    ) -> dict[str, Any]:
         """
         Register a new brand prefix for commercial use.
 
@@ -184,8 +186,8 @@ class CommercialModule:
                 "requirements": {
                     "length": "2-8 characters",
                     "characters": "Alphanumeric only",
-                    "case": "Uppercase recommended"
-                }
+                    "case": "Uppercase recommended",
+                },
             }
 
         # Check if brand code is already registered
@@ -193,7 +195,7 @@ class CommercialModule:
             return {
                 "success": False,
                 "error": "Brand code already registered",
-                "suggestion": "Try a different brand code or contact support"
+                "suggestion": "Try a different brand code or contact support",
             }
 
         # Check reserved prefixes
@@ -201,7 +203,7 @@ class CommercialModule:
             return {
                 "success": False,
                 "error": "Brand code is reserved",
-                "suggestion": "Choose a different brand code"
+                "suggestion": "Choose a different brand code",
             }
 
         # Create brand registration
@@ -220,9 +222,9 @@ class CommercialModule:
             usage_stats={
                 "lambda_ids_generated": 0,
                 "total_validations": 0,
-                "last_used": None
+                "last_used": None,
             },
-            restrictions={}
+            restrictions={},
         )
 
         # Store registration (in production, save to database)
@@ -237,13 +239,13 @@ class CommercialModule:
             "verification_requirements": [
                 "Trademark verification",
                 "Business license validation",
-                "Contact verification"
+                "Contact verification",
             ],
             "next_steps": [
                 "Await verification email",
                 "Complete identity verification",
-                "Setup billing information"
-            ]
+                "Setup billing information",
+            ],
         }
 
     def _validate_brand_code(self, brand_code: str) -> bool:
@@ -256,17 +258,14 @@ class CommercialModule:
 
         # Check allowed characters
         allowed_chars = set(config["allowed_chars"])
-        if not all(char in allowed_chars for char in brand_code.upper()):
-            return False
-
-        return True
+        return all(char in allowed_chars for char in brand_code.upper())
 
     def generate_commercial_lambda_id(
         self,
         brand_code: str,
         tier: int,
-        user_context: Dict[str, Any],
-        options: Optional[Dict[str, Any]] = None
+        user_context: dict[str, Any],
+        options: Optional[dict[str, Any]] = None,
     ) -> CommercialLambdaIDResult:
         """
         Generate a commercial ΛiD with branded prefix.
@@ -283,15 +282,13 @@ class CommercialModule:
         # Validate brand prefix
         if brand_code not in self.registered_brands:
             return CommercialLambdaIDResult(
-                success=False,
-                error="Brand prefix not registered"
+                success=False, error="Brand prefix not registered"
             )
 
         brand_prefix = self.registered_brands[brand_code]
         if not brand_prefix.is_valid():
             return CommercialLambdaIDResult(
-                success=False,
-                error=f"Brand prefix status: {brand_prefix.status.value}"
+                success=False, error=f"Brand prefix status: {brand_prefix.status.value}"
             )
 
         # Determine commercial format
@@ -299,13 +296,21 @@ class CommercialModule:
 
         try:
             if commercial_tier == CommercialTier.BUSINESS:
-                lambda_id = self._generate_business_format(brand_code, tier, user_context, options)
+                lambda_id = self._generate_business_format(
+                    brand_code, tier, user_context, options
+                )
             elif commercial_tier == CommercialTier.ENTERPRISE:
-                lambda_id = self._generate_enterprise_format(brand_code, tier, user_context, options)
+                lambda_id = self._generate_enterprise_format(
+                    brand_code, tier, user_context, options
+                )
             elif commercial_tier == CommercialTier.CORPORATE:
-                lambda_id = self._generate_corporate_format(brand_code, tier, user_context, options)
+                lambda_id = self._generate_corporate_format(
+                    brand_code, tier, user_context, options
+                )
             elif commercial_tier == CommercialTier.WHITE_LABEL:
-                lambda_id = self._generate_white_label_format(brand_code, tier, user_context, options)
+                lambda_id = self._generate_white_label_format(
+                    brand_code, tier, user_context, options
+                )
             else:
                 raise ValueError(f"Unsupported commercial tier: {commercial_tier}")
 
@@ -313,18 +318,14 @@ class CommercialModule:
             validation_result = self.validator.validate_lambda_id(
                 lambda_id,
                 validation_level="enterprise",
-                context={
-                    "commercial": True,
-                    "brand_code": brand_code,
-                    "tier": tier
-                }
+                context={"commercial": True, "brand_code": brand_code, "tier": tier},
             )
 
             if not validation_result.valid:
                 return CommercialLambdaIDResult(
                     success=False,
                     error="Generated ΛiD failed validation",
-                    validation_result=validation_result.__dict__
+                    validation_result=validation_result.__dict__,
                 )
 
             # Calculate entropy
@@ -348,22 +349,21 @@ class CommercialModule:
                 metadata={
                     "format": "commercial",
                     "tier_enhanced": True,
-                    "symbolic_pool": "commercial"
-                }
+                    "symbolic_pool": "commercial",
+                },
             )
 
         except Exception as e:
             return CommercialLambdaIDResult(
-                success=False,
-                error=f"Generation failed: {str(e)}"
+                success=False, error=f"Generation failed: {str(e)}"
             )
 
     def _generate_business_format(
         self,
         brand_code: str,
         tier: int,
-        user_context: Dict[str, Any],
-        options: Optional[Dict[str, Any]]
+        user_context: dict[str, Any],
+        options: Optional[dict[str, Any]],
     ) -> str:
         """
         Generate business tier ΛiD: LUKHAS©{BRAND}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
@@ -391,8 +391,8 @@ class CommercialModule:
         self,
         brand_code: str,
         tier: int,
-        user_context: Dict[str, Any],
-        options: Optional[Dict[str, Any]]
+        user_context: dict[str, Any],
+        options: Optional[dict[str, Any]],
     ) -> str:
         """
         Generate enterprise tier ΛiD: LUKHAS⬟{BRAND}-{DIVISION}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
@@ -414,7 +414,9 @@ class CommercialModule:
             symbolic_char = symbols[hash(timestamp) % len(symbols)]
 
         # Generate entropy component
-        entropy_seed = f"{brand_code}{division}{enhanced_tier}{timestamp_hash}{symbolic_char}"
+        entropy_seed = (
+            f"{brand_code}{division}{enhanced_tier}{timestamp_hash}{symbolic_char}"
+        )
         entropy_hash = hashlib.sha256(entropy_seed.encode()).hexdigest()[:3].upper()
 
         return f"LUKHAS⬟{brand_code}-{division}-{enhanced_tier}-{timestamp_hash}-{symbolic_char}-{entropy_hash}"
@@ -423,8 +425,8 @@ class CommercialModule:
         self,
         brand_code: str,
         tier: int,
-        user_context: Dict[str, Any],
-        options: Optional[Dict[str, Any]]
+        user_context: dict[str, Any],
+        options: Optional[dict[str, Any]],
     ) -> str:
         """
         Generate corporate tier ΛiD with enhanced security features.
@@ -452,8 +454,8 @@ class CommercialModule:
         self,
         brand_code: str,
         tier: int,
-        user_context: Dict[str, Any],
-        options: Optional[Dict[str, Any]]
+        user_context: dict[str, Any],
+        options: Optional[dict[str, Any]],
     ) -> str:
         """
         Generate white-label ΛiD with custom branding.
@@ -494,12 +496,12 @@ class CommercialModule:
             self.usage_tracking[brand_code][today] += 1
 
     def _calculate_billing(
-        self,
-        brand_prefix: BrandPrefix,
-        user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, brand_prefix: BrandPrefix, user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate billing information for commercial ΛiD generation."""
-        tier_config = self.config["commercial_tiers"][brand_prefix.commercial_tier.value]
+        tier_config = self.config["commercial_tiers"][
+            brand_prefix.commercial_tier.value
+        ]
 
         return {
             "commercial_tier": brand_prefix.commercial_tier.value,
@@ -507,14 +509,12 @@ class CommercialModule:
             "usage_count": brand_prefix.usage_stats["lambda_ids_generated"],
             "usage_limit": tier_config["max_lambda_ids"],
             "billing_cycle": self.config["billing"]["billing_cycle"],
-            "currency": self.config["billing"]["currency"]
+            "currency": self.config["billing"]["currency"],
         }
 
     def validate_commercial_lambda_id(
-        self,
-        lambda_id: str,
-        validation_level: str = "enterprise"
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, validation_level: str = "enterprise"
+    ) -> dict[str, Any]:
         """
         Validate a commercial ΛiD with enhanced checks.
 
@@ -531,7 +531,7 @@ class CommercialModule:
             return {
                 "valid": False,
                 "error": "Not a commercial ΛiD format",
-                "format": "standard"
+                "format": "standard",
             }
 
         # Validate brand prefix
@@ -540,7 +540,7 @@ class CommercialModule:
             return {
                 "valid": False,
                 "error": "Unregistered brand prefix",
-                "brand_code": brand_code
+                "brand_code": brand_code,
             }
 
         brand_prefix = self.registered_brands[brand_code]
@@ -548,7 +548,7 @@ class CommercialModule:
             return {
                 "valid": False,
                 "error": f"Brand prefix status: {brand_prefix.status.value}",
-                "brand_code": brand_code
+                "brand_code": brand_code,
             }
 
         # Standard ΛiD validation
@@ -558,12 +558,14 @@ class CommercialModule:
             context={
                 "commercial": True,
                 "brand_code": brand_code,
-                "tier": commercial_info["tier"]
-            }
+                "tier": commercial_info["tier"],
+            },
         )
 
         # Commercial-specific validation
-        commercial_checks = self._validate_commercial_specific(lambda_id, commercial_info, brand_prefix)
+        commercial_checks = self._validate_commercial_specific(
+            lambda_id, commercial_info, brand_prefix
+        )
 
         # Combine results
         result = {
@@ -576,21 +578,26 @@ class CommercialModule:
                 "company_name": brand_prefix.company_name,
                 "commercial_tier": brand_prefix.commercial_tier.value,
                 "valid": brand_prefix.is_valid(),
-                "status": brand_prefix.status.value
+                "status": brand_prefix.status.value,
             },
             "base_validation": base_validation.__dict__,
             "commercial_checks": commercial_checks,
-            "entropy_analysis": self.entropy_engine.analyze_entropy(lambda_id, commercial_info["tier"])
+            "entropy_analysis": self.entropy_engine.analyze_entropy(
+                lambda_id, commercial_info["tier"]
+            ),
         }
 
         return result
 
-    def _parse_commercial_format(self, lambda_id: str) -> Dict[str, Any]:
+    def _parse_commercial_format(self, lambda_id: str) -> dict[str, Any]:
         """Parse commercial ΛiD format and extract components."""
         # Business format: LUKHAS©{BRAND}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
-        business_pattern = r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
+        business_pattern = (
+            r"^LUKHAS©([A-Z0-9]{2,8})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
+        )
 
-        # Enterprise format: LUKHAS⬟{BRAND}-{DIVISION}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
+        # Enterprise format:
+        # LUKHAS⬟{BRAND}-{DIVISION}-{TIER}-{TIMESTAMP}-{SYMBOLIC}-{ENTROPY}
         enterprise_pattern = r"^LUKHAS⬟([A-Z0-9]{2,8})-([A-Z]{2,3})-(\d)-([A-F0-9]{3,4})-(.)-([A-F0-9]{3,4})$"
 
         # Check business format
@@ -603,7 +610,7 @@ class CommercialModule:
                 "tier": int(business_match.group(2)),
                 "timestamp_hash": business_match.group(3),
                 "symbolic_char": business_match.group(4),
-                "entropy_hash": business_match.group(5)
+                "entropy_hash": business_match.group(5),
             }
 
         # Check enterprise format
@@ -617,20 +624,14 @@ class CommercialModule:
                 "tier": int(enterprise_match.group(3)),
                 "timestamp_hash": enterprise_match.group(4),
                 "symbolic_char": enterprise_match.group(5),
-                "entropy_hash": enterprise_match.group(6)
+                "entropy_hash": enterprise_match.group(6),
             }
 
-        return {
-            "is_commercial": False,
-            "format": "unknown"
-        }
+        return {"is_commercial": False, "format": "unknown"}
 
     def _validate_commercial_specific(
-        self,
-        lambda_id: str,
-        commercial_info: Dict[str, Any],
-        brand_prefix: BrandPrefix
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, commercial_info: dict[str, Any], brand_prefix: BrandPrefix
+    ) -> dict[str, Any]:
         """Perform commercial-specific validation checks."""
         checks = {
             "valid": True,
@@ -638,7 +639,7 @@ class CommercialModule:
             "warnings": [],
             "commercial_tier_match": False,
             "symbolic_char_authorized": False,
-            "usage_within_limits": False
+            "usage_within_limits": False,
         }
 
         # Check commercial tier consistency
@@ -646,11 +647,15 @@ class CommercialModule:
         if commercial_info["symbolic_char"] in expected_symbols:
             checks["symbolic_char_authorized"] = True
         else:
-            checks["errors"].append("Symbolic character not authorized for commercial tier")
+            checks["errors"].append(
+                "Symbolic character not authorized for commercial tier"
+            )
             checks["valid"] = False
 
         # Check usage limits
-        tier_config = self.config["commercial_tiers"][brand_prefix.commercial_tier.value]
+        tier_config = self.config["commercial_tiers"][
+            brand_prefix.commercial_tier.value
+        ]
         current_usage = brand_prefix.usage_stats["lambda_ids_generated"]
         if current_usage < tier_config["max_lambda_ids"]:
             checks["usage_within_limits"] = True
@@ -658,9 +663,12 @@ class CommercialModule:
             checks["warnings"].append("Usage approaching tier limits")
 
         # Commercial tier format validation
-        if commercial_info["format"] == "business" and brand_prefix.commercial_tier == CommercialTier.BUSINESS:
-            checks["commercial_tier_match"] = True
-        elif commercial_info["format"] == "enterprise" and brand_prefix.commercial_tier == CommercialTier.ENTERPRISE:
+        if (
+            commercial_info["format"] == "business"
+            and brand_prefix.commercial_tier == CommercialTier.BUSINESS
+            or commercial_info["format"] == "enterprise"
+            and brand_prefix.commercial_tier == CommercialTier.ENTERPRISE
+        ):
             checks["commercial_tier_match"] = True
         else:
             checks["errors"].append("Commercial format doesn't match registered tier")
@@ -668,13 +676,10 @@ class CommercialModule:
 
         return checks
 
-    def get_brand_analytics(self, brand_code: str) -> Dict[str, Any]:
+    def get_brand_analytics(self, brand_code: str) -> dict[str, Any]:
         """Get analytics and usage statistics for a brand prefix."""
         if brand_code not in self.registered_brands:
-            return {
-                "success": False,
-                "error": "Brand prefix not found"
-            }
+            return {"success": False, "error": "Brand prefix not found"}
 
         brand = self.registered_brands[brand_code]
         usage_data = self.usage_tracking.get(brand_code, {})
@@ -689,24 +694,29 @@ class CommercialModule:
             "expiry_date": brand.expiry_date.isoformat(),
             "usage_stats": {
                 "total_generated": brand.usage_stats["lambda_ids_generated"],
-                "last_used": brand.usage_stats["last_used"].isoformat() if brand.usage_stats["last_used"] else None,
-                "daily_usage": usage_data
+                "last_used": (
+                    brand.usage_stats["last_used"].isoformat()
+                    if brand.usage_stats["last_used"]
+                    else None
+                ),
+                "daily_usage": usage_data,
             },
             "tier_limits": self.config["commercial_tiers"][brand.commercial_tier.value],
             "remaining_quota": (
-                self.config["commercial_tiers"][brand.commercial_tier.value]["max_lambda_ids"] -
-                brand.usage_stats["lambda_ids_generated"]
-            )
+                self.config["commercial_tiers"][brand.commercial_tier.value][
+                    "max_lambda_ids"
+                ]
+                - brand.usage_stats["lambda_ids_generated"]
+            ),
         }
 
-    def list_commercial_tiers(self) -> Dict[str, Any]:
+    def list_commercial_tiers(self) -> dict[str, Any]:
         """List available commercial tiers and their features."""
         return {
             "success": True,
             "commercial_tiers": self.config["commercial_tiers"],
             "symbolic_characters": {
-                tier.value: symbols
-                for tier, symbols in self.commercial_symbols.items()
+                tier.value: symbols for tier, symbols in self.commercial_symbols.items()
             },
             "features_comparison": {
                 "business": {
@@ -714,14 +724,14 @@ class CommercialModule:
                     "enhanced_tier": "+1 tier boost",
                     "exclusive_symbols": True,
                     "division_support": False,
-                    "white_labeling": False
+                    "white_labeling": False,
                 },
                 "enterprise": {
                     "branded_prefixes": True,
                     "enhanced_tier": "+2 tier boost",
                     "exclusive_symbols": True,
                     "division_support": True,
-                    "white_labeling": False
+                    "white_labeling": False,
                 },
                 "corporate": {
                     "branded_prefixes": True,
@@ -729,7 +739,7 @@ class CommercialModule:
                     "exclusive_symbols": True,
                     "division_support": True,
                     "white_labeling": False,
-                    "enhanced_security": True
+                    "enhanced_security": True,
                 },
                 "white_label": {
                     "branded_prefixes": True,
@@ -737,7 +747,7 @@ class CommercialModule:
                     "exclusive_symbols": True,
                     "division_support": False,
                     "white_labeling": True,
-                    "custom_prefix": True
-                }
-            }
+                    "custom_prefix": True,
+                },
+            },
         }

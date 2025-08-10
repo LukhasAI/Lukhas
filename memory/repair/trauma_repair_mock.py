@@ -3,18 +3,19 @@ Trauma Repair Mock Implementation
 Lightweight mock implementation without dependencies
 """
 
-from core.common import get_logger
-from typing import Dict, Any, Optional, List
+import random
 from datetime import datetime
 from enum import Enum
-import asyncio
-import random
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
 
 class TraumaType(Enum):
     """Types of memory trauma"""
+
     CORRUPTION = "corruption"
     FRAGMENTATION = "fragmentation"
     INFECTION = "infection"
@@ -26,6 +27,7 @@ class TraumaType(Enum):
 
 class RepairStrategy(Enum):
     """Repair strategies"""
+
     HELICAL = "helical"
     IMMUNE = "immune"
     SCAFFOLD = "scaffold"
@@ -35,9 +37,15 @@ class RepairStrategy(Enum):
 
 class TraumaSignature:
     """Mock trauma signature"""
-    def __init__(self, trauma_id: str, trauma_type: TraumaType,
-                 severity: float, affected_memories: set = None,
-                 detected_at: datetime = None):
+
+    def __init__(
+        self,
+        trauma_id: str,
+        trauma_type: TraumaType,
+        severity: float,
+        affected_memories: set = None,
+        detected_at: datetime = None,
+    ):
         self.trauma_id = trauma_id
         self.trauma_type = trauma_type
         self.severity = severity
@@ -51,7 +59,9 @@ class TraumaSignature:
 class TraumaRepairSystem:
     """Mock trauma repair system"""
 
-    def __init__(self, enable_immune_system: bool = True, self_repair_threshold: float = 0.3):
+    def __init__(
+        self, enable_immune_system: bool = True, self_repair_threshold: float = 0.3
+    ):
         self.enable_immune_system = enable_immune_system
         self.self_repair_threshold = self_repair_threshold
         self.active_traumas = {}
@@ -70,8 +80,12 @@ class TraumaRepairSystem:
         self._running = False
         logger.info("Mock trauma repair stopped")
 
-    async def detect_trauma(self, memory_id: str, memory_content: Any,
-                          context: Optional[Dict[str, Any]] = None) -> Optional[TraumaSignature]:
+    async def detect_trauma(
+        self,
+        memory_id: str,
+        memory_content: Any,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Optional[TraumaSignature]:
         """Mock trauma detection"""
         # Simulate random trauma detection (20% chance)
         if random.random() < 0.2:
@@ -83,11 +97,13 @@ class TraumaRepairSystem:
                 trauma_type=trauma_type,
                 severity=severity,
                 affected_memories={memory_id},
-                detected_at=datetime.now()
+                detected_at=datetime.now(),
             )
 
             self.active_traumas[trauma.trauma_id] = trauma
-            logger.debug(f"Mock trauma detected: {trauma_type.value} with severity {severity:.2f}")
+            logger.debug(
+                f"Mock trauma detected: {trauma_type.value} with severity {severity:.2f}"
+            )
             return trauma
 
         return None
@@ -98,15 +114,17 @@ class TraumaRepairSystem:
         success = random.random() < 0.8
 
         # Log the repair attempt
-        self.healing_log.append({
-            "timestamp": datetime.now().isoformat(),
-            "memory_id": memory_id,
-            "trauma_id": trauma.trauma_id,
-            "trauma_type": trauma.trauma_type.value,
-            "severity": trauma.severity,
-            "repair_type": RepairStrategy.HELICAL.value,
-            "success": success
-        })
+        self.healing_log.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "memory_id": memory_id,
+                "trauma_id": trauma.trauma_id,
+                "trauma_type": trauma.trauma_type.value,
+                "severity": trauma.severity,
+                "repair_type": RepairStrategy.HELICAL.value,
+                "success": success,
+            }
+        )
 
         if success:
             # Remove from active traumas
@@ -117,7 +135,7 @@ class TraumaRepairSystem:
             self.scar_tissue[memory_id] = {
                 "healed_at": datetime.now().isoformat(),
                 "original_trauma": trauma.trauma_type.value,
-                "resilience_bonus": 0.2
+                "resilience_bonus": 0.2,
             }
 
             logger.debug(f"Mock repair successful for {memory_id}")
@@ -138,7 +156,7 @@ class MemoryTraumaRepair:
             "repairs_attempted": 0,
             "repairs_successful": 0,
             "repairs_failed": 0,
-            "active_traumas": 0
+            "active_traumas": 0,
         }
         logger.info("Mock MemoryTraumaRepair initialized")
 
@@ -151,8 +169,12 @@ class MemoryTraumaRepair:
         """Shutdown mock trauma repair"""
         await self.repair_system.stop()
 
-    async def scan_memory(self, memory_id: str, memory_content: Any,
-                         context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def scan_memory(
+        self,
+        memory_id: str,
+        memory_content: Any,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Mock memory scan"""
         self.repair_stats["total_scans"] += 1
 
@@ -162,11 +184,13 @@ class MemoryTraumaRepair:
             "trauma_type": None,
             "severity": 0.0,
             "repair_initiated": False,
-            "repair_status": None
+            "repair_status": None,
         }
 
         # Detect trauma
-        trauma = await self.repair_system.detect_trauma(memory_id, memory_content, context)
+        trauma = await self.repair_system.detect_trauma(
+            memory_id, memory_content, context
+        )
 
         if trauma:
             self.repair_stats["traumas_detected"] += 1
@@ -176,7 +200,9 @@ class MemoryTraumaRepair:
 
             # Auto-repair if above threshold
             if trauma.severity >= self.repair_system.self_repair_threshold:
-                repair_success = await self.repair_system.initiate_repair(memory_id, trauma)
+                repair_success = await self.repair_system.initiate_repair(
+                    memory_id, trauma
+                )
                 result["repair_initiated"] = True
                 result["repair_status"] = "success" if repair_success else "failed"
 
@@ -193,25 +219,29 @@ class MemoryTraumaRepair:
         active_traumas = []
 
         for trauma_id, trauma in self.repair_system.active_traumas.items():
-            active_traumas.append({
-                "trauma_id": trauma_id,
-                "memory_id": trauma.memory_id,
-                "trauma_type": trauma.trauma_type.value,
-                "severity": trauma.severity,
-                "detected_at": trauma.detected_at.isoformat()
-            })
+            active_traumas.append(
+                {
+                    "trauma_id": trauma_id,
+                    "memory_id": trauma.memory_id,
+                    "trauma_type": trauma.trauma_type.value,
+                    "severity": trauma.severity,
+                    "detected_at": trauma.detected_at.isoformat(),
+                }
+            )
 
         self.repair_stats["active_traumas"] = len(active_traumas)
         return active_traumas
 
-    async def force_repair(self, memory_id: str, repair_strategy: Optional[str] = None) -> Dict[str, Any]:
+    async def force_repair(
+        self, memory_id: str, repair_strategy: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Force repair of a memory"""
         trauma = TraumaSignature(
             trauma_id=f"forced_{memory_id}_{datetime.now().timestamp()}",
             trauma_type=TraumaType.CORRUPTION,
             severity=1.0,
             affected_memories={memory_id},
-            detected_at=datetime.now()
+            detected_at=datetime.now(),
         )
 
         repair_success = await self.repair_system.initiate_repair(memory_id, trauma)
@@ -220,7 +250,7 @@ class MemoryTraumaRepair:
             "memory_id": memory_id,
             "repair_initiated": True,
             "repair_status": "success" if repair_success else "failed",
-            "strategy_used": repair_strategy or "auto"
+            "strategy_used": repair_strategy or "auto",
         }
 
     def get_repair_statistics(self) -> Dict[str, Any]:
@@ -228,12 +258,16 @@ class MemoryTraumaRepair:
         stats = self.repair_stats.copy()
 
         if stats["repairs_attempted"] > 0:
-            stats["repair_success_rate"] = stats["repairs_successful"] / stats["repairs_attempted"]
+            stats["repair_success_rate"] = (
+                stats["repairs_successful"] / stats["repairs_attempted"]
+            )
         else:
             stats["repair_success_rate"] = 0.0
 
         if stats["total_scans"] > 0:
-            stats["trauma_detection_rate"] = stats["traumas_detected"] / stats["total_scans"]
+            stats["trauma_detection_rate"] = (
+                stats["traumas_detected"] / stats["total_scans"]
+            )
         else:
             stats["trauma_detection_rate"] = 0.0
 
@@ -255,7 +289,7 @@ class MemoryTraumaRepair:
             "is_healthy": True,
             "has_scar_tissue": False,
             "active_trauma": False,
-            "repair_history": []
+            "repair_history": [],
         }
 
         # Check for active trauma
@@ -273,11 +307,13 @@ class MemoryTraumaRepair:
         # Check healing history
         for entry in self.repair_system.healing_log:
             if entry.get("memory_id") == memory_id:
-                health_status["repair_history"].append({
-                    "timestamp": entry.get("timestamp"),
-                    "repair_type": entry.get("repair_type"),
-                    "success": entry.get("success", False)
-                })
+                health_status["repair_history"].append(
+                    {
+                        "timestamp": entry.get("timestamp"),
+                        "repair_type": entry.get("repair_type"),
+                        "success": entry.get("success", False),
+                    }
+                )
 
         return health_status
 

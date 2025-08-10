@@ -14,6 +14,7 @@ from datetime import datetime
 
 email_log = []
 
+
 def log_email_event(to_email: str, subject: str, purpose: str = "N/A"):
     """
     Record an outbound symbolic email event.
@@ -22,17 +23,19 @@ def log_email_event(to_email: str, subject: str, purpose: str = "N/A"):
         "timestamp": str(datetime.utcnow()),
         "to": to_email,
         "subject": subject,
-        "purpose": purpose
+        "purpose": purpose,
     }
     email_log.append(entry)
     print(f"📬 Email log entry: {entry}")
     return entry
+
 
 def get_all_email_logs():
     """
     Retrieve all symbolic email logs.
     """
     return email_log
+
 
 def get_user_email_logs(email: str):
     """

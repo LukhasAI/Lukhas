@@ -1,5 +1,4 @@
 import unittest
-import pytest
 
 from memory.core_memory import emotional_memory
 from memory.core_memory.emotional_memory import EmotionalMemory
@@ -19,4 +18,3 @@ class TestEmotionalCompatMode(unittest.TestCase):
             em.affect_vector_velocity(depth=1)
         emotional_memory.compat_mode = True
         self.assertIsNone(em.affect_vector_velocity(depth=1))
-

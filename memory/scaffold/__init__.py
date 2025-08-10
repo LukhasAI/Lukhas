@@ -9,13 +9,14 @@ logger = get_logger(__name__)
 
 try:
     from .atomic_memory_scaffold import AtomicMemoryScaffold
+
     logger.debug("Imported AtomicMemoryScaffold from .atomic_memory_scaffold")
 except ImportError as e:
     logger.warning(f"Could not import AtomicMemoryScaffold: {e}")
     AtomicMemoryScaffold = None
 
 __all__ = [
-    'AtomicMemoryScaffold',
+    "AtomicMemoryScaffold",
 ]
 
 # Filter out None values from __all__ if imports failed

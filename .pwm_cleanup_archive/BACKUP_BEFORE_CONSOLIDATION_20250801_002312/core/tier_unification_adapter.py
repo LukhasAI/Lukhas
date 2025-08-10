@@ -19,17 +19,15 @@
 ╚════════════════════════════════════════════════════════════════════════════════
 """
 
-from typing import Dict, Any, Optional, Union, Callable
-from functools import wraps
-from datetime import datetime, timezone
-import structlog
 from abc import ABC, abstractmethod
+from functools import wraps
+from typing import Any, Callable, Dict, Optional, Union
+
+import structlog
 
 from core.identity_integration import (
     TierMappingConfig,
     get_identity_client,
-    require_identity,
-    LAMBDA_TIERS
 )
 
 logger = structlog.get_logger(__name__)
@@ -85,24 +83,28 @@ class OneiricTierAdapter(TierSystemAdapter):
 
     def create_middleware(self, required_tier: int):
         """Create FastAPI middleware for Oneiric endpoints."""
+
         def middleware(func: Callable) -> Callable:
             @wraps(func)
             async def wrapper(*args, **kwargs):
                 # Extract user from Oneiric auth pattern
-                user = kwargs.get('user')
+                user = kwargs.get("user")
                 if not user:
                     raise ValueError("User object required for Oneiric middleware")
 
-                user_id = getattr(user, 'identity_legacy', None) or getattr(user, 'id', None)
+                user_id = getattr(user, "identity_legacy", None) or getattr(
+                    user, "id", None
+                )
                 if not user_id:
                     raise ValueError("User ID not found in user object")
 
                 # Validate tier access
                 if not self.validate_access(user_id, required_tier):
                     from fastapi import HTTPException, status
+
                     raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
-                        detail=f"Insufficient tier level. Required: {required_tier}"
+                        detail=f"Insufficient tier level. Required: {required_tier}",
                     )
 
                 # Log activity
@@ -113,12 +115,14 @@ class OneiricTierAdapter(TierSystemAdapter):
                         metadata={
                             "system": "oneiric",
                             "required_tier": required_tier,
-                            "lambda_tier": self.to_lambda_tier(required_tier)
-                        }
+                            "lambda_tier": self.to_lambda_tier(required_tier),
+                        },
                     )
 
                 return await func(*args, **kwargs)
+
             return wrapper
+
         return middleware
 
 
@@ -130,14 +134,15 @@ class EmotionalTierAdapter(TierSystemAdapter):
         # Import EmotionalTier enum if available
         try:
             from emotion.dreamseed_upgrade import EmotionalTier
+
             self.EmotionalTier = EmotionalTier
         except ImportError:
             self.EmotionalTier = None
             logger.warning("EmotionalTier not available")
 
-    def to_lambda_tier(self, tier: Union[str, 'EmotionalTier']) -> str:
+    def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
-        if self.EmotionalTier and hasattr(tier, 'name'):
+        if self.EmotionalTier and hasattr(tier, "name"):
             # Handle EmotionalTier enum
             tier = tier.name
         return TierMappingConfig.normalize_tier(str(tier))
@@ -147,7 +152,9 @@ class EmotionalTierAdapter(TierSystemAdapter):
         mapping = TierMappingConfig.LAMBDA_TO_EMOTIONAL
         return mapping.get(lambda_tier, "T1")
 
-    def validate_access(self, user_id: str, required_tier: Union[str, 'EmotionalTier']) -> bool:
+    def validate_access(
+        self, user_id: str, required_tier: Union[str, "EmotionalTier"]
+    ) -> bool:
         """Validate user access using central identity system."""
         if not self.client:
             logger.warning("Identity client not available, granting access by default")
@@ -166,13 +173,14 @@ class EmotionalTierAdapter(TierSystemAdapter):
                 "dream_influence": False,
                 "co_dreaming": False,
                 "temporal_range": "recent",
-                "emotional_granularity": "basic"
+                "emotional_granularity": "basic",
             }
 
         # Get user's lambda tier
         user_tier = "LAMBDA_TIER_1"  # Default
         try:
             from identity.core.user_tier_mapping import get_user_tier
+
             user_tier = get_user_tier(user_id)
         except:
             pass
@@ -183,12 +191,12 @@ class EmotionalTierAdapter(TierSystemAdapter):
         # Define access matrix
         access_matrices = {
             "T0": {  # System only
-                "memory_depth": float('inf'),
+                "memory_depth": float("inf"),
                 "symbolic_access": True,
                 "dream_influence": True,
                 "co_dreaming": True,
                 "temporal_range": "unlimited",
-                "emotional_granularity": "quantum"
+                "emotional_granularity": "quantum",
             },
             "T1": {  # Basic
                 "memory_depth": 24,
@@ -196,7 +204,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
                 "dream_influence": False,
                 "co_dreaming": False,
                 "temporal_range": "recent",
-                "emotional_granularity": "basic"
+                "emotional_granularity": "basic",
             },
             "T2": {  # Standard
                 "memory_depth": 168,
@@ -204,7 +212,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
                 "dream_influence": True,
                 "co_dreaming": False,
                 "temporal_range": "week",
-                "emotional_granularity": "standard"
+                "emotional_granularity": "standard",
             },
             "T3": {  # Enhanced
                 "memory_depth": 720,
@@ -212,7 +220,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
                 "dream_influence": True,
                 "co_dreaming": False,
                 "temporal_range": "month",
-                "emotional_granularity": "enhanced"
+                "emotional_granularity": "enhanced",
             },
             "T4": {  # Advanced
                 "memory_depth": 8760,
@@ -220,16 +228,16 @@ class EmotionalTierAdapter(TierSystemAdapter):
                 "dream_influence": True,
                 "co_dreaming": True,
                 "temporal_range": "year",
-                "emotional_granularity": "advanced"
+                "emotional_granularity": "advanced",
             },
             "T5": {  # Full
-                "memory_depth": float('inf'),
+                "memory_depth": float("inf"),
                 "symbolic_access": True,
                 "dream_influence": True,
                 "co_dreaming": True,
                 "temporal_range": "unlimited",
-                "emotional_granularity": "full"
-            }
+                "emotional_granularity": "full",
+            },
         }
 
         return access_matrices.get(emotional_tier, access_matrices["T1"])
@@ -264,7 +272,9 @@ class UnifiedTierAdapter:
         # Otherwise use general normalization
         return TierMappingConfig.normalize_tier(tier)
 
-    def create_unified_decorator(self, required_tier: Any, system: Optional[str] = None):
+    def create_unified_decorator(
+        self, required_tier: Any, system: Optional[str] = None
+    ):
         """
         Create a unified decorator that works with any tier system.
 
@@ -290,23 +300,36 @@ class UnifiedTierAdapter:
                 user_id = None
 
                 # Strategy 1: Direct user_id parameter
-                user_id = kwargs.get('user_id') or kwargs.get('lambda_id')
+                user_id = kwargs.get("user_id") or kwargs.get("lambda_id")
 
                 # Strategy 2: User object (Oneiric style)
-                if not user_id and 'user' in kwargs:
-                    user_obj = kwargs['user']
-                    user_id = getattr(user_obj, 'identity_legacy', None) or getattr(user_obj, 'id', None)
+                if not user_id and "user" in kwargs:
+                    user_obj = kwargs["user"]
+                    user_id = getattr(user_obj, "identity_legacy", None) or getattr(
+                        user_obj, "id", None
+                    )
 
                 # Strategy 3: First positional arg
-                if not user_id and args and isinstance(args[0], str) and args[0].startswith('Λ'):
+                if (
+                    not user_id
+                    and args
+                    and isinstance(args[0], str)
+                    and args[0].startswith("Λ")
+                ):
                     user_id = args[0]
 
                 if not user_id:
-                    raise ValueError("Could not extract user ID from function arguments")
+                    raise ValueError(
+                        "Could not extract user ID from function arguments"
+                    )
 
                 # Use central identity validation
-                if self.client and not self.client.verify_user_access(user_id, normalized_tier):
-                    raise PermissionError(f"Insufficient tier level. Required: {normalized_tier}")
+                if self.client and not self.client.verify_user_access(
+                    user_id, normalized_tier
+                ):
+                    raise PermissionError(
+                        f"Insufficient tier level. Required: {normalized_tier}"
+                    )
 
                 # Log activity
                 if self.client:
@@ -316,12 +339,14 @@ class UnifiedTierAdapter:
                         metadata={
                             "system": system or "unified",
                             "original_tier": str(required_tier),
-                            "normalized_tier": normalized_tier
-                        }
+                            "normalized_tier": normalized_tier,
+                        },
                     )
 
                 return await func(*args, **kwargs)
+
             return wrapper
+
         return decorator
 
 
@@ -344,7 +369,7 @@ def oneiric_tier_required(tier: int):
     return adapter.create_unified_decorator(tier, "oneiric")
 
 
-def emotional_tier_required(tier: Union[str, 'EmotionalTier']):
+def emotional_tier_required(tier: Union[str, "EmotionalTier"]):
     """Decorator for DreamSeed Emotional tier requirements."""
     adapter = get_unified_adapter()
     return adapter.create_unified_decorator(tier, "emotional")
@@ -358,5 +383,5 @@ __all__ = [
     "UnifiedTierAdapter",
     "get_unified_adapter",
     "oneiric_tier_required",
-    "emotional_tier_required"
+    "emotional_tier_required",
 ]

@@ -21,12 +21,13 @@ Integration Date: 2025-05-31T07:55:30.491390
 └────────────────────────────────────────────────────────────────────────────┘
 """
 
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
 
 AFFILIATE_LOG_PATH = Path("LUKHAS_AGENT_PLUGIN/logs/affiliate_log.jsonl")
 AFFILIATE_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 def log_referral_click(user_id, vendor, widget_type, estimated_commission=0.0, tier=2):
     """
@@ -45,10 +46,11 @@ def log_referral_click(user_id, vendor, widget_type, estimated_commission=0.0, t
         "vendor": vendor,
         "widget": widget_type,
         "commission_est": round(estimated_commission, 2),
-        "tier": tier
+        "tier": tier,
     }
     with AFFILIATE_LOG_PATH.open("a") as log:
         log.write(json.dumps(payload) + "\n")
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_affiliate_log.py)

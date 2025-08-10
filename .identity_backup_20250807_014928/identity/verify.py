@@ -8,12 +8,12 @@ Implements stateless verification with Trinity Framework validation.
 Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 """
 
-from fastapi import APIRouter, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
 import logging
-from datetime import datetime, timezone
+from typing import Dict, List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel
 
 from .user_db import user_db
 
@@ -112,7 +112,7 @@ def get_tier_permissions(tier: str) -> Dict[str, bool]:
             "can_admin": True
         }
     }
-    
+
     return permissions.get(tier, permissions["T1"])
 
 @router.post("/verify", response_model=VerifyResponse)
@@ -130,7 +130,7 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token
         user_data = user_db.verify_token(token)
         if not user_data:
@@ -138,16 +138,16 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
                 status_code=401,
                 detail="Invalid or expired token"
             )
-        
+
         # Extract user ID
         user_id = user_data["email"].split('@')[0].replace('.', '_').lower()
-        
+
         # Get tier permissions
         permissions = get_tier_permissions(user_data["tier"])
-        
+
         # Log verification
         logger.debug(f"Token verified for user {user_id} with tier {user_data['tier']}")
-        
+
         return VerifyResponse(
             valid=True,
             user_id=user_id,
@@ -159,7 +159,7 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
             permissions=permissions,
             expires_at=None  # Tokens don't expire in this implementation
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -178,18 +178,18 @@ async def quick_verify(credentials: HTTPAuthorizationCredentials = Depends(secur
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token
         user_data = user_db.verify_token(token)
         if not user_data:
             return {"valid": False}
-        
+
         return {
             "valid": True,
             "tier": user_data["tier"],
             "trinity_active": user_data["metadata"]["trinity_score"] >= 0.7
         }
-        
+
     except Exception as e:
         logger.error(f"Quick verify error: {str(e)}")
         return {"valid": False}
@@ -216,7 +216,7 @@ async def verify_resource_access(
     """
     try:
         token = credentials.credentials
-        
+
         # Verify token
         user_data = user_db.verify_token(token)
         if not user_data:
@@ -224,10 +224,10 @@ async def verify_resource_access(
                 "allowed": False,
                 "reason": "Invalid token"
             }
-        
+
         # Get permissions
         permissions = get_tier_permissions(user_data["tier"])
-        
+
         # Map resource to permission
         resource_map = {
             "consciousness": "can_use_consciousness",
@@ -239,16 +239,16 @@ async def verify_resource_access(
             "api": "can_access_api",
             "content": "can_create_content"
         }
-        
+
         permission_key = resource_map.get(resource.lower())
         if not permission_key:
             return {
                 "allowed": False,
                 "reason": f"Unknown resource: {resource}"
             }
-        
+
         allowed = permissions.get(permission_key, False)
-        
+
         if allowed:
             return {
                 "allowed": True,
@@ -259,7 +259,7 @@ async def verify_resource_access(
                 "allowed": False,
                 "reason": f"Resource '{resource}' requires higher tier than {user_data['tier']}"
             }
-            
+
     except Exception as e:
         logger.error(f"Resource verification error: {str(e)}")
         return {

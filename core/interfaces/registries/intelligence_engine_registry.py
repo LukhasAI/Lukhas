@@ -27,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -78,8 +78,8 @@ class EngineCapability:
     name: str
     version: str
     description: str = ""
-    parameters: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -91,11 +91,11 @@ class EngineInfo:
     name: str
     version: str
     description: str = ""
-    capabilities: List[EngineCapability] = field(default_factory=list)
+    capabilities: list[EngineCapability] = field(default_factory=list)
     endpoint: str = ""
     health_endpoint: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    tags: Set[str] = field(default_factory=set)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    tags: set[str] = field(default_factory=set)
 
     # Runtime information
     status: EngineStatus = EngineStatus.INITIALIZING
@@ -127,10 +127,10 @@ class RegistryConfig:
 class QueryFilter:
     """Filter criteria for engine queries"""
 
-    engine_types: Optional[List[EngineType]] = None
-    capabilities: Optional[List[str]] = None
-    tags: Optional[List[str]] = None
-    status_filter: Optional[List[EngineStatus]] = None
+    engine_types: Optional[list[EngineType]] = None
+    capabilities: Optional[list[str]] = None
+    tags: Optional[list[str]] = None
+    status_filter: Optional[list[EngineStatus]] = None
     min_health_score: float = 0.0
     exclude_overloaded: bool = True
 
@@ -139,9 +139,8 @@ class HealthChecker(ABC):
     """Abstract base class for engine health checkers"""
 
     @abstractmethod
-    async def check_health(self, engine_info: EngineInfo) -> Dict[str, Any]:
+    async def check_health(self, engine_info: EngineInfo) -> dict[str, Any]:
         """Check the health of an engine"""
-        pass
 
 
 class IntelligenceEngineRegistry:
@@ -149,10 +148,10 @@ class IntelligenceEngineRegistry:
 
     def __init__(self, config: Optional[RegistryConfig] = None):
         self.config = config or RegistryConfig()
-        self.engines: Dict[str, EngineInfo] = {}
-        self.engine_types_index: Dict[EngineType, Set[str]] = {}
-        self.capabilities_index: Dict[str, Set[str]] = {}
-        self.tags_index: Dict[str, Set[str]] = {}
+        self.engines: dict[str, EngineInfo] = {}
+        self.engine_types_index: dict[EngineType, set[str]] = {}
+        self.capabilities_index: dict[str, set[str]] = {}
+        self.tags_index: dict[str, set[str]] = {}
 
         # Health monitoring
         self.health_checker: Optional[HealthChecker] = None
@@ -161,10 +160,10 @@ class IntelligenceEngineRegistry:
         self.executor = ThreadPoolExecutor(max_workers=4)
 
         # Event handling
-        self.event_handlers: Dict[RegistryEvent, List[Callable]] = {}
+        self.event_handlers: dict[RegistryEvent, list[Callable]] = {}
 
         # Security
-        self.access_tokens: Dict[str, str] = {}
+        self.access_tokens: dict[str, str] = {}
 
         self.logger = logger.getChild("IntelligenceEngineRegistry")
         self.logger.info("Intelligence Engine Registry initialized")
@@ -274,7 +273,7 @@ class IntelligenceEngineRegistry:
 
     def query_engines(
         self, filter_criteria: Optional[QueryFilter] = None
-    ) -> List[EngineInfo]:
+    ) -> list[EngineInfo]:
         """Query engines based on filter criteria"""
         if filter_criteria is None:
             filter_criteria = QueryFilter()
@@ -300,7 +299,7 @@ class IntelligenceEngineRegistry:
         self,
         engine_id: str,
         status: EngineStatus,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ) -> bool:
         """Update the status of an engine"""
         if engine_id not in self.engines:
@@ -321,7 +320,11 @@ class IntelligenceEngineRegistry:
         # Fire event
         self._fire_event(
             RegistryEvent.ENGINE_STATUS_CHANGED,
-            {"engine_id": engine_id, "old_status": old_status, "new_status": status},
+            {
+                "engine_id": engine_id,
+                "old_status": old_status,
+                "new_status": status,
+            },
         )
 
         return True
@@ -334,7 +337,7 @@ class IntelligenceEngineRegistry:
         self.engines[engine_id].last_heartbeat = datetime.utcnow()
         return True
 
-    def update_engine_metrics(self, engine_id: str, metrics: Dict[str, Any]) -> bool:
+    def update_engine_metrics(self, engine_id: str, metrics: dict[str, Any]) -> bool:
         """Update engine performance metrics"""
         if engine_id not in self.engines:
             return False
@@ -353,12 +356,12 @@ class IntelligenceEngineRegistry:
 
         return True
 
-    def get_engines_by_capability(self, capability: str) -> List[EngineInfo]:
+    def get_engines_by_capability(self, capability: str) -> list[EngineInfo]:
         """Get engines that support a specific capability"""
         engine_ids = self.capabilities_index.get(capability, set())
         return [self.engines[eid] for eid in engine_ids if eid in self.engines]
 
-    def get_engines_by_type(self, engine_type: EngineType) -> List[EngineInfo]:
+    def get_engines_by_type(self, engine_type: EngineType) -> list[EngineInfo]:
         """Get engines of a specific type"""
         engine_ids = self.engine_types_index.get(engine_type, set())
         return [self.engines[eid] for eid in engine_ids if eid in self.engines]
@@ -392,7 +395,7 @@ class IntelligenceEngineRegistry:
             self.monitor_thread.join(timeout=5)
         self.logger.info("Engine monitoring stopped")
 
-    def get_registry_metrics(self) -> Dict[str, Any]:
+    def get_registry_metrics(self) -> dict[str, Any]:
         """Get registry performance metrics"""
         now = datetime.utcnow()
         healthy_engines = sum(
@@ -534,10 +537,7 @@ class IntelligenceEngineRegistry:
             return False
 
         # Load filter
-        if filter_criteria.exclude_overloaded and engine_info.load_score > 0.9:
-            return False
-
-        return True
+        return not (filter_criteria.exclude_overloaded and engine_info.load_score > 0.9)
 
     def _validate_access(self, access_token: Optional[str]) -> bool:
         """Validate access token"""
@@ -562,7 +562,7 @@ class IntelligenceEngineRegistry:
         # Simplified token generation - use proper cryptographic methods in production
         return f"token_{engine_id}_{uuid.uuid4().hex[:16]}"
 
-    def _fire_event(self, event: RegistryEvent, event_data: Dict[str, Any]):
+    def _fire_event(self, event: RegistryEvent, event_data: dict[str, Any]):
         """Fire an event to all registered handlers"""
         handlers = self.event_handlers.get(event, [])
         for handler in handlers:
@@ -605,8 +605,11 @@ class IntelligenceEngineRegistry:
             return
 
         # Submit health checks to executor
-        for engine_id, engine_info in self.engines.items():
-            if engine_info.status in [EngineStatus.HEALTHY, EngineStatus.DEGRADED]:
+        for _engine_id, engine_info in self.engines.items():
+            if engine_info.status in [
+                EngineStatus.HEALTHY,
+                EngineStatus.DEGRADED,
+            ]:
                 self.executor.submit(self._check_engine_health, engine_info)
 
     def _check_engine_health(self, engine_info: EngineInfo):
@@ -653,6 +656,8 @@ def get_global_registry(
 
 
 # Factory functions
+
+
 def create_engine_info(
     engine_id: str, engine_type: EngineType, name: str, version: str, **kwargs
 ) -> EngineInfo:

@@ -32,12 +32,17 @@ Currently, this file is a placeholder and requires definitions for these constan
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
-from typing import Dict, List, Union, Any # ΛMODIFICATION: Added typing for future constant definitions
+from typing import (  # ΛMODIFICATION: Added typing for future constant definitions
+    Dict,
+    List,
+)
+
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
 
 # ΛCONSTANTS_START
@@ -51,24 +56,31 @@ SYMBOLIC_TIERS: Dict[int, str] = {
     2: "Participant",
     3: "Contributor",
     4: "CoCreator",
-    5: "Architect"
+    5: "Architect",
 }
 
 DEFAULT_COOLDOWN_SECONDS: Dict[str, int] = {
     "api_call": 5,
     "user_prompt": 10,
-    "dream_cycle": 3600 * 6 # 6 hours
+    "dream_cycle": 3600 * 6,  # 6 hours
 }
 
 SEED_TAG_VOCAB: List[str] = [
-    "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta"
+    "alpha",
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon",
+    "zeta",
+    "eta",
+    "theta",
 ]
 
 # ΛSYMBOLIC_ECHO: These thresholds define operational boundaries or triggers.
 SYMBOLIC_THRESHOLDS: Dict[str, float] = {
     "emotion_intensity_high": 0.85,
     "task_relevance_low": 0.3,
-    "trust_level_delegate": 0.9, # Example for a delegation trust score
+    "trust_level_delegate": 0.9,  # Example for a delegation trust score
 }
 
 # ΛCONSTANTS_END
@@ -80,11 +92,13 @@ SYMBOLIC_THRESHOLDS: Dict[str, float] = {
 # ΛCLASSES_END
 
 # ΛMAIN_LOGIC_START
-log.info("as_agent.utils.constants module loaded",
-         defined_tiers=list(SYMBOLIC_TIERS.keys()) if SYMBOLIC_TIERS else "None",
-         default_cooldowns_exist=bool(DEFAULT_COOLDOWN_SECONDS),
-         seed_vocab_size=len(SEED_TAG_VOCAB) if SEED_TAG_VOCAB else 0,
-         symbolic_thresholds_defined=bool(SYMBOLIC_THRESHOLDS))
+log.info(
+    "as_agent.utils.constants module loaded",
+    defined_tiers=list(SYMBOLIC_TIERS.keys()) if SYMBOLIC_TIERS else "None",
+    default_cooldowns_exist=bool(DEFAULT_COOLDOWN_SECONDS),
+    seed_vocab_size=len(SEED_TAG_VOCAB) if SEED_TAG_VOCAB else 0,
+    symbolic_thresholds_defined=bool(SYMBOLIC_THRESHOLDS),
+)
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

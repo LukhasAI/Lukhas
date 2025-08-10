@@ -1,7 +1,7 @@
 """Resource Efficiency Analysis utilities."""
 
 import logging
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 try:
     import psutil
@@ -9,6 +9,7 @@ except ImportError:  # pragma: no cover - psutil may not be installed in some en
     psutil = None
 
 logger = logging.getLogger(__name__)
+
 
 class ResourceEfficiencyAnalyzer:
     """Analyze system resource usage for energy and memory optimization."""
@@ -25,6 +26,7 @@ class ResourceEfficiencyAnalyzer:
             "cpu_percent": cpu_percent,
             "memory_percent": memory_percent,
         }
+
 
 def get_resource_efficiency_table() -> List[Dict[str, str]]:
     """Return table summarizing resource efficiency across architectures."""

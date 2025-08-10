@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 import argparse
 from pathlib import Path
 from typing import Dict
@@ -10,7 +9,6 @@ from typing import Dict
 import matplotlib.pyplot as plt
 import numpy as np
 import yaml
-
 
 # ΛTAG: diagnostics, entropy_radar
 
@@ -31,7 +29,9 @@ def load_brief_metrics(base_dir: str = "lukhas") -> Dict[str, Dict[str, float]]:
     return metrics
 
 
-def render_entropy_radar(module: str, values: Dict[str, float], output_dir: Path) -> Path:
+def render_entropy_radar(
+    module: str, values: Dict[str, float], output_dir: Path
+) -> Path:
     """Render a radar chart for the provided module metrics."""
     labels = list(values.keys())
     if not labels:

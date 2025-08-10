@@ -24,6 +24,7 @@ import weakref
 from collections import deque
 from enum import IntEnum
 from typing import Any, Callable, Dict, Optional, Set, Tuple
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
@@ -31,6 +32,7 @@ logger = get_logger(__name__)
 
 class ActorPriority(IntEnum):
     """Actor scheduling priorities"""
+
     CRITICAL = 0
     HIGH = 1
     NORMAL = 2
@@ -43,7 +45,8 @@ class LightweightActor:
     Ultra-lightweight actor implementation using slots for memory efficiency.
     Each actor consumes approximately 200-500 bytes depending on state.
     """
-    __slots__ = ['actor_id', 'behavior', 'mailbox', 'state', 'priority', '_weak_refs']
+
+    __slots__ = ["actor_id", "behavior", "mailbox", "state", "priority", "_weak_refs"]
 
     def __init__(
         self,
@@ -52,7 +55,7 @@ class LightweightActor:
         mailbox: Optional[deque] = None,
         state: Optional[Dict[str, Any]] = None,
         priority: ActorPriority = ActorPriority.NORMAL,
-        _weak_refs: Optional[Set[weakref.ref]] = None
+        _weak_refs: Optional[Set[weakref.ref]] = None,
     ):
         self.actor_id = actor_id
         self.behavior = behavior
@@ -91,7 +94,7 @@ class MemoryEfficientScheduler:
         self,
         actor_id: str,
         behavior: Callable,
-        priority: ActorPriority = ActorPriority.NORMAL
+        priority: ActorPriority = ActorPriority.NORMAL,
     ) -> LightweightActor:
         """
         Spawn a new lightweight actor with minimal memory overhead.
@@ -100,9 +103,7 @@ class MemoryEfficientScheduler:
             raise MemoryError(f"Maximum actor limit reached: {self.max_actors}")
 
         actor = LightweightActor(
-            actor_id=actor_id,
-            behavior=behavior,
-            priority=priority
+            actor_id=actor_id, behavior=behavior, priority=priority
         )
 
         self.actors[actor_id] = actor
@@ -222,8 +223,10 @@ class MemoryEfficientScheduler:
         if self.total_memory_bytes > 1_000_000_000:  # 1GB threshold
             gc.collect()
 
-        logger.debug(f"Memory optimization: removed {len(dead_actors)} actors, "
-                    f"total memory: {self.total_memory_bytes / 1_000_000:.2f}MB")
+        logger.debug(
+            f"Memory optimization: removed {len(dead_actors)} actors, "
+            f"total memory: {self.total_memory_bytes / 1_000_000:.2f}MB"
+        )
 
     def get_stats(self) -> Dict[str, Any]:
         """Get scheduler statistics"""
@@ -232,11 +235,12 @@ class MemoryEfficientScheduler:
             "total_memory_mb": self.total_memory_bytes / 1_000_000,
             "avg_memory_per_actor": (
                 self.total_memory_bytes / self.active_count
-                if self.active_count > 0 else 0
+                if self.active_count > 0
+                else 0
             ),
             "queued_messages": sum(
                 len(queue) for queue in self.priority_queues.values()
-            )
+            ),
         }
 
 
@@ -261,7 +265,7 @@ class ActorPool:
             actor = LightweightActor(
                 actor_id=f"pool_{i}",
                 behavior=lambda a, m: None,
-                priority=ActorPriority.IDLE
+                priority=ActorPriority.IDLE,
             )
             self.available_actors.append(actor)
 
@@ -273,7 +277,7 @@ class ActorPool:
         self,
         actor_id: str,
         behavior: Callable,
-        priority: ActorPriority = ActorPriority.NORMAL
+        priority: ActorPriority = ActorPriority.NORMAL,
     ) -> LightweightActor:
         """
         Acquire an actor from the pool with O(1) complexity.
@@ -348,7 +352,9 @@ async def aggregator_behavior(actor: LightweightActor, message: Dict[str, Any]):
 
 
 # Convenience functions
-async def create_lightweight_actor_system(max_actors: int = 1_000_000) -> Tuple[MemoryEfficientScheduler, ActorPool]:
+async def create_lightweight_actor_system(
+    max_actors: int = 1_000_000,
+) -> Tuple[MemoryEfficientScheduler, ActorPool]:
     """Create a complete lightweight actor system."""
     scheduler = MemoryEfficientScheduler(max_actors=max_actors)
     pool = ActorPool(pool_size=min(10000, max_actors // 100))
@@ -376,11 +382,15 @@ async def demo_ai_agent():
     agent = await pool.acquire_actor("ai-agent-1", ai_agent_behavior)
 
     # Teach the agent a fact
-    await scheduler.send_message(agent.actor_id, {"type": "learn", "fact": "The sky is blue."})
+    await scheduler.send_message(
+        agent.actor_id, {"type": "learn", "fact": "The sky is blue."}
+    )
     await asyncio.sleep(0.01)
 
     # Ask the agent a question
-    await scheduler.send_message(agent.actor_id, {"type": "ask", "question": "The sky is blue."})
+    await scheduler.send_message(
+        agent.actor_id, {"type": "ask", "question": "The sky is blue."}
+    )
     await asyncio.sleep(0.01)
 
     # This demo doesn't print the answer, but it shows the interaction.

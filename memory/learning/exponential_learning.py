@@ -66,10 +66,8 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import structlog
-
 # ΛTRACE: Initialize logger for learning phase
-from core.common import get_logger
+
 
 # # ExponentialLearningSystem class
 # ΛEXPOSE: This class defines a system for exponential learning, likely a key component.
@@ -85,10 +83,15 @@ class ExponentialLearningSystem:
         # ΛSEED: `initial_knowledge_base` acts as a seed for the learning process.
         self.knowledge_base = initial_knowledge_base or {}
         self.learning_rate = 0.01
-        self.growth_factor = 1.05 # ΛNOTE: Factor determining how quickly learning effectiveness increases.
+        self.growth_factor = 1.05  # ΛNOTE: Factor determining how quickly learning effectiveness increases.
         self.adaptation_cycles = 0
         # ΛTRACE: ExponentialLearningSystem initialized
-        logger.info("exponential_learning_system_initialized", initial_kb_size=len(self.knowledge_base) if self.knowledge_base else 0, learning_rate=self.learning_rate, growth_factor=self.growth_factor)
+        logger.info(
+            "exponential_learning_system_initialized",
+            initial_kb_size=len(self.knowledge_base) if self.knowledge_base else 0,
+            learning_rate=self.learning_rate,
+            growth_factor=self.growth_factor,
+        )
 
     # # Incorporate new experience into the knowledge base
     # ΛEXPOSE: Main method to feed new experiences into the system.
@@ -99,16 +102,26 @@ class ExponentialLearningSystem:
         """
         # ΛDREAM_LOOP: Each experience incorporated contributes to the growth and adaptation of the system, forming a feedback loop.
         # ΛTRACE: Incorporating experience
-        logger.info("incorporate_experience_start", adaptation_cycles=self.adaptation_cycles, experience_data_type=type(experience_data).__name__)
+        logger.info(
+            "incorporate_experience_start",
+            adaptation_cycles=self.adaptation_cycles,
+            experience_data_type=type(experience_data).__name__,
+        )
 
         patterns = self._extract_patterns(experience_data)
         # ΛTRACE: Patterns extracted from experience
-        logger.debug("patterns_extracted", num_patterns=len(patterns) if patterns else 0)
+        logger.debug(
+            "patterns_extracted", num_patterns=len(patterns) if patterns else 0
+        )
 
-        weight = self.learning_rate * (self.growth_factor ** self.adaptation_cycles)
+        weight = self.learning_rate * (self.growth_factor**self.adaptation_cycles)
         self._update_knowledge(patterns, weight)
         # ΛTRACE: Knowledge base updated
-        logger.debug("knowledge_base_updated", weight=weight, current_kb_size=len(self.knowledge_base))
+        logger.debug(
+            "knowledge_base_updated",
+            weight=weight,
+            current_kb_size=len(self.knowledge_base),
+        )
 
         self.adaptation_cycles += 1
 
@@ -117,10 +130,15 @@ class ExponentialLearningSystem:
             # ΛDREAM_LOOP: Consolidation can be seen as a meta-learning step, refining the learned knowledge.
             self._consolidate_knowledge()
             # ΛTRACE: Knowledge consolidation triggered
-            logger.info("knowledge_consolidation_triggered", adaptation_cycles=self.adaptation_cycles)
+            logger.info(
+                "knowledge_consolidation_triggered",
+                adaptation_cycles=self.adaptation_cycles,
+            )
 
         # ΛTRACE: Experience incorporation complete
-        logger.info("incorporate_experience_end", adaptation_cycles=self.adaptation_cycles)
+        logger.info(
+            "incorporate_experience_end", adaptation_cycles=self.adaptation_cycles
+        )
 
     # # Extract patterns from experience data (placeholder)
     def _extract_patterns(self, experience_data):
@@ -128,11 +146,20 @@ class ExponentialLearningSystem:
         # ΛNOTE: Placeholder for advanced pattern recognition logic.
         # ΛCAUTION: Current implementation is a placeholder (pass). Real implementation needed.
         # ΛTRACE: Extracting patterns (placeholder)
-        logger.debug("extract_patterns_placeholder_called", experience_data_type=type(experience_data).__name__)
+        logger.debug(
+            "extract_patterns_placeholder_called",
+            experience_data_type=type(experience_data).__name__,
+        )
         # Implementation would use advanced pattern recognition
         # For now, returning a dummy pattern structure
         if isinstance(experience_data, dict) and "content" in experience_data:
-            return [{"pattern_id": hash(experience_data["content"]), "strength": 0.5, "source": "dummy_extractor"}]
+            return [
+                {
+                    "pattern_id": hash(experience_data["content"]),
+                    "strength": 0.5,
+                    "source": "dummy_extractor",
+                }
+            ]
         return []
 
     # # Update knowledge base (placeholder)
@@ -141,16 +168,25 @@ class ExponentialLearningSystem:
         # ΛNOTE: Placeholder for how patterns update the knowledge base.
         # ΛCAUTION: Current implementation is a placeholder. Real KB update logic needed.
         # ΛTRACE: Updating knowledge base (placeholder)
-        logger.debug("update_knowledge_placeholder_called", num_patterns=len(patterns) if patterns else 0, weight=weight)
+        logger.debug(
+            "update_knowledge_placeholder_called",
+            num_patterns=len(patterns) if patterns else 0,
+            weight=weight,
+        )
         if patterns:
             for pattern in patterns:
                 pid = pattern.get("pattern_id", hash(str(pattern)))
                 if pid not in self.knowledge_base:
-                    self.knowledge_base[pid] = {"data": pattern, "total_weight": 0, "updates":0}
-                self.knowledge_base[pid]["total_weight"] += weight * pattern.get("strength", 1.0)
-                self.knowledge_base[pid]["updates"] +=1
+                    self.knowledge_base[pid] = {
+                        "data": pattern,
+                        "total_weight": 0,
+                        "updates": 0,
+                    }
+                self.knowledge_base[pid]["total_weight"] += weight * pattern.get(
+                    "strength", 1.0
+                )
+                self.knowledge_base[pid]["updates"] += 1
                 self.knowledge_base[pid]["last_updated_cycle"] = self.adaptation_cycles
-
 
     # # Consolidate knowledge (placeholder)
     def _consolidate_knowledge(self):
@@ -158,14 +194,27 @@ class ExponentialLearningSystem:
         # ΛNOTE: Placeholder for knowledge consolidation logic.
         # ΛCAUTION: Current implementation is a placeholder. Real consolidation logic needed.
         # ΛTRACE: Consolidating knowledge (placeholder)
-        logger.info("consolidate_knowledge_placeholder_called", current_kb_size=len(self.knowledge_base))
+        logger.info(
+            "consolidate_knowledge_placeholder_called",
+            current_kb_size=len(self.knowledge_base),
+        )
         # Example: remove very weak patterns or merge similar ones
         # This is a simplified placeholder
-        keys_to_remove = [k for k, v in self.knowledge_base.items() if v.get("total_weight", 0) < 0.001 * (self.growth_factor ** self.adaptation_cycles)]
+        keys_to_remove = [
+            k
+            for k, v in self.knowledge_base.items()
+            if v.get("total_weight", 0)
+            < 0.001 * (self.growth_factor**self.adaptation_cycles)
+        ]
         for k in keys_to_remove:
             del self.knowledge_base[k]
         # ΛTRACE: Knowledge consolidation finished (placeholder action)
-        logger.info("consolidate_knowledge_finished", removed_keys=len(keys_to_remove), new_kb_size=len(self.knowledge_base))
+        logger.info(
+            "consolidate_knowledge_finished",
+            removed_keys=len(keys_to_remove),
+            new_kb_size=len(self.knowledge_base),
+        )
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

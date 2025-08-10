@@ -24,20 +24,19 @@ Updated: 2025-07-05 (Enhanced with collision prevention)
 """
 
 import re
-import json
-import hashlib
-import unicodedata
-from typing import Dict, List, Optional, Tuple, Any, Set
-from enum import Enum
-from pathlib import Path
 from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
+
 
 class ValidationLevel(Enum):
     """ΛiD validation levels"""
-    BASIC = "basic"           # Format only
-    STANDARD = "standard"     # Format + tier
-    FULL = "full"            # Format + tier + collision + entropy
-    ENTERPRISE = "enterprise" # All validations + commercial checks
+
+    BASIC = "basic"  # Format only
+    STANDARD = "standard"  # Format + tier
+    FULL = "full"  # Format + tier + collision + entropy
+    ENTERPRISE = "enterprise"  # All validations + commercial checks
+
 
 class ValidationResult:
     """Detailed validation result with comprehensive feedback"""
@@ -59,27 +58,28 @@ class ValidationResult:
         self.recommendations = []
         self.metadata = {}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary for API responses"""
         return {
-            'valid': self.valid,
-            'lambda_id': self.lambda_id,
-            'tier': self.tier,
-            'validation_level': self.validation_level,
-            'checks': {
-                'format_valid': self.format_valid,
-                'tier_compliant': self.tier_compliant,
-                'collision_free': self.collision_free,
-                'entropy_valid': self.entropy_valid,
-                'commercial_valid': self.commercial_valid,
-                'geo_code_valid': self.geo_code_valid,
-                'emoji_combo_valid': self.emoji_combo_valid
+            "valid": self.valid,
+            "lambda_id": self.lambda_id,
+            "tier": self.tier,
+            "validation_level": self.validation_level,
+            "checks": {
+                "format_valid": self.format_valid,
+                "tier_compliant": self.tier_compliant,
+                "collision_free": self.collision_free,
+                "entropy_valid": self.entropy_valid,
+                "commercial_valid": self.commercial_valid,
+                "geo_code_valid": self.geo_code_valid,
+                "emoji_combo_valid": self.emoji_combo_valid,
             },
-            'errors': self.errors,
-            'warnings': self.warnings,
-            'recommendations': self.recommendations,
-            'metadata': self.metadata
+            "errors": self.errors,
+            "warnings": self.warnings,
+            "recommendations": self.recommendations,
+            "metadata": self.metadata,
         }
+
 
 class LambdaIDValidator:
     """
@@ -102,24 +102,26 @@ class LambdaIDValidator:
 
         # Legacy pattern for backward compatibility
         self.lambda_id_pattern = re.compile(
-            r'^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'
+            r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"
         )
 
     def _get_default_config_path(self) -> str:
         """Get the default configuration file path"""
         import os
-        default_path = os.path.join(os.path.dirname(__file__), 'lambd_id_config.json')
+
+        default_path = os.path.join(os.path.dirname(__file__), "lambd_id_config.json")
         if not os.path.exists(default_path):
             # Create basic config if it doesn't exist
             basic_config = {
                 "validation_rules": {},
                 "geo_codes": [],
                 "reserved_ids": [],
-                "emoji_combinations": {}
+                "emoji_combinations": {},
             }
             os.makedirs(os.path.dirname(default_path), exist_ok=True)
-            with open(default_path, 'w') as f:
+            with open(default_path, "w") as f:
                 import json
+
                 json.dump(basic_config, f, indent=2)
         return default_path
 
@@ -127,7 +129,7 @@ class LambdaIDValidator:
         self,
         lambda_id: str,
         validation_level: ValidationLevel = ValidationLevel.STANDARD,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> ValidationResult:
         """
         Comprehensive ΛiD validation with specified level of checking.
@@ -154,7 +156,11 @@ class LambdaIDValidator:
             # Extract tier for subsequent validations
             result.tier = self._extract_tier(lambda_id)
 
-            if validation_level in [ValidationLevel.STANDARD, ValidationLevel.FULL, ValidationLevel.ENTERPRISE]:
+            if validation_level in [
+                ValidationLevel.STANDARD,
+                ValidationLevel.FULL,
+                ValidationLevel.ENTERPRISE,
+            ]:
                 # Tier compliance validation
                 self._validate_tier_compliance(lambda_id, result)
 
@@ -187,7 +193,7 @@ class LambdaIDValidator:
             result.errors.append(f"Validation error: {str(e)}")
             return result
 
-    def validate_lambda_id(self, lambda_id: str) -> Tuple[ValidationResult, Dict]:
+    def validate_lambda_id(self, lambda_id: str) -> tuple[ValidationResult, dict]:
         """
         Comprehensive validation of a ΛiD.
 
@@ -202,7 +208,7 @@ class LambdaIDValidator:
             "timestamp": datetime.now().isoformat(),
             "checks_performed": [],
             "errors": [],
-            "warnings": []
+            "warnings": [],
         }
 
         # 1. Format validation
@@ -210,7 +216,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("format_validation")
 
         if format_result != ValidationResult.VALID:
-            validation_details["errors"].append(f"Format validation failed: {format_result.value}")
+            validation_details["errors"].append(
+                f"Format validation failed: {format_result.value}"
+            )
             return format_result, validation_details
 
         # Parse components
@@ -222,7 +230,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("tier_validation")
 
         if tier_result != ValidationResult.VALID:
-            validation_details["errors"].append(f"Tier validation failed: {tier_result.value}")
+            validation_details["errors"].append(
+                f"Tier validation failed: {tier_result.value}"
+            )
             return tier_result, validation_details
 
         # 3. Symbolic character validation
@@ -230,7 +240,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("symbolic_validation")
 
         if symbolic_result != ValidationResult.VALID:
-            validation_details["errors"].append(f"Symbolic validation failed: {symbolic_result.value}")
+            validation_details["errors"].append(
+                f"Symbolic validation failed: {symbolic_result.value}"
+            )
             return symbolic_result, validation_details
 
         # 4. Collision detection
@@ -238,7 +250,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("collision_detection")
 
         if collision_result != ValidationResult.VALID:
-            validation_details["errors"].append(f"Collision detected: {collision_result.value}")
+            validation_details["errors"].append(
+                f"Collision detected: {collision_result.value}"
+            )
             return collision_result, validation_details
 
         # 5. Reserved ID check
@@ -246,7 +260,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("reserved_check")
 
         if reserved_result != ValidationResult.VALID:
-            validation_details["errors"].append(f"Reserved ID conflict: {reserved_result.value}")
+            validation_details["errors"].append(
+                f"Reserved ID conflict: {reserved_result.value}"
+            )
             return reserved_result, validation_details
 
         # 6. Entropy validation
@@ -254,7 +270,9 @@ class LambdaIDValidator:
         validation_details["checks_performed"].append("entropy_validation")
 
         if entropy_result != ValidationResult.VALID:
-            validation_details["warnings"].append(f"Entropy warning: {entropy_result.value}")
+            validation_details["warnings"].append(
+                f"Entropy warning: {entropy_result.value}"
+            )
             # Don't fail validation for entropy warnings
 
         # 7. Checksum validation (if enabled)
@@ -263,7 +281,9 @@ class LambdaIDValidator:
             validation_details["checks_performed"].append("checksum_validation")
 
             if checksum_result != ValidationResult.VALID:
-                validation_details["errors"].append(f"Checksum failed: {checksum_result.value}")
+                validation_details["errors"].append(
+                    f"Checksum failed: {checksum_result.value}"
+                )
                 return checksum_result, validation_details
 
         # All validations passed
@@ -280,7 +300,7 @@ class LambdaIDValidator:
 
         return ValidationResult.VALID
 
-    def _parse_lambda_id(self, lambda_id: str) -> Tuple[int, str, str, str]:
+    def _parse_lambda_id(self, lambda_id: str) -> tuple[int, str, str, str]:
         """Parse ΛiD components"""
         match = self.lambda_id_pattern.match(lambda_id)
         if not match:
@@ -303,7 +323,9 @@ class LambdaIDValidator:
 
         return ValidationResult.VALID
 
-    def _validate_symbolic_character(self, tier: int, symbolic_char: str) -> ValidationResult:
+    def _validate_symbolic_character(
+        self, tier: int, symbolic_char: str
+    ) -> ValidationResult:
         """Validate symbolic character against tier permissions"""
         tier_allowed_symbols = self.tier_symbols.get(f"tier_{tier}", [])
 
@@ -354,6 +376,7 @@ class LambdaIDValidator:
 
         # Calculate entropy using Shannon entropy formula
         import math
+
         entropy = 0.0
         total_chars = len(entropy_hash)
 
@@ -386,87 +409,107 @@ class LambdaIDValidator:
 
         return False
 
-    def get_validation_stats(self) -> Dict:
+    def get_validation_stats(self) -> dict:
         """Get validation statistics"""
         return {
             "total_registered": len(self.registered_ids),
             "validation_rules_count": len(self.validation_rules),
             "reserved_ids_count": len(self.reserved_ids),
             "supported_tiers": list(range(6)),
-            "collision_prevention": True
+            "collision_prevention": True,
         }
 
-    def _load_config(self, config_path: Optional[str] = None) -> Dict:
+    def _load_config(self, config_path: Optional[str] = None) -> dict:
         """Load validator configuration"""
         return {
             "checksum_validation": False,
             "entropy_validation": True,
             "collision_prevention": True,
-            "reserved_validation": True
+            "reserved_validation": True,
         }
 
-    def _load_reserved_ids(self) -> Set[str]:
+    def _load_reserved_ids(self) -> set[str]:
         """Load reserved ΛiD patterns"""
         return {
             "Λ0-0000-○-0000",  # System reserved
             "Λ5-FFFF-⟐-FFFF",  # Admin reserved
             "Λ0-NULL-○-NULL",  # Null pattern
-            "Λ5-TEST-⟐-TEST"   # Test pattern
+            "Λ5-TEST-⟐-TEST",  # Test pattern
         }
 
-    def _compile_validation_patterns(self) -> Dict[str, re.Pattern]:
+    def _compile_validation_patterns(self) -> dict[str, re.Pattern]:
         """Compile regex patterns for validation"""
         return {
-            'basic_pattern': re.compile(r'^Λ([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'),
-            'legacy_pattern': re.compile(r'^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$'),
-            'hex_pattern': re.compile(r'^[A-F0-9]+$'),
-            'tier_pattern': re.compile(r'^[0-5]$')
+            "basic_pattern": re.compile(r"^Λ([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"),
+            "legacy_pattern": re.compile(
+                r"^LUKHAS([0-5])-([A-F0-9]{4})-(.)-([A-F0-9]{4})$"
+            ),
+            "hex_pattern": re.compile(r"^[A-F0-9]+$"),
+            "tier_pattern": re.compile(r"^[0-5]$"),
         }
 
-    def _load_valid_geo_codes(self) -> Set[str]:
+    def _load_valid_geo_codes(self) -> set[str]:
         """Load valid geographical codes"""
         return {
-            'US', 'EU', 'UK', 'CA', 'AU', 'JP', 'DE', 'FR', 'IT', 'ES', 
-            'BR', 'IN', 'CN', 'RU', 'KR', 'MX', 'AR', 'CL', 'PE', 'CO'
+            "US",
+            "EU",
+            "UK",
+            "CA",
+            "AU",
+            "JP",
+            "DE",
+            "FR",
+            "IT",
+            "ES",
+            "BR",
+            "IN",
+            "CN",
+            "RU",
+            "KR",
+            "MX",
+            "AR",
+            "CL",
+            "PE",
+            "CO",
         }
 
-    def _load_emoji_combinations(self) -> Dict[str, List[str]]:
+    def _load_emoji_combinations(self) -> dict[str, list[str]]:
         """Load valid emoji combinations for different tiers"""
         return {
-            'tier_0': ['○', '◊', '□'],
-            'tier_1': ['○', '◊', '□', '△', '▽'],
-            'tier_2': ['🌀', '✨', '🔮', '◊', '⟐'],
-            'tier_3': ['🌀', '✨', '🔮', '⟐', '◈', '⬟'],
-            'tier_4': ['⟐', '◈', '⬟', '⬢', '⟁', '◐'],
-            'tier_5': ['⟐', '◈', '⬟', '⬢', '⟁', '◐', '◑', '⬧']
+            "tier_0": ["○", "◊", "□"],
+            "tier_1": ["○", "◊", "□", "△", "▽"],
+            "tier_2": ["🌀", "✨", "🔮", "◊", "⟐"],
+            "tier_3": ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],
+            "tier_4": ["⟐", "◈", "⬟", "⬢", "⟁", "◐"],
+            "tier_5": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"],
         }
 
     def validate_identity(self, user_id: str) -> bool:
         """
         Simple identity validation method for interface compatibility.
-        
+
         Args:
             user_id: The user ID or Lambda ID to validate
-            
+
         Returns:
             bool: True if identity is valid, False otherwise
         """
         try:
             if not user_id:
                 return False
-            
+
             # If it looks like a Lambda ID, use comprehensive validation
-            if 'Λ' in user_id or 'LUKHAS' in user_id:
+            if "Λ" in user_id or "LUKHAS" in user_id:
                 result = self.validate(user_id)
                 return result.valid
-            
+
             # For other user IDs, basic validation
             return len(user_id) > 0 and len(user_id) <= 100
-            
+
         except Exception:
             return False
 
-    def _load_tier_symbols(self) -> Dict[str, List[str]]:
+    def _load_tier_symbols(self) -> dict[str, list[str]]:
         """Load tier-appropriate symbolic characters"""
         return {
             "tier_0": ["◊", "○", "□"],
@@ -474,10 +517,10 @@ class LambdaIDValidator:
             "tier_2": ["🌀", "✨", "🔮", "◊", "⟐"],
             "tier_3": ["🌀", "✨", "🔮", "⟐", "◈", "⬟"],
             "tier_4": ["⟐", "◈", "⬟", "⬢", "⟁", "◐"],
-            "tier_5": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"]
+            "tier_5": ["⟐", "◈", "⬟", "⬢", "⟁", "◐", "◑", "⬧"],
         }
 
-    def _load_validation_rules(self) -> Dict:
+    def _load_validation_rules(self) -> dict:
         """Load validation rules for different tiers"""
         return {
             "tier_0_min_entropy": 0.3,
@@ -485,7 +528,7 @@ class LambdaIDValidator:
             "tier_2_min_entropy": 0.5,
             "tier_3_min_entropy": 0.6,
             "tier_4_min_entropy": 0.7,
-            "tier_5_min_entropy": 0.8
+            "tier_5_min_entropy": 0.8,
         }
 
     def _log_registration(self, lambda_id: str) -> None:
@@ -496,16 +539,13 @@ class LambdaIDValidator:
         """Log ΛiD unregistration event"""
         print(f"ΛiD Unregistered: {lambda_id}")
 
+
 # Example usage and testing
 if __name__ == "__main__":
     validator = LambdaIDValidator()
 
     # Test valid ΛiDs
-    valid_ids = [
-        "Λ2-A9F3-🌀-X7K1",
-        "Λ5-B2E8-⟐-Z9M4",
-        "Λ0-1234-○-ABCD"
-    ]
+    valid_ids = ["Λ2-A9F3-🌀-X7K1", "Λ5-B2E8-⟐-Z9M4", "Λ0-1234-○-ABCD"]
 
     for lambda_id in valid_ids:
         result, details = validator.validate_lambda_id(lambda_id)
@@ -517,7 +557,7 @@ if __name__ == "__main__":
     invalid_ids = [
         "Invalid-Format",
         "Λ6-A9F3-🌀-X7K1",  # Invalid tier
-        "Λ0-A9F3-⟐-X7K1",   # Invalid symbolic for tier
+        "Λ0-A9F3-⟐-X7K1",  # Invalid symbolic for tier
     ]
 
     for lambda_id in invalid_ids:

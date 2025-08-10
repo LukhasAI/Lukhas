@@ -4,4 +4,4 @@
 from ..compliance_validator import ComplianceValidator
 
 # Export it
-__all__ = ['ComplianceValidator']
+__all__ = ["ComplianceValidator"]

@@ -1,11 +1,15 @@
 """Hardware root of trust abstraction."""
+
 import os
+
 import structlog
 
 log = structlog.get_logger(__name__)
 
+
 class HardwareRoot:
     """Minimal interface to a hardware root of trust."""
+
     def __init__(self):
         self.available = bool(os.environ.get("TPM_AVAILABLE", "0") == "1")
         if not self.available:

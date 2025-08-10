@@ -3,16 +3,17 @@
 Learning Gateway - Dependency Firewall for Learning Services
 This abstraction layer ensures core modules remain agnostic to learning implementation details.
 """
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List, Union
-from dataclasses import dataclass
 import asyncio
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Dict, Optional
 
 
 @dataclass
 class LearningRequest:
     """Standard request format for learning operations"""
+
     agent_id: str
     operation: str
     data: Dict[str, Any]
@@ -27,6 +28,7 @@ class LearningRequest:
 @dataclass
 class LearningResponse:
     """Standard response format from learning operations"""
+
     success: bool
     result: Optional[Any] = None
     error: Optional[str] = None
@@ -40,7 +42,9 @@ class LearningGatewayInterface(ABC):
     """
 
     @abstractmethod
-    async def process_learning_request(self, request: LearningRequest) -> LearningResponse:
+    async def process_learning_request(
+        self, request: LearningRequest
+    ) -> LearningResponse:
         """Process a learning request through the appropriate learning system"""
         pass
 
@@ -50,12 +54,16 @@ class LearningGatewayInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_learning_parameters(self, agent_id: str, parameters: Dict[str, Any]) -> bool:
+    async def update_learning_parameters(
+        self, agent_id: str, parameters: Dict[str, Any]
+    ) -> bool:
         """Update learning parameters for a specific agent"""
         pass
 
     @abstractmethod
-    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> Dict[str, Any]:
+    async def get_learning_metrics(
+        self, agent_id: str, metric_type: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Retrieve learning metrics and performance data"""
         pass
 
@@ -78,10 +86,13 @@ class LearningGateway(LearningGatewayInterface):
                 if not self._initialized:
                     # Lazy import to avoid circular dependencies
                     from learning.service import LearningService
+
                     self._service = LearningService()
                     self._initialized = True
 
-    async def process_learning_request(self, request: LearningRequest) -> LearningResponse:
+    async def process_learning_request(
+        self, request: LearningRequest
+    ) -> LearningResponse:
         """Process a learning request through the appropriate learning system"""
         await self._ensure_initialized()
 
@@ -91,37 +102,36 @@ class LearningGateway(LearningGatewayInterface):
                 result = await self._service.train(
                     agent_id=request.agent_id,
                     data=request.data,
-                    context=request.context
+                    context=request.context,
                 )
             elif request.operation == "predict":
                 result = await self._service.predict(
                     agent_id=request.agent_id,
                     data=request.data,
-                    context=request.context
+                    context=request.context,
                 )
             elif request.operation == "evaluate":
                 result = await self._service.evaluate(
                     agent_id=request.agent_id,
                     data=request.data,
-                    context=request.context
+                    context=request.context,
                 )
             else:
                 return LearningResponse(
-                    success=False,
-                    error=f"Unknown operation: {request.operation}"
+                    success=False, error=f"Unknown operation: {request.operation}"
                 )
 
             return LearningResponse(
                 success=True,
                 result=result,
-                metadata={"timestamp": datetime.now().isoformat()}
+                metadata={"timestamp": datetime.now().isoformat()},
             )
 
         except Exception as e:
             return LearningResponse(
                 success=False,
                 error=str(e),
-                metadata={"timestamp": datetime.now().isoformat()}
+                metadata={"timestamp": datetime.now().isoformat()},
             )
 
     async def get_learning_status(self, agent_id: str) -> Dict[str, Any]:
@@ -129,12 +139,16 @@ class LearningGateway(LearningGatewayInterface):
         await self._ensure_initialized()
         return await self._service.get_status(agent_id)
 
-    async def update_learning_parameters(self, agent_id: str, parameters: Dict[str, Any]) -> bool:
+    async def update_learning_parameters(
+        self, agent_id: str, parameters: Dict[str, Any]
+    ) -> bool:
         """Update learning parameters for a specific agent"""
         await self._ensure_initialized()
         return await self._service.update_parameters(agent_id, parameters)
 
-    async def get_learning_metrics(self, agent_id: str, metric_type: Optional[str] = None) -> Dict[str, Any]:
+    async def get_learning_metrics(
+        self, agent_id: str, metric_type: Optional[str] = None
+    ) -> Dict[str, Any]:
         """Retrieve learning metrics and performance data"""
         await self._ensure_initialized()
         return await self._service.get_metrics(agent_id, metric_type)
@@ -157,8 +171,8 @@ def get_learning_gateway() -> LearningGateway:
 
 # Export only the interface and gateway factory
 __all__ = [
-    'LearningGatewayInterface',
-    'LearningRequest',
-    'LearningResponse',
-    'get_learning_gateway'
+    "LearningGatewayInterface",
+    "LearningRequest",
+    "LearningResponse",
+    "get_learning_gateway",
 ]

@@ -3,10 +3,10 @@ Neocortical Memory System
 Slow consolidation and semantic knowledge storage
 """
 
-from .neocortical_network import NeocorticalNetwork, SemanticMemory, CorticalLayer
+from .neocortical_network import (
+    CorticalLayer,
+    NeocorticalNetwork,
+    SemanticMemory,
+)
 
-__all__ = [
-    'NeocorticalNetwork',
-    'SemanticMemory',
-    'CorticalLayer'
-]
+__all__ = ["NeocorticalNetwork", "SemanticMemory", "CorticalLayer"]

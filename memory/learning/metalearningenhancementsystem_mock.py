@@ -3,19 +3,20 @@ Meta-Learning Enhancement System Mock Implementation
 Lightweight mock implementation without heavy dependencies
 """
 
-from core.common import get_logger
-from typing import Dict, Any, Optional, List
+import random
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-import random
-import asyncio
-from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
 
 class Enhancementmode(Enum):
     """Modes for Meta-Learning Enhancement System operation"""
+
     MONITORING_ONLY = "monitoring_only"
     OPTIMIZATION_ACTIVE = "optimization_active"
     FEDERATED_COORDINATION = "federated_coord"
@@ -25,6 +26,7 @@ class Enhancementmode(Enum):
 @dataclass
 class Systemintegrationstatus:
     """Status of integration with existing LUKHAS systems"""
+
     meta_learning_systems_found: int
     systems_enhanced: int
     monitoring_active: bool
@@ -37,6 +39,7 @@ class Systemintegrationstatus:
 
 class MockMonitorDashboard:
     """Mock monitor dashboard"""
+
     def __init__(self):
         self.active_sessions = {}
         self.metrics = {"accuracy": 0.85, "loss": 0.15, "convergence": 0.75}
@@ -55,6 +58,7 @@ class MockMonitorDashboard:
 
 class MockRateModulator:
     """Mock rate modulator"""
+
     def __init__(self):
         self.current_rate = 0.001
         self.optimization_history = []
@@ -69,6 +73,7 @@ class MockRateModulator:
 
 class MockSymbolicFeedback:
     """Mock symbolic feedback system"""
+
     def __init__(self):
         self.feedback_history = []
 
@@ -77,7 +82,7 @@ class MockSymbolicFeedback:
             "feedback_id": f"fb_{datetime.now().timestamp()}",
             "processed": True,
             "symbolic_score": random.uniform(0.6, 0.95),
-            "integration_points": random.randint(1, 5)
+            "integration_points": random.randint(1, 5),
         }
         self.feedback_history.append(processed)
         return processed
@@ -86,10 +91,13 @@ class MockSymbolicFeedback:
 class MetaLearningEnhancementsystem:
     """Mock meta-learning enhancement system"""
 
-    def __init__(self, node_id: str = "lukhas_primary",
-                 enhancement_mode: Enhancementmode = Enhancementmode.OPTIMIZATION_ACTIVE,
-                 enable_federation: bool = False,
-                 federation_strategy: Any = None):
+    def __init__(
+        self,
+        node_id: str = "lukhas_primary",
+        enhancement_mode: Enhancementmode = Enhancementmode.OPTIMIZATION_ACTIVE,
+        enable_federation: bool = False,
+        federation_strategy: Any = None,
+    ):
 
         self.node_id = node_id
         self.enhancement_mode = enhancement_mode
@@ -110,14 +118,18 @@ class MetaLearningEnhancementsystem:
             symbolic_feedback_active=False,
             federation_enabled=enable_federation,
             last_health_check=datetime.now(),
-            integration_errors=[]
+            integration_errors=[],
         )
 
         self.enhancement_history = []
 
-        logger.info(f"Mock MetaLearningEnhancementsystem initialized for node {node_id}")
+        logger.info(
+            f"Mock MetaLearningEnhancementsystem initialized for node {node_id}"
+        )
 
-    async def discover_and_enhance_meta_learning_systems(self, search_paths: Optional[List[str]] = None) -> Dict[str, Any]:
+    async def discover_and_enhance_meta_learning_systems(
+        self, search_paths: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
         """Mock discovery and enhancement"""
         # Simulate finding some systems
         discovered_count = random.randint(5, 15)
@@ -127,7 +139,7 @@ class MetaLearningEnhancementsystem:
             "search_initiated": datetime.now().isoformat(),
             "systems_discovered": [],
             "enhancement_results": [],
-            "integration_summary": {}
+            "integration_summary": {},
         }
 
         # Create mock discovered systems
@@ -136,7 +148,7 @@ class MetaLearningEnhancementsystem:
                 "id": f"meta_system_{i}",
                 "path": f"/learning/system_{i}.py",
                 "type": random.choice(["adapter", "core", "recovery", "feedback"]),
-                "capabilities": ["learning", "adaptation"]
+                "capabilities": ["learning", "adaptation"],
             }
             discovery_results["systems_discovered"].append(system)
 
@@ -145,37 +157,43 @@ class MetaLearningEnhancementsystem:
             if success:
                 self.integration_status.systems_enhanced += 1
 
-            discovery_results["enhancement_results"].append({
-                "system_id": system["id"],
-                "success": success,
-                "enhancements": ["monitoring", "optimization"] if success else []
-            })
+            discovery_results["enhancement_results"].append(
+                {
+                    "system_id": system["id"],
+                    "success": success,
+                    "enhancements": ["monitoring", "optimization"] if success else [],
+                }
+            )
 
         self.integration_status.monitoring_active = True
         self.integration_status.rate_optimization_active = True
 
         return discovery_results
 
-    async def create_enhanced_learning_config(self, learning_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def create_enhanced_learning_config(
+        self, learning_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Create mock enhanced config"""
         return {
             "base_config": learning_context,
             "enhancements": {
                 "monitoring": {"enabled": True, "interval": 1.0},
                 "optimization": {"enabled": True, "strategy": "adaptive"},
-                "feedback": {"enabled": True, "mode": "symbolic"}
+                "feedback": {"enabled": True, "mode": "symbolic"},
             },
-            "created_at": datetime.now().isoformat()
+            "created_at": datetime.now().isoformat(),
         }
 
-    async def apply_dynamic_optimization(self, config: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+    async def apply_dynamic_optimization(
+        self, config: Dict[str, Any], context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply mock optimization"""
         new_rate = await self.rate_modulator.optimize_rate(context)
         return {
             "optimization_id": f"opt_{datetime.now().timestamp()}",
             "new_learning_rate": new_rate,
             "convergence_estimate": random.uniform(0.6, 0.95),
-            "applied": True
+            "applied": True,
         }
 
 
@@ -186,7 +204,7 @@ class MetaLearningEnhancementWrapper:
         self.enhancement_system = MetaLearningEnhancementsystem(
             node_id=node_id,
             enhancement_mode=Enhancementmode.OPTIMIZATION_ACTIVE,
-            enable_federation=False
+            enable_federation=False,
         )
 
         self.integration_stats = {
@@ -195,39 +213,56 @@ class MetaLearningEnhancementWrapper:
             "failed_enhancements": 0,
             "active_monitors": 0,
             "optimization_events": 0,
-            "federated_nodes": 0
+            "federated_nodes": 0,
         }
 
-        logger.info(f"Mock MetaLearningEnhancementWrapper initialized for node: {node_id}")
+        logger.info(
+            f"Mock MetaLearningEnhancementWrapper initialized for node: {node_id}"
+        )
 
     async def initialize(self):
         """Initialize mock wrapper"""
-        discovery_results = await self.enhancement_system.discover_and_enhance_meta_learning_systems()
+        discovery_results = (
+            await self.enhancement_system.discover_and_enhance_meta_learning_systems()
+        )
 
-        self.integration_stats["total_enhancements"] = len(discovery_results.get("enhancement_results", []))
+        self.integration_stats["total_enhancements"] = len(
+            discovery_results.get("enhancement_results", [])
+        )
         self.integration_stats["successful_enhancements"] = sum(
-            1 for r in discovery_results.get("enhancement_results", [])
+            1
+            for r in discovery_results.get("enhancement_results", [])
             if r.get("success", False)
         )
 
         return True
 
-    async def enhance_learning_process(self, learning_context: Dict[str, Any]) -> Dict[str, Any]:
+    async def enhance_learning_process(
+        self, learning_context: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Mock enhance learning process"""
         try:
-            enhanced_config = await self.enhancement_system.create_enhanced_learning_config(learning_context)
+            enhanced_config = (
+                await self.enhancement_system.create_enhanced_learning_config(
+                    learning_context
+                )
+            )
 
-            if self.enhancement_system.enhancement_mode == Enhancementmode.OPTIMIZATION_ACTIVE:
-                optimization_result = await self.enhancement_system.apply_dynamic_optimization(
-                    enhanced_config, learning_context
+            if (
+                self.enhancement_system.enhancement_mode
+                == Enhancementmode.OPTIMIZATION_ACTIVE
+            ):
+                optimization_result = (
+                    await self.enhancement_system.apply_dynamic_optimization(
+                        enhanced_config, learning_context
+                    )
                 )
                 enhanced_config["optimization"] = optimization_result
                 self.integration_stats["optimization_events"] += 1
 
-            monitor_id = await self.enhancement_system.monitor_dashboard.start_monitoring_session({
-                "context": learning_context,
-                "config": enhanced_config
-            })
+            monitor_id = await self.enhancement_system.monitor_dashboard.start_monitoring_session(
+                {"context": learning_context, "config": enhanced_config}
+            )
             enhanced_config["monitor_id"] = monitor_id
             self.integration_stats["active_monitors"] += 1
 
@@ -235,7 +270,7 @@ class MetaLearningEnhancementWrapper:
                 "success": True,
                 "enhanced_config": enhanced_config,
                 "monitoring_active": True,
-                "optimization_applied": True
+                "optimization_applied": True,
             }
 
         except Exception as e:
@@ -246,9 +281,13 @@ class MetaLearningEnhancementWrapper:
         """Get mock learning metrics"""
         return await self.enhancement_system.monitor_dashboard.get_aggregated_metrics()
 
-    async def apply_symbolic_feedback(self, feedback_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def apply_symbolic_feedback(
+        self, feedback_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Apply mock symbolic feedback"""
-        return await self.enhancement_system.symbolic_feedback.process_feedback(feedback_data)
+        return await self.enhancement_system.symbolic_feedback.process_feedback(
+            feedback_data
+        )
 
     async def enable_federation(self, federation_config: Dict[str, Any]) -> bool:
         """Enable mock federation"""
@@ -267,8 +306,8 @@ class MetaLearningEnhancementWrapper:
                 "systems_found": self.enhancement_system.integration_status.meta_learning_systems_found,
                 "systems_enhanced": self.enhancement_system.integration_status.systems_enhanced,
                 "monitoring_active": self.enhancement_system.integration_status.monitoring_active,
-                "optimization_active": self.enhancement_system.integration_status.rate_optimization_active
-            }
+                "optimization_active": self.enhancement_system.integration_status.rate_optimization_active,
+            },
         }
 
     async def shutdown(self):
@@ -277,7 +316,9 @@ class MetaLearningEnhancementWrapper:
         logger.info("Mock meta-learning enhancement system shutdown")
 
 
-def get_meta_learning_enhancement(node_id: str = "lukhas_primary") -> Optional[MetaLearningEnhancementWrapper]:
+def get_meta_learning_enhancement(
+    node_id: str = "lukhas_primary",
+) -> Optional[MetaLearningEnhancementWrapper]:
     """Factory function for mock enhancement"""
     try:
         return MetaLearningEnhancementWrapper(node_id)

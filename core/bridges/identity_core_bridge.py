@@ -3,9 +3,8 @@ Identity-Core Bridge
 Bidirectional communication bridge between identity and core systems
 """
 
-from typing import Any, Dict, Optional, List
-import asyncio
 import logging
+from typing import Any
 
 # Import system hubs (will be available after hub creation)
 # from identity.identity_hub import get_identity_hub
@@ -31,7 +30,7 @@ class IdentityCoreBridge:
         self.event_mappings = {}
         self.is_connected = False
 
-        logger.info(f"IdentityCoreBridge initialized")
+        logger.info("IdentityCoreBridge initialized")
 
     async def connect(self) -> bool:
         """Establish connection between systems"""
@@ -44,7 +43,7 @@ class IdentityCoreBridge:
             self.setup_event_mappings()
 
             self.is_connected = True
-            logger.info(f"Bridge connected between identity and core")
+            logger.info("Bridge connected between identity and core")
             return True
 
         except Exception as e:
@@ -57,13 +56,14 @@ class IdentityCoreBridge:
             # identity -> core events
             "identity_state_change": "core_sync_request",
             "identity_data_update": "core_data_sync",
-
             # core -> identity events
             "core_state_change": "identity_sync_request",
             "core_data_update": "identity_data_sync",
         }
 
-    async def identity_to_core(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def identity_to_core(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from identity to core"""
         if not self.is_connected:
             await self.connect()
@@ -77,7 +77,9 @@ class IdentityCoreBridge:
 
             # Send to core
             if self.core_hub:
-                result = await self.core_hub.process_event(mapped_event, transformed_data)
+                result = await self.core_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from identity to core")
                 return result
 
@@ -87,7 +89,9 @@ class IdentityCoreBridge:
             logger.error(f"Error forwarding from identity to core: {e}")
             return {"error": str(e)}
 
-    async def core_to_identity(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def core_to_identity(
+        self, event_type: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Forward event from core to identity"""
         if not self.is_connected:
             await self.connect()
@@ -101,7 +105,9 @@ class IdentityCoreBridge:
 
             # Send to identity
             if self.identity_hub:
-                result = await self.identity_hub.process_event(mapped_event, transformed_data)
+                result = await self.identity_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from core to identity")
                 return result
 
@@ -111,24 +117,24 @@ class IdentityCoreBridge:
             logger.error(f"Error forwarding from core to identity: {e}")
             return {"error": str(e)}
 
-    def transform_data_identity_to_core(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data_identity_to_core(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from identity to core"""
         # Add system-specific transformations here
         return {
             "source_system": "identity",
             "target_system": "core",
             "data": data,
-            "timestamp": "{}".format(__import__('datetime').datetime.now().isoformat())
+            "timestamp": "{}".format(__import__("datetime").datetime.now().isoformat()),
         }
 
-    def transform_data_core_to_identity(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data_core_to_identity(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from core to identity"""
         # Add system-specific transformations here
         return {
             "source_system": "core",
             "target_system": "identity",
             "data": data,
-            "timestamp": "{}".format(__import__('datetime').datetime.now().isoformat())
+            "timestamp": "{}".format(__import__("datetime").datetime.now().isoformat()),
         }
 
     async def sync_state(self) -> bool:
@@ -154,21 +160,23 @@ class IdentityCoreBridge:
             logger.error(f"State sync failed: {e}")
             return False
 
-    async def get_identity_state(self) -> Dict[str, Any]:
+    async def get_identity_state(self) -> dict[str, Any]:
         """Get current state from identity system"""
         if self.identity_hub:
             # Implement identity-specific state retrieval
             return {"system": "identity", "state": "active"}
         return {}
 
-    async def get_core_state(self) -> Dict[str, Any]:
+    async def get_core_state(self) -> dict[str, Any]:
         """Get current state from core system"""
         if self.core_hub:
             # Implement core-specific state retrieval
             return {"system": "core", "state": "active"}
         return {}
 
-    def compare_states(self, state1: Dict[str, Any], state2: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def compare_states(
+        self, state1: dict[str, Any], state2: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Compare states and return differences"""
         differences = []
 
@@ -177,7 +185,7 @@ class IdentityCoreBridge:
 
         return differences
 
-    async def resolve_differences(self, differences: List[Dict[str, Any]]) -> None:
+    async def resolve_differences(self, differences: list[dict[str, Any]]) -> None:
         """Resolve state differences between systems"""
         for diff in differences:
             # Implement difference resolution logic
@@ -186,7 +194,7 @@ class IdentityCoreBridge:
     async def disconnect(self) -> None:
         """Disconnect the bridge"""
         self.is_connected = False
-        logger.info(f"Bridge disconnected between identity and core")
+        logger.info("Bridge disconnected between identity and core")
 
 
 # Singleton instance
@@ -199,4 +207,3 @@ def get_identity_core_bridge() -> IdentityCoreBridge:
     if _identity_core_bridge_instance is None:
         _identity_core_bridge_instance = IdentityCoreBridge()
     return _identity_core_bridge_instance
-

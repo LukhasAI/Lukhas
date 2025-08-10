@@ -4,11 +4,17 @@ from serve.main import app
 
 
 class FakeService:
-    async def generate(self, prompt: str, context=None, signals=None, params=None, task=None):
+    async def generate(
+        self, prompt: str, context=None, signals=None, params=None, task=None
+    ):
         return {
             "content": "ok",
             "raw": {"choices": [{"message": {"content": "ok"}}]},
-            "modulation": {"style": "DEFAULT", "params": {"temperature": 0.2, "max_tokens": 64}, "signal_levels": {}},
+            "modulation": {
+                "style": "DEFAULT",
+                "params": {"temperature": 0.2, "max_tokens": 64},
+                "signal_levels": {},
+            },
             "metadata": {"moderation": "safe"},
         }
 
@@ -36,6 +42,7 @@ class FakeStreamService:
         async def _gen():
             for ch in ["A", "B", "C"]:
                 yield ch
+
         return _gen()
 
 
@@ -43,9 +50,7 @@ def test_openai_chat_stream_route(monkeypatch):
     import serve.openai_routes as openai_routes
 
     client = TestClient(app)
-    monkeypatch.setattr(
-        openai_routes, "get_service", lambda: FakeStreamService()
-    )
+    monkeypatch.setattr(openai_routes, "get_service", lambda: FakeStreamService())
 
     resp = client.post("/openai/chat/stream", json={"prompt": "hello"})
     assert resp.status_code == 200

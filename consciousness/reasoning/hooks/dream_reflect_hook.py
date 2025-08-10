@@ -1,4 +1,5 @@
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 def dream_reflect_hook(cause_map: Dict[str, Any]) -> None:
     """

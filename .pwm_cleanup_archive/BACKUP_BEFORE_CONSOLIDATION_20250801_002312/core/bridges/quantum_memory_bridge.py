@@ -2,9 +2,8 @@
 Bidirectional communication bridge between Quantum and Memory systems
 """
 
-from typing import Any, Dict, Optional
-import asyncio
 import logging
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -22,8 +21,8 @@ class QuantumMemoryBridge:
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from quantum.quantum_hub import get_quantum_hub
             from memory.memory_hub import get_memory_hub
+            from quantum.quantum_hub import get_quantum_hub
 
             self.quantum_hub = get_quantum_hub()
             self.memory_hub = get_memory_hub()
@@ -47,7 +46,9 @@ class QuantumMemoryBridge:
             "memory_recall_request": "quantum_recall_request",
         }
 
-    async def quantum_to_memory(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def quantum_to_memory(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Quantum to Memory"""
         if not self.is_connected:
             await self.connect()
@@ -61,7 +62,9 @@ class QuantumMemoryBridge:
             logger.error(f"Error forwarding from Quantum to Memory: {e}")
             return {"error": str(e)}
 
-    async def memory_to_quantum(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def memory_to_quantum(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Memory to Quantum"""
         if not self.is_connected:
             await self.connect()

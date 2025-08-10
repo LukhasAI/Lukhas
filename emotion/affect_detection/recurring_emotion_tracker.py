@@ -9,13 +9,12 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-from datetime import datetime, timezone
-from typing import List, Dict, Any, Optional
-import numpy as np
-from core.common import get_logger
+from typing import Any, Dict, List, Optional
 
-from memory.emotional import EmotionVector, EmotionalMemory
+import numpy as np
+
 from emotion.affect_stagnation_detector import AffectStagnationDetector
+from memory.emotional import EmotionalMemory
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +43,7 @@ class RecurringEmotionTracker:
         """
         # ΛTRACE: Checking for emotion recurrence and stagnation.
         log.info("Checking for emotion recurrence and stagnation.")
-        
+
         # Check for stagnation first, as it's a more specific condition
         stagnation_detected = self.stagnation_detector.check_for_stagnation()
         if stagnation_detected:
@@ -54,7 +53,7 @@ class RecurringEmotionTracker:
         emotional_history = self.emotional_memory.get_emotional_history(hours_ago=self.history_window * 24)
         if not emotional_history:
             return None
-            
+
         current_emotion = self.emotional_memory.get_current_emotional_state()["current_emotion_vector"]
         recurrence_detected = self._check_recurrence(current_emotion, emotional_history)
         if recurrence_detected:
@@ -79,7 +78,7 @@ class RecurringEmotionTracker:
         if len(similar_emotions) >= self.recurrence_threshold:
             primary_emotion = current_emotion["primary_emotion"]
             log.warning(f"Recurring emotion detected: {primary_emotion}")
-            
+
             # Find the dream associated with the first occurrence
             origin_dream = self._find_origin_dream(similar_emotions[0])
 
@@ -110,11 +109,11 @@ class RecurringEmotionTracker:
             return
 
         current_emotion_vector = self.emotional_memory.current_emotion
-        
+
         # Map emotional state to oscillator parameters
         # This is a conceptual mapping and can be refined
         frequency = 10 + (current_emotion_vector.arousal * 20) # Beta range for active processing
-        
+
         if hasattr(self.bio_oscillator, "adjust_frequency"):
             self.bio_oscillator.adjust_frequency(frequency)
 

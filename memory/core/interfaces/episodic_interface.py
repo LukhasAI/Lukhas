@@ -23,25 +23,25 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import numpy as np
+import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
-import time
 
-import structlog
+import numpy as np
 
 from .memory_interface import (
-    BaseMemoryInterface, MemoryType, MemoryMetadata,
-    MemoryOperation, MemoryResponse, ValidationResult
+    BaseMemoryInterface,
+    MemoryMetadata,
+    MemoryResponse,
+    MemoryType,
+    ValidationResult,
 )
-
-from core.common import get_logger
 
 
 @dataclass
 class EpisodicContext:
     """Extended context for episodic memories"""
+
     # Temporal context
     event_start: Optional[float] = None
     event_end: Optional[float] = None
@@ -53,7 +53,7 @@ class EpisodicContext:
 
     # Emotional context
     emotional_valence: float = 0.0  # -1 to 1
-    arousal_level: float = 0.5      # 0 to 1
+    arousal_level: float = 0.5  # 0 to 1
 
     # Social context
     participants: Set[str] = field(default_factory=set)
@@ -71,6 +71,7 @@ class EpisodicContext:
 @dataclass
 class EpisodicMemoryContent:
     """Structured content for episodic memories"""
+
     # Core event data
     event_type: str = ""
     description: str = ""
@@ -84,9 +85,9 @@ class EpisodicMemoryContent:
     causal_consequences: List[str] = field(default_factory=list)
 
     # Memory properties
-    vividness: float = 1.0          # How clear/detailed
-    coherence: float = 1.0          # How well-structured
-    completeness: float = 1.0       # How much information retained
+    vividness: float = 1.0  # How clear/detailed
+    coherence: float = 1.0  # How well-structured
+    completeness: float = 1.0  # How much information retained
 
 
 class EpisodicMemoryInterface(BaseMemoryInterface):
@@ -100,12 +101,12 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         colony_id: Optional[str] = None,
         enable_distributed: bool = True,
         pattern_separation_threshold: float = 0.3,
-        consolidation_threshold: float = 0.6
+        consolidation_threshold: float = 0.6,
     ):
         super().__init__(
             memory_type=MemoryType.EPISODIC,
             colony_id=colony_id,
-            enable_distributed=enable_distributed
+            enable_distributed=enable_distributed,
         )
 
         self.pattern_separation_threshold = pattern_separation_threshold
@@ -114,7 +115,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         # Episodic-specific storage
         self.episodic_memories: Dict[str, EpisodicMemoryContent] = {}
         self.temporal_index: Dict[float, Set[str]] = {}  # timestamp -> memory_ids
-        self.spatial_index: Dict[str, Set[str]] = {}     # location -> memory_ids
+        self.spatial_index: Dict[str, Set[str]] = {}  # location -> memory_ids
         self.event_type_index: Dict[str, Set[str]] = {}  # event_type -> memory_ids
 
         # Replay and consolidation
@@ -128,7 +129,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         content: Any,
         metadata: Optional[MemoryMetadata] = None,
         context: Optional[EpisodicContext] = None,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Create new episodic memory with context"""
 
@@ -141,8 +142,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             episodic_content = content
         else:
             episodic_content = EpisodicMemoryContent(
-                content=content,
-                context=context or EpisodicContext()
+                content=content, context=context or EpisodicContext()
             )
 
             # Extract event type if available
@@ -153,8 +153,8 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
         # Calculate importance based on emotional salience
         emotional_impact = (
-            abs(episodic_content.context.emotional_valence) *
-            episodic_content.context.arousal_level
+            abs(episodic_content.context.emotional_valence)
+            * episodic_content.context.arousal_level
         )
 
         base_importance = metadata.importance
@@ -175,30 +175,27 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             "Episodic memory created",
             memory_id=memory_id,
             event_type=episodic_content.event_type,
-            importance=metadata.importance
+            importance=metadata.importance,
         )
 
         return MemoryResponse(
-            operation_id=kwargs.get('operation_id', memory_id),
+            operation_id=kwargs.get("operation_id", memory_id),
             success=True,
             memory_id=memory_id,
             content=episodic_content,
-            metadata=metadata
+            metadata=metadata,
         )
 
     async def read_memory(
-        self,
-        memory_id: str,
-        update_access: bool = True,
-        **kwargs
+        self, memory_id: str, update_access: bool = True, **kwargs
     ) -> MemoryResponse:
         """Read episodic memory with access tracking"""
 
         if memory_id not in self.episodic_memories:
             return MemoryResponse(
-                operation_id=kwargs.get('operation_id', memory_id),
+                operation_id=kwargs.get("operation_id", memory_id),
                 success=False,
-                error_message=f"Memory {memory_id} not found"
+                error_message=f"Memory {memory_id} not found",
             )
 
         content = self.episodic_memories[memory_id]
@@ -209,10 +206,10 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             pass
 
         return MemoryResponse(
-            operation_id=kwargs.get('operation_id', memory_id),
+            operation_id=kwargs.get("operation_id", memory_id),
             success=True,
             memory_id=memory_id,
-            content=content
+            content=content,
         )
 
     async def update_memory(
@@ -221,15 +218,15 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         content: Any = None,
         metadata: Optional[MemoryMetadata] = None,
         context_updates: Optional[Dict[str, Any]] = None,
-        **kwargs
+        **kwargs,
     ) -> MemoryResponse:
         """Update episodic memory with new information"""
 
         if memory_id not in self.episodic_memories:
             return MemoryResponse(
-                operation_id=kwargs.get('operation_id', memory_id),
+                operation_id=kwargs.get("operation_id", memory_id),
                 success=False,
-                error_message=f"Memory {memory_id} not found"
+                error_message=f"Memory {memory_id} not found",
             )
 
         episodic_content = self.episodic_memories[memory_id]
@@ -253,24 +250,20 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         self.episodic_memories[memory_id] = episodic_content
 
         return MemoryResponse(
-            operation_id=kwargs.get('operation_id', memory_id),
+            operation_id=kwargs.get("operation_id", memory_id),
             success=True,
             memory_id=memory_id,
-            content=episodic_content
+            content=episodic_content,
         )
 
-    async def delete_memory(
-        self,
-        memory_id: str,
-        **kwargs
-    ) -> MemoryResponse:
+    async def delete_memory(self, memory_id: str, **kwargs) -> MemoryResponse:
         """Delete episodic memory and update indices"""
 
         if memory_id not in self.episodic_memories:
             return MemoryResponse(
-                operation_id=kwargs.get('operation_id', memory_id),
+                operation_id=kwargs.get("operation_id", memory_id),
                 success=False,
-                error_message=f"Memory {memory_id} not found"
+                error_message=f"Memory {memory_id} not found",
             )
 
         # Remove from indices
@@ -286,9 +279,9 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             self.consolidation_queue.remove(memory_id)
 
         return MemoryResponse(
-            operation_id=kwargs.get('operation_id', memory_id),
+            operation_id=kwargs.get("operation_id", memory_id),
             success=True,
-            memory_id=memory_id
+            memory_id=memory_id,
         )
 
     async def search_memories(
@@ -296,7 +289,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         query: Union[str, Dict[str, Any]],
         filters: Optional[Dict[str, Any]] = None,
         limit: int = 50,
-        **kwargs
+        **kwargs,
     ) -> List[MemoryResponse]:
         """Search episodic memories by various criteria"""
 
@@ -307,16 +300,22 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
             # Text search
             if isinstance(query, str):
-                if (query.lower() in content.event_type.lower() or
-                    query.lower() in content.description.lower() or
-                    query.lower() in str(content.content).lower()):
+                if (
+                    query.lower() in content.event_type.lower()
+                    or query.lower() in content.description.lower()
+                    or query.lower() in str(content.content).lower()
+                ):
 
-                    results.append(MemoryResponse(
-                        operation_id=kwargs.get('operation_id', f"search_{memory_id}"),
-                        success=True,
-                        memory_id=memory_id,
-                        content=content
-                    ))
+                    results.append(
+                        MemoryResponse(
+                            operation_id=kwargs.get(
+                                "operation_id", f"search_{memory_id}"
+                            ),
+                            success=True,
+                            memory_id=memory_id,
+                            content=content,
+                        )
+                    )
 
             # Structured search
             elif isinstance(query, dict):
@@ -328,7 +327,11 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
 
                 if "emotional_valence" in query:
                     valence_range = query["emotional_valence"]
-                    if not (valence_range[0] <= content.context.emotional_valence <= valence_range[1]):
+                    if not (
+                        valence_range[0]
+                        <= content.context.emotional_valence
+                        <= valence_range[1]
+                    ):
                         match = False
 
                 if "time_range" in query:
@@ -336,23 +339,23 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                     pass
 
                 if match:
-                    results.append(MemoryResponse(
-                        operation_id=kwargs.get('operation_id', f"search_{memory_id}"),
-                        success=True,
-                        memory_id=memory_id,
-                        content=content
-                    ))
+                    results.append(
+                        MemoryResponse(
+                            operation_id=kwargs.get(
+                                "operation_id", f"search_{memory_id}"
+                            ),
+                            success=True,
+                            memory_id=memory_id,
+                            content=content,
+                        )
+                    )
 
             if len(results) >= limit:
                 break
 
         return results
 
-    async def validate_memory(
-        self,
-        memory_id: str,
-        **kwargs
-    ) -> ValidationResult:
+    async def validate_memory(self, memory_id: str, **kwargs) -> ValidationResult:
         """Validate episodic memory integrity"""
 
         if memory_id not in self.episodic_memories:
@@ -378,7 +381,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         spatial_proximity: Optional[Tuple[np.ndarray, float]] = None,
         emotional_range: Optional[Tuple[float, float]] = None,
         event_types: Optional[List[str]] = None,
-        limit: int = 50
+        limit: int = 50,
     ) -> List[MemoryResponse]:
         """Retrieve memories by contextual criteria"""
 
@@ -416,19 +419,19 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         results = []
         for memory_id in list(candidates)[:limit]:
             content = self.episodic_memories[memory_id]
-            results.append(MemoryResponse(
-                operation_id=f"context_search_{memory_id}",
-                success=True,
-                memory_id=memory_id,
-                content=content
-            ))
+            results.append(
+                MemoryResponse(
+                    operation_id=f"context_search_{memory_id}",
+                    success=True,
+                    memory_id=memory_id,
+                    content=content,
+                )
+            )
 
         return results
 
     async def trigger_episodic_replay(
-        self,
-        memory_ids: Optional[List[str]] = None,
-        replay_strength: float = 1.0
+        self, memory_ids: Optional[List[str]] = None, replay_strength: float = 1.0
     ) -> List[Dict[str, Any]]:
         """Trigger replay of episodic memories (sharp-wave ripples)"""
 
@@ -449,7 +452,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
                     "event_type": content.event_type,
                     "emotional_valence": content.context.emotional_valence,
                     "replay_strength": replay_strength,
-                    "timestamp": time.time()
+                    "timestamp": time.time(),
                 }
 
                 replay_events.append(replay_event)
@@ -462,15 +465,13 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
         logger.info(
             "Episodic replay triggered",
             memories_replayed=len(replay_events),
-            consolidation_candidates=len(self.consolidation_queue)
+            consolidation_candidates=len(self.consolidation_queue),
         )
 
         return replay_events
 
     def get_consolidation_candidates(
-        self,
-        min_importance: float = 0.5,
-        limit: int = 20
+        self, min_importance: float = 0.5, limit: int = 20
     ) -> List[str]:
         """Get memories ready for neocortical consolidation"""
 
@@ -531,7 +532,7 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             "consolidation_queue_size": len(self.consolidation_queue),
             "temporal_index_size": len(self.temporal_index),
             "event_types": len(self.event_type_index),
-            "spatial_locations": len(self.spatial_index)
+            "spatial_locations": len(self.spatial_index),
         }
 
         return {**base_metrics, **episodic_metrics}

@@ -1,13 +1,16 @@
 import unittest
 from unittest.mock import MagicMock
 
-from core.fault_tolerance import Supervisor, SupervisionStrategy
 from core.coordination import ContractNetInitiator, ContractNetParticipant
-from core.swarm import SwarmAgent, AgentColony, SwarmHub
+from core.fault_tolerance import SupervisionStrategy, Supervisor
+from core.swarm import SwarmHub
+
 
 class TestSupervisor(unittest.TestCase):
     def test_restart_strategy(self):
-        supervisor = Supervisor(strategy=SupervisionStrategy.RESTART, max_restarts=1, restart_delay=0)
+        supervisor = Supervisor(
+            strategy=SupervisionStrategy.RESTART, max_restarts=1, restart_delay=0
+        )
         actor_ref = MagicMock()
         supervisor.add_child("actor1", actor_ref)
 
@@ -32,6 +35,7 @@ class TestSupervisor(unittest.TestCase):
         with self.assertRaises(Exception):
             supervisor.handle_failure("actor1", Exception("Test failure"))
 
+
 class TestContractNet(unittest.TestCase):
     def test_contract_net(self):
         initiator = ContractNetInitiator({"type": "test_task"})
@@ -51,6 +55,7 @@ class TestContractNet(unittest.TestCase):
         winner = initiator.award_contract()
         self.assertEqual(winner["participant_id"], "participant1")
 
+
 class TestSwarm(unittest.TestCase):
     def test_swarm_creation(self):
         swarm_hub = SwarmHub()
@@ -59,6 +64,7 @@ class TestSwarm(unittest.TestCase):
 
         agent = colony.create_agent("agent1")
         self.assertIn("agent1", colony.agents)
+
 
 if __name__ == "__main__":
     unittest.main()

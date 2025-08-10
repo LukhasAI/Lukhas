@@ -1,20 +1,23 @@
-import os
 import json
-from typing import Dict, Optional
+import os
 from datetime import datetime
+from typing import Dict, Optional
+
 
 class FederatedLearningManager:
     """
     Manages federated learning across distributed clients while preserving privacy.
     Handles model registration, gradient contributions, and model persistence.
     """
-    
+
     def __init__(self, storage_path: str):
         self.storage_path = storage_path
         self.models = {}  # In-memory model cache
         self._ensure_storage_exists()
 
-    def register_model(self, model_id: str, model_type: str, initial_weights: Dict) -> None:
+    def register_model(
+        self, model_id: str, model_type: str, initial_weights: Dict
+    ) -> None:
         """Register a new model for federated learning"""
         model_data = {
             "model_id": model_id,
@@ -22,9 +25,9 @@ class FederatedLearningManager:
             "weights": initial_weights,
             "version": 1,
             "last_updated": datetime.now().isoformat(),
-            "contributors": set()  # Track unique contributors
+            "contributors": set(),  # Track unique contributors
         }
-        
+
         self.models[model_id] = model_data
         self._persist_model(model_id)
 
@@ -32,45 +35,54 @@ class FederatedLearningManager:
         """Retrieve a model's current state"""
         if model_id not in self.models:
             self._load_model(model_id)  # Try loading from disk
-            
+
         if model_id not in self.models:
             return None
-            
+
         model = self.models[model_id]
         model["contributors"].add(client_id)  # Track model access
         return {
             "weights": model["weights"],
             "version": model["version"],
-            "model_type": model["model_type"]
+            "model_type": model["model_type"],
         }
 
-    def contribute_gradients(self, model_id: str, client_id: str, gradients: Dict, metrics: Optional[Dict] = None) -> None:
+    def contribute_gradients(
+        self,
+        model_id: str,
+        client_id: str,
+        gradients: Dict,
+        metrics: Optional[Dict] = None,
+    ) -> None:
         """Update model with client's gradient contributions"""
         if model_id not in self.models:
             return  # Model must be registered first
-            
+
         model = self.models[model_id]
         model["contributors"].add(client_id)
-        
+
         # Apply gradients - in practice would use proper gradient aggregation
         # Here we do a simple weighted update
         weights = model["weights"]
         for key, gradient in gradients.items():
             if key in weights:
                 weights[key] = self._weighted_update(weights[key], gradient)
-        
+
         model["version"] += 1
         model["last_updated"] = datetime.now().isoformat()
-        
+
         if metrics:
             model["metrics"] = metrics
-        
+
         self._persist_model(model_id)
-    
+
     def _weighted_update(self, current_value, gradient, learning_rate: float = 0.1):
         """Apply a weighted update to a value"""
         if isinstance(current_value, dict):
-            return {k: self._weighted_update(v, gradient[k]) for k, v in current_value.items()}
+            return {
+                k: self._weighted_update(v, gradient[k])
+                for k, v in current_value.items()
+            }
         elif isinstance(current_value, (int, float)):
             return current_value + learning_rate * gradient
         return current_value
@@ -87,11 +99,11 @@ class FederatedLearningManager:
         """Save model state to disk"""
         model = self.models[model_id]
         model_path = self._get_model_path(model_id)
-        
+
         # Convert set to list for JSON serialization
         model_data = dict(model)
         model_data["contributors"] = list(model["contributors"])
-        
+
         with open(model_path, "w") as f:
             json.dump(model_data, f, indent=2)
 
@@ -100,8 +112,8 @@ class FederatedLearningManager:
         model_path = self._get_model_path(model_id)
         if not os.path.exists(model_path):
             return
-            
-        with open(model_path, "r") as f:
+
+        with open(model_path) as f:
             model_data = json.load(f)
             # Convert contributors back to set
             model_data["contributors"] = set(model_data["contributors"])

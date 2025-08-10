@@ -1,9 +1,10 @@
 from __future__ import annotations
-import json
+
 import argparse
-from dataclasses import dataclass, asdict
+import json
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 @dataclass
@@ -23,7 +24,9 @@ class DreamMetricsView:
     def __init__(self) -> None:
         self.totals = DreamMetrics(timestamp=datetime.utcnow().isoformat())
 
-    def update_dream_metrics(self, drift_delta: float, entropy: float, energy: float) -> None:
+    def update_dream_metrics(
+        self, drift_delta: float, entropy: float, energy: float
+    ) -> None:
         self.totals.drift_score_delta += drift_delta
         self.totals.symbolic_entropy += entropy
         self.totals.energy_consumption += energy

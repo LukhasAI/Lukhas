@@ -5,14 +5,15 @@ Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Int
 
 import asyncio
 import logging
-from typing import Dict, Any, List, Optional, Union
 from datetime import datetime
+from typing import Any, Optional, Union
 
 from .core import AbstractReasoningBrainCore
 
 # Import radar integration
 try:
     from .bio_quantum_radar_integration import BioQuantumRadarIntegration
+
     RADAR_INTEGRATION_AVAILABLE = True
 except ImportError:
     RADAR_INTEGRATION_AVAILABLE = False
@@ -30,12 +31,18 @@ class AbstractReasoningBrainInterface:
     with integrated radar analytics for performance monitoring.
     """
 
-    def __init__(self, core: Optional[AbstractReasoningBrainCore] = None, enable_radar_analytics: bool = True):
+    def __init__(
+        self,
+        core: Optional[AbstractReasoningBrainCore] = None,
+        enable_radar_analytics: bool = True,
+    ):
         self.core = core or AbstractReasoningBrainCore()
         self.interface_active = False
-        
+
         # Radar analytics integration
-        self.enable_radar_analytics = enable_radar_analytics and RADAR_INTEGRATION_AVAILABLE
+        self.enable_radar_analytics = (
+            enable_radar_analytics and RADAR_INTEGRATION_AVAILABLE
+        )
         self.radar_integration = None
         if self.enable_radar_analytics:
             self.radar_integration = BioQuantumRadarIntegration(self)
@@ -45,9 +52,11 @@ class AbstractReasoningBrainInterface:
         try:
             await self.core.activate_brain()
             self.interface_active = True
-            
+
             if self.radar_integration:
-                logger.info("🚀 Abstract Reasoning Interface initialized with Radar Analytics")
+                logger.info(
+                    "🚀 Abstract Reasoning Interface initialized with Radar Analytics"
+                )
             else:
                 logger.info("🚀 Abstract Reasoning Interface initialized")
             return True
@@ -57,11 +66,11 @@ class AbstractReasoningBrainInterface:
 
     async def reason_abstractly(
         self,
-        problem: Union[str, Dict[str, Any]],
-        context: Optional[Dict[str, Any]] = None,
+        problem: Union[str, dict[str, Any]],
+        context: Optional[dict[str, Any]] = None,
         reasoning_type: str = "general_abstract",
-        enable_radar_analytics: Optional[bool] = None
-    ) -> Dict[str, Any]:
+        enable_radar_analytics: Optional[bool] = None,
+    ) -> dict[str, Any]:
         """
         Perform abstract reasoning on a problem with optional radar analytics
 
@@ -78,17 +87,25 @@ class AbstractReasoningBrainInterface:
             await self.initialize()
 
         # Determine if radar analytics should be used for this call
-        use_radar = enable_radar_analytics if enable_radar_analytics is not None else self.enable_radar_analytics
+        use_radar = (
+            enable_radar_analytics
+            if enable_radar_analytics is not None
+            else self.enable_radar_analytics
+        )
 
         # If radar analytics is enabled, use the integrated processing
         if use_radar and self.radar_integration:
-            logger.info(f"🧠📊 Starting abstract reasoning with radar analytics: {reasoning_type}")
-            
-            problem_description = problem if isinstance(problem, str) else problem.get("description", "Complex reasoning problem")
+            logger.info(
+                f"🧠📊 Starting abstract reasoning with radar analytics: {reasoning_type}"
+            )
+
+            problem_description = (
+                problem
+                if isinstance(problem, str)
+                else problem.get("description", "Complex reasoning problem")
+            )
             return await self.radar_integration.process_with_radar_analytics(
-                problem_description,
-                context,
-                generate_visualization=True
+                problem_description, context, generate_visualization=True
             )
 
         # Standard reasoning without radar analytics
@@ -154,17 +171,20 @@ class AbstractReasoningBrainInterface:
             }
 
     async def orchestrate_brains(
-        self, request: Dict[str, Any], target_brains: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        self,
+        request: dict[str, Any],
+        target_brains: Optional[list[str]] = None,
+    ) -> dict[str, Any]:
         """
-        Orchestrate reasoning across specific brain systems
+            Orchestrate reasoning across specific brain systems
 
-        Args:
-            request: The reasoning request
-            target_brains: List of brain types to include ["dreams", "emotional", "memory", "learning"]
+            Args:
+                request: The reasoning request
+                target_brains: List of brain types to include ["dreams", "emotional",
+        "memory", "learning"]
 
-        Returns:
-            Results from orchestrated brain processing
+            Returns:
+                Results from orchestrated brain processing
         """
         if not self.interface_active:
             await self.initialize()
@@ -186,8 +206,8 @@ class AbstractReasoningBrainInterface:
             }
 
     async def analyze_confidence(
-        self, reasoning_result: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, reasoning_result: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Perform detailed confidence analysis on a reasoning result
 
@@ -225,8 +245,8 @@ class AbstractReasoningBrainInterface:
             return {"error": str(e)}
 
     def _interpret_confidence(
-        self, confidence_metrics: Dict[str, Any]
-    ) -> Dict[str, str]:
+        self, confidence_metrics: dict[str, Any]
+    ) -> dict[str, str]:
         """Interpret confidence metrics for human understanding"""
         meta_confidence = confidence_metrics.get("meta_confidence", 0.0)
         coherence = confidence_metrics.get("cross_brain_coherence", 0.0)
@@ -286,10 +306,10 @@ class AbstractReasoningBrainInterface:
 
     async def provide_feedback(
         self,
-        reasoning_result: Dict[str, Any],
+        reasoning_result: dict[str, Any],
         actual_outcome: bool,
         feedback_notes: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Provide feedback on reasoning outcome for meta-learning
 
@@ -332,7 +352,7 @@ class AbstractReasoningBrainInterface:
 
     async def get_reasoning_history(
         self, limit: Optional[int] = 10, include_full_results: bool = False
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Get history of reasoning sessions
 
@@ -381,7 +401,7 @@ class AbstractReasoningBrainInterface:
             logger.error(f"❌ Failed to get reasoning history: {e}")
             return []
 
-    async def get_performance_summary(self) -> Dict[str, Any]:
+    async def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary of the abstract reasoning brain"""
         if not self.interface_active:
             await self.initialize()
@@ -437,26 +457,30 @@ class AbstractReasoningBrainInterface:
     # 📊 RADAR ANALYTICS INTEGRATION METHODS
     # =============================================================================
 
-    async def start_radar_monitoring(self, 
-                                   update_interval: float = 2.0, 
-                                   max_duration: Optional[float] = None) -> bool:
+    async def start_radar_monitoring(
+        self,
+        update_interval: float = 2.0,
+        max_duration: Optional[float] = None,
+    ) -> bool:
         """
         Start real-time radar monitoring of Bio-Quantum reasoning performance.
-        
+
         Args:
             update_interval: Seconds between radar updates
             max_duration: Optional maximum monitoring duration
-            
+
         Returns:
             True if monitoring started successfully
         """
         if not self.radar_integration:
             logger.warning("Radar analytics not available for monitoring")
             return False
-            
+
         logger.info(f"🔄 Starting radar monitoring (interval: {update_interval}s)")
         try:
-            await self.radar_integration.start_real_time_monitoring(update_interval, max_duration)
+            await self.radar_integration.start_real_time_monitoring(
+                update_interval, max_duration
+            )
             return True
         except Exception as e:
             logger.error(f"Failed to start radar monitoring: {e}")
@@ -466,7 +490,7 @@ class AbstractReasoningBrainInterface:
         """Stop real-time radar monitoring."""
         if not self.radar_integration:
             return False
-            
+
         self.radar_integration.stop_real_time_monitoring()
         logger.info("🛑 Radar monitoring stopped")
         return True
@@ -474,17 +498,17 @@ class AbstractReasoningBrainInterface:
     def export_radar_analytics(self, filepath: Optional[str] = None) -> Optional[str]:
         """
         Export comprehensive radar analytics session data.
-        
+
         Args:
             filepath: Optional custom export path
-            
+
         Returns:
             Path to exported file or None if failed
         """
         if not self.radar_integration:
             logger.warning("Radar analytics not available for export")
             return None
-            
+
         try:
             export_path = self.radar_integration.export_session_analytics(filepath)
             logger.info(f"📁 Radar analytics exported to: {export_path}")
@@ -493,30 +517,32 @@ class AbstractReasoningBrainInterface:
             logger.error(f"Failed to export radar analytics: {e}")
             return None
 
-    def get_radar_performance_summary(self) -> Dict[str, Any]:
+    def get_radar_performance_summary(self) -> dict[str, Any]:
         """
         Get current radar analytics performance summary.
-        
+
         Returns:
             Performance summary dict or empty dict if unavailable
         """
         if not self.radar_integration:
             return {"status": "Radar analytics not available"}
-            
+
         return self.radar_integration._get_performance_summary()
 
-    async def reason_with_radar_visualization(self, 
-                                            problem: Union[str, Dict[str, Any]],
-                                            context: Optional[Dict[str, Any]] = None,
-                                            reasoning_type: str = "general_abstract") -> Dict[str, Any]:
+    async def reason_with_radar_visualization(
+        self,
+        problem: Union[str, dict[str, Any]],
+        context: Optional[dict[str, Any]] = None,
+        reasoning_type: str = "general_abstract",
+    ) -> dict[str, Any]:
         """
         Convenience method for reasoning with guaranteed radar visualization.
-        
+
         Args:
             problem: Problem to reason about
             context: Additional context
             reasoning_type: Type of reasoning
-            
+
         Returns:
             Reasoning result with radar analytics and visualization path
         """
@@ -524,20 +550,20 @@ class AbstractReasoningBrainInterface:
             problem, context, reasoning_type, enable_radar_analytics=True
         )
 
-    def configure_radar_analytics(self, config: Dict[str, Any]) -> bool:
+    def configure_radar_analytics(self, config: dict[str, Any]) -> bool:
         """
         Update radar analytics configuration.
-        
+
         Args:
             config: Configuration dictionary
-            
+
         Returns:
             True if configuration updated successfully
         """
         if not self.radar_integration:
             logger.warning("Radar analytics not available for configuration")
             return False
-            
+
         try:
             self.radar_integration.visualizer.config.update(config)
             logger.info("📊 Radar analytics configuration updated")
@@ -551,8 +577,9 @@ class AbstractReasoningBrainInterface:
 
 
 async def reason_about(
-    problem: Union[str, Dict[str, Any]], context: Optional[Dict[str, Any]] = None
-) -> Dict[str, Any]:
+    problem: Union[str, dict[str, Any]],
+    context: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
     """
     Quick function to perform abstract reasoning
 
@@ -574,8 +601,8 @@ async def reason_about(
 
 
 async def analyze_reasoning_confidence(
-    reasoning_result: Dict[str, Any],
-) -> Dict[str, Any]:
+    reasoning_result: dict[str, Any],
+) -> dict[str, Any]:
     """
     Quick function to analyze confidence in a reasoning result
 
@@ -599,19 +626,20 @@ async def analyze_reasoning_confidence(
 # 📊 RADAR-ENHANCED CONVENIENCE FUNCTIONS
 # =============================================================================
 
+
 async def reason_about_with_radar(
     problem_description: str,
-    context: Optional[Dict[str, Any]] = None,
-    reasoning_type: str = "general_abstract"
-) -> Dict[str, Any]:
+    context: Optional[dict[str, Any]] = None,
+    reasoning_type: str = "general_abstract",
+) -> dict[str, Any]:
     """
     Convenience function for abstract reasoning with radar analytics.
-    
+
     Args:
         problem_description: Description of the problem to solve
         context: Additional context for reasoning
         reasoning_type: Type of reasoning to perform
-        
+
     Returns:
         Comprehensive result with reasoning and radar analytics
     """
@@ -627,15 +655,16 @@ async def reason_about_with_radar(
         await interface.shutdown()
 
 
-async def start_radar_monitoring_session(update_interval: float = 2.0, 
-                                       duration: float = 30.0) -> str:
+async def start_radar_monitoring_session(
+    update_interval: float = 2.0, duration: float = 30.0
+) -> str:
     """
     Start a radar monitoring session and return analytics export path.
-    
+
     Args:
         update_interval: Seconds between updates
         duration: Total monitoring duration
-        
+
     Returns:
         Path to exported analytics file
     """
@@ -645,7 +674,7 @@ async def start_radar_monitoring_session(update_interval: float = 2.0,
     try:
         # Start monitoring
         await interface.start_radar_monitoring(update_interval, duration)
-        
+
         # Export analytics
         export_path = interface.export_radar_analytics()
         return export_path or "Export failed"
@@ -655,19 +684,21 @@ async def start_radar_monitoring_session(update_interval: float = 2.0,
 
 
 # Legacy function compatibility
+
+
 async def reason_about(
     problem_description: str,
-    context: Optional[Dict[str, Any]] = None,
+    context: Optional[dict[str, Any]] = None,
     reasoning_type: str = "general_abstract",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Simple reasoning function - now with optional radar analytics.
-    
+
     Args:
         problem_description: Description of the problem to solve
         context: Additional context for reasoning
         reasoning_type: Type of reasoning to perform
-        
+
     Returns:
         Reasoning result
     """
@@ -690,53 +721,62 @@ async def reason_about(
 # 📊 DEMONSTRATION AND TESTING FUNCTIONS
 # =============================================================================
 
+
 async def demo_radar_integration():
     """Comprehensive demonstration of radar analytics integration."""
     print("🧠⚛️📊 Bio-Quantum Radar Analytics Integration Demo")
     print("=" * 60)
-    
+
     # Test 1: Single reasoning with radar
     print("\n1️⃣ Testing single reasoning with radar analytics...")
     result = await reason_about_with_radar(
         "Design a quantum-biological hybrid consciousness detection system",
-        context={"domain": "consciousness_research", "complexity": "very_high"}
+        context={
+            "domain": "consciousness_research",
+            "complexity": "very_high",
+        },
     )
     print(f"   ✅ Confidence: {result['reasoning_result']['confidence']:.3f}")
     print(f"   📊 Visualization: {result['visualization_path']}")
-    
+
     # Test 2: Real-time monitoring
     print("\n2️⃣ Testing real-time monitoring (10 seconds)...")
-    export_path = await start_radar_monitoring_session(update_interval=1.0, duration=10.0)
+    export_path = await start_radar_monitoring_session(
+        update_interval=1.0, duration=10.0
+    )
     print(f"   📁 Analytics exported to: {export_path}")
-    
+
     # Test 3: Multiple reasoning calls with analytics
     print("\n3️⃣ Testing multiple reasoning calls with analytics...")
     interface = AbstractReasoningBrainInterface(enable_radar_analytics=True)
     await interface.initialize()
-    
+
     try:
         problems = [
             "Optimize entanglement-like correlation for bio-neural interfaces",
             "Design self-improving AI safety protocols",
-            "Create consciousness-aware computing architectures"
+            "Create consciousness-aware computing architectures",
         ]
-        
+
         for i, problem in enumerate(problems, 1):
             result = await interface.reason_with_radar_visualization(problem)
-            print(f"   {i}. Confidence: {result['reasoning_result']['confidence']:.3f}, "
-                  f"Coherence: {result['reasoning_result']['coherence']:.3f}")
-        
+            print(
+                f"   {i}. Confidence: {result['reasoning_result']['confidence']:.3f}, "
+                f"Coherence: {result['reasoning_result']['coherence']:.3f}"
+            )
+
         # Export comprehensive session
         final_export = interface.export_radar_analytics()
         print(f"   📊 Final session analytics: {final_export}")
-        
+
     finally:
         await interface.shutdown()
-    
+
     print("\n🎉 Radar integration demo completed successfully!")
 
 
 if __name__ == "__main__":
     # Run the radar integration demo
     import asyncio
+
     asyncio.run(demo_radar_integration())

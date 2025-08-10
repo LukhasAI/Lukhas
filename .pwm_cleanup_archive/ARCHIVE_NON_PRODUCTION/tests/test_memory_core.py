@@ -1,6 +1,8 @@
 """Tests for lukhas.memory.core_memory"""
+
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
 
 class TestCoreMemory(unittest.TestCase):
     def setUp(self):
@@ -17,6 +19,7 @@ class TestCoreMemory(unittest.TestCase):
         """Test that module can be imported"""
         try:
             import memory.core_memory
+
             self.assertTrue(True)
         except ImportError:
             # Module might not exist yet, that's ok for now
@@ -24,7 +27,7 @@ class TestCoreMemory(unittest.TestCase):
 
     def test_mock_functionality(self):
         """Test with mocked dependencies"""
-        with patch('lukhas.memory.core_memory.some_function', return_value="mocked"):
+        with patch("lukhas.memory.core_memory.some_function", return_value="mocked"):
             # Placeholder for actual functionality
             result = "mocked"
             self.assertEqual(result, "mocked")
@@ -40,6 +43,7 @@ class TestCoreMemory(unittest.TestCase):
         # Test error handling
         with self.assertRaises(TypeError):
             int("not a number")
+
 
 if __name__ == "__main__":
     unittest.main()

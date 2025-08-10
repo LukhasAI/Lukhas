@@ -4,10 +4,10 @@ Init File Generator
 Automatically creates __init__.py files for specified directories.
 """
 
+import logging
 import os
 import sys
 from pathlib import Path
-import logging
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -23,15 +23,17 @@ def create_init_file(directory_path: str, components: list = None):
 
     os.makedirs(directory_path, exist_ok=True)
 
-    module_name = Path(directory_path).name.replace('_', ' ').title()
+    module_name = Path(directory_path).name.replace("_", " ").title()
 
     if components is None:
         components = []
         try:
             for file in os.listdir(directory_path):
-                if file.endswith('.py') and file != '__init__.py':
+                if file.endswith(".py") and file != "__init__.py":
                     component_name = file[:-3]
-                    class_name = ''.join(word.capitalize() for word in component_name.split('_'))
+                    class_name = "".join(
+                        word.capitalize() for word in component_name.split("_")
+                    )
                     components.append((component_name, class_name))
         except FileNotFoundError:
             pass
@@ -39,44 +41,50 @@ def create_init_file(directory_path: str, components: list = None):
     lines = [
         '"""',
         f"{module_name} Module",
-        'Auto-generated module initialization file',
+        "Auto-generated module initialization file",
         '"""',
-        '',
-        'import logging',
-        '',
-        'logger = logging.getLogger(__name__)',
-        ''
+        "",
+        "import logging",
+        "",
+        "logger = logging.getLogger(__name__)",
+        "",
     ]
 
     for component_name, class_name in components:
-        lines.extend([
-            'try:',
-            f'    from .{component_name} import {class_name}',
-            f'    logger.debug("Imported {class_name} from .{component_name}")',
-            'except ImportError as e:',
-            f'    logger.warning(f"Could not import {class_name}: {{e}}")',
-            f'    {class_name} = None',
-            ''
-        ])
+        lines.extend(
+            [
+                "try:",
+                f"    from .{component_name} import {class_name}",
+                f'    logger.debug("Imported {class_name} from .{component_name}")',
+                "except ImportError as e:",
+                f'    logger.warning(f"Could not import {class_name}: {{e}}")',
+                f"    {class_name} = None",
+                "",
+            ]
+        )
 
     if components:
-        lines.append('__all__ = [')
+        lines.append("__all__ = [")
         for _, class_name in components:
             lines.append(f"    '{class_name}',")
-        lines.append(']')
-        lines.append('')
-        lines.append('# Filter out None values from __all__ if imports failed')
-        lines.append('__all__ = [name for name in __all__ if globals().get(name) is not None]')
-        lines.append('')
+        lines.append("]")
+        lines.append("")
+        lines.append("# Filter out None values from __all__ if imports failed")
+        lines.append(
+            "__all__ = [name for name in __all__ if globals().get(name) is not None]"
+        )
+        lines.append("")
     else:
-        lines.append('__all__ = []')
-        lines.append('')
+        lines.append("__all__ = []")
+        lines.append("")
 
-    lines.append(f'logger.info(f"{module_name.lower()} module initialized. Available components: {{__all__}}")')
-    lines.append('')
+    lines.append(
+        f'logger.info(f"{module_name.lower()} module initialized. Available components: {{__all__}}")'
+    )
+    lines.append("")
 
-    with open(init_path, 'w') as f:
-        f.write('\n'.join(lines))
+    with open(init_path, "w") as f:
+        f.write("\n".join(lines))
 
     logger.info(f"Created {init_path}")
 

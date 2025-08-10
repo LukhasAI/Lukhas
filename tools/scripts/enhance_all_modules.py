@@ -4,20 +4,23 @@ Enhance all LUKHAS modules to be self-sufficient
 Creates proper structure, documentation, tests, and examples for each module
 """
 
-import os
 import json
+import os
 import shutil
 from datetime import datetime
 from pathlib import Path
 
+
 class ModuleEnhancer:
+
     def __init__(self):
         self.modules = {
             'core': {
                 'description': 'Central nervous system - GLYPH engine, symbolic processing',
                 'primary_author': 'LUKHAS AI',
                 'submodules': ['glyph', 'symbolic', 'neural', 'integration'],
-                'key_features': ['GLYPH token processing', 'Symbolic reasoning', 'Neural pathways', 'System integration']
+                'key_features': ['GLYPH token processing', 'Symbolic reasoning',
+    'Neural pathways', 'System integration']
             },
             'consciousness': {
                 'description': 'Awareness, reflection, decision-making cortex',
@@ -34,62 +37,67 @@ class ModuleEnhancer:
             'qim': {
                 'description': 'Quantum-Inspired Metaphors for advanced processing',
                 'primary_author': 'LUKHAS AI',
-                'submodules': ['quantum_states', 'entanglement', 'superposition', 'bio'],
-                'key_features': ['Quantum states', 'Entanglement', 'Superposition', 'Bio-inspired computing']
+                'submodules': ['quantum_states', 'entanglement', 'superposition',
+    'bio'],
+                'key_features': ['Quantum states', 'Entanglement', 'Superposition',
+    'Bio-inspired computing']
             },
             'emotion': {
                 'description': 'VAD affect and mood regulation',
                 'primary_author': 'LUKHAS AI',
                 'submodules': ['vad', 'mood', 'empathy', 'regulation'],
-                'key_features': ['Valence-Arousal-Dominance', 'Mood states', 'Empathetic response', 'Emotional regulation']
+                'key_features': ['Valence-Arousal-Dominance', 'Mood states',
+    'Empathetic response', 'Emotional regulation']
             },
             'governance': {
                 'description': 'Guardian system and ethical oversight',
                 'primary_author': 'LUKHAS AI',
                 'submodules': ['guardian', 'ethics', 'policy', 'oversight'],
-                'key_features': ['Guardian protection', 'Ethical framework', 'Policy engine', 'System oversight']
+                'key_features': ['Guardian protection', 'Ethical framework',
+    'Policy engine', 'System oversight']
             },
             'bridge': {
                 'description': 'External API connections and interfaces',
                 'primary_author': 'LUKHAS AI',
                 'submodules': ['api', 'external', 'protocols', 'adapters'],
-                'key_features': ['API interfaces', 'External connections', 'Protocol handling', 'Format adaptation']
+                'key_features': ['API interfaces', 'External connections',
+    'Protocol handling', 'Format adaptation']
             }
         }
-        
+
         def enhance_module(self, module_name, module_info):
             """Enhance a single module"""
         print(f"\n🔧 Enhancing {module_name.upper()} module...")
-        
+
         # Create directory structure
         self.create_directory_structure(module_name)
-        
+
         # Create README
         self.create_readme(module_name, module_info)
-        
+
         # Create Makefile
         self.create_makefile(module_name)
-        
+
         # Create test structure
         self.create_test_structure(module_name, module_info)
-        
+
         # Create examples
         self.create_examples(module_name, module_info)
-        
+
         # Create API documentation
         self.create_api_docs(module_name, module_info)
-        
+
         # Update MODULE_MANIFEST.json
         self.update_manifest(module_name, module_info)
-        
+
         # Create .gitignore
         self.create_gitignore(module_name)
-        
+
         # Create __init__.py for submodules
         self.ensure_submodule_init(module_name, module_info)
-        
+
         print(f"✅ {module_name.upper()} module enhanced!")
-        
+
             def create_directory_structure(self, module_name):
                 """Create all necessary directories"""
         directories = [
@@ -104,10 +112,10 @@ class ModuleEnhancer:
             f"{module_name}/examples/basic",
             f"{module_name}/examples/advanced"
         ]
-        
+
                 for directory in directories:
             os.makedirs(directory, exist_ok=True)
-            
+
                     def create_readme(self, module_name, module_info):
                         """Create comprehensive README.md"""
         readme_content = f"""# {module_name.upper()} Module
@@ -221,10 +229,10 @@ class ModuleEnhancer:
 
                         Part of LUKHAS AI - see root LICENSE file.
                         """
-        
+
                         with open(f"{module_name}/README.md", 'w') as f:
             f.write(readme_content)
-            
+
                             def create_makefile(self, module_name):
                                 """Create Makefile with common tasks"""
         makefile_content = f""".PHONY: help test test-unit test-integration test-benchmarks lint format clean install dev-install docs
@@ -254,7 +262,8 @@ class ModuleEnhancer:
                                 pytest tests/benchmarks/ -v --benchmark-only
 
                                 lint:
-                                flake8 . --max-line-length=100 --exclude=.venv,__pycache__
+                                flake8 . --max-line-length=100 --exclude=.venv,
+    __pycache__
                                 mypy . --ignore-missing-imports
                                 pylint {module_name} --disable=C0111,R0903
 
@@ -281,11 +290,12 @@ class ModuleEnhancer:
                                 docs:
                                 cd docs && mkdocs build
                                 """
-        
+
                                 with open(f"{module_name}/Makefile", 'w') as f:
             f.write(makefile_content)
-            
-                                    def create_test_structure(self, module_name, module_info):
+
+                                    def create_test_structure(self, module_name,
+    module_info):
                                         """Create comprehensive test structure"""
         # Test __init__.py
         test_init = f'''"""
@@ -301,10 +311,11 @@ class ModuleEnhancer:
                                         # Add parent directory to path for imports
                                         sys.path.insert(0, str(Path(__file__).parent.parent))
                                         '''
-        
-                                        with open(f"{module_name}/tests/__init__.py", 'w') as f:
+
+                                        with open(f"{module_name}/tests/__init__.py",
+    'w') as f:
             f.write(test_init)
-            
+
         # Unit test example
         unit_test = f'''"""
                                             Unit tests for {module_name} core functionality
@@ -315,44 +326,46 @@ class ModuleEnhancer:
 
                                             class Test{module_name.title()}Core:
                                                 """Test core {module_name} functionality"""
-    
+
                                                 def test_module_imports(self):
                                                     """Test that all submodules can be imported"""
         submodules = {module_info['submodules']}
                                                     for submodule in submodules:
             # This will raise ImportError if submodule doesn't exist
             exec(f"from {module_name} import {{submodule}}")
-    
+
                                                         def test_module_manifest_exists(self):
                                                             """Test that MODULE_MANIFEST.json exists and is valid"""
         import json
         import os
-        
+
         manifest_path = os.path.join(os.path.dirname(__file__), '..', 'MODULE_MANIFEST.json')
         assert os.path.exists(manifest_path), "MODULE_MANIFEST.json not found"
-        
-                                                            with open(manifest_path, 'r') as f:
+
+                                                            with open(manifest_path,
+    'r') as f:
             manifest = json.load(f)
-        
+
         assert manifest['module'] == '{module_name.upper()}'
         assert 'submodules' in manifest
         assert 'neuroplastic_config' in manifest
 
     @pytest.mark.parametrize("submodule", {module_info['submodules']})
+
                                                                 def test_submodule_structure(self, submodule):
                                                                     """Test that each submodule has proper structure"""
         import os
-        
+
         submodule_path = os.path.join(os.path.dirname(__file__), '..', submodule)
         assert os.path.exists(submodule_path), f"Submodule {{submodule}} directory not found"
-        
+
         init_path = os.path.join(submodule_path, '__init__.py')
         assert os.path.exists(init_path), f"Submodule {{submodule}} missing __init__.py"
                                                                     '''
-        
+
                                                                     with open(f"{module_name}/tests/unit/test_core.py", 'w') as f:
             f.write(unit_test)
-            
+
         # Integration test example
         integration_test = f'''"""
                                                                         Integration tests for {module_name} module
@@ -363,32 +376,33 @@ class ModuleEnhancer:
 
                                                                         class Test{module_name.title()}Integration:
                                                                             """Test {module_name} integration with other modules"""
-    
+
     @pytest.fixture
+
                                                                             def setup_{module_name}(self):
                                                                                 """Setup {module_name} for testing"""
         # TODO: Add actual setup
                                                                                 return None
-    
+
                                                                             def test_neuroplastic_response(self, setup_{module_name}):
                                                                                 """Test neuroplastic response to hormone signals"""
         # TODO: Implement hormone response test
                                                                                 pass
-    
+
                                                                             def test_colony_propagation(self, setup_{module_name}):
                                                                                 """Test colony framework propagation"""
         # TODO: Implement propagation test
                                                                                 pass
-    
+
                                                                             def test_hybrid_component_access(self, setup_{module_name}):
                                                                                 """Test access to hybrid components"""
         # TODO: Test hybrid component functionality
                                                                                 pass
                                                                             '''
-        
+
                                                                             with open(f"{module_name}/tests/integration/test_integration.py", 'w') as f:
             f.write(integration_test)
-            
+
                                                                                 def create_examples(self, module_name, module_info):
                                                                                     """Create example files"""
         # Basic example
@@ -402,25 +416,25 @@ class ModuleEnhancer:
                                                                                     def main():
                                                                                         """Basic {module_name} usage"""
     print(f"Using {{module_name.upper()}} module")
-    
+
     # TODO: Add actual usage examples
-    
+
     # Example: Initialize module
     # module = {module_name.title()}Core()
-    
+
     # Example: Process data
     # result = module.process(input_data)
-    
+
     print("Example completed!")
 
                                                                                         if __name__ == "__main__":
     main()
                                                                                             '''
-        
+
                                                                                             with open(f"{module_name}/examples/basic/simple_usage.py", 'w') as f:
             f.write(basic_example)
             os.chmod(f"{module_name}/examples/basic/simple_usage.py", 0o755)
-            
+
         # Advanced example
         advanced_example = f'''#!/usr/bin/env python3
                                                                                                 """
@@ -432,7 +446,7 @@ class ModuleEnhancer:
 
                                                                                                 class {module_name.title()}NeuroplasticDemo:
                                                                                                     """Demonstrate neuroplastic capabilities"""
-    
+
                                                                                                     def __init__(self):
         self.hormone_levels = {{
             'cortisol': 0.2,
@@ -440,45 +454,45 @@ class ModuleEnhancer:
             'serotonin': 0.5,
             'oxytocin': 0.3
         }}
-        
+
                                                                                                         def simulate_stress_response(self):
                                                                                                             """Simulate system under stress"""
         print("Simulating stress response...")
-        
+
         # Increase cortisol
         self.hormone_levels['cortisol'] = 0.8
-        
+
         # TODO: Implement actual stress response
         # This would trigger module reorganization
-        
+
                                                                                                             def demonstrate_hybrid_components(self):
                                                                                                                 """Show hybrid component functionality"""
         print("Demonstrating hybrid components...")
-        
+
         # Hybrid components exist in multiple modules
         # TODO: Add actual hybrid component demo
-        
+
                                                                                                                 def run_demo(self):
                                                                                                                     """Run the full demonstration"""
         print(f"{{module_name.upper()}} Neuroplastic Demo")
         print("=" * 50)
-        
+
         print(f"Initial hormone levels: {{self.hormone_levels}}")
-        
+
         self.simulate_stress_response()
         print(f"Stress hormone levels: {{self.hormone_levels}}")
-        
+
         self.demonstrate_hybrid_components()
 
                                                                                                                     if __name__ == "__main__":
     demo = {module_name.title()}NeuroplasticDemo()
     demo.run_demo()
                                                                                                                         '''
-        
+
                                                                                                                         with open(f"{module_name}/examples/advanced/neuroplastic_demo.py", 'w') as f:
             f.write(advanced_example)
             os.chmod(f"{module_name}/examples/advanced/neuroplastic_demo.py", 0o755)
-            
+
                                                                                                                             def create_api_docs(self, module_name, module_info):
                                                                                                                                 """Create API documentation"""
         api_index = f"""# {module_name.upper()} API Reference
@@ -546,10 +560,10 @@ class ModuleEnhancer:
                                                                                                                                     response = module.colony.propagate(signal)
                                                                                                                                     ```
                                                                                                                                     """
-        
+
                                                                                                                                     with open(f"{module_name}/docs/api/index.md", 'w') as f:
             f.write(api_index)
-            
+
         # Create quickstart guide
         quickstart = f"""# {module_name.upper()} Quick Start Guide
 
@@ -606,14 +620,14 @@ class ModuleEnhancer:
                                                                                                                                             - Try the [examples](../../examples/)
                                                                                                                                             - Learn about [advanced usage](./advanced.md)
                                                                                                                                             """
-        
+
                                                                                                                                             with open(f"{module_name}/docs/guides/quickstart.md", 'w') as f:
             f.write(quickstart)
-            
+
                                                                                                                                                 def update_manifest(self, module_name, module_info):
                                                                                                                                                     """Update MODULE_MANIFEST.json with additional info"""
         manifest_path = f"{module_name}/MODULE_MANIFEST.json"
-        
+
         # Load existing manifest
                                                                                                                                                     if os.path.exists(manifest_path):
                                                                                                                                                         with open(manifest_path, 'r') as f:
@@ -624,7 +638,7 @@ class ModuleEnhancer:
                 'version': '2.0.0',
                 'path': f'{module_name}/'
             }
-        
+
         # Update with enhancement info
         manifest.update({
             'enhanced': True,
@@ -646,11 +660,11 @@ class ModuleEnhancer:
                 'formatting': ['black', 'isort']
             }
         })
-        
+
         # Save updated manifest
                                                                                                                                                                 with open(manifest_path, 'w') as f:
             json.dump(manifest, f, indent=2)
-            
+
                                                                                                                                                                     def create_gitignore(self, module_name):
                                                                                                                                                                         """Create module-specific .gitignore"""
         gitignore_content = """# Module-specific ignores
@@ -685,16 +699,16 @@ class ModuleEnhancer:
                                                                                                                                                                         *.bak
                                                                                                                                                                         .DS_Store
                                                                                                                                                                         """
-        
+
                                                                                                                                                                         with open(f"{module_name}/.gitignore", 'w') as f:
             f.write(gitignore_content)
-            
+
                                                                                                                                                                             def ensure_submodule_init(self, module_name, module_info):
                                                                                                                                                                                 """Ensure all submodules have proper __init__.py"""
                                                                                                                                                                                 for submodule in module_info['submodules']:
             submodule_path = os.path.join(module_name, submodule)
             init_path = os.path.join(submodule_path, '__init__.py')
-            
+
                                                                                                                                                                                     if not os.path.exists(init_path):
                 init_content = f'''"""
                                                                                                                                                                                         {module_name.upper()} - {submodule.upper()} Submodule
@@ -710,11 +724,11 @@ class ModuleEnhancer:
                                                                                                                                                                                         # Colony base for propagation
                                                                                                                                                                                         class {submodule.title()}Colony:
                                                                                                                                                                                             """Colony framework for {submodule}"""
-    
+
                                                                                                                                                                                             def __init__(self):
         self.colony_id = "{module_name}_{submodule}"
         self.active = True
-        
+
                                                                                                                                                                                                 def propagate(self, signal):
                                                                                                                                                                                                     """Propagate signal through colony"""
         # TODO: Implement propagation
@@ -726,10 +740,10 @@ class ModuleEnhancer:
                                                                                                                                                                                                 # Export main functionality
                                                                                                                                                                                                 __all__ = ['colony']
                                                                                                                                                                                                 '''
-                
+
                                                                                                                                                                                                 with open(init_path, 'w') as f:
                     f.write(init_content)
-                    
+
                                                                                                                                                                                                     def create_requirements(self, module_name):
                                                                                                                                                                                                         """Create module-specific requirements.txt"""
         # Base requirements that all modules need
@@ -749,7 +763,7 @@ class ModuleEnhancer:
                                                                                                                                                                                                         pylint>=2.10.0
                                                                                                                                                                                                         isort>=5.9.0
                                                                                                                                                                                                         """
-        
+
         # Module-specific additions
         module_specific = {
             'core': '\n# GLYPH processing\nsympy>=1.8',
@@ -760,29 +774,29 @@ class ModuleEnhancer:
             'governance': '\n# Policy engine\nply>=3.11',
             'bridge': '\n# API framework\nfastapi>=0.68.0\nuvicorn>=0.15.0'
         }
-        
+
         requirements = base_requirements + module_specific.get(module_name, '')
-        
+
                                                                                                                                                                                                         with open(f"{module_name}/requirements.txt", 'w') as f:
             f.write(requirements)
-            
+
                                                                                                                                                                                                             def run(self):
                                                                                                                                                                                                                 """Enhance all modules"""
         print("🚀 ENHANCING ALL LUKHAS MODULES")
         print("=" * 50)
-        
+
         enhanced_count = 0
-        
+
                                                                                                                                                                                                                 for module_name, module_info in self.modules.items():
             self.enhance_module(module_name, module_info)
             self.create_requirements(module_name)
             enhanced_count += 1
-            
+
         print(f"\n✅ Successfully enhanced {enhanced_count} modules!")
-        
+
         # Create summary report
         self.create_enhancement_report(enhanced_count)
-        
+
                                                                                                                                                                                                                     def create_enhancement_report(self, count):
                                                                                                                                                                                                                         """Create report of enhancement"""
         report = {
@@ -802,20 +816,18 @@ class ModuleEnhancer:
                 'Create inter-module integration tests'
             ]
         }
-        
+
         report_path = 'docs/reports/MODULE_ENHANCEMENT_REPORT.json'
         os.makedirs(os.path.dirname(report_path), exist_ok=True)
-        
+
                                                                                                                                                                                                                         with open(report_path, 'w') as f:
             json.dump(report, f, indent=2)
-            
-        print(f"\n📋 Enhancement report saved to: {report_path}")
 
+        print(f"\n📋 Enhancement report saved to: {report_path}")
 
                                                                                                                                                                                                                             def main():
     enhancer = ModuleEnhancer()
     enhancer.run()
-
 
                                                                                                                                                                                                                                 if __name__ == "__main__":
     main()

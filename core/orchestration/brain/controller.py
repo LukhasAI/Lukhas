@@ -10,16 +10,23 @@ This module integrates the critical missing AI components identified by elite AI
 Based on implementations from the Lukhas GitHub repository.
 """
 
-import asyncio
 import datetime
 import logging
-from typing import Dict, List, Optional
-import openai
+from typing import Optional
 
-from .meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+from .memory.enhanced_memory_manager import (
+    EnhancedMemoryManager,
+    MemoryPriority,
+    MemoryType,
+)
+from .meta_cognitive.reflective_introspection_system import (
+    ReflectiveIntrospectionSystem,
+)
+from .prediction.predictive_resource_manager import (
+    PredictiveResourceManager,
+    ResourceType,
+)
 from .reasoning.causal_reasoning_module import CausalReasoningModule
-from .memory.enhanced_memory_manager import EnhancedMemoryManager, MemoryType, MemoryPriority
-from .prediction.predictive_resource_manager import PredictiveResourceManager, ResourceType
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +40,7 @@ class AdvancedAGIController:
     Anthropic Claude, and Gemini Pro expert evaluations.
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
 
         # Initialize core components
@@ -47,7 +54,7 @@ class AdvancedAGIController:
             "initialization_time": datetime.datetime.now().isoformat(),
             "active_components": 4,
             "integration_level": "advanced",
-            "performance_mode": "adaptive"
+            "performance_mode": "adaptive",
         }
 
         # Performance metrics
@@ -57,13 +64,15 @@ class AdvancedAGIController:
             "memory_operations": 0,
             "predictions_made": 0,
             "optimizations_applied": 0,
-            "system_efficiency": 0.0
+            "system_efficiency": 0.0,
         }
 
-        logger.info("Advanced AI Controller initialized with %d components",
-                   self.system_state["active_components"])
+        logger.info(
+            "Advanced AI Controller initialized with %d components",
+            self.system_state["active_components"],
+        )
 
-    async def process_interaction(self, interaction_data: Dict) -> Dict:
+    async def process_interaction(self, interaction_data: dict) -> dict:
         """
         Process a complete interaction through all AI components
 
@@ -86,32 +95,42 @@ class AdvancedAGIController:
                 data={
                     "interaction": interaction_data,
                     "reasoning": reasoning_results,
-                    "timestamp": start_time.isoformat()
-                }
+                    "timestamp": start_time.isoformat(),
+                },
             )
 
             # Phase 3: Resource Prediction and Optimization
             resource_predictions = self.resource_predictor.predict_all_resources()
 
             # Phase 4: Meta-Cognitive Reflection
-            self.meta_cognitive.log_interaction({
-                "interaction_data": interaction_data,
-                "reasoning_confidence": reasoning_results.get("confidence", 0.0),
-                "memory_stored": memory_stored,
-                "resource_risk": resource_predictions.get("overall_risk", "unknown"),
-                "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
-                "metrics": {
-                    "response_time": (datetime.datetime.now() - start_time).total_seconds(),
-                    "accuracy": reasoning_results.get("confidence", 0.0),
-                    "memory_efficiency": 1.0 if memory_stored else 0.0
+            self.meta_cognitive.log_interaction(
+                {
+                    "interaction_data": interaction_data,
+                    "reasoning_confidence": reasoning_results.get("confidence", 0.0),
+                    "memory_stored": memory_stored,
+                    "resource_risk": resource_predictions.get(
+                        "overall_risk", "unknown"
+                    ),
+                    "processing_time": (
+                        datetime.datetime.now() - start_time
+                    ).total_seconds(),
+                    "metrics": {
+                        "response_time": (
+                            datetime.datetime.now() - start_time
+                        ).total_seconds(),
+                        "accuracy": reasoning_results.get("confidence", 0.0),
+                        "memory_efficiency": 1.0 if memory_stored else 0.0,
+                    },
                 }
-            })
+            )
 
             # Update system metrics
             self.metrics["total_interactions"] += 1
             self.metrics["reasoning_cycles"] += 1
             self.metrics["memory_operations"] += 1
-            self.metrics["predictions_made"] += len(resource_predictions.get("predictions", {}))
+            self.metrics["predictions_made"] += len(
+                resource_predictions.get("predictions", {})
+            )
 
             # Generate comprehensive response
             response = {
@@ -119,12 +138,14 @@ class AdvancedAGIController:
                 "reasoning": reasoning_results,
                 "memory_status": {
                     "stored": memory_stored,
-                    "key": memory_key if memory_stored else None
+                    "key": memory_key if memory_stored else None,
                 },
                 "resource_predictions": resource_predictions,
                 "system_metrics": self.get_system_metrics(),
-                "processing_time": (datetime.datetime.now() - start_time).total_seconds(),
-                "timestamp": datetime.datetime.now().isoformat()
+                "processing_time": (
+                    datetime.datetime.now() - start_time
+                ).total_seconds(),
+                "timestamp": datetime.datetime.now().isoformat(),
             }
 
             return response
@@ -134,10 +155,10 @@ class AdvancedAGIController:
             return {
                 "error": str(e),
                 "interaction_id": f"failed_{self.metrics['total_interactions']}",
-                "timestamp": datetime.datetime.now().isoformat()
+                "timestamp": datetime.datetime.now().isoformat(),
             }
 
-    async def perform_system_reflection(self) -> Dict:
+    async def perform_system_reflection(self) -> dict:
         """
         Perform comprehensive system reflection and optimization
 
@@ -170,36 +191,46 @@ class AdvancedAGIController:
             "resource_optimizations": resource_optimization,
             "causal_insights": causal_insights,
             "system_state": self.system_state,
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.now().isoformat(),
         }
 
-        logger.info("System reflection completed: %d insights, %d improvements",
-                   reflection_summary["insights_generated"],
-                   reflection_summary["improvements_proposed"])
+        logger.info(
+            "System reflection completed: %d insights, %d improvements",
+            reflection_summary["insights_generated"],
+            reflection_summary["improvements_proposed"],
+        )
 
         return reflection_summary
 
-    async def _optimize_system_resources(self) -> Dict:
+    async def _optimize_system_resources(self) -> dict:
         """Optimize system resources based on predictions"""
         optimizations = {}
 
         # Get predictions for all resource types
-        for resource_type in [ResourceType.CPU, ResourceType.MEMORY,
-                             ResourceType.COGNITIVE_LOAD]:
+        for resource_type in [
+            ResourceType.CPU,
+            ResourceType.MEMORY,
+            ResourceType.COGNITIVE_LOAD,
+        ]:
             prediction = self.resource_predictor.predict_resource_needs(resource_type)
 
-            if not prediction.get("error") and prediction.get("risk_level") in ["high", "critical"]:
+            if not prediction.get("error") and prediction.get("risk_level") in [
+                "high",
+                "critical",
+            ]:
                 optimization = self.resource_predictor.optimize_resource_allocation(
                     resource_type, prediction["predicted_value"]
                 )
                 optimizations[resource_type] = optimization
 
                 if optimization.get("actions_taken"):
-                    self.metrics["optimizations_applied"] += len(optimization["actions_taken"])
+                    self.metrics["optimizations_applied"] += len(
+                        optimization["actions_taken"]
+                    )
 
         return optimizations
 
-    def get_system_metrics(self) -> Dict:
+    def get_system_metrics(self) -> dict:
         """
         Get comprehensive system metrics
 
@@ -209,9 +240,9 @@ class AdvancedAGIController:
         # Calculate system efficiency
         if self.metrics["total_interactions"] > 0:
             self.metrics["system_efficiency"] = (
-                self.metrics["reasoning_cycles"] +
-                self.metrics["memory_operations"] +
-                self.metrics["predictions_made"]
+                self.metrics["reasoning_cycles"]
+                + self.metrics["memory_operations"]
+                + self.metrics["predictions_made"]
             ) / (self.metrics["total_interactions"] * 3)
 
         return {
@@ -221,10 +252,10 @@ class AdvancedAGIController:
             "prediction_stats": self.resource_predictor.get_prediction_statistics(),
             "causal_insights": self.causal_reasoning.get_causal_insights(),
             "system_state": self.system_state,
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.now().isoformat(),
         }
 
-    async def analyze_counterfactual(self, scenario: Dict) -> Dict:
+    async def analyze_counterfactual(self, scenario: dict) -> dict:
         """
         Perform counterfactual analysis on a given scenario
 
@@ -243,16 +274,16 @@ class AdvancedAGIController:
             key=analysis_key,
             data=counterfactual_results,
             memory_type=MemoryType.PROCEDURAL,
-            priority=MemoryPriority.HIGH
+            priority=MemoryPriority.HIGH,
         )
 
         return {
             "analysis": counterfactual_results,
             "stored_key": analysis_key,
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.now().isoformat(),
         }
 
-    def find_similar_memories(self, emotion: str, threshold: float = 0.6) -> List[Dict]:
+    def find_similar_memories(self, emotion: str, threshold: float = 0.6) -> list[dict]:
         """
         Find memories with similar emotional context
 
@@ -264,11 +295,10 @@ class AdvancedAGIController:
             List of similar memories
         """
         return self.memory_manager.find_emotionally_similar_memories(
-            target_emotion=emotion,
-            threshold=threshold
+            target_emotion=emotion, threshold=threshold
         )
 
-    async def adaptive_learning_cycle(self) -> Dict:
+    async def adaptive_learning_cycle(self) -> dict:
         """
         Perform an adaptive learning cycle that integrates all components
 
@@ -303,44 +333,45 @@ class AdvancedAGIController:
             "causal_updates": causal_updates,
             "prediction_calibration": prediction_calibration,
             "meta_adaptations": meta_adaptations,
-            "cycle_timestamp": cycle_start.isoformat()
+            "cycle_timestamp": cycle_start.isoformat(),
         }
 
         logger.info("Adaptive learning cycle completed in %.2f seconds", cycle_duration)
 
         return learning_results
 
-    def _analyze_memory_patterns(self) -> Dict:
+    def _analyze_memory_patterns(self) -> dict:
         """Analyze patterns in stored memories"""
         memory_stats = self.memory_manager.get_memory_statistics()
 
         return {
             "total_memories": memory_stats.get("total_memories", 0),
             "emotional_clusters": memory_stats.get("emotional_clusters", {}),
-            "memory_efficiency": memory_stats.get("total_memories", 0) / max(1, memory_stats.get("retrieval_count", 1))
+            "memory_efficiency": memory_stats.get("total_memories", 0)
+            / max(1, memory_stats.get("retrieval_count", 1)),
         }
 
-    def _update_causal_models(self) -> Dict:
+    def _update_causal_models(self) -> dict:
         """Update causal reasoning models based on new data"""
         causal_insights = self.causal_reasoning.get_causal_insights()
 
         return {
             "total_causal_chains": causal_insights.get("total_causal_chains", 0),
             "average_confidence": causal_insights.get("average_confidence", 0.0),
-            "model_updates": "causal_models_updated"
+            "model_updates": "causal_models_updated",
         }
 
-    def _calibrate_prediction_models(self) -> Dict:
+    def _calibrate_prediction_models(self) -> dict:
         """Calibrate predictive models based on recent performance"""
         prediction_stats = self.resource_predictor.get_prediction_statistics()
 
         return {
             "predictions_made": prediction_stats.get("predictions_made", 0),
             "accuracy_score": prediction_stats.get("accuracy_score", 0.0),
-            "calibration_status": "models_calibrated"
+            "calibration_status": "models_calibrated",
         }
 
-    def _apply_meta_cognitive_adaptations(self, reflection: Dict) -> Dict:
+    def _apply_meta_cognitive_adaptations(self, reflection: dict) -> dict:
         """Apply meta-cognitive adaptations based on reflection results"""
         adaptations_applied = 0
 
@@ -352,5 +383,5 @@ class AdvancedAGIController:
         return {
             "adaptations_applied": adaptations_applied,
             "reflection_cycle": reflection.get("reflection_cycle", 0),
-            "adaptation_status": "meta_cognitive_adaptations_applied"
+            "adaptation_status": "meta_cognitive_adaptations_applied",
         }

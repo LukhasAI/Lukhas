@@ -1,4 +1,5 @@
 import unittest
+
 from quantum.quantum_waveform import QuantumWaveform
 
 

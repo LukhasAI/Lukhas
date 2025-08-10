@@ -3,7 +3,6 @@ Integration tests for Enterprise Authentication System
 Tests for Agent 1 Task 3: identity/enterprise/auth.py integration
 """
 
-import asyncio
 import json
 import sys
 import tempfile

@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .vector_ops import VectorOps
+
     logger.debug("Imported VectorOps from .vector_ops")
 except ImportError as e:
     logger.warning(f"Could not import VectorOps: {e}")
     VectorOps = None
 
 __all__ = [
-    'VectorOps',
+    "VectorOps",
 ]
 
 # Filter out None values from __all__ if imports failed

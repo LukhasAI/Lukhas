@@ -16,7 +16,8 @@ Architecture principle: core → memory → orchestration → consciousness → 
 Services registered here can be accessed by core modules without importing from higher layers.
 """
 
-from typing import Dict, Any, Optional, Callable, Type
+from typing import Any, Callable, Optional
+
 import structlog
 
 # Initialize logger
@@ -34,8 +35,8 @@ class ServiceRegistry:
 
     def __init__(self):
         """Initialize the service registry."""
-        self._services: Dict[str, Any] = {}
-        self._factories: Dict[str, Callable] = {}
+        self._services: dict[str, Any] = {}
+        self._factories: dict[str, Callable] = {}
         logger.info("ΛTRACE: ServiceRegistry initialized")
 
     def register_service(self, name: str, service: Any) -> None:
@@ -47,7 +48,10 @@ class ServiceRegistry:
             service: The service instance
         """
         self._services[name] = service
-        logger.info(f"ΛTRACE: Registered service '{name}'", service_type=type(service).__name__)
+        logger.info(
+            f"ΛTRACE: Registered service '{name}'",
+            service_type=type(service).__name__,
+        )
 
     def register_factory(self, name: str, factory: Callable[[], Any]) -> None:
         """
@@ -85,8 +89,11 @@ class ServiceRegistry:
                 self._services[name] = service
                 return service
             except Exception as e:
-                logger.error(f"ΛTRACE: Failed to initialize service '{name}'",
-                           error=str(e), exc_info=True)
+                logger.error(
+                    f"ΛTRACE: Failed to initialize service '{name}'",
+                    error=str(e),
+                    exc_info=True,
+                )
                 return None
 
         logger.warning(f"ΛTRACE: Service '{name}' not found in registry")
@@ -117,7 +124,7 @@ class ServiceRegistry:
 
         return removed
 
-    def list_services(self) -> Dict[str, str]:
+    def list_services(self) -> dict[str, str]:
         """
         List all registered services and their status.
 
@@ -147,8 +154,9 @@ class ServiceRegistry:
 # Global service registry instance
 _service_registry = ServiceRegistry()
 
-
 # Convenience functions for module-level access
+
+
 def register_service(name: str, service: Any) -> None:
     """Register a service in the global registry."""
     _service_registry.register_service(name, service)
@@ -169,14 +177,17 @@ def unregister_service(name: str) -> bool:
     return _service_registry.unregister_service(name)
 
 
-def list_services() -> Dict[str, str]:
+def list_services() -> dict[str, str]:
     """List all services in the global registry."""
     return _service_registry.list_services()
 
 
 # Service name constants to avoid typos
+
+
 class ServiceNames:
     """Constants for service names."""
+
     LEARNING = "learning"
     QUANTUM = "quantum"
     ETHICS = "ethics"
@@ -191,15 +202,20 @@ if __name__ == "__main__":
     logger.info("ΛTRACE: Service Registry example")
 
     # Register a mock service
+
     class MockLearningService:
-        def learn_from_data(self, user_id: str, data: Dict[str, Any]) -> Dict[str, Any]:
+
+        def learn_from_data(self, user_id: str, data: dict[str, Any]) -> dict[str, Any]:
             return {"success": True, "message": "Mock learning completed"}
 
     # Register directly
     register_service(ServiceNames.LEARNING, MockLearningService())
 
     # Or register with factory
-    register_factory(ServiceNames.QUANTUM, lambda: type('QuantumService', (), {'compute': lambda: 'quantum'})())
+    register_factory(
+        ServiceNames.QUANTUM,
+        lambda: type("QuantumService", (), {"compute": lambda: "quantum"})(),
+    )
 
     # List services
     print("Registered services:", list_services())

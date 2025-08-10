@@ -26,13 +26,15 @@ Version: v2.0.0-golden
 Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 """
 
-import numpy as np
-from typing import Dict, List, Any, Tuple, Optional
 import datetime
-import json
+from typing import Dict, List
+
+import numpy as np
+
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class AdaptiveMetaLearningSystem:
     """
@@ -57,7 +59,7 @@ class AdaptiveMetaLearningSystem:
         self.meta_parameters = {
             "adaptation_rate": 0.05,
             "pattern_detection_threshold": 0.7,
-            "confidence_scaling": 1.0
+            "confidence_scaling": 1.0,
         }
 
         logger.info("🧠 LUKHAS Adaptive Meta-Learning System initialized")
@@ -87,7 +89,9 @@ class AdaptiveMetaLearningSystem:
         duration = (datetime.datetime.now() - start_time).total_seconds()
 
         # Evaluate strategy performance
-        performance_metrics = self._evaluate_performance(strategy_name, learning_result, duration)
+        performance_metrics = self._evaluate_performance(
+            strategy_name, learning_result, duration
+        )
         self._update_strategy_performance(strategy_name, performance_metrics)
 
         # Periodically update meta-parameters
@@ -102,10 +106,12 @@ class AdaptiveMetaLearningSystem:
             "confidence": performance_metrics["confidence"],
             "meta_insights": self._generate_meta_insights(),
             "learning_cycle": self.learning_cycle,
-            "performance_score": performance_metrics["overall_score"]
+            "performance_score": performance_metrics["overall_score"],
         }
 
-        logger.info(f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score")
+        logger.info(
+            f"✅ Learning completed with {performance_metrics['overall_score']:.3f} performance score"
+        )
         return result
 
     def incorporate_feedback(self, feedback: Dict) -> None:
@@ -123,15 +129,13 @@ class AdaptiveMetaLearningSystem:
         # Update performance with feedback
         if "performance_rating" in feedback:
             self._update_strategy_performance(
-                strategy_name,
-                {"user_rating": feedback["performance_rating"]}
+                strategy_name, {"user_rating": feedback["performance_rating"]}
             )
 
         # Update strategy parameters if provided
         if "parameter_adjustments" in feedback:
             self._adjust_strategy_parameters(
-                strategy_name,
-                feedback["parameter_adjustments"]
+                strategy_name, feedback["parameter_adjustments"]
             )
 
         logger.info("✅ Feedback incorporated successfully")
@@ -144,7 +148,7 @@ class AdaptiveMetaLearningSystem:
         strategies_by_performance = sorted(
             self.strategy_performance.items(),
             key=lambda x: x[1].get("overall_score", 0),
-            reverse=True
+            reverse=True,
         )
 
         report = {
@@ -158,7 +162,7 @@ class AdaptiveMetaLearningSystem:
             "meta_parameters": self.meta_parameters,
             "exploration_rate": self.exploration_rate,
             "performance_trends": self._analyze_performance_trends(),
-            "generated_at": datetime.datetime.now().isoformat()
+            "generated_at": datetime.datetime.now().isoformat(),
         }
 
         logger.info("📊 Learning report generated")
@@ -171,38 +175,42 @@ class AdaptiveMetaLearningSystem:
                 "algorithm": "gradient_descent",
                 "parameters": {"learning_rate": 0.01, "momentum": 0.9},
                 "suitable_for": ["continuous", "differentiable", "large_data"],
-                "description": "Classical gradient-based optimization for continuous problems"
+                "description": "Classical gradient-based optimization for continuous problems",
             },
             "bayesian": {
                 "algorithm": "bayesian_inference",
                 "parameters": {"prior_strength": 0.5, "exploration_factor": 1.0},
-                "suitable_for": ["probabilistic", "sparse_data", "uncertainty_quantification"],
-                "description": "Probabilistic learning with uncertainty quantification"
+                "suitable_for": [
+                    "probabilistic",
+                    "sparse_data",
+                    "uncertainty_quantification",
+                ],
+                "description": "Probabilistic learning with uncertainty quantification",
             },
             "reinforcement": {
                 "algorithm": "q_learning",
                 "parameters": {"discount_factor": 0.9, "exploration_rate": 0.1},
                 "suitable_for": ["sequential", "reward_based", "interactive"],
-                "description": "Reinforcement learning for sequential decision making"
+                "description": "Reinforcement learning for sequential decision making",
             },
             "transfer": {
                 "algorithm": "transfer_learning",
                 "parameters": {"source_weight": 0.7, "adaptation_rate": 0.3},
                 "suitable_for": ["similar_domains", "limited_data", "pre_trained"],
-                "description": "Transfer learning from related domains"
+                "description": "Transfer learning from related domains",
             },
             "ensemble": {
                 "algorithm": "weighted_ensemble",
                 "parameters": {"diversity_weight": 0.5, "expertise_weight": 0.5},
                 "suitable_for": ["complex", "heterogeneous", "high_accuracy"],
-                "description": "Ensemble of multiple learning approaches"
+                "description": "Ensemble of multiple learning approaches",
             },
             "meta_gradient": {
                 "algorithm": "meta_gradient_descent",
                 "parameters": {"meta_lr": 0.001, "adaptation_steps": 5},
                 "suitable_for": ["few_shot", "quick_adaptation", "meta_learning"],
-                "description": "Meta-gradient descent for rapid adaptation"
-            }
+                "description": "Meta-gradient descent for rapid adaptation",
+            },
         }
 
         logger.info(f"🔧 Initialized {len(strategies)} learning strategies")
@@ -217,12 +225,14 @@ class AdaptiveMetaLearningSystem:
             "task_type": context.get("task_type", "unknown"),
             "available_compute": context.get("compute_resources", "standard"),
             "time_constraints": context.get("time_constraints", "relaxed"),
-            "quality_requirements": context.get("quality_requirements", "moderate")
+            "quality_requirements": context.get("quality_requirements", "moderate"),
         }
 
         # Add derived features
         features["data_sparsity"] = self._calculate_sparsity(available_data)
-        features["complexity_estimate"] = self._estimate_complexity(available_data, context)
+        features["complexity_estimate"] = self._estimate_complexity(
+            available_data, context
+        )
         features["noise_level"] = self._estimate_noise_level(available_data)
         features["label_availability"] = self._check_label_availability(available_data)
 
@@ -246,7 +256,9 @@ class AdaptiveMetaLearningSystem:
 
             # Adjust by past performance if available
             if name in self.strategy_performance:
-                perf_adjustment = self.strategy_performance[name].get("overall_score", 0.5)
+                perf_adjustment = self.strategy_performance[name].get(
+                    "overall_score", 0.5
+                )
                 final_score = base_score * 0.7 + perf_adjustment * 0.3
             else:
                 final_score = base_score
@@ -255,7 +267,9 @@ class AdaptiveMetaLearningSystem:
 
         # Return strategy with highest score
         best_strategy = max(strategy_scores.items(), key=lambda x: x[1])[0]
-        logger.info(f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})")
+        logger.info(
+            f"🎯 Exploiting with best strategy: {best_strategy} (score: {strategy_scores[best_strategy]:.3f})"
+        )
         return best_strategy
 
     def _apply_strategy(self, strategy: Dict, data: Dict, context: Dict) -> Dict:
@@ -272,53 +286,53 @@ class AdaptiveMetaLearningSystem:
                 "model": "neural_network_model",
                 "accuracy": np.random.uniform(0.75, 0.95),
                 "loss": np.random.uniform(0.1, 0.3),
-                "iterations": np.random.randint(50, 200)
+                "iterations": np.random.randint(50, 200),
             }
         elif algorithm == "bayesian_inference":
             result = {
                 "model": "bayesian_model",
                 "posterior": "gaussian_mixture",
                 "uncertainty": np.random.uniform(0.1, 0.4),
-                "evidence": np.random.uniform(0.6, 0.9)
+                "evidence": np.random.uniform(0.6, 0.9),
             }
         elif algorithm == "q_learning":
             result = {
                 "policy": "learned_policy",
                 "value_function": "q_table",
                 "episodes": np.random.randint(100, 500),
-                "convergence": np.random.uniform(0.7, 0.95)
+                "convergence": np.random.uniform(0.7, 0.95),
             }
         elif algorithm == "transfer_learning":
             result = {
                 "model": "fine_tuned_model",
                 "transfer_gain": np.random.uniform(0.2, 0.6),
                 "adaptation_time": np.random.uniform(0.1, 0.5),
-                "source_similarity": np.random.uniform(0.5, 0.9)
+                "source_similarity": np.random.uniform(0.5, 0.9),
             }
         elif algorithm == "weighted_ensemble":
             result = {
                 "models": ["model_1", "model_2", "model_3"],
                 "weights": np.random.dirichlet([1, 1, 1]).tolist(),
                 "diversity_score": np.random.uniform(0.3, 0.8),
-                "ensemble_accuracy": np.random.uniform(0.8, 0.95)
+                "ensemble_accuracy": np.random.uniform(0.8, 0.95),
             }
         elif algorithm == "meta_gradient_descent":
             result = {
                 "model": "meta_learned_model",
                 "adaptation_speed": np.random.uniform(0.7, 0.95),
                 "few_shot_accuracy": np.random.uniform(0.6, 0.9),
-                "meta_loss": np.random.uniform(0.05, 0.2)
+                "meta_loss": np.random.uniform(0.05, 0.2),
             }
         else:
-            result = {"status": "unknown_algorithm", "error": f"Algorithm {algorithm} not implemented"}
+            result = {
+                "status": "unknown_algorithm",
+                "error": f"Algorithm {algorithm} not implemented",
+            }
 
         return result
 
     def _evaluate_performance(
-        self,
-        strategy_name: str,
-        learning_result: Dict,
-        duration: float
+        self, strategy_name: str, learning_result: Dict, duration: float
     ) -> Dict:
         """Evaluate the performance of the applied learning strategy"""
         # Extract performance indicators from learning result
@@ -346,25 +360,27 @@ class AdaptiveMetaLearningSystem:
             "generalization": generalization,
             "confidence": confidence,
             "duration": duration,
-            "timestamp": datetime.datetime.now().isoformat()
+            "timestamp": datetime.datetime.now().isoformat(),
         }
 
         # Calculate overall performance score
         metrics["overall_score"] = (
-            metrics["accuracy"] * 0.4 +
-            metrics["efficiency"] * 0.2 +
-            metrics["generalization"] * 0.3 +
-            metrics["confidence"] * 0.1
+            metrics["accuracy"] * 0.4
+            + metrics["efficiency"] * 0.2
+            + metrics["generalization"] * 0.3
+            + metrics["confidence"] * 0.1
         )
 
         return metrics
 
-    def _update_strategy_performance(self, strategy_name: str, new_metrics: Dict) -> None:
+    def _update_strategy_performance(
+        self, strategy_name: str, new_metrics: Dict
+    ) -> None:
         """Update the performance record for a strategy"""
         if strategy_name not in self.strategy_performance:
             self.strategy_performance[strategy_name] = {
                 "usage_count": 0,
-                "performance_history": []
+                "performance_history": [],
             }
 
         # Update usage count
@@ -379,7 +395,9 @@ class AdaptiveMetaLearningSystem:
             # Update overall metrics with exponentially weighted average
             history = [
                 entry.get("overall_score", 0)
-                for entry in self.strategy_performance[strategy_name]["performance_history"]
+                for entry in self.strategy_performance[strategy_name][
+                    "performance_history"
+                ]
             ]
 
             if history:
@@ -398,7 +416,9 @@ class AdaptiveMetaLearningSystem:
         """Update meta-parameters based on learning history"""
         if len(self.performance_history) >= 10:
             # Adjust exploration rate based on performance variance
-            recent_scores = [p.get("overall_score", 0) for p in self.performance_history[-10:]]
+            recent_scores = [
+                p.get("overall_score", 0) for p in self.performance_history[-10:]
+            ]
             recent_variance = np.var(recent_scores)
 
             # More variance = more exploration needed
@@ -413,25 +433,31 @@ class AdaptiveMetaLearningSystem:
                     self.meta_parameters["adaptation_rate"] *= 0.9
 
         # Keep parameters within bounds
-        self.meta_parameters["adaptation_rate"] = max(0.01, min(0.2, self.meta_parameters["adaptation_rate"]))
+        self.meta_parameters["adaptation_rate"] = max(
+            0.01, min(0.2, self.meta_parameters["adaptation_rate"])
+        )
 
-    def _adjust_strategy_parameters(self, strategy_name: str, adjustments: Dict) -> None:
+    def _adjust_strategy_parameters(
+        self, strategy_name: str, adjustments: Dict
+    ) -> None:
         """Adjust parameters of a specific strategy based on feedback"""
         if strategy_name not in self.learning_strategies:
             return
 
         for param_name, adjustment in adjustments.items():
             if param_name in self.learning_strategies[strategy_name]["parameters"]:
-                current = self.learning_strategies[strategy_name]["parameters"][param_name]
+                current = self.learning_strategies[strategy_name]["parameters"][
+                    param_name
+                ]
                 # Apply adjustment within reasonable bounds
                 new_value = current + adjustment
                 self.learning_strategies[strategy_name]["parameters"][param_name] = max(
-                    0.001,  # Minimum value
-                    min(10.0,  # Maximum value
-                        new_value)
+                    0.001, min(10.0, new_value)  # Minimum value  # Maximum value
                 )
 
-                logger.info(f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}")
+                logger.info(
+                    f"🔧 Adjusted {param_name} for {strategy_name}: {current:.4f} → {new_value:.4f}"
+                )
 
     def _calculate_adaptation_progress(self) -> float:
         """Calculate overall adaptation progress of the meta-learning system"""
@@ -441,12 +467,16 @@ class AdaptiveMetaLearningSystem:
         # Look at performance improvement trend
         if len(self.performance_history) >= 10:
             recent = [p.get("overall_score", 0) for p in self.performance_history[-5:]]
-            earlier = [p.get("overall_score", 0) for p in self.performance_history[-10:-5]]
+            earlier = [
+                p.get("overall_score", 0) for p in self.performance_history[-10:-5]
+            ]
 
             if earlier and recent:
                 avg_recent = np.mean(recent)
                 avg_earlier = np.mean(earlier)
-                improvement = max(0, (avg_recent - avg_earlier) / max(0.001, avg_earlier))
+                improvement = max(
+                    0, (avg_recent - avg_earlier) / max(0.001, avg_earlier)
+                )
                 return min(1.0, improvement)
 
         return 0.5  # Default middle value
@@ -467,7 +497,11 @@ class AdaptiveMetaLearningSystem:
                 trends[strategy_name] = {
                     "trend_coefficient": trend_coef,
                     "recent_average": np.mean(scores[-3:]),
-                    "improvement": "increasing" if trend_coef > 0.01 else "decreasing" if trend_coef < -0.01 else "stable"
+                    "improvement": (
+                        "increasing"
+                        if trend_coef > 0.01
+                        else "decreasing" if trend_coef < -0.01 else "stable"
+                    ),
                 }
 
         return trends
@@ -514,16 +548,22 @@ class AdaptiveMetaLearningSystem:
 
         # Check data volume compatibility
         data_volume = features.get("data_volume", 0)
-        if data_volume < 100 and "limited_data" in suitable_for:
-            match_score += 0.2
-        elif data_volume > 1000 and "large_data" in suitable_for:
+        if (
+            data_volume < 100
+            and "limited_data" in suitable_for
+            or data_volume > 1000
+            and "large_data" in suitable_for
+        ):
             match_score += 0.2
 
         # Check complexity compatibility
         complexity = features.get("complexity_estimate", 0.5)
-        if complexity > 0.7 and "complex" in suitable_for:
-            match_score += 0.15
-        elif complexity < 0.3 and "simple" in suitable_for:
+        if (
+            complexity > 0.7
+            and "complex" in suitable_for
+            or complexity < 0.3
+            and "simple" in suitable_for
+        ):
             match_score += 0.15
 
         return min(1.0, match_score)
@@ -549,36 +589,52 @@ class AdaptiveMetaLearningSystem:
         # Strategy performance insights
         if self.strategy_performance:
             best_strategies = sorted(
-                [(name, perf.get("overall_score", 0)) for name, perf in self.strategy_performance.items()],
+                [
+                    (name, perf.get("overall_score", 0))
+                    for name, perf in self.strategy_performance.items()
+                ],
                 key=lambda x: x[1],
-                reverse=True
+                reverse=True,
             )[:2]
 
             if best_strategies and best_strategies[0][1] > 0.7:
-                insights.append(f"Strategy '{best_strategies[0][0]}' consistently outperforms others ({best_strategies[0][1]:.2f} score)")
+                insights.append(
+                    f"Strategy '{best_strategies[0][0]}' consistently outperforms others ({best_strategies[0][1]:.2f} score)"
+                )
 
         # Adaptation insights
         adaptation = self._calculate_adaptation_progress()
         if adaptation > 0.2:
-            insights.append(f"System shows {adaptation:.1%} improvement in learning effectiveness")
+            insights.append(
+                f"System shows {adaptation:.1%} improvement in learning effectiveness"
+            )
         elif adaptation < -0.1:
-            insights.append("Learning performance declining - may need strategy diversification")
+            insights.append(
+                "Learning performance declining - may need strategy diversification"
+            )
 
         # Exploration insights
         if self.exploration_rate > 0.3:
-            insights.append("High exploration rate indicates volatile performance - system still learning optimal strategies")
+            insights.append(
+                "High exploration rate indicates volatile performance - system still learning optimal strategies"
+            )
         elif self.exploration_rate < 0.1:
-            insights.append("Low exploration rate indicates stable performance - system has found effective strategies")
+            insights.append(
+                "Low exploration rate indicates stable performance - system has found effective strategies"
+            )
 
         # Learning cycle insights
         if self.learning_cycle > 50:
-            insights.append(f"System maturity: {self.learning_cycle} learning cycles completed")
+            insights.append(
+                f"System maturity: {self.learning_cycle} learning cycles completed"
+            )
 
         return insights
 
 
 # Example usage and demonstration
 if __name__ == "__main__":
+
     def demo_meta_learning():
         """Demonstrate the Adaptive Meta-Learning System capabilities"""
         print("🧠 LUKHAS Adaptive Meta-Learning System Demo")
@@ -590,23 +646,31 @@ if __name__ == "__main__":
         # Simulate different learning scenarios
         scenarios = [
             {
-                "context": {"task_type": "classification", "time_constraints": "urgent"},
-                "data": {"examples": list(range(100)), "features": list(range(20))}
+                "context": {
+                    "task_type": "classification",
+                    "time_constraints": "urgent",
+                },
+                "data": {"examples": list(range(100)), "features": list(range(20))},
             },
             {
                 "context": {"task_type": "regression", "quality_requirements": "high"},
-                "data": {"examples": list(range(1000)), "features": list(range(50))}
+                "data": {"examples": list(range(1000)), "features": list(range(50))},
             },
             {
-                "context": {"task_type": "reinforcement", "available_compute": "limited"},
-                "data": {"examples": list(range(50)), "rewards": list(range(50))}
-            }
+                "context": {
+                    "task_type": "reinforcement",
+                    "available_compute": "limited",
+                },
+                "data": {"examples": list(range(50)), "rewards": list(range(50))},
+            },
         ]
 
         print("🔄 Running learning scenarios...")
         for i, scenario in enumerate(scenarios, 1):
             print(f"\n📊 Scenario {i}: {scenario['context']['task_type']}")
-            result = meta_learner.optimize_learning_approach(scenario["context"], scenario["data"])
+            result = meta_learner.optimize_learning_approach(
+                scenario["context"], scenario["data"]
+            )
             print(f"   Strategy: {result['strategy_used']}")
             print(f"   Performance: {result['performance_score']:.3f}")
             print(f"   Confidence: {result['confidence']:.3f}")
@@ -616,7 +680,7 @@ if __name__ == "__main__":
         feedback = {
             "strategy_name": "gradient_descent",
             "performance_rating": 0.9,
-            "parameter_adjustments": {"learning_rate": 0.005}
+            "parameter_adjustments": {"learning_rate": 0.005},
         }
         meta_learner.incorporate_feedback(feedback)
 

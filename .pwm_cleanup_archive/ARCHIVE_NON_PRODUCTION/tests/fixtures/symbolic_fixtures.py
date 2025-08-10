@@ -5,12 +5,12 @@ Provides comprehensive test data generators and fixtures specifically
 for GLYPH, drift, and collapse testing in the LUKHAS symbolic system.
 """
 
-import pytest
-from typing import List, Dict, Any, Tuple
 import itertools
 import random
-import numpy as np
 from datetime import datetime, timedelta, timezone
+
+import numpy as np
+import pytest
 
 # Symbolic test data constants
 GLYPH_SYMBOLS = ["Λ", "Ψ", "Ω", "Δ", "Σ", "Φ", "Θ", "Ξ", "Π"]
@@ -23,8 +23,9 @@ GLYPH_MEANINGS = {
     "Φ": "golden_ratio",
     "Θ": "angle",
     "Ξ": "cascade",
-    "Π": "product"
+    "Π": "product",
 }
+
 
 @pytest.fixture
 def glyph_sequences():
@@ -40,20 +41,16 @@ def glyph_sequences():
     ]
     return sequences
 
+
 @pytest.fixture
 def glyph_transformation_rules():
     """Define GLYPH transformation rules for testing."""
     return {
-        "rotate": {
-            "Λ": "Ψ", "Ψ": "Ω", "Ω": "Δ", "Δ": "Σ", "Σ": "Λ"
-        },
-        "invert": {
-            "Λ": "Ω", "Ω": "Λ", "Ψ": "Ψ", "Δ": "Σ", "Σ": "Δ"
-        },
-        "evolve": {
-            "Λ": "Δ", "Δ": "Ψ", "Ψ": "Σ", "Σ": "Ω", "Ω": "Λ"
-        }
+        "rotate": {"Λ": "Ψ", "Ψ": "Ω", "Ω": "Δ", "Δ": "Σ", "Σ": "Λ"},
+        "invert": {"Λ": "Ω", "Ω": "Λ", "Ψ": "Ψ", "Δ": "Σ", "Σ": "Δ"},
+        "evolve": {"Λ": "Δ", "Δ": "Ψ", "Ψ": "Σ", "Σ": "Ω", "Ω": "Λ"},
     }
+
 
 @pytest.fixture
 def drift_scenarios():
@@ -65,24 +62,24 @@ def drift_scenarios():
                     "glyphs": ["Λ"],
                     "resonance": 0.5,
                     "entropy": 0.3,
-                    "emotional_vector": [0.5, 0.5, 0.5]
+                    "emotional_vector": [0.5, 0.5, 0.5],
                 },
                 {
                     "glyphs": ["Λ"],
                     "resonance": 0.51,
                     "entropy": 0.31,
-                    "emotional_vector": [0.49, 0.51, 0.5]
+                    "emotional_vector": [0.49, 0.51, 0.5],
                 },
                 {
                     "glyphs": ["Λ"],
                     "resonance": 0.49,
                     "entropy": 0.29,
-                    "emotional_vector": [0.51, 0.49, 0.5]
-                }
+                    "emotional_vector": [0.51, 0.49, 0.5],
+                },
             ],
             "expected_drift": "low",
             "expected_score_range": (0.0, 0.2),
-            "expected_alerts": 0
+            "expected_alerts": 0,
         },
         "drifting": {
             "states": [
@@ -90,24 +87,24 @@ def drift_scenarios():
                     "glyphs": ["Λ"],
                     "resonance": 0.3,
                     "entropy": 0.2,
-                    "emotional_vector": [0.3, 0.3, 0.3]
+                    "emotional_vector": [0.3, 0.3, 0.3],
                 },
                 {
                     "glyphs": ["Ψ"],
                     "resonance": 0.5,
                     "entropy": 0.4,
-                    "emotional_vector": [0.5, 0.5, 0.5]
+                    "emotional_vector": [0.5, 0.5, 0.5],
                 },
                 {
                     "glyphs": ["Ω"],
                     "resonance": 0.7,
                     "entropy": 0.6,
-                    "emotional_vector": [0.7, 0.7, 0.7]
-                }
+                    "emotional_vector": [0.7, 0.7, 0.7],
+                },
             ],
             "expected_drift": "medium",
             "expected_score_range": (0.3, 0.6),
-            "expected_alerts": 1
+            "expected_alerts": 1,
         },
         "chaotic": {
             "states": [
@@ -115,24 +112,24 @@ def drift_scenarios():
                     "glyphs": ["Λ", "Ψ", "Ω"],
                     "resonance": 0.1,
                     "entropy": 0.9,
-                    "emotional_vector": [0.9, 0.1, 0.5]
+                    "emotional_vector": [0.9, 0.1, 0.5],
                 },
                 {
                     "glyphs": ["Δ"],
                     "resonance": 0.9,
                     "entropy": 0.1,
-                    "emotional_vector": [0.1, 0.9, 0.5]
+                    "emotional_vector": [0.1, 0.9, 0.5],
                 },
                 {
                     "glyphs": ["Σ", "Φ", "Θ"],
                     "resonance": 0.5,
                     "entropy": 0.5,
-                    "emotional_vector": [0.5, 0.5, 0.5]
-                }
+                    "emotional_vector": [0.5, 0.5, 0.5],
+                },
             ],
             "expected_drift": "high",
             "expected_score_range": (0.7, 1.0),
-            "expected_alerts": 2
+            "expected_alerts": 2,
         },
         "oscillating": {
             "states": [
@@ -140,32 +137,33 @@ def drift_scenarios():
                     "glyphs": ["Λ"],
                     "resonance": 0.2,
                     "entropy": 0.3,
-                    "emotional_vector": [0.2, 0.8, 0.5]
+                    "emotional_vector": [0.2, 0.8, 0.5],
                 },
                 {
                     "glyphs": ["Ω"],
                     "resonance": 0.8,
                     "entropy": 0.7,
-                    "emotional_vector": [0.8, 0.2, 0.5]
+                    "emotional_vector": [0.8, 0.2, 0.5],
                 },
                 {
                     "glyphs": ["Λ"],
                     "resonance": 0.2,
                     "entropy": 0.3,
-                    "emotional_vector": [0.2, 0.8, 0.5]
+                    "emotional_vector": [0.2, 0.8, 0.5],
                 },
                 {
                     "glyphs": ["Ω"],
                     "resonance": 0.8,
                     "entropy": 0.7,
-                    "emotional_vector": [0.8, 0.2, 0.5]
-                }
+                    "emotional_vector": [0.8, 0.2, 0.5],
+                },
             ],
             "expected_drift": "cyclic",
             "expected_score_range": (0.5, 0.8),
-            "expected_alerts": 3
-        }
+            "expected_alerts": 3,
+        },
     }
+
 
 @pytest.fixture
 def collapse_configurations():
@@ -175,34 +173,35 @@ def collapse_configurations():
             "stochastic": False,
             "threshold": 0.7,
             "hysteresis": 0.0,
-            "coherence_factor": 1.0
+            "coherence_factor": 1.0,
         },
         "stochastic": {
             "stochastic": True,
             "threshold": 0.7,
             "hysteresis": 0.1,
-            "coherence_factor": 1.5
+            "coherence_factor": 1.5,
         },
         "sensitive": {
             "stochastic": True,
             "threshold": 0.3,
             "hysteresis": 0.05,
-            "coherence_factor": 2.0
+            "coherence_factor": 2.0,
         },
         "resistant": {
             "stochastic": True,
             "threshold": 0.9,
             "hysteresis": 0.2,
-            "coherence_factor": 0.5
+            "coherence_factor": 0.5,
         },
         "adaptive": {
             "stochastic": True,
             "threshold": 0.6,
             "hysteresis": 0.15,
             "coherence_factor": 1.2,
-            "adaptive_rate": 0.01
-        }
+            "adaptive_rate": 0.01,
+        },
     }
+
 
 @pytest.fixture
 def quantum_superposition_states():
@@ -212,29 +211,28 @@ def quantum_superposition_states():
             "name": "binary",
             "possibilities": [
                 {"action": "yes", "probability": 0.6},
-                {"action": "no", "probability": 0.4}
+                {"action": "no", "probability": 0.4},
             ],
             "uncertainty": 0.8,
-            "coherence": 0.7
+            "coherence": 0.7,
         },
         {  # Multiple equal options
             "name": "equal_choice",
             "possibilities": [
-                {"action": f"option_{i}", "probability": 0.25}
-                for i in range(4)
+                {"action": f"option_{i}", "probability": 0.25} for i in range(4)
             ],
             "uncertainty": 0.9,
-            "coherence": 0.5
+            "coherence": 0.5,
         },
         {  # Weighted distribution
             "name": "weighted",
             "possibilities": [
                 {"action": "primary", "probability": 0.7},
                 {"action": "secondary", "probability": 0.2},
-                {"action": "tertiary", "probability": 0.1}
+                {"action": "tertiary", "probability": 0.1},
             ],
             "uncertainty": 0.6,
-            "coherence": 0.8
+            "coherence": 0.8,
         },
         {  # Complex multi-dimensional
             "name": "complex",
@@ -243,27 +241,21 @@ def quantum_superposition_states():
                     "action": "navigate",
                     "path": ["A", "B", "C"],
                     "cost": 10,
-                    "probability": 0.4
+                    "probability": 0.4,
                 },
-                {
-                    "action": "wait",
-                    "duration": 5,
-                    "probability": 0.3
-                },
-                {
-                    "action": "retreat",
-                    "distance": 100,
-                    "probability": 0.3
-                }
+                {"action": "wait", "duration": 5, "probability": 0.3},
+                {"action": "retreat", "distance": 100, "probability": 0.3},
             ],
             "uncertainty": 0.85,
-            "coherence": 0.6
-        }
+            "coherence": 0.6,
+        },
     ]
+
 
 @pytest.fixture
 def symbolic_state_generator():
     """Generate random symbolic states for property testing."""
+
     def _generate(seed=None, count=1):
         if seed:
             random.seed(seed)
@@ -280,13 +272,17 @@ def symbolic_state_generator():
                 "collapse_threshold": 0.5 + random.random() * 0.4,
                 "coherence": random.random(),
                 "emotional_vector": [random.random() for _ in range(3)],
-                "timestamp": (datetime.now(timezone.utc) +
-                            timedelta(seconds=random.randint(-3600, 3600))).isoformat(),
+                "timestamp": (
+                    datetime.now(timezone.utc)
+                    + timedelta(seconds=random.randint(-3600, 3600))
+                ).isoformat(),
                 "metadata": {
-                    "source": random.choice(["sensor", "introspection", "dream", "reasoning"]),
+                    "source": random.choice(
+                        ["sensor", "introspection", "dream", "reasoning"]
+                    ),
                     "confidence": random.random(),
-                    "tag": f"state_{random.randint(1000, 9999)}"
-                }
+                    "tag": f"state_{random.randint(1000, 9999)}",
+                },
             }
             states.append(state)
 
@@ -294,9 +290,11 @@ def symbolic_state_generator():
 
     return _generate
 
+
 @pytest.fixture
 def glyph_pair_generator():
     """Generate pairs of glyphs for transformation testing."""
+
     def _generate_pairs(transformation_type="all"):
         pairs = []
 
@@ -320,9 +318,11 @@ def glyph_pair_generator():
 
     return _generate_pairs
 
+
 @pytest.fixture
 def drift_trajectory_generator():
     """Generate drift trajectories for testing drift patterns."""
+
     def _generate_trajectory(pattern: str = "linear", length: int = 10):
         trajectories = {
             "linear": lambda i: i / (length - 1),
@@ -330,7 +330,7 @@ def drift_trajectory_generator():
             "logarithmic": lambda i: np.log(i + 1) / np.log(length),
             "sinusoidal": lambda i: (np.sin(2 * np.pi * i / length) + 1) / 2,
             "step": lambda i: 0.0 if i < length // 2 else 1.0,
-            "random": lambda i: random.random()
+            "random": lambda i: random.random(),
         }
 
         func = trajectories.get(pattern, trajectories["linear"])
@@ -338,9 +338,11 @@ def drift_trajectory_generator():
 
     return _generate_trajectory
 
+
 @pytest.fixture
 def symbolic_event_stream():
     """Generate stream of symbolic events for testing."""
+
     def _generate_stream(duration_seconds: int = 60, events_per_second: float = 1.0):
         events = []
         current_time = datetime.now(timezone.utc)
@@ -351,21 +353,30 @@ def symbolic_event_stream():
 
             event = {
                 "timestamp": event_time.isoformat(),
-                "event_type": random.choice(["glyph_change", "drift_detected",
-                                           "collapse_triggered", "resonance_shift"]),
+                "event_type": random.choice(
+                    [
+                        "glyph_change",
+                        "drift_detected",
+                        "collapse_triggered",
+                        "resonance_shift",
+                    ]
+                ),
                 "glyph": random.choice(GLYPH_SYMBOLS),
                 "metrics": {
                     "drift": random.random() * 0.5,
                     "entropy": random.random(),
-                    "resonance": random.random()
+                    "resonance": random.random(),
                 },
-                "triggered_by": random.choice(["user", "system", "autonomous", "cascade"])
+                "triggered_by": random.choice(
+                    ["user", "system", "autonomous", "cascade"]
+                ),
             }
             events.append(event)
 
         return events
 
     return _generate_stream
+
 
 @pytest.fixture
 def collapse_test_matrix():
@@ -382,41 +393,42 @@ def collapse_test_matrix():
         effective_threshold = threshold * (2.0 - coherence)
         should_collapse = uncertainty >= effective_threshold
 
-        test_cases.append({
-            "threshold": threshold,
-            "uncertainty": uncertainty,
-            "coherence": coherence,
-            "expected_collapse": should_collapse,
-            "effective_threshold": effective_threshold
-        })
+        test_cases.append(
+            {
+                "threshold": threshold,
+                "uncertainty": uncertainty,
+                "coherence": coherence,
+                "expected_collapse": should_collapse,
+                "effective_threshold": effective_threshold,
+            }
+        )
 
     return test_cases
+
 
 @pytest.fixture
 def symbolic_benchmark_data():
     """Large dataset for performance benchmarking."""
+
     def _generate_benchmark(size: str = "small"):
-        sizes = {
-            "small": 100,
-            "medium": 1000,
-            "large": 10000,
-            "xlarge": 100000
-        }
+        sizes = {"small": 100, "medium": 1000, "large": 10000, "xlarge": 100000}
 
         num_states = sizes.get(size, sizes["small"])
 
         # Pre-generate to avoid overhead during tests
         states = []
         for i in range(num_states):
-            states.append({
-                "id": f"benchmark_{i}",
-                "glyphs": random.sample(GLYPH_SYMBOLS, k=random.randint(1, 3)),
-                "metrics": {
-                    "resonance": random.random(),
-                    "entropy": random.random(),
-                    "drift": random.random() * 0.5
+            states.append(
+                {
+                    "id": f"benchmark_{i}",
+                    "glyphs": random.sample(GLYPH_SYMBOLS, k=random.randint(1, 3)),
+                    "metrics": {
+                        "resonance": random.random(),
+                        "entropy": random.random(),
+                        "drift": random.random() * 0.5,
+                    },
                 }
-            })
+            )
 
         return states
 

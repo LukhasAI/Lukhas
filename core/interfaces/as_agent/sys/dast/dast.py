@@ -5,8 +5,6 @@ Advanced: dast.py
 Integration Date: 2025-05-31T07:55:30.571396
 """
 
-
-
 """
 dast.py
 
@@ -17,26 +15,32 @@ It receives user intents, validates permissions via trust tiers, and delegates e
 to the correct logic modules like memory, voice, dream, or delegate systems.
 """
 
-from config_legacy import TIER_PERMISSIONS
+
 from consent_manager import verify_or_revoke
-from ethics_jury import should_trigger_jury, run_ethics_review
+
 from core.interfaces.logic.voice.voice_renderer import render_voice
+from ethics_jury import run_ethics_review, should_trigger_jury
 
 # Registry of available symbolic tasks
 REGISTERED_TASKS = {}
+
 
 def register_task(name):
     """
     Decorator to register a symbolic DAST task.
     """
+
     def wrapper(func):
         REGISTERED_TASKS[name] = func
         return func
+
     return wrapper
+
 
 # ----------------------------
 # Intent Dispatch Engine
 # ----------------------------
+
 
 def dispatch(intent, tier_level=1, emotion_score=0.0, context=None):
     """
@@ -62,22 +66,28 @@ def dispatch(intent, tier_level=1, emotion_score=0.0, context=None):
         print(f"⚠️ No task registered for: {intent}")
         return render_voice("reflective")
 
+
 # ----------------------------
 # Example Tasks (to be moved to dast_tasks.py later)
 # ----------------------------
 
+
 @register_task("dream_summary")
 def handle_dream_summary(context):
     from dream_engine import generate_dream_digest
+
     dream = generate_dream_digest()
     print("🌙 Dream Summary:", dream)
     return render_voice("reflective")
 
+
 @register_task("delegate_payment")
 def handle_delegate_payment(context):
     from delegate_logic import perform_payment
+
     perform_payment(context)
     return render_voice("calm")
+
 
 @register_task("local_ethical_alert")
 def handle_ethical_signal(context):

@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 token_engine.py
 
 Core logic for symbolic token management in SEEDRA.
@@ -35,6 +34,7 @@ import json
 from datetime import datetime
 
 class TokenEngine:
+
     def __init__(self):
         self.node_balances = {}
         self.token_log = []

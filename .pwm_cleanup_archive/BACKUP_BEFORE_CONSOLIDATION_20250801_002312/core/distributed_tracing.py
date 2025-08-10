@@ -13,8 +13,8 @@ import time
 import uuid
 from collections import defaultdict, deque
 from contextlib import contextmanager
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -564,15 +564,19 @@ def demo_distributed_tracing():
 
 # --- New Additions for Event Replay and State Snapshotting (TODO 169) ---
 
+
 @dataclass
 class AgentState:
     """Represents the state of an agent at a point in time."""
+
     agent_id: str
     timestamp: float
     state_data: Dict[str, Any]
 
+
 class StateSnapshotter:
     """Handles taking and restoring agent state snapshots."""
+
     def __init__(self, storage_path: str = "/tmp/snapshots"):
         self.storage_path = storage_path
         if not os.path.exists(self.storage_path):
@@ -585,8 +589,10 @@ class StateSnapshotter:
             timestamp=time.time(),
             state_data=state_data,
         )
-        filepath = os.path.join(self.storage_path, f"{agent_id}-{snapshot.timestamp}.json")
-        with open(filepath, 'w') as f:
+        filepath = os.path.join(
+            self.storage_path, f"{agent_id}-{snapshot.timestamp}.json"
+        )
+        with open(filepath, "w") as f:
             json.dump(asdict(snapshot), f, indent=2)
         logger.info(f"State snapshot for agent {agent_id} saved to {filepath}")
         return filepath
@@ -594,25 +600,35 @@ class StateSnapshotter:
     def restore_latest_snapshot(self, agent_id: str) -> Optional[AgentState]:
         """Restores the most recent snapshot for an agent."""
         try:
-            files = [f for f in os.listdir(self.storage_path) if f.startswith(f"{agent_id}-") and f.endswith(".json")]
+            files = [
+                f
+                for f in os.listdir(self.storage_path)
+                if f.startswith(f"{agent_id}-") and f.endswith(".json")
+            ]
             if not files:
                 return None
-            latest_file = max(files, key=lambda f: float(f.split('-')[1].replace('.json', '')))
+            latest_file = max(
+                files, key=lambda f: float(f.split("-")[1].replace(".json", ""))
+            )
             filepath = os.path.join(self.storage_path, latest_file)
-            with open(filepath, 'r') as f:
+            with open(filepath) as f:
                 data = json.load(f)
                 return AgentState(**data)
         except Exception as e:
             logger.error(f"Failed to restore snapshot for agent {agent_id}: {e}")
             return None
 
+
 class EventReplayer:
     """Replays events from a trace to reconstruct state."""
+
     def __init__(self, trace_collector: TraceCollector, snapshotter: StateSnapshotter):
         self.trace_collector = trace_collector
         self.snapshotter = snapshotter
 
-    def replay_trace(self, trace_id: str, to_timestamp: Optional[float] = None) -> Dict[str, Any]:
+    def replay_trace(
+        self, trace_id: str, to_timestamp: Optional[float] = None
+    ) -> Dict[str, Any]:
         """
         Replays a trace to reconstruct the state of agents involved.
         - Starts from the nearest snapshot before the trace began.
@@ -626,16 +642,23 @@ class EventReplayer:
         agent_ids = set()
         for span_data in trace_data["spans"]:
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if 'agent.id' in tag_key or 'agent_id' in tag_key:
+                if "agent.id" in tag_key or "agent_id" in tag_key:
                     agent_ids.add(tag_value)
 
         reconstructed_states = {}
         for agent_id in agent_ids:
-            reconstructed_states[agent_id] = self.replay_agent_state(agent_id, trace_data, to_timestamp)
+            reconstructed_states[agent_id] = self.replay_agent_state(
+                agent_id, trace_data, to_timestamp
+            )
 
         return reconstructed_states
 
-    def replay_agent_state(self, agent_id: str, trace_data: Dict[str, Any], to_timestamp: Optional[float] = None) -> Dict[str, Any]:
+    def replay_agent_state(
+        self,
+        agent_id: str,
+        trace_data: Dict[str, Any],
+        to_timestamp: Optional[float] = None,
+    ) -> Dict[str, Any]:
         """Reconstructs the state of a single agent from a trace."""
         # Start with the latest snapshot before the trace
         initial_state = self.snapshotter.restore_latest_snapshot(agent_id)
@@ -646,7 +669,9 @@ class EventReplayer:
         for span_data in trace_data["spans"]:
             is_agent_span = False
             for tag_key, tag_value in span_data.get("tags", {}).items():
-                if ('agent.id' in tag_key or 'agent_id' in tag_key) and tag_value == agent_id:
+                if (
+                    "agent.id" in tag_key or "agent_id" in tag_key
+                ) and tag_value == agent_id:
                     is_agent_span = True
                     break
 
@@ -673,6 +698,7 @@ class EventReplayer:
 
 if __name__ == "__main__":
     import os
+
     demo_distributed_tracing()
 
     # --- Demo for new features ---
@@ -688,7 +714,9 @@ if __name__ == "__main__":
     # Run a trace for this agent
     tracer = create_ai_tracer("agent-007")
     with tracer.trace_agent_operation("agent-007", "process_new_data") as ctx:
-        tracer.add_log(ctx, "state_update", {"status": "processing", "current_task": "task-123"})
+        tracer.add_log(
+            ctx, "state_update", {"status": "processing", "current_task": "task-123"}
+        )
         agent_state.update({"status": "processing", "current_task": "task-123"})
         time.sleep(0.1)
         tracer.add_log(ctx, "state_update", {"tasks_completed": 6, "status": "idle"})

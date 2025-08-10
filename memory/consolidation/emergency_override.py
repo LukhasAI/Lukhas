@@ -1,8 +1,7 @@
-
-#TAG:memory
-#TAG:consolidation
-#TAG:neuroplastic
-#TAG:colony
+# TAG:memory
+# TAG:consolidation
+# TAG:neuroplastic
+# TAG:colony
 
 
 emergency_override.py
@@ -17,9 +16,11 @@ emergency_override.py
 import json
 import os
 from datetime import datetime
+
 from settings_loader import get_setting
 
 EMERGENCY_LOG_PATH = "logs/emergency_log.jsonl"
+
 
 def check_safety_flags(user_context=None):
     """
@@ -36,6 +37,7 @@ def check_safety_flags(user_context=None):
         return True
     return False
 
+
 def shutdown_systems(reason="Unspecified emergency condition"):
     """
     Symbolic shutdown placeholder. In a real deployment, this could cut access to speech, internet, etc.
@@ -43,6 +45,7 @@ def shutdown_systems(reason="Unspecified emergency condition"):
     print("🚨 Emergency Override Triggered")
     print(f"Reason: {reason}")
     print("Disabling voice output, internet queries, and proactive actions.")
+
 
 def log_incident(reason, user_context=None):
     """
@@ -57,9 +60,9 @@ def log_incident(reason, user_context=None):
         "institutional_compliance": {
             "gdpr": True,
             "audit_ready": True,
-            "access_logged": True
+            "access_logged": True,
         },
-        "actions_taken": ["voice_disabled", "internet_disabled", "proactivity_off"]
+        "actions_taken": ["voice_disabled", "internet_disabled", "proactivity_off"],
     }
     os.makedirs("logs", exist_ok=True)
     with open(EMERGENCY_LOG_PATH, "a") as f:

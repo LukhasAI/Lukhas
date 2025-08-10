@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : context_manager.py                             │
@@ -16,7 +14,10 @@ from datetime import datetime
 
 session_contexts = {}
 
-def build_context(user_id: int, username_slug: str, entity_type: str, tier: int) -> dict:
+
+def build_context(
+    user_id: int, username_slug: str, entity_type: str, tier: int
+) -> dict:
     """
     Construct a symbolic context footprint for the session.
     """
@@ -26,11 +27,12 @@ def build_context(user_id: int, username_slug: str, entity_type: str, tier: int)
         "entity_type": entity_type,
         "tier": tier,
         "session_start": str(datetime.utcnow()),
-        "symbolic_trace": f"{tier}-{entity_type}-{username_slug.upper()}"
+        "symbolic_trace": f"{tier}-{entity_type}-{username_slug.upper()}",
     }
     session_contexts[user_id] = context
     print(f"🧠 Symbolic context built for {username_slug}: {context['symbolic_trace']}")
     return context
+
 
 def get_context(user_id: int) -> dict:
     """

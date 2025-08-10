@@ -8,12 +8,13 @@
 ╰────────────────────────────────────────────────────────╯
 """
 
-import os
 import asyncio
 import json
-import subprocess
 import logging
+import os
+import subprocess
 from datetime import datetime
+
 from edge_tts import Communicate
 
 # Initialize logger
@@ -28,7 +29,7 @@ VOICE_MAP = {
     "tier_2": "en-US-DavisNeural",
     "tier_3": "en-US-JennyMultilingualNeural",
     "tier_4": "en-AU-WilliamNeural",
-    "tier_5": "en-US-GuyNeural"
+    "tier_5": "en-US-GuyNeural",
 }
 
 # Optional: import ElevenLabs when needed
@@ -39,21 +40,25 @@ except ImportError:
 
 CONFIG_PATH = os.path.expanduser("~/.lukhas_voice_config.json")
 
+
 def load_config():
     default = {
         "engine": "edge",
         "voice": "en-US-AriaNeural",
         "debug": False,
         "log_output": True,
-        "elevenlabs_api_key": None
+        "elevenlabs_api_key": None,
     }
     if os.path.exists(CONFIG_PATH):
-        with open(CONFIG_PATH, "r") as f:
+        with open(CONFIG_PATH) as f:
             user_cfg = json.load(f)
         default.update(user_cfg)
     return default
 
-async def speak(text: str, tier: int = 0, narrator: bool = False, output_file: str = "output.mp3"):
+
+async def speak(
+    text: str, tier: int = 0, narrator: bool = False, output_file: str = "output.mp3"
+):
     cfg = load_config()
     engine = cfg["engine"]
     debug = cfg["debug"]
@@ -76,24 +81,34 @@ async def speak(text: str, tier: int = 0, narrator: bool = False, output_file: s
 
     if log:
         with open("voice_log.jsonl", "a") as logf:
-            logf.write(json.dumps({
-                "text": text,
-                "engine": engine,
-                "voice": voice,
-                "tier": tier,
-                "narrator": narrator
-            }) + "\n")
+            logf.write(
+                json.dumps(
+                    {
+                        "text": text,
+                        "engine": engine,
+                        "voice": voice,
+                        "tier": tier,
+                        "narrator": narrator,
+                    }
+                )
+                + "\n"
+            )
         try:
             with open("core/logging/symbolic_output_log.jsonl", "a") as sym_log:
-                sym_log.write(json.dumps({
-                    "type": "voice",
-                    "text": text,
-                    "engine": engine,
-                    "voice": voice,
-                    "tier": tier,
-                    "narrator": narrator,
-                    "timestamp": datetime.utcnow().isoformat()
-                }) + "\n")
+                sym_log.write(
+                    json.dumps(
+                        {
+                            "type": "voice",
+                            "text": text,
+                            "engine": engine,
+                            "voice": voice,
+                            "tier": tier,
+                            "narrator": narrator,
+                            "timestamp": datetime.utcnow().isoformat(),
+                        }
+                    )
+                    + "\n"
+                )
         except Exception as e:
             logger.warning(f"Failed to log symbolic output: {e}")
 
@@ -107,6 +122,13 @@ async def speak(text: str, tier: int = 0, narrator: bool = False, output_file: s
     if not debug:
         os.remove(output_file)
 
+
 # 🧪 Test mode
 if __name__ == "__main__":
-    asyncio.run(speak("This is Lukhas speaking symbolically as the narrator.", tier=3, narrator=True))
+    asyncio.run(
+        speak(
+            "This is Lukhas speaking symbolically as the narrator.",
+            tier=3,
+            narrator=True,
+        )
+    )

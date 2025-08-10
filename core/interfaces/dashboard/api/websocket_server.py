@@ -44,35 +44,38 @@
 """
 
 import asyncio
-import logging
+import builtins
+import contextlib
 import json
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Set, Callable
-from dataclasses import dataclass, field, asdict
-from enum import Enum
+import logging
 import uuid
-import websockets
-from websockets.server import WebSocketServerProtocol
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Callable, Optional
 
-# Dashboard system imports
-from dashboard.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard, DashboardMorphState
+import uvicorn
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+
+# LUKHAS system imports
+from core.oracle_nervous_system import get_oracle_nervous_system
 from dashboard.core.dashboard_colony_agent import create_dashboard_colony_swarm
 from dashboard.core.dynamic_tab_system import DynamicTabSystem
 from dashboard.core.morphing_engine import MorphingEngine
 from dashboard.core.self_healing_manager import SelfHealingManager
 
-# LUKHAS system imports
-from core.oracle_nervous_system import get_oracle_nervous_system
-from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+# Dashboard system imports
+from dashboard.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard
 
 logger = logging.getLogger("ΛTRACE.websocket_server")
 
 
 class StreamType(Enum):
     """Types of data streams available."""
+
     ORACLE_METRICS = "oracle_metrics"
     ETHICS_SWARM = "ethics_swarm"
     SYSTEM_HEALTH = "system_health"
@@ -88,25 +91,27 @@ class StreamType(Enum):
 @dataclass
 class StreamClient:
     """Represents a connected WebSocket client."""
+
     client_id: str
     websocket: WebSocket
-    subscribed_streams: Set[StreamType]
+    subscribed_streams: set[StreamType]
     connected_at: datetime
     last_activity: datetime
     user_id: Optional[str] = None
-    permissions: Set[str] = field(default_factory=set)
-    client_info: Dict[str, Any] = field(default_factory=dict)
+    permissions: set[str] = field(default_factory=set)
+    client_info: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class StreamMessage:
     """Represents a message to be streamed to clients."""
+
     message_id: str
     stream_type: StreamType
-    data: Dict[str, Any]
+    data: dict[str, Any]
     timestamp: datetime
     priority: int = 3  # 1=critical, 2=high, 3=normal, 4=low, 5=debug
-    target_clients: Optional[Set[str]] = None
+    target_clients: Optional[set[str]] = None
 
 
 class DashboardWebSocketServer:
@@ -126,12 +131,12 @@ class DashboardWebSocketServer:
         self._setup_fastapi()
 
         # Connected clients
-        self.clients: Dict[str, StreamClient] = {}
+        self.clients: dict[str, StreamClient] = {}
         self.client_lock = asyncio.Lock()
 
         # Dashboard system components
         self.dashboard: Optional[UniversalAdaptiveDashboard] = None
-        self.colony_agents: List = []
+        self.colony_agents: list = []
         self.tab_system: Optional[DynamicTabSystem] = None
         self.morphing_engine: Optional[MorphingEngine] = None
         self.healing_manager: Optional[SelfHealingManager] = None
@@ -142,19 +147,18 @@ class DashboardWebSocketServer:
 
         # Streaming coordination
         self.message_queue = asyncio.Queue()
-        self.stream_handlers: Dict[StreamType, Callable] = {}
+        self.stream_handlers: dict[StreamType, Callable] = {}
         self.performance_metrics = {
             "messages_sent": 0,
             "clients_connected": 0,
             "average_latency": 0.0,
-            "error_rate": 0.0
+            "error_rate": 0.0,
         }
 
         # Background tasks
-        self.background_tasks: List[asyncio.Task] = []
+        self.background_tasks: list[asyncio.Task] = []
 
-        self.logger.info("Dashboard WebSocket Server initialized",
-                        host=host, port=port)
+        self.logger.info("Dashboard WebSocket Server initialized", host=host, port=port)
 
     def _setup_fastapi(self):
         """Setup FastAPI application with CORS and routes."""
@@ -180,7 +184,11 @@ class DashboardWebSocketServer:
                 "status": "healthy",
                 "server_id": self.server_id,
                 "connected_clients": len(self.clients),
-                "uptime": (datetime.now() - self.start_time).total_seconds() if hasattr(self, 'start_time') else 0
+                "uptime": (
+                    (datetime.now() - self.start_time).total_seconds()
+                    if hasattr(self, "start_time")
+                    else 0
+                ),
             }
 
         # Metrics endpoint
@@ -190,7 +198,7 @@ class DashboardWebSocketServer:
                 "performance_metrics": self.performance_metrics,
                 "clients": len(self.clients),
                 "stream_types": list(StreamType),
-                "system_health": await self._get_system_health_summary()
+                "system_health": await self._get_system_health_summary(),
             }
 
     async def initialize(self):
@@ -268,18 +276,18 @@ class DashboardWebSocketServer:
             StreamType.HEALING_EVENTS: self._handle_healing_events_stream,
             StreamType.COLONY_COORDINATION: self._handle_colony_coordination_stream,
             StreamType.PERFORMANCE_METRICS: self._handle_performance_metrics_stream,
-            StreamType.PREDICTIONS: self._handle_predictions_stream
+            StreamType.PREDICTIONS: self._handle_predictions_stream,
         }
 
-        self.logger.info("Stream handlers configured", handlers=len(self.stream_handlers))
+        self.logger.info(
+            "Stream handlers configured", handlers=len(self.stream_handlers)
+        )
 
     async def _start_background_tasks(self):
         """Start background tasks for data streaming."""
 
         # Message broadcasting task
-        self.background_tasks.append(
-            asyncio.create_task(self._message_broadcaster())
-        )
+        self.background_tasks.append(asyncio.create_task(self._message_broadcaster()))
 
         # Data collection tasks for each stream type
         for stream_type in StreamType:
@@ -289,14 +297,10 @@ class DashboardWebSocketServer:
                 )
 
         # Client cleanup task
-        self.background_tasks.append(
-            asyncio.create_task(self._client_cleanup_task())
-        )
+        self.background_tasks.append(asyncio.create_task(self._client_cleanup_task()))
 
         # Performance monitoring task
-        self.background_tasks.append(
-            asyncio.create_task(self._performance_monitor())
-        )
+        self.background_tasks.append(asyncio.create_task(self._performance_monitor()))
 
         self.logger.info("Background tasks started", tasks=len(self.background_tasks))
 
@@ -308,7 +312,9 @@ class DashboardWebSocketServer:
             try:
                 requested_stream = StreamType(stream_type)
             except ValueError:
-                await websocket.close(code=4000, reason=f"Invalid stream type: {stream_type}")
+                await websocket.close(
+                    code=4000, reason=f"Invalid stream type: {stream_type}"
+                )
                 return
 
             # Accept connection
@@ -319,9 +325,13 @@ class DashboardWebSocketServer:
             client = StreamClient(
                 client_id=client_id,
                 websocket=websocket,
-                subscribed_streams={requested_stream} if requested_stream != StreamType.ALL_STREAMS else set(StreamType),
+                subscribed_streams=(
+                    {requested_stream}
+                    if requested_stream != StreamType.ALL_STREAMS
+                    else set(StreamType)
+                ),
                 connected_at=datetime.now(),
-                last_activity=datetime.now()
+                last_activity=datetime.now(),
             )
 
             # Add to clients
@@ -329,10 +339,12 @@ class DashboardWebSocketServer:
                 self.clients[client_id] = client
                 self.performance_metrics["clients_connected"] = len(self.clients)
 
-            self.logger.info("Client connected",
-                           client_id=client_id,
-                           stream_type=stream_type,
-                           total_clients=len(self.clients))
+            self.logger.info(
+                "Client connected",
+                client_id=client_id,
+                stream_type=stream_type,
+                total_clients=len(self.clients),
+            )
 
             # Send welcome message
             await self._send_welcome_message(client)
@@ -347,8 +359,11 @@ class DashboardWebSocketServer:
             except WebSocketDisconnect:
                 self.logger.info("Client disconnected", client_id=client_id)
             except Exception as e:
-                self.logger.error("Client communication error",
-                                client_id=client_id, error=str(e))
+                self.logger.error(
+                    "Client communication error",
+                    client_id=client_id,
+                    error=str(e),
+                )
 
         except Exception as e:
             self.logger.error("WebSocket connection error", error=str(e))
@@ -367,9 +382,11 @@ class DashboardWebSocketServer:
             "type": "welcome",
             "client_id": client.client_id,
             "server_id": self.server_id,
-            "subscribed_streams": [stream.value for stream in client.subscribed_streams],
+            "subscribed_streams": [
+                stream.value for stream in client.subscribed_streams
+            ],
             "server_capabilities": [stream.value for stream in StreamType],
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         await client.websocket.send_text(json.dumps(welcome_data))
@@ -393,7 +410,7 @@ class DashboardWebSocketServer:
 
                 response = {
                     "type": "subscription_updated",
-                    "subscribed_streams": [s.value for s in client.subscribed_streams]
+                    "subscribed_streams": [s.value for s in client.subscribed_streams],
                 }
                 await client.websocket.send_text(json.dumps(response))
 
@@ -409,7 +426,7 @@ class DashboardWebSocketServer:
 
                 response = {
                     "type": "subscription_updated",
-                    "subscribed_streams": [s.value for s in client.subscribed_streams]
+                    "subscribed_streams": [s.value for s in client.subscribed_streams],
                 }
                 await client.websocket.send_text(json.dumps(response))
 
@@ -420,22 +437,38 @@ class DashboardWebSocketServer:
         except json.JSONDecodeError:
             self.logger.warning("Invalid JSON from client", client_id=client.client_id)
         except Exception as e:
-            self.logger.error("Client message handling error",
-                            client_id=client.client_id, error=str(e))
+            self.logger.error(
+                "Client message handling error",
+                client_id=client.client_id,
+                error=str(e),
+            )
 
-    async def _handle_dashboard_interaction(self, client: StreamClient, data: Dict[str, Any]):
+    async def _handle_dashboard_interaction(
+        self, client: StreamClient, data: dict[str, Any]
+    ):
         """Handle dashboard interaction events from clients."""
 
         interaction_type = data.get("interaction_type", "")
         interaction_data = data.get("data", {})
 
-        if self.tab_system and interaction_type in ["tab_access", "dwell_time", "satisfaction_feedback"]:
+        if self.tab_system and interaction_type in [
+            "tab_access",
+            "dwell_time",
+            "satisfaction_feedback",
+        ]:
             tab_id = interaction_data.get("tab_id", "")
             if tab_id:
-                await self.tab_system.handle_user_interaction(tab_id, interaction_type, interaction_data)
+                await self.tab_system.handle_user_interaction(
+                    tab_id, interaction_type, interaction_data
+                )
 
-    async def broadcast_message(self, stream_type: StreamType, data: Dict[str, Any],
-                              priority: int = 3, target_clients: Set[str] = None):
+    async def broadcast_message(
+        self,
+        stream_type: StreamType,
+        data: dict[str, Any],
+        priority: int = 3,
+        target_clients: set[str] = None,
+    ):
         """Broadcast a message to subscribed clients."""
 
         message = StreamMessage(
@@ -444,7 +477,7 @@ class DashboardWebSocketServer:
             data=data,
             timestamp=datetime.now(),
             priority=priority,
-            target_clients=target_clients
+            target_clients=target_clients,
         )
 
         await self.message_queue.put(message)
@@ -463,11 +496,15 @@ class DashboardWebSocketServer:
                 async with self.client_lock:
                     for client in self.clients.values():
                         # Check if client is subscribed to this stream type
-                        if (message.stream_type in client.subscribed_streams or
-                            StreamType.ALL_STREAMS in client.subscribed_streams):
+                        if (
+                            message.stream_type in client.subscribed_streams
+                            or StreamType.ALL_STREAMS in client.subscribed_streams
+                        ):
                             # Check if message is targeted to specific clients
-                            if (message.target_clients is None or
-                                client.client_id in message.target_clients):
+                            if (
+                                message.target_clients is None
+                                or client.client_id in message.target_clients
+                            ):
                                 target_clients.append(client)
 
                 # Broadcast to target clients
@@ -476,7 +513,7 @@ class DashboardWebSocketServer:
                     "stream_type": message.stream_type.value,
                     "data": message.data,
                     "timestamp": message.timestamp.isoformat(),
-                    "priority": message.priority
+                    "priority": message.priority,
                 }
 
                 broadcast_json = json.dumps(broadcast_data)
@@ -486,8 +523,11 @@ class DashboardWebSocketServer:
                         await client.websocket.send_text(broadcast_json)
                         self.performance_metrics["messages_sent"] += 1
                     except Exception as e:
-                        self.logger.error("Failed to send message to client",
-                                        client_id=client.client_id, error=str(e))
+                        self.logger.error(
+                            "Failed to send message to client",
+                            client_id=client.client_id,
+                            error=str(e),
+                        )
                         # Client will be cleaned up by cleanup task
 
             except Exception as e:
@@ -506,7 +546,7 @@ class DashboardWebSocketServer:
             StreamType.HEALING_EVENTS: 1,
             StreamType.COLONY_COORDINATION: 4,
             StreamType.PERFORMANCE_METRICS: 10,
-            StreamType.PREDICTIONS: 15
+            StreamType.PREDICTIONS: 15,
         }
 
         interval = collection_intervals.get(stream_type, 5)
@@ -526,7 +566,10 @@ class DashboardWebSocketServer:
                 await asyncio.sleep(interval)
 
             except Exception as e:
-                self.logger.error(f"Data collector error for {stream_type.value}", error=str(e))
+                self.logger.error(
+                    f"Data collector error for {stream_type.value}",
+                    error=str(e),
+                )
                 await asyncio.sleep(interval * 2)
 
     async def _client_cleanup_task(self):
@@ -546,10 +589,14 @@ class DashboardWebSocketServer:
                     # Remove inactive clients
                     for client_id in clients_to_remove:
                         del self.clients[client_id]
-                        self.logger.info("Cleaned up inactive client", client_id=client_id)
+                        self.logger.info(
+                            "Cleaned up inactive client", client_id=client_id
+                        )
 
                     if clients_to_remove:
-                        self.performance_metrics["clients_connected"] = len(self.clients)
+                        self.performance_metrics["clients_connected"] = len(
+                            self.clients
+                        )
 
                 await asyncio.sleep(60)  # Run cleanup every minute
 
@@ -565,9 +612,11 @@ class DashboardWebSocketServer:
                 # This would include latency calculations, error rates, etc.
 
                 # Log performance periodically
-                self.logger.info("Server performance metrics",
-                               clients=len(self.clients),
-                               messages_sent=self.performance_metrics["messages_sent"])
+                self.logger.info(
+                    "Server performance metrics",
+                    clients=len(self.clients),
+                    messages_sent=self.performance_metrics["messages_sent"],
+                )
 
                 await asyncio.sleep(300)  # Every 5 minutes
 
@@ -577,7 +626,7 @@ class DashboardWebSocketServer:
 
     # Stream handler methods
 
-    async def _handle_oracle_metrics_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_oracle_metrics_stream(self) -> Optional[dict[str, Any]]:
         """Handle Oracle metrics stream."""
         if not self.oracle_nervous_system:
             return None
@@ -586,13 +635,13 @@ class DashboardWebSocketServer:
             status = await self.oracle_nervous_system.get_system_status()
             return {
                 "oracle_status": status,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error("Oracle metrics stream error", error=str(e))
             return None
 
-    async def _handle_ethics_swarm_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_ethics_swarm_stream(self) -> Optional[dict[str, Any]]:
         """Handle Ethics Swarm stream."""
         if not self.ethics_swarm:
             return None
@@ -601,13 +650,13 @@ class DashboardWebSocketServer:
             status = await self.ethics_swarm.get_system_status()
             return {
                 "ethics_status": status,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error("Ethics swarm stream error", error=str(e))
             return None
 
-    async def _handle_system_health_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_system_health_stream(self) -> Optional[dict[str, Any]]:
         """Handle system health stream."""
         if not self.healing_manager:
             return None
@@ -616,23 +665,25 @@ class DashboardWebSocketServer:
             health_status = await self.healing_manager.get_system_health_status()
             return {
                 "system_health": health_status,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error("System health stream error", error=str(e))
             return None
 
-    async def _handle_morphing_events_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_morphing_events_stream(self) -> Optional[dict[str, Any]]:
         """Handle morphing events stream."""
         # This would be event-driven rather than polling
         return None
 
-    async def _handle_healing_events_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_healing_events_stream(self) -> Optional[dict[str, Any]]:
         """Handle healing events stream."""
         # This would be event-driven rather than polling
         return None
 
-    async def _handle_colony_coordination_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_colony_coordination_stream(
+        self,
+    ) -> Optional[dict[str, Any]]:
         """Handle colony coordination stream."""
         if not self.colony_agents:
             return None
@@ -644,25 +695,27 @@ class DashboardWebSocketServer:
                     {
                         "agent_id": agent.colony_id,
                         "role": agent.agent_role.value,
-                        "is_running": agent.is_running
+                        "is_running": agent.is_running,
                     }
                     for agent in self.colony_agents
                 ],
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
             return coordination_data
         except Exception as e:
             self.logger.error("Colony coordination stream error", error=str(e))
             return None
 
-    async def _handle_performance_metrics_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_performance_metrics_stream(
+        self,
+    ) -> Optional[dict[str, Any]]:
         """Handle performance metrics stream."""
         return {
             "server_metrics": self.performance_metrics.copy(),
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
-    async def _handle_predictions_stream(self) -> Optional[Dict[str, Any]]:
+    async def _handle_predictions_stream(self) -> Optional[dict[str, Any]]:
         """Handle predictions stream."""
         if not (self.tab_system and self.morphing_engine):
             return None
@@ -674,37 +727,41 @@ class DashboardWebSocketServer:
             return {
                 "tab_predictions": tab_predictions,
                 "morph_predictions": morph_predictions,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
             self.logger.error("Predictions stream error", error=str(e))
             return None
 
-    async def _get_system_health_summary(self) -> Dict[str, Any]:
+    async def _get_system_health_summary(self) -> dict[str, Any]:
         """Get system health summary for metrics endpoint."""
         summary = {
             "dashboard": "operational" if self.dashboard else "unavailable",
-            "oracle_integration": "operational" if self.oracle_nervous_system else "unavailable",
-            "ethics_integration": "operational" if self.ethics_swarm else "unavailable",
+            "oracle_integration": (
+                "operational" if self.oracle_nervous_system else "unavailable"
+            ),
+            "ethics_integration": (
+                "operational" if self.ethics_swarm else "unavailable"
+            ),
             "colony_agents": len(self.colony_agents),
-            "active_streams": len(self.stream_handlers)
+            "active_streams": len(self.stream_handlers),
         }
         return summary
 
     async def start_server(self):
         """Start the WebSocket server."""
-        self.logger.info("Starting Dashboard WebSocket Server",
-                        host=self.host, port=self.port)
+        self.logger.info(
+            "Starting Dashboard WebSocket Server",
+            host=self.host,
+            port=self.port,
+        )
 
         # Initialize server
         await self.initialize()
 
         # Start FastAPI server
         config = uvicorn.Config(
-            app=self.app,
-            host=self.host,
-            port=self.port,
-            log_level="info"
+            app=self.app, host=self.host, port=self.port, log_level="info"
         )
         server = uvicorn.Server(config)
         await server.serve()
@@ -720,17 +777,19 @@ class DashboardWebSocketServer:
         # Close all client connections
         async with self.client_lock:
             for client in self.clients.values():
-                try:
+                with contextlib.suppress(builtins.BaseException):
                     await client.websocket.close()
-                except:
-                    pass
             self.clients.clear()
 
         self.logger.info("Dashboard WebSocket Server stopped")
 
 
 # Convenience function to create and start server
-async def create_dashboard_websocket_server(host: str = "localhost", port: int = 8765) -> DashboardWebSocketServer:
+
+
+async def create_dashboard_websocket_server(
+    host: str = "localhost", port: int = 8765
+) -> DashboardWebSocketServer:
     """Create and initialize a dashboard WebSocket server."""
     server = DashboardWebSocketServer(host, port)
     await server.initialize()

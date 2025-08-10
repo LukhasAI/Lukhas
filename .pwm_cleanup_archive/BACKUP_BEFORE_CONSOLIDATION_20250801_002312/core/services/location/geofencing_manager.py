@@ -3,12 +3,11 @@ Geofencing Manager - Location-based services for LUKHAS
 Provides geofencing capabilities for context-aware AI responses
 """
 
-import asyncio
 import json
-from typing import Dict, List, Optional, Tuple
+import logging
 from dataclasses import dataclass
 from datetime import datetime
-import logging
+from typing import Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 

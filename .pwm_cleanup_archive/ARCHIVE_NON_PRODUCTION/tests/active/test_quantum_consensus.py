@@ -12,11 +12,10 @@
 Unit tests for the QuantumAnnealedEthicalConsensus class.
 """
 
-import unittest
-from unittest.mock import Mock, patch # Mock was already imported, patch might be useful
-import numpy as np # Was used by the class being tested, good to have for test inputs potentially
 import logging
-import pytest # For async capabilities and skipif
+import unittest
+
+import pytest  # For async capabilities and skipif
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.tests.test_quantum_consensus")
@@ -26,23 +25,38 @@ logger.info("ΛTRACE: Initializing test_quantum_consensus module.")
 #       Original: 'from FILES_LIBRARY.quantum_annealed_consensus import QuantumAnnealedEthicalConsensus'.
 #       Adjusted based on `ls` output of `quantum/` directory.
 QAEC_AVAILABLE = False
-QuantumAnnealedEthicalConsensus = None # Placeholder
+QuantumAnnealedEthicalConsensus = None  # Placeholder
 try:
     # Assuming 'quantum' is a top-level package or accessible in PYTHONPATH
-    from quantum.quantum_consensus_system import QuantumAnnealedEthicalConsensus
+    from quantum.quantum_consensus_system import (
+        QuantumAnnealedEthicalConsensus,
+    )
+
     QAEC_AVAILABLE = True
-    logger.info("ΛTRACE: QuantumAnnealedEthicalConsensus imported successfully from quantum.quantum_consensus_system.")
+    logger.info(
+        "ΛTRACE: QuantumAnnealedEthicalConsensus imported successfully from quantum.quantum_consensus_system."
+    )
 except ImportError:
-    logger.error("ΛTRACE: Failed to import QuantumAnnealedEthicalConsensus. Tests will be skipped.")
+    logger.error(
+        "ΛTRACE: Failed to import QuantumAnnealedEthicalConsensus. Tests will be skipped."
+    )
+
     # Define a dummy class if import fails
     class QuantumAnnealedEthicalConsensus:
-        def __init__(self): logger.warning("ΛTRACE: Using DUMMY QuantumAnnealedEthicalConsensus.")
-        def _initialize_ethical_embeddings(self): return {}
-        async def evaluate(self, action_data, principle_scores): return {"decision": "dummy_evaluation"}
+        def __init__(self):
+            logger.warning("ΛTRACE: Using DUMMY QuantumAnnealedEthicalConsensus.")
+
+        def _initialize_ethical_embeddings(self):
+            return {}
+
+        async def evaluate(self, action_data, principle_scores):
+            return {"decision": "dummy_evaluation"}
 
 
 # Human-readable comment: Test suite for the QuantumAnnealedEthicalConsensus class.
-@pytest.mark.skipif(not QAEC_AVAILABLE, reason="QuantumAnnealedEthicalConsensus not available")
+@pytest.mark.skipif(
+    not QAEC_AVAILABLE, reason="QuantumAnnealedEthicalConsensus not available"
+)
 class TestQuantumConsensus(unittest.TestCase):
     """Test suite for the QuantumAnnealedEthicalConsensus class."""
 
@@ -51,7 +65,9 @@ class TestQuantumConsensus(unittest.TestCase):
         """Sets up the QuantumAnnealedEthicalConsensus instance for each test."""
         logger.info("ΛTRACE: Setting up TestQuantumConsensus.")
         self.consensus = QuantumAnnealedEthicalConsensus()
-        logger.debug("ΛTRACE: QuantumAnnealedEthicalConsensus instance created for test.")
+        logger.debug(
+            "ΛTRACE: QuantumAnnealedEthicalConsensus instance created for test."
+        )
 
     # Human-readable comment: Test ethical principle embeddings initialization.
     @pytest.mark.asyncio
@@ -68,13 +84,23 @@ class TestQuantumConsensus(unittest.TestCase):
 
     # Human-readable comment: Test compliance integration and evaluation logic.
     @pytest.mark.asyncio
-    async def test_compliance_evaluation(self): # Renamed for clarity
+    async def test_compliance_evaluation(self):  # Renamed for clarity
         """Test compliance integration and the evaluate method."""
         logger.info("ΛTRACE: Running test_compliance_evaluation.")
-        action_data = {"type": "test_action", "description": "A sample action to evaluate."}
-        principle_scores = {"beneficence": 0.8, "non_maleficence": 0.9, "autonomy": 0.7, "justice": 0.85}
+        action_data = {
+            "type": "test_action",
+            "description": "A sample action to evaluate.",
+        }
+        principle_scores = {
+            "beneficence": 0.8,
+            "non_maleficence": 0.9,
+            "autonomy": 0.7,
+            "justice": 0.85,
+        }
 
-        logger.debug(f"ΛTRACE: Evaluating action_data: {action_data} with scores: {principle_scores}")
+        logger.debug(
+            f"ΛTRACE: Evaluating action_data: {action_data} with scores: {principle_scores}"
+        )
         result = await self.consensus.evaluate(action_data, principle_scores)
         logger.debug(f"ΛTRACE: Evaluation result: {result}")
 
@@ -84,6 +110,7 @@ class TestQuantumConsensus(unittest.TestCase):
         # self.assertIn("decision", result)
         # self.assertIn("confidence", result)
         logger.info("ΛTRACE: test_compliance_evaluation finished.")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: test_quantum_consensus.py

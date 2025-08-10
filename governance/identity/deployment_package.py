@@ -31,14 +31,12 @@ License: LUKHAS Commercial License
 """
 
 import argparse
-import json
 import os
-import subprocess
 import sys
 import time
 import traceback
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # ================================
 # DEPLOYMENT CONFIGURATION
@@ -91,7 +89,7 @@ class SystemValidator:
         self.validation_results = {}
         self.base_path = os.path.dirname(os.path.abspath(__file__))
 
-    def validate_python_environment(self) -> Dict[str, Any]:
+    def validate_python_environment(self) -> dict[str, Any]:
         """Validate Python environment"""
         print("🐍 Validating Python Environment...")
 
@@ -132,7 +130,7 @@ class SystemValidator:
 
         return results
 
-    def validate_file_structure(self) -> Dict[str, Any]:
+    def validate_file_structure(self) -> dict[str, Any]:
         """Validate file and directory structure"""
         print("📁 Validating File Structure...")
 
@@ -174,7 +172,7 @@ class SystemValidator:
 
         return results
 
-    def validate_module_functionality(self) -> Dict[str, Any]:
+    def validate_module_functionality(self) -> dict[str, Any]:
         """Validate core module functionality"""
         print("⚙️ Validating Module Functionality...")
 
@@ -189,7 +187,7 @@ class SystemValidator:
                 import qrg_generators
 
                 qrg = qrg_generators.ConsciousnessAdaptiveQRG()
-                pattern = qrg.generate_qr_pattern("test", {})
+                qrg.generate_qr_pattern("test", {})
                 results["details"]["qrg_generation"] = "WORKING"
             except Exception as e:
                 results["details"]["qrg_generation"] = f"ERROR: {e}"
@@ -199,7 +197,7 @@ class SystemValidator:
             try:
                 import qrg_integration
 
-                integrator = qrg_integration.QRGSystemIntegrator()
+                qrg_integration.QRGSystemIntegrator()
                 results["details"]["qrg_integration"] = "WORKING"
             except Exception as e:
                 results["details"]["qrg_integration"] = f"ERROR: {e}"
@@ -209,7 +207,7 @@ class SystemValidator:
             try:
                 import qrg_complete_demo
 
-                demo = qrg_complete_demo.InteractiveDemoInterface()
+                qrg_complete_demo.InteractiveDemoInterface()
                 results["details"]["demo_interface"] = "WORKING"
             except Exception as e:
                 results["details"]["demo_interface"] = f"ERROR: {e}"
@@ -224,7 +222,7 @@ class SystemValidator:
 
         return results
 
-    def run_complete_validation(self) -> Dict[str, Any]:
+    def run_complete_validation(self) -> dict[str, Any]:
         """Run complete system validation"""
         print("🔍 LUKHAS System Validation")
         print("=" * 50)
@@ -269,7 +267,7 @@ class SystemValidator:
         }
 
         # Print summary
-        print(f"\n📊 Validation Summary:")
+        print("\n📊 Validation Summary:")
         print(f"   ✅ Passed: {passed_validations}")
         print(f"   ⚠️ Partial: {partial_validations}")
         print(f"   ❌ Failed: {failed_validations}")
@@ -326,12 +324,12 @@ class DemoOrchestrator:
             time.sleep(0.5)  # Simulate processing
 
             # Mock QR pattern
-            pattern = f"█▀▀█ ▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
+            pattern = "█▀▀█ ▀█▀ █▀▀█\n█  █  █  █  █\n█▄▄█ ▄█▄ █▄▄█"
             print(f"   Pattern: {pattern.split()[0]}...")
             print(f"   Parameters: {params}")
-            print(f"   Status: ✅ Generated successfully")
+            print("   Status: ✅ Generated successfully")
 
-        print(f"\n🎯 Fallback demo completed successfully!")
+        print("\n🎯 Fallback demo completed successfully!")
 
 
 # ================================
@@ -383,10 +381,10 @@ class TestOrchestrator:
             try:
                 result = test_func()
                 if result:
-                    print(f"   ✅ PASS")
+                    print("   ✅ PASS")
                     passed += 1
                 else:
-                    print(f"   ❌ FAIL")
+                    print("   ❌ FAIL")
             except Exception as e:
                 print(f"   ❌ ERROR: {e}")
 
@@ -406,9 +404,7 @@ class TestOrchestrator:
     def test_basic_imports(self):
         """Test basic imports"""
         try:
-            import hashlib
-            import json
-            import time
+            pass
 
             return True
         except ImportError:
@@ -421,7 +417,7 @@ class TestOrchestrator:
             import hashlib
 
             data = "test_data"
-            hash_val = hashlib.md5(data.encode()).hexdigest()
+            hashlib.md5(data.encode()).hexdigest()
             pattern = "█▀▀█ ▀█▀ █▀▀█"  # Mock pattern
             return len(pattern) > 0
         except Exception:
@@ -461,7 +457,7 @@ class BenchmarkRunner:
                 print(f"   ❌ Error: {e}")
 
         # Summary
-        print(f"\n📈 Benchmark Summary:")
+        print("\n📈 Benchmark Summary:")
         for name, result in results.items():
             print(f"   • {name}: {result}")
 
@@ -477,7 +473,7 @@ class BenchmarkRunner:
         for i in range(100):
             data = f"test_data_{i}"
             # Simulate processing
-            hash_val = abs(hash(data)) % 1000
+            abs(hash(data)) % 1000
             time.sleep(0.001)  # Simulate 1ms processing time
 
         duration = time.time() - start_time
@@ -547,7 +543,7 @@ class BenchmarkRunner:
 
         for validation in validations:
             # Simulate validation processing
-            hash_val = hashlib.sha256(validation.encode()).hexdigest()
+            hashlib.sha256(validation.encode()).hexdigest()
             time.sleep(0.002)  # Simulate 2ms per validation
 
         duration = time.time() - start_time
@@ -723,7 +719,7 @@ class DeploymentPackage:
 
             # 3. Performance Benchmarks
             print("3️⃣ PERFORMANCE BENCHMARKS")
-            benchmark_results = self.run_benchmarks()
+            self.run_benchmarks()
             print()
 
             # 4. Interactive Demo

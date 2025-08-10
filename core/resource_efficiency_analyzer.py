@@ -25,9 +25,8 @@ import time
 import tracemalloc
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 import psutil
@@ -65,9 +64,9 @@ class ResourceSnapshot:
     thread_count: int
     open_files: int
     energy_estimate: float  # Estimated watt-hours
-    gc_stats: Dict[str, int] = field(default_factory=dict)
+    gc_stats: dict[str, int] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -96,22 +95,22 @@ class EfficiencyReport:
 
     # Overall metrics
     efficiency_score: float  # 0-100 overall efficiency score
-    resource_utilization: Dict[str, float]  # Utilization by resource type
+    resource_utilization: dict[str, float]  # Utilization by resource type
 
     # Trends
-    trends: Dict[str, ResourceTrend]
+    trends: dict[str, ResourceTrend]
 
     # Bottlenecks
-    bottlenecks: List[Dict[str, Any]]
+    bottlenecks: list[dict[str, Any]]
 
     # Recommendations
-    recommendations: List[Dict[str, Any]]
+    recommendations: list[dict[str, Any]]
 
     # Detailed analysis
-    memory_analysis: Dict[str, Any]
-    cpu_analysis: Dict[str, Any]
-    io_analysis: Dict[str, Any]
-    energy_analysis: Dict[str, Any]
+    memory_analysis: dict[str, Any]
+    cpu_analysis: dict[str, Any]
+    io_analysis: dict[str, Any]
+    energy_analysis: dict[str, Any]
 
     def to_json(self) -> str:
         """Convert report to JSON format"""
@@ -368,8 +367,8 @@ class ResourceEfficiencyAnalyzer:
         )
 
     def _analyze_trends(
-        self, snapshots: List[ResourceSnapshot]
-    ) -> Dict[str, ResourceTrend]:
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, ResourceTrend]:
         """Analyze resource usage trends"""
         if not snapshots:
             return {}
@@ -403,8 +402,8 @@ class ResourceEfficiencyAnalyzer:
     def _calculate_trend(
         self,
         resource_type: ResourceType,
-        values: List[float],
-        snapshots: List[ResourceSnapshot],
+        values: list[float],
+        snapshots: list[ResourceSnapshot],
     ) -> ResourceTrend:
         """Calculate trend for a specific resource"""
         if not values:
@@ -469,9 +468,9 @@ class ResourceEfficiencyAnalyzer:
 
     def _identify_bottlenecks(
         self,
-        snapshots: List[ResourceSnapshot],
-        trends: Dict[str, ResourceTrend],
-    ) -> List[Dict[str, Any]]:
+        snapshots: list[ResourceSnapshot],
+        trends: dict[str, ResourceTrend],
+    ) -> list[dict[str, Any]]:
         """Identify system bottlenecks"""
         bottlenecks = []
 
@@ -481,7 +480,7 @@ class ResourceEfficiencyAnalyzer:
             bottlenecks.append(
                 {
                     "type": "cpu_saturation",
-                    "severity": "high" if cpu_trend.current_value > 90 else "medium",
+                    "severity": ("high" if cpu_trend.current_value > 90 else "medium"),
                     "impact": "Reduced throughput and increased latency",
                     "details": {
                         "current_usage": f"{cpu_trend.current_value:.1f}%",
@@ -567,8 +566,8 @@ class ResourceEfficiencyAnalyzer:
             return f"{seconds_to_oom/86400:.1f} days"
 
     def _check_io_bottlenecks(
-        self, snapshots: List[ResourceSnapshot]
-    ) -> List[Dict[str, Any]]:
+        self, snapshots: list[ResourceSnapshot]
+    ) -> list[dict[str, Any]]:
         """Check for I/O bottlenecks"""
         bottlenecks = []
 
@@ -601,9 +600,9 @@ class ResourceEfficiencyAnalyzer:
 
     def _generate_recommendations(
         self,
-        trends: Dict[str, ResourceTrend],
-        bottlenecks: List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        trends: dict[str, ResourceTrend],
+        bottlenecks: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
         """Generate optimization recommendations"""
         recommendations = []
 
@@ -712,8 +711,8 @@ class ResourceEfficiencyAnalyzer:
         return recommendations
 
     def _analyze_memory_usage(
-        self, snapshots: List[ResourceSnapshot]
-    ) -> Dict[str, Any]:
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, Any]:
         """Detailed memory usage analysis"""
         if not snapshots:
             return {}
@@ -757,7 +756,7 @@ class ResourceEfficiencyAnalyzer:
             ),
         }
 
-    def _analyze_gc_pressure(self, snapshots: List[ResourceSnapshot]) -> Dict[str, Any]:
+    def _analyze_gc_pressure(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
         """Analyze garbage collection pressure"""
         if not snapshots or not snapshots[0].gc_stats:
             return {"status": "unknown"}
@@ -794,7 +793,7 @@ class ResourceEfficiencyAnalyzer:
         }
 
     def _calculate_memory_efficiency(
-        self, rss_values: List[int], vms_values: List[int]
+        self, rss_values: list[int], vms_values: list[int]
     ) -> float:
         """Calculate memory efficiency score (0-100)"""
         if not rss_values or not vms_values:
@@ -825,7 +824,7 @@ class ResourceEfficiencyAnalyzer:
 
         return fragmentation_score + stability_score + usage_score
 
-    def _analyze_cpu_usage(self, snapshots: List[ResourceSnapshot]) -> Dict[str, Any]:
+    def _analyze_cpu_usage(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
         """Detailed CPU usage analysis"""
         if not snapshots:
             return {}
@@ -847,7 +846,7 @@ class ResourceEfficiencyAnalyzer:
             "efficiency_score": self._calculate_cpu_efficiency(cpu_values),
         }
 
-    def _calculate_cpu_efficiency(self, cpu_values: List[float]) -> float:
+    def _calculate_cpu_efficiency(self, cpu_values: list[float]) -> float:
         """Calculate CPU efficiency score (0-100)"""
         if not cpu_values:
             return 0
@@ -869,7 +868,7 @@ class ResourceEfficiencyAnalyzer:
 
         return efficiency
 
-    def _analyze_io_patterns(self, snapshots: List[ResourceSnapshot]) -> Dict[str, Any]:
+    def _analyze_io_patterns(self, snapshots: list[ResourceSnapshot]) -> dict[str, Any]:
         """Analyze I/O patterns"""
         if not snapshots:
             return {}
@@ -903,7 +902,7 @@ class ResourceEfficiencyAnalyzer:
         }
 
     def _estimate_disk_utilization(
-        self, reads: List[int], writes: List[int], time_span: float
+        self, reads: list[int], writes: list[int], time_span: float
     ) -> float:
         """Estimate disk utilization percentage"""
         # Assume 500 MB/s as typical SSD throughput
@@ -915,7 +914,7 @@ class ResourceEfficiencyAnalyzer:
         return min(100, (actual_throughput / max_throughput) * 100)
 
     def _estimate_network_utilization(
-        self, sent: List[int], recv: List[int], time_span: float
+        self, sent: list[int], recv: list[int], time_span: float
     ) -> float:
         """Estimate network utilization percentage"""
         # Assume 1 Gbps network
@@ -928,10 +927,10 @@ class ResourceEfficiencyAnalyzer:
 
     def _classify_io_pattern(
         self,
-        disk_reads: List[int],
-        disk_writes: List[int],
-        net_sent: List[int],
-        net_recv: List[int],
+        disk_reads: list[int],
+        disk_writes: list[int],
+        net_sent: list[int],
+        net_recv: list[int],
     ) -> str:
         """Classify the I/O pattern"""
         total_disk = sum(disk_reads) + sum(disk_writes)
@@ -947,8 +946,8 @@ class ResourceEfficiencyAnalyzer:
             return "low_io"
 
     def _analyze_energy_consumption(
-        self, snapshots: List[ResourceSnapshot]
-    ) -> Dict[str, Any]:
+        self, snapshots: list[ResourceSnapshot]
+    ) -> dict[str, Any]:
         """Analyze energy consumption patterns"""
         if not snapshots:
             return {}
@@ -964,10 +963,7 @@ class ResourceEfficiencyAnalyzer:
         average_cpu = np.mean(cpu_values)
 
         # Performance per watt metric
-        if average_power > 0:
-            perf_per_watt = average_cpu / average_power
-        else:
-            perf_per_watt = 0
+        perf_per_watt = average_cpu / average_power if average_power > 0 else 0
 
         return {
             "total_consumption_kwh": total_energy / 1000,
@@ -995,10 +991,10 @@ class ResourceEfficiencyAnalyzer:
 
     def _calculate_efficiency_score(
         self,
-        trends: Dict[str, ResourceTrend],
-        bottlenecks: List[Dict[str, Any]],
-        memory_analysis: Dict[str, Any],
-        cpu_analysis: Dict[str, Any],
+        trends: dict[str, ResourceTrend],
+        bottlenecks: list[dict[str, Any]],
+        memory_analysis: dict[str, Any],
+        cpu_analysis: dict[str, Any],
     ) -> float:
         """Calculate overall efficiency score (0-100)"""
         scores = []
@@ -1033,7 +1029,7 @@ class ResourceEfficiencyAnalyzer:
 
         return sum(scores)
 
-    def get_quick_stats(self) -> Dict[str, Any]:
+    def get_quick_stats(self) -> dict[str, Any]:
         """Get quick resource statistics"""
         snapshot = self._capture_snapshot()
 

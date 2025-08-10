@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import logging
+
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - BRIDGE TRACE LOGGER
@@ -37,13 +39,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from core.common import get_logger
 import json
-from typing import Dict, Any
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-
+from typing import Any
 
 # ΛTRACE injection point
 logger = logging.getLogger("bridge.trace_logger")
@@ -79,7 +79,7 @@ class BridgeTraceEvent:
     level: TraceLevel
     component: str
     message: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class BridgeTraceLogger:
@@ -95,7 +95,7 @@ class BridgeTraceLogger:
     def __init__(self, log_file: str = "bridge_trace.log"):
         # ΛTRACE: Trace logger initialization
         self.log_file = log_file
-        self.trace_events: Dict[str, BridgeTraceEvent] = {}
+        self.trace_events: dict[str, BridgeTraceEvent] = {}
         self.event_counter = 0
 
         # Setup file logging
@@ -109,7 +109,6 @@ class BridgeTraceLogger:
         # TODO: Configure file rotation
         # TODO: Setup JSON formatting
         # TODO: Implement log compression
-        pass
 
     def log_bridge_event(
         self,
@@ -117,7 +116,7 @@ class BridgeTraceLogger:
         level: TraceLevel,
         component: str,
         message: str,
-        metadata: Dict[str, Any] = None,
+        metadata: dict[str, Any] = None,
     ) -> str:
         """
         Log bridge operation event with trace data
@@ -147,7 +146,7 @@ class BridgeTraceLogger:
         return event_id
 
     def trace_symbolic_handshake(
-        self, dream_id: str, status: str, details: Dict[str, Any] = None
+        self, dream_id: str, status: str, details: dict[str, Any] = None
     ) -> str:
         """
         Trace symbolic handshake operations
@@ -175,7 +174,7 @@ class BridgeTraceLogger:
         )
 
     def trace_memory_mapping(
-        self, map_id: str, operation: str, result: Dict[str, Any] = None
+        self, map_id: str, operation: str, result: dict[str, Any] = None
     ) -> str:
         """
         Trace memory mapping operations
@@ -202,7 +201,7 @@ class BridgeTraceLogger:
             metadata,
         )
 
-    def get_trace_summary(self) -> Dict[str, Any]:
+    def get_trace_summary(self) -> dict[str, Any]:
         """
         Get summary of bridge trace activities
 
@@ -257,7 +256,6 @@ if __name__ == "__main__":
     print("BridgeTraceLogger - SCAFFOLD PLACEHOLDER")
     print("# ΛTAG: bridge, symbolic_handshake")
     print("Status: Awaiting implementation - Jules-05 Phase 4")
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

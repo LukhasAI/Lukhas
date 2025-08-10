@@ -22,6 +22,7 @@ Integration Date: 2025-05-31T07:55:30.479304
 
 from dashboards.widgets.visualizer_engine import render_symbolic_expression
 
+
 def render_widget_preview(widget):
     """
     Converts a symbolic widget dict into HTML + CSS animation preview using visualizer engine.
@@ -37,6 +38,7 @@ def render_widget_preview(widget):
     except Exception as e:
         html = f"<div style='color:red;'>Rendering error: {str(e)}</div>"
     return html
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 🔍 USAGE GUIDE (for lukhas_live_renderer.py)

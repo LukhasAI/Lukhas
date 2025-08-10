@@ -3,11 +3,11 @@ Dream Recorder for NIAS system.
 Provides dream recording and logging functionality.
 """
 
-from typing import Dict, Any, Optional, List
 import json
 import logging
-from datetime import datetime
 import os
+from datetime import datetime
+from typing import Any, Optional
 
 
 class DreamRecorder:
@@ -51,8 +51,10 @@ class DreamRecorder:
         return f"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
     def record_dream_message(
-        self, dream_message: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self,
+        dream_message: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Record a dream message with context.
 
@@ -95,12 +97,12 @@ class DreamRecorder:
             self.logger.error(f"Failed to record dream message: {str(e)}")
             return {"success": False, "error": str(e), "dream_id": None}
 
-    def _save_to_file(self, dream_record: Dict[str, Any]) -> None:
+    def _save_to_file(self, dream_record: dict[str, Any]) -> None:
         """Save dream record to file."""
         try:
             # Load existing records if file exists
             if os.path.exists(self.log_file):
-                with open(self.log_file, "r", encoding="utf-8") as f:
+                with open(self.log_file, encoding="utf-8") as f:
                     existing_records = json.load(f)
                     if not isinstance(existing_records, list):
                         existing_records = []
@@ -119,7 +121,7 @@ class DreamRecorder:
 
     def get_recorded_dreams(
         self, session_id: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Get recorded dreams, optionally filtered by session.
 
@@ -139,8 +141,8 @@ class DreamRecorder:
             return self.recorded_dreams.copy()
 
     def search_dreams(
-        self, query: str, search_fields: List[str] = None
-    ) -> List[Dict[str, Any]]:
+        self, query: str, search_fields: list[str] = None
+    ) -> list[dict[str, Any]]:
         """
         Search recorded dreams by query.
 
@@ -163,7 +165,7 @@ class DreamRecorder:
 
         return matching_dreams
 
-    def get_dream_stats(self) -> Dict[str, Any]:
+    def get_dream_stats(self) -> dict[str, Any]:
         """
         Get statistics about recorded dreams.
 
@@ -179,7 +181,7 @@ class DreamRecorder:
             }
 
         # Calculate statistics
-        sessions = set(dream["session_id"] for dream in self.recorded_dreams)
+        sessions = {dream["session_id"] for dream in self.recorded_dreams}
         timestamps = [dream["timestamp"] for dream in self.recorded_dreams]
 
         return {
@@ -193,7 +195,7 @@ class DreamRecorder:
             ),
         }
 
-    def clear_dreams(self, session_id: Optional[str] = None) -> Dict[str, Any]:
+    def clear_dreams(self, session_id: Optional[str] = None) -> dict[str, Any]:
         """
         Clear recorded dreams, optionally by session.
 
@@ -238,7 +240,7 @@ class DreamRecorder:
             self.logger.error(f"Failed to clear dreams: {str(e)}")
             return {"success": False, "error": str(e), "cleared_count": 0}
 
-    def export_dreams(self, output_file: str, format: str = "json") -> Dict[str, Any]:
+    def export_dreams(self, output_file: str, format: str = "json") -> dict[str, Any]:
         """
         Export recorded dreams to file.
 
@@ -281,7 +283,10 @@ class DreamRecorder:
                             }
                             writer.writerow(row)
             else:
-                return {"success": False, "error": f"Unsupported format: {format}"}
+                return {
+                    "success": False,
+                    "error": f"Unsupported format: {format}",
+                }
 
             self.logger.info(
                 f"Exported {len(self.recorded_dreams)} dreams to {output_file}"
@@ -304,8 +309,8 @@ _global_recorder = DreamRecorder()
 
 
 def record_dream_message(
-    dream_message: Dict[str, Any], context: Optional[Dict[str, Any]] = None
-) -> Dict[str, Any]:
+    dream_message: dict[str, Any], context: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """
     Convenience function to record a dream message using the global recorder.
 

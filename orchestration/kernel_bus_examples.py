@@ -5,11 +5,14 @@ Symbolic Kernel Bus Integration Examples
 Common patterns for using the new kernel bus in LUKHΛS components.
 """
 
+import time
+
 from orchestration.symbolic_kernel_bus import (
-    kernel_bus, 
+    EventPriority,
     SymbolicEffect,
-    EventPriority
+    kernel_bus,
 )
+
 
 # Example 1: Memory fold event
 def create_memory_fold(fold_id: str, content: dict):
@@ -19,10 +22,13 @@ def create_memory_fold(fold_id: str, content: dict):
         {"fold_id": fold_id, "content": content},
         source="memory.manager",
         effects=[SymbolicEffect.MEMORY_FOLD, SymbolicEffect.LOG_TRACE],
-        priority=EventPriority.HIGH
+        priority=EventPriority.HIGH,
     )
 
+
 # Example 2: Agent drift detection
+
+
 def detect_agent_drift(agent_id: str, drift_score: float):
     """Report agent drift to Guardian system"""
     kernel_bus.emit(
@@ -30,20 +36,26 @@ def detect_agent_drift(agent_id: str, drift_score: float):
         {"agent_id": agent_id, "drift_score": drift_score},
         source="swarm.monitor",
         effects=[SymbolicEffect.DRIFT_DETECT, SymbolicEffect.ETHICS_CHECK],
-        priority=EventPriority.HIGH if drift_score > 0.7 else EventPriority.NORMAL
+        priority=EventPriority.HIGH if drift_score > 0.7 else EventPriority.NORMAL,
     )
 
+
 # Example 3: Plugin loading
+
+
 def load_plugin(plugin_name: str, config: dict):
     """Load a plugin with registry update"""
     kernel_bus.emit(
         "plugin.loaded",
         {"name": plugin_name, "config": config},
         source="plugin.loader",
-        effects=[SymbolicEffect.PLUGIN_LOAD, SymbolicEffect.PLUGIN_UPDATE]
+        effects=[SymbolicEffect.PLUGIN_LOAD, SymbolicEffect.PLUGIN_UPDATE],
     )
 
+
 # Example 4: Subscribe to memory events
+
+
 def handle_memory_event(event):
     """Handle memory-related events"""
     print(f"Memory event: {event.event_type}")
@@ -52,13 +64,16 @@ def handle_memory_event(event):
         kernel_bus.emit(
             "memory.cascade.propagated",
             {"depth": event.payload.get("depth", 0) + 1},
-            correlation_id=event.correlation_id
+            correlation_id=event.correlation_id,
         )
+
 
 # Subscribe to all memory events
 kernel_bus.subscribe("memory.*", handle_memory_event)
 
 # Example 5: Dream cycle with correlation
+
+
 def start_dream_cycle(dream_id: str):
     """Start a dream cycle with correlated events"""
     # Initial dream event
@@ -67,21 +82,24 @@ def start_dream_cycle(dream_id: str):
         {"dream_id": dream_id, "timestamp": time.time()},
         source="dream.engine",
         effects=[SymbolicEffect.DREAM_TRIGGER, SymbolicEffect.MEMORY_FOLD],
-        correlation_id=dream_id
+        correlation_id=dream_id,
     )
-    
+
     # Correlated consciousness update
     kernel_bus.emit(
         "consciousness.state.changed",
         {"state": "dreaming", "dream_id": dream_id},
         source="consciousness.core",
         effects=[SymbolicEffect.AWARENESS_UPDATE],
-        correlation_id=dream_id
+        correlation_id=dream_id,
     )
-    
+
     return event_id
 
+
 # Example 6: Critical safety event
+
+
 def safety_violation(boundary: str, severity: str = "high"):
     """Report safety boundary violation"""
     kernel_bus.emit(
@@ -89,10 +107,13 @@ def safety_violation(boundary: str, severity: str = "high"):
         {"boundary": boundary, "severity": severity},
         source="safety.monitor",
         effects=[SymbolicEffect.SAFETY_GATE, SymbolicEffect.ETHICS_CHECK],
-        priority=EventPriority.CRITICAL
+        priority=EventPriority.CRITICAL,
     )
 
+
 # Example 7: Swarm consensus
+
+
 async def request_swarm_consensus(topic: str, agents: list):
     """Request consensus from agent swarm"""
     kernel_bus.emit(
@@ -100,14 +121,18 @@ async def request_swarm_consensus(topic: str, agents: list):
         {"topic": topic, "agents": agents, "quorum": len(agents) * 0.6},
         source="swarm.coordinator",
         effects=[SymbolicEffect.SWARM_CONSENSUS, SymbolicEffect.AGENT_SYNC],
-        priority=EventPriority.HIGH
+        priority=EventPriority.HIGH,
     )
 
+
 # Example 8: Effect-based subscription
+
+
 def handle_memory_effects(event):
     """Handle any event with memory effects"""
     if SymbolicEffect.MEMORY_PERSIST in event.effects:
         # Persist to storage
         print(f"Persisting memory from {event.source}")
+
 
 kernel_bus.subscribe_effect(SymbolicEffect.MEMORY_PERSIST, handle_memory_effects)

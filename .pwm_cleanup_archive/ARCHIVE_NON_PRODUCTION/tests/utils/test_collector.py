@@ -13,10 +13,9 @@ and reports uncollectable modules for diagnostic purposes.
 """
 
 import ast
-import os
 import sys
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 
 class TestCollector:
@@ -32,11 +31,7 @@ class TestCollector:
         test_files = []
 
         # Look for test files in common locations
-        test_patterns = [
-            "test_*.py",
-            "*_test.py",
-            "tests.py"
-        ]
+        test_patterns = ["test_*.py", "*_test.py", "tests.py"]
 
         # Search in tests/ directory and subdirectories
         for pattern in test_patterns:
@@ -51,11 +46,11 @@ class TestCollector:
             "valid": False,
             "error": None,
             "functions": [],
-            "classes": []
+            "classes": [],
         }
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Parse with AST
@@ -86,7 +81,7 @@ class TestCollector:
             "valid_files": 0,
             "invalid_files": 0,
             "files": [],
-            "errors": []
+            "errors": [],
         }
 
         for test_file in self.test_files:
@@ -97,10 +92,9 @@ class TestCollector:
                 results["valid_files"] += 1
             else:
                 results["invalid_files"] += 1
-                results["errors"].append({
-                    "file": str(test_file),
-                    "error": validation_result["error"]
-                })
+                results["errors"].append(
+                    {"file": str(test_file), "error": validation_result["error"]}
+                )
 
         return results
 

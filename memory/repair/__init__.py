@@ -9,6 +9,7 @@ logger = get_logger(__name__)
 
 try:
     from .advanced_trauma_repair import AdvancedTraumaRepair
+
     logger.debug("Imported AdvancedTraumaRepair from .advanced_trauma_repair")
 except ImportError as e:
     logger.warning(f"Could not import AdvancedTraumaRepair: {e}")
@@ -16,14 +17,15 @@ except ImportError as e:
 
 try:
     from .helix_repair_module import HelixRepairModule
+
     logger.debug("Imported HelixRepairModule from .helix_repair_module")
 except ImportError as e:
     logger.warning(f"Could not import HelixRepairModule: {e}")
     HelixRepairModule = None
 
 __all__ = [
-    'AdvancedTraumaRepair',
-    'HelixRepairModule',
+    "AdvancedTraumaRepair",
+    "HelixRepairModule",
 ]
 
 # Filter out None values from __all__ if imports failed

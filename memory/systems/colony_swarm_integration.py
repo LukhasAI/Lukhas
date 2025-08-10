@@ -15,22 +15,22 @@
 """
 
 import asyncio
-import numpy as np
-from datetime import datetime, timezone
-from typing import Dict, List, Optional, Tuple, Any, Set
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from enum import Enum
-import structlog
+from typing import Any, Dict, List, Optional, Tuple
 
-from .integration_adapters import MemorySafetyIntegration, ConsensusValidationAdapter
+import numpy as np
+
+from .integration_adapters import (
+    MemorySafetyIntegration,
+)
 from .memory_safety_features import MemorySafetySystem
-from .hybrid_memory_fold import HybridMemoryFold
-
-from core.common import get_logger
 
 
 class ColonyRole(Enum):
     """Roles that colonies can play in memory validation"""
+
     VALIDATOR = "validator"
     WITNESS = "witness"
     ARBITER = "arbiter"
@@ -40,6 +40,7 @@ class ColonyRole(Enum):
 @dataclass
 class ColonyProfile:
     """Profile for a colony in the swarm"""
+
     colony_id: str
     role: ColonyRole
     specializations: List[str] = field(default_factory=list)
@@ -60,7 +61,7 @@ class ColonyMemoryValidator:
         self,
         colony_id: str,
         role: ColonyRole,
-        specializations: Optional[List[str]] = None
+        specializations: Optional[List[str]] = None,
     ):
         self.colony_id = colony_id
         self.role = role
@@ -68,9 +69,7 @@ class ColonyMemoryValidator:
         self.validation_history: List[Dict[str, Any]] = []
 
     async def validate_memory(
-        self,
-        memory_id: str,
-        memory_data: Dict[str, Any]
+        self, memory_id: str, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """
         Validate memory based on colony's role and specialization.
@@ -80,7 +79,7 @@ class ColonyMemoryValidator:
         validation_result = {
             "memory_id": memory_id,
             "timestamp": datetime.now(timezone.utc),
-            "colony_id": self.colony_id
+            "colony_id": self.colony_id,
         }
 
         try:
@@ -103,15 +102,12 @@ class ColonyMemoryValidator:
 
         except Exception as e:
             logger.error(
-                "Colony validation failed",
-                colony_id=self.colony_id,
-                error=str(e)
+                "Colony validation failed", colony_id=self.colony_id, error=str(e)
             )
             return False, 0.0, f"Validation error: {str(e)}"
 
     async def _validate_general(
-        self,
-        memory_data: Dict[str, Any]
+        self, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """General validation logic"""
         # Check basic structure
@@ -140,8 +136,7 @@ class ColonyMemoryValidator:
         return True, confidence, None
 
     async def _validate_as_witness(
-        self,
-        memory_data: Dict[str, Any]
+        self, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """Witness validation - confirms observations"""
         # Witnesses validate experiential memories
@@ -159,8 +154,7 @@ class ColonyMemoryValidator:
         return True, 0.3, "Not witness domain"
 
     async def _validate_as_arbiter(
-        self,
-        memory_data: Dict[str, Any]
+        self, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """Arbiter validation - resolves conflicts"""
         # Arbiters look for logical consistency
@@ -171,7 +165,7 @@ class ColonyMemoryValidator:
             ("always", "never"),
             ("all", "none"),
             ("true", "false"),
-            ("yes", "no")
+            ("yes", "no"),
         ]
 
         for term1, term2 in contradictions:
@@ -184,7 +178,7 @@ class ColonyMemoryValidator:
             emotion_words = {
                 "joy": ["happy", "excited", "wonderful"],
                 "sadness": ["sad", "depressed", "terrible"],
-                "anger": ["angry", "furious", "rage"]
+                "anger": ["angry", "furious", "rage"],
             }
 
             if emotion in emotion_words:
@@ -197,8 +191,7 @@ class ColonyMemoryValidator:
         return True, 0.9, None
 
     async def _validate_specialized(
-        self,
-        memory_data: Dict[str, Any]
+        self, memory_data: Dict[str, Any]
     ) -> Tuple[bool, float, Optional[str]]:
         """Specialized validation based on colony expertise"""
         memory_type = memory_data.get("type", "")
@@ -236,7 +229,7 @@ class SwarmConsensusManager:
         self,
         safety_integration: MemorySafetyIntegration,
         min_colonies: int = 3,
-        consensus_threshold: float = 0.66
+        consensus_threshold: float = 0.66,
     ):
         self.integration = safety_integration
         self.memory = safety_integration.memory
@@ -254,14 +247,12 @@ class SwarmConsensusManager:
         self,
         colony_id: str,
         role: ColonyRole,
-        specializations: Optional[List[str]] = None
+        specializations: Optional[List[str]] = None,
     ):
         """Register a new colony in the swarm"""
         # Create profile
         self.colonies[colony_id] = ColonyProfile(
-            colony_id=colony_id,
-            role=role,
-            specializations=specializations or []
+            colony_id=colony_id, role=role, specializations=specializations or []
         )
 
         # Create validator
@@ -270,22 +261,18 @@ class SwarmConsensusManager:
 
         # Register with consensus adapter
         self.integration.consensus.register_colony_validator(
-            colony_id,
-            validator.validate_memory
+            colony_id, validator.validate_memory
         )
 
         logger.info(
             "Colony registered",
             colony_id=colony_id,
             role=role.value,
-            specializations=specializations
+            specializations=specializations,
         )
 
     async def distributed_memory_storage(
-        self,
-        memory_data: Dict[str, Any],
-        tags: List[str],
-        proposing_colony: str
+        self, memory_data: Dict[str, Any], tags: List[str], proposing_colony: str
     ) -> Optional[str]:
         """
         Store memory with distributed consensus validation.
@@ -299,7 +286,7 @@ class SwarmConsensusManager:
             logger.warning(
                 "Insufficient colonies for consensus",
                 required=self.min_colonies,
-                available=len(validating_colonies)
+                available=len(validating_colonies),
             )
             return None
 
@@ -311,7 +298,7 @@ class SwarmConsensusManager:
                 validator = self.colony_validators[colony_id]
                 vote = await validator.validate_memory(
                     f"proposed_{proposing_colony}_{datetime.now().timestamp()}",
-                    memory_data
+                    memory_data,
                 )
                 votes[colony_id] = vote
 
@@ -325,7 +312,7 @@ class SwarmConsensusManager:
             "validators": validating_colonies,
             "votes": votes,
             "consensus_reached": consensus_reached,
-            "confidence": confidence
+            "confidence": confidence,
         }
         self.consensus_history.append(consensus_event)
 
@@ -334,14 +321,14 @@ class SwarmConsensusManager:
             memory_data["_consensus"] = {
                 "validators": list(votes.keys()),
                 "confidence": confidence,
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             }
 
             # Store memory
             memory_id = await self.memory.fold_in_with_embedding(
                 data=memory_data,
                 tags=tags + [f"colony:{proposing_colony}", "consensus_validated"],
-                text_content=memory_data.get("content", "")
+                text_content=memory_data.get("content", ""),
             )
 
             # Update colony performance
@@ -351,7 +338,7 @@ class SwarmConsensusManager:
                 "Memory stored with consensus",
                 memory_id=memory_id,
                 confidence=confidence,
-                validators=len(votes)
+                validators=len(votes),
             )
 
             return memory_id
@@ -359,19 +346,11 @@ class SwarmConsensusManager:
             # Update colony performance
             self._update_colony_performance(votes, success=False)
 
-            logger.warning(
-                "Consensus not reached",
-                confidence=confidence,
-                votes=votes
-            )
+            logger.warning("Consensus not reached", confidence=confidence, votes=votes)
 
             return None
 
-    def _select_validators(
-        self,
-        proposing_colony: str,
-        tags: List[str]
-    ) -> List[str]:
+    def _select_validators(self, proposing_colony: str, tags: List[str]) -> List[str]:
         """Select colonies to validate based on tags and roles"""
         validators = []
 
@@ -409,8 +388,7 @@ class SwarmConsensusManager:
         return validators
 
     def _calculate_consensus(
-        self,
-        votes: Dict[str, Tuple[bool, float, Optional[str]]]
+        self, votes: Dict[str, Tuple[bool, float, Optional[str]]]
     ) -> Tuple[bool, float]:
         """Calculate weighted consensus from votes"""
         if not votes:
@@ -439,9 +417,7 @@ class SwarmConsensusManager:
         return consensus_reached, consensus_score
 
     def _update_colony_performance(
-        self,
-        votes: Dict[str, Tuple[bool, float, Optional[str]]],
-        success: bool
+        self, votes: Dict[str, Tuple[bool, float, Optional[str]]], success: bool
     ):
         """Update colony performance metrics"""
         # Determine majority vote
@@ -453,7 +429,7 @@ class SwarmConsensusManager:
                 self.colony_performance[colony_id] = {
                     "correct_votes": 0,
                     "total_votes": 0,
-                    "avg_confidence": 0.0
+                    "avg_confidence": 0.0,
                 }
 
             perf = self.colony_performance[colony_id]
@@ -465,9 +441,8 @@ class SwarmConsensusManager:
 
             # Update average confidence
             perf["avg_confidence"] = (
-                (perf["avg_confidence"] * (perf["total_votes"] - 1) + confidence)
-                / perf["total_votes"]
-            )
+                perf["avg_confidence"] * (perf["total_votes"] - 1) + confidence
+            ) / perf["total_votes"]
 
             # Update colony trust score
             if colony_id in self.colonies:
@@ -475,10 +450,7 @@ class SwarmConsensusManager:
                 self.colonies[colony_id].trust_score = accuracy
 
     async def query_with_consensus(
-        self,
-        query: str,
-        requesting_colony: str,
-        min_confirmations: int = 2
+        self, query: str, requesting_colony: str, min_confirmations: int = 2
     ) -> List[Tuple[Any, float]]:
         """
         Query memories with multi-colony confirmation.
@@ -496,16 +468,14 @@ class SwarmConsensusManager:
             total_confidence = 0.0
 
             validators = self._select_validators(
-                requesting_colony,
-                list(self.memory.get_item_tags(memory.item_id))
-            )[:min_confirmations + 1]
+                requesting_colony, list(self.memory.get_item_tags(memory.item_id))
+            )[: min_confirmations + 1]
 
             for colony_id in validators:
                 if colony_id in self.colony_validators:
                     validator = self.colony_validators[colony_id]
                     is_valid, confidence, _ = await validator.validate_memory(
-                        memory.item_id,
-                        memory.data
+                        memory.item_id, memory.data
                     )
 
                     if is_valid:
@@ -526,7 +496,8 @@ class SwarmConsensusManager:
     def get_swarm_status(self) -> Dict[str, Any]:
         """Get current swarm consensus status"""
         active_colonies = [
-            c for c in self.colonies.values()
+            c
+            for c in self.colonies.values()
             if (datetime.now(timezone.utc) - c.last_active).total_seconds() < 3600
         ]
 
@@ -552,9 +523,7 @@ class SwarmConsensusManager:
         recent_consensus = []
         if len(self.consensus_history) > 10:
             recent = self.consensus_history[-10:]
-            recent_consensus = [
-                event["consensus_reached"] for event in recent
-            ]
+            recent_consensus = [event["consensus_reached"] for event in recent]
 
         return {
             "total_colonies": len(self.colonies),
@@ -563,20 +532,24 @@ class SwarmConsensusManager:
             "total_validations": total_validations,
             "average_accuracy": avg_accuracy,
             "consensus_threshold": self.consensus_threshold,
-            "recent_consensus_rate": sum(recent_consensus) / len(recent_consensus) if recent_consensus else 0.0,
+            "recent_consensus_rate": (
+                sum(recent_consensus) / len(recent_consensus)
+                if recent_consensus
+                else 0.0
+            ),
             "top_performers": sorted(
                 [
                     {
                         "colony_id": cid,
                         "accuracy": p["correct_votes"] / p["total_votes"],
-                        "validations": p["total_votes"]
+                        "validations": p["total_votes"],
                     }
                     for cid, p in self.colony_performance.items()
                     if p["total_votes"] > 0
                 ],
                 key=lambda x: x["accuracy"],
-                reverse=True
-            )[:5]
+                reverse=True,
+            )[:5],
         }
 
 
@@ -597,11 +570,15 @@ async def demonstrate_colony_swarm():
     swarm.register_colony("colony_alpha", ColonyRole.VALIDATOR)
     swarm.register_colony("colony_beta", ColonyRole.WITNESS)
     swarm.register_colony("colony_gamma", ColonyRole.ARBITER)
-    swarm.register_colony("colony_delta", ColonyRole.SPECIALIST, ["technical", "science"])
-    swarm.register_colony("colony_epsilon", ColonyRole.SPECIALIST, ["creative", "emotional"])
+    swarm.register_colony(
+        "colony_delta", ColonyRole.SPECIALIST, ["technical", "science"]
+    )
+    swarm.register_colony(
+        "colony_epsilon", ColonyRole.SPECIALIST, ["creative", "emotional"]
+    )
 
     print("🐝 COLONY/SWARM CONSENSUS DEMONSTRATION")
-    print("="*60)
+    print("=" * 60)
 
     # Test 1: Store memory with consensus
     print("\n1. Storing memory with distributed consensus:")
@@ -610,13 +587,13 @@ async def demonstrate_colony_swarm():
         "content": "The distributed swarm successfully validated this memory",
         "type": "technical",
         "importance": 0.8,
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     memory_id = await swarm.distributed_memory_storage(
         memory_data=test_memory,
         tags=["technical", "consensus", "test"],
-        proposing_colony="colony_alpha"
+        proposing_colony="colony_alpha",
     )
 
     if memory_id:
@@ -630,13 +607,13 @@ async def demonstrate_colony_swarm():
     conflicting_memory = {
         "content": "This memory contains always and never contradictions",
         "type": "invalid",
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     memory_id = await swarm.distributed_memory_storage(
         memory_data=conflicting_memory,
         tags=["test", "conflict"],
-        proposing_colony="colony_beta"
+        proposing_colony="colony_beta",
     )
 
     if memory_id:
@@ -654,17 +631,17 @@ async def demonstrate_colony_swarm():
                 "content": f"Technical documentation entry {i}",
                 "type": "technical",
                 "index": i,
-                "timestamp": datetime.now(timezone.utc)
+                "timestamp": datetime.now(timezone.utc),
             },
             tags=["technical", "documentation"],
-            proposing_colony="colony_delta"
+            proposing_colony="colony_delta",
         )
 
     # Query with confirmation
     results = await swarm.query_with_consensus(
         query="technical documentation",
         requesting_colony="colony_alpha",
-        min_confirmations=2
+        min_confirmations=2,
     )
 
     print(f"Found {len(results)} confirmed memories:")
@@ -679,10 +656,12 @@ async def demonstrate_colony_swarm():
     print(f"  Average accuracy: {status['average_accuracy']:.2%}")
     print(f"  Recent consensus rate: {status['recent_consensus_rate']:.2%}")
 
-    if status['top_performers']:
+    if status["top_performers"]:
         print("\n  Top performing colonies:")
-        for perf in status['top_performers'][:3]:
-            print(f"    • {perf['colony_id']}: {perf['accuracy']:.2%} accuracy ({perf['validations']} validations)")
+        for perf in status["top_performers"][:3]:
+            print(
+                f"    • {perf['colony_id']}: {perf['accuracy']:.2%} accuracy ({perf['validations']} validations)"
+            )
 
     print("\n✅ Colony/Swarm demonstration complete!")
 

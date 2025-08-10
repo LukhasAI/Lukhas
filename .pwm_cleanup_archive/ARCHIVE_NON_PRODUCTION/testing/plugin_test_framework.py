@@ -29,23 +29,21 @@ COPYRIGHT:
 """
 
 import asyncio
-import json
-import time
-import traceback
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Callable, Union
 import importlib.util
 import inspect
-import sys
-import subprocess
-import ast
+import json
+import time
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
+
 
 # Test result data structures
 @dataclass
 class TestCase:
     """Individual test case representation"""
+
     name: str
     description: str
     test_function: Callable
@@ -55,9 +53,11 @@ class TestCase:
     compliance_requirements: List[str] = field(default_factory=list)
     expected_symbolic_outputs: List[str] = field(default_factory=list)
 
+
 @dataclass
 class TestResult:
     """Test execution result"""
+
     test_case: TestCase
     status: str  # passed, failed, skipped, error
     duration: float
@@ -68,9 +68,11 @@ class TestResult:
     consciousness_metrics: Dict[str, float] = field(default_factory=dict)
     compliance_scores: Dict[str, float] = field(default_factory=dict)
 
+
 @dataclass
 class TestSuite:
     """Collection of related test cases"""
+
     name: str
     description: str
     test_cases: List[TestCase] = field(default_factory=list)
@@ -78,9 +80,11 @@ class TestSuite:
     teardown_function: Optional[Callable] = None
     plugin_path: Optional[str] = None
 
+
 @dataclass
 class TestReport:
     """Comprehensive test execution report"""
+
     plugin_name: str
     plugin_version: str
     test_session_id: str
@@ -114,13 +118,14 @@ class TestReport:
     symbolic_reasoning_validation: bool = False
     lukhas_integration_status: str = "unknown"
 
+
 class LucasTestAssertions:
     """Lukhas-specific test assertions for plugin testing"""
 
     @staticmethod
     def assert_consciousness_compatible(plugin_instance, level: str = "basic"):
         """Assert that plugin is compatible with specified consciousness level"""
-        if not hasattr(plugin_instance, 'consciousness_level'):
+        if not hasattr(plugin_instance, "consciousness_level"):
             raise AssertionError("Plugin must implement consciousness_level attribute")
 
         level_hierarchy = {"basic": 1, "intermediate": 2, "advanced": 3, "flagship": 4}
@@ -128,7 +133,9 @@ class LucasTestAssertions:
         required_level = level_hierarchy.get(level, 0)
 
         if plugin_level < required_level:
-            raise AssertionError(f"Plugin consciousness level '{plugin_instance.consciousness_level}' insufficient for required level '{level}'")
+            raise AssertionError(
+                f"Plugin consciousness level '{plugin_instance.consciousness_level}' insufficient for required level '{level}'"
+            )
 
     @staticmethod
     def assert_symbolic_output(output: Any, expected_symbols: List[str]):
@@ -141,14 +148,18 @@ class LucasTestAssertions:
                 missing_symbols.append(symbol)
 
         if missing_symbols:
-            raise AssertionError(f"Missing expected symbolic elements: {missing_symbols}")
+            raise AssertionError(
+                f"Missing expected symbolic elements: {missing_symbols}"
+            )
 
     @staticmethod
     def assert_compliance_metadata(plugin_instance, standard: str):
         """Assert that plugin has proper compliance metadata"""
         compliance_attr = f"{standard.lower()}_compliant"
         if not hasattr(plugin_instance, compliance_attr):
-            raise AssertionError(f"Plugin missing compliance attribute: {compliance_attr}")
+            raise AssertionError(
+                f"Plugin missing compliance attribute: {compliance_attr}"
+            )
 
         if not getattr(plugin_instance, compliance_attr):
             raise AssertionError(f"Plugin not marked as {standard} compliant")
@@ -164,13 +175,18 @@ class LucasTestAssertions:
                 violations.append(pattern)
 
         if violations:
-            raise AssertionError(f"Code contains forbidden security patterns: {violations}")
+            raise AssertionError(
+                f"Code contains forbidden security patterns: {violations}"
+            )
 
     @staticmethod
     def assert_performance_threshold(duration: float, max_duration: float):
         """Assert that operation completed within performance threshold"""
         if duration > max_duration:
-            raise AssertionError(f"Operation took {duration:.3f}s, exceeding threshold of {max_duration:.3f}s")
+            raise AssertionError(
+                f"Operation took {duration:.3f}s, exceeding threshold of {max_duration:.3f}s"
+            )
+
 
 class LucasPluginTestRunner:
     """
@@ -194,7 +210,7 @@ class LucasPluginTestRunner:
             "enable_compliance_testing": True,
             "enable_security_testing": True,
             "verbose_output": False,
-            "parallel_execution": False
+            "parallel_execution": False,
         }
 
         # Built-in test categories
@@ -204,7 +220,7 @@ class LucasPluginTestRunner:
             "performance": "Performance and resource usage tests",
             "compliance": "GDPR/HIPAA/SEEDRA-v3 compliance tests",
             "security": "Security vulnerability scans",
-            "symbolic": "Symbolic reasoning validation"
+            "symbolic": "Symbolic reasoning validation",
         }
 
     def discover_tests(self, plugin_path: str) -> List[TestSuite]:
@@ -216,12 +232,14 @@ class LucasPluginTestRunner:
         test_dirs = [
             plugin_path_obj / "tests",
             plugin_path_obj / "test",
-            plugin_path_obj / "testing"
+            plugin_path_obj / "testing",
         ]
 
         for test_dir in test_dirs:
             if test_dir.exists():
-                test_suites.extend(self._discover_tests_in_directory(test_dir, plugin_path_obj))
+                test_suites.extend(
+                    self._discover_tests_in_directory(test_dir, plugin_path_obj)
+                )
 
         # Create default test suite if no tests found
         if not test_suites:
@@ -230,7 +248,9 @@ class LucasPluginTestRunner:
 
         return test_suites
 
-    def _discover_tests_in_directory(self, test_dir: Path, plugin_path: Path) -> List[TestSuite]:
+    def _discover_tests_in_directory(
+        self, test_dir: Path, plugin_path: Path
+    ) -> List[TestSuite]:
         """Discover tests in a specific directory"""
         test_suites = []
 
@@ -247,7 +267,9 @@ class LucasPluginTestRunner:
 
         return test_suites
 
-    def _load_test_file(self, test_file: Path, plugin_path: Path) -> Optional[TestSuite]:
+    def _load_test_file(
+        self, test_file: Path, plugin_path: Path
+    ) -> Optional[TestSuite]:
         """Load tests from a Python test file"""
         try:
             # Load the module
@@ -262,26 +284,27 @@ class LucasPluginTestRunner:
             suite = TestSuite(
                 name=suite_name,
                 description=f"Tests from {test_file.name}",
-                plugin_path=str(plugin_path)
+                plugin_path=str(plugin_path),
             )
 
             # Discover test functions
             for name, obj in inspect.getmembers(module):
-                if (inspect.isfunction(obj) and
-                    (name.startswith("test_") or name.endswith("_test"))):
+                if inspect.isfunction(obj) and (
+                    name.startswith("test_") or name.endswith("_test")
+                ):
 
                     test_case = TestCase(
                         name=name,
                         description=obj.__doc__ or f"Test function {name}",
                         test_function=obj,
-                        category=self._determine_test_category(name, obj)
+                        category=self._determine_test_category(name, obj),
                     )
                     suite.test_cases.append(test_case)
 
             # Look for setup/teardown functions
-            if hasattr(module, 'setup_module'):
+            if hasattr(module, "setup_module"):
                 suite.setup_function = module.setup_module
-            if hasattr(module, 'teardown_module'):
+            if hasattr(module, "teardown_module"):
                 suite.teardown_function = module.teardown_module
 
             return suite if suite.test_cases else None
@@ -298,7 +321,9 @@ class LucasPluginTestRunner:
             return "performance"
         elif "integration" in name_lower or "consciousness" in name_lower:
             return "integration"
-        elif "compliance" in name_lower or "gdpr" in name_lower or "hipaa" in name_lower:
+        elif (
+            "compliance" in name_lower or "gdpr" in name_lower or "hipaa" in name_lower
+        ):
             return "compliance"
         elif "security" in name_lower or "vulnerability" in name_lower:
             return "security"
@@ -312,36 +337,38 @@ class LucasPluginTestRunner:
         suite = TestSuite(
             name="default_tests",
             description="Default plugin validation tests",
-            plugin_path=str(plugin_path)
+            plugin_path=str(plugin_path),
         )
 
         # Add basic validation tests
-        suite.test_cases.extend([
-            TestCase(
-                name="test_plugin_loads",
-                description="Test that plugin can be loaded",
-                test_function=self._test_plugin_loads,
-                category="unit"
-            ),
-            TestCase(
-                name="test_manifest_valid",
-                description="Test that plugin manifest is valid",
-                test_function=self._test_manifest_valid,
-                category="unit"
-            ),
-            TestCase(
-                name="test_consciousness_compatibility",
-                description="Test consciousness system compatibility",
-                test_function=self._test_consciousness_compatibility,
-                category="integration"
-            ),
-            TestCase(
-                name="test_basic_compliance",
-                description="Test basic compliance requirements",
-                test_function=self._test_basic_compliance,
-                category="compliance"
-            )
-        ])
+        suite.test_cases.extend(
+            [
+                TestCase(
+                    name="test_plugin_loads",
+                    description="Test that plugin can be loaded",
+                    test_function=self._test_plugin_loads,
+                    category="unit",
+                ),
+                TestCase(
+                    name="test_manifest_valid",
+                    description="Test that plugin manifest is valid",
+                    test_function=self._test_manifest_valid,
+                    category="unit",
+                ),
+                TestCase(
+                    name="test_consciousness_compatibility",
+                    description="Test consciousness system compatibility",
+                    test_function=self._test_consciousness_compatibility,
+                    category="integration",
+                ),
+                TestCase(
+                    name="test_basic_compliance",
+                    description="Test basic compliance requirements",
+                    test_function=self._test_basic_compliance,
+                    category="compliance",
+                ),
+            ]
+        )
 
         return suite
 
@@ -353,7 +380,7 @@ class LucasPluginTestRunner:
         # Load plugin manifest
         manifest_path = plugin_path_obj / "manifest.json"
         if manifest_path.exists():
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 manifest = json.load(f)
         else:
             manifest = {"name": plugin_path_obj.name, "version": "unknown"}
@@ -363,7 +390,7 @@ class LucasPluginTestRunner:
             plugin_name=manifest.get("name", plugin_path_obj.name),
             plugin_version=manifest.get("version", "unknown"),
             test_session_id=self.current_session_id,
-            start_time=datetime.now()
+            start_time=datetime.now(),
         )
 
         print(f"🧪 Starting comprehensive test suite for {report.plugin_name}")
@@ -393,14 +420,20 @@ class LucasPluginTestRunner:
                         report.security_test_results.append(result)
 
             # Calculate statistics
-            all_results = (report.unit_test_results + report.integration_test_results +
-                          report.performance_test_results + report.compliance_test_results +
-                          report.security_test_results)
+            all_results = (
+                report.unit_test_results
+                + report.integration_test_results
+                + report.performance_test_results
+                + report.compliance_test_results
+                + report.security_test_results
+            )
 
             report.total_tests = len(all_results)
             report.passed_tests = len([r for r in all_results if r.status == "passed"])
             report.failed_tests = len([r for r in all_results if r.status == "failed"])
-            report.skipped_tests = len([r for r in all_results if r.status == "skipped"])
+            report.skipped_tests = len(
+                [r for r in all_results if r.status == "skipped"]
+            )
             report.error_tests = len([r for r in all_results if r.status == "error"])
 
             # Calculate scores
@@ -408,10 +441,14 @@ class LucasPluginTestRunner:
                 report.overall_score = (report.passed_tests / report.total_tests) * 100
 
             report.end_time = datetime.now()
-            report.total_duration = (report.end_time - report.start_time).total_seconds()
+            report.total_duration = (
+                report.end_time - report.start_time
+            ).total_seconds()
 
             print(f"\n✅ Test suite completed in {report.total_duration:.2f}s")
-            print(f"   Results: {report.passed_tests} passed, {report.failed_tests} failed, {report.skipped_tests} skipped")
+            print(
+                f"   Results: {report.passed_tests} passed, {report.failed_tests} failed, {report.skipped_tests} skipped"
+            )
 
             return report
 
@@ -420,7 +457,9 @@ class LucasPluginTestRunner:
             print(f"❌ Test suite failed with error: {e}")
             raise
 
-    async def _run_test_suite(self, suite: TestSuite, plugin_path: Path) -> List[TestResult]:
+    async def _run_test_suite(
+        self, suite: TestSuite, plugin_path: Path
+    ) -> List[TestResult]:
         """Run a single test suite"""
         results = []
 
@@ -442,7 +481,7 @@ class LucasPluginTestRunner:
                 "passed": "✅",
                 "failed": "❌",
                 "skipped": "⏭️",
-                "error": "💥"
+                "error": "💥",
             }.get(result.status, "❓")
             print(f"      {status_symbol} {result.status.upper()}: {result.message}")
 
@@ -455,7 +494,9 @@ class LucasPluginTestRunner:
 
         return results
 
-    async def _run_test_case(self, test_case: TestCase, plugin_path: Path) -> TestResult:
+    async def _run_test_case(
+        self, test_case: TestCase, plugin_path: Path
+    ) -> TestResult:
         """Run a single test case"""
         start_time = time.time()
 
@@ -463,13 +504,14 @@ class LucasPluginTestRunner:
             # Run the test function
             if asyncio.iscoroutinefunction(test_case.test_function):
                 await asyncio.wait_for(
-                    test_case.test_function(plugin_path),
-                    timeout=test_case.timeout
+                    test_case.test_function(plugin_path), timeout=test_case.timeout
                 )
             else:
                 await asyncio.wait_for(
-                    asyncio.create_task(asyncio.to_thread(test_case.test_function, plugin_path)),
-                    timeout=test_case.timeout
+                    asyncio.create_task(
+                        asyncio.to_thread(test_case.test_function, plugin_path)
+                    ),
+                    timeout=test_case.timeout,
                 )
 
             duration = time.time() - start_time
@@ -478,7 +520,7 @@ class LucasPluginTestRunner:
                 test_case=test_case,
                 status="passed",
                 duration=duration,
-                message="Test passed successfully"
+                message="Test passed successfully",
             )
 
         except AssertionError as e:
@@ -488,7 +530,7 @@ class LucasPluginTestRunner:
                 status="failed",
                 duration=duration,
                 message=str(e),
-                error=e
+                error=e,
             )
 
         except asyncio.TimeoutError:
@@ -498,7 +540,7 @@ class LucasPluginTestRunner:
                 status="error",
                 duration=duration,
                 message=f"Test timed out after {test_case.timeout}s",
-                error=asyncio.TimeoutError("Test timeout")
+                error=asyncio.TimeoutError("Test timeout"),
             )
 
         except Exception as e:
@@ -508,7 +550,7 @@ class LucasPluginTestRunner:
                 status="error",
                 duration=duration,
                 message=f"Unexpected error: {str(e)}",
-                error=e
+                error=e,
             )
 
     async def _run_function_safely(self, func: Callable):
@@ -527,7 +569,7 @@ class LucasPluginTestRunner:
 
         # Try to load and parse manifest
         try:
-            with open(manifest_path, 'r') as f:
+            with open(manifest_path) as f:
                 manifest = json.load(f)
         except json.JSONDecodeError as e:
             raise AssertionError(f"Invalid JSON in manifest: {e}")
@@ -541,7 +583,7 @@ class LucasPluginTestRunner:
     def _test_manifest_valid(self, plugin_path: Path):
         """Test that plugin manifest is valid"""
         manifest_path = plugin_path / "manifest.json"
-        with open(manifest_path, 'r') as f:
+        with open(manifest_path) as f:
             manifest = json.load(f)
 
         # Validate consciousness level
@@ -552,35 +594,45 @@ class LucasPluginTestRunner:
 
         # Validate version format
         version = manifest.get("version", "")
-        if not version or len(version.split('.')) != 3:
+        if not version or len(version.split(".")) != 3:
             raise AssertionError(f"Invalid version format: {version}")
 
     def _test_consciousness_compatibility(self, plugin_path: Path):
         """Test consciousness system compatibility"""
         manifest_path = plugin_path / "manifest.json"
-        with open(manifest_path, 'r') as f:
+        with open(manifest_path) as f:
             manifest = json.load(f)
 
         # Check consciousness integration requirements
         consciousness_level = manifest.get("consciousness_level", "basic")
         consciousness_integration = manifest.get("consciousness_integration", False)
 
-        if consciousness_level in ["advanced", "flagship"] and not consciousness_integration:
-            raise AssertionError("Advanced consciousness levels require consciousness integration")
+        if (
+            consciousness_level in ["advanced", "flagship"]
+            and not consciousness_integration
+        ):
+            raise AssertionError(
+                "Advanced consciousness levels require consciousness integration"
+            )
 
     def _test_basic_compliance(self, plugin_path: Path):
         """Test basic compliance requirements"""
         manifest_path = plugin_path / "manifest.json"
-        with open(manifest_path, 'r') as f:
+        with open(manifest_path) as f:
             manifest = json.load(f)
 
         # Check for compliance declarations
         compliance_fields = ["privacy_policy", "data_handling", "user_consent"]
-        missing_compliance = [field for field in compliance_fields
-                             if field not in manifest or not manifest[field]]
+        missing_compliance = [
+            field
+            for field in compliance_fields
+            if field not in manifest or not manifest[field]
+        ]
 
         if missing_compliance:
-            raise AssertionError(f"Missing compliance information: {missing_compliance}")
+            raise AssertionError(
+                f"Missing compliance information: {missing_compliance}"
+            )
 
     def generate_test_report_html(self, report: TestReport, output_path: str):
         """Generate HTML test report"""
@@ -656,7 +708,7 @@ class LucasPluginTestRunner:
             ("Integration Tests", report.integration_test_results),
             ("Performance Tests", report.performance_test_results),
             ("Compliance Tests", report.compliance_test_results),
-            ("Security Tests", report.security_test_results)
+            ("Security Tests", report.security_test_results),
         ]
 
         html_content += '<div class="test-results">'
@@ -664,22 +716,23 @@ class LucasPluginTestRunner:
             if results:
                 html_content += f'<div class="test-category"><h3>{category_name}</h3>'
                 for result in results:
-                    html_content += f'''
+                    html_content += f"""
                     <div class="test-item {result.status}">
                         <strong>{result.test_case.name}</strong> ({result.duration:.3f}s)<br>
                         <em>{result.test_case.description}</em><br>
                         <span class="{result.status}">{result.message}</span>
                     </div>
-                    '''
-                html_content += '</div>'
+                    """
+                html_content += "</div>"
 
-        html_content += '</div></body></html>'
+        html_content += "</div></body></html>"
 
         # Write to file
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(html_content)
 
         print(f"📊 Test report generated: {output_path}")
+
 
 # Convenience functions for common testing scenarios
 async def test_plugin_quick(plugin_path: str) -> bool:
@@ -687,6 +740,7 @@ async def test_plugin_quick(plugin_path: str) -> bool:
     runner = LucasPluginTestRunner()
     report = await runner.run_comprehensive_tests(plugin_path)
     return report.overall_score >= 80.0
+
 
 async def test_plugin_compliance(plugin_path: str) -> Dict[str, bool]:
     """Test plugin compliance specifically"""
@@ -698,6 +752,7 @@ async def test_plugin_compliance(plugin_path: str) -> Dict[str, bool]:
         compliance_results[result.test_case.name] = result.status == "passed"
 
     return compliance_results
+
 
 async def benchmark_plugin_performance(plugin_path: str) -> Dict[str, float]:
     """Benchmark plugin performance"""

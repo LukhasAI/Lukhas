@@ -1,7 +1,8 @@
-
 """Minimal prime oscillator stub"""
 
+
 class PrimeHarmonicOscillator:
+
     def __init__(self, prime_frequency=2.0):
         self.prime_frequency = prime_frequency
         self.harmonics = []

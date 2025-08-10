@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -7,7 +6,6 @@
 #TAG:api
 #TAG:neuroplastic
 #TAG:colony
-
 
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -26,22 +24,18 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional
-
-import structlog
+from typing import Any, Optional
 
 # Import priority API components
 from .services import ConsciousnessAPIService, EmotionAPIService, MemoryAPIService
-
-from core.common import get_logger
 
 
 class APIHub:
     """Central hub for API system coordination"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.endpoints: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
+        self.endpoints: dict[str, Any] = {}
         self.initialized = False
 
         # Initialize core API services
@@ -117,7 +111,7 @@ class APIHub:
         # Services discovery endpoint
         self.register_endpoint("/services", self._services_handler)
 
-    async def _health_check_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _health_check_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle health check requests"""
         return {
             "status": "healthy",
@@ -126,7 +120,7 @@ class APIHub:
             "initialized": self.initialized,
         }
 
-    async def _status_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _status_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle status requests"""
         service_status = {}
 
@@ -145,7 +139,7 @@ class APIHub:
             "endpoints_count": len(self.endpoints),
         }
 
-    async def _services_handler(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _services_handler(self, request: dict[str, Any]) -> dict[str, Any]:
         """Handle services discovery requests"""
         return {
             "services": list(self.services.keys()),
@@ -160,17 +154,17 @@ class APIHub:
         """Get a registered API endpoint handler"""
         return self.endpoints.get(path)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered API services"""
         return list(self.services.keys())
 
-    def list_endpoints(self) -> List[str]:
+    def list_endpoints(self) -> list[str]:
         """List all registered API endpoints"""
         return list(self.endpoints.keys())
 
     async def process_api_request(
-        self, method: str, path: str, data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, method: str, path: str, data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process API requests through registered handlers"""
         try:
             # Find endpoint handler
@@ -189,11 +183,19 @@ class APIHub:
             else:
                 result = handler(data)
 
-            return {"success": True, "method": method, "path": path, "result": result}
+            return {
+                "success": True,
+                "method": method,
+                "path": path,
+                "result": result,
+            }
 
         except Exception as e:
             logger.error(
-                "api_request_processing_failed", method=method, path=path, error=str(e)
+                "api_request_processing_failed",
+                method=method,
+                path=path,
+                error=str(e),
             )
             return {"error": str(e), "method": method, "path": path}
 

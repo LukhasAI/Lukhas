@@ -17,17 +17,16 @@ and system-wide collapse.
 import asyncio
 import hashlib
 import json
-from core.common import get_logger
 import threading
 import time
-import weakref
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Deque, Dict, List, Optional, Set, Tuple
 
 import numpy as np
+
+from core.common import get_logger
 
 try:
     from .actor_system import ActorRef
@@ -36,19 +35,22 @@ except ImportError:
     class ActorRef:
         pass
 
+
 logger = get_logger(__name__)
 
 
 class CircuitState(Enum):
     """States of a circuit breaker"""
-    CLOSED = "closed"          # Normal operation
-    OPEN = "open"              # Blocking calls
-    HALF_OPEN = "half_open"    # Testing recovery
-    FORCED_OPEN = "forced_open" # Manually opened
+
+    CLOSED = "closed"  # Normal operation
+    OPEN = "open"  # Blocking calls
+    HALF_OPEN = "half_open"  # Testing recovery
+    FORCED_OPEN = "forced_open"  # Manually opened
 
 
 class FailureType(Enum):
     """Types of failures that can occur"""
+
     TIMEOUT = "timeout"
     ERROR = "error"
     REJECTION = "rejection"
@@ -60,6 +62,7 @@ class FailureType(Enum):
 @dataclass
 class FailureRecord:
     """Record of a failure event"""
+
     timestamp: float
     failure_type: FailureType
     actor_id: str
@@ -72,6 +75,7 @@ class FailureRecord:
 @dataclass
 class HealthCheck:
     """Health check configuration"""
+
     check_function: Callable
     interval: float = 30.0
     timeout: float = 5.0
@@ -85,16 +89,18 @@ class AdvancedCircuitBreaker:
     health checks, and adaptive thresholds
     """
 
-    def __init__(self,
-                 name: str,
-                 failure_threshold: int = 5,
-                 success_threshold: int = 3,
-                 timeout: float = 60.0,
-                 half_open_max_calls: int = 3,
-                 error_rate_threshold: float = 0.5,
-                 slow_call_duration: float = 1.0,
-                 slow_call_rate_threshold: float = 0.5,
-                 minimum_number_of_calls: int = 10):
+    def __init__(
+        self,
+        name: str,
+        failure_threshold: int = 5,
+        success_threshold: int = 3,
+        timeout: float = 60.0,
+        half_open_max_calls: int = 3,
+        error_rate_threshold: float = 0.5,
+        slow_call_duration: float = 1.0,
+        slow_call_rate_threshold: float = 0.5,
+        minimum_number_of_calls: int = 10,
+    ):
 
         self.name = name
         self.failure_threshold = failure_threshold
@@ -226,8 +232,11 @@ class AdvancedCircuitBreaker:
                 return True
 
             # Check slow call rate
-            slow_calls = sum(1 for _, _, duration in recent_calls
-                           if duration > self.slow_call_duration)
+            slow_calls = sum(
+                1
+                for _, _, duration in recent_calls
+                if duration > self.slow_call_duration
+            )
             slow_rate = slow_calls / len(recent_calls)
 
             if slow_rate > self.slow_call_rate_threshold:
@@ -250,7 +259,9 @@ class AdvancedCircuitBreaker:
             self.success_count = 0
             self.half_open_calls = 0
 
-        logger.info(f"Circuit breaker {self.name}: {old_state.value} -> {new_state.value}")
+        logger.info(
+            f"Circuit breaker {self.name}: {old_state.value} -> {new_state.value}"
+        )
 
         # Notify listeners
         for listener in self.state_change_listeners:
@@ -281,8 +292,7 @@ class AdvancedCircuitBreaker:
             check_name = f"health_check_{i}"
             try:
                 result = await asyncio.wait_for(
-                    check.check_function(),
-                    timeout=check.timeout
+                    check.check_function(), timeout=check.timeout
                 )
                 results[check_name] = bool(result)
             except Exception as e:
@@ -301,12 +311,15 @@ class AdvancedCircuitBreaker:
                     "state": self.state.value,
                     "total_calls": 0,
                     "error_rate": 0.0,
-                    "slow_call_rate": 0.0
+                    "slow_call_rate": 0.0,
                 }
 
             errors = sum(1 for _, success, _ in self.call_stats if not success)
-            slow_calls = sum(1 for _, _, duration in self.call_stats
-                           if duration > self.slow_call_duration)
+            slow_calls = sum(
+                1
+                for _, _, duration in self.call_stats
+                if duration > self.slow_call_duration
+            )
 
             return {
                 "state": self.state.value,
@@ -315,12 +328,13 @@ class AdvancedCircuitBreaker:
                 "slow_call_rate": slow_calls / total_calls,
                 "failure_count": self.failure_count,
                 "state_duration": time.time() - self.state_changed_at,
-                "health_checks": self.health_check_results
+                "health_checks": self.health_check_results,
             }
 
 
 class CircuitBreakerOpen(Exception):
     """Exception raised when circuit breaker is open"""
+
     pass
 
 
@@ -329,10 +343,12 @@ class AnomalyDetector:
     Detects anomalous behavior in actors to prevent cascading failures
     """
 
-    def __init__(self,
-                 window_size: int = 100,
-                 z_score_threshold: float = 3.0,
-                 isolation_forest_contamination: float = 0.1):
+    def __init__(
+        self,
+        window_size: int = 100,
+        z_score_threshold: float = 3.0,
+        isolation_forest_contamination: float = 0.1,
+    ):
 
         self.window_size = window_size
         self.z_score_threshold = z_score_threshold
@@ -344,7 +360,9 @@ class AnomalyDetector:
         )
 
         # Anomaly history
-        self.anomaly_history: Dict[str, List[Tuple[float, str, float]]] = defaultdict(list)
+        self.anomaly_history: Dict[str, List[Tuple[float, str, float]]] = defaultdict(
+            list
+        )
 
         # Baseline statistics
         self.baselines: Dict[str, Dict[str, Tuple[float, float]]] = {}
@@ -413,8 +431,7 @@ class AnomalyDetector:
             # Count recent anomalies
             recent_window = time.time() - 300  # Last 5 minutes
             recent_anomalies = [
-                a for a in self.anomaly_history[actor_id]
-                if a[0] > recent_window
+                a for a in self.anomaly_history[actor_id] if a[0] > recent_window
             ]
 
             if not recent_anomalies:
@@ -458,9 +475,7 @@ class ErrorPropagationTracker:
 
             # Check for cascading pattern
             if len(failure.propagation_path) > self.max_propagation_depth:
-                logger.warning(
-                    f"Deep propagation detected: {failure.propagation_path}"
-                )
+                logger.warning(f"Deep propagation detected: {failure.propagation_path}")
                 # Mark actors in path as infected
                 for actor_id in failure.propagation_path:
                     self.infected_actors.add(actor_id)
@@ -484,11 +499,7 @@ class ErrorPropagationTracker:
     def analyze_propagation_patterns(self) -> Dict[str, Any]:
         """Analyze propagation patterns to identify problem areas"""
         with self._lock:
-            patterns = {
-                "hotspots": {},
-                "propagation_depths": [],
-                "common_paths": []
-            }
+            patterns = {"hotspots": {}, "propagation_depths": [], "common_paths": []}
 
             # Find actors that appear frequently in propagation paths
             actor_counts = defaultdict(int)
@@ -498,9 +509,7 @@ class ErrorPropagationTracker:
                     for actor in failure.propagation_path:
                         actor_counts[actor] += 1
 
-                    patterns["propagation_depths"].append(
-                        len(failure.propagation_path)
-                    )
+                    patterns["propagation_depths"].append(len(failure.propagation_path))
 
             # Identify hotspots
             if actor_counts:
@@ -519,9 +528,7 @@ class ConsensusValidator:
     Validates consensus among actors to prevent corrupted state propagation
     """
 
-    def __init__(self,
-                 quorum_size: int = 3,
-                 agreement_threshold: float = 0.7):
+    def __init__(self, quorum_size: int = 3, agreement_threshold: float = 0.7):
 
         self.quorum_size = quorum_size
         self.agreement_threshold = agreement_threshold
@@ -530,10 +537,9 @@ class ConsensusValidator:
         self.consensus_cache: Dict[str, Tuple[Any, float, float]] = {}
         self.cache_ttl = 60.0  # 1 minute
 
-    async def validate_consensus(self,
-                                actor_refs: List[ActorRef],
-                                query: str,
-                                timeout: float = 5.0) -> Tuple[bool, Any]:
+    async def validate_consensus(
+        self, actor_refs: List[ActorRef], query: str, timeout: float = 5.0
+    ) -> Tuple[bool, Any]:
         """
         Validate consensus among multiple actors
         Returns (consensus_reached, consensus_value)
@@ -554,7 +560,7 @@ class ConsensusValidator:
         responses = []
         tasks = []
 
-        for actor_ref in actor_refs[:self.quorum_size * 2]:  # Query more than needed
+        for actor_ref in actor_refs[: self.quorum_size * 2]:  # Query more than needed
             task = asyncio.create_task(
                 self._query_actor_with_timeout(actor_ref, query, timeout)
             )
@@ -577,26 +583,23 @@ class ConsensusValidator:
         # Cache result
         if consensus_reached:
             self.consensus_cache[cache_key] = (
-                consensus_value, time.time(), len(responses)
+                consensus_value,
+                time.time(),
+                len(responses),
             )
 
         return consensus_reached, consensus_value
 
-    async def _query_actor_with_timeout(self,
-                                      actor_ref: ActorRef,
-                                      query: str,
-                                      timeout: float) -> Any:
+    async def _query_actor_with_timeout(
+        self, actor_ref: ActorRef, query: str, timeout: float
+    ) -> Any:
         """Query an actor with timeout"""
         try:
-            return await asyncio.wait_for(
-                actor_ref.ask(query, {}),
-                timeout=timeout
-            )
+            return await asyncio.wait_for(actor_ref.ask(query, {}), timeout=timeout)
         except asyncio.TimeoutError:
             raise TimeoutError(f"Actor {actor_ref.actor_id} timed out")
 
-    def _analyze_responses(self,
-                         responses: List[Tuple[str, Any]]) -> Tuple[bool, Any]:
+    def _analyze_responses(self, responses: List[Tuple[str, Any]]) -> Tuple[bool, Any]:
         """Analyze responses for consensus"""
         if not responses:
             return False, None
@@ -623,9 +626,7 @@ class ConsensusValidator:
     def _create_cache_key(self, actor_refs: List[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         actor_ids = sorted([ref.actor_id for ref in actor_refs])
-        return hashlib.md5(
-            f"{','.join(actor_ids)}:{query}".encode()
-        ).hexdigest()
+        return hashlib.md5(f"{','.join(actor_ids)}:{query}".encode()).hexdigest()
 
 
 class CascadePreventionSystem:
@@ -633,9 +634,11 @@ class CascadePreventionSystem:
     Main system for preventing cascading failures in the distributed actor system
     """
 
-    def __init__(self,
-                 actor_system: ActorSystem,
-                 observability: Optional[ObservabilityCollector] = None):
+    def __init__(
+        self,
+        actor_system: ActorSystem,
+        observability: Optional[ObservabilityCollector] = None,
+    ):
 
         self.actor_system = actor_system
         self.observability = observability
@@ -671,9 +674,9 @@ class CascadePreventionSystem:
                 pass
         logger.info("Cascade prevention system stopped")
 
-    def get_or_create_circuit_breaker(self,
-                                    actor_id: str,
-                                    **kwargs) -> AdvancedCircuitBreaker:
+    def get_or_create_circuit_breaker(
+        self, actor_id: str, **kwargs
+    ) -> AdvancedCircuitBreaker:
         """Get or create a circuit breaker for an actor"""
         if actor_id not in self.circuit_breakers:
             cb = AdvancedCircuitBreaker(name=actor_id, **kwargs)
@@ -682,11 +685,13 @@ class CascadePreventionSystem:
 
         return self.circuit_breakers[actor_id]
 
-    async def protected_call(self,
-                           actor_ref: ActorRef,
-                           message_type: str,
-                           payload: Dict[str, Any],
-                           timeout: float = 30.0) -> Any:
+    async def protected_call(
+        self,
+        actor_ref: ActorRef,
+        message_type: str,
+        payload: Dict[str, Any],
+        timeout: float = 30.0,
+    ) -> Any:
         """Make a protected call through circuit breaker and validation"""
 
         # Check quarantine
@@ -703,9 +708,7 @@ class CascadePreventionSystem:
                 snapshot = await self._get_actor_snapshot(actor_ref.actor_id)
                 if snapshot:
                     self.anomaly_detector.record_metric(
-                        actor_ref.actor_id,
-                        "mailbox_size",
-                        snapshot.mailbox_size
+                        actor_ref.actor_id, "mailbox_size", snapshot.mailbox_size
                     )
 
             # Make the actual call
@@ -730,14 +733,15 @@ class CascadePreventionSystem:
 
         return await cb.async_call(make_call)
 
-    async def validate_with_consensus(self,
-                                    actor_refs: List[ActorRef],
-                                    query: str) -> Tuple[bool, Any]:
+    async def validate_with_consensus(
+        self, actor_refs: List[ActorRef], query: str
+    ) -> Tuple[bool, Any]:
         """Validate a query with consensus among multiple actors"""
 
         # Filter out quarantined actors
         valid_refs = [
-            ref for ref in actor_refs
+            ref
+            for ref in actor_refs
             if not self.error_tracker.is_quarantined(ref.actor_id)
         ]
 
@@ -753,9 +757,7 @@ class CascadePreventionSystem:
 
         # Update anomaly detection
         self.anomaly_detector.record_metric(
-            failure.actor_id,
-            f"failure_{failure.failure_type.value}",
-            failure.severity
+            failure.actor_id, f"failure_{failure.failure_type.value}", failure.severity
         )
 
         # Check for emergency conditions
@@ -821,8 +823,7 @@ class CascadePreventionSystem:
 
         if tasks:
             results = await asyncio.gather(
-                *[task for _, task in tasks],
-                return_exceptions=True
+                *[task for _, task in tasks], return_exceptions=True
             )
 
             for i, (actor_id, _) in enumerate(tasks):
@@ -835,7 +836,8 @@ class CascadePreventionSystem:
 
         # Circuit breaker states
         open_circuits = sum(
-            1 for cb in self.circuit_breakers.values()
+            1
+            for cb in self.circuit_breakers.values()
             if cb.state in [CircuitState.OPEN, CircuitState.FORCED_OPEN]
         )
         if self.circuit_breakers:
@@ -845,8 +847,8 @@ class CascadePreventionSystem:
         # Quarantined actors
         if self.actor_system.actors:
             quarantine_score = 1.0 - (
-                len(self.error_tracker.quarantined_actors) /
-                len(self.actor_system.actors)
+                len(self.error_tracker.quarantined_actors)
+                / len(self.actor_system.actors)
             )
             scores.append(quarantine_score)
 
@@ -870,11 +872,14 @@ class CascadePreventionSystem:
         # Multiple conditions for emergency mode
         conditions = [
             self.system_health_score < 0.3,
-            len(self.error_tracker.quarantined_actors) >
-                len(self.actor_system.actors) * 0.5,
-            sum(1 for cb in self.circuit_breakers.values()
-                if cb.state == CircuitState.OPEN) >
-                len(self.circuit_breakers) * 0.5
+            len(self.error_tracker.quarantined_actors)
+            > len(self.actor_system.actors) * 0.5,
+            sum(
+                1
+                for cb in self.circuit_breakers.values()
+                if cb.state == CircuitState.OPEN
+            )
+            > len(self.circuit_breakers) * 0.5,
         ]
 
         if any(conditions) and not self.emergency_mode:
@@ -912,17 +917,22 @@ class CascadePreventionSystem:
             f"Open circuits: {len([cb for cb in self.circuit_breakers.values() if cb.state == CircuitState.OPEN])}"
         )
 
-    def _on_circuit_state_change(self, name: str, old_state: CircuitState, new_state: CircuitState):
+    def _on_circuit_state_change(
+        self, name: str, old_state: CircuitState, new_state: CircuitState
+    ):
         """Handle circuit breaker state changes"""
         logger.info(f"Circuit breaker {name}: {old_state.value} -> {new_state.value}")
 
         # Record state change as system event
         if self.observability:
-            self.observability.record_system_event("circuit_breaker_state_change", {
-                "actor_id": name,
-                "old_state": old_state.value,
-                "new_state": new_state.value
-            })
+            self.observability.record_system_event(
+                "circuit_breaker_state_change",
+                {
+                    "actor_id": name,
+                    "old_state": old_state.value,
+                    "new_state": new_state.value,
+                },
+            )
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
@@ -935,18 +945,20 @@ class CascadePreventionSystem:
             },
             "quarantined_actors": list(self.error_tracker.quarantined_actors),
             "infected_actors": list(self.error_tracker.infected_actors),
-            "propagation_analysis": self.error_tracker.analyze_propagation_patterns()
+            "propagation_analysis": self.error_tracker.analyze_propagation_patterns(),
         }
 
 
 # Custom exceptions
 class ActorQuarantined(Exception):
     """Raised when trying to communicate with a quarantined actor"""
+
     pass
 
 
 class AnomalyDetected(Exception):
     """Raised when anomalous behavior is detected"""
+
     pass
 
 
@@ -973,6 +985,7 @@ async def demo_cascade_prevention():
 
         async def _handle_process(self, message):
             import random
+
             if random.random() < self.failure_rate:
                 raise Exception("Simulated failure")
 
@@ -1004,13 +1017,15 @@ async def demo_cascade_prevention():
             print(f"Request {i} failed: {e}")
 
             # Report failure
-            cascade_prevention.report_failure(FailureRecord(
-                timestamp=time.time(),
-                failure_type=FailureType.ERROR,
-                actor_id=actor_ref.actor_id,
-                error_message=str(e),
-                propagation_path=[f"test-actor-{j}" for j in range(i % 3)]
-            ))
+            cascade_prevention.report_failure(
+                FailureRecord(
+                    timestamp=time.time(),
+                    failure_type=FailureType.ERROR,
+                    actor_id=actor_ref.actor_id,
+                    error_message=str(e),
+                    propagation_path=[f"test-actor-{j}" for j in range(i % 3)],
+                )
+            )
 
         await asyncio.sleep(0.5)
 

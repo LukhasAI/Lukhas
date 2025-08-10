@@ -7,12 +7,12 @@ sophisticated Lukhas PWM architecture, leveraging its existing
 plugin registry and module registry systems.
 """
 
-import sys
 import logging
-from pathlib import Path
-from typing import Dict, Any, Optional, List, Set
+import sys
 from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Add Lukhas PWM to path
 lukhas_pwm_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas_PWM")
@@ -20,36 +20,38 @@ sys.path.insert(0, str(lukhas_pwm_path))
 
 # Import Lukhas PWM components
 try:
-    from core.plugin_registry import Plugin, PluginType, PluginRegistry
-    from core.module_registry import ModuleRegistry, ModuleInfo, TierLevel
+    from core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
+    from core.plugin_registry import Plugin, PluginRegistry, PluginType
+
     LUKHAS_PWM_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Lukhas PWM components not available: {e}")
     LUKHAS_PWM_AVAILABLE = False
-    
+
     # Define fallbacks
     class Plugin:
         pass
-    
+
     class PluginType(Enum):
         SYMBOLIC_PROCESSOR = "symbolic_processor"
-    
+
     class TierLevel:
         GUEST = 0
         VISITOR = 1
         FRIEND = 2
         TRUSTED = 3
 
+
 # Add Lambda Products to path
 lambda_products_path = Path(__file__).parent.parent
 sys.path.insert(0, str(lambda_products_path))
 
 from plugins.plugin_base import (
+    HealthStatus,
     LukhasPlugin,
     PluginManifest,
-    PluginStatus,
     PluginPriority,
-    HealthStatus
+    PluginStatus,
 )
 
 logger = logging.getLogger(__name__)
@@ -59,23 +61,23 @@ class LambdaProductsPWMPlugin(Plugin):
     """
     Base class for Lambda Products as Lukhas PWM plugins
     """
-    
+
     def __init__(self, lambda_plugin: LukhasPlugin):
         self.lambda_plugin = lambda_plugin
         self.initialized = False
-        
+
     def get_plugin_type(self) -> PluginType:
         """Lambda Products are symbolic processors"""
         return PluginType.SYMBOLIC_PROCESSOR
-    
+
     def get_plugin_name(self) -> str:
         """Return Lambda Product name"""
         return self.lambda_plugin.manifest.id
-    
+
     def get_version(self) -> str:
         """Return Lambda Product version"""
         return self.lambda_plugin.manifest.version
-    
+
     async def initialize(self, config: Dict[str, Any]) -> bool:
         """Initialize the Lambda Product"""
         if not self.initialized:
@@ -84,13 +86,13 @@ class LambdaProductsPWMPlugin(Plugin):
                 success = await self.lambda_plugin.start()
                 self.initialized = success
         return self.initialized
-    
+
     async def process(self, input_data: Any) -> Any:
         """Process data through Lambda Product"""
         if not self.initialized:
             raise RuntimeError(f"{self.get_plugin_name()} not initialized")
         return await self.lambda_plugin.process(input_data)
-    
+
     async def health_check(self) -> Dict[str, Any]:
         """Check health status"""
         health = await self.lambda_plugin.health_check()
@@ -99,7 +101,7 @@ class LambdaProductsPWMPlugin(Plugin):
             "cpu_usage": health.cpu_usage,
             "memory_usage": health.memory_usage,
             "response_time_ms": health.response_time_ms,
-            "uptime": health.uptime_seconds
+            "uptime": health.uptime_seconds,
         }
 
 
@@ -107,79 +109,81 @@ class LukhasPWMIntegrationAdapter:
     """
     Adapter for integrating Lambda Products into Lukhas PWM system
     """
-    
+
     def __init__(self):
         self.plugin_registry = None
         self.module_registry = None
         self.registered_products = {}
-        
+
         if LUKHAS_PWM_AVAILABLE:
             self.plugin_registry = PluginRegistry()
             self.module_registry = ModuleRegistry()
-            
+
     def get_tier_requirement(self, product_id: str) -> int:
         """Get minimum tier requirement for a Lambda Product"""
         tier_map = {
-            "nias": TierLevel.FRIEND,      # T2 - Tier 2
-            "abas": TierLevel.FRIEND,      # T2 - Tier 2  
-            "dast": TierLevel.TRUSTED,     # T3 - Tier 3
-            "wallet": TierLevel.TRUSTED,   # T3 - Tier 3
-            "lens": TierLevel.FRIEND,      # T2 - Tier 2
+            "nias": TierLevel.FRIEND,  # T2 - Tier 2
+            "abas": TierLevel.FRIEND,  # T2 - Tier 2
+            "dast": TierLevel.TRUSTED,  # T3 - Tier 3
+            "wallet": TierLevel.TRUSTED,  # T3 - Tier 3
+            "lens": TierLevel.FRIEND,  # T2 - Tier 2
             "poetica": TierLevel.VISITOR,  # T1 - Tier 1
         }
         return tier_map.get(product_id, TierLevel.VISITOR)
-    
+
     async def auto_register_all_products(self) -> List[str]:
         """Auto-register all Lambda Products with PWM"""
         registered = []
-        
+
         if not LUKHAS_PWM_AVAILABLE:
             return registered
-            
+
         # Import all Lambda Products
         try:
             from plugins.lambda_products_adapter import get_all_lambda_products
+
             products = get_all_lambda_products()
-            
+
             for product in products:
                 if await self.register_lambda_product(product):
                     registered.append(product.manifest.id)
         except Exception as e:
             logger.error(f"Failed to auto-register products: {e}")
-            
+
         return registered
-    
+
     async def connect_consciousness_layer(self) -> bool:
         """Connect to Lukhas consciousness layer"""
         try:
             # Check if consciousness module is available
-            from consciousness.unified.auto_consciousness import AutoConsciousness
+            from consciousness.unified.auto_consciousness import (
+                AutoConsciousness,
+            )
+
             return True
         except ImportError:
             return False
-    
+
     async def register_lambda_product(
-        self,
-        lambda_plugin: LukhasPlugin,
-        config: Optional[Dict[str, Any]] = None
+        self, lambda_plugin: LukhasPlugin, config: Optional[Dict[str, Any]] = None
     ) -> bool:
         """Register a Lambda Product with Lukhas PWM"""
-        
+
         if not LUKHAS_PWM_AVAILABLE:
             logger.warning("Lukhas PWM not available, running in standalone mode")
             return False
-            
+
         try:
             # Create PWM plugin wrapper
             pwm_plugin = LambdaProductsPWMPlugin(lambda_plugin)
-            
+
             # Always initialize with config (use empty dict if not provided)
             init_config = config if config else {}
             await pwm_plugin.initialize(init_config)
-            
+
             # Register with plugin registry
             self.plugin_registry.register_plugin(pwm_plugin)
-            
+
             # Create module info for module registry
             module_info = ModuleInfo(
                 module_id=f"lambda_{lambda_plugin.manifest.id}",
@@ -190,9 +194,13 @@ class LukhasPWMIntegrationAdapter:
                 min_tier=self.get_tier_requirement(lambda_plugin.manifest.id),
                 permissions=set(lambda_plugin.manifest.capabilities),
                 dependencies=lambda_plugin.manifest.dependencies,
-                health_status="healthy" if lambda_plugin.status == PluginStatus.ACTIVE else "unknown"
+                health_status=(
+                    "healthy"
+                    if lambda_plugin.status == PluginStatus.ACTIVE
+                    else "unknown"
+                ),
             )
-            
+
             # Register with module registry - use correct API signature
             self.module_registry.register_module(
                 module_id=module_info.module_id,
@@ -202,67 +210,63 @@ class LukhasPWMIntegrationAdapter:
                 path=module_info.path,
                 min_tier=module_info.min_tier,
                 permissions=module_info.permissions,
-                dependencies=module_info.dependencies
+                dependencies=module_info.dependencies,
             )
-            
+
             # Track registration
             self.registered_products[lambda_plugin.manifest.id] = {
                 "plugin": pwm_plugin,
                 "module_info": module_info,
-                "lambda_plugin": lambda_plugin
+                "lambda_plugin": lambda_plugin,
             }
-            
+
             logger.info(f"✅ Registered {lambda_plugin.manifest.name} with Lukhas PWM")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to register {lambda_plugin.manifest.id}: {e}")
             return False
-    
-    async def validate_tier_access(
-        self,
-        product_id: str,
-        user_tier: int
-    ) -> bool:
+
+    async def validate_tier_access(self, product_id: str, user_tier: int) -> bool:
         """Validate if user tier has access to Lambda Product"""
         required_tier = self.get_tier_requirement(product_id)
         has_access = user_tier >= required_tier
-        
+
         if not has_access:
             logger.warning(
                 f"Access denied to {product_id}: User tier {user_tier} < Required {required_tier}"
             )
-        
+
         return has_access
-    
+
     async def process_with_tier_check(
-        self,
-        product_id: str,
-        input_data: Any,
-        user_tier: int
+        self, product_id: str, input_data: Any, user_tier: int
     ) -> Optional[Any]:
         """Process data through Lambda Product with tier validation"""
-        
+
         # Check tier access
         if not await self.validate_tier_access(product_id, user_tier):
-            return {"error": "Insufficient tier level", "required": self.get_tier_requirement(product_id)}
-        
+            return {
+                "error": "Insufficient tier level",
+                "required": self.get_tier_requirement(product_id),
+            }
+
         # Get registered product
         if product_id not in self.registered_products:
             return {"error": f"Product {product_id} not registered"}
-        
+
         # Process through product
         pwm_plugin = self.registered_products[product_id]["plugin"]
         return await pwm_plugin.process(input_data)
-    
+
     async def get_system_status(self) -> Dict[str, Any]:
         """Get overall system status"""
         status = {
             "pwm_available": LUKHAS_PWM_AVAILABLE,
             "registered_products": list(self.registered_products.keys()),
-            "health_status": {}
+            "health_status": {},
         }
-        
+
         # Get health for each product
         for product_id, info in self.registered_products.items():
             try:
@@ -270,14 +274,14 @@ class LukhasPWMIntegrationAdapter:
                 status["health_status"][product_id] = health
             except Exception as e:
                 status["health_status"][product_id] = {"error": str(e)}
-        
+
         return status
-    
+
     def get_module_registry_info(self) -> Dict[str, Any]:
         """Get module registry information"""
         if not LUKHAS_PWM_AVAILABLE or not self.module_registry:
             return {"available": False}
-        
+
         modules = {}
         for product_id, info in self.registered_products.items():
             module_info = info["module_info"]
@@ -288,19 +292,16 @@ class LukhasPWMIntegrationAdapter:
                 "min_tier": module_info.min_tier,
                 "permissions": list(module_info.permissions),
                 "health": module_info.health_status,
-                "access_count": module_info.access_count
+                "access_count": module_info.access_count,
             }
-        
-        return {
-            "available": True,
-            "modules": modules
-        }
+
+        return {"available": True, "modules": modules}
 
 
 # Example Lambda Product implementations for PWM
 class NIASPWMPlugin(LukhasPlugin):
     """NIΛS adapted for PWM integration"""
-    
+
     def __init__(self):
         manifest = PluginManifest(
             id="nias",
@@ -310,29 +311,29 @@ class NIASPWMPlugin(LukhasPlugin):
             capabilities=["emotional_filtering", "consent_management", "tier_gating"],
             dependencies=[],
             priority=PluginPriority.HIGH,
-            tier_requirements="T2"
+            tier_requirements="T2",
         )
         super().__init__(manifest)
         self.message_queue = []
         self.tier_limits = {
             TierLevel.VISITOR: 5,
             TierLevel.FRIEND: 10,
-            TierLevel.TRUSTED: 20
+            TierLevel.TRUSTED: 20,
         }
-    
+
     async def initialize(self, config: Dict[str, Any]) -> bool:
         self.config = config
         self.tier = config.get("user_tier", TierLevel.VISITOR)
         return True
-    
+
     async def start(self) -> bool:
         self.status = PluginStatus.ACTIVE
         return True
-    
+
     async def stop(self) -> bool:
         self.status = PluginStatus.DISABLED
         return True
-    
+
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
@@ -340,67 +341,75 @@ class NIASPWMPlugin(LukhasPlugin):
             cpu_usage=5.0,
             memory_usage=50.0,
             response_time_ms=2.0,
-            uptime_seconds=self.get_uptime()
+            uptime_seconds=self.get_uptime(),
         )
-    
+
     async def process(self, input_data: Any) -> Dict[str, Any]:
         """Process message with emotional gating and tier limits"""
-        
+
         # Check tier-based queue limit
         max_queue = self.tier_limits.get(self.tier, 5)
-        
+
         # Emotional gating
         emotion = input_data.get("emotional_state", "neutral")
         consent = input_data.get("consent", False)
-        
+
         if not consent:
             return {"delivered": False, "reason": "no_consent"}
-        
+
         if emotion in ["stressed", "overwhelmed", "anxious"]:
             if len(self.message_queue) < max_queue:
                 self.message_queue.append(input_data.get("message"))
-                return {"delivered": False, "queued": True, "queue_size": len(self.message_queue)}
-        
+                return {
+                    "delivered": False,
+                    "queued": True,
+                    "queue_size": len(self.message_queue),
+                }
+
         return {
             "delivered": True,
             "message": input_data.get("message"),
             "emotion_state": emotion,
-            "tier": self.tier
+            "tier": self.tier,
         }
 
 
 class ABASPWMPlugin(LukhasPlugin):
     """ΛBAS adapted for PWM integration"""
-    
+
     def __init__(self):
         manifest = PluginManifest(
             id="abas",
             name="ΛBAS - Attention Boundary System",
             version="2.0.0",
             description="Attention management integrated with PWM consciousness",
-            capabilities=["boundary_protection", "flow_detection", "distraction_filtering"],
+            capabilities=[
+                "boundary_protection",
+                "flow_detection",
+                "distraction_filtering",
+            ],
             dependencies=["consciousness"],
             priority=PluginPriority.HIGH,
-            tier_requirements="T2"
+            tier_requirements="T2",
         )
         super().__init__(manifest)
         self.flow_state = False
         self.boundary_active = False
-    
+
     async def initialize(self, config: Dict[str, Any]) -> bool:
         self.config = config
         return True
-    
+
     async def start(self) -> bool:
         self.status = PluginStatus.ACTIVE
         self.boundary_active = True
         return True
-    
+
     async def stop(self) -> bool:
         self.status = PluginStatus.DISABLED
         self.boundary_active = False
         return True
-    
+
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
@@ -408,68 +417,72 @@ class ABASPWMPlugin(LukhasPlugin):
             cpu_usage=3.0,
             memory_usage=40.0,
             response_time_ms=1.5,
-            uptime_seconds=self.get_uptime()
+            uptime_seconds=self.get_uptime(),
         )
-    
+
     async def process(self, input_data: Any) -> Dict[str, Any]:
         """Process attention management requests"""
-        
+
         action = input_data.get("action")
-        
+
         if action == "enter_flow":
             self.flow_state = True
             return {"status": "flow_active", "boundary": "protected"}
-        
+
         elif action == "exit_flow":
             self.flow_state = False
             return {"status": "flow_inactive", "boundary": "open"}
-        
+
         elif "interruption" in input_data:
             priority = input_data.get("priority", "low")
-            
+
             if self.flow_state and priority in ["low", "medium"]:
                 return {"allowed": False, "reason": "flow_protection"}
-            
+
             return {"allowed": True, "processed": True}
-        
+
         return {
             "flow_state": self.flow_state,
             "boundary_active": self.boundary_active,
-            "attention_state": "focused" if self.flow_state else "available"
+            "attention_state": "focused" if self.flow_state else "available",
         }
 
 
 class DASTPWMPlugin(LukhasPlugin):
     """DΛST adapted for PWM integration"""
-    
+
     def __init__(self):
         manifest = PluginManifest(
             id="dast",
             name="DΛST - Dynamic Adaptive Symbol Tracking",
             version="2.0.0",
             description="Context tracking integrated with PWM memory systems",
-            capabilities=["context_tracking", "pattern_recognition", "symbol_evolution"],
+            capabilities=[
+                "context_tracking",
+                "pattern_recognition",
+                "symbol_evolution",
+            ],
             dependencies=["memory"],
             priority=PluginPriority.NORMAL,
-            tier_requirements="T3"
+            tier_requirements="T3",
         )
         super().__init__(manifest)
         self.context_buffer = []
         self.symbols = {}
-    
+
     async def initialize(self, config: Dict[str, Any]) -> bool:
         self.config = config
         self.max_context = config.get("context_depth", 100)
         return True
-    
+
     async def start(self) -> bool:
         self.status = PluginStatus.ACTIVE
         return True
-    
+
     async def stop(self) -> bool:
         self.status = PluginStatus.DISABLED
         return True
-    
+
     async def health_check(self) -> HealthStatus:
         return HealthStatus(
             is_healthy=True,
@@ -477,18 +490,18 @@ class DASTPWMPlugin(LukhasPlugin):
             cpu_usage=8.0,
             memory_usage=120.0,
             response_time_ms=5.0,
-            uptime_seconds=self.get_uptime()
+            uptime_seconds=self.get_uptime(),
         )
-    
+
     async def process(self, input_data: Any) -> Dict[str, Any]:
         """Track context and symbols"""
-        
+
         if "event" in input_data:
             # Add to context buffer
             self.context_buffer.append(input_data["event"])
             if len(self.context_buffer) > self.max_context:
                 self.context_buffer.pop(0)
-        
+
         if "symbol_update" in input_data:
             # Track symbol evolution
             symbol = input_data["symbol_update"]
@@ -496,23 +509,23 @@ class DASTPWMPlugin(LukhasPlugin):
             if symbol_id not in self.symbols:
                 self.symbols[symbol_id] = []
             self.symbols[symbol_id].append(symbol)
-        
+
         if "query" in input_data:
             query = input_data["query"]
-            
+
             if query == "current_context":
                 return {"context": self.context_buffer[-10:]}
-            
+
             elif query == "symbol_evolution":
                 symbol_id = input_data.get("symbol")
                 if symbol_id in self.symbols:
                     return {
                         "evolution": self.symbols[symbol_id],
-                        "current_meaning": self.symbols[symbol_id][-1].get("meaning")
+                        "current_meaning": self.symbols[symbol_id][-1].get("meaning"),
                     }
-        
+
         return {
             "context": "tracked",
             "symbols": list(self.symbols.keys())[:5],
-            "predictions": ["pattern_a", "pattern_b"]
+            "predictions": ["pattern_a", "pattern_b"],
         }

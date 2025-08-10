@@ -16,36 +16,33 @@ Author: LUKHAS Identity Team
 Version: 1.0.0
 """
 
-import json
-import time
-import math
 import hashlib
+import math
+import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List, Optional, Tuple, Any
-import numpy as np
-from datetime import datetime
+from typing import Any, Optional
 
 # Color mappings for different states
 CONSCIOUSNESS_COLORS = {
     # Consciousness levels (0.0 - 1.0)
-    "dormant": (64, 64, 128),       # Deep blue - minimal consciousness
-    "awakening": (64, 128, 192),    # Light blue - low consciousness
-    "aware": (64, 192, 128),        # Teal - moderate consciousness
-    "focused": (128, 192, 64),      # Green - active consciousness
-    "heightened": (192, 128, 64),   # Orange - high consciousness
+    "dormant": (64, 64, 128),  # Deep blue - minimal consciousness
+    "awakening": (64, 128, 192),  # Light blue - low consciousness
+    "aware": (64, 192, 128),  # Teal - moderate consciousness
+    "focused": (128, 192, 64),  # Green - active consciousness
+    "heightened": (192, 128, 64),  # Orange - high consciousness
     "transcendent": (255, 215, 0),  # Gold - peak consciousness
 }
 
 EMOTIONAL_COLORS = {
-    "joy": (255, 223, 0),          # Bright yellow
-    "calm": (135, 206, 235),       # Sky blue
-    "focus": (0, 191, 255),        # Deep sky blue
-    "excitement": (255, 69, 0),     # Red-orange
-    "stress": (220, 20, 60),        # Crimson
-    "neutral": (192, 192, 192),     # Silver
-    "love": (255, 105, 180),        # Hot pink
-    "trust": (32, 178, 170),        # Light sea green
+    "joy": (255, 223, 0),  # Bright yellow
+    "calm": (135, 206, 235),  # Sky blue
+    "focus": (0, 191, 255),  # Deep sky blue
+    "excitement": (255, 69, 0),  # Red-orange
+    "stress": (220, 20, 60),  # Crimson
+    "neutral": (192, 192, 192),  # Silver
+    "love": (255, 105, 180),  # Hot pink
+    "trust": (32, 178, 170),  # Light sea green
 }
 
 TIER_AURAS = {
@@ -60,6 +57,7 @@ TIER_AURAS = {
 
 class OrbPattern(Enum):
     """Visual patterns for ORB animation"""
+
     STATIC = "static"
     PULSE = "pulse"
     WAVE = "wave"
@@ -72,12 +70,13 @@ class OrbPattern(Enum):
 @dataclass
 class OrbState:
     """Current state of the LUKHAS ORB"""
+
     consciousness_level: float  # 0.0 to 1.0
     emotional_state: str
-    neural_synchrony: float    # 0.0 to 1.0
-    tier_level: int           # 0 to 5
+    neural_synchrony: float  # 0.0 to 1.0
+    tier_level: int  # 0 to 5
     authentication_confidence: float  # 0.0 to 1.0
-    attention_focus: List[str]
+    attention_focus: list[str]
     timestamp: float
     user_lambda_id: str
 
@@ -101,9 +100,10 @@ class OrbState:
 @dataclass
 class OrbVisualization:
     """Visual representation data for the ORB"""
-    primary_color: Tuple[int, int, int]
-    secondary_color: Tuple[int, int, int]
-    aura_color: Tuple[int, int, int]
+
+    primary_color: tuple[int, int, int]
+    secondary_color: tuple[int, int, int]
+    aura_color: tuple[int, int, int]
     size: float  # Base size multiplier
     pulse_rate: float  # Pulses per second
     rotation_speed: float  # Rotations per second
@@ -112,7 +112,7 @@ class OrbVisualization:
     glow_intensity: float  # 0.0 to 1.0
     fractal_depth: int  # For complex patterns
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization"""
         return {
             "primary_color": list(self.primary_color),
@@ -124,7 +124,7 @@ class OrbVisualization:
             "pattern": self.pattern.value,
             "particle_density": self.particle_density,
             "glow_intensity": self.glow_intensity,
-            "fractal_depth": self.fractal_depth
+            "fractal_depth": self.fractal_depth,
         }
 
 
@@ -136,7 +136,7 @@ class LUKHASOrb:
     for use in authentication and identity visualization.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.current_state: Optional[OrbState] = None
         self.visualization: Optional[OrbVisualization] = None
@@ -150,7 +150,7 @@ class LUKHASOrb:
         self.smoothing_factor = self.config.get("smoothing_factor", 0.15)
 
         # State history for smooth transitions
-        self.state_history: List[OrbState] = []
+        self.state_history: list[OrbState] = []
         self.max_history = 10
 
     def update_state(self, state: OrbState) -> OrbVisualization:
@@ -179,12 +179,10 @@ class LUKHASOrb:
 
         # Get base colors
         consciousness_color = CONSCIOUSNESS_COLORS.get(
-            state.consciousness_category,
-            CONSCIOUSNESS_COLORS["neutral"]
+            state.consciousness_category, CONSCIOUSNESS_COLORS["neutral"]
         )
         emotional_color = EMOTIONAL_COLORS.get(
-            state.emotional_state,
-            EMOTIONAL_COLORS["neutral"]
+            state.emotional_state, EMOTIONAL_COLORS["neutral"]
         )
         tier_info = TIER_AURAS.get(state.tier_level, TIER_AURAS[0])
 
@@ -209,7 +207,9 @@ class LUKHASOrb:
         pattern = self._select_pattern(state)
 
         # Particle density based on tier and consciousness
-        particle_density = int(50 + (state.tier_level * 20) + (state.consciousness_level * 100))
+        particle_density = int(
+            50 + (state.tier_level * 20) + (state.consciousness_level * 100)
+        )
 
         # Glow intensity based on authentication confidence
         glow_intensity = 0.3 + (state.authentication_confidence * 0.7)
@@ -227,20 +227,20 @@ class LUKHASOrb:
             pattern=pattern,
             particle_density=particle_density,
             glow_intensity=glow_intensity,
-            fractal_depth=fractal_depth
+            fractal_depth=fractal_depth,
         )
 
-    def _blend_colors(self, color1: Tuple[int, int, int],
-                     color2: Tuple[int, int, int],
-                     ratio: float) -> Tuple[int, int, int]:
+    def _blend_colors(
+        self, color1: tuple[int, int, int], color2: tuple[int, int, int], ratio: float
+    ) -> tuple[int, int, int]:
         """Blend two colors with given ratio"""
         return tuple(
-            int(c1 * ratio + c2 * (1 - ratio))
-            for c1, c2 in zip(color1, color2)
+            int(c1 * ratio + c2 * (1 - ratio)) for c1, c2 in zip(color1, color2)
         )
 
-    def _modulate_color(self, base_color: Tuple[int, int, int],
-                       modulation: float) -> Tuple[int, int, int]:
+    def _modulate_color(
+        self, base_color: tuple[int, int, int], modulation: float
+    ) -> tuple[int, int, int]:
         """Modulate color brightness based on value"""
         factor = 0.5 + modulation * 0.5
         return tuple(min(255, int(c * factor)) for c in base_color)
@@ -255,7 +255,7 @@ class LUKHASOrb:
             "focus": 1.0,
             "neutral": 1.0,
             "love": 1.5,
-            "trust": 0.8
+            "trust": 0.8,
         }
         return pulse_rates.get(emotion, 1.0)
 
@@ -278,12 +278,12 @@ class LUKHASOrb:
             "wave": OrbPattern.WAVE,
             "spiral": OrbPattern.SPIRAL,
             "quantum": OrbPattern.QUANTUM,
-            "fractal": OrbPattern.FRACTAL
+            "fractal": OrbPattern.FRACTAL,
         }
 
         return pattern_map.get(base_pattern, OrbPattern.PULSE)
 
-    def get_animation_frame(self, delta_time: float) -> Dict[str, Any]:
+    def get_animation_frame(self, delta_time: float) -> dict[str, Any]:
         """
         Get current animation frame data
 
@@ -328,26 +328,30 @@ class LUKHASOrb:
                 "scale": self.visualization.size * pulse_scale,
                 "rotation": rotation_angle,
                 "color": list(self.visualization.primary_color),
-                "glow_intensity": self.visualization.glow_intensity
+                "glow_intensity": self.visualization.glow_intensity,
             },
             "particles": particles,
             "aura": aura_data,
             "pattern": pattern_data,
             "metadata": {
-                "consciousness_level": self.current_state.consciousness_level if self.current_state else 0,
+                "consciousness_level": (
+                    self.current_state.consciousness_level if self.current_state else 0
+                ),
                 "pattern_type": self.visualization.pattern.value,
-                "tier_level": self.current_state.tier_level if self.current_state else 0
-            }
+                "tier_level": (
+                    self.current_state.tier_level if self.current_state else 0
+                ),
+            },
         }
 
-    def _generate_particles(self, elapsed_time: float) -> List[Dict[str, Any]]:
+    def _generate_particles(self, elapsed_time: float) -> list[dict[str, Any]]:
         """Generate particle positions and properties"""
         particles = []
 
         for i in range(self.visualization.particle_density):
             # Use deterministic randomness based on particle index
             seed = hashlib.md5(f"{i}{int(elapsed_time)}".encode()).hexdigest()
-            rand_values = [int(seed[j:j+2], 16) / 255.0 for j in range(0, 6, 2)]
+            rand_values = [int(seed[j : j + 2], 16) / 255.0 for j in range(0, 6, 2)]
 
             # Orbital motion
             angle = (rand_values[0] * 360 + elapsed_time * 30) % 360
@@ -359,17 +363,17 @@ class LUKHASOrb:
                 "position": [
                     radius * math.cos(math.radians(angle)),
                     height + math.sin(elapsed_time * 2 + i) * 0.1,
-                    radius * math.sin(math.radians(angle))
+                    radius * math.sin(math.radians(angle)),
                 ],
                 "color": list(self.visualization.secondary_color),
                 "size": 0.05 + rand_values[1] * 0.05,
-                "opacity": 0.3 + rand_values[2] * 0.7
+                "opacity": 0.3 + rand_values[2] * 0.7,
             }
             particles.append(particle)
 
         return particles
 
-    def _generate_aura(self, elapsed_time: float) -> Dict[str, Any]:
+    def _generate_aura(self, elapsed_time: float) -> dict[str, Any]:
         """Generate aura effect data"""
         # Aura pulses slightly out of phase with main orb
         aura_phase = (elapsed_time * self.visualization.pulse_rate * 0.8) % 1.0
@@ -379,10 +383,10 @@ class LUKHASOrb:
             "color": list(self.visualization.aura_color),
             "scale": aura_scale * self.visualization.size,
             "opacity": 0.3 * self.visualization.glow_intensity,
-            "blur_radius": 20
+            "blur_radius": 20,
         }
 
-    def _generate_pattern_animation(self, elapsed_time: float) -> Dict[str, Any]:
+    def _generate_pattern_animation(self, elapsed_time: float) -> dict[str, Any]:
         """Generate pattern-specific animation data"""
         pattern = self.visualization.pattern
 
@@ -391,40 +395,40 @@ class LUKHASOrb:
                 "type": "wave",
                 "amplitude": 0.1 * self.current_state.neural_synchrony,
                 "frequency": 2.0,
-                "phase": elapsed_time * 2
+                "phase": elapsed_time * 2,
             }
         elif pattern == OrbPattern.SPIRAL:
             return {
                 "type": "spiral",
                 "turns": 3,
                 "speed": self.visualization.rotation_speed,
-                "thickness": 0.1
+                "thickness": 0.1,
             }
         elif pattern == OrbPattern.QUANTUM:
             return {
                 "type": "quantum",
                 "entanglement_nodes": 5,
                 "phase_shift": elapsed_time * 0.5,
-                "probability_cloud": True
+                "probability_cloud": True,
             }
         elif pattern == OrbPattern.FRACTAL:
             return {
                 "type": "fractal",
                 "depth": self.visualization.fractal_depth,
                 "iteration": int(elapsed_time * 0.5) % 10,
-                "complexity": self.current_state.consciousness_level
+                "complexity": self.current_state.consciousness_level,
             }
         elif pattern == OrbPattern.DREAM:
             return {
                 "type": "dream",
                 "flow_speed": 0.3,
                 "morph_rate": 0.1,
-                "dream_symbols": ["∞", "◊", "○", "△", "□"]
+                "dream_symbols": ["∞", "◊", "○", "△", "□"],
             }
         else:
             return {"type": "pulse"}
 
-    def export_state(self) -> Dict[str, Any]:
+    def export_state(self) -> dict[str, Any]:
         """Export current ORB state for persistence"""
         if not self.current_state or not self.visualization:
             return {}
@@ -438,14 +442,14 @@ class LUKHASOrb:
                 "authentication_confidence": self.current_state.authentication_confidence,
                 "attention_focus": self.current_state.attention_focus,
                 "timestamp": self.current_state.timestamp,
-                "user_lambda_id": self.current_state.user_lambda_id
+                "user_lambda_id": self.current_state.user_lambda_id,
             },
             "visualization": self.visualization.to_dict(),
             "animation_frame": self.animation_frame,
-            "export_timestamp": time.time()
+            "export_timestamp": time.time(),
         }
 
-    def import_state(self, state_data: Dict[str, Any]):
+    def import_state(self, state_data: dict[str, Any]):
         """Import ORB state from persistence"""
         if "state" in state_data:
             state_dict = state_data["state"]
@@ -457,7 +461,7 @@ class LUKHASOrb:
                 authentication_confidence=state_dict["authentication_confidence"],
                 attention_focus=state_dict["attention_focus"],
                 timestamp=state_dict["timestamp"],
-                user_lambda_id=state_dict["user_lambda_id"]
+                user_lambda_id=state_dict["user_lambda_id"],
             )
 
         if self.current_state:

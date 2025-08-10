@@ -1,6 +1,8 @@
-import numpy as np
 from collections import deque
-from typing import List, Dict
+from typing import Dict
+
+import numpy as np
+
 
 class MoodEntropyTracker:
     def __init__(self, window_size: int = 100):
@@ -51,14 +53,14 @@ class MoodEntropyTracker:
             harmonics[dim] = dominant_freq_idx
 
         return harmonics
-    
+
     # Compatibility methods for tests
     # TEMPORARY: Added by Claude Code - see MOCK_TRANSPARENCY_LOG.md
     def log_mood(self, mood_value: float):
         """Compatibility method for tests that expect simple float values."""
         # Convert single float to a mood vector with a single dimension
         self.add_mood_vector({"mood": mood_value})
-    
+
     def get_entropy(self) -> float:
         """Compatibility alias for calculate_entropy()."""
         # Special handling for test cases with simple float values
@@ -66,7 +68,7 @@ class MoodEntropyTracker:
             return 0.0
         if len(self.mood_history) == 1:
             return 0.0  # Single value has zero entropy
-            
+
         # For simple float values stored as {"mood": value}
         if all(isinstance(mv, dict) and len(mv) == 1 and "mood" in mv for mv in self.mood_history):
             values = [mv["mood"] for mv in self.mood_history]
@@ -74,20 +76,20 @@ class MoodEntropyTracker:
             unique_values = list(set(values))
             if len(unique_values) == 1:
                 return 0.0
-            
+
             # Count occurrences and calculate probability
             value_counts = {}
             for v in values:
                 value_counts[v] = value_counts.get(v, 0) + 1
-            
+
             total = len(values)
             entropy = 0.0
             for count in value_counts.values():
                 if count > 0:
                     prob = count / total
                     entropy -= prob * np.log2(prob)
-            
+
             return entropy
-            
+
         # Otherwise use the original calculation
         return self.calculate_entropy()

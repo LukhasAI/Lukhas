@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 try:
     from .integration_manager import IntegrationManager
+
     logger.debug("Imported IntegrationManager from .integration_manager")
 except ImportError as e:
     logger.warning(f"Could not import IntegrationManager: {e}")
     IntegrationManager = None
 
 __all__ = [
-    'IntegrationManager',
+    "IntegrationManager",
 ]
 
 # Filter out None values from __all__ if imports failed

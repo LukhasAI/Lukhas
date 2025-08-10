@@ -5,12 +5,9 @@ Advanced: intent_node.py
 Integration Date: 2025-05-31T07:55:28.128623
 """
 
-from typing import Dict, Any, Optional
-from core.common import get_logger
+from typing import Any, Dict, Optional
+
 import numpy as np
-import requests
-from io import BytesIO
-import base64
 
 
 class MemoryNode:
@@ -34,7 +31,7 @@ class MemoryNode:
             "id": memory_id,
             "timestamp": time.time(),
             "data": kwargs,
-            "importance": self._calculate_importance(kwargs)
+            "importance": self._calculate_importance(kwargs),
         }
 
         self.short_term_memory.append(memory_entry)
@@ -79,7 +76,7 @@ class MemoryNode:
         indices = np.random.choice(
             len(self.long_term_memory),
             size=min(limit, len(self.long_term_memory)),
-            replace=False
+            replace=False,
         )
 
         return [self.long_term_memory[i] for i in indices]
@@ -93,13 +90,17 @@ class MemoryNode:
             importance += 0.3
 
         # If it's a successful interaction, slightly increase importance
-        if "result" in memory_data and memory_data.get("result", {}).get("status") == "success":
+        if (
+            "result" in memory_data
+            and memory_data.get("result", {}).get("status") == "success"
+        ):
             importance += 0.1
 
         return min(1.0, importance)
+
+
 EOF
 
-cat > lukhas_agi/packages/core/src/nodes/ethics_node.py << 'EOF'
-from typing import Dict, List, Any
-import numpy as np
+cat > lukhas_agi / packages / core / src / nodes / ethics_node.py << "EOF"
 import time
+from typing import Any, Dict

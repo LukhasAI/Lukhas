@@ -1,4 +1,3 @@
 """
 Symbolic Module
 """
-

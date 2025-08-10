@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -7,7 +6,6 @@
 #TAG:symbolic
 #TAG:neuroplastic
 #TAG:colony
-
 
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Symbolic Knowledge Integration
 
@@ -39,26 +37,29 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import os
 import json
 import logging
-from typing import Dict, Any, Optional, List
-from pathlib import Path
-import asyncio
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
 # Try to import LUKHAS components with fallbacks
 try:
-    from ...tools.parsers.knowledge_loader import SymbolicKnowledgeLoader, SymbolicConcept
+    from ...tools.parsers.knowledge_loader import (
+        SymbolicConcept,
+        SymbolicKnowledgeLoader,
+    )
 except ImportError:
     # Fallback for relative imports
     import sys
+
     sys.path.append(str(Path(__file__).parent.parent.parent))
-    from tools.parsers.knowledge_loader import SymbolicKnowledgeLoader, SymbolicConcept
+    from tools.parsers.knowledge_loader import SymbolicConcept, SymbolicKnowledgeLoader
 
 # Set up structured logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 class SymbolicKnowledgeIntegrator:
     """
@@ -73,18 +74,23 @@ class SymbolicKnowledgeIntegrator:
         """Initialize the knowledge integrator."""
         self.config_path = Path(config_path) if config_path else Path(__file__).parent
         self.loader = SymbolicKnowledgeLoader()
-        self.integration_status: Dict[str, bool] = {}
+        self.integration_status: dict[str, bool] = {}
         self.last_sync_timestamp: Optional[str] = None
 
         # Knowledge file paths
         self.knowledge_files = [
             self.config_path / "foundational_knowledge.json",
-            Path(__file__).parent.parent.parent / "foundry" / "symbolic_seeds" / "foundational_knowledge.json"
+            Path(__file__).parent.parent.parent
+            / "foundry"
+            / "symbolic_seeds"
+            / "foundational_knowledge.json",
         ]
 
-        logger.info(f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files)} sources")
+        logger.info(
+            f"🔍 ΛTRACE: SymbolicKnowledgeIntegrator initialized with {len(self.knowledge_files)} sources"
+        )
 
-    async def initialize_knowledge_integration(self) -> Dict[str, Any]:
+    async def initialize_knowledge_integration(self) -> dict[str, Any]:
         """
         Initialize knowledge integration across all LUKHAS systems.
 
@@ -106,12 +112,18 @@ class SymbolicKnowledgeIntegrator:
                         concepts = self.loader.load_symbolic_ontology(knowledge_file)
                         all_concepts.update(concepts)
                         loaded_files.append(str(knowledge_file))
-                        logger.info(f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}")
+                        logger.info(
+                            f"🔍 ΛTRACE: Loaded {len(concepts)} concepts from {knowledge_file}"
+                        )
                     except Exception as e:
-                        logger.warning(f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}")
+                        logger.warning(
+                            f"🔍 ΛTRACE: Failed to load {knowledge_file}: {e}"
+                        )
 
             if not all_concepts:
-                logger.warning("🔍 ΛTRACE: No knowledge sources loaded, using minimal fallback")
+                logger.warning(
+                    "🔍 ΛTRACE: No knowledge sources loaded, using minimal fallback"
+                )
                 all_concepts = self._create_minimal_fallback_knowledge()
 
             # Distribute to subsystems
@@ -125,17 +137,21 @@ class SymbolicKnowledgeIntegrator:
                 "concepts_loaded": len(all_concepts),
                 "sources": loaded_files,
                 "integrations": integration_results,
-                "timestamp": self.last_sync_timestamp
+                "timestamp": self.last_sync_timestamp,
             }
 
-            logger.info(f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts)} concepts")
+            logger.info(
+                f"🔍 ΛTRACE: Knowledge integration initialized with {len(all_concepts)} concepts"
+            )
             return result
 
         except Exception as e:
             logger.error(f"🚨 ΛTRACE: Knowledge integration initialization failed: {e}")
             raise
 
-    async def _distribute_knowledge(self, concepts: Dict[str, SymbolicConcept]) -> Dict[str, bool]:
+    async def _distribute_knowledge(
+        self, concepts: dict[str, SymbolicConcept]
+    ) -> dict[str, bool]:
         """Distribute knowledge to all integrated systems."""
         results = {}
 
@@ -182,49 +198,63 @@ class SymbolicKnowledgeIntegrator:
         self.integration_status = results
         return results
 
-    async def _integrate_with_memory_system(self, memory_export: Dict[str, Any]):
+    async def _integrate_with_memory_system(self, memory_export: dict[str, Any]):
         """Integrate knowledge with memory system."""
         # Create memory enrichment configuration
-        memory_config_path = self.config_path.parent / "memory" / "knowledge_enrichment.json"
+        memory_config_path = (
+            self.config_path.parent / "memory" / "knowledge_enrichment.json"
+        )
 
         # Ensure directory exists
         memory_config_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Write memory enrichment config
-        with open(memory_config_path, 'w', encoding='utf-8') as f:
+        with open(memory_config_path, "w", encoding="utf-8") as f:
             json.dump(memory_export, f, indent=2)
 
-        logger.info(f"🔍 ΛTRACE: Memory enrichment config written to {memory_config_path}")
+        logger.info(
+            f"🔍 ΛTRACE: Memory enrichment config written to {memory_config_path}"
+        )
 
-    async def _integrate_with_narrative_system(self, narrative_export: Dict[str, Any]):
+    async def _integrate_with_narrative_system(self, narrative_export: dict[str, Any]):
         """Integrate knowledge with narrative system."""
         # Create narrative guidance configuration
-        narrative_config_path = self.config_path.parent / "narrative" / "archetypal_guidance.json"
+        narrative_config_path = (
+            self.config_path.parent / "narrative" / "archetypal_guidance.json"
+        )
 
         # Ensure directory exists
         narrative_config_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Write narrative guidance config
-        with open(narrative_config_path, 'w', encoding='utf-8') as f:
+        with open(narrative_config_path, "w", encoding="utf-8") as f:
             json.dump(narrative_export, f, indent=2)
 
-        logger.info(f"🔍 ΛTRACE: Narrative guidance config written to {narrative_config_path}")
+        logger.info(
+            f"🔍 ΛTRACE: Narrative guidance config written to {narrative_config_path}"
+        )
 
-    async def _integrate_with_ethics_system(self, ethics_export: Dict[str, Any]):
+    async def _integrate_with_ethics_system(self, ethics_export: dict[str, Any]):
         """Integrate knowledge with ethics system."""
         # Create ethics grounding configuration
-        ethics_config_path = self.config_path.parent / "ethics" / "knowledge_grounding.json"
+        ethics_config_path = (
+            self.config_path.parent / "ethics" / "knowledge_grounding.json"
+        )
 
         # Ensure directory exists
         ethics_config_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Write ethics grounding config
-        with open(ethics_config_path, 'w', encoding='utf-8') as f:
+        with open(ethics_config_path, "w", encoding="utf-8") as f:
             json.dump(ethics_export, f, indent=2)
 
-        logger.info(f"🔍 ΛTRACE: Ethics grounding config written to {ethics_config_path}")
+        logger.info(
+            f"🔍 ΛTRACE: Ethics grounding config written to {ethics_config_path}"
+        )
 
-    def _prepare_reasoning_integration(self, concepts: Dict[str, SymbolicConcept]) -> Dict[str, Any]:
+    def _prepare_reasoning_integration(
+        self, concepts: dict[str, SymbolicConcept]
+    ) -> dict[str, Any]:
         """Prepare knowledge for reasoning system integration."""
         concept_relationships = {}
         concept_definitions = {}
@@ -235,33 +265,36 @@ class SymbolicKnowledgeIntegrator:
                 "definition": concept.definition,
                 "importance": concept.importance,
                 "affect": concept.affect_tag,
-                "symbolic_hash": concept.symbolic_hash
+                "symbolic_hash": concept.symbolic_hash,
             }
 
         return {
             "concept_graph": concept_relationships,
             "concept_definitions": concept_definitions,
             "reasoning_weights": {
-                name: concept.importance / 10.0
-                for name, concept in concepts.items()
-            }
+                name: concept.importance / 10.0 for name, concept in concepts.items()
+            },
         }
 
-    async def _integrate_with_reasoning_system(self, reasoning_export: Dict[str, Any]):
+    async def _integrate_with_reasoning_system(self, reasoning_export: dict[str, Any]):
         """Integrate knowledge with reasoning system."""
         # Create reasoning knowledge configuration
-        reasoning_config_path = self.config_path.parent / "reasoning" / "concept_knowledge.json"
+        reasoning_config_path = (
+            self.config_path.parent / "reasoning" / "concept_knowledge.json"
+        )
 
         # Ensure directory exists
         reasoning_config_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Write reasoning knowledge config
-        with open(reasoning_config_path, 'w', encoding='utf-8') as f:
+        with open(reasoning_config_path, "w", encoding="utf-8") as f:
             json.dump(reasoning_export, f, indent=2)
 
-        logger.info(f"🔍 ΛTRACE: Reasoning knowledge config written to {reasoning_config_path}")
+        logger.info(
+            f"🔍 ΛTRACE: Reasoning knowledge config written to {reasoning_config_path}"
+        )
 
-    def _create_minimal_fallback_knowledge(self) -> Dict[str, SymbolicConcept]:
+    def _create_minimal_fallback_knowledge(self) -> dict[str, SymbolicConcept]:
         """Create minimal fallback knowledge if no sources available."""
         fallback_concepts = {
             "consciousness": SymbolicConcept(
@@ -269,42 +302,44 @@ class SymbolicKnowledgeIntegrator:
                 definition="The state of being aware of and able to think about one's existence",
                 affect_tag="wonder",
                 importance=9.0,
-                related=["awareness", "cognition", "experience"]
+                related=["awareness", "cognition", "experience"],
             ),
             "knowledge": SymbolicConcept(
                 concept="knowledge",
                 definition="Facts, information, and skills acquired through experience or education",
                 affect_tag="clarity",
                 importance=8.0,
-                related=["learning", "understanding", "wisdom"]
+                related=["learning", "understanding", "wisdom"],
             ),
             "ethics": SymbolicConcept(
                 concept="ethics",
                 definition="Moral principles that govern behavior and decision making",
                 affect_tag="responsibility",
                 importance=9.5,
-                related=["morality", "values", "responsibility"]
-            )
+                related=["morality", "values", "responsibility"],
+            ),
         }
 
         logger.info("🔍 ΛTRACE: Created minimal fallback knowledge base")
         return fallback_concepts
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get current integration status."""
         return {
             "status": self.integration_status,
             "last_sync": self.last_sync_timestamp,
             "knowledge_sources": len(self.knowledge_files),
-            "concepts_loaded": len(self.loader.knowledge_cache)
+            "concepts_loaded": len(self.loader.knowledge_cache),
         }
 
-    async def refresh_knowledge_integration(self) -> Dict[str, Any]:
+    async def refresh_knowledge_integration(self) -> dict[str, Any]:
         """Refresh knowledge integration with latest data."""
         logger.info("🔍 ΛTRACE: Refreshing knowledge integration")
         return await self.initialize_knowledge_integration()
 
-    def query_integrated_knowledge(self, query: str, limit: int = 5) -> List[Dict[str, Any]]:
+    def query_integrated_knowledge(
+        self, query: str, limit: int = 5
+    ) -> list[dict[str, Any]]:
         """Query the integrated knowledge base."""
         results = self.loader.search_concepts(query, limit)
 
@@ -315,13 +350,15 @@ class SymbolicKnowledgeIntegrator:
                 "affect_tag": concept.affect_tag,
                 "importance": concept.importance,
                 "related": concept.related,
-                "relevance_score": 1.0  # Could be enhanced with actual scoring
+                "relevance_score": 1.0,  # Could be enhanced with actual scoring
             }
             for concept in results
         ]
 
+
 # Global integrator instance
 _global_integrator: Optional[SymbolicKnowledgeIntegrator] = None
+
 
 def get_knowledge_integrator() -> SymbolicKnowledgeIntegrator:
     """Get the global knowledge integrator instance."""
@@ -330,15 +367,18 @@ def get_knowledge_integrator() -> SymbolicKnowledgeIntegrator:
         _global_integrator = SymbolicKnowledgeIntegrator()
     return _global_integrator
 
-async def initialize_symbolic_knowledge() -> Dict[str, Any]:
+
+async def initialize_symbolic_knowledge() -> dict[str, Any]:
     """Initialize symbolic knowledge integration across LUKHAS systems."""
     integrator = get_knowledge_integrator()
     return await integrator.initialize_knowledge_integration()
 
-def query_knowledge(query: str, limit: int = 5) -> List[Dict[str, Any]]:
+
+def query_knowledge(query: str, limit: int = 5) -> list[dict[str, Any]]:
     """Query the integrated knowledge base."""
     integrator = get_knowledge_integrator()
     return integrator.query_integrated_knowledge(query, limit)
+
 
 # CLAUDE CHANGELOG
 # - Created symbolic knowledge integration system for cross-system distribution # CLAUDE_EDIT_v1.0

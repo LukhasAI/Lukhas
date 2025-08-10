@@ -1,6 +1,8 @@
-import unittest
 import asyncio
+import unittest
+
 from core.bio_systems.bio_simulation_controller import BioSimulationController
+
 
 class TestBioSimulationFeedback(unittest.IsolatedAsyncioTestCase):
 
@@ -32,5 +34,6 @@ class TestBioSimulationFeedback(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(controller.driftScore, 0.0)
         self.assertEqual(controller.hormones["cortisol"].level, 0.5)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

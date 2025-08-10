@@ -7,12 +7,14 @@ import asyncio
 import sys
 from datetime import datetime
 
+from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony_enhanced import MemoryColony
+from core.colonies.reasoning_colony import ReasoningColony
+from core.integration_hub import IntegrationConfig, UnifiedIntegration
+
 # Import priority modules
 from core.task_manager import LukhλsTaskManager
-from core.integration_hub import UnifiedIntegration, IntegrationConfig
-from core.colonies.memory_colony_enhanced import MemoryColony
-from core.colonies.creativity_colony import CreativityColony
-from core.colonies.reasoning_colony import ReasoningColony
+
 
 async def test_task_manager():
     """Test task manager functionality"""
@@ -24,13 +26,13 @@ async def test_task_manager():
     task1_id = task_manager.create_task(
         name="Test Symbol Validation",
         description="Validate test symbols",
-        handler="symbol_validation"
+        handler="symbol_validation",
     )
 
     task2_id = task_manager.create_task(
         name="Test File Processing",
         description="Process test files",
-        handler="file_processing"
+        handler="file_processing",
     )
 
     # Execute tasks
@@ -40,7 +42,7 @@ async def test_task_manager():
     # Get status
     status = task_manager.get_system_status()
 
-    print(f"   - Created 2 test tasks")
+    print("   - Created 2 test tasks")
     print(f"   - Task 1 execution: {'✅ Success' if success1 else '❌ Failed'}")
     print(f"   - Task 2 execution: {'✅ Success' if success2 else '❌ Failed'}")
     print(f"   - Total tasks: {status['total_tasks']}")
@@ -48,25 +50,28 @@ async def test_task_manager():
 
     return success1 and success2
 
+
 def test_integration_hub():
     """Test integration hub functionality"""
     print("\n🧪 Testing Integration Hub...")
 
-    config = IntegrationConfig(
-        max_concurrent_operations=5,
-        timeout_seconds=10
-    )
+    config = IntegrationConfig(max_concurrent_operations=5, timeout_seconds=10)
     hub = UnifiedIntegration(config)
 
     # Register test components
     result1 = hub.register_component("test_component_1", {"type": "test"})
     result2 = hub.register_component("test_component_2", {"type": "test"})
 
-    print(f"   - Component 1 registration: {'✅ Success' if result1.success else '❌ Failed'}")
-    print(f"   - Component 2 registration: {'✅ Success' if result2.success else '❌ Failed'}")
+    print(
+        f"   - Component 1 registration: {'✅ Success' if result1.success else '❌ Failed'}"
+    )
+    print(
+        f"   - Component 2 registration: {'✅ Success' if result2.success else '❌ Failed'}"
+    )
     print(f"   - Total registered components: {len(hub.components)}")
 
     return result1.success and result2.success
+
 
 def test_colonies():
     """Test colony modules"""
@@ -89,6 +94,7 @@ def test_colonies():
     except Exception as e:
         print(f"   - Colony initialization failed: ❌ {str(e)}")
         return False
+
 
 async def main():
     """Main test runner"""
@@ -121,6 +127,7 @@ async def main():
         print("\n⚠️ Some modules need attention")
 
     return passed == total
+
 
 if __name__ == "__main__":
     success = asyncio.run(main())

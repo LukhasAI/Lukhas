@@ -6,8 +6,8 @@ Agent 1 Task 13: Simple Symbolic Tracer Integration Test
 Focused test for SymbolicTracer integration with SymbolicEngine.
 """
 
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

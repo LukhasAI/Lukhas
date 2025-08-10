@@ -1,7 +1,9 @@
 import asyncio
 import os
 import uuid
+
 from memory.systems.helix_dna import HelixMemory
+
 
 def test_hybrid_memory_storage():
     # Setup
@@ -12,7 +14,11 @@ def test_hybrid_memory_storage():
 
     # Action
     helix_memory = HelixMemory()
-    asyncio.run(helix_memory.store_decision(decision_data, context, decision_id, unstructured_memory))
+    asyncio.run(
+        helix_memory.store_decision(
+            decision_data, context, decision_id, unstructured_memory
+        )
+    )
     retrieved_decision = asyncio.run(helix_memory.retrieve_decision(decision_id))
 
     # Assert

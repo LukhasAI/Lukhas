@@ -4,15 +4,18 @@ Central coordination for learning subsystem components with meta-learning
 """
 
 import asyncio
-from core.common import get_logger
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
 # Import meta-learning enhancement system
 try:
-    from .metalearningenhancementsystem_wrapper import get_meta_learning_enhancement
+    from .metalearningenhancementsystem_wrapper import (
+        get_meta_learning_enhancement,
+    )
 
     META_ENHANCEMENT_AVAILABLE = True
 except ImportError as e:
@@ -267,7 +270,9 @@ class LearningHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from core.integration.service_discovery import get_service_discovery
+            from core.integration.service_discovery import (
+                get_service_discovery,
+            )
 
             discovery = get_service_discovery()
 

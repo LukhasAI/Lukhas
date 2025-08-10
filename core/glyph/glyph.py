@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 
@@ -7,7 +6,6 @@
 #TAG:glyph
 #TAG:neuroplastic
 #TAG:colony
-
 
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Core Glyph Engine
 
@@ -45,9 +43,9 @@ import json
 import logging
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 
 import numpy as np
 
@@ -63,29 +61,32 @@ logger.info("Initializing LUKHAS Core Glyph Engine v1.0.0")
 
 class GlyphType(Enum):
     """Classification of glyph types for specialized processing."""
-    MEMORY = "memory"           # Memory indexing and retrieval
-    EMOTION = "emotion"         # Emotional state encoding
-    ACTION = "action"           # Action logic carriers
-    TEMPORAL = "temporal"       # Time-bound symbolic states
-    CAUSAL = "causal"          # Causal linkage tracking
-    DRIFT = "drift"            # Drift detection anchors
-    COLLAPSE = "collapse"      # Collapse risk markers
-    DREAM = "dream"            # Dream symbolic seeds
-    ETHICAL = "ethical"        # Ethical constraint markers
+
+    MEMORY = "memory"  # Memory indexing and retrieval
+    EMOTION = "emotion"  # Emotional state encoding
+    ACTION = "action"  # Action logic carriers
+    TEMPORAL = "temporal"  # Time-bound symbolic states
+    CAUSAL = "causal"  # Causal linkage tracking
+    DRIFT = "drift"  # Drift detection anchors
+    COLLAPSE = "collapse"  # Collapse risk markers
+    DREAM = "dream"  # Dream symbolic seeds
+    ETHICAL = "ethical"  # Ethical constraint markers
 
 
 class GlyphPriority(Enum):
     """Priority levels for glyph processing and persistence."""
-    CRITICAL = 10      # System-critical glyphs (identity, safety)
-    HIGH = 7          # Important state markers
-    MEDIUM = 5        # Standard symbolic markers
-    LOW = 3           # Transient or experimental glyphs
-    EPHEMERAL = 1     # Temporary processing glyphs
+
+    CRITICAL = 10  # System-critical glyphs (identity, safety)
+    HIGH = 7  # Important state markers
+    MEDIUM = 5  # Standard symbolic markers
+    LOW = 3  # Transient or experimental glyphs
+    EPHEMERAL = 1  # Temporary processing glyphs
 
 
 @dataclass
 class EmotionVector:
     """Emotional context vector for glyph encoding."""
+
     # Primary emotions (0.0 to 1.0 scale)
     joy: float = 0.0
     sadness: float = 0.0
@@ -97,42 +98,62 @@ class EmotionVector:
     anticipation: float = 0.0
 
     # Meta-emotional states
-    intensity: float = 0.0         # Overall emotional intensity
-    valence: float = 0.0           # Positive/negative emotional tone (-1.0 to 1.0)
-    arousal: float = 0.0           # Emotional activation level
-    stability: float = 1.0         # Emotional state stability
+    intensity: float = 0.0  # Overall emotional intensity
+    valence: float = 0.0  # Positive/negative emotional tone (-1.0 to 1.0)
+    arousal: float = 0.0  # Emotional activation level
+    stability: float = 1.0  # Emotional state stability
 
-    def to_dict(self) -> Dict[str, float]:
+    def to_dict(self) -> dict[str, float]:
         """Convert emotion vector to dictionary."""
         return {
-            'joy': self.joy, 'sadness': self.sadness, 'anger': self.anger,
-            'fear': self.fear, 'surprise': self.surprise, 'disgust': self.disgust,
-            'trust': self.trust, 'anticipation': self.anticipation,
-            'intensity': self.intensity, 'valence': self.valence,
-            'arousal': self.arousal, 'stability': self.stability
+            "joy": self.joy,
+            "sadness": self.sadness,
+            "anger": self.anger,
+            "fear": self.fear,
+            "surprise": self.surprise,
+            "disgust": self.disgust,
+            "trust": self.trust,
+            "anticipation": self.anticipation,
+            "intensity": self.intensity,
+            "valence": self.valence,
+            "arousal": self.arousal,
+            "stability": self.stability,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, float]) -> 'EmotionVector':
+    def from_dict(cls, data: dict[str, float]) -> "EmotionVector":
         """Create emotion vector from dictionary."""
         return cls(**{k: v for k, v in data.items() if hasattr(cls, k)})
 
-    def distance_to(self, other: 'EmotionVector') -> float:
+    def distance_to(self, other: "EmotionVector") -> float:
         """Calculate emotional distance to another vector."""
-        primary_emotions = ['joy', 'sadness', 'anger', 'fear', 'surprise', 'disgust', 'trust', 'anticipation']
-        diff_sum = sum((getattr(self, emotion) - getattr(other, emotion)) ** 2 for emotion in primary_emotions)
+        primary_emotions = [
+            "joy",
+            "sadness",
+            "anger",
+            "fear",
+            "surprise",
+            "disgust",
+            "trust",
+            "anticipation",
+        ]
+        diff_sum = sum(
+            (getattr(self, emotion) - getattr(other, emotion)) ** 2
+            for emotion in primary_emotions
+        )
         return np.sqrt(diff_sum)
 
 
 @dataclass
 class TemporalStamp:
     """Temporal context for glyph lifecycle tracking."""
+
     created_at: datetime = field(default_factory=datetime.now)
     last_accessed: datetime = field(default_factory=datetime.now)
     expires_at: Optional[datetime] = None
     activation_count: int = 0
-    persistence_score: float = 1.0    # Likelihood of long-term retention
-    temporal_weight: float = 1.0      # Temporal importance modifier
+    persistence_score: float = 1.0  # Likelihood of long-term retention
+    temporal_weight: float = 1.0  # Temporal importance modifier
 
     def update_access(self):
         """Update last access timestamp and increment activation count."""
@@ -155,17 +176,20 @@ class TemporalStamp:
 @dataclass
 class CausalLink:
     """Enhanced causal relationship information for glyph lineage with Task 15 requirements."""
+
     parent_glyph_id: Optional[str] = None
-    child_glyph_ids: Set[str] = field(default_factory=set)
-    causal_origin_id: Optional[str] = None      # Root cause identifier
-    emotional_anchor_id: Optional[str] = None   # Emotional context anchor
-    event_chain_hash: Optional[str] = None      # Hash of event sequence
-    causal_strength: float = 1.0                # Strength of causal relationship
+    child_glyph_ids: set[str] = field(default_factory=set)
+    causal_origin_id: Optional[str] = None  # Root cause identifier
+    emotional_anchor_id: Optional[str] = None  # Emotional context anchor
+    event_chain_hash: Optional[str] = None  # Hash of event sequence
+    causal_strength: float = 1.0  # Strength of causal relationship
 
     # Task 15 enhancements
-    temporal_link: Optional[str] = None         # Temporal link to parent glyph
-    emotional_context_delta: Dict[str, float] = field(default_factory=dict)  # Emotional change delta
-    intent_tag: str = "unknown"                 # Intent tag for trajectory tracing
+    temporal_link: Optional[str] = None  # Temporal link to parent glyph
+    emotional_context_delta: dict[str, float] = field(
+        default_factory=dict
+    )  # Emotional change delta
+    intent_tag: str = "unknown"  # Intent tag for trajectory tracing
 
     def add_child(self, child_id: str):
         """Add child glyph to causal chain."""
@@ -177,19 +201,23 @@ class CausalLink:
 
     def set_temporal_link(self, parent_timestamp: str, link_type: str = "sequential"):
         """Set temporal link to parent glyph with Task 15 requirements."""
-        self.temporal_link = f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
+        self.temporal_link = (
+            f"{link_type}:{parent_timestamp}:{datetime.now().isoformat()}"
+        )
 
-    def calculate_emotional_delta(self, parent_emotion: EmotionVector, current_emotion: EmotionVector):
+    def calculate_emotional_delta(
+        self, parent_emotion: EmotionVector, current_emotion: EmotionVector
+    ):
         """Calculate emotional context delta from parent glyph."""
         self.emotional_context_delta = {
-            'valence_delta': current_emotion.valence - parent_emotion.valence,
-            'arousal_delta': current_emotion.arousal - parent_emotion.arousal,
-            'intensity_delta': current_emotion.intensity - parent_emotion.intensity,
-            'stability_delta': current_emotion.stability - parent_emotion.stability,
-            'joy_delta': current_emotion.joy - parent_emotion.joy,
-            'fear_delta': current_emotion.fear - parent_emotion.fear,
-            'trust_delta': current_emotion.trust - parent_emotion.trust,
-            'anger_delta': current_emotion.anger - parent_emotion.anger
+            "valence_delta": current_emotion.valence - parent_emotion.valence,
+            "arousal_delta": current_emotion.arousal - parent_emotion.arousal,
+            "intensity_delta": current_emotion.intensity - parent_emotion.intensity,
+            "stability_delta": current_emotion.stability - parent_emotion.stability,
+            "joy_delta": current_emotion.joy - parent_emotion.joy,
+            "fear_delta": current_emotion.fear - parent_emotion.fear,
+            "trust_delta": current_emotion.trust - parent_emotion.trust,
+            "anger_delta": current_emotion.anger - parent_emotion.anger,
         }
 
     def set_intent_tag(self, intent: str, trajectory_type: str = "linear"):
@@ -201,7 +229,7 @@ class CausalLink:
             "analysis": "analytical",
             "recovery": "healing",
             "drift": "corrective",
-            "learning": "adaptive"
+            "learning": "adaptive",
         }
 
         classified_intent = intent_classifications.get(intent, "unknown")
@@ -215,15 +243,16 @@ class Glyph:
 
     Structure: { id, emotion_vector, temporal_stamp, symbolic_hash, semantic_tags }
     """
+
     # Core identification
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     glyph_type: GlyphType = GlyphType.MEMORY
     priority: GlyphPriority = GlyphPriority.MEDIUM
 
     # Symbolic representation
-    symbol: str = "?"                           # Visual glyph character
-    symbolic_hash: str = ""                     # Unique content hash
-    semantic_tags: Set[str] = field(default_factory=set)
+    symbol: str = "?"  # Visual glyph character
+    symbolic_hash: str = ""  # Unique content hash
+    semantic_tags: set[str] = field(default_factory=set)
 
     # Contextual information
     emotion_vector: EmotionVector = field(default_factory=EmotionVector)
@@ -231,18 +260,18 @@ class Glyph:
     causal_link: CausalLink = field(default_factory=CausalLink)
 
     # Memory integration
-    memory_keys: Set[str] = field(default_factory=set)      # Associated memory fold keys
-    retrieval_filters: Dict[str, Any] = field(default_factory=dict)
-    drift_anchor_score: float = 0.0             # Stability anchor strength
+    memory_keys: set[str] = field(default_factory=set)  # Associated memory fold keys
+    retrieval_filters: dict[str, Any] = field(default_factory=dict)
+    drift_anchor_score: float = 0.0  # Stability anchor strength
 
     # System state
-    collapse_risk_level: float = 0.0            # Collapse risk assessment (0.0-1.0)
-    entropy_score: float = 0.0                  # Information entropy measure
-    stability_index: float = 1.0                # Overall stability measure
+    collapse_risk_level: float = 0.0  # Collapse risk assessment (0.0-1.0)
+    entropy_score: float = 0.0  # Information entropy measure
+    stability_index: float = 1.0  # Overall stability measure
 
     # Content and metadata
-    content: Dict[str, Any] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    content: dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Initialize computed fields after creation."""
@@ -253,7 +282,7 @@ class Glyph:
         if self.symbol == "?" and self.glyph_type in self._default_symbols():
             self.symbol = self._default_symbols()[self.glyph_type]
 
-    def _default_symbols(self) -> Dict[GlyphType, str]:
+    def _default_symbols(self) -> dict[GlyphType, str]:
         """Default symbols for each glyph type."""
         return {
             GlyphType.MEMORY: "🧠",
@@ -264,19 +293,22 @@ class Glyph:
             GlyphType.DRIFT: "🌊",
             GlyphType.COLLAPSE: "🌪️",
             GlyphType.DREAM: "🌙",
-            GlyphType.ETHICAL: "🛡️"
+            GlyphType.ETHICAL: "🛡️",
         }
 
     def _generate_symbolic_hash(self) -> str:
         """Generate unique hash based on glyph content."""
-        content_str = json.dumps({
-            'id': self.id,
-            'symbol': self.symbol,
-            'type': self.glyph_type.value,
-            'emotion': self.emotion_vector.to_dict(),
-            'semantic_tags': sorted(list(self.semantic_tags)),
-            'content': self.content
-        }, sort_keys=True)
+        content_str = json.dumps(
+            {
+                "id": self.id,
+                "symbol": self.symbol,
+                "type": self.glyph_type.value,
+                "emotion": self.emotion_vector.to_dict(),
+                "semantic_tags": sorted(self.semantic_tags),
+                "content": self.content,
+            },
+            sort_keys=True,
+        )
 
         return hashlib.sha256(content_str.encode()).hexdigest()[:16]
 
@@ -315,7 +347,9 @@ class Glyph:
     def update_drift_anchor(self, new_score: float):
         """Update drift anchor score."""
         self.drift_anchor_score = max(0.0, min(1.0, new_score))
-        logger.debug(f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}")
+        logger.debug(
+            f"Glyph {self.id} drift anchor updated: {self.drift_anchor_score:.3f}"
+        )
 
     def assess_collapse_risk(self) -> float:
         """Assess collapse risk based on glyph state."""
@@ -343,9 +377,11 @@ class Glyph:
 
     def is_stable(self) -> bool:
         """Check if glyph is in stable state."""
-        return (self.stability_index > 0.7 and
-                self.collapse_risk_level < 0.3 and
-                self.emotion_vector.stability > 0.5)
+        return (
+            self.stability_index > 0.7
+            and self.collapse_risk_level < 0.3
+            and self.emotion_vector.stability > 0.5
+        )
 
     def is_expired(self) -> bool:
         """Check if glyph has expired."""
@@ -357,86 +393,98 @@ class Glyph:
         # Slight stability improvement with regular access
         self.stability_index = min(1.0, self.stability_index + 0.001)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert glyph to dictionary for serialization."""
         return {
-            'id': self.id,
-            'glyph_type': self.glyph_type.value,
-            'priority': self.priority.value,
-            'symbol': self.symbol,
-            'symbolic_hash': self.symbolic_hash,
-            'semantic_tags': list(self.semantic_tags),
-            'emotion_vector': self.emotion_vector.to_dict(),
-            'temporal_stamp': {
-                'created_at': self.temporal_stamp.created_at.isoformat(),
-                'last_accessed': self.temporal_stamp.last_accessed.isoformat(),
-                'expires_at': self.temporal_stamp.expires_at.isoformat() if self.temporal_stamp.expires_at else None,
-                'activation_count': self.temporal_stamp.activation_count,
-                'persistence_score': self.temporal_stamp.persistence_score,
-                'temporal_weight': self.temporal_stamp.temporal_weight
+            "id": self.id,
+            "glyph_type": self.glyph_type.value,
+            "priority": self.priority.value,
+            "symbol": self.symbol,
+            "symbolic_hash": self.symbolic_hash,
+            "semantic_tags": list(self.semantic_tags),
+            "emotion_vector": self.emotion_vector.to_dict(),
+            "temporal_stamp": {
+                "created_at": self.temporal_stamp.created_at.isoformat(),
+                "last_accessed": self.temporal_stamp.last_accessed.isoformat(),
+                "expires_at": (
+                    self.temporal_stamp.expires_at.isoformat()
+                    if self.temporal_stamp.expires_at
+                    else None
+                ),
+                "activation_count": self.temporal_stamp.activation_count,
+                "persistence_score": self.temporal_stamp.persistence_score,
+                "temporal_weight": self.temporal_stamp.temporal_weight,
             },
-            'causal_link': {
-                'parent_glyph_id': self.causal_link.parent_glyph_id,
-                'child_glyph_ids': list(self.causal_link.child_glyph_ids),
-                'causal_origin_id': self.causal_link.causal_origin_id,
-                'emotional_anchor_id': self.causal_link.emotional_anchor_id,
-                'event_chain_hash': self.causal_link.event_chain_hash,
-                'causal_strength': self.causal_link.causal_strength
+            "causal_link": {
+                "parent_glyph_id": self.causal_link.parent_glyph_id,
+                "child_glyph_ids": list(self.causal_link.child_glyph_ids),
+                "causal_origin_id": self.causal_link.causal_origin_id,
+                "emotional_anchor_id": self.causal_link.emotional_anchor_id,
+                "event_chain_hash": self.causal_link.event_chain_hash,
+                "causal_strength": self.causal_link.causal_strength,
             },
-            'memory_keys': list(self.memory_keys),
-            'retrieval_filters': self.retrieval_filters,
-            'drift_anchor_score': self.drift_anchor_score,
-            'collapse_risk_level': self.collapse_risk_level,
-            'entropy_score': self.entropy_score,
-            'stability_index': self.stability_index,
-            'content': self.content,
-            'metadata': self.metadata
+            "memory_keys": list(self.memory_keys),
+            "retrieval_filters": self.retrieval_filters,
+            "drift_anchor_score": self.drift_anchor_score,
+            "collapse_risk_level": self.collapse_risk_level,
+            "entropy_score": self.entropy_score,
+            "stability_index": self.stability_index,
+            "content": self.content,
+            "metadata": self.metadata,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Glyph':
+    def from_dict(cls, data: dict[str, Any]) -> "Glyph":
         """Create glyph from dictionary."""
         # Parse temporal stamp
-        temporal_data = data.get('temporal_stamp', {})
+        temporal_data = data.get("temporal_stamp", {})
         temporal_stamp = TemporalStamp(
-            created_at=datetime.fromisoformat(temporal_data.get('created_at', datetime.now().isoformat())),
-            last_accessed=datetime.fromisoformat(temporal_data.get('last_accessed', datetime.now().isoformat())),
-            expires_at=datetime.fromisoformat(temporal_data['expires_at']) if temporal_data.get('expires_at') else None,
-            activation_count=temporal_data.get('activation_count', 0),
-            persistence_score=temporal_data.get('persistence_score', 1.0),
-            temporal_weight=temporal_data.get('temporal_weight', 1.0)
+            created_at=datetime.fromisoformat(
+                temporal_data.get("created_at", datetime.now().isoformat())
+            ),
+            last_accessed=datetime.fromisoformat(
+                temporal_data.get("last_accessed", datetime.now().isoformat())
+            ),
+            expires_at=(
+                datetime.fromisoformat(temporal_data["expires_at"])
+                if temporal_data.get("expires_at")
+                else None
+            ),
+            activation_count=temporal_data.get("activation_count", 0),
+            persistence_score=temporal_data.get("persistence_score", 1.0),
+            temporal_weight=temporal_data.get("temporal_weight", 1.0),
         )
 
         # Parse causal link
-        causal_data = data.get('causal_link', {})
+        causal_data = data.get("causal_link", {})
         causal_link = CausalLink(
-            parent_glyph_id=causal_data.get('parent_glyph_id'),
-            child_glyph_ids=set(causal_data.get('child_glyph_ids', [])),
-            causal_origin_id=causal_data.get('causal_origin_id'),
-            emotional_anchor_id=causal_data.get('emotional_anchor_id'),
-            event_chain_hash=causal_data.get('event_chain_hash'),
-            causal_strength=causal_data.get('causal_strength', 1.0)
+            parent_glyph_id=causal_data.get("parent_glyph_id"),
+            child_glyph_ids=set(causal_data.get("child_glyph_ids", [])),
+            causal_origin_id=causal_data.get("causal_origin_id"),
+            emotional_anchor_id=causal_data.get("emotional_anchor_id"),
+            event_chain_hash=causal_data.get("event_chain_hash"),
+            causal_strength=causal_data.get("causal_strength", 1.0),
         )
 
         # Create glyph
         glyph = cls(
-            id=data.get('id', str(uuid.uuid4())),
-            glyph_type=GlyphType(data.get('glyph_type', 'memory')),
-            priority=GlyphPriority(data.get('priority', 5)),
-            symbol=data.get('symbol', '?'),
-            symbolic_hash=data.get('symbolic_hash', ''),
-            semantic_tags=set(data.get('semantic_tags', [])),
-            emotion_vector=EmotionVector.from_dict(data.get('emotion_vector', {})),
+            id=data.get("id", str(uuid.uuid4())),
+            glyph_type=GlyphType(data.get("glyph_type", "memory")),
+            priority=GlyphPriority(data.get("priority", 5)),
+            symbol=data.get("symbol", "?"),
+            symbolic_hash=data.get("symbolic_hash", ""),
+            semantic_tags=set(data.get("semantic_tags", [])),
+            emotion_vector=EmotionVector.from_dict(data.get("emotion_vector", {})),
             temporal_stamp=temporal_stamp,
             causal_link=causal_link,
-            memory_keys=set(data.get('memory_keys', [])),
-            retrieval_filters=data.get('retrieval_filters', {}),
-            drift_anchor_score=data.get('drift_anchor_score', 0.0),
-            collapse_risk_level=data.get('collapse_risk_level', 0.0),
-            entropy_score=data.get('entropy_score', 0.0),
-            stability_index=data.get('stability_index', 1.0),
-            content=data.get('content', {}),
-            metadata=data.get('metadata', {})
+            memory_keys=set(data.get("memory_keys", [])),
+            retrieval_filters=data.get("retrieval_filters", {}),
+            drift_anchor_score=data.get("drift_anchor_score", 0.0),
+            collapse_risk_level=data.get("collapse_risk_level", 0.0),
+            entropy_score=data.get("entropy_score", 0.0),
+            stability_index=data.get("stability_index", 1.0),
+            content=data.get("content", {}),
+            metadata=data.get("metadata", {}),
         )
 
         return glyph
@@ -446,13 +494,15 @@ class GlyphFactory:
     """Factory for creating specialized glyphs."""
 
     @staticmethod
-    def create_memory_glyph(memory_key: str, emotion_vector: Optional[EmotionVector] = None) -> Glyph:
+    def create_memory_glyph(
+        memory_key: str, emotion_vector: Optional[EmotionVector] = None
+    ) -> Glyph:
         """Create a memory-indexing glyph."""
         glyph = Glyph(
             glyph_type=GlyphType.MEMORY,
             symbol="🧠",
             emotion_vector=emotion_vector or EmotionVector(),
-            priority=GlyphPriority.HIGH
+            priority=GlyphPriority.HIGH,
         )
         glyph.add_memory_key(memory_key)
         glyph.add_semantic_tag("memory_index")
@@ -465,33 +515,33 @@ class GlyphFactory:
             glyph_type=GlyphType.DRIFT,
             symbol="🌊",
             priority=GlyphPriority.CRITICAL,
-            drift_anchor_score=anchor_strength
+            drift_anchor_score=anchor_strength,
         )
         glyph.add_semantic_tag("drift_anchor")
         glyph.add_semantic_tag("stability_marker")
         return glyph
 
     @staticmethod
-    def create_dream_seed(dream_content: Dict[str, Any]) -> Glyph:
+    def create_dream_seed(dream_content: dict[str, Any]) -> Glyph:
         """Create a dream symbolic seed glyph."""
         glyph = Glyph(
             glyph_type=GlyphType.DREAM,
             symbol="🌙",
             content=dream_content,
-            priority=GlyphPriority.MEDIUM
+            priority=GlyphPriority.MEDIUM,
         )
         glyph.add_semantic_tag("dream_seed")
         glyph.add_semantic_tag("subconscious")
         return glyph
 
     @staticmethod
-    def create_ethical_constraint(constraint_data: Dict[str, Any]) -> Glyph:
+    def create_ethical_constraint(constraint_data: dict[str, Any]) -> Glyph:
         """Create an ethical constraint glyph."""
         glyph = Glyph(
             glyph_type=GlyphType.ETHICAL,
             symbol="🛡️",
             content=constraint_data,
-            priority=GlyphPriority.CRITICAL
+            priority=GlyphPriority.CRITICAL,
         )
         glyph.add_semantic_tag("ethical_constraint")
         glyph.add_semantic_tag("safety_boundary")
@@ -503,10 +553,12 @@ class GlyphFactory:
         glyph = Glyph(
             glyph_type=GlyphType.CAUSAL,
             symbol="🔗",
-            priority=GlyphPriority.HIGH
+            priority=GlyphPriority.HIGH,
         )
         glyph.causal_link.parent_glyph_id = parent_id
-        glyph.causal_link.event_chain_hash = hashlib.sha256(event_chain.encode()).hexdigest()[:16]
+        glyph.causal_link.event_chain_hash = hashlib.sha256(
+            event_chain.encode()
+        ).hexdigest()[:16]
         glyph.add_semantic_tag("causal_link")
         glyph.add_semantic_tag("lineage_tracker")
         return glyph
@@ -514,7 +566,6 @@ class GlyphFactory:
 
 # {ΛGLYPH} Module initialization complete
 logger.info("LUKHAS Core Glyph Engine initialized successfully")
-
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

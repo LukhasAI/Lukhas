@@ -27,17 +27,17 @@
 
 import asyncio
 import logging
-from typing import Dict, Any, Optional, Callable
-from datetime import datetime, timezone
+from typing import Any, Dict
 
 try:
     import structlog
+
     logger = structlog.get_logger(__name__)
 except ImportError:
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
 
-from .collapse_tracker import CollapseTracker, CollapseAlertLevel, get_global_tracker
+from .collapse_tracker import CollapseAlertLevel, get_global_tracker
 
 
 class CollapseIntegration:
@@ -64,9 +64,11 @@ class CollapseIntegration:
         self.collapse_tracker.orchestrator_callback = self.notify_orchestrator
         self.collapse_tracker.ethics_callback = self.notify_ethics_sentinel
 
-        logger.info("CollapseIntegration initialized",
-                   has_orchestrator=bool(orchestrator),
-                   has_ethics_sentinel=bool(ethics_sentinel))
+        logger.info(
+            "CollapseIntegration initialized",
+            has_orchestrator=bool(orchestrator),
+            has_ethics_sentinel=bool(ethics_sentinel),
+        )
 
     # {ΛORCHESTRATION}
     async def notify_orchestrator(self, alert_data: Dict[str, Any]) -> None:
@@ -82,31 +84,33 @@ class CollapseIntegration:
 
         try:
             # Check if orchestrator has collapse handling method
-            if hasattr(self.orchestrator, 'handle_collapse_alert'):
+            if hasattr(self.orchestrator, "handle_collapse_alert"):
                 await self.orchestrator.handle_collapse_alert(alert_data)
 
             # Broadcast event if orchestrator supports it
-            if hasattr(self.orchestrator, 'broadcast_event'):
+            if hasattr(self.orchestrator, "broadcast_event"):
                 event_type = "collapse_alert"
-                if alert_data.get('new_level') == CollapseAlertLevel.RED.value:
+                if alert_data.get("new_level") == CollapseAlertLevel.RED.value:
                     event_type = "collapse_critical"
 
                 await self.orchestrator.broadcast_event(
-                    event_type=event_type,
-                    data=alert_data,
-                    source="collapse_tracker"
+                    event_type=event_type, data=alert_data, source="collapse_tracker"
                 )
 
             # Update orchestrator state if supported
-            if hasattr(self.orchestrator, 'update_system_state'):
-                self.orchestrator.update_system_state({
-                    'collapse_alert_level': alert_data.get('new_level'),
-                    'collapse_entropy': alert_data.get('entropy_score'),
-                    'collapse_trace_id': alert_data.get('collapse_trace_id')
-                })
+            if hasattr(self.orchestrator, "update_system_state"):
+                self.orchestrator.update_system_state(
+                    {
+                        "collapse_alert_level": alert_data.get("new_level"),
+                        "collapse_entropy": alert_data.get("entropy_score"),
+                        "collapse_trace_id": alert_data.get("collapse_trace_id"),
+                    }
+                )
 
-            logger.info("Orchestrator notified of collapse alert",
-                       alert_level=alert_data.get('new_level'))
+            logger.info(
+                "Orchestrator notified of collapse alert",
+                alert_level=alert_data.get("new_level"),
+            )
 
         except Exception as e:
             logger.error("Failed to notify orchestrator", error=str(e))
@@ -127,39 +131,43 @@ class CollapseIntegration:
             # Create ethics violation record
             violation_context = {
                 "violation_type": "CASCADE_RISK",
-                "severity": intervention_data.get('severity', 'HIGH'),
-                "entropy_score": intervention_data.get('entropy_score'),
-                "entropy_slope": intervention_data.get('entropy_slope'),
-                "collapse_trace_id": intervention_data.get('collapse_trace_id'),
-                "timestamp": intervention_data.get('timestamp'),
-                "recommended_action": intervention_data.get('recommended_action')
+                "severity": intervention_data.get("severity", "HIGH"),
+                "entropy_score": intervention_data.get("entropy_score"),
+                "entropy_slope": intervention_data.get("entropy_slope"),
+                "collapse_trace_id": intervention_data.get("collapse_trace_id"),
+                "timestamp": intervention_data.get("timestamp"),
+                "recommended_action": intervention_data.get("recommended_action"),
             }
 
             # Check if sentinel has direct collapse handling
-            if hasattr(self.ethics_sentinel, 'handle_collapse_risk'):
-                response = await self.ethics_sentinel.handle_collapse_risk(violation_context)
+            if hasattr(self.ethics_sentinel, "handle_collapse_risk"):
+                response = await self.ethics_sentinel.handle_collapse_risk(
+                    violation_context
+                )
                 logger.info("Ethics sentinel collapse response", response=response)
 
             # Record violation if sentinel supports it
-            if hasattr(self.ethics_sentinel, 'record_violation'):
+            if hasattr(self.ethics_sentinel, "record_violation"):
                 await self.ethics_sentinel.record_violation(
                     symbol_id="system_collapse",
                     violation_type="CASCADE_RISK",
-                    risk_score=intervention_data.get('entropy_score', 1.0),
-                    context=violation_context
+                    risk_score=intervention_data.get("entropy_score", 1.0),
+                    context=violation_context,
                 )
 
             # Request intervention if critical
-            if intervention_data.get('severity') == 'HIGH':
-                if hasattr(self.ethics_sentinel, 'request_intervention'):
+            if intervention_data.get("severity") == "HIGH":
+                if hasattr(self.ethics_sentinel, "request_intervention"):
                     await self.ethics_sentinel.request_intervention(
                         reason="Critical collapse risk detected",
                         urgency="IMMEDIATE",
-                        context=violation_context
+                        context=violation_context,
                     )
 
-            logger.info("Ethics sentinel notified for intervention",
-                       severity=intervention_data.get('severity'))
+            logger.info(
+                "Ethics sentinel notified for intervention",
+                severity=intervention_data.get("severity"),
+            )
 
         except Exception as e:
             logger.error("Failed to notify ethics sentinel", error=str(e))
@@ -172,13 +180,12 @@ class CollapseIntegration:
             component_data: Component-specific entropy data
         """
         # Extract symbolic data and component scores
-        symbolic_data = component_data.get('symbolic_data', [])
-        component_scores = component_data.get('component_scores', {})
+        symbolic_data = component_data.get("symbolic_data", [])
+        component_scores = component_data.get("component_scores", {})
 
         # Update tracker
         self.collapse_tracker.update_entropy_score(
-            symbolic_data=symbolic_data,
-            component_scores=component_scores
+            symbolic_data=symbolic_data, component_scores=component_scores
         )
 
     async def monitor_system_health(self, interval: float = 60.0) -> None:
@@ -196,18 +203,22 @@ class CollapseIntegration:
                 health = self.collapse_tracker.get_system_health()
 
                 # Log health status
-                logger.info("System health check",
-                           entropy=health['entropy_score'],
-                           alert_level=health['alert_level'],
-                           components=len(health['component_entropy']))
+                logger.info(
+                    "System health check",
+                    entropy=health["entropy_score"],
+                    alert_level=health["alert_level"],
+                    components=len(health["component_entropy"]),
+                )
 
                 # Check if we need to collect more data
-                if self.orchestrator and hasattr(self.orchestrator, 'get_component_health'):
+                if self.orchestrator and hasattr(
+                    self.orchestrator, "get_component_health"
+                ):
                     component_health = await self.orchestrator.get_component_health()
                     if component_health:
-                        self.update_entropy_from_components({
-                            'component_scores': component_health
-                        })
+                        self.update_entropy_from_components(
+                            {"component_scores": component_health}
+                        )
 
                 await asyncio.sleep(interval)
 
@@ -216,7 +227,9 @@ class CollapseIntegration:
                 await asyncio.sleep(interval)
 
 
-def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseIntegration:
+def integrate_collapse_tracking(
+    orchestrator, ethics_sentinel=None
+) -> CollapseIntegration:
     """
     Helper function to integrate collapse tracking with existing systems.
 
@@ -228,12 +241,11 @@ def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseI
         CollapseIntegration instance
     """
     integration = CollapseIntegration(
-        orchestrator=orchestrator,
-        ethics_sentinel=ethics_sentinel
+        orchestrator=orchestrator, ethics_sentinel=ethics_sentinel
     )
 
     # Start monitoring if orchestrator is async
-    if asyncio.iscoroutinefunction(getattr(orchestrator, 'run', None)):
+    if asyncio.iscoroutinefunction(getattr(orchestrator, "run", None)):
         asyncio.create_task(integration.monitor_system_health())
 
     return integration

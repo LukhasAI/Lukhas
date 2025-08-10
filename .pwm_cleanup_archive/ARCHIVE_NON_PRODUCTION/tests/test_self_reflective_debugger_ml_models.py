@@ -7,14 +7,14 @@ This test validates the TODO #11 implementation following the established patter
 from previous testing.
 """
 
-import sys
-import os
 import asyncio
-from datetime import datetime, timezone
-from typing import Dict, Any
+import os
+import sys
+from datetime import datetime
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def test_enhanced_srd_ml_basic():
     """Test basic Enhanced SRD ML functionality"""
@@ -23,9 +23,6 @@ def test_enhanced_srd_ml_basic():
     try:
         from ethics.self_reflective_debugger import (
             EnhancedSelfReflectiveDebugger,
-            ReasoningStep,
-            EnhancedReasoningChain,
-            EnhancedAnomalyType
         )
 
         # Test initialization
@@ -33,7 +30,7 @@ def test_enhanced_srd_ml_basic():
         print("✅ EnhancedSelfReflectiveDebugger imported and initialized successfully")
 
         # Test ML models initialization
-        assert hasattr(srd, 'predictive_models')
+        assert hasattr(srd, "predictive_models")
         print("✅ Predictive models attribute exists")
 
         # Test configuration
@@ -47,12 +44,15 @@ def test_enhanced_srd_ml_basic():
         print(f"❌ Basic ML functionality test failed: {e}")
         return False
 
+
 async def test_ml_models_initialization():
     """Test ML models initialization and structure"""
     print("\n📋 Testing ML Models Initialization")
 
     try:
-        from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
+        from ethics.self_reflective_debugger import (
+            EnhancedSelfReflectiveDebugger,
+        )
 
         # Initialize SRD
         srd = EnhancedSelfReflectiveDebugger()
@@ -64,8 +64,11 @@ async def test_ml_models_initialization():
 
         # Validate model structure
         expected_models = [
-            "confidence_predictor", "performance_predictor",
-            "anomaly_classifier", "sequence_predictor", "risk_predictor"
+            "confidence_predictor",
+            "performance_predictor",
+            "anomaly_classifier",
+            "sequence_predictor",
+            "risk_predictor",
         ]
 
         for model_name in expected_models:
@@ -89,13 +92,15 @@ async def test_ml_models_initialization():
             "performance_predictor": "exponential_smoothing",
             "anomaly_classifier": "decision_tree",
             "sequence_predictor": "markov_chain",
-            "risk_predictor": "ensemble"
+            "risk_predictor": "ensemble",
         }
 
         for model_name, expected_type in expected_types.items():
             actual_type = srd.predictive_models[model_name]["type"]
             if actual_type != expected_type:
-                print(f"❌ Wrong model type for {model_name}: {actual_type} != {expected_type}")
+                print(
+                    f"❌ Wrong model type for {model_name}: {actual_type} != {expected_type}"
+                )
                 return False
         print("✅ All ML model types correct")
 
@@ -104,8 +109,10 @@ async def test_ml_models_initialization():
     except Exception as e:
         print(f"❌ ML models initialization test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_predictive_anomaly_detection():
     """Test predictive anomaly detection using ML models"""
@@ -113,9 +120,9 @@ async def test_predictive_anomaly_detection():
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain
         )
 
         # Initialize SRD
@@ -139,8 +146,8 @@ async def test_predictive_anomaly_detection():
                     "hds_calls": i % 3,
                     "cpi_calls": (i + 1) % 3,
                     "ppmv_calls": (i + 2) % 3,
-                    "error_rate": i * 0.01
-                }
+                    "error_rate": i * 0.01,
+                },
             )
             chain.steps.append(historical_step)
 
@@ -158,20 +165,22 @@ async def test_predictive_anomaly_detection():
                 "hds_calls": 5,
                 "cpi_calls": 4,
                 "ppmv_calls": 3,
-                "error_rate": 0.3  # High error rate
-            }
+                "error_rate": 0.3,  # High error rate
+            },
         )
 
         # Test predictive anomaly detection
         anomalies = await srd._detect_predictive_anomalies(chain_id, current_step)
-        print(f"✅ Predictive anomaly detection completed: {len(anomalies)} anomalies detected")
+        print(
+            f"✅ Predictive anomaly detection completed: {len(anomalies)} anomalies detected"
+        )
 
         # Validate anomaly structure
         for anomaly in anomalies:
-            if not hasattr(anomaly, 'anomaly_type'):
+            if not hasattr(anomaly, "anomaly_type"):
                 print("❌ Anomaly missing anomaly_type")
                 return False
-            if not hasattr(anomaly, 'severity'):
+            if not hasattr(anomaly, "severity"):
                 print("❌ Anomaly missing severity")
                 return False
         print("✅ Anomaly structure validation passed")
@@ -185,20 +194,24 @@ async def test_predictive_anomaly_detection():
                 "module_calls": 2,
                 "chain_length": 12,
                 "complexity": 0.3,
-                "error_rate": 0.01
-            }
+                "error_rate": 0.01,
+            },
         )
 
         normal_anomalies = await srd._detect_predictive_anomalies(chain_id, normal_step)
-        print(f"✅ Normal case: {len(normal_anomalies)} anomalies detected (expected: fewer)")
+        print(
+            f"✅ Normal case: {len(normal_anomalies)} anomalies detected (expected: fewer)"
+        )
 
         return True
 
     except Exception as e:
         print(f"❌ Predictive anomaly detection test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_ml_feature_extraction():
     """Test ML feature extraction from reasoning data"""
@@ -206,9 +219,9 @@ async def test_ml_feature_extraction():
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain
         )
 
         # Initialize SRD
@@ -229,8 +242,8 @@ async def test_ml_feature_extraction():
                     "module_calls": i + 2,
                     "hds_calls": i,
                     "cpi_calls": i + 1,
-                    "error_rate": i * 0.02
-                }
+                    "error_rate": i * 0.02,
+                },
             )
             chain.steps.append(step)
 
@@ -238,11 +251,7 @@ async def test_ml_feature_extraction():
         test_step = ReasoningStep(
             operation="feature_test_step",
             confidence=0.8,
-            metadata={
-                "processing_time": 0.15,
-                "module_calls": 4,
-                "complexity": 0.6
-            }
+            metadata={"processing_time": 0.15, "module_calls": 4, "complexity": 0.6},
         )
 
         features = srd._extract_predictive_features(chain_id, test_step)
@@ -250,8 +259,13 @@ async def test_ml_feature_extraction():
 
         # Validate feature structure
         expected_features = [
-            "processing_time", "module_calls", "chain_length", "complexity",
-            "confidence", "recent_trend", "error_rate"
+            "processing_time",
+            "module_calls",
+            "chain_length",
+            "complexity",
+            "confidence",
+            "recent_trend",
+            "error_rate",
         ]
 
         for feature in expected_features:
@@ -263,7 +277,9 @@ async def test_ml_feature_extraction():
         # Validate feature types (some can be non-numeric)
         non_numeric_features = ["operation_type", "timestamp"]
         for feature, value in features.items():
-            if feature not in non_numeric_features and not isinstance(value, (int, float)):
+            if feature not in non_numeric_features and not isinstance(
+                value, (int, float)
+            ):
                 print(f"❌ Feature {feature} is not numeric: {type(value)}")
                 return False
         print("✅ All expected features have correct types")
@@ -273,15 +289,19 @@ async def test_ml_feature_extraction():
     except Exception as e:
         print(f"❌ ML feature extraction test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_ml_model_training():
     """Test ML model training and updating"""
     print("\n📋 Testing ML Model Training and Updates")
 
     try:
-        from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
+        from ethics.self_reflective_debugger import (
+            EnhancedSelfReflectiveDebugger,
+        )
 
         # Initialize SRD
         srd = EnhancedSelfReflectiveDebugger()
@@ -295,7 +315,7 @@ async def test_ml_model_training():
             "complexity": 0.4,
             "confidence": 0.8,
             "recent_trend": 0.1,
-            "error_rate": 0.02
+            "error_rate": 0.02,
         }
 
         # Test model training
@@ -316,8 +336,11 @@ async def test_ml_model_training():
 
         # Validate prediction structure
         expected_predictions = [
-            "confidence_prediction", "performance_prediction",
-            "anomaly_probability", "sequence_prediction", "risk_score"
+            "confidence_prediction",
+            "performance_prediction",
+            "anomaly_probability",
+            "sequence_prediction",
+            "risk_score",
         ]
 
         for prediction in expected_predictions:
@@ -327,7 +350,11 @@ async def test_ml_model_training():
         print("✅ All expected predictions generated")
 
         # Validate prediction values (some can be lists or complex types)
-        non_numeric_predictions = ["sequence_prediction", "expected_next_modules", "deviations"]
+        non_numeric_predictions = [
+            "sequence_prediction",
+            "expected_next_modules",
+            "deviations",
+        ]
         for prediction, value in predictions.items():
             if prediction not in non_numeric_predictions:
                 if not isinstance(value, (int, float)):
@@ -343,8 +370,10 @@ async def test_ml_model_training():
     except Exception as e:
         print(f"❌ ML model training test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def test_time_series_anomaly_detection():
     """Test time-series analysis for trend detection"""
@@ -352,9 +381,9 @@ async def test_time_series_anomaly_detection():
 
     try:
         from ethics.self_reflective_debugger import (
+            EnhancedReasoningChain,
             EnhancedSelfReflectiveDebugger,
             ReasoningStep,
-            EnhancedReasoningChain
         )
 
         # Initialize SRD
@@ -373,8 +402,8 @@ async def test_time_series_anomaly_detection():
                 metadata={
                     "processing_time": 0.1 + (i * 0.1),  # Increasing processing time
                     "module_calls": 2 + i,  # Increasing complexity
-                    "timestamp": datetime.now().isoformat()
-                }
+                    "timestamp": datetime.now().isoformat(),
+                },
             )
             chain.steps.append(step)
 
@@ -386,20 +415,26 @@ async def test_time_series_anomaly_detection():
             confidence=0.2,  # Very low confidence
             metadata={
                 "processing_time": 2.0,  # Very high processing time
-                "module_calls": 20
-            }
+                "module_calls": 20,
+            },
         )
 
         # Extract features for time-series analysis
         features = srd._extract_predictive_features(chain_id, test_step)
 
         # Test time-series anomaly detection
-        time_series_anomalies = await srd._detect_time_series_anomalies(chain_id, test_step, features)
-        print(f"✅ Time-series anomaly detection completed: {len(time_series_anomalies)} anomalies")
+        time_series_anomalies = await srd._detect_time_series_anomalies(
+            chain_id, test_step, features
+        )
+        print(
+            f"✅ Time-series anomaly detection completed: {len(time_series_anomalies)} anomalies"
+        )
 
         # Should detect declining trend
         if len(time_series_anomalies) == 0:
-            print("⚠️ No time-series anomalies detected (may be expected based on implementation)")
+            print(
+                "⚠️ No time-series anomalies detected (may be expected based on implementation)"
+            )
         else:
             print("✅ Time-series anomalies detected as expected")
 
@@ -408,8 +443,10 @@ async def test_time_series_anomaly_detection():
     except Exception as e:
         print(f"❌ Time-series anomaly detection test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return False
+
 
 async def run_comprehensive_ml_tests():
     """Run all ML models tests"""
@@ -422,7 +459,7 @@ async def run_comprehensive_ml_tests():
         ("Predictive Anomaly Detection", test_predictive_anomaly_detection),
         ("ML Feature Extraction", test_ml_feature_extraction),
         ("ML Model Training", test_ml_model_training),
-        ("Time-Series Anomaly Detection", test_time_series_anomaly_detection)
+        ("Time-Series Anomaly Detection", test_time_series_anomaly_detection),
     ]
 
     results = {}
@@ -463,6 +500,7 @@ async def run_comprehensive_ml_tests():
     else:
         print("⚠️ Some tests failed - review implementation")
         return False
+
 
 if __name__ == "__main__":
     print("🚀 Self-Reflective Debugger ML Models Test Suite")

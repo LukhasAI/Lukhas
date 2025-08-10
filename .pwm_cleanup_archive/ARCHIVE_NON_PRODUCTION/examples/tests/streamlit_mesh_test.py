@@ -24,16 +24,26 @@ Copyright (c) 2025 LUKHlukhasS lukhasI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 
-import streamlit as st
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import streamlit as st
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
 
-st.set_page_config(page_title="LUClukhasS REMVIX Mesh", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="LUClukhasS REMVIX Mesh",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 
-st.markdown("""<h1 style='text-align: center; font-family: Inter, sans-serif;'>REMVIX Dream Mesh</h1>""", unsafe_allow_html=True)
-st.markdown("""<p style='text-align: center; font-style: italic;'>Symbolic Energy Field of LUKHlukhasS in REM phase</p>""", unsafe_allow_html=True)
+st.markdown(
+    """<h1 style='text-align: center; font-family: Inter, sans-serif;'>REMVIX Dream Mesh</h1>""",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    """<p style='text-align: center; font-style: italic;'>Symbolic Energy Field of LUKHlukhasS in REM phase</p>""",
+    unsafe_allow_html=True,
+)
+
 
 def generate_symbolic_mesh(step):
     x = np.linspace(-5, 5, 100)
@@ -42,17 +52,18 @@ def generate_symbolic_mesh(step):
     z = np.sin(np.sqrt(x**2 + y**2) - step) * np.cos(step / 2)
     return x, y, z
 
+
 step = st.slider("Symbolic dream phase", 0.0, 20.0, 5.0, 0.1)
 x, y, z = generate_symbolic_mesh(step)
 
 fig = plt.figure(figsize=(10, 6))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(x, y, z, cmap=cm.coolwarm, edgecolor='k', alpha=0.8)
+ax = fig.add_subplot(111, projection="3d")
+ax.plot_surface(x, y, z, cmap=cm.coolwarm, edgecolor="k", alpha=0.8)
 ax.set_facecolor("black")
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_zticks([])
-plt.axis('off')
+plt.axis("off")
 
 st.pyplot(fig)
 

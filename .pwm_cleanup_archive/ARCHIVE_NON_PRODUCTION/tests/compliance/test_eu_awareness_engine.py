@@ -4,25 +4,22 @@ Tests for EU Awareness Engine - GDPR & AI Act Compliance
 ΛTAG: test_eu_compliance
 """
 
-import pytest
-import asyncio
 from datetime import datetime, timezone
-from typing import Dict, Any
+
+import pytest
 
 from orchestration_src.brain.EUAwarenessEngine import (
-    EUAwarenessEngine,
-    EUConfig,
-    EUAwarenessInput,
-    EUAwarenessOutput,
-    ConsentData,
-    DataProcessingRecord,
-    GDPRLegalBasis,
-    DataCategory,
     AIRiskLevel,
     ComplianceStatus,
+    ConsentData,
+    DataCategory,
+    DataProcessingRecord,
     DataSubjectRights,
-    EUEnvironmentalAwarenessModule,
-    EUEnvironmentalReasoner
+    EUAwarenessEngine,
+    EUAwarenessInput,
+    EUAwarenessOutput,
+    EUConfig,
+    GDPRLegalBasis,
 )
 
 
@@ -54,7 +51,7 @@ class TestEUConfig:
         config = EUConfig(
             data_retention_days=180,
             ai_risk_level=AIRiskLevel.HIGH_RISK,
-            dpo_contact="dpo@test.eu"
+            dpo_contact="dpo@test.eu",
         )
 
         assert config.data_retention_days == 180
@@ -71,7 +68,7 @@ class TestConsentManagement:
             data_subject_id="eu_citizen_001",
             purposes=["analytics", "personalization"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            consent_given=True
+            consent_given=True,
         )
 
         assert consent.data_subject_id == "eu_citizen_001"
@@ -87,7 +84,7 @@ class TestConsentManagement:
             data_subject_id="eu_citizen_002",
             purposes=["marketing"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            consent_given=False  # Withdrawn
+            consent_given=False,  # Withdrawn
         )
 
         assert consent.consent_given is False
@@ -103,7 +100,7 @@ class TestDataProcessingRecord:
             purposes=["service_provision"],
             legal_basis=GDPRLegalBasis.CONTRACT,
             data_categories=[DataCategory.PERSONAL_DATA],
-            retention_period=730
+            retention_period=730,
         )
 
         assert record.controller == "Lukhas_AI_Systems_EU"
@@ -122,9 +119,7 @@ class TestEUAwarenessEngine:
     def eu_engine(self):
         """Create EU Awareness Engine instance"""
         config = EUConfig(
-            gdpr_enabled=True,
-            ai_act_compliance=True,
-            dpo_contact="dpo@lukhas-test.eu"
+            gdpr_enabled=True, ai_act_compliance=True, dpo_contact="dpo@lukhas-test.eu"
         )
         return EUAwarenessEngine(config)
 
@@ -135,14 +130,14 @@ class TestEUAwarenessEngine:
             data_subject_id="test_subject_001",
             purposes=["environmental_monitoring"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            consent_given=True
+            consent_given=True,
         )
 
         processing_record = DataProcessingRecord(
             purposes=["environmental_monitoring"],
             legal_basis=GDPRLegalBasis.CONSENT,
             data_categories=[DataCategory.PERSONAL_DATA],
-            retention_period=365
+            retention_period=365,
         )
 
         return EUAwarenessInput(
@@ -150,10 +145,7 @@ class TestEUAwarenessEngine:
             consent=consent,
             processing_record=processing_record,
             eu_member_state="DE",
-            context_data={
-                "temperature": 22.0,
-                "location_type": "office"
-            }
+            context_data={"temperature": 22.0, "location_type": "office"},
         )
 
     def test_engine_initialization(self, eu_engine):
@@ -181,20 +173,20 @@ class TestEUAwarenessEngine:
             data_subject_id="test_subject_002",
             purposes=["analytics"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            consent_given=False  # No consent given
+            consent_given=False,  # No consent given
         )
 
         processing_record = DataProcessingRecord(
             purposes=["analytics"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            data_categories=[DataCategory.PERSONAL_DATA]
+            data_categories=[DataCategory.PERSONAL_DATA],
         )
 
         invalid_input = EUAwarenessInput(
             data_subject_id="test_subject_002",
             consent=consent,
             processing_record=processing_record,
-            eu_member_state="FR"
+            eu_member_state="FR",
         )
 
         with pytest.raises(ValueError, match="GDPR violation"):
@@ -206,20 +198,20 @@ class TestEUAwarenessEngine:
             data_subject_id="test_subject_003",
             purposes=["security_monitoring"],
             legal_basis=GDPRLegalBasis.LEGITIMATE_INTERESTS,
-            consent_given=True  # Not required for legitimate interest
+            consent_given=True,  # Not required for legitimate interest
         )
 
         processing_record = DataProcessingRecord(
             purposes=["security_monitoring"],
             legal_basis=GDPRLegalBasis.LEGITIMATE_INTERESTS,
-            data_categories=[DataCategory.PERSONAL_DATA]
+            data_categories=[DataCategory.PERSONAL_DATA],
         )
 
         input_data = EUAwarenessInput(
             data_subject_id="test_subject_003",
             consent=consent,
             processing_record=processing_record,
-            eu_member_state="ES"
+            eu_member_state="ES",
         )
 
         output = eu_engine.process_awareness("environmental", input_data)
@@ -244,7 +236,7 @@ class TestDataSubjectRights:
                 "data_subject_id": "test_subject_001",
                 "purposes": ["environmental_monitoring"],
                 "legal_basis": "consent",
-                "data_categories": ["personal_data"]
+                "data_categories": ["personal_data"],
             }
             engine.processing_registry["processing_activities"].append(activity)
 
@@ -252,7 +244,7 @@ class TestDataSubjectRights:
         engine.processing_registry["consent_records"]["test_subject_001"] = {
             "consent_given": True,
             "purposes": ["environmental_monitoring"],
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
         return engine
@@ -260,8 +252,7 @@ class TestDataSubjectRights:
     def test_access_request(self, eu_engine_with_data):
         """Test GDPR Article 15 access request"""
         result = eu_engine_with_data.exercise_data_subject_rights(
-            DataSubjectRights.ACCESS,
-            "test_subject_001"
+            DataSubjectRights.ACCESS, "test_subject_001"
         )
 
         assert result["status"] == "completed"
@@ -273,13 +264,14 @@ class TestDataSubjectRights:
     def test_erasure_request(self, eu_engine_with_data):
         """Test GDPR Article 17 erasure request (Right to be forgotten)"""
         # Verify data exists
-        initial_count = len(eu_engine_with_data.processing_registry["processing_activities"])
+        initial_count = len(
+            eu_engine_with_data.processing_registry["processing_activities"]
+        )
         assert initial_count == 3
 
         # Exercise right to erasure
         result = eu_engine_with_data.exercise_data_subject_rights(
-            DataSubjectRights.ERASURE,
-            "test_subject_001"
+            DataSubjectRights.ERASURE, "test_subject_001"
         )
 
         assert result["status"] == "completed"
@@ -287,17 +279,20 @@ class TestDataSubjectRights:
 
         # Verify data was erased
         remaining_activities = [
-            a for a in eu_engine_with_data.processing_registry["processing_activities"]
+            a
+            for a in eu_engine_with_data.processing_registry["processing_activities"]
             if a.get("data_subject_id") == "test_subject_001"
         ]
         assert len(remaining_activities) == 0
-        assert "test_subject_001" not in eu_engine_with_data.processing_registry["consent_records"]
+        assert (
+            "test_subject_001"
+            not in eu_engine_with_data.processing_registry["consent_records"]
+        )
 
     def test_data_portability_request(self, eu_engine_with_data):
         """Test GDPR Article 20 data portability request"""
         result = eu_engine_with_data.exercise_data_subject_rights(
-            DataSubjectRights.DATA_PORTABILITY,
-            "test_subject_001"
+            DataSubjectRights.DATA_PORTABILITY, "test_subject_001"
         )
 
         assert result["status"] == "completed"
@@ -317,7 +312,7 @@ class TestComplianceReporting:
             ai_act_compliance=True,
             ai_risk_level=AIRiskLevel.HIGH_RISK,
             data_retention_days=180,
-            dpo_contact="dpo@lukhas-test.eu"
+            dpo_contact="dpo@lukhas-test.eu",
         )
 
         engine = EUAwarenessEngine(config)
@@ -347,7 +342,7 @@ class TestAIActCompliance:
         config = EUConfig(
             ai_risk_level=AIRiskLevel.HIGH_RISK,
             algorithmic_transparency=True,
-            bias_monitoring=True
+            bias_monitoring=True,
         )
 
         engine = EUAwarenessEngine(config)
@@ -357,20 +352,20 @@ class TestAIActCompliance:
             data_subject_id="test_ai_001",
             purposes=["ai_decision_making"],
             legal_basis=GDPRLegalBasis.CONTRACT,
-            consent_given=True
+            consent_given=True,
         )
 
         processing_record = DataProcessingRecord(
             purposes=["ai_decision_making"],
             legal_basis=GDPRLegalBasis.CONTRACT,
-            data_categories=[DataCategory.PERSONAL_DATA]
+            data_categories=[DataCategory.PERSONAL_DATA],
         )
 
         input_data = EUAwarenessInput(
             data_subject_id="test_ai_001",
             consent=consent,
             processing_record=processing_record,
-            eu_member_state="BE"
+            eu_member_state="BE",
         )
 
         output = engine.process_awareness("environmental", input_data)
@@ -411,7 +406,7 @@ class TestIntegration:
             encryption_in_transit=True,
             data_minimization=True,
             audit_logging=True,
-            dpo_contact="dpo@lukhas-test.eu"
+            dpo_contact="dpo@lukhas-test.eu",
         )
 
         engine = EUAwarenessEngine(config)
@@ -421,7 +416,7 @@ class TestIntegration:
             data_subject_id="integration_test_001",
             purposes=["environmental_monitoring", "wellness_optimization"],
             legal_basis=GDPRLegalBasis.CONSENT,
-            consent_given=True
+            consent_given=True,
         )
 
         processing_record = DataProcessingRecord(
@@ -430,7 +425,12 @@ class TestIntegration:
             data_categories=[DataCategory.PERSONAL_DATA, DataCategory.LOCATION_DATA],
             recipients=["internal_analytics_team"],
             retention_period=365,
-            security_measures=["encryption", "pseudonymization", "access_controls", "audit_logging"]
+            security_measures=[
+                "encryption",
+                "pseudonymization",
+                "access_controls",
+                "audit_logging",
+            ],
         )
 
         input_data = EUAwarenessInput(
@@ -444,8 +444,8 @@ class TestIntegration:
                 "temperature": 23.5,
                 "humidity": 45.0,
                 "location_type": "office",
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         )
 
         # Process awareness
@@ -453,7 +453,10 @@ class TestIntegration:
 
         # Comprehensive assertions
         assert output.compliance_score >= 80.0  # Should have high compliance
-        assert output.compliance_status in [ComplianceStatus.COMPLIANT, ComplianceStatus.MINOR_ISSUE]
+        assert output.compliance_status in [
+            ComplianceStatus.COMPLIANT,
+            ComplianceStatus.MINOR_ISSUE,
+        ]
         assert output.processing_lawfulness is True
         assert output.data_accuracy_score >= 0.9
         assert output.retention_compliance is True
@@ -469,8 +472,7 @@ class TestIntegration:
 
         # Test data subject rights on this data
         access_result = engine.exercise_data_subject_rights(
-            DataSubjectRights.ACCESS,
-            "integration_test_001"
+            DataSubjectRights.ACCESS, "integration_test_001"
         )
         assert access_result["status"] == "completed"
         assert len(access_result["processing_activities"]) > 0

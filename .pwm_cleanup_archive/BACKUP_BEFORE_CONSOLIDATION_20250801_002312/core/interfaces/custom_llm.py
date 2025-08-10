@@ -18,17 +18,25 @@ details and authentication for custom Large Language Models compatible with Chat
 """
 
 # AIMPORTS_START
-import pydantic # ΛDEP: pydantic
 import typing
-from ..core.unchecked_base_model import UncheckedBaseModel # ΛDEP: project-specific
-from .conv_ai_secret_locator import ConvAiSecretLocator # ΛDEP: project-specific # AIO_NODE (potentially, if ConvAiSecretLocator involves I/O)
-from ..core.pydantic_utilities import IS_PYDANTIC_V2 # ΛDEP: project-specific
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
+
+import pydantic  # ΛDEP: pydantic
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
+from ..core.pydantic_utilities import IS_PYDANTIC_V2  # ΛDEP: project-specific
+from ..core.unchecked_base_model import (
+    UncheckedBaseModel,  # ΛDEP: project-specific
+)
+from .conv_ai_secret_locator import (
+    ConvAiSecretLocator,  # ΛDEP: project-specific # AIO_NODE (potentially, if ConvAiSecretLocator involves I/O)
+)
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
+
 
 # ΛCLASSES_START
 class CustomLlm(UncheckedBaseModel):
@@ -39,9 +47,17 @@ class CustomLlm(UncheckedBaseModel):
     #   model_id (typing.Optional[str]): The model ID if the URL serves multiple models. (ΛEXPOSE)
     #   api_key (typing.Optional[ConvAiSecretLocator]): Locator for the API key for authentication. (ΛEXPOSE, ΛCAUTION - sensitive data locator)
     """
-    url: str = pydantic.Field(description="The URL of the Chat Completions compatible endpoint")
-    model_id: typing.Optional[str] = pydantic.Field(default=None, description="The model ID to be used if URL serves multiple models")
-    api_key: typing.Optional[ConvAiSecretLocator] = pydantic.Field(default=None, description="The API key for authentication")
+
+    url: str = pydantic.Field(
+        description="The URL of the Chat Completions compatible endpoint"
+    )
+    model_id: typing.Optional[str] = pydantic.Field(
+        default=None,
+        description="The model ID to be used if URL serves multiple models",
+    )
+    api_key: typing.Optional[ConvAiSecretLocator] = pydantic.Field(
+        default=None, description="The API key for authentication"
+    )
 
     # ΛCOMMENT: Pydantic v2 compatibility settings
     if IS_PYDANTIC_V2:
@@ -50,23 +66,29 @@ class CustomLlm(UncheckedBaseModel):
             frozen=True,
             # ΛVALIDATE_ASSIGNMENT_TODO: Consider validate_assignment=True for stricter model updates if applicable.
         )
-        log.debug("CustomLlm configured for Pydantic V2.") # ΛMODIFICATION: Logging
+        log.debug("CustomLlm configured for Pydantic V2.")  # ΛMODIFICATION: Logging
     else:
+
         class Config:
             frozen = True
             smart_union = True
             extra = pydantic.Extra.allow
-        log.debug("CustomLlm configured for Pydantic V1.") # ΛMODIFICATION: Logging
+
+        log.debug("CustomLlm configured for Pydantic V1.")  # ΛMODIFICATION: Logging
 
     # ΛLIFECYCLE_METHODS_START
-    @pydantic.model_validator(mode='after')
+    @pydantic.model_validator(mode="after")
     def log_creation(cls, values):
         # This is a Pydantic V2 style validator. For V1, use @root_validator.
         # Due to UncheckedBaseModel, actual fields might not be in `values` directly in V1 if extra='allow'.
         # This logging is more effective with Pydantic V2 or if UncheckedBaseModel ensures fields are present.
-        log.debug("CustomLlm instance created/validated", url=getattr(values, 'url', None))
+        log.debug(
+            "CustomLlm instance created/validated", url=getattr(values, "url", None)
+        )
         return values
+
     # ΛLIFECYCLE_METHODS_END
+
 
 # ΛCLASSES_END
 

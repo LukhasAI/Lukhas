@@ -1,10 +1,11 @@
-from typing import Dict, Any, Optional
+import logging
+import time
 from dataclasses import dataclass
 from enum import Enum
-import time
-import logging
+from typing import Any, Optional
 
 logger = logging.getLogger("SymbolicSignals")
+
 
 class SignalType(Enum):
     """Types of symbolic signals"""
@@ -19,6 +20,7 @@ class SignalType(Enum):
     DRIFT_ALERT = "drift:alert"
     COLLAPSE_TRIGGER = "collapse:trigger"
     DIAGNOSTIC = "diagnostic"
+
 
 class DiagnosticSignalType(Enum):
     """Types of diagnostic signals"""
@@ -41,11 +43,11 @@ class SymbolicSignal:
     signal_type: SignalType
     source_module: str
     target_module: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timestamp: float
     drift_score: Optional[float] = None
     collapse_hash: Optional[str] = None
-    entropy_log: Optional[Dict[str, Any]] = None
+    entropy_log: Optional[dict[str, Any]] = None
     confidence_score: Optional[float] = None
     diagnostic_event: Optional[DiagnosticSignalType] = None
 

@@ -1,7 +1,8 @@
 """Tests for the quantum layer components."""
-import pytest
+
 from core.bio_systems.quantum_inspired_layer import QuantumBioOscillator
 from quantum.quantum_bio_components import QuantumOscillator
+
 
 def test_quantum_oscillator_initialization():
     """Test quantum oscillator initialization."""
@@ -9,11 +10,13 @@ def test_quantum_oscillator_initialization():
     assert oscillator is not None
     assert oscillator.quantum_like_state is not None
 
+
 def test_quantum_bio_oscillator_initialization():
     """Test quantum bio-oscillator initialization."""
     bio_oscillator = QuantumBioOscillator()
     assert bio_oscillator is not None
     assert bio_oscillator.base_freq > 0
+
 
 def test_quantum_modulation():
     """Test quantum modulation functionality."""
@@ -23,12 +26,14 @@ def test_quantum_modulation():
     assert isinstance(modulated, float)
     assert 0 <= modulated <= 1.0
 
+
 def test_quantum_coherence():
     """Test coherence-inspired processing calculation."""
     bio_oscillator = QuantumBioOscillator()
     coherence = bio_oscillator.calculate_coherence()
     assert isinstance(coherence, float)
     assert 0 <= coherence <= 1.0
+
 
 def test_quantum_like_state_transition():
     """Test quantum-like state transitions."""

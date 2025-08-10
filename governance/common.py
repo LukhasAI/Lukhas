@@ -2,18 +2,17 @@
 Common base classes and utilities for governance module
 """
 
-from typing import Dict, Any, Optional
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class BaseLukhasModule(ABC):
     """Base class for all LUKHAS modules"""
-    
+
     @abstractmethod
     def initialize(self):
         pass
-    
+
     @abstractmethod
     def process(self, input_data: Any) -> Any:
         pass
@@ -21,32 +20,29 @@ class BaseLukhasModule(ABC):
 
 class BaseLucasConfig:
     """Base configuration class"""
-    
+
     def __init__(self):
         self.config = {}
-    
+
     def get(self, key: str, default: Any = None) -> Any:
         return self.config.get(key, default)
-    
+
     def set(self, key: str, value: Any):
         self.config[key] = value
 
 
 class BaseLucasHealth:
     """Base health monitoring class"""
-    
+
     def __init__(self):
         self.status = "healthy"
         self.metrics = {}
-    
+
     def update_metric(self, name: str, value: Any):
         self.metrics[name] = value
-    
-    def get_status(self) -> Dict[str, Any]:
-        return {
-            "status": self.status,
-            "metrics": self.metrics
-        }
+
+    def get_status(self) -> dict[str, Any]:
+        return {"status": self.status, "metrics": self.metrics}
 
 
 def symbolic_vocabulary(func=None):
@@ -62,7 +58,7 @@ def symbolic_vocabulary(func=None):
             "ERROR": "❌",
             "INFO": "ℹ️",
             "SUCCESS": "✨",
-            "PROCESSING": "⚙️"
+            "PROCESSING": "⚙️",
         }
     else:
         # Used as a decorator
@@ -76,7 +72,9 @@ def symbolic_message(cls):
 
 def ethical_validation(func):
     """Decorator for functions requiring ethical validation"""
+
     def wrapper(*args, **kwargs):
         # In production, this would validate through the ethics engine
         return func(*args, **kwargs)
+
     return wrapper

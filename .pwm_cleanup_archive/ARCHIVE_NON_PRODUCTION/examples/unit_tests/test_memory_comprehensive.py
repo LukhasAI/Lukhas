@@ -15,6 +15,7 @@ DEPENDENCIES:
   - core/memory/memory_manager.py
   - core/identity/identity_manager.py
 """
+
 #!/usr/bin/env python3
 """
 Test script for Unified Memory Manager
@@ -23,21 +24,26 @@ Investigates lifecycle, performance, and functionality
 
 import asyncio
 import logging
+import sys
 import time
 from pathlib import Path
-import sys
 
 # Add current directory to path for imports
 current_dir = Path(__file__).parent
 sys.path.insert(0, str(current_dir))
 
-from memory.core_memory.simple_store import UnifiedMemoryManager, MemoryType, MemoryPriority, MemoryConfig
+from memory.core_memory.simple_store import (
+    MemoryConfig,
+    MemoryPriority,
+    MemoryType,
+    UnifiedMemoryManager,
+)
 
 # Set up detailed logging
 logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+
 
 async def test_memory_lifecycle():
     """Test the complete lifecycle of the memory manager"""
@@ -50,7 +56,7 @@ async def test_memory_lifecycle():
         storage_path="test_memory_store",
         max_memories_per_user=100,
         gc_interval_minutes=0,  # Disable GC for testing
-        default_ttl_hours=24
+        default_ttl_hours=24,
     )
 
     # Initialize manager
@@ -74,10 +80,10 @@ async def test_memory_lifecycle():
             content={
                 "message": f"Test message {i}",
                 "context": {"test": True, "index": i},
-                "timestamp": time.time()
+                "timestamp": time.time(),
             },
             memory_type=MemoryType.EPISODIC,
-            priority=MemoryPriority.HIGH if i < 2 else MemoryPriority.MEDIUM
+            priority=MemoryPriority.HIGH if i < 2 else MemoryPriority.MEDIUM,
         )
         memory_ids.append(memory_id)
         print(f"   Stored memory {i}: {memory_id}")
@@ -92,9 +98,13 @@ async def test_memory_lifecycle():
     # Test specific memory retrieval
     print("\n🎯 5. Testing specific memory retrieval...")
     if memory_ids:
-        specific_memory = await manager.retrieve_memory(test_user, memory_id=memory_ids[0])
+        specific_memory = await manager.retrieve_memory(
+            test_user, memory_id=memory_ids[0]
+        )
         if specific_memory:
-            print(f"   Retrieved specific memory: {specific_memory[0].content.get('message')}")
+            print(
+                f"   Retrieved specific memory: {specific_memory[0].content.get('message')}"
+            )
         else:
             print("   ❌ Failed to retrieve specific memory")
 
@@ -114,12 +124,14 @@ async def test_memory_lifecycle():
             user_id=f"bulk_user_{i % 5}",  # 5 different users
             content={"bulk_message": f"Bulk test {i}", "data": list(range(10))},
             memory_type=MemoryType.SEMANTIC,
-            priority=MemoryPriority.LOW
+            priority=MemoryPriority.LOW,
         )
         bulk_ids.append(memory_id)
 
     bulk_time = time.time() - start_time
-    print(f"   Stored 50 memories in {bulk_time:.3f} seconds ({50/bulk_time:.1f} memories/sec)")
+    print(
+        f"   Stored 50 memories in {bulk_time:.3f} seconds ({50/bulk_time:.1f} memories/sec)"
+    )
 
     # Test bulk retrieval performance
     print("\n🔍 8. Testing bulk retrieval performance...")
@@ -135,9 +147,7 @@ async def test_memory_lifecycle():
     # Test memory filtering
     print("\n🔎 9. Testing memory type filtering...")
     episodic_memories = await manager.retrieve_memory(
-        test_user,
-        memory_type=MemoryType.EPISODIC,
-        limit=10
+        test_user, memory_type=MemoryType.EPISODIC, limit=10
     )
     print(f"   Found {len(episodic_memories)} episodic memories")
 
@@ -157,6 +167,7 @@ async def test_memory_lifecycle():
 
     print("\n✅ Memory manager lifecycle test completed!")
     return True
+
 
 async def test_error_conditions():
     """Test error handling and edge cases"""
@@ -182,20 +193,21 @@ async def test_error_conditions():
     print("\n2. Testing large content storage...")
     large_content = {"large_data": "x" * 10000}  # 10KB of data
     large_id = await manager.store_memory(
-        "large_test_user",
-        large_content,
-        priority=MemoryPriority.CRITICAL
+        "large_test_user", large_content, priority=MemoryPriority.CRITICAL
     )
     print(f"   Large content stored: {large_id}")
 
     # Test retrieval of large content
-    large_retrieved = await manager.retrieve_memory("large_test_user", memory_id=large_id)
+    large_retrieved = await manager.retrieve_memory(
+        "large_test_user", memory_id=large_id
+    )
     if large_retrieved:
         retrieved_size = len(str(large_retrieved[0].content))
         print(f"   Large content retrieved size: {retrieved_size} chars")
 
     await manager.stop()
     print("\n✅ Error conditions test completed!")
+
 
 async def main():
     """Run all tests"""
@@ -218,10 +230,12 @@ async def main():
     except Exception as e:
         print(f"\n❌ TEST FAILED: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
     return True
+
 
 if __name__ == "__main__":
     asyncio.run(main())

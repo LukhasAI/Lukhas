@@ -7,14 +7,20 @@ from . import vocabularies
 
 # Import personal symbol dictionary
 try:
-    from .personal.symbol_dictionary import PersonalSymbolDictionary, GestureType
+    from .personal.symbol_dictionary import (
+        GestureType,
+        PersonalSymbolDictionary,
+    )
 except ImportError:
     PersonalSymbolDictionary = None
     GestureType = None
 
 # Import universal exchange
 try:
-    from .exchange.universal_exchange import UniversalSymbolExchange, ExchangeProtocol
+    from .exchange.universal_exchange import (
+        ExchangeProtocol,
+        UniversalSymbolExchange,
+    )
 except ImportError:
     UniversalSymbolExchange = None
     ExchangeProtocol = None

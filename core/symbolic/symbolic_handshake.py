@@ -8,18 +8,18 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Symbolic Communication Protocol for Lukhas AGI System
 
 This module defines the symbolic handshake patterns and communication signals
 between the orchestrator and sub-agents (dream, intent, emotion, memory).
 """
 
-from typing import Dict, Any, Optional, Callable, List
 import logging
 import time
+from typing import Any, Callable, Optional
+
 from orchestration.signal_router import route_signal
-from orchestration.signals import SymbolicSignal, SignalType
+from orchestration.signals import SignalType, SymbolicSignal
 
 logger = logging.getLogger("SymbolicHandshake")
 
@@ -34,10 +34,10 @@ class SymbolicHandshake:
     """
 
     def __init__(self):
-        self.registered_modules: Dict[str, Dict[str, Any]] = {}
-        self.signal_history: List[SymbolicSignal] = []
-        self.emotion_state_history: List[Dict[str, Any]] = []
-        self.handshake_callbacks: Dict[str, Callable] = {}
+        self.registered_modules: dict[str, dict[str, Any]] = {}
+        self.signal_history: list[SymbolicSignal] = []
+        self.emotion_state_history: list[dict[str, Any]] = []
+        self.handshake_callbacks: dict[str, Callable] = {}
         self.brain_integrator = None  # Set via set_brain_integrator method
 
         # Define symbolic handshake patterns
@@ -70,7 +70,7 @@ class SymbolicHandshake:
 
         logger.info("Symbolic handshake protocol initialized")
 
-    def register_module(self, module_name: str, module_info: Dict[str, Any]):
+    def register_module(self, module_name: str, module_info: dict[str, Any]):
         """
         ΛTAG: orchestration, module_registration
         ΛLOCKED: true
@@ -89,7 +89,11 @@ class SymbolicHandshake:
         )
 
     def create_signal(
-        self, signal_type: SignalType, source: str, target: str, payload: Dict[str, Any]
+        self,
+        signal_type: SignalType,
+        source: str,
+        target: str,
+        payload: dict[str, Any],
     ) -> SymbolicSignal:
         """
         ΛTAG: orchestration, signal_creation
@@ -149,7 +153,7 @@ class SymbolicHandshake:
 
     def get_signal_history(
         self, module_name: Optional[str] = None
-    ) -> List[SymbolicSignal]:
+    ) -> list[SymbolicSignal]:
         """
         ΛTAG: orchestration, signal_tracing
 
@@ -163,7 +167,7 @@ class SymbolicHandshake:
             ]
         return self.signal_history.copy()
 
-    def get_emotion_state_history(self) -> List[Dict[str, Any]]:
+    def get_emotion_state_history(self) -> list[dict[str, Any]]:
         """
         Get the history of emotion states.
         """

@@ -43,11 +43,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List
-from datetime import datetime
-import json
 import uuid
+from abc import ABC, abstractmethod
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from core.common import get_logger
 
 # Configure module logger
@@ -77,22 +77,22 @@ class MemoryEntry:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary representation."""
         return {
-            'id': self.id,
-            'content': self.content,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat(),
-            'accessed_at': self.accessed_at.isoformat(),
-            'access_count': self.access_count
+            "id": self.id,
+            "content": self.content,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat(),
+            "accessed_at": self.accessed_at.isoformat(),
+            "access_count": self.access_count,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'MemoryEntry':
+    def from_dict(cls, data: Dict[str, Any]) -> "MemoryEntry":
         """Create from dictionary representation."""
-        entry = cls(data['content'], data.get('metadata'))
-        entry.id = data['id']
-        entry.created_at = datetime.fromisoformat(data['created_at'])
-        entry.accessed_at = datetime.fromisoformat(data['accessed_at'])
-        entry.access_count = data.get('access_count', 0)
+        entry = cls(data["content"], data.get("metadata"))
+        entry.id = data["id"]
+        entry.created_at = datetime.fromisoformat(data["created_at"])
+        entry.accessed_at = datetime.fromisoformat(data["accessed_at"])
+        entry.access_count = data.get("access_count", 0)
         return entry
 
 
@@ -222,13 +222,23 @@ class MemoryManager:
             total_accesses = sum(m.access_count for m in all_memories)
 
             return {
-                'total_memories': self.store.size(),
-                'total_accesses': total_accesses,
-                'avg_accesses': total_accesses / len(all_memories) if all_memories else 0,
-                'oldest_memory': min(all_memories, key=lambda x: x.created_at).created_at.isoformat() if all_memories else None,
-                'newest_memory': max(all_memories, key=lambda x: x.created_at).created_at.isoformat() if all_memories else None
+                "total_memories": self.store.size(),
+                "total_accesses": total_accesses,
+                "avg_accesses": (
+                    total_accesses / len(all_memories) if all_memories else 0
+                ),
+                "oldest_memory": (
+                    min(all_memories, key=lambda x: x.created_at).created_at.isoformat()
+                    if all_memories
+                    else None
+                ),
+                "newest_memory": (
+                    max(all_memories, key=lambda x: x.created_at).created_at.isoformat()
+                    if all_memories
+                    else None
+                ),
             }
-        return {'total_memories': 0}
+        return {"total_memories": 0}
 
 
 # Global memory manager instance

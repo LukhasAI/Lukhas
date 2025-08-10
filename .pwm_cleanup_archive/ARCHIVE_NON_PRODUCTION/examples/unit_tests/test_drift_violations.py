@@ -1,5 +1,7 @@
 import unittest
+
 from reasoning.reasoning_engine import SymbolicEngine, SymbolicEthicalWarning
+
 
 class TestDriftViolations(unittest.TestCase):
     def setUp(self):
@@ -15,5 +17,6 @@ class TestDriftViolations(unittest.TestCase):
         except SymbolicEthicalWarning:
             self.fail("validate_drift() raised SymbolicEthicalWarning unexpectedly!")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

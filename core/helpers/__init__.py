@@ -7,19 +7,24 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import structlog
 import datetime
-import re
 import json
-from typing import Any, Optional, Dict, List
+import re
+from typing import Any, Optional
+
+import structlog
 
 # ΛTRACE: Initializing logger for core.helpers
 log = structlog.get_logger(__name__)
-log.info("core.helpers module initialized") # ΛNOTE: Basic initialization logging for helper utilities.
+log.info(
+    "core.helpers module initialized"
+)  # ΛNOTE: Basic initialization logging for helper utilities.
 
 # --- String Manipulation Utilities ---
 
 # ΛUTIL
+
+
 def sanitize_string_for_logging(input_string: Optional[str]) -> str:
     """
     Sanitizes a string to remove potentially sensitive information or control characters
@@ -31,17 +36,24 @@ def sanitize_string_for_logging(input_string: Optional[str]) -> str:
         return ""
     # AINFER: Basic inference of sensitive patterns (e.g., looks like an API key)
     # This is a placeholder for more sophisticated pattern matching if needed.
-    if re.search(r'(?:api_key|password|secret|token)', input_string, re.IGNORECASE): # ΛNOTE: Basic keyword check
+    if re.search(
+        r"(?:api_key|password|secret|token)", input_string, re.IGNORECASE
+    ):  # ΛNOTE: Basic keyword check
         # ΛTRACE: Detected potentially sensitive keyword in string
         log.debug("Sanitizing potentially sensitive string for logging.")
         return "[REDACTED_SENSITIVE_STRING]"
 
     # Remove common control characters except newline and tab
-    sanitized = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', input_string)
+    sanitized = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", input_string)
     return sanitized
 
+
 # ΛUTIL
-def truncate_string(input_string: Optional[str], max_length: int = 100, ellipsis: str = "...") -> str:
+
+
+def truncate_string(
+    input_string: Optional[str], max_length: int = 100, ellipsis: str = "..."
+) -> str:
     """
     Truncates a string to a maximum length, adding an ellipsis if truncated.
     # ΛNOTE: Useful for displaying long strings in UIs or concise log messages.
@@ -50,13 +62,20 @@ def truncate_string(input_string: Optional[str], max_length: int = 100, ellipsis
         return ""
     if len(input_string) > max_length:
         # ΛTRACE: Truncating string
-        log.debug("Truncating string", original_length=len(input_string), max_length=max_length)
-        return input_string[:max_length - len(ellipsis)] + ellipsis
+        log.debug(
+            "Truncating string",
+            original_length=len(input_string),
+            max_length=max_length,
+        )
+        return input_string[: max_length - len(ellipsis)] + ellipsis
     return input_string
+
 
 # --- Data Conversion Utilities ---
 
 # ΛUTIL
+
+
 def safe_json_loads(json_string: Optional[str], default: Any = None) -> Any:
     """
     Safely parses a JSON string. Returns a default value if parsing fails.
@@ -73,10 +92,17 @@ def safe_json_loads(json_string: Optional[str], default: Any = None) -> Any:
         return data
     except json.JSONDecodeError as e:
         # ΛTRACE: JSON parsing failed
-        log.warning("Failed to parse JSON string", error=str(e), input_string=truncate_string(json_string, 200))
+        log.warning(
+            "Failed to parse JSON string",
+            error=str(e),
+            input_string=truncate_string(json_string, 200),
+        )
         return default
 
+
 # ΛUTIL
+
+
 def to_bool(value: Any) -> bool:
     """
     Converts a common variety of truthy/falsy values to a boolean.
@@ -94,13 +120,18 @@ def to_bool(value: Any) -> bool:
     if isinstance(value, (int, float)):
         return value != 0
     # ΛTRACE: Could not convert value to bool, returning False
-    log.debug("Value could not be reliably converted to boolean, defaulting to False", value_type=type(value))
+    log.debug(
+        "Value could not be reliably converted to boolean, defaulting to False",
+        value_type=type(value),
+    )
     return False
 
 
 # --- DateTime Utilities ---
 
 # ΛUTIL
+
+
 def get_utc_timestamp(format_string: str = "%Y-%m-%dT%H:%M:%S.%fZ") -> str:
     """
     Returns the current UTC timestamp formatted as a string.
@@ -115,7 +146,11 @@ def get_utc_timestamp(format_string: str = "%Y-%m-%dT%H:%M:%S.%fZ") -> str:
 # --- Collection Utilities ---
 
 # ΛUTIL
-def get_nested_value(data: Dict, path: str, delimiter: str = '.', default: Any = None) -> Any:
+
+
+def get_nested_value(
+    data: dict, path: str, delimiter: str = ".", default: Any = None
+) -> Any:
     """
     Retrieves a value from a nested dictionary using a path string.
     Example: get_nested_value({"a": {"b": {"c": 1}}}, "a.b.c") -> 1
@@ -135,15 +170,30 @@ def get_nested_value(data: Dict, path: str, delimiter: str = '.', default: Any =
                 if 0 <= idx < len(current_level):
                     current_level = current_level[idx]
                 else:
-                    log.warning("Index out of bounds while getting nested value", key=key, path=path, list_size=len(current_level))
+                    log.warning(
+                        "Index out of bounds while getting nested value",
+                        key=key,
+                        path=path,
+                        list_size=len(current_level),
+                    )
                     return default
             except ValueError:
-                log.warning("Invalid index for list while getting nested value", key=key, path=path)
+                log.warning(
+                    "Invalid index for list while getting nested value",
+                    key=key,
+                    path=path,
+                )
                 return default
         else:
-            log.debug("Key not found or invalid type while getting nested value", key=key, path=path, current_level_type=type(current_level))
+            log.debug(
+                "Key not found or invalid type while getting nested value",
+                key=key,
+                path=path,
+                current_level_type=type(current_level),
+            )
             return default
     return current_level
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: __init__.py

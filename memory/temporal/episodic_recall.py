@@ -15,6 +15,7 @@ Integration Date: 2025-05-31T07:55:29.971317
 # episodic_recall.py
 import json
 
+
 def recall(memory_log, target_action):
     print("\n[EpisodicRecall] Replaying moral history for given action...")
     key = target_action["action"]

@@ -4,17 +4,17 @@ Replaces the dummy implementation with real functionality
 """
 
 import asyncio
+import hashlib
 import json
 import logging
 import time
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime
 from collections import defaultdict, deque
-import hashlib
+from datetime import datetime
+from typing import Any, Optional
 
 from core.colonies.base_colony import BaseColony
-from core.swarm import SwarmAgent
 from core.efficient_communication import MessagePriority
+from core.swarm import SwarmAgent
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +25,13 @@ class MemoryAgent(SwarmAgent):
     def __init__(self, agent_id: str, memory_type: str = "general"):
         super().__init__(agent_id)
         self.memory_type = memory_type
-        self.local_storage: Dict[str, Dict[str, Any]] = {}
-        self.memory_index: Dict[str, List[str]] = defaultdict(list)  # tag -> memory_ids
+        self.local_storage: dict[str, dict[str, Any]] = {}
+        self.memory_index: dict[str, list[str]] = defaultdict(list)  # tag -> memory_ids
         self.access_log: deque = deque(maxlen=1000)
 
-    async def store_memory(self, memory_id: str, content: Dict[str, Any], tags: List[str]) -> bool:
+    async def store_memory(
+        self, memory_id: str, content: dict[str, Any], tags: list[str]
+    ) -> bool:
         """Store a memory locally."""
         try:
             self.local_storage[memory_id] = {
@@ -37,7 +39,7 @@ class MemoryAgent(SwarmAgent):
                 "tags": tags,
                 "timestamp": datetime.now().isoformat(),
                 "access_count": 0,
-                "memory_type": self.memory_type
+                "memory_type": self.memory_type,
             }
 
             # Update index
@@ -49,20 +51,22 @@ class MemoryAgent(SwarmAgent):
             logger.error(f"Agent {self.agent_id} failed to store memory: {e}")
             return False
 
-    async def retrieve_memory(self, memory_id: str) -> Optional[Dict[str, Any]]:
+    async def retrieve_memory(self, memory_id: str) -> Optional[dict[str, Any]]:
         """Retrieve a memory by ID."""
         if memory_id in self.local_storage:
             memory = self.local_storage[memory_id]
             memory["access_count"] += 1
-            self.access_log.append({
-                "memory_id": memory_id,
-                "timestamp": datetime.now().isoformat(),
-                "action": "retrieve"
-            })
+            self.access_log.append(
+                {
+                    "memory_id": memory_id,
+                    "timestamp": datetime.now().isoformat(),
+                    "action": "retrieve",
+                }
+            )
             return memory
         return None
 
-    async def search_by_tags(self, tags: List[str]) -> List[Dict[str, Any]]:
+    async def search_by_tags(self, tags: list[str]) -> list[dict[str, Any]]:
         """Search memories by tags."""
         matching_ids = set()
 
@@ -74,11 +78,13 @@ class MemoryAgent(SwarmAgent):
         for memory_id in matching_ids:
             memory = await self.retrieve_memory(memory_id)
             if memory:
-                results.append({
-                    "memory_id": memory_id,
-                    "memory": memory,
-                    "relevance": len(set(tags) & set(memory["tags"])) / len(tags)
-                })
+                results.append(
+                    {
+                        "memory_id": memory_id,
+                        "memory": memory,
+                        "relevance": len(set(tags) & set(memory["tags"])) / len(tags),
+                    }
+                )
 
         # Sort by relevance
         results.sort(key=lambda x: x["relevance"], reverse=True)
@@ -93,26 +99,34 @@ class MemoryColony(BaseColony):
     def __init__(self, colony_id: str):
         super().__init__(
             colony_id,
-            capabilities=["memory", "storage", "retrieval", "search", "indexing"]
+            capabilities=[
+                "memory",
+                "storage",
+                "retrieval",
+                "search",
+                "indexing",
+            ],
         )
 
         # Memory agents by specialization
-        self.memory_agents: Dict[str, List[MemoryAgent]] = {
+        self.memory_agents: dict[str, list[MemoryAgent]] = {
             "episodic": [],
             "semantic": [],
             "procedural": [],
-            "working": []
+            "working": [],
         }
 
         # Global memory index
-        self.global_index: Dict[str, List[Tuple[str, str]]] = defaultdict(list)  # tag -> [(agent_id, memory_id)]
+        self.global_index: dict[str, list[tuple[str, str]]] = defaultdict(
+            list
+        )  # tag -> [(agent_id, memory_id)]
 
         # Memory statistics
         self.stats = {
             "total_memories": 0,
             "total_retrievals": 0,
             "total_searches": 0,
-            "avg_retrieval_time": 0.0
+            "avg_retrieval_time": 0.0,
         }
 
         # Replication settings
@@ -127,11 +141,12 @@ class MemoryColony(BaseColony):
 
         # Subscribe to memory events
         self.comm_fabric.subscribe_to_events(
-            "memory_request",
-            self._handle_memory_request
+            "memory_request", self._handle_memory_request
         )
 
-        logger.info(f"MemoryColony {self.colony_id} started with {len(self.agents)} agents")
+        logger.info(
+            f"MemoryColony {self.colony_id} started with {len(self.agents)} agents"
+        )
 
     async def _initialize_memory_agents(self):
         """Initialize specialized memory agents."""
@@ -139,7 +154,7 @@ class MemoryColony(BaseColony):
             ("episodic", 3),  # 3 agents for episodic memory
             ("semantic", 3),  # 3 for semantic
             ("procedural", 2),  # 2 for procedural
-            ("working", 2)    # 2 for working memory
+            ("working", 2),  # 2 for working memory
         ]
 
         for memory_type, count in agent_configs:
@@ -152,7 +167,9 @@ class MemoryColony(BaseColony):
 
         logger.info(f"Initialized {len(self.agents)} memory agents")
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute memory-related tasks with real functionality."""
 
         task_type = task_data.get("type", "unknown")
@@ -170,7 +187,10 @@ class MemoryColony(BaseColony):
             elif task_type == "consolidate":
                 result = await self._consolidate_memories(task_data)
             else:
-                result = {"status": "error", "message": f"Unknown task type: {task_type}"}
+                result = {
+                    "status": "error",
+                    "message": f"Unknown task type: {task_type}",
+                }
 
             # Update statistics
             elapsed = time.time() - start_time
@@ -183,13 +203,9 @@ class MemoryColony(BaseColony):
 
         except Exception as e:
             logger.error(f"Task execution failed: {e}")
-            return {
-                "status": "failed",
-                "task_id": task_id,
-                "error": str(e)
-            }
+            return {"status": "failed", "task_id": task_id, "error": str(e)}
 
-    async def _store_memory(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _store_memory(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Store a memory with replication."""
         content = task_data.get("content", {})
         tags = task_data.get("tags", [])
@@ -200,7 +216,13 @@ class MemoryColony(BaseColony):
         memory_id = self._generate_memory_id(content)
 
         # Determine replication based on importance
-        replication = max(1, min(self.replication_factor, int(importance * self.replication_factor)))
+        replication = max(
+            1,
+            min(
+                self.replication_factor,
+                int(importance * self.replication_factor),
+            ),
+        )
 
         # Select agents for storage
         agents = self._select_storage_agents(memory_type, replication)
@@ -226,15 +248,15 @@ class MemoryColony(BaseColony):
                 "status": "completed",
                 "memory_id": memory_id,
                 "replicas": sum(results),
-                "memory_type": memory_type
+                "memory_type": memory_type,
             }
         else:
             return {
                 "status": "failed",
-                "error": "Failed to store in any agent"
+                "error": "Failed to store in any agent",
             }
 
-    async def _retrieve_memory(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _retrieve_memory(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Retrieve a memory by ID."""
         memory_id = task_data.get("memory_id")
 
@@ -249,18 +271,15 @@ class MemoryColony(BaseColony):
                 return {
                     "status": "completed",
                     "memory": memory,
-                    "retrieved_from": agent_id
+                    "retrieved_from": agent_id,
                 }
 
-        return {
-            "status": "not_found",
-            "memory_id": memory_id
-        }
+        return {"status": "not_found", "memory_id": memory_id}
 
-    async def _search_memories(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _search_memories(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Search memories by tags or content."""
         tags = task_data.get("tags", [])
-        query = task_data.get("query", "")
+        task_data.get("query", "")
         limit = task_data.get("limit", 10)
         memory_type = task_data.get("memory_type")  # Optional filter
 
@@ -308,10 +327,10 @@ class MemoryColony(BaseColony):
         return {
             "status": "completed",
             "results": unique_results,
-            "total_found": len(unique_results)
+            "total_found": len(unique_results),
         }
 
-    async def _forget_memory(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _forget_memory(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Remove a memory from all agents."""
         memory_id = task_data.get("memory_id")
 
@@ -320,21 +339,26 @@ class MemoryColony(BaseColony):
 
         removed_count = 0
 
-        for agent_id, agent in self.agents.items():
+        for _agent_id, agent in self.agents.items():
             if isinstance(agent, MemoryAgent) and memory_id in agent.local_storage:
                 # Remove from storage
                 memory = agent.local_storage.pop(memory_id)
 
                 # Remove from index
                 for tag in memory.get("tags", []):
-                    if tag in agent.memory_index and memory_id in agent.memory_index[tag]:
+                    if (
+                        tag in agent.memory_index
+                        and memory_id in agent.memory_index[tag]
+                    ):
                         agent.memory_index[tag].remove(memory_id)
 
                 removed_count += 1
 
         # Update global index
         for tag, entries in list(self.global_index.items()):
-            self.global_index[tag] = [(aid, mid) for aid, mid in entries if mid != memory_id]
+            self.global_index[tag] = [
+                (aid, mid) for aid, mid in entries if mid != memory_id
+            ]
             if not self.global_index[tag]:
                 del self.global_index[tag]
 
@@ -344,13 +368,13 @@ class MemoryColony(BaseColony):
         return {
             "status": "completed",
             "memory_id": memory_id,
-            "removed_from": removed_count
+            "removed_from": removed_count,
         }
 
-    async def _consolidate_memories(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _consolidate_memories(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """Consolidate similar memories to save space."""
         memory_type = task_data.get("memory_type", "semantic")
-        similarity_threshold = task_data.get("similarity_threshold", 0.8)
+        task_data.get("similarity_threshold", 0.8)
 
         # This is a simplified consolidation - in reality would use embeddings
         consolidated_count = 0
@@ -370,7 +394,7 @@ class MemoryColony(BaseColony):
             if len(memory_list) > 1:
                 # Keep the most accessed memory
                 memory_list.sort(key=lambda x: x[2]["access_count"], reverse=True)
-                keeper = memory_list[0]
+                memory_list[0]
 
                 # Remove duplicates
                 for agent, memory_id, memory in memory_list[1:]:
@@ -381,23 +405,25 @@ class MemoryColony(BaseColony):
         return {
             "status": "completed",
             "consolidated": consolidated_count,
-            "memory_type": memory_type
+            "memory_type": memory_type,
         }
 
-    def _generate_memory_id(self, content: Dict[str, Any]) -> str:
+    def _generate_memory_id(self, content: dict[str, Any]) -> str:
         """Generate a unique memory ID."""
         content_str = json.dumps(content, sort_keys=True)
         timestamp = str(time.time())
         hash_input = f"{content_str}:{timestamp}:{self.colony_id}"
         return hashlib.sha256(hash_input.encode()).hexdigest()[:16]
 
-    def _select_storage_agents(self, memory_type: str, count: int) -> List[MemoryAgent]:
+    def _select_storage_agents(self, memory_type: str, count: int) -> list[MemoryAgent]:
         """Select agents for storing a memory."""
         available_agents = self.memory_agents.get(memory_type, [])
 
         if not available_agents:
             # Fallback to any available agents
-            available_agents = [a for a in self.agents.values() if isinstance(a, MemoryAgent)]
+            available_agents = [
+                a for a in self.agents.values() if isinstance(a, MemoryAgent)
+            ]
 
         # Round-robin selection
         selected = []
@@ -413,7 +439,9 @@ class MemoryColony(BaseColony):
             if operation == "retrieve":
                 current_avg = self.stats["avg_retrieval_time"]
                 total_retrievals = self.stats["total_retrievals"]
-                new_avg = (current_avg * total_retrievals + elapsed_time) / (total_retrievals + 1)
+                new_avg = (current_avg * total_retrievals + elapsed_time) / (
+                    total_retrievals + 1
+                )
                 self.stats["avg_retrieval_time"] = new_avg
 
     async def _handle_memory_request(self, message):
@@ -428,10 +456,10 @@ class MemoryColony(BaseColony):
                 message.sender_id,
                 "memory_response",
                 result,
-                MessagePriority.NORMAL
+                MessagePriority.NORMAL,
             )
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get detailed colony statistics."""
         agent_stats = {}
 
@@ -440,7 +468,9 @@ class MemoryColony(BaseColony):
                 agent_stats[agent_id] = {
                     "memory_count": len(agent.local_storage),
                     "memory_type": agent.memory_type,
-                    "total_accesses": sum(m["access_count"] for m in agent.local_storage.values())
+                    "total_accesses": sum(
+                        m["access_count"] for m in agent.local_storage.values()
+                    ),
                 }
 
         return {
@@ -450,11 +480,13 @@ class MemoryColony(BaseColony):
             "memory_distribution": {
                 mt: sum(len(a.local_storage) for a in agents)
                 for mt, agents in self.memory_agents.items()
-            }
+            },
         }
 
 
 # Example usage showing the enhanced capabilities
+
+
 async def demo_enhanced_memory_colony():
     """Demonstrate the enhanced memory colony."""
 
@@ -466,25 +498,34 @@ async def demo_enhanced_memory_colony():
         memories = [
             {
                 "type": "store",
-                "content": {"event": "System initialization", "details": "Colony started"},
+                "content": {
+                    "event": "System initialization",
+                    "details": "Colony started",
+                },
                 "tags": ["system", "startup", "milestone"],
                 "memory_type": "episodic",
-                "importance": 0.9
+                "importance": 0.9,
             },
             {
                 "type": "store",
-                "content": {"concept": "Colony", "definition": "Group of collaborative agents"},
+                "content": {
+                    "concept": "Colony",
+                    "definition": "Group of collaborative agents",
+                },
                 "tags": ["concept", "architecture", "core"],
                 "memory_type": "semantic",
-                "importance": 0.8
+                "importance": 0.8,
             },
             {
                 "type": "store",
-                "content": {"skill": "memory_storage", "steps": ["receive", "index", "store"]},
+                "content": {
+                    "skill": "memory_storage",
+                    "steps": ["receive", "index", "store"],
+                },
                 "tags": ["skill", "procedure", "memory"],
                 "memory_type": "procedural",
-                "importance": 0.7
-            }
+                "importance": 0.7,
+            },
         ]
 
         stored_ids = []
@@ -497,22 +538,14 @@ async def demo_enhanced_memory_colony():
         # Search memories
         search_result = await colony.execute_task(
             "search-1",
-            {
-                "type": "search",
-                "tags": ["system", "core"],
-                "limit": 5
-            }
+            {"type": "search", "tags": ["system", "core"], "limit": 5},
         )
         print(f"\nSearch results: {search_result}")
 
         # Retrieve specific memory
         if stored_ids:
             retrieve_result = await colony.execute_task(
-                "retrieve-1",
-                {
-                    "type": "retrieve",
-                    "memory_id": stored_ids[0]
-                }
+                "retrieve-1", {"type": "retrieve", "memory_id": stored_ids[0]}
             )
             print(f"\nRetrieved memory: {retrieve_result}")
 

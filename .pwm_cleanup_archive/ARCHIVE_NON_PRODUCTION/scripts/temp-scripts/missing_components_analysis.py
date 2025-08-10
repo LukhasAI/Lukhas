@@ -4,8 +4,6 @@ Missing Components Analysis
 Identify exactly what components are missing and what needs to be created.
 """
 
-import os
-import importlib.util
 from pathlib import Path
 
 
@@ -171,10 +169,10 @@ def main():
     missing = check_missing_components()
     generate_fix_script(missing)
 
-    print(f"\n📊 SUMMARY:")
+    print("\n📊 SUMMARY:")
     print(f"   Total missing components: {len(missing)}")
-    print(f"   Most critical: PyTorch, core.bio_systems, core.api")
-    print(f"   Fix priority: Install deps → Create modules → Fix classes")
+    print("   Most critical: PyTorch, core.bio_systems, core.api")
+    print("   Fix priority: Install deps → Create modules → Fix classes")
 
 
 if __name__ == "__main__":

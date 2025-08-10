@@ -8,10 +8,9 @@ distributed dream recombination.
 
 from __future__ import annotations
 
-
 import logging
-from typing import Any, Dict, List, Optional
 from threading import RLock
+from typing import Any, Dict, List, Optional
 
 from memory.distributed_state_manager import MultiNodeStateManager
 
@@ -79,4 +78,3 @@ class QuantumGlyphRegistry:
             "driftScore": drift_total / count,
             "affect_delta": affect_total / count,
         }
-

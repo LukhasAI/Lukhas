@@ -9,6 +9,7 @@ class TagScope(Enum):
     """
     Defines the scope of a symbolic tag.
     """
+
     GLOBAL = "global"
     LOCAL = "local"
     ETHICAL = "ethical"
@@ -20,6 +21,7 @@ class TagPermission(Enum):
     """
     Defines the permissions for a symbolic tag.
     """
+
     PUBLIC = "public"
     PROTECTED = "protected"
     PRIVATE = "private"

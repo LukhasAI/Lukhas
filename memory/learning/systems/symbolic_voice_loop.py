@@ -1,13 +1,15 @@
 # symbolic_voice_loop_v1.py
 
-import speech_recognition as sr
 import json
 from datetime import datetime
-from dream_generator import generate_dreams  # hypothetical dream engine
-from voice import speak  # COVE/Lukhas voice output
-from emotion_mapper import map_emotion  # optional emotion extractor
-from symbolic.personas.core import system_profile
+
 import openai
+import speech_recognition as sr
+from dream_generator import generate_dreams  # hypothetical dream engine
+
+from emotion_mapper import map_emotion  # optional emotion extractor
+from voice import speak  # COVE/Lukhas voice output
+
 
 def speak(text):
     if not text:
@@ -16,14 +18,14 @@ def speak(text):
     payload = {
         "text": text,
         "model_id": "eleven_monolingual_v1",
-        "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.9
-        }
+        "voice_settings": {"stability": 0.5, "similarity_boost": 0.9},
     }
     ...
+
+
 # MEMORY LOG FILE
 MEMORY_FILE = "logs/feedback_memory.json"
+
 
 def reflect_with_lukhas(user_input):
     prompt = f"""
@@ -31,7 +33,8 @@ def reflect_with_lukhas(user_input):
     User said: "{user_input}"
     Respond in Lukhas’ tone:
     """
-    return openai.ChatCompletion.create( ... )  # Your existing GPT call
+    return openai.ChatCompletion.create(...)  # Your existing GPT call
+
 
 def listen_and_log_feedback():
     recognizer = sr.Recognizer()
@@ -46,10 +49,7 @@ def listen_and_log_feedback():
         feedback = recognizer.recognize_google(audio)
         print(f"🧠 You said: {feedback}")
 
-        entry = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "feedback": feedback
-        }
+        entry = {"timestamp": datetime.utcnow().isoformat() + "Z", "feedback": feedback}
 
         # Save to symbolic memory log
         with open(MEMORY_FILE, "a") as f:

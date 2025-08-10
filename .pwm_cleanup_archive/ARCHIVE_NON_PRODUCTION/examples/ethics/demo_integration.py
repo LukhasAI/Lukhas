@@ -7,17 +7,15 @@ Shows integrated workflow of stabilization and visualization
 """
 
 import asyncio
-import time
-import json
-from pathlib import Path
-import sys
 import os
+import sys
 
 # Add parent directories to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 from ethics.stabilization.tuner import AdaptiveEntanglementStabilizer
 from ethics.tools.quantum_mesh_visualizer import QuantumMeshVisualizer
+
 
 async def demo_integrated_workflow():
     """Demonstrate integrated stabilization and visualization workflow"""
@@ -69,11 +67,7 @@ async def demo_integrated_workflow():
 
     # Export detailed report
     report_path = "ethics/stabilization/demo_report.md"
-    visualizer.export_visual_summary(
-        initial_data,
-        report_path,
-        format_type='markdown'
-    )
+    visualizer.export_visual_summary(initial_data, report_path, format_type="markdown")
     print(f"   📄 Report exported: {report_path}")
 
     # Show stabilizer status
@@ -93,6 +87,7 @@ async def demo_integrated_workflow():
     print("  • Both emit structured logs for monitoring")
     print("  • Dashboard shows real-time stabilization effects")
 
+
 def demo_stabilizer_catalog():
     """Demonstrate the symbolic stabilizer catalog"""
     print("\n🏷️  Symbolic Stabilizer Catalog")
@@ -103,10 +98,10 @@ def demo_stabilizer_catalog():
     stabilizers = SymbolicStabilizer.STABILIZERS
 
     categories = {
-        'Harmony & Balance': ['ΛHARMONY', 'ΛBALANCE', 'ΛANCHOR'],
-        'Emotional': ['ΛCALM', 'ΛREFLECT', 'ΛRESOLVE'],
-        'Cognitive': ['ΛFOCUS', 'ΛCLARITY', 'ΛMEANING'],
-        'Emergency': ['ΛRESET', 'ΛFREEZE']
+        "Harmony & Balance": ["ΛHARMONY", "ΛBALANCE", "ΛANCHOR"],
+        "Emotional": ["ΛCALM", "ΛREFLECT", "ΛRESOLVE"],
+        "Cognitive": ["ΛFOCUS", "ΛCLARITY", "ΛMEANING"],
+        "Emergency": ["ΛRESET", "ΛFREEZE"],
     }
 
     for category, tags in categories.items():
@@ -117,18 +112,19 @@ def demo_stabilizer_catalog():
                 print(f"  {tag}: {info['description']}")
                 print(f"    Strength: {info['strength']}")
                 print(f"    Duration: {info['duration_minutes']}min")
-                applicable = info['applicable_pairs']
-                if applicable == ['*']:
-                    print(f"    Scope: Universal")
+                applicable = info["applicable_pairs"]
+                if applicable == ["*"]:
+                    print("    Scope: Universal")
                 else:
                     print(f"    Scope: {', '.join(applicable[:3])}")
+
 
 if __name__ == "__main__":
     print("🚀 LUKHAS AGI: Adaptive Entanglement Stabilization Demo")
 
     demo_stabilizer_catalog()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
 
     # Run the integrated demo
     asyncio.run(demo_integrated_workflow())

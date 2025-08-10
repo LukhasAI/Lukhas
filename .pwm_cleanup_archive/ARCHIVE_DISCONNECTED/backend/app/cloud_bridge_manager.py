@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : cloud_bridge_manager.py                        │
@@ -10,11 +8,9 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-import os
 import shutil
-from pathlib import Path
 from datetime import datetime
-from backend.app.cloud_storage import save_file_to_storage
+from pathlib import Path
 
 # ── Tier-Based Cloud Directories ───────────────────────────────
 
@@ -22,10 +18,11 @@ BASE_CLOUD_STORAGE = {
     1: "cloud_storage_tier1",
     2: "cloud_storage_tier2",
     3: "cloud_storage_tier3",
-    4: "cloud_storage_tier4"
+    4: "cloud_storage_tier4",
 }
 
 # ── Universal Cloud Bridge Core Functions ──────────────────────
+
 
 def upload_to_bridge(user_id: int, vault_type: str, file_path: str, user_tier: int):
     """
@@ -44,6 +41,7 @@ def upload_to_bridge(user_id: int, vault_type: str, file_path: str, user_tier: i
     print(f"🌉 Cloud bridge upload complete: {destination}/{filename}")
     return str(destination / filename)
 
+
 def sync_from_bridge(user_id: int, app_target: str, user_tier: int):
     """
     Retrieve available files for a specific app backup (e.g., Apple, WhatsApp).
@@ -58,6 +56,7 @@ def sync_from_bridge(user_id: int, app_target: str, user_tier: int):
 
     files = [f.name for f in target_dir.iterdir() if f.is_file()]
     return files
+
 
 def list_bridge_assets(user_id: int, user_tier: int):
     """
@@ -74,9 +73,11 @@ def list_bridge_assets(user_id: int, user_tier: int):
     apps = [d.name for d in user_dir.iterdir() if d.is_dir()]
     return apps
 
+
 # ── Optional Device Registry Integration (Phase 2) ──────────────
 
 DEVICE_REGISTRY_PATH = Path("device_registry.jsonl")
+
 
 def register_device(user_id: int, device_fingerprint: str):
     """
@@ -85,7 +86,7 @@ def register_device(user_id: int, device_fingerprint: str):
     entry = {
         "user_id": user_id,
         "device": device_fingerprint,
-        "registered_at": str(datetime.utcnow())
+        "registered_at": str(datetime.utcnow()),
     }
 
     DEVICE_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)

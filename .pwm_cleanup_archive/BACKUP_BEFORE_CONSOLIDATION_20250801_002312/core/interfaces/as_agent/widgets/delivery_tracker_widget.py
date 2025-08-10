@@ -20,9 +20,12 @@ Integration Date: 2025-05-31T07:55:30.487994
 """
 
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 
-def create_delivery_widget(vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"):
+
+def create_delivery_widget(
+    vendor, delivery_id, user_tier, estimated_eta, delivery_status="in_transit"
+):
     """
     Creates a delivery tracker widget for visualization in dashboard.
 
@@ -50,19 +53,16 @@ def create_delivery_widget(vendor, delivery_id, user_tier, estimated_eta, delive
         "icon": tier_icons.get(user_tier, "📦"),
         "color": color_map.get(delivery_status, "#9e9e9e"),
         "cta": "Track Delivery" if user_tier >= 2 else "Status Only",
-        "animation": {
-            "type": "roadmap_path",
-            "pulse": True,
-            "loop_eta": estimated_eta
-        },
+        "animation": {"type": "roadmap_path", "pulse": True, "loop_eta": estimated_eta},
         "DST_hooks": {
             "auto_refresh": True,
             "check_interval_minutes": 10,
-            "fallback_vendor_query": True
-        }
+            "fallback_vendor_query": True,
+        },
     }
 
     return widget
+
 
 def update_delivery_status(widget, new_status, new_eta=None):
     """

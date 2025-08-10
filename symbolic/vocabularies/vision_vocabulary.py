@@ -6,9 +6,10 @@ providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
 
-from typing import Dict, List, Any, Tuple
 from dataclasses import dataclass
-from ..core import AnalysisType, VisionProvider, VisionCapability
+from typing import Any, Dict, List, Tuple
+
+from ..core import AnalysisType, VisionProvider
 
 
 @dataclass

@@ -7,9 +7,11 @@ This component handles consciousness functionality in the AI consciousness compu
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
+from core.common import get_logger
+
 
 class ConsciousnessValidator:
     """
@@ -61,7 +63,7 @@ class ConsciousnessValidator:
                 "component": self.__class__.__name__,
                 "category": "consciousness",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -70,7 +72,7 @@ class ConsciousnessValidator:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_consciousness_processing(self, data: Any) -> Any:
@@ -142,7 +144,7 @@ class ConsciousnessValidator:
             "category": "consciousness",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -151,17 +153,24 @@ class ConsciousnessValidator:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
-def create_consciousness_component(config: Optional[Dict] = None) -> lukhasConsciousnessValidator:
+def create_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasConsciousnessValidator:
     """Create and return a consciousness component instance"""
     return lukhasConsciousnessValidator(config)
 
+
 # Async factory function
-async def create_and_initialize_consciousness_component(config: Optional[Dict] = None) -> lukhasConsciousnessValidator:
+async def create_and_initialize_consciousness_component(
+    config: Optional[Dict] = None,
+) -> lukhasConsciousnessValidator:
     """Create, initialize and return a consciousness component instance"""
     component = lukhasConsciousnessValidator(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage

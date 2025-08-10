@@ -3,15 +3,16 @@ Coherence Patch Validator
 Validates reasoning coherence and applies patches to maintain logical consistency
 """
 
-import json
-from core.common import get_logger
-import os
-from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, List, Optional, Tuple, Set
-from collections import defaultdict
 import asyncio
-import numpy as np
+import json
+from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Dict, List
+
+import numpy as np
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -36,7 +37,7 @@ class CoherenceMetrics:
             "symbol_consistency": self.symbol_consistency,
             "logical_validity": self.logical_validity,
             "temporal_alignment": self.temporal_alignment,
-            "patch_effectiveness": self.patch_effectiveness
+            "patch_effectiveness": self.patch_effectiveness,
         }
 
     def overall_score(self) -> float:
@@ -47,7 +48,7 @@ class CoherenceMetrics:
             "drift_score": 0.15,  # Lower is better for drift
             "symbol_consistency": 0.15,
             "logical_validity": 0.15,
-            "temporal_alignment": 0.10
+            "temporal_alignment": 0.10,
         }
 
         score = 0.0
@@ -81,7 +82,7 @@ class CoherencePatch:
             "value": self.value,
             "created_at": self.created_at.isoformat(),
             "applied": self.applied,
-            "effectiveness": self.effectiveness
+            "effectiveness": self.effectiveness,
         }
 
 
@@ -98,12 +99,14 @@ class CoherencePatchValidator:
             "minimum_coherence": 0.6,
             "acceptable_drift": 0.3,
             "symbol_consistency": 0.7,
-            "logical_validity": 0.8
+            "logical_validity": 0.8,
         }
         self.log_dir = Path("lukhas/logs")
         self.log_dir.mkdir(parents=True, exist_ok=True)
 
-    async def validate_coherence(self, reasoning_trace: Dict[str, Any]) -> CoherenceMetrics:
+    async def validate_coherence(
+        self, reasoning_trace: Dict[str, Any]
+    ) -> CoherenceMetrics:
         """
         Validate the coherence of a reasoning trace
 
@@ -126,18 +129,20 @@ class CoherencePatchValidator:
         metrics.temporal_alignment = self._calculate_temporal_alignment(reasoning_trace)
 
         # Store validation result
-        self.validation_history.append({
-            "timestamp": datetime.now(timezone.utc),
-            "trace_id": reasoning_trace.get("id", "unknown"),
-            "metrics": metrics.to_dict(),
-            "overall_score": metrics.overall_score()
-        })
+        self.validation_history.append(
+            {
+                "timestamp": datetime.now(timezone.utc),
+                "trace_id": reasoning_trace.get("id", "unknown"),
+                "metrics": metrics.to_dict(),
+                "overall_score": metrics.overall_score(),
+            }
+        )
 
         return metrics
 
-    async def validate_and_patch(self,
-                                reasoning_trace: Dict[str, Any],
-                                apply_patches: bool = True) -> Dict[str, Any]:
+    async def validate_and_patch(
+        self, reasoning_trace: Dict[str, Any], apply_patches: bool = True
+    ) -> Dict[str, Any]:
         """
         Validate coherence and apply patches if needed
 
@@ -158,7 +163,7 @@ class CoherencePatchValidator:
             return {
                 "status": "valid",
                 "metrics": metrics_before.to_dict(),
-                "patches_applied": 0
+                "patches_applied": 0,
             }
 
         # Generate patches
@@ -169,7 +174,7 @@ class CoherencePatchValidator:
                 "status": "issues_found_no_patches",
                 "metrics": metrics_before.to_dict(),
                 "issues": issues,
-                "patches_applied": 0
+                "patches_applied": 0,
             }
 
         # Apply patches if requested
@@ -201,9 +206,11 @@ class CoherencePatchValidator:
 
         # Log results
         await self._log_validation_results(
-            reasoning_trace, patched_trace,
-            metrics_before, metrics_after,
-            patches_applied
+            reasoning_trace,
+            patched_trace,
+            metrics_before,
+            metrics_after,
+            patches_applied,
         )
 
         return {
@@ -214,7 +221,7 @@ class CoherencePatchValidator:
             "patches_generated": len(patches),
             "patches_applied": len(patches_applied),
             "effectiveness": effectiveness,
-            "patched_trace": patched_trace if apply_patches else None
+            "patched_trace": patched_trace if apply_patches else None,
         }
 
     def _calculate_coherence_score(self, trace: Dict[str, Any]) -> float:
@@ -226,14 +233,16 @@ class CoherencePatchValidator:
         if path:
             # Sequential logic flow
             for i in range(1, len(path)):
-                prev_step = path[i-1]
+                prev_step = path[i - 1]
                 curr_step = path[i]
 
                 # Check if conclusions build on each other
                 if "conclusion" in prev_step and "input" in curr_step:
                     # Simple check - in reality would use NLP
-                    if any(word in str(curr_step["input"])
-                          for word in str(prev_step["conclusion"]).split()):
+                    if any(
+                        word in str(curr_step["input"])
+                        for word in str(prev_step["conclusion"]).split()
+                    ):
                         factors.append(1.0)
                     else:
                         factors.append(0.5)
@@ -283,7 +292,7 @@ class CoherencePatchValidator:
         # Measure drift between consecutive steps
         drift_values = []
         for i in range(1, len(path)):
-            prev = path[i-1]
+            prev = path[i - 1]
             curr = path[i]
 
             # Strategy changes
@@ -355,60 +364,73 @@ class CoherencePatchValidator:
         for step in path:
             if "timestamp" in step:
                 try:
-                    ts = datetime.fromisoformat(step["timestamp"].replace('Z', '+00:00'))
+                    ts = datetime.fromisoformat(
+                        step["timestamp"].replace("Z", "+00:00")
+                    )
                     timestamps.append(ts)
                 except:
                     pass
 
         if len(timestamps) > 1:
             # Check for proper ordering
-            is_ordered = all(timestamps[i] <= timestamps[i+1]
-                           for i in range(len(timestamps)-1))
+            is_ordered = all(
+                timestamps[i] <= timestamps[i + 1] for i in range(len(timestamps) - 1)
+            )
             return 1.0 if is_ordered else 0.5
 
         return 0.8  # Default if no timestamps
 
-    def _identify_coherence_issues(self, metrics: CoherenceMetrics) -> List[Dict[str, Any]]:
+    def _identify_coherence_issues(
+        self, metrics: CoherenceMetrics
+    ) -> List[Dict[str, Any]]:
         """Identify specific coherence issues based on metrics"""
         issues = []
 
         if metrics.coherence_score < self.coherence_thresholds["minimum_coherence"]:
-            issues.append({
-                "type": "low_coherence",
-                "severity": "high",
-                "value": metrics.coherence_score,
-                "threshold": self.coherence_thresholds["minimum_coherence"]
-            })
+            issues.append(
+                {
+                    "type": "low_coherence",
+                    "severity": "high",
+                    "value": metrics.coherence_score,
+                    "threshold": self.coherence_thresholds["minimum_coherence"],
+                }
+            )
 
         if metrics.drift_score > self.coherence_thresholds["acceptable_drift"]:
-            issues.append({
-                "type": "high_drift",
-                "severity": "medium",
-                "value": metrics.drift_score,
-                "threshold": self.coherence_thresholds["acceptable_drift"]
-            })
+            issues.append(
+                {
+                    "type": "high_drift",
+                    "severity": "medium",
+                    "value": metrics.drift_score,
+                    "threshold": self.coherence_thresholds["acceptable_drift"],
+                }
+            )
 
         if metrics.symbol_consistency < self.coherence_thresholds["symbol_consistency"]:
-            issues.append({
-                "type": "symbol_inconsistency",
-                "severity": "medium",
-                "value": metrics.symbol_consistency,
-                "threshold": self.coherence_thresholds["symbol_consistency"]
-            })
+            issues.append(
+                {
+                    "type": "symbol_inconsistency",
+                    "severity": "medium",
+                    "value": metrics.symbol_consistency,
+                    "threshold": self.coherence_thresholds["symbol_consistency"],
+                }
+            )
 
         if metrics.logical_validity < self.coherence_thresholds["logical_validity"]:
-            issues.append({
-                "type": "logical_invalidity",
-                "severity": "high",
-                "value": metrics.logical_validity,
-                "threshold": self.coherence_thresholds["logical_validity"]
-            })
+            issues.append(
+                {
+                    "type": "logical_invalidity",
+                    "severity": "high",
+                    "value": metrics.logical_validity,
+                    "threshold": self.coherence_thresholds["logical_validity"],
+                }
+            )
 
         return issues
 
-    async def _generate_patches(self,
-                              trace: Dict[str, Any],
-                              issues: List[Dict[str, Any]]) -> List[CoherencePatch]:
+    async def _generate_patches(
+        self, trace: Dict[str, Any], issues: List[Dict[str, Any]]
+    ) -> List[CoherencePatch]:
         """Generate patches to fix identified issues"""
         patches = []
 
@@ -422,8 +444,8 @@ class CoherencePatchValidator:
                     value={
                         "strategy": "bridge",
                         "content": "Connecting previous conclusions",
-                        "confidence": 0.7
-                    }
+                        "confidence": 0.7,
+                    },
                 )
                 patches.append(patch)
 
@@ -433,7 +455,7 @@ class CoherencePatchValidator:
                     patch_type="stabilize_strategy",
                     target="metadata",
                     operation="update",
-                    value={"force_strategy": "hybrid", "adaptation_rate": 0.1}
+                    value={"force_strategy": "hybrid", "adaptation_rate": 0.1},
                 )
                 patches.append(patch)
 
@@ -443,7 +465,7 @@ class CoherencePatchValidator:
                     patch_type="define_symbols",
                     target="symbols",
                     operation="extend",
-                    value={"auto_defined": True}
+                    value={"auto_defined": True},
                 )
                 patches.append(patch)
 
@@ -456,14 +478,16 @@ class CoherencePatchValidator:
                     value={
                         "strategy": "validation",
                         "content": "Validating logical consistency",
-                        "confidence": 0.8
-                    }
+                        "confidence": 0.8,
+                    },
                 )
                 patches.append(patch)
 
         return patches
 
-    async def _apply_patch(self, trace: Dict[str, Any], patch: CoherencePatch) -> Dict[str, Any]:
+    async def _apply_patch(
+        self, trace: Dict[str, Any], patch: CoherencePatch
+    ) -> Dict[str, Any]:
         """Apply a coherence patch to a trace"""
         patched_trace = trace.copy()
 
@@ -493,9 +517,9 @@ class CoherencePatchValidator:
 
         return patched_trace
 
-    def _calculate_patch_effectiveness(self,
-                                     metrics_before: CoherenceMetrics,
-                                     metrics_after: CoherenceMetrics) -> float:
+    def _calculate_patch_effectiveness(
+        self, metrics_before: CoherenceMetrics, metrics_after: CoherenceMetrics
+    ) -> float:
         """Calculate how effective patches were"""
         before_score = metrics_before.overall_score()
         after_score = metrics_after.overall_score()
@@ -507,25 +531,29 @@ class CoherencePatchValidator:
 
         return max(0.0, min(1.0, improvement))
 
-    async def _log_validation_results(self,
-                                    trace_before: Dict[str, Any],
-                                    trace_after: Dict[str, Any],
-                                    metrics_before: CoherenceMetrics,
-                                    metrics_after: CoherenceMetrics,
-                                    patches_applied: List[CoherencePatch]):
+    async def _log_validation_results(
+        self,
+        trace_before: Dict[str, Any],
+        trace_after: Dict[str, Any],
+        metrics_before: CoherenceMetrics,
+        metrics_after: CoherenceMetrics,
+        patches_applied: List[CoherencePatch],
+    ):
         """Log validation and patching results"""
         log_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "trace_id": trace_before.get("id", "unknown"),
             "metrics_before": metrics_before.to_dict(),
             "metrics_after": metrics_after.to_dict(),
-            "coherence_delta": metrics_after.coherence_score - metrics_before.coherence_score,
-            "stability_delta": metrics_after.stability_score - metrics_before.stability_score,
+            "coherence_delta": metrics_after.coherence_score
+            - metrics_before.coherence_score,
+            "stability_delta": metrics_after.stability_score
+            - metrics_before.stability_score,
             "drift_delta": metrics_after.drift_score - metrics_before.drift_score,
             "patches_applied": [p.to_dict() for p in patches_applied],
             "overall_improvement": self._calculate_patch_effectiveness(
                 metrics_before, metrics_after
-            )
+            ),
         }
 
         # Write to log file
@@ -549,22 +577,24 @@ class CoherencePatchValidator:
         summary = {
             "validations_analyzed": len(recent),
             "average_metrics": {
-                key: sum(values) / len(values)
-                for key, values in avg_scores.items()
+                key: sum(values) / len(values) for key, values in avg_scores.items()
             },
             "patches_applied_total": len([p for p in self.patch_history if p.applied]),
-            "average_patch_effectiveness": sum(p.effectiveness for p in self.patch_history
-                                             if p.applied) / len([p for p in self.patch_history
-                                                                if p.applied])
-                                          if any(p.applied for p in self.patch_history) else 0.0
+            "average_patch_effectiveness": (
+                sum(p.effectiveness for p in self.patch_history if p.applied)
+                / len([p for p in self.patch_history if p.applied])
+                if any(p.applied for p in self.patch_history)
+                else 0.0
+            ),
         }
 
         return summary
 
 
 # Backward compatibility function
-def validate_harmonization(trace_before: Dict[str, Any],
-                         trace_after: Dict[str, Any]) -> Dict[str, Any]:
+def validate_harmonization(
+    trace_before: Dict[str, Any], trace_after: Dict[str, Any]
+) -> Dict[str, Any]:
     """
     Compare pre/post traces to determine effectiveness of harmonization.
 

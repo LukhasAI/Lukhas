@@ -28,19 +28,23 @@ class EntityActivator:
         """Extract top-level classes and public functions from a Python file."""
         entities: List[Tuple[str, str]] = []
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
+            with open(file_path, encoding="utf-8") as f:
                 content = f.read()
             tree = ast.parse(content)
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
                     entities.append(("class", node.name))
-                elif isinstance(node, ast.FunctionDef) and not node.name.startswith("_"):
+                elif isinstance(node, ast.FunctionDef) and not node.name.startswith(
+                    "_"
+                ):
                     entities.append(("function", node.name))
         except Exception as e:
             logger.warning(f"Error analyzing {file_path}: {e}")
         return entities
 
-    def find_system_entities(self, system_path: str) -> Dict[str, List[Tuple[str, str]]]:
+    def find_system_entities(
+        self, system_path: str
+    ) -> Dict[str, List[Tuple[str, str]]]:
         """Find all entities in a system directory."""
         system_dir = self.root_path / system_path
         entities_by_file: Dict[str, List[Tuple[str, str]]] = {}
@@ -55,34 +59,41 @@ class EntityActivator:
                 entities_by_file[str(rel_path)] = entities
         return entities_by_file
 
-    def generate_activation_code(self, system_name: str, entities_by_file: Dict[str, List[Tuple[str, str]]]) -> str:
+    def generate_activation_code(
+        self, system_name: str, entities_by_file: Dict[str, List[Tuple[str, str]]]
+    ) -> str:
         """Generate activation code for a system."""
-        lines = [f"# Auto-generated entity activation for {system_name}", f"{system_name.upper()}_ENTITIES = ["]
+        lines = [
+            f"# Auto-generated entity activation for {system_name}",
+            f"{system_name.upper()}_ENTITIES = [",
+        ]
         for file_path, entities in entities_by_file.items():
             module_path = file_path.replace(".py", "").replace(os.sep, ".")
             for entity_type, entity_name in entities:
                 if entity_type == "class":
-                    lines.append(f"    (\"{module_path}\", \"{entity_name}\"),")
+                    lines.append(f'    ("{module_path}", "{entity_name}"),')
         lines.append("]\n")
-        lines.extend([
-            f"def activate_{system_name}_entities(self):",
-            f"    \"\"\"Activate all {system_name} entities\"\"\"",
-            f"    for module_path, class_name in {system_name.upper()}_ENTITIES:",
-            "        try:",
-            f"            full_module = f'{system_name}.{{module_path}}'",
-            "            module = __import__(full_module, fromlist=[class_name])",
-            "            cls = getattr(module, class_name)",
-            "            try:",
-            "                instance = cls()",
-            "                service_name = class_name.lower()",
-            "                self.register_service(service_name, instance)",
-            "                logger.debug(f'Activated {class_name} as {service_name}')",
-            "            except Exception:",
-            "                self.register_service(class_name.lower() + '_class', cls)",
-            "                logger.debug(f'Registered {class_name} class')",
-            "        except (ImportError, AttributeError) as e:",
-            "            logger.warning(f'Could not activate {class_name} from {module_path}: {e}')",
-        ])
+        lines.extend(
+            [
+                f"def activate_{system_name}_entities(self):",
+                f'    """Activate all {system_name} entities"""',
+                f"    for module_path, class_name in {system_name.upper()}_ENTITIES:",
+                "        try:",
+                f"            full_module = f'{system_name}.{{module_path}}'",
+                "            module = __import__(full_module, fromlist=[class_name])",
+                "            cls = getattr(module, class_name)",
+                "            try:",
+                "                instance = cls()",
+                "                service_name = class_name.lower()",
+                "                self.register_service(service_name, instance)",
+                "                logger.debug(f'Activated {class_name} as {service_name}')",
+                "            except Exception:",
+                "                self.register_service(class_name.lower() + '_class', cls)",
+                "                logger.debug(f'Registered {class_name} class')",
+                "        except (ImportError, AttributeError) as e:",
+                "            logger.warning(f'Could not activate {class_name} from {module_path}: {e}')",
+            ]
+        )
         return "\n".join(lines)
 
     def activate_system(self, system_name: str, system_path: str) -> None:
@@ -97,12 +108,16 @@ class EntityActivator:
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(activation_code)
         entity_count = sum(len(ents) for ents in entities.values())
-        logger.info(f"Generated activation code for {entity_count} entities in {system_name}")
-        self.activation_log.append({
-            "system": system_name,
-            "entity_count": entity_count,
-            "activation_file": str(output_file)
-        })
+        logger.info(
+            f"Generated activation code for {entity_count} entities in {system_name}"
+        )
+        self.activation_log.append(
+            {
+                "system": system_name,
+                "entity_count": entity_count,
+                "activation_file": str(output_file),
+            }
+        )
 
     def generate_activation_report(self) -> None:
         """Write summary report of activation results."""

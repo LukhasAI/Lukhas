@@ -5,25 +5,26 @@ Advanced: voice_interface.py
 Integration Date: 2025-05-31T07:55:28.355963
 """
 
+import logging
+
 """
 Voice Interface for Lukhas System
 ------------------------------
 Provides a unified interface for all voice-related functionality across the system.
-Handles text-to-speech synthesis with support for multiple providers (system, ElevenLabs, etc.)
+Handles text-to-speech synthesis with support for multiple providers (system,
+    ElevenLabs, etc.)
 """
 
-import os
-from core.common import get_logger
 import subprocess
-from typing import Dict, Any, Optional, List, Callable
-from pathlib import Path
 from datetime import datetime
+from typing import Any, Callable, Optional
 
+from voice.message_handler import VoiceMessage, VoiceMessageHandler
 from voice.voice_integration import VoiceIntegrationLayer
 from voice.voice_system_integrator import VoiceSystemIntegrator
-from voice.message_handler import VoiceMessageHandler, VoiceMessage
 
 logger = logging.getLogger("voice_interface")
+
 
 class VoiceInterface:
     """
@@ -44,13 +45,15 @@ class VoiceInterface:
         # Track active conversations
         self.active_conversations = {}
 
-    async def speak(self,
-                   text: str,
-                   provider: str = "auto",
-                   emotion: Optional[str] = None,
-                   voice_id: Optional[str] = None,
-                   priority: int = 5,
-                   conversation_id: Optional[str] = None) -> Dict[str, Any]:
+    async def speak(
+        self,
+        text: str,
+        provider: str = "auto",
+        emotion: Optional[str] = None,
+        voice_id: Optional[str] = None,
+        priority: int = 5,
+        conversation_id: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Speak text using the most appropriate available provider.
 
@@ -71,7 +74,7 @@ class VoiceInterface:
             "emotion": emotion,
             "voice_id": voice_id,
             "conversation_id": conversation_id,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Add to output queue
@@ -85,7 +88,9 @@ class VoiceInterface:
             provider = metadata.get("provider", "auto")
 
             # Try the preferred provider first
-            if provider == "system" or (provider == "auto" and self._should_use_system_voice(message.content)):
+            if provider == "system" or (
+                provider == "auto" and self._should_use_system_voice(message.content)
+            ):
                 return await self._speak_system(message.content)
 
             # Try ElevenLabs
@@ -93,7 +98,7 @@ class VoiceInterface:
                 result = await self.voice_system.speak(
                     text=message.content,
                     emotion=metadata.get("emotion"),
-                    voice_id=metadata.get("voice_id")
+                    voice_id=metadata.get("voice_id"),
                 )
                 if result.get("success"):
                     return result
@@ -104,13 +109,16 @@ class VoiceInterface:
             if provider == "auto":
                 return await self._speak_system(message.content)
 
-            return {"success": False, "error": "All voice synthesis methods failed"}
+            return {
+                "success": False,
+                "error": "All voice synthesis methods failed",
+            }
 
         except Exception as e:
             logger.error(f"Voice synthesis error: {e}")
             return {"success": False, "error": str(e)}
 
-    async def _speak_system(self, text: str) -> Dict[str, Any]:
+    async def _speak_system(self, text: str) -> dict[str, Any]:
         """Use system text-to-speech as a fallback"""
         try:
             subprocess.run(["say", text])
@@ -128,17 +136,21 @@ class VoiceInterface:
         """Register a handler for voice input messages"""
         self.message_handler.register_input_handler(handler)
 
-    def add_to_conversation(self, text: str, conversation_id: str, is_input: bool = True):
+    def add_to_conversation(
+        self, text: str, conversation_id: str, is_input: bool = True
+    ):
         """Add a message to a conversation thread"""
         if conversation_id not in self.active_conversations:
             self.active_conversations[conversation_id] = []
 
-        self.active_conversations[conversation_id].append({
-            "text": text,
-            "type": "input" if is_input else "output",
-            "timestamp": datetime.now().isoformat()
-        })
+        self.active_conversations[conversation_id].append(
+            {
+                "text": text,
+                "type": "input" if is_input else "output",
+                "timestamp": datetime.now().isoformat(),
+            }
+        )
 
-    def get_conversation_history(self, conversation_id: str) -> List[Dict[str, Any]]:
+    def get_conversation_history(self, conversation_id: str) -> list[dict[str, Any]]:
         """Get the history of a conversation thread"""
         return self.active_conversations.get(conversation_id, [])

@@ -21,19 +21,18 @@
 """
 
 import asyncio
-import pytest
 import time
-from unittest.mock import Mock, patch, AsyncMock
 
+import pytest
+
+from core.energy_consumption_analysis import EnergyProfile
 from core.resource_optimization_integration import (
-    ResourceState,
     OptimizationStrategy,
+    ResourceError,
     ResourceMetrics,
     ResourceOptimizationCoordinator,
-    ResourceError
+    ResourceState,
 )
-from core.energy_consumption_analysis import EnergyProfile, EnergyComponent
-from memory.memory_optimization import MemoryTier
 
 
 class TestResourceMetrics:
@@ -48,7 +47,7 @@ class TestResourceMetrics:
             memory_total_mb=500.0,
             network_bandwidth_mbps=10.0,
             cpu_utilization=45.0,
-            resource_state=ResourceState.NORMAL
+            resource_state=ResourceState.NORMAL,
         )
 
         assert metrics.energy_used_joules == 50.0
@@ -65,7 +64,7 @@ class TestResourceMetrics:
             network_bandwidth_mbps=5.0,
             cpu_utilization=60.0,
             resource_state=ResourceState.CONSTRAINED,
-            active_optimizations=["compression", "throttling"]
+            active_optimizations=["compression", "throttling"],
         )
 
         data = metrics.to_dict()
@@ -84,7 +83,7 @@ class TestResourceOptimizationCoordinator:
         return ResourceOptimizationCoordinator(
             target_energy_budget_joules=1000.0,
             target_memory_mb=500,
-            optimization_strategy=OptimizationStrategy.BALANCED
+            optimization_strategy=OptimizationStrategy.BALANCED,
         )
 
     def test_coordinator_initialization(self, coordinator):
@@ -110,11 +109,11 @@ class TestResourceOptimizationCoordinator:
         metrics = ResourceMetrics(
             timestamp=time.time(),
             energy_used_joules=500.0,  # 50% of budget
-            memory_used_mb=250.0,       # 50% of target
+            memory_used_mb=250.0,  # 50% of target
             memory_total_mb=500.0,
             network_bandwidth_mbps=5.0,
             cpu_utilization=50.0,
-            resource_state=ResourceState.NORMAL
+            resource_state=ResourceState.NORMAL,
         )
 
         coordinator._update_resource_state(metrics)
@@ -132,7 +131,7 @@ class TestResourceOptimizationCoordinator:
 
         # Abundant state
         metrics.energy_used_joules = 100.0  # 10% of budget
-        metrics.memory_used_mb = 100.0       # 20% of target
+        metrics.memory_used_mb = 100.0  # 20% of target
         coordinator._update_resource_state(metrics)
         assert coordinator.resource_state == ResourceState.ABUNDANT
 
@@ -146,14 +145,17 @@ class TestResourceOptimizationCoordinator:
             memory_total_mb=500.0,
             network_bandwidth_mbps=5.0,
             cpu_utilization=50.0,
-            resource_state=ResourceState.NORMAL
+            resource_state=ResourceState.NORMAL,
         )
 
         # Test performance optimization
         coordinator.optimization_strategy = OptimizationStrategy.PERFORMANCE
         await coordinator._apply_optimizations(metrics)
         assert coordinator.optimization_decisions.get("strategy") == "performance"
-        assert coordinator.energy_analyzer.current_profile == EnergyProfile.HIGH_PERFORMANCE
+        assert (
+            coordinator.energy_analyzer.current_profile
+            == EnergyProfile.HIGH_PERFORMANCE
+        )
 
         # Test efficiency optimization
         coordinator.optimization_strategy = OptimizationStrategy.EFFICIENCY
@@ -170,6 +172,7 @@ class TestResourceOptimizationCoordinator:
     @pytest.mark.asyncio
     async def test_resource_aware_execution(self, coordinator):
         """Test resource-aware operation execution"""
+
         # Normal conditions
         async def test_operation():
             return "success"
@@ -179,7 +182,7 @@ class TestResourceOptimizationCoordinator:
             test_operation,
             estimated_energy=1.0,
             estimated_memory_mb=10.0,
-            priority="normal"
+            priority="normal",
         )
         assert result == "success"
 
@@ -188,16 +191,12 @@ class TestResourceOptimizationCoordinator:
 
         with pytest.raises(ResourceError):
             await coordinator.execute_with_resource_awareness(
-                "low_priority_op",
-                test_operation,
-                priority="low"
+                "low_priority_op", test_operation, priority="low"
             )
 
         # Critical operations should still proceed
         result = await coordinator.execute_with_resource_awareness(
-            "critical_op",
-            test_operation,
-            priority="critical"
+            "critical_op", test_operation, priority="critical"
         )
         assert result == "success"
 
@@ -225,7 +224,7 @@ class TestResourceOptimizationCoordinator:
                 memory_total_mb=500.0,
                 network_bandwidth_mbps=5.0,
                 cpu_utilization=20.0 * i,
-                resource_state=ResourceState.NORMAL
+                resource_state=ResourceState.NORMAL,
             )
             coordinator.metrics_history.append(metrics)
 
@@ -272,7 +271,10 @@ class TestResourceOptimizationCoordinator:
         await asyncio.sleep(0.1)
 
         # Should have reduced communication budget
-        assert coordinator.comm_fabric.router.energy_budget <= coordinator.target_energy_budget
+        assert (
+            coordinator.comm_fabric.router.energy_budget
+            <= coordinator.target_energy_budget
+        )
 
         # Clean up
         await coordinator.stop_monitoring()
@@ -288,7 +290,7 @@ class TestIntegration:
         coordinator = ResourceOptimizationCoordinator(
             target_energy_budget_joules=100.0,  # Small budget for testing
             target_memory_mb=100,
-            optimization_strategy=OptimizationStrategy.BALANCED
+            optimization_strategy=OptimizationStrategy.BALANCED,
         )
 
         # Initialize systems
@@ -297,9 +299,7 @@ class TestIntegration:
 
         # Create energy budget
         coordinator.energy_analyzer.create_budget(
-            "test_budget",
-            total_joules=100.0,
-            time_window_seconds=60.0
+            "test_budget", total_joules=100.0, time_window_seconds=60.0
         )
 
         # Simulate operations that consume resources
@@ -320,7 +320,7 @@ class TestIntegration:
                 lambda op_id=i: simulated_operation(op_id),
                 estimated_energy=5.0,
                 estimated_memory_mb=10.0,
-                priority=priority
+                priority=priority,
             )
             tasks.append(task)
 
@@ -346,7 +346,7 @@ class TestIntegration:
         coordinator = ResourceOptimizationCoordinator(
             target_energy_budget_joules=500.0,
             target_memory_mb=200,
-            optimization_strategy=OptimizationStrategy.BALANCED
+            optimization_strategy=OptimizationStrategy.BALANCED,
         )
 
         await coordinator.start_monitoring()
@@ -367,7 +367,7 @@ class TestIntegration:
                 memory_total_mb=200.0,
                 network_bandwidth_mbps=5.0,
                 cpu_utilization=20.0 * (i + 1),
-                resource_state=coordinator.resource_state
+                resource_state=coordinator.resource_state,
             )
 
             coordinator.metrics_history.append(metrics)
@@ -379,10 +379,16 @@ class TestIntegration:
 
         # Should have transitioned through states
         assert ResourceState.NORMAL in states_observed
-        assert ResourceState.CONSTRAINED in states_observed or ResourceState.CRITICAL in states_observed
+        assert (
+            ResourceState.CONSTRAINED in states_observed
+            or ResourceState.CRITICAL in states_observed
+        )
 
         # Energy profile should have adjusted
-        assert coordinator.energy_analyzer.current_profile != EnergyProfile.HIGH_PERFORMANCE
+        assert (
+            coordinator.energy_analyzer.current_profile
+            != EnergyProfile.HIGH_PERFORMANCE
+        )
 
         await coordinator.stop_monitoring()
 
@@ -427,7 +433,7 @@ class TestPerformance:
                 fast_operation,
                 estimated_energy=0.1,
                 estimated_memory_mb=1.0,
-                priority="normal"
+                priority="normal",
             )
             tasks.append(task)
 

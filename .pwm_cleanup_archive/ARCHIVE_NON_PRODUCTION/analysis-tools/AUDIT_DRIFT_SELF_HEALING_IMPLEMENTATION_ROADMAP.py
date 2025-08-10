@@ -19,9 +19,8 @@ PHASE-BASED IMPLEMENTATION STRATEGY
 import asyncio
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta, timezone
-from enum import Enum
-from typing import Any, Dict, List, Optional
+from datetime import datetime, timedelta
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -669,7 +668,7 @@ async def generate_audit_drift_healing_roadmap():
 
     # Display roadmap overview
     overview = implementation_plan["roadmap_overview"]
-    print(f"\n📋 ROADMAP OVERVIEW")
+    print("\n📋 ROADMAP OVERVIEW")
     print(f"   Roadmap ID: {overview['roadmap_id']}")
     print(f"   Total Duration: {overview['total_duration_weeks']} weeks")
     print(f"   Start Date: {overview['start_date'][:10]}")
@@ -678,27 +677,27 @@ async def generate_audit_drift_healing_roadmap():
     print(f"   System Integrations: {overview['total_integrations']}")
 
     # Display implementation phases
-    print(f"\n🏗️  IMPLEMENTATION PHASES")
+    print("\n🏗️  IMPLEMENTATION PHASES")
     for i, phase in enumerate(implementation_plan["implementation_phases"], 1):
         print(f"\n   Phase {i}: {phase['name']}")
         print(f"   Duration: {phase['duration_weeks']} weeks")
         print(
             f"   Dependencies: {', '.join(phase['dependencies']) if phase['dependencies'] else 'None'}"
         )
-        print(f"   Key Deliverables:")
+        print("   Key Deliverables:")
         for deliverable in phase["deliverables"][:3]:  # Show first 3
             print(f"     • {deliverable}")
         if len(phase["deliverables"]) > 3:
             print(f"     • ... and {len(phase['deliverables']) - 3} more")
 
-        print(f"   Success Criteria:")
+        print("   Success Criteria:")
         for criterion, target in list(phase["success_criteria"].items())[
             :2
         ]:  # Show first 2
             print(f"     • {criterion}: {target}")
 
     # Display key system integrations
-    print(f"\n🔗 KEY SYSTEM INTEGRATIONS")
+    print("\n🔗 KEY SYSTEM INTEGRATIONS")
     priority_systems = [
         "Event-Bus Colony/Swarm Architecture",
         "Endocrine System",
@@ -726,7 +725,7 @@ async def generate_audit_drift_healing_roadmap():
             )
 
     # Display resource requirements
-    print(f"\n👥 RESOURCE REQUIREMENTS")
+    print("\n👥 RESOURCE REQUIREMENTS")
     resources = implementation_plan["resource_requirements"]
     team = resources["development_team"]
     print(f"   Development Team: {sum(team.values())} total members")
@@ -742,20 +741,20 @@ async def generate_audit_drift_healing_roadmap():
     print(f"   Estimated Budget: ${total_budget:,}")
 
     # Display success metrics
-    print(f"\n📊 SUCCESS METRICS")
+    print("\n📊 SUCCESS METRICS")
     tech_metrics = implementation_plan["success_metrics"]["technical_metrics"]
     business_metrics = implementation_plan["success_metrics"]["business_metrics"]
 
-    print(f"   Technical Targets:")
+    print("   Technical Targets:")
     for metric, target in list(tech_metrics.items())[:3]:
         print(f"     • {metric.replace('_', ' ').title()}: {target}")
 
-    print(f"   Business Targets:")
+    print("   Business Targets:")
     for metric, target in list(business_metrics.items())[:3]:
         print(f"     • {metric.replace('_', ' ').title()}: {target}")
 
     # Display critical risks
-    print(f"\n⚠️  CRITICAL RISKS AND MITIGATION")
+    print("\n⚠️  CRITICAL RISKS AND MITIGATION")
     high_risks = implementation_plan["risk_assessment"]["high_risks"]
     for risk in high_risks:
         print(f"   🔴 {risk['risk']}")
@@ -766,27 +765,27 @@ async def generate_audit_drift_healing_roadmap():
         print()
 
     # Display deployment strategy
-    print(f"\n🚀 DEPLOYMENT STRATEGY")
+    print("\n🚀 DEPLOYMENT STRATEGY")
     deployment = implementation_plan["deployment_strategy"]
     print(f"   Approach: {deployment['deployment_approach'].replace('_', '-').title()}")
-    print(f"   Rollout Phases:")
+    print("   Rollout Phases:")
     for phase in deployment["rollout_phases"]:
         print(
             f"     • {phase['phase'].title()}: {phase['scope']} over {phase['duration']}"
         )
     print(f"   Rollback Time: {deployment['rollback_strategy']['rollback_time']}")
 
-    print(f"\n🌟 NEXT STEPS")
+    print("\n🌟 NEXT STEPS")
     print("   1. Review and approve implementation roadmap")
     print("   2. Assemble development team and allocate resources")
     print("   3. Set up development and testing environments")
     print("   4. Begin Phase 1: Foundation and Infrastructure Setup")
     print("   5. Establish monitoring and governance processes")
 
-    print(f"\n✅ ROADMAP GENERATION COMPLETE")
-    print(f"   Implementation plan ready for execution")
+    print("\n✅ ROADMAP GENERATION COMPLETE")
+    print("   Implementation plan ready for execution")
     print(f"   Total estimated effort: {overview['total_duration_weeks']} weeks")
-    print(f"   Expected ROI: >200% through improved audit quality and automation")
+    print("   Expected ROI: >200% through improved audit quality and automation")
 
     # Save roadmap to file
     roadmap_file = (

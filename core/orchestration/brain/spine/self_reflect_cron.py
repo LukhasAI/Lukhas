@@ -25,9 +25,10 @@ Integration Date: 2025-05-31T07:55:28.116407
 # 💬 ADHD & Non-coder Friendly Note:
 # Just run this file once. Lukhas will wake up every morning and reflect symbolically.
 
-import schedule
-import time
 import subprocess
+import time
+
+import schedule
 
 # Adjust this to the full path of your lukhas_reflection_gpt.py
 REFLECTION_SCRIPT = "/Users/grdm_admin/Downloads/oxn/symbolic_ai/personas/lukhas/lukhas_reflection_gpt.py"
@@ -38,6 +39,7 @@ def run_reflection():
     subprocess.run(["python3", REFLECTION_SCRIPT])
     with open("logs/lukhas_daily_reflection_log.txt", "a") as log_file:
         from datetime import datetime
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         log_file.write(f"[{timestamp}] Daily reflection triggered.\n")
 

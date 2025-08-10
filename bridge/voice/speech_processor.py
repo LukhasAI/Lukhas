@@ -5,21 +5,20 @@ Advanced: speech_processor.py
 Integration Date: 2025-05-31T07:55:28.300093
 """
 
-import numpy as np
-from datetime import datetime
-import threading
-import queue
-from core.common import get_logger
-import asyncio
 import os
+import queue
 import sys
-from typing import Dict, Any, Optional, List, Union
-import openai
+import threading
+from datetime import datetime
+from typing import Any, Optional
 
 from integrations.elevenlabs.elevenlabs_client import ElevenLabsClient
 from integrations.openai.whisper_client import WhisperClient
 
+from core.common import get_logger
+
 logger = get_logger(__name__)
+
 
 class SpeechProcessor:
     """
@@ -40,7 +39,7 @@ class SpeechProcessor:
         # Voice synthesis settings
         self.elevenlabs = ElevenLabsClient(
             api_key=os.environ.get("ELEVENLABS_API_KEY"),
-            voice_id=os.environ.get("VOICE_ID", "xxxxxxxxxxxxxxxxxx")
+            voice_id=os.environ.get("VOICE_ID", "xxxxxxxxxxxxxxxxxx"),
         )
 
         # Voice recognition (if available)
@@ -65,12 +64,18 @@ class SpeechProcessor:
         self.listen_thread = threading.Thread(target=self._process_audio_stream)
         self.listen_thread.daemon = True
         self.listen_thread.start()
-        return {"status": "listening_started", "timestamp": datetime.now().isoformat()}
+        return {
+            "status": "listening_started",
+            "timestamp": datetime.now().isoformat(),
+        }
 
     def stop_listening(self):
         """Stop listening session gracefully"""
         self.is_listening = False
-        return {"status": "listening_stopped", "timestamp": datetime.now().isoformat()}
+        return {
+            "status": "listening_stopped",
+            "timestamp": datetime.now().isoformat(),
+        }
 
     def _process_audio_stream(self):
         """Process incoming audio stream with minimal latency"""
@@ -104,7 +109,7 @@ class SpeechProcessor:
                 return {
                     "text": result.get("text", ""),
                     "confidence": result.get("confidence", 0.0),
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
             except Exception as e:
                 logger.error(f"Whisper transcription error: {e}")
@@ -113,7 +118,7 @@ class SpeechProcessor:
         return {
             "text": "Example transcription",
             "confidence": 0.95,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def _update_context_window(self, transcription):
@@ -133,10 +138,10 @@ class SpeechProcessor:
     async def speak(
         self,
         text: str,
-        emotion: Optional[Dict] = None,
+        emotion: Optional[dict] = None,
         voice_id: Optional[str] = None,
-        wait_for_completion: bool = False
-    ) -> Dict[str, Any]:
+        wait_for_completion: bool = False,
+    ) -> dict[str, Any]:
         """
         Convert text to speech with emotional awareness
 
@@ -151,7 +156,9 @@ class SpeechProcessor:
         """
         try:
             # Adjust voice parameters based on emotion
-            stability, similarity_boost, style = self._map_emotion_to_voice_parameters(emotion)
+            stability, similarity_boost, style = self._map_emotion_to_voice_parameters(
+                emotion
+            )
 
             # Generate speech with ElevenLabs
             result = await self.elevenlabs.text_to_speech(
@@ -159,7 +166,7 @@ class SpeechProcessor:
                 voice_id=voice_id,
                 stability=stability,
                 similarity_boost=similarity_boost,
-                style=style
+                style=style,
             )
 
             if "error" in result:
@@ -194,7 +201,8 @@ class SpeechProcessor:
             return False
 
         try:
-            # CLAUDE_EDIT_v0.13: Fixed command injection vulnerability - use subprocess with list args
+            # CLAUDE_EDIT_v0.13: Fixed command injection vulnerability - use
+            # subprocess with list args
             import subprocess
 
             # Validate audio path to prevent command injection
@@ -220,10 +228,7 @@ class SpeechProcessor:
             logger.error(f"Unexpected error playing audio: {e}")
             return False
 
-    def _map_emotion_to_voice_parameters(
-        self,
-        emotion: Optional[Dict]
-    ) -> tuple:
+    def _map_emotion_to_voice_parameters(self, emotion: Optional[dict]) -> tuple:
         """
         Map emotional context to voice synthesis parameters
 
@@ -241,11 +246,19 @@ class SpeechProcessor:
 
         # Adjust parameters based on emotion
         if primary_emotion == "happy":
-            return 0.4, 0.75, min(intensity * 0.8, 0.8)  # More animated, expressive
+            return (
+                0.4,
+                0.75,
+                min(intensity * 0.8, 0.8),
+            )  # More animated, expressive
         elif primary_emotion == "sad":
             return 0.65, 0.85, min(intensity * 0.3, 0.3)  # More stable, clear
         elif primary_emotion == "angry":
-            return 0.35, 0.6, min(intensity * 0.5, 0.5)  # Less stable, variable
+            return (
+                0.35,
+                0.6,
+                min(intensity * 0.5, 0.5),
+            )  # Less stable, variable
         elif primary_emotion == "fearful":
             return 0.6, 0.8, min(intensity * 0.4, 0.4)  # More stable
         elif primary_emotion == "surprised":
@@ -270,8 +283,15 @@ class EmotionAnalyzer:
 
     def __init__(self):
         self.emotion_categories = [
-            "neutral", "happy", "sad", "angry", "fearful",
-            "disgusted", "surprised", "confused", "urgent"
+            "neutral",
+            "happy",
+            "sad",
+            "angry",
+            "fearful",
+            "disgusted",
+            "surprised",
+            "confused",
+            "urgent",
         ]
 
     def analyze(self, audio_data):
@@ -280,7 +300,7 @@ class EmotionAnalyzer:
         # Placeholder implementation
         return {
             "primary_emotion": "neutral",
-            "emotion_scores": {emotion: 0.1 for emotion in self.emotion_categories},
+            "emotion_scores": dict.fromkeys(self.emotion_categories, 0.1),
             "intensity": 0.5,
-            "confidence": 0.85
+            "confidence": 0.85,
         }

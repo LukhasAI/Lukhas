@@ -26,18 +26,18 @@
 """
 
 import asyncio
-import logging
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Tuple, Union
-from dataclasses import dataclass
 import json
-import openai
+import logging
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
+from bridge.openai_core_service import (
+    ModelType,
+    OpenAICoreService,
+    OpenAIRequest,
+)
 from core.colonies.base_colony import BaseColony
-from core.colonies.supervisor_agent import SupervisorAgent
-from core.event_sourcing import get_global_event_store
-from core.actor_system import get_global_actor_system, ActorRef
-from bridge.openai_core_service import OpenAICoreService, OpenAIRequest, ModelType
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
 
@@ -45,6 +45,7 @@ logger = logging.getLogger("ΛTRACE.oracle_colony")
 @dataclass
 class OracleQuery:
     """Unified query structure for Oracle operations."""
+
     query_type: str  # "prediction", "dream", "prophecy", "analysis"
     context: Dict[str, Any]
     time_horizon: Optional[str] = "near"  # "immediate", "near", "medium", "far"
@@ -56,6 +57,7 @@ class OracleQuery:
 @dataclass
 class OracleResponse:
     """Unified response structure for Oracle operations."""
+
     query_id: str
     response_type: str
     content: Dict[str, Any]
@@ -68,9 +70,16 @@ class OracleResponse:
 class OracleAgent:
     """Individual Oracle agent specializing in specific prediction types."""
 
-    def __init__(self, agent_id: str, specialization: str, openai_service: Optional[OpenAICoreService] = None):
+    def __init__(
+        self,
+        agent_id: str,
+        specialization: str,
+        openai_service: Optional[OpenAICoreService] = None,
+    ):
         self.agent_id = agent_id
-        self.specialization = specialization  # "predictor", "dreamer", "prophet", "analyzer"
+        self.specialization = (
+            specialization  # "predictor", "dreamer", "prophet", "analyzer"
+        )
         self.openai_service = openai_service
         self.logger = logger.bind(agent_id=agent_id, specialization=specialization)
 
@@ -98,15 +107,18 @@ class OracleAgent:
         if query.openai_enhanced and self.openai_service:
             openai_request = OpenAIRequest(
                 model=ModelType.GPT_4O,
-                messages=[{
-                    "role": "system",
-                    "content": f"You are an AI Oracle specialized in predictive analysis. Analyze the provided context and generate predictions for the {query.time_horizon} term."
-                }, {
-                    "role": "user",
-                    "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide detailed predictions including trends, risks, and recommendations."
-                }],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": f"You are an AI Oracle specialized in predictive analysis. Analyze the provided context and generate predictions for the {query.time_horizon} term.",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide detailed predictions including trends, risks, and recommendations.",
+                    },
+                ],
                 temperature=0.7,
-                max_tokens=1000
+                max_tokens=1000,
             )
 
             try:
@@ -115,11 +127,13 @@ class OracleAgent:
                     "prediction": openai_response.content,
                     "enhanced_by": "openai",
                     "model": "gpt-4o",
-                    "confidence_factors": ["openai_analysis", "pattern_recognition"]
+                    "confidence_factors": ["openai_analysis", "pattern_recognition"],
                 }
                 confidence = 0.85
             except Exception as e:
-                self.logger.error("OpenAI prediction failed, falling back", error=str(e))
+                self.logger.error(
+                    "OpenAI prediction failed, falling back", error=str(e)
+                )
                 prediction_content = await self._fallback_prediction(context)
                 confidence = 0.65
         else:
@@ -133,7 +147,7 @@ class OracleAgent:
             confidence=confidence,
             temporal_scope=query.time_horizon,
             generated_at=datetime.now(),
-            metadata={"agent_id": self.agent_id, "specialization": self.specialization}
+            metadata={"agent_id": self.agent_id, "specialization": self.specialization},
         )
 
     async def _handle_dream_generation(self, query: OracleQuery) -> OracleResponse:
@@ -144,15 +158,18 @@ class OracleAgent:
         if query.openai_enhanced and self.openai_service:
             openai_request = OpenAIRequest(
                 model=ModelType.GPT_4O,
-                messages=[{
-                    "role": "system",
-                    "content": "You are an AI Dream Oracle that creates meaningful, symbolic dreams based on user context and predictive insights."
-                }, {
-                    "role": "user",
-                    "content": f"User Context: {json.dumps(context, indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context."
-                }],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are an AI Dream Oracle that creates meaningful, symbolic dreams based on user context and predictive insights.",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"User Context: {json.dumps(context, indent=2)}\n\nGenerate a symbolic dream that provides insight, guidance, or reflection based on this context.",
+                    },
+                ],
                 temperature=0.9,
-                max_tokens=800
+                max_tokens=800,
             )
 
             try:
@@ -160,12 +177,16 @@ class OracleAgent:
                 dream_content = {
                     "dream_narrative": openai_response.content,
                     "dream_type": "prophetic",
-                    "symbolic_elements": await self._extract_symbols(openai_response.content),
-                    "enhanced_by": "openai"
+                    "symbolic_elements": await self._extract_symbols(
+                        openai_response.content
+                    ),
+                    "enhanced_by": "openai",
                 }
                 confidence = 0.88
             except Exception as e:
-                self.logger.error("OpenAI dream generation failed, falling back", error=str(e))
+                self.logger.error(
+                    "OpenAI dream generation failed, falling back", error=str(e)
+                )
                 dream_content = await self._fallback_dream(context)
                 confidence = 0.70
         else:
@@ -179,7 +200,7 @@ class OracleAgent:
             confidence=confidence,
             temporal_scope=query.time_horizon,
             generated_at=datetime.now(),
-            metadata={"agent_id": self.agent_id, "specialization": self.specialization}
+            metadata={"agent_id": self.agent_id, "specialization": self.specialization},
         )
 
     async def _handle_prophecy(self, query: OracleQuery) -> OracleResponse:
@@ -190,15 +211,18 @@ class OracleAgent:
         if query.openai_enhanced and self.openai_service:
             openai_request = OpenAIRequest(
                 model=ModelType.GPT_4O,
-                messages=[{
-                    "role": "system",
-                    "content": "You are a Prophetic Oracle that combines analytical prediction with symbolic wisdom. Generate prophecies that are both insightful and actionable."
-                }, {
-                    "role": "user",
-                    "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term."
-                }],
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a Prophetic Oracle that combines analytical prediction with symbolic wisdom. Generate prophecies that are both insightful and actionable.",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Context: {json.dumps(context, indent=2)}\n\nProvide a prophecy that combines predictive analysis with symbolic guidance for the {query.time_horizon} term.",
+                    },
+                ],
                 temperature=0.8,
-                max_tokens=600
+                max_tokens=600,
             )
 
             try:
@@ -207,12 +231,16 @@ class OracleAgent:
                     "prophecy": openai_response.content,
                     "prophecy_type": "analytical_symbolic",
                     "warning_level": await self._assess_warning_level(context),
-                    "recommended_actions": await self._generate_recommendations(context),
-                    "enhanced_by": "openai"
+                    "recommended_actions": await self._generate_recommendations(
+                        context
+                    ),
+                    "enhanced_by": "openai",
                 }
                 confidence = 0.82
             except Exception as e:
-                self.logger.error("OpenAI prophecy generation failed, falling back", error=str(e))
+                self.logger.error(
+                    "OpenAI prophecy generation failed, falling back", error=str(e)
+                )
                 prophecy_content = await self._fallback_prophecy(context)
                 confidence = 0.68
         else:
@@ -226,7 +254,7 @@ class OracleAgent:
             confidence=confidence,
             temporal_scope=query.time_horizon,
             generated_at=datetime.now(),
-            metadata={"agent_id": self.agent_id, "specialization": self.specialization}
+            metadata={"agent_id": self.agent_id, "specialization": self.specialization},
         )
 
     async def _handle_analysis(self, query: OracleQuery) -> OracleResponse:
@@ -237,7 +265,7 @@ class OracleAgent:
             "analysis": "Deep system analysis based on available data",
             "patterns_detected": [],
             "anomalies": [],
-            "recommendations": []
+            "recommendations": [],
         }
 
         return OracleResponse(
@@ -247,7 +275,7 @@ class OracleAgent:
             confidence=0.75,
             temporal_scope=query.time_horizon,
             generated_at=datetime.now(),
-            metadata={"agent_id": self.agent_id, "specialization": self.specialization}
+            metadata={"agent_id": self.agent_id, "specialization": self.specialization},
         )
 
     # Fallback methods for when OpenAI is unavailable
@@ -257,7 +285,7 @@ class OracleAgent:
             "prediction": "System analysis indicates stable continuation of current patterns",
             "confidence_factors": ["historical_analysis", "pattern_matching"],
             "trends": ["stability", "gradual_evolution"],
-            "enhanced_by": "local_analysis"
+            "enhanced_by": "local_analysis",
         }
 
     async def _fallback_dream(self, context: Dict[str, Any]) -> Dict[str, Any]:
@@ -266,7 +294,7 @@ class OracleAgent:
             "dream_narrative": "A symbolic journey through the landscape of possibilities",
             "dream_type": "reflective",
             "symbolic_elements": ["journey", "landscape", "transformation"],
-            "enhanced_by": "local_generation"
+            "enhanced_by": "local_generation",
         }
 
     async def _fallback_prophecy(self, context: Dict[str, Any]) -> Dict[str, Any]:
@@ -276,14 +304,27 @@ class OracleAgent:
             "prophecy_type": "wisdom_based",
             "warning_level": "moderate",
             "recommended_actions": ["observe", "prepare", "adapt"],
-            "enhanced_by": "local_wisdom"
+            "enhanced_by": "local_wisdom",
         }
 
     async def _extract_symbols(self, content: str) -> List[str]:
         """Extract symbolic elements from generated content."""
         # Simple symbolic element extraction
         symbols = []
-        symbolic_words = ["journey", "path", "light", "shadow", "bridge", "door", "key", "mirror", "water", "fire", "earth", "sky"]
+        symbolic_words = [
+            "journey",
+            "path",
+            "light",
+            "shadow",
+            "bridge",
+            "door",
+            "key",
+            "mirror",
+            "water",
+            "fire",
+            "earth",
+            "sky",
+        ]
         for word in symbolic_words:
             if word.lower() in content.lower():
                 symbols.append(word)
@@ -301,7 +342,12 @@ class OracleAgent:
 
     async def _generate_recommendations(self, context: Dict[str, Any]) -> List[str]:
         """Generate actionable recommendations."""
-        return ["monitor_trends", "maintain_balance", "prepare_for_change", "seek_wisdom"]
+        return [
+            "monitor_trends",
+            "maintain_balance",
+            "prepare_for_change",
+            "seek_wisdom",
+        ]
 
 
 class OracleColony(BaseColony):
@@ -326,7 +372,9 @@ class OracleColony(BaseColony):
             await self.openai_service.initialize()
             logger.info("Oracle Colony initialized with OpenAI support")
         except Exception as e:
-            logger.warning("Oracle Colony initialized without OpenAI support", error=str(e))
+            logger.warning(
+                "Oracle Colony initialized without OpenAI support", error=str(e)
+            )
 
         # Create specialized Oracle agents
         specializations = ["predictor", "dreamer", "prophet", "analyzer"]
@@ -337,13 +385,19 @@ class OracleColony(BaseColony):
         # Start processing loop
         asyncio.create_task(self._process_queries())
 
-        logger.info("Oracle Colony fully initialized",
-                   agents=list(self.oracle_agents.keys()),
-                   openai_available=bool(self.openai_service))
+        logger.info(
+            "Oracle Colony fully initialized",
+            agents=list(self.oracle_agents.keys()),
+            openai_available=bool(self.openai_service),
+        )
 
     async def query_oracle(self, query: OracleQuery) -> OracleResponse:
         """Submit a query to the Oracle system."""
-        logger.info("Received Oracle query", query_type=query.query_type, priority=query.priority)
+        logger.info(
+            "Received Oracle query",
+            query_type=query.query_type,
+            priority=query.priority,
+        )
 
         # Route to appropriate agent
         if query.query_type == "prediction":
@@ -364,16 +418,21 @@ class OracleColony(BaseColony):
         self.response_cache[response.query_id] = response
 
         # Emit event
-        await self.emit_event("oracle_response_generated", {
-            "query_type": query.query_type,
-            "response_id": response.query_id,
-            "confidence": response.confidence,
-            "agent_specialization": agent.specialization
-        })
+        await self.emit_event(
+            "oracle_response_generated",
+            {
+                "query_type": query.query_type,
+                "response_id": response.query_id,
+                "confidence": response.confidence,
+                "agent_specialization": agent.specialization,
+            },
+        )
 
         return response
 
-    async def get_temporal_insights(self, context: Dict[str, Any], horizons: List[str] = None) -> Dict[str, OracleResponse]:
+    async def get_temporal_insights(
+        self, context: Dict[str, Any], horizons: List[str] = None
+    ) -> Dict[str, OracleResponse]:
         """Get insights across multiple time horizons."""
         if horizons is None:
             horizons = ["immediate", "near", "medium", "far"]
@@ -384,34 +443,38 @@ class OracleColony(BaseColony):
                 query_type="prophecy",
                 context=context,
                 time_horizon=horizon,
-                openai_enhanced=True
+                openai_enhanced=True,
             )
             insights[horizon] = await self.query_oracle(query)
 
         return insights
 
-    async def generate_contextual_dream(self, user_id: str, context: Dict[str, Any]) -> OracleResponse:
+    async def generate_contextual_dream(
+        self, user_id: str, context: Dict[str, Any]
+    ) -> OracleResponse:
         """Generate a contextual dream for a specific user."""
         query = OracleQuery(
             query_type="dream",
             context=context,
             user_id=user_id,
             time_horizon="near",
-            openai_enhanced=True
+            openai_enhanced=True,
         )
         return await self.query_oracle(query)
 
-    async def predict_system_drift(self, system_metrics: Dict[str, Any]) -> OracleResponse:
+    async def predict_system_drift(
+        self, system_metrics: Dict[str, Any]
+    ) -> OracleResponse:
         """Predict potential system drift based on metrics."""
         query = OracleQuery(
             query_type="prediction",
             context={
                 "system_metrics": system_metrics,
-                "analysis_type": "drift_prediction"
+                "analysis_type": "drift_prediction",
             },
             time_horizon="medium",
             priority="high",
-            openai_enhanced=True
+            openai_enhanced=True,
         )
         return await self.query_oracle(query)
 
@@ -438,7 +501,7 @@ class OracleColony(BaseColony):
             "openai_available": bool(self.openai_service),
             "cached_responses": len(self.response_cache),
             "query_queue_size": self.query_queue.qsize(),
-            "specializations": list(self.oracle_agents.keys())
+            "specializations": list(self.oracle_agents.keys()),
         }
 
         base_status.update(oracle_status)
@@ -459,10 +522,14 @@ async def get_oracle_colony() -> OracleColony:
 
 
 # Convenience functions for direct Oracle access
-async def predict(context: Dict[str, Any], time_horizon: str = "near") -> OracleResponse:
+async def predict(
+    context: Dict[str, Any], time_horizon: str = "near"
+) -> OracleResponse:
     """Direct prediction function."""
     colony = await get_oracle_colony()
-    query = OracleQuery(query_type="prediction", context=context, time_horizon=time_horizon)
+    query = OracleQuery(
+        query_type="prediction", context=context, time_horizon=time_horizon
+    )
     return await colony.query_oracle(query)
 
 
@@ -473,10 +540,14 @@ async def dream(context: Dict[str, Any], user_id: str = None) -> OracleResponse:
     return await colony.query_oracle(query)
 
 
-async def prophecy(context: Dict[str, Any], time_horizon: str = "medium") -> OracleResponse:
+async def prophecy(
+    context: Dict[str, Any], time_horizon: str = "medium"
+) -> OracleResponse:
     """Direct prophecy function."""
     colony = await get_oracle_colony()
-    query = OracleQuery(query_type="prophecy", context=context, time_horizon=time_horizon)
+    query = OracleQuery(
+        query_type="prophecy", context=context, time_horizon=time_horizon
+    )
     return await colony.query_oracle(query)
 
 

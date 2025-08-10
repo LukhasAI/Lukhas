@@ -1,17 +1,29 @@
 import unittest
+
 import pytest
 
 try:
-    from reasoning.adaptive_reasoning_loop import AdaptiveReasoningLoop, create_reasoning_loop
+    from reasoning.adaptive_reasoning_loop import (
+        AdaptiveReasoningLoop,
+        create_reasoning_loop,
+    )
 except ImportError:
     # Use mock system when module is not available
     try:
-        import sys
         import os
+        import sys
+
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-        from tests.test_mocks import AdaptiveReasoningLoop, create_reasoning_loop
+        from tests.test_mocks import (
+            AdaptiveReasoningLoop,
+            create_reasoning_loop,
+        )
     except ImportError:
-        pytest.skip("Neither reasoning module nor test mocks are available", allow_module_level=True)
+        pytest.skip(
+            "Neither reasoning module nor test mocks are available",
+            allow_module_level=True,
+        )
+
 
 class TestAdaptiveReasoningLoop(unittest.TestCase):
 
@@ -50,5 +62,6 @@ class TestAdaptiveReasoningLoop(unittest.TestCase):
         loop = create_reasoning_loop()
         self.assertIsInstance(loop, AdaptiveReasoningLoop)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

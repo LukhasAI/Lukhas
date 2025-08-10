@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Sandbox Runner
@@ -21,9 +20,12 @@ This module provides a sandbox for running user-governed symbolic forks.
 
 import json
 import os
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
-from ethics.governance_checker import validate_symbolic_integrity, log_governance_trace
+from ethics.governance_checker import (
+    log_governance_trace,
+    validate_symbolic_integrity,
+)
 
 SANDBOX_PATH = os.path.join(os.path.dirname(__file__), "user_fork_proposals.jsonl")
 
@@ -59,8 +61,9 @@ def list_forks() -> List[Dict[str, Any]]:
     """Returns all stored fork proposals."""
     if not os.path.exists(SANDBOX_PATH):
         return []
-    with open(SANDBOX_PATH, "r", encoding="utf-8") as f:
+    with open(SANDBOX_PATH, encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

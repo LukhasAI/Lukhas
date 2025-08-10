@@ -27,19 +27,16 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import os
-import json
 import asyncio
 import base64
-from pathlib import Path
+import json
+import os
 from datetime import datetime
-from typing import Dict, Any, Optional, List, Tuple
-from core.common import get_logger
-from io import BytesIO
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # OpenAI imports
 from openai import AsyncOpenAI, OpenAI
-import aiohttp
 
 # Internal imports
 from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
@@ -64,9 +61,11 @@ class OpenAIDreamIntegration:
         self.text_client = UnifiedOpenAIClient(api_key)
 
         # Initialize direct OpenAI clients for specialized operations
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
-            raise ValueError("OpenAI API key not found. Set OPENAI_API_KEY environment variable.")
+            raise ValueError(
+                "OpenAI API key not found. Set OPENAI_API_KEY environment variable."
+            )
 
         self.async_client = AsyncOpenAI(api_key=self.api_key)
         self.sync_client = OpenAI(api_key=self.api_key)
@@ -91,7 +90,7 @@ class OpenAIDreamIntegration:
         self,
         base_dream: Dict[str, Any],
         style: str = "surreal and poetic",
-        length: str = "medium"
+        length: str = "medium",
     ) -> Dict[str, Any]:
         """
         Enhance a basic dream with rich narrative using GPT-4.
@@ -128,24 +127,26 @@ The narrative should be immersive and poetic, suitable for both reading and visu
             response = await self.text_client.creative_task(prompt, style=style)
 
             # Update dream with enhanced narrative
-            base_dream['enhanced_narrative'] = {
-                'full_text': response,
-                'style': style,
-                'length': length,
-                'timestamp': datetime.utcnow().isoformat(),
-                'gpt_model': 'gpt-4'
+            base_dream["enhanced_narrative"] = {
+                "full_text": response,
+                "style": style,
+                "length": length,
+                "timestamp": datetime.utcnow().isoformat(),
+                "gpt_model": "gpt-4",
             }
 
             # Generate a shorter version for image prompts
             image_prompt = await self._create_image_prompt(response)
-            base_dream['image_prompt'] = image_prompt
+            base_dream["image_prompt"] = image_prompt
 
-            logger.info(f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}")
+            logger.info(
+                f"Enhanced dream narrative created: {base_dream.get('dream_id', 'unknown')}"
+            )
             return base_dream
 
         except Exception as e:
             logger.error(f"Error enhancing dream narrative: {e}")
-            base_dream['enhancement_error'] = str(e)
+            base_dream["enhancement_error"] = str(e)
             return base_dream
 
     async def _create_image_prompt(self, narrative: str) -> str:
@@ -164,13 +165,10 @@ Focus on:
 Make it vivid and specific for image generation."""
 
         response = await self.text_client.chat_completion(
-            prompt,
-            task='creativity',
-            temperature=0.7,
-            max_tokens=150
+            prompt, task="creativity", temperature=0.7, max_tokens=150
         )
 
-        return response['choices'][0]['message']['content']
+        return response["choices"][0]["message"]["content"]
 
     # ═══════════════════════════════════════════════════════════════════
     # IMAGE GENERATION - DALL-E 3 Integration
@@ -181,7 +179,7 @@ Make it vivid and specific for image generation."""
         dream: Dict[str, Any],
         size: str = "1024x1024",
         quality: str = "hd",
-        style: str = "vivid"
+        style: str = "vivid",
     ) -> Dict[str, Any]:
         """
         Generate an image from dream narrative using DALL-E 3.
@@ -196,11 +194,13 @@ Make it vivid and specific for image generation."""
             Updated dream with image information
         """
         # Get image prompt
-        image_prompt = dream.get('image_prompt') or dream.get('narrative', {}).get('visual_prompt')
+        image_prompt = dream.get("image_prompt") or dream.get("narrative", {}).get(
+            "visual_prompt"
+        )
 
         if not image_prompt:
             logger.error("No image prompt found in dream")
-            dream['image_error'] = "No image prompt available"
+            dream["image_error"] = "No image prompt available"
             return dream
 
         try:
@@ -211,7 +211,7 @@ Make it vivid and specific for image generation."""
                 size=size,
                 quality=quality,
                 style=style,
-                response_format="b64_json"  # Get base64 for storage
+                response_format="b64_json",  # Get base64 for storage
             )
 
             # Extract image data
@@ -220,23 +220,23 @@ Make it vivid and specific for image generation."""
 
             # Save image
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-            dream_id = dream.get('dream_id', 'unknown')
+            dream_id = dream.get("dream_id", "unknown")
             image_path = self.output_dir / f"dream_{dream_id}_{timestamp}.png"
 
             # Decode and save
             image_bytes = base64.b64decode(image_b64)
-            with open(image_path, 'wb') as f:
+            with open(image_path, "wb") as f:
                 f.write(image_bytes)
 
             # Update dream object
-            dream['generated_image'] = {
-                'path': str(image_path),
-                'size': size,
-                'quality': quality,
-                'style': style,
-                'revised_prompt': image_data.revised_prompt,
-                'timestamp': datetime.utcnow().isoformat(),
-                'model': self.dalle_model
+            dream["generated_image"] = {
+                "path": str(image_path),
+                "size": size,
+                "quality": quality,
+                "style": style,
+                "revised_prompt": image_data.revised_prompt,
+                "timestamp": datetime.utcnow().isoformat(),
+                "model": self.dalle_model,
             }
 
             logger.info(f"Dream image generated: {image_path}")
@@ -244,7 +244,7 @@ Make it vivid and specific for image generation."""
 
         except Exception as e:
             logger.error(f"Error generating dream image: {e}")
-            dream['image_error'] = str(e)
+            dream["image_error"] = str(e)
             return dream
 
     # ═══════════════════════════════════════════════════════════════════
@@ -252,10 +252,7 @@ Make it vivid and specific for image generation."""
     # ═══════════════════════════════════════════════════════════════════
 
     async def narrate_dream(
-        self,
-        dream: Dict[str, Any],
-        voice: Optional[str] = None,
-        speed: float = 1.0
+        self, dream: Dict[str, Any], voice: Optional[str] = None, speed: float = 1.0
     ) -> Dict[str, Any]:
         """
         Generate voice narration for dream using OpenAI TTS.
@@ -269,12 +266,13 @@ Make it vivid and specific for image generation."""
             Updated dream with audio information
         """
         # Get text to narrate
-        text = (dream.get('enhanced_narrative', {}).get('full_text') or
-                dream.get('narrative', {}).get('description'))
+        text = dream.get("enhanced_narrative", {}).get("full_text") or dream.get(
+            "narrative", {}
+        ).get("description")
 
         if not text:
             logger.error("No text found for narration")
-            dream['audio_error'] = "No narrative text available"
+            dream["audio_error"] = "No narrative text available"
             return dream
 
         voice = voice or self.tts_voice
@@ -282,28 +280,25 @@ Make it vivid and specific for image generation."""
         try:
             # Generate audio
             response = await self.async_client.audio.speech.create(
-                model=self.tts_model,
-                voice=voice,
-                input=text,
-                speed=speed
+                model=self.tts_model, voice=voice, input=text, speed=speed
             )
 
             # Save audio
             timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-            dream_id = dream.get('dream_id', 'unknown')
+            dream_id = dream.get("dream_id", "unknown")
             audio_path = self.output_dir / f"dream_{dream_id}_{timestamp}.mp3"
 
             # Stream to file
             response.stream_to_file(audio_path)
 
             # Update dream object
-            dream['narration'] = {
-                'path': str(audio_path),
-                'voice': voice,
-                'speed': speed,
-                'text_length': len(text),
-                'timestamp': datetime.utcnow().isoformat(),
-                'model': self.tts_model
+            dream["narration"] = {
+                "path": str(audio_path),
+                "voice": voice,
+                "speed": speed,
+                "text_length": len(text),
+                "timestamp": datetime.utcnow().isoformat(),
+                "model": self.tts_model,
             }
 
             logger.info(f"Dream narration generated: {audio_path}")
@@ -311,7 +306,7 @@ Make it vivid and specific for image generation."""
 
         except Exception as e:
             logger.error(f"Error generating dream narration: {e}")
-            dream['audio_error'] = str(e)
+            dream["audio_error"] = str(e)
             return dream
 
     # ═══════════════════════════════════════════════════════════════════
@@ -319,9 +314,7 @@ Make it vivid and specific for image generation."""
     # ═══════════════════════════════════════════════════════════════════
 
     async def voice_to_dream_prompt(
-        self,
-        audio_file: str,
-        language: Optional[str] = None
+        self, audio_file: str, language: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Convert voice input to dream prompt using Whisper.
@@ -335,12 +328,10 @@ Make it vivid and specific for image generation."""
         """
         try:
             # Open audio file
-            with open(audio_file, 'rb') as f:
+            with open(audio_file, "rb") as f:
                 # Transcribe
                 response = await self.async_client.audio.transcriptions.create(
-                    model=self.whisper_model,
-                    file=f,
-                    language=language
+                    model=self.whisper_model, file=f, language=language
                 )
 
             # Process transcription into dream prompt
@@ -350,19 +341,21 @@ Make it vivid and specific for image generation."""
             enhanced_prompt = await self._enhance_voice_prompt(transcribed_text)
 
             result = {
-                'original_audio': audio_file,
-                'transcription': transcribed_text,
-                'dream_prompt': enhanced_prompt,
-                'language': language,
-                'timestamp': datetime.utcnow().isoformat()
+                "original_audio": audio_file,
+                "transcription": transcribed_text,
+                "dream_prompt": enhanced_prompt,
+                "language": language,
+                "timestamp": datetime.utcnow().isoformat(),
             }
 
-            logger.info(f"Voice transcribed to dream prompt: {len(transcribed_text)} chars")
+            logger.info(
+                f"Voice transcribed to dream prompt: {len(transcribed_text)} chars"
+            )
             return result
 
         except Exception as e:
             logger.error(f"Error transcribing voice: {e}")
-            return {'error': str(e), 'audio_file': audio_file}
+            return {"error": str(e), "audio_file": audio_file}
 
     async def _enhance_voice_prompt(self, transcription: str) -> str:
         """Enhance voice transcription into a dream prompt."""
@@ -391,7 +384,7 @@ Keep it concise but evocative."""
         voice_input: Optional[str] = None,
         generate_image: bool = True,
         generate_audio: bool = True,
-        image_size: str = "1024x1024"
+        image_size: str = "1024x1024",
     ) -> Dict[str, Any]:
         """
         Create a complete multi-modal dream experience.
@@ -410,30 +403,30 @@ Keep it concise but evocative."""
 
         # Initialize dream object
         dream = {
-            'dream_id': dream_id,
-            'created_at': datetime.utcnow().isoformat(),
-            'initial_prompt': prompt,
-            'pipeline_config': {
-                'generate_image': generate_image,
-                'generate_audio': generate_audio,
-                'image_size': image_size
-            }
+            "dream_id": dream_id,
+            "created_at": datetime.utcnow().isoformat(),
+            "initial_prompt": prompt,
+            "pipeline_config": {
+                "generate_image": generate_image,
+                "generate_audio": generate_audio,
+                "image_size": image_size,
+            },
         }
 
         try:
             # Process voice input if provided
             if voice_input:
                 voice_result = await self.voice_to_dream_prompt(voice_input)
-                dream['voice_input'] = voice_result
-                if 'dream_prompt' in voice_result:
-                    prompt = voice_result['dream_prompt']
+                dream["voice_input"] = voice_result
+                if "dream_prompt" in voice_result:
+                    prompt = voice_result["dream_prompt"]
 
             # Generate base dream narrative
             base_narrative = {
-                'narrative': {
-                    'theme': prompt,
-                    'description': f"A dream about {prompt}",
-                    'visual_prompt': f"Surreal dreamscape of {prompt}"
+                "narrative": {
+                    "theme": prompt,
+                    "description": f"A dream about {prompt}",
+                    "visual_prompt": f"Surreal dreamscape of {prompt}",
                 }
             }
 
@@ -442,16 +435,16 @@ Keep it concise but evocative."""
             dream = await self.enhance_dream_narrative(dream)
 
             # Generate image if requested
-            if generate_image and 'image_prompt' in dream:
+            if generate_image and "image_prompt" in dream:
                 dream = await self.generate_dream_image(dream, size=image_size)
 
             # Generate audio narration if requested
-            if generate_audio and 'enhanced_narrative' in dream:
+            if generate_audio and "enhanced_narrative" in dream:
                 dream = await self.narrate_dream(dream)
 
             # Add SORA video generation prompt
-            if 'enhanced_narrative' in dream:
-                dream['sora_prompt'] = await self._create_sora_prompt(dream)
+            if "enhanced_narrative" in dream:
+                dream["sora_prompt"] = await self._create_sora_prompt(dream)
 
             # Save complete dream
             self._save_dream_record(dream)
@@ -461,12 +454,12 @@ Keep it concise but evocative."""
 
         except Exception as e:
             logger.error(f"Error in dream pipeline: {e}")
-            dream['pipeline_error'] = str(e)
+            dream["pipeline_error"] = str(e)
             return dream
 
     async def _create_sora_prompt(self, dream: Dict[str, Any]) -> str:
         """Create a video generation prompt for SORA."""
-        narrative = dream.get('enhanced_narrative', {}).get('full_text', '')
+        narrative = dream.get("enhanced_narrative", {}).get("full_text", "")
 
         prompt = f"""Convert this dream narrative into a video generation prompt for SORA:
 
@@ -482,18 +475,15 @@ Create a cinematic description that includes:
 Keep it under 150 words and focus on motion and cinematography."""
 
         response = await self.text_client.chat_completion(
-            prompt,
-            task='creativity',
-            temperature=0.8,
-            max_tokens=200
+            prompt, task="creativity", temperature=0.8, max_tokens=200
         )
 
-        return response['choices'][0]['message']['content']
+        return response["choices"][0]["message"]["content"]
 
     def _save_dream_record(self, dream: Dict[str, Any]):
         """Save complete dream record to JSON."""
         dream_file = self.output_dir / f"{dream['dream_id']}.json"
-        with open(dream_file, 'w') as f:
+        with open(dream_file, "w") as f:
             json.dump(dream, f, indent=2)
         logger.info(f"Dream record saved: {dream_file}")
 
@@ -514,19 +504,21 @@ async def demo_dream_creation():
         dream = await integration.create_full_dream_experience(
             prompt="a journey through memories that shimmer like stars",
             generate_image=True,
-            generate_audio=True
+            generate_audio=True,
         )
 
         print(f"Dream created: {dream['dream_id']}")
-        print(f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}...")
+        print(
+            f"Narrative: {dream.get('enhanced_narrative', {}).get('full_text', 'N/A')[:200]}..."
+        )
 
-        if 'generated_image' in dream:
+        if "generated_image" in dream:
             print(f"Image saved: {dream['generated_image']['path']}")
 
-        if 'narration' in dream:
+        if "narration" in dream:
             print(f"Audio saved: {dream['narration']['path']}")
 
-        if 'sora_prompt' in dream:
+        if "sora_prompt" in dream:
             print(f"SORA prompt: {dream['sora_prompt']}")
 
     finally:

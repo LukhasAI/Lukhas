@@ -30,38 +30,45 @@ NOTES:
 
 """
 
-import os
 import json
+import os
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
 
 LOG_PATH = "core/logs/replay_queue.jsonl"
+
 
 def load_replay_data():
     if not os.path.exists(LOG_PATH):
         print("❌ replay_queue.jsonl not found.")
         return pd.DataFrame()
 
-    with open(LOG_PATH, "r") as f:
+    with open(LOG_PATH) as f:
         lines = [json.loads(line) for line in f if line.strip()]
 
     data = []
     for entry in lines:
-        data.append({
-            "tier": entry.get("tier", 0),
-            "tag": entry.get("tags", ["untagged"])[0],
-            "emotion": entry.get("emotion_vector", {}).get("primary", "neutral")
-        })
+        data.append(
+            {
+                "tier": entry.get("tier", 0),
+                "tag": entry.get("tags", ["untagged"])[0],
+                "emotion": entry.get("emotion_vector", {}).get("primary", "neutral"),
+            }
+        )
 
     return pd.DataFrame(data)
+
 
 def plot_heatmap(df):
     if df.empty:
         print("📭 No data to visualize.")
         return
 
-    pivot = df.pivot_table(index="emotion", columns="tier", aggfunc="size", fill_value=0)
+    pivot = df.pivot_table(
+        index="emotion", columns="tier", aggfunc="size", fill_value=0
+    )
 
     plt.figure(figsize=(10, 6))
     sns.heatmap(pivot, annot=True, cmap="coolwarm", linewidths=0.5)
@@ -70,6 +77,7 @@ def plot_heatmap(df):
     plt.ylabel("Primary Emotion")
     plt.tight_layout()
     plt.show()
+
 
 if __name__ == "__main__":
     df = load_replay_data()

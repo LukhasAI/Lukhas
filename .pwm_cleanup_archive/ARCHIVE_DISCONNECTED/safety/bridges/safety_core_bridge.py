@@ -3,11 +3,11 @@ Safety-Core Bridge
 Bidirectional communication bridge between Safety and Core systems
 """
 
-from typing import Any, Dict, Optional, List
-import asyncio
 import logging
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
+
 
 class SafetyCoreBridge:
     """
@@ -33,6 +33,7 @@ class SafetyCoreBridge:
         """Establish connection between Safety and Core systems"""
         try:
             from safety.safety_hub import get_safety_hub
+
             from core.core_hub import get_core_hub
 
             self.safety_hub = get_safety_hub()
@@ -57,16 +58,17 @@ class SafetyCoreBridge:
             "safety_alert_triggered": "core_emergency_response",
             "safety_recovery_initiated": "core_resilience_activation",
             "safety_monitoring_active": "core_event_tracking",
-
             # Core -> Safety events
             "core_operation_request": "safety_validation_required",
             "core_event_occurred": "safety_monitoring_update",
             "core_anomaly_detected": "safety_alert_assessment",
             "core_failure_detected": "safety_recovery_required",
-            "core_policy_violation": "safety_enforcement_needed"
+            "core_policy_violation": "safety_enforcement_needed",
         }
 
-    async def safety_to_core(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def safety_to_core(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Safety to Core system"""
         if not self.is_connected:
             await self.connect()
@@ -76,7 +78,9 @@ class SafetyCoreBridge:
             transformed_data = self.transform_data_safety_to_core(data)
 
             if self.core_hub:
-                result = await self.core_hub.process_event(mapped_event, transformed_data)
+                result = await self.core_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Safety to Core")
                 return result
 
@@ -86,7 +90,9 @@ class SafetyCoreBridge:
             logger.error(f"Error forwarding from Safety to Core: {e}")
             return {"error": str(e)}
 
-    async def core_to_safety(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def core_to_safety(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Core to Safety system"""
         if not self.is_connected:
             await self.connect()
@@ -96,7 +102,9 @@ class SafetyCoreBridge:
             transformed_data = self.transform_data_core_to_safety(data)
 
             if self.safety_hub:
-                result = await self.safety_hub.process_event(mapped_event, transformed_data)
+                result = await self.safety_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Core to Safety")
                 return result
 
@@ -115,9 +123,9 @@ class SafetyCoreBridge:
             "core_context": {
                 "enforcement_level": data.get("enforcement_level", "standard"),
                 "policy_type": data.get("policy_type", "general"),
-                "priority": data.get("priority", "normal")
+                "priority": data.get("priority", "normal"),
             },
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
 
     def transform_data_core_to_safety(self, data: Dict[str, Any]) -> Dict[str, Any]:
@@ -129,27 +137,31 @@ class SafetyCoreBridge:
             "safety_context": {
                 "operation_type": data.get("operation_type", "general"),
                 "risk_level": data.get("risk_level", "low"),
-                "validation_required": data.get("validation_required", True)
+                "validation_required": data.get("validation_required", True),
             },
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
 
-    async def validate_core_operation(self, operation_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_core_operation(
+        self, operation_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Validate core operation against safety policies"""
         safety_data = {
             "validation_type": "core_operation",
             "operation": operation_data,
-            "required_checks": ["policy", "constraints", "risks"]
+            "required_checks": ["policy", "constraints", "risks"],
         }
 
         return await self.core_to_safety("core_operation_request", safety_data)
 
-    async def enforce_safety_policy(self, policy_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def enforce_safety_policy(
+        self, policy_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Enforce safety policy in core system"""
         core_data = {
             "enforcement_type": "safety_policy",
             "policy": policy_data,
-            "enforcement_mode": policy_data.get("mode", "strict")
+            "enforcement_mode": policy_data.get("mode", "strict"),
         }
 
         return await self.safety_to_core("safety_policy_update", core_data)
@@ -160,17 +172,19 @@ class SafetyCoreBridge:
             "anomaly_type": "core_system",
             "anomaly_data": anomaly_data,
             "assessment_required": True,
-            "auto_response": anomaly_data.get("severity", "low") == "critical"
+            "auto_response": anomaly_data.get("severity", "low") == "critical",
         }
 
         return await self.core_to_safety("core_anomaly_detected", safety_data)
 
-    async def initiate_safety_recovery(self, failure_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def initiate_safety_recovery(
+        self, failure_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Initiate safety recovery for core failure"""
         core_data = {
             "recovery_type": "safety_guided",
             "failure_info": failure_data,
-            "recovery_strategy": failure_data.get("strategy", "graceful_degradation")
+            "recovery_strategy": failure_data.get("strategy", "graceful_degradation"),
         }
 
         return await self.safety_to_core("safety_recovery_initiated", core_data)
@@ -185,15 +199,18 @@ class SafetyCoreBridge:
             core_enforcement = await self.get_core_enforcement()
 
             # Cross-synchronize
-            await self.safety_to_core("safety_policy_sync", {
-                "policies": safety_policies,
-                "sync_type": "full_policy_update"
-            })
+            await self.safety_to_core(
+                "safety_policy_sync",
+                {"policies": safety_policies, "sync_type": "full_policy_update"},
+            )
 
-            await self.core_to_safety("core_enforcement_sync", {
-                "enforcement_status": core_enforcement,
-                "sync_type": "policy_compliance_check"
-            })
+            await self.core_to_safety(
+                "core_enforcement_sync",
+                {
+                    "enforcement_status": core_enforcement,
+                    "sync_type": "policy_compliance_check",
+                },
+            )
 
             logger.debug("Safety-Core policy synchronization completed")
             return True
@@ -206,7 +223,7 @@ class SafetyCoreBridge:
         """Get current safety policies"""
         if self.safety_hub:
             policy_manager = self.safety_hub.get_service("policy_manager")
-            if policy_manager and hasattr(policy_manager, 'get_all_policies'):
+            if policy_manager and hasattr(policy_manager, "get_all_policies"):
                 return policy_manager.get_all_policies()
 
         return {"policies": [], "count": 0}
@@ -215,7 +232,7 @@ class SafetyCoreBridge:
         """Get core enforcement status"""
         if self.core_hub:
             enforcement = self.core_hub.get_service("policy_enforcement")
-            if enforcement and hasattr(enforcement, 'get_status'):
+            if enforcement and hasattr(enforcement, "get_status"):
                 return enforcement.get_status()
 
         return {"active_policies": 0, "enforcement_level": "standard"}
@@ -223,6 +240,7 @@ class SafetyCoreBridge:
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
     async def health_check(self) -> Dict[str, Any]:
@@ -232,11 +250,13 @@ class SafetyCoreBridge:
             "safety_hub_available": self.safety_hub is not None,
             "core_hub_available": self.core_hub is not None,
             "event_mappings": len(self.event_mappings),
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
+
 
 # Singleton instance
 _safety_core_bridge_instance = None
+
 
 def get_safety_core_bridge() -> SafetyCoreBridge:
     """Get or create the Safety-Core bridge instance"""

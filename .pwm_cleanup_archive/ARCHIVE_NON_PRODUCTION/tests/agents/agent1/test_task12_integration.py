@@ -5,8 +5,8 @@ Tests the integration of PersonaEngine with the identity hub system.
 """
 
 import asyncio
-import sys
 import os
+import sys
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -15,10 +15,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 try:
     from core.identity.persona_engine import (
         PersonaEngine,
-        create_identity_component,
         create_and_initialize_identity_component,
+        create_identity_component,
     )
     from identity.identity_hub import IdentityHub, get_identity_hub
+
     print("✅ Successfully imported PersonaEngine and IdentityHub")
 except ImportError as e:
     print(f"❌ Import failed: {e}")
@@ -134,8 +135,10 @@ async def test_factory_functions():
         initialized_component = await create_and_initialize_identity_component(
             {"test": "async_factory"}
         )
-        print(f"✅ Async factory component created and initialized: "
-              f"{initialized_component.is_initialized}")
+        print(
+            f"✅ Async factory component created and initialized: "
+            f"{initialized_component.is_initialized}"
+        )
 
         # Test component processing
         result = await initialized_component.process({"test": "factory_data"})
@@ -156,8 +159,12 @@ async def test_persona_engine_categories():
         await persona_engine.initialize()
 
         categories = [
-            "consciousness", "governance", "voice",
-            "identity", "quantum", "generic"
+            "consciousness",
+            "governance",
+            "voice",
+            "identity",
+            "quantum",
+            "generic",
         ]
 
         for category in categories:
@@ -182,7 +189,7 @@ async def main():
         test_identity_data_processing,
         test_identity_component_creation,
         test_factory_functions,
-        test_persona_engine_categories
+        test_persona_engine_categories,
     ]
 
     passed = 0

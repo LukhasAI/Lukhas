@@ -19,46 +19,53 @@ Status: ENHANCED - Full implementation with fallback to simulation mode
 """
 
 import hashlib
-import secrets
-import os
-import struct
-import base64
-from typing import Dict, List, Optional, Tuple, Any
-from datetime import datetime, timedelta
-from dataclasses import dataclass
 import logging
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.kdf.hkdf import HKDF
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import os
+import secrets
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, Tuple
+
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 
 # Try to import liboqs, fall back to enhanced simulation if not available
 try:
     import oqs
+
     LIBOQS_AVAILABLE = True
-    logger = logging.getLogger('LUKHAS_PQC')
+    logger = logging.getLogger("LUKHAS_PQC")
     logger.info("liboqs library loaded - using real post-quantum cryptography")
 except ImportError:
     LIBOQS_AVAILABLE = False
-    logger = logging.getLogger('LUKHAS_PQC')
-    logger.warning("liboqs not available - using enhanced simulation mode with correct parameter sizes")
+    logger = logging.getLogger("LUKHAS_PQC")
+    logger.warning(
+        "liboqs not available - using enhanced simulation mode with correct parameter sizes"
+    )
+
 
 @dataclass
 class PQCKeyPair:
     """Post-quantum cryptographic key pair"""
+
     public_key: bytes
     private_key: bytes
     algorithm: str
     created_at: datetime
     expires_at: datetime
 
+
 @dataclass
 class PQCSignature:
     """Post-quantum digital signature"""
+
     signature: bytes
     message_hash: bytes
     algorithm: str
     timestamp: datetime
+
 
 class PQCCryptoEngine:
     """
@@ -69,31 +76,44 @@ class PQCCryptoEngine:
     """
 
     def __init__(self):
-        self.supported_kem_algorithms = [
-            "Kyber512", "Kyber768", "Kyber1024"
-        ]
-        self.supported_signature_algorithms = [
-            "Dilithium2", "Dilithium3", "Dilithium5"
-        ]
+        self.supported_kem_algorithms = ["Kyber512", "Kyber768", "Kyber1024"]
+        self.supported_signature_algorithms = ["Dilithium2", "Dilithium3", "Dilithium5"]
         self.key_rotation_hours = 24  # Constitutional requirement
 
         # Algorithm parameter sizes (NIST standardized)
         self.kem_params = {
-            "Kyber512": {"pk_size": 800, "sk_size": 1632, "ct_size": 768, "ss_size": 32},
-            "Kyber768": {"pk_size": 1184, "sk_size": 2400, "ct_size": 1088, "ss_size": 32},
-            "Kyber1024": {"pk_size": 1568, "sk_size": 3168, "ct_size": 1568, "ss_size": 32}
+            "Kyber512": {
+                "pk_size": 800,
+                "sk_size": 1632,
+                "ct_size": 768,
+                "ss_size": 32,
+            },
+            "Kyber768": {
+                "pk_size": 1184,
+                "sk_size": 2400,
+                "ct_size": 1088,
+                "ss_size": 32,
+            },
+            "Kyber1024": {
+                "pk_size": 1568,
+                "sk_size": 3168,
+                "ct_size": 1568,
+                "ss_size": 32,
+            },
         }
 
         self.sig_params = {
             "Dilithium2": {"pk_size": 1312, "sk_size": 2528, "sig_size": 2420},
             "Dilithium3": {"pk_size": 1952, "sk_size": 4016, "sig_size": 3293},
-            "Dilithium5": {"pk_size": 2592, "sk_size": 4880, "sig_size": 4595}
+            "Dilithium5": {"pk_size": 2592, "sk_size": 4880, "sig_size": 4595},
         }
 
         # Key storage (in production, use secure key management)
         self.key_store = {}
 
-        logger.info(f"PQC Crypto Engine initialized - liboqs available: {LIBOQS_AVAILABLE}")
+        logger.info(
+            f"PQC Crypto Engine initialized - liboqs available: {LIBOQS_AVAILABLE}"
+        )
 
     def generate_kem_keypair(self, algorithm: str = "Kyber768") -> PQCKeyPair:
         """
@@ -124,7 +144,9 @@ class PQCCryptoEngine:
             public_key = seed + public_poly
 
             # Private key = private polynomial || public key || hash || random
-            private_poly = secrets.token_bytes(params["sk_size"] - params["pk_size"] - 64)
+            private_poly = secrets.token_bytes(
+                params["sk_size"] - params["pk_size"] - 64
+            )
             hash_val = hashlib.sha3_256(public_key).digest()
             random_val = secrets.token_bytes(32)
             private_key = private_poly + public_key + hash_val + random_val
@@ -135,7 +157,7 @@ class PQCCryptoEngine:
             "public": public_key,
             "private": private_key,
             "algorithm": algorithm,
-            "type": "kem"
+            "type": "kem",
         }
 
         return PQCKeyPair(
@@ -143,7 +165,7 @@ class PQCCryptoEngine:
             private_key=private_key,
             algorithm=algorithm,
             created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours)
+            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours),
         )
 
     def generate_signature_keypair(self, algorithm: str = "Dilithium3") -> PQCKeyPair:
@@ -176,7 +198,9 @@ class PQCCryptoEngine:
 
             # Private key = seed || secret polynomials || public key
             secret_seed = secrets.token_bytes(32)
-            secret_polys = secrets.token_bytes(params["sk_size"] - 32 - params["pk_size"])
+            secret_polys = secrets.token_bytes(
+                params["sk_size"] - 32 - params["pk_size"]
+            )
             private_key = secret_seed + secret_polys + public_key
 
         # Store key pair
@@ -185,7 +209,7 @@ class PQCCryptoEngine:
             "public": public_key,
             "private": private_key,
             "algorithm": algorithm,
-            "type": "signature"
+            "type": "signature",
         }
 
         return PQCKeyPair(
@@ -193,10 +217,12 @@ class PQCCryptoEngine:
             private_key=private_key,
             algorithm=algorithm,
             created_at=datetime.now(),
-            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours)
+            expires_at=datetime.now() + timedelta(hours=self.key_rotation_hours),
         )
 
-    def encapsulate_secret(self, public_key: bytes, algorithm: str = "Kyber768") -> Tuple[bytes, bytes]:
+    def encapsulate_secret(
+        self, public_key: bytes, algorithm: str = "Kyber768"
+    ) -> Tuple[bytes, bytes]:
         """
         Encapsulate a shared secret using KEM.
 
@@ -229,15 +255,17 @@ class PQCCryptoEngine:
                 algorithm=hashes.SHA3_256(),
                 length=32,
                 salt=public_key[:32],
-                info=b'LUKHAS_KEM_SS',
-                backend=default_backend()
+                info=b"LUKHAS_KEM_SS",
+                backend=default_backend(),
             )
             shared_secret = hkdf.derive(ephemeral_random + ciphertext[:32])
 
         logger.info(f"Secret encapsulated using {algorithm}")
         return ciphertext, shared_secret
 
-    def decapsulate_secret(self, ciphertext: bytes, private_key: bytes, algorithm: str = "Kyber768") -> bytes:
+    def decapsulate_secret(
+        self, ciphertext: bytes, private_key: bytes, algorithm: str = "Kyber768"
+    ) -> bytes:
         """
         Decapsulate shared secret using private key.
 
@@ -262,15 +290,15 @@ class PQCCryptoEngine:
             # Enhanced simulation - derive same secret using private key
             # Extract public key from private key (it's embedded)
             pk_start = params["sk_size"] - params["pk_size"] - 64
-            public_key = private_key[pk_start:pk_start + params["pk_size"]]
+            public_key = private_key[pk_start : pk_start + params["pk_size"]]
 
             # Derive shared secret deterministically
             hkdf = HKDF(
                 algorithm=hashes.SHA3_256(),
                 length=32,
                 salt=public_key[:32],
-                info=b'LUKHAS_KEM_SS',
-                backend=default_backend()
+                info=b"LUKHAS_KEM_SS",
+                backend=default_backend(),
             )
             # Use private key material and ciphertext to derive secret
             key_material = private_key[:32] + ciphertext[:32]
@@ -279,7 +307,9 @@ class PQCCryptoEngine:
         logger.info(f"Secret decapsulated using {algorithm}")
         return shared_secret
 
-    def sign_message(self, message: bytes, private_key: bytes, algorithm: str = "Dilithium3") -> PQCSignature:
+    def sign_message(
+        self, message: bytes, private_key: bytes, algorithm: str = "Dilithium3"
+    ) -> PQCSignature:
         """
         Sign message with post-quantum digital signature.
 
@@ -317,10 +347,12 @@ class PQCCryptoEngine:
             signature=signature_bytes,
             message_hash=message_hash,
             algorithm=algorithm,
-            timestamp=datetime.now()
+            timestamp=datetime.now(),
         )
 
-    def verify_signature(self, signature: PQCSignature, message: bytes, public_key: bytes) -> bool:
+    def verify_signature(
+        self, signature: PQCSignature, message: bytes, public_key: bytes
+    ) -> bool:
         """
         Verify post-quantum digital signature.
 
@@ -343,7 +375,9 @@ class PQCCryptoEngine:
             try:
                 sig = oqs.Signature(signature.algorithm)
                 result = sig.verify(message, signature.signature, public_key)
-                logger.info(f"Signature verification: {result} using {signature.algorithm}")
+                logger.info(
+                    f"Signature verification: {result} using {signature.algorithm}"
+                )
                 return result
             except Exception as e:
                 logger.error(f"Signature verification failed: {e}")
@@ -357,7 +391,9 @@ class PQCCryptoEngine:
 
             # Check signature size
             if len(signature.signature) != params["sig_size"]:
-                logger.error(f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}")
+                logger.error(
+                    f"Invalid signature size: expected {params['sig_size']}, got {len(signature.signature)}"
+                )
                 return False
 
             # In simulation mode, verify by checking signature was created with same inputs
@@ -370,10 +406,14 @@ class PQCCryptoEngine:
             # Check if signature starts with expected bytes (simplified verification)
             result = signature.signature[:32] == expected_sig_start
 
-            logger.info(f"Signature verification (simulated): {result} using {signature.algorithm}")
+            logger.info(
+                f"Signature verification (simulated): {result} using {signature.algorithm}"
+            )
             return result
 
-    def derive_authentication_key(self, entropy_data: bytes, user_context: str) -> bytes:
+    def derive_authentication_key(
+        self, entropy_data: bytes, user_context: str
+    ) -> bytes:
         """
         Derive authentication key from entropy and user context.
 
@@ -387,8 +427,8 @@ class PQCCryptoEngine:
         # Use SHAKE-256 for key derivation (PQC-approved)
         shake = hashlib.shake_256()
         shake.update(entropy_data)
-        shake.update(user_context.encode('utf-8'))
-        shake.update(datetime.now().isoformat().encode('utf-8'))
+        shake.update(user_context.encode("utf-8"))
+        shake.update(datetime.now().isoformat().encode("utf-8"))
 
         # Derive 256-bit key
         auth_key = shake.digest(32)
@@ -410,7 +450,7 @@ class PQCCryptoEngine:
             return {
                 "sufficient": False,
                 "reason": "Insufficient entropy length",
-                "bits": len(entropy_data) * 8
+                "bits": len(entropy_data) * 8,
             }
 
         # Basic entropy tests
@@ -432,7 +472,7 @@ class PQCCryptoEngine:
             "bits": len(entropy_data) * 8,
             "entropy_estimate": entropy_estimate,
             "unique_bytes": len(byte_frequency),
-            "reason": "Sufficient entropy" if sufficient else "Low entropy quality"
+            "reason": "Sufficient entropy" if sufficient else "Low entropy quality",
         }
 
     def get_crypto_config(self) -> Dict[str, Any]:
@@ -448,19 +488,20 @@ class PQCCryptoEngine:
             "hash_algorithm": "SHA-3",
             "entropy_bits": 512,
             "key_rotation_hours": self.key_rotation_hours,
-            "transport_security": {
-                "quantum_safe_tls": True
-            },
+            "transport_security": {"quantum_safe_tls": True},
             "classical_attack_resistance": {
                 "side_channel_protection": True,
-                "timing_attack_protection": True
+                "timing_attack_protection": True,
             },
             "nist_compliance": True,
-            "implementation_mode": "liboqs" if LIBOQS_AVAILABLE else "enhanced_simulation"
+            "implementation_mode": (
+                "liboqs" if LIBOQS_AVAILABLE else "enhanced_simulation"
+            ),
         }
 
-    def establish_quantum_safe_channel(self, peer_public_key: bytes,
-                                     algorithm: str = "Kyber768") -> Dict[str, Any]:
+    def establish_quantum_safe_channel(
+        self, peer_public_key: bytes, algorithm: str = "Kyber768"
+    ) -> Dict[str, Any]:
         """
         Establish a quantum-safe communication channel with a peer.
 
@@ -487,7 +528,7 @@ class PQCCryptoEngine:
             "encryption_key": channel_keys["encryption"],
             "mac_key": channel_keys["mac"],
             "algorithm": algorithm,
-            "established_at": datetime.now().isoformat()
+            "established_at": datetime.now().isoformat(),
         }
 
     def _derive_channel_keys(self, shared_secret: bytes) -> Dict[str, bytes]:
@@ -496,9 +537,9 @@ class PQCCryptoEngine:
         enc_hkdf = HKDF(
             algorithm=hashes.SHA3_256(),
             length=32,
-            salt=b'LUKHAS_QS_ENC',
-            info=b'quantum_safe_encryption',
-            backend=default_backend()
+            salt=b"LUKHAS_QS_ENC",
+            info=b"quantum_safe_encryption",
+            backend=default_backend(),
         )
         encryption_key = enc_hkdf.derive(shared_secret)
 
@@ -506,16 +547,13 @@ class PQCCryptoEngine:
         mac_hkdf = HKDF(
             algorithm=hashes.SHA3_256(),
             length=32,
-            salt=b'LUKHAS_QS_MAC',
-            info=b'quantum_safe_mac',
-            backend=default_backend()
+            salt=b"LUKHAS_QS_MAC",
+            info=b"quantum_safe_mac",
+            backend=default_backend(),
         )
         mac_key = mac_hkdf.derive(shared_secret)
 
-        return {
-            "encryption": encryption_key,
-            "mac": mac_key
-        }
+        return {"encryption": encryption_key, "mac": mac_key}
 
     def rotate_keys(self, current_keypair: PQCKeyPair) -> PQCKeyPair:
         """
@@ -540,7 +578,9 @@ class PQCCryptoEngine:
         elif current_keypair.algorithm in self.supported_signature_algorithms:
             new_keypair = self.generate_signature_keypair(current_keypair.algorithm)
         else:
-            raise ValueError(f"Unknown algorithm for key rotation: {current_keypair.algorithm}")
+            raise ValueError(
+                f"Unknown algorithm for key rotation: {current_keypair.algorithm}"
+            )
 
         # Log rotation event
         logger.info(f"Key rotation completed for {current_keypair.algorithm}")
@@ -562,11 +602,7 @@ class PQCCryptoEngine:
         iv = os.urandom(16)
 
         # Use AES-256-GCM (quantum-safe with sufficient key size)
-        cipher = Cipher(
-            algorithms.AES(key),
-            modes.GCM(iv),
-            backend=default_backend()
-        )
+        cipher = Cipher(algorithms.AES(key), modes.GCM(iv), backend=default_backend())
         encryptor = cipher.encryptor()
         ciphertext = encryptor.update(plaintext) + encryptor.finalize()
 
@@ -575,7 +611,7 @@ class PQCCryptoEngine:
             "iv": iv,
             "tag": encryptor.tag,
             "algorithm": "AES-256-GCM",
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     def quantum_safe_decrypt(self, encrypted_data: Dict[str, Any], key: bytes) -> bytes:
@@ -592,12 +628,15 @@ class PQCCryptoEngine:
         cipher = Cipher(
             algorithms.AES(key),
             modes.GCM(encrypted_data["iv"], encrypted_data["tag"]),
-            backend=default_backend()
+            backend=default_backend(),
         )
         decryptor = cipher.decryptor()
-        plaintext = decryptor.update(encrypted_data["ciphertext"]) + decryptor.finalize()
+        plaintext = (
+            decryptor.update(encrypted_data["ciphertext"]) + decryptor.finalize()
+        )
 
         return plaintext
 
+
 # Export the main classes
-__all__ = ['PQCCryptoEngine', 'PQCKeyPair', 'PQCSignature']
+__all__ = ["PQCCryptoEngine", "PQCKeyPair", "PQCSignature"]

@@ -10,10 +10,9 @@ and provides clear feedback about what's missing.
 # ΛTAG: codex, test_validation
 """
 
-import sys
-import subprocess
 import importlib
-import os
+import subprocess
+import sys
 from pathlib import Path
 
 
@@ -77,7 +76,7 @@ def check_test_files():
     problematic_files = []
     for test_file in test_files[:5]:  # Check first 5 files
         try:
-            with open(test_file, "r") as f:
+            with open(test_file) as f:
                 content = f.read()
                 if "import numpy" in content or "import structlog" in content:
                     print(f"📄 {test_file.name} uses numpy/structlog")

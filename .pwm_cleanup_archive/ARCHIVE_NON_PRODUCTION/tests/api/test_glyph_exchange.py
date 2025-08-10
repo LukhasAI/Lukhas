@@ -1,14 +1,13 @@
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
-
-import json
 import base64
-import zlib
-
 import importlib.util
+import json
 import sys
 import types
+import zlib
 from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 dummy_memory = types.ModuleType("lukhas.memory.glyph_memory_integration")
 

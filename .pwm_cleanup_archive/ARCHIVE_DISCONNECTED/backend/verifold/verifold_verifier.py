@@ -1,5 +1,3 @@
-
-
 """
 verifold_verifier.py
 
@@ -11,10 +9,14 @@ Requirements:
 Author: LUKHAS AGI Core
 """
 
-import oqs
 import binascii
 
-def verify_verifold_signature(verifold_hash: str, signature_hex: str, public_key_hex: str) -> bool:
+import oqs
+
+
+def verify_verifold_signature(
+    verifold_hash: str, signature_hex: str, public_key_hex: str
+) -> bool:
     """
     Verifies a SPHINCS+ digital signature for a given Verifold hash.
 
@@ -33,18 +35,17 @@ def verify_verifold_signature(verifold_hash: str, signature_hex: str, public_key
         verifier.set_public_key(public_key)
         return verifier.verify(verifold_hash.encode(), signature)
 
+
 # 🧪 Example usage
 if __name__ == "__main__":
     sample = {
         "verifold_hash": "4c8a9d8c0eeb292aa65efb59e98de9a6a9990a563fce14a5f89de38b26a17a3c",
         "signature": "e54c....",  # Replace with real hex signature
-        "public_key": "a1b2..."     # Replace with real hex public key
+        "public_key": "a1b2...",  # Replace with real hex public key
     }
 
     is_valid = verify_verifold_signature(
-        sample["verifold_hash"],
-        sample["signature"],
-        sample["public_key"]
+        sample["verifold_hash"], sample["signature"], sample["public_key"]
     )
 
     print("✅ Signature valid." if is_valid else "❌ Signature INVALID.")

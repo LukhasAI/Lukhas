@@ -37,9 +37,9 @@
 """
 
 # Module imports
-from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
 import logging
+from abc import ABC, abstractmethod
+from typing import Any, Dict, Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -78,8 +78,9 @@ class BaseModule(ABC):
         return {
             "name": self.name,
             "initialized": self._initialized,
-            "config": self.config
+            "config": self.config,
         }
+
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

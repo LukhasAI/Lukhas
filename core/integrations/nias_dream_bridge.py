@@ -8,10 +8,10 @@ Enables consent-aware dream injection and quantum consciousness integration.
 import asyncio
 import json
 import logging
-from typing import Dict, Any, Optional, List
-from datetime import datetime
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Any, Optional
 
 from openai import AsyncOpenAI
 
@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class DreamInjectionMode(Enum):
     """Modes for injecting messages into dream states"""
+
     GENTLE = "gentle"  # Low-intensity, background processing
     SYMBOLIC = "symbolic"  # Rich symbolic interpretation
     NARRATIVE = "narrative"  # Story-based integration
@@ -29,10 +30,11 @@ class DreamInjectionMode(Enum):
 @dataclass
 class DreamMessage:
     """Message prepared for dream injection"""
+
     message_id: str
-    original_message: Dict[str, Any]
+    original_message: dict[str, Any]
     symbolic_interpretation: str
-    emotional_context: Dict[str, float]
+    emotional_context: dict[str, float]
     injection_mode: DreamInjectionMode
     priority: float = 0.5
     created_at: datetime = None
@@ -62,16 +64,18 @@ class NIASDreamBridge:
         self.quantum_hub = None
 
         # Dream queue
-        self.dream_queue: List[DreamMessage] = []
+        self.dream_queue: list[DreamMessage] = []
         self.processing_task = None
         self.is_processing = False
 
         logger.info("NIAS-Dream Bridge initialized")
 
-    def inject_components(self,
-                         nias_core: Any = None,
-                         dream_adapter: Any = None,
-                         quantum_hub: Any = None) -> None:
+    def inject_components(
+        self,
+        nias_core: Any = None,
+        dream_adapter: Any = None,
+        quantum_hub: Any = None,
+    ) -> None:
         """Inject component dependencies"""
         self.nias_core = nias_core
         self.dream_adapter = dream_adapter
@@ -83,10 +87,12 @@ class NIASDreamBridge:
 
         logger.info("Components injected into NIAS-Dream Bridge")
 
-    async def bridge_to_dream(self,
-                             message: Dict[str, Any],
-                             user_context: Dict[str, Any],
-                             reason: str = "emotional_safety") -> Dict[str, Any]:
+    async def bridge_to_dream(
+        self,
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        reason: str = "emotional_safety",
+    ) -> dict[str, Any]:
         """
         Bridge a NIAS message to dream processing.
 
@@ -95,7 +101,9 @@ class NIASDreamBridge:
         """
         try:
             # Analyze message for dream suitability
-            dream_analysis = await self._analyze_for_dream(message, user_context, reason)
+            dream_analysis = await self._analyze_for_dream(
+                message, user_context, reason
+            )
 
             # Create dream message
             dream_msg = DreamMessage(
@@ -104,7 +112,7 @@ class NIASDreamBridge:
                 symbolic_interpretation=dream_analysis["interpretation"],
                 emotional_context=dream_analysis["emotional_context"],
                 injection_mode=DreamInjectionMode(dream_analysis["mode"]),
-                priority=dream_analysis["priority"]
+                priority=dream_analysis["priority"],
             )
 
             # Add to dream queue
@@ -117,62 +125,88 @@ class NIASDreamBridge:
                 "success": True,
                 "dream_id": dream_msg.message_id,
                 "mode": dream_msg.injection_mode.value,
-                "message": self._get_poetic_response(reason)
+                "message": self._get_poetic_response(reason),
             }
 
         except Exception as e:
             logger.error(f"Failed to bridge to dream: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            return {"success": False, "error": str(e)}
 
-    async def _analyze_for_dream(self,
-                                message: Dict[str, Any],
-                                user_context: Dict[str, Any],
-                                reason: str) -> Dict[str, Any]:
+    async def _analyze_for_dream(
+        self,
+        message: dict[str, Any],
+        user_context: dict[str, Any],
+        reason: str,
+    ) -> dict[str, Any]:
         """Analyze message for dream processing using AI"""
         if self.openai:
             try:
                 analysis = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """You are the NIAS-Dream bridge analyzer.
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """You are the NIAS-Dream bridge analyzer.
                         Analyze how to best integrate this message into dream processing.
                         Consider: emotional safety, symbolic meaning, narrative potential,
-                        and quantum consciousness states."""
-                    }, {
-                        "role": "user",
-                        "content": f"""Message: {json.dumps(message)}
+                        and quantum consciousness states.""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"""Message: {json.dumps(message)}
                         User Context: {json.dumps(user_context)}
-                        Deferral Reason: {reason}"""
-                    }],
-                    functions=[{
-                        "name": "analyze_dream_integration",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "interpretation": {"type": "string"},
-                                "mode": {"type": "string", "enum": ["gentle", "symbolic", "narrative", "quantum"]},
-                                "priority": {"type": "number", "minimum": 0, "maximum": 1},
-                                "emotional_context": {
-                                    "type": "object",
-                                    "properties": {
-                                        "safety": {"type": "number"},
-                                        "receptivity": {"type": "number"},
-                                        "symbolic_density": {"type": "number"}
-                                    }
+                        Deferral Reason: {reason}""",
+                        },
+                    ],
+                    functions=[
+                        {
+                            "name": "analyze_dream_integration",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "interpretation": {"type": "string"},
+                                    "mode": {
+                                        "type": "string",
+                                        "enum": [
+                                            "gentle",
+                                            "symbolic",
+                                            "narrative",
+                                            "quantum",
+                                        ],
+                                    },
+                                    "priority": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                    },
+                                    "emotional_context": {
+                                        "type": "object",
+                                        "properties": {
+                                            "safety": {"type": "number"},
+                                            "receptivity": {"type": "number"},
+                                            "symbolic_density": {"type": "number"},
+                                        },
+                                    },
+                                    "dream_seeds": {
+                                        "type": "array",
+                                        "items": {"type": "string"},
+                                    },
                                 },
-                                "dream_seeds": {"type": "array", "items": {"type": "string"}}
+                                "required": [
+                                    "interpretation",
+                                    "mode",
+                                    "priority",
+                                    "emotional_context",
+                                ],
                             },
-                            "required": ["interpretation", "mode", "priority", "emotional_context"]
                         }
-                    }],
-                    function_call={"name": "analyze_dream_integration"}
+                    ],
+                    function_call={"name": "analyze_dream_integration"},
                 )
 
-                func_result = json.loads(analysis.choices[0].message.function_call.arguments)
+                func_result = json.loads(
+                    analysis.choices[0].message.function_call.arguments
+                )
                 return func_result
 
             except Exception as e:
@@ -186,8 +220,8 @@ class NIASDreamBridge:
             "emotional_context": {
                 "safety": 0.8,
                 "receptivity": 0.6,
-                "symbolic_density": 0.5
-            }
+                "symbolic_density": 0.5,
+            },
         }
 
     def _get_poetic_response(self, reason: str) -> str:
@@ -198,7 +232,7 @@ class NIASDreamBridge:
             "cognitive_overload": "Your mind seeks quieter shores 🌊",
             "user_preference": "Saved for when stars align ✨",
             "dream_preference": "Into the dream realm it flows 💫",
-            "default": "Held gently for another time 🫧"
+            "default": "Held gently for another time 🫧",
         }
         return responses.get(reason, responses["default"])
 
@@ -250,7 +284,7 @@ class NIASDreamBridge:
                 "content": dream_msg.original_message,
                 "interpretation": dream_msg.symbolic_interpretation,
                 "mode": dream_msg.injection_mode.value,
-                "emotional_context": dream_msg.emotional_context
+                "emotional_context": dream_msg.emotional_context,
             }
 
             # Inject into dream system
@@ -263,7 +297,7 @@ class NIASDreamBridge:
                 await self.quantum_hub.process_consciousness_event(
                     agent_id=dream_msg.original_message.get("user_id", "unknown"),
                     event_type="dream_injection",
-                    event_data={"dream_content": dream_payload}
+                    event_data={"dream_content": dream_payload},
                 )
 
         except Exception as e:
@@ -276,34 +310,38 @@ class NIASDreamBridge:
                 # Generate quantum interpretation
                 quantum_prep = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Prepare quantum superposition states for dream processing.
-                        Create parallel interpretations that can exist simultaneously."""
-                    }, {
-                        "role": "user",
-                        "content": f"Dream Message: {dream_msg.symbolic_interpretation}"
-                    }],
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Prepare quantum superposition states for dream processing.
+                        Create parallel interpretations that can exist simultaneously.""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Dream Message: {dream_msg.symbolic_interpretation}",
+                        },
+                    ],
                     n=3,  # Generate 3 quantum states
-                    temperature=0.9
+                    temperature=0.9,
                 )
 
                 # Create superposition in quantum hub
                 states = [choice.message.content for choice in quantum_prep.choices]
                 await self.quantum_hub.create_superposition_state(
                     agent_id=dream_msg.original_message.get("user_id", "unknown"),
-                    states=states
+                    states=states,
                 )
 
             except Exception as e:
                 logger.error(f"Quantum dream preparation failed: {e}")
 
-    async def extract_dream_insights(self,
-                                   user_id: str,
-                                   time_window: int = 3600) -> Dict[str, Any]:
+    async def extract_dream_insights(
+        self, user_id: str, time_window: int = 3600
+    ) -> dict[str, Any]:
         """Extract insights from recent dream processing"""
         recent_dreams = [
-            msg for msg in self.dream_queue
+            msg
+            for msg in self.dream_queue
             if (datetime.now() - msg.created_at).total_seconds() < time_window
         ]
 
@@ -312,7 +350,7 @@ class NIASDreamBridge:
             "dream_count": len(recent_dreams),
             "common_themes": [],
             "emotional_trajectory": {},
-            "symbolic_patterns": []
+            "symbolic_patterns": [],
         }
 
         if self.openai and recent_dreams:
@@ -322,21 +360,21 @@ class NIASDreamBridge:
                     {
                         "interpretation": msg.symbolic_interpretation,
                         "emotional_context": msg.emotional_context,
-                        "mode": msg.injection_mode.value
+                        "mode": msg.injection_mode.value,
                     }
                     for msg in recent_dreams
                 ]
 
                 analysis = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Analyze dream patterns for insights.
-                        Identify themes, emotional trajectories, and symbolic patterns."""
-                    }, {
-                        "role": "user",
-                        "content": json.dumps(dream_data)
-                    }]
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Analyze dream patterns for insights.
+                        Identify themes, emotional trajectories, and symbolic patterns.""",
+                        },
+                        {"role": "user", "content": json.dumps(dream_data)},
+                    ],
                 )
 
                 insights["ai_analysis"] = analysis.choices[0].message.content
@@ -346,8 +384,7 @@ class NIASDreamBridge:
 
         return insights
 
-    async def create_dream_narrative(self,
-                                   dream_messages: List[DreamMessage]) -> str:
+    async def create_dream_narrative(self, dream_messages: list[DreamMessage]) -> str:
         """Create unified narrative from multiple dream messages"""
         if not dream_messages:
             return "No dreams to weave together."
@@ -355,19 +392,24 @@ class NIASDreamBridge:
         if self.openai:
             try:
                 # Extract interpretations
-                interpretations = [msg.symbolic_interpretation for msg in dream_messages]
+                interpretations = [
+                    msg.symbolic_interpretation for msg in dream_messages
+                ]
 
                 narrative = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
-                    messages=[{
-                        "role": "system",
-                        "content": """Create a cohesive, poetic dream narrative.
-                        Weave together symbolic elements into a meaningful story."""
-                    }, {
-                        "role": "user",
-                        "content": f"Dream elements: {json.dumps(interpretations)}"
-                    }],
-                    temperature=0.8
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """Create a cohesive, poetic dream narrative.
+                        Weave together symbolic elements into a meaningful story.""",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Dream elements: {json.dumps(interpretations)}",
+                        },
+                    ],
+                    temperature=0.8,
                 )
 
                 return narrative.choices[0].message.content
@@ -390,7 +432,7 @@ class NIASDreamBridge:
                     prompt=prompt,
                     size="1024x1024",
                     quality="standard",
-                    style="vivid"
+                    style="vivid",
                 )
 
                 return response.data[0].url
@@ -400,7 +442,7 @@ class NIASDreamBridge:
 
         return None
 
-    def get_dream_statistics(self) -> Dict[str, Any]:
+    def get_dream_statistics(self) -> dict[str, Any]:
         """Get statistics about dream processing"""
         total_dreams = len(self.dream_queue)
 
@@ -410,16 +452,23 @@ class NIASDreamBridge:
                 1 for msg in self.dream_queue if msg.injection_mode == mode
             )
 
-        avg_priority = sum(msg.priority for msg in self.dream_queue) / total_dreams if total_dreams > 0 else 0
+        avg_priority = (
+            sum(msg.priority for msg in self.dream_queue) / total_dreams
+            if total_dreams > 0
+            else 0
+        )
 
         return {
             "total_pending": total_dreams,
             "mode_distribution": mode_counts,
             "average_priority": avg_priority,
             "oldest_dream_age": (
-                (datetime.now() - min(msg.created_at for msg in self.dream_queue)).total_seconds()
-                if self.dream_queue else 0
-            )
+                (
+                    datetime.now() - min(msg.created_at for msg in self.dream_queue)
+                ).total_seconds()
+                if self.dream_queue
+                else 0
+            ),
         }
 
     async def shutdown(self):
@@ -434,7 +483,9 @@ class NIASDreamBridge:
 _bridge_instance = None
 
 
-def get_nias_dream_bridge(openai_api_key: Optional[str] = None) -> NIASDreamBridge:
+def get_nias_dream_bridge(
+    openai_api_key: Optional[str] = None,
+) -> NIASDreamBridge:
     """Get or create the singleton NIAS-Dream Bridge instance"""
     global _bridge_instance
     if _bridge_instance is None:

@@ -10,14 +10,12 @@ enabling symbolic state reporting and module health monitoring.
 """
 
 import ast
-import os
-import re
-import sys
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-import logging
-from datetime import datetime
 import json
+import logging
+import re
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -73,7 +71,7 @@ class ModuleIntrospector:
 
         try:
             # Read module content
-            with open(module_path, "r", encoding="utf-8") as f:
+            with open(module_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Extract symbolic tags
@@ -198,7 +196,7 @@ class ModuleIntrospector:
 
         report_lines = []
         report_lines.append("=" * 60)
-        report_lines.append(f"SYMBOLIC STATE REPORT")
+        report_lines.append("SYMBOLIC STATE REPORT")
         report_lines.append(f"Module: {module_summary['module_path']}")
         report_lines.append(f"Timestamp: {module_summary['timestamp']}")
         report_lines.append("=" * 60)
@@ -238,7 +236,7 @@ class ModuleIntrospector:
                 report_lines.append(f"   • {point}")
 
         # Structure summary
-        report_lines.append(f"\n🏗️ STRUCTURE:")
+        report_lines.append("\n🏗️ STRUCTURE:")
         report_lines.append(f"   Functions: {len(module_summary['functions'])}")
         report_lines.append(f"   Classes: {len(module_summary['classes'])}")
         report_lines.append(f"   Imports: {len(module_summary['imports'])}")

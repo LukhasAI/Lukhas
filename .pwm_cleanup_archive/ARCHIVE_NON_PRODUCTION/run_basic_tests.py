@@ -6,23 +6,23 @@ This script runs core tests with proper error handling for missing dependencies.
 """
 
 import asyncio
-import sys
-import os
+import hashlib
 import json
 import logging
+import os
+import sys
 from datetime import datetime
+
 import numpy as np
-import hashlib
 
 # Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger('IDENTITY_TEST')
+logger = logging.getLogger("IDENTITY_TEST")
 
 
 async def test_biometric_colony():
@@ -31,9 +31,10 @@ async def test_biometric_colony():
 
     try:
         from identity.core.colonies.biometric_verification_colony import (
-            BiometricVerificationColony, BiometricSample, BiometricType
+            BiometricSample,
+            BiometricType,
+            BiometricVerificationColony,
         )
-        from identity.core.events import get_identity_event_publisher
 
         # Initialize colony
         colony = BiometricVerificationColony("test_biometric")
@@ -53,7 +54,7 @@ async def test_biometric_colony():
                 capture_timestamp=datetime.utcnow(),
                 device_id="test_device",
                 environmental_factors={"lighting": "good"},
-                preprocessing_applied=["normalization"]
+                preprocessing_applied=["normalization"],
             )
             samples.append(sample)
 
@@ -66,7 +67,7 @@ async def test_biometric_colony():
             biometric_samples=samples,
             reference_template=reference,
             tier_level=2,
-            session_id="test_session_001"
+            session_id="test_session_001",
         )
 
         # Report results
@@ -84,19 +85,16 @@ async def test_biometric_colony():
             "success": True,
             "verified": result.verified,
             "confidence": result.confidence_score,
-            "health_score": health['health_score'],
-            "agent_count": health['total_agents']
+            "health_score": health["health_score"],
+            "agent_count": health["total_agents"],
         }
 
     except Exception as e:
         logger.error(f"Biometric colony test failed: {e}")
         import traceback
+
         traceback.print_exc()
-        return {
-            "test": "biometric_colony",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "biometric_colony", "success": False, "error": str(e)}
 
 
 async def test_consciousness_colony():
@@ -104,7 +102,9 @@ async def test_consciousness_colony():
     logger.info("\n=== Testing Consciousness Verification Colony ===")
 
     try:
-        from identity.core.colonies.consciousness_verification_colony import ConsciousnessVerificationColony
+        from identity.core.colonies.consciousness_verification_colony import (
+            ConsciousnessVerificationColony,
+        )
 
         # Initialize colony
         colony = ConsciousnessVerificationColony("test_consciousness")
@@ -120,16 +120,12 @@ async def test_consciousness_colony():
                 "beta": np.random.random(100) * 50,
                 "gamma": np.random.random(100) * 100,
                 "theta": np.random.random(100) * 10,
-                "delta": np.random.random(100) * 5
+                "delta": np.random.random(100) * 5,
             },
             "coherence_score": 0.75,
-            "emotional_state": {
-                "valence": 0.5,
-                "arousal": 0.6,
-                "dominance": 0.7
-            },
+            "emotional_state": {"valence": 0.5, "arousal": 0.6, "dominance": 0.7},
             "meditation_depth": 0.4,
-            "focus_level": 0.8
+            "focus_level": 0.8,
         }
 
         # Perform verification
@@ -137,7 +133,7 @@ async def test_consciousness_colony():
             lambda_id=lambda_id,
             consciousness_data=consciousness_data,
             tier_level=3,
-            session_id="test_session_002"
+            session_id="test_session_002",
         )
 
         # Report results
@@ -154,16 +150,12 @@ async def test_consciousness_colony():
             "success": True,
             "verified": result.verified,
             "confidence": result.confidence_score,
-            "emergent_patterns": len(patterns)
+            "emergent_patterns": len(patterns),
         }
 
     except Exception as e:
         logger.error(f"Consciousness colony test failed: {e}")
-        return {
-            "test": "consciousness_colony",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "consciousness_colony", "success": False, "error": str(e)}
 
 
 async def test_swarm_hub():
@@ -188,9 +180,9 @@ async def test_swarm_hub():
             auth_data={
                 "biometric_data": {
                     "samples": [{"type": "fingerprint", "data": "mock"}],
-                    "template": b"mock_template"
+                    "template": b"mock_template",
                 }
-            }
+            },
         )
 
         logger.info(f"Task Submitted: {task_id[:30]}...")
@@ -208,17 +200,13 @@ async def test_swarm_hub():
             "test": "swarm_hub",
             "success": True,
             "task_id": task_id,
-            "active_orchestrations": stats['active_orchestrations'],
-            "colonies_registered": len(stats['colony_health'])
+            "active_orchestrations": stats["active_orchestrations"],
+            "colonies_registered": len(stats["colony_health"]),
         }
 
     except Exception as e:
         logger.error(f"Swarm hub test failed: {e}")
-        return {
-            "test": "swarm_hub",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "swarm_hub", "success": False, "error": str(e)}
 
 
 async def test_tag_resolver():
@@ -227,7 +215,9 @@ async def test_tag_resolver():
 
     try:
         from identity.core.tagging.identity_tag_resolver import (
-            IdentityTagResolver, IdentityTagType, TrustLevel
+            IdentityTagResolver,
+            IdentityTagType,
+            TrustLevel,
         )
 
         # Initialize resolver
@@ -240,9 +230,7 @@ async def test_tag_resolver():
 
         # Establish trust
         await resolver.establish_trust_relationship(
-            from_identity=user1,
-            to_identity=user2,
-            initial_trust=TrustLevel.MEDIUM
+            from_identity=user1, to_identity=user2, initial_trust=TrustLevel.MEDIUM
         )
 
         logger.info(f"Trust established: {user1} -> {user2}")
@@ -253,7 +241,7 @@ async def test_tag_resolver():
             tag_type=IdentityTagType.CAPABILITY,
             tag_value="test_capability",
             tier_level=2,
-            metadata={"test": True}
+            metadata={"test": True},
         )
 
         logger.info(f"Tag assigned: {tag_id}")
@@ -270,18 +258,14 @@ async def test_tag_resolver():
         return {
             "test": "tag_resolver",
             "success": True,
-            "trust_relationships": stats['trust_relationships'],
-            "total_tags": stats['total_tags'],
-            "reputation_score": reputation['overall_reputation']
+            "trust_relationships": stats["trust_relationships"],
+            "total_tags": stats["total_tags"],
+            "reputation_score": reputation["overall_reputation"],
         }
 
     except Exception as e:
         logger.error(f"Tag resolver test failed: {e}")
-        return {
-            "test": "tag_resolver",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "tag_resolver", "success": False, "error": str(e)}
 
 
 async def test_health_monitor():
@@ -290,7 +274,9 @@ async def test_health_monitor():
 
     try:
         from identity.core.health.identity_health_monitor import (
-            IdentityHealthMonitor, ComponentType, HealthMetric
+            ComponentType,
+            HealthMetric,
+            IdentityHealthMonitor,
         )
 
         # Initialize monitor
@@ -299,9 +285,7 @@ async def test_health_monitor():
 
         # Register component
         await monitor.register_component(
-            "test_component",
-            ComponentType.COLONY,
-            tier_level=2
+            "test_component", ComponentType.COLONY, tier_level=2
         )
 
         logger.info("Component registered")
@@ -312,9 +296,9 @@ async def test_health_monitor():
             {
                 HealthMetric.SUCCESS_RATE: 0.95,
                 HealthMetric.ERROR_RATE: 0.05,
-                HealthMetric.RESPONSE_TIME: 150
+                HealthMetric.RESPONSE_TIME: 150,
             },
-            tier_level=2
+            tier_level=2,
         )
 
         # Get system health
@@ -326,18 +310,14 @@ async def test_health_monitor():
         return {
             "test": "health_monitor",
             "success": True,
-            "overall_health": health['overall_health'],
-            "component_count": health['component_count'],
-            "active_healing": health['active_healing_plans']
+            "overall_health": health["overall_health"],
+            "component_count": health["component_count"],
+            "active_healing": health["active_healing_plans"],
         }
 
     except Exception as e:
         logger.error(f"Health monitor test failed: {e}")
-        return {
-            "test": "health_monitor",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "health_monitor", "success": False, "error": str(e)}
 
 
 async def test_glyph_generation():
@@ -346,7 +326,8 @@ async def test_glyph_generation():
 
     try:
         from identity.core.glyph.distributed_glyph_generation import (
-            DistributedGLYPHColony, GLYPHType
+            DistributedGLYPHColony,
+            GLYPHType,
         )
 
         # Initialize colony
@@ -361,16 +342,14 @@ async def test_glyph_generation():
             lambda_id=lambda_id,
             glyph_type=GLYPHType.AUTHENTICATION,
             tier_level=2,
-            identity_data={
-                "lambda_id": lambda_id,
-                "tier": 2,
-                "test": True
-            },
-            session_id="test_session_006"
+            identity_data={"lambda_id": lambda_id, "tier": 2, "test": True},
+            session_id="test_session_006",
         )
 
         logger.info(f"GLYPH Generated: {glyph.glyph_id[:30]}...")
-        logger.info(f"Quality Score: {glyph.quality_metrics.get('overall_quality', 0):.3f}")
+        logger.info(
+            f"Quality Score: {glyph.quality_metrics.get('overall_quality', 0):.3f}"
+        )
         logger.info(f"Fragments Used: {len(glyph.fragments_used)}")
         logger.info(f"Image Size: {glyph.image_data.shape}")
 
@@ -382,18 +361,14 @@ async def test_glyph_generation():
             "test": "glyph_generation",
             "success": True,
             "glyph_id": glyph.glyph_id,
-            "quality_score": glyph.quality_metrics.get('overall_quality', 0),
+            "quality_score": glyph.quality_metrics.get("overall_quality", 0),
             "fragments": len(glyph.fragments_used),
-            "image_shape": str(glyph.image_data.shape)
+            "image_shape": str(glyph.image_data.shape),
         }
 
     except Exception as e:
         logger.error(f"GLYPH generation test failed: {e}")
-        return {
-            "test": "glyph_generation",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "glyph_generation", "success": False, "error": str(e)}
 
 
 async def test_colony_connectivity():
@@ -402,7 +377,10 @@ async def test_colony_connectivity():
 
     try:
         from identity.core.colonies import BiometricVerificationColony
-        from identity.core.events import get_identity_event_publisher, IdentityEventType
+        from identity.core.events import (
+            IdentityEventType,
+            get_identity_event_publisher,
+        )
 
         # Initialize colony
         colony = BiometricVerificationColony("connectivity_test")
@@ -417,15 +395,18 @@ async def test_colony_connectivity():
             lambda_id="system",
             tier_level=0,
             colony_id=colony.colony_id,
-            consensus_data={"test": True}
+            consensus_data={"test": True},
         )
 
         logger.info(f"Event Published: {event_id}")
 
         # Check colony agents
         agent_count = len(colony.agents)
-        active_agents = sum(1 for agent in colony.agents.values()
-                          if str(agent.state) in ["AgentState.IDLE", "AgentState.WORKING"])
+        active_agents = sum(
+            1
+            for agent in colony.agents.values()
+            if str(agent.state) in ["AgentState.IDLE", "AgentState.WORKING"]
+        )
 
         logger.info(f"Total Agents: {agent_count}")
         logger.info(f"Active Agents: {active_agents}")
@@ -440,25 +421,21 @@ async def test_colony_connectivity():
             "agent_count": agent_count,
             "active_agents": active_agents,
             "event_published": bool(event_id),
-            "total_events": event_stats['total_events']
+            "total_events": event_stats["total_events"],
         }
 
     except Exception as e:
         logger.error(f"Colony connectivity test failed: {e}")
-        return {
-            "test": "colony_connectivity",
-            "success": False,
-            "error": str(e)
-        }
+        return {"test": "colony_connectivity", "success": False, "error": str(e)}
 
 
 async def run_all_tests():
     """Run all basic tests."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("LUKHAS IDENTITY SYSTEM - BASIC INTEGRATION TESTS")
-    print("="*60)
+    print("=" * 60)
     print(f"Start Time: {datetime.utcnow().isoformat()}")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
 
     # Define tests
     tests = [
@@ -468,7 +445,7 @@ async def run_all_tests():
         test_tag_resolver,
         test_health_monitor,
         test_glyph_generation,
-        test_colony_connectivity
+        test_colony_connectivity,
     ]
 
     results = []
@@ -480,16 +457,18 @@ async def run_all_tests():
             results.append(result)
         except Exception as e:
             logger.error(f"Test {test_func.__name__} crashed: {e}")
-            results.append({
-                "test": test_func.__name__,
-                "success": False,
-                "error": f"Crash: {str(e)}"
-            })
+            results.append(
+                {
+                    "test": test_func.__name__,
+                    "success": False,
+                    "error": f"Crash: {str(e)}",
+                }
+            )
 
     # Generate summary
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("TEST SUMMARY")
-    print("="*60)
+    print("=" * 60)
 
     passed = sum(1 for r in results if r.get("success", False))
     failed = len(results) - passed
@@ -518,28 +497,37 @@ async def run_all_tests():
 
     # Save detailed results
     with open(f"identity/tests/results/basic_test_results_{timestamp}.json", "w") as f:
-        json.dump({
-            "timestamp": datetime.utcnow().isoformat(),
-            "total_tests": len(results),
-            "passed": passed,
-            "failed": failed,
-            "success_rate": passed/len(results) if results else 0,
-            "results": results
-        }, f, indent=2, default=str)
+        json.dump(
+            {
+                "timestamp": datetime.utcnow().isoformat(),
+                "total_tests": len(results),
+                "passed": passed,
+                "failed": failed,
+                "success_rate": passed / len(results) if results else 0,
+                "results": results,
+            },
+            f,
+            indent=2,
+            default=str,
+        )
 
     # Save summary
     with open("identity/tests/results/test_summary_latest.json", "w") as f:
-        json.dump({
-            "timestamp": datetime.utcnow().isoformat(),
-            "test_type": "basic_integration",
-            "total": len(results),
-            "passed": passed,
-            "failed": failed,
-            "tests": [r.get("test", "unknown") for r in results]
-        }, f, indent=2)
+        json.dump(
+            {
+                "timestamp": datetime.utcnow().isoformat(),
+                "test_type": "basic_integration",
+                "total": len(results),
+                "passed": passed,
+                "failed": failed,
+                "tests": [r.get("test", "unknown") for r in results],
+            },
+            f,
+            indent=2,
+        )
 
-    print(f"\nResults saved to: identity/tests/results/")
-    print("="*60 + "\n")
+    print("\nResults saved to: identity/tests/results/")
+    print("=" * 60 + "\n")
 
 
 if __name__ == "__main__":

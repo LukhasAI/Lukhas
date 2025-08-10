@@ -3,10 +3,9 @@ Creativity Colony - A specialized colony for creative tasks.
 """
 
 import logging
-from typing import Dict, Any
+from typing import Any
 
 from bio.bio_utilities import fatigue_level
-
 from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
@@ -19,8 +18,7 @@ class CreativityColony(BaseColony):
 
     def __init__(self, colony_id: str):
         super().__init__(
-            colony_id,
-            capabilities=["creativity", "generation", "synthesis"]
+            colony_id, capabilities=["creativity", "generation", "synthesis"]
         )
         # ΛTAG: driftScore, fatigue_mod
         self.task_slots: int = 3
@@ -33,7 +31,9 @@ class CreativityColony(BaseColony):
         # At least one slot must remain available
         self.task_slots = max(1, int(3 * (1.0 - fatigue)))
 
-    async def execute_task(self, task_id: str, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def execute_task(
+        self, task_id: str, task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         self.update_task_slots()
 
         if self.task_slots <= 0:

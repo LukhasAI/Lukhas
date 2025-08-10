@@ -21,10 +21,13 @@ DESCRIPTION:
 
 """
 
-from core.interfaces.as_agent.sys.nias.symbolic_matcher import match_message_to_context
-from core.interfaces.as_agent.sys.nias.consent_filter import is_allowed
 from core.interfaces.as_agent.sys.abas.abas import is_allowed_now
+from core.interfaces.as_agent.sys.nias.consent_filter import is_allowed
+from core.interfaces.as_agent.sys.nias.symbolic_matcher import (
+    match_message_to_context,
+)
 from core.interfaces.as_agent.sys.nias.trace_logger import log_delivery_event
+
 
 def push_symbolic_message(message, user_context):
     """
@@ -36,12 +39,16 @@ def push_symbolic_message(message, user_context):
 
     # Step 1: Consent filter
     if not is_allowed(user_context, message):
-        log_delivery_event(user_id, message["message_id"], "blocked", user_context, "consent_filter")
+        log_delivery_event(
+            user_id, message["message_id"], "blocked", user_context, "consent_filter"
+        )
         return {"status": "blocked", "reason": "consent_filter"}
 
     # Step 2: ABAS threshold check
     if not is_allowed_now(user_context):
-        log_delivery_event(user_id, message["message_id"], "blocked", user_context, "abas_threshold")
+        log_delivery_event(
+            user_id, message["message_id"], "blocked", user_context, "abas_threshold"
+        )
         return {"status": "blocked", "reason": "abas_threshold"}
 
     # Step 3: Symbolic matcher
@@ -49,8 +56,11 @@ def push_symbolic_message(message, user_context):
     decision = match["decision"]
 
     # Step 4: Trace + return outcome
-    log_delivery_event(user_id, message["message_id"], decision, user_context, "symbolic_match")
+    log_delivery_event(
+        user_id, message["message_id"], decision, user_context, "symbolic_match"
+    )
     return {"status": decision, "reason": "symbolic_match"}
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

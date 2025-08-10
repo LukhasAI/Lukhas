@@ -6,17 +6,16 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 🔧 Simple lukhas iPhone & API Troubleshooter
 ==========================================
 """
 
 import os
-import sys
-import json
 import socket
-import requests
 from pathlib import Path
+
+import requests
+
 
 def test_openai_api():
     """Test OpenAI API directly"""
@@ -29,11 +28,11 @@ def test_openai_api():
         with open(env_file) as f:
             for line in f:
                 line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key, value = line.split('=', 1)
+                if line and not line.startswith("#") and "=" in line:
+                    key, value = line.split("=", 1)
                     os.environ[key.strip()] = value.strip()
 
-    api_key = os.getenv('OPENAI_API_KEY')
+    api_key = os.getenv("OPENAI_API_KEY")
 
     if not api_key or api_key == "your_openai_api_key_here":
         print("❌ OpenAI API key not found or not configured")
@@ -46,25 +45,25 @@ def test_openai_api():
     try:
         headers = {
             "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
 
         data = {
             "model": "gpt-4o-mini",  # Use cheaper model for testing
             "messages": [{"role": "user", "content": "Say 'OpenAI API working!'"}],
-            "max_tokens": 10
+            "max_tokens": 10,
         }
 
         response = requests.post(
             "https://api.openai.com/v1/chat/completions",
             headers=headers,
             json=data,
-            timeout=10
+            timeout=10,
         )
 
         if response.status_code == 200:
             result = response.json()
-            message = result['choices'][0]['message']['content']
+            message = result["choices"][0]["message"]["content"]
             print(f"✅ OpenAI API working! Response: {message}")
             return True
         else:
@@ -78,6 +77,7 @@ def test_openai_api():
     except Exception as e:
         print(f"❌ OpenAI test error: {e}")
         return False
+
 
 def check_network():
     """Check network configuration"""
@@ -97,7 +97,7 @@ def check_network():
         if local_ip == "192.168.2.41":
             print("✅ IP matches mobile interface configuration")
         else:
-            print(f"⚠️ IP mismatch! Your mobile interface expects 192.168.2.41")
+            print("⚠️ IP mismatch! Your mobile interface expects 192.168.2.41")
             print(f"💡 Update mobile interface to use: {local_ip}")
 
         return local_ip
@@ -106,18 +106,23 @@ def check_network():
         print(f"❌ Network check failed: {e}")
         return None
 
+
 def check_ports():
     """Check server ports"""
     print("\n🚪 Checking Server Ports...")
     print("=" * 40)
 
-    ports = {8443: "HTTPS", 8766: "Secure WebSocket", 8767: "Fallback WebSocket"}
+    ports = {
+        8443: "HTTPS",
+        8766: "Secure WebSocket",
+        8767: "Fallback WebSocket",
+    }
 
     for port, service in ports.items():
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.settimeout(1)
-            result = sock.connect_ex(('localhost', port))
+            result = sock.connect_ex(("localhost", port))
             sock.close()
 
             if result == 0:
@@ -127,6 +132,7 @@ def check_ports():
 
         except Exception as e:
             print(f"❌ Port {port}: Error - {e}")
+
 
 def create_fixed_mobile_interface():
     """Create a mobile interface with automatic IP detection"""
@@ -139,16 +145,18 @@ def create_fixed_mobile_interface():
         s.connect(("8.8.8.8", 80))
         current_ip = s.getsockname()[0]
         s.close()
-    except:
+    except BaseException:
         current_ip = "192.168.2.41"  # fallback
 
     # Read the existing interface
-    interface_path = "/Users/A_G_I/CodexGPT_Lukhas/lukhas/sensors/mobile_interface_pro.html"
+    interface_path = (
+        "/Users/A_G_I/CodexGPT_Lukhas/lukhas/sensors/mobile_interface_pro.html"
+    )
     if not os.path.exists(interface_path):
         print(f"❌ Mobile interface not found: {interface_path}")
         return None
 
-    with open(interface_path, 'r') as f:
+    with open(interface_path) as f:
         content = f.read()
 
     # Update IP addresses
@@ -156,13 +164,14 @@ def create_fixed_mobile_interface():
 
     # Save fixed version
     fixed_path = "/Users/A_G_I/CodexGPT_Lukhas/mobile_interface_fixed.html"
-    with open(fixed_path, 'w') as f:
+    with open(fixed_path, "w") as f:
         f.write(updated_content)
 
     print(f"✅ Fixed mobile interface created: {fixed_path}")
     print(f"📱 Updated IP to: {current_ip}")
 
     return fixed_path
+
 
 def create_iphone_setup_instructions():
     """Create simple iPhone setup instructions"""
@@ -175,7 +184,7 @@ def create_iphone_setup_instructions():
         s.connect(("8.8.8.8", 80))
         current_ip = s.getsockname()[0]
         s.close()
-    except:
+    except BaseException:
         current_ip = "192.168.2.41"
 
     instructions = f"""
@@ -218,11 +227,12 @@ Mobile Interface: https://{current_ip}:8443/mobile_interface_fixed.html
 """
 
     instructions_path = "/Users/A_G_I/CodexGPT_Lukhas/iPhone_Setup_Instructions.txt"
-    with open(instructions_path, 'w') as f:
+    with open(instructions_path, "w") as f:
         f.write(instructions)
 
     print(f"✅ Instructions saved: {instructions_path}")
     return instructions_path
+
 
 def main():
     """Main troubleshooting"""
@@ -239,7 +249,7 @@ def main():
     check_ports()
 
     # Create fixed interface
-    fixed_interface = create_fixed_mobile_interface()
+    create_fixed_mobile_interface()
 
     # Create instructions
     instructions = create_iphone_setup_instructions()
@@ -260,17 +270,19 @@ def main():
     else:
         print("❌ Network: Could not detect IP")
 
-    print(f"\n📱 iPhone Setup:")
+    print("\n📱 iPhone Setup:")
     print(f"   1. Read: {instructions}")
-    print(f"   2. Use: https://{local_ip or '192.168.2.41'}:8443/mobile_interface_fixed.html")
-    print(f"   3. Accept SSL certificate first!")
+    print(
+        f"   2. Use: https://{local_ip or '192.168.2.41'}:8443/mobile_interface_fixed.html"
+    )
+    print("   3. Accept SSL certificate first!")
 
     print("\n🚀 To start servers:")
     print("   cd /Users/A_G_I/CodexGPT_Lukhas")
     print("   python lukhas/sensors/enhanced_secure_server.py")
 
+
 if __name__ == "__main__":
     main()
-
 
 # Λ Systems 2025 www.lukhas.ai

@@ -1,6 +1,7 @@
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║ lukhas CLI Developer Tools Commands                            table = formatter.create_table(
+║ lukhas CLI Developer Tools Commands                            table = \
+    formatter.create_table(
             title="Available Developer Commands",
             style="cyan"
         )
@@ -17,43 +18,62 @@
 
 import asyncio
 import os
-import subprocess
-import json
-import yaml
-import time
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Union
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional
 
 # Handle both relative and absolute imports
 try:
-    from .base import BaseCommand
     from ..utils import (
-        print_success, print_error, print_warning, print_info, print_header,
-        TableFormatter, TreeFormatter, OutputFormatter, ProgressFormatter,
-        validate_path, validate_json, format_bytes, format_duration,
-        run_command, run_command_async, get_system_info, find_files,
-        system_monitor, function_profiler, performance_context
+        OutputFormatter,
+        ProgressFormatter,
+        TableFormatter,
+        find_files,
+        format_duration,
+        function_profiler,
+        performance_context,
+        print_error,
+        print_header,
+        print_info,
+        print_success,
+        print_warning,
+        run_command_async,
+        system_monitor,
+        validate_path,
     )
+    from .base import BaseCommand
 except ImportError:
     # Fallback to absolute imports
     import sys
     from pathlib import Path
+
     cli_dir = Path(__file__).parent.parent
     sys.path.insert(0, str(cli_dir))
 
     from commands.base import BaseCommand
     from utils import (
-        print_success, print_error, print_warning, print_info, print_header,
-        TableFormatter, TreeFormatter, OutputFormatter, ProgressFormatter,
-        validate_path, validate_json, format_bytes, format_duration,
-        run_command, run_command_async, get_system_info, find_files,
-        system_monitor, function_profiler, performance_context
+        OutputFormatter,
+        ProgressFormatter,
+        TableFormatter,
+        find_files,
+        format_duration,
+        function_profiler,
+        performance_context,
+        print_error,
+        print_header,
+        print_info,
+        print_success,
+        print_warning,
+        run_command_async,
+        system_monitor,
+        validate_path,
     )
+
 
 @dataclass
 class CodeMetrics:
     """Code analysis metrics"""
+
     lines_of_code: int
     files_count: int
     functions_count: int
@@ -62,15 +82,18 @@ class CodeMetrics:
     test_coverage: Optional[float] = None
     documentation_ratio: Optional[float] = None
 
+
 @dataclass
 class TestResult:
     """Test execution result"""
+
     test_file: str
     passed: int
     failed: int
     skipped: int
     duration: float
     coverage: Optional[float] = None
+
 
 class DeveloperTools(BaseCommand):
     """Advanced developer tools and utilities"""
@@ -84,23 +107,23 @@ class DeveloperTools(BaseCommand):
 
         # Register subcommands
         self.subcommands = {
-            'analyze': self.analyze_code,
-            'test': self.run_tests,
-            'benchmark': self.benchmark_code,
-            'profile': self.profile_application,
-            'lint': self.lint_code,
-            'format': self.format_code,
-            'docs': self.generate_docs,
-            'deps': self.analyze_dependencies,
-            'build': self.build_project,
-            'deploy': self.deploy_project,
-            'monitor': self.monitor_system,
-            'debug': self.debug_session,
-            'refactor': self.refactor_code,
-            'security': self.security_audit
+            "analyze": self.analyze_code,
+            "test": self.run_tests,
+            "benchmark": self.benchmark_code,
+            "profile": self.profile_application,
+            "lint": self.lint_code,
+            "format": self.format_code,
+            "docs": self.generate_docs,
+            "deps": self.analyze_dependencies,
+            "build": self.build_project,
+            "deploy": self.deploy_project,
+            "monitor": self.monitor_system,
+            "debug": self.debug_session,
+            "refactor": self.refactor_code,
+            "security": self.security_audit,
         }
 
-    async def execute(self, args: List[str]) -> bool:
+    async def execute(self, args: list[str]) -> bool:
         """Execute developer tool command"""
         if not args:
             self._show_help()
@@ -136,20 +159,20 @@ class DeveloperTools(BaseCommand):
             ("monitor", "System monitoring"),
             ("debug", "Interactive debugging"),
             ("refactor", "Code refactoring tools"),
-            ("security", "Security audit")
+            ("security", "Security audit"),
         ]
 
         table_data = [["Command", "Description"]]
         table_data.extend(commands)
 
         formatter = TableFormatter()
-        print(formatter.create_table(
-            table_data,
-            title="Available Developer Commands",
-            style="lukhas"
-        ))
+        print(
+            formatter.create_table(
+                table_data, title="Available Developer Commands", style="lukhas"
+            )
+        )
 
-    async def analyze_code(self, args: List[str]) -> bool:
+    async def analyze_code(self, args: list[str]) -> bool:
         """Analyze code metrics and quality"""
         path = args[0] if args else "."
 
@@ -169,7 +192,7 @@ class DeveloperTools(BaseCommand):
 
         return True
 
-    async def run_tests(self, args: List[str]) -> bool:
+    async def run_tests(self, args: list[str]) -> bool:
         """Run tests with coverage analysis"""
         test_path = args[0] if args else "tests/"
         coverage = "--coverage" in args
@@ -186,7 +209,7 @@ class DeveloperTools(BaseCommand):
 
         return all(r.failed == 0 for r in results)
 
-    async def benchmark_code(self, args: List[str]) -> bool:
+    async def benchmark_code(self, args: list[str]) -> bool:
         """Performance benchmarking"""
         target = args[0] if args else "."
         iterations = int(args[1]) if len(args) > 1 else 100
@@ -199,7 +222,7 @@ class DeveloperTools(BaseCommand):
 
         return True
 
-    async def profile_application(self, args: List[str]) -> bool:
+    async def profile_application(self, args: list[str]) -> bool:
         """Application profiling"""
         if not args:
             print_error("Usage: lukhas dev profile <script/module>")
@@ -216,7 +239,7 @@ class DeveloperTools(BaseCommand):
 
         return True
 
-    async def lint_code(self, args: List[str]) -> bool:
+    async def lint_code(self, args: list[str]) -> bool:
         """Code linting and style checking"""
         path = args[0] if args else "."
         fix = "--fix" in args
@@ -233,7 +256,7 @@ class DeveloperTools(BaseCommand):
         self._display_lint_results(results)
         return all(r["status"] == "passed" for r in results.values())
 
-    async def format_code(self, args: List[str]) -> bool:
+    async def format_code(self, args: list[str]) -> bool:
         """Code formatting and cleanup"""
         path = args[0] if args else "."
 
@@ -249,7 +272,7 @@ class DeveloperTools(BaseCommand):
         self._display_format_results(results)
         return True
 
-    async def generate_docs(self, args: List[str]) -> bool:
+    async def generate_docs(self, args: list[str]) -> bool:
         """Generate documentation"""
         source = args[0] if args else "."
         output = args[1] if len(args) > 1 else "docs/"
@@ -260,7 +283,7 @@ class DeveloperTools(BaseCommand):
         doc_generators = {
             "sphinx": self._generate_sphinx_docs,
             "mkdocs": self._generate_mkdocs,
-            "pydoc": self._generate_pydoc
+            "pydoc": self._generate_pydoc,
         }
 
         for generator, func in doc_generators.items():
@@ -273,7 +296,7 @@ class DeveloperTools(BaseCommand):
         print_warning("No documentation generators available")
         return False
 
-    async def analyze_dependencies(self, args: List[str]) -> bool:
+    async def analyze_dependencies(self, args: list[str]) -> bool:
         """Dependency analysis"""
         manifest = args[0] if args else "requirements.txt"
 
@@ -288,7 +311,7 @@ class DeveloperTools(BaseCommand):
 
         return True
 
-    async def build_project(self, args: List[str]) -> bool:
+    async def build_project(self, args: list[str]) -> bool:
         """Build project"""
         build_type = args[0] if args else "default"
 
@@ -298,7 +321,7 @@ class DeveloperTools(BaseCommand):
             "python": self._build_python_project,
             "node": self._build_node_project,
             "docker": self._build_docker_project,
-            "make": self._build_make_project
+            "make": self._build_make_project,
         }
 
         if build_type in build_systems:
@@ -313,7 +336,7 @@ class DeveloperTools(BaseCommand):
         print_error("No supported build system detected")
         return False
 
-    async def deploy_project(self, args: List[str]) -> bool:
+    async def deploy_project(self, args: list[str]) -> bool:
         """Deploy project"""
         target = args[0] if args else "staging"
 
@@ -328,7 +351,7 @@ class DeveloperTools(BaseCommand):
         config = deployment_configs[target]
         return await self._execute_deployment(config)
 
-    async def monitor_system(self, args: List[str]) -> bool:
+    async def monitor_system(self, args: list[str]) -> bool:
         """System monitoring"""
         duration = int(args[0]) if args else 60
 
@@ -336,14 +359,14 @@ class DeveloperTools(BaseCommand):
 
         monitor = system_monitor()
 
-        for i in range(duration):
+        for _i in range(duration):
             metrics = monitor.get_current_metrics()
             self._display_system_metrics(metrics)
             await asyncio.sleep(1)
 
         return True
 
-    async def debug_session(self, args: List[str]) -> bool:
+    async def debug_session(self, args: list[str]) -> bool:
         """Interactive debugging session"""
         if not args:
             print_error("Usage: lukhas dev debug <script>")
@@ -355,7 +378,7 @@ class DeveloperTools(BaseCommand):
         # Launch debugger
         return await self._launch_debugger(script)
 
-    async def refactor_code(self, args: List[str]) -> bool:
+    async def refactor_code(self, args: list[str]) -> bool:
         """Code refactoring tools"""
         operation = args[0] if args else "analyze"
         path = args[1] if len(args) > 1 else "."
@@ -366,7 +389,7 @@ class DeveloperTools(BaseCommand):
             "analyze": self._analyze_refactoring_opportunities,
             "extract": self._extract_methods,
             "rename": self._rename_symbols,
-            "optimize": self._optimize_imports
+            "optimize": self._optimize_imports,
         }
 
         if operation in refactor_ops:
@@ -375,7 +398,7 @@ class DeveloperTools(BaseCommand):
         print_error(f"Unknown refactoring operation: {operation}")
         return False
 
-    async def security_audit(self, args: List[str]) -> bool:
+    async def security_audit(self, args: list[str]) -> bool:
         """Security audit"""
         path = args[0] if args else "."
 
@@ -409,11 +432,17 @@ class DeveloperTools(BaseCommand):
         classes_count = 0
 
         for file_path in python_files:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 code = f.read()
-                lines_of_code += len([l for l in code.split('\n') if l.strip() and not l.strip().startswith('#')])
-                functions_count += code.count('def ')
-                classes_count += code.count('class ')
+                lines_of_code += len(
+                    [
+                        l
+                        for l in code.split("\n")
+                        if l.strip() and not l.strip().startswith("#")
+                    ]
+                )
+                functions_count += code.count("def ")
+                classes_count += code.count("class ")
 
         complexity_score = self._calculate_complexity_score(python_files)
 
@@ -422,21 +451,24 @@ class DeveloperTools(BaseCommand):
             files_count=len(python_files),
             functions_count=functions_count,
             classes_count=classes_count,
-            complexity_score=complexity_score
+            complexity_score=complexity_score,
         )
 
-    def _calculate_complexity_score(self, files: List[str]) -> float:
+    def _calculate_complexity_score(self, files: list[str]) -> float:
         """Calculate complexity score"""
         # Simplified complexity calculation
         total_complexity = 0
         for file_path in files:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 code = f.read()
                 # Count control structures
                 complexity = (
-                    code.count('if ') + code.count('elif ') +
-                    code.count('for ') + code.count('while ') +
-                    code.count('try:') + code.count('except ')
+                    code.count("if ")
+                    + code.count("elif ")
+                    + code.count("for ")
+                    + code.count("while ")
+                    + code.count("try:")
+                    + code.count("except ")
                 )
                 total_complexity += complexity
 
@@ -450,7 +482,7 @@ class DeveloperTools(BaseCommand):
             ["Files", f"{metrics.files_count:,}"],
             ["Functions", f"{metrics.functions_count:,}"],
             ["Classes", f"{metrics.classes_count:,}"],
-            ["Complexity Score", f"{metrics.complexity_score:.2f}"]
+            ["Complexity Score", f"{metrics.complexity_score:.2f}"],
         ]
 
         formatter = TableFormatter()
@@ -461,27 +493,31 @@ class DeveloperTools(BaseCommand):
         try:
             result = await run_command_async(f"which {tool}")
             return result.returncode == 0
-        except:
+        except BaseException:
             return False
 
-    async def _execute_tests(self, test_path: str, coverage: bool) -> List[TestResult]:
+    async def _execute_tests(self, test_path: str, coverage: bool) -> list[TestResult]:
         """Execute tests"""
         # Placeholder for test execution
-        return [TestResult(
-            test_file=test_path,
-            passed=10,
-            failed=0,
-            skipped=1,
-            duration=2.5,
-            coverage=85.5 if coverage else None
-        )]
+        return [
+            TestResult(
+                test_file=test_path,
+                passed=10,
+                failed=0,
+                skipped=1,
+                duration=2.5,
+                coverage=85.5 if coverage else None,
+            )
+        ]
 
-    def _display_test_results(self, results: List[TestResult]):
+    def _display_test_results(self, results: list[TestResult]):
         """Display test results"""
         for result in results:
             status = "✅ PASSED" if result.failed == 0 else "❌ FAILED"
             print_info(f"{status} {result.test_file}")
-            print(f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}")
+            print(
+                f"  Passed: {result.passed}, Failed: {result.failed}, Skipped: {result.skipped}"
+            )
             print(f"  Duration: {format_duration(result.duration)}")
             if result.coverage:
                 print(f"  Coverage: {result.coverage:.1f}%")

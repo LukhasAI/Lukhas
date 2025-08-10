@@ -15,10 +15,11 @@ Unit tests for the IntentNode class using unittest.TestCase structure,
 compatible with pytest execution for async methods.
 """
 
-import unittest
-import time
 import logging
-import pytest # For async capabilities if needed, and skipif
+import time
+import unittest
+
+import pytest  # For async capabilities if needed, and skipif
 
 # Initialize logger for ΛTRACE
 logger = logging.getLogger("ΛTRACE.core.advanced.brain.tests.test_intent_node")
@@ -28,21 +29,38 @@ logger.info("ΛTRACE: Initializing test_intent_node module.")
 #       Original was 'from FILES_LIBRARY.intent_node import IntentNode'.
 #       Changed to 'from nodes.intent_node import IntentNode' based on `ls` output.
 INTENT_NODE_AVAILABLE = False
-IntentNode = None # Placeholder
+IntentNode = None  # Placeholder
 try:
-    from nodes.intent_node import IntentNode # Assuming 'nodes' is a top-level package
+    from nodes.intent_node import (
+        IntentNode,  # Assuming 'nodes' is a top-level package
+    )
+
     INTENT_NODE_AVAILABLE = True
     logger.info("ΛTRACE: IntentNode imported successfully from nodes.intent_node.")
 except ImportError:
-    logger.error("ΛTRACE: Failed to import IntentNode from nodes.intent_node. Tests will be skipped.")
+    logger.error(
+        "ΛTRACE: Failed to import IntentNode from nodes.intent_node. Tests will be skipped."
+    )
+
     # Define a dummy class if import fails
     class IntentNode:
-        def __init__(self): logger.warning("ΛTRACE: Using DUMMY IntentNode due to import failure.")
-        def _detect_pii(self, text): return {}
-        def set_user_consent(self, user_id, consent_type, status): pass
-        def _check_gdpr_consent(self, user_id, consent_type): return False
-        async def process(self, data, metadata=None): return {} # Adjusted to be async
-        def _sanitize_input(self, text): return text
+        def __init__(self):
+            logger.warning("ΛTRACE: Using DUMMY IntentNode due to import failure.")
+
+        def _detect_pii(self, text):
+            return {}
+
+        def set_user_consent(self, user_id, consent_type, status):
+            pass
+
+        def _check_gdpr_consent(self, user_id, consent_type):
+            return False
+
+        async def process(self, data, metadata=None):
+            return {}  # Adjusted to be async
+
+        def _sanitize_input(self, text):
+            return text
 
 
 # Human-readable comment: Test suite for the IntentNode class.
@@ -58,13 +76,15 @@ class TestIntentNode(unittest.TestCase):
         logger.debug("ΛTRACE: IntentNode instance created for test.")
 
     # Human-readable comment: Test PII detection capabilities.
-    @pytest.mark.asyncio # Assuming pytest-asyncio is used for async unittest methods
+    @pytest.mark.asyncio  # Assuming pytest-asyncio is used for async unittest methods
     async def test_pii_detection(self):
         """Test PII detection capabilities of the IntentNode."""
         logger.info("ΛTRACE: Running test_pii_detection.")
         text = "My email is test@example.com"
         logger.debug(f"ΛTRACE: Input text for PII detection: '{text}'")
-        pii = self.intent_node._detect_pii(text) # This is testing a private method, usually not ideal
+        pii = self.intent_node._detect_pii(
+            text
+        )  # This is testing a private method, usually not ideal
         logger.debug(f"ΛTRACE: PII detection result: {pii}")
         self.assertIn("email", pii)
         logger.info("ΛTRACE: test_pii_detection finished.")
@@ -77,8 +97,12 @@ class TestIntentNode(unittest.TestCase):
         user_id = "test_user_compliance"
         consent_type = "emotion_detection"
         self.intent_node.set_user_consent(user_id, consent_type, True)
-        logger.debug(f"ΛTRACE: User consent set for '{user_id}', type '{consent_type}'.")
-        self.assertTrue(self.intent_node._check_gdpr_consent(user_id, consent_type)) # Testing private method
+        logger.debug(
+            f"ΛTRACE: User consent set for '{user_id}', type '{consent_type}'."
+        )
+        self.assertTrue(
+            self.intent_node._check_gdpr_consent(user_id, consent_type)
+        )  # Testing private method
         logger.info("ΛTRACE: test_compliance finished.")
 
     # Human-readable comment: Test intent classification capabilities.
@@ -90,7 +114,7 @@ class TestIntentNode(unittest.TestCase):
             ("What is the weather?", "query"),
             ("Open the door", "command"),
             ("I feel happy today", "emotion"),
-            ("Could you help me?", "request")
+            ("Could you help me?", "request"),
         ]
 
         for text, expected_intent in test_cases:
@@ -113,7 +137,7 @@ class TestIntentNode(unittest.TestCase):
         # Test emotion detection
         result = await self.intent_node.process(
             {"text": "I am feeling very happy"},
-            {"user_id": user_id} # Assuming metadata is the second argument
+            {"user_id": user_id},  # Assuming metadata is the second argument
         )
         logger.debug(f"ΛTRACE: Process result for emotion detection: {result}")
         self.assertIn("emotion", result.get("metadata", {}))
@@ -136,7 +160,9 @@ class TestIntentNode(unittest.TestCase):
         logger.info("ΛTRACE: Running test_input_sanitization.")
         malicious_input = "<script>alert('test')</script>"
         logger.debug(f"ΛTRACE: Original malicious input: '{malicious_input}'")
-        sanitized = self.intent_node._sanitize_input(malicious_input) # Testing private method
+        sanitized = self.intent_node._sanitize_input(
+            malicious_input
+        )  # Testing private method
         logger.debug(f"ΛTRACE: Sanitized output: '{sanitized}'")
         self.assertNotIn("<script>", sanitized)
         logger.info("ΛTRACE: test_input_sanitization finished.")
@@ -151,8 +177,14 @@ class TestIntentNode(unittest.TestCase):
             await self.intent_node.process({"text": f"Test performance iteration {i}"})
         total_time = time.time() - start_time
         avg_time_per_request = total_time / 100
-        logger.info(f"ΛTRACE: Performance test: 100 requests processed in {total_time:.4f}s. Avg: {avg_time_per_request:.4f}s/req.")
-        self.assertLess(avg_time_per_request, 0.1, "Average processing time should be less than 100ms")
+        logger.info(
+            f"ΛTRACE: Performance test: 100 requests processed in {total_time:.4f}s. Avg: {avg_time_per_request:.4f}s/req."
+        )
+        self.assertLess(
+            avg_time_per_request,
+            0.1,
+            "Average processing time should be less than 100ms",
+        )
         logger.info("ΛTRACE: test_performance finished.")
 
     # Human-readable comment: Test error handling for various invalid scenarios.
@@ -168,20 +200,29 @@ class TestIntentNode(unittest.TestCase):
 
         logger.debug("ΛTRACE: Testing invalid input type (None).")
         with self.assertRaises(TypeError):
-            await self.intent_node.process(None) # type: ignore
+            await self.intent_node.process(None)  # type: ignore
         logger.debug("ΛTRACE: TypeError for None input confirmed.")
 
         # Test unauthorized access (assuming IntentNode has such logic)
         # This part of the test might need adjustment based on how IntentNode handles authorization.
         # For now, it assumes a PermissionError might be raised.
         logger.debug("ΛTRACE: Testing unauthorized access scenario.")
-        self.intent_node.set_user_consent("unauthorized_user", "some_feature", False) # Explicitly deny
-        with self.assertRaises(PermissionError): # This specific error depends on IntentNode's implementation
+        self.intent_node.set_user_consent(
+            "unauthorized_user", "some_feature", False
+        )  # Explicitly deny
+        with self.assertRaises(
+            PermissionError
+        ):  # This specific error depends on IntentNode's implementation
             await self.intent_node.process(
                 {"text": "Test action requiring specific consent"},
-                {"user_id": "unauthorized_user", "required_feature_for_action": "some_feature"} # Example
+                {
+                    "user_id": "unauthorized_user",
+                    "required_feature_for_action": "some_feature",
+                },  # Example
             )
-        logger.debug("ΛTRACE: PermissionError for unauthorized access confirmed (conceptual).")
+        logger.debug(
+            "ΛTRACE: PermissionError for unauthorized access confirmed (conceptual)."
+        )
         logger.info("ΛTRACE: test_error_handling finished.")
 
     # Human-readable comment: Test integration with an LLM engine.
@@ -191,7 +232,7 @@ class TestIntentNode(unittest.TestCase):
         logger.info("ΛTRACE: Running test_integration_llm.")
         result = await self.intent_node.process(
             {"text": "Complex query requiring LLM processing"},
-            {"require_llm": True} # Assuming metadata can trigger LLM
+            {"require_llm": True},  # Assuming metadata can trigger LLM
         )
         logger.debug(f"ΛTRACE: Process result for LLM integration: {result}")
         self.assertIn("llm_enhanced", result.get("metadata", {}))
@@ -202,14 +243,17 @@ class TestIntentNode(unittest.TestCase):
     async def test_multi_modal(self):
         """Test multi-modal input processing (e.g., text and image)."""
         logger.info("ΛTRACE: Running test_multi_modal.")
-        result = await self.intent_node.process({
-            "text": "How does this look?",
-            "image": "base64_encoded_image_data_placeholder", # Placeholder
-            "type": "multi" # Assuming a type field indicates multi-modal
-        })
+        result = await self.intent_node.process(
+            {
+                "text": "How does this look?",
+                "image": "base64_encoded_image_data_placeholder",  # Placeholder
+                "type": "multi",  # Assuming a type field indicates multi-modal
+            }
+        )
         logger.debug(f"ΛTRACE: Process result for multi-modal input: {result}")
         self.assertEqual(result.get("metadata", {}).get("input_type"), "multi")
         logger.info("ΛTRACE: test_multi_modal finished.")
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: test_intent_node.py

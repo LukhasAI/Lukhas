@@ -11,38 +11,36 @@ Shared Ethics Base Classes
 Common base classes for ethics-related components.
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any
+
 
 class ComplianceEngine:
     """Base class for compliance engines."""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.compliance_rules = []
         self.violations = []
 
-    def add_compliance_rule(self, rule: Dict[str, Any]):
+    def add_compliance_rule(self, rule: dict[str, Any]):
         """Add a compliance rule."""
         self.compliance_rules.append(rule)
 
-    def check_compliance(self, action: Dict[str, Any]) -> Dict[str, Any]:
+    def check_compliance(self, action: dict[str, Any]) -> dict[str, Any]:
         """Check if action complies with rules."""
         violations = []
         for rule in self.compliance_rules:
             if not self._check_rule(rule, action):
                 violations.append(rule)
 
-        return {
-            'compliant': len(violations) == 0,
-            'violations': violations
-        }
+        return {"compliant": len(violations) == 0, "violations": violations}
 
-    def _check_rule(self, rule: Dict[str, Any], action: Dict[str, Any]) -> bool:
+    def _check_rule(self, rule: dict[str, Any], action: dict[str, Any]) -> bool:
         """Check if action follows a specific rule."""
         # Placeholder implementation
         return True
+
 
 class ComplianceFramework:
     """Base class for compliance frameworks."""
@@ -52,38 +50,36 @@ class ComplianceFramework:
         self.version = version
         self.rules = []
 
-    def add_rule(self, rule: Dict[str, Any]):
+    def add_rule(self, rule: dict[str, Any]):
         """Add a rule to the framework."""
         self.rules.append(rule)
 
-    def validate_action(self, action: Dict[str, Any]) -> bool:
+    def validate_action(self, action: dict[str, Any]) -> bool:
         """Validate action against framework rules."""
-        for rule in self.rules:
-            if not self._validate_rule(rule, action):
-                return False
-        return True
+        return all(self._validate_rule(rule, action) for rule in self.rules)
 
-    def _validate_rule(self, rule: Dict[str, Any], action: Dict[str, Any]) -> bool:
+    def _validate_rule(self, rule: dict[str, Any], action: dict[str, Any]) -> bool:
         """Validate action against a specific rule."""
         # Placeholder implementation
         return True
 
+
 class ComplianceViolation:
     """Base class for compliance violations."""
 
-    def __init__(self, rule_id: str, violation_type: str, details: Dict[str, Any]):
+    def __init__(self, rule_id: str, violation_type: str, details: dict[str, Any]):
         self.rule_id = rule_id
         self.violation_type = violation_type
         self.details = details
         self.timestamp = datetime.now()
         self.severity = "medium"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert violation to dictionary."""
         return {
-            'rule_id': self.rule_id,
-            'violation_type': self.violation_type,
-            'details': self.details,
-            'timestamp': self.timestamp.isoformat(),
-            'severity': self.severity
+            "rule_id": self.rule_id,
+            "violation_type": self.violation_type,
+            "details": self.details,
+            "timestamp": self.timestamp.isoformat(),
+            "severity": self.severity,
         }

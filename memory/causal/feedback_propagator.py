@@ -55,10 +55,9 @@ IDEA: Add predictive causality modeling for proactive feedback optimization
 """
 
 import json
-from core.common import get_logger
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 try:
     from dream.core.dream_snapshot import DreamSnapshotStore
@@ -75,13 +74,14 @@ except ImportError:
 from dream.core.snapshot_redirection_controller import (
     SnapshotRedirectionController,
 )
+
 from emotion.mood_regulator import MoodRegulator
-from memory.emotional import EmotionalMemory
+from identity.interface import IdentityClient, check_consent, verify_access
 from memory.core_memory.fold_lineage_tracker import (
     CausationType,
     FoldLineageTracker,
 )
-from identity.interface import IdentityClient, verify_access, check_consent
+from memory.emotional import EmotionalMemory
 
 # ΛTAG: codex, drift, dream_feedback
 
@@ -127,8 +127,12 @@ class DreamFeedbackPropagator:
 
         # Verify user has appropriate tier for dream processing
         if not verify_access(user_id, "LAMBDA_TIER_3"):
-            log.warning(f"Access denied for dream feedback propagation: {user_id} lacks LAMBDA_TIER_3")
-            raise PermissionError(f"User {user_id} lacks required tier for dream feedback processing")
+            log.warning(
+                f"Access denied for dream feedback propagation: {user_id} lacks LAMBDA_TIER_3"
+            )
+            raise PermissionError(
+                f"User {user_id} lacks required tier for dream feedback processing"
+            )
 
         # Check consent for dream feedback processing
         if not check_consent(user_id, "dream_feedback_processing"):
@@ -142,8 +146,8 @@ class DreamFeedbackPropagator:
             {
                 "drift_score": drift_score,
                 "has_affect_trace": bool(affect_trace),
-                "processing_timestamp": datetime.now(timezone.utc).isoformat()
-            }
+                "processing_timestamp": datetime.now(timezone.utc).isoformat(),
+            },
         )
 
         if drift_score is not None:

@@ -20,13 +20,16 @@ make test
 
 ### Daily Workflow
 ```bash
-# Before committing - auto-fix everything
-make quick  # Runs fix + test
-
-# Or manually:
-make fix    # Auto-fix all issues
+# Before committing - smart fix (safe)
+make fix    # Smart fix - won't break code
 make lint   # Check for remaining issues
 make test   # Run tests
+
+# Quick workflow
+make quick  # Runs smart fix + test
+
+# If you need aggressive fixing (rare)
+make fix-all  # Aggressive fix - use with caution
 ```
 
 ## Components

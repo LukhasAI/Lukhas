@@ -28,12 +28,13 @@ import os
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 NARRATION_QUEUE_PATH = "core/logs/narration_queue.jsonl"
 
+
 def extract_narratable_dreams():
     if not os.path.exists(DREAM_LOG_PATH):
         print("🚫 No dream log found.")
         return
 
-    with open(DREAM_LOG_PATH, "r") as f:
+    with open(DREAM_LOG_PATH) as f:
         dreams = [json.loads(line) for line in f if line.strip()]
 
     narratable = []
@@ -61,6 +62,7 @@ def extract_narratable_dreams():
     print(f"🎙 Queued {len(narratable)} dream(s) for narration → {NARRATION_QUEUE_PATH}")
     print(f"🗣 Narration Flag (suggest_voice): {suggest_voice_count}")
     print(f"🔁 Replay Candidate Flag: {replay_candidate_count}")
+
 
 if __name__ == "__main__":
     extract_narratable_dreams()

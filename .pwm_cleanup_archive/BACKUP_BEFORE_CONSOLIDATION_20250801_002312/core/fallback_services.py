@@ -7,8 +7,9 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
+from typing import Any, Dict
+
 import structlog
-from typing import Dict, Any
 
 # ΛTAG: core, fallback, services
 # ΛLOCKED: False - This module provides development fallbacks and should be flexible

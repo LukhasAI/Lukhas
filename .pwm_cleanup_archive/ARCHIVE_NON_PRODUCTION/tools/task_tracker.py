@@ -4,11 +4,10 @@ LUKHAS AI Task Tracker - Simple CLI tool for managing master task list
 Helps update task status, add new tasks, and generate progress reports.
 """
 
-import json
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict
 
 
 class TaskTracker:

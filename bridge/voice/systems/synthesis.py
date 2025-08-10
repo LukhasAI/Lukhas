@@ -5,6 +5,8 @@ Advanced: synthesis.py
 Integration Date: 2025-05-31T07:55:28.358534
 """
 
+import logging
+
 """
 Emotionally Intelligent Voice Synthesis Module
 
@@ -14,19 +16,20 @@ It dynamically adjusts voice characteristics based on emotional context, convers
 flow, and user preferences to create a more natural and engaging experience.
 """
 
-from typing import Dict, Any, Optional, List, Union
-from core.common import get_logger
-import numpy as np
-from pathlib import Path
-from dataclasses import dataclass
 import asyncio
 import os
+from dataclasses import dataclass
+from typing import Any, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 @dataclass
 class VoiceProfile:
     """Voice profile containing parameters for synthesis"""
+
     id: str
     name: str
     gender: str = "neutral"
@@ -36,7 +39,7 @@ class VoiceProfile:
     base_energy: float = 1.0
     language: str = "en"
     description: str = ""
-    tags: List[str] = None
+    tags: list[str] = None
 
     def __post_init__(self):
         if self.tags is None:
@@ -58,39 +61,47 @@ class AdaptiveVoiceSynthesis:
             "elevenlabs": ElevenLabsProvider(),
             "coqui": CoquiProvider(),
             "edge_tts": EdgeTTSProvider(),
-            "local": LocalTTSProvider()
+            "local": LocalTTSProvider(),
         }
 
         # Default priority order (can be overridden by config)
-        self.provider_priority = self.config.get("provider_priority",
-            ["elevenlabs", "coqui", "edge_tts", "local"])
+        self.provider_priority = self.config.get(
+            "provider_priority", ["elevenlabs", "coqui", "edge_tts", "local"]
+        )
 
         # Load voice profiles
         self.voice_profiles = self._load_voice_profiles()
 
         # Emotion modulation settings
         self.emotion_modulation = self.config.get("emotion_modulation", True)
-        self.emotion_mapping = self.config.get("emotion_mapping", {
-            "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
-            "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
-            "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
-            "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
-            "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
-            "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
-            # Additional nuanced emotions for more natural expression
-            "thoughtful": {"pitch": 0.98, "speed": 0.9, "energy": 0.9},
-            "excited": {"pitch": 1.15, "speed": 1.15, "energy": 1.3},
-            "calm": {"pitch": 0.97, "speed": 0.9, "energy": 0.85},
-            "professional": {"pitch": 1.0, "speed": 1.0, "energy": 1.05},
-            "friendly": {"pitch": 1.05, "speed": 1.02, "energy": 1.1}
-        })
+        self.emotion_mapping = self.config.get(
+            "emotion_mapping",
+            {
+                "happiness": {"pitch": 1.1, "speed": 1.05, "energy": 1.2},
+                "sadness": {"pitch": 0.9, "speed": 0.95, "energy": 0.8},
+                "anger": {"pitch": 1.05, "speed": 1.1, "energy": 1.3},
+                "fear": {"pitch": 1.1, "speed": 1.15, "energy": 1.1},
+                "surprise": {"pitch": 1.15, "speed": 1.0, "energy": 1.2},
+                "neutral": {"pitch": 1.0, "speed": 1.0, "energy": 1.0},
+                # Additional nuanced emotions for more natural expression
+                "thoughtful": {"pitch": 0.98, "speed": 0.9, "energy": 0.9},
+                "excited": {"pitch": 1.15, "speed": 1.15, "energy": 1.3},
+                "calm": {"pitch": 0.97, "speed": 0.9, "energy": 0.85},
+                "professional": {"pitch": 1.0, "speed": 1.0, "energy": 1.05},
+                "friendly": {"pitch": 1.05, "speed": 1.02, "energy": 1.1},
+            },
+        )
 
-        self.logger.info(f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles")
+        self.logger.info(
+            f"Adaptive Voice Synthesis initialized with {len(self.voice_profiles)} voice profiles"
+        )
 
-    async def synthesize(self,
-                   text: str,
-                   context: Optional[Dict[str, Any]] = None,
-                   voice_id: Optional[str] = None) -> Dict[str, Any]:
+    async def synthesize(
+        self,
+        text: str,
+        context: Optional[dict[str, Any]] = None,
+        voice_id: Optional[str] = None,
+    ) -> dict[str, Any]:
         """
         Synthesize speech from text with contextual awareness.
 
@@ -116,7 +127,9 @@ class AdaptiveVoiceSynthesis:
         provider = self.providers.get(provider_name)
 
         if not provider:
-            self.logger.warning(f"Provider {provider_name} not available, falling back to default")
+            self.logger.warning(
+                f"Provider {provider_name} not available, falling back to default"
+            )
             provider_name = self.provider_priority[-1]  # Use last provider as fallback
             provider = self.providers.get(provider_name)
 
@@ -152,7 +165,9 @@ class AdaptiveVoiceSynthesis:
                         result["fallback"] = True
                         return result
                     except Exception as fallback_error:
-                        self.logger.error(f"Fallback {fallback_name} also failed: {fallback_error}")
+                        self.logger.error(
+                            f"Fallback {fallback_name} also failed: {fallback_error}"
+                        )
 
             # All providers failed, return error
             return {
@@ -162,10 +177,12 @@ class AdaptiveVoiceSynthesis:
                 "voice_id": voice_profile.id,
                 "audio_data": None,
                 "success": False,
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _select_voice_profile(self, context: Dict[str, Any], voice_id: Optional[str] = None) -> VoiceProfile:
+    def _select_voice_profile(
+        self, context: dict[str, Any], voice_id: Optional[str] = None
+    ) -> VoiceProfile:
         """Select the most appropriate voice profile based on context"""
         # If specific voice ID requested and available, use it
         if voice_id and voice_id in self.voice_profiles:
@@ -179,7 +196,7 @@ class AdaptiveVoiceSynthesis:
             return self.voice_profiles[preferred_voice]
 
         # Consider emotional context for voice selection
-        emotion = context.get("emotion", "neutral")
+        context.get("emotion", "neutral")
         formality = context.get("formality", 0.5)
 
         # Simple matching logic (would be more sophisticated in production)
@@ -197,7 +214,7 @@ class AdaptiveVoiceSynthesis:
         # Last resort: return first available voice
         return next(iter(self.voice_profiles.values()))
 
-    def _select_provider(self, context: Dict[str, Any]) -> str:
+    def _select_provider(self, context: dict[str, Any]) -> str:
         """Select the most appropriate provider based on context"""
         # Check for tier-based access
         user_tier = context.get("user_tier", 0)
@@ -210,9 +227,15 @@ class AdaptiveVoiceSynthesis:
 
         # Consider emotional complexity
         emotion = context.get("emotion", "neutral")
-        complexity = len(context.get("emotional_nuances", [])) if "emotional_nuances" in context else 0
+        complexity = (
+            len(context.get("emotional_nuances", []))
+            if "emotional_nuances" in context
+            else 0
+        )
 
-        if (emotion not in ["neutral", "calm"] or complexity > 2) and "coqui" in self.providers:
+        if (
+            emotion not in ["neutral", "calm"] or complexity > 2
+        ) and "coqui" in self.providers:
             return "coqui"
 
         # Default to first available provider in priority list
@@ -256,13 +279,15 @@ class AdaptiveVoiceSynthesis:
         # For other emotions, return original text
         return text
 
-    def _generate_voice_parameters(self, voice_profile: VoiceProfile, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_voice_parameters(
+        self, voice_profile: VoiceProfile, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate voice parameters based on profile and context"""
         params = {
             "pitch": voice_profile.base_pitch,
             "speed": voice_profile.base_speed,
             "energy": voice_profile.base_energy,
-            "voice_id": voice_profile.id
+            "voice_id": voice_profile.id,
         }
 
         # Apply emotion mapping adjustments
@@ -306,7 +331,7 @@ class AdaptiveVoiceSynthesis:
 
         return params
 
-    def _load_voice_profiles(self) -> Dict[str, VoiceProfile]:
+    def _load_voice_profiles(self) -> dict[str, VoiceProfile]:
         """Load available voice profiles"""
         # In a real implementation, this would load from a database or filesystem
         # For now, return some built-in profiles
@@ -319,7 +344,7 @@ class AdaptiveVoiceSynthesis:
             name="Neutral",
             gender="neutral",
             description="Default neutral voice with balanced characteristics",
-            tags=["balanced", "neutral", "default"]
+            tags=["balanced", "neutral", "default"],
         )
 
         profiles["professional"] = VoiceProfile(
@@ -330,7 +355,7 @@ class AdaptiveVoiceSynthesis:
             base_speed=0.97,
             base_energy=1.05,
             description="Clear, authoritative voice for professional contexts",
-            tags=["professional", "clear", "formal"]
+            tags=["professional", "clear", "formal"],
         )
 
         profiles["warm"] = VoiceProfile(
@@ -341,7 +366,7 @@ class AdaptiveVoiceSynthesis:
             base_speed=0.95,
             base_energy=0.9,
             description="Warm, friendly voice for personal interactions",
-            tags=["warm", "friendly", "casual"]
+            tags=["warm", "friendly", "casual"],
         )
 
         profiles["expressive"] = VoiceProfile(
@@ -352,7 +377,7 @@ class AdaptiveVoiceSynthesis:
             base_speed=1.05,
             base_energy=1.2,
             description="Highly dynamic voice with expressive range",
-            tags=["expressive", "dynamic", "animated"]
+            tags=["expressive", "dynamic", "animated"],
         )
 
         # Try to load custom profiles from config
@@ -368,10 +393,12 @@ class AdaptiveVoiceSynthesis:
 
 
 # Provider implementations
+
+
 class BaseTTSProvider:
     """Base class for TTS providers"""
 
-    async def synthesize(self, text: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def synthesize(self, text: str, params: dict[str, Any]) -> dict[str, Any]:
         """Synthesize speech from text with parameters"""
         raise NotImplementedError("Subclasses must implement synthesize method")
 
@@ -392,7 +419,7 @@ class EdgeTTSProvider(BaseTTSProvider):
             self.logger.warning(f"Edge TTS not available: {e}")
             return False
 
-    async def synthesize(self, text: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def synthesize(self, text: str, params: dict[str, Any]) -> dict[str, Any]:
         """Synthesize speech using Edge TTS"""
         if not self.available:
             raise Exception("Edge TTS is not available")
@@ -402,8 +429,8 @@ class EdgeTTSProvider(BaseTTSProvider):
             # For now, simulate the process
 
             voice_id = params.get("voice_id", "default")
-            pitch = params.get("pitch", 1.0)
-            speed = params.get("speed", 1.0)
+            params.get("pitch", 1.0)
+            params.get("speed", 1.0)
 
             # Simulate processing time
             await asyncio.sleep(0.5)
@@ -414,7 +441,7 @@ class EdgeTTSProvider(BaseTTSProvider):
                 "format": "mp3",
                 "text": text,
                 "voice_id": voice_id,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -439,7 +466,7 @@ class CoquiProvider(BaseTTSProvider):
             self.logger.warning(f"Coqui TTS not available: {e}")
             return False
 
-    async def synthesize(self, text: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def synthesize(self, text: str, params: dict[str, Any]) -> dict[str, Any]:
         """Synthesize speech using Coqui TTS"""
         if not self.available:
             raise Exception("Coqui TTS is not available")
@@ -449,8 +476,8 @@ class CoquiProvider(BaseTTSProvider):
             # For now, simulate the process
 
             voice_id = params.get("voice_id", "default")
-            pitch = params.get("pitch", 1.0)
-            speed = params.get("speed", 1.0)
+            params.get("pitch", 1.0)
+            params.get("speed", 1.0)
             emotion = params.get("emotion", "neutral")
 
             # Simulate processing time
@@ -463,7 +490,7 @@ class CoquiProvider(BaseTTSProvider):
                 "text": text,
                 "voice_id": voice_id,
                 "emotion": emotion,
-                "success": True
+                "success": True,
             }
 
         except Exception as e:
@@ -493,7 +520,7 @@ class ElevenLabsProvider(BaseTTSProvider):
             self.logger.warning(f"ElevenLabs not available: {e}")
             return False
 
-    async def synthesize(self, text: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def synthesize(self, text: str, params: dict[str, Any]) -> dict[str, Any]:
         """Synthesize speech using ElevenLabs"""
         if not self.available:
             raise Exception("ElevenLabs is not available")
@@ -503,10 +530,10 @@ class ElevenLabsProvider(BaseTTSProvider):
             # For now, simulate the process
 
             voice_id = params.get("voice_id", "default")
-            stability = min(max(params.get("pitch", 1.0) * 0.5, 0), 1)  # Map pitch to stability
-            similarity_boost = min(max(params.get("energy", 1.0) * 0.5, 0), 1)  # Map energy to similarity boost
-            style = 1.0  # Default style
-            speaker_boost = True
+            min(max(params.get("pitch", 1.0) * 0.5, 0), 1)  # Map pitch to stability
+            min(
+                max(params.get("energy", 1.0) * 0.5, 0), 1
+            )  # Map energy to similarity boost
 
             # Simulate processing time
             await asyncio.sleep(1.0)  # ElevenLabs is typically slower (API call)
@@ -518,7 +545,7 @@ class ElevenLabsProvider(BaseTTSProvider):
                 "text": text,
                 "voice_id": voice_id,
                 "success": True,
-                "premium": True
+                "premium": True,
             }
 
         except Exception as e:
@@ -542,7 +569,7 @@ class LocalTTSProvider(BaseTTSProvider):
             self.logger.warning(f"Local TTS not available: {e}")
             return False
 
-    async def synthesize(self, text: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    async def synthesize(self, text: str, params: dict[str, Any]) -> dict[str, Any]:
         """Synthesize speech using local TTS"""
         if not self.available:
             raise Exception("Local TTS is not available")
@@ -552,8 +579,8 @@ class LocalTTSProvider(BaseTTSProvider):
             # For now, simulate the process
 
             voice_id = params.get("voice_id", "default")
-            rate = params.get("speed", 1.0)
-            volume = params.get("energy", 1.0)
+            params.get("speed", 1.0)
+            params.get("energy", 1.0)
 
             # Simulate processing time
             await asyncio.sleep(0.3)  # Usually faster since it's local
@@ -565,7 +592,7 @@ class LocalTTSProvider(BaseTTSProvider):
                 "text": text,
                 "voice_id": voice_id,
                 "success": True,
-                "offline": True
+                "offline": True,
             }
 
         except Exception as e:

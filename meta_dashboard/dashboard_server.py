@@ -5,23 +5,21 @@ Real-time monitoring dashboard for symbolic systems
 Trinity Framework: ⚛️🧠🛡️
 """
 
-from fastapi import FastAPI, WebSocket, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
-from typing import Dict, List, Any, Optional
-import json
 import asyncio
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
-import logging
+from typing import Any, Dict, List
+
+from fastapi import FastAPI, WebSocket
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, JSONResponse
 
 # Import dashboard utilities
 from .utils import (
+    calculate_drift_trends,
     load_meta_metrics,
     parse_jsonl_snapshots,
-    calculate_drift_trends,
-    entropy_color_code
 )
 
 # Configure logging
@@ -32,7 +30,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="LUKHΛS Meta Dashboard",
     description="Real-time symbolic monitoring and drift analysis",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # CORS middleware
@@ -54,7 +52,7 @@ DASHBOARD_CONFIG = {
     "enable_auth": False,
     "refresh_rate_seconds": 15,
     "metrics_path": Path("data/meta_metrics.json"),
-    "snapshots_path": Path("data/drift_audit_results.jsonl")
+    "snapshots_path": Path("data/drift_audit_results.jsonl"),
 }
 
 # Static HTML template
@@ -176,7 +174,9 @@ DASHBOARD_HTML = """
 @app.get("/", response_class=HTMLResponse)
 async def root():
     """Redirect to overview page"""
-    return HTMLResponse(content='<meta http-equiv="refresh" content="0; url=/meta/overview">')
+    return HTMLResponse(
+        content='<meta http-equiv="refresh" content="0; url=/meta/overview">'
+    )
 
 
 @app.get("/meta/overview", response_class=HTMLResponse)
@@ -184,7 +184,7 @@ async def overview():
     """Serve the overview dashboard"""
     overview_path = Path(__file__).parent / "templates" / "overview.html"
     if overview_path.exists():
-        with open(overview_path, 'r') as f:
+        with open(overview_path) as f:
             content = f.read()
         return HTMLResponse(content=content)
     else:
@@ -201,8 +201,7 @@ async def get_metrics():
     except Exception as e:
         logger.error(f"Error loading metrics: {e}")
         return JSONResponse(
-            content={"error": "Failed to load metrics"},
-            status_code=500
+            content={"error": "Failed to load metrics"}, status_code=500
         )
 
 
@@ -216,8 +215,7 @@ async def get_trends():
     except Exception as e:
         logger.error(f"Error calculating trends: {e}")
         return JSONResponse(
-            content={"error": "Failed to calculate trends"},
-            status_code=500
+            content={"error": "Failed to calculate trends"}, status_code=500
         )
 
 
@@ -227,16 +225,19 @@ async def get_personas():
     try:
         metrics = load_meta_metrics()
         personas = metrics.get("persona_distribution", {})
-        return JSONResponse(content={
-            "personas": personas,
-            "total": sum(personas.values()),
-            "dominant": max(personas.items(), key=lambda x: x[1])[0] if personas else None
-        })
+        return JSONResponse(
+            content={
+                "personas": personas,
+                "total": sum(personas.values()),
+                "dominant": (
+                    max(personas.items(), key=lambda x: x[1])[0] if personas else None
+                ),
+            }
+        )
     except Exception as e:
         logger.error(f"Error loading personas: {e}")
         return JSONResponse(
-            content={"error": "Failed to load personas"},
-            status_code=500
+            content={"error": "Failed to load personas"}, status_code=500
         )
 
 
@@ -245,21 +246,23 @@ async def websocket_endpoint(websocket: WebSocket):
     """WebSocket endpoint for real-time updates"""
     await websocket.accept()
     active_connections.append(websocket)
-    
+
     try:
         while True:
             # Send updates every refresh interval
             metrics = load_meta_metrics()
-            await websocket.send_json({
-                "drift_score": metrics.get("average_drift", 0.0),
-                "trinity_coherence": metrics.get("trinity_coherence", 0.0),
-                "active_personas": len(metrics.get("persona_distribution", {})),
-                "entropy_level": metrics.get("entropy_level", 0.0),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            })
-            
+            await websocket.send_json(
+                {
+                    "drift_score": metrics.get("average_drift", 0.0),
+                    "trinity_coherence": metrics.get("trinity_coherence", 0.0),
+                    "active_personas": len(metrics.get("persona_distribution", {})),
+                    "entropy_level": metrics.get("entropy_level", 0.0),
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+
             await asyncio.sleep(DASHBOARD_CONFIG["refresh_rate_seconds"])
-            
+
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
     finally:
@@ -271,7 +274,7 @@ async def visual_dashboard():
     """Serve the visual drift dashboard"""
     visual_path = Path(__file__).parent / "templates" / "visual.html"
     if visual_path.exists():
-        with open(visual_path, 'r') as f:
+        with open(visual_path) as f:
             content = f.read()
         return HTMLResponse(content=content)
     else:
@@ -283,24 +286,23 @@ async def toggle_red_team(request: Dict[str, Any]):
     """Toggle Red Team mode for drift simulation"""
     try:
         enabled = request.get("enabled", False)
-        
+
         # Update configuration
         DASHBOARD_CONFIG["red_team_mode"] = enabled
-        
+
         # Log the change
         logger.info(f"Red Team mode {'enabled' if enabled else 'disabled'}")
-        
+
         return {
             "status": "success",
             "red_team_mode": enabled,
             "message": f"Red Team mode {'activated' if enabled else 'deactivated'}",
-            "warning": "Guardian protection reduced" if enabled else None
+            "warning": "Guardian protection reduced" if enabled else None,
         }
     except Exception as e:
         logger.error(f"Error toggling Red Team mode: {e}")
         return JSONResponse(
-            content={"error": "Failed to toggle Red Team mode"},
-            status_code=500
+            content={"error": "Failed to toggle Red Team mode"}, status_code=500
         )
 
 
@@ -314,18 +316,17 @@ async def reset_metrics():
             "average_drift_score": 0.12,
             "trinity_coherence": 0.91,
             "guardian_enabled": True,
-            "red_team_mode": False
+            "red_team_mode": False,
         }
-        
+
         # Would normally save to file here
         logger.info("Metrics reset to baseline")
-        
+
         return {"status": "success", "message": "Metrics reset to baseline"}
     except Exception as e:
         logger.error(f"Error resetting metrics: {e}")
         return JSONResponse(
-            content={"error": "Failed to reset metrics"},
-            status_code=500
+            content={"error": "Failed to reset metrics"}, status_code=500
         )
 
 
@@ -336,18 +337,18 @@ async def health_check():
         "status": "healthy",
         "dashboard": "LUKHΛS Meta Dashboard",
         "version": "1.0.0",
-        "trinity": "⚛️🧠🛡️"
+        "trinity": "⚛️🧠🛡️",
     }
 
 
 def start_dashboard(host: str = "0.0.0.0", port: int = None):
     """Start the dashboard server"""
     import uvicorn
-    
+
     port = port or DASHBOARD_CONFIG["port"]
     logger.info(f"🚀 Starting LUKHΛS Meta Dashboard on port {port}")
     logger.info(f"   Access at: http://localhost:{port}")
-    
+
     uvicorn.run(app, host=host, port=port)
 
 

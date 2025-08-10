@@ -6,7 +6,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ┌────────────────────────────────────────────────────────────────────────────
 │ 🔑 #KeyFile    : CRITICAL ETHICAL GOVERNANCE
 │ 📦 MODULE      : EthicalAuditor.py
@@ -55,57 +54,66 @@ Date: 2025-06-07
 License: LUKHAS Tier License System
 """
 
+import hashlib
 import json
 import os
-import time
-import hashlib
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple, Any
 from pathlib import Path
+from typing import Any, Optional
+
 import openai
-from dataclasses import dataclass, asdict
 
 # Import LUKHAS core modules
 try:
-    from consciousness.dream.oneiric.oneiric_core.analysis.drift_score import SymbolicTrustScorer
-    from tools.documentation.symbolic_knowledge_core.knowledge_graph import AIConstitutionChecker
-    from tools.documentation.symbolic_knowledge_core.knowledge_graph import EmotionalSecureLogger
+    from consciousness.dream.oneiric.oneiric_core.analysis.drift_score import (
+        SymbolicTrustScorer,
+    )
+    from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
+        AIConstitutionChecker,
+        EmotionalSecureLogger,
+    )
 except ImportError:
     print("Warning: Elite modules not found. Some features may be limited.")
     SymbolicTrustScorer = None
     AIConstitutionChecker = None
     EmotionalSecureLogger = None
 
+
 @dataclass
 class AuditContext:
     """Audit context metadata for symbolic governance"""
+
     module_name: str
     module_type: str
     risk_tier: str
-    symbolic_tags: List[str]
+    symbolic_tags: list[str]
     agi_level: str
     audit_priority: str
     timestamp: str
     lambda_id: Optional[str] = None
 
+
 @dataclass
 class AuditResult:
     """Comprehensive audit result with traceability"""
+
     module: str
     audited_by: str
     model_version: str
     result: str  # PASS, FAIL, REQUIRES_REVIEW
     overall_score: float
-    improvements: List[str]
-    ethical_concerns: List[str]
+    improvements: list[str]
+    ethical_concerns: list[str]
     symbolic_integrity: bool
-    compliance_status: Dict[str, str]
+    compliance_status: dict[str, str]
     trust_score: float
-    emotional_assessment: Dict[str, Any]
+    emotional_assessment: dict[str, Any]
     cost_tokens: int
     audit_hash: str
     timestamp: str
     lambda_signature: Optional[str] = None
+
 
 class EliteEthicalAuditor:
     """
@@ -113,14 +121,16 @@ class EliteEthicalAuditor:
     and symbolic governance for LUKHAS AI modules.
     """
 
-    def __init__(self,
-                 api_key: Optional[str] = None,
-                 model: str = "gpt-4-turbo-preview",
-                 temperature: float = 0.2,
-                 max_tokens: int = 2500,
-                 enable_notion: bool = True,
-                 enable_github_sync: bool = True,
-                 lambda_id: Optional[str] = None):
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: str = "gpt-4-turbo-preview",
+        temperature: float = 0.2,
+        max_tokens: int = 2500,
+        enable_notion: bool = True,
+        enable_github_sync: bool = True,
+        lambda_id: Optional[str] = None,
+    ):
         """
         Initialize the Elite Ethical lukhasuditor
 
@@ -133,7 +143,7 @@ class EliteEthicalAuditor:
             enable_github_sync: Enable GitHub audit sync
             lambda_id: AI Lambda ID for signing results
         """
-        self.api_key = api_key or os.getenv('OPENAI_API_KEY')
+        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             raise ValueError("OpenAI API key required. Set OPENAI_API_KEY env var.")
 
@@ -143,11 +153,15 @@ class EliteEthicalAuditor:
         self.max_tokens = max_tokens
         self.enable_notion = enable_notion
         self.enable_github_sync = enable_github_sync
-        self.lambda_id = lambda_id or os.getenv('AGI_LAMBDA_ID', 'LUKHAS-Elite-lukhasuditor')
+        self.lambda_id = lambda_id or os.getenv(
+            "AGI_LAMBDA_ID", "LUKHAS-Elite-lukhasuditor"
+        )
 
         # Initialize elite modules if available
         self.trust_scorer = SymbolicTrustScorer() if SymbolicTrustScorer else None
-        self.constitution_checker = AIConstitutionChecker() if AIConstitutionChecker else None
+        self.constitution_checker = (
+            AIConstitutionChecker() if AIConstitutionChecker else None
+        )
         self.secure_logger = EmotionalSecureLogger() if EmotionalSecureLogger else None
 
         # Audit storage
@@ -226,18 +240,20 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 5. Provide actionable recommendations with code examples if needed
 """
 
-    def _parse_audit_response(self, response: str, context: AuditContext) -> Dict[str, Any]:
+    def _parse_audit_response(
+        self, response: str, context: AuditContext
+    ) -> dict[str, Any]:
         """Parse OpenAI response into structured audit data"""
         try:
             # Extract structured information from response
-            lines = response.split('\n')
+            lines = response.split("\n")
             result = {
-                'overall_assessment': 'REQUIRES_REVIEW',
-                'score': 50.0,
-                'improvements': [],
-                'ethical_concerns': [],
-                'symbolic_integrity': True,
-                'compliance_status': {}
+                "overall_assessment": "REQUIRES_REVIEW",
+                "score": 50.0,
+                "improvements": [],
+                "ethical_concerns": [],
+                "symbolic_integrity": True,
+                "compliance_status": {},
             }
 
             current_section = None
@@ -246,54 +262,55 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 line = line.strip()
 
                 # Detect sections
-                if 'overall assessment' in line.lower():
-                    current_section = 'assessment'
-                elif 'score' in line.lower() or 'rating' in line.lower():
-                    current_section = 'score'
-                elif 'improvement' in line.lower() or 'recommendation' in line.lower():
-                    current_section = 'improvements'
-                elif 'ethical concern' in line.lower() or 'risk' in line.lower():
-                    current_section = 'concerns'
-                elif 'symbolic integrity' in line.lower():
-                    current_section = 'symbolic'
-                elif 'compliance' in line.lower():
-                    current_section = 'compliance'
+                if "overall assessment" in line.lower():
+                    current_section = "assessment"
+                elif "score" in line.lower() or "rating" in line.lower():
+                    current_section = "score"
+                elif "improvement" in line.lower() or "recommendation" in line.lower():
+                    current_section = "improvements"
+                elif "ethical concern" in line.lower() or "risk" in line.lower():
+                    current_section = "concerns"
+                elif "symbolic integrity" in line.lower():
+                    current_section = "symbolic"
+                elif "compliance" in line.lower():
+                    current_section = "compliance"
 
                 # Extract data based on section
-                if current_section == 'assessment':
-                    if 'pass' in line.lower():
-                        result['overall_assessment'] = 'PASS'
-                    elif 'fail' in line.lower():
-                        result['overall_assessment'] = 'FAIL'
+                if current_section == "assessment":
+                    if "pass" in line.lower():
+                        result["overall_assessment"] = "PASS"
+                    elif "fail" in line.lower():
+                        result["overall_assessment"] = "FAIL"
 
-                elif current_section == 'score':
+                elif current_section == "score":
                     # Extract numerical score
                     import re
-                    numbers = re.findall(r'\d+\.?\d*', line)
+
+                    numbers = re.findall(r"\d+\.?\d*", line)
                     if numbers:
-                        result['score'] = float(numbers[0])
+                        result["score"] = float(numbers[0])
 
-                elif current_section == 'improvements' and line.startswith('-'):
-                    result['improvements'].append(line[1:].strip())
+                elif current_section == "improvements" and line.startswith("-"):
+                    result["improvements"].append(line[1:].strip())
 
-                elif current_section == 'concerns' and line.startswith('-'):
-                    result['ethical_concerns'].append(line[1:].strip())
+                elif current_section == "concerns" and line.startswith("-"):
+                    result["ethical_concerns"].append(line[1:].strip())
 
-                elif current_section == 'symbolic':
-                    if 'compromised' in line.lower() or 'violated' in line.lower():
-                        result['symbolic_integrity'] = False
+                elif current_section == "symbolic":
+                    if "compromised" in line.lower() or "violated" in line.lower():
+                        result["symbolic_integrity"] = False
 
             return result
 
         except Exception as e:
             # Fallback parsing
             return {
-                'overall_assessment': 'REQUIRES_REVIEW',
-                'score': 50.0,
-                'improvements': ['Manual review required due to parsing error'],
-                'ethical_concerns': [f'Audit parsing error: {str(e)}'],
-                'symbolic_integrity': True,
-                'compliance_status': {}
+                "overall_assessment": "REQUIRES_REVIEW",
+                "score": 50.0,
+                "improvements": ["Manual review required due to parsing error"],
+                "ethical_concerns": [f"Audit parsing error: {str(e)}"],
+                "symbolic_integrity": True,
+                "compliance_status": {},
             }
 
     def _calculate_cost(self, prompt_tokens: int, completion_tokens: int) -> float:
@@ -310,16 +327,20 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
 
     def _sign_with_lambda_id(self, audit_result: AuditResult) -> str:
         """Sign audit result with AI Lambda ID"""
-        signature_data = f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
+        signature_data = (
+            f"{audit_result.audit_hash}{self.lambda_id}{audit_result.timestamp}"
+        )
         return hashlib.sha256(signature_data.encode()).hexdigest()[:32]
 
-    async def audit_module(self,
-                          code: str,
-                          filename: str,
-                          module_type: str = "core_module",
-                          risk_tier: str = "Tier 2",
-                          symbolic_tags: Optional[List[str]] = None,
-                          agi_level: str = "production") -> AuditResult:
+    async def audit_module(
+        self,
+        code: str,
+        filename: str,
+        module_type: str = "core_module",
+        risk_tier: str = "Tier 2",
+        symbolic_tags: Optional[list[str]] = None,
+        agi_level: str = "production",
+    ) -> AuditResult:
         """
         Conduct comprehensive ethical audit of a LUKHAS module
 
@@ -346,7 +367,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             agi_level=agi_level,
             audit_priority="high",
             timestamp=timestamp,
-            lambda_id=self.lambda_id
+            lambda_id=self.lambda_id,
         )
 
         # Generate audit hash
@@ -364,8 +385,8 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 max_tokens=self.max_tokens,
                 messages=[
                     {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ]
+                    {"role": "user", "content": user_prompt},
+                ],
             )
 
             # Extract response data
@@ -394,7 +415,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             emotional_assessment = {
                 "valence": 0.0,
                 "emotion": "neutral",
-                "stability": "stable"
+                "stability": "stable",
             }
 
             # Create audit result
@@ -402,17 +423,17 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 module=filename,
                 audited_by=f"LUKHAS-Elite-lukhasuditor-{self.model}",
                 model_version=self.model,
-                result=parsed_result['overall_assessment'],
-                overall_score=parsed_result['score'],
-                improvements=parsed_result['improvements'],
-                ethical_concerns=parsed_result['ethical_concerns'],
-                symbolic_integrity=parsed_result['symbolic_integrity'],
+                result=parsed_result["overall_assessment"],
+                overall_score=parsed_result["score"],
+                improvements=parsed_result["improvements"],
+                ethical_concerns=parsed_result["ethical_concerns"],
+                symbolic_integrity=parsed_result["symbolic_integrity"],
                 compliance_status=compliance_status,
                 trust_score=trust_score,
                 emotional_assessment=emotional_assessment,
                 cost_tokens=usage.total_tokens,
                 audit_hash=audit_hash,
-                timestamp=timestamp
+                timestamp=timestamp,
             )
 
             # Sign with Lambda ID
@@ -434,7 +455,7 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             # Create error audit result
             error_result = AuditResult(
                 module=filename,
-                audited_by=f"LUKHAS-Elite-lukhasuditor-ERROR",
+                audited_by="LUKHAS-Elite-lukhasuditor-ERROR",
                 model_version=self.model,
                 result="FAIL",
                 overall_score=0.0,
@@ -443,11 +464,15 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 symbolic_integrity=False,
                 compliance_status={},
                 trust_score=0.0,
-                emotional_assessment={"valence": -1.0, "emotion": "error", "stability": "unstable"},
+                emotional_assessment={
+                    "valence": -1.0,
+                    "emotion": "error",
+                    "stability": "unstable",
+                },
                 cost_tokens=0,
                 audit_hash=audit_hash,
                 timestamp=timestamp,
-                lambda_signature="ERROR"
+                lambda_signature="ERROR",
             )
 
             await self._log_audit_result(error_result, f"ERROR: {str(e)}")
@@ -460,24 +485,27 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
             await self.secure_logger.log_with_emotion(
                 level="INFO",
                 message=f"Elite audit completed for {result.module}",
-                emotion="satisfaction" if result.result == "PASS" else "concern",
+                emotion=("satisfaction" if result.result == "PASS" else "concern"),
                 metadata={
                     "audit_hash": result.audit_hash,
                     "score": result.overall_score,
                     "trust_score": result.trust_score,
-                    "lambda_signature": result.lambda_signature
-                }
+                    "lambda_signature": result.lambda_signature,
+                },
             )
 
         # Save to audit directory
-        audit_file = self.audit_dir / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
+        audit_file = (
+            self.audit_dir
+            / f"{result.module.replace('/', '_')}_{result.audit_hash}.json"
+        )
         audit_data = {
             "result": asdict(result),
             "full_response": full_response,
-            "cost_usd": self._calculate_cost(result.cost_tokens, 0)
+            "cost_usd": self._calculate_cost(result.cost_tokens, 0),
         }
 
-        with open(audit_file, 'w') as f:
+        with open(audit_file, "w") as f:
             json.dump(audit_data, f, indent=2)
 
     async def _sync_to_notion(self, result: AuditResult):
@@ -496,12 +524,14 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
         except Exception as e:
             print(f"[GITHUB SYNC ERROR] {str(e)}")
 
-    def get_audit_summary(self) -> Dict[str, Any]:
+    def get_audit_summary(self) -> dict[str, Any]:
         """Get comprehensive audit statistics"""
         return {
             "total_audits": self.audit_count,
             "total_cost_usd": round(self.total_cost, 4),
-            "average_cost_per_audit": round(self.total_cost / max(self.audit_count, 1), 4),
+            "average_cost_per_audit": round(
+                self.total_cost / max(self.audit_count, 1), 4
+            ),
             "auditor_id": self.lambda_id,
             "model": self.model,
             "elite_features_enabled": {
@@ -509,9 +539,10 @@ Focus on AI safety, ethical transparency, and symbolic governance principles.
                 "constitution_checker": self.constitution_checker is not None,
                 "secure_logger": self.secure_logger is not None,
                 "notion_sync": self.enable_notion,
-                "github_sync": self.enable_github_sync
-            }
+                "github_sync": self.enable_github_sync,
+            },
         }
+
 
 if __name__ == "__main__":
     print("🧠 LUKHAS Elite Ethical lukhasuditor")

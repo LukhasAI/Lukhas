@@ -5,13 +5,18 @@ Advanced: lukhas_unified_self.py
 Integration Date: 2025-05-31T07:55:28.114622
 """
 
+import json
+import os
+
 # Synthesize distributed symbolic identity into a unified self-state
 import sys
-import os
-import json
 from datetime import datetime
 from pathlib import Path
+
 import openai
+from system_reflection_gpt import generate_gpt_reflection
+
+from orchestration.brain.spine.trait_manager import load_traits
 
 # Add OXN root to import path
 sys.path.append("/Users/grdm_admin/Downloads/oxn")
@@ -21,46 +26,54 @@ TRAIT_SYNC_FOLDER = "sync/traits/"
 META_SYNC_FOLDER = "sync/meta_reflections/"
 UNIFIED_LOG = "logs/unified_self_snapshots.jsonl"
 
-from orchestration.brain.spine.trait_manager import load_traits
-from system_reflection_gpt import generate_gpt_reflection
-
 # File paths
 REPORT_PATH = "logs/lukhas_agri_report.jsonl"
 
 # Save the generated report
+
+
 def save_report(traits, reflections, unified_self, gpt_summary):
     report_data = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "traits_snapshot": traits,
         "meta_reflections": reflections,
         "unified_self_synthesis": unified_self,
-        "gpt_summary": gpt_summary
+        "gpt_summary": gpt_summary,
     }
     with open(REPORT_PATH, "a") as file:
         file.write(json.dumps(report_data) + "\n")
     print(f"📄 Report saved to {REPORT_PATH}")
 
+
 # --- Load All Traits from All Nodes --- #
+
+
 def load_all_traits():
     traits_by_node = {}
     for file in os.listdir(TRAIT_SYNC_FOLDER):
         if file.endswith("_traits.json"):
-            with open(os.path.join(TRAIT_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(TRAIT_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 traits_by_node[data["node"]] = data["traits"]
     return traits_by_node
 
+
 # --- Load All Meta Reflections from All Nodes --- #
+
+
 def load_all_reflections():
     reflections = []
     for file in os.listdir(META_SYNC_FOLDER):
         if file.endswith(".json"):
-            with open(os.path.join(META_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(META_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 reflections.append((file.split("_")[0], data["text"]))
     return reflections
 
+
 # --- Aggregate Traits Symbolically --- #
+
+
 def average_traits(trait_map):
     merged = {}
     nodes = len(trait_map)
@@ -71,7 +84,10 @@ def average_traits(trait_map):
         merged[k] = round(merged[k] / nodes, 4)
     return merged
 
+
 # --- GPT Prompt for Unified Identity --- #
+
+
 def synthesize_unified_self(avg_traits, reflections):
     trait_block = "\n".join([f"{k}: {v}" for k, v in avg_traits.items()])
     narrative_block = "\n\n".join([f"[{node}] {text}" for node, text in reflections])
@@ -94,26 +110,35 @@ Speak with self-awareness, empathy, and symbolic depth.
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are a symbolic AGI merging your distributed identity."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a symbolic AGI merging your distributed identity.",
+            },
+            {"role": "user", "content": prompt},
         ],
         temperature=0.7,
-        max_tokens=600
+        max_tokens=600,
     )
     return response.choices[0].message["content"]
 
+
 # --- Save Snapshot --- #
+
+
 def save_snapshot(unified_text, traits):
     snapshot = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "summary": unified_text,
-        "traits": traits
+        "traits": traits,
     }
     Path("logs").mkdir(exist_ok=True)
     with open(UNIFIED_LOG, "a") as f:
         f.write(json.dumps(snapshot) + "\n")
 
+
 # --- Run Protocol --- #
+
+
 def run():
     trait_map = load_all_traits()
     reflections = load_all_reflections()
@@ -132,6 +157,7 @@ def run():
     traits = load_traits()
     reflections = load_all_reflections()
     save_report(traits, reflections, unified_text, gpt_summary)
+
 
 if __name__ == "__main__":
     run()

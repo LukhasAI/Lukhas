@@ -1,6 +1,4 @@
-import pytest
-
-from tagging import SimpleTagResolver, DeduplicationCache
+from tagging import DeduplicationCache, SimpleTagResolver
 
 
 def test_deduplication_cache():

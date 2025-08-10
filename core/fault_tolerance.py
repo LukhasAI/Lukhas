@@ -1,13 +1,21 @@
-from enum import Enum
 import time
+from enum import Enum
+
 
 class SupervisionStrategy(Enum):
     RESTART = 1
     STOP = 2
     ESCALATE = 3
 
+
 class Supervisor:
-    def __init__(self, strategy=SupervisionStrategy.RESTART, max_restarts=3, restart_delay=1):
+
+    def __init__(
+        self,
+        strategy=SupervisionStrategy.RESTART,
+        max_restarts=3,
+        restart_delay=1,
+    ):
         self.strategy = strategy
         self.max_restarts = max_restarts
         self.restart_delay = restart_delay
@@ -33,7 +41,9 @@ class Supervisor:
         child_info = self.children[actor_id]
         if child_info["restarts"] < self.max_restarts:
             child_info["restarts"] += 1
-            print(f"Supervisor: Restarting actor {actor_id} (Attempt {child_info['restarts']}/{self.max_restarts})")
+            print(
+                f"Supervisor: Restarting actor {actor_id} (Attempt {child_info['restarts']}/{self.max_restarts})"
+            )
             time.sleep(self.restart_delay)
             # In a real implementation, we would restart the actor process or object
             # For now, we'll just print a message

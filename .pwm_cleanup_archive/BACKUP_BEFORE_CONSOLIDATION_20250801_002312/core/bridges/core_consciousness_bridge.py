@@ -9,7 +9,11 @@ from typing import Any, Dict, Optional
 class CoreConsciousnessBridge:
     """Bridge connecting core and consciousness modules."""
 
-    def __init__(self, core_system: Optional[Any] = None, consciousness_system: Optional[Any] = None) -> None:
+    def __init__(
+        self,
+        core_system: Optional[Any] = None,
+        consciousness_system: Optional[Any] = None,
+    ) -> None:
         self.core_system = core_system
         self.consciousness_system = consciousness_system
 

@@ -25,8 +25,8 @@ Consolidated from 14 files:
 - orchestration/brain/visualization/memory_helix_visualizer.py
 """
 
-from typing import Dict, List, Any, Optional
-import asyncio
+from typing import Any, Dict, Optional
+
 
 class ConsolidatedMemoryvisualization:
     def __init__(self):
@@ -37,6 +37,7 @@ class ConsolidatedMemoryvisualization:
         """Process memory through consolidated pipeline"""
         # TODO: Implement consolidated memory processing
         return None
+
 
 # Global instance
 memory_visualization_instance = ConsolidatedMemoryvisualization()

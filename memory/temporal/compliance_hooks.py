@@ -25,12 +25,19 @@ Integration Date: 2025-05-31T07:55:27.743225
 import json
 from datetime import datetime
 from pathlib import Path
-from governance_extended.policy_manager import determine_active_regulations, log_active_regulations
+
 from governance_extended.audit_logger import log_audit_event
+from governance_extended.policy_manager import (
+    determine_active_regulations,
+    log_active_regulations,
+)
 
 COMPLIANCE_LOG_PATH = Path("../../logs/compliance/compliance_log_2025_04_28.json")
 
-def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem="core", user_location="GLOBAL"):
+
+def compliance_drift_detect(
+    current_entropy, target_range=(1.2, 2.5), subsystem="core", user_location="GLOBAL"
+):
     """
     Detects compliance drift based on entropy levels and logs active regulations.
 
@@ -53,23 +60,26 @@ def compliance_drift_detect(current_entropy, target_range=(1.2, 2.5), subsystem=
         status = "over_entropy"
 
     # Audit logging
-    log_audit_event({
-        "event": "compliance_drift_check",
-        "timestamp": datetime.utcnow().isoformat(),
-        "subsystem": subsystem,
-        "user_location": user_location,
-        "entropy": current_entropy,
-        "status": status,
-        "active_regulations": determine_active_regulations(user_location)
-    })
+    log_audit_event(
+        {
+            "event": "compliance_drift_check",
+            "timestamp": datetime.utcnow().isoformat(),
+            "subsystem": subsystem,
+            "user_location": user_location,
+            "entropy": current_entropy,
+            "status": status,
+            "active_regulations": determine_active_regulations(user_location),
+        }
+    )
 
     return {
         "timestamp": datetime.utcnow().isoformat(),
         "entropy": current_entropy,
         "status": status,
         "target_range": target_range,
-        "active_regulations": determine_active_regulations(user_location)
+        "active_regulations": determine_active_regulations(user_location),
     }
+
 
 def log_compliance_event(event_data):
     """
@@ -90,6 +100,7 @@ def log_compliance_event(event_data):
     else:
         with open(log_file, "w") as file:
             json.dump([log_entry], file, indent=4)
+
 
 # ===============================================================
 # 💾 HOW TO USE

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Safe Workspace Analyzer
@@ -109,7 +108,7 @@ class SafeWorkspaceAnalyzer:
                 if file.endswith(".py"):
                     file_path = Path(root) / file
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             content = f.read()
                             compile(content, str(file_path), "exec")
                     except (SyntaxError, UnicodeDecodeError, PermissionError):
@@ -120,7 +119,7 @@ class SafeWorkspaceAnalyzer:
                 elif file.endswith(".json"):
                     file_path = Path(root) / file
                     try:
-                        with open(file_path, "r", encoding="utf-8") as f:
+                        with open(file_path, encoding="utf-8") as f:
                             json.load(f)
                     except (json.JSONDecodeError, UnicodeDecodeError, PermissionError):
                         corrupted.append(file_path)
@@ -211,7 +210,7 @@ class SafeWorkspaceAnalyzer:
         root_files = self.categorize_root_files()
 
         # Generate report
-        print(f"\n📊 ANALYSIS RESULTS:")
+        print("\n📊 ANALYSIS RESULTS:")
         print(f"   Empty directories: {len(empty_dirs)}")
         print(f"   Empty files: {len(empty_files)}")
         print(f"   Corrupted files: {len(corrupted_files)}")
@@ -253,13 +252,13 @@ class SafeWorkspaceAnalyzer:
 
         # Show root file organization suggestions
         if root_files:
-            print(f"\n📋 ROOT FILE ORGANIZATION SUGGESTIONS:")
+            print("\n📋 ROOT FILE ORGANIZATION SUGGESTIONS:")
             for destination, files in root_files.items():
                 print(f"\n   📂 {destination}/ ({len(files)} files):")
                 for file_path in files:
                     print(f"      • {file_path.name}")
 
-        print(f"\n" + "=" * 70)
+        print("\n" + "=" * 70)
         print("✅ ANALYSIS COMPLETE - NO CHANGES WERE MADE")
         print("   Review the suggestions above before deciding what to do")
         print("=" * 70)

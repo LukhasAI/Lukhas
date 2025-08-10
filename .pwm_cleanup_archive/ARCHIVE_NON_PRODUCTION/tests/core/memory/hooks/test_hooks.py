@@ -3,21 +3,15 @@
 ΛTAG: test_memory_hooks
 """
 
-import pytest
-import time
-import uuid
 from datetime import datetime
 
-from memory.hooks.base import (
-    MemoryItem,
-    MemoryHook,
-    HookExecutionError
-)
+import pytest
+
+from memory.hooks.base import HookExecutionError, MemoryHook, MemoryItem
 from memory.hooks.registry import (
-    HookRegistry,
     HookPriority,
     HookRegistrationError,
-    RegisteredHook
+    HookRegistry,
 )
 
 
@@ -30,7 +24,7 @@ class TestMemoryItem:
             content="test content",
             metadata={"source": "test"},
             fold_level=2,
-            glyphs=["Λ", "Ω"]
+            glyphs=["Λ", "Ω"],
         )
 
         assert item.content == "test content"
@@ -81,22 +75,12 @@ class TestMemoryItem:
     def test_symbolic_weight_calculation(self):
         """Test symbolic weight calculation"""
         # High coherence, high resonance, low entropy = high weight
-        item1 = MemoryItem(
-            content="test",
-            coherence=0.9,
-            resonance=0.8,
-            entropy=0.1
-        )
+        item1 = MemoryItem(content="test", coherence=0.9, resonance=0.8, entropy=0.1)
         weight1 = item1.calculate_symbolic_weight()
         assert weight1 > 0.8
 
         # Low coherence, low resonance, high entropy = low weight
-        item2 = MemoryItem(
-            content="test",
-            coherence=0.2,
-            resonance=0.1,
-            entropy=0.9
-        )
+        item2 = MemoryItem(content="test", coherence=0.2, resonance=0.1, entropy=0.9)
         weight2 = item2.calculate_symbolic_weight()
         assert weight2 < 0.3
 
@@ -106,7 +90,7 @@ class TestMemoryItem:
             coherence=0.5,
             resonance=0.5,
             entropy=0.5,
-            emotional_intensity=0.8
+            emotional_intensity=0.8,
         )
         weight3 = item3.calculate_symbolic_weight()
         assert weight3 > 0.5
@@ -115,8 +99,13 @@ class TestMemoryItem:
 class MockHook(MemoryHook):
     """Mock hook for testing"""
 
-    def __init__(self, name="MockHook", version="1.0.0",
-                 transform_before=None, transform_after=None):
+    def __init__(
+        self,
+        name="MockHook",
+        version="1.0.0",
+        transform_before=None,
+        transform_after=None,
+    ):
         super().__init__()
         self.name = name
         self.version = version
@@ -154,21 +143,21 @@ class TestMemoryHook:
 
         # Initial metrics
         metrics = hook.get_metrics()
-        assert metrics['before_store_count'] == 0
-        assert metrics['after_recall_count'] == 0
+        assert metrics["before_store_count"] == 0
+        assert metrics["after_recall_count"] == 0
 
         # Execute operations
         hook.before_store(item)
         hook.after_recall(item)
 
         # Manually update metrics for testing
-        hook._update_metrics('before_store', 0.01)
-        hook._update_metrics('after_recall', 0.02)
+        hook._update_metrics("before_store", 0.01)
+        hook._update_metrics("after_recall", 0.02)
 
         metrics = hook.get_metrics()
-        assert metrics['before_store_count'] == 1
-        assert metrics['after_recall_count'] == 1
-        assert metrics['average_processing_time_ms'] > 0
+        assert metrics["before_store_count"] == 1
+        assert metrics["after_recall_count"] == 1
+        assert metrics["average_processing_time_ms"] > 0
 
     def test_hook_enable_disable(self):
         """Test hook enable/disable functionality"""
@@ -196,7 +185,7 @@ class TestMemoryHook:
             is_compressed=True,
             compression_ratio=2.5,
             fold_signature="sig123",
-            causal_lineage=["ancestor1"]
+            causal_lineage=["ancestor1"],
         )
         assert hook.validate_fold_integrity(item2)
 
@@ -206,7 +195,7 @@ class TestMemoryHook:
             is_compressed=True,
             compression_ratio=150.0,  # Too high
             fold_signature="sig123",
-            causal_lineage=["ancestor1"]
+            causal_lineage=["ancestor1"],
         )
         assert not hook.validate_fold_integrity(item3)
 
@@ -216,7 +205,7 @@ class TestMemoryHook:
             is_compressed=True,
             compression_ratio=2.0,
             fold_signature=None,
-            causal_lineage=["ancestor1"]
+            causal_lineage=["ancestor1"],
         )
         assert not hook.validate_fold_integrity(item4)
 
@@ -236,7 +225,7 @@ class TestMemoryHook:
         item3 = MemoryItem(
             content="test",
             entropy=0.9,  # High
-            coherence=0.9  # Also high - inconsistent
+            coherence=0.9,  # Also high - inconsistent
         )
         assert not hook.validate_symbolic_consistency(item3)
 
@@ -321,9 +310,12 @@ class TestHookRegistry:
             def transform(item):
                 execution_order.append(name)
                 return item
+
             return transform
 
-        critical_hook = MockHook("Critical", transform_before=make_transform("critical"))
+        critical_hook = MockHook(
+            "Critical", transform_before=make_transform("critical")
+        )
         high_hook = MockHook("High", transform_before=make_transform("high"))
         normal_hook = MockHook("Normal", transform_before=make_transform("normal"))
         low_hook = MockHook("Low", transform_before=make_transform("low"))
@@ -397,6 +389,7 @@ class TestHookRegistry:
         registry = HookRegistry()
 
         fail_count = 0
+
         def sometimes_failing_transform(item):
             nonlocal fail_count
             fail_count += 1
@@ -418,12 +411,12 @@ class TestHookRegistry:
 
         # Circuit should be broken now
         metrics = registry.get_registry_metrics()
-        assert metrics['disabled_by_circuit_breaker'] > 0
+        assert metrics["disabled_by_circuit_breaker"] > 0
 
         # Reset circuit breaker
         registry.reset_circuit_breaker("FlakyHook")
         metrics = registry.get_registry_metrics()
-        assert metrics['disabled_by_circuit_breaker'] == 0
+        assert metrics["disabled_by_circuit_breaker"] == 0
 
     def test_hook_tags_filtering(self):
         """Test filtering hooks by tags"""
@@ -463,10 +456,10 @@ class TestHookRegistry:
             registry.execute_after_recall(item)
 
         metrics = registry.get_registry_metrics()
-        assert metrics['total_hooks'] == 2
-        assert metrics['enabled_hooks'] == 2
-        assert metrics['execution_metrics']['total_executions'] == 10
-        assert metrics['execution_metrics']['successful_executions'] == 10
+        assert metrics["total_hooks"] == 2
+        assert metrics["enabled_hooks"] == 2
+        assert metrics["execution_metrics"]["total_executions"] == 10
+        assert metrics["execution_metrics"]["successful_executions"] == 10
 
 
 @pytest.mark.integration
@@ -506,19 +499,19 @@ class TestHookIntegration:
         registry.register_hook(
             MockHook("Validator", transform_before=validate_content),
             priority=HookPriority.CRITICAL,
-            fail_on_error=True
+            fail_on_error=True,
         )
         registry.register_hook(
             MockHook("Timestamper", transform_before=add_timestamp),
-            priority=HookPriority.HIGH
+            priority=HookPriority.HIGH,
         )
         registry.register_hook(
             MockHook("SymbolicEnricher", transform_before=add_symbolic_state),
-            priority=HookPriority.NORMAL
+            priority=HookPriority.NORMAL,
         )
         registry.register_hook(
             MockHook("Compressor", transform_before=compress_if_large),
-            priority=HookPriority.LOW
+            priority=HookPriority.LOW,
         )
 
         # Test with valid content

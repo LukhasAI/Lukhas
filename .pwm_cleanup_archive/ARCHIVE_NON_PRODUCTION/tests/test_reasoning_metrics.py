@@ -1,5 +1,10 @@
 import unittest
-from reasoning.reasoning_metrics import logic_drift_index, recall_efficiency_score
+
+from reasoning.reasoning_metrics import (
+    logic_drift_index,
+    recall_efficiency_score,
+)
+
 
 class TestReasoningMetrics(unittest.TestCase):
 
@@ -19,7 +24,7 @@ class TestReasoningMetrics(unittest.TestCase):
         invoked_memories = [{"key": "a"}, {"key": "b"}]
         optimal_memories = [{"key": "a"}, {"key": "b"}, {"key": "c"}]
         score = recall_efficiency_score(invoked_memories, optimal_memories)
-        self.assertAlmostEqual(score, 2/3)
+        self.assertAlmostEqual(score, 2 / 3)
 
     def test_recall_efficiency_score_no_optimal(self):
         """
@@ -39,5 +44,6 @@ class TestReasoningMetrics(unittest.TestCase):
         score = recall_efficiency_score(invoked_memories, optimal_memories)
         self.assertAlmostEqual(score, 0.0)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

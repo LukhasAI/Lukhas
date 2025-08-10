@@ -17,7 +17,6 @@
 import asyncio
 import hashlib
 import json
-import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -25,12 +24,13 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import numpy as np
-import structlog
 
 # Import LUKHAS components
 try:
     from ..integrity.collapse_hash import CollapseHash
-    from ..protection.symbolic_quarantine_sanctum import SymbolicQuarantineSanctum
+    from ..protection.symbolic_quarantine_sanctum import (
+        SymbolicQuarantineSanctum,
+    )
     from ..scaffold.atomic_memory_scaffold import AtomicMemoryScaffold
     from ..symbol_aware_tiered_memory import SymbolAwareTieredMemory
     from ..systems.colony_swarm_integration import SwarmConsensusManager
@@ -49,14 +49,21 @@ except ImportError:
 
 # Import memory system components
 try:
+    # Import through interface to break circular dependency
+    from core.interfaces.memory_interface import get_test_module
+
     from ..consolidation.consolidation_orchestrator import (
         ConsolidationOrchestrator,
         SleepStage,
     )
-    from ..hippocampal.hippocampal_buffer import EpisodicMemory, HippocampalBuffer
-    from ..neocortical.neocortical_network import NeocorticalNetwork, SemanticMemory
-    # Import through interface to break circular dependency
-    from core.interfaces.memory_interface import get_test_module
+    from ..hippocampal.hippocampal_buffer import (
+        EpisodicMemory,
+        HippocampalBuffer,
+    )
+    from ..neocortical.neocortical_network import (
+        NeocorticalNetwork,
+        SemanticMemory,
+    )
     from ..systems.trauma_lock import TraumaLockSystem
     from .colony_memory_validator import ColonyMemoryValidator, ValidationMode
     from .interfaces import (
@@ -87,9 +94,6 @@ except ImportError as e:
 
     def test_error_conditions(orchestrator):
         return {"status": "error", "message": "Memory components not available"}
-
-
-from core.common import get_logger
 
 
 class MemoryType(Enum):
@@ -268,7 +272,9 @@ class UnifiedMemoryOrchestrator:
                     "test_error_conditions": lambda orch: test_module.test_error_conditions(),
                     "initialized": True,
                 }
-                logger.info("Comprehensive memory tester initialized via dependency injection")
+                logger.info(
+                    "Comprehensive memory tester initialized via dependency injection"
+                )
             else:
                 # Fallback to local test functions
                 self.comprehensive_memory_tester = {
@@ -276,7 +282,9 @@ class UnifiedMemoryOrchestrator:
                     "test_error_conditions": test_error_conditions,
                     "initialized": True,
                 }
-                logger.info("Comprehensive memory tester initialized with local functions")
+                logger.info(
+                    "Comprehensive memory tester initialized with local functions"
+                )
         except Exception as e:
             logger.warning(f"Failed to initialize comprehensive tester: {e}")
             self.comprehensive_memory_tester = {
@@ -314,7 +322,9 @@ class UnifiedMemoryOrchestrator:
 
             # Colony consensus
             if self.enable_colony_validation:
-                from ..systems.integration_adapters import MemorySafetyIntegration
+                from ..systems.integration_adapters import (
+                    MemorySafetyIntegration,
+                )
                 from ..systems.memory_safety_features import MemorySafetySystem
 
                 safety = MemorySafetySystem()

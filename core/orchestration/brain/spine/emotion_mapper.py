@@ -10,7 +10,9 @@ Integration Date: 2025-05-31T07:55:28.111944
 # 🧠 OXNITUS: Emoji-based Emotion Mapper
 # This module maps ethical decisions or intents to emojis for visual feedback.
 
+
 class EmotionMapper:
+
     def __init__(self):
         # Base emoji mapping (you can expand this over time)
         self.intent_emoji_map = {
@@ -23,7 +25,7 @@ class EmotionMapper:
             "promote fairness": "🎯",
             "do not manipulate emotions": "🛑🧠",
             "ensure privacy": "🔒",
-            "respect cultural diversity": "🌐🎭"
+            "respect cultural diversity": "🌐🎭",
         }
 
         self.emotion_palette = {
@@ -35,13 +37,11 @@ class EmotionMapper:
         }
 
     def map_intent_to_emoji(self, intent_text):
-        key = intent_text.lower().strip('.').strip()
+        key = intent_text.lower().strip(".").strip()
         return self.intent_emoji_map.get(key, "❓")
 
     def map_ethics_to_emotion(self, ethical, justification):
-        if not ethical:
-            return self.emotion_palette["critical"]
-        elif "bias" in justification.lower():
+        if not ethical or "bias" in justification.lower():
             return self.emotion_palette["critical"]
         elif "respect" in justification.lower():
             return self.emotion_palette["positive"]
@@ -58,5 +58,7 @@ if __name__ == "__main__":
     mapper = EmotionMapper()
     intent = "Preserve dignity."
     emoji = mapper.map_intent_to_emoji(intent)
-    feeling = mapper.map_ethics_to_emotion(True, "Intent poses no ethical conflict. Default approval granted.")
+    feeling = mapper.map_ethics_to_emotion(
+        True, "Intent poses no ethical conflict. Default approval granted."
+    )
     print(f"Intent: {intent} {emoji} | Feeling: {feeling}")

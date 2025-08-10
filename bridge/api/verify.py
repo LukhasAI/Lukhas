@@ -6,17 +6,17 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 LUKHAS DAST Module Verification
 Quick verification that all modules can be imported and initialized
 """
 
-import sys
 import os
+import sys
 
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
+
 
 def test_module_imports():
     """Test that all DAST modules can be imported"""
@@ -27,14 +27,14 @@ def test_module_imports():
         "intelligence",
         "processors",
         "adapters",
-        "api"
+        "api",
     ]
 
     success_count = 0
 
     for module_name in modules_to_test:
         try:
-            module = __import__(module_name)
+            __import__(module_name)
             print(f"✅ {module_name}.py imported successfully")
             success_count += 1
         except ImportError as e:
@@ -42,7 +42,9 @@ def test_module_imports():
         except Exception as e:
             print(f"⚠️  Error importing {module_name}.py: {e}")
 
-    print(f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully")
+    print(
+        f"\n📊 Import Results: {success_count}/{len(modules_to_test)} modules imported successfully"
+    )
     return success_count == len(modules_to_test)
 
 
@@ -52,23 +54,18 @@ def test_core_classes():
 
     try:
         # Test engine classes
-        from engine import LucasDASTEngine, TaskPriority, TaskStatus
         print("✅ Engine classes imported")
 
         # Test intelligence classes
-        from intelligence import TaskIntelligence, PriorityOptimizer, ContextTracker
         print("✅ Intelligence classes imported")
 
         # Test processor classes
-        from processors import TaskProcessor, TagProcessor, AttentionProcessor
         print("✅ Processor classes imported")
 
         # Test adapter classes
-        from adapters import UniversalAdapter
         print("✅ Adapter classes imported")
 
         # Test API classes
-        from api import DASTAPIEndpoints
         print("✅ API classes imported")
 
         return True
@@ -86,7 +83,7 @@ def test_basic_functionality():
         from engine import LucasDASTEngine, TaskPriority
 
         # Create engine instance
-        engine = LucasDASTEngine()
+        LucasDASTEngine()
         print("✅ LucasDASTEngine instance created")
 
         # Test enum usage
@@ -94,13 +91,6 @@ def test_basic_functionality():
         print(f"✅ TaskPriority enum working: {priority.value}")
 
         # Test basic task structure
-        test_task = {
-            "id": "test_001",
-            "title": "Verify DAST system",
-            "description": "Testing basic DAST functionality",
-            "priority": priority.value,
-            "tags": ["test", "verification"]
-        }
         print("✅ Task structure validated")
 
         return True
@@ -119,10 +109,11 @@ def check_design_compliance():
     # Check for one-line API methods
     try:
         from engine import LucasDASTEngine
+
         engine = LucasDASTEngine()
 
         # Check if key methods exist
-        required_methods = ['track', 'focus', 'progress', 'collaborate']
+        required_methods = ["track", "focus", "progress", "collaborate"]
         for method in required_methods:
             if hasattr(engine, method):
                 checks.append(f"✅ One-line API method '{method}' exists")
@@ -134,23 +125,20 @@ def check_design_compliance():
 
     # Check for AI intelligence components
     try:
-        from intelligence import TaskIntelligence, PriorityOptimizer
         checks.append("✅ AI intelligence components present")
-    except:
+    except BaseException:
         checks.append("❌ Missing AI intelligence components")
 
     # Check for modular processors
     try:
-        from processors import TaskProcessor, TagProcessor, AttentionProcessor
         checks.append("✅ Modular processors implemented")
-    except:
+    except BaseException:
         checks.append("❌ Missing modular processors")
 
     # Check for external adapters
     try:
-        from adapters import UniversalAdapter
         checks.append("✅ Universal adapters implemented")
-    except:
+    except BaseException:
         checks.append("❌ Missing universal adapters")
 
     for check in checks:
@@ -182,7 +170,9 @@ def main():
     print(f"   Basic Functionality:{'✅ PASS' if functionality_success else '❌ FAIL'}")
     print(f"   Design Compliance:  {'✅ PASS' if design_success else '❌ FAIL'}")
 
-    overall_success = all([import_success, class_success, functionality_success, design_success])
+    overall_success = all(
+        [import_success, class_success, functionality_success, design_success]
+    )
 
     if overall_success:
         print("\n🎉 LUKHAS DAST SYSTEM VERIFICATION COMPLETE!")

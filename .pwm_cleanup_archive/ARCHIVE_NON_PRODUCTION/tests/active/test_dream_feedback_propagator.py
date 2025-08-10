@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from dream.dream_feedback_propagator import DreamFeedbackPropagator
+
 from emotion.mood_regulation.mood_regulator import MoodRegulator
 from memory.core_memory.emotional_memory import EmotionalMemory
 

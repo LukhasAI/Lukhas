@@ -5,28 +5,28 @@ Helper functions for dashboard data processing
 """
 
 import json
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime, timedelta
 import statistics
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 
 def load_meta_metrics(path: Optional[Path] = None) -> Dict[str, Any]:
     """
     Load meta metrics from JSON file.
-    
+
     Args:
         path: Path to metrics file (defaults to data/meta_metrics.json)
-        
+
     Returns:
         Dict containing meta metrics
     """
     if path is None:
         path = Path("data/meta_metrics.json")
-    
+
     try:
         if path.exists():
-            with open(path, 'r') as f:
+            with open(path) as f:
                 return json.load(f)
         else:
             # Return default metrics if file doesn't exist
@@ -36,7 +36,7 @@ def load_meta_metrics(path: Optional[Path] = None) -> Dict[str, Any]:
                 "entropy_level": 0.0,
                 "persona_distribution": {},
                 "total_evaluations": 0,
-                "last_updated": datetime.utcnow().isoformat()
+                "last_updated": datetime.utcnow().isoformat(),
             }
     except Exception as e:
         print(f"Error loading meta metrics: {e}")
@@ -46,39 +46,40 @@ def load_meta_metrics(path: Optional[Path] = None) -> Dict[str, Any]:
 def parse_jsonl_snapshots(path: Optional[Path] = None) -> List[Dict[str, Any]]:
     """
     Parse JSONL snapshot file for drift history.
-    
+
     Args:
         path: Path to snapshots file (defaults to data/drift_audit_results.jsonl)
-        
+
     Returns:
         List of snapshot dictionaries
     """
     if path is None:
         path = Path("data/drift_audit_results.jsonl")
-    
+
     snapshots = []
-    
+
     try:
         if path.exists():
-            with open(path, 'r') as f:
+            with open(path) as f:
                 for line in f:
                     if line.strip():
                         snapshots.append(json.loads(line))
     except Exception as e:
         print(f"Error parsing snapshots: {e}")
-    
+
     return snapshots
 
 
-def calculate_drift_trends(snapshots: List[Dict[str, Any]], 
-                          window_hours: int = 24) -> Dict[str, Any]:
+def calculate_drift_trends(
+    snapshots: List[Dict[str, Any]], window_hours: int = 24
+) -> Dict[str, Any]:
     """
     Calculate drift trends from snapshots.
-    
+
     Args:
         snapshots: List of snapshot dictionaries
         window_hours: Time window for trend calculation
-        
+
     Returns:
         Dict containing trend analysis
     """
@@ -88,13 +89,13 @@ def calculate_drift_trends(snapshots: List[Dict[str, Any]],
             "average_drift": 0.0,
             "max_drift": 0.0,
             "min_drift": 0.0,
-            "data_points": 0
+            "data_points": 0,
         }
-    
+
     # Filter snapshots within time window
     cutoff_time = datetime.utcnow() - timedelta(hours=window_hours)
     recent_snapshots = []
-    
+
     for snap in snapshots:
         try:
             timestamp = datetime.fromisoformat(
@@ -104,39 +105,37 @@ def calculate_drift_trends(snapshots: List[Dict[str, Any]],
                 recent_snapshots.append(snap)
         except:
             continue
-    
+
     if not recent_snapshots:
         recent_snapshots = snapshots[-10:]  # Use last 10 if no recent data
-    
+
     # Extract drift scores
     drift_scores = [
-        s.get("drift_score", 0.0) 
-        for s in recent_snapshots 
-        if "drift_score" in s
+        s.get("drift_score", 0.0) for s in recent_snapshots if "drift_score" in s
     ]
-    
+
     if not drift_scores:
         return {
             "trend": "unknown",
             "average_drift": 0.0,
             "max_drift": 0.0,
             "min_drift": 0.0,
-            "data_points": 0
+            "data_points": 0,
         }
-    
+
     # Calculate statistics
     avg_drift = statistics.mean(drift_scores)
     max_drift = max(drift_scores)
     min_drift = min(drift_scores)
-    
+
     # Determine trend
     if len(drift_scores) >= 3:
-        first_half = drift_scores[:len(drift_scores)//2]
-        second_half = drift_scores[len(drift_scores)//2:]
-        
+        first_half = drift_scores[: len(drift_scores) // 2]
+        second_half = drift_scores[len(drift_scores) // 2 :]
+
         avg_first = statistics.mean(first_half)
         avg_second = statistics.mean(second_half)
-        
+
         if avg_second > avg_first * 1.1:
             trend = "increasing"
         elif avg_second < avg_first * 0.9:
@@ -145,24 +144,24 @@ def calculate_drift_trends(snapshots: List[Dict[str, Any]],
             trend = "stable"
     else:
         trend = "insufficient_data"
-    
+
     return {
         "trend": trend,
         "average_drift": avg_drift,
         "max_drift": max_drift,
         "min_drift": min_drift,
         "data_points": len(drift_scores),
-        "time_window_hours": window_hours
+        "time_window_hours": window_hours,
     }
 
 
 def entropy_color_code(entropy: float) -> Tuple[str, str]:
     """
     Get color code and status for entropy level.
-    
+
     Args:
         entropy: Entropy value (0.0-1.0)
-        
+
     Returns:
         Tuple of (hex_color, status_text)
     """
@@ -181,27 +180,31 @@ def entropy_color_code(entropy: float) -> Tuple[str, str]:
 def format_persona_distribution(distribution: Dict[str, int]) -> List[Dict[str, Any]]:
     """
     Format persona distribution for visualization.
-    
+
     Args:
         distribution: Dict of persona names to counts
-        
+
     Returns:
         List of formatted persona data
     """
     total = sum(distribution.values())
-    
+
     if total == 0:
         return []
-    
+
     formatted = []
-    for persona, count in sorted(distribution.items(), key=lambda x: x[1], reverse=True):
-        formatted.append({
-            "name": persona,
-            "count": count,
-            "percentage": (count / total) * 100,
-            "emoji": get_persona_emoji(persona)
-        })
-    
+    for persona, count in sorted(
+        distribution.items(), key=lambda x: x[1], reverse=True
+    ):
+        formatted.append(
+            {
+                "name": persona,
+                "count": count,
+                "percentage": (count / total) * 100,
+                "emoji": get_persona_emoji(persona),
+            }
+        )
+
     return formatted
 
 
@@ -219,7 +222,7 @@ def get_persona_emoji(persona: str) -> str:
         "The Creator": "✨",
         "The Scholar": "📚",
         "The Trickster": "🎭",
-        "The Wanderer": "🌍"
+        "The Wanderer": "🌍",
     }
     return emoji_map.get(persona, "❓")
 
@@ -227,17 +230,17 @@ def get_persona_emoji(persona: str) -> str:
 def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     """
     Calculate overall system health score.
-    
+
     Args:
         metrics: Current system metrics
-        
+
     Returns:
         Dict containing health assessment
     """
     # Base health score
     health_score = 100.0
     issues = []
-    
+
     # Check drift score
     drift = metrics.get("average_drift", 0.0)
     if drift > 0.7:
@@ -246,7 +249,7 @@ def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     elif drift > 0.5:
         health_score -= 15
         issues.append("Elevated drift levels")
-    
+
     # Check Trinity coherence
     coherence = metrics.get("trinity_coherence", 1.0)
     if coherence < 0.3:
@@ -255,7 +258,7 @@ def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     elif coherence < 0.6:
         health_score -= 10
         issues.append("Trinity alignment degraded")
-    
+
     # Check entropy
     entropy = metrics.get("entropy_level", 0.0)
     if entropy > 0.85:
@@ -264,7 +267,7 @@ def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     elif entropy > 0.7:
         health_score -= 10
         issues.append("High entropy detected")
-    
+
     # Determine health status
     if health_score >= 90:
         status = "excellent"
@@ -281,14 +284,14 @@ def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     else:
         status = "critical"
         color = "#ff0000"
-    
+
     return {
         "score": max(0, health_score),
         "status": status,
         "color": color,
         "issues": issues,
         "trinity_aligned": coherence > 0.7,
-        "recommendation": get_health_recommendation(health_score, issues)
+        "recommendation": get_health_recommendation(health_score, issues),
     }
 
 

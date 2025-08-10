@@ -3,11 +3,11 @@ Safety-Quantum Bridge
 Bidirectional communication bridge between Safety and Quantum systems
 """
 
-from typing import Any, Dict, Optional, List
-import asyncio
 import logging
+from typing import Any, Dict
 
 logger = logging.getLogger(__name__)
+
 
 class SafetyQuantumBridge:
     """
@@ -33,6 +33,7 @@ class SafetyQuantumBridge:
         """Establish connection between Safety and Quantum systems"""
         try:
             from safety.safety_hub import get_safety_hub
+
             from quantum.quantum_hub import get_quantum_hub
 
             self.safety_hub = get_safety_hub()
@@ -57,16 +58,17 @@ class SafetyQuantumBridge:
             "safety_boundary_exceeded": "quantum_decoherence_warning",
             "safety_recovery_initiated": "quantum_error_correction_trigger",
             "safety_monitoring_update": "quantum_coherence_check",
-
             # Quantum -> Safety events
             "quantum_anomaly_detected": "safety_risk_assessment",
             "quantum_state_collapsed": "safety_intervention_required",
             "quantum_entanglement_broken": "safety_isolation_protocol",
             "quantum_error_detected": "safety_recovery_protocol",
-            "quantum_coherence_lost": "safety_emergency_protocol"
+            "quantum_coherence_lost": "safety_emergency_protocol",
         }
 
-    async def safety_to_quantum(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def safety_to_quantum(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Safety to Quantum system"""
         if not self.is_connected:
             await self.connect()
@@ -76,7 +78,9 @@ class SafetyQuantumBridge:
             transformed_data = self.transform_data_safety_to_quantum(data)
 
             if self.quantum_hub:
-                result = await self.quantum_hub.process_event(mapped_event, transformed_data)
+                result = await self.quantum_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Safety to Quantum")
                 return result
 
@@ -86,7 +90,9 @@ class SafetyQuantumBridge:
             logger.error(f"Error forwarding from Safety to Quantum: {e}")
             return {"error": str(e)}
 
-    async def quantum_to_safety(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def quantum_to_safety(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Forward event from Quantum to Safety system"""
         if not self.is_connected:
             await self.connect()
@@ -96,7 +102,9 @@ class SafetyQuantumBridge:
             transformed_data = self.transform_data_quantum_to_safety(data)
 
             if self.safety_hub:
-                result = await self.safety_hub.process_event(mapped_event, transformed_data)
+                result = await self.safety_hub.process_event(
+                    mapped_event, transformed_data
+                )
                 logger.debug(f"Forwarded {event_type} from Quantum to Safety")
                 return result
 
@@ -115,9 +123,9 @@ class SafetyQuantumBridge:
             "quantum_context": {
                 "safety_constraints": data.get("constraints", []),
                 "validation_level": data.get("validation_level", "standard"),
-                "recovery_mode": data.get("recovery_mode", False)
+                "recovery_mode": data.get("recovery_mode", False),
             },
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
 
     def transform_data_quantum_to_safety(self, data: Dict[str, Any]) -> Dict[str, Any]:
@@ -129,28 +137,32 @@ class SafetyQuantumBridge:
             "safety_context": {
                 "quantum_state": data.get("state", "unknown"),
                 "coherence_level": data.get("coherence", 1.0),
-                "entanglement_status": data.get("entanglement", {})
+                "entanglement_status": data.get("entanglement", {}),
             },
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
 
-    async def validate_quantum_operation(self, operation_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_quantum_operation(
+        self, operation_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Validate quantum operation against safety constraints"""
         safety_data = {
             "validation_type": "quantum_operation",
             "operation": operation_data,
-            "required_safety_level": "quantum_critical"
+            "required_safety_level": "quantum_critical",
         }
 
         return await self.safety_to_quantum("safety_validation_required", safety_data)
 
-    async def handle_quantum_anomaly(self, anomaly_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def handle_quantum_anomaly(
+        self, anomaly_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Handle quantum anomaly with safety protocols"""
         safety_data = {
             "anomaly_type": "quantum",
             "anomaly_data": anomaly_data,
             "risk_assessment_required": True,
-            "isolation_ready": True
+            "isolation_ready": True,
         }
 
         return await self.quantum_to_safety("quantum_anomaly_detected", safety_data)
@@ -165,15 +177,18 @@ class SafetyQuantumBridge:
             quantum_bounds = await self.get_quantum_bounds()
 
             # Cross-synchronize
-            await self.safety_to_quantum("safety_constraint_sync", {
-                "constraints": safety_constraints,
-                "sync_type": "quantum_bounds_alignment"
-            })
+            await self.safety_to_quantum(
+                "safety_constraint_sync",
+                {
+                    "constraints": safety_constraints,
+                    "sync_type": "quantum_bounds_alignment",
+                },
+            )
 
-            await self.quantum_to_safety("quantum_bounds_sync", {
-                "bounds": quantum_bounds,
-                "sync_type": "safety_constraint_alignment"
-            })
+            await self.quantum_to_safety(
+                "quantum_bounds_sync",
+                {"bounds": quantum_bounds, "sync_type": "safety_constraint_alignment"},
+            )
 
             logger.debug("Safety-Quantum constraint synchronization completed")
             return True
@@ -186,7 +201,7 @@ class SafetyQuantumBridge:
         """Get current safety constraints"""
         if self.safety_hub:
             validator = self.safety_hub.get_service("safety_validator")
-            if validator and hasattr(validator, 'get_constraints'):
+            if validator and hasattr(validator, "get_constraints"):
                 return validator.get_constraints()
 
         return {"constraints": [], "level": "standard"}
@@ -195,7 +210,7 @@ class SafetyQuantumBridge:
         """Get current quantum bounds"""
         if self.quantum_hub:
             processor = self.quantum_hub.get_service("quantum_processor")
-            if processor and hasattr(processor, 'get_bounds'):
+            if processor and hasattr(processor, "get_bounds"):
                 return processor.get_bounds()
 
         return {"bounds": {}, "coherence_threshold": 0.8}
@@ -203,6 +218,7 @@ class SafetyQuantumBridge:
     def _get_timestamp(self) -> str:
         """Get current timestamp"""
         from datetime import datetime
+
         return datetime.now().isoformat()
 
     async def health_check(self) -> Dict[str, Any]:
@@ -212,11 +228,13 @@ class SafetyQuantumBridge:
             "safety_hub_available": self.safety_hub is not None,
             "quantum_hub_available": self.quantum_hub is not None,
             "event_mappings": len(self.event_mappings),
-            "timestamp": self._get_timestamp()
+            "timestamp": self._get_timestamp(),
         }
+
 
 # Singleton instance
 _safety_quantum_bridge_instance = None
+
 
 def get_safety_quantum_bridge() -> SafetyQuantumBridge:
     """Get or create the Safety-Quantum bridge instance"""

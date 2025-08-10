@@ -8,15 +8,14 @@ minimizes network overhead and maximizes resource utilization.
 
 import asyncio
 import json
+import logging
+import threading
 import time
 import uuid
-import hashlib
-from typing import Dict, List, Any, Optional, Callable, Set
-from dataclasses import dataclass, field
-from enum import Enum
-import threading
 from collections import defaultdict
-import logging
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Callable
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 class MessagePriority(Enum):
     """Message priority levels for efficient routing"""
+
     CRITICAL = 1
     HIGH = 2
     NORMAL = 3
@@ -34,20 +34,22 @@ class MessagePriority(Enum):
 
 class CommunicationMode(Enum):
     """Communication modes for different traffic types"""
-    EVENT_BUS = "event_bus"      # Lightweight coordination
-    P2P_DIRECT = "p2p_direct"    # High-volume data transfer
-    MULTICAST = "multicast"      # Efficient broadcast
-    GOSSIP = "gossip"            # Epidemic protocols
+
+    EVENT_BUS = "event_bus"  # Lightweight coordination
+    P2P_DIRECT = "p2p_direct"  # High-volume data transfer
+    MULTICAST = "multicast"  # Efficient broadcast
+    GOSSIP = "gossip"  # Epidemic protocols
 
 
 @dataclass
 class Message:
     """Optimized message structure for minimal overhead"""
+
     message_id: str
     source: str
     destination: str
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: MessagePriority
     mode: CommunicationMode
     timestamp: float
@@ -73,14 +75,14 @@ class Message:
             MessagePriority.HIGH: 1.2,
             MessagePriority.NORMAL: 1.0,
             MessagePriority.LOW: 0.8,
-            MessagePriority.BACKGROUND: 0.5
+            MessagePriority.BACKGROUND: 0.5,
         }[self.priority]
 
         mode_factor = {
             CommunicationMode.P2P_DIRECT: 0.7,  # Most efficient for large data
-            CommunicationMode.EVENT_BUS: 1.0,   # Standard efficiency
-            CommunicationMode.MULTICAST: 0.6,   # Efficient for many recipients
-            CommunicationMode.GOSSIP: 1.3       # Higher overhead
+            CommunicationMode.EVENT_BUS: 1.0,  # Standard efficiency
+            CommunicationMode.MULTICAST: 0.6,  # Efficient for many recipients
+            CommunicationMode.GOSSIP: 1.3,  # Higher overhead
         }[self.mode]
 
         return base_cost * size_factor * priority_factor * mode_factor
@@ -89,11 +91,11 @@ class Message:
         """Check if message has expired"""
         return (time.time() - self.timestamp) > self.ttl
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             **asdict(self),
-            'priority': self.priority.value,
-            'mode': self.mode.value
+            "priority": self.priority.value,
+            "mode": self.mode.value,
         }
 
 
@@ -104,14 +106,18 @@ class MessageRouter:
     """
 
     def __init__(self):
-        self.routing_table: Dict[str, Dict[str, Any]] = {}
-        self.network_conditions: Dict[str, float] = {}
+        self.routing_table: dict[str, dict[str, Any]] = {}
+        self.network_conditions: dict[str, float] = {}
         self.energy_budget = 1000.0  # Available energy units
         self.energy_used = 0.0
         self._lock = threading.Lock()
 
-    def register_node(self, node_id: str, capabilities: List[str] = None,
-                     location: Dict[str, Any] = None):
+    def register_node(
+        self,
+        node_id: str,
+        capabilities: list[str] = None,
+        location: dict[str, Any] = None,
+    ):
         """Register a node in the routing table"""
         with self._lock:
             self.routing_table[node_id] = {
@@ -120,7 +126,7 @@ class MessageRouter:
                 "last_seen": time.time(),
                 "energy_efficiency": 1.0,
                 "message_count": 0,
-                "total_latency": 0.0
+                "total_latency": 0.0,
             }
 
     def select_communication_mode(self, message: Message) -> CommunicationMode:
@@ -145,7 +151,7 @@ class MessageRouter:
         # Default to event bus
         return CommunicationMode.EVENT_BUS
 
-    def find_optimal_path(self, source: str, destination: str) -> List[str]:
+    def find_optimal_path(self, source: str, destination: str) -> list[str]:
         """
         Find the most energy-efficient path between nodes
         """
@@ -176,13 +182,13 @@ class EventBus:
     """
 
     def __init__(self):
-        self.subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self.subscribers: dict[str, list[Callable]] = defaultdict(list)
         self.message_queue: asyncio.Queue = asyncio.Queue(maxsize=1000)
         self.stats = {
             "messages_published": 0,
             "messages_delivered": 0,
             "energy_consumed": 0.0,
-            "average_latency": 0.0
+            "average_latency": 0.0,
         }
         self._running = False
 
@@ -219,9 +225,7 @@ class EventBus:
         """Process messages from the queue"""
         while self._running:
             try:
-                message = await asyncio.wait_for(
-                    self.message_queue.get(), timeout=1.0
-                )
+                message = await asyncio.wait_for(self.message_queue.get(), timeout=1.0)
 
                 start_time = time.time()
                 await self._deliver_message(message)
@@ -231,9 +235,10 @@ class EventBus:
                 self.stats["messages_delivered"] += 1
                 self.stats["energy_consumed"] += message.energy_cost
                 self.stats["average_latency"] = (
-                    (self.stats["average_latency"] * (self.stats["messages_delivered"] - 1) + latency) /
-                    self.stats["messages_delivered"]
-                )
+                    self.stats["average_latency"]
+                    * (self.stats["messages_delivered"] - 1)
+                    + latency
+                ) / self.stats["messages_delivered"]
 
             except asyncio.TimeoutError:
                 continue
@@ -276,16 +281,17 @@ class P2PChannel:
 
     def __init__(self, local_node_id: str):
         self.local_node_id = local_node_id
-        self.connections: Dict[str, Dict[str, Any]] = {}
+        self.connections: dict[str, dict[str, Any]] = {}
         self.transfer_stats = {
             "bytes_sent": 0,
             "bytes_received": 0,
             "connections_established": 0,
-            "energy_saved": 0.0
+            "energy_saved": 0.0,
         }
 
-    async def establish_connection(self, remote_node_id: str,
-                                 connection_info: Dict[str, Any]) -> bool:
+    async def establish_connection(
+        self, remote_node_id: str, connection_info: dict[str, Any]
+    ) -> bool:
         """Establish a direct connection to another node"""
         try:
             # Simulate connection establishment
@@ -293,7 +299,7 @@ class P2PChannel:
                 "connection_info": connection_info,
                 "established_at": time.time(),
                 "bytes_transferred": 0,
-                "last_activity": time.time()
+                "last_activity": time.time(),
             }
 
             self.transfer_stats["connections_established"] += 1
@@ -304,8 +310,7 @@ class P2PChannel:
             logger.error(f"Failed to establish P2P connection: {e}")
             return False
 
-    async def send_direct(self, remote_node_id: str,
-                         data: bytes) -> bool:
+    async def send_direct(self, remote_node_id: str, data: bytes) -> bool:
         """Send data directly to a peer"""
         if remote_node_id not in self.connections:
             logger.warning(f"No P2P connection to {remote_node_id}")
@@ -332,7 +337,7 @@ class P2PChannel:
             logger.error(f"P2P send error: {e}")
             return False
 
-    def get_connection_stats(self) -> Dict[str, Any]:
+    def get_connection_stats(self) -> dict[str, Any]:
         """Get P2P connection statistics"""
         return {
             "active_connections": len(self.connections),
@@ -341,10 +346,10 @@ class P2PChannel:
                 node_id: {
                     "bytes_transferred": conn["bytes_transferred"],
                     "uptime": time.time() - conn["established_at"],
-                    "last_activity": conn["last_activity"]
+                    "last_activity": conn["last_activity"],
                 }
                 for node_id, conn in self.connections.items()
-            }
+            },
         }
 
 
@@ -359,7 +364,7 @@ class EfficientCommunicationFabric:
         self.router = MessageRouter()
         self.event_bus = EventBus()
         self.p2p_channel = P2PChannel(node_id)
-        self.message_cache: Dict[str, Message] = {}
+        self.message_cache: dict[str, Message] = {}
         self.energy_monitor = EnergyMonitor()
         self._total_messages = 0
 
@@ -375,9 +380,13 @@ class EfficientCommunicationFabric:
         """Stop the communication fabric"""
         await self.event_bus.stop()
 
-    async def send_message(self, destination: str, message_type: str,
-                          payload: Dict[str, Any],
-                          priority: MessagePriority = MessagePriority.NORMAL) -> bool:
+    async def send_message(
+        self,
+        destination: str,
+        message_type: str,
+        payload: dict[str, Any],
+        priority: MessagePriority = MessagePriority.NORMAL,
+    ) -> bool:
         """
         Send a message using the most efficient communication mode
         """
@@ -389,7 +398,7 @@ class EfficientCommunicationFabric:
             payload=payload,
             priority=priority,
             mode=CommunicationMode.EVENT_BUS,  # Will be optimized
-            timestamp=time.time()
+            timestamp=time.time(),
         )
 
         # Optimize communication mode
@@ -398,7 +407,9 @@ class EfficientCommunicationFabric:
 
         # Check energy budget
         if not self.router.can_afford_message(message):
-            logger.warning(f"Insufficient energy budget for message {message.message_id}")
+            logger.warning(
+                f"Insufficient energy budget for message {message.message_id}"
+            )
             return False
 
         # Route message based on selected mode
@@ -419,7 +430,7 @@ class EfficientCommunicationFabric:
             if isinstance(destination, list):
                 tasks = []
                 for dest in destination:
-                    msg_copy = Message(**{**asdict(message), 'destination': dest})
+                    msg_copy = Message(**{**asdict(message), "destination": dest})
                     tasks.append(self.kernel_bus.emit(msg_copy))
                 results = await asyncio.gather(*tasks, return_exceptions=True)
                 success = all(isinstance(r, bool) and r for r in results)
@@ -442,12 +453,13 @@ class EfficientCommunicationFabric:
         """Subscribe to specific event types"""
         self.kernel_bus.subscribe(event_type, handler)
 
-    async def establish_p2p_connection(self, remote_node: str,
-                                     connection_info: Dict[str, Any]) -> bool:
+    async def establish_p2p_connection(
+        self, remote_node: str, connection_info: dict[str, Any]
+    ) -> bool:
         """Establish P2P connection for efficient data transfer"""
         return await self.p2p_channel.establish_connection(remote_node, connection_info)
 
-    def get_communication_stats(self) -> Dict[str, Any]:
+    def get_communication_stats(self) -> dict[str, Any]:
         """Get comprehensive communication statistics"""
         return {
             "node_id": self.node_id,
@@ -457,21 +469,23 @@ class EfficientCommunicationFabric:
             "energy_stats": self.energy_monitor.get_stats(),
             "router_energy_used": self.router.energy_used,
             "router_energy_budget": self.router.energy_budget,
-            "cached_messages": len(self.message_cache)
+            "cached_messages": len(self.message_cache),
         }
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Alias for get_communication_stats for API compatibility"""
         return self.get_communication_stats()
 
-    async def send_large_data(self, recipient: str, data: bytes, chunk_size: int = 1024*1024) -> bool:
+    async def send_large_data(
+        self, recipient: str, data: bytes, chunk_size: int = 1024 * 1024
+    ) -> bool:
         """Send large data in chunks to prevent memory issues"""
         if len(data) <= chunk_size:
             # Small data, send normally
             return await self.send_message(recipient, "data_transfer", {"data": data})
 
         # Split into chunks
-        chunks = [data[i:i+chunk_size] for i in range(0, len(data), chunk_size)]
+        chunks = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
         chunk_id = str(uuid.uuid4())
 
         # Send metadata first
@@ -479,10 +493,12 @@ class EfficientCommunicationFabric:
             "type": "large_data_start",
             "chunk_id": chunk_id,
             "total_chunks": len(chunks),
-            "total_size": len(data)
+            "total_size": len(data),
         }
 
-        if not await self.send_message(recipient, "large_data_meta", metadata, MessagePriority.HIGH):
+        if not await self.send_message(
+            recipient, "large_data_meta", metadata, MessagePriority.HIGH
+        ):
             return False
 
         # Send chunks
@@ -491,19 +507,20 @@ class EfficientCommunicationFabric:
                 "type": "large_data_chunk",
                 "chunk_id": chunk_id,
                 "chunk_index": i,
-                "data": chunk
+                "data": chunk,
             }
 
-            if not await self.send_message(recipient, "large_data_chunk", chunk_msg, MessagePriority.HIGH):
+            if not await self.send_message(
+                recipient, "large_data_chunk", chunk_msg, MessagePriority.HIGH
+            ):
                 return False
 
         # Send completion message
-        completion = {
-            "type": "large_data_complete",
-            "chunk_id": chunk_id
-        }
+        completion = {"type": "large_data_complete", "chunk_id": chunk_id}
 
-        return await self.send_message(recipient, "large_data_complete", completion, MessagePriority.HIGH)
+        return await self.send_message(
+            recipient, "large_data_complete", completion, MessagePriority.HIGH
+        )
 
 
 class EnergyMonitor:
@@ -511,45 +528,48 @@ class EnergyMonitor:
 
     def __init__(self):
         self.total_energy_used = 0.0
-        self.energy_history: List[Dict[str, Any]] = []
+        self.energy_history: list[dict[str, Any]] = []
         self.efficiency_targets = {
             "max_energy_per_message": 1.0,
-            "max_hourly_consumption": 100.0
+            "max_hourly_consumption": 100.0,
         }
 
     def record_energy_usage(self, energy_cost: float):
         """Record energy usage for monitoring"""
         self.total_energy_used += energy_cost
-        self.energy_history.append({
-            "timestamp": time.time(),
-            "energy_cost": energy_cost,
-            "cumulative": self.total_energy_used
-        })
+        self.energy_history.append(
+            {
+                "timestamp": time.time(),
+                "energy_cost": energy_cost,
+                "cumulative": self.total_energy_used,
+            }
+        )
 
         # Keep only recent history (last 1000 entries)
         if len(self.energy_history) > 1000:
             self.energy_history.pop(0)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get energy consumption statistics"""
         if not self.energy_history:
             return {"total_energy": 0.0, "average_per_message": 0.0}
 
         recent_hour = time.time() - 3600
         recent_usage = [
-            entry["energy_cost"] for entry in self.energy_history
+            entry["energy_cost"]
+            for entry in self.energy_history
             if entry["timestamp"] > recent_hour
         ]
 
         return {
             "total_energy": self.total_energy_used,
             "average_per_message": (
-                sum(e["energy_cost"] for e in self.energy_history) /
-                len(self.energy_history)
+                sum(e["energy_cost"] for e in self.energy_history)
+                / len(self.energy_history)
             ),
             "hourly_usage": sum(recent_usage),
             "efficiency_score": self._calculate_efficiency_score(),
-            "message_count": len(self.energy_history)
+            "message_count": len(self.energy_history),
         }
 
     def _calculate_efficiency_score(self) -> float:
@@ -557,9 +577,8 @@ class EnergyMonitor:
         if not self.energy_history:
             return 100.0
 
-        avg_per_message = (
-            sum(e["energy_cost"] for e in self.energy_history) /
-            len(self.energy_history)
+        avg_per_message = sum(e["energy_cost"] for e in self.energy_history) / len(
+            self.energy_history
         )
 
         target = self.efficiency_targets["max_energy_per_message"]
@@ -572,7 +591,6 @@ async def demo_efficient_communication():
     """Demonstrate the efficient communication system with resource optimization"""
     # Import resource optimizer
     from core.interfaces.dependency_injection import get_service
-    from core.interfaces.core_interface import OptimizationStrategy
 
     # Get resource optimizer through dependency injection
     try:
@@ -605,16 +623,13 @@ async def demo_efficient_communication():
         "agent-002",
         "task_assignment",
         {"task_id": "small-task", "complexity": "low"},
-        MessagePriority.NORMAL
+        MessagePriority.NORMAL,
     )
 
     # 2. Large data transfer (would use P2P in real scenario)
     large_payload = {"data": "x" * 15000}  # Large payload
     await node1.send_message(
-        "agent-002",
-        "data_transfer",
-        large_payload,
-        MessagePriority.HIGH
+        "agent-002", "data_transfer", large_payload, MessagePriority.HIGH
     )
 
     # 3. Critical message
@@ -622,7 +637,7 @@ async def demo_efficient_communication():
         "agent-002",
         "emergency_shutdown",
         {"reason": "system_overload"},
-        MessagePriority.CRITICAL
+        MessagePriority.CRITICAL,
     )
 
     # Wait for message processing

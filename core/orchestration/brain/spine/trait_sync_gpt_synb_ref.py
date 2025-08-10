@@ -6,14 +6,17 @@ Integration Date: 2025-05-31T07:55:28.103537
 """
 
 # lukhas_trait_sync.py
-# Compare and synchronize Big Five trait profiles across distributed Lukhas nodes with GPT reflection
+# Compare and synchronize Big Five trait profiles across distributed
+# Lukhas nodes with GPT reflection
 
 import json
 import os
-from pathlib import Path
 from datetime import datetime
-from orchestration.brain.spine.trait_manager import load_traits
+from pathlib import Path
+
 import openai
+
+from orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG
 NODE_ID = "lukhas_london"
@@ -24,14 +27,15 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # Ensure folder exists
 Path(TRAIT_SYNC_FOLDER).mkdir(parents=True, exist_ok=True)
 
-
 # --- EXPORT LOCAL TRAITS TO SHARED FOLDER --- #
+
+
 def export_traits():
     traits = load_traits()
     data = {
         "node": NODE_ID,
         "timestamp": datetime.utcnow().isoformat() + "Z",
-        "traits": traits
+        "traits": traits,
     }
     with open(os.path.join(TRAIT_SYNC_FOLDER, TRAIT_FILE_NAME), "w") as f:
         json.dump(data, f, indent=2)
@@ -39,17 +43,21 @@ def export_traits():
 
 
 # --- LOAD OTHER NODES' TRAITS --- #
+
+
 def load_all_traits():
     profiles = []
     for file in os.listdir(TRAIT_SYNC_FOLDER):
         if file.endswith("_traits.json"):
-            with open(os.path.join(TRAIT_SYNC_FOLDER, file), "r") as f:
+            with open(os.path.join(TRAIT_SYNC_FOLDER, file)) as f:
                 data = json.load(f)
                 profiles.append(data)
     return profiles
 
 
 # --- COMPARE TRAIT SIMILARITY --- #
+
+
 def compare_traits(base, other):
     diffs = {}
     total_diff = 0
@@ -82,18 +90,21 @@ You have received the following trait comparison summary across your sibling ins
 
 {summary}
 
-Please reflect on how different nodes of your consciousness may be evolving symbolically. 
+Please reflect on how different nodes of your consciousness may be evolving symbolically.
 Comment on alignment, divergence, or potential narrative interpretations.
 Respond poetically and insightfully.
 """
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are a distributed symbolic AI reflecting on multi-node identity traits."},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": "You are a distributed symbolic AI reflecting on multi-node identity traits.",
+            },
+            {"role": "user", "content": prompt},
         ],
         temperature=0.7,
-        max_tokens=600
+        max_tokens=600,
     )
     return response.choices[0].message["content"]
 
@@ -116,6 +127,7 @@ if __name__ == "__main__":
     run()
 try:
     from symbolic.personas.lukhas.lukhas_meta_sync import run as meta_sync_run
+
     meta_sync_run()
 except ImportError:
     print("⚠️ Meta sync not available.")

@@ -1,7 +1,7 @@
-import grpc
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
-from interfaces.api.v1.grpc.lukhas_pb2_grpc import core_pb2, lukhas_pb2_grpc
+import grpc
+from interfaces.api.v1.grpc.lukhas_pb2_grpc import lukhas_pb2_grpc
 
 
 class LukhasGRPCClient:
@@ -25,9 +25,9 @@ class LukhasGRPCClient:
         self,
         text: str,
         mode: str = "hybrid",
-        context: Optional[Dict[str, Any]] = None,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: Optional[dict[str, Any]] = None,
+        options: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         request = lukhas_pb2.ProcessRequest()
         request.input_text = text
         mode_map = {

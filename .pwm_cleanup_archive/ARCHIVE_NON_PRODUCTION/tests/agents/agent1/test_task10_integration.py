@@ -11,18 +11,21 @@ Created: 2024
 """
 
 import asyncio
-import pytest
-import sys
 import os
-from unittest.mock import Mock, AsyncMock, patch, MagicMock
-from typing import Dict, Any, Optional
+import sys
+from unittest.mock import AsyncMock, Mock, patch
+
+import pytest
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 try:
+    from memory.emotional_memory_manager_unified import (
+        UnifiedEmotionalMemoryManager,
+    )
     from memory.memory_hub import MemoryHub
-    from memory.emotional_memory_manager_unified import UnifiedEmotionalMemoryManager
+
     MEMORY_HUB_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Could not import memory components: {e}")
@@ -57,18 +60,22 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager creation
             mock_manager = Mock()
             mock_manager.initialize = AsyncMock(return_value={"status": "initialized"})
 
-            with patch('memory.emotional_memory_manager_unified.UnifiedEmotionalMemoryManager',
-                      return_value=mock_manager):
+            with patch(
+                "memory.emotional_memory_manager_unified.UnifiedEmotionalMemoryManager",
+                return_value=mock_manager,
+            ):
                 await self.hub.initialize()
 
                 # Verify manager was registered as a service
                 registered_manager = self.hub.get_service("unified_emotional_manager")
-                assert registered_manager is not None, "Unified emotional manager should be registered"
+                assert (
+                    registered_manager is not None
+                ), "Unified emotional manager should be registered"
 
     @pytest.mark.asyncio
     async def test_store_emotional_memory_interface(self):
@@ -76,15 +83,17 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager
             mock_manager = Mock()
-            mock_manager.store = AsyncMock(return_value={
-                "status": "success",
-                "memory_id": "test_memory_123",
-                "emotional_tags": ["positive", "excited"],
-                "tier_level": "LAMBDA_TIER_2"
-            })
+            mock_manager.store = AsyncMock(
+                return_value={
+                    "status": "success",
+                    "memory_id": "test_memory_123",
+                    "emotional_tags": ["positive", "excited"],
+                    "tier_level": "LAMBDA_TIER_2",
+                }
+            )
 
             # Register the mock manager
             self.hub.register_service("unified_emotional_manager", mock_manager)
@@ -94,14 +103,16 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
                 user_id="user123",
                 memory_data={
                     "content": "Had a great day at work!",
-                    "emotional_context": {"valence": 0.8, "arousal": 0.6}
+                    "emotional_context": {"valence": 0.8, "arousal": 0.6},
                 },
                 memory_id="test_memory_123",
-                metadata={"source": "journal", "importance": 0.7}
+                metadata={"source": "journal", "importance": 0.7},
             )
 
             assert result["status"] == "success", "Store operation should succeed"
-            assert result["memory_id"] == "test_memory_123", "Should return correct memory ID"
+            assert (
+                result["memory_id"] == "test_memory_123"
+            ), "Should return correct memory ID"
             assert "emotional_tags" in result, "Should include emotional tags"
             mock_manager.store.assert_called_once()
 
@@ -111,21 +122,23 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager
             mock_manager = Mock()
-            mock_manager.retrieve = AsyncMock(return_value={
-                "status": "success",
-                "memory_data": {
-                    "content": "Had a great day at work!",
-                    "emotional_context": {"valence": 0.8, "arousal": 0.6}
-                },
-                "emotional_modulation": {
-                    "tier_filtered": True,
-                    "consent_validated": True,
-                    "emotional_enhancement": 0.1
+            mock_manager.retrieve = AsyncMock(
+                return_value={
+                    "status": "success",
+                    "memory_data": {
+                        "content": "Had a great day at work!",
+                        "emotional_context": {"valence": 0.8, "arousal": 0.6},
+                    },
+                    "emotional_modulation": {
+                        "tier_filtered": True,
+                        "consent_validated": True,
+                        "emotional_enhancement": 0.1,
+                    },
                 }
-            })
+            )
 
             # Register the mock manager
             self.hub.register_service("unified_emotional_manager", mock_manager)
@@ -134,12 +147,14 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
             result = await self.hub.retrieve_emotional_memory(
                 user_id="user123",
                 memory_id="test_memory_123",
-                context={"current_mood": {"valence": 0.6, "arousal": 0.4}}
+                context={"current_mood": {"valence": 0.6, "arousal": 0.4}},
             )
 
             assert result["status"] == "success", "Retrieve operation should succeed"
             assert "memory_data" in result, "Should return memory data"
-            assert "emotional_modulation" in result, "Should include emotional modulation"
+            assert (
+                "emotional_modulation" in result
+            ), "Should include emotional modulation"
             mock_manager.retrieve.assert_called_once()
 
     @pytest.mark.asyncio
@@ -148,21 +163,23 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager
             mock_manager = Mock()
-            mock_manager.analyze_emotional_patterns = AsyncMock(return_value={
-                "status": "success",
-                "patterns": {
-                    "daily_emotional_trend": {"morning": 0.7, "evening": 0.5},
-                    "emotional_volatility": 0.3,
-                    "dominant_emotions": ["joy", "excitement", "calm"]
-                },
-                "insights": [
-                    "User shows consistent positive emotional patterns",
-                    "Evening emotional dips suggest need for relaxation activities"
-                ]
-            })
+            mock_manager.analyze_emotional_patterns = AsyncMock(
+                return_value={
+                    "status": "success",
+                    "patterns": {
+                        "daily_emotional_trend": {"morning": 0.7, "evening": 0.5},
+                        "emotional_volatility": 0.3,
+                        "dominant_emotions": ["joy", "excitement", "calm"],
+                    },
+                    "insights": [
+                        "User shows consistent positive emotional patterns",
+                        "Evening emotional dips suggest need for relaxation activities",
+                    ],
+                }
+            )
 
             # Register the mock manager
             self.hub.register_service("unified_emotional_manager", mock_manager)
@@ -170,7 +187,7 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
             # Test analyzing emotional patterns
             result = await self.hub.analyze_emotional_patterns(
                 user_id="user123",
-                time_range={"start": "2024-01-01", "end": "2024-01-31"}
+                time_range={"start": "2024-01-01", "end": "2024-01-31"},
             )
 
             assert result["status"] == "success", "Pattern analysis should succeed"
@@ -184,16 +201,18 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager
             mock_manager = Mock()
-            mock_manager.modulate_emotional_state = AsyncMock(return_value={
-                "status": "success",
-                "original_state": {"valence": 0.3, "arousal": 0.8},
-                "target_state": {"valence": 0.6, "arousal": 0.5},
-                "modulated_state": {"valence": 0.55, "arousal": 0.55},
-                "modulation_applied": True
-            })
+            mock_manager.modulate_emotional_state = AsyncMock(
+                return_value={
+                    "status": "success",
+                    "original_state": {"valence": 0.3, "arousal": 0.8},
+                    "target_state": {"valence": 0.6, "arousal": 0.5},
+                    "modulated_state": {"valence": 0.55, "arousal": 0.55},
+                    "modulation_applied": True,
+                }
+            )
 
             # Register the mock manager
             self.hub.register_service("unified_emotional_manager", mock_manager)
@@ -202,12 +221,14 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
             result = await self.hub.modulate_emotional_state(
                 user_id="user123",
                 memory_id="test_memory_123",
-                target_state={"valence": 0.6, "arousal": 0.5}
+                target_state={"valence": 0.6, "arousal": 0.5},
             )
 
             assert result["status"] == "success", "Modulation should succeed"
             assert "modulated_state" in result, "Should return modulated state"
-            assert result["modulation_applied"] is True, "Should confirm modulation applied"
+            assert (
+                result["modulation_applied"] is True
+            ), "Should confirm modulation applied"
             mock_manager.modulate_emotional_state.assert_called_once()
 
     @pytest.mark.asyncio
@@ -216,7 +237,7 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Mock the manager with tier requirements
             mock_manager = Mock()
             mock_manager.tier_requirements = {
@@ -224,7 +245,7 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
                 "LAMBDA_TIER_2": ["emotional_tagging"],
                 "LAMBDA_TIER_3": ["pattern_analysis"],
                 "LAMBDA_TIER_4": ["state_modulation"],
-                "LAMBDA_TIER_5": ["quantum_enhancement"]
+                "LAMBDA_TIER_5": ["quantum_enhancement"],
             }
 
             # Register the mock manager
@@ -240,9 +261,16 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
             assert "tier_levels" in result, "Should list tier levels"
 
             # Verify tier levels are properly listed
-            expected_tiers = ["LAMBDA_TIER_1", "LAMBDA_TIER_2", "LAMBDA_TIER_3",
-                            "LAMBDA_TIER_4", "LAMBDA_TIER_5"]
-            assert result["tier_levels"] == expected_tiers, "Should list all tier levels"
+            expected_tiers = [
+                "LAMBDA_TIER_1",
+                "LAMBDA_TIER_2",
+                "LAMBDA_TIER_3",
+                "LAMBDA_TIER_4",
+                "LAMBDA_TIER_5",
+            ]
+            assert (
+                result["tier_levels"] == expected_tiers
+            ), "Should list all tier levels"
 
     @pytest.mark.asyncio
     async def test_error_handling_when_manager_unavailable(self):
@@ -250,33 +278,43 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', False):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", False):
             # Test all interface methods return proper errors
 
             # Test store method
             result = await self.hub.store_emotional_memory("user123", {"test": "data"})
             assert result["status"] == "error", "Should return error status"
-            assert "not configured" in result["error"], "Should indicate configuration issue"
+            assert (
+                "not configured" in result["error"]
+            ), "Should indicate configuration issue"
 
             # Test retrieve method
             result = await self.hub.retrieve_emotional_memory("user123", "memory123")
             assert result["status"] == "error", "Should return error status"
-            assert "not configured" in result["error"], "Should indicate configuration issue"
+            assert (
+                "not configured" in result["error"]
+            ), "Should indicate configuration issue"
 
             # Test analyze method
             result = await self.hub.analyze_emotional_patterns("user123")
             assert result["status"] == "error", "Should return error status"
-            assert "not configured" in result["error"], "Should indicate configuration issue"
+            assert (
+                "not configured" in result["error"]
+            ), "Should indicate configuration issue"
 
             # Test modulate method
             result = await self.hub.modulate_emotional_state("user123", "memory123", {})
             assert result["status"] == "error", "Should return error status"
-            assert "not configured" in result["error"], "Should indicate configuration issue"
+            assert (
+                "not configured" in result["error"]
+            ), "Should indicate configuration issue"
 
             # Test status method
             result = await self.hub.get_unified_emotional_manager_status()
             assert result["available"] is False, "Should indicate unavailable"
-            assert "not configured" in result["error"], "Should indicate configuration issue"
+            assert (
+                "not configured" in result["error"]
+            ), "Should indicate configuration issue"
 
     @pytest.mark.asyncio
     async def test_service_not_found_error_handling(self):
@@ -284,18 +322,22 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
         if not MEMORY_HUB_AVAILABLE:
             pytest.skip("Memory hub components not available")
 
-        with patch('memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE', True):
+        with patch("memory.memory_hub.UNIFIED_EMOTIONAL_MEMORY_AVAILABLE", True):
             # Don't register the service, so get_service returns None
 
             # Test store method
             result = await self.hub.store_emotional_memory("user123", {"test": "data"})
             assert result["status"] == "error", "Should return error status"
-            assert "Service not found" in result["error"], "Should indicate service not found"
+            assert (
+                "Service not found" in result["error"]
+            ), "Should indicate service not found"
 
             # Test retrieve method
             result = await self.hub.retrieve_emotional_memory("user123", "memory123")
             assert result["status"] == "error", "Should return error status"
-            assert "Service not found" in result["error"], "Should indicate service not found"
+            assert (
+                "Service not found" in result["error"]
+            ), "Should indicate service not found"
 
     def test_tier_based_access_requirements(self):
         """Test that tier-based access requirements are properly defined"""
@@ -308,12 +350,14 @@ class TestUnifiedEmotionalMemoryManagerIntegration:
             "LAMBDA_TIER_2",  # Emotional tagging and categorization
             "LAMBDA_TIER_3",  # Pattern analysis and insights
             "LAMBDA_TIER_4",  # Emotional state modulation
-            "LAMBDA_TIER_5"   # Quantum emotional enhancement
+            "LAMBDA_TIER_5",  # Quantum emotional enhancement
         ]
 
         # Verify tier structure is properly defined
         assert len(expected_tiers) == 5, "Should have 5 tier levels"
-        assert all("LAMBDA_TIER_" in tier for tier in expected_tiers), "All tiers should follow naming convention"
+        assert all(
+            "LAMBDA_TIER_" in tier for tier in expected_tiers
+        ), "All tiers should follow naming convention"
 
 
 def run_integration_tests():
@@ -328,7 +372,7 @@ def run_integration_tests():
 
     # Run the tests
     test_class = TestUnifiedEmotionalMemoryManagerIntegration()
-    test_methods = [method for method in dir(test_class) if method.startswith('test_')]
+    test_methods = [method for method in dir(test_class) if method.startswith("test_")]
 
     passed = 0
     failed = 0

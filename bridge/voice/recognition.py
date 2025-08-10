@@ -16,12 +16,11 @@
 """
 
 import asyncio
-import structlog
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Optional
 
 # Initialize structured logger
-from core.common import get_logger
+
 
 class VoiceRecognition:
     """
@@ -39,7 +38,7 @@ class VoiceRecognition:
     - Supports real-time streaming and batch processing modes
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.logger = logger
         self.is_initialized = False
@@ -67,7 +66,7 @@ class VoiceRecognition:
         # Placeholder for voice-specific setup
         await asyncio.sleep(0.1)  # Simulate async operation
 
-    async def process(self, data: Any) -> Dict:
+    async def process(self, data: Any) -> dict:
         """Process voice data"""
         if not self.is_initialized:
             await self.initialize()
@@ -81,7 +80,7 @@ class VoiceRecognition:
                 "component": self.__class__.__name__,
                 "category": "voice",
                 "result": result,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
         except Exception as e:
@@ -90,7 +89,7 @@ class VoiceRecognition:
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     async def _core_voice_processing(self, data: Any) -> Any:
@@ -98,7 +97,11 @@ class VoiceRecognition:
         # Implement specific voice processing
         # This is a placeholder that should be enhanced based on requirements
 
-        category = getattr(data, 'category', 'generic') if hasattr(data, 'category') else 'generic'
+        category = (
+            getattr(data, "category", "generic")
+            if hasattr(data, "category")
+            else "generic"
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -113,27 +116,27 @@ class VoiceRecognition:
         else:
             return await self._process_generic(data)
 
-    async def _process_consciousness(self, data: Any) -> Dict:
+    async def _process_consciousness(self, data: Any) -> dict:
         """Process consciousness-related data"""
         return {"consciousness_level": "active", "awareness": "enhanced"}
 
-    async def _process_governance(self, data: Any) -> Dict:
+    async def _process_governance(self, data: Any) -> dict:
         """Process governance-related data"""
         return {"policy_compliant": True, "ethics_check": "passed"}
 
-    async def _process_voice(self, data: Any) -> Dict:
+    async def _process_voice(self, data: Any) -> dict:
         """Process voice-related data"""
         return {"voice_processed": True, "audio_quality": "high"}
 
-    async def _process_identity(self, data: Any) -> Dict:
+    async def _process_identity(self, data: Any) -> dict:
         """Process identity-related data"""
         return {"identity_verified": True, "persona": "active"}
 
-    async def _process_quantum(self, data: Any) -> Dict:
+    async def _process_quantum(self, data: Any) -> dict:
         """Process quantum-related data"""
         return {"quantum_like_state": "entangled", "coherence": "stable"}
 
-    async def _process_generic(self, data: Any) -> Dict:
+    async def _process_generic(self, data: Any) -> dict:
         """Process generic data"""
         return {"processed": True, "data": data}
 
@@ -157,14 +160,14 @@ class VoiceRecognition:
         # Implement validation logic specific to voice
         return True
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get component status"""
         return {
             "component": self.__class__.__name__,
             "category": "voice",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
     async def shutdown(self):
@@ -173,17 +176,28 @@ class VoiceRecognition:
         self.status = "inactive"
         self.is_initialized = False
 
+
 # Factory function for easy instantiation
-def create_voice_recognition(config: Optional[Dict] = None) -> VoiceRecognition:
+
+
+def create_voice_recognition(
+    config: Optional[dict] = None,
+) -> VoiceRecognition:
     """Create and return a voice recognition instance"""
     return VoiceRecognition(config)
 
+
 # Async factory function
-async def create_and_initialize_voice_recognition(config: Optional[Dict] = None) -> VoiceRecognition:
+
+
+async def create_and_initialize_voice_recognition(
+    config: Optional[dict] = None,
+) -> VoiceRecognition:
     """Create, initialize and return a voice recognition instance"""
     component = VoiceRecognition(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     # Example usage
@@ -212,7 +226,6 @@ if __name__ == "__main__":
         await component.shutdown()
 
     asyncio.run(main())
-
 
 # ═══════════════════════════════════════════════════════════════════════════
 # 📚 USER GUIDE

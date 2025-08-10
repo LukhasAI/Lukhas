@@ -10,10 +10,10 @@ symbolic dream states. Useful for testing dream influence logic.
 
 from __future__ import annotations
 
-
 import random
+from collections.abc import Iterable
 from enum import Enum
-from typing import Dict, Iterable
+from typing import Dict
 
 
 class BrainwaveBand(Enum):

@@ -6,16 +6,16 @@ Integration Date: 2025-05-31T07:55:29.366776
 """
 
 import os
-from core.common import get_logger
-import aiohttp
-import asyncio
 import sys
-from typing import Dict, Any, Optional, List, Union, BinaryIO
-import base64
 from datetime import datetime
-import uuid
+from typing import Any, Optional
+
+import aiohttp
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
+
 
 class ElevenLabsClient:
     """
@@ -26,12 +26,20 @@ class ElevenLabsClient:
     def __init__(self, api_key: Optional[str] = None, voice_id: Optional[str] = None):
         self.api_key = api_key or os.environ.get("ELEVENLABS_API_KEY")
         if not self.api_key:
-            logger.warning("No ElevenLabs API key provided. Set ELEVENLABS_API_KEY environment variable or pass api_key parameter.")
+            logger.warning(
+                "No ElevenLabs API key provided. Set ELEVENLABS_API_KEY environment variable or pass api_key parameter."
+            )
 
         self.voice_id = voice_id or os.environ.get("VOICE_ID", "s0XGIcqmceN2l7kjsqoZ")
         self.api_base = "https://api.elevenlabs.io/v1"
         self.session = None
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+        BASE_DIR = os.path.dirname(
+            os.path.dirname(
+                os.path.dirname(
+                    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+                )
+            )
+        )
         self.audio_storage_path = os.path.join(BASE_DIR, "temp", "audio", "elevenlabs")
 
         # Create audio storage directory if it doesn't exist
@@ -41,10 +49,12 @@ class ElevenLabsClient:
     async def _ensure_session(self):
         """Ensure aiohttp session exists"""
         if self.session is None or self.session.closed:
-            self.session = aiohttp.ClientSession(headers={
-                "xi-api-key": self.api_key,
-                "Content-Type": "application/json"
-            })
+            self.session = aiohttp.ClientSession(
+                headers={
+                    "xi-api-key": self.api_key,
+                    "Content-Type": "application/json",
+                }
+            )
 
     async def text_to_speech(
         self,
@@ -54,8 +64,8 @@ class ElevenLabsClient:
         stability: float = 0.5,
         similarity_boost: float = 0.75,
         style: float = 0.0,
-        use_speaker_boost: bool = True
-    ) -> Dict[str, Any]:
+        use_speaker_boost: bool = True,
+    ) -> dict[str, Any]:
         """
         Convert text to speech using ElevenLabs API
 
@@ -86,8 +96,8 @@ class ElevenLabsClient:
                     "stability": stability,
                     "similarity_boost": similarity_boost,
                     "style": style,
-                    "use_speaker_boost": use_speaker_boost
-                }
+                    "use_speaker_boost": use_speaker_boost,
+                },
             }
 
             logger.info(f"Generating speech with ElevenLabs: {text[:50]}...")
@@ -96,10 +106,12 @@ class ElevenLabsClient:
             async with self.session.post(url, json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
+                    logger.error(
+                        f"ElevenLabs API error: {response.status} - {error_text}"
+                    )
                     return {
                         "error": f"API error: {response.status}",
-                        "audio_path": None
+                        "audio_path": None,
                     }
 
                 # Get audio content as binary
@@ -112,17 +124,14 @@ class ElevenLabsClient:
                     "audio_path": file_path,
                     "text": text,
                     "voice_id": voice_id,
-                    "timestamp": datetime.now().isoformat()
+                    "timestamp": datetime.now().isoformat(),
                 }
 
         except Exception as e:
             logger.error(f"Error generating speech: {str(e)}")
-            return {
-                "error": str(e),
-                "audio_path": None
-            }
+            return {"error": str(e), "audio_path": None}
 
-    async def get_voices(self) -> Dict[str, Any]:
+    async def get_voices(self) -> dict[str, Any]:
         """
         Get available voices from ElevenLabs API
 
@@ -139,7 +148,9 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
+                    logger.error(
+                        f"ElevenLabs API error: {response.status} - {error_text}"
+                    )
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
@@ -149,7 +160,7 @@ class ElevenLabsClient:
             logger.error(f"Error fetching voices: {str(e)}")
             return {"error": str(e)}
 
-    async def get_user_info(self) -> Dict[str, Any]:
+    async def get_user_info(self) -> dict[str, Any]:
         """
         Get user information and subscription details
 
@@ -166,7 +177,9 @@ class ElevenLabsClient:
             async with self.session.get(url) as response:
                 if response.status != 200:
                     error_text = await response.text()
-                    logger.error(f"ElevenLabs API error: {response.status} - {error_text}")
+                    logger.error(
+                        f"ElevenLabs API error: {response.status} - {error_text}"
+                    )
                     return {"error": f"API error: {response.status}"}
 
                 data = await response.json()
@@ -210,8 +223,8 @@ class ElevenLabsClient:
         text: str,
         voice_id: Optional[str] = None,
         stability: float = 0.5,
-        similarity_boost: float = 0.75
-    ) -> Dict[str, Any]:
+        similarity_boost: float = 0.75,
+    ) -> dict[str, Any]:
         """
         Generate speech and play it (for desktop environments)
 
@@ -228,7 +241,7 @@ class ElevenLabsClient:
             text,
             voice_id=voice_id,
             stability=stability,
-            similarity_boost=similarity_boost
+            similarity_boost=similarity_boost,
         )
 
         if "error" in result:
@@ -246,14 +259,21 @@ class ElevenLabsClient:
                     played = os.system(f"start {audio_path}") == 0
                 else:  # Linux and other platforms
                     # Try multiple players
-                    if os.system(f"aplay {audio_path}") == 0:
-                        played = True
-                    elif os.system(f"mpg123 {audio_path}") == 0:
-                        played = True
-                    elif os.system(f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1") == 0:
+                    if (
+                        os.system(f"aplay {audio_path}") == 0
+                        or os.system(f"mpg123 {audio_path}") == 0
+                        or (
+                            os.system(
+                                f"ffplay -nodisp -autoexit {audio_path} > /dev/null 2>&1"
+                            )
+                            == 0
+                        )
+                    ):
                         played = True
                     else:
-                        logger.warning(f"Could not find a suitable audio player for Linux")
+                        logger.warning(
+                            "Could not find a suitable audio player for Linux"
+                        )
 
                 result["played"] = played
             except Exception as e:

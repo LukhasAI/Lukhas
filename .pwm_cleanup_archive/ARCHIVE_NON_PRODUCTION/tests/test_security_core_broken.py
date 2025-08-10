@@ -1,9 +1,16 @@
 """Tests for lukhas.ethics.security"""
+
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 try:
-    from ethics.security import SecurityEngine, SafetyValidator, ThreatDetector, SecurityConfig
+    from ethics.security import (
+        SafetyValidator,
+        SecurityConfig,
+        SecurityEngine,
+        ThreatDetector,
+    )
+
     SECURITY_AVAILABLE = True
 except ImportError:
     SECURITY_AVAILABLE = False
@@ -70,6 +77,7 @@ class TestSecurity(unittest.TestCase):
         # Test error handling
         with self.assertRaises(TypeError):
             int("not a number")
+
 
 if __name__ == "__main__":
     unittest.main()

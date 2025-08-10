@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: stream_handler.py
 Advanced: stream_handler.py
@@ -21,19 +20,22 @@ Handles voice input stream processing with symbolic pattern recognition.
 import logging
 import queue
 import threading
-from typing import Optional, Dict, Any
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any, Optional
 
 logger = logging.getLogger("symbolic_stream")
+
 
 @dataclass
 class SymbolicPattern:
     """Represents a recognized symbolic pattern in the voice stream"""
+
     symbol: str
     confidence: float
     timestamp: datetime
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
+
 
 class SymbolicStreamHandler:
     """
@@ -54,10 +56,7 @@ class SymbolicStreamHandler:
             return
 
         self.is_listening = True
-        self.current_thread = threading.Thread(
-            target=self._process_stream,
-            daemon=True
-        )
+        self.current_thread = threading.Thread(target=self._process_stream, daemon=True)
         self.current_thread.start()
         logger.info("Started symbolic stream")
 

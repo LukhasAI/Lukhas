@@ -7,16 +7,19 @@ vivox.encrypted_perception.anomaly_detection <-> vivox.encrypted_perception.vivo
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional, List, Tuple
 from enum import Enum
+from typing import Any, Optional
+
 import numpy as np
+
 from core.common import GLYPHToken
 
 
 class EthicalSignificance(Enum):
     """Ethical significance levels"""
+
     NEUTRAL = "neutral"
-    LOW = "low" 
+    LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
@@ -24,14 +27,16 @@ class EthicalSignificance(Enum):
 
 class PerceptualVector:
     """Shared perceptual vector class"""
-    def __init__(self, data: np.ndarray, metadata: Dict[str, Any] = None):
+
+    def __init__(self, data: np.ndarray, metadata: dict[str, Any] = None):
         self.data = data
         self.metadata = metadata or {}
-        self.timestamp = metadata.get('timestamp') if metadata else None
-        
+        self.timestamp = metadata.get("timestamp") if metadata else None
+
 
 class AnomalySignature:
     """Shared anomaly signature class"""
+
     def __init__(self, signature_id: str, vector: PerceptualVector, severity: float):
         self.signature_id = signature_id
         self.vector = vector
@@ -41,59 +46,54 @@ class AnomalySignature:
 
 class Encrypted_PerceptionInterface(ABC):
     """Abstract interface for encrypted_perception modules"""
-    
+
     @abstractmethod
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the module"""
-        pass
-        
+
     @abstractmethod
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
         """Handle GLYPH token"""
-        pass
-        
+
     @abstractmethod
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get module status"""
-        pass
 
 
 class AnomalyDetectorInterface(ABC):
     """Interface for anomaly detection"""
-    
+
     @abstractmethod
-    async def detect_anomalies(self, vectors: List[PerceptualVector]) -> List[AnomalySignature]:
+    async def detect_anomalies(
+        self, vectors: list[PerceptualVector]
+    ) -> list[AnomalySignature]:
         """Detect anomalies in perceptual vectors"""
-        pass
-    
+
     @abstractmethod
-    async def update_signatures(self, new_signatures: List[AnomalySignature]) -> None:
+    async def update_signatures(self, new_signatures: list[AnomalySignature]) -> None:
         """Update anomaly signatures"""
-        pass
 
 
 class EVRNCoreInterface(ABC):
     """Interface for EVRN core functionality"""
-    
+
     @abstractmethod
     async def process_perceptual_input(self, input_data: Any) -> PerceptualVector:
         """Process raw input into perceptual vector"""
-        pass
-    
+
     @abstractmethod
     async def encrypt_perception(self, vector: PerceptualVector) -> bytes:
         """Encrypt perceptual vector"""
-        pass
 
 
 # Module registry for dependency injection
-_module_registry: Dict[str, Encrypted_PerceptionInterface] = {}
+_module_registry: dict[str, Encrypted_PerceptionInterface] = {}
 
 
 def register_module(name: str, module: Encrypted_PerceptionInterface) -> None:
     """Register module implementation"""
     _module_registry[name] = module
-    
+
 
 def get_module(name: str) -> Optional[Encrypted_PerceptionInterface]:
     """Get registered module"""

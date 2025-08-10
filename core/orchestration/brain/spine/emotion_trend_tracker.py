@@ -5,24 +5,25 @@ Advanced: emotion_trend_tracker.py
 Integration Date: 2025-05-31T07:55:28.100778
 """
 
-from collections import defaultdict
 import json
+from collections import defaultdict
+
 
 def analyze_emotion_trends():
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("📊 LUCΛS :: EMOTION TREND TRACKER")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-    
+
     tag_counter = defaultdict(int)
     emoji_counter = defaultdict(int)
 
-    with open('dream_log.jsonl', 'r') as file:
+    with open("dream_log.jsonl") as file:
         for line in file:
             entry = json.loads(line)
             tags = entry.get("tags", [])
             for tag in tags:
                 tag_counter[tag] += 1
-            
+
             emoji = entry.get("emoji")
             if emoji:
                 emoji_counter[emoji] += 1
@@ -30,7 +31,7 @@ def analyze_emotion_trends():
     print("Emotion Trends:")
     for tag, count in tag_counter.items():
         print(f"  • {tag}: {count}")
-    
+
     print("\n🖼️  Symbolic Emoji Reactions (Dream Log)")
     sorted_emojis = sorted(emoji_counter.items(), key=lambda x: x[1], reverse=True)
     for emj, count in sorted_emojis:
@@ -43,7 +44,7 @@ def analyze_emotion_trends():
 
     print("\n⚖️  Joy–Stress Ratio (symbolic mood balance):")
     total_joy = total_stress = 0
-    with open('dream_log.jsonl', 'r') as file:
+    with open("dream_log.jsonl") as file:
         for line in file:
             entry = json.loads(line)
             vector = entry.get("emotion_vector", {})

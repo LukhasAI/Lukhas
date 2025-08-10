@@ -41,6 +41,73 @@ jobs:
           name: smoke-results
           path: out/smoke.json
 
+      - name: Export OpenAPI (local uvicorn)
+        run: |
+          uvicorn lukhas_pwm.api.app:app --port 8000 & echo $! > .pid
+          sleep 2
+          curl -s http://127.0.0.1:8000/openapi.json -o out/openapi.json
+          kill $(cat .pid)
+
+      - name: Start API for k6
+        env:
+          FLAG_OPS_PERF_INGEST: 'true'
+          LUKHAS_API_KEY: ${{ secrets.LUKHAS_API_KEY }}
+        run: |
+          uvicorn lukhas_pwm.api.app:app --port 8000 & echo $! > .apid
+          sleep 2
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: k6 performance smoke
+        env:
+          BASE_URL: http://127.0.0.1:8000
+          SUMMARY_JSON: out/k6_summary.json
+        run: |
+          mkdir -p out
+          k6 run perf/k6_smoke.js
+
+      - name: Push k6 p95 to API (optional)
+        env:
+          LUKHAS_API_KEY: ${{ secrets.LUKHAS_API_KEY }}
+        run: |
+          # Ingest summary to local API for Admin sparkline trends if key is provided
+          if [ -n "$LUKHAS_API_KEY" ] && [ -f out/k6_summary.json ]; then
+            curl -s -H "x-api-key: $LUKHAS_API_KEY" \
+                 -H "content-type: application/json" \
+                 -X POST http://127.0.0.1:8000/ops/perf/k6 \
+                 --data-binary @out/k6_summary.json | tee out/k6_ingest_result.json
+          else
+            echo "Skipping ingestion (no API key or no k6_summary.json)"
+          fi
+
+      - name: Stop API (k6)
+        if: always()
+        run: |
+          kill $(cat .apid) || true
+          rm -f .apid
+
+      - name: Upload k6 summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary
+          path: out/k6_summary.json
+
+      - name: Upload k6 ingest result (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-ingest-result
+          path: out/k6_ingest_result.json
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lukhas-openapi-and-smoke
+          path: |
+            out/openapi.json
+            out/smoke.json
+
       - name: Enforce thresholds (gate)
         run: |
           echo "-- Raw results --"
@@ -76,6 +143,17 @@ jobs:
           echo "- feedback_health_ms: $(jq -r '.timings.feedback_health_ms' out/smoke.json) (<= 50)" >> $GITHUB_STEP_SUMMARY
           echo "- offline_governance.incidents: $(jq -r '.offline_governance.incidents' out/smoke.json) (== 1)" >> $GITHUB_STEP_SUMMARY
           echo "- offline_governance.tightened: $(jq -r '.offline_governance.tightened' out/smoke.json) (== true)" >> $GITHUB_STEP_SUMMARY
+          if [ -f out/k6_summary.json ]; then \
+            echo "\n### k6 Performance Smoke" >> $GITHUB_STEP_SUMMARY; \
+            HEALTH=$(jq -r '.metrics["http_req_duration{endpoint:health}"].values["p(95)"]' out/k6_summary.json 2>/dev/null || echo "n/a"); \
+            TOOLS=$(jq -r '.metrics["http_req_duration{endpoint:tools}"].values["p(95)"]' out/k6_summary.json 2>/dev/null || echo "n/a"); \
+            OPENAPI=$(jq -r '.metrics["http_req_duration{endpoint:openapi}"].values["p(95)"]' out/k6_summary.json 2>/dev/null || echo "n/a"); \
+            echo "| Endpoint | p95 (ms) |" >> $GITHUB_STEP_SUMMARY; \
+            echo "|---|---|" >> $GITHUB_STEP_SUMMARY; \
+            echo "| /feedback/health | $HEALTH |" >> $GITHUB_STEP_SUMMARY; \
+            echo "| /tools/registry  | $TOOLS  |" >> $GITHUB_STEP_SUMMARY; \
+            echo "| /openapi.json    | $OPENAPI |" >> $GITHUB_STEP_SUMMARY; \
+          fi
 
       - name: Sticky PR comment (optional)
         if: github.event_name == 'pull_request'

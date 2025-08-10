@@ -3,10 +3,11 @@ Documentation Version Control System for DocuTutor.
 Handles versioning, change tracking, and evolution of documentation.
 """
 
-from typing import Dict, List, Optional
-import time
 import hashlib
 import json
+import time
+from typing import Dict, List, Optional
+
 
 class DocVersion:
     def __init__(self, content: str, metadata: Dict):
@@ -19,6 +20,7 @@ class DocVersion:
         """Generate a unique hash for this version."""
         content_str = f"{self.content}{json.dumps(self.metadata)}{self.timestamp}"
         return hashlib.sha256(content_str.encode()).hexdigest()
+
 
 class VersionHistory:
     def __init__(self):
@@ -40,12 +42,13 @@ class VersionHistory:
         """List all versions with their metadata."""
         return [
             {
-                'version_hash': v.version_hash,
-                'timestamp': v.timestamp,
-                'metadata': v.metadata
+                "version_hash": v.version_hash,
+                "timestamp": v.timestamp,
+                "metadata": v.metadata,
             }
             for v in self.versions
         ]
+
 
 class DocumentVersionControl:
     def __init__(self):
@@ -69,7 +72,9 @@ class DocumentVersionControl:
             raise KeyError(f"Document {doc_id} does not exist")
         return self.documents[doc_id].list_versions()
 
-    def get_document_version(self, doc_id: str, version_hash: str) -> Optional[DocVersion]:
+    def get_document_version(
+        self, doc_id: str, version_hash: str
+    ) -> Optional[DocVersion]:
         """Get a specific version of a document."""
         if doc_id not in self.documents:
             raise KeyError(f"Document {doc_id} does not exist")

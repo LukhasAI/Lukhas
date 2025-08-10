@@ -5,22 +5,25 @@
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import pytest
 
 from core.monitoring.collapse_integration import (
-    integrate_collapse_tracking,
     CollapseIntegration,
+    integrate_collapse_tracking,
 )
+
 
 class DummyOrchestrator:
     async def run(self):
         pass
+
     async def get_component_health(self):
         return {}
 
+
 class DummyEthics:
     pass
+
 
 @pytest.mark.asyncio
 async def test_integrate_returns_instance():

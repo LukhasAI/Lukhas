@@ -12,7 +12,9 @@ class ComplianceMonitor:
         self.drift_score += drift_increment * 0.1  # Drift accumulates slowly
 
         # Log decision
-        print(f"Decision compliance: {decision_compliance:.2f}, Drift increment: {drift_increment:.2f}")
+        print(
+            f"Decision compliance: {decision_compliance:.2f}, Drift increment: {drift_increment:.2f}"
+        )
         print(f"Updated drift score: {self.drift_score:.2f}")
         self.log_drift_event(decision_compliance, drift_increment)
 
@@ -31,21 +33,20 @@ class ComplianceMonitor:
     def escalate_to_human(self):
         print("🚨 Critical drift detected! Escalating to human oversight.")
 
-
     def log_drift_event(self, decision_compliance, drift_increment):
         """
         Logs drift events to the compliance log file.
         """
         import json
-        from pathlib import Path
         from datetime import datetime
+        from pathlib import Path
 
         log_path = Path("../../logs/compliance/compliance_log_2025_04_28.json")
         event = {
             "timestamp": datetime.utcnow().isoformat(),
             "decision_compliance": decision_compliance,
             "drift_increment": drift_increment,
-            "cumulative_drift_score": self.drift_score
+            "cumulative_drift_score": self.drift_score,
         }
 
         # Append to log file

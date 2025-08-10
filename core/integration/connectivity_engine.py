@@ -16,9 +16,10 @@ This component handles integration functionality in the AI consciousness computi
 """
 
 import asyncio
-import structlog # Changed from logging
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Optional
+
+import structlog  # Changed from logging
 
 # Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine")
@@ -27,6 +28,8 @@ logger = structlog.get_logger("ΛTRACE.core.integration.ConnectivityEngine")
 # AINTEROP: Facilitates interaction between different LUKHAS components.
 # ΛBRIDGE: Connects various systems for unified operation.
 # ConnectivityEngine class for system integration.
+
+
 class ConnectivityEngine:
     """
     Integration component for the LUKHAS AGI system.
@@ -37,12 +40,17 @@ class ConnectivityEngine:
     #ΛNOTE: Current processing logic within this engine is largely placeholder.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.logger = logger.bind(engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}")
+        self.logger = logger.bind(
+            engine_id=f"conn_eng_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        )
         self.is_initialized = False
         self.status = "inactive"
-        self.logger.info("ConnectivityEngine instance created.", config_keys=list(self.config.keys()))
+        self.logger.info(
+            "ConnectivityEngine instance created.",
+            config_keys=list(self.config.keys()),
+        )
 
     async def initialize(self) -> bool:
         """Initialize the integration component"""
@@ -56,7 +64,11 @@ class ConnectivityEngine:
             # ΛPHASE_NODE: Initialization Success
             return True
         except Exception as e:
-            self.logger.error(f"Failed to initialize {self.__class__.__name__}", error=str(e), exc_info=True)
+            self.logger.error(
+                f"Failed to initialize {self.__class__.__name__}",
+                error=str(e),
+                exc_info=True,
+            )
             # ΛPHASE_NODE: Initialization Failure
             return False
 
@@ -67,14 +79,20 @@ class ConnectivityEngine:
         await asyncio.sleep(0.1)  # Simulate async operation
         self.logger.debug("Core integration system setup complete (simulated).")
 
-    async def process(self, data: Any, category: Optional[str] = None) -> Dict[str, Any]: # Added category parameter
+    async def process(
+        self, data: Any, category: Optional[str] = None
+    ) -> dict[str, Any]:  # Added category parameter
         """
         Process integration data.
         #ΛNOTE: The 'category' parameter has been added to make `_core_integration_processing` functional.
         #       Its value should be determined by the caller or a preceding dispatcher.
         """
         # ΛPHASE_NODE: Data Processing Start
-        self.logger.info("Processing data via ConnectivityEngine.", data_type=type(data).__name__, category=category)
+        self.logger.info(
+            "Processing data via ConnectivityEngine.",
+            data_type=type(data).__name__,
+            category=category,
+        )
         if not self.is_initialized:
             self.logger.info("Engine not initialized, attempting to initialize now.")
             await self.initialize()
@@ -84,36 +102,56 @@ class ConnectivityEngine:
                 return {"status": "error", "error": "Engine not initialized"}
 
         try:
-            result = await self._core_integration_processing(data, category) # Pass category
+            result = await self._core_integration_processing(
+                data, category
+            )  # Pass category
 
             response = {
                 "status": "success",
                 "component": self.__class__.__name__,
                 "category_processed": category or "generic",
-                "result_summary": {k:type(v).__name__ for k,v in result.items()} if isinstance(result, dict) else type(result).__name__,
-                "timestamp": datetime.now().isoformat()
+                "result_summary": (
+                    {k: type(v).__name__ for k, v in result.items()}
+                    if isinstance(result, dict)
+                    else type(result).__name__
+                ),
+                "timestamp": datetime.now().isoformat(),
             }
-            self.logger.info("Data processing successful.", response_status=response["status"])
+            self.logger.info(
+                "Data processing successful.",
+                response_status=response["status"],
+            )
             # ΛPHASE_NODE: Data Processing Success
             return response
 
         except Exception as e:
-            self.logger.error("Integration processing error", error=str(e), data_preview=str(data)[:100], exc_info=True)
+            self.logger.error(
+                "Integration processing error",
+                error=str(e),
+                data_preview=str(data)[:100],
+                exc_info=True,
+            )
             # ΛPHASE_NODE: Data Processing Error
             return {
                 "status": "error",
                 "component": self.__class__.__name__,
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
-    async def _core_integration_processing(self, data: Any, category: Optional[str] = None) -> Any: # Added category
+    async def _core_integration_processing(
+        self, data: Any, category: Optional[str] = None
+    ) -> Any:  # Added category
         """
         Core integration processing logic.
         #ΛNOTE: This method contains placeholder routing based on 'category'.
         #       Actual processing logic needs to be implemented for each category.
         """
-        self.logger.debug("Core integration processing started.", data_type=type(data).__name__, category=category)
+        self.logger.debug(
+            "Core integration processing started.",
+            data_type=type(data).__name__,
+            category=category,
+        )
         # ΛCAUTION: The 'category' variable was used here without being defined in the original code.
         # It's now passed as a parameter. Ensure calling code provides it.
         if category == "consciousness":
@@ -127,36 +165,39 @@ class ConnectivityEngine:
         elif category == "quantum":
             return await self._process_quantum(data)
         else:
-            self.logger.debug("Processing as generic data due to unspecified or unknown category.", category=category)
+            self.logger.debug(
+                "Processing as generic data due to unspecified or unknown category.",
+                category=category,
+            )
             return await self._process_generic(data)
 
-    async def _process_consciousness(self, data: Any) -> Dict[str, str]:
+    async def _process_consciousness(self, data: Any) -> dict[str, str]:
         """Process consciousness-related data"""
         self.logger.debug("Processing consciousness data (placeholder).")
         return {"consciousness_level": "active", "awareness": "enhanced"}
 
-    async def _process_governance(self, data: Any) -> Dict[str, Any]:
+    async def _process_governance(self, data: Any) -> dict[str, Any]:
         """Process governance-related data"""
         self.logger.debug("Processing governance data (placeholder).")
         return {"policy_compliant": True, "ethics_check": "passed"}
 
-    async def _process_voice(self, data: Any) -> Dict[str, Any]:
+    async def _process_voice(self, data: Any) -> dict[str, Any]:
         """Process voice-related data"""
         self.logger.debug("Processing voice data (placeholder).")
         return {"voice_processed": True, "audio_quality": "high"}
 
-    async def _process_identity(self, data: Any) -> Dict[str, Any]:
+    async def _process_identity(self, data: Any) -> dict[str, Any]:
         """Process identity-related data"""
-        #AIDENTITY: Placeholder for identity processing logic.
+        # AIDENTITY: Placeholder for identity processing logic.
         self.logger.debug("Processing identity data (placeholder).")
         return {"identity_verified": True, "persona": "active"}
 
-    async def _process_quantum(self, data: Any) -> Dict[str, str]:
+    async def _process_quantum(self, data: Any) -> dict[str, str]:
         """Process quantum-related data"""
         self.logger.debug("Processing quantum data (placeholder).")
         return {"quantum_like_state": "entangled", "coherence": "stable"}
 
-    async def _process_generic(self, data: Any) -> Dict[str, Any]:
+    async def _process_generic(self, data: Any) -> dict[str, Any]:
         """Process generic data"""
         self.logger.debug("Processing generic data (placeholder).")
         return {"processed": True, "data_type": type(data).__name__}
@@ -176,7 +217,11 @@ class ConnectivityEngine:
             return validation_result
 
         except Exception as e:
-            self.logger.error("Validation failed with exception.", error=str(e), exc_info=True)
+            self.logger.error(
+                "Validation failed with exception.",
+                error=str(e),
+                exc_info=True,
+            )
             # ΛPHASE_NODE: Validation Error
             return False
 
@@ -184,9 +229,9 @@ class ConnectivityEngine:
         """Perform component-specific validation"""
         # ΛNOTE: Placeholder for component-specific validation logic.
         self.logger.debug("Performing internal validation checks (placeholder).")
-        return True # Assume valid for placeholder
+        return True  # Assume valid for placeholder
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get component status"""
         self.logger.debug(f"Fetching status for {self.__class__.__name__}.")
         status_data = {
@@ -194,9 +239,13 @@ class ConnectivityEngine:
             "category": "integration",
             "status": self.status,
             "initialized": self.is_initialized,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
-        self.logger.info("Component status retrieved.", component_status=self.status, initialized=self.is_initialized)
+        self.logger.info(
+            "Component status retrieved.",
+            component_status=self.status,
+            initialized=self.is_initialized,
+        )
         return status_data
 
     async def shutdown(self):
@@ -209,25 +258,37 @@ class ConnectivityEngine:
         self.logger.info(f"{self.__class__.__name__} shutdown complete.")
         # ΛPHASE_NODE: Shutdown End
 
+
 # Factory function for easy instantiation
 # ΛEXPOSE
-def create_integration_component(config: Optional[Dict[str, Any]] = None) -> ConnectivityEngine:
+
+
+def create_integration_component(
+    config: Optional[dict[str, Any]] = None,
+) -> ConnectivityEngine:
     """Create and return a ConnectivityEngine component instance"""
     logger.debug("Factory function 'create_integration_component' called.")
     return ConnectivityEngine(config)
 
+
 # Async factory function
 # ΛEXPOSE
-async def create_and_initialize_integration_component(config: Optional[Dict[str, Any]] = None) -> ConnectivityEngine:
+
+
+async def create_and_initialize_integration_component(
+    config: Optional[dict[str, Any]] = None,
+) -> ConnectivityEngine:
     """Create, initialize and return a ConnectivityEngine component instance"""
     logger.debug("Async factory 'create_and_initialize_integration_component' called.")
     component = ConnectivityEngine(config)
     await component.initialize()
     return component
 
+
 if __name__ == "__main__":
     # ΛNOTE: The __main__ block demonstrates example usage of the ConnectivityEngine.
-    # Configure structlog for standalone execution if not already configured by an import
+    # Configure structlog for standalone execution if not already configured
+    # by an import
     if not structlog.is_configured():
         structlog.configure(
             processors=[
@@ -248,7 +309,7 @@ if __name__ == "__main__":
         # ΛPHASE_NODE: Standalone Demo Start
 
         # Use the corrected factory function name
-        component = ConnectivityEngine() # Using default config
+        component = ConnectivityEngine()  # Using default config
 
         logger.info("Initializing component...")
         success = await component.initialize()
@@ -258,7 +319,9 @@ if __name__ == "__main__":
         if success:
             logger.info("Processing test data...")
             # Pass category for processing
-            result = await component.process({"test_data_key": "test_data_value"}, category="consciousness")
+            result = await component.process(
+                {"test_data_key": "test_data_value"}, category="consciousness"
+            )
             print(f"Processing result: {result}")
             logger.info("Test data processed.", result_status=result.get("status"))
 
@@ -270,7 +333,10 @@ if __name__ == "__main__":
             logger.info("Getting component status...")
             status = component.get_status()
             print(f"Status: {status}")
-            logger.info("Component status retrieved.", current_status=status.get("status"))
+            logger.info(
+                "Component status retrieved.",
+                current_status=status.get("status"),
+            )
 
         logger.info("Shutting down component...")
         await component.shutdown()

@@ -20,27 +20,44 @@ Usage:
     python core/modules/nias/feedback_insight_cli.py
 """
 
+import argparse
 import json
 import os
-import argparse
-from collections import Counter, defaultdict
+from collections import Counter
 from statistics import mean
 
 FEEDBACK_LOG = "core/logs/feedback_log.jsonl"
+
 
 def load_feedback():
     if not os.path.exists(FEEDBACK_LOG):
         print(" No feedback log found.")
         return []
-    with open(FEEDBACK_LOG, "r") as f:
+    with open(FEEDBACK_LOG) as f:
         return [json.loads(line) for line in f if line.strip()]
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Symbolic Feedback CLI Insights")
-    parser.add_argument("--voice-flagged", action="store_true", help="Only show feedback with 'suggest_voice': true")
-    parser.add_argument("--score-threshold", type=float, default=None, help="Filter feedback with score <= threshold")
-    parser.add_argument("--export", type=str, default=None, help="Optional path to export filtered feedback as .jsonl")
+    parser.add_argument(
+        "--voice-flagged",
+        action="store_true",
+        help="Only show feedback with 'suggest_voice': true",
+    )
+    parser.add_argument(
+        "--score-threshold",
+        type=float,
+        default=None,
+        help="Filter feedback with score <= threshold",
+    )
+    parser.add_argument(
+        "--export",
+        type=str,
+        default=None,
+        help="Optional path to export filtered feedback as .jsonl",
+    )
     return parser.parse_args()
+
 
 def analyze_feedback(entries, args=None):
     if not entries:
@@ -51,7 +68,9 @@ def analyze_feedback(entries, args=None):
         if args.voice_flagged:
             entries = [e for e in entries if e.get("suggest_voice")]
         if args.score_threshold is not None:
-            entries = [e for e in entries if e.get("score", 999) <= args.score_threshold]
+            entries = [
+                e for e in entries if e.get("score", 999) <= args.score_threshold
+            ]
 
     scores = [e["score"] for e in entries if "score" in e]
     emojis = [e.get("emoji", "*") for e in entries]
@@ -71,6 +90,7 @@ def analyze_feedback(entries, args=None):
             for entry in entries:
                 f.write(json.dumps(entry) + "\n")
         print(f"\n Exported {len(entries)} entries to {args.export}")
+
 
 if __name__ == "__main__":
     args = parse_args()

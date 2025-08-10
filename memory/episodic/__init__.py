@@ -9,6 +9,7 @@ logger = get_logger(__name__)
 
 try:
     from .recaller import Recaller
+
     logger.debug("Imported Recaller from .recaller")
 except ImportError as e:
     logger.warning(f"Could not import Recaller: {e}")
@@ -16,14 +17,15 @@ except ImportError as e:
 
 try:
     from .drift_tracker import DriftTracker
+
     logger.debug("Imported DriftTracker from .drift_tracker")
 except ImportError as e:
     logger.warning(f"Could not import DriftTracker: {e}")
     DriftTracker = None
 
 __all__ = [
-    'Recaller',
-    'DriftTracker',
+    "Recaller",
+    "DriftTracker",
 ]
 
 # Filter out None values from __all__ if imports failed

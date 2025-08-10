@@ -6,31 +6,31 @@ permission resolution using distributed tag consensus.
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, List, Optional, Set, Tuple
+import logging
+from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Any, Optional
+
 import networkx as nx
-import numpy as np
-from collections import defaultdict
 
 # Import tagging infrastructure
-from core.tagging_system import TagManager, Tag, TagType
-from core.event_bus import get_global_event_bus
+from core.tagging_system import Tag, TagManager, TagType
 
 # Import identity components
 from identity.core.events import (
-    IdentityEventPublisher, IdentityEventType,
-    get_identity_event_publisher
+    IdentityEventPublisher,
+    IdentityEventType,
+    get_identity_event_publisher,
 )
-from identity.core.tier import TierLevel
 
-logger = logging.getLogger('LUKHAS_IDENTITY_TAG_RESOLVER')
+logger = logging.getLogger("LUKHAS_IDENTITY_TAG_RESOLVER")
 
 
 class TrustLevel(Enum):
     """Trust levels between identities."""
+
     NONE = 0.0
     MINIMAL = 0.2
     LOW = 0.4
@@ -41,21 +41,23 @@ class TrustLevel(Enum):
 
 class IdentityTagType(Enum):
     """Identity-specific tag types."""
-    TIER = "tier"                    # Tier level tags
-    CAPABILITY = "capability"        # Identity capabilities
-    PERMISSION = "permission"        # Access permissions
-    TRUST = "trust"                 # Trust relationships
-    REPUTATION = "reputation"        # Reputation scores
-    VERIFICATION = "verification"    # Verification status
-    ROLE = "role"                   # Identity roles
+
+    TIER = "tier"  # Tier level tags
+    CAPABILITY = "capability"  # Identity capabilities
+    PERMISSION = "permission"  # Access permissions
+    TRUST = "trust"  # Trust relationships
+    REPUTATION = "reputation"  # Reputation scores
+    VERIFICATION = "verification"  # Verification status
+    ROLE = "role"  # Identity roles
     CERTIFICATION = "certification"  # Certifications/achievements
-    RESTRICTION = "restriction"      # Access restrictions
-    PREFERENCE = "preference"        # User preferences
+    RESTRICTION = "restriction"  # Access restrictions
+    PREFERENCE = "preference"  # User preferences
 
 
 @dataclass
 class TrustRelationship:
     """Represents trust between two identities."""
+
     from_identity: str
     to_identity: str
     trust_level: TrustLevel
@@ -65,7 +67,7 @@ class TrustRelationship:
     interaction_count: int = 0
     positive_interactions: int = 0
     negative_interactions: int = 0
-    trust_factors: Dict[str, float] = field(default_factory=dict)
+    trust_factors: dict[str, float] = field(default_factory=dict)
 
     def update_interaction(self, positive: bool):
         """Update trust based on interaction."""
@@ -103,27 +105,29 @@ class TrustRelationship:
 @dataclass
 class IdentityTag(Tag):
     """Extended tag for identity system."""
+
     tier_required: Optional[int] = None
     trust_required: Optional[TrustLevel] = None
     consensus_required: bool = False
     consensus_threshold: float = 0.67
     expiry_time: Optional[datetime] = None
     issuer_id: Optional[str] = None
-    verification_proof: Optional[Dict[str, Any]] = None
+    verification_proof: Optional[dict[str, Any]] = None
 
 
 @dataclass
 class TagConsensusRequest:
     """Request for tag consensus among trusted identities."""
+
     request_id: str
     requester_id: str
     target_id: str
     tag: IdentityTag
-    trust_network: List[str]  # IDs of trusted identities to consult
+    trust_network: list[str]  # IDs of trusted identities to consult
     required_votes: int
     deadline: datetime
-    votes: Dict[str, bool] = field(default_factory=dict)
-    vote_weights: Dict[str, float] = field(default_factory=dict)
+    votes: dict[str, bool] = field(default_factory=dict)
+    vote_weights: dict[str, float] = field(default_factory=dict)
 
     def add_vote(self, voter_id: str, approve: bool, weight: float = 1.0):
         """Add a weighted vote."""
@@ -137,7 +141,8 @@ class TagConsensusRequest:
 
         total_weight = sum(self.vote_weights.values())
         approve_weight = sum(
-            weight for voter, weight in self.vote_weights.items()
+            weight
+            for voter, weight in self.vote_weights.items()
             if self.votes.get(voter, False)
         )
 
@@ -155,22 +160,22 @@ class IdentityTagResolver:
 
         # Trust network graph
         self.trust_network = nx.DiGraph()
-        self.trust_relationships: Dict[Tuple[str, str], TrustRelationship] = {}
+        self.trust_relationships: dict[tuple[str, str], TrustRelationship] = {}
 
         # Identity tag storage
-        self.identity_tags: Dict[str, List[IdentityTag]] = defaultdict(list)
-        self.tag_history: List[Dict[str, Any]] = []
+        self.identity_tags: dict[str, list[IdentityTag]] = defaultdict(list)
+        self.tag_history: list[dict[str, Any]] = []
 
         # Consensus tracking
-        self.active_consensus_requests: Dict[str, TagConsensusRequest] = {}
-        self.consensus_history: List[TagConsensusRequest] = []
+        self.active_consensus_requests: dict[str, TagConsensusRequest] = {}
+        self.consensus_history: list[TagConsensusRequest] = []
 
         # Trust network metrics
         self.network_metrics = {
             "total_relationships": 0,
             "avg_trust_score": 0.0,
             "network_density": 0.0,
-            "clustering_coefficient": 0.0
+            "clustering_coefficient": 0.0,
         }
 
         # Event publisher
@@ -200,10 +205,10 @@ class IdentityTagResolver:
         tag_type: IdentityTagType,
         tag_value: str,
         tier_level: int,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         require_consensus: bool = False,
         issuer_id: Optional[str] = None,
-        expiry_hours: Optional[int] = None
+        expiry_hours: Optional[int] = None,
     ) -> str:
         """
         Assign a tag to an identity with optional consensus.
@@ -217,20 +222,30 @@ class IdentityTagResolver:
             tier_required=tier_level,
             consensus_required=require_consensus,
             issuer_id=issuer_id or "system",
-            expiry_time=datetime.utcnow() + timedelta(hours=expiry_hours) if expiry_hours else None
+            expiry_time=(
+                datetime.utcnow() + timedelta(hours=expiry_hours)
+                if expiry_hours
+                else None
+            ),
         )
 
         # Check if consensus is required
         if require_consensus and issuer_id != "system":
             # Get trust network for consensus
-            trust_network = self._get_trust_network(issuer_id, min_trust=TrustLevel.MEDIUM)
+            trust_network = self._get_trust_network(
+                issuer_id, min_trust=TrustLevel.MEDIUM
+            )
 
             if len(trust_network) < 3:
-                logger.warning(f"Insufficient trust network for consensus on {lambda_id}")
+                logger.warning(
+                    f"Insufficient trust network for consensus on {lambda_id}"
+                )
                 return ""
 
             # Create consensus request
-            request_id = f"consensus_{lambda_id}_{tag.name}_{int(datetime.utcnow().timestamp())}"
+            request_id = (
+                f"consensus_{lambda_id}_{tag.name}_{int(datetime.utcnow().timestamp())}"
+            )
             consensus_request = TagConsensusRequest(
                 request_id=request_id,
                 requester_id=issuer_id,
@@ -238,7 +253,7 @@ class IdentityTagResolver:
                 tag=tag,
                 trust_network=trust_network[:10],  # Limit to 10 trusted identities
                 required_votes=min(5, len(trust_network)),
-                deadline=datetime.utcnow() + timedelta(minutes=5)
+                deadline=datetime.utcnow() + timedelta(minutes=5),
             )
 
             self.active_consensus_requests[request_id] = consensus_request
@@ -253,8 +268,8 @@ class IdentityTagResolver:
                     "tag_type": tag_type.value,
                     "tag_value": tag_value,
                     "trust_network_size": len(trust_network),
-                    "required_votes": consensus_request.required_votes
-                }
+                    "required_votes": consensus_request.required_votes,
+                },
             )
 
             return request_id
@@ -264,13 +279,15 @@ class IdentityTagResolver:
             self.identity_tags[lambda_id].append(tag)
 
             # Record in history
-            self.tag_history.append({
-                "timestamp": datetime.utcnow(),
-                "lambda_id": lambda_id,
-                "tag": tag,
-                "action": "assigned",
-                "issuer": issuer_id or "system"
-            })
+            self.tag_history.append(
+                {
+                    "timestamp": datetime.utcnow(),
+                    "lambda_id": lambda_id,
+                    "tag": tag,
+                    "action": "assigned",
+                    "issuer": issuer_id or "system",
+                }
+            )
 
             # Publish tag assignment event
             await self.event_publisher.publish_identity_event(
@@ -280,8 +297,8 @@ class IdentityTagResolver:
                 data={
                     "tag_type": tag_type.value,
                     "tag_value": tag_value,
-                    "metadata": metadata
-                }
+                    "metadata": metadata,
+                },
             )
 
             return tag.name
@@ -291,7 +308,7 @@ class IdentityTagResolver:
         from_identity: str,
         to_identity: str,
         initial_trust: TrustLevel = TrustLevel.LOW,
-        trust_factors: Optional[Dict[str, float]] = None
+        trust_factors: Optional[dict[str, float]] = None,
     ) -> bool:
         """
         Establish or update trust relationship between identities.
@@ -313,15 +330,16 @@ class IdentityTagResolver:
                 trust_score=initial_trust.value,
                 established_at=datetime.utcnow(),
                 last_interaction=datetime.utcnow(),
-                trust_factors=trust_factors or {}
+                trust_factors=trust_factors or {},
             )
             self.trust_relationships[relationship_key] = relationship
 
             # Add to trust network graph
             self.trust_network.add_edge(
-                from_identity, to_identity,
+                from_identity,
+                to_identity,
                 trust_score=initial_trust.value,
-                relationship=relationship
+                relationship=relationship,
             )
 
         # Update network metrics
@@ -335,8 +353,8 @@ class IdentityTagResolver:
             data={
                 "to_identity": to_identity,
                 "trust_level": initial_trust.name,
-                "trust_score": relationship.trust_score
-            }
+                "trust_score": relationship.trust_score,
+            },
         )
 
         return True
@@ -347,7 +365,7 @@ class IdentityTagResolver:
         to_identity: str,
         positive: bool,
         interaction_type: str,
-        details: Optional[Dict[str, Any]] = None
+        details: Optional[dict[str, Any]] = None,
     ):
         """
         Update trust based on interaction outcome.
@@ -357,8 +375,9 @@ class IdentityTagResolver:
         if relationship_key not in self.trust_relationships:
             # Auto-establish minimal trust on first interaction
             await self.establish_trust_relationship(
-                from_identity, to_identity,
-                TrustLevel.MINIMAL if positive else TrustLevel.NONE
+                from_identity,
+                to_identity,
+                TrustLevel.MINIMAL if positive else TrustLevel.NONE,
             )
 
         relationship = self.trust_relationships[relationship_key]
@@ -368,7 +387,9 @@ class IdentityTagResolver:
         relationship.update_interaction(positive)
 
         # Update graph edge weight
-        self.trust_network[from_identity][to_identity]["trust_score"] = relationship.trust_score
+        self.trust_network[from_identity][to_identity][
+            "trust_score"
+        ] = relationship.trust_score
 
         # Publish trust update event if level changed
         if old_trust != relationship.trust_level:
@@ -381,16 +402,13 @@ class IdentityTagResolver:
                     "old_trust": old_trust.name,
                     "new_trust": relationship.trust_level.name,
                     "trust_score": relationship.trust_score,
-                    "interaction_type": interaction_type
-                }
+                    "interaction_type": interaction_type,
+                },
             )
 
     def resolve_identity_permissions(
-        self,
-        lambda_id: str,
-        resource: str,
-        tier_level: int
-    ) -> Dict[str, Any]:
+        self, lambda_id: str, resource: str, tier_level: int
+    ) -> dict[str, Any]:
         """
         Resolve permissions for identity based on tags and trust network.
         """
@@ -398,7 +416,7 @@ class IdentityTagResolver:
             "allowed": False,
             "reason": "",
             "trust_boost": 0.0,
-            "applicable_tags": []
+            "applicable_tags": [],
         }
 
         # Get identity tags
@@ -415,7 +433,8 @@ class IdentityTagResolver:
 
         # Check permission tags
         permission_tags = [
-            tag for tag in valid_tags
+            tag
+            for tag in valid_tags
             if tag.name.startswith("permission:") and resource in tag.value
         ]
 
@@ -425,7 +444,8 @@ class IdentityTagResolver:
 
         # Check restriction tags
         restriction_tags = [
-            tag for tag in valid_tags
+            tag
+            for tag in valid_tags
             if tag.name.startswith("restriction:") and resource in tag.value
         ]
 
@@ -446,15 +466,14 @@ class IdentityTagResolver:
 
         return permissions
 
-    def get_identity_reputation(self, lambda_id: str) -> Dict[str, Any]:
+    def get_identity_reputation(self, lambda_id: str) -> dict[str, Any]:
         """
         Calculate identity reputation from tags and trust network.
         """
         # Get reputation tags
         identity_tags = self.identity_tags.get(lambda_id, [])
         reputation_tags = [
-            tag for tag in identity_tags
-            if tag.name.startswith("reputation:")
+            tag for tag in identity_tags if tag.name.startswith("reputation:")
         ]
 
         # Calculate base reputation from tags
@@ -466,7 +485,7 @@ class IdentityTagResolver:
                     score = float(tag.metadata.get("score", 0))
                     weight = float(tag.metadata.get("weight", 1.0))
                     scores.append(score * weight)
-                except:
+                except BaseException:
                     pass
 
             if scores:
@@ -480,9 +499,7 @@ class IdentityTagResolver:
 
         # Combine scores
         overall_reputation = (
-            tag_reputation * 0.4 +
-            trust_reputation * 0.4 +
-            influence_score * 0.2
+            tag_reputation * 0.4 + trust_reputation * 0.4 + influence_score * 0.2
         )
 
         return {
@@ -491,14 +508,12 @@ class IdentityTagResolver:
             "trust_reputation": trust_reputation,
             "network_influence": influence_score,
             "reputation_tags": len(reputation_tags),
-            "trust_relationships": self._count_trust_relationships(lambda_id)
+            "trust_relationships": self._count_trust_relationships(lambda_id),
         }
 
     def _get_trust_network(
-        self,
-        identity_id: str,
-        min_trust: TrustLevel = TrustLevel.LOW
-    ) -> List[str]:
+        self, identity_id: str, min_trust: TrustLevel = TrustLevel.LOW
+    ) -> list[str]:
         """Get trusted identities above threshold."""
         trusted = []
 
@@ -511,7 +526,7 @@ class IdentityTagResolver:
         # Sort by trust score
         trusted.sort(
             key=lambda x: self.trust_network[identity_id][x]["trust_score"],
-            reverse=True
+            reverse=True,
         )
 
         return trusted
@@ -533,7 +548,8 @@ class IdentityTagResolver:
 
         # Calculate boost based on number and strength of trust relationships
         avg_trust = sum(incoming_trust) / len(incoming_trust)
-        trust_count_factor = min(1.0, len(incoming_trust) / 10)  # Max boost at 10+ relationships
+        # Max boost at 10+ relationships
+        trust_count_factor = min(1.0, len(incoming_trust) / 10)
 
         return avg_trust * trust_count_factor
 
@@ -549,8 +565,12 @@ class IdentityTagResolver:
             elif relationship.to_identity == identity_id:
                 incoming_scores.append(relationship.trust_score)
 
-        outgoing_avg = sum(outgoing_scores) / len(outgoing_scores) if outgoing_scores else 0.5
-        incoming_avg = sum(incoming_scores) / len(incoming_scores) if incoming_scores else 0.5
+        outgoing_avg = (
+            sum(outgoing_scores) / len(outgoing_scores) if outgoing_scores else 0.5
+        )
+        incoming_avg = (
+            sum(incoming_scores) / len(incoming_scores) if incoming_scores else 0.5
+        )
 
         # Higher weight on incoming trust (being trusted by others)
         return incoming_avg * 0.7 + outgoing_avg * 0.3
@@ -562,11 +582,16 @@ class IdentityTagResolver:
 
         try:
             # Calculate various centrality measures
-            degree_centrality = nx.degree_centrality(self.trust_network).get(identity_id, 0)
+            degree_centrality = nx.degree_centrality(self.trust_network).get(
+                identity_id, 0
+            )
 
-            # Only calculate betweenness for smaller networks to avoid performance issues
+            # Only calculate betweenness for smaller networks to avoid performance
+            # issues
             if len(self.trust_network) < 100:
-                betweenness = nx.betweenness_centrality(self.trust_network).get(identity_id, 0)
+                betweenness = nx.betweenness_centrality(self.trust_network).get(
+                    identity_id, 0
+                )
             else:
                 betweenness = degree_centrality  # Approximate
 
@@ -575,16 +600,12 @@ class IdentityTagResolver:
 
             return min(1.0, influence)
 
-        except:
+        except BaseException:
             return 0.0
 
-    def _count_trust_relationships(self, identity_id: str) -> Dict[str, int]:
+    def _count_trust_relationships(self, identity_id: str) -> dict[str, int]:
         """Count trust relationships by type."""
-        counts = {
-            "outgoing": 0,
-            "incoming": 0,
-            "mutual": 0
-        }
+        counts = {"outgoing": 0, "incoming": 0, "mutual": 0}
 
         for (from_id, to_id), _ in self.trust_relationships.items():
             if from_id == identity_id:
@@ -605,7 +626,10 @@ class IdentityTagResolver:
 
                 for request_id, request in self.active_consensus_requests.items():
                     # Check if deadline passed or consensus reached
-                    if current_time > request.deadline or request.is_consensus_reached():
+                    if (
+                        current_time > request.deadline
+                        or request.is_consensus_reached()
+                    ):
                         completed_requests.append(request_id)
 
                         # Process result
@@ -614,14 +638,19 @@ class IdentityTagResolver:
                             self.identity_tags[request.target_id].append(request.tag)
 
                             # Record in history
-                            self.tag_history.append({
-                                "timestamp": current_time,
-                                "lambda_id": request.target_id,
-                                "tag": request.tag,
-                                "action": "consensus_approved",
-                                "votes": len(request.votes),
-                                "approval_rate": sum(1 for v in request.votes.values() if v) / len(request.votes)
-                            })
+                            self.tag_history.append(
+                                {
+                                    "timestamp": current_time,
+                                    "lambda_id": request.target_id,
+                                    "tag": request.tag,
+                                    "action": "consensus_approved",
+                                    "votes": len(request.votes),
+                                    "approval_rate": sum(
+                                        1 for v in request.votes.values() if v
+                                    )
+                                    / len(request.votes),
+                                }
+                            )
 
                             # Publish success event
                             await self.event_publisher.publish_identity_event(
@@ -631,8 +660,8 @@ class IdentityTagResolver:
                                 data={
                                     "tag": request.tag.name,
                                     "votes": len(request.votes),
-                                    "consensus_threshold": request.tag.consensus_threshold
-                                }
+                                    "consensus_threshold": request.tag.consensus_threshold,
+                                },
                             )
                         else:
                             # Consensus failed
@@ -643,8 +672,8 @@ class IdentityTagResolver:
                                 data={
                                     "tag": request.tag.name,
                                     "votes": len(request.votes),
-                                    "required_votes": request.required_votes
-                                }
+                                    "required_votes": request.required_votes,
+                                },
                             )
 
                 # Move completed requests to history
@@ -664,7 +693,9 @@ class IdentityTagResolver:
             try:
                 if len(self.trust_network) > 0:
                     # Calculate network density
-                    self.network_metrics["network_density"] = nx.density(self.trust_network)
+                    self.network_metrics["network_density"] = nx.density(
+                        self.trust_network
+                    )
 
                     # Calculate average trust score
                     all_scores = []
@@ -672,12 +703,14 @@ class IdentityTagResolver:
                         all_scores.append(data.get("trust_score", 0))
 
                     if all_scores:
-                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(all_scores)
+                        self.network_metrics["avg_trust_score"] = sum(all_scores) / len(
+                            all_scores
+                        )
 
                     # Calculate clustering coefficient for smaller networks
                     if len(self.trust_network) < 100:
-                        self.network_metrics["clustering_coefficient"] = nx.average_clustering(
-                            self.trust_network.to_undirected()
+                        self.network_metrics["clustering_coefficient"] = (
+                            nx.average_clustering(self.trust_network.to_undirected())
                         )
 
                 await asyncio.sleep(60)  # Analyze every minute
@@ -686,7 +719,7 @@ class IdentityTagResolver:
                 logger.error(f"Trust network analysis error: {e}")
                 await asyncio.sleep(60)
 
-    def get_resolver_statistics(self) -> Dict[str, Any]:
+    def get_resolver_statistics(self) -> dict[str, Any]:
         """Get comprehensive resolver statistics."""
         return {
             "total_identities_tagged": len(self.identity_tags),
@@ -695,5 +728,5 @@ class IdentityTagResolver:
             "network_metrics": self.network_metrics,
             "active_consensus_requests": len(self.active_consensus_requests),
             "consensus_history_size": len(self.consensus_history),
-            "tag_history_size": len(self.tag_history)
+            "tag_history_size": len(self.tag_history),
         }

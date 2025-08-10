@@ -6,24 +6,24 @@ Reduces 1,157 unused files to ~300 through smart merging
 Usage: python3 consolidate_duplicates.py --phase [1|2|3|all]
 """
 
-import os
+import argparse
 import json
 import shutil
 from pathlib import Path
-from typing import List, Dict
-import argparse
+
 
 class MassiveConsolidator:
+
     def __init__(self, root_path: Path):
         self.root_path = root_path
         self.backup_dir = root_path / "archived" / "pre_consolidation"
         self.backup_dir.mkdir(parents=True, exist_ok=True)
 
-    def load_unused_files(self) -> List[Dict]:
+    def load_unused_files(self) -> list[dict]:
         """Load unused files list"""
-        with open(self.root_path / "analysis-tools" / "unused_files_report.json", 'r') as f:
+        with open(self.root_path / "analysis-tools" / "unused_files_report.json") as f:
             data = json.load(f)
-        return data['unused_files']
+        return data["unused_files"]
 
     def backup_file(self, file_path: Path):
         """Backup file before consolidation"""
@@ -36,30 +36,26 @@ class MassiveConsolidator:
     def consolidate_dream_systems(self) -> int:
         """Phase 1: Consolidate 70 dream files into 3 files"""
         print("\n🌟 PHASE 1: DREAM SYSTEMS CONSOLIDATION")
-        print("="*50)
+        print("=" * 50)
 
         unused_files = self.load_unused_files()
-        dream_files = [f for f in unused_files if 'dream' in f['path'].lower()]
+        dream_files = [f for f in unused_files if "dream" in f["path"].lower()]
 
         print(f"Found {len(dream_files)} dream-related files to consolidate")
 
         # Group dream files by functionality
-        groups = {
-            'core_engine': [],
-            'commerce_api': [],
-            'visualization': []
-        }
+        groups = {"core_engine": [], "commerce_api": [], "visualization": []}
 
         for file in dream_files:
-            path = file['path'].lower()
-            if any(x in path for x in ['engine', 'processor', 'core', 'loop']):
-                groups['core_engine'].append(file)
-            elif any(x in path for x in ['commerce', 'api', 'endpoint']):
-                groups['commerce_api'].append(file)
-            elif any(x in path for x in ['visual', 'dashboard', 'streamlit', 'ui']):
-                groups['visualization'].append(file)
+            path = file["path"].lower()
+            if any(x in path for x in ["engine", "processor", "core", "loop"]):
+                groups["core_engine"].append(file)
+            elif any(x in path for x in ["commerce", "api", "endpoint"]):
+                groups["commerce_api"].append(file)
+            elif any(x in path for x in ["visual", "dashboard", "streamlit", "ui"]):
+                groups["visualization"].append(file)
             else:
-                groups['core_engine'].append(file)  # Default to core
+                groups["core_engine"].append(file)  # Default to core
 
         consolidation_count = 0
 
@@ -75,8 +71,9 @@ class MassiveConsolidator:
             print(f"\n📦 Consolidating {len(files)} files into {target_file.name}")
 
             # Create consolidated file
-            with open(target_file, 'w') as consolidated:
-                consolidated.write(f'''"""
+            with open(target_file, "w") as consolidated:
+                consolidated.write(
+                    f'''"""
 Consolidated Dream System - {group_name.replace('_', ' ').title()}
 
 This file consolidates {len(files)} dream-related components:
@@ -113,47 +110,50 @@ def get_{group_name}():
 # Legacy compatibility functions
 # TODO: Add compatibility functions for merged components
 
-''')
+'''
+                )
 
             # Backup and remove original files
             for file in files:
-                original_path = self.root_path / file['path']
+                original_path = self.root_path / file["path"]
                 if original_path.exists():
                     self.backup_file(original_path)
                     original_path.unlink()
                     consolidation_count += 1
 
-        print(f"\n✅ Dream consolidation complete: {consolidation_count} files consolidated")
+        print(
+            f"\n✅ Dream consolidation complete: {consolidation_count} files consolidated"
+        )
         return consolidation_count
 
     def consolidate_memory_systems(self) -> int:
         """Phase 1: Consolidate 68 memory files into 4 files"""
         print("\n🧠 MEMORY SYSTEMS CONSOLIDATION")
-        print("="*40)
+        print("=" * 40)
 
         unused_files = self.load_unused_files()
-        memory_files = [f for f in unused_files if 'memory' in f['path'].lower()]
+        memory_files = [f for f in unused_files if "memory" in f["path"].lower()]
 
         print(f"Found {len(memory_files)} memory-related files to consolidate")
 
         # Group memory files
         groups = {
-            'unified_memory_core': [],
-            'memory_colonies': [],
-            'memory_visualization': [],
-            'episodic_memory': []
+            "unified_memory_core": [],
+            "memory_colonies": [],
+            "memory_visualization": [],
+            "episodic_memory": [],
         }
 
         for file in memory_files:
-            path = file['path'].lower()
-            if 'colony' in path or 'colonies' in path:
-                groups['memory_colonies'].append(file)
-            elif any(x in path for x in ['visual', 'trace', 'dashboard']):
-                groups['memory_visualization'].append(file)
-            elif 'episodic' in path:
-                groups['episodic_memory'].append(file)
+            path = file["path"].lower()
+            if "colony" in path or "colonies" in path:
+                groups["memory_colonies"].append(file)
+            elif any(x in path for x in ["visual", "trace", "dashboard"]):
+                groups["memory_visualization"].append(file)
+            elif "episodic" in path:
+                groups["episodic_memory"].append(file)
             else:
-                groups['unified_memory_core'].append(file)
+                groups["unified_memory_core"].append(file)
 
         consolidation_count = 0
 
@@ -167,8 +167,9 @@ def get_{group_name}():
             print(f"\n📦 Consolidating {len(files)} files into {target_file.name}")
 
             # Create consolidated file (similar structure as dream systems)
-            with open(target_file, 'w') as consolidated:
-                consolidated.write(f'''"""
+            with open(target_file, "w") as consolidated:
+                consolidated.write(
+                    f'''"""
 Consolidated Memory System - {group_name.replace('_', ' ').title()}
 
 Consolidated from {len(files)} files:
@@ -179,6 +180,7 @@ from typing import Dict, List, Any, Optional
 import asyncio
 
 class Consolidated{group_name.replace('_', '').title()}:
+
     def __init__(self):
         self.active_memories = {{}}
         self.processing_queue = []
@@ -190,49 +192,52 @@ class Consolidated{group_name.replace('_', '').title()}:
 
 # Global instance
 {group_name}_instance = Consolidated{group_name.replace('_', '').title()}()
-''')
+'''
+                )
 
             # Backup and remove originals
             for file in files:
-                original_path = self.root_path / file['path']
+                original_path = self.root_path / file["path"]
                 if original_path.exists():
                     self.backup_file(original_path)
                     original_path.unlink()
                     consolidation_count += 1
 
-        print(f"✅ Memory consolidation complete: {consolidation_count} files consolidated")
+        print(
+            f"✅ Memory consolidation complete: {consolidation_count} files consolidated"
+        )
         return consolidation_count
 
     def consolidate_engines(self) -> int:
         """Phase 2: Consolidate 57 engine files into 5 files"""
         print("\n⚙️ ENGINE CONSOLIDATION")
-        print("="*30)
+        print("=" * 30)
 
         unused_files = self.load_unused_files()
-        engine_files = [f for f in unused_files if 'engine' in f['path'].lower()]
+        engine_files = [f for f in unused_files if "engine" in f["path"].lower()]
 
         engine_groups = {
-            'consciousness_engine': [],
-            'creative_engine': [],
-            'identity_engine': [],
-            'learning_engine': [],
-            'communication_engine': []
+            "consciousness_engine": [],
+            "creative_engine": [],
+            "identity_engine": [],
+            "learning_engine": [],
+            "communication_engine": [],
         }
 
         for file in engine_files:
-            path = file['path'].lower()
-            if any(x in path for x in ['consciousness', 'cognitive', 'awareness']):
-                engine_groups['consciousness_engine'].append(file)
-            elif any(x in path for x in ['creative', 'creativity', 'personality']):
-                engine_groups['creative_engine'].append(file)
-            elif any(x in path for x in ['identity', 'auth', 'sso']):
-                engine_groups['identity_engine'].append(file)
-            elif any(x in path for x in ['learning', 'tutor', 'education']):
-                engine_groups['learning_engine'].append(file)
-            elif any(x in path for x in ['communication', 'bridge', 'message']):
-                engine_groups['communication_engine'].append(file)
+            path = file["path"].lower()
+            if any(x in path for x in ["consciousness", "cognitive", "awareness"]):
+                engine_groups["consciousness_engine"].append(file)
+            elif any(x in path for x in ["creative", "creativity", "personality"]):
+                engine_groups["creative_engine"].append(file)
+            elif any(x in path for x in ["identity", "auth", "sso"]):
+                engine_groups["identity_engine"].append(file)
+            elif any(x in path for x in ["learning", "tutor", "education"]):
+                engine_groups["learning_engine"].append(file)
+            elif any(x in path for x in ["communication", "bridge", "message"]):
+                engine_groups["communication_engine"].append(file)
             else:
-                engine_groups['consciousness_engine'].append(file)  # Default
+                engine_groups["consciousness_engine"].append(file)  # Default
 
         consolidation_count = 0
         engines_dir = self.root_path / "engines"
@@ -245,8 +250,9 @@ class Consolidated{group_name.replace('_', '').title()}:
             target_file = engines_dir / f"{group_name}.py"
             print(f"📦 Consolidating {len(files)} engines into {target_file.name}")
 
-            with open(target_file, 'w') as consolidated:
-                consolidated.write(f'''"""
+            with open(target_file, "w") as consolidated:
+                consolidated.write(
+                    f'''"""
 Consolidated {group_name.replace('_', ' ').title()}
 
 Unified engine combining {len(files)} components:
@@ -283,16 +289,19 @@ class {group_name.replace('_', '').title()}(ABC):
 
 # Global engine instance
 {group_name} = {group_name.replace('_', '').title()}()
-''')
+'''
+                )
 
             for file in files:
-                original_path = self.root_path / file['path']
+                original_path = self.root_path / file["path"]
                 if original_path.exists():
                     self.backup_file(original_path)
                     original_path.unlink()
                     consolidation_count += 1
 
-        print(f"✅ Engine consolidation complete: {consolidation_count} files consolidated")
+        print(
+            f"✅ Engine consolidation complete: {consolidation_count} files consolidated"
+        )
         return consolidation_count
 
     def run_phase(self, phase: int) -> int:
@@ -311,23 +320,27 @@ class {group_name.replace('_', '').title()}(ABC):
 
     def generate_report(self):
         """Generate consolidation report"""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("📊 CONSOLIDATION SUMMARY REPORT")
-        print("="*60)
+        print("=" * 60)
 
         # Count remaining unused files
         try:
             unused_files = self.load_unused_files()
-            remaining_count = len([f for f in unused_files if Path(self.root_path / f['path']).exists()])
+            remaining_count = len(
+                [f for f in unused_files if Path(self.root_path / f["path"]).exists()]
+            )
             print(f"Remaining unused files: {remaining_count}")
-        except:
-            print("Could not count remaining files - run unused_files_analyzer.py to refresh")
+        except BaseException:
+            print(
+                "Could not count remaining files - run unused_files_analyzer.py to refresh"
+            )
 
         # List backup location
         print(f"Original files backed up to: {self.backup_dir}")
 
         # List new consolidated files
-        consolidated_dirs = ['dream', 'memory', 'engines']
+        consolidated_dirs = ["dream", "memory", "engines"]
         for dir_name in consolidated_dirs:
             dir_path = self.root_path / dir_name
             if dir_path.exists():
@@ -337,12 +350,20 @@ class {group_name.replace('_', '').title()}(ABC):
                     for f in files:
                         print(f"  ✅ {f.name}")
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Massive file consolidation')
-    parser.add_argument('--phase', choices=['1', '2', '3', 'all'], default='1',
-                       help='Consolidation phase to run')
-    parser.add_argument('--dry-run', action='store_true',
-                       help='Show what would be done without making changes')
+    parser = argparse.ArgumentParser(description="Massive file consolidation")
+    parser.add_argument(
+        "--phase",
+        choices=["1", "2", "3", "all"],
+        default="1",
+        help="Consolidation phase to run",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be done without making changes",
+    )
 
     args = parser.parse_args()
 
@@ -351,7 +372,7 @@ def main():
 
     print("🔥 MASSIVE CONSOLIDATION STARTING")
     print("Goal: Reduce 1,157 unused files to ~300")
-    print("="*50)
+    print("=" * 50)
 
     if args.dry_run:
         print("DRY RUN MODE - No files will be modified")
@@ -359,7 +380,7 @@ def main():
 
     total_consolidated = 0
 
-    if args.phase == 'all':
+    if args.phase == "all":
         for phase in [1, 2, 3]:
             total_consolidated += consolidator.run_phase(phase)
     else:
@@ -367,6 +388,7 @@ def main():
 
     print(f"\n🎉 Consolidation complete! {total_consolidated} files consolidated")
     consolidator.generate_report()
+
 
 if __name__ == "__main__":
     main()

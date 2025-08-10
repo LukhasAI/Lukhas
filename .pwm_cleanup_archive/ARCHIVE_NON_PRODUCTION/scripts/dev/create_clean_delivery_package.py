@@ -12,9 +12,8 @@ Date: 2025-07-27
 
 import os
 import zipfile
-import shutil
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
 def create_clean_package():
@@ -24,7 +23,7 @@ def create_clean_package():
     package_name = f"LUKHAS_AI_Workspace_{timestamp}"
     home_dir = Path.home()
 
-    print(f"🚀 Creating Clean LUKHAS AI Workspace Package")
+    print("🚀 Creating Clean LUKHAS AI Workspace Package")
     print(f"📦 Package: {package_name}")
     print(f"🏠 Delivery to: {home_dir}")
     print("=" * 60)
@@ -87,7 +86,7 @@ def create_clean_package():
             if len(files_to_zip) % 100 == 0:  # Progress indicator
                 print(f"   📊 Scanned {len(files_to_zip)} files...")
 
-    print(f"\n📊 Workspace Package Summary:")
+    print("\n📊 Workspace Package Summary:")
     print(f"   Files to include: {len(files_to_zip)}")
     print(f"   Total size: {total_size / 1024 / 1024:.1f} MB")
 

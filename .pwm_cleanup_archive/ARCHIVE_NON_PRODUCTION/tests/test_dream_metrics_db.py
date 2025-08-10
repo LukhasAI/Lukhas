@@ -1,4 +1,5 @@
 import sqlite3
+
 from dream.dashboard import DreamMetricsDB
 
 
@@ -14,4 +15,3 @@ def test_add_dream_metrics(tmp_path):
         row = cursor.fetchone()
 
     assert row == ("dream_1", 0.4, 0.1, 0.9)
-

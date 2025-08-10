@@ -13,7 +13,6 @@ import statistics
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from typing import Any, Dict, List
 
 import aiohttp
 
@@ -108,7 +107,7 @@ class APIPerformanceBenchmark:
             nonlocal total_messages
             try:
                 async with aiohttp.ClientSession() as session:
-                    async with session.ws_connect(f"ws://localhost:8001/ws") as ws:
+                    async with session.ws_connect("ws://localhost:8001/ws") as ws:
                         for i in range(messages_per_connection):
                             await ws.send_str(
                                 json.dumps({"id": i, "data": "test_message"})
@@ -306,7 +305,7 @@ class APIPerformanceBenchmark:
 
         if "performance_metrics" in self.results:
             metrics = self.results["performance_metrics"]
-            print(f"\n🚀 Performance Metrics:")
+            print("\n🚀 Performance Metrics:")
             print(
                 f'   📊 Peak Throughput: {metrics["peak_throughput_req_per_sec"]:.0f} req/s'
             )

@@ -1,6 +1,5 @@
-from collections import deque
 import time
-from core.common import get_logger
+from collections import deque
 
 
 class ReplayProtection:
@@ -45,9 +44,14 @@ class ReplayProtection:
 
     def _expire_old_nonces(self, current_time):
         """Remove nonces that have expired based on the expiration time and log expiry events."""
-        while self.nonce_history and current_time - self.nonce_history[0][1] > self.expiration_time:
+        while (
+            self.nonce_history
+            and current_time - self.nonce_history[0][1] > self.expiration_time
+        ):
             old_nonce, old_time, old_device_id = self.nonce_history.popleft()
             self.nonce_set.remove(old_nonce)
             if old_device_id and old_device_id in self.device_nonces:
                 self.device_nonces[old_device_id].discard(old_nonce)
-            logger.info(f"Nonce expired: {old_nonce} (device: {old_device_id}, time: {old_time})")
+            logger.info(
+                f"Nonce expired: {old_nonce} (device: {old_device_id}, time: {old_time})"
+            )

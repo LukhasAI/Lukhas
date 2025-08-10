@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 📄 MODULE      : dream_delivery_manager.py
 📤 PURPOSE     : Delivers symbolic dream outputs through voice, screen, or feedback channels
 🧠 CONTEXT     : Interprets tone, modulates delivery, routes through ethical filters
@@ -14,15 +13,13 @@
 🛠️ VERSION     : v1.1.0 • 📅 CREATED: 2025-05-05 • ✍️ AUTHOR: LUKHAS AGI TEAM
 """
 
-import json
 import logging
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from datetime import datetime
+from typing import Any, Optional
 
 from core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
     VoiceModulator,
 )
-from creativity.emotional_resonance import EmotionalResonance
 
 # Voice components
 from .voice_parameter import VoiceParameter
@@ -33,7 +30,9 @@ try:
     )
 except ImportError:
     # Create a placeholder if the module doesn't exist
+
     class VoiceSynthesisAdapter:
+
         def __init__(self, *args, **kwargs):
             pass
 
@@ -45,7 +44,9 @@ try:
     from voice.safety.voice_safety_guard import VoiceSafetyFilter
 except ImportError:
     # Create a placeholder if the module doesn't exist
+
     class VoiceSafetyFilter:
+
         def __init__(self, *args, **kwargs):
             pass
 
@@ -53,14 +54,13 @@ except ImportError:
             return True
 
 
-# Memory & emotion components
-from memory.adapters.creativity_adapter import EmotionalModulator
-
 # Ethics & safety
 from ethics.ethics_guard import LegalComplianceAssistant
 
-# from ..emotional_resonance import EmotionalOscillator
+# Memory & emotion components
+from memory.adapters.creativity_adapter import EmotionalModulator
 
+# from ..emotional_resonance import EmotionalOscillator
 
 # Symbolic world and node system
 try:
@@ -145,10 +145,10 @@ class DreamDeliveryManager:
 
     def deliver_dream(
         self,
-        dream_content: Dict[str, Any],
-        channels: Optional[List[str]] = None,
+        dream_content: dict[str, Any],
+        channels: Optional[list[str]] = None,
         voice_style: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Deliver dream content through specified channels
 
@@ -205,7 +205,11 @@ class DreamDeliveryManager:
         for channel in channels:
             if channel == "voice":
                 delivery_results["voice"] = self._deliver_voice(
-                    dream_text, intent, personality_vector, dream_emotions, voice_style
+                    dream_text,
+                    intent,
+                    personality_vector,
+                    dream_emotions,
+                    voice_style,
                 )
             elif channel == "screen":
                 delivery_results["screen"] = self._deliver_screen(dream_content)
@@ -241,10 +245,10 @@ class DreamDeliveryManager:
         self,
         message: str,
         intent: str,
-        personality_vector: Dict[str, float],
-        emotions: Dict[str, Any] = None,
+        personality_vector: dict[str, float],
+        emotions: dict[str, Any] = None,
         voice_style: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Deliver content through voice with emotional modulation
 
@@ -296,7 +300,10 @@ class DreamDeliveryManager:
         if self.emotional_modulator:
             modulation_result = self.emotional_modulator.modulate_speech(
                 message,
-                context={"intent": intent, "personality_vector": personality_vector},
+                context={
+                    "intent": intent,
+                    "personality_vector": personality_vector,
+                },
             )
 
             # Convert modulation result to voice parameters
@@ -611,7 +618,7 @@ class DreamDeliveryManager:
 
         return voice_params
 
-    def _find_related_emotions(self, emotion: str) -> List[Tuple[str, float]]:
+    def _find_related_emotions(self, emotion: str) -> list[tuple[str, float]]:
         """
         Find emotions related to the given emotion from symbolic world
 
@@ -639,7 +646,11 @@ class DreamDeliveryManager:
             # Find related emotion symbols
             related_links = self.symbolic_world.get_links(
                 emotion_symbol,
-                relationship_types=["blends_with", "transitions_to", "resonates_with"],
+                relationship_types=[
+                    "blends_with",
+                    "transitions_to",
+                    "resonates_with",
+                ],
             )
 
             # Extract related emotions with strength
@@ -663,7 +674,7 @@ class DreamDeliveryManager:
 
         return related
 
-    def _analyze_text_for_voice_adjustments(self, text: str) -> Dict[str, float]:
+    def _analyze_text_for_voice_adjustments(self, text: str) -> dict[str, float]:
         """
         Analyze text content for voice parameter adjustments
 
@@ -720,7 +731,7 @@ class DreamDeliveryManager:
 
         return adjustments
 
-    def _deliver_screen(self, dream_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _deliver_screen(self, dream_content: dict[str, Any]) -> dict[str, Any]:
         """
         Deliver dream content to screen interface
 
@@ -739,7 +750,7 @@ class DreamDeliveryManager:
             "display_mode": dream_content.get("display_mode", "standard"),
         }
 
-    def _deliver_email(self, dream_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _deliver_email(self, dream_content: dict[str, Any]) -> dict[str, Any]:
         """
         Deliver dream content via email
 
@@ -755,7 +766,7 @@ class DreamDeliveryManager:
 
         return {"status": "pending", "scheduled": datetime.now().isoformat()}
 
-    def _deliver_notification(self, dream_content: Dict[str, Any]) -> Dict[str, Any]:
+    def _deliver_notification(self, dream_content: dict[str, Any]) -> dict[str, Any]:
         """
         Deliver dream content via notification
 
@@ -772,7 +783,7 @@ class DreamDeliveryManager:
         return {"status": "success", "notification_type": "dream_insight"}
 
     def _register_in_symbolic_world(
-        self, dream_content: Dict[str, Any], delivery_context: Dict[str, Any]
+        self, dream_content: dict[str, Any], delivery_context: dict[str, Any]
     ) -> None:
         """
         Register dream delivery in symbolic world for integrated awareness

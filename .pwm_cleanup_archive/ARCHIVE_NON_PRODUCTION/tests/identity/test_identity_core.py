@@ -6,15 +6,15 @@ LUKHAS-ID System Tests
 Tests for identity management, authentication, and access control.
 """
 
-import unittest
 import sys
+import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from identity.interface import IdentityClient
     from identity.core.tier.tier_system import check_access_level
+    from identity.interface import IdentityClient
 
     LUKHAS_ID_AVAILABLE = True
 except ImportError:

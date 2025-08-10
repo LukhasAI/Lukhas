@@ -1,6 +1,8 @@
 """Tests for lukhas.creativity"""
+
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
+
 
 class TestCreativity(unittest.TestCase):
     def setUp(self):
@@ -17,6 +19,7 @@ class TestCreativity(unittest.TestCase):
         """Test that module can be imported"""
         try:
             import creativity
+
             self.assertTrue(True)
         except ImportError:
             # Module might not exist yet, that's ok for now
@@ -40,6 +43,7 @@ class TestCreativity(unittest.TestCase):
         # Test error handling
         with self.assertRaises(ValueError):
             int("not a number")
+
 
 if __name__ == "__main__":
     unittest.main()

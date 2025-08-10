@@ -4,19 +4,19 @@ Generate Integration Progress Visualization
 Shows current state of file integration across all agents
 """
 
-import json
 from datetime import datetime
+
 
 def generate_ascii_visual():
     """Generate ASCII visualization of integration progress"""
 
     # Current integration status
     completed_integrations = {
-        'reasoning': ['LBot_reasoning_processed.py'],
-        'consciousness': ['cognitive/adapter_complete.py (partial)'],
-        'quantum': ['bio_optimization_adapter.py'],
-        'memory': [],
-        'core': []
+        "reasoning": ["LBot_reasoning_processed.py"],
+        "consciousness": ["cognitive/adapter_complete.py (partial)"],
+        "quantum": ["bio_optimization_adapter.py"],
+        "memory": [],
+        "core": [],
     }
 
     total_files = 540
@@ -147,10 +147,12 @@ def generate_ascii_visual():
 """
     return visual
 
+
 def generate_html_visual():
     """Generate interactive HTML visualization"""
 
-    html = """<!DOCTYPE html>
+    html = (
+        """<!DOCTYPE html>
 <html>
 <head>
     <title>LUKHAS AGI Integration Progress</title>
@@ -177,7 +179,9 @@ def generate_html_visual():
         <div class="header">
             <h1>🚀 LUKHAS AGI Integration Progress</h1>
             <p>Real-time integration status across all agents</p>
-            <p>Last Updated: """ + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + """</p>
+            <p>Last Updated: """
+        + datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        + """</p>
         </div>
 
         <div class="progress-bar">
@@ -266,8 +270,10 @@ def generate_html_visual():
     </div>
 </body>
 </html>"""
+    )
 
     return html
+
 
 def main():
     # Generate ASCII visualization
@@ -275,17 +281,18 @@ def main():
     print(ascii_visual)
 
     # Save to file
-    with open('INTEGRATION_PROGRESS_VISUAL.txt', 'w') as f:
+    with open("INTEGRATION_PROGRESS_VISUAL.txt", "w") as f:
         f.write(ascii_visual)
 
     # Generate HTML visualization
     html_visual = generate_html_visual()
-    with open('integration_progress.html', 'w') as f:
+    with open("integration_progress.html", "w") as f:
         f.write(html_visual)
 
     print("\n✅ Visualizations generated:")
     print("   - INTEGRATION_PROGRESS_VISUAL.txt (ASCII)")
     print("   - integration_progress.html (Interactive)")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

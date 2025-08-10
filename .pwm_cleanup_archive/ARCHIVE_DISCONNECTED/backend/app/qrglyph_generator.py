@@ -1,5 +1,3 @@
-
-
 """
 ╭──────────────────────────────────────────────────────────────╮
 │ MODULE      : qrglyph_generator.py                           │
@@ -10,10 +8,12 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-import qrcode
 from pathlib import Path
 
+import qrcode
+
 QR_OUTPUT_DIR = "static/qrglyphs"
+
 
 def generate_qrglyph(username_slug: str, lukhas_id_code: str) -> str:
     """

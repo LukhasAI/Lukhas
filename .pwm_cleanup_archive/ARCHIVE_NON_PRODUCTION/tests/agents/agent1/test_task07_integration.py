@@ -20,10 +20,7 @@ async def test_symbolic_delta_compression_integration():
         # Test 1: Direct module import
         print("Test 1: Testing direct Symbolic Delta Compression imports...")
         from memory.systems.symbolic_delta_compression import (
-            CompressionRecord,
             CompressionState,
-            LoopDetectionResult,
-            SymbolicDeltaCompressionManager,
             create_compression_manager,
         )
 
@@ -184,13 +181,13 @@ async def test_symbolic_delta_compression_integration():
             f"✅ All 6 compression states available: {[s.value for s in CompressionState]}"
         )
         print(
-            f"✅ Loop detection with 5-layer protection: History, Active, Entropy, Pattern, Cascade"
+            "✅ Loop detection with 5-layer protection: History, Active, Entropy, Pattern, Cascade"
         )
         print(
             f"✅ Safety mechanisms: {sum(safety_checks.values())}/{len(safety_checks)} active"
         )
-        print(f"✅ Emergency decompression capability: ✅")
-        print(f"✅ Compression analytics and monitoring: ✅")
+        print("✅ Emergency decompression capability: ✅")
+        print("✅ Compression analytics and monitoring: ✅")
 
         return True
 

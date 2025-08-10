@@ -4,12 +4,10 @@ Resilient Test Runner for AGI Consolidation Repository
 Handles missing modules and import failures gracefully
 """
 
-import sys
-import os
-import subprocess
-import importlib.util
-from pathlib import Path
 import logging
+import subprocess
+import sys
+from pathlib import Path
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -238,7 +236,7 @@ class PrimeHarmonicOscillator:
                     except OSError:
                         # Create import stub
                         target_path.write_text(
-                            f'''
+                            '''
 """Import stub for prime oscillator"""
 import sys
 from pathlib import Path

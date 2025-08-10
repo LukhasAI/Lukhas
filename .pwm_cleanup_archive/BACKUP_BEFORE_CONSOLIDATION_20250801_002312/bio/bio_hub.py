@@ -3,12 +3,13 @@ Bio Hub
 Central coordination for bio-symbolic subsystem components
 """
 
-from typing import Dict, Any, Optional, List
 import asyncio
 import logging
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
+
 
 class BioHub:
     """Central hub for bio-symbolic system coordination"""
@@ -45,12 +46,14 @@ class BioHub:
             ("bio_processor", "BioProcessor"),
             ("bio_analyzer", "BioAnalyzer"),
             ("bio_transformer", "BioTransformer"),
-            ("bio_validator", "BioValidator")
+            ("bio_validator", "BioValidator"),
         ]
 
         for service_name, class_name in processing_services:
             try:
-                module = __import__(f"bio.processing.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"bio.processing.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -64,7 +67,7 @@ class BioHub:
             ("bio_symbolic_processor", "BioSymbolicProcessor"),
             ("bio_symbolic_fallback_manager", "BioSymbolicFallbackManager"),
             ("bio_symbolic_integrator", "BioSymbolicIntegrator"),
-            ("bio_mapper", "BioMapper")
+            ("bio_mapper", "BioMapper"),
         ]
 
         for service_name, class_name in symbolic_services:
@@ -72,9 +75,13 @@ class BioHub:
                 if service_name == "bio_symbolic_processor":
                     module = __import__("bio.symbolic.processor", fromlist=[class_name])
                 elif service_name == "bio_symbolic_fallback_manager":
-                    module = __import__("bio.symbolic.fallback_systems", fromlist=[class_name])
+                    module = __import__(
+                        "bio.symbolic.fallback_systems", fromlist=[class_name]
+                    )
                 else:
-                    module = __import__(f"bio.symbolic.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"bio.symbolic.{service_name}", fromlist=[class_name]
+                    )
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -88,12 +95,14 @@ class BioHub:
         analysis_services = [
             ("coherence_optimizer", "CoherenceOptimizer"),
             ("bio_monitor", "BioMonitor"),
-            ("pattern_detector", "BioPatternDetector")
+            ("pattern_detector", "BioPatternDetector"),
         ]
 
         for service_name, class_name in analysis_services:
             try:
-                module = __import__(f"bio.analysis.{service_name}", fromlist=[class_name])
+                module = __import__(
+                    f"bio.analysis.{service_name}", fromlist=[class_name]
+                )
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -105,20 +114,31 @@ class BioHub:
         """Register services with global service discovery"""
         try:
             from core.service_discovery import get_service_discovery
+
             discovery = get_service_discovery()
 
             # Register key services globally for cross-hub access
             key_services = [
-                "bio_symbolic_processor", "bio_symbolic_fallback_manager", "bio_processor",
-                "bio_analyzer", "bio_symbolic_integrator", "bio_mapper", "coherence_optimizer",
-                "bio_monitor", "pattern_detector"
+                "bio_symbolic_processor",
+                "bio_symbolic_fallback_manager",
+                "bio_processor",
+                "bio_analyzer",
+                "bio_symbolic_integrator",
+                "bio_mapper",
+                "coherence_optimizer",
+                "bio_monitor",
+                "pattern_detector",
             ]
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "bio")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "bio"
+                    )
 
-            logger.debug(f"Registered {len(key_services)} bio services with global discovery")
+            logger.debug(
+                f"Registered {len(key_services)} bio services with global discovery"
+            )
         except Exception as e:
             logger.warning(f"Could not register with service discovery: {e}")
 
@@ -137,13 +157,15 @@ class BioHub:
             self.event_handlers[event_type] = []
         self.event_handlers[event_type].append(handler)
 
-    async def process_bio_symbolic_event(self, bio_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_bio_symbolic_event(
+        self, bio_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process bio data through symbolic reasoning"""
 
         # Bio processing first
         bio_processor = self.get_service("bio_processor")
         bio_result = None
-        if bio_processor and hasattr(bio_processor, 'process'):
+        if bio_processor and hasattr(bio_processor, "process"):
             try:
                 bio_result = await bio_processor.process(bio_data)
             except Exception as e:
@@ -153,9 +175,11 @@ class BioHub:
         # Then symbolic interpretation
         symbolic_processor = self.get_service("bio_symbolic_processor")
         symbolic_result = None
-        if symbolic_processor and hasattr(symbolic_processor, 'interpret_bio_data'):
+        if symbolic_processor and hasattr(symbolic_processor, "interpret_bio_data"):
             try:
-                symbolic_result = await symbolic_processor.interpret_bio_data(bio_result or bio_data)
+                symbolic_result = await symbolic_processor.interpret_bio_data(
+                    bio_result or bio_data
+                )
             except Exception as e:
                 logger.error(f"Symbolic processing error: {e}")
                 symbolic_result = {"error": str(e)}
@@ -164,17 +188,23 @@ class BioHub:
             "bio": bio_result,
             "symbolic": symbolic_result,
             "timestamp": datetime.now().isoformat(),
-            "processed_by": "bio_hub"
+            "processed_by": "bio_hub",
         }
 
-    async def process_event(self, event_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_event(
+        self, event_type: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
         """Process an event through registered handlers"""
         handlers = self.event_handlers.get(event_type, [])
         results = []
 
         for handler in handlers:
             try:
-                result = await handler(data) if asyncio.iscoroutinefunction(handler) else handler(data)
+                result = (
+                    await handler(data)
+                    if asyncio.iscoroutinefunction(handler)
+                    else handler(data)
+                )
                 results.append(result)
             except Exception as e:
                 logger.error(f"Bio handler error for {event_type}: {e}")
@@ -188,7 +218,7 @@ class BioHub:
 
         for name, service in self.services.items():
             try:
-                if hasattr(service, 'health_check'):
+                if hasattr(service, "health_check"):
                     health["services"][name] = await service.health_check()
                 else:
                     health["services"][name] = {"status": "active"}
@@ -198,8 +228,10 @@ class BioHub:
 
         return health
 
+
 # Singleton instance
 _bio_hub_instance = None
+
 
 def get_bio_hub() -> BioHub:
     """Get or create the bio hub instance"""

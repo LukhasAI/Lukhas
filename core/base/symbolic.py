@@ -35,11 +35,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import hashlib
+
 # Module imports
 import logging
-from typing import Any, Dict, List, Optional
-import hashlib
-import json
+from typing import Optional
 
 # Configure module logger
 logger = logging.getLogger(__name__)
@@ -76,7 +76,7 @@ class SymbolicRegistry:
     """Registry for symbolic references"""
 
     def __init__(self):
-        self._registry: Dict[str, SymbolicReference] = {}
+        self._registry: dict[str, SymbolicReference] = {}
 
     def register(self, reference: SymbolicReference) -> None:
         """Register a symbolic reference"""
@@ -88,7 +88,7 @@ class SymbolicRegistry:
         key = f"{namespace}::{name}"
         return self._registry.get(key)
 
-    def list_all(self) -> List[SymbolicReference]:
+    def list_all(self) -> list[SymbolicReference]:
         """List all registered references"""
         return list(self._registry.values())
 

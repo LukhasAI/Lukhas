@@ -1,7 +1,11 @@
 # LUKHAS_TAG: test_snapshot
 
 import unittest
-from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import DreamReflectionLoop
+
+from dream.oneiric_engine.oneiric_core.modules.dream_reflection_loop import (
+    DreamReflectionLoop,
+)
+
 
 class TestDreamSnapshot(unittest.TestCase):
     def test_dream_snapshot_valid(self):
@@ -30,5 +34,6 @@ class TestDreamSnapshot(unittest.TestCase):
         self.assertEqual(snapshot["drift_score"], 0.0)
         self.assertEqual(snapshot["affect_delta"], 0.0)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

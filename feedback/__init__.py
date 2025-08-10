@@ -5,12 +5,12 @@ Human-in-the-loop learning with feedback cards and bounded adaptation.
 """
 
 from .card_system import (
-    FeedbackRating,
     FeedbackCard,
+    FeedbackCardSystem,
+    FeedbackRating,
+    LearningReport,
     PatternSet,
     PolicyUpdate,
-    LearningReport,
-    FeedbackCardSystem
 )
 
 __all__ = [

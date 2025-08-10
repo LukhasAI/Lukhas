@@ -39,11 +39,11 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 # Module imports
 import os
-from core.common import get_logger
-from typing import Dict, Optional
-import openai
+from typing import Optional
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.env_loader")
@@ -52,12 +52,13 @@ logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.env_loader")
 MODULE_VERSION = "1.0.0"
 MODULE_NAME = "env_loader"
 
-def load_lukhas_env() -> Dict[str, str]:
+
+def load_lukhas_env() -> dict[str, str]:
     """Load environment variables from Lukhas professional .env file"""
     env_files = [
         "/Users/A_G_I/L_U_K_H_A_C_O_X/.env",
         "/Users/agi_dev/Library/Mobile Documents/com~apple~CloudDocs/Prototype/Lukhas-ecosystem/ABot/LukhasBot/.env",
-        "/Users/agi_dev/AGI-Consolidation-Repo/.env"
+        "/Users/agi_dev/AGI-Consolidation-Repo/.env",
     ]
 
     env_vars = {}
@@ -65,11 +66,11 @@ def load_lukhas_env() -> Dict[str, str]:
     for env_file in env_files:
         if os.path.exists(env_file):
             try:
-                with open(env_file, 'r') as f:
+                with open(env_file) as f:
                     for line in f:
                         line = line.strip()
-                        if line and not line.startswith('#') and '=' in line:
-                            key, value = line.split('=', 1)
+                        if line and not line.startswith("#") and "=" in line:
+                            key, value = line.split("=", 1)
                             env_vars[key.strip()] = value.strip()
                             # Also set in os.environ for immediate use
                             os.environ[key.strip()] = value.strip()
@@ -81,6 +82,7 @@ def load_lukhas_env() -> Dict[str, str]:
 
     return env_vars
 
+
 def get_api_key(service: str) -> Optional[str]:
     """Get API key for a specific service"""
     # First try to load from .env file
@@ -88,18 +90,18 @@ def get_api_key(service: str) -> Optional[str]:
 
     # Map service names to env var names
     key_mapping = {
-        'openai': 'OPENAI_API_KEY',
-        'openai_org': 'OPENAI_ORG_ID',
-        'openai_project': 'OPENAI_PROJECT_ID',
-        'anthropic': 'ANTHROPIC_API_KEY',
-        'azure': 'AZURE_OPENAI_API_KEY',
-        'azure_endpoint': 'AZURE_OPENAI_ENDPOINT',
-        'azure_org': 'AZURE_OPENAI_ORG_ID',
-        'azure_project': 'AZURE_OPENAI_PROJECT_ID',
-        'gemini': 'GOOGLE_API_KEY',
-        'perplexity': 'PERPLEXITY_API_KEY',
-        'notion': 'NOTION_API_KEY',
-        'elevenlabs': 'ELEVENLABS_API_KEY'
+        "openai": "OPENAI_API_KEY",
+        "openai_org": "OPENAI_ORG_ID",
+        "openai_project": "OPENAI_PROJECT_ID",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "azure": "AZURE_OPENAI_API_KEY",
+        "azure_endpoint": "AZURE_OPENAI_ENDPOINT",
+        "azure_org": "AZURE_OPENAI_ORG_ID",
+        "azure_project": "AZURE_OPENAI_PROJECT_ID",
+        "gemini": "GOOGLE_API_KEY",
+        "perplexity": "PERPLEXITY_API_KEY",
+        "notion": "NOTION_API_KEY",
+        "elevenlabs": "ELEVENLABS_API_KEY",
     }
 
     env_key = key_mapping.get(service.lower())
@@ -112,20 +114,21 @@ def get_api_key(service: str) -> Optional[str]:
 def get_openai_config() -> dict:
     """Get complete OpenAI configuration including org/project IDs"""
     return {
-        'api_key': get_api_key('openai'),
-        'org_id': get_api_key('openai_org'),
-        'project_id': get_api_key('openai_project')
+        "api_key": get_api_key("openai"),
+        "org_id": get_api_key("openai_org"),
+        "project_id": get_api_key("openai_project"),
     }
 
 
 def get_azure_openai_config() -> dict:
     """Get complete Azure OpenAI configuration including org/project IDs"""
     return {
-        'api_key': get_api_key('azure'),
-        'endpoint': get_api_key('azure_endpoint'),
-        'org_id': get_api_key('azure_org'),
-        'project_id': get_api_key('azure_project')
+        "api_key": get_api_key("azure"),
+        "endpoint": get_api_key("azure_endpoint"),
+        "org_id": get_api_key("azure_org"),
+        "project_id": get_api_key("azure_project"),
     }
+
 
 # Load environment variables on import
 load_lukhas_env()

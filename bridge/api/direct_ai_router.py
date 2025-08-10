@@ -7,23 +7,22 @@
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
-import subprocess
 import json
 import os
+import subprocess
 import sys
-from typing import (
-
-#TAG:bridge
-#TAG:api
-#TAG:neuroplastic
-#TAG:colony
-
-
-    Dict,
-    Any,
-    Optional,
-)  # Dict, Any not directly used in function signatures but useful for context
-from core.common import get_logger
+from typing import Any
+from typing import but
+from typing import context
+from typing import directly
+from typing import for
+from typing import function
+from typing import in
+from typing import not
+from typing import Optional  # TAG:bridge; TAG:api; TAG:neuroplastic; TAG:colony; Dict,
+from typing import signatures
+from typing import used
+from typing import useful
 
 # ΛTAG: core, router, config
 from core.common.config import config
@@ -37,8 +36,9 @@ logger.info("ΛTRACE: Initializing direct_ai_router module.")
 DEFAULT_ROUTER_PATH = config.ai_router_path
 DEFAULT_PYTHON_PATH = config.python_path
 
-
 # Human-readable comment: Class to interface directly with an external AI router.
+
+
 class DirectAIRouter:
     """
     Direct interface to the working AI router.
@@ -46,8 +46,11 @@ class DirectAIRouter:
     """
 
     # Human-readable comment: Initializes the DirectAIRouter with configurable paths.
+
     def __init__(
-        self, router_path: Optional[str] = None, python_path: Optional[str] = None
+        self,
+        router_path: Optional[str] = None,
+        python_path: Optional[str] = None,
     ):
         """
         Initializes the DirectAIRouter.
@@ -64,7 +67,8 @@ class DirectAIRouter:
             "LUKHAS_PYTHON_PATH", python_path or DEFAULT_PYTHON_PATH
         )
         logger.info(
-            f"ΛTRACE: DirectAIRouter initialized. Router Path: '{self.router_path}', Python Path: '{self.python_path}'."
+            f"ΛTRACE: DirectAIRouter initialized. Router Path: '{self.router_path}',
+            Python Path: '{self.python_path}'."
         )
         if self.router_path == DEFAULT_ROUTER_PATH:
             logger.warning(
@@ -77,6 +81,7 @@ class DirectAIRouter:
             # Depending on strictness, could raise an error here.
 
     # Human-readable comment: Routes a request to the external AI router.
+
     def route_request(
         self, task: str, task_type: str = "general", debug: bool = False
     ) -> str:
@@ -91,7 +96,8 @@ class DirectAIRouter:
         TODO: Consider returning a structured response (e.g., Dict) instead of just a string for better error handling.
         """
         logger.info(
-            f"ΛTRACE: Routing AI request. Task Type: '{task_type}', Debug: {debug}, Task (first 50 chars): '{task[:50]}...'"
+            f"ΛTRACE: Routing AI request. Task Type: '{task_type}', Debug: {debug},
+            Task(first 50 chars): '{task[:50]}...'"
         )
 
         # WARNING: Injecting 'task' into a script string via f-string with simple replacement
@@ -172,6 +178,7 @@ except Exception as e:
             return error_message
 
     # Human-readable comment: Checks if the AI router is available and responsive.
+
     def is_available(self) -> bool:
         """
         Checks if the AI router is available by sending a simple test request.
@@ -213,8 +220,9 @@ except Exception as e:
 _direct_router_instance = DirectAIRouter()
 logger.info("ΛTRACE: Global _direct_router_instance created.")
 
-
 # Human-readable comment: Global function to route an AI request.
+
+
 def route_ai_request(task: str, task_type: str = "general", debug: bool = False) -> str:
     """
     Global convenience function to route AI requests using the default DirectAIRouter instance.
@@ -228,8 +236,9 @@ def route_ai_request(task: str, task_type: str = "general", debug: bool = False)
     logger.info("ΛTRACE: Global route_ai_request() called.")
     return _direct_router_instance.route_request(task, task_type, debug)
 
-
 # Human-readable comment: Global function to check AI router availability.
+
+
 def is_ai_available() -> bool:
     """
     Global convenience function to check if AI routing is available.
@@ -242,7 +251,8 @@ def is_ai_available() -> bool:
 
 # Example usage block for testing
 if __name__ == "__main__":
-    # Configure basic logging for the __main__ block if ΛTRACE isn't fully set up externally
+    # Configure basic logging for the __main__ block if ΛTRACE isn't fully set
+    # up externally
     if not logging.getLogger("ΛTRACE").handlers:
         main_console_handler = logging.StreamHandler(sys.stdout)  # Changed to sys
         main_formatter = logging.Formatter(

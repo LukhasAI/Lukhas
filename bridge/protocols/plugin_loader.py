@@ -1,17 +1,16 @@
 # LUKHAS_TAG: plugin_loader, orchestration_extension
-import os
 import importlib
 from pathlib import Path
+
 from core.common import get_logger
 
-
-#TAG:bridge
-#TAG:protocols
-#TAG:neuroplastic
-#TAG:colony
-
+# TAG:bridge
+# TAG:protocols
+# TAG:neuroplastic
+# TAG:colony
 
 logger = get_logger(__name__)
+
 
 def load_plugins(plugin_dir: str = "core/plugins"):
     """

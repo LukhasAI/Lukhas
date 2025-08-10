@@ -56,23 +56,19 @@ VERSION: v1.0.0 • CREATED: 2025-01-21 • AUTHOR: LUKHAS AGI TEAM
 SYMBOLIC TAGS: ΛCPI, ΛCODE, AINTEGRATION, ΛAUTOMATION, ΛSANDBOX
 """
 
-import asyncio
-import hashlib
 import json
 import os
-import shutil
 import subprocess
 import tempfile
 import time
 from abc import ABC, abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Optional
 from uuid import uuid4
-import zipfile
 
 import structlog
 
@@ -82,6 +78,7 @@ logger = structlog.get_logger("lukhas.cpi_api")
 
 class CodeLanguage(Enum):
     """Supported programming languages"""
+
     PYTHON = "python"
     JAVASCRIPT = "javascript"
     TYPESCRIPT = "typescript"
@@ -94,33 +91,36 @@ class CodeLanguage(Enum):
 
 class ExecutionEnvironment(Enum):
     """Execution environment types"""
-    SANDBOX = "sandbox"          # Isolated sandbox environment
-    CONTAINER = "container"      # Docker container
+
+    SANDBOX = "sandbox"  # Isolated sandbox environment
+    CONTAINER = "container"  # Docker container
     VIRTUAL_ENV = "virtual_env"  # Python virtual environment
-    LOCALHOST = "localhost"      # Local development (testing only)
+    LOCALHOST = "localhost"  # Local development (testing only)
 
 
 class CodeQuality(Enum):
     """Code quality assessment levels"""
+
     EXCELLENT = "excellent"  # 90%+ quality score
-    GOOD = "good"           # 70-89% quality score
-    FAIR = "fair"           # 50-69% quality score
-    POOR = "poor"           # <50% quality score
-    FAILED = "failed"       # Failed quality checks
+    GOOD = "good"  # 70-89% quality score
+    FAIR = "fair"  # 50-69% quality score
+    POOR = "poor"  # <50% quality score
+    FAILED = "failed"  # Failed quality checks
 
 
 @dataclass
 class CodeGenerationRequest:
     """Request for automated code generation"""
+
     request_id: str = field(default_factory=lambda: str(uuid4()))
     description: str = ""
     language: CodeLanguage = CodeLanguage.PYTHON
-    requirements: List[str] = field(default_factory=list)
-    context: Dict[str, Any] = field(default_factory=dict)
+    requirements: list[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
     target_file: Optional[str] = None
     existing_code: Optional[str] = None
-    dependencies: List[str] = field(default_factory=list)
-    test_requirements: List[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
+    test_requirements: list[str] = field(default_factory=list)
     security_level: str = "medium"
     user_id: Optional[str] = None
     created_at: datetime = field(default_factory=lambda: datetime.now())
@@ -129,24 +129,26 @@ class CodeGenerationRequest:
 @dataclass
 class CodeExecutionResult:
     """Result of code execution in sandbox"""
+
     success: bool
     exit_code: int = 0
     stdout: str = ""
     stderr: str = ""
     execution_time_ms: float = 0.0
     memory_usage_mb: float = 0.0
-    files_created: List[str] = field(default_factory=list)
-    security_issues: List[str] = field(default_factory=list)
+    files_created: list[str] = field(default_factory=list)
+    security_issues: list[str] = field(default_factory=list)
 
 
 @dataclass
 class CodeQualityReport:
     """Code quality analysis report"""
+
     overall_score: float
     quality_level: CodeQuality
-    issues: List[Dict[str, Any]] = field(default_factory=list)
-    metrics: Dict[str, float] = field(default_factory=dict)
-    recommendations: List[str] = field(default_factory=list)
+    issues: list[dict[str, Any]] = field(default_factory=list)
+    metrics: dict[str, float] = field(default_factory=dict)
+    recommendations: list[str] = field(default_factory=list)
     security_score: float = 0.0
     performance_score: float = 0.0
     maintainability_score: float = 0.0
@@ -158,12 +160,10 @@ class CodeGenerator(ABC):
     @abstractmethod
     async def generate_code(self, request: CodeGenerationRequest) -> str:
         """Generate code based on request"""
-        pass
 
     @abstractmethod
     async def test_code(self, code: str, language: CodeLanguage) -> CodeExecutionResult:
         """Test generated code"""
-        pass
 
 
 class PythonCodeGenerator(CodeGenerator):
@@ -185,7 +185,7 @@ class PythonCodeGenerator(CodeGenerator):
             "data processing": self._generate_data_processor,
             "utility function": self._generate_utility_function,
             "class": self._generate_class,
-            "test": self._generate_test_code
+            "test": self._generate_test_code,
         }
 
         description_lower = request.description.lower()
@@ -222,7 +222,7 @@ class PythonCodeGenerator(CodeGenerator):
                     capture_output=True,
                     text=True,
                     timeout=10,
-                    cwd=temp_dir
+                    cwd=temp_dir,
                 )
 
                 execution_time = (time.time() - start_time) * 1000
@@ -233,7 +233,7 @@ class PythonCodeGenerator(CodeGenerator):
                         exit_code=0,
                         stdout="Syntax check passed",
                         stderr="",
-                        execution_time_ms=execution_time
+                        execution_time_ms=execution_time,
                     )
                 else:
                     return CodeExecutionResult(
@@ -241,7 +241,7 @@ class PythonCodeGenerator(CodeGenerator):
                         exit_code=result.returncode,
                         stdout=result.stdout,
                         stderr=result.stderr,
-                        execution_time_ms=execution_time
+                        execution_time_ms=execution_time,
                     )
 
             except subprocess.TimeoutExpired:
@@ -249,23 +249,23 @@ class PythonCodeGenerator(CodeGenerator):
                     success=False,
                     exit_code=-1,
                     stderr="Execution timeout",
-                    execution_time_ms=(time.time() - start_time) * 1000
+                    execution_time_ms=(time.time() - start_time) * 1000,
                 )
             except Exception as e:
                 return CodeExecutionResult(
                     success=False,
                     exit_code=-1,
                     stderr=str(e),
-                    execution_time_ms=(time.time() - start_time) * 1000
+                    execution_time_ms=(time.time() - start_time) * 1000,
                 )
 
-    def _generate_imports(self, dependencies: List[str]) -> str:
+    def _generate_imports(self, dependencies: list[str]) -> str:
         """Generate import statements"""
         standard_imports = [
             "import asyncio",
             "import json",
             "import logging",
-            "from typing import Any, Dict, List, Optional"
+            "from typing import Any, Dict, List, Optional",
         ]
 
         custom_imports = [f"import {dep}" for dep in dependencies]
@@ -314,7 +314,8 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
     """
     try:
         # Implement endpoint logic here
-        logger.info("LUKHAS{endpoint_name.upper()}: Processing request", request=request.dict())
+        logger.info("LUKHAS{endpoint_name.upper()}: Processing request",
+    request=request.dict())
 
         result = {{
             "processed": True,
@@ -333,7 +334,8 @@ async def {endpoint_name}_endpoint(request: {endpoint_name.capitalize()}Request)
 
     async def _generate_data_processor(self, request: CodeGenerationRequest) -> str:
         """Generate data processing function"""
-        return f'''async def process_data(data: Any, options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        return f'''async def process_data(data: Any, options: Optional[Dict[str,
+    Any]] = None) -> Dict[str, Any]:
     """
     {request.description}
 
@@ -521,17 +523,17 @@ class CPISecurityScanner:
     def __init__(self):
         """Initialize security scanner"""
         self.security_patterns = [
-            (r'exec\s*\(', "Dangerous exec() usage"),
-            (r'eval\s*\(', "Dangerous eval() usage"),
-            (r'__import__\s*\(', "Dynamic import detected"),
-            (r'subprocess\.call', "Subprocess usage - review needed"),
+            (r"exec\s*\(", "Dangerous exec() usage"),
+            (r"eval\s*\(", "Dangerous eval() usage"),
+            (r"__import__\s*\(", "Dynamic import detected"),
+            (r"subprocess\.call", "Subprocess usage - review needed"),
             (r'open\s*\([^)]*[\'"]w', "File write operation"),
-            (r'pickle\.loads?', "Pickle usage - potential security risk"),
-            (r'sql.*%.*%', "Potential SQL injection"),
-            (r'shell\s*=\s*True', "Shell execution enabled")
+            (r"pickle\.loads?", "Pickle usage - potential security risk"),
+            (r"sql.*%.*%", "Potential SQL injection"),
+            (r"shell\s*=\s*True", "Shell execution enabled"),
         ]
 
-    async def scan_code(self, code: str) -> List[str]:
+    async def scan_code(self, code: str) -> list[str]:
         """Scan code for security issues"""
         import re
 
@@ -554,9 +556,11 @@ class CPISecurityScanner:
 class CodeProcessIntegrationAPI:
     """Main CPI API for automated code generation and integration"""
 
-    def __init__(self,
-                 workspace_path: Optional[Path] = None,
-                 enable_security_scanning: bool = True):
+    def __init__(
+        self,
+        workspace_path: Optional[Path] = None,
+        enable_security_scanning: bool = True,
+    ):
         """
         Initialize the CPI API
 
@@ -569,16 +573,14 @@ class CodeProcessIntegrationAPI:
         self.enable_security_scanning = enable_security_scanning
 
         # Initialize code generators
-        self.generators = {
-            CodeLanguage.PYTHON: PythonCodeGenerator()
-        }
+        self.generators = {CodeLanguage.PYTHON: PythonCodeGenerator()}
 
         # Initialize security scanner
         self.security_scanner = CPISecurityScanner()
 
         # API state
-        self.active_requests: Dict[str, CodeGenerationRequest] = {}
-        self.completed_requests: Dict[str, Dict[str, Any]] = {}
+        self.active_requests: dict[str, CodeGenerationRequest] = {}
+        self.completed_requests: dict[str, dict[str, Any]] = {}
 
         # Metrics
         self.metrics = {
@@ -586,17 +588,19 @@ class CodeProcessIntegrationAPI:
             "successful_generations": 0,
             "security_issues_found": 0,
             "average_generation_time": 0.0,
-            "language_distribution": defaultdict(int)
+            "language_distribution": defaultdict(int),
         }
 
         # Ensure workspace exists
         self.workspace_path.mkdir(parents=True, exist_ok=True)
 
-        logger.info("ΛCPI: API initialized",
-                   workspace=str(self.workspace_path),
-                   security_enabled=enable_security_scanning)
+        logger.info(
+            "ΛCPI: API initialized",
+            workspace=str(self.workspace_path),
+            security_enabled=enable_security_scanning,
+        )
 
-    async def generate_code(self, request: CodeGenerationRequest) -> Dict[str, Any]:
+    async def generate_code(self, request: CodeGenerationRequest) -> dict[str, Any]:
         """
         Generate code based on natural language request
 
@@ -628,10 +632,14 @@ class CodeProcessIntegrationAPI:
                 self.metrics["security_issues_found"] += len(security_issues)
 
             # Step 4: Test generated code
-            execution_result = await generator.test_code(generated_code, request.language)
+            execution_result = await generator.test_code(
+                generated_code, request.language
+            )
 
             # Step 5: Quality analysis
-            quality_report = await self._analyze_code_quality(generated_code, request.language)
+            quality_report = await self._analyze_code_quality(
+                generated_code, request.language
+            )
 
             # Step 6: Save to workspace
             output_file = await self._save_generated_code(
@@ -650,8 +658,8 @@ class CodeProcessIntegrationAPI:
             total_gens = self.metrics["total_generations"]
             current_avg = self.metrics["average_generation_time"]
             self.metrics["average_generation_time"] = (
-                (current_avg * (total_gens - 1) + generation_time) / total_gens
-            )
+                current_avg * (total_gens - 1) + generation_time
+            ) / total_gens
 
             # Prepare response
             response = {
@@ -664,41 +672,45 @@ class CodeProcessIntegrationAPI:
                     "exit_code": execution_result.exit_code,
                     "stdout": execution_result.stdout,
                     "stderr": execution_result.stderr,
-                    "execution_time_ms": execution_result.execution_time_ms
+                    "execution_time_ms": execution_result.execution_time_ms,
                 },
                 "security_issues": security_issues,
                 "quality_report": {
                     "score": quality_report.overall_score,
                     "level": quality_report.quality_level.value,
                     "issues": quality_report.issues,
-                    "recommendations": quality_report.recommendations
+                    "recommendations": quality_report.recommendations,
                 },
                 "generation_time_ms": generation_time,
-                "language": request.language.value
+                "language": request.language.value,
             }
 
             # Store completed request
             self.completed_requests[request.request_id] = response
 
-            logger.info("ΛCPI: Code generation completed",
-                       request_id=request.request_id,
-                       language=request.language.value,
-                       success=response["success"],
-                       generation_time_ms=round(generation_time, 2),
-                       security_issues=len(security_issues))
+            logger.info(
+                "ΛCPI: Code generation completed",
+                request_id=request.request_id,
+                language=request.language.value,
+                success=response["success"],
+                generation_time_ms=round(generation_time, 2),
+                security_issues=len(security_issues),
+            )
 
             return response
 
         except Exception as e:
-            logger.error("ΛCPI: Code generation failed",
-                        request_id=request.request_id,
-                        error=str(e))
+            logger.error(
+                "ΛCPI: Code generation failed",
+                request_id=request.request_id,
+                error=str(e),
+            )
 
             error_response = {
                 "request_id": request.request_id,
                 "success": False,
                 "error": str(e),
-                "generation_time_ms": (time.time() - start_time) * 1000
+                "generation_time_ms": (time.time() - start_time) * 1000,
             }
 
             self.completed_requests[request.request_id] = error_response
@@ -708,10 +720,12 @@ class CodeProcessIntegrationAPI:
             # Clean up
             del self.active_requests[request.request_id]
 
-    async def execute_code_safely(self,
-                                 code: str,
-                                 language: CodeLanguage,
-                                 environment: ExecutionEnvironment = ExecutionEnvironment.SANDBOX) -> CodeExecutionResult:
+    async def execute_code_safely(
+        self,
+        code: str,
+        language: CodeLanguage,
+        environment: ExecutionEnvironment = ExecutionEnvironment.SANDBOX,
+    ) -> CodeExecutionResult:
         """Execute code in secure environment"""
 
         if environment == ExecutionEnvironment.SANDBOX:
@@ -721,7 +735,9 @@ class CodeProcessIntegrationAPI:
         else:
             raise ValueError(f"Environment {environment.value} not implemented")
 
-    async def _execute_in_sandbox(self, code: str, language: CodeLanguage) -> CodeExecutionResult:
+    async def _execute_in_sandbox(
+        self, code: str, language: CodeLanguage
+    ) -> CodeExecutionResult:
         """Execute code in sandboxed environment"""
         # This is a simplified sandbox - production would use containers/VMs
 
@@ -745,7 +761,7 @@ class CodeProcessIntegrationAPI:
                         text=True,
                         timeout=30,  # 30 second timeout
                         cwd=sandbox_dir,
-                        env=restricted_env
+                        env=restricted_env,
                     )
 
                     execution_time = (time.time() - start_time) * 1000
@@ -756,7 +772,7 @@ class CodeProcessIntegrationAPI:
                         stdout=result.stdout,
                         stderr=result.stderr,
                         execution_time_ms=execution_time,
-                        files_created=list(os.listdir(sandbox_dir))
+                        files_created=list(os.listdir(sandbox_dir)),
                     )
 
                 except subprocess.TimeoutExpired:
@@ -764,31 +780,33 @@ class CodeProcessIntegrationAPI:
                         success=False,
                         exit_code=-1,
                         stderr="Execution timeout (30s limit)",
-                        execution_time_ms=30000
+                        execution_time_ms=30000,
                     )
                 except Exception as e:
                     return CodeExecutionResult(
-                        success=False,
-                        exit_code=-1,
-                        stderr=str(e)
+                        success=False, exit_code=-1, stderr=str(e)
                     )
             else:
                 return CodeExecutionResult(
                     success=False,
                     exit_code=-1,
-                    stderr=f"Language {language.value} not supported in sandbox"
+                    stderr=f"Language {language.value} not supported in sandbox",
                 )
 
-    async def _execute_in_container(self, code: str, language: CodeLanguage) -> CodeExecutionResult:
+    async def _execute_in_container(
+        self, code: str, language: CodeLanguage
+    ) -> CodeExecutionResult:
         """Execute code in Docker container (placeholder)"""
         # Placeholder for container execution
         return CodeExecutionResult(
             success=False,
             exit_code=-1,
-            stderr="Container execution not implemented"
+            stderr="Container execution not implemented",
         )
 
-    async def _analyze_code_quality(self, code: str, language: CodeLanguage) -> CodeQualityReport:
+    async def _analyze_code_quality(
+        self, code: str, language: CodeLanguage
+    ) -> CodeQualityReport:
         """Analyze code quality and provide recommendations"""
         # Simplified quality analysis
         issues = []
@@ -796,12 +814,14 @@ class CodeProcessIntegrationAPI:
         recommendations = []
 
         # Basic metrics
-        lines = code.split('\n')
+        lines = code.split("\n")
         non_empty_lines = [line for line in lines if line.strip()]
 
         metrics["total_lines"] = len(lines)
         metrics["code_lines"] = len(non_empty_lines)
-        metrics["comment_lines"] = len([line for line in lines if line.strip().startswith('#')])
+        metrics["comment_lines"] = len(
+            [line for line in lines if line.strip().startswith("#")]
+        )
         metrics["blank_lines"] = len(lines) - len(non_empty_lines)
 
         # Calculate scores
@@ -845,13 +865,12 @@ class CodeProcessIntegrationAPI:
             recommendations=recommendations,
             security_score=90.0,  # Placeholder
             performance_score=80.0,  # Placeholder
-            maintainability_score=overall_score
+            maintainability_score=overall_score,
         )
 
-    async def _save_generated_code(self,
-                                  code: str,
-                                  request: CodeGenerationRequest,
-                                  is_valid: bool) -> Path:
+    async def _save_generated_code(
+        self, code: str, request: CodeGenerationRequest, is_valid: bool
+    ) -> Path:
         """Save generated code to workspace"""
         # Create subdirectory for this request
         request_dir = self.workspace_path / f"gen_{request.request_id[:8]}"
@@ -865,7 +884,7 @@ class CodeProcessIntegrationAPI:
             CodeLanguage.BASH: ".sh",
             CodeLanguage.SQL: ".sql",
             CodeLanguage.YAML: ".yml",
-            CodeLanguage.JSON: ".json"
+            CodeLanguage.JSON: ".json",
         }
 
         ext = extensions.get(request.language, ".txt")
@@ -882,7 +901,7 @@ class CodeProcessIntegrationAPI:
             "created_at": request.created_at.isoformat(),
             "is_valid": is_valid,
             "requirements": request.requirements,
-            "dependencies": request.dependencies
+            "dependencies": request.dependencies,
         }
 
         metadata_file = request_dir / "metadata.json"
@@ -890,20 +909,25 @@ class CodeProcessIntegrationAPI:
 
         return output_file
 
-    def get_request_status(self, request_id: str) -> Optional[Dict[str, Any]]:
+    def get_request_status(self, request_id: str) -> Optional[dict[str, Any]]:
         """Get status of a code generation request"""
         if request_id in self.active_requests:
-            return {"status": "in_progress", "request": self.active_requests[request_id]}
+            return {
+                "status": "in_progress",
+                "request": self.active_requests[request_id],
+            }
         elif request_id in self.completed_requests:
-            return {"status": "completed", "result": self.completed_requests[request_id]}
+            return {
+                "status": "completed",
+                "result": self.completed_requests[request_id],
+            }
         else:
             return None
 
-    def get_api_status(self) -> Dict[str, Any]:
+    def get_api_status(self) -> dict[str, Any]:
         """Get comprehensive API status"""
-        success_rate = (
-            self.metrics["successful_generations"] /
-            max(1, self.metrics["total_generations"])
+        success_rate = self.metrics["successful_generations"] / max(
+            1, self.metrics["total_generations"]
         )
 
         return {
@@ -914,12 +938,14 @@ class CodeProcessIntegrationAPI:
             "metrics": {
                 "total_generations": self.metrics["total_generations"],
                 "success_rate": f"{success_rate:.2%}",
-                "average_generation_time_ms": round(self.metrics["average_generation_time"], 2),
+                "average_generation_time_ms": round(
+                    self.metrics["average_generation_time"], 2
+                ),
                 "security_issues_found": self.metrics["security_issues_found"],
-                "language_distribution": dict(self.metrics["language_distribution"])
+                "language_distribution": dict(self.metrics["language_distribution"]),
             },
-            "supported_languages": [lang.value for lang in self.generators.keys()],
-            "security_scanning_enabled": self.enable_security_scanning
+            "supported_languages": [lang.value for lang in self.generators],
+            "security_scanning_enabled": self.enable_security_scanning,
         }
 
 

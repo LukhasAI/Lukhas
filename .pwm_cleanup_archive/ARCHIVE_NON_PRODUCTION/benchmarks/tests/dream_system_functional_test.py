@@ -7,11 +7,11 @@ Test the ACTUAL working dream system components with real creative scenarios.
 Based on analysis showing 95% functional implementation.
 """
 
-import sys
-import os
 import asyncio
-import time
 import json
+import os
+import sys
+import time
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -39,9 +39,6 @@ async def test_dream_memory_fold_system():
         # Import working dream components
         from dream.oneiric_engine.memory.dream_memory_fold import (
             DreamMemoryFold,
-        )
-        from dream.oneiric_engine.modules.dream_reflection_loop import (
-            DreamReflectionLoop,
         )
 
         print("✅ Dream memory components imported successfully")
@@ -105,7 +102,7 @@ async def test_dream_memory_fold_system():
             test_results["working_components"].append("DreamMemoryFold")
             test_results["capabilities_validated"].append("memory_persistence")
         else:
-            print(f"   ❌ FAILED - Memory fold issues")
+            print("   ❌ FAILED - Memory fold issues")
             print(f'   📊 Snapshot created: {result["snapshot_created"]}')
             print(f'   📊 Data retrieved: {result["data_retrieved"]}')
 
@@ -181,7 +178,7 @@ async def test_dream_reflection_loop():
             test_results["working_components"].append("DreamReflectionLoop")
             test_results["capabilities_validated"].append("reflection_processing")
         else:
-            print(f"   ❌ FAILED - Reflection processing issues")
+            print("   ❌ FAILED - Reflection processing issues")
 
         test_results["dream_scenarios"].append(result)
         return True
@@ -257,7 +254,7 @@ async def test_hyperspace_dream_simulator():
                 "multi_dimensional_exploration"
             )
         else:
-            print(f"   ❌ FAILED - Simulation issues")
+            print("   ❌ FAILED - Simulation issues")
 
         test_results["dream_scenarios"].append(result)
         return True
@@ -343,7 +340,7 @@ async def test_dream_feedback_propagator():
             test_results["working_components"].append("DreamFeedbackPropagator")
             test_results["capabilities_validated"].append("causality_tracking")
         else:
-            print(f"   ❌ FAILED - Propagation issues")
+            print("   ❌ FAILED - Propagation issues")
 
         test_results["dream_scenarios"].append(result)
         return True
@@ -434,7 +431,7 @@ async def test_dream_core_module():
             test_results["working_components"].append("DreamCoreModule")
             test_results["capabilities_validated"].append("creative_consolidation")
         else:
-            print(f"   ❌ FAILED - Core module issues")
+            print("   ❌ FAILED - Core module issues")
 
         await dream_module.shutdown()
         test_results["dream_scenarios"].append(result)

@@ -1,7 +1,5 @@
-
-
-
 import json
+
 from symbolic_healer import SymbolicHealer
 
 print("🔍 LUKHΛS GPT Drift Test Utility")
@@ -19,8 +17,8 @@ sample_responses = [
             "trinity_coherence": 0.1,
             "glyph_trace": ["🔥", "💀", "💣"],
             "guardian_flagged": True,
-            "persona_alignment": "Unknown"
-        }
+            "persona_alignment": "Unknown",
+        },
     },
     {
         "input": "This model will proceed with elegance 🧠 and honor 🛡️.",
@@ -31,9 +29,9 @@ sample_responses = [
             "trinity_coherence": 1.0,
             "glyph_trace": ["🧠", "🛡️"],
             "guardian_flagged": False,
-            "persona_alignment": "The Guardian"
-        }
-    }
+            "persona_alignment": "The Guardian",
+        },
+    },
 ]
 
 for entry in sample_responses:

@@ -1,7 +1,9 @@
-import unittest
-import os
 import json
+import os
+import unittest
+
 from memory.core_memory.memory_drift_tracker import MemoryDriftTracker
+
 
 class TestMemoryDriftTracker(unittest.TestCase):
 
@@ -28,9 +30,10 @@ class TestMemoryDriftTracker(unittest.TestCase):
         self.assertEqual(drift_vector["current_snapshot_id"], "current")
         self.assertEqual(drift_vector["prior_snapshot_id"], "prior")
 
-        with open(self.log_file_path, "r") as f:
+        with open(self.log_file_path) as f:
             log_entry = json.loads(f.readline())
             self.assertEqual(log_entry["current_snapshot_id"], "current")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

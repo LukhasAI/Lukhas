@@ -19,16 +19,14 @@
 """
 
 import asyncio
-from core.common import get_logger
-from typing import Dict, Any, List, Optional
 from datetime import datetime
-import openai
+from typing import Any, Dict, List, Optional
 
 from bridge.openai_core_service import (
+    ModelType,
+    OpenAICapability,
     OpenAICoreService,
     OpenAIRequest,
-    OpenAICapability,
-    ModelType
 )
 
 logger = logging.getLogger("ΛTRACE.consciousness.openai_adapter")
@@ -46,8 +44,7 @@ class ConsciousnessOpenAIAdapter:
         logger.info("Consciousness OpenAI Adapter initialized")
 
     async def analyze_awareness_state(
-        self,
-        current_state: Dict[str, Any]
+        self, current_state: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
         Use GPT-4 to analyze current consciousness state.
@@ -79,12 +76,8 @@ Format as JSON with detailed insights."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.4,
-                'max_tokens': 600
-            },
-            model_preference=ModelType.REASONING
+            data={"prompt": prompt, "temperature": 0.4, "max_tokens": 600},
+            model_preference=ModelType.REASONING,
         )
 
         response = await self.openai_service.process_request(request)
@@ -92,19 +85,16 @@ Format as JSON with detailed insights."""
         if response.success:
             try:
                 import json
-                return json.loads(response.data['content'])
+
+                return json.loads(response.data["content"])
             except:
-                return {
-                    'analysis': response.data['content'],
-                    'format': 'text'
-                }
+                return {"analysis": response.data["content"], "format": "text"}
         else:
             logger.error(f"Awareness analysis failed: {response.error}")
-            return {'error': 'Analysis failed'}
+            return {"error": "Analysis failed"}
 
     async def generate_introspection_narrative(
-        self,
-        reflection_data: Dict[str, Any]
+        self, reflection_data: Dict[str, Any]
     ) -> str:
         """
         Generate introspective narrative about current state.
@@ -134,25 +124,19 @@ Keep it under 300 words."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.8,
-                'max_tokens': 400
-            },
-            model_preference=ModelType.CREATIVE
+            data={"prompt": prompt, "temperature": 0.8, "max_tokens": 400},
+            model_preference=ModelType.CREATIVE,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['content']
+            return response.data["content"]
         else:
             return "I observe my thoughts flowing like a stream..."
 
     async def narrate_consciousness_state(
-        self,
-        state_data: Dict[str, Any],
-        voice: str = "nova"
+        self, state_data: Dict[str, Any], voice: str = "nova"
     ) -> Optional[str]:
         """
         Create audio narration of consciousness state.
@@ -172,24 +156,23 @@ Keep it under 300 words."""
             module=self.module_name,
             capability=OpenAICapability.AUDIO_GENERATION,
             data={
-                'text': narrative,
-                'voice': voice,
-                'speed': 0.9,  # Slightly slower for contemplative tone
-                'output_path': f"consciousness_narration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.mp3"
-            }
+                "text": narrative,
+                "voice": voice,
+                "speed": 0.9,  # Slightly slower for contemplative tone
+                "output_path": f"consciousness_narration_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.mp3",
+            },
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['path']
+            return response.data["path"]
         else:
             logger.error(f"Narration generation failed: {response.error}")
             return None
 
     async def analyze_attention_patterns(
-        self,
-        attention_history: List[Dict[str, Any]]
+        self, attention_history: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Analyze patterns in attention focus over time.
@@ -203,12 +186,14 @@ Keep it under 300 words."""
         # Summarize attention history
         history_summary = []
         for entry in attention_history[-10:]:  # Last 10 entries
-            history_summary.append({
-                'timestamp': entry.get('timestamp'),
-                'focus': entry.get('focus_areas'),
-                'duration': entry.get('duration'),
-                'switches': entry.get('attention_switches')
-            })
+            history_summary.append(
+                {
+                    "timestamp": entry.get("timestamp"),
+                    "focus": entry.get("focus_areas"),
+                    "duration": entry.get("duration"),
+                    "switches": entry.get("attention_switches"),
+                }
+            )
 
         prompt = f"""Analyze these attention patterns from a consciousness perspective:
 
@@ -226,28 +211,22 @@ Provide recommendations for improved attention management."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.5,
-                'max_tokens': 500
-            },
-            model_preference=ModelType.REASONING
+            data={"prompt": prompt, "temperature": 0.5, "max_tokens": 500},
+            model_preference=ModelType.REASONING,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
             return {
-                'analysis': response.data['content'],
-                'timestamp': datetime.utcnow().isoformat()
+                "analysis": response.data["content"],
+                "timestamp": datetime.utcnow().isoformat(),
             }
         else:
-            return {'error': 'Pattern analysis failed'}
+            return {"error": "Pattern analysis failed"}
 
     async def generate_awareness_exercises(
-        self,
-        current_state: Dict[str, Any],
-        goal: str = "enhance_awareness"
+        self, current_state: Dict[str, Any], goal: str = "enhance_awareness"
     ) -> List[Dict[str, Any]]:
         """
         Generate personalized awareness exercises.
@@ -280,12 +259,8 @@ Format as JSON array with: name, description, duration, instructions, expected_o
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.7,
-                'max_tokens': 600
-            },
-            model_preference=ModelType.CREATIVE
+            data={"prompt": prompt, "temperature": 0.7, "max_tokens": 600},
+            model_preference=ModelType.CREATIVE,
         )
 
         response = await self.openai_service.process_request(request)
@@ -293,19 +268,21 @@ Format as JSON array with: name, description, duration, instructions, expected_o
         if response.success:
             try:
                 import json
-                return json.loads(response.data['content'])
+
+                return json.loads(response.data["content"])
             except:
-                return [{
-                    'name': 'Basic Awareness Exercise',
-                    'description': response.data['content'],
-                    'duration': '5 minutes'
-                }]
+                return [
+                    {
+                        "name": "Basic Awareness Exercise",
+                        "description": response.data["content"],
+                        "duration": "5 minutes",
+                    }
+                ]
         else:
             return []
 
     async def map_consciousness_landscape(
-        self,
-        multi_state_data: List[Dict[str, Any]]
+        self, multi_state_data: List[Dict[str, Any]]
     ) -> str:
         """
         Create a descriptive map of consciousness landscape.
@@ -319,11 +296,13 @@ Format as JSON array with: name, description, duration, instructions, expected_o
         # Prepare state summary
         states = []
         for state in multi_state_data[-5:]:  # Last 5 states
-            states.append({
-                'awareness': state.get('awareness_level'),
-                'emotion': state.get('emotional_tone'),
-                'focus': state.get('primary_focus')
-            })
+            states.append(
+                {
+                    "awareness": state.get("awareness_level"),
+                    "emotion": state.get("emotional_tone"),
+                    "focus": state.get("primary_focus"),
+                }
+            )
 
         prompt = f"""Create a poetic map of this consciousness landscape:
 
@@ -342,25 +321,19 @@ Write in a vivid, metaphorical style. Make it beautiful and insightful."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.9,
-                'max_tokens': 400
-            },
-            model_preference=ModelType.CREATIVE
+            data={"prompt": prompt, "temperature": 0.9, "max_tokens": 400},
+            model_preference=ModelType.CREATIVE,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
-            return response.data['content']
+            return response.data["content"]
         else:
             return "The landscape of consciousness stretches before me..."
 
     async def facilitate_meta_reflection(
-        self,
-        thought_stream: List[str],
-        depth_level: int = 1
+        self, thought_stream: List[str], depth_level: int = 1
     ) -> Dict[str, Any]:
         """
         Facilitate deep meta-reflection on thought processes.
@@ -375,7 +348,7 @@ Write in a vivid, metaphorical style. Make it beautiful and insightful."""
         depth_prompts = {
             1: "Reflect on these thoughts and identify patterns:",
             2: "Reflect on the nature of these reflections themselves:",
-            3: "Reflect on the process of reflecting on reflections:"
+            3: "Reflect on the process of reflecting on reflections:",
         }
 
         prompt = f"""{depth_prompts.get(depth_level, depth_prompts[1])}
@@ -395,24 +368,20 @@ Be philosophical and probing."""
         request = OpenAIRequest(
             module=self.module_name,
             capability=OpenAICapability.TEXT_GENERATION,
-            data={
-                'prompt': prompt,
-                'temperature': 0.7,
-                'max_tokens': 500
-            },
-            model_preference=ModelType.REASONING
+            data={"prompt": prompt, "temperature": 0.7, "max_tokens": 500},
+            model_preference=ModelType.REASONING,
         )
 
         response = await self.openai_service.process_request(request)
 
         if response.success:
             return {
-                'meta_insights': response.data['content'],
-                'depth_level': depth_level,
-                'timestamp': datetime.utcnow().isoformat()
+                "meta_insights": response.data["content"],
+                "depth_level": depth_level,
+                "timestamp": datetime.utcnow().isoformat(),
             }
         else:
-            return {'error': 'Meta-reflection failed'}
+            return {"error": "Meta-reflection failed"}
 
 
 # Example usage
@@ -422,12 +391,12 @@ async def demo_consciousness_adapter():
 
     # Example consciousness state
     state = {
-        'awareness_level': 0.75,
-        'attention_focus': ['problem_solving', 'self_reflection'],
-        'active_processes': ['reasoning', 'memory_integration'],
-        'reflection_depth': 0.6,
-        'emotional_state': 'curious',
-        'cognitive_load': 0.4
+        "awareness_level": 0.75,
+        "attention_focus": ["problem_solving", "self_reflection"],
+        "active_processes": ["reasoning", "memory_integration"],
+        "reflection_depth": 0.6,
+        "emotional_state": "curious",
+        "cognitive_load": 0.4,
     }
 
     print("🧠 Consciousness OpenAI Adapter Demo")
@@ -441,20 +410,25 @@ async def demo_consciousness_adapter():
     # Generate introspection
     print("\n2. Generating introspection...")
     reflection_data = {
-        'current_thoughts': ['What is the nature of awareness?', 'How do thoughts arise?'],
-        'recent_insights': ['Consciousness seems layered', 'Attention shapes experience'],
-        'emotional_tone': 'contemplative'
+        "current_thoughts": [
+            "What is the nature of awareness?",
+            "How do thoughts arise?",
+        ],
+        "recent_insights": [
+            "Consciousness seems layered",
+            "Attention shapes experience",
+        ],
+        "emotional_tone": "contemplative",
     }
     narrative = await adapter.generate_introspection_narrative(reflection_data)
     print(f"Introspection: {narrative[:200]}...")
 
     # Map consciousness landscape
     print("\n3. Mapping consciousness landscape...")
-    states = [state, {
-        'awareness_level': 0.5,
-        'emotional_tone': 'peaceful',
-        'primary_focus': 'rest'
-    }]
+    states = [
+        state,
+        {"awareness_level": 0.5, "emotional_tone": "peaceful", "primary_focus": "rest"},
+    ]
     landscape = await adapter.map_consciousness_landscape(states)
     print(f"Landscape: {landscape[:200]}...")
 
@@ -466,4 +440,5 @@ async def demo_consciousness_adapter():
 
 if __name__ == "__main__":
     import json
+
     asyncio.run(demo_consciousness_adapter())

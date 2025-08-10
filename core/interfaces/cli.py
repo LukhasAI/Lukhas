@@ -9,36 +9,43 @@ Integration Date: 2025-05-31T07:55:27.732053
 # 🔎 PURPOSE: Main symbolic entrypoint to launch LUKHAS agent and system ops
 # 🛠️ VERSION: v1.0.0 • 📅 CREATED: 2025-04-30 • ✍️ AUTHOR: LUKHAS AGI
 
-import sys
-import os
-import logging
-from datetime import datetime
 import json
+import logging
+import os
+import sys
+from datetime import datetime
 
 # Initialize logger
 logger = logging.getLogger(__name__)
+
 
 def display_mood():
     mood = os.environ.get("LUKHAS_MOOD_TAG", "🧠 Stable Initialization")
     logger.info(f"System Mood: {mood}")
     print(f"\n💬 System Mood: {mood}\n")  # Keep UI output
 
+
 def display_flashback_preview():
     trace_path = "logs/flashbacks/flashback_trace.jsonl"
     if os.path.exists(trace_path):
-        with open(trace_path, "r", encoding="utf-8") as f:
+        with open(trace_path, encoding="utf-8") as f:
             lines = [json.loads(line) for line in f if line.strip()][-2:]
             logger.debug("Displaying last flashbacks")
             print("🧠 Last Flashbacks:")  # Keep UI output
             for fb in lines:
-                print(f"• Theme: {fb.get('theme', 'N/A')} | Tag: {fb.get('introspection_tag', 'N/A')}")  # Keep UI output
+                print(
+                    f"• Theme: {fb.get('theme', 'N/A')} | Tag: {fb.get('introspection_tag', 'N/A')}"
+                )  # Keep UI output
+
 
 def display_system_status():
     logger.info("Displaying system status")
     print("📡 Modules: Dream ✅  | Trace ⚠️  | Agent ❌")  # Keep UI output
 
+
 def voice_welcome():
     os.system('say "Welcome back, Commander. LUKHAS is online."')
+
 
 def launch():
     display_mood()
@@ -46,7 +53,9 @@ def launch():
     print(f"📅 Session started: {datetime.now().isoformat()}")  # Keep UI output
     display_system_status()
     logger.info("Auto-triggering visual prompt generation")
-    print("\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback...")  # Keep UI output
+    print(
+        "\n🔁 Auto-Trigger: Generating visual prompt from most recent flashback..."
+    )  # Keep UI output
     os.system("python3 visualizer.py")
     display_flashback_preview()
     voice_welcome()
@@ -77,11 +86,14 @@ def launch():
             os.system("python3 dream_mutator.py")
         elif command in ("genaudit", "audit", "trace"):
             logger.info("Generating alignment trace report")
-            print("📊 Generating alignment trace report (placeholder)")  # Keep UI output
+            print(
+                "📊 Generating alignment trace report (placeholder)"
+            )  # Keep UI output
         elif command == "express":
             os.system("python3 lukhas_expression.py")
         elif command in ("help", "?"):
-            print("""
+            print(
+                """
 📜 Available commands:
   dream / flashback   → Trigger symbolic dream flashback
   genaudit / audit    → Generate symbolic trace report
@@ -90,10 +102,12 @@ def launch():
   visual              → Generate visual prompt from most recent flashback
   mutate              → Mutate most recent dream into symbolic variant
   express             → Generate symbolic opinion + visual prompt based on flashback
-""")  # Keep UI output
+"""
+            )  # Keep UI output
         else:
             logger.warning(f"Unknown command: {command}")
             print("⚠️ Unknown command. Type 'help' to see options.")  # Keep UI output
+
 
 if __name__ == "__main__":
     launch()

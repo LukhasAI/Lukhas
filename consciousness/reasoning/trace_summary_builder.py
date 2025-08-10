@@ -3,12 +3,12 @@ Trace Summary Builder
 Converts reasoning traces and decision trees into symbolic narratives
 """
 
-import json
-from core.common import get_logger
-from typing import Dict, List, Any, Optional, Tuple
-from datetime import datetime
-from collections import defaultdict
 import asyncio
+import json
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -24,10 +24,10 @@ class TraceNode:
         self.metadata = {
             "timestamp": datetime.now().isoformat(),
             "depth": 0,
-            "confidence": 0.0
+            "confidence": 0.0,
         }
 
-    def add_child(self, child: 'TraceNode'):
+    def add_child(self, child: "TraceNode"):
         """Add a child node"""
         child.metadata["depth"] = self.metadata["depth"] + 1
         self.children.append(child)
@@ -39,7 +39,7 @@ class TraceNode:
             "type": self.type,
             "content": self.content,
             "metadata": self.metadata,
-            "children": [child.to_dict() for child in self.children]
+            "children": [child.to_dict() for child in self.children],
         }
 
 
@@ -59,12 +59,14 @@ class TraceSummaryBuilder:
             "causal": "Causal chain: {cause} → {effect} (mechanism: {mechanism})",
             "probabilistic": "Probability analysis: {event} has {probability}% chance given {conditions}",
             "symbolic": "Formal proof: {axioms} ⊢ {theorem} via {steps}",
-            "hybrid": "Combined analysis using {strategies}: {synthesis}"
+            "hybrid": "Combined analysis using {strategies}: {synthesis}",
         }
         self.narrative_styles = ["technical", "explanatory", "simplified"]
         self.current_style = "explanatory"
 
-    async def build_summary(self, reason_tree: Dict[str, Any], style: str = "explanatory") -> Dict[str, Any]:
+    async def build_summary(
+        self, reason_tree: Dict[str, Any], style: str = "explanatory"
+    ) -> Dict[str, Any]:
         """
         Build a comprehensive summary from a reasoning trace tree
 
@@ -91,7 +93,9 @@ class TraceSummaryBuilder:
             narrative = await self._generate_narrative(root_node, insights)
 
             # Create recommendations
-            recommendations = self._generate_recommendations(insights, confidence_analysis)
+            recommendations = self._generate_recommendations(
+                insights, confidence_analysis
+            )
 
             summary = {
                 "narrative": narrative,
@@ -103,8 +107,8 @@ class TraceSummaryBuilder:
                     "style": style,
                     "generated_at": datetime.now().isoformat(),
                     "tree_depth": self._calculate_tree_depth(root_node),
-                    "node_count": self._count_nodes(root_node)
-                }
+                    "node_count": self._count_nodes(root_node),
+                },
             }
 
             # Cache the summary
@@ -119,7 +123,7 @@ class TraceSummaryBuilder:
                 "error": str(e),
                 "narrative": "Failed to build reasoning summary",
                 "insights": [],
-                "recommendations": ["Review reasoning trace for errors"]
+                "recommendations": ["Review reasoning trace for errors"],
             }
 
     def _parse_trace_tree(self, tree_data: Dict[str, Any]) -> TraceNode:
@@ -159,7 +163,7 @@ class TraceSummaryBuilder:
                     "content": node.content,
                     "confidence": node.metadata.get("confidence", 0.0),
                     "path": [n.id for n in path],
-                    "depth": node.metadata.get("depth", 0)
+                    "depth": node.metadata.get("depth", 0),
                 }
                 insights.append(insight)
 
@@ -195,17 +199,20 @@ class TraceSummaryBuilder:
         current = root
 
         while current:
-            path.append({
-                "node_id": current.id,
-                "type": current.type,
-                "summary": self._summarize_node(current),
-                "confidence": current.metadata.get("confidence", 0.0)
-            })
+            path.append(
+                {
+                    "node_id": current.id,
+                    "type": current.type,
+                    "summary": self._summarize_node(current),
+                    "confidence": current.metadata.get("confidence", 0.0),
+                }
+            )
 
             # Follow highest confidence child
             if current.children:
-                current = max(current.children,
-                            key=lambda c: c.metadata.get("confidence", 0.0))
+                current = max(
+                    current.children, key=lambda c: c.metadata.get("confidence", 0.0)
+                )
             else:
                 current = None
 
@@ -246,10 +253,12 @@ class TraceSummaryBuilder:
             "max": max(confidences),
             "count": len(confidences),
             "low_confidence_nodes": len([c for c in confidences if c < 0.5]),
-            "high_confidence_nodes": len([c for c in confidences if c > 0.8])
+            "high_confidence_nodes": len([c for c in confidences if c > 0.8]),
         }
 
-    async def _generate_narrative(self, root: TraceNode, insights: List[Dict[str, Any]]) -> str:
+    async def _generate_narrative(
+        self, root: TraceNode, insights: List[Dict[str, Any]]
+    ) -> str:
         """Generate a narrative summary of the reasoning process"""
         narrative_parts = []
 
@@ -291,7 +300,9 @@ class TraceSummaryBuilder:
                     f"(confidence: {conclusion.metadata.get('confidence', 0.0):.2f})"
                 )
             else:
-                narrative_parts.append(f"\nConclusion: {self._summarize_node(conclusion)}")
+                narrative_parts.append(
+                    f"\nConclusion: {self._summarize_node(conclusion)}"
+                )
 
         return "\n".join(narrative_parts)
 
@@ -322,8 +333,9 @@ class TraceSummaryBuilder:
             queue.extend(node.children)
         return None
 
-    def _generate_recommendations(self, insights: List[Dict[str, Any]],
-                                confidence_analysis: Dict[str, Any]) -> List[str]:
+    def _generate_recommendations(
+        self, insights: List[Dict[str, Any]], confidence_analysis: Dict[str, Any]
+    ) -> List[str]:
         """Generate recommendations based on the analysis"""
         recommendations = []
 
@@ -356,7 +368,9 @@ class TraceSummaryBuilder:
 
         # General recommendations
         if not recommendations:
-            recommendations.append("Reasoning trace appears sound. No immediate actions required.")
+            recommendations.append(
+                "Reasoning trace appears sound. No immediate actions required."
+            )
 
         return recommendations[:5]  # Limit to 5 recommendations
 

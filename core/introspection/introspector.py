@@ -10,14 +10,12 @@ enabling symbolic state reporting and module health monitoring.
 """
 
 import ast
-import os
-import re
-import sys
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-import logging
-from datetime import datetime
 import json
+import logging
+import re
+from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +44,7 @@ class ModuleIntrospector:
             "RECURSION_CONTROL": r"#\s*RECURSION_CONTROL:\s*([^\n]+)",
         }
 
-    def analyze_module(self, module_path: str) -> Dict[str, Any]:
+    def analyze_module(self, module_path: str) -> dict[str, Any]:
         """
         Analyze a Python module for symbolic tags and introspective metadata
 
@@ -73,7 +71,7 @@ class ModuleIntrospector:
 
         try:
             # Read module content
-            with open(module_path, "r", encoding="utf-8") as f:
+            with open(module_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Extract symbolic tags
@@ -99,7 +97,7 @@ class ModuleIntrospector:
 
         return analysis
 
-    def _process_special_tags(self, analysis: Dict, content: str):
+    def _process_special_tags(self, analysis: dict, content: str):
         """Process special symbolic tags for introspection"""
 
         # Check for locked status
@@ -127,7 +125,7 @@ class ModuleIntrospector:
                 "RECURSION_CONTROL"
             ]
 
-    def _analyze_ast(self, tree: ast.AST, analysis: Dict):
+    def _analyze_ast(self, tree: ast.AST, analysis: dict):
         """Analyze AST structure for functions, classes, and imports"""
 
         for node in ast.walk(tree):
@@ -156,7 +154,11 @@ class ModuleIntrospector:
             elif isinstance(node, ast.Import):
                 for alias in node.names:
                     analysis["imports"].append(
-                        {"type": "import", "name": alias.name, "asname": alias.asname}
+                        {
+                            "type": "import",
+                            "name": alias.name,
+                            "asname": alias.asname,
+                        }
                     )
             elif isinstance(node, ast.ImportFrom):
                 for alias in node.names:
@@ -185,7 +187,7 @@ class ModuleIntrospector:
             return f"{base.value.id}.{base.attr}"
         return str(base)
 
-    def report_symbolic_state(self, module_summary: Dict) -> str:
+    def report_symbolic_state(self, module_summary: dict) -> str:
         """
         Generate a symbolic state report from module analysis
 
@@ -198,7 +200,7 @@ class ModuleIntrospector:
 
         report_lines = []
         report_lines.append("=" * 60)
-        report_lines.append(f"SYMBOLIC STATE REPORT")
+        report_lines.append("SYMBOLIC STATE REPORT")
         report_lines.append(f"Module: {module_summary['module_path']}")
         report_lines.append(f"Timestamp: {module_summary['timestamp']}")
         report_lines.append("=" * 60)
@@ -238,7 +240,7 @@ class ModuleIntrospector:
                 report_lines.append(f"   • {point}")
 
         # Structure summary
-        report_lines.append(f"\n🏗️ STRUCTURE:")
+        report_lines.append("\n🏗️ STRUCTURE:")
         report_lines.append(f"   Functions: {len(module_summary['functions'])}")
         report_lines.append(f"   Classes: {len(module_summary['classes'])}")
         report_lines.append(f"   Imports: {len(module_summary['imports'])}")
@@ -275,13 +277,15 @@ class ModuleIntrospector:
 
 
 # Convenience functions for direct use
-def analyze_module(module_path: str) -> Dict[str, Any]:
+
+
+def analyze_module(module_path: str) -> dict[str, Any]:
     """Analyze a single module - convenience function"""
     introspector = ModuleIntrospector()
     return introspector.analyze_module(module_path)
 
 
-def report_symbolic_state(module_summary: Dict) -> str:
+def report_symbolic_state(module_summary: dict) -> str:
     """Generate symbolic state report - convenience function"""
     introspector = ModuleIntrospector()
     return introspector.report_symbolic_state(module_summary)

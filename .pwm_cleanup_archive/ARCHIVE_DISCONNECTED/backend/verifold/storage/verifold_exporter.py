@@ -6,9 +6,9 @@ Export collapse memories + consent chains to various formats.
 Supports JSON, IPFS, blockchain, and public GLYMPH generation.
 """
 
-from typing import Dict, List, Any, Optional
 from enum import Enum
-import json
+from typing import Dict, List, Optional
+
 
 class ExportFormat(Enum):
     JSON = "json"
@@ -16,6 +16,7 @@ class ExportFormat(Enum):
     BLOCKCHAIN = "blockchain"
     GLYMPH_PUBLIC = "glymph_public"
     ENCRYPTED_ARCHIVE = "encrypted_archive"
+
 
 class VeriFoldExporter:
     """Handles export of VeriFold data to various storage systems."""
@@ -30,7 +31,9 @@ class VeriFoldExporter:
         # TODO: Implement memory export functionality
         pass
 
-    def export_consent_chain(self, consent_history: List[Dict], format: ExportFormat) -> str:
+    def export_consent_chain(
+        self, consent_history: List[Dict], format: ExportFormat
+    ) -> str:
         """Export complete consent chain for audit."""
         # TODO: Implement consent chain export
         pass
@@ -49,6 +52,7 @@ class VeriFoldExporter:
         """Generate manifest of all export operations."""
         # TODO: Implement manifest generation
         pass
+
 
 # TODO: Add compression for large exports
 # TODO: Implement incremental export capabilities

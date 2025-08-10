@@ -44,26 +44,27 @@ exposing sensitive personal data. This system enables:
 AIDEA: Add homomorphic encryption for privacy-preserving dream analytics
 """
 
+import base64
 import hashlib
 import hmac
-import secrets
-import logging
-from datetime import datetime, timezone
-from typing import Dict, List, Any, Optional, Tuple, Union
-from dataclasses import dataclass, field
-from enum import Enum
 import json
-import base64
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+import logging
+import secrets
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
 from cryptography.hazmat.backends import default_backend
-import os
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 logger = logging.getLogger("zkp_dream_validator")
 
+
 class ZKPProofType(Enum):
     """Types of zero-knowledge proofs supported"""
+
     EMOTIONAL_RANGE = "emotional_range"
     ETHICAL_COMPLIANCE = "ethical_compliance"
     TRAUMA_PROCESSING = "trauma_processing"
@@ -72,16 +73,20 @@ class ZKPProofType(Enum):
     USER_CONSENT = "user_consent"
     PRIVACY_PRESERVATION = "privacy_preservation"
 
+
 class ZKPValidationLevel(Enum):
     """Levels of ZKP validation"""
+
     BASIC = "basic"
     STANDARD = "standard"
     ENHANCED = "enhanced"
     ENTERPRISE = "enterprise"
 
+
 @dataclass
 class ZKPProof:
     """Represents a zero-knowledge proof"""
+
     proof_id: str
     proof_type: ZKPProofType
     proof_data: str  # Base64 encoded cryptographic proof
@@ -92,9 +97,11 @@ class ZKPProof:
     expires_at: Optional[datetime] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ZKPValidationResult:
     """Results from ZKP validation"""
+
     proof_id: str
     is_valid: bool
     validation_confidence: float
@@ -103,6 +110,7 @@ class ZKPValidationResult:
     validated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     validator_signature: Optional[str] = None
     audit_trail: Dict[str, Any] = field(default_factory=dict)
+
 
 class ZKPDreamValidator:
     """
@@ -163,14 +171,14 @@ class ZKPDreamValidator:
                 "emotional_range_max": 1.0,
                 "ethical_compliance_min": 0.7,
                 "trauma_safety_min": 0.9,
-                "consensus_threshold": 0.67
+                "consensus_threshold": 0.67,
             },
             "validation_levels": {
                 "basic": {"iterations": 10, "precision": 0.1},
                 "standard": {"iterations": 50, "precision": 0.05},
                 "enhanced": {"iterations": 100, "precision": 0.01},
-                "enterprise": {"iterations": 200, "precision": 0.005}
-            }
+                "enterprise": {"iterations": 200, "precision": 0.005},
+            },
         }
 
     def _initialize_cryptographic_keys(self):
@@ -180,14 +188,14 @@ class ZKPDreamValidator:
             self._private_key = rsa.generate_private_key(
                 public_exponent=65537,
                 key_size=self.config["key_size"],
-                backend=default_backend()
+                backend=default_backend(),
             )
             self._public_key = self._private_key.public_key()
 
             # Initialize commitment scheme parameters
             self.commitment_schemes = {
                 "pedersen": self._initialize_pedersen_commitment(),
-                "bulletproof": self._initialize_bulletproof_parameters()
+                "bulletproof": self._initialize_bulletproof_parameters(),
             }
 
             self.logger.info("Cryptographic keys and commitment schemes initialized")
@@ -203,7 +211,7 @@ class ZKPDreamValidator:
         return {
             "generator_g": secrets.randbits(256),
             "generator_h": secrets.randbits(256),
-            "field_prime": 2**256 - 189  # Example large prime
+            "field_prime": 2**256 - 189,  # Example large prime
         }
 
     def _initialize_bulletproof_parameters(self) -> Dict[str, Any]:
@@ -211,7 +219,7 @@ class ZKPDreamValidator:
         return {
             "curve": "secp256k1",  # Example curve
             "generator_points": [secrets.randbits(256) for _ in range(4)],
-            "bit_length": 64
+            "bit_length": 64,
         }
 
     async def generate_emotional_range_proof(
@@ -219,7 +227,7 @@ class ZKPDreamValidator:
         emotional_state: Dict[str, float],
         user_id: str,
         dream_id: str,
-        validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD
+        validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD,
     ) -> ZKPProof:
         """
         Generate a zero-knowledge proof that emotional values are within valid ranges
@@ -242,10 +250,14 @@ class ZKPDreamValidator:
             max_range = self.compliance_thresholds["emotional_range_max"]
 
             # Check if all emotional values are within range (private validation)
-            in_range = all(min_range <= value <= max_range for value in emotional_state.values())
+            in_range = all(
+                min_range <= value <= max_range for value in emotional_state.values()
+            )
 
             if not in_range:
-                self.logger.warning("Emotional values outside valid range - proof generation may fail")
+                self.logger.warning(
+                    "Emotional values outside valid range - proof generation may fail"
+                )
 
             # Create commitment to emotional values without revealing them
             commitments = {}
@@ -266,7 +278,11 @@ class ZKPDreamValidator:
                 if min_range <= value <= max_range:
                     # Generate bulletproof-style range proof
                     range_proof = self._generate_range_proof(
-                        value, min_range, max_range, blinding_factors[emotion], validation_level
+                        value,
+                        min_range,
+                        max_range,
+                        blinding_factors[emotion],
+                        validation_level,
                     )
                     range_proofs[emotion] = range_proof
                 else:
@@ -282,7 +298,7 @@ class ZKPDreamValidator:
                 "validation_level": validation_level.value,
                 "emotion_count": len(emotional_state),
                 "user_hash": self._hash_user_id(user_id),
-                "dream_hash": self._hash_dream_id(dream_id)
+                "dream_hash": self._hash_dream_id(dream_id),
             }
 
             # Serialize proof data
@@ -291,18 +307,20 @@ class ZKPDreamValidator:
                 "commitment_openings": {
                     # Don't include actual values or blinding factors in proof
                     "proof_valid": in_range,
-                    "proof_generation_time": datetime.now(timezone.utc).isoformat()
-                }
+                    "proof_generation_time": datetime.now(timezone.utc).isoformat(),
+                },
             }
 
             # Create cryptographic proof
             proof_id = self._generate_proof_id("emotional_range", user_id, dream_id)
             proof_data_encoded = base64.b64encode(
-                json.dumps(proof_data).encode('utf-8')
-            ).decode('utf-8')
+                json.dumps(proof_data).encode("utf-8")
+            ).decode("utf-8")
 
             # Generate proof hash
-            proof_hash = self._generate_proof_hash(proof_data_encoded, public_parameters)
+            proof_hash = self._generate_proof_hash(
+                proof_data_encoded, public_parameters
+            )
 
             # Create ZKP proof object
             zkp_proof = ZKPProof(
@@ -316,21 +334,24 @@ class ZKPDreamValidator:
                     "user_id_hash": self._hash_user_id(user_id),
                     "dream_id": dream_id,
                     "emotions_count": len(emotional_state),
-                    "in_range_validation": in_range
-                }
+                    "in_range_validation": in_range,
+                },
             )
 
             # Store proof
             self.generated_proofs[proof_id] = zkp_proof
 
             # Add to audit log
-            self._add_audit_entry("emotional_range_proof_generated", {
-                "proof_id": proof_id,
-                "user_hash": self._hash_user_id(user_id),
-                "dream_id": dream_id,
-                "validation_level": validation_level.value,
-                "in_range": in_range
-            })
+            self._add_audit_entry(
+                "emotional_range_proof_generated",
+                {
+                    "proof_id": proof_id,
+                    "user_hash": self._hash_user_id(user_id),
+                    "dream_id": dream_id,
+                    "validation_level": validation_level.value,
+                    "in_range": in_range,
+                },
+            )
 
             self.logger.info(f"Emotional range proof generated: {proof_id}")
             return zkp_proof
@@ -344,7 +365,7 @@ class ZKPDreamValidator:
         ethical_decision_data: Dict[str, Any],
         user_id: str,
         dream_id: str,
-        validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD
+        validation_level: ZKPValidationLevel = ZKPValidationLevel.STANDARD,
     ) -> ZKPProof:
         """
         Generate a zero-knowledge proof of ethical compliance without revealing
@@ -360,7 +381,9 @@ class ZKPDreamValidator:
             ZKP proof of ethical compliance
         """
         try:
-            self.logger.info(f"Generating ethical compliance proof for dream {dream_id}")
+            self.logger.info(
+                f"Generating ethical compliance proof for dream {dream_id}"
+            )
 
             # Extract compliance metrics without exposing decision details
             compliance_score = ethical_decision_data.get("compliance_score", 0.0)
@@ -369,8 +392,7 @@ class ZKPDreamValidator:
 
             # Determine if ethics are compliant (private validation)
             is_compliant = (
-                compliance_score >= compliance_threshold and
-                len(ethical_conflicts) == 0
+                compliance_score >= compliance_threshold and len(ethical_conflicts) == 0
             )
 
             # Create commitment to compliance without revealing score
@@ -382,14 +404,17 @@ class ZKPDreamValidator:
             # Generate zero-knowledge proof of compliance
             if is_compliant:
                 compliance_proof = self._generate_compliance_proof(
-                    compliance_score, compliance_threshold, compliance_blinding, validation_level
+                    compliance_score,
+                    compliance_threshold,
+                    compliance_blinding,
+                    validation_level,
                 )
             else:
                 # Generate proof of non-compliance without revealing why
                 compliance_proof = {
                     "compliant": False,
                     "requires_review": True,
-                    "confidence": max(0.0, compliance_score)
+                    "confidence": max(0.0, compliance_score),
                 }
 
             # Public parameters (safe to expose)
@@ -400,7 +425,7 @@ class ZKPDreamValidator:
                 "validation_level": validation_level.value,
                 "user_hash": self._hash_user_id(user_id),
                 "dream_hash": self._hash_dream_id(dream_id),
-                "compliant_result": is_compliant
+                "compliant_result": is_compliant,
             }
 
             # Proof data (cryptographically secured)
@@ -409,17 +434,19 @@ class ZKPDreamValidator:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "ethical_validation": {
                     "passed": is_compliant,
-                    "confidence": compliance_score if is_compliant else 0.0
-                }
+                    "confidence": compliance_score if is_compliant else 0.0,
+                },
             }
 
             # Create and store proof
             proof_id = self._generate_proof_id("ethical_compliance", user_id, dream_id)
             proof_data_encoded = base64.b64encode(
-                json.dumps(proof_data).encode('utf-8')
-            ).decode('utf-8')
+                json.dumps(proof_data).encode("utf-8")
+            ).decode("utf-8")
 
-            proof_hash = self._generate_proof_hash(proof_data_encoded, public_parameters)
+            proof_hash = self._generate_proof_hash(
+                proof_data_encoded, public_parameters
+            )
 
             zkp_proof = ZKPProof(
                 proof_id=proof_id,
@@ -432,20 +459,23 @@ class ZKPDreamValidator:
                     "user_id_hash": self._hash_user_id(user_id),
                     "dream_id": dream_id,
                     "compliance_result": is_compliant,
-                    "requires_review": not is_compliant
-                }
+                    "requires_review": not is_compliant,
+                },
             )
 
             self.generated_proofs[proof_id] = zkp_proof
 
             # Audit log
-            self._add_audit_entry("ethical_compliance_proof_generated", {
-                "proof_id": proof_id,
-                "user_hash": self._hash_user_id(user_id),
-                "dream_id": dream_id,
-                "compliant": is_compliant,
-                "validation_level": validation_level.value
-            })
+            self._add_audit_entry(
+                "ethical_compliance_proof_generated",
+                {
+                    "proof_id": proof_id,
+                    "user_hash": self._hash_user_id(user_id),
+                    "dream_id": dream_id,
+                    "compliant": is_compliant,
+                    "validation_level": validation_level.value,
+                },
+            )
 
             self.logger.info(f"Ethical compliance proof generated: {proof_id}")
             return zkp_proof
@@ -459,7 +489,7 @@ class ZKPDreamValidator:
         trauma_processing_data: Dict[str, Any],
         user_id: str,
         dream_id: str,
-        validation_level: ZKPValidationLevel = ZKPValidationLevel.ENHANCED
+        validation_level: ZKPValidationLevel = ZKPValidationLevel.ENHANCED,
     ) -> ZKPProof:
         """
         Generate a zero-knowledge proof that trauma processing was conducted safely
@@ -479,20 +509,24 @@ class ZKPDreamValidator:
 
             # Extract safety metrics without exposing trauma content
             safety_score = trauma_processing_data.get("safety_score", 0.0)
-            harmful_associations_removed = trauma_processing_data.get("harmful_associations_removed", 0)
+            harmful_associations_removed = trauma_processing_data.get(
+                "harmful_associations_removed", 0
+            )
             processing_success = trauma_processing_data.get("processing_success", False)
             safety_threshold = self.compliance_thresholds["trauma_safety_min"]
 
             # Determine if trauma processing was safe (private validation)
             is_safe = (
-                safety_score >= safety_threshold and
-                processing_success and
-                harmful_associations_removed >= 0  # At least no harm added
+                safety_score >= safety_threshold
+                and processing_success
+                and harmful_associations_removed >= 0  # At least no harm added
             )
 
             # Create commitment to safety metrics without revealing specifics
             safety_blinding = secrets.randbits(256)
-            safety_commitment = self._create_pedersen_commitment(safety_score, safety_blinding)
+            safety_commitment = self._create_pedersen_commitment(
+                safety_score, safety_blinding
+            )
 
             # Generate zero-knowledge proof of safe processing
             if is_safe:
@@ -504,7 +538,7 @@ class ZKPDreamValidator:
                 safety_proof = {
                     "safe_processing": False,
                     "requires_safety_review": True,
-                    "safety_confidence": max(0.0, safety_score)
+                    "safety_confidence": max(0.0, safety_score),
                 }
 
             # Public parameters (trauma content never exposed)
@@ -516,7 +550,7 @@ class ZKPDreamValidator:
                 "user_hash": self._hash_user_id(user_id),
                 "dream_hash": self._hash_dream_id(dream_id),
                 "safe_processing_result": is_safe,
-                "privacy_level": "maximum"  # Highest privacy for trauma
+                "privacy_level": "maximum",  # Highest privacy for trauma
             }
 
             # Highly encrypted proof data
@@ -526,8 +560,8 @@ class ZKPDreamValidator:
                 "trauma_validation": {
                     "safe_processing": is_safe,
                     "processing_confidence": safety_score if is_safe else 0.0,
-                    "content_protected": True
-                }
+                    "content_protected": True,
+                },
             }
 
             # Additional encryption for trauma proofs
@@ -535,9 +569,11 @@ class ZKPDreamValidator:
 
             # Create proof with enhanced security
             proof_id = self._generate_proof_id("trauma_processing", user_id, dream_id)
-            proof_data_encoded = base64.b64encode(encrypted_proof_data).decode('utf-8')
+            proof_data_encoded = base64.b64encode(encrypted_proof_data).decode("utf-8")
 
-            proof_hash = self._generate_proof_hash(proof_data_encoded, public_parameters)
+            proof_hash = self._generate_proof_hash(
+                proof_data_encoded, public_parameters
+            )
 
             zkp_proof = ZKPProof(
                 proof_id=proof_id,
@@ -551,23 +587,28 @@ class ZKPDreamValidator:
                     "dream_id": dream_id,
                     "safe_processing": is_safe,
                     "privacy_level": "maximum",
-                    "requires_review": not is_safe
-                }
+                    "requires_review": not is_safe,
+                },
             )
 
             self.generated_proofs[proof_id] = zkp_proof
 
             # Audit with minimal trauma information
-            self._add_audit_entry("trauma_processing_proof_generated", {
-                "proof_id": proof_id,
-                "user_hash": self._hash_user_id(user_id),
-                "dream_id": dream_id,
-                "safe_processing": is_safe,
-                "validation_level": validation_level.value,
-                "privacy_level": "maximum"
-            })
+            self._add_audit_entry(
+                "trauma_processing_proof_generated",
+                {
+                    "proof_id": proof_id,
+                    "user_hash": self._hash_user_id(user_id),
+                    "dream_id": dream_id,
+                    "safe_processing": is_safe,
+                    "validation_level": validation_level.value,
+                    "privacy_level": "maximum",
+                },
+            )
 
-            self.logger.info(f"Trauma processing proof generated with maximum privacy: {proof_id}")
+            self.logger.info(
+                f"Trauma processing proof generated with maximum privacy: {proof_id}"
+            )
             return zkp_proof
 
         except Exception as e:
@@ -575,9 +616,7 @@ class ZKPDreamValidator:
             raise
 
     async def validate_zkp_proof(
-        self,
-        proof: ZKPProof,
-        validation_context: Optional[Dict[str, Any]] = None
+        self, proof: ZKPProof, validation_context: Optional[Dict[str, Any]] = None
     ) -> ZKPValidationResult:
         """
         Validate a zero-knowledge proof without requiring access to the original data.
@@ -601,7 +640,9 @@ class ZKPDreamValidator:
                 validation_errors.append("Invalid proof structure")
 
             # 2. Verify proof hash
-            expected_hash = self._generate_proof_hash(proof.proof_data, proof.public_parameters)
+            expected_hash = self._generate_proof_hash(
+                proof.proof_data, proof.public_parameters
+            )
             if expected_hash != proof.proof_hash:
                 validation_errors.append("Proof hash mismatch")
 
@@ -629,16 +670,19 @@ class ZKPDreamValidator:
             # 5. Check minimum validation confidence
             min_confidence = self.config["min_validation_confidence"]
             if validation_confidence < min_confidence:
-                validation_warnings.append(f"Validation confidence {validation_confidence:.2f} below minimum {min_confidence}")
+                validation_warnings.append(
+                    f"Validation confidence {validation_confidence:.2f} below minimum {min_confidence}"
+                )
 
             # Determine overall validity
             is_valid = (
-                len(validation_errors) == 0 and
-                validation_confidence >= min_confidence
+                len(validation_errors) == 0 and validation_confidence >= min_confidence
             )
 
             # Generate validator signature
-            validator_signature = self._generate_validator_signature(proof, validation_confidence)
+            validator_signature = self._generate_validator_signature(
+                proof, validation_confidence
+            )
 
             # Create validation result
             result = ZKPValidationResult(
@@ -652,24 +696,29 @@ class ZKPDreamValidator:
                     "validation_method": "zkp_cryptographic_validation",
                     "validation_level": proof.validation_level.value,
                     "validator_id": self._get_validator_id(),
-                    "validation_parameters": validation_context or {}
-                }
+                    "validation_parameters": validation_context or {},
+                },
             )
 
             # Store validation result
             self.validation_results[proof.proof_id] = result
 
             # Add to audit log
-            self._add_audit_entry("zkp_proof_validated", {
-                "proof_id": proof.proof_id,
-                "proof_type": proof.proof_type.value,
-                "is_valid": is_valid,
-                "validation_confidence": validation_confidence,
-                "errors_count": len(validation_errors),
-                "warnings_count": len(validation_warnings)
-            })
+            self._add_audit_entry(
+                "zkp_proof_validated",
+                {
+                    "proof_id": proof.proof_id,
+                    "proof_type": proof.proof_type.value,
+                    "is_valid": is_valid,
+                    "validation_confidence": validation_confidence,
+                    "errors_count": len(validation_errors),
+                    "warnings_count": len(validation_warnings),
+                },
+            )
 
-            self.logger.info(f"ZKP proof validation completed: {proof.proof_id} -> valid={is_valid}")
+            self.logger.info(
+                f"ZKP proof validation completed: {proof.proof_id} -> valid={is_valid}"
+            )
             return result
 
         except Exception as e:
@@ -680,7 +729,7 @@ class ZKPDreamValidator:
                 is_valid=False,
                 validation_confidence=0.0,
                 validation_errors=[f"Validation failed: {str(e)}"],
-                audit_trail={"error": str(e)}
+                audit_trail={"error": str(e)},
             )
 
             self.validation_results[proof.proof_id] = error_result
@@ -688,21 +737,23 @@ class ZKPDreamValidator:
 
     # Private helper methods for cryptographic operations
 
-    def _create_pedersen_commitment(self, value: float, blinding_factor: int) -> Dict[str, Any]:
+    def _create_pedersen_commitment(
+        self, value: float, blinding_factor: int
+    ) -> Dict[str, Any]:
         """Create a Pedersen commitment to a value"""
         params = self.commitment_schemes["pedersen"]
 
         # Simplified Pedersen commitment: g^value * h^blinding_factor mod p
         # In production, would use proper elliptic curve operations
         commitment_value = (
-            pow(params["generator_g"], int(value * 1000), params["field_prime"]) *
-            pow(params["generator_h"], blinding_factor, params["field_prime"])
+            pow(params["generator_g"], int(value * 1000), params["field_prime"])
+            * pow(params["generator_h"], blinding_factor, params["field_prime"])
         ) % params["field_prime"]
 
         return {
             "commitment": commitment_value,
             "commitment_type": "pedersen",
-            "created_at": datetime.now(timezone.utc).isoformat()
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
 
     def _generate_range_proof(
@@ -711,7 +762,7 @@ class ZKPDreamValidator:
         min_range: float,
         max_range: float,
         blinding_factor: int,
-        validation_level: ZKPValidationLevel
+        validation_level: ZKPValidationLevel,
     ) -> Dict[str, Any]:
         """Generate a range proof for a value"""
         # Simplified range proof - in production would use bulletproofs or similar
@@ -727,7 +778,7 @@ class ZKPDreamValidator:
             component = {
                 "iteration": i,
                 "proof_fragment": secrets.randbits(256),
-                "validation_step": f"range_check_{i}"
+                "validation_step": f"range_check_{i}",
             }
             proof_components.append(component)
 
@@ -736,7 +787,7 @@ class ZKPDreamValidator:
             "proof_components": proof_components,
             "validation_level": validation_level.value,
             "precision": precision,
-            "iterations": iterations
+            "iterations": iterations,
         }
 
     def _generate_compliance_proof(
@@ -744,7 +795,7 @@ class ZKPDreamValidator:
         compliance_score: float,
         threshold: float,
         blinding_factor: int,
-        validation_level: ZKPValidationLevel
+        validation_level: ZKPValidationLevel,
     ) -> Dict[str, Any]:
         """Generate a compliance proof"""
         compliant = compliance_score >= threshold
@@ -754,7 +805,7 @@ class ZKPDreamValidator:
             "proof_valid": compliant,
             "validation_level": validation_level.value,
             "threshold_met": compliant,
-            "confidence": compliance_score if compliant else 0.0
+            "confidence": compliance_score if compliant else 0.0,
         }
 
     def _generate_safety_proof(
@@ -762,7 +813,7 @@ class ZKPDreamValidator:
         safety_score: float,
         threshold: float,
         blinding_factor: int,
-        validation_level: ZKPValidationLevel
+        validation_level: ZKPValidationLevel,
     ) -> Dict[str, Any]:
         """Generate a safety proof for trauma processing"""
         safe = safety_score >= threshold
@@ -773,17 +824,17 @@ class ZKPDreamValidator:
             "validation_level": validation_level.value,
             "safety_threshold_met": safe,
             "safety_confidence": safety_score if safe else 0.0,
-            "privacy_preserved": True
+            "privacy_preserved": True,
         }
 
     def _encrypt_sensitive_data(self, data: Dict[str, Any]) -> bytes:
         """Encrypt sensitive data using AES encryption"""
         # Generate random key and IV for AES encryption
         key = secrets.token_bytes(32)  # 256-bit key
-        iv = secrets.token_bytes(16)   # 128-bit IV
+        iv = secrets.token_bytes(16)  # 128-bit IV
 
         # Serialize data
-        data_json = json.dumps(data).encode('utf-8')
+        data_json = json.dumps(data).encode("utf-8")
 
         # Encrypt using AES-CBC
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
@@ -816,12 +867,21 @@ class ZKPDreamValidator:
         padding_length = padded_data[-1]
         data = padded_data[:-padding_length]
 
-        return json.loads(data.decode('utf-8'))
+        return json.loads(data.decode("utf-8"))
 
     def _verify_proof_structure(self, proof: ZKPProof) -> bool:
         """Verify the basic structure of a ZKP proof"""
-        required_fields = ['proof_id', 'proof_type', 'proof_data', 'public_parameters', 'proof_hash']
-        return all(hasattr(proof, field) and getattr(proof, field) is not None for field in required_fields)
+        required_fields = [
+            "proof_id",
+            "proof_type",
+            "proof_data",
+            "public_parameters",
+            "proof_hash",
+        ]
+        return all(
+            hasattr(proof, field) and getattr(proof, field) is not None
+            for field in required_fields
+        )
 
     def _validate_emotional_range_proof(self, proof: ZKPProof) -> float:
         """Validate an emotional range proof"""
@@ -834,11 +894,13 @@ class ZKPDreamValidator:
 
             # Decode and verify proof data
             proof_data_raw = base64.b64decode(proof.proof_data)
-            proof_data = json.loads(proof_data_raw.decode('utf-8'))
+            proof_data = json.loads(proof_data_raw.decode("utf-8"))
 
             # Check range proofs
             range_proofs = proof_data.get("range_proofs", {})
-            valid_proofs = sum(1 for rp in range_proofs.values() if rp.get("range_valid", False))
+            valid_proofs = sum(
+                1 for rp in range_proofs.values() if rp.get("range_valid", False)
+            )
             total_proofs = len(range_proofs)
 
             if total_proofs == 0:
@@ -854,7 +916,7 @@ class ZKPDreamValidator:
         """Validate an ethical compliance proof"""
         try:
             proof_data_raw = base64.b64decode(proof.proof_data)
-            proof_data = json.loads(proof_data_raw.decode('utf-8'))
+            proof_data = json.loads(proof_data_raw.decode("utf-8"))
 
             compliance_proof = proof_data.get("compliance_proof", {})
             compliant = compliance_proof.get("compliant", False)
@@ -886,30 +948,34 @@ class ZKPDreamValidator:
     def _generate_proof_id(self, proof_type: str, user_id: str, dream_id: str) -> str:
         """Generate a unique proof ID"""
         content = f"{proof_type}:{self._hash_user_id(user_id)}:{dream_id}:{datetime.now(timezone.utc).isoformat()}"
-        return hashlib.sha256(content.encode('utf-8')).hexdigest()[:16]
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
 
-    def _generate_proof_hash(self, proof_data: str, public_parameters: Dict[str, Any]) -> str:
+    def _generate_proof_hash(
+        self, proof_data: str, public_parameters: Dict[str, Any]
+    ) -> str:
         """Generate a hash of the proof for integrity verification"""
         combined_data = proof_data + json.dumps(public_parameters, sort_keys=True)
-        return hashlib.sha256(combined_data.encode('utf-8')).hexdigest()
+        return hashlib.sha256(combined_data.encode("utf-8")).hexdigest()
 
     def _generate_validator_signature(self, proof: ZKPProof, confidence: float) -> str:
         """Generate a cryptographic signature for the validation"""
-        signature_data = f"{proof.proof_id}:{confidence}:{datetime.now(timezone.utc).isoformat()}"
+        signature_data = (
+            f"{proof.proof_id}:{confidence}:{datetime.now(timezone.utc).isoformat()}"
+        )
         signature = hmac.new(
-            self.privacy_salt,
-            signature_data.encode('utf-8'),
-            hashlib.sha256
+            self.privacy_salt, signature_data.encode("utf-8"), hashlib.sha256
         ).hexdigest()
         return signature
 
     def _hash_user_id(self, user_id: str) -> str:
         """Create a privacy-preserving hash of the user ID"""
-        return hmac.new(self.privacy_salt, user_id.encode('utf-8'), hashlib.sha256).hexdigest()[:12]
+        return hmac.new(
+            self.privacy_salt, user_id.encode("utf-8"), hashlib.sha256
+        ).hexdigest()[:12]
 
     def _hash_dream_id(self, dream_id: str) -> str:
         """Create a hash of the dream ID"""
-        return hashlib.sha256(dream_id.encode('utf-8')).hexdigest()[:12]
+        return hashlib.sha256(dream_id.encode("utf-8")).hexdigest()[:12]
 
     def _get_validator_id(self) -> str:
         """Get identifier for this validator instance"""
@@ -921,7 +987,7 @@ class ZKPDreamValidator:
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "event_type": event_type,
             "data": data,
-            "validator_id": self._get_validator_id()
+            "validator_id": self._get_validator_id(),
         }
         self.audit_log.append(audit_entry)
 
@@ -942,14 +1008,15 @@ class ZKPDreamValidator:
             "supported_proof_types": [pt.value for pt in ZKPProofType],
             "validation_levels": list(self.config["validation_levels"].keys()),
             "privacy_salt_initialized": len(self.privacy_salt) == 32,
-            "compliance_thresholds": self.compliance_thresholds
+            "compliance_thresholds": self.compliance_thresholds,
         }
+
 
 # Export main classes
 __all__ = [
-    'ZKPDreamValidator',
-    'ZKPProof',
-    'ZKPValidationResult',
-    'ZKPProofType',
-    'ZKPValidationLevel'
+    "ZKPDreamValidator",
+    "ZKPProof",
+    "ZKPValidationResult",
+    "ZKPProofType",
+    "ZKPValidationLevel",
 ]

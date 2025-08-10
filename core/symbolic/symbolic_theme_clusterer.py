@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ═══════════════════════════════════════════════════════════════════════════════════
 🔍 MODULE: dream.tools.symbolic_theme_clusterer
 📄 FILENAME: symbolic_theme_clusterer.py
@@ -56,24 +55,23 @@ TODO: Add ML-based theme prediction for proactive narrative modeling
 IDEA: Implement cross-user thematic linking for collective dream analysis
 """
 
+import argparse
 import json
 import math
-import argparse
 import re
-from typing import Dict, List, Any, Optional, Tuple, Set
-from datetime import datetime, timezone, timedelta
-from dataclasses import dataclass, asdict, field
+from collections import Counter, defaultdict
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta, timezone
+from itertools import combinations
 from pathlib import Path
-from collections import defaultdict, Counter
+from typing import Any, Optional
+
 import numpy as np
 import structlog
-from itertools import combinations
 
 # Optional ML imports
 try:
-    from sklearn.cluster import KMeans, DBSCAN
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics.pairwise import cosine_similarity
+    from sklearn.cluster import DBSCAN
 
     SKLEARN_AVAILABLE = True
 except ImportError:
@@ -89,9 +87,9 @@ class MotifInstance:
     symbol: str
     dream_id: str
     timestamp: str
-    emotional_context: Dict[str, float]
-    co_occurring_symbols: List[str]
-    lambda_tags: List[str]
+    emotional_context: dict[str, float]
+    co_occurring_symbols: list[str]
+    lambda_tags: list[str]
     narrative_position: float  # 0.0 = beginning, 1.0 = end
     symbolic_weight: float = 1.0
 
@@ -101,11 +99,11 @@ class SymbolicTheme:
     """Represents a clustered symbolic theme."""
 
     theme_id: str
-    core_symbols: List[str]
-    supporting_symbols: List[str]
-    emotional_tone: Dict[str, float]
-    dream_sessions: List[str]
-    temporal_span: Tuple[str, str]  # First and last occurrence
+    core_symbols: list[str]
+    supporting_symbols: list[str]
+    emotional_tone: dict[str, float]
+    dream_sessions: list[str]
+    temporal_span: tuple[str, str]  # First and last occurrence
     coherence_score: float
     recurrence_count: int
     theme_type: str  # core, supporting, transitional, recurrent, divergent
@@ -119,25 +117,25 @@ class ThemeTransition:
     to_theme: str
     transition_point: str  # timestamp
     transition_strength: float
-    common_symbols: List[str]
-    emotional_shift: Dict[str, float]
+    common_symbols: list[str]
+    emotional_shift: dict[str, float]
 
 
 @dataclass
 class ThematicEvolution:
     """Tracks the evolution of themes across dream sessions."""
 
-    timeline: List[Tuple[str, str]]  # (timestamp, dominant_theme)
-    transitions: List[ThemeTransition]
-    recurring_patterns: List[str]
-    divergence_points: List[str]
-    convergence_points: List[str]
+    timeline: list[tuple[str, str]]  # (timestamp, dominant_theme)
+    transitions: list[ThemeTransition]
+    recurring_patterns: list[str]
+    divergence_points: list[str]
+    convergence_points: list[str]
 
 
 class SymbolicThemeClusterer:
     """Clusters symbolic motifs into thematic patterns."""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.similarity_threshold = self.config.get("similarity_threshold", 0.3)
         self.min_cluster_size = self.config.get("min_cluster_size", 2)
@@ -149,13 +147,18 @@ class SymbolicThemeClusterer:
             "flight": ["falling", "wings", "sky", "birds", "freedom"],
             "water": ["ocean", "river", "swimming", "drowning", "cleansing"],
             "chase": ["running", "pursuit", "escape", "fear", "danger"],
-            "transformation": ["metamorphosis", "change", "mutation", "evolution"],
+            "transformation": [
+                "metamorphosis",
+                "change",
+                "mutation",
+                "evolution",
+            ],
             "mirror": ["reflection", "self", "identity", "truth", "illusion"],
             "family": ["childhood_home", "parents", "siblings", "reunion"],
             "death": ["funeral", "grief", "loss", "endings", "transition"],
         }
 
-    def extract_motifs_from_dreams(self, dream_dir: str, limit: int = 20) -> List[Dict]:
+    def extract_motifs_from_dreams(self, dream_dir: str, limit: int = 20) -> list[dict]:
         """Parse symbolic dream data to extract motifs and their emotional/symbolic tags."""
         motifs = []
         dream_sessions = self._load_dream_sessions(dream_dir, limit)
@@ -169,7 +172,7 @@ class SymbolicThemeClusterer:
         logger.info(f"Extracted {len(motifs)} total motif instances")
         return [asdict(motif) for motif in motifs]
 
-    def _load_dream_sessions(self, directory: str, limit: int) -> List[Dict]:
+    def _load_dream_sessions(self, directory: str, limit: int) -> list[dict]:
         """Load dream sessions from directory or generate samples."""
         sessions = []
         dream_dir = Path(directory)
@@ -183,7 +186,7 @@ class SymbolicThemeClusterer:
 
         for json_file in json_files:
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
+                with open(json_file, encoding="utf-8") as f:
                     session_data = json.load(f)
                 sessions.append(session_data)
             except Exception as e:
@@ -196,7 +199,7 @@ class SymbolicThemeClusterer:
 
         return sessions
 
-    def _generate_sample_dream_sessions(self, count: int) -> List[Dict]:
+    def _generate_sample_dream_sessions(self, count: int) -> list[dict]:
         """Generate sample dream sessions with thematic patterns."""
         import random
 
@@ -309,7 +312,10 @@ class SymbolicThemeClusterer:
         return sessions
 
     def _identify_dominant_theme_name(
-        self, symbols: List[str], theme_names: List[str], themes: List[List[str]]
+        self,
+        symbols: list[str],
+        theme_names: list[str],
+        themes: list[list[str]],
     ) -> str:
         """Identify which theme has the most symbols in the given list."""
         theme_counts = {}
@@ -318,15 +324,35 @@ class SymbolicThemeClusterer:
 
         return max(theme_counts, key=theme_counts.get)
 
-    def _generate_thematic_emotions(self, theme_name: str) -> Dict[str, float]:
+    def _generate_thematic_emotions(self, theme_name: str) -> dict[str, float]:
         """Generate emotions appropriate for the given theme."""
         import random
 
         emotion_profiles = {
-            "flight": {"joy": 0.7, "freedom": 0.8, "fear": 0.3, "exhilaration": 0.9},
-            "water": {"calm": 0.6, "cleansing": 0.7, "fear": 0.4, "renewal": 0.8},
-            "chase": {"fear": 0.9, "anxiety": 0.8, "urgency": 0.9, "panic": 0.7},
-            "family": {"nostalgia": 0.8, "warmth": 0.7, "comfort": 0.8, "longing": 0.6},
+            "flight": {
+                "joy": 0.7,
+                "freedom": 0.8,
+                "fear": 0.3,
+                "exhilaration": 0.9,
+            },
+            "water": {
+                "calm": 0.6,
+                "cleansing": 0.7,
+                "fear": 0.4,
+                "renewal": 0.8,
+            },
+            "chase": {
+                "fear": 0.9,
+                "anxiety": 0.8,
+                "urgency": 0.9,
+                "panic": 0.7,
+            },
+            "family": {
+                "nostalgia": 0.8,
+                "warmth": 0.7,
+                "comfort": 0.8,
+                "longing": 0.6,
+            },
             "transformation": {
                 "wonder": 0.7,
                 "confusion": 0.5,
@@ -346,22 +372,37 @@ class SymbolicThemeClusterer:
 
         return result
 
-    def _generate_narrative_elements(self, theme_name: str) -> List[str]:
+    def _generate_narrative_elements(self, theme_name: str) -> list[str]:
         """Generate narrative elements appropriate for the theme."""
         import random
 
         element_profiles = {
-            "flight": ["ascension", "liberation", "perspective_shift", "transcendence"],
-            "water": ["purification", "submersion", "flow_state", "depth_exploration"],
+            "flight": [
+                "ascension",
+                "liberation",
+                "perspective_shift",
+                "transcendence",
+            ],
+            "water": [
+                "purification",
+                "submersion",
+                "flow_state",
+                "depth_exploration",
+            ],
             "chase": ["conflict", "escape", "pursuit", "confrontation"],
             "family": ["reunion", "memory", "belonging", "roots"],
-            "transformation": ["metamorphosis", "growth", "evolution", "change"],
+            "transformation": [
+                "metamorphosis",
+                "growth",
+                "evolution",
+                "change",
+            ],
         }
 
         elements = element_profiles.get(theme_name, ["mystery", "journey", "discovery"])
         return random.choices(elements, k=random.randint(2, 4))
 
-    def _extract_session_motifs(self, session: Dict) -> List[MotifInstance]:
+    def _extract_session_motifs(self, session: dict) -> list[MotifInstance]:
         """Extract motif instances from a single dream session."""
         motifs = []
         session_id = session.get("session_id", "unknown")
@@ -392,7 +433,7 @@ class SymbolicThemeClusterer:
         return motifs
 
     def _calculate_symbolic_weight(
-        self, symbol: str, emotions: Dict[str, float], lambda_tags: List[str]
+        self, symbol: str, emotions: dict[str, float], lambda_tags: list[str]
     ) -> float:
         """Calculate the symbolic weight of a symbol based on context."""
         base_weight = 1.0
@@ -417,7 +458,7 @@ class SymbolicThemeClusterer:
 
         return base_weight + emotion_boost + lambda_boost + archetype_boost
 
-    def cluster_motifs_by_similarity(self, motifs: List[Dict]) -> Dict[str, List[str]]:
+    def cluster_motifs_by_similarity(self, motifs: list[dict]) -> dict[str, list[str]]:
         """Group symbols into clusters based on co-occurrence, tags, and GLYPH compatibility."""
         if not motifs:
             return {}
@@ -445,8 +486,8 @@ class SymbolicThemeClusterer:
         return clusters
 
     def _build_cooccurrence_matrix(
-        self, motifs: List[MotifInstance]
-    ) -> Dict[Tuple[str, str], int]:
+        self, motifs: list[MotifInstance]
+    ) -> dict[tuple[str, str], int]:
         """Build matrix of symbol co-occurrences."""
         cooccurrence = defaultdict(int)
 
@@ -465,13 +506,15 @@ class SymbolicThemeClusterer:
         return cooccurrence
 
     def _calculate_similarity_matrix(
-        self, motifs: List[MotifInstance], cooccurrence: Dict[Tuple[str, str], int]
+        self,
+        motifs: list[MotifInstance],
+        cooccurrence: dict[tuple[str, str], int],
     ) -> np.ndarray:
         """Calculate similarity matrix between symbols."""
         # Get unique symbols
-        symbols = list(set(motif.symbol for motif in motifs))
+        symbols = list({motif.symbol for motif in motifs})
         n_symbols = len(symbols)
-        symbol_to_idx = {symbol: i for i, symbol in enumerate(symbols)}
+        {symbol: i for i, symbol in enumerate(symbols)}
 
         similarity_matrix = np.zeros((n_symbols, n_symbols))
 
@@ -493,8 +536,8 @@ class SymbolicThemeClusterer:
         self,
         symbol1: str,
         symbol2: str,
-        motifs: List[MotifInstance],
-        cooccurrence: Dict[Tuple[str, str], int],
+        motifs: list[MotifInstance],
+        cooccurrence: dict[tuple[str, str], int],
     ) -> float:
         """Calculate similarity between two symbols."""
         # Co-occurrence similarity
@@ -504,9 +547,12 @@ class SymbolicThemeClusterer:
         # Predefined relationship similarity
         relationship_score = 0.0
         for base_symbol, related_symbols in self.symbol_relationships.items():
-            if symbol1 == base_symbol and symbol2 in related_symbols:
-                relationship_score = 0.8
-            elif symbol2 == base_symbol and symbol1 in related_symbols:
+            if (
+                symbol1 == base_symbol
+                and symbol2 in related_symbols
+                or symbol2 == base_symbol
+                and symbol1 in related_symbols
+            ):
                 relationship_score = 0.8
             elif symbol1 in related_symbols and symbol2 in related_symbols:
                 relationship_score = 0.6
@@ -530,7 +576,7 @@ class SymbolicThemeClusterer:
         return min(total_similarity, 1.0)
 
     def _calculate_emotional_similarity(
-        self, symbol1: str, symbol2: str, motifs: List[MotifInstance]
+        self, symbol1: str, symbol2: str, motifs: list[MotifInstance]
     ) -> float:
         """Calculate emotional context similarity between symbols."""
         symbol1_emotions = []
@@ -546,6 +592,7 @@ class SymbolicThemeClusterer:
             return 0.0
 
         # Calculate average emotional vectors
+
         def avg_emotions(emotion_list):
             if not emotion_list:
                 return {}
@@ -581,7 +628,7 @@ class SymbolicThemeClusterer:
         return dot_product / (magnitude1 * magnitude2)
 
     def _calculate_lambda_similarity(
-        self, symbol1: str, symbol2: str, motifs: List[MotifInstance]
+        self, symbol1: str, symbol2: str, motifs: list[MotifInstance]
     ) -> float:
         """Calculate ΛTAG context similarity between symbols."""
         symbol1_tags = set()
@@ -603,8 +650,8 @@ class SymbolicThemeClusterer:
         return intersection / union if union > 0 else 0.0
 
     def _sklearn_clustering(
-        self, similarity_matrix: np.ndarray, motifs: List[MotifInstance]
-    ) -> Dict[str, List[str]]:
+        self, similarity_matrix: np.ndarray, motifs: list[MotifInstance]
+    ) -> dict[str, list[str]]:
         """Perform clustering using sklearn."""
         # Convert similarity to distance matrix
         distance_matrix = 1.0 - similarity_matrix
@@ -626,8 +673,8 @@ class SymbolicThemeClusterer:
         return dict(clusters)
 
     def _simple_clustering(
-        self, similarity_matrix: np.ndarray, motifs: List[MotifInstance]
-    ) -> Dict[str, List[str]]:
+        self, similarity_matrix: np.ndarray, motifs: list[MotifInstance]
+    ) -> dict[str, list[str]]:
         """Simple clustering based on similarity threshold."""
         n_symbols = len(self.symbols)
         visited = set()
@@ -663,7 +710,7 @@ class SymbolicThemeClusterer:
 
         return clusters
 
-    def summarize_theme_clusters(self, clusters: Dict[str, List[str]]) -> List[str]:
+    def summarize_theme_clusters(self, clusters: dict[str, list[str]]) -> list[str]:
         """Return human-readable summaries of each theme, with core symbols and emotional tone."""
         summaries = []
 
@@ -699,7 +746,7 @@ class SymbolicThemeClusterer:
 
         return summaries
 
-    def _analyze_cluster_emotional_tone(self, symbols: List[str]) -> Dict[str, float]:
+    def _analyze_cluster_emotional_tone(self, symbols: list[str]) -> dict[str, float]:
         """Analyze the emotional tone of a symbol cluster."""
         # Predefined emotional associations for common symbols
         symbol_emotions = {
@@ -710,7 +757,11 @@ class SymbolicThemeClusterer:
             "chase": {"fear": 0.8, "anxiety": 0.9, "urgency": 0.8},
             "family": {"warmth": 0.7, "nostalgia": 0.8, "comfort": 0.6},
             "death": {"sadness": 0.8, "fear": 0.6, "endings": 0.9},
-            "transformation": {"wonder": 0.7, "uncertainty": 0.5, "growth": 0.8},
+            "transformation": {
+                "wonder": 0.7,
+                "uncertainty": 0.5,
+                "growth": 0.8,
+            },
             "mirror": {"self_reflection": 0.8, "truth": 0.6, "identity": 0.7},
         }
 
@@ -730,7 +781,7 @@ class SymbolicThemeClusterer:
 
         return dict(combined_emotions)
 
-    def track_theme_transitions(self, history: List[Dict]) -> Dict:
+    def track_theme_transitions(self, history: list[dict]) -> dict:
         """Detect shifts in dominant motifs across time or sessions."""
         if len(history) < 2:
             return {"transitions": [], "patterns": []}
@@ -775,7 +826,7 @@ class SymbolicThemeClusterer:
             "transitions": transitions,
             "patterns": patterns,
             "total_sessions": len(timeline),
-            "unique_themes": len(set(theme for _, theme in timeline)),
+            "unique_themes": len({theme for _, theme in timeline}),
         }
 
     def _categorize_symbol_theme(self, symbol: str) -> str:
@@ -809,8 +860,8 @@ class SymbolicThemeClusterer:
         return theme_mappings.get(symbol.lower(), "archetypal")
 
     def _analyze_transition_patterns(
-        self, transitions: List[Dict], timeline: List[Tuple[str, str]]
-    ) -> List[str]:
+        self, transitions: list[dict], timeline: list[tuple[str, str]]
+    ) -> list[str]:
         """Analyze patterns in theme transitions."""
         patterns = []
 
@@ -846,7 +897,7 @@ class SymbolicThemeClusterer:
 
         return patterns
 
-    def _has_cyclic_pattern(self, sequence: List[str]) -> bool:
+    def _has_cyclic_pattern(self, sequence: list[str]) -> bool:
         """Detect if there's a cyclic pattern in the theme sequence."""
         if len(sequence) < 4:
             return False
@@ -862,7 +913,7 @@ class SymbolicThemeClusterer:
         return False
 
     def render_theme_overview(
-        self, clusters: Dict[str, List[str]], output_path: str
+        self, clusters: dict[str, list[str]], output_path: str
     ) -> None:
         """Save overview as JSON, Markdown, or SVG."""
         output_path = Path(output_path)
@@ -877,7 +928,7 @@ class SymbolicThemeClusterer:
             md_path = output_path.with_suffix(".md")
             self._render_markdown_overview(clusters, md_path)
 
-    def _render_json_overview(self, clusters: Dict[str, List[str]], output_path: Path):
+    def _render_json_overview(self, clusters: dict[str, list[str]], output_path: Path):
         """Render JSON overview."""
         themes_data = []
 
@@ -916,7 +967,7 @@ class SymbolicThemeClusterer:
         logger.info(f"JSON theme overview saved to {output_path}")
 
     def _render_markdown_overview(
-        self, clusters: Dict[str, List[str]], output_path: Path
+        self, clusters: dict[str, list[str]], output_path: Path
     ):
         """Render Markdown overview."""
         lines = []
@@ -927,7 +978,7 @@ class SymbolicThemeClusterer:
             f"**Analysis Date:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}"
         )
         lines.append(
-            f"**Total Themes Identified:** {len([k for k in clusters.keys() if k != 'unclustered'])}"
+            f"**Total Themes Identified:** {len([k for k in clusters if k != 'unclustered'])}"
         )
         lines.append("")
 
@@ -978,7 +1029,10 @@ def main():
         help="Directory containing dream session files",
     )
     parser.add_argument(
-        "--limit", type=int, default=20, help="Maximum number of sessions to analyze"
+        "--limit",
+        type=int,
+        default=20,
+        help="Maximum number of sessions to analyze",
     )
     parser.add_argument("--out", default="results/themes.md", help="Output file path")
     parser.add_argument(
@@ -991,7 +1045,9 @@ def main():
         "--min-cluster", type=int, default=2, help="Minimum cluster size"
     )
     parser.add_argument(
-        "--transitions", action="store_true", help="Include theme transition analysis"
+        "--transitions",
+        action="store_true",
+        help="Include theme transition analysis",
     )
 
     args = parser.parse_args()
@@ -1036,9 +1092,7 @@ def main():
     print("SYMBOLIC THEME ANALYSIS SUMMARY")
     print("=" * 60)
     print(f"Total Motifs Analyzed: {len(motifs)}")
-    print(
-        f"Themes Identified: {len([k for k in clusters.keys() if k != 'unclustered'])}"
-    )
+    print(f"Themes Identified: {len([k for k in clusters if k != 'unclustered'])}")
     print()
 
     for summary in summaries[:5]:  # Show top 5 themes
@@ -1056,7 +1110,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
 # CLAUDE CHANGELOG
 # - Created symbolic_theme_clusterer.py with comprehensive motif clustering system # CLAUDE_EDIT_v0.1

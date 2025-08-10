@@ -1,9 +1,9 @@
-import unittest
+import json
 import logging
-from typing import Dict, Any, List
 from datetime import datetime
 from pathlib import Path
-import json
+from typing import Any, Dict, List
+
 
 class TestFrameworkSecurityEngine:
     """Centralized test framework for LUKHAS AI components"""
@@ -17,7 +17,7 @@ class TestFrameworkSecurityEngine:
             "compliance": self._get_compliance_suite(),
             "security": self._get_security_suite(),
             "ethics": self._get_ethics_suite(),
-            "performance": self._get_performance_suite()
+            "performance": self._get_performance_suite(),
         }
 
     def _get_compliance_suite(self) -> Dict[str, Any]:
@@ -25,20 +25,13 @@ class TestFrameworkSecurityEngine:
             "eu_compliance": {
                 "gdpr_consent": True,
                 "data_protection": True,
-                "right_to_forget": True
+                "right_to_forget": True,
             },
-            "us_compliance": {
-                "ccpa": True,
-                "consumer_protection": True
-            }
+            "us_compliance": {"ccpa": True, "consumer_protection": True},
         }
 
     def _get_security_suite(self) -> Dict[str, Any]:
-        return {
-            "authentication": True,
-            "encryption": True,
-            "access_control": True
-        }
+        return {"authentication": True, "encryption": True, "access_control": True}
 
     def _get_ethics_suite(self) -> Dict[str, Any]:
         return {
@@ -47,20 +40,20 @@ class TestFrameworkSecurityEngine:
             "validation_rules": {
                 "quantum_consensus": True,
                 "principle_weights": True,
-                "decision_tracking": True
-            }
+                "decision_tracking": True,
+            },
         }
 
     def _get_performance_suite(self) -> Dict[str, Any]:
         return {
             "latency": {"threshold_ms": 100},
             "throughput": {"min_requests": 1000},
-            "resource_usage": {"max_memory_mb": 1024}
+            "resource_usage": {"max_memory_mb": 1024},
         }
 
-    async def run_component_tests(self,
-                                component_id: str,
-                                component: Any) -> Dict[str, Any]:
+    async def run_component_tests(
+        self, component_id: str, component: Any
+    ) -> Dict[str, Any]:
         """Run all applicable tests for a component"""
         results = {
             "timestamp": datetime.now().isoformat(),
@@ -68,7 +61,7 @@ class TestFrameworkSecurityEngine:
             "tests_run": 0,
             "passed": 0,
             "failed": 0,
-            "results": []
+            "results": [],
         }
 
         # Run compliance tests
@@ -80,19 +73,23 @@ class TestFrameworkSecurityEngine:
         results["results"].append(("security", security_results))
 
         # Run ethics tests if applicable
-        if hasattr(component, 'evaluate') or hasattr(component, 'ethical_check'):
+        if hasattr(component, "evaluate") or hasattr(component, "ethical_check"):
             ethics_results = await self._test_ethics(component_id, component)
             results["results"].append(("ethics", ethics_results))
 
         # Update statistics
         results["tests_run"] = sum(len(r[1]) for r in results["results"])
-        results["passed"] = sum(1 for r in results["results"] for t in r[1] if t["passed"])
+        results["passed"] = sum(
+            1 for r in results["results"] for t in r[1] if t["passed"]
+        )
         results["failed"] = results["tests_run"] - results["passed"]
 
         await self._save_results(results)
         return results
 
-    async def _test_compliance(self, component_id: str, component: Any) -> List[Dict[str, Any]]:
+    async def _test_compliance(
+        self, component_id: str, component: Any
+    ) -> List[Dict[str, Any]]:
         """Run compliance tests for component"""
         suite = self.test_suites["compliance"]
         results = []
@@ -106,11 +103,19 @@ class TestFrameworkSecurityEngine:
                         results.append(result)
                     except Exception as e:
                         self.logger.error(f"Compliance test failed: {str(e)}")
-                        results.append({"name": f"{region}_{test_name}", "passed": False, "error": str(e)})
+                        results.append(
+                            {
+                                "name": f"{region}_{test_name}",
+                                "passed": False,
+                                "error": str(e),
+                            }
+                        )
 
         return results
 
-    async def _test_security(self, component_id: str, component: Any) -> List[Dict[str, Any]]:
+    async def _test_security(
+        self, component_id: str, component: Any
+    ) -> List[Dict[str, Any]]:
         """Run security tests for component"""
         suite = self.test_suites["security"]
         results = []
@@ -122,11 +127,15 @@ class TestFrameworkSecurityEngine:
                     results.append({"name": test_name, "passed": result})
                 except Exception as e:
                     self.logger.error(f"Security test failed: {str(e)}")
-                    results.append({"name": test_name, "passed": False, "error": str(e)})
+                    results.append(
+                        {"name": test_name, "passed": False, "error": str(e)}
+                    )
 
         return results
 
-    async def _test_ethics(self, component_id: str, component: Any) -> List[Dict[str, Any]]:
+    async def _test_ethics(
+        self, component_id: str, component: Any
+    ) -> List[Dict[str, Any]]:
         """Run ethics validation tests"""
         suite = self.test_suites["ethics"]
         results = []
@@ -137,7 +146,9 @@ class TestFrameworkSecurityEngine:
                 results.append({"name": f"principle_{principle}", "passed": result})
             except Exception as e:
                 self.logger.error(f"Ethics test failed: {str(e)}")
-                results.append({"name": f"principle_{principle}", "passed": False, "error": str(e)})
+                results.append(
+                    {"name": f"principle_{principle}", "passed": False, "error": str(e)}
+                )
 
         return results
 
@@ -159,5 +170,5 @@ class TestFrameworkSecurityEngine:
         """Save test results to file"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         result_file = self.results_dir / f"test_results_{timestamp}.json"
-        with open(result_file, 'w') as f:
+        with open(result_file, "w") as f:
             json.dump(results, f, indent=2)

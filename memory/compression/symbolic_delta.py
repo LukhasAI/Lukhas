@@ -36,16 +36,14 @@
 """
 
 # Module imports
-import json
 import hashlib
+import json
 import os
 import re
-from typing import Dict, Any, List, Optional, Tuple, Set
-from datetime import datetime, timezone, timedelta
-from collections import defaultdict, Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass
-import structlog
-from core.common import get_logger
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional, Set
 
 # Configure module logger
 
@@ -349,7 +347,9 @@ class AdvancedSymbolicDeltaCompressor:
         )
 
         # Detect compression loops before finalizing result
-        loop_detection_result = self._detect_compression_loops(motifs, fold_key, content_str)
+        loop_detection_result = self._detect_compression_loops(
+            motifs, fold_key, content_str
+        )
 
         # Prepare compression result
         compression_result = {
@@ -476,7 +476,7 @@ class AdvancedSymbolicDeltaCompressor:
 
         try:
             if os.path.exists(self.compressed_memory_path):
-                with open(self.compressed_memory_path, "r", encoding="utf-8") as f:
+                with open(self.compressed_memory_path, encoding="utf-8") as f:
                     compressions = []
                     for line in f:
                         try:
@@ -520,8 +520,9 @@ class AdvancedSymbolicDeltaCompressor:
 
         return analysis
 
-    def _detect_compression_loops(self, motifs: List[SymbolicMotif],
-                                fold_key: str, content: str) -> Dict[str, Any]:
+    def _detect_compression_loops(
+        self, motifs: List[SymbolicMotif], fold_key: str, content: str
+    ) -> Dict[str, Any]:
         """
         Detects compression loops using call stack inspection and symbol repetition tracking.
 
@@ -537,7 +538,6 @@ class AdvancedSymbolicDeltaCompressor:
             Dict containing loop detection results and analysis
         """
         import inspect
-        import traceback
 
         loop_detected = False
         loop_indicators = []
@@ -555,7 +555,7 @@ class AdvancedSymbolicDeltaCompressor:
         try:
             frame = current_frame
             while frame:
-                if frame.f_code.co_name == 'compress_memory_delta':
+                if frame.f_code.co_name == "compress_memory_delta":
                     frame_signatures.append(frame.f_code.co_name)
                 frame = frame.f_back
 
@@ -571,12 +571,14 @@ class AdvancedSymbolicDeltaCompressor:
 
         if pattern_repetition["max_repetition"] > 5:
             loop_indicators.append("excessive_pattern_repetition")
-            entropy_violations.append({
-                "type": "pattern_repetition",
-                "pattern": pattern_repetition["most_repeated_pattern"],
-                "count": pattern_repetition["max_repetition"],
-                "entropy_impact": pattern_repetition["entropy_reduction"]
-            })
+            entropy_violations.append(
+                {
+                    "type": "pattern_repetition",
+                    "pattern": pattern_repetition["most_repeated_pattern"],
+                    "count": pattern_repetition["max_repetition"],
+                    "entropy_impact": pattern_repetition["entropy_reduction"],
+                }
+            )
             loop_detected = True
 
         # 3. Entropy Bounds Checking
@@ -589,12 +591,14 @@ class AdvancedSymbolicDeltaCompressor:
 
         if entropy_ratio > 1.2:  # Entropy exceeds theoretical bounds
             loop_indicators.append("entropy_bounds_exceeded")
-            entropy_violations.append({
-                "type": "entropy_overflow",
-                "calculated_entropy": total_entropy,
-                "max_entropy": max_entropy,
-                "ratio": entropy_ratio
-            })
+            entropy_violations.append(
+                {
+                    "type": "entropy_overflow",
+                    "calculated_entropy": total_entropy,
+                    "max_entropy": max_entropy,
+                    "ratio": entropy_ratio,
+                }
+            )
             loop_detected = True
 
         # 4. Historical Pattern Checking
@@ -607,12 +611,14 @@ class AdvancedSymbolicDeltaCompressor:
         complexity_analysis = self._analyze_motif_complexity_ratio(motifs, content)
         if complexity_analysis["complexity_ratio"] > 2.0:
             loop_indicators.append("excessive_motif_complexity")
-            entropy_violations.append({
-                "type": "complexity_overflow",
-                "motif_complexity": complexity_analysis["total_motif_complexity"],
-                "content_complexity": complexity_analysis["content_complexity"],
-                "ratio": complexity_analysis["complexity_ratio"]
-            })
+            entropy_violations.append(
+                {
+                    "type": "complexity_overflow",
+                    "motif_complexity": complexity_analysis["total_motif_complexity"],
+                    "content_complexity": complexity_analysis["content_complexity"],
+                    "ratio": complexity_analysis["complexity_ratio"],
+                }
+            )
             loop_detected = True
 
         loop_result = {
@@ -624,12 +630,12 @@ class AdvancedSymbolicDeltaCompressor:
             "entropy_analysis": {
                 "total_entropy": round(total_entropy, 4),
                 "max_entropy": round(max_entropy, 4),
-                "entropy_ratio": round(entropy_ratio, 4)
+                "entropy_ratio": round(entropy_ratio, 4),
             },
             "historical_analysis": historical_loops,
             "complexity_analysis": complexity_analysis,
             "detection_timestamp": datetime.now(timezone.utc).isoformat(),
-            "risk_level": "HIGH" if loop_detected else "LOW"
+            "risk_level": "HIGH" if loop_detected else "LOW",
         }
 
         if loop_detected:
@@ -647,12 +653,16 @@ class AdvancedSymbolicDeltaCompressor:
 
         pattern_counts = Counter(patterns)
         max_repetition = max(pattern_counts.values()) if pattern_counts else 0
-        most_repeated = max(pattern_counts, key=pattern_counts.get) if pattern_counts else None
+        most_repeated = (
+            max(pattern_counts, key=pattern_counts.get) if pattern_counts else None
+        )
 
         # Calculate entropy reduction from repetition
         total_patterns = len(patterns)
         unique_patterns = len(set(patterns))
-        entropy_reduction = 1.0 - (unique_patterns / total_patterns) if total_patterns > 0 else 0
+        entropy_reduction = (
+            1.0 - (unique_patterns / total_patterns) if total_patterns > 0 else 0
+        )
 
         return {
             "max_repetition": max_repetition,
@@ -660,7 +670,9 @@ class AdvancedSymbolicDeltaCompressor:
             "total_patterns": total_patterns,
             "unique_patterns": unique_patterns,
             "entropy_reduction": round(entropy_reduction, 4),
-            "repetition_ratio": round(max_repetition / total_patterns, 4) if total_patterns > 0 else 0
+            "repetition_ratio": (
+                round(max_repetition / total_patterns, 4) if total_patterns > 0 else 0
+            ),
         }
 
     def _calculate_max_theoretical_entropy(self, content_length: int) -> float:
@@ -682,7 +694,7 @@ class AdvancedSymbolicDeltaCompressor:
         """Checks historical compression patterns for this fold to detect recurring loops."""
         try:
             # Initialize tracking if not exists
-            if not hasattr(self, '_compression_history'):
+            if not hasattr(self, "_compression_history"):
                 self._compression_history = defaultdict(list)
 
             current_time = datetime.now(timezone.utc)
@@ -690,31 +702,43 @@ class AdvancedSymbolicDeltaCompressor:
             # Get recent compression events for this fold (last 24 hours)
             cutoff_time = current_time - timedelta(hours=24)
             recent_compressions = [
-                comp for comp in self._compression_history[fold_key]
-                if datetime.fromisoformat(comp['timestamp']) > cutoff_time
+                comp
+                for comp in self._compression_history[fold_key]
+                if datetime.fromisoformat(comp["timestamp"]) > cutoff_time
             ]
 
             # Record current compression attempt
             import inspect
-            self._compression_history[fold_key].append({
-                'timestamp': current_time.isoformat(),
-                'call_stack_depth': len(inspect.stack())
-            })
+
+            self._compression_history[fold_key].append(
+                {
+                    "timestamp": current_time.isoformat(),
+                    "call_stack_depth": len(inspect.stack()),
+                }
+            )
 
             # Keep only recent history
-            self._compression_history[fold_key] = self._compression_history[fold_key][-50:]
+            self._compression_history[fold_key] = self._compression_history[fold_key][
+                -50:
+            ]
 
             # Calculate loop risk score
             compression_frequency = len(recent_compressions)
-            avg_stack_depth = np.mean([c['call_stack_depth'] for c in recent_compressions]) if recent_compressions else 0
+            avg_stack_depth = (
+                np.mean([c["call_stack_depth"] for c in recent_compressions])
+                if recent_compressions
+                else 0
+            )
 
-            loop_risk_score = min(1.0, (compression_frequency / 10.0) + (avg_stack_depth / 30.0))
+            loop_risk_score = min(
+                1.0, (compression_frequency / 10.0) + (avg_stack_depth / 30.0)
+            )
 
             return {
                 "recent_compressions": compression_frequency,
                 "avg_stack_depth": round(avg_stack_depth, 2),
                 "loop_risk_score": round(loop_risk_score, 4),
-                "time_window_hours": 24
+                "time_window_hours": 24,
             }
 
         except Exception as e:
@@ -723,23 +747,23 @@ class AdvancedSymbolicDeltaCompressor:
                 "recent_compressions": 0,
                 "avg_stack_depth": 0,
                 "loop_risk_score": 0.0,
-                "error": str(e)
+                "error": str(e),
             }
 
-    def _analyze_motif_complexity_ratio(self, motifs: List[SymbolicMotif],
-                                       content: str) -> Dict[str, Any]:
+    def _analyze_motif_complexity_ratio(
+        self, motifs: List[SymbolicMotif], content: str
+    ) -> Dict[str, Any]:
         """Analyzes the ratio of motif complexity to content complexity."""
         if not motifs:
             return {
                 "total_motif_complexity": 0,
                 "content_complexity": len(content),
-                "complexity_ratio": 0.0
+                "complexity_ratio": 0.0,
             }
 
         # Calculate total motif complexity
         total_motif_complexity = sum(
-            len(m.pattern) * m.frequency * m.importance_score
-            for m in motifs
+            len(m.pattern) * m.frequency * m.importance_score for m in motifs
         )
 
         # Content complexity (simple measure)
@@ -752,7 +776,7 @@ class AdvancedSymbolicDeltaCompressor:
             "content_complexity": content_complexity,
             "complexity_ratio": round(complexity_ratio, 4),
             "motif_count": len(motifs),
-            "avg_motif_complexity": round(total_motif_complexity / len(motifs), 2)
+            "avg_motif_complexity": round(total_motif_complexity / len(motifs), 2),
         }
 
 

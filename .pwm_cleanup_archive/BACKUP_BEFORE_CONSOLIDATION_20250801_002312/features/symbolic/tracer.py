@@ -7,25 +7,29 @@ Symbolic Tracer
 Traces symbolic events and ΛTAG activity within the LUKHAS system.
 """
 
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime
 import json
 import uuid
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 
 @dataclass
 class InferenceStep:
     """Represents a single step in a reasoning process."""
+
     rule: str
     conclusion: str
     premises: List[str]
     timestamp: datetime = field(default_factory=datetime.utcnow)
+
 
 @dataclass
 class SymbolicTrace:
     """
     Represents a single symbolic trace event.
     """
+
     timestamp: datetime
     agent: str
     event: str
@@ -33,11 +37,13 @@ class SymbolicTrace:
     uuid: str
     parent_uuid: Optional[str] = None
 
+
 @dataclass
 class DecisionTrail:
     """
     Represents a complete, auditable decision trail for a reasoning process.
     """
+
     initial_prompt: str
     start_time: datetime = field(default_factory=datetime.utcnow)
     end_time: Optional[datetime] = None
@@ -49,14 +55,18 @@ class DecisionTrail:
         """
         Serializes the decision trail to a JSON string.
         """
-        return json.dumps({
-            "trail_id": self.trail_id,
-            "start_time": self.start_time.isoformat(),
-            "end_time": self.end_time.isoformat() if self.end_time else None,
-            "initial_prompt": self.initial_prompt,
-            "final_conclusion": self.final_conclusion,
-            "traces": [trace.__dict__ for trace in self.traces]
-        }, indent=2)
+        return json.dumps(
+            {
+                "trail_id": self.trail_id,
+                "start_time": self.start_time.isoformat(),
+                "end_time": self.end_time.isoformat() if self.end_time else None,
+                "initial_prompt": self.initial_prompt,
+                "final_conclusion": self.final_conclusion,
+                "traces": [trace.__dict__ for trace in self.traces],
+            },
+            indent=2,
+        )
+
 
 class SymbolicTracer:
     """
@@ -76,14 +86,19 @@ class SymbolicTracer:
             trail_id = str(uuid.uuid4())
 
         trail = DecisionTrail(
-            start_time=datetime.utcnow(),
-            initial_prompt=prompt,
-            trail_id=trail_id
+            start_time=datetime.utcnow(), initial_prompt=prompt, trail_id=trail_id
         )
         self.active_trails[trail_id] = trail
         return trail_id
 
-    def trace(self, agent: str, event: str, details: Dict[str, Any], trail_id: str, parent_uuid: Optional[str] = None):
+    def trace(
+        self,
+        agent: str,
+        event: str,
+        details: Dict[str, Any],
+        trail_id: str,
+        parent_uuid: Optional[str] = None,
+    ):
         """
         Logs a symbolic trace event and associates it with a decision trail.
         """
@@ -94,7 +109,7 @@ class SymbolicTracer:
             event=event,
             details=details,
             uuid=str(uuid.uuid4()),
-            parent_uuid=parent_uuid
+            parent_uuid=parent_uuid,
         )
         self.trace_log.append(trace)
         if trail_id in self.active_trails:

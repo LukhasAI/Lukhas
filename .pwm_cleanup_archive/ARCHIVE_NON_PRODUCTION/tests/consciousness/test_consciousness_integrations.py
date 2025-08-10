@@ -3,9 +3,9 @@ Integration tests for Consciousness Hub components
 Tests awareness processor and poetic engine integrations
 """
 
+from unittest.mock import AsyncMock, Mock, patch
+
 import pytest
-import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 
 from consciousness.consciousness_hub import ConsciousnessHub
 
@@ -22,7 +22,9 @@ class TestConsciousnessIntegrations:
     @pytest.mark.asyncio
     async def test_integrate_awareness_processor_success(self, consciousness_hub):
         """Test successful integration of awareness processor"""
-        with patch('consciousness.consciousness_hub.AwarenessProcessor') as mock_processor_class:
+        with patch(
+            "consciousness.consciousness_hub.AwarenessProcessor"
+        ) as mock_processor_class:
             mock_processor = AsyncMock()
             mock_processor.initialize = AsyncMock()
             mock_processor_class.return_value = mock_processor
@@ -31,7 +33,7 @@ class TestConsciousnessIntegrations:
             await consciousness_hub.integrate_awareness_processor()
 
             # Verify integration
-            assert hasattr(consciousness_hub, 'awareness_processor')
+            assert hasattr(consciousness_hub, "awareness_processor")
             assert consciousness_hub.awareness_processor == mock_processor
             assert "awareness_processor" in consciousness_hub.services
             assert "awareness_processor" in consciousness_hub.cognitive_components
@@ -40,7 +42,9 @@ class TestConsciousnessIntegrations:
     @pytest.mark.asyncio
     async def test_integrate_awareness_processor_no_initialize(self, consciousness_hub):
         """Test awareness processor integration when initialize method doesn't exist"""
-        with patch('consciousness.consciousness_hub.AwarenessProcessor') as mock_processor_class:
+        with patch(
+            "consciousness.consciousness_hub.AwarenessProcessor"
+        ) as mock_processor_class:
             mock_processor = Mock()  # No initialize method
             mock_processor_class.return_value = mock_processor
 
@@ -48,13 +52,13 @@ class TestConsciousnessIntegrations:
             await consciousness_hub.integrate_awareness_processor()
 
             # Verify integration still works
-            assert hasattr(consciousness_hub, 'awareness_processor')
+            assert hasattr(consciousness_hub, "awareness_processor")
             assert "awareness_processor" in consciousness_hub.services
 
     @pytest.mark.asyncio
     async def test_integrate_poetic_engine_success(self, consciousness_hub):
         """Test successful integration of poetic engine"""
-        with patch('consciousness.consciousness_hub.PoeticEngine') as mock_engine_class:
+        with patch("consciousness.consciousness_hub.PoeticEngine") as mock_engine_class:
             mock_engine = AsyncMock()
             mock_engine.initialize = AsyncMock()
             mock_engine_class.return_value = mock_engine
@@ -63,7 +67,7 @@ class TestConsciousnessIntegrations:
             await consciousness_hub.integrate_poetic_engine()
 
             # Verify integration
-            assert hasattr(consciousness_hub, 'poetic_engine')
+            assert hasattr(consciousness_hub, "poetic_engine")
             assert consciousness_hub.poetic_engine == mock_engine
             assert "poetic_engine" in consciousness_hub.services
             assert "poetic_engine" in consciousness_hub.cognitive_components
@@ -72,24 +76,28 @@ class TestConsciousnessIntegrations:
     @pytest.mark.asyncio
     async def test_integrate_poetic_engine_failure(self, consciousness_hub):
         """Test handling of poetic engine integration failure"""
-        with patch('consciousness.consciousness_hub.logger') as mock_logger:
+        with patch("consciousness.consciousness_hub.logger") as mock_logger:
             # Force an import error
-            with patch('consciousness.consciousness_hub.PoeticEngine', side_effect=ImportError("Test error")):
+            with patch(
+                "consciousness.consciousness_hub.PoeticEngine",
+                side_effect=ImportError("Test error"),
+            ):
                 await consciousness_hub.integrate_poetic_engine()
 
                 # Verify error was logged
                 mock_logger.error.assert_called_with(
-                    "poetic_engine_integration_failed",
-                    error="Test error"
+                    "poetic_engine_integration_failed", error="Test error"
                 )
 
     @pytest.mark.asyncio
     async def test_all_integrations_in_initialize(self):
         """Test that all integrations are called during hub initialization"""
-        with patch.multiple('consciousness.consciousness_hub',
-                          DreamBridge=Mock(return_value=AsyncMock()),
-                          AwarenessProcessor=Mock(return_value=AsyncMock()),
-                          PoeticEngine=Mock(return_value=AsyncMock())):
+        with patch.multiple(
+            "consciousness.consciousness_hub",
+            DreamBridge=Mock(return_value=AsyncMock()),
+            AwarenessProcessor=Mock(return_value=AsyncMock()),
+            PoeticEngine=Mock(return_value=AsyncMock()),
+        ):
 
             hub = ConsciousnessHub()
 
@@ -113,9 +121,9 @@ class TestConsciousnessIntegrations:
         """Test the flow of registering cognitive components"""
         # Create test components
         test_components = {
-            "visual_processor": Mock(spec=['process']),
-            "language_model": Mock(spec=['generate']),
-            "memory_encoder": Mock(spec=['encode', 'decode'])
+            "visual_processor": Mock(spec=["process"]),
+            "language_model": Mock(spec=["generate"]),
+            "memory_encoder": Mock(spec=["encode", "decode"]),
         }
 
         # Register all components

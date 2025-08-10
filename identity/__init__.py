@@ -12,16 +12,17 @@ This module injects governance.identity as the active `identity` package
 in sys.modules while copying key identity_core exports onto it.
 """
 
-from typing import Any
-import sys
 import logging
+import sys
+from typing import Any
+
 from .identity_core import (
-    IdentityCore,
     AccessTier,
-    identity_core,
-    validate_symbolic_token,
-    resolve_access_tier,
+    IdentityCore,
     generate_identity_glyph,
+    identity_core,
+    resolve_access_tier,
+    validate_symbolic_token,
 )
 
 logger = logging.getLogger(__name__)

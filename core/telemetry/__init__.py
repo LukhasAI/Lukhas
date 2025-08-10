@@ -5,24 +5,24 @@ Production-grade observability for AGI systems
 
 from .monitoring import (
     AGITelemetrySystem,
-    MetricType,
-    AlertSeverity,
-    Metric,
     Alert,
-    TraceContext,
+    AlertSeverity,
     ConsciousnessMetrics,
+    EmergenceDetector,
     LearningMetrics,
-    EmergenceDetector
+    Metric,
+    MetricType,
+    TraceContext,
 )
 
 __all__ = [
-    'AGITelemetrySystem',
-    'MetricType',
-    'AlertSeverity',
-    'Metric',
-    'Alert',
-    'TraceContext',
-    'ConsciousnessMetrics',
-    'LearningMetrics',
-    'EmergenceDetector'
+    "AGITelemetrySystem",
+    "MetricType",
+    "AlertSeverity",
+    "Metric",
+    "Alert",
+    "TraceContext",
+    "ConsciousnessMetrics",
+    "LearningMetrics",
+    "EmergenceDetector",
 ]

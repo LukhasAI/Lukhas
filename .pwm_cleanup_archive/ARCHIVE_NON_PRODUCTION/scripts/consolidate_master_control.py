@@ -4,11 +4,11 @@ Master Control Consolidator - Phase 2C-2
 Consolidate 3 master control orchestration files into 1 primary implementation
 """
 
-import os
-import json
-import shutil
 import argparse
+import os
+import shutil
 from datetime import datetime
+
 
 def consolidate_master_control(dry_run=True):
     """Consolidate master control orchestrators"""
@@ -17,15 +17,15 @@ def consolidate_master_control(dry_run=True):
     master_files = [
         "./orchestration/master_orchestrator.py",
         "./orchestration/core_modules/master_orchestrator.py",
-        "./orchestration/core_modules/master_orchestrator_alt.py"
+        "./orchestration/core_modules/master_orchestrator_alt.py",
     ]
 
     primary_file = "./orchestration/master_orchestrator.py"  # Main location
 
-    print(f"\\n👑 MASTER CONTROL CONSOLIDATION")
+    print("\\n👑 MASTER CONTROL CONSOLIDATION")
     print(f"{'='*60}")
     if dry_run:
-        print(f"🔍 DRY RUN MODE")
+        print("🔍 DRY RUN MODE")
     print(f"Primary file: {primary_file}")
     print(f"Files to consolidate: {len(master_files)}")
     print(f"{'='*60}")
@@ -75,22 +75,30 @@ def consolidate_master_control(dry_run=True):
         except Exception as e:
             print(f"   ❌ Error archiving {file_path}: {e}")
 
-    print(f"\\n📊 Master control consolidation complete!")
+    print("\\n📊 Master control consolidation complete!")
     print(f"   Files archived: {archived_count}")
     print(f"   Primary file kept: {primary_file}")
     print(f"   Reduction: {archived_count} files eliminated")
     return archived_count
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Consolidate master control orchestrators')
-    parser.add_argument('--execute', action='store_true', help='Execute consolidation (default: dry run)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate master control orchestrators"
+    )
+    parser.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute consolidation (default: dry run)",
+    )
     args = parser.parse_args()
 
     result = consolidate_master_control(dry_run=not args.execute)
 
     if not args.execute:
-        print(f"\\n📋 Command to execute:")
-        print(f"   python3 scripts/consolidate_master_control.py --execute")
+        print("\\n📋 Command to execute:")
+        print("   python3 scripts/consolidate_master_control.py --execute")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

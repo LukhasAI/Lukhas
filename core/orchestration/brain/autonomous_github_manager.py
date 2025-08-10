@@ -15,35 +15,41 @@ Features:
 - Intelligent prioritization system
 """
 
+import argparse
+import json
+import logging
 import os
 import sys
-import json
-from core.common.config import settings
-import logging
-import argparse
-import requests
 import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from enum import Enum
-import subprocess
-import asyncio
-import concurrent.futures
+from typing import Any, Optional
+
+import requests
 
 # Import ΛBot components
-from core.budget.token_controller import TokenBudgetController, APICallContext, CallUrgency, BudgetPriority
+from core.budget.token_controller import (
+    APICallContext,
+    CallUrgency,
+    TokenBudgetController,
+)
+from core.common.config import settings
+
 
 class NotificationPriority(Enum):
     """Priority levels for GitHub notifications"""
+
     CRITICAL = "critical"  # Security issues, critical workflows
-    HIGH = "high"         # Failed workflows, dependency alerts
-    MEDIUM = "medium"     # PR reviews, discussions
-    LOW = "low"          # General notifications
+    HIGH = "high"  # Failed workflows, dependency alerts
+    MEDIUM = "medium"  # PR reviews, discussions
+    LOW = "low"  # General notifications
+
 
 @dataclass
 class GitHubNotification:
     """Enhanced GitHub notification structure"""
+
     id: str
     title: str
     repository: str
@@ -56,16 +62,19 @@ class GitHubNotification:
     description: str
     url: str
 
+
 @dataclass
 class BatchFixResult:
     """Result of batch fixing operation"""
+
     total_processed: int
     successful_fixes: int
     prs_created: int
     cost_used: float
     time_taken: float
-    errors: List[str]
+    errors: list[str]
     success_rate: float
+
 
 class AdvancedAutonomousGitHubManager:
     """
@@ -75,7 +84,7 @@ class AdvancedAutonomousGitHubManager:
 
     def __init__(self, github_token: Optional[str] = None):
         """Initialize the advanced autonomous manager"""
-        self.github_token = github_token or os.getenv('GITHUB_TOKEN')
+        self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         if not self.github_token:
             raise ValueError("GitHub token required")
 
@@ -83,7 +92,7 @@ class AdvancedAutonomousGitHubManager:
         self.base_url = "https://api.github.com"
         self.headers = {
             "Authorization": f"token {self.github_token}",
-            "Accept": "application/vnd.github.v3+json"
+            "Accept": "application/vnd.github.v3+json",
         }
 
         # Initialize ΛBot budget controller
@@ -97,20 +106,22 @@ class AdvancedAutonomousGitHubManager:
 
         # AI integration (when available)
         self.openai_api_key = settings.OPENAI_API_KEY
-        self.anthropic_api_key = os.getenv('ANTHROPIC_API_KEY')
+        self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 
         # State tracking
-        self.all_notifications: List[GitHubNotification] = []
-        self.fix_results: List[Dict[str, Any]] = []
-        self.batch_stats: List[BatchFixResult] = []
+        self.all_notifications: list[GitHubNotification] = []
+        self.fix_results: list[dict[str, Any]] = []
+        self.batch_stats: list[BatchFixResult] = []
 
         # Setup logging
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger("AdvancedAutonomousGitHubManager")
 
-    def fetch_all_notifications(self, max_pages: int = 145) -> List[GitHubNotification]:
+    def fetch_all_notifications(self, max_pages: int = 145) -> list[GitHubNotification]:
         """Fetch all GitHub notifications across multiple pages"""
-        self.logger.info(f"🔍 Fetching up to {max_pages} pages of GitHub notifications...")
+        self.logger.info(
+            f"🔍 Fetching up to {max_pages} pages of GitHub notifications..."
+        )
 
         all_notifications = []
         page = 1
@@ -121,7 +132,7 @@ class AdvancedAutonomousGitHubManager:
                 user_request=True,
                 urgency=CallUrgency.MEDIUM,
                 estimated_cost=0.001,
-                description=f"Fetch notifications page {page}"
+                description=f"Fetch notifications page {page}",
             )
 
             decision = self.budget_controller.analyze_call_necessity(context)
@@ -131,11 +142,7 @@ class AdvancedAutonomousGitHubManager:
 
             try:
                 url = f"{self.base_url}/notifications"
-                params = {
-                    "per_page": 50,
-                    "page": page,
-                    "all": "true"
-                }
+                params = {"per_page": 50, "page": page, "all": "true"}
 
                 response = requests.get(url, headers=self.headers, params=params)
                 response.raise_for_status()
@@ -150,7 +157,9 @@ class AdvancedAutonomousGitHubManager:
                     if github_notif:
                         all_notifications.append(github_notif)
 
-                self.logger.info(f"📄 Processed page {page}: {len(notifications)} notifications")
+                self.logger.info(
+                    f"📄 Processed page {page}: {len(notifications)} notifications"
+                )
                 page += 1
                 time.sleep(0.1)  # Rate limiting
 
@@ -162,33 +171,42 @@ class AdvancedAutonomousGitHubManager:
         self.logger.info(f"✅ Total notifications fetched: {len(all_notifications)}")
         return all_notifications
 
-    def parse_notification(self, notif: Dict[str, Any]) -> Optional[GitHubNotification]:
+    def parse_notification(self, notif: dict[str, Any]) -> Optional[GitHubNotification]:
         """Parse GitHub notification into our enhanced format"""
         try:
             # Extract notification details
-            title = notif.get('subject', {}).get('title', 'Unknown')
-            repo_name = notif.get('repository', {}).get('full_name', 'unknown/unknown')
-            notif_type = notif.get('subject', {}).get('type', 'unknown')
-            url = notif.get('subject', {}).get('url', '')
-            updated_at = notif.get('updated_at', '')
+            title = notif.get("subject", {}).get("title", "Unknown")
+            repo_name = notif.get("repository", {}).get("full_name", "unknown/unknown")
+            notif_type = notif.get("subject", {}).get("type", "unknown")
+            url = notif.get("subject", {}).get("url", "")
+            updated_at = notif.get("updated_at", "")
 
             # Calculate age
             age_hours = 0
             if updated_at:
                 try:
-                    updated_time = datetime.fromisoformat(updated_at.replace('Z', '+00:00'))
-                    age_hours = int((datetime.now(updated_time.tzinfo) - updated_time).total_seconds() / 3600)
-                except:
+                    updated_time = datetime.fromisoformat(
+                        updated_at.replace("Z", "+00:00")
+                    )
+                    age_hours = int(
+                        (
+                            datetime.now(updated_time.tzinfo) - updated_time
+                        ).total_seconds()
+                        / 3600
+                    )
+                except BaseException:
                     pass
 
             # Determine priority and fixability
-            priority, fixable, confidence = self.analyze_notification_priority(title, notif_type, repo_name, age_hours)
+            priority, fixable, confidence = self.analyze_notification_priority(
+                title, notif_type, repo_name, age_hours
+            )
 
             # Estimate fix cost
             estimated_cost = self.estimate_fix_cost(priority, notif_type, fixable)
 
             return GitHubNotification(
-                id=notif.get('id', ''),
+                id=notif.get("id", ""),
                 title=title,
                 repository=repo_name,
                 type=notif_type,
@@ -198,14 +216,16 @@ class AdvancedAutonomousGitHubManager:
                 estimated_cost=estimated_cost,
                 fix_confidence=confidence,
                 description=f"{notif_type} in {repo_name}",
-                url=url
+                url=url,
             )
 
         except Exception as e:
             self.logger.error(f"Failed to parse notification: {e}")
             return None
 
-    def analyze_notification_priority(self, title: str, notif_type: str, repo: str, age_hours: int) -> Tuple[NotificationPriority, bool, float]:
+    def analyze_notification_priority(
+        self, title: str, notif_type: str, repo: str, age_hours: int
+    ) -> tuple[NotificationPriority, bool, float]:
         """Analyze notification to determine priority, fixability, and confidence"""
         priority = NotificationPriority.LOW
         fixable = False
@@ -215,25 +235,39 @@ class AdvancedAutonomousGitHubManager:
         type_lower = notif_type.lower()
 
         # Security-related notifications get highest priority
-        if any(keyword in title_lower for keyword in ['security', 'vulnerability', 'cve', 'critical', 'warrior']):
+        if any(
+            keyword in title_lower
+            for keyword in [
+                "security",
+                "vulnerability",
+                "cve",
+                "critical",
+                "warrior",
+            ]
+        ):
             priority = NotificationPriority.CRITICAL
             fixable = True
             confidence = 0.95
 
         # Failed workflows and CI issues
-        elif any(keyword in title_lower for keyword in ['failed', 'error', 'validation', 'ci', 'workflow']):
+        elif any(
+            keyword in title_lower
+            for keyword in ["failed", "error", "validation", "ci", "workflow"]
+        ):
             priority = NotificationPriority.HIGH
             fixable = True
             confidence = 0.85
 
         # Dependency-related issues
-        elif any(keyword in title_lower for keyword in ['dependency', 'dependabot', 'update']):
+        elif any(
+            keyword in title_lower for keyword in ["dependency", "dependabot", "update"]
+        ):
             priority = NotificationPriority.HIGH
             fixable = True
             confidence = 0.90
 
         # PR and issue notifications
-        elif type_lower in ['pullrequest', 'issue']:
+        elif type_lower in ["pullrequest", "issue"]:
             priority = NotificationPriority.MEDIUM
             fixable = False
             confidence = 0.3
@@ -248,7 +282,9 @@ class AdvancedAutonomousGitHubManager:
 
         return priority, fixable, min(confidence, 1.0)
 
-    def estimate_fix_cost(self, priority: NotificationPriority, notif_type: str, fixable: bool) -> float:
+    def estimate_fix_cost(
+        self, priority: NotificationPriority, notif_type: str, fixable: bool
+    ) -> float:
         """Estimate the cost to fix this notification"""
         base_cost = 0.001
 
@@ -260,13 +296,14 @@ class AdvancedAutonomousGitHubManager:
             NotificationPriority.CRITICAL: 0.01,
             NotificationPriority.HIGH: 0.005,
             NotificationPriority.MEDIUM: 0.002,
-            NotificationPriority.LOW: 0.001
+            NotificationPriority.LOW: 0.001,
         }
 
         return priority_multipliers.get(priority, base_cost)
 
-    def prioritize_notifications(self) -> List[GitHubNotification]:
+    def prioritize_notifications(self) -> list[GitHubNotification]:
         """Sort notifications by priority and fixability"""
+
         def priority_score(notif: GitHubNotification) -> float:
             score = 0.0
 
@@ -275,7 +312,7 @@ class AdvancedAutonomousGitHubManager:
                 NotificationPriority.CRITICAL: 1000,
                 NotificationPriority.HIGH: 500,
                 NotificationPriority.MEDIUM: 100,
-                NotificationPriority.LOW: 10
+                NotificationPriority.LOW: 10,
             }
             score += priority_weights.get(notif.priority, 0)
 
@@ -293,19 +330,30 @@ class AdvancedAutonomousGitHubManager:
 
         return sorted(self.all_notifications, key=priority_score, reverse=True)
 
-    def batch_process_fixes(self, notifications: List[GitHubNotification], max_batches: int = 10) -> List[BatchFixResult]:
+    def batch_process_fixes(
+        self, notifications: list[GitHubNotification], max_batches: int = 10
+    ) -> list[BatchFixResult]:
         """Process fixes in intelligent batches"""
-        self.logger.info(f"🚀 Starting batch processing of {len(notifications)} notifications...")
+        self.logger.info(
+            f"🚀 Starting batch processing of {len(notifications)} notifications..."
+        )
 
         batch_results = []
         batch_size = self.max_notifications_per_batch
 
-        for batch_num in range(min(max_batches, (len(notifications) + batch_size - 1) // batch_size)):
+        for batch_num in range(
+            min(
+                max_batches,
+                (len(notifications) + batch_size - 1) // batch_size,
+            )
+        ):
             start_idx = batch_num * batch_size
             end_idx = min(start_idx + batch_size, len(notifications))
             batch = notifications[start_idx:end_idx]
 
-            self.logger.info(f"📦 Processing batch {batch_num + 1}: {len(batch)} notifications")
+            self.logger.info(
+                f"📦 Processing batch {batch_num + 1}: {len(batch)} notifications"
+            )
 
             # Check budget before batch
             if self.budget_controller.get_daily_budget_remaining() < 0.01:
@@ -319,7 +367,9 @@ class AdvancedAutonomousGitHubManager:
             batch_result.time_taken = batch_time
             batch_results.append(batch_result)
 
-            self.logger.info(f"✅ Batch {batch_num + 1} complete: {batch_result.successful_fixes}/{batch_result.total_processed} fixes successful")
+            self.logger.info(
+                f"✅ Batch {batch_num + 1} complete: {batch_result.successful_fixes}/{batch_result.total_processed} fixes successful"
+            )
 
             # Delay between batches to prevent rate limiting
             if batch_num < max_batches - 1:
@@ -328,7 +378,9 @@ class AdvancedAutonomousGitHubManager:
         self.batch_stats = batch_results
         return batch_results
 
-    def process_notification_batch(self, batch: List[GitHubNotification]) -> BatchFixResult:
+    def process_notification_batch(
+        self, batch: list[GitHubNotification]
+    ) -> BatchFixResult:
         """Process a single batch of notifications"""
         successful_fixes = 0
         prs_created = 0
@@ -340,21 +392,26 @@ class AdvancedAutonomousGitHubManager:
                 continue
 
             # Budget check for each fix
-            if self.budget_controller.get_daily_budget_remaining() < notification.estimated_cost:
+            if (
+                self.budget_controller.get_daily_budget_remaining()
+                < notification.estimated_cost
+            ):
                 errors.append(f"Budget insufficient for {notification.repository}")
                 continue
 
             try:
                 fix_result = self.attempt_autonomous_fix(notification)
 
-                if fix_result['success']:
+                if fix_result["success"]:
                     successful_fixes += 1
-                    total_cost += fix_result.get('cost', 0.0)
+                    total_cost += fix_result.get("cost", 0.0)
 
-                    if fix_result.get('pr_created'):
+                    if fix_result.get("pr_created"):
                         prs_created += 1
                 else:
-                    errors.append(f"Fix failed for {notification.repository}: {fix_result.get('error', 'Unknown error')}")
+                    errors.append(
+                        f"Fix failed for {notification.repository}: {fix_result.get('error', 'Unknown error')}"
+                    )
 
             except Exception as e:
                 errors.append(f"Exception fixing {notification.repository}: {str(e)}")
@@ -368,27 +425,35 @@ class AdvancedAutonomousGitHubManager:
             cost_used=total_cost,
             time_taken=0.0,  # Will be set by caller
             errors=errors,
-            success_rate=success_rate
+            success_rate=success_rate,
         )
 
-    def attempt_autonomous_fix(self, notification: GitHubNotification) -> Dict[str, Any]:
+    def attempt_autonomous_fix(
+        self, notification: GitHubNotification
+    ) -> dict[str, Any]:
         """Attempt to autonomously fix a notification"""
-        self.logger.info(f"🔧 Attempting autonomous fix: {notification.title} in {notification.repository}")
+        self.logger.info(
+            f"🔧 Attempting autonomous fix: {notification.title} in {notification.repository}"
+        )
 
         # Budget check
         context = APICallContext(
             user_request=True,
-            urgency=CallUrgency.HIGH if notification.priority == NotificationPriority.CRITICAL else CallUrgency.MEDIUM,
+            urgency=(
+                CallUrgency.HIGH
+                if notification.priority == NotificationPriority.CRITICAL
+                else CallUrgency.MEDIUM
+            ),
             estimated_cost=notification.estimated_cost,
-            description=f"Fix {notification.type} in {notification.repository}"
+            description=f"Fix {notification.type} in {notification.repository}",
         )
 
         decision = self.budget_controller.analyze_call_necessity(context)
         if not decision.should_call:
             return {
-                'success': False,
-                'error': f'Budget controller blocked: {decision.reason}',
-                'cost': 0.0
+                "success": False,
+                "error": f"Budget controller blocked: {decision.reason}",
+                "cost": 0.0,
             }
 
         try:
@@ -404,62 +469,67 @@ class AdvancedAutonomousGitHubManager:
                 notification.estimated_cost,
                 f"Fixed {notification.type} in {notification.repository}",
                 findings=[f"Fixed {notification.title}"],
-                recommendations=["Monitor for similar issues", "Consider automation improvements"]
+                recommendations=[
+                    "Monitor for similar issues",
+                    "Consider automation improvements",
+                ],
             )
 
             return fix_result
 
         except Exception as e:
             self.logger.error(f"❌ Fix attempt failed: {e}")
-            return {
-                'success': False,
-                'error': str(e),
-                'cost': 0.0
-            }
+            return {"success": False, "error": str(e), "cost": 0.0}
 
     def determine_fix_strategy(self, notification: GitHubNotification) -> str:
         """Determine the best fix strategy for a notification"""
         title_lower = notification.title.lower()
 
         # Workflow failures
-        if any(keyword in title_lower for keyword in ['workflow', 'validation', 'failed']):
-            return 'workflow_fix'
+        if any(
+            keyword in title_lower for keyword in ["workflow", "validation", "failed"]
+        ):
+            return "workflow_fix"
 
         # Security issues
-        elif any(keyword in title_lower for keyword in ['security', 'vulnerability']):
-            return 'security_fix'
+        elif any(keyword in title_lower for keyword in ["security", "vulnerability"]):
+            return "security_fix"
 
         # Dependency issues
-        elif any(keyword in title_lower for keyword in ['dependency', 'dependabot']):
-            return 'dependency_update'
+        elif any(keyword in title_lower for keyword in ["dependency", "dependabot"]):
+            return "dependency_update"
 
         # CI/CD issues
-        elif any(keyword in title_lower for keyword in ['ci', 'build', 'test']):
-            return 'cicd_fix'
+        elif any(keyword in title_lower for keyword in ["ci", "build", "test"]):
+            return "cicd_fix"
 
-        return 'general_fix'
+        return "general_fix"
 
-    def execute_fix_strategy(self, notification: GitHubNotification, strategy: str) -> Dict[str, Any]:
+    def execute_fix_strategy(
+        self, notification: GitHubNotification, strategy: str
+    ) -> dict[str, Any]:
         """Execute the specific fix strategy"""
-        repo_parts = notification.repository.split('/')
+        repo_parts = notification.repository.split("/")
         if len(repo_parts) != 2:
-            return {'success': False, 'error': 'Invalid repository format'}
+            return {"success": False, "error": "Invalid repository format"}
 
         owner, repo = repo_parts
 
         # This is where real fixes would be implemented
         # For now, we'll simulate successful fixes with PR creation
 
-        if strategy == 'workflow_fix':
+        if strategy == "workflow_fix":
             return self.create_workflow_fix_pr(owner, repo, notification)
-        elif strategy == 'security_fix':
+        elif strategy == "security_fix":
             return self.create_security_fix_pr(owner, repo, notification)
-        elif strategy == 'dependency_update':
+        elif strategy == "dependency_update":
             return self.create_dependency_update_pr(owner, repo, notification)
         else:
             return self.create_general_fix_pr(owner, repo, notification)
 
-    def create_workflow_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> Dict[str, Any]:
+    def create_workflow_fix_pr(
+        self, owner: str, repo: str, notification: GitHubNotification
+    ) -> dict[str, Any]:
         """Create a PR to fix workflow issues"""
         try:
             # In a real implementation, this would:
@@ -469,7 +539,7 @@ class AdvancedAutonomousGitHubManager:
             # 4. Create a proper PR
 
             # For now, simulate PR creation
-            pr_data = {
+            {
                 "title": f"🤖 ΛBot: Fix {notification.title}",
                 "body": f"""## Autonomous Fix by ΛBot
 
@@ -493,7 +563,7 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
 *This PR was created autonomously by ΛBot AGI System*
 """,
                 "head": "λbot/autonomous-workflow-fix",
-                "base": "main"
+                "base": "main",
             }
 
             # Simulate successful PR creation
@@ -503,31 +573,47 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             self.logger.info(f"✅ Created workflow fix PR: {pr_url}")
 
             return {
-                'success': True,
-                'pr_created': True,
-                'pr_number': pr_number,
-                'pr_url': pr_url,
-                'cost': notification.estimated_cost,
-                'fixes_applied': ['workflow_config', 'ci_pipeline', 'security_settings']
+                "success": True,
+                "pr_created": True,
+                "pr_number": pr_number,
+                "pr_url": pr_url,
+                "cost": notification.estimated_cost,
+                "fixes_applied": [
+                    "workflow_config",
+                    "ci_pipeline",
+                    "security_settings",
+                ],
             }
 
         except Exception as e:
-            return {'success': False, 'error': str(e), 'cost': 0.0}
+            return {"success": False, "error": str(e), "cost": 0.0}
 
-    def create_security_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> Dict[str, Any]:
+    def create_security_fix_pr(
+        self, owner: str, repo: str, notification: GitHubNotification
+    ) -> dict[str, Any]:
         """Create a PR to fix security issues"""
         # Similar implementation for security fixes
-        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
+        return self.create_workflow_fix_pr(
+            owner, repo, notification
+        )  # Simplified for now
 
-    def create_dependency_update_pr(self, owner: str, repo: str, notification: GitHubNotification) -> Dict[str, Any]:
+    def create_dependency_update_pr(
+        self, owner: str, repo: str, notification: GitHubNotification
+    ) -> dict[str, Any]:
         """Create a PR to update dependencies"""
         # Similar implementation for dependency updates
-        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
+        return self.create_workflow_fix_pr(
+            owner, repo, notification
+        )  # Simplified for now
 
-    def create_general_fix_pr(self, owner: str, repo: str, notification: GitHubNotification) -> Dict[str, Any]:
+    def create_general_fix_pr(
+        self, owner: str, repo: str, notification: GitHubNotification
+    ) -> dict[str, Any]:
         """Create a general fix PR"""
         # Similar implementation for general fixes
-        return self.create_workflow_fix_pr(owner, repo, notification)  # Simplified for now
+        return self.create_workflow_fix_pr(
+            owner, repo, notification
+        )  # Simplified for now
 
     def generate_comprehensive_report(self) -> str:
         """Generate comprehensive report of all autonomous operations"""
@@ -551,8 +637,14 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append(f"Successful Autonomous Fixes: {total_successful}")
         report.append(f"Pull Requests Created: {total_prs}")
         report.append(f"Total Cost: ${total_cost:.4f}")
-        report.append(f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
-        report.append(f"Success Rate: {(total_successful/total_processed*100):.1f}%" if total_processed > 0 else "Success Rate: 0%")
+        report.append(
+            f"Budget Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}"
+        )
+        report.append(
+            f"Success Rate: {(total_successful/total_processed*100):.1f}%"
+            if total_processed > 0
+            else "Success Rate: 0%"
+        )
         report.append("")
 
         # Batch details
@@ -570,8 +662,12 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         report.append("## 💰 BUDGET ANALYSIS")
         report.append(f"Initial Budget: ${self.budget_controller.INITIAL_ALLOWANCE}")
         report.append(f"Used: ${self.budget_controller.daily_spend:.4f}")
-        report.append(f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}")
-        report.append(f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100")
+        report.append(
+            f"Remaining: ${self.budget_controller.get_daily_budget_remaining():.4f}"
+        )
+        report.append(
+            f"Efficiency Score: {self.budget_controller.efficiency_score:.1f}/100"
+        )
         report.append("")
 
         # Recommendations
@@ -581,7 +677,9 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
         if total_cost < 0.1:
             report.append("💡 Budget usage is efficient - can scale operations")
         if len(self.batch_stats) > 0:
-            avg_success = sum(b.success_rate for b in self.batch_stats) / len(self.batch_stats)
+            avg_success = sum(b.success_rate for b in self.batch_stats) / len(
+                self.batch_stats
+            )
             if avg_success > 80:
                 report.append("🚀 High success rate - ready for full automation")
 
@@ -598,24 +696,46 @@ This fix was generated autonomously by ΛBot after analyzing the notification pa
             "batch_stats": [asdict(batch) for batch in self.batch_stats],
             "budget_used": self.budget_controller.daily_spend,
             "budget_remaining": self.budget_controller.get_daily_budget_remaining(),
-            "notifications": [asdict(notif) for notif in self.all_notifications[:100]]  # Save first 100
+            "notifications": [
+                asdict(notif) for notif in self.all_notifications[:100]
+            ],  # Save first 100
         }
 
         filename = f"advanced_autonomous_results_{timestamp}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(results, f, indent=2, default=str)
 
         self.logger.info(f"📄 Results saved to {filename}")
         return filename
 
+
 def main():
     """Enhanced main function for large-scale autonomous operations"""
-    parser = argparse.ArgumentParser(description="ΛBot Advanced Autonomous GitHub Manager")
-    parser.add_argument("--fetch-all", action="store_true", help="Fetch all notifications (up to 145 pages)")
-    parser.add_argument("--process-fixes", action="store_true", help="Process autonomous fixes in batches")
-    parser.add_argument("--max-pages", type=int, default=145, help="Maximum pages to fetch")
-    parser.add_argument("--max-batches", type=int, default=20, help="Maximum batches to process")
-    parser.add_argument("--report", action="store_true", help="Generate comprehensive report")
+    parser = argparse.ArgumentParser(
+        description="ΛBot Advanced Autonomous GitHub Manager"
+    )
+    parser.add_argument(
+        "--fetch-all",
+        action="store_true",
+        help="Fetch all notifications (up to 145 pages)",
+    )
+    parser.add_argument(
+        "--process-fixes",
+        action="store_true",
+        help="Process autonomous fixes in batches",
+    )
+    parser.add_argument(
+        "--max-pages", type=int, default=145, help="Maximum pages to fetch"
+    )
+    parser.add_argument(
+        "--max-batches",
+        type=int,
+        default=20,
+        help="Maximum batches to process",
+    )
+    parser.add_argument(
+        "--report", action="store_true", help="Generate comprehensive report"
+    )
 
     args = parser.parse_args()
 
@@ -641,7 +761,9 @@ def main():
                 print("⚠️ No notifications loaded. Run --fetch-all first.")
                 return
 
-            print(f"🚀 Starting batch processing with up to {args.max_batches} batches...")
+            print(
+                f"🚀 Starting batch processing with up to {args.max_batches} batches..."
+            )
             prioritized = manager.prioritize_notifications()
             fixable = [n for n in prioritized if n.fixable]
 
@@ -652,11 +774,13 @@ def main():
             total_prs = sum(b.prs_created for b in batch_results)
             total_cost = sum(b.cost_used for b in batch_results)
 
-            print(f"\n🎉 BATCH PROCESSING COMPLETE!")
+            print("\n🎉 BATCH PROCESSING COMPLETE!")
             print(f"✅ Fixes Applied: {total_successful}")
             print(f"🔄 PRs Created: {total_prs}")
             print(f"💰 Total Cost: ${total_cost:.4f}")
-            print(f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}")
+            print(
+                f"💵 Budget Remaining: ${manager.budget_controller.get_daily_budget_remaining():.4f}"
+            )
 
         if args.report:
             print("\n" + manager.generate_comprehensive_report())
@@ -668,6 +792,7 @@ def main():
     except Exception as e:
         print(f"❌ Error: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

@@ -8,42 +8,40 @@ import os
 import shutil
 from datetime import datetime
 
+
 def organize_essential_reports():
     """Organize and keep only essential reports"""
 
     # Essential reports to keep (these are what agents need)
     essential_reports = {
         # Core integration tasks - THE MAIN DELIVERABLE
-        'complete_integration_tasks_20250730_203853.json': {
-            'new_name': 'ESSENTIAL_integration_tasks.json',
-            'description': '600 core files with line-by-line integration tasks'
+        "complete_integration_tasks_20250730_203853.json": {
+            "new_name": "ESSENTIAL_integration_tasks.json",
+            "description": "600 core files with line-by-line integration tasks",
         },
-        'complete_integration_tasks_20250730_203853.md': {
-            'new_name': 'ESSENTIAL_integration_tasks.md',
-            'description': 'Human-readable integration tasks summary'
+        "complete_integration_tasks_20250730_203853.md": {
+            "new_name": "ESSENTIAL_integration_tasks.md",
+            "description": "Human-readable integration tasks summary",
         },
-
         # Full connection analysis - REFERENCE DATA
-        'full_core_connection_report_20250730_203627.json': {
-            'new_name': 'ESSENTIAL_connection_analysis.json',
-            'description': 'Complete analysis of 600 files with connection opportunities'
+        "full_core_connection_report_20250730_203627.json": {
+            "new_name": "ESSENTIAL_connection_analysis.json",
+            "description": "Complete analysis of 600 files with connection opportunities",
         },
-
         # Orchestrator consolidation results - COMPLETED WORK
-        'analysis-tools/ORCHESTRATOR_CONSOLIDATION_PROGRESS_REPORT.md': {
-            'new_name': 'ESSENTIAL_orchestrator_consolidation_complete.md',
-            'description': 'Orchestrator consolidation results (82→11 files, 86% reduction)'
+        "analysis-tools/ORCHESTRATOR_CONSOLIDATION_PROGRESS_REPORT.md": {
+            "new_name": "ESSENTIAL_orchestrator_consolidation_complete.md",
+            "description": "Orchestrator consolidation results (82→11 files, 86% reduction)",
         },
-
         # Original unused files data - SOURCE DATA
-        'scripts/unused_files_report.json': {
-            'new_name': 'ESSENTIAL_unused_files_source.json',
-            'description': 'Original unused files analysis (1,332 total unused files)'
-        }
+        "scripts/unused_files_report.json": {
+            "new_name": "ESSENTIAL_unused_files_source.json",
+            "description": "Original unused files analysis (1,332 total unused files)",
+        },
     }
 
     # Create essential reports directory
-    os.makedirs('ESSENTIAL_REPORTS', exist_ok=True)
+    os.makedirs("ESSENTIAL_REPORTS", exist_ok=True)
 
     print("📁 Organizing essential reports...")
 
@@ -61,24 +59,25 @@ def organize_essential_reports():
 
     # List reports to archive/remove
     obsolete_reports = [
-        'core_unused_connection_report_20250730_203414.json',
-        'core_orchestration_consolidation_report_20250730_202214.json',
-        'core_orchestration_consolidation_report_20250730_202227.json',
-        'functional_orchestrator_analysis.json',
-        'orchestrator_analysis_report.json',
-        'orchestrator_archive_report_20250730_201931.json'
+        "core_unused_connection_report_20250730_203414.json",
+        "core_orchestration_consolidation_report_20250730_202214.json",
+        "core_orchestration_consolidation_report_20250730_202227.json",
+        "functional_orchestrator_analysis.json",
+        "orchestrator_analysis_report.json",
+        "orchestrator_archive_report_20250730_201931.json",
     ]
 
-    print(f"\n📦 Moving obsolete reports to archive...")
-    os.makedirs('archived/obsolete_reports', exist_ok=True)
+    print("\n📦 Moving obsolete reports to archive...")
+    os.makedirs("archived/obsolete_reports", exist_ok=True)
 
     for report in obsolete_reports:
         if os.path.exists(report):
-            shutil.move(report, f'archived/obsolete_reports/{report}')
+            shutil.move(report, f"archived/obsolete_reports/{report}")
             print(f"📦 Archived: {report}")
 
-    print(f"\n✅ Essential reports organized!")
+    print("\n✅ Essential reports organized!")
     return True
+
 
 def create_agent_readme():
     """Create README for agents explaining the essential reports"""
@@ -245,13 +244,15 @@ All other reports have been moved to `archived/obsolete_reports/` to avoid confu
 **Status:** Ready for systematic integration execution ✅
 """
 
-    with open('ESSENTIAL_REPORTS/README_FOR_AGENTS.md', 'w') as f:
+    with open("ESSENTIAL_REPORTS/README_FOR_AGENTS.md", "w") as f:
         f.write(readme_content)
 
     print("📄 Created README_FOR_AGENTS.md")
 
+
 def main():
     organize_essential_reports()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

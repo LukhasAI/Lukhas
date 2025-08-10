@@ -14,14 +14,17 @@ Dependencies:
 Author: LUKHAS AGI Core
 """
 
-from typing import Dict, Any
 from io import BytesIO
+from typing import Any, Dict
 
 try:
-    from pyzbar.pyzbar import decode
     from PIL import Image
+    from pyzbar.pyzbar import decode
 except ImportError:
-    raise ImportError("Required packages not found. Please install with: pip install pyzbar pillow")
+    raise ImportError(
+        "Required packages not found. Please install with: pip install pyzbar pillow"
+    )
+
 
 def decode_from_image(image_bytes: BytesIO) -> Dict[str, Any]:
     """
@@ -42,7 +45,8 @@ def decode_from_image(image_bytes: BytesIO) -> Dict[str, Any]:
     raw_data = decoded_objects[0].data.decode("utf-8")
 
     # Try JSON parse first, else fallback to URL parsing
-    import json, urllib.parse
+    import json
+    import urllib.parse
 
     try:
         return json.loads(raw_data)

@@ -2,7 +2,7 @@
 """
 LUKHAS Meta Dashboard
 =====================
-Real-time monitoring dashboard for symbolic systems, drift analysis, 
+Real-time monitoring dashboard for symbolic systems, drift analysis,
 and persona coherence tracking.
 
 Components:
@@ -18,17 +18,17 @@ __author__ = "LUKHAS AGI"
 
 from .dashboard_server import app, start_dashboard
 from .utils import (
+    calculate_drift_trends,
+    entropy_color_code,
     load_meta_metrics,
     parse_jsonl_snapshots,
-    calculate_drift_trends,
-    entropy_color_code
 )
 
 __all__ = [
-    'app',
-    'start_dashboard',
-    'load_meta_metrics',
-    'parse_jsonl_snapshots',
-    'calculate_drift_trends',
-    'entropy_color_code'
+    "app",
+    "start_dashboard",
+    "load_meta_metrics",
+    "parse_jsonl_snapshots",
+    "calculate_drift_trends",
+    "entropy_color_code",
 ]

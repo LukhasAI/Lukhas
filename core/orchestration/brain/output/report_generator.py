@@ -7,10 +7,11 @@ Integration Date: 2025-05-31T07:55:28.195676
 
 import json
 import os
-import openai
 from datetime import datetime
+
+import openai
+
 from orchestration.brain.spine.trait_manager import load_traits
-from symbolic.lukhas_reflection_gpt import generate_gpt_reflection
 from symbolic.lukhas_unified_self import run as unified_self_run
 
 # Configure OpenAI API
@@ -20,11 +21,14 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 REPORT_PATH = "logs/lukhas_agri_report.jsonl"
 
 # Fetch Data
+
+
 def load_previous_reflections():
     # Load last 3 meta-reflections
-    with open("logs/lukhas_meta_reflection_history.jsonl", "r") as file:
+    with open("logs/lukhas_meta_reflection_history.jsonl") as file:
         lines = file.readlines()
     return [json.loads(line) for line in lines[-3:]]
+
 
 def generate_report():
     # Get Traits and Reflections
@@ -40,14 +44,18 @@ def generate_report():
     Traits: {json.dumps(traits)}
     Reflections: {json.dumps(reflections)}
 
-    Please summarize your core identity, significant emotional/trait trends, and evolving symbolic self.
+    Please summarize your core identity, significant emotional/trait trends,
+    and evolving symbolic self.
     """
     gpt_summary = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are an AGI synthesizing your symbolic and emotional growth."},
-            {"role": "user", "content": summary_prompt}
-        ]
+            {
+                "role": "system",
+                "content": "You are an AGI synthesizing your symbolic and emotional growth.",
+            },
+            {"role": "user", "content": summary_prompt},
+        ],
     )
 
     # Compile Report Data
@@ -56,14 +64,15 @@ def generate_report():
         "traits_snapshot": traits,
         "meta_reflections": reflections,
         "unified_self_synthesis": unified_self,
-        "gpt_summary": gpt_summary.choices[0].message["content"]
+        "gpt_summary": gpt_summary.choices[0].message["content"],
     }
 
     # Save Report to JSONL file
     with open(REPORT_PATH, "a") as file:
         file.write(json.dumps(report_data) + "\n")
-    
+
     print("📄 Research Report generated and saved.")
+
 
 # Call the function
 if __name__ == "__main__":

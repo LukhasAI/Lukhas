@@ -14,16 +14,17 @@ It is intended to house core voice processing modules for the Lukhas system.
 """
 
 # AIMPORTS_START
-import structlog # ΛMODIFICATION: Added structlog for standardized logging
+import structlog  # ΛMODIFICATION: Added structlog for standardized logging
+
 # AIMPORTS_END
 
 # ΛCONFIG_START
-log = structlog.get_logger() # ΛMODIFICATION: Initialized structlog
+log = structlog.get_logger()  # ΛMODIFICATION: Initialized structlog
 # ΛCONFIG_END
 
 # ΛMAIN_LOGIC_START
 # # Auto-generated __init__.py (Original comment)
-log.debug("core.interfaces.voice.core package initialized.") # ΛMODIFICATION: Logging
+log.debug("core.interfaces.voice.core package initialized.")  # ΛMODIFICATION: Logging
 # ΛMAIN_LOGIC_END
 
 # ΛFOOTER_START

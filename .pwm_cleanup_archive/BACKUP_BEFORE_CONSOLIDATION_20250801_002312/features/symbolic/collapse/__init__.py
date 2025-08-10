@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Symbolic Collapse Mechanisms
 ============================
@@ -14,15 +13,17 @@ import logging
 
 # Initialize logger
 log = logging.getLogger(__name__)
-log.info("core.symbolic.collapse module initialized - decision resolution mechanisms active")
+log.info(
+    "core.symbolic.collapse module initialized - decision resolution mechanisms active"
+)
 
 # Import collapse components
 try:
-    from .collapse_engine import CollapseEngine
     from .collapse_bridge import CollapseBridge
     from .collapse_buffer import CollapseBuffer
-    from .collapse_trace import CollapseTrace
+    from .collapse_engine import CollapseEngine
     from .collapse_reasoner import CollapseReasoner
+    from .collapse_trace import CollapseTrace
 except ImportError as e:
     log.warning(f"Failed to import collapse components: {e}")
     # Provide fallback imports
@@ -36,11 +37,11 @@ except ImportError as e:
 try:
     from .collapse_entropy_tracker import (
         CollapseEntropyTracker,
-        CollapsePhase,
-        CollapseType,
         CollapseField,
+        CollapsePhase,
         CollapseRiskAssessment,
-        create_collapse_tracker
+        CollapseType,
+        create_collapse_tracker,
     )
 except ImportError as e:
     log.warning(f"Failed to import collapse entropy tracker: {e}")
@@ -53,49 +54,53 @@ except ImportError as e:
 
 # Tight integration with symbolic state
 try:
-    from core.symbolic_boot import GLYPH_MAP
     from core.symbolic.drift.symbolic_drift_tracker import get_drift_status
+    from core.symbolic_boot import GLYPH_MAP
+
     SYMBOLIC_INTEGRATION_ENABLED = True
 except ImportError:
-    log.warning("Symbolic integration not available - collapse mechanisms operating independently")
+    log.warning(
+        "Symbolic integration not available - collapse mechanisms operating independently"
+    )
     SYMBOLIC_INTEGRATION_ENABLED = False
 
 # CLAUDE_EDIT_v0.1: Export list for collapse submodule
 # CLAUDE_EDIT_v0.2: Added collapse entropy tracker exports
 __all__ = [
-    'CollapseEngine',
-    'CollapseBridge',
-    'CollapseBuffer',
-    'CollapseTrace',
-    'CollapseReasoner',
-    'CollapseEntropyTracker',
-    'CollapsePhase',
-    'CollapseType',
-    'CollapseField',
-    'CollapseRiskAssessment',
-    'create_collapse_tracker',
-    'COLLAPSE_CONFIG',
+    "CollapseEngine",
+    "CollapseBridge",
+    "CollapseBuffer",
+    "CollapseTrace",
+    "CollapseReasoner",
+    "CollapseEntropyTracker",
+    "CollapsePhase",
+    "CollapseType",
+    "CollapseField",
+    "CollapseRiskAssessment",
+    "create_collapse_tracker",
+    "COLLAPSE_CONFIG",
 ]
 
 # Collapse mechanism configuration
 COLLAPSE_CONFIG = {
-    'enabled': True,
-    'quantum_inspired': True,  # Use quantum-like superposition model
-    'decision_threshold': 0.7,  # Confidence required for collapse
-    'max_superposition_states': 5,  # Maximum parallel states before forced collapse
-    'symbolic_integration': SYMBOLIC_INTEGRATION_ENABLED,
-    'trace_enabled': True,  # Track collapse decisions
+    "enabled": True,
+    "quantum_inspired": True,  # Use quantum-like superposition model
+    "decision_threshold": 0.7,  # Confidence required for collapse
+    "max_superposition_states": 5,  # Maximum parallel states before forced collapse
+    "symbolic_integration": SYMBOLIC_INTEGRATION_ENABLED,
+    "trace_enabled": True,  # Track collapse decisions
 }
 
 # Collapse states
 COLLAPSE_STATES = {
-    'SUPERPOSITION': 'Multiple states coexisting',
-    'COLLAPSING': 'Resolution in progress',
-    'COLLAPSED': 'Single state resolved',
-    'ENTANGLED': 'States correlated with other systems',
+    "SUPERPOSITION": "Multiple states coexisting",
+    "COLLAPSING": "Resolution in progress",
+    "COLLAPSED": "Single state resolved",
+    "ENTANGLED": "States correlated with other systems",
 }
 
 log.info(f"Collapse mechanism configuration: {COLLAPSE_CONFIG}")
+
 
 def trigger_collapse(confidence: float, force: bool = False) -> bool:
     """
@@ -105,4 +110,4 @@ def trigger_collapse(confidence: float, force: bool = False) -> bool:
     """
     if force:
         return True
-    return confidence >= COLLAPSE_CONFIG['decision_threshold']
+    return confidence >= COLLAPSE_CONFIG["decision_threshold"]

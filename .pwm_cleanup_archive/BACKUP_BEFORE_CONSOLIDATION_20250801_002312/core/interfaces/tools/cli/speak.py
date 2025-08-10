@@ -12,12 +12,13 @@ Integration Date: 2025-5-31T07:55:30.780336
 
 import argparse
 import asyncio
-import os
 import json
 import logging
+import os
 from datetime import datetime
 
 from edge_tts import Communicate
+
 from core.compliance.tier_manager import get_user_tier
 
 DEFAULT_VOICE = "en-US-AriaNeural"
@@ -27,7 +28,9 @@ LOG_PATH = "symbolic_output_log.jsonl"
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
@@ -37,14 +40,18 @@ EMOTION_VOICES = {
     "gentle": "en-GB-SoniaNeural",
     "urgent": "en-US-GuyNeural",
     "narrator": "en-US-DavisNeural",
-    "soft": "en-AU-NatashaNeural"
+    "soft": "en-AU-NatashaNeural",
 }
+
 
 async def speak(text, voice=DEFAULT_VOICE, preview=False):
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lukhas_output.mp3")
     if not preview:
-        os.system("afplay lukhas_output.mp3")  # For macOS. Use another player for Linux/Win.
+        os.system(
+            "afplay lukhas_output.mp3"
+        )  # For macOS. Use another player for Linux/Win.
+
 
 def log_output(text, tier, voice):
     entry = {
@@ -52,20 +59,32 @@ def log_output(text, tier, voice):
         "text": text,
         "tier": tier,
         "voice": voice,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.utcnow().isoformat() + "Z",
     }
     with open(LOG_PATH, "a") as f:
         f.write(json.dumps(entry) + "\n")
+
 
 def main():
     # Keep these as print statements since they are UI output
     print("\n LUKHAS VOICE MODE - Speak With Intention")
     print("")
 
-    parser = argparse.ArgumentParser(description=" Speak via symbolic voice system (Lukhas voice)")
-    parser.add_argument("text", type=str, nargs="+", help="The phrase Lukhas should speak aloud.")
-    parser.add_argument("--emotion", type=str, default="neutral", help="Symbolic emotion voice (gentle, urgent, soft, narrator)")
-    parser.add_argument("--preview", action="store_true", help="Preview voice without audio playback")
+    parser = argparse.ArgumentParser(
+        description=" Speak via symbolic voice system (Lukhas voice)"
+    )
+    parser.add_argument(
+        "text", type=str, nargs="+", help="The phrase Lukhas should speak aloud."
+    )
+    parser.add_argument(
+        "--emotion",
+        type=str,
+        default="neutral",
+        help="Symbolic emotion voice (gentle, urgent, soft, narrator)",
+    )
+    parser.add_argument(
+        "--preview", action="store_true", help="Preview voice without audio playback"
+    )
     args = parser.parse_args()
 
     tier = get_user_tier()
@@ -79,11 +98,12 @@ def main():
 
     # Keep these as print since they are CLI user output
     print(f" Tier {tier} |  Emotion: {args.emotion} | Voice: {voice}")
-# SYNTAX_ERROR_FIXED:     print(f" Lukhas would say: "{sentence}"")
+    # SYNTAX_ERROR_FIXED:     print(f" Lukhas would say: "{sentence}"")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)
     print(" Logged to symbolic_output_log.jsonl\n")
+
 
 if __name__ == "__main__":
     main()

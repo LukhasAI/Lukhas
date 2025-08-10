@@ -7,8 +7,8 @@ Priority Score: 25.5 points
 Simplified test focusing on core integration without complex mocking.
 """
 
-import sys
 import os
+import sys
 import unittest
 
 # Add project root to path for testing
@@ -21,12 +21,12 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
 
     def setUp(self):
         """Set up test environment"""
-        os.environ['TRAUMA_LOCK_KEY'] = 'test_key_for_simple_integration'
+        os.environ["TRAUMA_LOCK_KEY"] = "test_key_for_simple_integration"
 
     def tearDown(self):
         """Clean up test environment"""
-        if 'TRAUMA_LOCK_KEY' in os.environ:
-            del os.environ['TRAUMA_LOCK_KEY']
+        if "TRAUMA_LOCK_KEY" in os.environ:
+            del os.environ["TRAUMA_LOCK_KEY"]
 
     def test_trauma_lock_standalone(self):
         """Test TraumaLockSystem functionality in isolation"""
@@ -63,7 +63,7 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
                 "id": "test_001",
                 "content": "Test sensitive memory content",
                 "type": "episodic",
-                "timestamp": "2025-01-27"
+                "timestamp": "2025-01-27",
             }
 
             # Test encryption
@@ -71,10 +71,10 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
 
             # Verify encrypted structure
             self.assertIsInstance(encrypted, dict)
-            self.assertIn('encrypted_data', encrypted)
-            self.assertIn('access_level', encrypted)
-            self.assertIn('vector_id', encrypted)
-            self.assertEqual(encrypted['access_level'], 'standard')
+            self.assertIn("encrypted_data", encrypted)
+            self.assertIn("access_level", encrypted)
+            self.assertIn("vector_id", encrypted)
+            self.assertEqual(encrypted["access_level"], "standard")
 
             print("✅ Memory encryption successful")
 
@@ -91,10 +91,10 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
             trauma_lock = TraumaLockSystem(encryption_level="medium")
 
             # Test that all required methods exist
-            self.assertTrue(hasattr(trauma_lock, 'encrypt_memory'))
-            self.assertTrue(hasattr(trauma_lock, 'decrypt_memory'))
-            self.assertTrue(hasattr(trauma_lock, '_generate_system_key'))
-            self.assertTrue(hasattr(trauma_lock, '_initialize_access_policies'))
+            self.assertTrue(hasattr(trauma_lock, "encrypt_memory"))
+            self.assertTrue(hasattr(trauma_lock, "decrypt_memory"))
+            self.assertTrue(hasattr(trauma_lock, "_generate_system_key"))
+            self.assertTrue(hasattr(trauma_lock, "_initialize_access_policies"))
 
             print("✅ Memory orchestrator can properly import and use TraumaLockSystem")
 
@@ -105,7 +105,9 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
         """Test simple orchestrator integration without complex dependencies"""
         try:
             # Import the orchestrator
-            from memory.core.unified_memory_orchestrator import UnifiedMemoryOrchestrator
+            from memory.core.unified_memory_orchestrator import (
+                UnifiedMemoryOrchestrator,
+            )
 
             # Create a minimal orchestrator instance
             # This will trigger the trauma lock initialization in _initialize_memory_subsystems
@@ -113,18 +115,18 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
                 hippocampal_capacity=10,
                 neocortical_capacity=100,
                 enable_colony_validation=False,
-                enable_distributed=False
+                enable_distributed=False,
             )
 
             # Check that trauma lock methods exist
-            self.assertTrue(hasattr(orchestrator, 'encrypt_sensitive_memory'))
-            self.assertTrue(hasattr(orchestrator, 'decrypt_sensitive_memory'))
-            self.assertTrue(hasattr(orchestrator, 'get_trauma_lock_status'))
+            self.assertTrue(hasattr(orchestrator, "encrypt_sensitive_memory"))
+            self.assertTrue(hasattr(orchestrator, "decrypt_sensitive_memory"))
+            self.assertTrue(hasattr(orchestrator, "get_trauma_lock_status"))
 
             # Test trauma lock status
             status = orchestrator.get_trauma_lock_status()
             self.assertIsInstance(status, dict)
-            self.assertIn('available', status)
+            self.assertIn("available", status)
 
             print(f"✅ Orchestrator trauma lock status: {status}")
 
@@ -134,18 +136,19 @@ class TestTraumaLockSimpleIntegration(unittest.TestCase):
     def test_interface_methods_work(self):
         """Test that the interface methods actually work"""
         try:
-            from memory.core.unified_memory_orchestrator import UnifiedMemoryOrchestrator
+            from memory.core.unified_memory_orchestrator import (
+                UnifiedMemoryOrchestrator,
+            )
 
             orchestrator = UnifiedMemoryOrchestrator(
-                enable_colony_validation=False,
-                enable_distributed=False
+                enable_colony_validation=False, enable_distributed=False
             )
 
             # Test memory data
             test_memory = {
                 "id": "interface_test_001",
                 "content": "Testing interface methods",
-                "sensitivity": "medium"
+                "sensitivity": "medium",
             }
 
             # Test encryption through interface
@@ -178,10 +181,14 @@ def run_simple_trauma_lock_tests():
     print("\n" + "=" * 70)
     if result.wasSuccessful():
         print("✅ ALL TRAUMA LOCK SIMPLE INTEGRATION TESTS PASSED!")
-        print("✅ TraumaLockSystem successfully integrated with UnifiedMemoryOrchestrator")
-        print(f"✅ Agent 1 Task 14 Priority Score: 25.5 points achieved")
-        print(f"✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
-        print("✅ Integration follows hub pattern: Import → Initialize → Interface → Test")
+        print(
+            "✅ TraumaLockSystem successfully integrated with UnifiedMemoryOrchestrator"
+        )
+        print("✅ Agent 1 Task 14 Priority Score: 25.5 points achieved")
+        print("✅ Cumulative Agent 1 Score: 593.3 points (540 target exceeded)")
+        print(
+            "✅ Integration follows hub pattern: Import → Initialize → Interface → Test"
+        )
     else:
         print("❌ Some tests failed:")
         for failure in result.failures:

@@ -22,8 +22,7 @@ DESCRIPTION:
 """
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
-from core.interfaces.as_agent.utils.constants import SYMBOLIC_TIERS, DEFAULT_COOLDOWN_SECONDS, SEED_TAG_VOCAB, SYMBOLIC_THRESHOLDS
-from core.interfaces.as_agent.utils.symbolic_utils import tier_label, summarize_emotion_vector
+
 
 def is_allowed(user_context, message):
     """
@@ -38,6 +37,7 @@ def is_allowed(user_context, message):
     - False otherwise
     """
     return user_context.get("tier", 0) >= message.get("required_tier", 1)
+
 
 """
 ──────────────────────────────────────────────────────────────────────────────────────

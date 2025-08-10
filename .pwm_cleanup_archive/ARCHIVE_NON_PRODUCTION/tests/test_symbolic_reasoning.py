@@ -1,6 +1,8 @@
 """Tests for lukhas.reasoning.symbolic_reasoning"""
+
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
+
 
 class TestSymbolicReasoning(unittest.TestCase):
     def setUp(self):
@@ -17,6 +19,7 @@ class TestSymbolicReasoning(unittest.TestCase):
         """Test that module can be imported"""
         try:
             import reasoning.symbolic_reasoning
+
             self.assertTrue(True)
         except ImportError:
             # Module might not exist yet, that's ok for now
@@ -24,7 +27,9 @@ class TestSymbolicReasoning(unittest.TestCase):
 
     def test_mock_functionality(self):
         """Test with mocked dependencies"""
-        with patch('lukhas.reasoning.symbolic_reasoning.some_function', return_value="mocked"):
+        with patch(
+            "lukhas.reasoning.symbolic_reasoning.some_function", return_value="mocked"
+        ):
             # Placeholder for actual functionality
             result = "mocked"
             self.assertEqual(result, "mocked")
@@ -40,6 +45,7 @@ class TestSymbolicReasoning(unittest.TestCase):
         # Test error handling
         with self.assertRaises(TypeError):
             int("not a number")
+
 
 if __name__ == "__main__":
     unittest.main()

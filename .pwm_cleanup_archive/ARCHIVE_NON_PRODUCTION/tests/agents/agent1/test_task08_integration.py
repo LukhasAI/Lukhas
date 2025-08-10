@@ -21,7 +21,6 @@ async def test_attention_monitor_integration():
         # Test 1: Direct module import
         print("Test 1: Testing direct Attention Monitor imports...")
         from identity.auth_utils.attention_monitor import (
-            AttentionMetrics,
             AttentionMonitor,
             AttentionState,
             EyeTrackingData,
@@ -173,11 +172,11 @@ async def test_attention_monitor_integration():
         print("🎯 Agent 1 Task 8: Attention Monitor Integration COMPLETE!")
         print(f"✅ Successfully tested {len(test_events)} input modalities")
         print(f"✅ All {len(AttentionState)} attention states available")
-        print(f"✅ Cognitive load estimation: ✅")
-        print(f"✅ Input lag monitoring: ✅")
-        print(f"✅ Pattern recognition: ✅")
-        print(f"✅ Adaptive thresholds: ✅")
-        print(f"✅ Baseline calibration: ✅")
+        print("✅ Cognitive load estimation: ✅")
+        print("✅ Input lag monitoring: ✅")
+        print("✅ Pattern recognition: ✅")
+        print("✅ Adaptive thresholds: ✅")
+        print("✅ Baseline calibration: ✅")
 
         return True
 

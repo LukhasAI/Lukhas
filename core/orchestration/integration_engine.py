@@ -18,18 +18,23 @@
 """
 
 import asyncio
-import structlog
-from typing import Dict, List, Optional, Any, Union
 from datetime import datetime, timezone
+from typing import Any, Optional
+
+import structlog
 
 log = structlog.get_logger(__name__)
 
+
 def lukhas_tier_required(level: int):
     """Decorator to specify the LUKHΛS access tier required for a method."""
+
     def decorator(func):
         func._lukhas_tier = level
         return func
+
     return decorator
+
 
 @lukhas_tier_required(1)
 class LukhasIntegrationEngine:
@@ -41,14 +46,16 @@ class LukhasIntegrationEngine:
     by orchestrating data flow and interactions between various LUKHΛS modules.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initializes the LukhasIntegrationEngine.
         Args:
             config: Optional configuration dictionary for the engine.
         """
-        self.config: Dict[str, Any] = config or {}
-        self.log = log.bind(engine_id=self.__class__.__name__, instance_id=hex(id(self))[-6:])
+        self.config: dict[str, Any] = config or {}
+        self.log = log.bind(
+            engine_id=self.__class__.__name__, instance_id=hex(id(self))[-6:]
+        )
         self.is_initialized: bool = False
         self.status: str = "uninitialized"
         self.log.info("LukhasIntegrationEngine instance created.")
@@ -70,7 +77,11 @@ class LukhasIntegrationEngine:
             self.log.info("LukhasIntegrationEngine initialized successfully.")
             return True
         except Exception as e:
-            self.log.error("Failed to initialize LukhasIntegrationEngine.", error_message=str(e), exc_info=True)
+            self.log.error(
+                "Failed to initialize LukhasIntegrationEngine.",
+                error_message=str(e),
+                exc_info=True,
+            )
             self.status = "initialization_failed"
             return False
 
@@ -85,7 +96,7 @@ class LukhasIntegrationEngine:
         self.log.debug("Core integration system setup complete.")
 
     @lukhas_tier_required(1)
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Processes incoming integration data.
         If the engine is not initialized, it will attempt to initialize first.
@@ -96,7 +107,9 @@ class LukhasIntegrationEngine:
             A dictionary containing the processing status and result.
         """
         if not self.is_initialized:
-            self.log.warning("Process called on uninitialized engine. Attempting to initialize...")
+            self.log.warning(
+                "Process called on uninitialized engine. Attempting to initialize..."
+            )
             await self.initialize()
             if not self.is_initialized:
                 self.log.error("Cannot process data: Engine initialization failed.")
@@ -104,10 +117,12 @@ class LukhasIntegrationEngine:
                     "status": "error",
                     "component_name": self.__class__.__name__,
                     "error_message": "Engine not initialized and initialization failed.",
-                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                    "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
                 }
 
-        self.log.debug("Processing integration data...", input_data_keys=list(data.keys()))
+        self.log.debug(
+            "Processing integration data...", input_data_keys=list(data.keys())
+        )
         try:
             processing_result = await self._core_integration_processing(data)
 
@@ -116,20 +131,25 @@ class LukhasIntegrationEngine:
                 "component_name": self.__class__.__name__,
                 "integration_category_processed": data.get("category", "generic"),
                 "result_payload": processing_result,
-                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
-            self.log.error("Integration processing error.", error_message=str(e), input_data=data, exc_info=True)
+            self.log.error(
+                "Integration processing error.",
+                error_message=str(e),
+                input_data=data,
+                exc_info=True,
+            )
             return {
                 "status": "error",
                 "component_name": self.__class__.__name__,
                 "error_message": str(e),
-                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+                "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
             }
 
     @lukhas_tier_required(2)
-    async def _core_integration_processing(self, data: Dict[str, Any]) -> Any:
+    async def _core_integration_processing(self, data: dict[str, Any]) -> Any:
         """
         Core integration processing logic. Dispatches data to specialized handlers
         based on its category.
@@ -139,7 +159,10 @@ class LukhasIntegrationEngine:
             The result from the specialized processing handler.
         """
         category = data.get("category", "generic").lower()
-        self.log.debug(f"Routing data for category: {category}", data_keys=list(data.keys()))
+        self.log.debug(
+            f"Routing data for category: {category}",
+            data_keys=list(data.keys()),
+        )
 
         if category == "consciousness":
             return await self._process_consciousness(data)
@@ -153,44 +176,80 @@ class LukhasIntegrationEngine:
             return await self._process_quantum(data)
         else:
             if category != "generic":
-                 self.log.warning(f"Unknown data category '{category}', processing as generic.", original_data_keys=list(data.keys()))
+                self.log.warning(
+                    f"Unknown data category '{category}', processing as generic.",
+                    original_data_keys=list(data.keys()),
+                )
             return await self._process_generic(data)
 
     @lukhas_tier_required(2)
-    async def _process_consciousness(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_consciousness(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes consciousness-related integration data."""
-        self.log.debug("Processing consciousness data...", data_payload_preview=str(data)[:100])
-        return {"consciousness_level": "active_simulated", "awareness_metric": 0.95, "original_payload_keys": list(data.keys())}
+        self.log.debug(
+            "Processing consciousness data...",
+            data_payload_preview=str(data)[:100],
+        )
+        return {
+            "consciousness_level": "active_simulated",
+            "awareness_metric": 0.95,
+            "original_payload_keys": list(data.keys()),
+        }
 
     @lukhas_tier_required(2)
-    async def _process_governance(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_governance(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes governance-related integration data."""
-        self.log.debug("Processing governance data...", data_payload_preview=str(data)[:100])
-        return {"policy_compliance_status": "compliant_simulated", "ethics_check_result": "passed_simulated", "confidence_score": 0.99}
+        self.log.debug(
+            "Processing governance data...",
+            data_payload_preview=str(data)[:100],
+        )
+        return {
+            "policy_compliance_status": "compliant_simulated",
+            "ethics_check_result": "passed_simulated",
+            "confidence_score": 0.99,
+        }
 
     @lukhas_tier_required(2)
-    async def _process_voice(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_voice(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes voice-related integration data."""
         self.log.debug("Processing voice data...", data_payload_preview=str(data)[:100])
-        return {"voice_data_processed_flag": True, "simulated_audio_quality_metric": "high", "language_detected_sim": "en-US"}
+        return {
+            "voice_data_processed_flag": True,
+            "simulated_audio_quality_metric": "high",
+            "language_detected_sim": "en-US",
+        }
 
     @lukhas_tier_required(2)
-    async def _process_identity(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_identity(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes identity-related integration data."""
-        self.log.debug("Processing identity data...", data_payload_preview=str(data)[:100])
-        return {"identity_verification_status": "verified_simulated", "active_persona_id_sim": "lukhas_user_7742"}
+        self.log.debug(
+            "Processing identity data...", data_payload_preview=str(data)[:100]
+        )
+        return {
+            "identity_verification_status": "verified_simulated",
+            "active_persona_id_sim": "lukhas_user_7742",
+        }
 
     @lukhas_tier_required(2)
-    async def _process_quantum(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_quantum(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes quantum-related integration data."""
-        self.log.debug("Processing quantum data...", data_payload_preview=str(data)[:100])
-        return {"simulated_quantum_like_state": "entangled_coherent", "coherence_duration_ms_sim": 1500.75}
+        self.log.debug(
+            "Processing quantum data...", data_payload_preview=str(data)[:100]
+        )
+        return {
+            "simulated_quantum_like_state": "entangled_coherent",
+            "coherence_duration_ms_sim": 1500.75,
+        }
 
     @lukhas_tier_required(2)
-    async def _process_generic(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
         """Processes generic integration data that doesn't fit other categories."""
-        self.log.debug("Processing generic data...", data_payload_preview=str(data)[:100])
-        return {"generic_processing_status": "completed", "received_data_keys": list(data.keys())}
+        self.log.debug(
+            "Processing generic data...", data_payload_preview=str(data)[:100]
+        )
+        return {
+            "generic_processing_status": "completed",
+            "received_data_keys": list(data.keys()),
+        }
 
     @lukhas_tier_required(1)
     async def validate(self) -> bool:
@@ -206,11 +265,17 @@ class LukhasIntegrationEngine:
                 return False
 
             validation_result = await self._perform_validation()
-            self.log.info(f"Validation result: {'passed' if validation_result else 'failed'}")
+            self.log.info(
+                f"Validation result: {'passed' if validation_result else 'failed'}"
+            )
             return validation_result
 
         except Exception as e:
-            self.log.error("Validation failed with exception.", error_message=str(e), exc_info=True)
+            self.log.error(
+                "Validation failed with exception.",
+                error_message=str(e),
+                exc_info=True,
+            )
             return False
 
     @lukhas_tier_required(2)
@@ -227,7 +292,7 @@ class LukhasIntegrationEngine:
         return True
 
     @lukhas_tier_required(0)
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """
         Gets the current status of the integration engine.
         Returns:
@@ -240,7 +305,7 @@ class LukhasIntegrationEngine:
             "current_status": self.status,
             "is_initialized": self.is_initialized,
             "configuration_loaded": bool(self.config),
-            "timestamp_utc_iso": datetime.now(timezone.utc).isoformat()
+            "timestamp_utc_iso": datetime.now(timezone.utc).isoformat(),
         }
 
     @lukhas_tier_required(1)
@@ -253,8 +318,11 @@ class LukhasIntegrationEngine:
         self.status = "inactive"
         self.log.info("LukhasIntegrationEngine shut down successfully.")
 
+
 @lukhas_tier_required(0)
-def create_integration_component(config: Optional[Dict[str, Any]] = None) -> LukhasIntegrationEngine:
+def create_integration_component(
+    config: Optional[dict[str, Any]] = None,
+) -> LukhasIntegrationEngine:
     """
     Creates and returns an instance of the LukhasIntegrationEngine.
     Args:
@@ -265,8 +333,11 @@ def create_integration_component(config: Optional[Dict[str, Any]] = None) -> Luk
     log.debug("Factory function 'create_integration_component' called.")
     return LukhasIntegrationEngine(config)
 
+
 @lukhas_tier_required(0)
-async def create_and_initialize_integration_component(config: Optional[Dict[str, Any]] = None) -> LukhasIntegrationEngine:
+async def create_and_initialize_integration_component(
+    config: Optional[dict[str, Any]] = None,
+) -> LukhasIntegrationEngine:
     """
     Creates, initializes, and returns an instance of the LukhasIntegrationEngine.
     Args:
@@ -278,6 +349,7 @@ async def create_and_initialize_integration_component(config: Optional[Dict[str,
     component = LukhasIntegrationEngine(config)
     await component.initialize()
     return component
+
 
 if __name__ == "__main__":
     structlog.configure(
@@ -297,27 +369,52 @@ if __name__ == "__main__":
 
     async def main_example():
         main_log.info("Creating LukhasIntegrationEngine instance...")
-        engine_component = LukhasIntegrationEngine(config={"engine_mode": "example_test"})
+        engine_component = LukhasIntegrationEngine(
+            config={"engine_mode": "example_test"}
+        )
 
         main_log.info("Initializing engine component...")
         initialization_success = await engine_component.initialize()
-        main_log.info(f"Engine Initialization: {'successful' if initialization_success else 'failed'}")
+        main_log.info(
+            f"Engine Initialization: {'successful' if initialization_success else 'failed'}"
+        )
 
         if initialization_success:
             main_log.info("Processing sample 'consciousness' data...")
-            consciousness_data = {"category": "consciousness", "payload": {"source": "dream_module_sim"}}
-            processing_result_consciousness = await engine_component.process(consciousness_data)
-            main_log.info("Consciousness Processing Result:", result=processing_result_consciousness)
+            consciousness_data = {
+                "category": "consciousness",
+                "payload": {"source": "dream_module_sim"},
+            }
+            processing_result_consciousness = await engine_component.process(
+                consciousness_data
+            )
+            main_log.info(
+                "Consciousness Processing Result:",
+                result=processing_result_consciousness,
+            )
 
             main_log.info("Processing sample 'generic' data...")
-            generic_data = {"category": "generic", "payload": {"detail": "some_generic_info"}}
+            generic_data = {
+                "category": "generic",
+                "payload": {"detail": "some_generic_info"},
+            }
             processing_result_generic = await engine_component.process(generic_data)
-            main_log.info("Generic Processing Result:", result=processing_result_generic)
+            main_log.info(
+                "Generic Processing Result:", result=processing_result_generic
+            )
 
             main_log.info("Processing data with an unknown category...")
-            unknown_category_data = {"category": "experimental_neuro", "payload": "test_payload_string"}
-            processing_result_unknown = await engine_component.process(unknown_category_data)
-            main_log.info("Unknown Category Processing Result:", result=processing_result_unknown)
+            unknown_category_data = {
+                "category": "experimental_neuro",
+                "payload": "test_payload_string",
+            }
+            processing_result_unknown = await engine_component.process(
+                unknown_category_data
+            )
+            main_log.info(
+                "Unknown Category Processing Result:",
+                result=processing_result_unknown,
+            )
 
             main_log.info("Validating engine component...")
             is_valid = await engine_component.validate()

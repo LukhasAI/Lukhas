@@ -12,11 +12,12 @@ Advanced: quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 
+from typing import Any, Dict, Optional
+
 import numpy as np
-from core.common import get_logger
-from typing import Dict, List, Any, Tuple, Union, Optional
 
 logger = logging.getLogger("QuantumAttention")
+
 
 class QuantumInspiredAttention:
     """Attention mechanism inspired by probabilistic exploration in mitochondrial electron transport chains
@@ -27,11 +28,13 @@ class QuantumInspiredAttention:
     3. Electron transport chain efficiency patterns
     """
 
-    def __init__(self,
-                 dimension: int = 64,
-                 barrier_height: float = 0.75,
-                 superposition_strength: float = 0.3,
-                 coherence_decay: float = 0.05):
+    def __init__(
+        self,
+        dimension: int = 64,
+        barrier_height: float = 0.75,
+        superposition_strength: float = 0.3,
+        coherence_decay: float = 0.05,
+    ):
         """Initialize the quantum-inspired attention mechanism
 
         Args:
@@ -50,42 +53,55 @@ class QuantumInspiredAttention:
 
         # Track attention statistics for adaptive tuning
         self.attention_stats = {
-            'calls': 0,
-            'avg_entropy': 0.0,
-            'last_distribution': None,
-            'coherence': 1.0  # Starts fully coherent
+            "calls": 0,
+            "avg_entropy": 0.0,
+            "last_distribution": None,
+            "coherence": 1.0,  # Starts fully coherent
         }
 
-        logger.info(f"Quantum-inspired attention initialized with dimension {dimension}")
+        logger.info(
+            f"Quantum-inspired attention initialized with dimension {dimension}"
+        )
 
     def _initialize_quantum_matrices(self):
         """Initialize the quantum-inspired matrices used for attention processing"""
         # Superposition matrix (symmetric for quantum-inspired properties)
         init_scale = 0.1 * self.superposition_strength
-        self.superposition_matrix = np.random.normal(0, init_scale, (self.dimension, self.dimension))
+        self.superposition_matrix = np.random.normal(
+            0, init_scale, (self.dimension, self.dimension)
+        )
 
         # Make it symmetric (Hermitian-like) for quantum properties
-        self.superposition_matrix = (self.superposition_matrix + self.superposition_matrix.T) / 2
+        self.superposition_matrix = (
+            self.superposition_matrix + self.superposition_matrix.T
+        ) / 2
 
         # Initialize diagonal with stronger weights (1.0 + small noise)
-        np.fill_diagonal(self.superposition_matrix,
-                        1.0 + np.random.normal(0, 0.01, self.dimension))
+        np.fill_diagonal(
+            self.superposition_matrix, 1.0 + np.random.normal(0, 0.01, self.dimension)
+        )
 
         # Normalize to ensure stability
         spectral_radius = np.max(np.abs(np.linalg.eigvals(self.superposition_matrix)))
         self.superposition_matrix = self.superposition_matrix / (spectral_radius + 1e-8)
 
         # Initialize phase factors (for coherent superposition)
-        self.phase_factors = np.exp(1j * np.random.uniform(0, 2 * np.pi, self.dimension))
+        self.phase_factors = np.exp(
+            1j * np.random.uniform(0, 2 * np.pi, self.dimension)
+        )
 
         # Initialize tunneling barrier matrix
         # Controls likelihood of attention "tunneling" to different tokens
-        self.barrier_matrix = np.ones((self.dimension, self.dimension)) * self.barrier_height
+        self.barrier_matrix = (
+            np.ones((self.dimension, self.dimension)) * self.barrier_height
+        )
         np.fill_diagonal(self.barrier_matrix, 0)  # Zero barrier for self-attention
 
-    def process(self,
-               attention_distribution: np.ndarray,
-               context: Optional[Dict[str, Any]] = None) -> np.ndarray:
+    def process(
+        self,
+        attention_distribution: np.ndarray,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> np.ndarray:
         """Process input attention using quantum-inspired tunneling
 
         Args:
@@ -96,20 +112,29 @@ class QuantumInspiredAttention:
             Enhanced attention distribution after quantum-inspired processing
         """
         # Validate input
-        if attention_distribution.ndim != 1 or len(attention_distribution) != self.dimension:
+        if (
+            attention_distribution.ndim != 1
+            or len(attention_distribution) != self.dimension
+        ):
             # Handle dimension mismatch (truncate or pad)
             if len(attention_distribution) > self.dimension:
-                attention_distribution = attention_distribution[:self.dimension]
+                attention_distribution = attention_distribution[: self.dimension]
             else:
                 padding = np.zeros(self.dimension - len(attention_distribution))
-                attention_distribution = np.concatenate([attention_distribution, padding])
+                attention_distribution = np.concatenate(
+                    [attention_distribution, padding]
+                )
 
-            logger.warning(f"Attention dimension mismatch. Expected {self.dimension}, " +
-                          f"got {len(attention_distribution)}. Reshaped input.")
+            logger.warning(
+                f"Attention dimension mismatch. Expected {self.dimension}, "
+                + f"got {len(attention_distribution)}. Reshaped input."
+            )
 
         # Normalize input (ensure it's a probability distribution)
         if np.sum(attention_distribution) > 0:
-            attention_distribution = attention_distribution / np.sum(attention_distribution)
+            attention_distribution = attention_distribution / np.sum(
+                attention_distribution
+            )
 
         # Apply quantum-inspired processing steps
         result = self._apply_superposition(attention_distribution)
@@ -120,13 +145,16 @@ class QuantumInspiredAttention:
         self._update_stats(attention_distribution, result)
 
         # Apply coherence decay
-        self.attention_stats['coherence'] *= (1.0 - self.coherence_decay)
+        self.attention_stats["coherence"] *= 1.0 - self.coherence_decay
 
         # If coherence is very low, reinitialize matrices (mimicking biological renewal)
-        if self.attention_stats['coherence'] < 0.3 and self.attention_stats['calls'] > 100:
+        if (
+            self.attention_stats["coherence"] < 0.3
+            and self.attention_stats["calls"] > 100
+        ):
             logger.info("Reinitializing quantum matrices due to low coherence")
             self._initialize_quantum_matrices()
-            self.attention_stats['coherence'] = 1.0
+            self.attention_stats["coherence"] = 1.0
 
         return result
 
@@ -141,7 +169,9 @@ class QuantumInspiredAttention:
 
         # Apply tunneling coefficients based on electron tunneling principles
         # (exponential decay with distance/energy barrier)
-        tunnel_coefficients = np.exp(-self.barrier_height * np.abs(attention_distribution))
+        tunnel_coefficients = np.exp(
+            -self.barrier_height * np.abs(attention_distribution)
+        )
         tunnel_adjusted = result * tunnel_coefficients
 
         # Normalize to maintain probability distribution
@@ -162,19 +192,25 @@ class QuantumInspiredAttention:
         tunneling_probs = np.exp(-self.barrier_matrix * (1.0 - attention_matrix))
 
         # Apply tunneling effect to redistribute some attention
-        tunneling_effect = np.mean(tunneling_probs, axis=1) * self.superposition_strength
+        tunneling_effect = (
+            np.mean(tunneling_probs, axis=1) * self.superposition_strength
+        )
 
         # Combine original attention with tunneling effect
-        result = (1.0 - self.superposition_strength) * attention_distribution + tunneling_effect
+        result = (
+            1.0 - self.superposition_strength
+        ) * attention_distribution + tunneling_effect
 
         # Re-normalize
         if np.sum(result) > 0:
             return result / np.sum(result)
         return result
 
-    def _apply_phase_adjustment(self,
-                              attention_distribution: np.ndarray,
-                              context: Optional[Dict[str, Any]] = None) -> np.ndarray:
+    def _apply_phase_adjustment(
+        self,
+        attention_distribution: np.ndarray,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> np.ndarray:
         """Apply phase adjustments to simulate quantum interference effects
 
         Context-dependent phase adjustments can enhance or suppress attention
@@ -185,10 +221,10 @@ class QuantumInspiredAttention:
             return attention_distribution
 
         # Extract context information relevant to phase adjustment
-        coherence = self.attention_stats['coherence']
+        coherence = self.attention_stats["coherence"]
 
         # Context can contain 'focus_indices' to enhance specific attention points
-        focus_indices = context.get('focus_indices', [])
+        focus_indices = context.get("focus_indices", [])
 
         # Apply phase adjustments
         if focus_indices and coherence > 0.5:
@@ -211,39 +247,43 @@ class QuantumInspiredAttention:
 
         return attention_distribution
 
-    def _update_stats(self,
-                     input_distribution: np.ndarray,
-                     output_distribution: np.ndarray):
+    def _update_stats(
+        self, input_distribution: np.ndarray, output_distribution: np.ndarray
+    ):
         """Update attention statistics for adaptive tuning"""
-        self.attention_stats['calls'] += 1
+        self.attention_stats["calls"] += 1
 
         # Calculate entropy of output distribution
         non_zeros = output_distribution[output_distribution > 0]
         entropy = -np.sum(non_zeros * np.log2(non_zeros)) if len(non_zeros) > 0 else 0
 
         # Update running average
-        self.attention_stats['avg_entropy'] = (
-            0.95 * self.attention_stats['avg_entropy'] + 0.05 * entropy
+        self.attention_stats["avg_entropy"] = (
+            0.95 * self.attention_stats["avg_entropy"] + 0.05 * entropy
         )
 
         # Store last distribution
-        self.attention_stats['last_distribution'] = output_distribution
+        self.attention_stats["last_distribution"] = output_distribution
 
     def adaptive_tune(self):
         """Adaptively tune parameters based on attention statistics"""
         # Only tune after sufficient calls
-        if self.attention_stats['calls'] < 10:
+        if self.attention_stats["calls"] < 10:
             return
 
         # If entropy is very low, reduce barrier height to encourage exploration
-        if self.attention_stats['avg_entropy'] < 1.0:
+        if self.attention_stats["avg_entropy"] < 1.0:
             self.barrier_height = max(0.2, self.barrier_height * 0.95)
-            logger.debug(f"Reduced barrier height to {self.barrier_height:.2f} to increase exploration")
+            logger.debug(
+                f"Reduced barrier height to {self.barrier_height:.2f} to increase exploration"
+            )
 
         # If entropy is very high, increase barrier height to focus attention
-        elif self.attention_stats['avg_entropy'] > 3.0:
+        elif self.attention_stats["avg_entropy"] > 3.0:
             self.barrier_height = min(1.5, self.barrier_height * 1.05)
-            logger.debug(f"Increased barrier height to {self.barrier_height:.2f} to focus attention")
+            logger.debug(
+                f"Increased barrier height to {self.barrier_height:.2f} to focus attention"
+            )
 
     def repair(self) -> bool:
         """Self-repair functionality for the bio-orchestrator's auto-repair system
@@ -256,12 +296,12 @@ class QuantumInspiredAttention:
             self._initialize_quantum_matrices()
 
             # Reset stats while preserving call count
-            calls = self.attention_stats['calls']
+            calls = self.attention_stats["calls"]
             self.attention_stats = {
-                'calls': calls,
-                'avg_entropy': 0.0,
-                'last_distribution': None,
-                'coherence': 1.0  # Reset coherence
+                "calls": calls,
+                "avg_entropy": 0.0,
+                "last_distribution": None,
+                "coherence": 1.0,  # Reset coherence
             }
 
             logger.info("Quantum attention module successfully repaired")
@@ -286,18 +326,19 @@ class QuantumInspiredAttention:
             is_stable = None
 
         return {
-            'dimension': self.dimension,
-            'barrier_height': self.barrier_height,
-            'superposition_strength': self.superposition_strength,
-            'coherence': self.attention_stats['coherence'],
-            'calls': self.attention_stats['calls'],
-            'avg_entropy': self.attention_stats['avg_entropy'],
-            'max_eigenvalue': max_eigenvalue,
-            'is_stable': is_stable,
-            'last_attention_peak': (
-                np.argmax(self.attention_stats['last_distribution'])
-                if self.attention_stats['last_distribution'] is not None else None
-            )
+            "dimension": self.dimension,
+            "barrier_height": self.barrier_height,
+            "superposition_strength": self.superposition_strength,
+            "coherence": self.attention_stats["coherence"],
+            "calls": self.attention_stats["calls"],
+            "avg_entropy": self.attention_stats["avg_entropy"],
+            "max_eigenvalue": max_eigenvalue,
+            "is_stable": is_stable,
+            "last_attention_peak": (
+                np.argmax(self.attention_stats["last_distribution"])
+                if self.attention_stats["last_distribution"] is not None
+                else None
+            ),
         }
 
 
@@ -328,15 +369,19 @@ class QuantumAttentionEnsemble:
             module = QuantumInspiredAttention(
                 dimension=dimension,
                 barrier_height=barrier_height,
-                superposition_strength=superposition_strength
+                superposition_strength=superposition_strength,
             )
             self.attention_modules.append(module)
 
-        logger.info(f"Initialized quantum attention ensemble with {ensemble_size} modules")
+        logger.info(
+            f"Initialized quantum attention ensemble with {ensemble_size} modules"
+        )
 
-    def process(self,
-               attention_distribution: np.ndarray,
-               context: Optional[Dict[str, Any]] = None) -> np.ndarray:
+    def process(
+        self,
+        attention_distribution: np.ndarray,
+        context: Optional[Dict[str, Any]] = None,
+    ) -> np.ndarray:
         """Process attention using the ensemble
 
         Args:
@@ -382,15 +427,20 @@ class QuantumAttentionEnsemble:
 
     def get_diagnostics(self) -> Dict[str, Any]:
         """Get diagnostic information about the ensemble"""
-        module_diagnostics = [module.get_diagnostics() for module in self.attention_modules]
+        module_diagnostics = [
+            module.get_diagnostics() for module in self.attention_modules
+        ]
 
         return {
-            'ensemble_size': self.ensemble_size,
-            'dimension': self.dimension,
-            'modules': module_diagnostics,
-            'coherence_avg': np.mean([m.attention_stats['coherence'] for m in self.attention_modules])
+            "ensemble_size": self.ensemble_size,
+            "dimension": self.dimension,
+            "modules": module_diagnostics,
+            "coherence_avg": np.mean(
+                [m.attention_stats["coherence"] for m in self.attention_modules]
+            ),
         }
-    '''This implementation includes:
+
+    """This implementation includes:
 
 -Quantum Tunneling Mechanics
 Simulates electrons tunneling through energy barriers in mitochondria
@@ -411,7 +461,8 @@ Reinitializes quantum matrices when coherence drops too low
 -Diagnostics and Monitoring
 Tracks attention statistics for performance analysis
 Provides stability indicators through eigenvalue analysis
-To use this module with your bio-orchestrator, you can update your integration code:'''
+To use this module with your bio-orchestrator, you can update your integration code:"""
+
 
 # In your main LUKHAS_AGI initialization
 from bio.core import BioOrchestrator, ResourcePriority
@@ -425,22 +476,25 @@ use_ensemble = True  # Set to False for single module
 
 if use_ensemble:
     # Register ensemble for better stability
-    quantum_attn = QuantumAttentionEnsemble(dimension=CONFIG.embedding_size, ensemble_size=3)
+    quantum_attn = QuantumAttentionEnsemble(
+        dimension=CONFIG.embedding_size, ensemble_size=3
+    )
     bio_orchestrator.register_module(
-        'quantum_attention',
+        "quantum_attention",
         quantum_attn,
         priority=ResourcePriority.HIGH,
-        energy_cost=0.25  # Higher cost for ensemble
+        energy_cost=0.25,  # Higher cost for ensemble
     )
 else:
     # Register single quantum attention module
     quantum_attn = QuantumInspiredAttention(dimension=CONFIG.embedding_size)
     bio_orchestrator.register_module(
-        'quantum_attention',
+        "quantum_attention",
         quantum_attn,
         priority=ResourcePriority.HIGH,
-        energy_cost=0.15
+        energy_cost=0.15,
     )
+
 
 # Hook into attention mechanism
 def enhanced_attention_hook(original_attention_fn):
@@ -450,17 +504,19 @@ def enhanced_attention_hook(original_attention_fn):
 
         # Prepare context information (optional)
         context = {
-            'query_norm': np.linalg.norm(query),
-            'key_value_similarity': np.mean(np.dot(key, value.T))
+            "query_norm": np.linalg.norm(query),
+            "key_value_similarity": np.mean(np.dot(key, value.T)),
         }
 
         # Apply quantum-inspired processing via orchestrator
         success, enhanced_dist = bio_orchestrator.invoke_module(
-            'quantum_attention', 'process', attn_dist, context
+            "quantum_attention", "process", attn_dist, context
         )
 
         return enhanced_dist if success else attn_dist
+
     return wrapped_attention
+
 
 # Apply hook to existing attention mechanism
 lukhas_agi.attention_mechanism = enhanced_attention_hook(lukhas_agi.attention_mechanism)

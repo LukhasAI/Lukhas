@@ -1,4 +1,3 @@
 """
 Quantum_Attention Module
 """
-

@@ -5,24 +5,24 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 🔗 LUKHAS DAST Adapters
 
 Integration adapters for seamless connectivity with external systems,
 legacy DAST implementations, and third-party task management tools.
 """
 
-import json
-import asyncio
-from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass, asdict
-from datetime import datetime
-import aiohttp
 import time
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Optional
+
+import aiohttp
+
 
 @dataclass
 class AdapterConfig:
     """Configuration for external system adapters"""
+
     name: str
     endpoint: Optional[str] = None
     auth_token: Optional[str] = None
@@ -31,15 +31,16 @@ class AdapterConfig:
     retry_attempts: int = 3
     cache_ttl: int = 300  # seconds
 
+
 class DASTAdapter:
     """
     🔗 Universal adapter for integrating with existing DAST systems and external tools
     """
 
     def __init__(self):
-        self.adapters: Dict[str, Any] = {}
-        self.request_cache: Dict[str, Any] = {}
-        self.rate_limiters: Dict[str, List[float]] = {}
+        self.adapters: dict[str, Any] = {}
+        self.request_cache: dict[str, Any] = {}
+        self.rate_limiters: dict[str, list[float]] = {}
 
     def register_adapter(self, config: AdapterConfig) -> bool:
         """Register a new external system adapter"""
@@ -50,24 +51,25 @@ class DASTAdapter:
                 "instance": adapter_instance,
                 "status": "active",
                 "last_sync": None,
-                "error_count": 0
+                "error_count": 0,
             }
             return True
         except Exception as e:
             print(f"Failed to register adapter {config.name}: {e}")
             return False
 
-    def _create_adapter_instance(self, config: AdapterConfig) -> Dict[str, Any]:
+    def _create_adapter_instance(self, config: AdapterConfig) -> dict[str, Any]:
         """Create adapter instance based on configuration"""
         return {
             "sync_tasks": self._create_sync_function(config),
             "push_task": self._create_push_function(config),
-            "get_status": self._create_status_function(config)
+            "get_status": self._create_status_function(config),
         }
 
     def _create_sync_function(self, config: AdapterConfig):
         """Create synchronization function for the adapter"""
-        async def sync_tasks() -> List[Dict]:
+
+        async def sync_tasks() -> list[dict]:
             if not self._check_rate_limit(config.name, config.rate_limit):
                 return []
 
@@ -108,7 +110,8 @@ class DASTAdapter:
 
     def _create_push_function(self, config: AdapterConfig):
         """Create push function for the adapter"""
-        async def push_task(task_data: Dict) -> bool:
+
+        async def push_task(task_data: dict) -> bool:
             if not self._check_rate_limit(config.name, config.rate_limit):
                 return False
 
@@ -130,7 +133,8 @@ class DASTAdapter:
 
     def _create_status_function(self, config: AdapterConfig):
         """Create status check function for the adapter"""
-        async def get_status() -> Dict[str, Any]:
+
+        async def get_status() -> dict[str, Any]:
             try:
                 adapter_info = self.adapters.get(config.name, {})
                 return {
@@ -138,13 +142,15 @@ class DASTAdapter:
                     "status": adapter_info.get("status", "unknown"),
                     "last_sync": adapter_info.get("last_sync"),
                     "error_count": adapter_info.get("error_count", 0),
-                    "rate_limit_remaining": self._get_rate_limit_remaining(config.name, config.rate_limit)
+                    "rate_limit_remaining": self._get_rate_limit_remaining(
+                        config.name, config.rate_limit
+                    ),
                 }
             except Exception as e:
                 return {
                     "name": config.name,
                     "status": "error",
-                    "error": str(e)
+                    "error": str(e),
                 }
 
         return get_status
@@ -153,7 +159,7 @@ class DASTAdapter:
     # 🔄 SPECIFIC ADAPTER IMPLEMENTATIONS
     # ========================================
 
-    async def _sync_jira_tasks(self, config: AdapterConfig) -> List[Dict]:
+    async def _sync_jira_tasks(self, config: AdapterConfig) -> list[dict]:
         """Sync tasks from Jira"""
         if not config.endpoint or not config.auth_token:
             return []
@@ -161,7 +167,7 @@ class DASTAdapter:
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {config.auth_token}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
             # Query for assigned issues
@@ -169,14 +175,16 @@ class DASTAdapter:
             url = f"{config.endpoint}/rest/api/3/search"
             params = {"jql": jql, "maxResults": 50}
 
-            async with session.get(url, headers=headers, params=params, timeout=config.timeout) as response:
+            async with session.get(
+                url, headers=headers, params=params, timeout=config.timeout
+            ) as response:
                 if response.status == 200:
                     data = await response.json()
                     return self._convert_jira_to_dast_format(data.get("issues", []))
 
         return []
 
-    async def _sync_github_issues(self, config: AdapterConfig) -> List[Dict]:
+    async def _sync_github_issues(self, config: AdapterConfig) -> list[dict]:
         """Sync issues from GitHub"""
         if not config.endpoint or not config.auth_token:
             return []
@@ -184,21 +192,23 @@ class DASTAdapter:
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"token {config.auth_token}",
-                "Accept": "application/vnd.github.v3+json"
+                "Accept": "application/vnd.github.v3+json",
             }
 
             # Get assigned issues
             url = f"{config.endpoint}/issues"
             params = {"assignee": "user", "state": "open", "per_page": 50}
 
-            async with session.get(url, headers=headers, params=params, timeout=config.timeout) as response:
+            async with session.get(
+                url, headers=headers, params=params, timeout=config.timeout
+            ) as response:
                 if response.status == 200:
                     issues = await response.json()
                     return self._convert_github_to_dast_format(issues)
 
         return []
 
-    async def _sync_legacy_dast(self, config: AdapterConfig) -> List[Dict]:
+    async def _sync_legacy_dast(self, config: AdapterConfig) -> list[dict]:
         """Sync from legacy DAST implementation"""
         # This would connect to existing DAST database or API
         try:
@@ -210,7 +220,7 @@ class DASTAdapter:
                     "description": "Description from legacy system",
                     "priority": "high",
                     "status": "in_progress",
-                    "created_date": "2025-05-29T10:00:00Z"
+                    "created_date": "2025-05-29T10:00:00Z",
                 }
             ]
 
@@ -220,7 +230,7 @@ class DASTAdapter:
             print(f"Legacy DAST sync error: {e}")
             return []
 
-    async def _sync_trello_cards(self, config: AdapterConfig) -> List[Dict]:
+    async def _sync_trello_cards(self, config: AdapterConfig) -> list[dict]:
         """Sync cards from Trello"""
         if not config.endpoint or not config.auth_token:
             return []
@@ -228,15 +238,21 @@ class DASTAdapter:
         # Trello API implementation would go here
         return []
 
-    async def _sync_generic_api(self, config: AdapterConfig) -> List[Dict]:
+    async def _sync_generic_api(self, config: AdapterConfig) -> list[dict]:
         """Generic API sync for unknown systems"""
         if not config.endpoint:
             return []
 
         async with aiohttp.ClientSession() as session:
-            headers = {"Authorization": f"Bearer {config.auth_token}"} if config.auth_token else {}
+            headers = (
+                {"Authorization": f"Bearer {config.auth_token}"}
+                if config.auth_token
+                else {}
+            )
 
-            async with session.get(config.endpoint, headers=headers, timeout=config.timeout) as response:
+            async with session.get(
+                config.endpoint, headers=headers, timeout=config.timeout
+            ) as response:
                 if response.status == 200:
                     data = await response.json()
                     return self._convert_generic_to_dast_format(data)
@@ -247,7 +263,7 @@ class DASTAdapter:
     # 📤 PUSH IMPLEMENTATIONS
     # ========================================
 
-    async def _push_to_jira(self, config: AdapterConfig, task_data: Dict) -> bool:
+    async def _push_to_jira(self, config: AdapterConfig, task_data: dict) -> bool:
         """Push task to Jira"""
         if not config.endpoint or not config.auth_token:
             return False
@@ -255,7 +271,7 @@ class DASTAdapter:
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"Bearer {config.auth_token}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             }
 
             # Convert DAST task to Jira format
@@ -263,10 +279,12 @@ class DASTAdapter:
 
             url = f"{config.endpoint}/rest/api/3/issue"
 
-            async with session.post(url, headers=headers, json=jira_task, timeout=config.timeout) as response:
+            async with session.post(
+                url, headers=headers, json=jira_task, timeout=config.timeout
+            ) as response:
                 return response.status in [200, 201]
 
-    async def _push_to_github(self, config: AdapterConfig, task_data: Dict) -> bool:
+    async def _push_to_github(self, config: AdapterConfig, task_data: dict) -> bool:
         """Push task to GitHub as issue"""
         if not config.endpoint or not config.auth_token:
             return False
@@ -274,7 +292,7 @@ class DASTAdapter:
         async with aiohttp.ClientSession() as session:
             headers = {
                 "Authorization": f"token {config.auth_token}",
-                "Accept": "application/vnd.github.v3+json"
+                "Accept": "application/vnd.github.v3+json",
             }
 
             # Convert DAST task to GitHub issue format
@@ -282,106 +300,123 @@ class DASTAdapter:
 
             url = f"{config.endpoint}/issues"
 
-            async with session.post(url, headers=headers, json=github_issue, timeout=config.timeout) as response:
+            async with session.post(
+                url, headers=headers, json=github_issue, timeout=config.timeout
+            ) as response:
                 return response.status in [200, 201]
 
-    async def _push_to_legacy_dast(self, config: AdapterConfig, task_data: Dict) -> bool:
+    async def _push_to_legacy_dast(
+        self, config: AdapterConfig, task_data: dict
+    ) -> bool:
         """Push task to legacy DAST system"""
         try:
             # Convert to legacy format and store
-            legacy_task = self._convert_dast_to_legacy_format(task_data)
+            self._convert_dast_to_legacy_format(task_data)
             # In real implementation, this would write to legacy database
             return True
         except Exception:
             return False
 
-    async def _push_to_generic_api(self, config: AdapterConfig, task_data: Dict) -> bool:
+    async def _push_to_generic_api(
+        self, config: AdapterConfig, task_data: dict
+    ) -> bool:
         """Generic API push"""
         if not config.endpoint:
             return False
 
         async with aiohttp.ClientSession() as session:
-            headers = {"Authorization": f"Bearer {config.auth_token}"} if config.auth_token else {}
+            headers = (
+                {"Authorization": f"Bearer {config.auth_token}"}
+                if config.auth_token
+                else {}
+            )
 
-            async with session.post(config.endpoint, headers=headers, json=task_data, timeout=config.timeout) as response:
+            async with session.post(
+                config.endpoint,
+                headers=headers,
+                json=task_data,
+                timeout=config.timeout,
+            ) as response:
                 return response.status in [200, 201]
 
     # ========================================
     # 🔄 FORMAT CONVERTERS
     # ========================================
 
-    def _convert_jira_to_dast_format(self, jira_issues: List[Dict]) -> List[Dict]:
+    def _convert_jira_to_dast_format(self, jira_issues: list[dict]) -> list[dict]:
         """Convert Jira issues to DAST format"""
         dast_tasks = []
 
         for issue in jira_issues:
             dast_task = {
                 "id": f"jira_{issue['key']}",
-                "title": issue['fields']['summary'],
-                "description": issue['fields'].get('description', ''),
-                "priority": self._map_jira_priority(issue['fields'].get('priority', {}).get('name', 'Medium')),
-                "status": self._map_jira_status(issue['fields']['status']['name']),
-                "tags": ["jira", issue['fields']['issuetype']['name'].lower()],
+                "title": issue["fields"]["summary"],
+                "description": issue["fields"].get("description", ""),
+                "priority": self._map_jira_priority(
+                    issue["fields"].get("priority", {}).get("name", "Medium")
+                ),
+                "status": self._map_jira_status(issue["fields"]["status"]["name"]),
+                "tags": ["jira", issue["fields"]["issuetype"]["name"].lower()],
                 "context": {
                     "source": "jira",
-                    "external_id": issue['key'],
-                    "external_url": issue['self']
+                    "external_id": issue["key"],
+                    "external_url": issue["self"],
                 },
-                "created_at": issue['fields']['created']
+                "created_at": issue["fields"]["created"],
             }
             dast_tasks.append(dast_task)
 
         return dast_tasks
 
-    def _convert_github_to_dast_format(self, github_issues: List[Dict]) -> List[Dict]:
+    def _convert_github_to_dast_format(self, github_issues: list[dict]) -> list[dict]:
         """Convert GitHub issues to DAST format"""
         dast_tasks = []
 
         for issue in github_issues:
-            labels = [label['name'] for label in issue.get('labels', [])]
+            labels = [label["name"] for label in issue.get("labels", [])]
 
             dast_task = {
                 "id": f"github_{issue['number']}",
-                "title": issue['title'],
-                "description": issue.get('body', ''),
+                "title": issue["title"],
+                "description": issue.get("body", ""),
                 "priority": self._map_github_priority(labels),
                 "status": "pending",  # GitHub issues are typically open
                 "tags": ["github"] + labels,
                 "context": {
                     "source": "github",
-                    "external_id": issue['number'],
-                    "external_url": issue['html_url']
+                    "external_id": issue["number"],
+                    "external_url": issue["html_url"],
                 },
-                "created_at": issue['created_at']
+                "created_at": issue["created_at"],
             }
             dast_tasks.append(dast_task)
 
         return dast_tasks
 
-    def _convert_legacy_to_dast_format(self, legacy_tasks: List[Dict]) -> List[Dict]:
+    def _convert_legacy_to_dast_format(self, legacy_tasks: list[dict]) -> list[dict]:
         """Convert legacy DAST tasks to new format"""
         dast_tasks = []
 
         for task in legacy_tasks:
             dast_task = {
                 "id": f"legacy_{task['id']}",
-                "title": task['title'],
-                "description": task.get('description', ''),
-                "priority": task.get('priority', 'medium'),
-                "status": task.get('status', 'pending'),
-                "tags": ["legacy"] + task.get('tags', []),
+                "title": task["title"],
+                "description": task.get("description", ""),
+                "priority": task.get("priority", "medium"),
+                "status": task.get("status", "pending"),
+                "tags": ["legacy"] + task.get("tags", []),
                 "context": {
                     "source": "legacy_dast",
-                    "external_id": task['id'],
-                    "migrated": True
+                    "external_id": task["id"],
+                    "migrated": True,
                 },
-                "created_at": task.get('created_date', datetime.now().isoformat())
+                "created_at": task.get("created_date", datetime.now().isoformat()),
             }
             dast_tasks.append(dast_task)
 
         return dast_tasks
 
-    def _convert_generic_to_dast_format(self, generic_data: Any) -> List[Dict]:
+    def _convert_generic_to_dast_format(self, generic_data: Any) -> list[dict]:
         """Convert generic API data to DAST format"""
         if isinstance(generic_data, list):
             return [self._convert_single_generic_item(item) for item in generic_data]
@@ -390,52 +425,53 @@ class DASTAdapter:
         else:
             return []
 
-    def _convert_single_generic_item(self, item: Dict) -> Dict:
+    def _convert_single_generic_item(self, item: dict) -> dict:
         """Convert single generic item to DAST format"""
         return {
             "id": f"generic_{item.get('id', 'unknown')}",
-            "title": item.get('title', item.get('name', 'Untitled')),
-            "description": item.get('description', ''),
-            "priority": item.get('priority', 'medium'),
-            "status": item.get('status', 'pending'),
-            "tags": ["external"] + item.get('tags', []),
-            "context": {
-                "source": "generic_api",
-                "original_data": item
-            },
-            "created_at": item.get('created_at', datetime.now().isoformat())
+            "title": item.get("title", item.get("name", "Untitled")),
+            "description": item.get("description", ""),
+            "priority": item.get("priority", "medium"),
+            "status": item.get("status", "pending"),
+            "tags": ["external"] + item.get("tags", []),
+            "context": {"source": "generic_api", "original_data": item},
+            "created_at": item.get("created_at", datetime.now().isoformat()),
         }
 
-    def _convert_dast_to_jira_format(self, dast_task: Dict) -> Dict:
+    def _convert_dast_to_jira_format(self, dast_task: dict) -> dict:
         """Convert DAST task to Jira format"""
         return {
             "fields": {
                 "project": {"key": "TASK"},  # Would be configurable
-                "summary": dast_task['title'],
-                "description": dast_task.get('description', ''),
+                "summary": dast_task["title"],
+                "description": dast_task.get("description", ""),
                 "issuetype": {"name": "Task"},
-                "priority": {"name": self._map_dast_to_jira_priority(dast_task.get('priority', 'medium'))}
+                "priority": {
+                    "name": self._map_dast_to_jira_priority(
+                        dast_task.get("priority", "medium")
+                    )
+                },
             }
         }
 
-    def _convert_dast_to_github_format(self, dast_task: Dict) -> Dict:
+    def _convert_dast_to_github_format(self, dast_task: dict) -> dict:
         """Convert DAST task to GitHub issue format"""
         return {
-            "title": dast_task['title'],
-            "body": dast_task.get('description', ''),
-            "labels": dast_task.get('tags', [])
+            "title": dast_task["title"],
+            "body": dast_task.get("description", ""),
+            "labels": dast_task.get("tags", []),
         }
 
-    def _convert_dast_to_legacy_format(self, dast_task: Dict) -> Dict:
+    def _convert_dast_to_legacy_format(self, dast_task: dict) -> dict:
         """Convert DAST task to legacy format"""
         return {
-            "id": dast_task['id'],
-            "title": dast_task['title'],
-            "description": dast_task.get('description', ''),
-            "priority": dast_task.get('priority', 'medium'),
-            "status": dast_task.get('status', 'pending'),
-            "tags": dast_task.get('tags', []),
-            "created_date": dast_task.get('created_at', datetime.now().isoformat())
+            "id": dast_task["id"],
+            "title": dast_task["title"],
+            "description": dast_task.get("description", ""),
+            "priority": dast_task.get("priority", "medium"),
+            "status": dast_task.get("status", "pending"),
+            "tags": dast_task.get("tags", []),
+            "created_date": dast_task.get("created_at", datetime.now().isoformat()),
         }
 
     # ========================================
@@ -449,7 +485,7 @@ class DASTAdapter:
             "High": "high",
             "Medium": "medium",
             "Low": "low",
-            "Lowest": "low"
+            "Lowest": "low",
         }
         return mapping.get(jira_priority, "medium")
 
@@ -460,11 +496,11 @@ class DASTAdapter:
             "In Progress": "in_progress",
             "In Review": "blocked",
             "Done": "completed",
-            "Closed": "completed"
+            "Closed": "completed",
         }
         return mapping.get(jira_status, "pending")
 
-    def _map_github_priority(self, labels: List[str]) -> str:
+    def _map_github_priority(self, labels: list[str]) -> str:
         """Map GitHub labels to DAST priority"""
         priority_labels = {
             "critical": "critical",
@@ -472,7 +508,7 @@ class DASTAdapter:
             "medium": "medium",
             "low": "low",
             "urgent": "critical",
-            "bug": "high"
+            "bug": "high",
         }
 
         for label in labels:
@@ -487,7 +523,7 @@ class DASTAdapter:
             "critical": "Highest",
             "high": "High",
             "medium": "Medium",
-            "low": "Low"
+            "low": "Low",
         }
         return mapping.get(dast_priority, "Medium")
 
@@ -504,7 +540,8 @@ class DASTAdapter:
 
         # Remove old requests (older than 1 minute)
         self.rate_limiters[adapter_name] = [
-            req_time for req_time in self.rate_limiters[adapter_name]
+            req_time
+            for req_time in self.rate_limiters[adapter_name]
             if current_time - req_time < 60
         ]
 
@@ -536,13 +573,14 @@ class DASTAdapter:
         """Cache result with timestamp"""
         self.request_cache[cache_key] = {
             "data": data,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Clean old cache entries
         current_time = time.time()
         expired_keys = [
-            key for key, value in self.request_cache.items()
+            key
+            for key, value in self.request_cache.items()
             if current_time - value["timestamp"] > ttl * 2  # Keep cache for 2x TTL
         ]
 
@@ -553,7 +591,7 @@ class DASTAdapter:
     # 🔄 BULK OPERATIONS
     # ========================================
 
-    async def sync_all_adapters(self) -> Dict[str, Any]:
+    async def sync_all_adapters(self) -> dict[str, Any]:
         """Sync all registered adapters"""
         results = {}
 
@@ -564,18 +602,18 @@ class DASTAdapter:
                 results[adapter_name] = {
                     "status": "success",
                     "task_count": len(tasks),
-                    "tasks": tasks
+                    "tasks": tasks,
                 }
             except Exception as e:
                 results[adapter_name] = {
                     "status": "error",
                     "error": str(e),
-                    "task_count": 0
+                    "task_count": 0,
                 }
 
         return results
 
-    async def get_adapter_status_all(self) -> Dict[str, Any]:
+    async def get_adapter_status_all(self) -> dict[str, Any]:
         """Get status of all adapters"""
         statuses = {}
 
@@ -588,7 +626,7 @@ class DASTAdapter:
                 statuses[adapter_name] = {
                     "name": adapter_name,
                     "status": "error",
-                    "error": str(e)
+                    "error": str(e),
                 }
 
         return statuses

@@ -15,6 +15,7 @@ Integration Date: 2025-05-31T07:55:29.968898
 # intent_inference.py
 from collections import Counter
 
+
 def infer_intent(memory_log):
     print("\n[IntentInference] Analyzing decision trend...")
     if not memory_log:

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - Collapse Simulator CLI
@@ -32,25 +31,31 @@ __author__ = "LUKHAS Development Team"
 __email__ = "dev@lukhas.ai"
 __status__ = "Production"
 
-import asyncio
 import argparse
+import asyncio
 import json
+import random
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-import random
+from typing import Any, Dict
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from core.monitoring.collapse_tracker import CollapseTracker, CollapseAlertLevel
-    from core.symbolic.collapse.collapse_engine import (
-        CollapseEngine, MemoryNode, get_global_engine
-    )
     from trace.drift_tools import DriftRecoverySimulator, EntropyProfile
+
+    from core.monitoring.collapse_tracker import (
+        CollapseAlertLevel,
+        CollapseTracker,
+    )
+    from core.symbolic.collapse.collapse_engine import (
+        CollapseEngine,
+        MemoryNode,
+        get_global_engine,
+    )
 except ImportError as e:
     print(f"Error importing LUKHAS modules: {e}")
     print("Please ensure LUKHAS is properly installed and PYTHONPATH is set.")
@@ -60,6 +65,7 @@ except ImportError as e:
 try:
     import matplotlib.pyplot as plt
     import numpy as np
+
     HAS_PLOTTING = True
 except ImportError:
     HAS_PLOTTING = False
@@ -116,9 +122,9 @@ class CollapseSimulator:
             raise ValueError(f"Unknown scenario: {scenario}")
 
         duration = time.time() - start_time
-        result['duration'] = duration
-        result['scenario'] = scenario
-        result['timestamp'] = datetime.now().isoformat()
+        result["duration"] = duration
+        result["scenario"] = scenario
+        result["timestamp"] = datetime.now().isoformat()
 
         self.results.append(result)
         return result
@@ -128,7 +134,9 @@ class CollapseSimulator:
         print("Simulating normal operation...")
 
         # Generate synthetic data with low entropy
-        symbolic_data, component_scores = self.collapse_tracker.generate_synthetic_test_data("normal")
+        symbolic_data, component_scores = (
+            self.collapse_tracker.generate_synthetic_test_data("normal")
+        )
 
         # Create memory nodes
         nodes = []
@@ -136,7 +144,7 @@ class CollapseSimulator:
             node = MemoryNode(
                 content=f"Normal memory {i}",
                 semantic_tags=["normal", "stable", "coherent"],
-                emotional_weight=0.3 + random.random() * 0.2
+                emotional_weight=0.3 + random.random() * 0.2,
             )
             nodes.append(node)
 
@@ -153,8 +161,9 @@ class CollapseSimulator:
             await asyncio.sleep(1)
             # Add slight variations
             variation = random.uniform(-0.05, 0.05)
-            new_scores = {k: max(0, min(1, v + variation))
-                         for k, v in component_scores.items()}
+            new_scores = {
+                k: max(0, min(1, v + variation)) for k, v in component_scores.items()
+            }
 
             entropy = self.collapse_tracker.update_entropy_score(
                 symbolic_data, new_scores
@@ -168,15 +177,17 @@ class CollapseSimulator:
         )
 
         return {
-            'initial_entropy': initial_entropy,
-            'final_entropy': entropy_history[-1],
-            'entropy_history': entropy_history,
-            'alert_levels': [a.value for a in alert_history],
-            'max_alert': max(alert_history, key=lambda x: list(CollapseAlertLevel).index(x)).value,
-            'collapse_successful': collapse_result is not None,
-            'collapse_type': collapse_result.collapse_type if collapse_result else None,
-            'semantic_loss': collapse_result.semantic_loss if collapse_result else 0,
-            'health_metrics': self.collapse_tracker.get_system_health()
+            "initial_entropy": initial_entropy,
+            "final_entropy": entropy_history[-1],
+            "entropy_history": entropy_history,
+            "alert_levels": [a.value for a in alert_history],
+            "max_alert": max(
+                alert_history, key=lambda x: list(CollapseAlertLevel).index(x)
+            ).value,
+            "collapse_successful": collapse_result is not None,
+            "collapse_type": collapse_result.collapse_type if collapse_result else None,
+            "semantic_loss": collapse_result.semantic_loss if collapse_result else 0,
+            "health_metrics": self.collapse_tracker.get_system_health(),
         }
 
     async def _run_drift_scenario(self) -> Dict[str, Any]:
@@ -189,7 +200,7 @@ class CollapseSimulator:
             "memory": 0.3,
             "reasoning": 0.25,
             "emotion": 0.35,
-            "consciousness": 0.28
+            "consciousness": 0.28,
         }
 
         # Create memory nodes with increasing diversity
@@ -211,7 +222,7 @@ class CollapseSimulator:
             node = MemoryNode(
                 content=f"Drifting memory {step}",
                 semantic_tags=[f"drift_{step}", f"entropy_{step}", "unstable"],
-                emotional_weight=0.5 + step * 0.05
+                emotional_weight=0.5 + step * 0.05,
             )
             nodes.append(node)
 
@@ -222,7 +233,9 @@ class CollapseSimulator:
             entropy_history.append(entropy)
             alert_history.append(self.collapse_tracker.current_state.alert_level)
 
-            print(f"  Step {step}: Entropy={entropy:.3f}, Alert={alert_history[-1].value}")
+            print(
+                f"  Step {step}: Entropy={entropy:.3f}, Alert={alert_history[-1].value}"
+            )
 
             await asyncio.sleep(0.5)
 
@@ -239,32 +252,31 @@ class CollapseSimulator:
         entropy_profile = EntropyProfile("drift_sine", 0.4, 0.15, 0.3)
 
         injection_result = await self.drift_simulator.inject_drift(
-            symbol_id,
-            magnitude=0.4,
-            entropy_profile=entropy_profile,
-            duration=5.0
+            symbol_id, magnitude=0.4, entropy_profile=entropy_profile, duration=5.0
         )
 
         recovery_metrics = await self.drift_simulator.measure_recovery(
-            symbol_id,
-            timeout=10.0,
-            intervention_strategy="moderate"
+            symbol_id, timeout=10.0, intervention_strategy="moderate"
         )
 
         return {
-            'initial_entropy': entropy_history[0] if entropy_history else 0,
-            'final_entropy': entropy_history[-1] if entropy_history else 0,
-            'entropy_history': entropy_history,
-            'alert_levels': [a.value for a in alert_history],
-            'max_alert': max(alert_history, key=lambda x: list(CollapseAlertLevel).index(x)).value,
-            'drift_detected': any(a != CollapseAlertLevel.GREEN for a in alert_history),
-            'collapse_result': {
-                'successful': collapse_result is not None,
-                'type': collapse_result.collapse_type if collapse_result else None,
-                'entropy_reduction': collapse_result.entropy_reduction if collapse_result else 0
+            "initial_entropy": entropy_history[0] if entropy_history else 0,
+            "final_entropy": entropy_history[-1] if entropy_history else 0,
+            "entropy_history": entropy_history,
+            "alert_levels": [a.value for a in alert_history],
+            "max_alert": max(
+                alert_history, key=lambda x: list(CollapseAlertLevel).index(x)
+            ).value,
+            "drift_detected": any(a != CollapseAlertLevel.GREEN for a in alert_history),
+            "collapse_result": {
+                "successful": collapse_result is not None,
+                "type": collapse_result.collapse_type if collapse_result else None,
+                "entropy_reduction": (
+                    collapse_result.entropy_reduction if collapse_result else 0
+                ),
             },
-            'recovery_metrics': recovery_metrics.to_dict(),
-            'resilience_score': self.drift_simulator.score_resilience(symbol_id)
+            "recovery_metrics": recovery_metrics.to_dict(),
+            "resilience_score": self.drift_simulator.score_resilience(symbol_id),
         }
 
     async def _run_collapse_scenario(self) -> Dict[str, Any]:
@@ -272,7 +284,9 @@ class CollapseSimulator:
         print("Simulating system collapse...")
 
         # Generate high entropy data
-        symbolic_data, component_scores = self.collapse_tracker.generate_synthetic_test_data("collapse")
+        symbolic_data, component_scores = (
+            self.collapse_tracker.generate_synthetic_test_data("collapse")
+        )
 
         # Create chaotic memory nodes
         nodes = []
@@ -280,7 +294,7 @@ class CollapseSimulator:
             node = MemoryNode(
                 content=f"Chaotic memory {i}",
                 semantic_tags=[f"chaos_{random.randint(0, 100)}" for _ in range(5)],
-                emotional_weight=random.random()
+                emotional_weight=random.random(),
             )
             nodes.append(node)
 
@@ -293,21 +307,26 @@ class CollapseSimulator:
             # Update with chaotic data
             entropy = self.collapse_tracker.update_entropy_score(
                 [f"glyph_{random.randint(0, 1000):04d}" for _ in range(100)],
-                component_scores
+                component_scores,
             )
             entropy_history.append(entropy)
             alert_history.append(self.collapse_tracker.current_state.alert_level)
 
             # Record collapse event if critical
-            if self.collapse_tracker.current_state.alert_level == CollapseAlertLevel.RED:
+            if (
+                self.collapse_tracker.current_state.alert_level
+                == CollapseAlertLevel.RED
+            ):
                 trace_id = self.collapse_tracker.record_collapse_event(
                     affected_components=["memory", "reasoning", "consciousness"],
                     symbolic_drift={k: v for k, v in component_scores.items()},
-                    metadata={'step': step, 'chaos_level': 'extreme'}
+                    metadata={"step": step, "chaos_level": "extreme"},
                 )
                 collapse_events.append(trace_id)
 
-            print(f"  Step {step}: Entropy={entropy:.3f}, Alert={alert_history[-1].value}")
+            print(
+                f"  Step {step}: Entropy={entropy:.3f}, Alert={alert_history[-1].value}"
+            )
 
             # Try emergency fusion to create abstraction
             if step == 3 and len(nodes) >= 10:
@@ -315,7 +334,9 @@ class CollapseSimulator:
                     nodes[-10:], strategy="fusion"
                 )
                 if fusion_result:
-                    print(f"  Emergency fusion created: {fusion_result.collapsed_node.node_id}")
+                    print(
+                        f"  Emergency fusion created: {fusion_result.collapsed_node.node_id}"
+                    )
 
             await asyncio.sleep(0.3)
 
@@ -323,15 +344,17 @@ class CollapseSimulator:
         engine_metrics = self.collapse_engine.get_collapse_metrics()
 
         return {
-            'collapse_detected': True,
-            'collapse_events': collapse_events,
-            'max_entropy': max(entropy_history),
-            'entropy_history': entropy_history,
-            'alert_levels': [a.value for a in alert_history],
-            'time_to_critical': next((i for i, a in enumerate(alert_history)
-                                    if a == CollapseAlertLevel.RED), -1),
-            'engine_metrics': engine_metrics,
-            'system_health': self.collapse_tracker.get_system_health()
+            "collapse_detected": True,
+            "collapse_events": collapse_events,
+            "max_entropy": max(entropy_history),
+            "entropy_history": entropy_history,
+            "alert_levels": [a.value for a in alert_history],
+            "time_to_critical": next(
+                (i for i, a in enumerate(alert_history) if a == CollapseAlertLevel.RED),
+                -1,
+            ),
+            "engine_metrics": engine_metrics,
+            "system_health": self.collapse_tracker.get_system_health(),
         }
 
     async def _run_cascade_scenario(self) -> Dict[str, Any]:
@@ -343,29 +366,29 @@ class CollapseSimulator:
             trigger_symbol="cascade_trigger",
             cascade_depth=3,
             propagation_factor=0.7,
-            dream_integration=True
+            dream_integration=True,
         )
 
         # Monitor entropy during cascade
         entropy_history = []
         for _ in range(5):
             # Simulate cascade affecting system entropy
-            affected_count = len(cascade_result['affected_symbols'])
+            affected_count = len(cascade_result["affected_symbols"])
             cascade_entropy = min(1.0, affected_count * 0.1)
 
             entropy = self.collapse_tracker.update_entropy_score(
-                cascade_result['affected_symbols'],
-                {'emotional_cascade': cascade_entropy}
+                cascade_result["affected_symbols"],
+                {"emotional_cascade": cascade_entropy},
             )
             entropy_history.append(entropy)
             await asyncio.sleep(0.5)
 
         return {
-            'cascade_result': cascade_result,
-            'entropy_impact': entropy_history,
-            'max_entropy': max(entropy_history),
-            'cascade_contained': max(entropy_history) < 0.7,
-            'final_alert_level': self.collapse_tracker.current_state.alert_level.value
+            "cascade_result": cascade_result,
+            "entropy_impact": entropy_history,
+            "max_entropy": max(entropy_history),
+            "cascade_contained": max(entropy_history) < 0.7,
+            "final_alert_level": self.collapse_tracker.current_state.alert_level.value,
         }
 
     async def interactive_mode(self):
@@ -389,12 +412,16 @@ class CollapseSimulator:
                 if choice == "0":
                     break
                 elif choice == "1":
-                    scenario = input("Enter scenario (normal/drift/collapse/cascade): ").strip()
+                    scenario = input(
+                        "Enter scenario (normal/drift/collapse/cascade): "
+                    ).strip()
                     result = await self.run_scenario(scenario)
-                    print(f"\nScenario completed. Max entropy: {result.get('final_entropy', 0):.3f}")
+                    print(
+                        f"\nScenario completed. Max entropy: {result.get('final_entropy', 0):.3f}"
+                    )
                 elif choice == "2":
                     health = self.collapse_tracker.get_system_health()
-                    print(f"\nSystem Health:")
+                    print("\nSystem Health:")
                     print(f"  Entropy: {health['entropy_score']:.3f}")
                     print(f"  Alert Level: {health['alert_level']}")
                     print(f"  Entropy Slope: {health['entropy_slope']:.3f}")
@@ -407,7 +434,9 @@ class CollapseSimulator:
                     history = self.collapse_tracker.get_collapse_history(limit=5)
                     print(f"\nRecent collapse events: {len(history)}")
                     for event in history:
-                        print(f"  - {event['collapse_trace_id']}: {event['alert_level']}")
+                        print(
+                            f"  - {event['collapse_trace_id']}: {event['alert_level']}"
+                        )
                 elif choice == "5":
                     self.export_results()
                 elif choice == "6":
@@ -429,15 +458,15 @@ class CollapseSimulator:
         output_file = self.output_dir / f"{self.simulation_id}_results.json"
 
         export_data = {
-            'simulation_id': self.simulation_id,
-            'timestamp': datetime.now().isoformat(),
-            'scenarios_run': len(self.results),
-            'results': self.results,
-            'collapse_metrics': self.collapse_engine.get_collapse_metrics(),
-            'system_health': self.collapse_tracker.get_system_health()
+            "simulation_id": self.simulation_id,
+            "timestamp": datetime.now().isoformat(),
+            "scenarios_run": len(self.results),
+            "results": self.results,
+            "collapse_metrics": self.collapse_engine.get_collapse_metrics(),
+            "system_health": self.collapse_tracker.get_system_health(),
         }
 
-        with open(output_file, 'w') as f:
+        with open(output_file, "w") as f:
             json.dump(export_data, f, indent=2, default=str)
 
         print(f"\nResults exported to: {output_file}")
@@ -455,19 +484,19 @@ class CollapseSimulator:
         plt.figure(figsize=(12, 6))
 
         for i, result in enumerate(self.results):
-            if 'entropy_history' in result:
-                entropy_history = result['entropy_history']
-                scenario = result.get('scenario', f'Simulation {i+1}')
-                plt.plot(entropy_history, label=scenario, marker='o')
+            if "entropy_history" in result:
+                entropy_history = result["entropy_history"]
+                scenario = result.get("scenario", f"Simulation {i+1}")
+                plt.plot(entropy_history, label=scenario, marker="o")
 
         # Add alert level thresholds
-        plt.axhline(y=0.3, color='y', linestyle='--', label='Yellow Alert')
-        plt.axhline(y=0.5, color='orange', linestyle='--', label='Orange Alert')
-        plt.axhline(y=0.7, color='r', linestyle='--', label='Red Alert')
+        plt.axhline(y=0.3, color="y", linestyle="--", label="Yellow Alert")
+        plt.axhline(y=0.5, color="orange", linestyle="--", label="Orange Alert")
+        plt.axhline(y=0.7, color="r", linestyle="--", label="Red Alert")
 
-        plt.xlabel('Time Steps')
-        plt.ylabel('Entropy Score')
-        plt.title('LUKHAS Collapse Entropy Simulation')
+        plt.xlabel("Time Steps")
+        plt.ylabel("Entropy Score")
+        plt.title("LUKHAS Collapse Entropy Simulation")
         plt.legend()
         plt.grid(True, alpha=0.3)
         plt.ylim(0, 1)
@@ -485,34 +514,26 @@ async def main():
     )
 
     parser.add_argument(
-        '--scenario',
-        choices=['normal', 'drift', 'collapse', 'cascade'],
-        help='Run a specific scenario'
+        "--scenario",
+        choices=["normal", "drift", "collapse", "cascade"],
+        help="Run a specific scenario",
     )
 
     parser.add_argument(
-        '--interactive',
-        action='store_true',
-        help='Run in interactive mode'
+        "--interactive", action="store_true", help="Run in interactive mode"
     )
 
+    parser.add_argument("--batch", type=str, help="Run batch scenarios from JSON file")
+
     parser.add_argument(
-        '--batch',
+        "--output",
         type=str,
-        help='Run batch scenarios from JSON file'
+        default="lukhas/logs/simulations",
+        help="Output directory for results",
     )
 
     parser.add_argument(
-        '--output',
-        type=str,
-        default='lukhas/logs/simulations',
-        help='Output directory for results'
-    )
-
-    parser.add_argument(
-        '--plot',
-        action='store_true',
-        help='Generate entropy plots after simulation'
+        "--plot", action="store_true", help="Generate entropy plots after simulation"
     )
 
     args = parser.parse_args()
@@ -525,7 +546,7 @@ async def main():
             await simulator.interactive_mode()
         elif args.scenario:
             result = await simulator.run_scenario(args.scenario)
-            print(f"\nSimulation complete:")
+            print("\nSimulation complete:")
             print(f"  Final entropy: {result.get('final_entropy', 0):.3f}")
             print(f"  Max alert level: {result.get('max_alert', 'GREEN')}")
 
@@ -533,10 +554,10 @@ async def main():
                 simulator.plot_entropy_history()
         elif args.batch:
             # Load batch scenarios
-            with open(args.batch, 'r') as f:
+            with open(args.batch) as f:
                 scenarios = json.load(f)
 
-            for scenario in scenarios.get('scenarios', []):
+            for scenario in scenarios.get("scenarios", []):
                 print(f"\nRunning batch scenario: {scenario}")
                 await simulator.run_scenario(scenario)
 
@@ -545,7 +566,7 @@ async def main():
         else:
             # Run default demonstration
             print("Running demonstration scenarios...")
-            for scenario in ['normal', 'drift', 'collapse']:
+            for scenario in ["normal", "drift", "collapse"]:
                 await simulator.run_scenario(scenario)
                 await asyncio.sleep(1)
 
@@ -560,6 +581,7 @@ async def main():
     except Exception as e:
         print(f"\nError during simulation: {e}")
         import traceback
+
         traceback.print_exc()
 
 

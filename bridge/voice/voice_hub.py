@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -20,22 +19,18 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional
-
-import structlog
+from typing import Any, Optional
 
 # Import high-priority voice components
 from .context_aware_voice_modular import ContextAwareVoiceSystem
 from .recognition import VoiceRecognition
-
-from core.common import get_logger
 
 
 class VoiceHub:
     """Central hub for voice system coordination"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
         self.initialized = False
 
         # Initialize high-priority components
@@ -80,13 +75,13 @@ class VoiceHub:
         """Get a registered voice service"""
         return self.services.get(name)
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered voice services"""
         return list(self.services.keys())
 
     async def process_voice_request(
-        self, request_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, request_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process voice request through registered services"""
         try:
             results = {}
@@ -96,7 +91,8 @@ class VoiceHub:
                 context_service = self.services["context_aware"]
                 if hasattr(context_service, "process_input"):
                     results["context"] = await context_service.process_input(
-                        request_data.get("text", ""), request_data.get("context", {})
+                        request_data.get("text", ""),
+                        request_data.get("context", {}),
                     )
 
             # Use recognition service if audio data provided

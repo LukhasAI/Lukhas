@@ -24,19 +24,27 @@ DESCRIPTION:
     • Emotion-aware voice profile routing
 """
 
+import logging
+
 from core.common import get_logger
-from core.interfaces.as_agent.sys.nias.narration_controller import fetch_narration_entries, load_user_settings, filter_narration_queue
+from core.interfaces.as_agent.sys.nias.narration_controller import (
+    fetch_narration_entries,
+    filter_narration_queue,
+    load_user_settings,
+)
 from core.modules.nias.__init__ import narrate_dreams
-from pathlib import Path
 
 # Configure logging
 logger = get_logger(__name__)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
+
 
 def run_dream_voice_pipeline():
     user_settings = load_user_settings()
@@ -57,6 +65,7 @@ def run_dream_voice_pipeline():
     print(f"🎙 Narrating {len(filtered)} symbolic entries...")
     for entry in filtered:
         narrate_dreams([entry])
+
 
 if __name__ == "__main__":
     run_dream_voice_pipeline()

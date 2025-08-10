@@ -11,25 +11,25 @@ Voice Interface Test Suite
 Tests voice processing dependencies and functionality.
 """
 
+import logging
 import sys
 import wave
-import logging
-import numpy as np
 from pathlib import Path
-from typing import Dict, Any, Optional
+
+import numpy as np
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
 logger = logging.getLogger("voice_test")
+
 
 def test_basic_audio():
     """Test basic audio processing dependencies"""
     try:
-        import sounddevice as sd
         import scipy.io.wavfile as wav
+        import sounddevice as sd
 
         logger.info("sounddevice version: %s", sd.__version__)
 
@@ -37,18 +37,20 @@ def test_basic_audio():
         devices = sd.query_devices()
         logger.info("Available audio devices:")
         for i, dev in enumerate(devices):
-            logger.info(f"  {i}: {dev['name']} (in: {dev['max_input_channels']}, out: {dev['max_output_channels']})")
+            logger.info(
+                f"  {i}: {dev['name']} (in: {dev['max_input_channels']}, out: {dev['max_output_channels']})"
+            )
 
         return True
     except ImportError as e:
         logger.error("Basic audio import failed: %s", e)
         return False
 
+
 def test_elevenlabs():
     """Test ElevenLabs integration"""
     try:
-        from elevenlabs import generate, play
-        from elevenlabs import set_api_key
+        from elevenlabs import generate, play, set_api_key
 
         # Don't actually make API calls, just verify the library is available
         logger.info("ElevenLabs package is available")
@@ -56,6 +58,7 @@ def test_elevenlabs():
     except ImportError as e:
         logger.error("ElevenLabs import failed: %s", e)
         return False
+
 
 def test_edge_tts():
     """Test Microsoft Edge TTS"""
@@ -68,12 +71,13 @@ def test_edge_tts():
         logger.error("edge-tts import failed: %s", e)
         return False
 
+
 def test_voice_processing():
     """Test voice processing capabilities"""
     try:
+        import librosa
         import torch
         import torchaudio
-        import librosa
 
         logger.info("pytorch audio version: %s", torchaudio.__version__)
         logger.info("librosa version: %s", librosa.__version__)
@@ -89,7 +93,7 @@ def test_voice_processing():
 
         # Save test audio
         try:
-            with wave.open(str(test_file), 'w') as f:
+            with wave.open(str(test_file), "w") as f:
                 f.setnchannels(1)
                 f.setsampwidth(2)
                 f.setframerate(sample_rate)
@@ -111,6 +115,7 @@ def test_voice_processing():
         logger.error("Voice processing import failed: %s", e)
         return False
 
+
 def test_whisper():
     """Test Whisper speech recognition"""
     try:
@@ -126,16 +131,18 @@ def test_whisper():
         logger.error("Whisper import failed: %s", e)
         return False
 
+
 def test_vosk():
     """Test Vosk speech recognition"""
     try:
-        from vosk import Model, KaldiRecognizer
+        from vosk import KaldiRecognizer, Model
 
         logger.info("Vosk package is available")
         return True
     except ImportError as e:
         logger.error("Vosk import failed: %s", e)
         return False
+
 
 def main():
     """Run all voice interface tests"""
@@ -147,7 +154,7 @@ def main():
         ("Edge TTS", test_edge_tts),
         ("Voice Processing", test_voice_processing),
         ("Whisper", test_whisper),
-        ("Vosk", test_vosk)
+        ("Vosk", test_vosk),
     ]
 
     results = {}
@@ -163,6 +170,7 @@ def main():
 
     # Return success only if all tests passed
     return all(results.values())
+
 
 if __name__ == "__main__":
     sys.exit(0 if main() else 1)

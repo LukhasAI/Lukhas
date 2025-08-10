@@ -5,21 +5,24 @@ Advanced: ethical_conflict_resolution.py
 Integration Date: 2025-05-31T07:55:28.251360
 """
 
+
 def resolve_ethical_conflict(self, protest_id: str):
     """Use meta-learning to resolve complex ethical dilemmas"""
     dilemma = self.load_dilemma(protest_id)
     resolution = self.meta_learner.optimize_learning_approach(
-        context={'type': 'ethical_conflict'},
-        available_data=dilemma
+        context={"type": "ethical_conflict"}, available_data=dilemma
     )
-  
+
     self.apply_resolution(resolution)
-def analyze_historical_impact(self, protest_data: Dict):
+
+
+def analyze_historical_impact(self, protest_data: dict):
     """Use federated learning to predict outcomes"""
     return self.federated_model.predict(
         features=self._extract_features(protest_data),
-        model_id='protest_impact_predictor'
+        model_id="protest_impact_predictor",
     )
+
 
 # Initialize with federated learning
 protest_module = EthicalProtestModule(
@@ -28,15 +31,15 @@ protest_module = EthicalProtestModule(
 
 # Plan protest with real-time compliance check
 protest_plan = {
-    'purpose': 'Climate action',
-    'location': 'Berlin Central Square',
-    'expected_participants': 1500,
-    'country': 'DE'
+    "purpose": "Climate action",
+    "location": "Berlin Central Square",
+    "expected_participants": 1500,
+    "country": "DE",
 }
 result = protest_module.plan_protest(protest_plan)
 
 # Handle approval/rejection
-if result['status'] == 'approved':
-    agi_core.execute_protest(result['blueprint'])
+if result["status"] == "approved":
+    agi_core.execute_protest(result["blueprint"])
 else:
-    agi_core.refine_protest_plan(result['suggested_modifications'])
+    agi_core.refine_protest_plan(result["suggested_modifications"])

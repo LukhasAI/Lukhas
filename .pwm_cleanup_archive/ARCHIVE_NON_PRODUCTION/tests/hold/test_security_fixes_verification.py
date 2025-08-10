@@ -3,11 +3,9 @@
 Test script to verify subprocess security fixes are working
 """
 
-import subprocess
 import shlex
-import tempfile
-import os
-from pathlib import Path
+import subprocess
+
 
 def test_subprocess_security():
     """Test that subprocess security fixes are working"""
@@ -20,7 +18,9 @@ def test_subprocess_security():
 
     # Test 2: Run a safe command
     try:
-        result = subprocess.run(args, shell=False, capture_output=True, text=True, timeout=5)
+        result = subprocess.run(
+            args, shell=False, capture_output=True, text=True, timeout=5
+        )
         print(f"✅ Safe subprocess execution: {result.stdout.strip()}")
     except Exception as e:
         print(f"❌ Safe subprocess failed: {e}")
@@ -31,12 +31,15 @@ def test_subprocess_security():
         # This would be dangerous with shell=True but safe with shell=False
         dangerous_command = "echo 'safe'; rm -rf /tmp/nonexistent"
         args = shlex.split(dangerous_command)
-        result = subprocess.run(args, shell=False, capture_output=True, text=True, timeout=5)
+        result = subprocess.run(
+            args, shell=False, capture_output=True, text=True, timeout=5
+        )
         print(f"✅ Shell injection prevented: {result.stdout.strip()}")
     except Exception as e:
         print(f"✅ Shell injection properly blocked: {e}")
 
     return True
+
 
 def test_hash_security():
     """Test that hash security fixes are working"""
@@ -55,6 +58,7 @@ def test_hash_security():
 
     return True
 
+
 def main():
     """Run all security verification tests"""
     print("🛡️  Security Fixes Verification")
@@ -62,7 +66,7 @@ def main():
 
     tests = [
         ("Subprocess Security", test_subprocess_security),
-        ("Hash Security", test_hash_security)
+        ("Hash Security", test_hash_security),
     ]
 
     passed = 0
@@ -88,6 +92,7 @@ def main():
     else:
         print("⚠️ Some security fixes need attention.")
         return 1
+
 
 if __name__ == "__main__":
     exit(main())

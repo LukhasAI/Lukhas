@@ -6,9 +6,10 @@
 # 🎯 AUDIENCE: Governance reviewers (e.g. Sam Altman, auditors)
 # ════════════════════════════════════════════════════════════════════════
 
-import streamlit as st
 import json
 import os
+
+import streamlit as st
 
 LOG_PATH = "logs/emergency_log.jsonl"
 
@@ -19,7 +20,7 @@ if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")
 else:
     st.markdown("### 📜 Emergency Override Incidents")
-    with open(LOG_PATH, "r") as f:
+    with open(LOG_PATH) as f:
         logs = [json.loads(line) for line in f if line.strip()]
 
     for entry in reversed(logs[-25:]):
@@ -40,8 +41,10 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 # Symbolic Trace Dashboard Viewer (Enhanced via trace_tools)
 # ────────────────────────────────────────────────────────────────────────────────
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+
 from core.tracing import trace_tools  # assuming trace_tools.py is importable
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")

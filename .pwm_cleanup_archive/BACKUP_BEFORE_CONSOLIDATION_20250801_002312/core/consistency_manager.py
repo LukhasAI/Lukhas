@@ -3,14 +3,16 @@ import logging
 from enum import Enum
 from typing import Any, Dict
 
-from core.tiered_state_management import TieredStateManager, StateType
+from core.tiered_state_management import StateType, TieredStateManager
 
 # ΛTAG: consistency_management
 logger = logging.getLogger("ΛTRACE.consistency")
 
+
 class Consistency(Enum):
     EVENTUAL = "eventual"
     STRONG = "strong"
+
 
 class ConsistencyManager:
     """Applies state updates with the requested consistency level."""
@@ -28,18 +30,12 @@ class ConsistencyManager:
         """Apply updates according to consistency requirements."""
         if level is Consistency.STRONG:
             for aggregate_id, data in updates.items():
-                await self.state_manager.update_state(
-                    aggregate_id, data, state_type
-                )
+                await self.state_manager.update_state(aggregate_id, data, state_type)
         else:
             await asyncio.gather(
                 *[
-                    self.state_manager.update_state(
-                        aid, data, state_type
-                    )
+                    self.state_manager.update_state(aid, data, state_type)
                     for aid, data in updates.items()
                 ]
             )
-        logger.debug(
-            "ΛTRACE: Updates applied", count=len(updates), level=level.value
-        )
+        logger.debug("ΛTRACE: Updates applied", count=len(updates), level=level.value)

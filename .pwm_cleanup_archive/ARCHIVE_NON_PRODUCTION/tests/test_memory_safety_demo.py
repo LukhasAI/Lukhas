@@ -4,13 +4,19 @@ Test Memory Safety Features - Demonstration Script
 """
 
 import asyncio
-import sys
 import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from datetime import datetime, timezone, timedelta
-from memory.systems.memory_safety_features import MemorySafetySystem, SafeMemoryFold, VerifoldEntry
+from datetime import datetime, timedelta, timezone
+
 from memory.core import create_hybrid_memory_fold
+from memory.systems.memory_safety_features import (
+    MemorySafetySystem,
+    SafeMemoryFold,
+)
+
 
 async def demonstrate_safety_features():
     """Demonstrate memory safety features"""
@@ -29,14 +35,14 @@ async def demonstrate_safety_features():
     safe_memory = SafeMemoryFold(base_memory, safety)
 
     print("🛡️ MEMORY SAFETY DEMONSTRATION")
-    print("="*60)
+    print("=" * 60)
 
     # Test 1: Valid memory
     print("\n1. Storing valid memory...")
     valid_memory = {
         "content": "LUKHAS is learning about memory safety",
         "type": "knowledge",
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     mem_id = await safe_memory.safe_fold_in(valid_memory, ["safety", "valid"])
@@ -47,7 +53,7 @@ async def demonstrate_safety_features():
     hallucination = {
         "content": "LUKHAS is not an AGI system",  # Contradicts reality anchor
         "type": "false_claim",
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     mem_id = await safe_memory.safe_fold_in(hallucination, ["false"])
@@ -58,7 +64,7 @@ async def demonstrate_safety_features():
     print("\n3. Attempting to store future memory...")
     future_memory = {
         "content": "Event from tomorrow",
-        "timestamp": datetime.now(timezone.utc) + timedelta(days=1)
+        "timestamp": datetime.now(timezone.utc) + timedelta(days=1),
     }
 
     mem_id = await safe_memory.safe_fold_in(future_memory, ["future"])
@@ -73,7 +79,7 @@ async def demonstrate_safety_features():
         test_memory = {
             "content": f"Test memory {i}",
             "type": "test",
-            "timestamp": datetime.now(timezone.utc)
+            "timestamp": datetime.now(timezone.utc),
         }
 
         # Create slightly different embeddings to simulate drift
@@ -81,16 +87,12 @@ async def demonstrate_safety_features():
         embedding += i * 0.1  # Add drift
 
         mem_id = await base_memory.fold_in_with_embedding(
-            data=test_memory,
-            tags=["drifting"],
-            embedding=embedding
+            data=test_memory, tags=["drifting"], embedding=embedding
         )
 
         # Track drift
         drift_score = safety.track_drift(
-            tag="drifting",
-            embedding=embedding,
-            usage_context={"iteration": i}
+            tag="drifting", embedding=embedding, usage_context={"iteration": i}
         )
         print(f"  Memory {i}: drift score = {drift_score:.3f}")
 
@@ -104,7 +106,7 @@ async def demonstrate_safety_features():
             "content": f"The sky is blue - observation {i}",
             "type": "observation",
             "emotion": "neutral",
-            "timestamp": datetime.now(timezone.utc)
+            "timestamp": datetime.now(timezone.utc),
         }
         mem_id = await safe_memory.safe_fold_in(mem, ["observation", "sky"])
         consensus_memories.append(mem_id)
@@ -114,21 +116,22 @@ async def demonstrate_safety_features():
         "content": "The sky is green",
         "type": "observation",
         "emotion": "joy",  # Wrong emotion for this observation
-        "timestamp": datetime.now(timezone.utc)
+        "timestamp": datetime.now(timezone.utc),
     }
 
     # This should be caught by consensus validation when retrieved
     bad_id = await base_memory.fold_in_with_embedding(
-        data={**contradiction, "_collapse_hash": safety.compute_collapse_hash(contradiction)},
+        data={
+            **contradiction,
+            "_collapse_hash": safety.compute_collapse_hash(contradiction),
+        },
         tags=["observation", "sky"],
-        text_content=contradiction["content"]
+        text_content=contradiction["content"],
     )
 
     # Retrieve with consensus validation
     results = await safe_memory.safe_fold_out(
-        query="sky color",
-        verify=True,
-        check_consensus=True
+        query="sky color", verify=True, check_consensus=True
     )
 
     print(f"  Retrieved {len(results)} validated memories")
@@ -141,14 +144,16 @@ async def demonstrate_safety_features():
     print(f"  Monitored tags: {report['drift_analysis']['monitored_tags']}")
     print(f"  Average drift: {report['drift_analysis']['average_drift']:.3f}")
     print(f"  Verified memories: {report['verifold_status']['total_verified']}")
-    print(f"  Contradictions caught: {report['hallucination_prevention']['contradictions_caught']}")
+    print(
+        f"  Contradictions caught: {report['hallucination_prevention']['contradictions_caught']}"
+    )
     print(f"  Reality anchors: {report['hallucination_prevention']['reality_anchors']}")
 
     print("\n✅ Safety demonstration complete!")
 
     # Show how modules benefit
     print("\n🎯 MODULE INTEGRATION BENEFITS:")
-    print("="*60)
+    print("=" * 60)
 
     print("\n📚 LEARNING MODULE:")
     print("  • Safe memories provide reliable training data")
@@ -169,6 +174,7 @@ async def demonstrate_safety_features():
     print("  • Collapse hashes enable efficient meta-pattern detection")
     print("  • Drift scores reveal concept evolution over time")
     print("  • Causal chains support meta-reasoning about knowledge")
+
 
 if __name__ == "__main__":
     asyncio.run(demonstrate_safety_features())

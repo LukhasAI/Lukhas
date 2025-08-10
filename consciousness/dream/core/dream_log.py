@@ -2,8 +2,9 @@
 Mock dream_log module
 Temporary implementation - see MOCK_TRANSPARENCY_LOG.md
 """
-from core.common import get_logger
+
 from datetime import datetime
+
 
 class DreamLog:
     """Mock DreamLog class"""
@@ -19,7 +20,7 @@ class DreamLog:
             "id": dream_id,
             "timestamp": datetime.utcnow().isoformat(),
             "content": content,
-            "metadata": metadata or {}
+            "metadata": metadata or {},
         }
         self.entries.append(entry)
         self.logger.info(f"Dream logged: {dream_id}")
@@ -28,6 +29,7 @@ class DreamLog:
     def get_recent_dreams(self, count=10):
         """Mock get_recent_dreams method"""
         return self.entries[-count:]
+
 
 # Global instance
 dream_logger = DreamLog()

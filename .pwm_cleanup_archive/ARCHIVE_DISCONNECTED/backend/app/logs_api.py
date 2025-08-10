@@ -8,8 +8,9 @@
 ╰──────────────────────────────────────────────────────────────╯
 """
 
-from fastapi import APIRouter, HTTPException
 from datetime import datetime
+
+from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
 
@@ -21,12 +22,14 @@ session_logs = [
     {"user_id": 2, "action": "DOWNLOAD_VAULT", "timestamp": str(datetime.utcnow())},
 ]
 
+
 @router.get("/logs/sessions")
 def get_all_session_logs():
     """
     Retrieve all symbolic session logs.
     """
     return session_logs
+
 
 @router.get("/logs/sessions/{user_id}")
 def get_user_session_logs(user_id: int):

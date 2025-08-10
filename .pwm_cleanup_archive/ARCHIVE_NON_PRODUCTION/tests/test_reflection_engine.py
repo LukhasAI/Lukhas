@@ -6,29 +6,25 @@ Comprehensive tests for pattern detection, meta-cognitive analysis,
 self-assessment generation, and reflection insight processing.
 """
 
+from unittest.mock import patch
+
 import pytest
-import asyncio
-import json
-import uuid
-import statistics
-from datetime import datetime, timedelta
-from unittest.mock import Mock, patch, MagicMock
 
 # Import the reflection engine
 from memory.core_memory.reflection_engine import (
     MemoryReflector,
-    ReflectionInsight,
-    ReflectionSession,
-    ReflectionType,
-    ReflectionDepth,
-    PatternDetector,
     MetaCognitiveAnalyzer,
+    PatternDetector,
+    ReflectionDepth,
+    ReflectionInsight,
+    ReflectionType,
     get_memory_reflector,
+    get_reflector_status,
+    get_self_assessment,
     initiate_reflection,
     process_reflection,
-    get_self_assessment,
-    get_reflector_status
 )
+
 
 class TestPatternDetector:
     """Test suite for PatternDetector functionality."""
@@ -41,20 +37,20 @@ class TestPatternDetector:
                 "memory_id": "mem_001",
                 "timestamp": "2025-01-01T10:00:00",
                 "content": {"action": "learning", "topic": "pattern_recognition"},
-                "emotional_state": {"curiosity": 0.8, "satisfaction": 0.6}
+                "emotional_state": {"curiosity": 0.8, "satisfaction": 0.6},
             },
             {
                 "memory_id": "mem_002",
                 "timestamp": "2025-01-01T11:00:00",
                 "content": {"action": "learning", "topic": "neural_networks"},
-                "emotional_state": {"curiosity": 0.7, "satisfaction": 0.8}
+                "emotional_state": {"curiosity": 0.7, "satisfaction": 0.8},
             },
             {
                 "memory_id": "mem_003",
                 "timestamp": "2025-01-01T12:00:00",
                 "content": {"action": "problem_solving", "topic": "optimization"},
-                "emotional_state": {"focus": 0.9, "satisfaction": 0.7}
-            }
+                "emotional_state": {"focus": 0.9, "satisfaction": 0.7},
+            },
         ]
 
     def test_initialization(self):
@@ -68,7 +64,7 @@ class TestPatternDetector:
             "emotional_spiral",
             "learning_progression",
             "causal_chain",
-            "symbolic_emergence"
+            "symbolic_emergence",
         ]
 
         for template in expected_templates:
@@ -114,7 +110,7 @@ class TestPatternDetector:
         repetitive_data = [
             {"timestamp": "2025-01-01T10:00:00", "content": {"action": "study"}},
             {"timestamp": "2025-01-01T10:30:00", "content": {"action": "study"}},
-            {"timestamp": "2025-01-01T11:00:00", "content": {"action": "study"}}
+            {"timestamp": "2025-01-01T11:00:00", "content": {"action": "study"}},
         ]
 
         template = self.detector.pattern_templates["repetitive_behavior"]
@@ -131,7 +127,7 @@ class TestPatternDetector:
             "2025-01-01T10:00:00",
             "2025-01-01T10:05:00",  # Close to first
             "2025-01-01T10:10:00",  # Close to first
-            "2025-01-01T15:00:00"   # Far from others
+            "2025-01-01T15:00:00",  # Far from others
         ]
 
         has_clustering = self.detector._has_temporal_clustering(clustered_timestamps)
@@ -143,7 +139,7 @@ class TestPatternDetector:
         similar_memories = [
             {"content": {"topic": "machine_learning", "action": "study"}},
             {"content": {"topic": "neural_networks", "action": "study"}},
-            {"content": {"topic": "deep_learning", "action": "study"}}
+            {"content": {"topic": "deep_learning", "action": "study"}},
         ]
 
         has_similarity = self.detector._has_content_similarity(similar_memories)
@@ -154,11 +150,12 @@ class TestPatternDetector:
         consistent_emotions = [
             {"emotional_state": {"curiosity": 0.8, "focus": 0.7}},
             {"emotional_state": {"curiosity": 0.7, "focus": 0.8}},
-            {"emotional_state": {"curiosity": 0.9, "focus": 0.6}}
+            {"emotional_state": {"curiosity": 0.9, "focus": 0.6}},
         ]
 
         has_consistency = self.detector._has_emotional_consistency(consistent_emotions)
         assert isinstance(has_consistency, bool)
+
 
 class TestMetaCognitiveAnalyzer:
     """Test suite for MetaCognitiveAnalyzer functionality."""
@@ -170,18 +167,18 @@ class TestMetaCognitiveAnalyzer:
             {
                 "memory_id": "mem_001",
                 "content": {"type": "reasoning", "approach": "analytical"},
-                "emotional_state": {"confidence": 0.8}
+                "emotional_state": {"confidence": 0.8},
             },
             {
                 "memory_id": "mem_002",
                 "content": {"type": "decision", "approach": "intuitive"},
-                "emotional_state": {"uncertainty": 0.3}
+                "emotional_state": {"uncertainty": 0.3},
             },
             {
                 "memory_id": "mem_003",
                 "content": {"type": "learning", "strategy": "experiential"},
-                "emotional_state": {"curiosity": 0.9}
-            }
+                "emotional_state": {"curiosity": 0.9},
+            },
         ]
 
     def test_initialization(self):
@@ -199,7 +196,7 @@ class TestMetaCognitiveAnalyzer:
             "decision_patterns",
             "learning_strategies",
             "cognitive_biases",
-            "meta_awareness"
+            "meta_awareness",
         ]
 
         for key in expected_keys:
@@ -234,7 +231,7 @@ class TestMetaCognitiveAnalyzer:
             "decision_speed",
             "risk_tolerance",
             "information_gathering",
-            "confidence_calibration"
+            "confidence_calibration",
         ]
 
         for pattern in expected_patterns:
@@ -242,13 +239,21 @@ class TestMetaCognitiveAnalyzer:
 
     def test_identify_learning_strategies(self):
         """Test learning strategy identification."""
-        strategies = self.analyzer._identify_learning_strategies(self.sample_memory_data)
+        strategies = self.analyzer._identify_learning_strategies(
+            self.sample_memory_data
+        )
 
         assert isinstance(strategies, list)
         assert len(strategies) > 0
 
         # Valid learning strategies
-        valid_strategies = ["experiential", "analytical", "social", "visual", "kinesthetic"]
+        valid_strategies = [
+            "experiential",
+            "analytical",
+            "social",
+            "visual",
+            "kinesthetic",
+        ]
         for strategy in strategies:
             assert strategy in valid_strategies
 
@@ -271,7 +276,7 @@ class TestMetaCognitiveAnalyzer:
         meta_data = [
             {"content": {"type": "self-reflection", "insight": "I tend to overthink"}},
             {"content": {"type": "analysis", "subject": "my learning patterns"}},
-            {"content": {"type": "observation", "note": "self-improvement needed"}}
+            {"content": {"type": "observation", "note": "self-improvement needed"}},
         ]
 
         awareness_level = self.analyzer._assess_meta_awareness(meta_data)
@@ -288,6 +293,7 @@ class TestMetaCognitiveAnalyzer:
         assert "reasoning_styles" in analysis
         assert "meta_awareness" in analysis
 
+
 class TestMemoryReflector:
     """Test suite for main MemoryReflector functionality."""
 
@@ -296,7 +302,7 @@ class TestMemoryReflector:
         self.config = {
             "max_active_sessions": 3,
             "confidence_threshold": 0.6,
-            "reflection_frequency": 24
+            "reflection_frequency": 24,
         }
         self.reflector = MemoryReflector(self.config)
         self.test_memory_ids = ["mem_001", "mem_002", "mem_003", "mem_004"]
@@ -334,15 +340,10 @@ class TestMemoryReflector:
 
     def test_initiate_reflection_with_custom_types(self):
         """Test reflection session with custom reflection types."""
-        custom_types = [
-            ReflectionType.PATTERN_ANALYSIS,
-            ReflectionType.META_LEARNING
-        ]
+        custom_types = [ReflectionType.PATTERN_ANALYSIS, ReflectionType.META_LEARNING]
 
         session_id = self.reflector.initiate_reflection_session(
-            self.test_memory_ids,
-            custom_types,
-            ReflectionDepth.META
+            self.test_memory_ids, custom_types, ReflectionDepth.META
         )
 
         session = self.reflector.active_sessions[session_id]
@@ -359,7 +360,9 @@ class TestMemoryReflector:
             session_ids.append(session_id)
 
         # Try to create one more - should fail
-        overflow_session_id = self.reflector.initiate_reflection_session(["mem_overflow"])
+        overflow_session_id = self.reflector.initiate_reflection_session(
+            ["mem_overflow"]
+        )
         assert overflow_session_id is None
         assert len(self.reflector.active_sessions) == self.config["max_active_sessions"]
 
@@ -368,7 +371,7 @@ class TestMemoryReflector:
         # Create reflection session
         session_id = self.reflector.initiate_reflection_session(
             self.test_memory_ids,
-            [ReflectionType.PATTERN_ANALYSIS, ReflectionType.META_LEARNING]
+            [ReflectionType.PATTERN_ANALYSIS, ReflectionType.META_LEARNING],
         )
 
         # Process analysis
@@ -407,13 +410,14 @@ class TestMemoryReflector:
         """Test retrieving insights filtered by type."""
         # Create and process a session
         session_id = self.reflector.initiate_reflection_session(
-            self.test_memory_ids,
-            [ReflectionType.PATTERN_ANALYSIS]
+            self.test_memory_ids, [ReflectionType.PATTERN_ANALYSIS]
         )
         self.reflector.process_reflection_analysis(session_id)
 
         # Get insights by type
-        pattern_insights = self.reflector.get_insights_by_type(ReflectionType.PATTERN_ANALYSIS)
+        pattern_insights = self.reflector.get_insights_by_type(
+            ReflectionType.PATTERN_ANALYSIS
+        )
 
         assert isinstance(pattern_insights, list)
         # Should have pattern analysis insights
@@ -434,8 +438,7 @@ class TestMemoryReflector:
 
         # Get insights with high confidence threshold
         high_confidence_insights = self.reflector.get_insights_by_type(
-            ReflectionType.PATTERN_ANALYSIS,
-            min_confidence=0.8
+            ReflectionType.PATTERN_ANALYSIS, min_confidence=0.8
         )
 
         for insight in high_confidence_insights:
@@ -463,9 +466,11 @@ class TestMemoryReflector:
         # Generate some insights first
         session_id = self.reflector.initiate_reflection_session(
             self.test_memory_ids,
-            [ReflectionType.PATTERN_ANALYSIS,
-             ReflectionType.EMOTIONAL_REFLECTION,
-             ReflectionType.META_LEARNING]
+            [
+                ReflectionType.PATTERN_ANALYSIS,
+                ReflectionType.EMOTIONAL_REFLECTION,
+                ReflectionType.META_LEARNING,
+            ],
         )
         self.reflector.process_reflection_analysis(session_id)
 
@@ -485,7 +490,7 @@ class TestMemoryReflector:
             "insight_categories",
             "total_insights",
             "high_confidence_ratio",
-            "generated_at"
+            "generated_at",
         ]
 
         for key in expected_keys:
@@ -562,6 +567,7 @@ class TestMemoryReflector:
         assert config["confidence_threshold"] == 0.6
         assert config["reflection_frequency"] == 24
 
+
 class TestReflectionTypes:
     """Test different reflection types and their processing."""
 
@@ -573,8 +579,7 @@ class TestReflectionTypes:
     def test_pattern_analysis_reflection(self):
         """Test pattern analysis reflection type."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            [ReflectionType.PATTERN_ANALYSIS]
+            self.memory_ids, [ReflectionType.PATTERN_ANALYSIS]
         )
 
         result = self.reflector.process_reflection_analysis(session_id)
@@ -582,15 +587,17 @@ class TestReflectionTypes:
 
         # Should have pattern analysis insights
         session = self.reflector.completed_sessions[session_id]
-        pattern_insights = [i for i in session.insights
-                          if i.reflection_type == ReflectionType.PATTERN_ANALYSIS]
+        pattern_insights = [
+            i
+            for i in session.insights
+            if i.reflection_type == ReflectionType.PATTERN_ANALYSIS
+        ]
         assert len(pattern_insights) > 0
 
     def test_meta_learning_reflection(self):
         """Test meta-learning reflection type."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            [ReflectionType.META_LEARNING]
+            self.memory_ids, [ReflectionType.META_LEARNING]
         )
 
         result = self.reflector.process_reflection_analysis(session_id)
@@ -598,15 +605,17 @@ class TestReflectionTypes:
 
         # Should have meta-learning insights
         session = self.reflector.completed_sessions[session_id]
-        meta_insights = [i for i in session.insights
-                        if i.reflection_type == ReflectionType.META_LEARNING]
+        meta_insights = [
+            i
+            for i in session.insights
+            if i.reflection_type == ReflectionType.META_LEARNING
+        ]
         assert len(meta_insights) > 0
 
     def test_emotional_reflection(self):
         """Test emotional reflection type."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            [ReflectionType.EMOTIONAL_REFLECTION]
+            self.memory_ids, [ReflectionType.EMOTIONAL_REFLECTION]
         )
 
         result = self.reflector.process_reflection_analysis(session_id)
@@ -617,12 +626,11 @@ class TestReflectionTypes:
         reflection_types = [
             ReflectionType.PATTERN_ANALYSIS,
             ReflectionType.EMOTIONAL_REFLECTION,
-            ReflectionType.META_LEARNING
+            ReflectionType.META_LEARNING,
         ]
 
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            reflection_types
+            self.memory_ids, reflection_types
         )
 
         result = self.reflector.process_reflection_analysis(session_id)
@@ -635,6 +643,7 @@ class TestReflectionTypes:
         # Should have at least some of the requested types
         assert len(insight_types) > 0
 
+
 class TestReflectionDepths:
     """Test different reflection depth levels."""
 
@@ -646,8 +655,7 @@ class TestReflectionDepths:
     def test_surface_depth(self):
         """Test surface depth reflection."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            depth=ReflectionDepth.SURFACE
+            self.memory_ids, depth=ReflectionDepth.SURFACE
         )
 
         session = self.reflector.active_sessions[session_id]
@@ -656,8 +664,7 @@ class TestReflectionDepths:
     def test_deep_depth(self):
         """Test deep depth reflection."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            depth=ReflectionDepth.DEEP
+            self.memory_ids, depth=ReflectionDepth.DEEP
         )
 
         session = self.reflector.active_sessions[session_id]
@@ -666,8 +673,7 @@ class TestReflectionDepths:
     def test_meta_depth(self):
         """Test meta depth reflection."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            depth=ReflectionDepth.META
+            self.memory_ids, depth=ReflectionDepth.META
         )
 
         session = self.reflector.active_sessions[session_id]
@@ -676,12 +682,12 @@ class TestReflectionDepths:
     def test_transcendent_depth(self):
         """Test transcendent depth reflection."""
         session_id = self.reflector.initiate_reflection_session(
-            self.memory_ids,
-            depth=ReflectionDepth.TRANSCENDENT
+            self.memory_ids, depth=ReflectionDepth.TRANSCENDENT
         )
 
         session = self.reflector.active_sessions[session_id]
         assert session.depth_level == ReflectionDepth.TRANSCENDENT
+
 
 class TestModuleLevelInterface:
     """Test module-level interface functions."""
@@ -689,7 +695,10 @@ class TestModuleLevelInterface:
     def setup_method(self):
         """Setup test fixtures."""
         # Reset the default reflector
-        from memory.core_memory.reflection_engine import default_memory_reflector
+        from memory.core_memory.reflection_engine import (
+            default_memory_reflector,
+        )
+
         default_memory_reflector.__init__()
 
         self.memory_ids = ["mem_001", "mem_002", "mem_003"]
@@ -702,8 +711,7 @@ class TestModuleLevelInterface:
     def test_initiate_reflection_module_function(self):
         """Test module-level reflection initiation."""
         session_id = initiate_reflection(
-            self.memory_ids,
-            ["pattern_analysis", "meta_learning"]
+            self.memory_ids, ["pattern_analysis", "meta_learning"]
         )
 
         assert session_id is not None
@@ -746,6 +754,7 @@ class TestModuleLevelInterface:
         assert "system_status" in status
         assert "module_version" in status
 
+
 class TestReflectionInsights:
     """Test reflection insight generation and management."""
 
@@ -786,8 +795,7 @@ class TestReflectionInsights:
 
         # Get high-confidence insights
         high_conf_insights = self.reflector.get_insights_by_type(
-            ReflectionType.PATTERN_ANALYSIS,
-            min_confidence=0.9
+            ReflectionType.PATTERN_ANALYSIS, min_confidence=0.9
         )
 
         # All returned insights should meet confidence threshold
@@ -816,6 +824,7 @@ class TestReflectionInsights:
             insight = self.reflector.insight_repository[insight_id]
             assert insight.insight_id == insight_id
 
+
 class TestErrorHandling:
     """Test error handling and edge cases."""
 
@@ -842,7 +851,7 @@ class TestErrorHandling:
         with pytest.raises(AttributeError):
             self.reflector.initiate_reflection_session(
                 ["mem_001"],
-                ["invalid_reflection_type"]  # Should be ReflectionType enum
+                ["invalid_reflection_type"],  # Should be ReflectionType enum
             )
 
     def test_reflection_processing_error_recovery(self):
@@ -850,8 +859,11 @@ class TestErrorHandling:
         session_id = self.reflector.initiate_reflection_session(["mem_001"])
 
         # Mock processing error
-        with patch.object(self.reflector, '_process_reflection_type',
-                         side_effect=Exception("Processing error")):
+        with patch.object(
+            self.reflector,
+            "_process_reflection_type",
+            side_effect=Exception("Processing error"),
+        ):
             result = self.reflector.process_reflection_analysis(session_id)
 
             assert result["success"] is False
@@ -860,6 +872,7 @@ class TestErrorHandling:
         # System should remain operational
         status = self.reflector.get_system_status()
         assert status["system_status"] == "operational"
+
 
 class TestPerformanceAndScaling:
     """Test performance characteristics and scaling behavior."""
@@ -906,23 +919,30 @@ class TestPerformanceAndScaling:
         assert len(self.reflector.insight_repository) > 0
 
         # Should still be able to filter efficiently
-        pattern_insights = self.reflector.get_insights_by_type(ReflectionType.PATTERN_ANALYSIS)
+        pattern_insights = self.reflector.get_insights_by_type(
+            ReflectionType.PATTERN_ANALYSIS
+        )
         assert isinstance(pattern_insights, list)
+
 
 # Test fixtures and utilities
 @pytest.fixture
 def memory_reflector():
     """Fixture providing a fresh MemoryReflector instance."""
-    return MemoryReflector({
-        "max_active_sessions": 5,
-        "confidence_threshold": 0.6,
-        "reflection_frequency": 12
-    })
+    return MemoryReflector(
+        {
+            "max_active_sessions": 5,
+            "confidence_threshold": 0.6,
+            "reflection_frequency": 12,
+        }
+    )
+
 
 @pytest.fixture
 def sample_memory_set():
     """Fixture providing sample memory set."""
     return ["memory_001", "memory_002", "memory_003", "memory_004"]
+
 
 @pytest.fixture
 def sample_reflection_types():
@@ -930,20 +950,21 @@ def sample_reflection_types():
     return [
         ReflectionType.PATTERN_ANALYSIS,
         ReflectionType.EMOTIONAL_REFLECTION,
-        ReflectionType.META_LEARNING
+        ReflectionType.META_LEARNING,
     ]
+
 
 # Integration tests
 class TestReflectionSystemIntegration:
     """Integration tests for the complete reflection system."""
 
-    def test_complete_reflection_workflow(self, memory_reflector, sample_memory_set, sample_reflection_types):
+    def test_complete_reflection_workflow(
+        self, memory_reflector, sample_memory_set, sample_reflection_types
+    ):
         """Test complete reflection workflow from initiation to assessment."""
         # 1. Initiate reflection session
         session_id = memory_reflector.initiate_reflection_session(
-            sample_memory_set,
-            sample_reflection_types,
-            ReflectionDepth.DEEP
+            sample_memory_set, sample_reflection_types, ReflectionDepth.DEEP
         )
         assert session_id is not None
 
@@ -978,15 +999,16 @@ class TestReflectionSystemIntegration:
 
         # Focus on pattern analysis
         session_id = memory_reflector.initiate_reflection_session(
-            memory_ids,
-            [ReflectionType.PATTERN_ANALYSIS]
+            memory_ids, [ReflectionType.PATTERN_ANALYSIS]
         )
 
         result = memory_reflector.process_reflection_analysis(session_id)
         assert result["success"] is True
 
         # Should have pattern insights
-        pattern_insights = memory_reflector.get_insights_by_type(ReflectionType.PATTERN_ANALYSIS)
+        pattern_insights = memory_reflector.get_insights_by_type(
+            ReflectionType.PATTERN_ANALYSIS
+        )
         assert len(pattern_insights) > 0
 
         # Insights should contain pattern information
@@ -996,15 +1018,16 @@ class TestReflectionSystemIntegration:
     def test_meta_cognitive_analysis_integration(self, memory_reflector):
         """Test integration with meta-cognitive analysis."""
         session_id = memory_reflector.initiate_reflection_session(
-            ["mem_001", "mem_002"],
-            [ReflectionType.META_LEARNING]
+            ["mem_001", "mem_002"], [ReflectionType.META_LEARNING]
         )
 
         result = memory_reflector.process_reflection_analysis(session_id)
         assert result["success"] is True
 
         # Should have meta-learning insights
-        meta_insights = memory_reflector.get_insights_by_type(ReflectionType.META_LEARNING)
+        meta_insights = memory_reflector.get_insights_by_type(
+            ReflectionType.META_LEARNING
+        )
         assert len(meta_insights) > 0
 
         # Generate self-assessment - should reflect meta-cognitive analysis
@@ -1032,6 +1055,7 @@ class TestReflectionSystemIntegration:
             insight1, insight2 = contradiction
             assert isinstance(insight1, ReflectionInsight)
             assert isinstance(insight2, ReflectionInsight)
+
 
 if __name__ == "__main__":
     # Run the tests

@@ -5,7 +5,6 @@
 #TAG:neuroplastic
 #TAG:colony
 
-
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE: Check All Box Alignment                                     ║
 ║ DESCRIPTION: !/usr/bin/env python3                                  ║
@@ -32,13 +31,14 @@ METADATA TAGS: #LuKhas #AI #Professional #Deployment #AI Professional System
 Verify all enhanced ASCII box headers have perfect alignment
 """
 
-from pathlib import Path
 import re
+from pathlib import Path
+
 
 def check_box_alignment(file_path):
     """Check if ASCII box in file has perfect alignment"""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         # Find ASCII box
@@ -48,11 +48,11 @@ def check_box_alignment(file_path):
             return False, "No ASCII box found"
 
         box_content = match.group(0)
-        lines = box_content.split('\n')
+        lines = box_content.split("\n")
 
         issues = []
         for i, line in enumerate(lines):
-                issues.append(f"Line {i}: Box breaks - {repr(line)}")
+            issues.append(f"Line {i}: Box breaks - {repr(line)}")
 
         if issues:
             return False, f"Box alignment issues: {issues}"
@@ -61,6 +61,7 @@ def check_box_alignment(file_path):
 
     except Exception as e:
         return False, f"Error reading file: {e}"
+
 
 def main():
     """Check all recently enhanced files"""
@@ -75,7 +76,7 @@ def main():
         "lukhas/core/voice/voice_node.py",
         "lukhas/core/brain/spine/lukhas_emotion_log.py",
         "lukhas/core/brain/spine/accent_adapter.py",
-        "lukhas/core/brain/spine/healix_mapper.py"
+        "lukhas/core/brain/spine/healix_mapper.py",
     ]
 
     results = []
@@ -104,6 +105,7 @@ def main():
         print("✅ Ready for professional deployment")
     else:
         print("⚠️ Some boxes need alignment fixes")
+
 
 if __name__ == "__main__":
     main()

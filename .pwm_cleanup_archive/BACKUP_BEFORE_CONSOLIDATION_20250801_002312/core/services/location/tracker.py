@@ -5,9 +5,9 @@ Handles device location updates and privacy-aware tracking
 
 import asyncio
 import logging
-from typing import Optional, Callable, Dict, List
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Callable, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
