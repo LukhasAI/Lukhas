@@ -1,0 +1,96 @@
+name: badge-hydrate
+
+on:
+  workflow_run:
+    workflows:
+      - dr-dryrun-weekly
+      - dr-dryrun-monthly
+      - dr-full-restore-quarterly
+      - "Nightly Backup"
+    types: [completed]
+  workflow_dispatch: {}
+
+jobs:
+  hydrate:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install --quiet --disable-pip-version-check
+
+      # Download artifacts from the triggering run (weekly/monthly/quarterly/nightly)
+      - name: Download artifacts from triggering run
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          run_id: ${{ github.event.workflow_run.id }}
+          path: artifacts
+          # Download all artifacts; we'll pick what we need below
+
+      # Try to reuse consolidated KPI first
+      - name: Recover KPI JSON (if present)
+        id: kpi_try
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          # look for any backup_kpi.json in artifacts
+          found=$(find artifacts -type f -name "backup_kpi.json" | head -n1 || true)
+          if [ -n "$found" ]; then
+            cp "$found" out/backup_kpi.json
+            echo "kpi=present" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "kpi=missing" >> $GITHUB_OUTPUT
+
+      # If KPI missing, try to rebuild it from run-specific JSONs
+      - name: Rebuild KPI JSON from available DR artifacts
+        if: steps.kpi_try.outputs.kpi == 'missing'
+        run: |
+          set -euo pipefail
+          # Gather whatever JSONs we have
+          W=$(find artifacts -type f -name "dr_dryrun_weekly.json" -o -name "dr_dryrun_result.json" | head -n1 || true)
+          M=$(find artifacts -type f -name "dr_dryrun_result.json" | head -n1 || true)
+          Q=$(find artifacts -type f -name "dr_fullrestore_summary.json" | head -n1 || true)
+
+          # Fallback: if weekly not found under weekly name, try any dr_dryrun*.json
+          if [ -z "$W" ]; then
+            W=$(find artifacts -type f -name "dr_dryrun*.json" | head -n1 || true)
+          fi
+
+          # Build KPI (script already in repo from PR #10)
+          python scripts/report_kpi_backup.py \
+            ${W:+--weekly "$W"} \
+            ${M:+--monthly "$M"} \
+            ${Q:+--quarterly "$Q"} \
+            | tee out/backup_kpi.json
+
+      # Render SVG badge
+      - name: Render KPI badge
+        run: |
+          mkdir -p badges
+          python scripts/kpi_badge.py --in out/backup_kpi.json --out badges/backup_status.svg
+
+      # Commit badge only on main (to avoid noisy commits on forks/branches)
+      - name: Commit badge to repo (main only)
+        if: github.ref == 'refs/heads/main'
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "badges/backup_status.svg"
+          message: "chore(dr): hydrate backup KPI badge [skip ci]"
+
+      - name: Upload badge as artifact (useful on PRs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-badge
+          path: badges/backup_status.svg
