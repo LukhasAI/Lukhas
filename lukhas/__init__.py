@@ -52,8 +52,12 @@ class _AliasFinder(importlib.abc.MetaPathFinder):
             search_locs = getattr(native_spec, "submodule_search_locations", None)
 
             def _is_under_pwm(p: str) -> bool:
-                return p is not None and ("/lukhas_pwm/" in p or p.endswith("/lukhas_pwm") or
-                                          p.replace("\\", "/").rstrip("/").endswith("/lukhas_pwm"))
+                return p is not None and (
+                    "/lukhas_pwm/" in p
+                    or p.endswith("/lukhas_pwm")
+                    or p.replace("\\", "/").rstrip("/").endswith("/lukhas_pwm")
+                )
+
             under_pwm = False
             if origin and _is_under_pwm(str(origin)):
                 under_pwm = True

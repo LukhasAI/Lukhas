@@ -22,8 +22,8 @@ from .signal_bus import (
     SignalBus,
     SignalPattern,
     SignalType,
-    emit_signal,
     get_signal_bus,
+    emit_stress,
 )
 
 __all__ = [
@@ -33,7 +33,7 @@ __all__ = [
     "SignalPattern",
     "SignalBus",
     "get_signal_bus",
-    "emit_signal",
+    "emit_stress",
     # Homeostasis
     "SystemEvent",
     "ModulationParams",

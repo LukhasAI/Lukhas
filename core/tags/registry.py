@@ -92,7 +92,8 @@ class TagRegistry:
                     "Cannot be disabled",
                 ],
                 priority=1,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -110,11 +111,10 @@ class TagRegistry:
                     "New connection formation",
                     "Behavioral adaptation",
                 ],
-                related_tags={
-                    "#TAG:hormone",
-                    "#TAG:learning"},
+                related_tags={"#TAG:hormone", "#TAG:learning"},
                 priority=2,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -129,7 +129,8 @@ class TagRegistry:
                 ],
                 related_tags={"#TAG:neuroplastic"},
                 priority=3,
-            ))
+            )
+        )
 
         # Emotion tags
         self.register_tag(
@@ -138,25 +139,24 @@ class TagRegistry:
                 category=TagCategory.EMOTION,
                 description="Emotional processing component",
                 human_meaning="Handles feelings and emotional responses using VAD (Valence-Arousal-Dominance) model",
-                related_tags={
-                    "#TAG:vad",
-                    "#TAG:mood",
-                    "#TAG:empathy"},
+                related_tags={"#TAG:vad", "#TAG:mood", "#TAG:empathy"},
                 effects=[
                     "Emotional state changes",
                     "Mood regulation",
                     "Empathy responses",
                 ],
                 priority=4,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
                 name="#TAG:vad",
                 category=TagCategory.EMOTION,
                 description="Valence-Arousal-Dominance emotional model",
-                human_meaning="Measures emotions on three scales: pleasantness,"
-                intensity, and control",
+                human_meaning=(
+                    "Measures emotions on three scales: pleasantness, intensity, and control"
+                ),
                 parent_tags={"#TAG:emotion"},
                 effects=[
                     "Precise emotion measurement",
@@ -187,15 +187,11 @@ class TagRegistry:
                 category=TagCategory.CONSCIOUSNESS,
                 description="Consciousness and awareness systems",
                 human_meaning="Components that create self-awareness and reflection capabilities",
-                related_tags={
-                    "#TAG:reflection",
-                    "#TAG:awareness"},
-                effects=[
-                    "Self-monitoring",
-                    "Meta-cognition",
-                    "Introspection"],
+                related_tags={"#TAG:reflection", "#TAG:awareness"},
+                effects=["Self-monitoring", "Meta-cognition", "Introspection"],
                 priority=2,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -215,7 +211,8 @@ class TagRegistry:
                     "Behavioral adjustment",
                 ],
                 priority=3,
-            ))
+            )
+        )
 
         # Memory tags
         self.register_tag(
@@ -224,16 +221,15 @@ class TagRegistry:
                 category=TagCategory.MEMORY,
                 description="Memory storage and retrieval systems",
                 human_meaning="Systems that store experiences and knowledge for future use",
-                related_tags={
-                    "#TAG:fold",
-                    "#TAG:consolidation"},
+                related_tags={"#TAG:fold", "#TAG:consolidation"},
                 effects=[
                     "Experience retention",
                     "Knowledge accumulation",
                     "Pattern learning",
                 ],
                 priority=2,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -248,7 +244,8 @@ class TagRegistry:
                     "Causal linking",
                 ],
                 priority=4,
-            ))
+            )
+        )
 
         # Dream tags
         self.register_tag(
@@ -257,10 +254,7 @@ class TagRegistry:
                 category=TagCategory.DREAM,
                 description="Dream processing and simulation",
                 human_meaning="Creates alternative scenarios and processes experiences during rest states",
-                related_tags={
-                    "#TAG:memory",
-                    "#TAG:quantum",
-                    "#TAG:learning"},
+                related_tags={"#TAG:memory", "#TAG:quantum", "#TAG:learning"},
                 triggers=[
                     "Rest cycles",
                     "High memory load",
@@ -272,7 +266,8 @@ class TagRegistry:
                     "Problem solving",
                 ],
                 priority=3,
-            ))
+            )
+        )
 
         # Governance tags
         self.register_tag(
@@ -281,17 +276,15 @@ class TagRegistry:
                 category=TagCategory.GOVERNANCE,
                 description="Ethics and control systems",
                 human_meaning="Ensures decisions and actions align with ethical principles and safety",
-                related_tags={
-                    "#TAG:ethics",
-                    "#TAG:guardian",
-                    "#TAG:policy"},
+                related_tags={"#TAG:ethics", "#TAG:guardian", "#TAG:policy"},
                 effects=[
                     "Action filtering",
                     "Risk assessment",
                     "Ethical validation",
                 ],
                 priority=1,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -312,7 +305,8 @@ class TagRegistry:
                 ],
                 confidence_required=0.9,
                 priority=1,
-            ))
+            )
+        )
 
         # Hormone tags
         self.register_tag(
@@ -338,7 +332,8 @@ class TagRegistry:
                     "Stress response",
                 ],
                 priority=3,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -358,7 +353,8 @@ class TagRegistry:
                     "Module reorganization",
                 ],
                 priority=4,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
@@ -378,15 +374,17 @@ class TagRegistry:
                     "Exploration drive",
                 ],
                 priority=4,
-            ))
+            )
+        )
 
         self.register_tag(
             TagDefinition(
                 name="#TAG:serotonin",
                 category=TagCategory.HORMONE,
                 description="Stability hormone simulation",
-                human_meaning="Promotes emotional balance and well - being,
-                reduces anxiety",
+                human_meaning=(
+                    "Promotes emotional balance and well-being, reduces anxiety"
+                ),
                 parent_tags={"#TAG:hormone"},
                 triggers=[
                     "Social connection",
@@ -446,7 +444,8 @@ class TagRegistry:
                     "Consequence evaluation",
                 ],
                 priority=2,
-            ))
+            )
+        )
 
         # Learning tags
         self.register_tag(
@@ -651,6 +650,7 @@ def get_tag_registry() -> TagRegistry:
         _tag_registry = TagRegistry()
     return _tag_registry
 
+
 # Convenience functions
 
 
@@ -678,6 +678,7 @@ def get_hormone_tags() -> list[str]:
     """Get all hormone-related tags"""
     registry = get_tag_registry()
     return [tag.name for tag in registry.get_tags_by_category(TagCategory.HORMONE)]
+
 
 # Neuroplastic tags
 # TAG:core

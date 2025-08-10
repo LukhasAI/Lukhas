@@ -45,6 +45,8 @@ from core.common import get_logger
 # Import LUKHAS core components
 # Import lukhas core components
 try:
+    # Try importing core components (currently not available)
+    pass
     #     from ...CORE.ethics.ethics_engine import EthicsEngine  # TODO: Install or implement CORE
     #     from ...CORE.memory.memory_manager import MemoryManager  # TODO: Install or implement CORE
     # from ...CORE.integration.integration_layer import IntegrationLayer  #

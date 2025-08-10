@@ -542,8 +542,8 @@ async def demo_governance_colony():
             },
         )
         print(
-            f"\nEthical concern task result: {json.dumps(ethical_concern_result,"
-                                                         indent=2)}"
+            "\nEthical concern task result: "
+            + json.dumps(ethical_concern_result, indent=2)
         )
 
         # 4. Query audit log

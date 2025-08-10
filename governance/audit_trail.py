@@ -86,10 +86,16 @@ class AuditEntry:
     def compute_checksum(self) -> str:
         """Compute SHA-256 checksum for integrity verification"""
         # Create deterministic representation
+        # Handle both enum and string types for decision_type
+        decision_type_value = (
+            self.decision_type.value 
+            if hasattr(self.decision_type, 'value') 
+            else self.decision_type
+        )
         data = {
             "audit_id": self.audit_id,
             "timestamp": self.timestamp,
-            "decision_type": self.decision_type.value,
+            "decision_type": decision_type_value,
             "decision": self.decision,
             "input_data": json.dumps(self.input_data, sort_keys=True),
             "output_data": json.dumps(self.output_data, sort_keys=True)

@@ -52,6 +52,29 @@ class Signal:
         return hash((self.name, self.source, self.timestamp))
 
 
+@dataclass
+class SignalPattern:
+    """Pattern for matching and filtering signals"""
+    name_pattern: Optional[SignalType] = None  # Signal type to match
+    source_pattern: Optional[str] = None  # Source module pattern
+    level_min: float = 0.0  # Minimum signal level
+    level_max: float = 1.0  # Maximum signal level
+    metadata_match: Dict[str, Any] = field(default_factory=dict)
+    
+    def matches(self, signal: Signal) -> bool:
+        """Check if a signal matches this pattern"""
+        if self.name_pattern and signal.name != self.name_pattern:
+            return False
+        if self.source_pattern and not signal.source.startswith(self.source_pattern):
+            return False
+        if not (self.level_min <= signal.level <= self.level_max):
+            return False
+        for key, value in self.metadata_match.items():
+            if signal.metadata.get(key) != value:
+                return False
+        return True
+
+
 class SignalBus:
     """
     Central signal bus for hormone-like communication between modules.
